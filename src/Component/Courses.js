@@ -33,10 +33,10 @@ export class Courses extends Component {
 
 
     col = [
-        { title: 'Id', field: 'id' },
+        { title: 'Id', field: 'courseId' },
         { title: 'Name', field: 'name' },
-        { title: 'Course Category', field: 'courseCategory' },
-        { title: 'Domains', field: 'domains' },
+        //  { title: 'Course Category', field: 'courseCategory' },
+        // { title: 'Domains', field: 'domains' },
         // { title: 'Action', field: 'id', render: rowData => <> <button id={rowData.id} onClick={this.getEditId} className="btn btn-primary btn-sm" style={{ marginTop: '0px' }}> <i className="fa fa-pencil-square-o"></i> Edit</button><button id={rowData.id} onClick={this.getDeleteId} className="btn btn-danger btn-sm" style={{ marginTop: '0px', marginLeft: '5px' }}> <i className="fa fa-pencil-square-o"></i> Delete</button></> },
     ];
 

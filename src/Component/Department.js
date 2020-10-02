@@ -10,7 +10,7 @@ export class Department extends Component {
         }
     }
 
-    dept_header = ['Id', 'Name','Stream'];
+    dept_header = ['Id', 'Name'];
 
     componentDidMount() {
         axios.get("http://services.thecareerlabs.com:8080/api/v1/departments", {

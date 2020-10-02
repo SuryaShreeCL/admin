@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const getCourses=()=>{
     return dispatch => {
-        axios.get(URL+"/api/v1/courses", {
+        axios.get("http://services.thecareerlabs.com:8080/api/v1/courses", {
             crossDomain: true
         })
             .then(result => {

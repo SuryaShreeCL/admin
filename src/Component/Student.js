@@ -16,18 +16,19 @@ export default class Student extends Component {
   }
 
   stu_header = [
-    { title: 'Customer Id', field: 'customerID' },
-    { title: 'First Name', field: 'firstName' },
-    { title: 'Last Name', field: 'lastName' },
-    { title: 'Email Id', field: 'emailID' },
+    { title: 'Customer Id', field: 'id' },
+    // { title: 'First Name', field: 'firstName' },
+    // { title: 'Last Name', field: 'lastName' },
+    { title: 'Full Name', field: 'fullName' },
+    { title: 'Email Id', field: 'emailId' },
     { title: 'Phone', field: 'phoneNumber' },
-    { title: 'College', field: 'collegeName' },
+    // { title: 'UGGPA', field: 'uggpa' },
   ];
 
 
   componentDidMount() {
     axios
-      .get("/api/v1/students", {
+      .get("http://services.thecareerlabs.com:8080/api/v1/students", {
         crossDomain: true,
       })
       .then((res) => res.data)
@@ -63,18 +64,18 @@ export default class Student extends Component {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
-          <MaterialTable
+          <MaterialTable            
             columns={this.stu_header}
             data={this.state.data}
             title="Student Details"
             onRowClick={this.rowClick}
             options={{
+              search:true,
               headerStyle: {
                 fontWeight: "bold",
               },
               minBodyHeight: '420px',
               maxBodyHeight: '420px'
-
             }}
           />
 
