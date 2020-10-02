@@ -1,0 +1,43 @@
+.curated-head{
+    font-weight: bold;
+    font-size: 22px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+.curated-body{
+    padding-top: 5px;
+    margin-bottom: 25px;
+}
+.curated-info-name{
+    font-weight: bold;
+}
+.curated-content{
+    display: flex;
+    justify-content: space-around;
+}
+.curated-item{
+    max-width: 31.6%;
+    background-color: #087afc ;
+    height: 300px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+}
+.item-footer{
+    /* vertical-align: middle;
+    bottom: 40px;
+    position: absolute;
+    left: 30%;
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif; */
+
+    margin-top: 215px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+.message{
+    font-size: inherit;
+    font-family: serif;
+}

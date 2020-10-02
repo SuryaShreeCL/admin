@@ -1,0 +1,72 @@
+tr:hover{
+ background-color: aliceblue !important;
+}
+button{
+    outline: none !important;
+}
+.container{
+    background-color: white;
+}
+.match{
+    background-color: red;
+}
+td,th{
+    text-align: left;
+    font-size: 14px;
+}
+.searcha{
+    float:right;
+    display: flex;
+    align-content: left;
+    margin-top: -15px;
+    margin-bottom: 10px;
+}
+.buttona{
+    float:right;
+    display: flex;
+    margin-bottom: 10px;
+}
+.table
+{
+    background-color: white;
+    font-size: 14px;
+}
+.hidden
+{
+display: none;
+}
+.pagination {
+
+    display: flex;
+    list-style: none;
+    outline: none;
+  justify-content: center;
+  }
+  .pagination > .active > a{
+    background-color: #009be5 ;
+    border-color: #009be5 ;
+    color: #fff;
+  }
+  .pagination > li > a{
+    border: 1px solid #009be5 ;
+    padding: 5px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    background-color: #009be5 ;
+    border-color: #009be5;
+    outline: none ;
+  }
+  .pagination > li > a, .pagination > li > span{
+    color: #009be5
+  }
+  .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span{
+    border-radius: unset
+  }
+  .course-add{
+    margin-bottom: 10px;
+  }
+   .add-course-btn{
+    margin-left: 15px !important;
+  }

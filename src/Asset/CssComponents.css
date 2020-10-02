@@ -1,0 +1,56 @@
+.text-center{text-align: center;}
+.text-left{text-align: left;}
+.header-margin-top{padding-top: 20px;}
+.header-margin-bottom{margin-bottom: 1% ;}
+.text-margin-bottom{margin-bottom: 2% !important;}
+.full-width{width: 100% !important;}
+.half-width{width: 49% !important;}
+.margin-left-space{margin-left: 20px !important;}
+.footer-margin-top{margin-top: 4%;}
+.logo-size{width: 23vh;margin-left: 5vh;}
+.active-card{border-color:#263C9A !important}
+.hide{display: none !important;}
+.show{display: block;}
+.color-Custom-blue{color: #225973fc !important;}
+.primary-blue{background-color: #00AEFF !important;}
+.no-padding{padding: 0 !important;}
+.flex-warp{flex-wrap: wrap !important;}
+.flex{display: flex !important;}
+.s-between{justify-content: space-between !important;}
+.padding-new-top{padding-top: 10px;}
+.margin-new-bottom{margin-bottom: 4% !important;}
+.margin-new-top{margin-top: 3vh !important;}
+.nav-custom-background{background-color: #042998 !important;}
+input[type="checkbox"]{
+    cursor: pointer;    
+    box-sizing: border-box;   
+    width: 23px;
+    height: 20px;
+   
+}
+
+@media only screen and (max-width: 600px) {
+    .text-margin-bottom{margin-bottom: 5% !important;}
+    .half-width{width: 100% !important;}
+}
+/* iphone-x */
+@media only screen 
+    and (device-width : 375px) 
+    and (device-height : 812px) 
+    and (-webkit-device-pixel-ratio : 3) { 
+
+    }
+/* iPhone 8 */
+@media only screen 
+    and (device-width : 375px) 
+    and (device-height : 667px) 
+    and (-webkit-device-pixel-ratio : 2) {
+
+     }
+/* iPhone 8 Plus */
+@media only screen 
+    and (device-width : 414px) 
+    and (device-height : 736px) 
+    and (-webkit-device-pixel-ratio : 3) {
+
+     }

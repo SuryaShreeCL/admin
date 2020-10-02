@@ -1,0 +1,52 @@
+.edit-course-root{
+    min-height: 550px;
+}
+.edit-body{
+    width: 70%;
+}
+.edit-text-box{
+    width: 49%;
+    margin-bottom: 10px !important;
+       
+}
+.t2{
+    margin-left: 10px !important;
+}
+.course-desc{
+    margin-bottom: 10px !important;
+}
+.custom-file{
+    margin-bottom: 10px !important;
+}
+.edit-course-content{
+    padding-left: 35px;
+    padding-top: 10px;
+}
+.edit-form-header{
+    font-weight: bold;
+    font-size: 24px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #007bff !important;
+  }
+.css-2b097c-container{
+    width: 49%;
+    margin-bottom: 10px;
+}
+.edit-row-4{
+    display: flex;
+    justify-content: space-between;
+}
+.edit-row-5{
+    display: flex;
+    justify-content: space-between;
+}
+.edit-row-6 > .css-2b097c-container{
+    width: 100%;
+}
+.edit-row-7{
+    text-align: end;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}

@@ -1,0 +1,44 @@
+.home-logo{
+    width: 14%;
+}
+.body{
+    margin-top: 8%;
+}
+.login-header{
+    color:white;
+    font-weight: bold;
+}
+.login-body{
+    margin-top: 25px;
+    display: flex;
+    height: 480px;
+    justify-content: center;
+}
+.left-side{
+    width: 35%;
+    background-color: #087afceb;
+}
+.right-side{
+    width: 35%;
+    background-color: yellow;
+    margin-left: 10px;
+}
+.log-in{
+    justify-content: center;
+    padding: 20px;
+    padding-left: 20%;
+    margin-top: 18%;
+    padding-right: 20%;
+    text-align: center;
+}
+.log-in-header{
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+.input-field{
+    background-color: white;
+}
+.btn{
+    margin-top:10px;
+}

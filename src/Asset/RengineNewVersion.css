@@ -1,0 +1,188 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url(./Fonts/Poppins/Poppins-Black.ttf);
+  }
+*{
+    font-family: 'Poppins', sans-serif !important;
+}
+.heading-new-container{
+    margin-bottom: 4%;
+}
+.heading-new-1{
+    font-size: 36px;
+    color: #007bff;
+}
+.heading-new-2{
+    font-size: 24px;
+}
+.heading-new-welcome{
+    font-size: 17px;
+}
+
+.heading-new-question{
+    font-weight: bold !important;
+    font-size: 17px !important;   
+}
+/* .grid-new-root{
+    height: 32vh;
+} */
+.grid-new-container-left{
+    background: url(./Images/leftContainer.svg);
+}
+.grid-new-container-right{
+    padding: 5vh 5%;
+    
+}
+.card-new-root{
+    width: 100% !important;
+    height: 100% !important;
+    border: 1px solid #7070706b;
+    border-radius: 10px !important;
+}
+.card-new-button{
+    height: 75% ;
+}
+.card-new-footer-text{
+    font-size: 12px;
+}
+.img-new-left-container{
+    padding: 13%;
+    margin-top: 10%;
+}
+.content-new-footer{
+    display: flex;
+    justify-content: center
+}
+.prograss-new-bar{background-color: #6c757d78;}
+.prograss-new-bar,.prograss-new-value-container{
+    height: 3.5vh;
+    border-radius: 30px;
+}
+.prograss-new-value-container{
+    display: block;
+    text-align: end;
+    color: white;
+    width: 11.764705882%;
+    background-color: #2486bf;
+    font-size: 15px;
+    transition: 1s;
+}
+.prograss-new-value{margin-right: 10px;}
+
+.css-1wa3eu0-placeholder{
+    font-size: 15px !important;
+}
+.span-new-error{
+    display: block;
+    font-size: 13.5px;
+    margin-left: 14px;
+    margin-right: 14px;
+    margin-bottom: 10px;
+    color: red;
+}
+.footer-new-label-text{
+    display: block;
+    text-align: center;
+    font-size: 18px;
+}
+.description-new-header{
+    font-size: 17px;
+    text-align: center;
+    margin-top: 5vh;
+   }
+.description-new1-header{
+    font-size: 20px;    
+    text-align: center;
+    margin-top: 5vh;
+    color: black;
+    
+   }
+.checkbox-text{
+    font-size: 11px;
+   }
+.slider-new-footer{
+    padding:  0 10px;
+    text-align: end;
+
+    /* text-align: center;
+    padding-top: 10vh; */
+}
+.second-new-header-lbl{
+    font-size: 24px;
+    color: black;
+
+}
+.option-new-container{
+    font-size: 20px;
+}
+.clg-new-container{
+    margin-top: 45px;
+}
+.p-new-first,.p-new-second,.p-new-third{
+    display: block;
+    font-size: 18px;
+    margin: 0;
+}
+.p-new-second,.p-new-third{
+    color: white;
+}
+svg{
+    fill: #7b7b7b ;
+}
+.home-icon{
+    fill: transparent;
+}
+.css-yk16xz-control{
+    padding-left: 15px;
+}
+.wp-icon{
+    fill:white !important;
+    font-size:25px !important;
+   }
+.r-card-header--{
+    height: 10vh;
+}
+@media only screen and (max-width: 600px) {
+    .slider-new-footer{           
+        text-align: center;
+        padding-top: 10vh;
+    }
+    .r-header-2-content{
+        height: 17vh;
+    }
+    .card-new-button{
+        height: 70%;
+    }
+    .option-new-container{
+        margin-top: 15px;
+    }    
+}
+/* iphone-x */
+@media only screen 
+    and (device-width : 375px) 
+    and (device-height : 812px) 
+    and (-webkit-device-pixel-ratio : 3) {
+        .prograss-new-value{
+            margin: 5px;
+        }
+        .r-header-2-down{
+            margin-top: 20px !important;
+        }
+    }
+/* iPhone 8 */
+@media only screen 
+    and (device-width : 375px) 
+    and (device-height : 667px) 
+    and (-webkit-device-pixel-ratio : 2) {
+
+     }
+/* iPhone 8 Plus */
+@media only screen 
+    and (device-width : 414px) 
+    and (device-height : 736px) 
+    and (-webkit-device-pixel-ratio : 3) {
+
+     }
+     @media screen and (device-aspect-ratio: 40/71) {
+        
+     }

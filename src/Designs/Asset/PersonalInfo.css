@@ -1,0 +1,68 @@
+.personal-info-body{
+    padding-top: 5px;
+
+}
+.info-header,.info-second-header{
+    font-weight: bold;
+    font-size: 22px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+.info-second-header{
+    margin-top: 30px;
+}
+.info-mail-ph{
+    display: flex;
+}
+.info-email{
+    flex: 1;
+}
+.info-contactno{
+    margin-left: 10px !important;
+}
+.MuiFormLabel-root{
+    font-size: 15px !important;
+}
+.info-clg-dept{
+    display: flex;
+}
+.info-clg,.info-dept{
+    width: 49%;
+}
+.info-clg{
+    flex: 1;
+}
+.info-dept{
+    margin-left: 10px !important;
+}
+.info-upload{
+    justify-content: center;
+    text-align: center;
+    margin-top: 15px;
+}
+.btn-blue{
+    background-color: #087afc !important;
+    color: white !important;
+    outline: none !important;
+}
+.MuiRadio-colorPrimary.Mui-checked{
+    color: #087afc !important;
+}
+.qus{
+    display: block;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: bold;
+}
+.item-container{
+    margin-top: 15px;
+}
+.info-submit{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #007bff !important;
+  }
+
+.info-file-upload{
+    display:none;
+}
