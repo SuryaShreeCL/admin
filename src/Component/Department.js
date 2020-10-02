@@ -13,7 +13,7 @@ export class Department extends Component {
     dept_header = ['Id', 'Name','Stream'];
 
     componentDidMount() {
-        axios.get("/api/v1/department", {
+        axios.get("http://localhost:8080/api/v1/departments", {
             crossDomain: true
         })
             .then(res => res.data)
