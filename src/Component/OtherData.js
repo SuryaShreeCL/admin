@@ -34,7 +34,7 @@ export default class Other_data extends Component {
     ];
 
     componentDidMount() { // document.title = "basket";
-        axios.get("/api/v1/students", { crossDomain: true }).then(res => res.data).then(result => {
+        axios.get("http://services.thecareerlabs.com:8080/api/v1/students", { crossDomain: true }).then(res => res.data).then(result => {
             console.log(result)
             this.setState({ data: result })
         }).catch(error => {
@@ -49,7 +49,7 @@ export default class Other_data extends Component {
                     <div className="table-responsive">
                         <table className="table">
                             {
-                                this.state.data.filter((student) => student.customerID === this.props.id).map((student) => <>
+                                this.state.data.filter((student) => student.id === this.props.id).map((student) => <>
                                     <tr>
                                         <td>{
                                             this.others[0]

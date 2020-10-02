@@ -80,7 +80,7 @@ export default class Student extends Component {
   }
 
   rowClick = (ev, rowData) => {
-    history.push('/students/' + rowData.customerID)
+    history.push('/students/' + rowData.id)
   }
 
   getmuitheme = () => createMuiTheme({
