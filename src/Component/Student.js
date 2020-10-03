@@ -62,6 +62,8 @@ export default class Student extends Component {
   };
 
   componentDidMount() {
+
+    console.log(this.props);
     axios
       .get("http://services.thecareerlabs.com:8080/api/v1/students", {
         crossDomain: true,
