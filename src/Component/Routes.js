@@ -27,17 +27,17 @@ export default function Routes() {
                     <Router history={history}>
                         {/* <Route restricted={false} exact path="/" component={Login} /> */}
                         {/* <Route exact path="/" component={Student} /> */}
-                        <Route exact path="/students" component={Student} />
-                        <Route exact path="/courses" component={Courses} />
-                        <Route exact path="/courses/edit/:id" component={EditCourse} />
-                        <Route exact path="/courses/add" component={AddCourse} />
-                        <Route exact path="/departments" component={Department} />
-                        <Route exact path="/students/:id" component={Student_data} />
-                        <Route exact path="/login" component={MLogin} />
-                        <Route exact path="/personalInfo" component={Personal_information} />
-                        <Route exact path="/curatedCourse" component={Curated_Course} />
-                        <Route exact path="/questionbank" component={QuestionBank} />                       
-                        <Route exact path='/Rengine' component={RecHome} />
+                        <Route exact path="/Renginelite/students" component={Student} />
+                        <Route exact path="/Renginelite/courses" component={Courses} />
+                        <Route exact path="/Renginelite/courses/edit/:id" component={EditCourse} />
+                        <Route exact path="/Renginelite/courses/add" component={AddCourse} />
+                        <Route exact path="/Renginelite/departments" component={Department} />
+                        <Route exact path="/Renginelite/students/:id" component={Student_data} />
+                        <Route exact path="/Renginelite/login" component={MLogin} />
+                        <Route exact path="/Renginelite/personalInfo" component={Personal_information} />
+                        <Route exact path="/Renginelite/curatedCourse" component={Curated_Course} />
+                        <Route exact path="/Renginelite/questionbank" component={QuestionBank} />                       
+                        <Route exact path='/Renginelite/Rengine' component={RecHome} />
                     </Router>
                 </Switch>
                 

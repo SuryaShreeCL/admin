@@ -20,9 +20,9 @@ const categories = [
       { id: 'courses', icon: <PeopleIcon />, title: 'Courses' },
       { id: 'students', icon: <PeopleIcon />, title: 'Students' },
       { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },
-      {id: 'login', icon:<PeopleIcon />, title:'Marketing App'},
+      // {id: 'login', icon:<PeopleIcon />, title:'Marketing App'},
       {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},
-      {id: 'Rengine', icon:<PeopleIcon />, title:'RengineLite'},
+      // {id: 'Rengine', icon:<PeopleIcon />, title:'RengineLite'},
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ],
   }
@@ -105,7 +105,7 @@ function Navigator(props) {
                 button
                 selected
                 className={clsx(classes.item, active && classes.itemActiveItem)}
-                onClick={() => { history.push('/' + childId) }}
+                onClick={() => { history.push('/Renginelite/' + childId) }}
               >
                 <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText
