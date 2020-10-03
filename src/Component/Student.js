@@ -82,7 +82,7 @@ export default class Student extends Component {
   }
 
   rowClick = (ev, rowData) => {
-    history.push('/students/' + rowData.id)
+    history.push('/Renginelite/students/' + rowData.id)
   }
 
   getmuitheme = () => createMuiTheme({
