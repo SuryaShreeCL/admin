@@ -67,23 +67,7 @@ export class Courses extends Component {
     ];
 
     componentDidMount() {
-        this.props.getCourses()
-        
-        // axios.get("/api/v1/courses", {
-        //     crossDomain: true
-        // })
-        //     .then(res => res.data)
-        //     .then(result => {
-
-
-        //         console.log(result)
-        //         this.setState({
-        //             data: result
-        //         })
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
+        this.props.getCourses()              
     }
     getmuitheme = () => createMuiTheme({
         palette: {
@@ -144,7 +128,7 @@ export class Courses extends Component {
                                     tooltip: 'Create Course',
                                     isFreeAction: true,
                                     onClick: (event, rowData) => {
-                                        history.push('/courses/add');
+                                        history.push('/Renginelite/courses/add');
                                     }
                                 },
                                 {

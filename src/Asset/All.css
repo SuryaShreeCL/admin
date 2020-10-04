@@ -290,7 +290,9 @@ input[type=checkbox]:checked + label {
 .college-select2__value-container{
     overflow: visible !important;
 }
-
+.MuiToolbar-regular {
+    min-height: unset !important;
+}
 /* Mobile Screen */
 @media only screen and (max-width: 600px) {
     

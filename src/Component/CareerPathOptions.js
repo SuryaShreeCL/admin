@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
+import { port } from './RoutePaths';
 
 export default class CareerPathOptions extends Component {
 
@@ -13,7 +14,7 @@ export default class CareerPathOptions extends Component {
 
     componentDidMount() {
         //document.title = "basket";
-        axios.get("/api/v1/students", {
+        axios.get(port+"/api/v1/students", {
             crossDomain: true
         })
             .then(res => res.data)

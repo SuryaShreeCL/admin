@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
+import {port} from './RoutePaths'
 
 export default class DiagnosticTestPerformance extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class DiagnosticTestPerformance extends Component {
 
     componentDidMount() {
         //document.title = "basket";
-        axios.get("http://localhost:8080/api/v1/students", {
+        axios.get(port+"/api/v1/students", {
             crossDomain: true
         })
             .then(res => res.data)
