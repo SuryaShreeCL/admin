@@ -25,7 +25,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link} from 'react-router-dom';
 import Content from './Content';
 import history from './History'
-
+import {rootPath} from './RoutePaths'
 const drawerWidth = 240;
 const NavbarList = [
       { id: 'courses', icon: <PeopleIcon />, title: 'Courses' },
@@ -254,7 +254,7 @@ export default function RootContainer() {
         <Divider />
         <List>
           {NavbarList.map((Item) => (
-            <ListItem button key={Item.id}  onClick={() => { history.push('/Renginelite/' + Item.id) }} >
+            <ListItem button key={Item.id}  onClick={() => { history.push( rootPath.concat('/',Item.id)) }} >
               <ListItemIcon className={classes.ListItemIcon} >{Item.icon}</ListItemIcon>
               <ListItemText primary={Item.title} />
             </ListItem>

@@ -1,13 +1,13 @@
 export const port='http://services.thecareerlabs.com:8080';
 // Regine Lite path
-export const rootPath='/Renginelite';
+export const rootPath='/admin';
 export const studentPath= rootPath.concat('/students');
 export const studentIdPath=studentPath.concat('/');
 export const departmentPath=rootPath.concat('/departments');
 export const coursePath=rootPath.concat('/courses');
 export const editCoursePath=coursePath.concat('/edit/');
 export const addCoursePath=coursePath.concat('/add');
-export const questionBankPath=rootPath.concat('/questonbank');
+export const questionBankPath=rootPath.concat('/questionbank');
 
 // Rengine another version path
 

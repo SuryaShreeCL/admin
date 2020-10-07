@@ -11,6 +11,7 @@ import {Provider} from 'react-redux'
 import ReduxStore from './Redux/Store'
 import { BrowserRouter, Route, Switch, Router,Redirect } from 'react-router-dom'
 import RootContainer from './Component/RootContainer';
+import { rootPath } from './Component/RoutePaths';
 //import RengineV2Route from './Component/RengineVersion2/RengineV2Route';
 // import PersonalityTest from './Component/RengineLiteUpgrade/PersonalityTest';
 
@@ -21,8 +22,8 @@ function App() {
   return( 
    <BrowserRouter>
   <Switch>  
-    <Route  path='/Renginelite' component={RootContainer} ></Route>  
-    <Redirect exact from='/' to='/Renginelite'></Redirect>
+    <Route  path={rootPath} component={RootContainer} ></Route>  
+    <Redirect exact from='/' to={rootPath}></Redirect>
   </Switch>
    </BrowserRouter>     
   )
