@@ -1,4 +1,5 @@
-export const port='http://services.thecareerlabs.com:8080';
+// export const port='http://services.thecareerlabs.com:8080';
+export const port='http://localhost:8080';
 // Regine Lite path
 export const rootPath='/Renginelite';
 export const studentPath= rootPath.concat('/students');

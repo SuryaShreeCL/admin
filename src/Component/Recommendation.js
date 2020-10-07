@@ -14,9 +14,9 @@ export default class Recommendation extends Component {
 
     componentDidMount() {
         //document.title = "basket";
-        let engine = "/api/v1/courses/" + this.props.id + "";
+        let engine = port+"/api/v1/courses/" + this.props.id + "";
 
-        const db = "/api/v1/students/" + this.props.id + "/RecommendedCourses";
+        const db = port+"/api/v1/students/" + this.props.id + "/RecommendedCourses";
 
         axios.get(engine, {
             crossDomain: true
