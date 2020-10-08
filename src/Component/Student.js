@@ -20,7 +20,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-
+import {URL} from '../Actions/URL'
 
 export default class Student extends Component {
   constructor(props) {
@@ -62,10 +62,10 @@ export default class Student extends Component {
   };
 
   componentDidMount() {
-
-    console.log(this.props);
+    
+   // console.log(URL);
     axios
-      .get("http://services.thecareerlabs.com:8080/api/v1/students", {
+      .get(URL+"/api/v1/students", {
         crossDomain: true,
       })
       .then((res) => res.data)
