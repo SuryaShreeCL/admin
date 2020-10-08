@@ -17,7 +17,8 @@ import EditCourse from "./EditCourse";
 import AddCourse from "./AddCourse";
 import QuestionBank from "./QuestionBank";
 import RecHome from "./RengineLite/RecHome";
-import RootContainer from './RootContainer'
+import RootContainer from './RootContainer';
+import Login from './Login';
 import {
   studentIdPath,
   studentPath,
@@ -29,6 +30,7 @@ import {
   personelInfoPath,
   curatedPath,
   questionBankPath,
+  rootLoginPath,
 } from "./RoutePaths";
 
 export default function Routes() {
@@ -61,27 +63,25 @@ export default function Routes() {
               path={studentIdPath.concat(':id')}
               component={Student_data}
             />
-            <Route exact path="/Renginelite/login" component={MLogin} />
+            <Route exact path={loginPath} component={MLogin} />
             <Route
               exact
-              path="/Renginelite/personalInfo"
+              path={personelInfoPath}
               component={Personal_information}
             />
             <Route
               exact
-              path="/Renginelite/curatedCourse"
+              path={curatedPath}
               component={Curated_Course}
             />
             <Route
               exact
-              path="/Renginelite/questionbank"
+              path={questionBankPath}
               component={QuestionBank}
             />
-            <Route
-              exact
-              path="/Renginelite/root"
-              component={RootContainer}
-            />
+            
+            
+          
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>

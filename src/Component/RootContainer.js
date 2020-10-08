@@ -25,7 +25,8 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link} from 'react-router-dom';
 import Content from './Content';
 import history from './History'
-
+import {rootPath} from './RoutePaths'
+import GoogleBtn from './GoogleBtn'
 const drawerWidth = 240;
 const NavbarList = [
       { id: 'courses', icon: <PeopleIcon />, title: 'Courses' },
@@ -183,7 +184,7 @@ const theme=createMuiTheme({
     }
 })
 
-export default function RootContainer() {
+export default function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -194,7 +195,7 @@ export default function RootContainer() {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
+  };  
 
   return (
       <ThemeProvider theme={theme}>
@@ -225,7 +226,8 @@ export default function RootContainer() {
                 </IconButton>   
                 <IconButton color="inherit" className={classes.iconButtonAvatar}>                        
                     <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
-                </IconButton>       
+                </IconButton> 
+                <GoogleBtn {...props} />      
 
         </Toolbar>
       </AppBar>      
@@ -254,7 +256,7 @@ export default function RootContainer() {
         <Divider />
         <List>
           {NavbarList.map((Item) => (
-            <ListItem button key={Item.id}  onClick={() => { history.push('/Renginelite/' + Item.id) }} >
+            <ListItem button key={Item.id}  onClick={() => { history.push( rootPath.concat('/',Item.id)) }} >
               <ListItemIcon className={classes.ListItemIcon} >{Item.icon}</ListItemIcon>
               <ListItemText primary={Item.title} />
             </ListItem>

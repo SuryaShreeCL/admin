@@ -21,6 +21,7 @@
 }
 .login__left__container > img {
     width: 100%;
+    height: 100%;
 }
 .login__right__container{
     width: 40%;
@@ -28,17 +29,15 @@
     align-items: center;
     justify-content: center;
 }
-.login__body,.login__header,.login__footer{
-    padding: 0px 15px;
+.login__body,.login__header,.login__text__box,.login__footer{
+    padding: 13px 15px;
     text-align: center;
     
 }
-.login__text__box{
-    margin: 15px 0;
-}
 .login__button{
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
-.login__footer__label{
-    /* padding: 10px; */
+.login__header__label {
+    font-size: 29px;
+    font-weight: bolder;
 }

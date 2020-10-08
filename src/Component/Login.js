@@ -15,16 +15,16 @@ export default class Login extends Component {
            <div className='login__right__container'>
              <div className='login__inner__box'>
                <div className='login__header'>
-                 <h3>Login</h3>
+                 <labe className='login__header__label'>Welcome to CareerLabs,</labe>
                </div>
                <div className='login__body'>                 
-                  <div className='login__text__box'><TextField id="Username" label="Email" variant="outlined" fullWidth  size='small' /></div>
-                  <div className='login__text__box'><TextField id="Password" label="Password" variant="outlined" fullWidth size='small' /></div>                                                  
+                  <div className='login__text__box'><TextField id="Username" label="Email" variant="outlined" fullWidth  size='medium' /></div>
+                  <div className='login__text__box'><TextField id="Password" inputProps={{type:'password'}} label="Password" variant="outlined" fullWidth size='medium' /></div>                                                  
                </div>
                <div className='login__footer'>
                 <div className='login__button'><Button variant='contained' color='primary' >Sign in</Button></div>
                 <div className='login__footer__label'><label className='text-secondary'>Sign in with Other?</label></div>
-                <GoogleBtn />
+                <GoogleBtn {...this.props} />
                </div>
              </div>
            </div>

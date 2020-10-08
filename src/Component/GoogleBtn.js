@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { Redirect } from 'react-router-dom';
+import { rootPath, rootLoginPath } from './RoutePaths';
 
 
 const CLIENT_ID = '600213633260-k6htkib69gu2bkma46jmvalot4h7m4hr.apps.googleusercontent.com';
@@ -25,7 +27,8 @@ class GoogleBtn extends Component {
       this.setState(state => ({
         isLogined: true,
         accessToken: response.accessToken
-      }));
+      }));      
+      this.props.history.push({pathname: rootPath,state:true});      
     }
   }
 
@@ -33,21 +36,26 @@ class GoogleBtn extends Component {
     this.setState(state => ({
       isLogined: false,
       accessToken: ''
-    }));
+    }));    
+    this.props.history.push({
+      pathname: rootLoginPath, 
+      state:false,     
+    });
+    console.log(response)    
   }
 
   handleLoginFailure (response) {
-    alert('Failed to log in')
+     alert('Failed to log in')
   }
 
   handleLogoutFailure (response) {
-    alert('Failed to log out')
+     alert('Failed to log out')
   }
 
-  render() {
+  render() {            
     return (
     <div>
-      { this.state.isLogined ?
+      { this.props.location.state ?
         <GoogleLogout
           clientId={ CLIENT_ID }
           buttonText='Logout'
@@ -62,8 +70,7 @@ class GoogleBtn extends Component {
           cookiePolicy={ 'single_host_origin' }
           responseType='code,token'
         />
-      }
-      { this.state.accessToken ? <h5>Your Access Token: <br/><br/> { this.state.accessToken }</h5> : null }
+      }      
 
     </div>
     )
