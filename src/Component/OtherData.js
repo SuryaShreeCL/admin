@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import axios from 'axios'
+import { getStudentsById } from '../Actions/Student';
+import { connect } from 'react-redux';
 
-export default class Other_data extends Component {
+
+export class Other_data extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,185 +35,184 @@ export default class Other_data extends Component {
         'University'
     ];
 
-    componentDidMount() { // document.title = "basket";
-        axios.get("http://services.thecareerlabs.com:8080/api/v1/students", { crossDomain: true }).then(res => res.data).then(result => {
-            console.log(result)
-            this.setState({ data: result })
-        }).catch(error => {
-            console.log(error);
-        });
+    componentDidMount() { 
+       this.props.getStudentsById(this.props.id)    
     }
     render() {
+        var student=this.props.StudentDetails;
+        console.log(student)
         return (
             <div>
                 <div className="container">
                     {/* <header><label>Careeer Intrest Survey Result</label></header> */}
                     <div className="table-responsive">
-                        <table className="table">
-                            {
-                                this.state.data.filter((student) => student.id === this.props.id).map((student) => <>
-                                    <tr>
-                                        <td>{
-                                            this.others[0]
-                                        }</td>
-                                        <td>{
-                                            student.altPhoneNumber
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[1]
-                                        }</td>
-                                        <td>{
-                                            student.altEmailID
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[2]
-                                        }</td>
-                                        <td>{
-                                            student.department
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[3]
-                                        }</td>
-                                        <td>{
-                                            student.noOfActiveBacklogs
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[4]
-                                        }</td>
-                                        <td>{
-                                            student.noOfClearedBacklogs
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[5]
-                                        }</td>
-                                        <td>{
-                                            student.presentSemester
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[6]
-                                        }</td>
-                                        <td>{
-                                            student.personalityCode
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[7]
-                                        }</td>
-                                        <td>{
-                                            student.favouriteSubjects
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[8]
-                                        }</td>
-                                        <td>{
-                                            student.electives
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[9]
-                                        }</td>
-                                        <td>{
-                                            student.expectedOutcomeFromProfileBuilder
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[10]
-                                        }</td>
-                                        <td>{
-                                            student.expectedOutcomeFromProfileBuilderOther
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[11]
-                                        }</td>
-                                        <td>{
-                                            student.hobbies
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[12]
-                                        }</td>
-                                        <td>{
-                                            student.favSubjectIn11or12thGrade
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[13]
-                                        }</td>
-                                        <td>{
-                                            student.top3Subjects
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[14]
-                                        }</td>
-                                        <td>{
-                                            JSON.stringify(student.likeCoding)
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[15]
-                                        }</td>
-                                        <td>{
-                                            JSON.stringify(student.likeTalkingToPeople)
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[16]
-                                        }</td>
-                                        <td>{
-                                            student.ugdegree
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[17]
-                                        }</td>
-                                        <td>{
-                                            student.uggpascale
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[18]
-                                        }</td>
-                                        <td>{
-                                            JSON.parse(student.uggpa)
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{
-                                            this.others[19]
-                                        }</td>
-                                        <td>{
-                                            student.university
-                                        }</td>
-                                    </tr>
-                                </>)
-                            } </table>
+                        {(student !==undefined) ? 
+                        <table className="table">                                                            
+                        <tr>
+                            <td>{
+                                this.others[0]
+                            }</td>
+                            <td>{
+                                student.altPhoneNumber
+                            }</td>
+                        </tr>
+                         <tr>
+                            <td>{
+                                this.others[1]
+                            }</td>
+                            <td>{
+                                student.altEmailID
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[2]
+                            }</td>
+                            <td>{
+                                student.department
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[3]
+                            }</td>
+                            <td>{
+                                student.noOfActiveBacklogs
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[4]
+                            }</td>
+                            <td>{
+                                student.noOfClearedBacklogs
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[5]
+                            }</td>
+                            <td>{
+                                student.presentSemester
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[6]
+                            }</td>
+                            <td>{
+                                student.personalityCode
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[7]
+                            }</td>
+                            <td>{
+                                student.favouriteSubjects
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[8]
+                            }</td>
+                            <td>{
+                                student.electives
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[9]
+                            }</td>
+                            <td>{
+                                student.expectedOutcomeFromProfileBuilder
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[10]
+                            }</td>
+                            <td>{
+                                student.expectedOutcomeFromProfileBuilderOther
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[11]
+                            }</td>
+                            <td>{
+                                student.hobbies
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[12]
+                            }</td>
+                            <td>{
+                                student.favSubjectIn11or12thGrade
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[13]
+                            }</td>
+                            <td>{
+                                student.top3Subjects
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[14]
+                            }</td>
+                            <td>{
+                                JSON.stringify(student.likeCoding)
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[15]
+                            }</td>
+                            <td>{
+                                JSON.stringify(student.likeTalkingToPeople)
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[16]
+                            }</td>
+                            <td>{
+                                student.ugdegree
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[17]
+                            }</td>
+                            <td>{
+                                student.uggpascale
+                            }</td>
+                        </tr>
+                       <tr>
+                            <td>{
+                                this.others[18]
+                            }</td>
+                            <td>{
+                                student.uggpa
+                            }</td>
+                        </tr>
+                       
+                        <tr>
+                            <td>{
+                                this.others[19]
+                            }</td>
+                            <td>{
+                                student.university
+                            }</td>
+                        </tr> 
+                    
+                 </table>
+
+               : null }
                     </div>
                 </div>
             </div>
@@ -219,3 +220,10 @@ export default class Other_data extends Component {
     }
 }
 
+const mapStateToProps=state=>{
+    return{ 
+        StudentDetails:state.StudentReducer.StudentList,
+     }
+}
+
+export default connect(mapStateToProps,{getStudentsById})(Other_data)

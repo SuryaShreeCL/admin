@@ -12,6 +12,11 @@ export default (state = initialState, action) => {
         ...state,
         StudentList: action.StudentList,
       };
+    case STUDENT.getStudentById:
+      return {
+        ...state,
+        StudentList: action.StudentList,
+      };
     case STUDENT.postStudent:
       return {
         ...state,

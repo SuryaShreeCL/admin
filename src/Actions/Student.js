@@ -13,9 +13,23 @@ export const getStudents=()=>{
             .catch(error => {
                 console.log(error);
             });
-    }
-    
+    }    
 }
+
+export const getStudentsById=(id)=>{
+    return dispatch => {
+        axios.get(URL+"/api/v1/students/"+id, {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:STUDENT.getStudentById,StudentList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }    
+}
+
 export const postStudents=(data)=>{
     
     return dispatch => {

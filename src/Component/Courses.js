@@ -27,6 +27,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import {addCoursePath,editCoursePath} from './RoutePaths'
 
 export class Courses extends Component {
 
@@ -128,7 +129,7 @@ export class Courses extends Component {
                                     tooltip: 'Create Course',
                                     isFreeAction: true,
                                     onClick: (event, rowData) => {
-                                        history.push('/Renginelite/courses/add');
+                                        history.push(addCoursePath);
                                     }
                                 },
                                 {
@@ -160,7 +161,7 @@ export class Courses extends Component {
                                     ),
                                     tooltip: 'Delete Course',
                                     onClick: (event, rowData) => {
-                                        history.push('courses/edit/' + rowData.id);
+                                        history.push(editCoursePath + rowData.id);
                                     }
                                 }
                             ]}

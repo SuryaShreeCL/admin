@@ -13,12 +13,13 @@ export const COLLEGES={
 	getCollege:'getCollege',
 	getBranches:'getBranches',
 	getUniversity:'getUniversity',	
-	getDegrees:'getDegrees',
+	getDegrees:'getDegrees',	
 
 }
 
 export const STUDENT={
 	getStudent:'getStudent',
+	getStudentById:'getStudentById',
 	postStudent:'postStudent',
 	studentCollegeInformation:'studentCollegeInformation',
 	postQuestion:'postQuestion',

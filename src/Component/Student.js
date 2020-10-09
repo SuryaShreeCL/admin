@@ -20,10 +20,12 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import {getStudents} from '../Actions/Student';
+import {connect} from 'react-redux';
 import {URL} from '../Actions/URL'
 import { studentIdPath } from './RoutePaths'
 
-export default class Student extends Component {
+export class Student extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,13 +34,13 @@ export default class Student extends Component {
 
   }
 
-  stu_header = [
-    { title: 'Customer Id', field: 'id' },
+  stu_header = [    
     // { title: 'First Name', field: 'firstName' },
     // { title: 'Last Name', field: 'lastName' },
     { title: 'Full Name', field: 'fullName' },
     { title: 'Email Id', field: 'emailId' },
-    { title: 'Phone', field: 'phoneNumber' },
+    { title: 'Phone', field: 'phoneNumber' },    
+    { title: 'Department', field: 'department.name' },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
@@ -63,22 +65,8 @@ export default class Student extends Component {
   };
 
   componentDidMount() {
-       
-    axios
-      .get(URL+"/api/v1/students", {
-        crossDomain: true,
-      })
-      .then((res) => res.data)
-
-      .then((result) => {
-        console.log(result);
-        this.setState({
-          data: result,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.props.getStudents();    
+    this.setState({data:this.props.StudentList});
   }
 
   rowClick = (ev, rowData) => {
@@ -93,18 +81,25 @@ export default class Student extends Component {
         }
       },
     }
-  })
+  });
 
+  shouldComponentUpdate(nextProps,nextState){
+    if(this.props.StudentList.length!==0){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
 
-  render() {
-
+  render() {       
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
           <MaterialTable            
             columns={this.stu_header}
             icons={this.tableIcons}
-            data={this.state.data}
+            data={this.props.StudentList}
             title="Student Details"
             onRowClick={this.rowClick}
             options={{
@@ -122,3 +117,10 @@ export default class Student extends Component {
     );
   }
 }
+
+const mapStateToProps= state =>{
+  return{
+    StudentList:state.StudentReducer.StudentList,
+  }
+}
+export default connect(mapStateToProps,{getStudents})(Student)
