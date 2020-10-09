@@ -21,6 +21,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import {URL} from '../Actions/URL'
+import { studentIdPath } from './RoutePaths'
 
 export default class Student extends Component {
   constructor(props) {
@@ -62,8 +63,7 @@ export default class Student extends Component {
   };
 
   componentDidMount() {
-    
-   // console.log(URL);
+       
     axios
       .get(URL+"/api/v1/students", {
         crossDomain: true,
@@ -82,7 +82,7 @@ export default class Student extends Component {
   }
 
   rowClick = (ev, rowData) => {
-    history.push('/Renginelite/students/' + rowData.id)
+    history.push(studentIdPath + rowData.id)
   }
 
   getmuitheme = () => createMuiTheme({

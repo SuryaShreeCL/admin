@@ -4,13 +4,16 @@ import '../Asset/Login.css';
 import GoogleBtn from './GoogleBtn';
 
 export default class Login extends Component {
+  componentDidMount(){
+    // sessionStorage.setItem('token','false');
+  }
   render() {
     return (
       <div>
         <div className='root__login'>    
          <div className='login__container'>
            <div className='login__left__container'>
-             <img src={require('../Asset/Images/leftLoginContainer.png')} alt='not suppotted' />
+             <img src={require('../Asset/Images/ProfileBuilder.png')} alt='not suppotted' />
            </div>         
            <div className='login__right__container'>
              <div className='login__inner__box'>

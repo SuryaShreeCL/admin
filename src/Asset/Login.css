@@ -1,10 +1,9 @@
-.root__login{
-    background: linear-gradient(to left,#b17686, #535bb7);  
+.root__login{    
     display: flex;
     justify-content: center;
     height: 100vh;
-    align-items: center;
-    padding: 10vh;
+    /* align-items: center;
+    padding: 10vh; */
 }
 .login__container{
     display: flex;
@@ -13,11 +12,11 @@
     justify-content: center;
     box-shadow: 2px 0px 10px 6px #9065b7;
     overflow: hidden;
-    border-radius: 20px;
+    /* border-radius: 20px; */
 }
 .login__left__container{
-    width: 60%;
-    /* background-image: url('../Asset/Images/leftLoginContainer.png'); */
+    width: 60%;    
+    background: linear-gradient(61deg,#000524 1%,#003dff 96%);
 }
 .login__left__container > img {
     width: 100%;

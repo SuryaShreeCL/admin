@@ -28,7 +28,8 @@ class GoogleBtn extends Component {
         isLogined: true,
         accessToken: response.accessToken
       }));      
-      this.props.history.push({pathname: rootPath,state:true});      
+      window.sessionStorage.setItem('token','true');
+      this.props.history.push(rootPath);          
     }
   }
 
@@ -37,11 +38,8 @@ class GoogleBtn extends Component {
       isLogined: false,
       accessToken: ''
     }));    
-    this.props.history.push({
-      pathname: rootLoginPath, 
-      state:false,     
-    });
-    console.log(response)    
+    window.sessionStorage.setItem('token','false'); 
+    this.props.history.push(rootLoginPath);       
   }
 
   handleLoginFailure (response) {
@@ -52,10 +50,11 @@ class GoogleBtn extends Component {
      alert('Failed to log out')
   }
 
-  render() {            
+  render() {          
+    console.log(sessionStorage.getItem('token'))  
     return (
     <div>
-      { this.props.location.state ?
+      { (window.sessionStorage.getItem('token')==='true') ?
         <GoogleLogout
           clientId={ CLIENT_ID }
           buttonText='Logout'

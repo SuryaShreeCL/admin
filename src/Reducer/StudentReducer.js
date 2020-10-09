@@ -7,6 +7,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case STUDENT.getStudent:
+      return {
+        ...state,
+        StudentList: action.StudentList,
+      };
     case STUDENT.postStudent:
       return {
         ...state,

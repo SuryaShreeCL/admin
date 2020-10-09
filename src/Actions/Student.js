@@ -2,23 +2,20 @@ import {STUDENT} from '../Redux/Action'
 import {URL} from './URL'
 import axios from 'axios'
 
-// export const getStudents=()=>{
-//     return dispatch => {
-//         axios.get("http://localhost:8080/api/v1/students", {
-//             crossDomain: true
-//         })
-//             .then(result => {
-//                 dispatch({type:STUDENT.getStudent,StudentList:result.data})
-//             })
-//             .catch(error => {
-//                 console.log(error);
-//             });
-//     }
+export const getStudents=()=>{
+    return dispatch => {
+        axios.get(URL+"/api/v1/students", {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:STUDENT.getStudent,StudentList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
     
-// }
-
-
-
+}
 export const postStudents=(data)=>{
     
     return dispatch => {

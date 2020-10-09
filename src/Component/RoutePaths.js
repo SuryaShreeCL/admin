@@ -2,7 +2,7 @@
 export const port='http://localhost:8080';
 // Regine Lite path
 export const rootPath='/admin';
-export const rootLoginPath='/login';
+export const rootLoginPath=rootPath.concat('/login');
 export const studentPath= rootPath.concat('/students');
 export const studentIdPath=studentPath.concat('/');
 export const departmentPath=rootPath.concat('/departments');
