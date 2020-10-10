@@ -44,6 +44,9 @@ export class Student extends Component {
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
+  data=[{fullName:'Edsin',emailId:'edsin@gmail.com',phoneNumber:'7871781283',department:{name:'Informationtechnolgy'},}];
+
+
    tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -65,8 +68,8 @@ export class Student extends Component {
   };
 
   componentDidMount() {
-    this.props.getStudents();    
-    this.setState({data:this.props.StudentList});
+    this.props.getStudents();        
+    console.log('dsdsdsdsd');
   }
 
   rowClick = (ev, rowData) => {
@@ -92,7 +95,8 @@ export class Student extends Component {
     }
   }
 
-  render() {       
+  render() {
+    console.log(this.props);      
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
