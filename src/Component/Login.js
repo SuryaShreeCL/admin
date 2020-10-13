@@ -22,7 +22,7 @@ export default class Login extends Component {
       this.props.history.push(rootPath);
     }else{
       sessionStorage.setItem('token','false');
-      this.setState({error:'Invalid Username or Password'})
+      this.setState({error:'Invalid Username or Password'});
     }
   }
   render() {    

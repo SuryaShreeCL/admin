@@ -38,16 +38,27 @@ export class Other_data extends Component {
     componentDidMount() { 
        this.props.getStudentsById(this.props.id)    
     }
+
+    shouldComponentUpdate(nextProps,nextState){
+        if(this.props.StudentDetails.length!==0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    
     render() {
-        var student=this.props.StudentDetails;
+        if(this.props.StudentDetails.length!==0){var student=this.props.StudentDetails;}
         console.log(student)
+        // console.log(student.department.name)
         return (
             <div>
-                <div className="container">
-                    {/* <header><label>Careeer Intrest Survey Result</label></header> */}
+                <div className="container">                    
                     <div className="table-responsive">
-                        {(student !==undefined) ? 
-                        <table className="table">                                                            
+                        {(student !==undefined ) ?                         
+                        <table className="table">   
+                        <tbody>
                         <tr>
                             <td>{
                                 this.others[0]
@@ -56,7 +67,7 @@ export class Other_data extends Component {
                                 student.altPhoneNumber
                             }</td>
                         </tr>
-                         <tr>
+                          <tr>
                             <td>{
                                 this.others[1]
                             }</td>
@@ -64,15 +75,15 @@ export class Other_data extends Component {
                                 student.altEmailID
                             }</td>
                         </tr>
-                        <tr>
+                      <tr>
                             <td>{
                                 this.others[2]
                             }</td>
                             <td>{
-                                student.department
+                                student.department.name
                             }</td>
                         </tr>
-                        <tr>
+                          <tr>
                             <td>{
                                 this.others[3]
                             }</td>
@@ -181,7 +192,7 @@ export class Other_data extends Component {
                                 this.others[16]
                             }</td>
                             <td>{
-                                student.ugdegree
+                                student.ugDegree.name
                             }</td>
                         </tr>
                         <tr>
@@ -206,10 +217,10 @@ export class Other_data extends Component {
                                 this.others[19]
                             }</td>
                             <td>{
-                                student.university
+                                student.university.name
                             }</td>
-                        </tr> 
-                    
+                        </tr>  
+                    </tbody>
                  </table>
 
                : null }

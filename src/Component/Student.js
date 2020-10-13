@@ -87,7 +87,7 @@ export class Student extends Component {
   });
 
   shouldComponentUpdate(nextProps,nextState){
-    if(this.props.StudentList.length!==0){
+    if(this.props.StudentsList.length!==0){
       return false;
     }
     else{
@@ -103,7 +103,7 @@ export class Student extends Component {
           <MaterialTable            
             columns={this.stu_header}
             icons={this.tableIcons}
-            data={this.props.StudentList}
+            data={this.props.StudentsList}
             title="Student Details"
             onRowClick={this.rowClick}
             options={{
@@ -124,7 +124,7 @@ export class Student extends Component {
 
 const mapStateToProps= state =>{
   return{
-    StudentList:state.StudentReducer.StudentList,
+    StudentsList:state.StudentReducer.StudentsList,
   }
 }
 export default connect(mapStateToProps,{getStudents})(Student)

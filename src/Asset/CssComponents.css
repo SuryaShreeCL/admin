@@ -21,6 +21,7 @@
 .margin-new-bottom{margin-bottom: 4% !important;}
 .margin-new-top{margin-top: 3vh !important;}
 .nav-custom-background{background-color: #042998 !important;}
+td{padding: 10px;}
 input[type="checkbox"]{
     cursor: pointer;    
     box-sizing: border-box;   

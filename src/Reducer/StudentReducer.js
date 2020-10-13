@@ -1,6 +1,7 @@
 import { STUDENT } from "../Redux/Action";
 const initialState = {
   StudentList: [],
+  StudentsList:[],
   Answer:[],
   CareerIntertestSurvey:[]
 };
@@ -10,7 +11,7 @@ export default (state = initialState, action) => {
     case STUDENT.getStudent:
       return {
         ...state,
-        StudentList: action.StudentList,
+        StudentsList: action.StudentList,
       };
     case STUDENT.getStudentById:
       return {
