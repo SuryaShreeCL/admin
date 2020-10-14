@@ -1,6 +1,7 @@
 import { COURSES } from "../Redux/Action";
 const initialState = {
   CourseList: [],
+  CourseById:[],
   RecommendedCourseList: [],
   PopularCourseList: [],
   SimilarCourseList: [],
@@ -13,6 +14,16 @@ export default (state = initialState, action) => {
         ...state,
         CourseList: action.courseList,
       };
+    case COURSES.GetCourseById:
+        return {
+          ...state,
+          CourseById: action.courseList,
+        };
+     case COURSES.UpdateCourse:
+        return {
+          ...state,
+          UpdateCourse: action.updateCourse,
+        };
     case COURSES.GetRecommendedCouses:
       return {
         ...state,

@@ -1,8 +1,10 @@
 export const COURSES = {
 	GetCourses: 'GetCourses',
+	GetCourseById:'GetCourseById',
+	UpdateCourse:'UpdateCourse',
 	GetRecommendedCouses:'GetRecommendedCourses',
 	GetPopularCourses:'GetPopularCourses',
-	GetSimilarCourses:'GetSimilarCourses',
+	GetSimilarCourses:'GetSimilarCourses',	
 }
 
 export const QUESTIONS={

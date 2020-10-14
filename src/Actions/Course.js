@@ -1,6 +1,7 @@
 import {COURSES} from '../Redux/Action'
 import {URL} from './URL'
 import axios from 'axios'
+import { data } from 'jquery'
 
 export const getCourses=()=>{
     return dispatch => {
@@ -9,6 +10,34 @@ export const getCourses=()=>{
         })
             .then(result => {
                 dispatch({type:COURSES.GetCourses,courseList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const getCoursesById=(id)=>{
+    return dispatch => {
+        axios.get(URL+"/api/v1/courses/"+id, {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COURSES.GetCourseById,courseList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const updateCourse=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/courses/"+id,data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COURSES.UpdateCourse,updateCourse:result.data})
             })
             .catch(error => {
                 console.log(error);
