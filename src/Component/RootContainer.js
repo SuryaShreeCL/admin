@@ -25,16 +25,17 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link} from 'react-router-dom';
 import Content from './Content';
 import history from './History'
-import {rootPath} from './RoutePaths'
-import GoogleBtn from './GoogleBtn'
+import {rootPath, rootLoginPath} from './RoutePaths'
+import GoogleBtn from './GoogleBtn';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+
 const drawerWidth = 240;
 const NavbarList = [
       { id: 'courses', icon: <PeopleIcon />, title: 'Courses' },
       { id: 'students', icon: <PeopleIcon />, title: 'Students' },
-      { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },
-      // {id: 'login', icon:<PeopleIcon />, title:'Marketing App'},
-      {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},
-      // {id: 'Rengine', icon:<PeopleIcon />, title:'RengineLite'},
+      { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
+      {id: 'college', icon:<PeopleIcon />, title:'College'},
+      {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];
 
@@ -180,6 +181,11 @@ const theme=createMuiTheme({
               body1:{
                   fontSize:'unset',
               }
+          },
+          MuiSvgIcon:{
+            root:{
+              color:'white',
+            }
           }
     }
 })
@@ -187,7 +193,7 @@ const theme=createMuiTheme({
 export default function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -195,7 +201,12 @@ export default function RootContainer(props) {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };  
+  }; 
+
+  const logout = () => {    
+    window.sessionStorage.setItem('token','false'); 
+    props.history.push(rootLoginPath);       
+  }
 
   return (
       <ThemeProvider theme={theme}>
@@ -223,11 +234,11 @@ export default function RootContainer(props) {
             <div className={classes.spacer}></div>
                <IconButton color="inherit">
                   <NotificationsIcon />
-                </IconButton>   
-                <IconButton color="inherit" className={classes.iconButtonAvatar}>                        
-                    <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
-                </IconButton> 
-                <GoogleBtn {...props} />      
+                </IconButton>                  
+                {/* <GoogleBtn {...props} />       */}
+                <IconButton onClick={logout}>
+                  <ExitToAppRoundedIcon color='inherit' />
+                </IconButton>
 
         </Toolbar>
       </AppBar>      

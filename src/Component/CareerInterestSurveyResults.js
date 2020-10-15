@@ -134,15 +134,15 @@ export class CareerInterestSurveyResults extends Component {
                 else{
                  return (
                  <>
-                 <tr><td colSpan={2}>{e.question}</td><td></td></tr>                 
+                 <tr><td colSpan={2}  style={{fontSize: 'initial'}}>{e.question}</td><td></td></tr>                 
                      {
                        CareerInterestQustions[0].map((yes)=>
-                     <tr><td>{yes}</td><td>Yes</td></tr>
+                     <tr><td>{yes}</td><td><input type='checkbox' checked='true'  /></td></tr>
                        )                  
                      }                                                                              
                      {
                        CareerInterestQustions[1].map((No)=>
-                     <tr><td>{No}</td><td>No</td></tr>
+                     <tr><td>{No}</td><td><input type='checkbox' checked={false}  /></td></tr>
                        )                  
                      }            
                  </>

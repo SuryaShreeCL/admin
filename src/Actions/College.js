@@ -16,6 +16,54 @@ export const getColleges=(name)=>{
     }
     
 }
+
+export const getAllColleges=()=>{
+    return dispatch => {
+        axios.get(URL+"/api/v1/colleges/",{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COLLEGES.getAllColleges,allCollegeList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const addColleges=(data)=>{
+    return dispatch => {
+        axios.post(URL+"/api/v1/colleges/",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COLLEGES.addCollges,addCollege:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+// export const updateColleges=(data)=>{
+//     return dispatch => {
+//         axios.post(URL+"/api/v1/colleges/id="+id,data,{
+//             crossDomain: true
+//         })
+//             .then(result => {
+//                 dispatch({type:COLLEGES.addCollges,addCollege:result.data})
+//             })
+//             .catch(error => {
+//                 console.log(error);
+//             });
+//     }
+    
+// }
+
+
+
 export const getUniversity=()=>{
     return dispatch => {
         axios.get(URL+"/api/v1/university",{
