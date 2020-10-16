@@ -44,15 +44,6 @@ export class Other_data extends Component {
     componentDidMount() { 
        this.props.getStudentsById(this.props.id)    
     }
-
-    shouldComponentUpdate(nextProps,nextState){
-        if(this.props.StudentDetails.length!==0){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
     
     render() {
         if(this.props.StudentDetails.length!==0){var student=this.props.StudentDetails;}            

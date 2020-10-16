@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {TextField,Button} from '@material-ui/core'
 import '../Asset/Login.css';
 import GoogleBtn from './GoogleBtn';
-import { rootPath } from './RoutePaths';
+import { rootPath, studentPath } from './RoutePaths';
 
 export default class Login extends Component {
   constructor(props){
@@ -19,7 +19,7 @@ export default class Login extends Component {
   handleLogin=(e)=>{
     if(this.state.username==='admin' && this.state.password==='423uK6LmxG9f2w'){
       sessionStorage.setItem('token','true');
-      this.props.history.push(rootPath);
+      this.props.history.push(studentPath);
     }else{
       sessionStorage.setItem('token','false');
       this.setState({error:'Invalid Username or Password'});
