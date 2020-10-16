@@ -39,6 +39,7 @@ export class Other_data extends Component {
         'Email Id',    
         'Phone Number',
         'Is Active',
+        'Last Name'
     ];
 
     componentDidMount() { 
@@ -78,6 +79,14 @@ export class Other_data extends Component {
                             }</td>
                             <td>{
                                 student.firstName
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[26]
+                            }</td>
+                            <td>{
+                                student.lastName
                             }</td>
                         </tr>
                         <tr>
