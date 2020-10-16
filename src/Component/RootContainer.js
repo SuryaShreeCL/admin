@@ -34,8 +34,8 @@ const NavbarList = [
       { id: 'courses', icon: <PeopleIcon />, title: 'Courses' },
       { id: 'students', icon: <PeopleIcon />, title: 'Students' },
       { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
-      {id: 'college', icon:<PeopleIcon />, title:'College'},
-      {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
+      {id: 'college', icon:<PeopleIcon />, title:'Colleges'},
+      // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];
 
@@ -294,8 +294,9 @@ function Copyright() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}       
-          Your Website       
-        {new Date().getFullYear()}
+          
+        {new Date().getFullYear() +' '}
+        CareerLabs
         {'.'}
       </Typography>
     );

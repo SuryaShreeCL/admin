@@ -102,6 +102,7 @@ export class Student extends Component {
             columns={this.stu_header}
             icons={this.tableIcons}
             data={this.props.StudentsList}
+            isLoading={(this.props.StudentsList.length===0) ? true : false}
             title="Student Details"
             onRowClick={this.rowClick}
             options={{

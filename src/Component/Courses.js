@@ -139,6 +139,7 @@ export class Courses extends Component {
                                             color="primary"
                                             startIcon={<EditIcon />}
                                             size="small"
+                                            
                                         >
                                             Edit
                                         </Button>
@@ -155,14 +156,15 @@ export class Courses extends Component {
                                             color="secondary"
                                             startIcon={<DeleteIcon />}
                                             size="small"
+                                            disabled
                                         >
                                             Delete
                                         </Button>
                                     ),
                                     tooltip: 'Delete Course',
-                                    onClick: (event, rowData) => {
-                                        history.push(editCoursePath + rowData.id);
-                                    }
+                                    // onClick: (event, rowData) => {
+                                    //     history.push(editCoursePath + rowData.id);
+                                    // }
                                 }
                             ]}
                             options={{

@@ -7,8 +7,10 @@ import ReduxStore from './Redux/Store'
 import { BrowserRouter, Route, Switch, Router,Redirect } from 'react-router-dom'
 import RootContainer from './Component/RootContainer';
 import Login from './Component/Login';
-import { rootPath, rootLoginPath } from './Component/RoutePaths';
+import { rootPath, rootLoginPath, studentPath } from './Component/RoutePaths';
 import PrivateRoute from './Component/PrivateRoute';
+import { Student } from './Component/Student';
+import history from "./Component/History";
 //import RengineV2Route from './Component/RengineVersion2/RengineV2Route';
 // import PersonalityTest from './Component/RengineLiteUpgrade/PersonalityTest';
 //import Login from './component/Login'
@@ -16,9 +18,8 @@ import PrivateRoute from './Component/PrivateRoute';
 
 function App() {
   return( 
-   <BrowserRouter>
-  <Switch>  
-    {/* <Route  path={rootPath} component={RootContainer} ></Route>  */}
+   <BrowserRouter history={history} >
+  <Switch>    
     <Route  exact path='/' component={Login} ></Route>
     <Route  exact path={rootLoginPath} component={Login} ></Route>
     {/* <Redirect exact from='/' to={rootLoginPath}></Redirect> */}

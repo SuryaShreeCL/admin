@@ -216,6 +216,7 @@ export class College extends Component {
                     color="secondary"
                     startIcon={<DeleteIcon />}
                     size="small"
+                    disabled
                   >
                     Delete
                   </Button>

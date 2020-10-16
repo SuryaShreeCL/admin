@@ -4,6 +4,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import "../Asset/EditCourse.css";
 import $ from "jquery";
 import Select from "react-select";
+import { coursePath } from './RoutePaths'
 import { connect } from "react-redux";
 import { addCourses } from "../Actions/Course";
 
@@ -75,8 +76,9 @@ export class AddCourse extends Component {
         branchVal: this.state.branchVal,
         preRequisiteName: this.state.preRequisiteName,
       };
-      if(this.state.id !==''){
+      if(this.state.name !==''){
           this.props.addCourses(newObj);
+          this.props.history.push(coursePath)
       }
   }
 
@@ -98,7 +100,10 @@ export class AddCourse extends Component {
                   type="search"
                   variant="outlined"
                   size="small"
-                  className="edit-text-box t1 col-xs-12"
+                  className="edit-text-box t1 col-xs-
+                  12"
+                  value={this.state.id}
+                  onChange={(e)=>this.setState({id:e.target.value})}
                 />
                 <TextField
                   id="filled-search"
@@ -107,6 +112,8 @@ export class AddCourse extends Component {
                   variant="outlined"
                   size="small"
                   className="edit-text-box t2"
+                  value={this.state.name}
+                  onChange={(e)=>this.setState({name:e.target.value})}
                 />
               </div>
               <div className="edit-row-2 ">
@@ -119,6 +126,8 @@ export class AddCourse extends Component {
                   fullWidth
                   multiline
                   className="course-desc"
+                  value={this.state.description}
+                  onChange={(e)=>this.setState({description:e.target.value})}
                 />
               </div>
               <div className="edit-row-3">
@@ -130,8 +139,8 @@ export class AddCourse extends Component {
                     fullWidth
                     multiline
                     className="course-desc"
-                    value={this.state.lmsUrl !== null ? this.state.lmsUrl : ""}
-                    onChange={(e) => this.setState({ lmsUrl: e.target.value })}
+                    value={this.state.lmsUrl}
+                    onChange={(e) => this.setState({ lmsUrl: e.target.value })}                    
                   />
                 </div>
 
@@ -143,10 +152,11 @@ export class AddCourse extends Component {
                     fullWidth
                     multiline
                     className="course-desc"
-                    value={this.state.displayUrl}
+                    value={this.state.displayImageUrl}
                     onChange={(e) =>
-                      this.setState({ displayUrl: e.target.value })
+                      this.setState({ displayImageUrl: e.target.value })
                     }
+                    value={this.state.displayImageUrl}
                   />
                 </div>
 
@@ -162,6 +172,7 @@ export class AddCourse extends Component {
                     onChange={(e) =>
                       this.setState({ thumbnailUrl: e.target.value })
                     }
+                    value={this.state.thumbnailUrl}
                   />
                 </div>
               </div>
@@ -172,6 +183,8 @@ export class AddCourse extends Component {
                   isClearable={true}
                   options={this.state.option}
                   placeholder="Course Level"
+                  value={this.state.courseLevel}
+                  // onChange={(e)=>this.setState({courseLevel:e.value})}
                 />
 
                 <Select
@@ -210,13 +223,22 @@ export class AddCourse extends Component {
                 />
               </div>
               <div className="edit-row-7">
+              <Button
+                  variant="contained"
+                  color="secondary"                                    
+                  size="medium"    
+                  onClick={(e)=>this.props.history.push(coursePath)}                            
+                >
+                 Cancel
+                </Button>
+
                 <Button
                   variant="contained"
-                  color="primary"
-                  size="large"
-                  className="edit-save-btn btn-blue"
+                  color="primary"                  
+                  className="edit-save-btn btn-blue margin-left-space"
                   size="medium"
                   startIcon={<AddCircleOutlineIcon />}
+                  onClick={this.newCourse.bind(this)}
                 >
                   Create
                 </Button>

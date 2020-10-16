@@ -127,6 +127,7 @@ export class EditCourse extends Component {
                     className="edit-text-box t1 col-xs-12"
                     value={this.state.courseId}
                     onChange={(e)=>this.setState({courseId:e.target.value})}
+                    disabled
                   />
                   <TextField                    
                     label="Course Name"                    
@@ -245,10 +246,19 @@ export class EditCourse extends Component {
                   />
                 </div>
                 <div className="edit-row-7">
+                <Button
+                  variant="contained"
+                  color="secondary"                                    
+                  size="medium"    
+                  onClick={(e)=>this.props.history.push(coursePath)}                            
+                >
+                 Cancel
+                </Button>
+
                   <Button
                     variant="contained"
                     color="primary"
-                    size="large"
+                    className='margin-left-space'
                     size="medium"
                     startIcon={<SaveIcon />}
                     onClick={this.handleClick.bind(this)}

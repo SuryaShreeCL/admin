@@ -1,5 +1,6 @@
 .text-center{text-align: center;}
 .text-left{text-align: left;}
+.text-end{text-align: end;}
 .header-margin-top{padding-top: 20px;}
 .header-margin-bottom{margin-bottom: 1% ;}
 .text-margin-bottom{margin-bottom: 2% !important;}
@@ -22,6 +23,14 @@
 .margin-new-bottom{margin-bottom: 4% !important;}
 .margin-new-top{margin-top: 3vh !important;}
 .nav-custom-background{background-color: #042998 !important;}
+.match_val{
+    color: #155724;
+    background-color: #d4edda;    
+}
+.disMatch_val{
+    color: #721c24;
+    background-color: #f8d7da;
+}
 .error{color: red;}
 td{padding: 10px;}
 input[type="checkbox"]{

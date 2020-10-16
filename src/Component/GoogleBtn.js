@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { Redirect } from 'react-router-dom';
-import { rootPath, rootLoginPath } from './RoutePaths';
+import { rootPath, rootLoginPath, studentPath } from './RoutePaths';
+import history from './History'
 
 
 const CLIENT_ID = '600213633260-k6htkib69gu2bkma46jmvalot4h7m4hr.apps.googleusercontent.com';
@@ -29,7 +30,8 @@ class GoogleBtn extends Component {
         accessToken: response.accessToken
       }));      
       window.sessionStorage.setItem('token','true');
-      this.props.history.push(rootPath);          
+      // this.props.history.push(studentPath);          
+      window.location.pathname=studentPath;
     }
   }
 

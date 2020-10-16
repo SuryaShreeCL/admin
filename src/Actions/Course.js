@@ -6,7 +6,7 @@ import { data } from 'jquery'
 
 export const addCourses=(data)=>{
     return dispatch => {
-        axios.get(URL+"/api/v1/courses", data ,{
+        axios.post(URL+"/api/v1/courses", data ,{
             crossDomain: true
         })
             .then(result => {

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
-import { port } from './RoutePaths';
-export default class Recommendation extends Component {
+import {getStudentsById} from '../Actions/Student'
+import Button from '@material-ui/core/Button'
+import {connect} from 'react-redux'
+
+export  class Recommendation extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,38 +14,8 @@ export default class Recommendation extends Component {
         }
     }
 
-    componentDidMount() {
-        //document.title = "basket";
-        let engine = port+"/api/v1/courses/" + this.props.id + "";
-
-        const db = port+"/api/v1/students/" + this.props.id + "/RecommendedCourses";
-
-        axios.get(engine, {
-            crossDomain: true
-        })
-            .then(res => res.data)
-            .then(result => {
-                console.log(result)
-                this.setState({
-                    data: result
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-        axios.get(db, { crossDoman: true })
-            .then(result => result.data)
-            .then(results => {
-                // console.log(results)
-                this.setState({
-                    dataFromdb: results
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
+    componentDidMount() {      
+        this.props.getStudentsById(this.props.id) 
     }
 
     testcourses(arrayf, arrays) {
@@ -65,67 +37,73 @@ export default class Recommendation extends Component {
     }
 
     render() {
-        var result = [];
-        var dbres=[];
-        var flat = [];
+        let result=[];
+        let dbres=[];
+        let flat=[];        
+        
+
+        let mentor=[];
+        let recommended=[];
+        if(this.props.StudentDetails.length!==0){
+            //mentor            
+            let mentorArr=this.props.StudentDetails.mentorRecommendedCourses.map((Mentor)=>{                                
+                if(mentor.indexOf(Mentor.name)===-1){
+                    return mentor.push(Mentor.name);
+                }                
+            })
+            // console.log(mentor)
+            //recommendedCourses
+            let recommendedArr=this.props.StudentDetails.recommendedCourses.map((recommend)=>{
+                if(recommended.indexOf(recommend.name)===-1){
+                    return recommended.push(recommend.name);
+                }                
+                
+            })
+            // console.log(recommended)
+        }
+
+
+        function Recommendation(){            
+           return recommended.sort().map((recommended)=>{ 
+               if(mentor.indexOf(recommended)!== -1){
+                return  <tr><td className='match_val'>{recommended}</td></tr>
+               } 
+               else{
+                   return <tr><td>{recommended}</td></tr>
+               }                             
+            })
+        }
+        function Mentor(){
+           return mentor.sort().map((mentor)=>{
+               if(recommended.indexOf(mentor)===-1){
+                return <tr><td className='disMatch_val'>{mentor}</td></tr>
+               }else{
+                return <tr><td>{mentor}</td></tr>
+               }                                           
+            })
+        }
+                
         return (
             <div>
-                <div className="table-resonsive-sm">
+                <div className="table-resonsive-sm">    
+                <div className='text-end'>  
+                    <Button variant='contained' color='primary' className='text-margin-bottom' >Run Recommendation</Button>
+                </div>                                
                     <table className="table">
                         <thead>
                             <tr><th>Engine Recommendation</th>
-                                <th>Mentor Recommendation</th></tr>
+                                <th>Mentor Recommendation</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <td className="">
-                                <div className="hidden">
-                                    {/* Divide the Course From Engine Recommendation Array */}
-                                    {this.state.data.map((e) => {
-                                        return e.courses.map((course) => {
-                                            var co = [];
-                                            co.push(course.name);
-                                            return result.push(co);
-
-                                        });
-                                    }
-                                    )}
-                                    {/* Storing a Single Array */}
-                                    {result.map((a) => {
-                                        flat = result.reduce(function (a, b) {
-                                            return a.concat(b)
-                                        })
-                                    }
-                                    )}
-                                    {/* Remove Duplication */}
-                                    {flat = flat.filter((val, index) => flat.indexOf(val) === index).map((a) => {
-                                        return a
-                                    }
-                                        // 
-                                    )}
-                                </div>
-                                {/* Sorting the Engine Recommendation Courses*/}
-                                {
-                                    flat.sort().map((c) =>
-                                        <tr><td>{c}</td></tr>
-                                    )
-                                }
-
-                            </td>
-                            <td>
-                                {/* Divide the Mentor Recomendation */}
-                                {
-                                    this.state.dataFromdb.map((db) => {
-                                        dbres.push(db.name);
-                                    }
-                                    )
-                                }
-                                {/* Sorting Mentor Recommendation */}
-                                {
-                                    dbres.sort().map((dbcourse) =>
-                                        <tr><td>{dbcourse}</td></tr>
-                                    )
-                                }
-                            </td>
+                          <tr>
+                              <td>
+                                  {Recommendation()}                                                                                  
+                              </td>
+                              <td>                
+                                  {Mentor()}               
+                              </td>
+                         </tr>                          
                         </tbody>
                     </table>
                 </div>
@@ -133,3 +111,12 @@ export default class Recommendation extends Component {
         )
     }
 }
+
+
+const mapStateToProps=state=>{
+    return{ 
+        StudentDetails:state.StudentReducer.StudentList,
+     }
+}
+
+export default connect(mapStateToProps,{getStudentsById})(Recommendation)
