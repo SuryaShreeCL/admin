@@ -160,7 +160,7 @@ export class College extends Component {
       <ThemeProvider theme={this.tableTheme()}>
         <div>
           <MaterialTable
-            title="College"
+            title="Colleges"
             icons={tableIcons}
             columns={this.col}
             data={this.props.AllCollegeList}

@@ -28,13 +28,15 @@ import history from './History'
 import {rootPath, rootLoginPath} from './RoutePaths'
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
+import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
 
 const drawerWidth = 240;
 const NavbarList = [
-      { id: 'courses', icon: <PeopleIcon />, title: 'Courses' },
+      { id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
       { id: 'students', icon: <PeopleIcon />, title: 'Students' },
       { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
-      {id: 'college', icon:<PeopleIcon />, title:'Colleges'},
+      {id: 'college', icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
       // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];
