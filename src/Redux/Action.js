@@ -1,5 +1,6 @@
 export const COURSES = {
 	GetCourses: 'GetCourses',
+	AddCourse:'AddCourse',
 	GetCourseById:'GetCourseById',
 	UpdateCourse:'UpdateCourse',
 	GetRecommendedCouses:'GetRecommendedCourses',

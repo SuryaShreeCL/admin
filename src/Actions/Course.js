@@ -3,6 +3,21 @@ import {URL} from './URL'
 import axios from 'axios'
 import { data } from 'jquery'
 
+
+export const addCourses=(data)=>{
+    return dispatch => {
+        axios.get(URL+"/api/v1/courses", data ,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COURSES.AddCourse,addCourses:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
 export const getCourses=()=>{
     return dispatch => {
         axios.get(URL+"/api/v1/courses", {

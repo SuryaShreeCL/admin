@@ -47,20 +47,20 @@ export const addColleges=(data)=>{
     
 }
 
-// export const updateColleges=(data)=>{
-//     return dispatch => {
-//         axios.post(URL+"/api/v1/colleges/id="+id,data,{
-//             crossDomain: true
-//         })
-//             .then(result => {
-//                 dispatch({type:COLLEGES.addCollges,addCollege:result.data})
-//             })
-//             .catch(error => {
-//                 console.log(error);
-//             });
-//     }
+export const updateColleges=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/colleges/"+id,data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COLLEGES.updateColleges,updateColleges:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
     
-// }
+}
 
 
 

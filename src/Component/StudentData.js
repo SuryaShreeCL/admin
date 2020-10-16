@@ -75,10 +75,7 @@ export default function Student_data(props) {
           aria-label="scrollable auto tabs example">
           <Tab label="Profile Information" {...a11yProps(1)} />
           <Tab label="Career Intrest Survey" {...a11yProps(2)} />
-          <Tab label="Recommendation" {...a11yProps(3)} />
-          <Tab label="Career Path Options" {...a11yProps(4)} />
-          <Tab label="Higher Education Plans" {...a11yProps(5)} />
-          <Tab label="Diagnostic Test Performance" {...a11yProps(6)} />
+          <Tab label="Recommendation" {...a11yProps(3)} />          
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -89,16 +86,7 @@ export default function Student_data(props) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Recommendation id={props.match.params.id} />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <CareerPathOptions id={props.match.params.id} />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <HigherEducation id={props.match.params.id} />
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        <DiagnosticTestPerformance id={props.match.params.id} />
-      </TabPanel>
+      </TabPanel>     
     </div>
   );
 }
