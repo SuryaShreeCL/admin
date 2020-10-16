@@ -13,6 +13,9 @@ export const QUESTIONS={
 
 export const COLLEGES={
 	getCollege:'getCollege',
+	getAllColleges:'getAllColleges',
+	addCollges:'addColleges',
+	updateColleges:'updateColleges',
 	getBranches:'getBranches',
 	getUniversity:'getUniversity',	
 	getDegrees:'getDegrees',	

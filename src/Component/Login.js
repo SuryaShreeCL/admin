@@ -36,10 +36,10 @@ export default class Login extends Component {
            <div className='login__right__container'>
              <div className='login__inner__box'>
                <div className='login__header'>
-                 <label className='login__header__label'>Welcome to CareerLabs,</label>
+                 <label className='login__header__label'>Welcome to CareerLabs</label>
                </div>
                <div className='login__body'> 
-                {(this.state.error !=='') ? this.state.error : null }                
+                 <div className='error'>{(this.state.error !=='') ? this.state.error : null } </div>
                   <div className='login__text__box'><TextField id="Username" label="Email" variant="outlined" fullWidth  size='medium' value={this.state.username} onChange={(e)=>this.setState({username:e.target.value})} /></div>
                   <div className='login__text__box'><TextField id="Password" inputProps={{type:'password'}} label="Password" variant="outlined" fullWidth size='medium' value={this.state.password} onChange={(e)=>this.setState({password:e.target.value})} /></div>                                                  
                </div>

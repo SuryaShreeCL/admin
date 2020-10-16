@@ -16,11 +16,13 @@
 .no-padding{padding: 0 !important;}
 .flex-warp{flex-wrap: wrap !important;}
 .flex{display: flex !important;}
+.flex-1{flex: 1 !important;}
 .s-between{justify-content: space-between !important;}
 .padding-new-top{padding-top: 10px;}
 .margin-new-bottom{margin-bottom: 4% !important;}
 .margin-new-top{margin-top: 3vh !important;}
 .nav-custom-background{background-color: #042998 !important;}
+.error{color: red;}
 td{padding: 10px;}
 input[type="checkbox"]{
     cursor: pointer;    

@@ -31,7 +31,9 @@ import {
   curatedPath,
   questionBankPath,
   rootLoginPath,
+  collegePath,
 } from "./RoutePaths";
+import College  from "./College";
 
 export default function Routes() {
   return (
@@ -57,6 +59,11 @@ export default function Routes() {
               exact
               path={departmentPath}
               component={Department}
+            />
+             <Route
+              exact
+              path={collegePath}
+              component={College}
             />
             <Route
               exact

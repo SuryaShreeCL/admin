@@ -35,7 +35,7 @@ export class Student extends Component {
   }
 
   stu_header = [    
-    // { title: 'First Name', field: 'firstName' },
+    { title: 'ID', field: 'studentID' },
     // { title: 'Last Name', field: 'lastName' },
     { title: 'Full Name', field: 'fullName' },
     { title: 'Email Id', field: 'emailId' },
@@ -68,8 +68,7 @@ export class Student extends Component {
   };
 
   componentDidMount() {
-    this.props.getStudents();        
-    console.log('dsdsdsdsd');
+    this.props.getStudents();            
   }
 
   rowClick = (ev, rowData) => {
@@ -95,8 +94,7 @@ export class Student extends Component {
     }
   }
 
-  render() {
-    console.log(this.props);      
+  render() {    
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>

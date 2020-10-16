@@ -32,7 +32,13 @@ export class Other_data extends Component {
         'UG Degree',
         'UG GPA Scale',
         'UG GPA',
-        'University'
+        'University',
+        'Student ID',
+        'First Name',
+        'Full Name',
+        'Email Id',    
+        'Phone Number',
+        'Is Active',
     ];
 
     componentDidMount() { 
@@ -49,9 +55,7 @@ export class Other_data extends Component {
     }
     
     render() {
-        if(this.props.StudentDetails.length!==0){var student=this.props.StudentDetails;}
-        console.log(student)
-        // console.log(student.department.name)
+        if(this.props.StudentDetails.length!==0){var student=this.props.StudentDetails;}            
         return (
             <div>
                 <div className="container">                    
@@ -59,12 +63,53 @@ export class Other_data extends Component {
                         {(student !==undefined ) ?                         
                         <table className="table">   
                         <tbody>
+
+                        <tr>
+                            <td>{
+                                this.others[20]
+                            }</td>
+                            <td>{
+                                student.studentID
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[21]
+                            }</td>
+                            <td>{
+                                student.firstName
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[22]
+                            }</td>
+                            <td>{
+                                student.fullName
+                            }</td>
+                        </tr>                        
+                        <tr>
+                            <td>{
+                                this.others[24]
+                            }</td>
+                            <td>{
+                                student.phoneNumber
+                            }</td>
+                        </tr>
                         <tr>
                             <td>{
                                 this.others[0]
                             }</td>
                             <td>{
                                 student.altPhoneNumber
+                            }</td>
+                        </tr>
+                        <tr>
+                            <td>{
+                                this.others[23]
+                            }</td>
+                            <td>{
+                                student.emailId
                             }</td>
                         </tr>
                           <tr>
@@ -80,7 +125,7 @@ export class Other_data extends Component {
                                 this.others[2]
                             }</td>
                             <td>{
-                                student.department.name
+                               (student.department!==null) ?  student.department.name : ''
                             }</td>
                         </tr>
                           <tr>
@@ -192,7 +237,7 @@ export class Other_data extends Component {
                                 this.others[16]
                             }</td>
                             <td>{
-                                student.ugDegree.name
+                                (student.ugDegree!==null) ? student.ugDegree.name : ''
                             }</td>
                         </tr>
                         <tr>
@@ -217,7 +262,7 @@ export class Other_data extends Component {
                                 this.others[19]
                             }</td>
                             <td>{
-                                student.university.name
+                                (student.university !==null) ? student.university.name : ''
                             }</td>
                         </tr>  
                     </tbody>

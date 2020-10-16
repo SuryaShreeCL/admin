@@ -1,17 +1,29 @@
 import { COLLEGES } from "../Redux/Action";
 const initialState = {
   CollegeList: [],
+  allCollegeList:[],
   BranchList: [],
   University: [],
   Degree: [],
+  addCollege:[],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case COLLEGES.addCollges:
+      return {
+        ...state,
+        addCollge: action.addCollege,
+      };
     case COLLEGES.getCollege:
       return {
         ...state,
         CollegeList: action.CollegeList,
+      };
+     case COLLEGES.getAllColleges:
+      return {
+        ...state,
+        allCollegeList: action.allCollegeList,
       };
     case COLLEGES.getBranches:
       return {
