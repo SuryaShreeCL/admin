@@ -79,6 +79,38 @@ export const getUniversity=()=>{
     
 }
 
+export const addUniversity=(data)=>{
+    return dispatch => {
+        axios.post(URL+"/api/v1/university",data,{
+            crossDomain: true
+        })
+            .then(result => {                
+                dispatch({type:COLLEGES.addUniversity,addUniversityList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateUniversity=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/university/"+id,data,{
+            crossDomain: true
+        })
+            .then(result => {                
+                dispatch({type:COLLEGES.updateUniversity,updateUniversityList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+
+
 export const getDegree=()=>{
     return dispatch => {
         axios.get(URL+"/api/v1/degrees",{

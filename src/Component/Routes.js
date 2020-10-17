@@ -32,8 +32,10 @@ import {
   questionBankPath,
   rootLoginPath,
   collegePath,
+  universityPath,
 } from "./RoutePaths";
 import College  from "./College";
+import University from "./University";
 
 export default function Routes() {
   return (
@@ -64,6 +66,11 @@ export default function Routes() {
               exact
               path={collegePath}
               component={College}
+            />
+             <Route
+              exact
+              path={universityPath}
+              component={University}
             />
             <Route
               exact

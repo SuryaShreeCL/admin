@@ -11,6 +11,7 @@ export const coursePath=rootPath.concat('/courses');
 export const editCoursePath=coursePath.concat('/edit/');
 export const addCoursePath=coursePath.concat('/add');
 export const questionBankPath=rootPath.concat('/questionbank');
+export const universityPath=rootPath.concat('/university');
 
 // Rengine another version path
 

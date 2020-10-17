@@ -19,6 +19,8 @@ export const COLLEGES={
 	updateColleges:'updateColleges',
 	getBranches:'getBranches',
 	getUniversity:'getUniversity',	
+	addUniversity:'addUniversity',
+	updateUniversity:'updateUniversity',
 	getDegrees:'getDegrees',	
 
 }

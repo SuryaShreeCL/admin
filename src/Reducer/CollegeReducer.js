@@ -7,6 +7,8 @@ const initialState = {
   Degree: [],
   addCollege:[],
   updateColleges:[],
+  addUniversity:[],
+  updateUniversity:[],
 };
 
 export default (state = initialState, action) => {
@@ -40,6 +42,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         University: action.universityList,
+    };
+    case COLLEGES.addUniversity:
+      return {
+        ...state,
+        addUniversity: action.addUniversityList,
+    };
+    case COLLEGES.updateUniversity:
+      return {
+        ...state,
+        updateUniversity: action.updateUniversityList,
 	  };
 	case COLLEGES.getDegrees:
       return {

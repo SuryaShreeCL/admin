@@ -30,6 +30,7 @@ import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
+import SchoolRoundedIcon from '@material-ui/icons/SchoolRounded';
 
 const drawerWidth = 240;
 const NavbarList = [
@@ -37,6 +38,7 @@ const NavbarList = [
       { id: 'students', icon: <PeopleIcon />, title: 'Students' },
       { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
       {id: 'college', icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
+      {id: 'university', icon:<SchoolRoundedIcon />, title:'University'},
       // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];
