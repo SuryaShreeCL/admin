@@ -78,7 +78,7 @@ export  class Recommendation extends Component {
                if(recommended.indexOf(mentor)===-1){
                 return <tr><td className='disMatch_val'>{mentor}</td></tr>
                }else{
-                return <tr><td>{mentor}</td></tr>
+                return <tr><td className='match_val'>{mentor}</td></tr>
                }                                           
             })
         }
