@@ -30,8 +30,8 @@ class GoogleBtn extends Component {
         accessToken: response.accessToken
       }));      
       window.sessionStorage.setItem('token','true');
-      // this.props.history.push(studentPath);          
-      window.location.pathname=studentPath;
+      this.props.history.push(rootPath+'/');          
+      // window.location.pathname=studentPath;
     }
   }
 

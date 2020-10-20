@@ -30,7 +30,7 @@ import {
   personelInfoPath,
   curatedPath,
   questionBankPath,
-  rootLoginPath,
+  rootPath,
   collegePath,
   universityPath,
 } from "./RoutePaths";
@@ -44,7 +44,7 @@ export default function Routes() {
         <Switch>
           <Router history={history}>
             {/* <Route restricted={false} exact path="/" component={Login} /> */}
-            {/* <Route exact path="/" component={Student} /> */}
+            <Route exact path={rootPath} component={Student} />
             <Route exact path={studentPath} component={Student} />
             <Route exact path={coursePath} component={Courses} />
             <Route

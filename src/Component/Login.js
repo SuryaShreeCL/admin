@@ -19,8 +19,8 @@ export default class Login extends Component {
   }
   handleLogin=(e)=>{
     if(this.state.username==='admin' && this.state.password==='423uK6LmxG9f2w'){
-      sessionStorage.setItem('token','true');
-      window.location.pathname=studentPath;
+      sessionStorage.setItem('token','true');      
+      this.props.history.push(rootPath+'/');       
     }else{
       sessionStorage.setItem('token','false');
       this.setState({error:'Invalid Username or Password'});
