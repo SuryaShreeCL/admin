@@ -118,7 +118,7 @@ export  class University extends Component {
       description: this.state.description,      
     };
     if (this.state.name.length !== 0) {
-      //this.props.updateColleges(this.state.id, newCollegeObj);
+      this.props.updateUniversity(this.state.id, newCollegeObj);
       this.setState({
         id: "",
         name: "",
@@ -126,7 +126,9 @@ export  class University extends Component {
         update: true,
       });      
     }
-    this.props.getAllColleges();
+    // this.props.getAllColleges();
+    this.props.getUniversity();
+  
     }
 
     handleClickOpen = (e) => {
@@ -283,4 +285,4 @@ const mapStateToProps=(state)=>{
         University:state.CollegeReducer.University,        
     }    
 }
-export default connect(mapStateToProps,{getUniversity,addUniversity})(University)
+export default connect(mapStateToProps,{getUniversity,addUniversity,updateUniversity})(University)
