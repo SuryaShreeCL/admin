@@ -1,0 +1,10 @@
+.course__select__control{
+    padding: 3px 0px;
+}
+.course__select__value-container{
+    width: 100%;
+}
+.course__select__placeholder{
+    font-size: 17px !important;
+    color: hsl(0deg 1% 47%);    
+}

@@ -271,7 +271,7 @@ export default function RootContainer(props) {
         <Divider />
         <List>
           {NavbarList.map((Item) => (
-            <ListItem button key={Item.id}  onClick={() => { history.push( rootPath.concat('/',Item.id)) }} >
+            <ListItem button key={Item.id}  onClick={() => { history.push( rootPath.concat('/',Item.id)) }} >              
               <ListItemIcon className={classes.ListItemIcon} >{Item.icon}</ListItemIcon>
               <ListItemText primary={Item.title} />
             </ListItem>

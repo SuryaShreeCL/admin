@@ -36,6 +36,7 @@ import {
 } from "./RoutePaths";
 import College  from "./College";
 import University from "./University";
+import TabPanel from "./Course/TabPanel";
 
 export default function Routes() {
   return (
@@ -50,12 +51,12 @@ export default function Routes() {
             <Route
               exact
               path={editCoursePath.concat(':id')}
-              component={EditCourse}
+              component={TabPanel}
             />
             <Route
               exact
               path={addCoursePath}
-              component={AddCourse}
+              component={TabPanel}
             />
             <Route
               exact

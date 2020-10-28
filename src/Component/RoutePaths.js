@@ -8,8 +8,10 @@ export const studentIdPath=studentPath.concat('/');
 export const departmentPath=rootPath.concat('/departments');
 export const collegePath=rootPath.concat('/college');
 export const coursePath=rootPath.concat('/courses');
+
 export const editCoursePath=coursePath.concat('/edit/');
 export const addCoursePath=coursePath.concat('/add');
+
 export const questionBankPath=rootPath.concat('/questionbank');
 export const universityPath=rootPath.concat('/university');
 
