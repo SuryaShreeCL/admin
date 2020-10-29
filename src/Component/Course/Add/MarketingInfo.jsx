@@ -180,6 +180,18 @@ export default class MarketingInfo extends Component {
                 />             
               </Grid>
 
+              <Grid item md={12}>
+                  {/* Byjus Faq */}     
+                  <TextField
+                  id={"byjusFaq"}
+                  name={"byjusFaq"}
+                  label="Byjus FAQ"
+                  size="small"
+                  variant="outlined"                  
+                  fullWidth                                    
+                />             
+              </Grid>
+
             </Grid>
           </Card>
           <Card>

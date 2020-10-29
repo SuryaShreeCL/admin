@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CourseInformation from './Add/CourseInformation';
 import MarkettingInfo from './Add/MarketingInfo';
+import CourseContent from './Add/CourseContent'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,6 +73,7 @@ export default function TabPabel() {
         >
           <Tab label="Course Information" {...a11yProps(0)} />
           <Tab label="Marketting Information" {...a11yProps(1)} />         
+          <Tab label="Course Content" {...a11yProps(2)} />         
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -80,7 +82,12 @@ export default function TabPabel() {
 
       <TabPanel value={value} index={1}>
         <MarkettingInfo />
-      </TabPanel>     
+      </TabPanel>
+
+      <TabPanel value={value} index={2}>
+        <CourseContent />
+      </TabPanel>
+
     </div>
   );
 }
