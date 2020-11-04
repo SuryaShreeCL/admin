@@ -283,6 +283,9 @@ export const rootTheme = () =>
         },
       },
       MuiGrid: {
+        root:{
+          padding: '0px 20px',
+        },
         item: {
           padding: "10px 0px",
         },

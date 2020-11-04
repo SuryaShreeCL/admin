@@ -133,7 +133,7 @@ export default class MarketingInfo extends Component {
               <Grid item md={12}>
                   {/* industryProjects */}
                   <CreatableSelect
-                   classNamePrefix={'course__select'}                   
+                   classNamePrefix={'course__select'}
                    isMulti                  
                    options={[{label:'sample',value:'sample'}]}
                    placeholder={'Industry Projects'}
