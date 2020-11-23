@@ -102,4 +102,33 @@ export const getPopularCourses=()=>{
     }
  }
  
+ export const getMarkettingRecommended=(studentId)=>{
+    return dispatch =>{
+     axios.get(URL+'/api/v1/students/'+ studentId +'/RunRecommendationEngine?type=marketing', {
+         crossDomain: true
+     })
+         .then(result => {
+             dispatch({type:COURSES.GetMarkettingRecommended,MarkettingRecommended:result.data})
+         })
+         .catch(error => {
+             console.log(error);
+         });
+    }
+ }
 
+ export const getServiceRecommended=(studentId)=>{
+    return dispatch =>{
+     axios.get(URL+'/api/v1/students/'+ studentId +'/RunRecommendationEngine?type=service', {
+         crossDomain: true
+     })
+         .then(result => {
+             dispatch({type:COURSES.GetServiceRecommended,ServiceRecommended:result.data})
+         })
+         .catch(error => {
+             console.log(error);
+         });
+    }
+ }
+
+
+// students/{studentId}/RunRecommendationEngine?type=marketing/service

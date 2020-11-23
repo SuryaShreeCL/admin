@@ -6,6 +6,8 @@ export const COURSES = {
 	GetRecommendedCouses:'GetRecommendedCourses',
 	GetPopularCourses:'GetPopularCourses',
 	GetSimilarCourses:'GetSimilarCourses',	
+	GetMarkettingRecommended:'GetMarkettingRecommended',
+	GetServiceRecommended:'GetServiceRecommended',
 }
 
 export const QUESTIONS={

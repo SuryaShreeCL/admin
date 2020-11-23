@@ -11,6 +11,5 @@ export default combineReducers({
   CollegeReducer: CollegeReducer,
   StudentReducer:StudentReducer,
   ChoiceAnswerReducer:ChoiceAnswerReducer,
-
   
 });

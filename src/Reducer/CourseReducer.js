@@ -6,6 +6,8 @@ const initialState = {
   RecommendedCourseList: [],
   PopularCourseList: [],
   SimilarCourseList: [],
+  MarkettingRecommended:[],
+  ServiceRecommended:[],
 };
 
 export default (state = initialState, action) => {
@@ -45,6 +47,16 @@ export default (state = initialState, action) => {
         ...state,
         SimilarCourseList: action.similarCourseList,
       };
+    case COURSES.GetMarkettingRecommended:
+      return{
+        ...state,
+        MarkettingRecommended:action.MarkettingRecommended,
+      }
+    case COURSES.GetServiceRecommended :
+      return{
+        ...state,
+        ServiceRecommended:action.ServiceRecommended,
+      }
 
     default:
       break;
