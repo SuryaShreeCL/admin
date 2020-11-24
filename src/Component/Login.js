@@ -4,6 +4,14 @@ import "../Asset/Login.css";
 import GoogleBtn from "./GoogleBtn";
 import { rootPath, studentPath } from "./RoutePaths";
 import history from "./History";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
 
 export default class Login extends Component {
   constructor(props) {
@@ -64,25 +72,47 @@ export default class Login extends Component {
                       }
                     />
                   </div>
-                  <div className="login__text__box">
-                    <TextField
-                      id="Password"
-                      inputProps={{ type: "password" }}
-                      label="Password"
-                      variant="outlined"
-                      fullWidth
-                      size="medium"
-                      value={this.state.password}
-                      onChange={(e) =>
-                        this.setState({ password: e.target.value })
-                      }
-                      onKeyUp={(e)=>{
-                        if(e.keyCode===13){                          
-                          e.preventDefault();
-                         document.getElementById('login').click();
+                  <div className="login__text__box">                   
+                     <FormControl variant="outlined" fullWidth>
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Password
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={this.state.visibile ? "text" : "password"}
+                        fullWidth
+                        value={this.state.password}
+                        onChange={(e) =>
+                          this.setState({ password: e.target.value })
                         }
-                      }}
-                    />
+                        onKeyUp={(e) => {
+                          if (e.keyCode === 13) {
+                            e.preventDefault();
+                            document.getElementById("login").click();
+                          }
+                        }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={(e) =>
+                                this.setState({
+                                  visibile: !this.state.visibile,
+                                })
+                              }
+                              edge="end"
+                            >
+                              {this.state.visibile ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                    </FormControl>
                   </div>
                 </div>
                 <div className="login__footer">
