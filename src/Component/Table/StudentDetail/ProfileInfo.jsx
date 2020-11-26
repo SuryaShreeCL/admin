@@ -35,26 +35,26 @@ export class ProfileInfo extends Component {
   componentDidUpdate(prevProps,prevState){
       if(prevProps!==this.props){
         if(this.props.StudentDetails.length!==0){
+          const { studentID,fullName,phoneNumber,emailId,department,college,university,currentSem,ugDegree} =this.props.StudentDetails          
             this.setState({
-                id:this.props.StudentDetails.studentID,
-                name:this.props.StudentDetails.fullName,
-                mobileNo:this.props.StudentDetails.phoneNumber,
-                email:this.props.StudentDetails.emailId,
-                branch:this.props.StudentDetails.department.name,
-                college:this.props.StudentDetails.college.name,
-                university:this.props.StudentDetails.university,  
-                currentSem:this.props.currentSem,
-                degree:this.props.ugDegree,
+                id:studentID,
+                name:fullName,
+                mobileNo:phoneNumber,
+                email:emailId,
+                branch:department!==null ? department.name : '',
+                college:college!==null ? college.name :'',
+                university:university !==null ? university.name :'',  
+                currentSem:currentSem,
+                degree:ugDegree,
                 field:'field',
                 spacialization:'spacialization'
-
 
             })
         }
       }
   }
 
-  render() {        
+  render() {            
     return (
       <ThemeProvider>
         <div>
@@ -185,7 +185,7 @@ export class ProfileInfo extends Component {
                             <label>Current Semester</label>
                           </Grid>
                           <Grid item md={6} className="_value">
-                            <label>{this.state.currentSem}</label>
+                            {/* <label>{this.state.currentSem}</label> */}
                           </Grid>
                         </Grid>
                       </Grid>

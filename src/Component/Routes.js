@@ -37,6 +37,7 @@ import {
 import College  from "./College";
 import University from "./University";
 import TabPanel from "./Course/TabPanel";
+import TableComponent from "./TableComponent/Index";
 
 export default function Routes() {
   return (
@@ -93,6 +94,11 @@ export default function Routes() {
               exact
               path={questionBankPath}
               component={QuestionBank}
+            />
+            <Route
+              exact
+              path={'/admin/table'}
+              component={TableComponent}
             />
             
             

@@ -16,6 +16,20 @@ export const getStudents=()=>{
     }    
 }
 
+export const getStudentPaginate=(pageNumber,size)=>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/search?page="+pageNumber+"&size="+size,{
+            crossDomain:true,
+        })
+        .then(result=>{
+            dispatch({type:STUDENT.getStudentPaginate,StudentFilterResult:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
 export const getStudentsById=(id)=>{
     return dispatch => {
         axios.get(URL+"/api/v1/students/"+id, {

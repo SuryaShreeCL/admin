@@ -35,6 +35,7 @@ export const STUDENT={
 	startTestExecution:'startTestExecution',
 	careerInterestSurvey:'careerInterestSurvey',
 	getAnswer:'getAnswer',
+	getStudentPaginate:'getStudentPaginate',
 }
 export const CHOICE_ANSWER={
 	getChoiceAnswer:'getChoiceAnswer',
