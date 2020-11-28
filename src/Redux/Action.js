@@ -22,6 +22,7 @@ export const COLLEGES={
 	addUniversity:'addUniversity',
 	updateUniversity:'updateUniversity',
 	getDegrees:'getDegrees',	
+	getPaginateDegree:'getPaginateDegree',
 
 }
 

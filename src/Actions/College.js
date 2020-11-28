@@ -125,8 +125,26 @@ export const getDegree=()=>{
                 console.log(error);
             });
     }
-    
+        
 }
+
+export const getPaginateDegree=(page,size,keyword)=>{
+    if(keyword===null) keyword=''
+    return dispatch => {
+        axios.get(URL+"/api/v1/departments/search?page="+page+"&size="+size+"&q="+keyword,{
+            crossDomain: true
+        })
+            .then(result => {                               
+                dispatch({type:COLLEGES.getPaginateDegree,PaginateDegreeList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+        
+}
+
+
 
 export const getBranches=()=>{
     return dispatch => {

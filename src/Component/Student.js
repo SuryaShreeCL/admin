@@ -20,7 +20,7 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import { getStudents ,getStudentPaginate} from "../Actions/Student";
+import { getStudents, getStudentPaginate } from "../Actions/Student";
 import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
 import { studentIdPath } from "./RoutePaths";
@@ -83,12 +83,12 @@ export class Student extends Component {
   };
 
   componentDidMount() {
-    this.props.getStudents();   
-    this.props.getStudentPaginate(0,20) ;
+    this.props.getStudents();
+    this.props.getStudentPaginate(0, 20);
   }
 
   rowClick = (rowData) => {
-    history.push(studentIdPath + rowData.id);    
+    history.push(studentIdPath + rowData.id);
   };
 
   getmuitheme = () =>
@@ -102,12 +102,11 @@ export class Student extends Component {
       },
     });
 
-    paginate=(page,size,keyword)=>{      
-      this.props.getStudentPaginate(page,size,keyword)
-    }
+  paginate = (page, size, keyword) => {
+    this.props.getStudentPaginate(page, size, keyword);
+  };
 
-
-  render() {     
+  render() {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
@@ -127,27 +126,25 @@ export class Student extends Component {
               maxBodyHeight: '420px'
             }}
           /> */}
-                            
 
-          {this.props.StudentFilterList.length !== 0 ?           
-          <TableComponent
-            data={
-              this.props.StudentFilterList.length !== 0
-                ? this.props.StudentFilterList.content
-                : null
-            }
-            cols={this.stu_header}
-            onRowClick={this.rowClick}
-            onSearch={this.paginate}
-            apiPaginate={ this.props.StudentFilterList.length !== 0
-              ? this.props.StudentFilterList.content
-              : null}
-
+          {this.props.StudentFilterList.length !== 0 ? (
+            <TableComponent
+              data={
+                this.props.StudentFilterList.length !== 0
+                  ? this.props.StudentFilterList.content
+                  : null
+              }
+              cols={this.stu_header}
+              onRowClick={this.rowClick}
+              onSearch={this.paginate}
               paginate={this.paginate}
-              totalCount={this.props.StudentFilterList.totalElements}         
-              title={'Student'}                   
-          />          
-          : '' }
+              totalCount={this.props.StudentFilterList.totalElements}
+              title={"Student"}
+              pageCount={this.props.StudentFilterList.totalPages}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </MuiThemeProvider>
     );
@@ -157,8 +154,9 @@ export class Student extends Component {
 const mapStateToProps = (state) => {
   return {
     StudentsList: state.StudentReducer.StudentsList,
-    StudentFilterList:state.StudentReducer.StudentFilterList,
-
+    StudentFilterList: state.StudentReducer.StudentFilterList,
   };
 };
-export default connect(mapStateToProps, { getStudents ,getStudentPaginate })(Student);
+export default connect(mapStateToProps, { getStudents, getStudentPaginate })(
+  Student
+);
