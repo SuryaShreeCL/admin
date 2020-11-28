@@ -18,7 +18,8 @@ export default class TableComponent extends Component {
     super(props);
     this.state = {      
       rowCount: 20,
-      pageCount:1,
+      pageCount:0,
+      searchKeyword:'',
       tableColumn: null,
       tableData: null,      
     };
@@ -37,8 +38,9 @@ export default class TableComponent extends Component {
       }      
     }
 
-    if(prevState.pageCount!==this.state.pageCount || prevState.rowCount !==this.state.rowCount){
-      this.props.paginate(this.state.pageCount,this.state.rowCount);
+    if(prevState.pageCount!==this.state.pageCount || prevState.rowCount !==this.state.rowCount || prevState.searchKeyword !== this.state.searchKeyword ){
+      console.log(this.state)
+      this.props.paginate(this.state.pageCount,this.state.rowCount,this.state.searchKeyword);
     }
   }
 
@@ -73,10 +75,16 @@ export default class TableComponent extends Component {
     return this.state.tableData.map((row, index) => {
       return (
         <tr key={index} onClick={(e)=>this.props.onRowClick(row)} style={body.tr}>
-          {this.tableColumn.map((col) => {            
+          {this.tableColumn.map((col) => {              
+            var split='';            
+            if(col.fieldName.indexOf(".")!==-1){
+              var split=col.fieldName.split(".",1);                                          
+            }                        
             return (
-              <td style={body.td}>
-                {eval("row" + "." + col.fieldName.toString())}
+              <td style={body.td}>                                
+                {                  
+                  split ==='' ? eval("row" + "." + col.fieldName.toString())  : eval("row" + "." + split[0]) !==null ? eval("row" + "." + col.fieldName.toString()) :null 
+                }                
               </td>
             );
           })}
@@ -87,7 +95,7 @@ export default class TableComponent extends Component {
 
   renderPageNavigator=()=>{    
     return <Pagination
-    count={parseInt(this.props.totalCount/10)}
+    count={parseInt(this.props.totalCount/this.state.rowCount)}
     color={"primary"}
     // onChange={(e,page)=>this.setState({pageNumberCount:page})}
     onChange={(e,page) => this.setState({pageCount:page})}
@@ -105,7 +113,8 @@ export default class TableComponent extends Component {
 
   renderRowPerPage=()=>{
     const { footer } =table
-    return <div style={footer.perPage}>
+    return( <div style={footer.perPage}>
+      <>     
     <label style={footer.perPageLabel}>Rows per page:</label>
     <FormControl>
       <Select
@@ -122,7 +131,9 @@ export default class TableComponent extends Component {
         <MenuItem value={30}>50</MenuItem>
       </Select>
     </FormControl>
-  </div>;
+    </>
+  </div>);
+
   }
 
 
@@ -145,6 +156,8 @@ export default class TableComponent extends Component {
                   size="small"
                   color="primary"
                   label="search"
+                  value={this.state.searchKeyword}
+                  onChange={(e)=>this.setState({searchKeyword:e.target.value})}
                 />
               </div>
               <div style={header.search.button}>
@@ -176,7 +189,10 @@ export default class TableComponent extends Component {
             <Grid item md={12} style={footer.container}>
               <ThemeProvider theme={this.paginationTheme()}>
               {this.state.tableData !== null ? <>
-                <div style={spacer}></div>
+              <div style={spacer}></div>
+               <div style={footer.totalCount}>
+              <label style={footer.totalCountLabel} >Total No of record</label> : {this.props.totalCount}
+               </div>
                 {this.renderRowPerPage()}                
                 <div>
                   {this.renderPageNavigator()}
@@ -213,6 +229,15 @@ const table = {
     container: {
       display: "flex",
       padding:10,      
+    },
+    totalCount:{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '0px 10px',
+    },
+    totalCountLabel:{
+      margin:'0px'
     },
     perPage: {
       display: "flex",

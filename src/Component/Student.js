@@ -50,7 +50,7 @@ export class Student extends Component {
     { title: "Full Name", fieldName: "fullName" },
     { title: "Email Id", fieldName: "emailId" },
     { title: "Phone", fieldName: "phoneNumber" },
-    // { title: "Department", fieldName: "department.name" },
+    { title: "Department", fieldName: "department.name" },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
@@ -84,7 +84,7 @@ export class Student extends Component {
 
   componentDidMount() {
     this.props.getStudents();   
-    this.props.getStudentPaginate(0,10) ;
+    this.props.getStudentPaginate(0,20) ;
   }
 
   rowClick = (rowData) => {
@@ -102,8 +102,8 @@ export class Student extends Component {
       },
     });
 
-    paginate=(page,size)=>{      
-      this.props.getStudentPaginate(page,size)
+    paginate=(page,size,keyword)=>{      
+      this.props.getStudentPaginate(page,size,keyword)
     }
 
 
