@@ -252,7 +252,7 @@ export default class TableComponent extends Component {
                     color="primary"
                     onClick={(e) =>
                       typeof this.props.onAddClick === "function"
-                        ? this.props.onAddClick
+                        ? this.props.onAddClick(e)
                         : null
                     }
                     startIcon={<AddIcon />}
