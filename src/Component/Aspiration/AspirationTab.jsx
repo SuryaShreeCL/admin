@@ -2,21 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import {Paper} from "@material-ui/core"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import HigherEducation from './HigherEducation'
-import DiagnosticTestPerformance from './DiagnosticTestPerformance'
-import CareerInterestSurveyResults from './CareerInterestSurveyResults'
-import CareerPathOptions from './CareerPathOptions'
-import Other_data from './OtherData'
-import Recommendation from './Recommendation'
-import '../Asset/StudentData.css'
-import ProfileInfo from './Table/StudentDetail/ProfileInfo';
-import CollapseContainer from './Table/StudentDetail/Utils/CollapseContainerHeader';
-
-
+import AspirationTerm from "./AspirationTerm"
+import AspirationArea from "./AspirationArea"
+import AspirationFeildOfStudy from "./AspirationFeildOfStudy"
+import AspirationDegree from "./AspirationDegree"
+import AspirationCountry from "./AspirationCountry"
+import AspirationCollege from "./AspirationCollege"
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -58,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Student_data(props) {
+export default function AspirationTab(props) {
   console.log(props.match.params.id)
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -72,30 +68,43 @@ export default function Student_data(props) {
     <div className={classes.root}>
       <>
       <div>
-       <ProfileInfo id={props.match.params.id} />
        </div>
-      <AppBar position="sticky" color='default'>
+      {/* <AppBar position="sticky" color='default'> */}
         <Tabs value={value}
+        component={Paper}
+        elevation={3}
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          variant="scrollable"
+          variant="fullWidth"
           scrollButtons="auto"
           aria-label="scrollable auto tabs example">
-          <Tab label="Profile Information" {...a11yProps(1)} />
-          <Tab label="Career Intrest Survey" {...a11yProps(2)} />
-          <Tab label="Recommendation" {...a11yProps(3)} />          
+          <Tab label="Terms" {...a11yProps(1)} />
+          <Tab label="Degree" {...a11yProps(2)} />
+          <Tab label="Feild Of Study" {...a11yProps(3)} />  
+          <Tab label="Country" {...a11yProps(4)} />  
+          <Tab label="Dream College" {...a11yProps(5)} />  
+          <Tab label="Specialization" {...a11yProps(6)} />          
         </Tabs>
-      </AppBar>
+      {/* </AppBar> */}
       <TabPanel value={value} index={0}>
-        <Other_data id={props.match.params.id} />                          
+        <AspirationTerm />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CareerInterestSurveyResults id={props.match.params.id} />
+        <AspirationDegree />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Recommendation id={props.match.params.id} />
-      </TabPanel>     
+          <AspirationFeildOfStudy />
+      </TabPanel>   
+      <TabPanel value={value} index={3}>
+          <AspirationCountry />
+      </TabPanel> 
+      <TabPanel value={value} index={4}>
+          <AspirationCollege />
+      </TabPanel> 
+      <TabPanel value={value} index={5}>
+          <AspirationArea />
+      </TabPanel>   
       </>
     </div>
 

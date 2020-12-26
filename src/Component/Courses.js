@@ -1,33 +1,22 @@
 import React, { Component,forwardRef } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import MaterialTable from 'material-table'
-import axios from 'axios'
-import $ from 'jquery'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { Button } from '@material-ui/core'
+import {
+     Button,
+     Dialog,
+     DialogTitle,
+     IconButton,
+     TextField,
+     DialogActions,
+     DialogContent, 
+     CircularProgress,
+     Slide
+    } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
-import history from './History'
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { withStyles } from '@material-ui/core/styles';
+import CloseIcon from "@material-ui/icons/Close";
 import {connect} from 'react-redux'
-import {getCourses} from '../Actions/Course'
-import AddBox from '@material-ui/icons/AddBox';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
-import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
-import {addCoursePath,editCoursePath} from './RoutePaths'
+import {getCourses, getPaginateCourse,addCourses,updateCourse, deleteCourse} from '../Actions/Course'
+import TableComponent from "./TableComponent/TableComponent";
 
 export class Courses extends Component {
 
@@ -35,157 +24,286 @@ export class Courses extends Component {
         super(props);
         this.state = {
             data: [],
+            id : "",
+            name : "",
+            shortName : "",
+            description : "",
+            lmsURL : "",
+            displayImageURL : "",
+            thumnailImageURL : "",
+            bannerURL : "",
+            show : false,
         }
     }
 
-    tableIcons = {
-        Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-        Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-        Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-        Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-        DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-        Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-        Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-        Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-        FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-        LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-        NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-        PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-        ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-        Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-        SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-        ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-        ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+    
+      rowClick = (rowData) => {
       };
-
-
-    col = [
-        { title: 'Id', field: 'courseId' },
-        { title: 'Name', field: 'name' },
-        //  { title: 'Course Category', field: 'courseCategory' },
-        // { title: 'Domains', field: 'domains' },
-        // { title: 'Action', field: 'id', render: rowData => <> <button id={rowData.id} onClick={this.getEditId} className="btn btn-primary btn-sm" style={{ marginTop: '0px' }}> <i className="fa fa-pencil-square-o"></i> Edit</button><button id={rowData.id} onClick={this.getDeleteId} className="btn btn-danger btn-sm" style={{ marginTop: '0px', marginLeft: '5px' }}> <i className="fa fa-pencil-square-o"></i> Delete</button></> },
-    ];
-
-    componentDidMount() {
-        this.props.getCourses()              
+    componentDidMount() { 
+        this.props.getPaginateCourse(0, 20,null);         
     }
-    getmuitheme = () => createMuiTheme({
-        palette: {
-            primary: {
-                main: '#007bff',
-            }
+    // Paginate For Course
+    paginate = (page, size, keyword) => {
+        this.props.getPaginateCourse(page, size, keyword);
+      };
+    // Table Theme
+    tableTheme = () =>
+    createMuiTheme({
+      palette: {
+        primary: {
+          main: "#007bff",
         },
-        overrides: {
-            MuiTypography: {
-                h6: {
-                    fontWeight: 'bold',
-                }
+      },
+      overrides: {
+        MuiTypography: {
+          h6: {
+            fontWeight: "bold",
+          },
+        },
+        MuiIconButton: {
+          root: {
+            "&:hover": {
+              backgroundColor: "none",
+              borderRadius: 0,
             },
-            MuiIconButton: {
-                root: {
-                    '&:hover': {
-                        backgroundColor: 'none',
-                        borderRadius: 0,
-                    }
-                }
-            },
-
+          },
+        },
+      },
+    });
+    // Model Theme
+    modeltheme = () =>
+  createMuiTheme({
+    overrides: {
+      MuiDialog: {
+        paperWidthSm: {
+          width: 500,
+        },
+      },
+      MuiDialogTitle: {
+        root: {
+          padding: "8px 24px",
+        },
+      },
+      MuiTypography: {
+        h6: {
+          display: "flex",
+          alignItems: "center",
+        },
+      },
+      MuiSvgIcon: {
+        root: {
+          margin: 0,
+        },
+      },
+      MuiDialogActions: {
+        root: {
+          justifyContent: "center",
+        },
+      },
+      MuiDialogContentText: {
+        root: {
+          textAlign: "center",
+          display: "block",
+          marginBottom: 34,
+          color: "rgba(0,0,0,0.7)",
+        },
+      },
+      MuiTextField: {
+        root: {
+          marginBottom: 15,
+        },
+      },
+    },
+  });
+spinnerTheme = () =>createMuiTheme({
+    overrides :{
+      MuiCircularProgress :  {
+        colorPrimary:{
+          color: "#009be5"
         }
+      }
+    }
+  });
+  handleEdit = (data) =>{
+    console.log(data)
+    this.setState({
+      id : data.id,
+      name : data.name,
+      show : true,
     })
-
-    render() {        
+  } 
+   // Dialog Open
+   handleClickOpen = (e) => {
+    this.setState({
+       show: true,
+      id : "",
+      name : "",
+      description : "",
+      });
+  };
+  // Delete
+    handleDelete = (data) =>{
+      // this.props.deleteCourse(data.courseId)
+    }
+    // Add Course
+    newCourse = () =>{
+      this.setState({ show: false });
+      let newCourseObj = {
+        name: this.state.name,
+        description : this.state.description,
+      };
+      if (this.state.name.length !== 0) {
+        this.props.addCourses(newCourseObj);
+        this.setState({
+          id: "",
+          name: "",
+          description : "",
+        });
+      }
+      this.props.getPaginateCourse(0, 20,null);    
+      }
+  // Update Course
+  updateCourse = () =>{
+      this.setState({ show: false });
+  let newCourseObj = {
+    id : this.state.id,
+    name: this.state.name,
+    description : this.state.description,
+  };
+  if (this.state.name.length !== 0) {
+    this.props.updateCourse(newCourseObj);
+    this.setState({
+      id: "",
+      name: "",
+      description : "",
+      update: true,
+    });      
+  }
+  this.props.getPaginateCourse(0, 20,null);    
+}
+ column = [
+    { title: 'Id', fieldName:'courseId'},
+    { title: 'Name', fieldName:'name'},
+];
+    render() {  
         return (
-            <ThemeProvider theme={this.getmuitheme()}>
-                <div>
-                    <div className="course-mtoolbar">
-                        <MaterialTable
-                            columns={this.col}
-                            data={this.props.CourseList}
-                            title="Courses"
-                            onRowClick=""                            
-                            icons={this.tableIcons}
-                            options={{
-                                headerStyle: {
-                                    backgroundColor: '#01579b',
-                                    color: '#FFF',
-                                },
-                                rowStyle: {
-                                    background: "#f1f1f1",
-                                },
-                            }}
-                            actions={[
-                                {
-                                    icon: () => (
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            startIcon={<AddIcon />}
-                                            size="small"
-                                        >
-                                            Add Course
-                                        </Button>
-                                    ),
-                                    tooltip: 'Create Course',
-                                    isFreeAction: true,
-                                    onClick: (event, rowData) => {
-                                        history.push(addCoursePath);
-                                    }
-                                },
-                                {
-                                    icon: () => (
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            startIcon={<EditIcon />}
-                                            size="small"
-                                            
-                                        >
-                                            Edit
-                                        </Button>
-                                    ),
-                                    tooltip: 'Edit Course',
-                                    onClick: (event, rowData) => {
-                                        history.push('courses/edit/' + rowData.id);
-                                    },
-                                },
-                                {
-                                    icon: () => (
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            startIcon={<DeleteIcon />}
-                                            size="small"
-                                            disabled
-                                        >
-                                            Delete
-                                        </Button>
-                                    ),
-                                    tooltip: 'Delete Course',
-                                    // onClick: (event, rowData) => {
-                                    //     history.push(editCoursePath + rowData.id);
-                                    // }
-                                }
-                            ]}
-                            options={{
-                                actionsColumnIndex: -1,
-                                headerStyle: {
-                                    fontWeight: 'bold',
-                                },
-                                minBodyHeight: '420px',
-                                maxBodyHeight: '420px',
-                            }}
-                        />
+            <ThemeProvider theme={this.tableTheme()}>
+            <div>
+               {this.props.courseFilterList.length !== 0 ? (
+                <TableComponent
+                  data={
+                    this.props.courseFilterList.length !== 0
+                      ? this.props.courseFilterList.content
+                      : null
+                  }
+                  cols={this.column}
+                  onRowClick={this.rowClick}
+                  add={true}
+                  action={true}
+                  onEdit={true}  
+                  onDelete = {true}
+                  onDeleteClick = {this.handleDelete}
+                  onEditClick={this.handleEdit} 
+                  onAddClick={this.handleClickOpen}
+                   onSearch={this.paginate}
+                  paginate={this.paginate}
+                  totalCount={this.props.courseFilterList.totalElements}
+                  title={"Course"}
+                  pageCount={this.props.courseFilterList.totalPages}
+                />
+              ) : (
+                <ThemeProvider theme={this.spinnerTheme()}>
+                <div style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "65vh",
+                }}>
+              <CircularProgress
+             color="primary"
+              variant="indeterminate"
+              size = "3rem"
+              thickness="3"
+               />
+               </div>
+              </ThemeProvider>
+              )} 
+            </div>
+             {/* add and edit Course */}
+             <ThemeProvider theme={this.modeltheme()}>
+                <Dialog
+                TransitionComponent={Transition}
+                  open={this.state.show}
+                  onClose={(e)=>this.setState({show : false})}
+                  aria-labelledby="customized-dialog-title"
+                >
+                  <DialogTitle id="customized-dialog-title">
+                    <div className="flex-1 text-center">
+                      {this.state.id.length !== 0 ? "Edit Course" : "Add Course"}
                     </div>
-                    {console.log(this.props.CourseList)}
-                </div>
-            </ThemeProvider>
+                    <div className="model-close-button">
+                      <IconButton aria-label="close" onClick={(e)=>this.setState({show : false})}>
+                        <CloseIcon />
+                      </IconButton>
+                    </div>
+                  </DialogTitle>
+                  <DialogContent>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Course Name"
+                      fullWidth
+                      value={this.state.name}
+                      onChange={(e) => this.setState({ name: e.target.value })}
+                      multiline
+                    />
+                    <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Description"
+                      rowsMin={3}
+                      multiline
+                      fullWidth
+                      value={this.state.description}
+                      onChange={(e) =>
+                        this.setState({ description: e.target.value })
+                      }
+                    /> 
+                   
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={
+                        this.state.id.length === 0
+                          ? this.newCourse
+                          : this.updateCourse
+                      }
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                    >
+                      {this.state.id.length !== 0 ? "Update" : "Add"}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </ThemeProvider>
+             
+          </ThemeProvider>
+         
+            
+            
         )
     }
 }
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const mapStateToprops=(state)=>{
     console.log(state);
-    return{CourseList:state.CourseReducer.CourseList}
+    return{
+      CourseList:state.CourseReducer.CourseList,
+      courseFilterList: state.CourseReducer.courseFilterList,
+    }
 }
 
-export default connect(mapStateToprops,{getCourses})(Courses)
+export default connect(mapStateToprops,{getCourses,getPaginateCourse,addCourses,updateCourse,deleteCourse})(Courses)

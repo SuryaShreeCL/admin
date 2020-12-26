@@ -15,6 +15,11 @@ export const addCoursePath=coursePath.concat('/add');
 export const questionBankPath=rootPath.concat('/questionbank');
 export const universityPath=rootPath.concat('/university');
 
+// Selva
+export const cityPath = rootPath.concat('/city');
+export const aspirationPath=rootPath.concat('/aspiration');
+export const questionSetPath = rootPath.concat('/questionSet');
+export const questionsPath = rootPath.concat('/questionSet/questions/');
 // Rengine another version path
 
 export const loginPath=rootPath.concat('/Mlogin');

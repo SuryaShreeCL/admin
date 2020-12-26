@@ -31,7 +31,9 @@ import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
 import SchoolRoundedIcon from '@material-ui/icons/SchoolRounded';
-
+import SportsHandballRoundedIcon from '@material-ui/icons/SportsHandballRounded';
+import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
+import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 const drawerWidth = 240;
 const NavbarList = [
       { id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
@@ -39,6 +41,9 @@ const NavbarList = [
       { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
       {id: 'college', icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
       {id: 'university', icon:<SchoolRoundedIcon />, title:'University'},
+      {id: 'city', icon:<LocationCityRoundedIcon />, title:'City'},
+      {id: 'aspiration', icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
+      {id: 'questionSet', icon:<HelpRoundedIcon />, title:'Question Set'},
       // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];

@@ -4,8 +4,11 @@ import {
   getAllColleges,
   addColleges,
   updateColleges,
+  deleteCollege
 } from "../Actions/College";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+import {getPaginateCollege} from "../Actions/College"
+import TableComponent from "./TableComponent/TableComponent";
+import { ThemeProvider, createMuiTheme, CircularProgress , Slide} from "@material-ui/core";
 import MaterialTable from "material-table";
 import { tableIcons } from "./MaterialTableIcon";
 import AddIcon from "@material-ui/icons/Add";
@@ -30,40 +33,55 @@ export class College extends Component {
       id: "",
       name: "",
       description: "",
-      logo: "",
+      logoURL: "",
       msg: false,
       update: false,
+      description : null,
     };
   }
 
   col = [
     {
-      title: "Logo",
-      field: "logoURL",
-      render: (rowData) => (
-        <img
-        src="https://previews.123rf.com/images/butenkow/butenkow1612/butenkow161202042/67425677-college-logo-design-template-vector-illustration-of-icon.jpg"
-        style={{ width: 80, borderRadius: "50%" }}
-      />
-      ), },
-    { title: "Name", field: "name" },
-    { title: "Description", field: "description" },
+      title: "ID",
+      fieldName: "id"},
+    { title: "Name", fieldName: "name" },
   ];
 
   componentDidMount() {
-    this.props.getAllColleges();
+    // this.props.getAllColleges();
+    this.props.getPaginateCollege(0, 20, null);
   }
+  handleEdit = (data) => {
+    this.setState({
+      id : data.id,
+      name : data.name,
+      show : true,
+    })
+};
 
-  tableTheme = () =>
-    createMuiTheme({
-      overrides: {
-        MuiSvgIcon: {
-          root: {
-            color: "unset",
-          },
+tableTheme = () =>
+createMuiTheme({
+  palette: {
+    primary: {
+      main: "#007bff",
+    },
+  },
+  overrides: {
+    MuiTypography: {
+      h6: {
+        fontWeight: "bold",
+      },
+    },
+    MuiIconButton: {
+      root: {
+        "&:hover": {
+          backgroundColor: "none",
+          borderRadius: 0,
         },
       },
-    });
+    },
+  },
+});
 
   modeltheme = () =>
     createMuiTheme({
@@ -109,21 +127,45 @@ export class College extends Component {
         },
       },
     });
-
+    spinnerTheme = () =>createMuiTheme({
+      overrides :{
+        MuiCircularProgress :  {
+          colorPrimary:{
+            color: "#009be5"
+          }
+        }
+      }
+    });
   handleClickOpen = (e) => {
-    this.setState({ show: true });
+    this.setState({ 
+      show: true,
+    id : "",
+    name : "",
+    description : "",
+    logoURL : ""
+    });
   };
 
   handleClose = (e) => {
     this.setState({ show: false });
   };
+  paginate = (page, size, keyword) => {
+    this.props.getPaginateCollege(page, size, keyword);
+  };
 
+  rowClick = (rowData) => {
+      
+  };
+  deleteHandler = (data) =>{
+    this.props.deleteCollege(data.id)
+  }
+  // Add College
   newCollege(e) {
     this.setState({ show: false });
     let newCollegeObj = {
       name: this.state.name,
       description: this.state.description,
-      logoURL: this.state.logo,
+      logoURL : this.state.logo,
     };
     if (this.state.name.length !== 0) {
       this.props.addColleges(newCollegeObj);
@@ -131,11 +173,11 @@ export class College extends Component {
         id: "",
         name: "",
         description: "",
-        logo: "",       
+        logoURL : "",   
       });
     }
   }
-
+  // Update College
   updateCollege(e) {
     this.setState({ show: false });
     let newCollegeObj = {
@@ -149,7 +191,7 @@ export class College extends Component {
         id: "",
         name: "",
         description: "",
-        logo: "",
+        logoURL: "",
         update: true,
       });      
     }
@@ -159,7 +201,46 @@ export class College extends Component {
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
-          <MaterialTable
+        {this.props.paginateCollegeList.length !== 0 ? (
+            <TableComponent
+              data={
+                this.props.paginateCollegeList.length !== 0
+                  ? this.props.paginateCollegeList.content
+                  : null
+              }
+              cols={this.col}
+              onRowClick={this.rowClick}
+              onSearch={this.paginate}
+              paginate={this.paginate}
+              totalCount={this.props.paginateCollegeList.totalElements}
+              title={"College"}
+              pageCount={this.props.paginateCollegeList.totalPages}
+              action={true}
+              onDelete={true}
+              onDeleteClick={this.deleteHandler}
+              onEdit={true}              
+              onEditClick={this.handleEdit}
+              add={true}
+              onAddClick={this.handleClickOpen}
+            />
+          ) : (
+            <ThemeProvider theme={this.spinnerTheme()}>
+            <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "65vh",
+            }}>
+          <CircularProgress
+         color="primary"
+          variant="indeterminate"
+          size = "3rem"
+          thickness="3"
+           />
+           </div>
+          </ThemeProvider>
+          )}
+          {/* <MaterialTable
             title="Colleges"
             icons={tableIcons}
             columns={this.col}
@@ -233,12 +314,13 @@ export class College extends Component {
               minBodyHeight: "420px",
               maxBodyHeight: "420px",
             }}
-          />
+          /> */}
 
           {/* Add adnd Edit College Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
+            TransitionComponent={Transition}
               open={this.state.show}
               onClose={this.handleClose}
               aria-labelledby="customized-dialog-title"
@@ -282,7 +364,7 @@ export class College extends Component {
                   multiline
                   fullWidth
                   value={this.state.logo}
-                  onChange={(e) => this.setState({ logo: e.target.value })}
+                  onChange={(e) => this.setState({ logoURL: e.target.value })}
                 />
               </DialogContent>
               <DialogActions>
@@ -306,13 +388,19 @@ export class College extends Component {
     );
   }
 }
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const mapStateToProps = (state) => {
   return {
     AllCollegeList: state.CollegeReducer.allCollegeList,
+    paginateCollegeList: state.CollegeReducer.paginateCollegeList,
   };
 };
 export default connect(mapStateToProps, {
   getAllColleges,
   addColleges,
   updateColleges,
+  deleteCollege,
+  getPaginateCollege,
 })(College);

@@ -3,7 +3,9 @@ import MaterialTable from 'material-table';
 import {tableIcons} from './MaterialTableIcon';
 import {ThemeProvider,createMuiTheme} from '@material-ui/core/styles'
 import {connect} from 'react-redux';
-import {getUniversity,addUniversity,updateUniversity} from '../Actions/College';
+import TableComponent from "./TableComponent/TableComponent";
+import {getPaginateUniversity} from "../Actions/College"
+import {getUniversity,addUniversity,updateUniversity,deleteUniversity} from '../Actions/College';
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -15,7 +17,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
-
+import {CircularProgress, Slide} from "@material-ui/core";
 
 export  class University extends Component {
 
@@ -32,13 +34,32 @@ export  class University extends Component {
     }
 
     componentDidMount(){
-        this.props.getUniversity();
+        // this.props.getUniversity();
+        this.props.getPaginateUniversity(0, 20, null);
+
     }
-    Col=[
-        {field:'id',title:'Id'},
-        {field:'name',title:'Name'},
-        {field:'description',title:'Description'},
+    col=[
+        {fieldName:'id',title:'Id'},
+        {fieldName:'name',title:'Name'},
     ];
+    paginate = (page, size, keyword) => {
+      this.props.getPaginateUniversity(page, size, keyword);
+    };
+  
+    rowClick = (rowData) => {
+        
+    };
+    handleEdit = (data) => {
+      this.setState({
+        id : data.id,
+        name : data.name,
+        show : true,
+      })
+  };
+  
+  deleteHandler = (data) =>{
+      // this.props.deleteUniversity(data.id)
+  }
 
     tableTheme = () =>
     createMuiTheme({
@@ -50,7 +71,15 @@ export  class University extends Component {
         },
       },
     });
-
+    spinnerTheme = () =>createMuiTheme({
+      overrides :{
+        MuiCircularProgress :  {
+          colorPrimary:{
+            color: "#009be5"
+          }
+        }
+      }
+    });
     modeltheme = () =>
     createMuiTheme({
       overrides: {
@@ -110,6 +139,7 @@ export  class University extends Component {
             description: "",                   
           });
         }
+        this.props.getPaginateUniversity(0, 20, null);
     }
     updateUniversity(){
         this.setState({ show: false });
@@ -126,23 +156,69 @@ export  class University extends Component {
         update: true,
       });      
     }
-    // this.props.getAllColleges();
-    this.props.getUniversity();
+    this.props.getPaginateUniversity(0, 20, null);
   
     }
 
     handleClickOpen = (e) => {
-        this.setState({ show: true });
+        this.setState({ 
+          show: true,
+          id : "",
+          name : "",
+          description : "",
+        });
       };
     
       handleClose = (e) => {
         this.setState({ show: false });
       };
 
-    render() {        
+    render() {    
+      console.log(this.props)    
         return (
             <div>
-                <ThemeProvider theme={this.tableTheme}>
+              {this.props.paginateUniversityList.length !== 0 ? (
+                <ThemeProvider theme={this.tableTheme()}>
+            <TableComponent
+              data={
+                this.props.paginateUniversityList.length !== 0
+                  ? this.props.paginateUniversityList.content
+                  : null
+              }
+              cols={this.col}
+              onRowClick={this.rowClick}
+              onSearch={this.paginate}
+              paginate={this.paginate}
+              totalCount={this.props.paginateUniversityList.totalElements}
+              title={"University"}
+              pageCount={this.props.paginateUniversityList.totalPages}
+              action={true}
+              onDelete={true}
+              onDeleteClick={this.deleteHandler}
+              onEdit={true}              
+              onEditClick={this.handleEdit}
+              add={true}
+              onAddClick={this.handleClickOpen}
+            />
+            </ThemeProvider>
+          ) : (
+            <ThemeProvider theme={this.spinnerTheme()}>
+            <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "65vh",
+            }}>
+          <CircularProgress
+         color="primary"
+          variant="indeterminate"
+          size = "3rem"
+          thickness="3"
+           />
+           </div>
+          </ThemeProvider>
+          )}
+                {/* <ThemeProvider theme={this.tableTheme}>
                 <MaterialTable 
                 icons={tableIcons}
                 columns={this.Col}
@@ -216,12 +292,13 @@ export  class University extends Component {
                     maxBodyHeight: "420px",
                   }}               
                 />
-                </ThemeProvider>
+                </ThemeProvider> */}
 
 
                 {/* add and edit university */}
                 <ThemeProvider theme={this.modeltheme()}>
             <Dialog
+            TransitionComponent={Transition}
               open={this.state.show}
               onClose={this.handleClose}
               aria-labelledby="customized-dialog-title"
@@ -279,10 +356,14 @@ export  class University extends Component {
         )
     }
 }
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const mapStateToProps=(state)=>{
     return { 
-        University:state.CollegeReducer.University,        
+        University:state.CollegeReducer.University,  
+        paginateUniversityList: state.CollegeReducer.paginateUniversityList,
+      
     }    
 }
-export default connect(mapStateToProps,{getUniversity,addUniversity,updateUniversity})(University)
+export default connect(mapStateToProps,{getUniversity,addUniversity,updateUniversity,deleteUniversity,getPaginateUniversity})(University)

@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import MaterialTable from "material-table";
 import history from "./History";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider, ThemeProvider } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -25,7 +25,7 @@ import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
 import { studentIdPath } from "./RoutePaths";
 import TableComponent from "./TableComponent/TableComponent";
-
+import {CircularProgress} from "@material-ui/core"
 export class Student extends Component {
   constructor(props) {
     super(props);
@@ -101,12 +101,20 @@ export class Student extends Component {
         },
       },
     });
-
+    spinnerTheme = () =>createMuiTheme({
+      overrides :{
+        MuiCircularProgress :  {
+          colorPrimary:{
+            color: "#009be5"
+          }
+        }
+      }
+    });
   paginate = (page, size, keyword) => {
     this.props.getStudentPaginate(page, size, keyword);
   };
-
   render() {
+    // console.log(this.props)
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
@@ -143,7 +151,21 @@ export class Student extends Component {
               pageCount={this.props.StudentFilterList.totalPages}
             />
           ) : (
-            ""
+            <ThemeProvider theme={this.spinnerTheme()}>
+                <div style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "65vh",
+                }}>
+              <CircularProgress
+             color="primary"
+              variant="indeterminate"
+              size = "3rem"
+              thickness="3"
+               />
+               </div>
+              </ThemeProvider>
           )}
         </div>
       </MuiThemeProvider>

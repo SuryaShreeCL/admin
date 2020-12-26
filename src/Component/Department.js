@@ -4,6 +4,7 @@ import axios from "axios";
 import { URL } from "../Actions/URL";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { connect } from "react-redux";
+import {addDepartment, updateNewDepartment,deleteDepartment} from "../Actions/Department"
 import { getBranches, getPaginateDegree } from "../Actions/College";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -13,6 +14,8 @@ import ChevronRight from "@material-ui/icons/ChevronRight";
 import Clear from "@material-ui/icons/Clear";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import Edit from "@material-ui/icons/Edit";
+import AddIcon from "@material-ui/icons/Add";
+import CloseIcon from "@material-ui/icons/Close";
 import FilterList from "@material-ui/icons/FilterList";
 import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
@@ -23,13 +26,31 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TableComponent from "./TableComponent/TableComponent";
+import Snackbar from '@material-ui/core/Snackbar';
 import MaterialTable from "material-table";
+import {
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions,
+  Button,
+  CircularProgress,
+Slide
+} from "@material-ui/core"
 
 export class Department extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      id : "",
+      description : "",
+      show : false,
+      name : null,
+      update : false,
+      snack : false,
     };
   }
 
@@ -91,12 +112,11 @@ export class Department extends Component {
   ];
 
   componentDidMount() {
-    // this.props.getBranches();
     this.props.getPaginateDegree(0, 20, null);
   }
 
   rowClick = (rowData) => {
-    // history.push(studentIdPath + rowData.id);
+
   };
 
   paginate = (page, size, keyword) => {
@@ -104,30 +124,122 @@ export class Department extends Component {
   };
 
   handleEdit = (data) => {
-    console.log(data);
+      this.setState({
+        id : data.id,
+        name : data.name,
+        show : true,
+      })
   };
+  modeltheme = () =>
+  createMuiTheme({
+    overrides: {
+      MuiDialog: {
+        paperWidthSm: {
+          width: 500,
+        },
+      },
+      MuiDialogTitle: {
+        root: {
+          padding: "8px 24px",
+        },
+      },
+      MuiTypography: {
+        h6: {
+          display: "flex",
+          alignItems: "center",
+        },
+      },
+      MuiSvgIcon: {
+        root: {
+          margin: 0,
+        },
+      },
+      MuiDialogActions: {
+        root: {
+          justifyContent: "center",
+        },
+      },
+      MuiDialogContentText: {
+        root: {
+          textAlign: "center",
+          display: "block",
+          marginBottom: 34,
+          color: "rgba(0,0,0,0.7)",
+        },
+      },
+      MuiTextField: {
+        root: {
+          marginBottom: 15,
+        },
+      },
+    },
+  });
+  spinnerTheme = () =>createMuiTheme({
+    overrides :{
+      MuiCircularProgress :  {
+        colorPrimary:{
+          color: "#009be5"
+        }
+      }
+    }
+  });
+  // Dialog Open
+  handleOpen = () =>{
+    this.setState({
+      show : true,
+      id : "",
+      name : "",
+      description : "",
+    })
+  }
+  // Delete Handler
+  deleteHandler = (data) =>{
+    // this.props.deleteDepartment(data.id)
+  }
+  // Add And Edit For Department
+  newDepartment = ()=>{
+    this.setState({ show: false });
+    let newDeptObj = {
+      name: this.state.name, 
+      description : this.state.description       
+    };
+    if (this.state.name.length !== 0) {
+      this.props.addDepartment(newDeptObj);
+      this.setState({
+        id: "",
+        name: "",    
+        description : "",
+        snack : true,              
+      });
+    }
+    this.props.getPaginateDegree(0, 20, null);
+
+}
+
+updateDepartment = () =>{
+    this.setState({ show: false });
+let newDeptObj = {
+  name: this.state.name,
+  description: this.state.description,      
+};
+if (this.state.name.length !== 0) {
+  this.props.updateNewDepartment(this.state.id, newDeptObj);
+  this.setState({
+    id: "",
+    name: "",
+    description: "",        
+    update: true,
+  });      
+}
+this.props.getPaginateDegree(0, 20, null);
+
+}
 
   render() {
-    console.log(this.props.PaginateDegreeList);
+    console.log(this.props.PaginateDegreeList)
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
-          {/* <MaterialTable 
-                icons={this.tableIcons}
-                columns={this.col}
-                data={this.props.DepartmentList}
-                title='Departments'    
-                options={{
-                    search:true,
-                    headerStyle: {
-                      fontWeight: "bold",
-                    },
-                    minBodyHeight: '420px',
-                    maxBodyHeight: '420px'
-                  }}         
-                                    
-                /> */}
-
           {this.props.PaginateDegreeList.length !== 0 ? (
             <TableComponent
               data={
@@ -143,24 +255,102 @@ export class Department extends Component {
               title={"Department"}
               pageCount={this.props.PaginateDegreeList.totalPages}
               action={true}
+              onDelete={true}
+              onDeleteClick={this.deleteHandler}
               onEdit={true}              
               onEditClick={this.handleEdit}
               add={true}
+              onAddClick={this.handleOpen}
             />
           ) : (
-            ""
+            <ThemeProvider theme={this.spinnerTheme()}>
+                <div style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "65vh",
+                }}>
+              <CircularProgress
+             color="primary"
+              variant="indeterminate"
+              size = "3rem"
+              thickness="3"
+               />
+               </div>
+              </ThemeProvider>
           )}
         </div>
+         {/* Add and Edit Department */}
+         <ThemeProvider theme={this.modeltheme()}>
+            <Dialog
+            TransitionComponent={Transition}
+              open={this.state.show}
+              onClose={(e)=>this.setState({show : false})}
+              aria-labelledby="customized-dialog-title"
+            >
+              <DialogTitle id="customized-dialog-title">
+                <div className="flex-1 text-center">
+                  {this.state.id.length !== 0 ? "Edit Department" : "Add Department"}
+                </div>
+                <div className="model-close-button">
+                  <IconButton aria-label="close" onClick={(e)=>this.setState({show : false})}>
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+              </DialogTitle>
+              <DialogContent>
+              <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Enter Department Name"
+                  fullWidth
+                  value={this.state.name}
+                  onChange={(e) => this.setState({ name: e.target.value })}
+                  multiline
+                />
+                <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Description"
+                  rowsMin={3}
+                  multiline
+                  fullWidth
+                  value={this.state.description}
+                  onChange={(e) =>
+                    this.setState({ description: e.target.value })
+                  }
+                /> 
+               
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={
+                    this.state.id.length === 0
+                      ? this.newDepartment
+                      : this.updateDepartment
+                  }
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                >
+                  {this.state.id.length !== 0 ? "Update" : "Add"}
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </ThemeProvider>
       </ThemeProvider>
     );
   }
 }
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const mapStateToProps = (state) => {
   return {
     DepartmentList: state.CollegeReducer.BranchList,
     PaginateDegreeList: state.CollegeReducer.PaginateDegreeList,
   };
 };
-export default connect(mapStateToProps, { getBranches, getPaginateDegree })(
+export default connect(mapStateToProps, { getBranches, getPaginateDegree, addDepartment, updateNewDepartment ,deleteDepartment})(
   Department
 );
