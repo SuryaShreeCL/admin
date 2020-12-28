@@ -20,6 +20,7 @@ export const cityPath = rootPath.concat('/city');
 export const aspirationPath=rootPath.concat('/aspiration');
 export const questionSetPath = rootPath.concat('/questionSet');
 export const questionsPath = rootPath.concat('/questionSet/questions/');
+export const choicePath = rootPath.concat('/questionSet/questions/choice/');
 // Rengine another version path
 
 export const loginPath=rootPath.concat('/Mlogin');

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import {
-    viewQuestionSet,
-    addQuestionSet,
-    updateQuestionSet,
-    deleteQuestionSet,
-    viewQuestion
+    viewChoice,
+    addChoice,
+    updateChoice,
+    deleteChoice,
 } from "../../Actions/QuestionSet"
-import {questionsPath} from "../RoutePaths"
+import {choicePath} from "../RoutePaths"
 import { connect } from "react-redux";
 import { 
     Grid,
@@ -28,19 +27,20 @@ import {
  import AddIcon from "@material-ui/icons/Add";
  import TableComponent from "../TableComponent/TableComponent";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-export class QuestionSet extends Component {
+export class Choice extends Component {
     constructor(props) {
         super(props)
         this.state = {
              id : "",
              name : "",
              type : "",
+             url : "",
              show : false,
              update : null,
         }
     }
     componentDidMount(){
-        this.props.viewQuestionSet()
+        this.props.viewChoice(this.props.match.params.id)
     }
     // Model Theme
   modeltheme = () =>
@@ -97,7 +97,6 @@ export class QuestionSet extends Component {
         },
       },
     });
-  
     getmuitheme = () =>
     createMuiTheme({
       palette: {
@@ -125,11 +124,10 @@ export class QuestionSet extends Component {
         {
           title: "ID",
           fieldName: "id"},
-        { title: "Question set Name", fieldName: "name" },
-        { title: "Question set Type", fieldName: "type" },
+        { title: "Choice", fieldName: "text" },
       ];
       rowClick = (data) => {
-        this.props.history.push(questionsPath+data.id)
+        // this.props.history.push(choicePath+data.id)
       };
       handleClickOpen = (e) => {
         this.setState({ 
@@ -147,38 +145,37 @@ export class QuestionSet extends Component {
           show : true,
         })
     };
- 
     deleteHandler = (data) =>{
         // this.props.deleteQuestionSet(data.id)
-        this.props.viewQuestionSet()
+        this.props.viewChoice()
       }
       // Add Question Set
-      addQuestionSet() {
+      addChoice() {
         this.setState({ show: false });
-        let questionSetObj = {
+        let choiceObj = {
           name: this.state.name,
           type : this.state.type,
         };
         if (this.state.name.length !== 0) {
-          this.props.addQuestionSet(questionSetObj);
+          this.props.addChoice(choiceObj);
           this.setState({
             id: "",
             name: "",
             type : "",
           });
         }
-        this.props.viewQuestionSet()
+        this.props.viewChoice()
       }
       // Update Question Set
-      updateQuestionSet(){
+      updateChoice(){
         this.setState({ show: false });
-    let newQuestionObj = {
+    let choiceObj = {
       id : this.state.id,
       name: this.state.name,
       type : this.state.type,
     };
     if (this.state.name.length !== 0) {
-      this.props.updateQuestionSet(newQuestionObj);
+      this.props.updateChoice(choiceObj);
       this.setState({
         id: "",
         name: "",
@@ -186,25 +183,25 @@ export class QuestionSet extends Component {
         update: true,
       });      
     }
-    this.props.viewQuestionSet()
+    this.props.viewChoice()
   }
   render() {
-        console.log(this.props.viewQuestionSetList)
+        console.log(this.props.match.params.id)
         return (
             <ThemeProvider theme={this.getmuitheme()}>
             <div>
                 <Grid container>
                 <Grid item md={12}>
-              {this.props.viewQuestionSetList.length !== 0 ? (
+              {this.props.viewChoiceList.length !== 0 ? (
                 <TableComponent
                   data={
-                    this.props.viewQuestionSetList.length !== 0
-                      ? this.props.viewQuestionSetList
+                    this.props.viewChoiceList.length !== 0
+                      ? this.props.viewChoiceList
                       : null
                   }
                   cols={this.col}
                   onRowClick={this.rowClick}
-                  title={"Question Set"}
+                  title={"Choices"}
                   onDelete={true}
                   onDeleteClick={this.deleteHandler}
                   action={true}
@@ -234,7 +231,7 @@ export class QuestionSet extends Component {
               )}
             </Grid>
             </Grid>
-          {/* Add and Edit Question Set */}
+          {/* Add and Edit Choice */}
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
             TransitionComponent={Transition}
@@ -245,8 +242,8 @@ export class QuestionSet extends Component {
               <DialogTitle id="customized-dialog-title">
                 <div className="flex-1 text-center">
                   {this.state.id.length !== 0
-                    ? "Edit Question Set"
-                    : "Add Question Set"}
+                    ? "Edit Choice"
+                    : "Add Choice"}
                 </div>
                 <div className="model-close-button">
                   <IconButton
@@ -258,35 +255,41 @@ export class QuestionSet extends Component {
                 </div>
               </DialogTitle>
               <DialogContent>
-                <TextField
+               
+              <TextField
                   variant="outlined"
                   color="primary"
-                  label="Enter Question Set Name"
+                  label="Enter Choice Type"
+                  fullWidth
+                  value={this.state.type}
+                  onChange={(e) => this.setState({ type: e.target.value })}
+                  multiline
+                />
+      <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Enter Choice Name"
                   fullWidth
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
                 />
-                <FormControl variant="outlined" fullWidth>
-        <InputLabel id="demo-simple-select-outlined-label">Question Set Type</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={this.state.type}
-          onChange={(e)=>this.setState({type : e.target.value})}
-          label="Question Set Type"
-        >
-          <MenuItem value={"SURVEY"}>SURVEY</MenuItem>
-          <MenuItem value={"EVALUATION"}>EVALUATION</MenuItem>
-        </Select>
-      </FormControl>
+                 <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Choice Image URL"
+                  fullWidth
+                  value={this.state.url}
+                  onChange={(e) => this.setState({ url: e.target.value })}
+                  multiline
+                />
               </DialogContent>
               <DialogActions>
                 <Button
                   onClick={
                     this.state.id.length===0
-                      ? this.addQuestionSet.bind(this)
-                      : this.updateQuestionSet.bind(this)
+                      ? this.addChoice.bind(this)
+                      : this.updateChoice.bind(this)
                   }
                   variant="contained"
                   color="primary"
@@ -307,7 +310,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   });
 const mapStateToProps=(state)=>{
     return {
-        viewQuestionSetList: state.QuestionSetReducer.viewQuestionSetList,
+        viewChoiceList: state.QuestionSetReducer.viewChoiceList,
     }
 }
-export default connect(mapStateToProps,{viewQuestionSet,addQuestionSet,updateQuestionSet,deleteQuestionSet,viewQuestion})(QuestionSet)
+export default connect(mapStateToProps,{viewChoice,addChoice,updateChoice,deleteChoice})(Choice)

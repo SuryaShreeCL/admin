@@ -99,5 +99,9 @@ export const QUESTIONSET = {
 	addQuestion : "addQuestion",
 	editQuestion : "editQuestion",
 	deleteQuestion : "deleteQuestion",
+	viewChoice : "viewChoice",
+	addChoice : "addChoice",
+	editChoice : "editChoice",
+	deleteChoice : "deleteChoice",
 }
 

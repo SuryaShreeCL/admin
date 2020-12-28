@@ -38,6 +38,7 @@ import {
   cityPath,
   questionSetPath,
   questionsPath,
+  choicePath,
 } from "./RoutePaths";
 import College  from "./College";
 import University from "./University";
@@ -47,6 +48,7 @@ import  Aspiration  from "../Component/Aspiration";
 import City from "./City";
 import QuestionSet from "./Question/QuestionSet";
 import Question from "./Question/Question"
+import Choice from "./Question/Choice"
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -114,6 +116,7 @@ export default function Routes() {
           <Route exact path={aspirationPath} component={AspirationTab} />
           <Route exact path={questionSetPath} component={QuestionSet} />
           <Route exact path={questionsPath.concat(':id')} component={Question} />
+          <Route exact path={choicePath.concat(':id')} component={Choice} />
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>
