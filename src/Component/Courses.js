@@ -10,7 +10,8 @@ import {
      DialogActions,
      DialogContent, 
      CircularProgress,
-     Slide
+     Slide,
+     Grid,
     } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from "@material-ui/icons/Close";
@@ -25,6 +26,7 @@ export class Courses extends Component {
         this.state = {
             data: [],
             id : "",
+            courseId : "",
             name : "",
             shortName : "",
             description : "",
@@ -129,6 +131,11 @@ spinnerTheme = () =>createMuiTheme({
     this.setState({
       id : data.id,
       name : data.name,
+      courseId : data.courseId,
+      description : data.description,
+      lmsURL : data.lmsURL,
+      displayImageURL : data.displayImageURL,
+      thumnailImageURL : data.thumnailImageURL,
       show : true,
     })
   } 
@@ -136,28 +143,43 @@ spinnerTheme = () =>createMuiTheme({
    handleClickOpen = (e) => {
     this.setState({
        show: true,
-      id : "",
-      name : "",
-      description : "",
+       id: "",
+          courseId : "",
+          name: "",
+          shortName : "",
+          description : "",
+          lmsURL : "",
+          displayImageURL : "",
+          thumnailImageURL : "",
       });
   };
   // Delete
     handleDelete = (data) =>{
-      // this.props.deleteCourse(data.courseId)
+      // this.props.deleteCourse(data.id)
     }
     // Add Course
     newCourse = () =>{
       this.setState({ show: false });
       let newCourseObj = {
+        courseId : this.state.courseId,
         name: this.state.name,
+        shortName : this.state.shortName,
         description : this.state.description,
+        lmsURL : this.state.lmsURL,
+        displayImageURL : this.state.displayImageURL,
+        thumnailImageURL : this.state.thumnailImageURL
       };
       if (this.state.name.length !== 0) {
         this.props.addCourses(newCourseObj);
         this.setState({
           id: "",
+          courseId : "",
           name: "",
+          shortName : "",
           description : "",
+          lmsURL : "",
+          displayImageURL : "",
+          thumnailImageURL : "",
         });
       }
       this.props.getPaginateCourse(0, 20,null);    
@@ -167,15 +189,25 @@ spinnerTheme = () =>createMuiTheme({
       this.setState({ show: false });
   let newCourseObj = {
     id : this.state.id,
+    courseId : this.state.courseId,
     name: this.state.name,
+    shortName : this.state.shortName,
     description : this.state.description,
+    lmsURL : this.state.lmsURL,
+    displayImageURL : this.state.displayImageURL,
+    thumnailImageURL : this.state.thumnailImageURL
   };
   if (this.state.name.length !== 0) {
-    this.props.updateCourse(newCourseObj);
+    this.props.updateCourse(this.state.id,newCourseObj);
     this.setState({
       id: "",
+      courseId : "",
       name: "",
+      shortName : "",
       description : "",
+      lmsURL : "",
+      displayImageURL : "",
+      thumnailImageURL : "",
       update: true,
     });      
   }
@@ -184,8 +216,10 @@ spinnerTheme = () =>createMuiTheme({
  column = [
     { title: 'Id', fieldName:'courseId'},
     { title: 'Name', fieldName:'name'},
+    { title: 'Parent Branch', fieldName:'parentBranchVal'},
 ];
     render() {  
+      console.log(this.props.courseFilterList)
         return (
             <ThemeProvider theme={this.tableTheme()}>
             <div>
@@ -232,6 +266,7 @@ spinnerTheme = () =>createMuiTheme({
              {/* add and edit Course */}
              <ThemeProvider theme={this.modeltheme()}>
                 <Dialog
+                maxWidth={'lg'}
                 TransitionComponent={Transition}
                   open={this.state.show}
                   onClose={(e)=>this.setState({show : false})}
@@ -248,6 +283,19 @@ spinnerTheme = () =>createMuiTheme({
                     </div>
                   </DialogTitle>
                   <DialogContent>
+                  <Grid container spacing={3}>
+                  <Grid item md={2}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Course ID"
+                      fullWidth
+                      value={this.state.courseId}
+                      onChange={(e) => this.setState({ courseId: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={2}>
                   <TextField
                       variant="outlined"
                       color="primary"
@@ -257,6 +305,19 @@ spinnerTheme = () =>createMuiTheme({
                       onChange={(e) => this.setState({ name: e.target.value })}
                       multiline
                     />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Short Name"
+                      fullWidth
+                      value={this.state.shortName}
+                      onChange={(e) => this.setState({ shortName: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
                     <TextField
                       variant="outlined"
                       color="primary"
@@ -269,7 +330,41 @@ spinnerTheme = () =>createMuiTheme({
                         this.setState({ description: e.target.value })
                       }
                     /> 
-                   
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter LMS Url"
+                      fullWidth
+                      value={this.state.lmsURL}
+                      onChange={(e) => this.setState({ lmsURL: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Display Image Url"
+                      fullWidth
+                      value={this.state.displayImageURL}
+                      onChange={(e) => this.setState({ displayImageURL: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Thumbnail Image Url"
+                      fullWidth
+                      value={this.state.thumnailImageURL}
+                      onChange={(e) => this.setState({ thumnailImageURL: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                   </Grid>
                   </DialogContent>
                   <DialogActions>
                     <Button

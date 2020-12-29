@@ -107,10 +107,13 @@ export default class TableComponent extends Component {
             <Button
               variant="contained"
               color="primary"
-              onClick={(e) =>
-                typeof this.props.onEditClick === "function"
-                  ? this.props.onEditClick(data)
-                  : null
+              name='action'
+              onClick={(e) =>{
+                e.stopPropagation();
+                  if(typeof this.props.onEditClick === "function"){
+                  this.props.onEditClick(data)
+                }
+              }
               }
               startIcon={<EditIcon />}
             >
@@ -123,10 +126,12 @@ export default class TableComponent extends Component {
             <Button
               variant="contained"
               color="secondary"
-              onClick={(e) =>
-                typeof this.props.onDeleteClick === "function"
-                  ? this.props.onDeleteClick(data)
-                  : null
+              onClick={(e) =>{
+                e.stopPropagation();
+                  if(typeof this.props.onDeleteClick === "function"){
+                  this.props.onDeleteClick(data)
+                }
+              }
               }
               startIcon={<DeleteIcon />}
             >
@@ -144,7 +149,9 @@ export default class TableComponent extends Component {
       return (
         <tr
           key={index}
-          onClick={(e) => this.props.onRowClick(row)}
+          onClick={(e) => {
+            this.props.onRowClick(row)
+          }}
           style={body.tr}
         >
           {this.tableColumn.map((col) => {

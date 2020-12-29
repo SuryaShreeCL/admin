@@ -4,9 +4,11 @@ import {
     addQuestion,
     updateQuestion,
     deleteQuestion,
-    viewChoice
+    viewChoice,
+    viewQuestionSet,
 } from "../../Actions/QuestionSet"
 import {choicePath} from "../RoutePaths"
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from "react-redux";
 import { 
     Grid,
@@ -41,10 +43,12 @@ export class Question extends Component {
              time : "",
              url : "",
              question : "",
+             questionSet : "",
         }
     }
     componentDidMount(){
         this.props.viewQuestion(this.props.match.params.id)
+        this.props.viewQuestionSet()
     }
     // Model Theme
   modeltheme = () =>
@@ -128,6 +132,7 @@ export class Question extends Component {
         {
           title: "ID",
           fieldName: "id"},
+          { title: "Question Name", fieldName: "name" },
         { title: "Question", fieldName: "question" },
         { title: "Question Type", fieldName: "type" },
       ];
@@ -143,13 +148,22 @@ export class Question extends Component {
         });
       };
       handleEdit = (data) => {
+        console.log(data)
         this.setState({
           id : data.id,
           name : data.name,
           type : data.type,
+          question : data.question,
+          time : data.timeRemaining,
+          url : data.imgURL,
           show : true,
         })
     };
+    questionSetChangeHandler = (event,value) =>{
+      this.setState({
+        questionSet : value
+      })
+    }
     deleteHandler = (data) =>{
         // this.props.deleteQuestion(data.id)
         this.props.viewQuestion(this.props.match.params.id)
@@ -157,16 +171,24 @@ export class Question extends Component {
       // Add Question Set
       addQuestion() {
         this.setState({ show: false });
-        let questionSetObj = {
+        let questionObj = {
           name: this.state.name,
           type : this.state.type,
+          description : this.state.description,
+          question : this.state.question,
+          timeRemaining : this.state.time, 
+          ImgURL : this.state.url
         };
         if (this.state.name.length !== 0) {
-          this.props.addQuestion(questionSetObj);
+          this.props.addQuestion(questionObj);
           this.setState({
             id: "",
             name: "",
             type : "",
+            question : "",
+            description : "",
+            time : "",
+            url : "",
           });
         }
         this.props.viewQuestion()
@@ -177,7 +199,10 @@ export class Question extends Component {
     let newQuestionObj = {
       id : this.state.id,
       name: this.state.name,
-      type : this.state.type,
+          type : this.state.type,
+          description : this.state.description,
+          question : this.state.question,
+          timeRemaining : this.state.time, 
     };
     if (this.state.name.length !== 0) {
       this.props.updateQuestion(newQuestionObj);
@@ -185,19 +210,21 @@ export class Question extends Component {
         id: "",
         name: "",
         type : "",
+        question : "",
+        description : "",
+        time : "",
         update: true,
       });      
     }
     this.props.viewQuestion(this.props.match.params.id)
   }
   render() {
-    console.log(this.props.viewQuestionList)
         return (
             <ThemeProvider theme={this.getmuitheme()}>
             <div>
                 <Grid container>
                 <Grid item md={12}>
-              {this.props.viewQuestionList.length !== 0 ? (
+              {/* {this.props.viewQuestionList.length !== 0 ? ( */}
                 <TableComponent
                   data={
                     this.props.viewQuestionList.length !== 0
@@ -215,8 +242,8 @@ export class Question extends Component {
                   add={true}
                   onAddClick={this.handleClickOpen}
                 />
-              ) : (
-                <ThemeProvider theme={this.spinnerTheme()}>
+               {/* ) : (  */}
+                {/* <ThemeProvider theme={this.spinnerTheme()}>
                   <div
                     style={{
                       display: "flex",
@@ -232,8 +259,8 @@ export class Question extends Component {
                       thickness="3"
                     />
                   </div>
-                </ThemeProvider>
-              )}
+                </ThemeProvider> */}
+             {/* )}  */}
             </Grid>
             </Grid>
           {/* Add and Edit Questions */}
@@ -299,7 +326,7 @@ export class Question extends Component {
                   multiline
                 />
                 </Grid>
-                <Grid item md={4}>
+                <Grid item md={2}>
                 <FormControl variant="outlined" fullWidth>
         <InputLabel id="demo-simple-select-outlined-label">Question Type</InputLabel>
         <Select
@@ -316,7 +343,7 @@ export class Question extends Component {
         </Select>
       </FormControl>
       </Grid>
-      <Grid item md={4}>
+      <Grid item md={2}>
                 <TextField
                   variant="outlined"
                   color="primary"
@@ -337,6 +364,17 @@ export class Question extends Component {
                   onChange={(e) => this.setState({ url: e.target.value })}
                   multiline
                 />
+                </Grid>
+                <Grid item md={4}>
+                <Autocomplete
+                onChange={this.questionSetChangeHandler}
+  id="combo-box-demo"
+  value = {this.state.questionSet}
+  options={this.props.viewQuestionSetList}
+  getOptionLabel={(option) => option.name}
+  fullWidth
+  renderInput={(params) => <TextField {...params} label="Question Set Name" variant="outlined" />}
+/>
                 </Grid>
       </Grid>
               </DialogContent>
@@ -367,6 +405,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
     return {
         viewQuestionList: state.QuestionSetReducer.viewQuestionList,
+        viewQuestionSetList: state.QuestionSetReducer.viewQuestionSetList,
     }
 }
-export default connect(mapStateToProps,{viewQuestion,addQuestion,updateQuestion,deleteQuestion,viewChoice})(Question)
+export default connect(mapStateToProps,{viewQuestion,viewQuestionSet,addQuestion,updateQuestion,deleteQuestion,viewChoice})(Question)

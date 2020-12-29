@@ -173,8 +173,7 @@ export  class University extends Component {
         this.setState({ show: false });
       };
 
-    render() {    
-      console.log(this.props)    
+    render() {        
         return (
             <div>
               {this.props.paginateUniversityList.length !== 0 ? (

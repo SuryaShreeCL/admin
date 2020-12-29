@@ -140,8 +140,9 @@ export class Choice extends Component {
       handleEdit = (data) => {
         this.setState({
           id : data.id,
-          name : data.name,
+          name : data.text,
           type : data.type,
+          url : data.choiceImage,
           show : true,
         })
     };
@@ -153,8 +154,12 @@ export class Choice extends Component {
       addChoice() {
         this.setState({ show: false });
         let choiceObj = {
-          name: this.state.name,
+          text: this.state.name,
           type : this.state.type,
+          choiceImg : this.state.url,
+          question : {
+            questionId : this.props.match.params.id
+          }
         };
         if (this.state.name.length !== 0) {
           this.props.addChoice(choiceObj);
@@ -162,6 +167,7 @@ export class Choice extends Component {
             id: "",
             name: "",
             type : "",
+            url : "",
           });
         }
         this.props.viewChoice()
@@ -169,24 +175,28 @@ export class Choice extends Component {
       // Update Question Set
       updateChoice(){
         this.setState({ show: false });
-    let choiceObj = {
-      id : this.state.id,
-      name: this.state.name,
-      type : this.state.type,
-    };
+        let choiceObj = {
+          id : this.state.id,
+          text: this.state.name,
+          type : this.state.type,
+          choiceImg : this.state.url,
+          question : {
+            questionId : this.props.match.params.id
+          }
+        };
     if (this.state.name.length !== 0) {
       this.props.updateChoice(choiceObj);
       this.setState({
         id: "",
         name: "",
         type : "",
+        url : "",
         update: true,
       });      
     }
     this.props.viewChoice()
   }
   render() {
-        console.log(this.props.match.params.id)
         return (
             <ThemeProvider theme={this.getmuitheme()}>
             <div>
@@ -265,10 +275,10 @@ export class Choice extends Component {
                   onChange={(e) => this.setState({ type: e.target.value })}
                   multiline
                 />
-      <TextField
+              <TextField
                   variant="outlined"
                   color="primary"
-                  label="Enter Choice Name"
+                  label="Enter Choice"
                   fullWidth
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}

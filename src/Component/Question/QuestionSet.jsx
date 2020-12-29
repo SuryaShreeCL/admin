@@ -148,7 +148,7 @@ export class QuestionSet extends Component {
         })
     };
  
-    deleteHandler = (data) =>{
+    deleteHandler = (data) =>{      
         // this.props.deleteQuestionSet(data.id)
         this.props.viewQuestionSet()
       }

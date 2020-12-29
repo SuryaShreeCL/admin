@@ -198,6 +198,7 @@ createMuiTheme({
     this.props.getAllColleges();
   }
   render() {   
+    console.log(this.props.paginateCollegeList)
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
