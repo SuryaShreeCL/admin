@@ -156,13 +156,10 @@ export class Choice extends Component {
         let choiceObj = {
           text: this.state.name,
           type : this.state.type,
-          choiceImg : this.state.url,
-          question : {
-            questionId : this.props.match.params.id
-          }
+          choiceImage : this.state.url,
         };
         if (this.state.name.length !== 0) {
-          this.props.addChoice(choiceObj);
+          this.props.addChoice(this.props.match.params.id,choiceObj);
           this.setState({
             id: "",
             name: "",
@@ -170,7 +167,7 @@ export class Choice extends Component {
             url : "",
           });
         }
-        this.props.viewChoice()
+        this.props.viewChoice(this.props.match.params.id)
       }
       // Update Question Set
       updateChoice(){
@@ -179,13 +176,10 @@ export class Choice extends Component {
           id : this.state.id,
           text: this.state.name,
           type : this.state.type,
-          choiceImg : this.state.url,
-          question : {
-            questionId : this.props.match.params.id
-          }
+          choiceImage : this.state.url,
         };
     if (this.state.name.length !== 0) {
-      this.props.updateChoice(choiceObj);
+      this.props.updateChoice(this.props.match.params.id,choiceObj);
       this.setState({
         id: "",
         name: "",
@@ -194,9 +188,10 @@ export class Choice extends Component {
         update: true,
       });      
     }
-    this.props.viewChoice()
+    this.props.viewChoice(this.props.match.params.id)
   }
   render() {
+    console.log(this.props)
         return (
             <ThemeProvider theme={this.getmuitheme()}>
             <div>

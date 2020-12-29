@@ -134,12 +134,13 @@ export const viewChoice = (id) =>{
         })
     }
 }
-export const addChoice=(data)=>{
+export const addChoice=(id,data)=>{
     return dispatch => {
-        axios.post(URL+"/api/v1/choice",data,{
+        axios.post(URL+"/api/v1/choice/"+id,data,{
             crossDomain: true
         })
-            .then(result => {                
+            .then(result => {         
+                console.log(result)       
                 dispatch({type: QUESTIONSET.addChoice,addChoice:result.data})
             })
             .catch(error => {
@@ -148,9 +149,9 @@ export const addChoice=(data)=>{
     }
     
 }
-export const updateChoice=(data)=>{
+export const updateChoice=(id,data)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/choice",data,{
+        axios.put(URL+"/api/v1/choice/"+id,data,{
             crossDomain: true
         })
             .then(result => {
