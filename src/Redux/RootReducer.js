@@ -7,6 +7,7 @@ import ChoiceAnswerReducer from '../Reducer/ChoiceAnswerReducer'
 import DepartmentReducer from "../Reducer/DepartmentReducer"
 import AspirationReducer from "../Reducer/AspirationReducer"
 import QuestionSetReducer  from "../Reducer/QuestionSetReducer"
+import VideoReducer from "../Reducer/VideoReducer"
 export default combineReducers({
   CourseReducer: CourseReducer,
   QuestionsReducer: QuestionsReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   DepartmentReducer : DepartmentReducer,
   AspirationReducer : AspirationReducer,
   QuestionSetReducer : QuestionSetReducer,
+  VideoReducer : VideoReducer,
   
 });

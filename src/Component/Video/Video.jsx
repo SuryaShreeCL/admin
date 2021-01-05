@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import {
-    viewQuestion,
-    addQuestion,
-    updateQuestion,
-    deleteQuestion,
-    viewChoice,
-    viewQuestionSet,
-} from "../../Actions/QuestionSet"
-import {choicePath} from "../RoutePaths"
+    viewVideo,
+    addVideo,
+    updateVideo,
+    deleteVideo,
+} from "../../Actions/Video"
+import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from "react-redux";
 import { 
@@ -27,29 +25,25 @@ import {
     MenuItem,
  } from '@material-ui/core';
  import CloseIcon from "@material-ui/icons/Close";
+ import AddIcon from "@material-ui/icons/Add";
  import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
-  import AddIcon from "@material-ui/icons/Add";
  import TableComponent from "../TableComponent/TableComponent";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-export class Question extends Component {
+export class Video extends Component {
     constructor(props) {
         super(props)
         this.state = {
              id : "",
              name : "",
-             type : "",
+             branch : "",
+             tags : "",
+             videos : [],
              show : false,
              update : null,
-             description : "",
-             time : "",
-             url : "",
-             question : "",
-             questionSet : "",
         }
     }
     componentDidMount(){
-        this.props.viewQuestion(this.props.match.params.id)
-        this.props.viewQuestionSet()
+        this.props.viewVideo()
     }
     // Model Theme
   modeltheme = () =>
@@ -131,116 +125,106 @@ export class Question extends Component {
     });
     col = [
         {
-          title: "ID",
+          title: "id",
           fieldName: "id"},
-          { title: "Question Name", fieldName: "name" },
-        { title: "Question", fieldName: "question" },
-        { title: "Question Type", fieldName: "type" },
+        { title: "Name", fieldName: "name" },
+        { title: "Video URL", fieldName: "videoUrl" },
       ];
       rowClick = (data) => {
-        this.props.history.push(choicePath+data.id)
+        // this.props.history.push(choicePath+data.id)
       };
       handleClickOpen = (e) => {
         this.setState({ 
           show: true,
           id : "",
           name : "",
-          type : "",
+          branch : "",
+          tags : "",
+          videos : "",
         });
       };
       handleEdit = (data) => {
-        console.log(data)
         this.setState({
           id : data.id,
           name : data.name,
-          type : data.type,
-          question : data.question,
-          time : data.timeRemaining,
-          url : data.imgURL,
+          branch : data.branch,
+          tags : data.tags,
+          videos : data.videoUrl,
           show : true,
         })
     };
-    questionSetChangeHandler = (event,value) =>{
-      this.setState({
-        questionSet : value
-      })
-    }
     deleteHandler = (data) =>{
-        // this.props.deleteQuestion(data.id)
-        this.props.viewQuestion(this.props.match.params.id)
+        // this.props.deleteQuestionSet(data.id)
+        this.props.viewChoice()
       }
-      // Add Question Set
-      addQuestion() {
+      // Add Video
+      addVideo() {
         this.setState({ show: false });
-        let questionObj = {
+        let videoObj = {
           name: this.state.name,
-          type : this.state.type,
-          description : this.state.description,
-          question : this.state.question,
-          timeRemaining : this.state.time, 
-          ImgURL : this.state.url
+          branch : this.state.branch,
+          tags : this.state.tags,
+          videos : this.state.videos
         };
         if (this.state.name.length !== 0) {
-          this.props.addQuestion(questionObj);
+          this.props.addVideo(videoObj);
           this.setState({
-            id: "",
-            name: "",
-            type : "",
-            question : "",
-            description : "",
-            time : "",
-            url : "",
+            id : "",
+          name : "",
+          branch : "",
+          tags : "",
+          videos : "",
           });
         }
-        this.props.viewQuestion()
+        this.props.viewVideo()
       }
-      // Update Question Set
-      updateQuestion(){
+      // Update Video
+      updateVideo(){
         this.setState({ show: false });
-    let newQuestionObj = {
-      id : this.state.id,
-      name: this.state.name,
-          type : this.state.type,
-          description : this.state.description,
-          question : this.state.question,
-          timeRemaining : this.state.time, 
-    };
+        let videoObj = {
+          id : this.state.id,
+          name: this.state.name,
+          branch : this.state.branch,
+          tags : this.state.tags,
+          videos : this.state.videos
+        };
     if (this.state.name.length !== 0) {
-      this.props.updateQuestion(newQuestionObj);
+      this.props.updateVideo(videoObj);
       this.setState({
-        id: "",
-        name: "",
-        type : "",
-        question : "",
-        description : "",
-        time : "",
+        id : "",
+        name : "",
+        branch : "",
+        tags : "",
+        videos : "",
         update: true,
       });      
     }
-    this.props.viewQuestion(this.props.match.params.id)
+    this.props.viewVideo()
   }
   render() {
+    const videoOption = [
+        { title: 'The Shawshank Redemption', year: 1994 },
+        { title: 'The Godfather', year: 1972 },
+        { title: 'The Godfather: Part II', year: 1974 },
+        { title: 'The Dark Knight', year: 2008 },
+        { title: '12 Angry Men', year: 1957 },
+    ]
         return (
             <ThemeProvider theme={this.getmuitheme()}>
             <div>
                 <Grid container>
-                <IconButton
-                 color="primary"
-                 onClick = {(e)=>this.props.history.goBack()}
-                 >
-  <ArrowBackRoundedIcon />
-</IconButton>
+                
                 <Grid item md={12}>
-              {/* {this.props.viewQuestionList.length !== 0 ? ( */}
+              {this.props.viewVideoList.length !== 0 ? (
                 <TableComponent
                   data={
-                    this.props.viewQuestionList.length !== 0
-                      ? this.props.viewQuestionList
+                    this.props.viewVideoList.length !== 0
+                      ? this.props.viewVideoList
                       : null
                   }
                   cols={this.col}
                   onRowClick={this.rowClick}
-                  title={"Questions"}
+                  title={"Videos"}
                   onDelete={true}
                   onDeleteClick={this.deleteHandler}
                   action={true}
@@ -249,8 +233,8 @@ export class Question extends Component {
                   add={true}
                   onAddClick={this.handleClickOpen}
                 />
-               {/* ) : (  */}
-                {/* <ThemeProvider theme={this.spinnerTheme()}>
+              ) : (
+                <ThemeProvider theme={this.spinnerTheme()}>
                   <div
                     style={{
                       display: "flex",
@@ -266,15 +250,13 @@ export class Question extends Component {
                       thickness="3"
                     />
                   </div>
-                </ThemeProvider> */}
-             {/* )}  */}
+                </ThemeProvider>
+              )}
             </Grid>
             </Grid>
-          {/* Add and Edit Questions */}
+          {/* Add and Edit Choice */}
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
-            // fullScreen
-            maxWidth={'lg'}
             TransitionComponent={Transition}
               open={this.state.show}
               onClose={(e) => this.setState({ show: false })}
@@ -283,8 +265,8 @@ export class Question extends Component {
               <DialogTitle id="customized-dialog-title">
                 <div className="flex-1 text-center">
                   {this.state.id.length !== 0
-                    ? "Edit Question"
-                    : "Add Question"}
+                    ? "Edit Video"
+                    : "Add Video"}
                 </div>
                 <div className="model-close-button">
                   <IconButton
@@ -296,101 +278,56 @@ export class Question extends Component {
                 </div>
               </DialogTitle>
               <DialogContent>
-              <Grid container spacing={3}>
-                <Grid item md={4}>
-                <TextField
+               
+              <TextField
                   variant="outlined"
                   color="primary"
-                  label="Enter Question Name"
+                  label="Enter The Name"
                   fullWidth
                   value={this.state.name}
-                  rows={4}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
                 />
-                </Grid>
-                <Grid item md={4}>
-                <TextField
+              <TextField
                   variant="outlined"
                   color="primary"
-                  label="Enter Question"
+                  label="Enter Branch"
                   fullWidth
-                  value={this.state.question}
-                  rows={4}
-                  onChange={(e) => this.setState({ question: e.target.value })}
+                  value={this.state.branch}
+                  onChange={(e) => this.setState({ branch: e.target.value })}
                   multiline
                 />
-                </Grid>
-                <Grid item md={4}>
-                <TextField
+                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="Enter Description"
+                  label="Enter Tags"
                   fullWidth
-                  value={this.state.description}
-                  rows={4}
-                  onChange={(e) => this.setState({ description: e.target.value })}
+                  value={this.state.tags}
+                  onChange={(e) => this.setState({ tags: e.target.value })}
                   multiline
                 />
-                </Grid>
-                <Grid item md={2}>
-                <FormControl variant="outlined" fullWidth>
-        <InputLabel id="demo-simple-select-outlined-label">Question Type</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={this.state.type}
-          onChange={(e)=>this.setState({type : e.target.value})}
-          label="Question Set Type"
-        >
-          <MenuItem value={"YESORNO"}>YESORNO</MenuItem>
-          <MenuItem value={"MULTI_CHOICE"}>MULTI_CHOICE</MenuItem>
-          <MenuItem value={"SINGLE_SELECT"}>SINGLE_SELECT</MenuItem>
-          <MenuItem value={"TEXT"}>TEXT</MenuItem>
-        </Select>
-      </FormControl>
-      </Grid>
-      <Grid item md={2}>
-                <TextField
-                  variant="outlined"
-                  color="primary"
-                  label="Time Remaining"
-                  fullWidth
-                  value={this.state.time}
-                  onChange={(e) => this.setState({ time: e.target.value })}
-                  multiline
-                />
-                </Grid>
-                <Grid item md={4}>
-                <TextField
-                  variant="outlined"
-                  color="primary"
-                  label="Enter Image URL"
-                  fullWidth
-                  value={this.state.url}
-                  onChange={(e) => this.setState({ url: e.target.value })}
-                  multiline
-                />
-                </Grid>
-                <Grid item md={4}>
-                <Autocomplete
-                onChange={this.questionSetChangeHandler}
-  id="combo-box-demo"
-  value = {this.state.questionSet}
-  options={this.props.viewQuestionSetList}
-  getOptionLabel={(option) => option.name}
-  fullWidth
-  renderInput={(params) => <TextField {...params} label="Question Set Name" variant="outlined" />}
-/>
-                </Grid>
-      </Grid>
+                     <Autocomplete
+                multiple
+                id="tags-filled"
+                options={videoOption.map((option) => option.title)}
+                freeSolo
+                onChange={(event,value)=>this.setState({videos : value})}
+                renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                ))
+                }
+                renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Enter Video Url" />
+                )}
+                 />
               </DialogContent>
               <DialogActions>
                 <Button
                   onClick={
                     this.state.id.length===0
-                      ? this.addQuestion.bind(this)
-                      : this.updateQuestion.bind(this)
+                      ? this.addVideo.bind(this)
+                      : this.updateVideo.bind(this)
                   }
                   variant="contained"
                   color="primary"
@@ -411,8 +348,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   });
 const mapStateToProps=(state)=>{
     return {
-        viewQuestionList: state.QuestionSetReducer.viewQuestionList,
-        viewQuestionSetList: state.QuestionSetReducer.viewQuestionSetList,
+        viewVideoList: state.VideoReducer.viewVideoList,
     }
 }
-export default connect(mapStateToProps,{viewQuestion,viewQuestionSet,addQuestion,updateQuestion,deleteQuestion,viewChoice})(Question)
+export default connect(mapStateToProps,{viewVideo,addVideo,updateVideo,deleteVideo})(Video)

@@ -25,6 +25,7 @@ import {
  } from '@material-ui/core';
  import CloseIcon from "@material-ui/icons/Close";
  import AddIcon from "@material-ui/icons/Add";
+ import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
  import TableComponent from "../TableComponent/TableComponent";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 export class Choice extends Component {
@@ -196,6 +197,12 @@ export class Choice extends Component {
             <ThemeProvider theme={this.getmuitheme()}>
             <div>
                 <Grid container>
+                <IconButton
+                 color="primary"
+                 onClick = {(e)=>this.props.history.goBack()}
+                 >
+                <ArrowBackRoundedIcon />
+              </IconButton>
                 <Grid item md={12}>
               {this.props.viewChoiceList.length !== 0 ? (
                 <TableComponent

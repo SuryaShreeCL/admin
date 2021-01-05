@@ -105,3 +105,9 @@ export const QUESTIONSET = {
 	deleteChoice : "deleteChoice",
 }
 
+export const VIDEO ={
+	viewVideo : "viewVideo",
+	addVideo : "addVideo",
+	editVideo : "editVideo",
+	deleteVideo : "deleteVideo"
+}

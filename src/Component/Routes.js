@@ -39,6 +39,7 @@ import {
   questionSetPath,
   questionsPath,
   choicePath,
+  videoPath
 } from "./RoutePaths";
 import College  from "./College";
 import University from "./University";
@@ -49,6 +50,7 @@ import City from "./City";
 import QuestionSet from "./Question/QuestionSet";
 import Question from "./Question/Question"
 import Choice from "./Question/Choice"
+import Video from "./Video/Video"
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -117,6 +119,7 @@ export default function Routes() {
           <Route exact path={questionSetPath} component={QuestionSet} />
           <Route exact path={questionsPath.concat(':id')} component={Question} />
           <Route exact path={choicePath.concat(':id')} component={Choice} />
+          <Route exact path={videoPath} component={Video} />
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>
