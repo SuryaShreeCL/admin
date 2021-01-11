@@ -40,6 +40,21 @@ input[type="checkbox"]{
     height: 20px;
    
 }
+._label,._value{
+    padding: 10px;
+}
+._label{
+    color: green;
+}
+
+.MuiBox-root{
+    padding: 17px 0px !important;    
+}
+
+.flex-center{
+    display: flex;
+    align-items: center;
+}
 
 @media only screen and (max-width: 600px) {
     .text-margin-bottom{margin-bottom: 5% !important;}

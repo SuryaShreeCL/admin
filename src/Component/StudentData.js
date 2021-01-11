@@ -13,6 +13,9 @@ import CareerPathOptions from './CareerPathOptions'
 import Other_data from './OtherData'
 import Recommendation from './Recommendation'
 import '../Asset/StudentData.css'
+import ProfileInfo from './Table/StudentDetail/ProfileInfo';
+import CollapseContainer from './Table/StudentDetail/Utils/CollapseContainerHeader';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,8 +59,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Student_data(props) {
+  console.log(props.match.params.id)
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [show,setShow]=React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -65,11 +70,15 @@ export default function Student_data(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="sticky">
+      <>
+      <div>
+       <ProfileInfo id={props.match.params.id} />
+       </div>
+      <AppBar position="sticky" color='default'>
         <Tabs value={value}
           onChange={handleChange}
-          //indicatorColor="primary"
-          //textColor="primary"
+          indicatorColor="primary"
+          textColor="primary"
           variant="scrollable"
           scrollButtons="auto"
           aria-label="scrollable auto tabs example">
@@ -79,7 +88,7 @@ export default function Student_data(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Other_data id={props.match.params.id} />
+        <Other_data id={props.match.params.id} />                          
       </TabPanel>
       <TabPanel value={value} index={1}>
         <CareerInterestSurveyResults id={props.match.params.id} />
@@ -87,6 +96,8 @@ export default function Student_data(props) {
       <TabPanel value={value} index={2}>
         <Recommendation id={props.match.params.id} />
       </TabPanel>     
+      </>
     </div>
+
   );
 }

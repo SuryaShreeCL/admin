@@ -60,6 +60,22 @@ export const updateCourse=(id,data)=>{
     }
 }
 
+// Selva
+
+export const deleteCourse=(id)=>{
+    return dispatch => {
+        axios.delete(URL+"/api/v1/courses/"+id,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COURSES.deleteCourse,deleteCourse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
 export const getRecommendedCourses=(TestId,studentId)=>{
    return dispatch =>{
     axios.get(URL+"/api/v1/students/recommendedandsimilar/courses?studentId="+ studentId +"&testExecutionId="+TestId, {
@@ -130,5 +146,23 @@ export const getPopularCourses=()=>{
     }
  }
 
+ // Selva
+
+ export const getPaginateCourse=(pageNumber,size,keyword)=>{
+    if(keyword === null || keyword === undefined ){
+        keyword='';
+    }
+    return dispatch =>{        
+        axios.get(URL+"/api/v1/courses/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            crossDomain:true,
+        })
+        .then(result=>{
+            dispatch({type:COURSES.getPaginateCourse,courseFilterResult:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
 
 // students/{studentId}/RunRecommendationEngine?type=marketing/service

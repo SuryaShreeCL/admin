@@ -34,7 +34,7 @@ export const getAllColleges=()=>{
 
 export const addColleges=(data)=>{
     return dispatch => {
-        axios.post(URL+"/api/v1/colleges/",data,{
+        axios.post(URL+"/api/v1/colleges/create",data,{
             crossDomain: true
         })
             .then(result => {
@@ -49,7 +49,7 @@ export const addColleges=(data)=>{
 
 export const updateColleges=(id,data)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/colleges/"+id,data,{
+        axios.put(URL+"/api/v1/colleges/update/"+id,data,{
             crossDomain: true
         })
             .then(result => {
@@ -62,7 +62,19 @@ export const updateColleges=(id,data)=>{
     
 }
 
-
+export const deleteCollege=(id)=>{
+    return dispatch => {
+        axios.delete(URL+"/api/v1/colleges/delete/"+id,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COLLEGES.deleteCollege,deleteCollege:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
 
 export const getUniversity=()=>{
     return dispatch => {
@@ -109,7 +121,19 @@ export const updateUniversity=(id,data)=>{
     
 }
 
-
+export const deleteUniversity=(id)=>{
+    return dispatch => {
+        axios.delete(URL+"/api/v1/university/delete/"+id,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:COLLEGES.deleteUniversity,deleteUniversity:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
 
 export const getDegree=()=>{
     return dispatch => {
@@ -125,8 +149,26 @@ export const getDegree=()=>{
                 console.log(error);
             });
     }
-    
+        
 }
+
+export const getPaginateDegree=(page,size,keyword)=>{
+    if(keyword===null) keyword=''
+    return dispatch => {
+        axios.get(URL+"/api/v1/departments/page/search?page="+page+"&size="+size+"&q="+keyword,{
+            crossDomain: true
+        })
+            .then(result => {                               
+                dispatch({type:COLLEGES.getPaginateDegree,PaginateDegreeList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+        
+}
+
+
 
 export const getBranches=()=>{
     return dispatch => {
@@ -141,4 +183,38 @@ export const getBranches=()=>{
             });
     }
     
+}
+
+// Selva
+
+export const getPaginateCollege=(page,size,keyword)=>{
+    if(keyword===null) keyword=''
+    return dispatch => {
+        axios.get(URL+"/api/v1/colleges/page/search?page="+page+"&size="+size+"&q="+keyword,{
+            crossDomain: true
+        })
+            .then(result => {                               
+                dispatch({type:COLLEGES.getPaginateCollege,paginateCollegeList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+        
+}
+
+export const getPaginateUniversity=(page,size,keyword)=>{
+    if(keyword===null) keyword=''
+    return dispatch => {
+        axios.get(URL+"/api/v1/university/page/search?page="+page+"&size="+size+"&q="+keyword,{
+            crossDomain: true
+        })
+            .then(result => {                               
+                dispatch({type:COLLEGES.getPaginateUniversity,paginateUniversityList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+        
 }

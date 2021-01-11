@@ -63,6 +63,7 @@ export class CareerInterestSurveyResults extends Component {
       var CareerInterestChoices=[];   
       var YesArr=[];
       var NoArr=[];
+      // console.log(testExecution)
 
       let careerChoiceIterator=testExecution.map((test)=>{
         return test.questionsSet.questions.filter((question)=>question.name==='CareerInterestCategory').map((Careerquestions)=>{

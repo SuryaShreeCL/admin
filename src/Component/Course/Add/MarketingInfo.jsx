@@ -133,7 +133,7 @@ export default class MarketingInfo extends Component {
               <Grid item md={12}>
                   {/* industryProjects */}
                   <CreatableSelect
-                   classNamePrefix={'course__select'}                   
+                   classNamePrefix={'course__select'}
                    isMulti                  
                    options={[{label:'sample',value:'sample'}]}
                    placeholder={'Industry Projects'}
@@ -174,6 +174,18 @@ export default class MarketingInfo extends Component {
                   id={"whyByjus"}
                   name={"whyByjus"}
                   label="Why Byjus"
+                  size="small"
+                  variant="outlined"                  
+                  fullWidth                                    
+                />             
+              </Grid>
+
+              <Grid item md={12}>
+                  {/* Byjus Faq */}     
+                  <TextField
+                  id={"byjusFaq"}
+                  name={"byjusFaq"}
+                  label="Byjus FAQ"
                   size="small"
                   variant="outlined"                  
                   fullWidth                                    

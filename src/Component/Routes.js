@@ -19,6 +19,7 @@ import QuestionBank from "./QuestionBank";
 import RecHome from "./RengineLite/RecHome";
 import RootContainer from './RootContainer';
 import Login from './Login';
+import AspirationTab from "./Aspiration/AspirationTab"
 import {
   studentIdPath,
   studentPath,
@@ -33,11 +34,23 @@ import {
   rootPath,
   collegePath,
   universityPath,
+  aspirationPath,
+  cityPath,
+  questionSetPath,
+  questionsPath,
+  choicePath,
+  videoPath
 } from "./RoutePaths";
 import College  from "./College";
 import University from "./University";
 import TabPanel from "./Course/TabPanel";
-
+import TableComponent from "./TableComponent/Index";
+import  Aspiration  from "../Component/Aspiration";
+import City from "./City";
+import QuestionSet from "./Question/QuestionSet";
+import Question from "./Question/Question"
+import Choice from "./Question/Choice"
+import Video from "./Video/Video"
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -94,9 +107,19 @@ export default function Routes() {
               path={questionBankPath}
               component={QuestionBank}
             />
+            <Route
+              exact
+              path={'/admin/table'}
+              component={TableComponent}
+            />
             
-            
-          
+            {/* Selva */}
+            <Route exact path={cityPath} component={City} />
+          <Route exact path={aspirationPath} component={AspirationTab} />
+          <Route exact path={questionSetPath} component={QuestionSet} />
+          <Route exact path={questionsPath.concat(':id')} component={Question} />
+          <Route exact path={choicePath.concat(':id')} component={Choice} />
+          <Route exact path={videoPath} component={Video} />
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>

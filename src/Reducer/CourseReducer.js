@@ -8,6 +8,9 @@ const initialState = {
   SimilarCourseList: [],
   MarkettingRecommended:[],
   ServiceRecommended:[],
+  courseFilterList : [],
+  UpdateCourse : [],
+  deleteCourse : [],
 };
 
 export default (state = initialState, action) => {
@@ -58,6 +61,17 @@ export default (state = initialState, action) => {
         ServiceRecommended:action.ServiceRecommended,
       }
 
+      // Selva
+      case COURSES.getPaginateCourse:
+        return {
+          ...state,
+          courseFilterList:action.courseFilterResult,
+        }
+        case COURSES.deleteCourse:
+        return {
+          ...state,
+          deleteCourse: action.deleteCourse,
+        };
     default:
       break;
   }

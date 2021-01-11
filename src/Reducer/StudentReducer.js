@@ -3,7 +3,8 @@ const initialState = {
   StudentList: [],
   StudentsList:[],
   Answer:[],
-  CareerIntertestSurvey:[]
+  CareerIntertestSurvey:[],
+  StudentFilterList:[],
 };
 
 export default (state = initialState, action) => {
@@ -53,6 +54,11 @@ export default (state = initialState, action) => {
         ...state,
         Answer:action.Answer,
       };
+    case STUDENT.getStudentPaginate:
+      return {
+        ...state,
+        StudentFilterList:action.StudentFilterResult,
+      }
     default:
       break;
   }

@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import { getStudentsById } from '../Actions/Student';
 import { connect } from 'react-redux';
+import BasicInformation from './Table/StudentDetail/ProfileInfoComponents/BasicInformation';
+import  EnrollmentDetail  from './Table/StudentDetail/ProfileInfoComponents/EnrollmentDetail';
+import { createMuiTheme,ThemeProvider } from '@material-ui/core/styles'
+import  DetailsOfHigherEducation  from './Table/StudentDetail/ProfileInfoComponents/DetailsOfHigherEducation';
+import Aspiration from './Table/StudentDetail/ProfileInfoComponents/Aspiration';
+import  DiagnosticTestType  from './Table/StudentDetail/ProfileInfoComponents/DiagnosticTestType';
 
 
 export class Other_data extends Component {
@@ -43,15 +49,15 @@ export class Other_data extends Component {
     ];
 
     componentDidMount() { 
-       this.props.getStudentsById(this.props.id)    
+    //    this.props.getStudentsById(this.props.id)    
     }
     
-    render() {
-        if(this.props.StudentDetails.length!==0){var student=this.props.StudentDetails;}            
+    render() {                
         return (
+            <ThemeProvider theme={theme}>
             <div>
                 <div className="container">                    
-                    <div className="table-responsive">
+                    {/* <div className="table-responsive">
                         {(student !==undefined ) ?                         
                         <table className="table">   
                         <tbody>
@@ -269,9 +275,26 @@ export class Other_data extends Component {
                  </table>
 
                : null }
+                    </div> */}
+                    <div className={item_classes}>
+                    <BasicInformation id={this.props.id} /> 
+                    </div>                    
+                    <div className={item_classes}>
+                    <EnrollmentDetail id={this.props.id} /> 
                     </div>
+                    <div className={item_classes}>
+                    <DetailsOfHigherEducation id={this.props.id} />
+                    </div>  
+                    <div className={item_classes}>
+                    <Aspiration />
+                    </div> 
+
+                    <div className={item_classes}>
+                    <DiagnosticTestType />
+                    </div>                                                                                           
                 </div>
             </div>
+            </ThemeProvider>
         )
     }
 }
@@ -281,5 +304,18 @@ const mapStateToProps=state=>{
         StudentDetails:state.StudentReducer.StudentList,
      }
 }
+
+const theme = ()=>createMuiTheme({
+    overrides:{    
+        MuiBox:{
+            root:{
+                padding:0,
+                paddingTop:10,
+            }
+        }    
+    }
+})
+
+const item_classes='text-margin-bottom';
 
 export default connect(mapStateToProps,{getStudentsById})(Other_data)
