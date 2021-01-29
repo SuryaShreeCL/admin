@@ -35,6 +35,7 @@ import SportsHandballRoundedIcon from '@material-ui/icons/SportsHandballRounded'
 import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
+import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 const drawerWidth = 240;
 const NavbarList = [
       { id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
@@ -46,6 +47,7 @@ const NavbarList = [
       {id: 'aspiration', icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
       {id: 'questionSet', icon:<HelpRoundedIcon />, title:'Question Set'},
       {id: 'video', icon:<VideocamRoundedIcon />, title:'Video'},
+      {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
       // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];

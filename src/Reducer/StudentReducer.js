@@ -5,6 +5,7 @@ const initialState = {
   Answer:[],
   CareerIntertestSurvey:[],
   StudentFilterList:[],
+  
 };
 
 export default (state = initialState, action) => {

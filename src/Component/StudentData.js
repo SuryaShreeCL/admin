@@ -15,8 +15,7 @@ import Recommendation from './Recommendation'
 import '../Asset/StudentData.css'
 import ProfileInfo from './Table/StudentDetail/ProfileInfo';
 import CollapseContainer from './Table/StudentDetail/Utils/CollapseContainerHeader';
-
-
+import Product from "./Product"
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -84,7 +83,8 @@ export default function Student_data(props) {
           aria-label="scrollable auto tabs example">
           <Tab label="Profile Information" {...a11yProps(1)} />
           <Tab label="Career Intrest Survey" {...a11yProps(2)} />
-          <Tab label="Recommendation" {...a11yProps(3)} />          
+          <Tab label="Recommendation" {...a11yProps(3)} /> 
+          <Tab label="Product" {...a11yProps(4)} />          
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -95,7 +95,10 @@ export default function Student_data(props) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Recommendation id={props.match.params.id} />
-      </TabPanel>     
+      </TabPanel>   
+      <TabPanel value={value} index={3}>
+        <Product id={props.match.params.id} />
+      </TabPanel>   
       </>
     </div>
 

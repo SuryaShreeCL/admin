@@ -190,6 +190,7 @@ export class City extends Component {
     this.props.viewCity(0, 20, null);
     }
     render() {
+      console.log(this.props.viewCityList)
         return (
             <div>
                 <ThemeProvider theme={this.getmuitheme()}>
@@ -198,7 +199,7 @@ export class City extends Component {
                    {this.props.viewCityList.length !== 0 ? (
             <TableComponent
               data={
-                this.props.viewCityList.length !== 0
+                    this.props.viewCityList.length !== 0
                   ? this.props.viewCityList.content
                   : null
               }

@@ -113,3 +113,12 @@ export const VIDEO ={
 	editVideo : "editVideo",
 	deleteVideo : "deleteVideo"
 }
+
+export const PRODUCT = {
+	viewProduct : "viewProduct",
+	addProduct : "addProduct",
+	editProduct : "editProduct",
+	deleteProduct : "deleteProduct",
+	viewProductToStudent : "viewProductToStudent",
+	addProductToStudent : "addProductToStudent"
+}

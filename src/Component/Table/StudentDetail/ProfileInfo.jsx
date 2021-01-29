@@ -24,7 +24,6 @@ export class ProfileInfo extends Component {
       field:'',
       spacialization:'',
       region:'',
-
     };
   }
 
