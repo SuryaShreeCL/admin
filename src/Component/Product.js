@@ -3,6 +3,7 @@ import {useState,useEffect} from "react"
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import {viewProduct,addProductToStudent,viewProductToStudent} from "../Actions/ProductAction"
+import { VscChevronUp, VscChevronDown } from "react-icons/vsc";
 import {Grid, 
     TextField, 
     Typography, 
@@ -20,13 +21,15 @@ import {Grid,
         Paper,
         Table,
         TableHead,
-        TableCell
+        TableCell,
+        Collapse
     } from "@material-ui/core"
     import { connect } from "react-redux";
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 function Product(props) {
     const [dialogOpen,setDialogOpen] = useState(false)
     const [product,setProduct] = useState(null)
+    const [collapse,setCollapse] = useState(false)
     const dialogTheme = createMuiTheme({
         overrides : {
             MuiDialog: {
@@ -55,10 +58,25 @@ function Product(props) {
         props.addProductToStudent(obj)
         setDialogOpen(false)
       }
-      console.log(props.viewProductToStudentList)
     return (
         <div>
-            <Grid container>
+            <Grid container spacing={3}>
+                {/* <Grid item md={12} sm={12} xs={12} xl={12} lg={12}>
+                    <Typography>Purchased Product</Typography>
+                    <IconButton 
+                    onClick={(e)=>setCollapse(!collapse)}
+                    >
+                        {collapse === false ? 
+                         <VscChevronDown /> :  <VscChevronUp  />
+                    }
+                    </IconButton>
+                </Grid>
+                <Collapse in={collapse}>
+                <Grid item md={12} sm={12} xs={12} xl={12} lg={12}>
+                    Some Text
+                </Grid>
+                </Collapse> */}
+               
             <Grid item md={6}>
                 <Typography>Product Details</Typography>
                                 <TableContainer component={Paper}>

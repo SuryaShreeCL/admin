@@ -35,7 +35,6 @@ export class Product extends Component {
         this.state = {
              id : "",
              name : "",
-             videos : [],
              show : false,
              update : null,
         }
@@ -122,9 +121,7 @@ export class Product extends Component {
       },
     });
     col = [
-        {
-          title: "id",
-          fieldName: "id"},
+        {title: "id", fieldName: "id"},
         { title: "Name", fieldName: "name" },
       ];
       rowClick = (data) => {
