@@ -48,6 +48,7 @@ const NavbarList = [
       {id: 'questionSet', icon:<HelpRoundedIcon />, title:'Question Set'},
       {id: 'video', icon:<VideocamRoundedIcon />, title:'Video'},
       {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
+      {id: 'webinar', icon:<AddShoppingCartRoundedIcon />, title:'Webinar'},
       // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];

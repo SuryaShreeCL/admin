@@ -40,7 +40,8 @@ import {
   questionsPath,
   choicePath,
   videoPath,
-  productPath
+  productPath,
+  webinarPath
 } from "./RoutePaths";
 import College  from "./College";
 import University from "./University";
@@ -53,6 +54,7 @@ import Question from "./Question/Question"
 import Choice from "./Question/Choice"
 import Video from "./Video/Video"
 import Product from "./Product/Product";
+import Webinar from "./Webinar/Webinar";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -123,6 +125,7 @@ export default function Routes() {
           <Route exact path={choicePath.concat(':id')} component={Choice} />
           <Route exact path={videoPath} component={Video} />
           <Route exact path={productPath} component={Product} />
+          <Route exact path={webinarPath} component={Webinar} />
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>
