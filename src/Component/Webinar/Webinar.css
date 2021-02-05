@@ -8,7 +8,6 @@ body{
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 5%;
     }
     .heading{
       color: rgb(48, 47, 47);
