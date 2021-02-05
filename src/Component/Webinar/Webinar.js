@@ -216,10 +216,10 @@ export default class Webinar extends Component {
             FileSaver.saveAs(data, "sheet1" + fileExtension);
           },
         });       
-      document.getElementById("upload-csv").value = "";
-      document.getElementById("session").value = "" ;
-      document.getElementById("duration1").value = "";
-      document.getElementById("duration2").value = "";
+      // document.getElementById("upload-csv").value = "";
+      // document.getElementById("session").value = "" ;
+      // document.getElementById("duration1").value = "";
+      // document.getElementById("duration2").value = "";
       }
       else {
         document.getElementById("validationMessage").style.display="block"
