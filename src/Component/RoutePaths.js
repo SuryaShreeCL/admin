@@ -23,6 +23,7 @@ export const questionsPath = rootPath.concat('/questionSet/questions/');
 export const choicePath = rootPath.concat('/questionSet/questions/choice/');
 export const videoPath = rootPath.concat('/video');
 export const productPath = rootPath.concat('/product');
+export const webinarPath = rootPath.concat('/webinar');
 // Rengine another version path
 
 export const loginPath=rootPath.concat('/Mlogin');
