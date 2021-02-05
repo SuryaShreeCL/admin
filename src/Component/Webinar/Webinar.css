@@ -75,3 +75,9 @@ body{
     label[for="session"],label[for="duration2"]{
         margin-bottom: 0% !important;
     }
+    #validationMessage{
+        display: none;
+        color:red;
+        font-size:1rem;
+        padding:2%;
+    }

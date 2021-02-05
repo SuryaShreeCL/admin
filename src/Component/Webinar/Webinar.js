@@ -215,7 +215,15 @@ export default class Webinar extends Component {
             const data = new Blob([excelBuffer], { type: fileType });
             FileSaver.saveAs(data, "sheet1" + fileExtension);
           },
-        });
+        });       
+      document.getElementById("upload-csv").value = "";
+      document.getElementById("session").value = "" ;
+      document.getElementById("duration1").value = "";
+      document.getElementById("duration2").value = "";
+      }
+      else {
+        document.getElementById("validationMessage").style.display="block"
+          setTimeout(function(){ document.getElementById("validationMessage").style.display="none" }, 2000)
       }
     }
     return (
@@ -248,6 +256,7 @@ export default class Webinar extends Component {
               <option value="Main Session - CLAPP" />
             </datalist>
           </div>
+          <div id="validationMessage">please fill all required fields!!</div>
           <h3 className="step3">Step 3: Click on download button to download excel sheet</h3>
           <div class="container1">
             <button id="btn-upload-csv" type="submit" onClick={ReadCSV}>
