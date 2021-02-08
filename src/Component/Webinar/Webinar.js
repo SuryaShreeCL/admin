@@ -97,7 +97,11 @@ export default class Webinar extends Component {
               }
               for (let m = 0; m < newArray.length; m++) {
                 newArray[m]["Lead Stage"] = "c0";
-                newArray[m]["Date"] = bigArray[2][0].split(" ")[0];
+                newArray[m]["Date"] = bigArray[4][1].split(" ")[0];
+                console.log(newArray[m]["Time in Session"].replace("minutes", ""))
+                newArray[m]["Time in Session"]=newArray[m]["Time in Session"].replace("minutes", "");
+                newArray[m]["Time in Session"]=newArray[m]["Time in Session"].replace(" ", "");
+                newArray[m]["Time in Session"]=newArray[m]["Time in Session"].replace("minute", "");
                 // console.log(bigArray[2][0].split(" ")[0])
                 // console.log(newArray[m]["Time in Session"])
                 if (
