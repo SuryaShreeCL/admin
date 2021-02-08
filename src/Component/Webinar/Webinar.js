@@ -217,7 +217,7 @@ export default class Webinar extends Component {
               type: "array",
             });
             const data = new Blob([excelBuffer], { type: fileType });
-            FileSaver.saveAs(data, "sheet1" + fileExtension);
+            FileSaver.saveAs(data, `${bigArray[0][1]} - ${bigArray[4][1].split(" ")[0]}` + fileExtension);
           },
         });       
       // document.getElementById("upload-csv").value = "";
