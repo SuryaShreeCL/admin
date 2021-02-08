@@ -25,6 +25,7 @@ export default class Webinar extends Component {
             bigArray = results.data;
             console.log(bigArray);
             let newArray = [];
+            let newModifiedArray=[];
             let keyItems = [
               "First Name",
               "Last Name",
@@ -38,6 +39,7 @@ export default class Webinar extends Component {
             ];
             for (let i = 8; i < bigArray.length; i++) {
               let object = {};
+              let newModifiedObject;
               bigArray[7].forEach((element, elementIndex) => {
                 for (let j = 0; j < keyItems.length; j++) {
                   if (keyItems[j].includes(element)) {
@@ -202,15 +204,29 @@ export default class Webinar extends Component {
                     newArray[m]["Original Lead Stage"] = "CLAPP-C0A";
                   }
                 }
+                newModifiedObject ={
+                  'Date': newArray[m]["Date"],
+                  'Last Name': newArray[m]["Last Name"],
+                  'First Name': newArray[m]["First Name"],
+                  'Email Address': newArray[m]["Email Address"],
+                  'Phone': newArray[m]["Phone"],
+                  'College': newArray[m]["College"],
+                  'Comments': newArray[m]["Time in Session"],
+                  'Branch': newArray[m]["Department"],
+                  'Semester': newArray[m]["Semester"],
+                  'Lead Stage': newArray[m]["Lead Stage"],
+                  'Original Lead Stage': newArray[m]["Original Lead Stage"],
+              };
               }
+              newModifiedArray.push(newModifiedObject)
             }
-            console.log(newArray);
+            console.log(newModifiedArray);
             console.log(document.getElementById("duration1").value);
             console.log(document.getElementById("session").value);
 
             //   let time = newArray[1]["Time in Session"]
             //   console.log(time)
-            const ws = XLSX.utils.json_to_sheet(newArray);
+            const ws = XLSX.utils.json_to_sheet(newModifiedArray);
             const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
             const excelBuffer = XLSX.write(wb, {
               bookType: "xlsx",
