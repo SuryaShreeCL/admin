@@ -36,6 +36,9 @@ export default class Webinar extends Component {
               "Department.",
               "Phone",
               "Semester",
+              "Organization",
+              "Job Title",
+              "Questions and Comments"
             ];
             
             let newModifiedObject;
@@ -231,10 +234,10 @@ export default class Webinar extends Component {
                 "First Name": newArray[m]["First Name"],
                 "Email Address": newArray[m]["Email Address"],
                 "Phone": newArray[m]["Phone"],
-                "College": newArray[m]["College"],
+                "College": newArray[m]["College"] || newArray[m]["Organization"],
                 "Comments": newArray[m]["Time in Session"],
-                "Branch": newArray[m]["Department"] || newArray[m]["Department."],
-                "Semester": newArray[m]["Semester"],
+                "Branch": newArray[m]["Department"] || newArray[m]["Department."] || newArray[m]["Job Title"],
+                "Semester": newArray[m]["Semester"] || newArray[m]["Questions and Comments"],
                 "Lead Stage": newArray[m]["Lead Stage"],
                 "Original Lead Stage": newArray[m]["Original Lead Stage"],
               };            
