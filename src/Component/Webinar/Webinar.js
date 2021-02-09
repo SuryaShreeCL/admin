@@ -20,12 +20,12 @@ export default class Webinar extends Component {
         Papa.parse(document.getElementById("upload-csv").files[0], {
           download: true,
           header: false,
-          complete: function (results) {
+          complete: function(results) {
             console.log(results.data);
             bigArray = results.data;
             console.log(bigArray);
             let newArray = [];
-            let newModifiedArray=[];
+            let newModifiedArray = [];
             let keyItems = [
               "First Name",
               "Last Name",
@@ -33,13 +33,14 @@ export default class Webinar extends Component {
               "Time in Session",
               "College",
               "Department",
+              "Department.",
               "Phone",
               "Semester",
-              "Branch",
             ];
+            
+            let newModifiedObject;
             for (let i = 8; i < bigArray.length; i++) {
               let object = {};
-              let newModifiedObject;
               bigArray[7].forEach((element, elementIndex) => {
                 for (let j = 0; j < keyItems.length; j++) {
                   if (keyItems[j].includes(element)) {
@@ -62,6 +63,16 @@ export default class Webinar extends Component {
                               attendeeTimeArray[k].includes("hour") &&
                               attendeeTimeArray[k + 2].includes("minutes")
                             ) {
+                              time =
+                                parseInt(attendeeTimeArray[0]) * 60 +
+                                parseInt(attendeeTimeArray[2]);
+                              console.log(
+                                JSON.stringify(time) + " " + "minutes"
+                              );
+                              object[element] =
+                                JSON.stringify(time) + " " + "minutes";
+                            }
+                            else {
                               time =
                                 parseInt(attendeeTimeArray[0]) * 60 +
                                 parseInt(attendeeTimeArray[2]);
@@ -97,130 +108,139 @@ export default class Webinar extends Component {
               } else {
                 newArray.push(object);
               }
-              for (let m = 0; m < newArray.length; m++) {
-                newArray[m]["Lead Stage"] = "c0";
-                newArray[m]["Date"] = bigArray[4][1].split(" ")[0];
-                console.log(newArray[m]["Time in Session"].replace("minutes", ""))
-                newArray[m]["Time in Session"]=newArray[m]["Time in Session"].replace("minutes", "");
-                newArray[m]["Time in Session"]=newArray[m]["Time in Session"].replace(" ", "");
-                newArray[m]["Time in Session"]=newArray[m]["Time in Session"].replace("minute", "");
-                // console.log(bigArray[2][0].split(" ")[0])
-                // console.log(newArray[m]["Time in Session"])
-                if (
-                  document.getElementById("session").value ==
-                  "Main Session - P+H"
-                ) {
-                  if (
-                    parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
-                    parseInt(document.getElementById("duration1").value)
-                  ) {
-                    newArray[m]["Original Lead Stage"] = "C-C0";
-                    console.log(
-                      typeof document.getElementById("duration1").value
-                    );
-                  } else {
-                    newArray[m]["Original Lead Stage"] = "C-C0a";
-                  }
-                }
-                if (
-                  document.getElementById("session").value == "Follow Up Cat A"
-                ) {
-                  if (
-                    parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
-                    parseInt(document.getElementById("duration1").value)
-                  ) {
-                    newArray[m]["Original Lead Stage"] = "A-C0a";
-                    console.log(
-                      typeof document.getElementById("duration1").value
-                    );
-                  } else {
-                    newArray[m]["Original Lead Stage"] = "A-C2a";
-                  }
-                }
-                if (
-                  document.getElementById("session").value == "Follow Up Cat C"
-                ) {
-                  if (
-                    parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
-                    parseInt(document.getElementById("duration1").value)
-                  ) {
-                    newArray[m]["Original Lead Stage"] = "C-C0a";
-                    console.log(
-                      typeof document.getElementById("duration1").value
-                    );
-                  } else {
-                    newArray[m]["Original Lead Stage"] = "C-C2a";
-                  }
-                }
-                if (
-                  document.getElementById("session").value == "Main Session - H"
-                ) {
-                  if (
-                    parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
-                    parseInt(document.getElementById("duration1").value)
-                  ) {
-                    newArray[m]["Original Lead Stage"] = "A-C0";
-                    console.log(
-                      typeof document.getElementById("duration1").value
-                    );
-                  } else {
-                    newArray[m]["Original Lead Stage"] = "A-C0a";
-                  }
-                }
-                if (
-                  document.getElementById("session").value ==
-                  "Follow Up for Regular - H"
-                ) {
-                  if (
-                    parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
-                    parseInt(document.getElementById("duration1").value)
-                  ) {
-                    newArray[m]["Original Lead Stage"] = "A-C0a";
-                    console.log(
-                      typeof document.getElementById("duration1").value
-                    );
-                  } else {
-                    newArray[m]["Original Lead Stage"] = "A-C2a";
-                  }
-                }
-                if (
-                  document.getElementById("session").value ==
-                  "Main Session - CLAPP"
-                ) {
-                  if (
-                    parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
-                    parseInt(document.getElementById("duration1").value)
-                  ) {
-                    newArray[m]["Original Lead Stage"] = "CLAPP-C0";
-                    console.log(
-                      typeof document.getElementById("duration1").value
-                    );
-                  } else if (
-                    parseInt(newArray[m]["Time in Session"].split(" ")[0]) >
-                    parseInt(document.getElementById("duration2").value)
-                  ) {
-                    newArray[m]["Original Lead Stage"] = "CLAPP-C2A";
-                  } else {
-                    newArray[m]["Original Lead Stage"] = "CLAPP-C0A";
-                  }
-                }
-                newModifiedObject ={
-                  'Date': newArray[m]["Date"],
-                  'Last Name': newArray[m]["Last Name"],
-                  'First Name': newArray[m]["First Name"],
-                  'Email Address': newArray[m]["Email Address"],
-                  'Phone': newArray[m]["Phone"],
-                  'College': newArray[m]["College"],
-                  'Comments': newArray[m]["Time in Session"],
-                  'Branch': newArray[m]["Department"],
-                  'Semester': newArray[m]["Semester"],
-                  'Lead Stage': newArray[m]["Lead Stage"],
-                  'Original Lead Stage': newArray[m]["Original Lead Stage"],
-              };
-              }
-              newModifiedArray.push(newModifiedObject)
+              
             }
-            console.log(newModifiedArray);
+            for (let m = 0; m < newArray.length; m++) {
+              newArray[m]["Lead Stage"] = "c0";
+              newArray[m]["Date"] = bigArray[4][1].split(" ")[0];
+              console.log(
+                newArray[m]["Time in Session"].replace("minutes", "")
+              );
+              newArray[m]["Time in Session"] = newArray[m][
+                "Time in Session"
+              ].replace("minutes", "");
+              newArray[m]["Time in Session"] = newArray[m][
+                "Time in Session"
+              ].replace(" ", "");
+              newArray[m]["Time in Session"] = newArray[m][
+                "Time in Session"
+              ].replace("minute", "");
+              // console.log(bigArray[2][0].split(" ")[0])
+              // console.log(newArray[m]["Time in Session"])
+              if (
+                document.getElementById("session").value ==
+                "Main Session - P+H"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C-C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "C-C0a";
+                }
+              }
+              if (
+                document.getElementById("session").value == "Follow Up Cat A"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "A-C2a";
+                }
+              }
+              if (
+                document.getElementById("session").value == "Follow Up Cat C"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C-C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "C-C2a";
+                }
+              }
+              if (
+                document.getElementById("session").value == "Main Session - H"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A-C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                }
+              }
+              if (
+                document.getElementById("session").value ==
+                "Follow Up for Regular - H"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "A-C2a";
+                }
+              }
+              if (
+                document.getElementById("session").value ==
+                "Main Session - CLAPP"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "CLAPP-C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) >
+                  parseInt(document.getElementById("duration2").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "CLAPP-C2A";
+                } else {
+                  newArray[m]["Original Lead Stage"] = "CLAPP-C0A";
+                }
+              }
+              newModifiedObject = {
+                Date: newArray[m]["Date"],
+                "Last Name": newArray[m]["Last Name"],
+                "First Name": newArray[m]["First Name"],
+                "Email Address": newArray[m]["Email Address"],
+                "Phone": newArray[m]["Phone"],
+                "College": newArray[m]["College"],
+                "Comments": newArray[m]["Time in Session"],
+                "Branch": newArray[m]["Department"] || newArray[m]["Department."],
+                "Semester": newArray[m]["Semester"],
+                "Lead Stage": newArray[m]["Lead Stage"],
+                "Original Lead Stage": newArray[m]["Original Lead Stage"],
+              };            
+            newModifiedArray.push(newModifiedObject);
+            }            
+            console.log(newArray);
             console.log(document.getElementById("duration1").value);
             console.log(document.getElementById("session").value);
 
@@ -233,26 +253,33 @@ export default class Webinar extends Component {
               type: "array",
             });
             const data = new Blob([excelBuffer], { type: fileType });
-            FileSaver.saveAs(data, `${bigArray[0][1]} - ${bigArray[4][1].split(" ")[0]}` + fileExtension);
+            FileSaver.saveAs(
+              data,
+              `${bigArray[0][1]} - ${bigArray[4][1].split(" ")[0]}` +
+                fileExtension
+            );
           },
-        });       
-      // document.getElementById("upload-csv").value = "";
-      // document.getElementById("session").value = "" ;
-      // document.getElementById("duration1").value = "";
-      // document.getElementById("duration2").value = "";
-      }
-      else {
-        document.getElementById("validationMessage").style.display="block"
-          setTimeout(function(){ document.getElementById("validationMessage").style.display="none" }, 2000)
+        });
+        // document.getElementById("upload-csv").value = "";
+        // document.getElementById("session").value = "" ;
+        // document.getElementById("duration1").value = "";
+        // document.getElementById("duration2").value = "";
+      } else {
+        document.getElementById("validationMessage").style.display = "block";
+        setTimeout(function() {
+          document.getElementById("validationMessage").style.display = "none";
+        }, 2000);
       }
     }
     return (
       <div className="flexColumn">
         <h2 className="heading">Webinars Lead Automation</h2>
         <form className="form">
-        <h3 className="step1">Step 1: Please browse and upload .csv file</h3>
+          <h3 className="step1">Step 1: Please browse and upload .csv file</h3>
           <input type="file" id="upload-csv" accept=".csv" required />
-          <h3 className="step2">Step 2: Please fill the tagging rules below:</h3>
+          <h3 className="step2">
+            Step 2: Please fill the tagging rules below:
+          </h3>
           <div class="container">
             <input
               id="duration1"
@@ -265,7 +292,13 @@ export default class Webinar extends Component {
             </label>
             <input id="duration2" type="number" placeholder="Duration2" />
             <label for="session">Choose the Session from the list:</label>
-            <input list="sessions" name="session" id="session"placeholder="Session" required />
+            <input
+              list="sessions"
+              name="session"
+              id="session"
+              placeholder="Session"
+              required
+            />
 
             <datalist id="sessions">
               <option value="Main Session - P+H" />
@@ -277,7 +310,9 @@ export default class Webinar extends Component {
             </datalist>
           </div>
           <div id="validationMessage">please fill all required fields!!</div>
-          <h3 className="step3">Step 3: Click on download button to download excel sheet</h3>
+          <h3 className="step3">
+            Step 3: Click on download button to download excel sheet
+          </h3>
           <div class="container1">
             <button id="btn-upload-csv" type="submit" onClick={ReadCSV}>
               Download
