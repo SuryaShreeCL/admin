@@ -169,11 +169,13 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "A-C0a";
+                  newArray[m]["Lead Category"] = "A-C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A-C2a";
+                  newArray[m]["Lead Category"] = "A-C0a";
                 }
               }
               if (
@@ -194,10 +196,12 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "C-C0a";
+                  newArray[m]["Lead Category"] = "C-C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
+                  newArray[m]["Lead Category"] = "C-C0a";
                   newArray[m]["Original Lead Stage"] = "C-C2a";
                 }
               }
