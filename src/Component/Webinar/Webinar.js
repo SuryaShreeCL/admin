@@ -41,7 +41,7 @@ export default class Webinar extends Component {
               "Job Title",
               "Questions and Comments",
               "I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO",
-              "I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "
+              "I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO"
             ];
             
             let newModifiedObject;
@@ -110,7 +110,7 @@ export default class Webinar extends Component {
                 object["Time in Session"] == "--" ||
                 object["Time in Session"] == undefined ||  
                 object["I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO"] == "NOT interested. No help required" ||
-                object["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "]=="NOT interested. No help required "
+                object["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO"]=="NOT interested. No help required"
               ) {
                 // console.log("yes")
               } else {
@@ -182,12 +182,12 @@ export default class Webinar extends Component {
                 document.getElementById("session").value == "Follow Up Cat C"
               ) {
                 if (
-                  newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "]=="BookMySeat & Enroll NOW (Be in the First 10 Signups)"
+                  newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO"]=="BookMySeat & Enroll NOW (Be in the First 10 Signups)"
                 ) {
                   newArray[m]["Original Lead Stage"] = "C-Poll";
                   newArray[m]["Lead Category"] = "C1";
                 }
-                else if(newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "]=="BookMySeat & Enroll Surely, Need More Time/More Clarity"){
+                else if(newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO"]=="BookMySeat & Enroll Surely, Need More Time/More Clarity"){
                   newArray[m]["Original Lead Stage"] = "C-C2a";
                   newArray[m]["Lead Category"] = "C2";
                 }
