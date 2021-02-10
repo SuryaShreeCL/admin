@@ -39,7 +39,9 @@ export default class Webinar extends Component {
               "Semester",
               "Organization",
               "Job Title",
-              "Questions and Comments"
+              "Questions and Comments",
+              "I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO",
+              "I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "
             ];
             
             let newModifiedObject;
@@ -106,7 +108,9 @@ export default class Webinar extends Component {
               });
               if (
                 object["Time in Session"] == "--" ||
-                object["Time in Session"] == undefined
+                object["Time in Session"] == undefined ||  
+                object["I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO"] == "NOT interested. No help required" ||
+                object["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "]=="NOT interested. No help required "
               ) {
                 // console.log("yes")
               } else {
@@ -151,6 +155,16 @@ export default class Webinar extends Component {
                 document.getElementById("session").value == "Follow Up Cat A"
               ) {
                 if (
+                  newArray[m]["I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO"]=="BookMySeat & Enroll NOW (Be in the First 10 Signups)"
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A-Poll";
+                  newArray[m]["Lead Category"] = "A1";
+                }
+                else if(newArray[m]["I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO"]=="BookMySeat & Enroll Surely, but need to consult with parents"){
+                  newArray[m]["Original Lead Stage"] = "A-C2a";
+                  newArray[m]["Lead Category"] = "A2";
+                }
+                else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
@@ -166,6 +180,16 @@ export default class Webinar extends Component {
                 document.getElementById("session").value == "Follow Up Cat C"
               ) {
                 if (
+                  newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "]=="BookMySeat & Enroll NOW (Be in the First 10 Signups)"
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C-Poll";
+                  newArray[m]["Lead Category"] = "C1";
+                }
+                else if(newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "]=="BookMySeat & Enroll Surely, Need More Time/More Clarity"){
+                  newArray[m]["Original Lead Stage"] = "C-C2a";
+                  newArray[m]["Lead Category"] = "C2";
+                }
+                else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
@@ -236,11 +260,14 @@ export default class Webinar extends Component {
                 "Email Address": newArray[m]["Email Address"],
                 "Phone": newArray[m]["Phone"],
                 "College": newArray[m]["College"] || newArray[m]["Organization"],
+                "Lead Category":newArray[m]["Lead Category"],
                 "Comments": newArray[m]["Time in Session"],
                 "Branch": newArray[m]["Department"] || newArray[m]["Department."] || newArray[m]["Job Title"],
                 "Semester": newArray[m]["Semester"] || newArray[m]["Questions and Comments"],
                 "Lead Stage": newArray[m]["Lead Stage"],
                 "Original Lead Stage": newArray[m]["Original Lead Stage"],
+                // "I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO ": newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO "],
+                // "I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO": newArray[m]["I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO"],
               };            
             newModifiedArray.push(newModifiedObject);
             }            
