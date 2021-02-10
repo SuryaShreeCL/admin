@@ -257,6 +257,38 @@ export default class Webinar extends Component {
                   newArray[m]["Original Lead Stage"] = "CLAPP-C0A";
                 }
               }
+              if (
+                document.getElementById("session").value ==
+                "Main Session - H Re-Eng"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A-C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                }
+              }
+              if (
+                document.getElementById("session").value ==
+                "Main Session - P+H Re-Eng"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C-C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "C-C0a";
+                }
+              }
               newModifiedObject = {
                 Date: newArray[m]["Date"],
                 "Last Name": newArray[m]["Last Name"],
@@ -599,6 +631,8 @@ export default class Webinar extends Component {
               <option value="Main Session - H" />
               <option value="Follow Up for Regular - H" />
               <option value="Main Session - CLAPP" />
+              <option value="Main Session - H Re-Eng" />
+              <option value="Main Session - P+H Re-Eng" />
             </datalist>
           </div>
           <div id="validationMessage">please fill all required fields!!</div>
