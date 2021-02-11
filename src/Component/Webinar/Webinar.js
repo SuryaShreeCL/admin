@@ -367,65 +367,16 @@ export default class Webinar extends Component {
                 loopStart = h+2
               }
             }
-            console.log(loopStart+1)
+            //This stores key value pairs where
+            //key = emailId, value = index of newArray
+            let uniqueUserObj = {"jashwanthi":0};
+            let counter = 0;
             for (let i = loopStart; i < bigArray.length; i++) {
               let object = {};
               bigArray[loopStart-1].forEach((element, elementIndex) => {
                 for (let j = 0; j < keyItems.length; j++) {
                   if (keyItems[j].includes(element)) {
                     object[element] = bigArray[i][elementIndex];
-                    // if (element === "Time in Session") {
-                    //   let attendeeTimeArray;
-                    //   if (
-                    //     bigArray[i][elementIndex] == "--" ||
-                    //     bigArray[i][elementIndex] == undefined
-                    //   ) {
-                    //     console.log("none");
-                    //   } else {
-                    //     attendeeTimeArray = bigArray[i][elementIndex].split(
-                    //       " "
-                    //     );
-                    //     let time;
-                    //     for (let k = 0; k < attendeeTimeArray.length; k++) {
-                    //       if (attendeeTimeArray.length == 4) {
-                    //         if (
-                    //           attendeeTimeArray[k].includes("hour") &&
-                    //           attendeeTimeArray[k + 2].includes("minutes")
-                    //         ) {
-                    //           time =
-                    //             parseInt(attendeeTimeArray[0]) * 60 +
-                    //             parseInt(attendeeTimeArray[2]);
-                    //           console.log(
-                    //             JSON.stringify(time) + " " + "minutes"
-                    //           );
-                    //           object[element] =
-                    //             JSON.stringify(time) + " " + "minutes";
-                    //         }
-                    //         else {
-                    //           time =
-                    //             parseInt(attendeeTimeArray[0]) * 60 +
-                    //             parseInt(attendeeTimeArray[2]);
-                    //           console.log(
-                    //             JSON.stringify(time) + " " + "minutes"
-                    //           );
-                    //           object[element] =
-                    //             JSON.stringify(time) + " " + "minutes";
-                    //         }
-                    //       }
-                    //       if (attendeeTimeArray.length == 2) {
-                    //         if (attendeeTimeArray[k].includes("hour")) {
-                    //           time = parseInt(attendeeTimeArray[0]) * 60;
-                    //           console.log(
-                    //             JSON.stringify(time) + " " + "minutes"
-                    //           );
-                    //           object[element] =
-                    //             JSON.stringify(time) + " " + "minutes";
-                    //         }
-                    //       }
-                    //     }
-                    //   }
-                    //   console.log(attendeeTimeArray);
-                    // }
                   }
                 }
               });
@@ -435,9 +386,16 @@ export default class Webinar extends Component {
               ) {
                 // console.log("yes")
               } else {
-                newArray.push(object);
-              }
-              
+                if(uniqueUserObj[object["Email"]]===undefined){
+                  uniqueUserObj[object["Email"]]=counter;
+                  counter++;
+                  newArray.push(object);
+                }
+                else{
+                  let value= parseInt(newArray[uniqueUserObj[object["Email"]]]["Time in Session (minutes)"]) + parseInt(object["Time in Session (minutes)"]);
+                  newArray[uniqueUserObj[object["Email"]]]["Time in Session (minutes)"]= `${value}`;
+                }               
+              } 
             }
             for (let m = 0; m < newArray.length; m++) {
               newArray[m]["Lead Stage"] = "c0";
