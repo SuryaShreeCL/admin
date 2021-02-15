@@ -220,7 +220,9 @@ export default function RootContainer(props) {
   }; 
 
   const logout = () => {    
+
     window.sessionStorage.setItem('token','false'); 
+    window.sessionStorage.clear()
     props.history.push(rootLoginPath);       
   }
 

@@ -48,6 +48,7 @@ export const STUDENT={
 	careerInterestSurvey:'careerInterestSurvey',
 	getAnswer:'getAnswer',
 	getStudentPaginate:'getStudentPaginate',
+
 }
 export const CHOICE_ANSWER={
 	getChoiceAnswer:'getChoiceAnswer',
@@ -121,4 +122,8 @@ export const PRODUCT = {
 	deleteProduct : "deleteProduct",
 	viewProductToStudent : "viewProductToStudent",
 	addProductToStudent : "addProductToStudent"
+}
+
+export const ADMIN = {
+	adminLogin :  "adminLogin"
 }

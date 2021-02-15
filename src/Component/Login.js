@@ -3,6 +3,7 @@ import { TextField, Button } from "@material-ui/core";
 import "../Asset/Login.css";
 import GoogleBtn from "./GoogleBtn";
 import { rootPath, studentPath } from "./RoutePaths";
+import {connect} from 'react-redux';
 import history from "./History";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -12,13 +13,13 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
-
-export default class Login extends Component {
+import {adminLogin} from "../Actions/AdminAction"
+export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
+      username: null,
+      password: null,
       error: "",
     };
   }
@@ -26,18 +27,39 @@ export default class Login extends Component {
     // sessionStorage.setItem('token','false');
   }
   handleLogin = (e) => {
-    if (
-      this.state.username === "admin" &&
-      this.state.password === "423uK6LmxG9f2w"
-    ) {
-      sessionStorage.setItem("token", "true");
-      this.props.history.push(rootPath + "/");
-    } else {
-      sessionStorage.setItem("token", "false");
-      this.setState({ error: "Invalid Username or Password" });
+    if(this.state.username !== null && this.state.password !== null){
+      let loginObj = {
+        userName: this.state.username,
+        password: this.state.password,
+      };
+      this.props.adminLogin(loginObj)
     }
+    // if (
+    //   this.state.username === "admin" &&
+    //   this.state.password === "423uK6LmxG9f2w"
+    // ) {
+    //   sessionStorage.setItem("token", "true");
+    //   this.props.history.push(rootPath + "/");
+    // } else {
+    //   sessionStorage.setItem("token", "false");
+    //   this.setState({ error: "Invalid Username or Password" });
+    // }
   };
+  componentDidUpdate(prevProps){
+    if(prevProps.adminLoginDetails !== this.props.adminLoginDetails){
+      if(this.props.adminLoginDetails.message !== "Invalid Credential"){
+        window.sessionStorage.setItem("token", "true");
+        window.sessionStorage.setItem("accessToken",this.props.adminLoginDetails.accessToken);
+        window.sessionStorage.setItem("refreshToken",this.props.adminLoginDetails.refreshToken);
+        this.props.history.push(rootPath + "/"); 
+      }else{
+         this.setState({ error: "Invalid Username or Password" });
+      }
+    }
+  }
   render() {
+    console.log(this.props.adminLoginDetails)
+    console.log(this.props)
     return (
       <div>
         <div className="root__login">
@@ -141,3 +163,11 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps=(state)=>{
+  return { 
+    adminLoginDetails: state.AdminReducer.adminLoginDetails,
+    
+  }    
+}
+export default connect(mapStateToProps,{adminLogin})(Login)
