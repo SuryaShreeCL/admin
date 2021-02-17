@@ -41,7 +41,8 @@ export default class Webinar extends Component {
               "Job Title",
               "Questions and Comments",
               "I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO",
-              "I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO"
+              "I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO",
+              "I want to build a PROFILE for"
             ];
             
             let newModifiedObject;
@@ -139,16 +140,58 @@ export default class Webinar extends Component {
                 document.getElementById("session").value ==
                 "Main Session - P+H"
               ) {
-                if (
+                if (newArray[m]["I want to build a PROFILE for"]=="Placements (Product/Core)" &&
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
+                  newArray[m]["Lead Category"] = "C - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (newArray[m]["I want to build a PROFILE for"]=="Placements (Product/Core)" &&
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
+                  newArray[m]["Lead Category"] = "C - C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (newArray[m]["I want to build a PROFILE for"]=="Masters Abroad" &&
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A - C0";
+                  newArray[m]["Lead Category"] = "A - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (newArray[m]["I want to build a PROFILE for"]=="Masters Abroad" &&
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
+                  newArray[m]["Lead Category"] = "A - C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C - C0";
+                  newArray[m]["Lead Category"] = "C - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
+                  newArray[m]["Lead Category"] = "C - C0a";
                 }
               }
               if (
