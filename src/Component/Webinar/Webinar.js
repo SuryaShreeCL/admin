@@ -143,12 +143,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "C-C0";
+                  newArray[m]["Original Lead Stage"] = "C - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "C-C0a";
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
                 }
               }
               if (
@@ -157,25 +157,25 @@ export default class Webinar extends Component {
                 if (
                   newArray[m]["I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO"]=="BookMySeat & Enroll NOW (Be in the First 10 Signups)"
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-Poll";
+                  newArray[m]["Original Lead Stage"] = "A - Poll";
                   newArray[m]["Lead Category"] = "A1";
                 }
                 else if(newArray[m]["I am AWARE there is a PRICE, PROCESS involved in BYJU's GRE,Profile Builder & ACS Platform, I WANT TO"]=="BookMySeat & Enroll Surely, but need to consult with parents"){
-                  newArray[m]["Original Lead Stage"] = "A-C2a";
+                  newArray[m]["Original Lead Stage"] = "A - C2a";
                   newArray[m]["Lead Category"] = "A2";
                 }
                 else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-C0a";
-                  newArray[m]["Lead Category"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
+                  newArray[m]["Lead Category"] = "A - C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "A-C2a";
-                  newArray[m]["Lead Category"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C2a";
+                  newArray[m]["Lead Category"] = "A - C0a";
                 }
               }
               if (
@@ -184,25 +184,25 @@ export default class Webinar extends Component {
                 if (
                   newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO"]=="BookMySeat & Enroll NOW (Be in the First 10 Signups)"
                 ) {
-                  newArray[m]["Original Lead Stage"] = "C-Poll";
+                  newArray[m]["Original Lead Stage"] = "C - Poll";
                   newArray[m]["Lead Category"] = "C1";
                 }
                 else if(newArray[m]["I am AWARE & CLEAR there is a PRICE, PROCESS involved in this PLATFORM. I WANT TO"]=="BookMySeat & Enroll Surely, Need More Time/More Clarity"){
-                  newArray[m]["Original Lead Stage"] = "C-C2a";
+                  newArray[m]["Original Lead Stage"] = "C - C2a";
                   newArray[m]["Lead Category"] = "C2";
                 }
                 else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "C-C0a";
-                  newArray[m]["Lead Category"] = "C-C0a";
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
+                  newArray[m]["Lead Category"] = "C - C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Lead Category"] = "C-C0a";
-                  newArray[m]["Original Lead Stage"] = "C-C2a";
+                  newArray[m]["Lead Category"] = "C - C0a";
+                  newArray[m]["Original Lead Stage"] = "C - C2a";
                 }
               }
               if (
@@ -212,12 +212,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-C0";
+                  newArray[m]["Original Lead Stage"] = "A - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
                 }
               }
               if (
@@ -228,12 +228,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "A-C2a";
+                  newArray[m]["Original Lead Stage"] = "A - C2a";
                 }
               }
               if (
@@ -244,7 +244,7 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "CLAPP-C0";
+                  newArray[m]["Original Lead Stage"] = "CLAPP - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
@@ -252,9 +252,9 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) >
                   parseInt(document.getElementById("duration2").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "CLAPP-C2A";
+                  newArray[m]["Original Lead Stage"] = "CLAPP - C2a";
                 } else {
-                  newArray[m]["Original Lead Stage"] = "CLAPP-C0A";
+                  newArray[m]["Original Lead Stage"] = "CLAPP - C0a";
                 }
               }
               if (
@@ -265,12 +265,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-C0";
+                  newArray[m]["Original Lead Stage"] = "A - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
                 }
               }
               if (
@@ -281,12 +281,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "C-C0";
+                  newArray[m]["Original Lead Stage"] = "C - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "C-C0a";
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
                 }
               }
               newModifiedObject = {
@@ -410,12 +410,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "C-C0";
+                  newArray[m]["Original Lead Stage"] = "C - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "C-C0a";
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
                 }
               }
               if (
@@ -425,12 +425,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "A-C2a";
+                  newArray[m]["Original Lead Stage"] = "A - C2a";
                 }
               }
               if (
@@ -440,12 +440,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "C-C0a";
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "C-C2a";
+                  newArray[m]["Original Lead Stage"] = "C - C2a";
                 }
               }
               if (
@@ -455,12 +455,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-C0";
+                  newArray[m]["Original Lead Stage"] = "A - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
                 }
               }
               if (
@@ -471,12 +471,12 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "A-C0a";
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
-                  newArray[m]["Original Lead Stage"] = "A-C2a";
+                  newArray[m]["Original Lead Stage"] = "A - C2a";
                 }
               }
               if (
@@ -487,7 +487,7 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "CLAPP-C0";
+                  newArray[m]["Original Lead Stage"] = "CLAPP - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
@@ -495,9 +495,41 @@ export default class Webinar extends Component {
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >
                   parseInt(document.getElementById("duration2").value)
                 ) {
-                  newArray[m]["Original Lead Stage"] = "CLAPP-C2A";
+                  newArray[m]["Original Lead Stage"] = "CLAPP - C2a";
                 } else {
-                  newArray[m]["Original Lead Stage"] = "CLAPP-C0A";
+                  newArray[m]["Original Lead Stage"] = "CLAPP - C0a";
+                }
+              }
+              if (
+                document.getElementById("session").value ==
+                "Main Session - H Re-Eng"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
+                }
+              }
+              if (
+                document.getElementById("session").value ==
+                "Main Session - P+H Re-Eng"
+              ) {
+                if (
+                  parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                } else {
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
                 }
               }
               newModifiedObject = {
