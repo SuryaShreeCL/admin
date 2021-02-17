@@ -40,9 +40,9 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const drawerWidth = 240;
 const NavbarList = [
-      { id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
-      { id: 'students', icon: <PeopleIcon />, title: 'Students' },
-      { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
+      {id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
+      {id: 'students', icon: <PeopleIcon />, title: 'Students' },
+      {id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
       {id: 'college', icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
       {id: 'university', icon:<SchoolRoundedIcon />, title:'University'},
       {id: 'city', icon:<LocationCityRoundedIcon />, title:'City'},
@@ -51,6 +51,7 @@ const NavbarList = [
       {id: 'video', icon:<VideocamRoundedIcon />, title:'Video'},
       {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
       {id: 'webinar', icon:<SupervisorAccountIcon />, title:'Webinar'},
+      {id: 'career-track', icon:<SupervisorAccountIcon />, title:'Career Track'},
       // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
       // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
     ];

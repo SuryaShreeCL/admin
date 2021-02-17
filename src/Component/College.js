@@ -317,7 +317,7 @@ createMuiTheme({
             }}
           /> */}
 
-          {/* Add adnd Edit College Dialog */}
+          {/* Add and Edit College Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog

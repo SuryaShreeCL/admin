@@ -150,6 +150,7 @@ export default class TableComponent extends Component {
         <tr
           key={index}
           onClick={(e) => {
+            if(this.props.onRowClick!==undefined)
             this.props.onRowClick(row)
           }}
           style={body.tr}

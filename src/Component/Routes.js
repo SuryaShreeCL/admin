@@ -41,7 +41,10 @@ import {
   choicePath,
   videoPath,
   productPath,
-  webinarPath
+  webinarPath,
+  careerTrackPath,
+  careerTrackVideoSetPath,
+  careerTrackVideoPath
 } from "./RoutePaths";
 import College  from "./College";
 import University from "./University";
@@ -55,6 +58,9 @@ import Choice from "./Question/Choice"
 import Video from "./Video/Video"
 import Product from "./Product/Product";
 import Webinar from "./Webinar/Webinar";
+import CareerTrack from "./CareerTrack/Index"
+import CareerTrackVideoSet from "./CareerTrack/CareerTrackVideoSet";
+import CareerTrackVideo from "./CareerTrack/CareerTrackVideo";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -126,6 +132,9 @@ export default function Routes() {
           <Route exact path={videoPath} component={Video} />
           <Route exact path={productPath} component={Product} />
           <Route exact path={webinarPath} component={Webinar} />
+          <Route exact path={careerTrackPath} component={CareerTrack} />
+          <Route exact path={careerTrackPath+careerTrackVideoSetPath} component={CareerTrackVideoSet} />
+          <Route exact path={careerTrackPath+careerTrackVideoPath+"/:id"} component={CareerTrackVideo} />
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>
