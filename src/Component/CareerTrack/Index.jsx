@@ -12,10 +12,15 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { Grid, TextField } from "@material-ui/core";
+import {getCourses} from "../../Actions/Course";
+import {getBranches} from "../../Actions/College"
+import {viewAllCareerTrack,addCareerTrack} from "../../Actions/CareerTrackAction"
 import { careerTrackPath, careerTrackVideoSetPath } from "../RoutePaths";
 import history from '../History'
-
-export default class Index extends Component {
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import axios from "axios";
+import {connect} from 'react-redux';
+export class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,8 +36,8 @@ export default class Index extends Component {
       ],
       openModel: false,
       name: "",
-      courseId: "",
-      departmentId: "",
+      courseId: null,
+      departmentId: null,
       displayImageURL: "",
       type: "",
       label: "",
@@ -63,7 +68,8 @@ export default class Index extends Component {
   }
 
   renderCreateModel = () => {
-    const { openModel, label } = this.state;
+   
+    const { openModel, label, courseList } = this.state;
     const { doCreateCareerTrackApp } =this
     return (
       <Dialog
@@ -89,47 +95,25 @@ export default class Index extends Component {
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
                 {/* Select Course */}
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Course Name
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={this.state.courseId}
-                    onChange={(e) => {
-                      this.setState({ courseId: e.target.value });
-                    }}
-                    label="Course Name"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Starter Pack</MenuItem>                    
-                  </Select>
-                </FormControl>
+                <Autocomplete
+                id="combo-box-demo"
+                options={this.props.courseList}
+                onChange={(e,newValue)=>this.setState({courseId : newValue.id})}
+                getOptionLabel={(option) => option.name}
+                fullWidth
+                renderInput={(params) => <TextField {...params} label="Course Name" variant="outlined" />}
+              />
               </Grid>             
               <Grid item xs={12} sm={6} md={6}>
                 {/* Select Department */}
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Department Name
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={this.state.departmentId}
-                    onChange={(e) => {
-                      this.setState({ departmentId: e.target.value });
-                    }}
-                    label="Department Name"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Computer Science</MenuItem>                    
-                  </Select>
-                </FormControl>
+                <Autocomplete
+                id="combo-box-demo"
+                options={this.props.departmentList}
+                onChange={(e,newValue)=>this.setState({departmentId : newValue.id})}
+                getOptionLabel={(option) => option.name}
+                fullWidth
+                renderInput={(params) => <TextField {...params} label="Department Name" variant="outlined" />}
+              />
               </Grid>             
 
               <Grid item xs={12} sm={6} md={6}>
@@ -178,14 +162,17 @@ export default class Index extends Component {
   doCreateCareerTrackApp=()=>{      
       //Create Career Track      
       const {name,type,courseId,departmentId,displayImageURL} = this.state
-      let obj={        
-        name:name,
-        type:type,
-        courseId:courseId,
-        departmentId:departmentId,      
-        displayImageURL:displayImageURL,
-      }
-      console.log("data is created",obj)
+      let obj = {
+        name: name,
+        courseId: courseId,
+        belongsTo: {
+          departmentId: departmentId,
+        },
+        displayImageURL:
+          displayImageURL,
+        type: type,
+      };
+      this.props.addCareerTrack(obj)
   }
 
   doUpdateCareerTrackApp=()=>{
@@ -204,9 +191,15 @@ export default class Index extends Component {
     history.push(careerTrackPath+careerTrackVideoSetPath)
   }
 
-  
+  componentDidMount(){
+    this.props.getCourses()
+    this.props.getBranches()
+    this.props.viewAllCareerTrack()
+  }
 
   render() {
+    
+    console.log(this.props.careerTrackList)
     const { careerTrackAppList } = this.state;
     const { column, openCreateModel ,openUpdateModel ,handleRowClick} = this;
     return (
@@ -236,3 +229,13 @@ export default class Index extends Component {
     );
   }
 }
+
+const mapStateToProps=(state)=>{
+  return {
+    courseList: state.CourseReducer.CourseList,
+    departmentList: state.CollegeReducer.BranchList,
+    careerTrackList : state.CareerTrackReducer.careerTrackList,
+  }
+}
+export default connect(mapStateToProps,{getCourses,getBranches,viewAllCareerTrack,addCareerTrack})(Index)
+

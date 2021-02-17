@@ -49,28 +49,33 @@ export default class CareerTrackVideo extends Component {
   column = [
     { title: "Order No", fieldName: "orderNo" },
     { title: "Name", fieldName: "name" },
-    { title: "Display Image Url", fieldName: "displayImageURL" },
+    { title: "Video Url", fieldName: "videoUrl" },
+    { title: "Duration", fieldName: "duration" },
+    { title: "Career track videoset ID", fieldName: "careerTrackVideoSet.id" },
   ];
 
   doCreateCareerTrackApp = () => {
     //Create Career Track
-    const { name, orderNo, displayImageURL } = this.state;
+    const { name, orderNo, videoUrl, duration } = this.state;
     let obj = {
       name: name,
       orderNo: orderNo,
-      displayImageURL: displayImageURL,
+      videoUrl: videoUrl,
+      duration : duration,
     };
     console.log("data is created", obj);
   };
 
   doUpdateCareerTrackApp = () => {
     // Update Career Track App
-    const { name, orderNo, displayImageURL } = this.state;
+    const { name, orderNo, videoUrl, duration } = this.state;
     let obj = {
       name: name,
       orderNo: orderNo,
-      displayImageURL: displayImageURL,
+      videoUrl: videoUrl,
+      duration : duration,
     };
+    console.log("Data is updated", obj)
   };
 
   openUpdateModel = (data) => {
@@ -78,9 +83,10 @@ export default class CareerTrackVideo extends Component {
     this.setState({
       openModel: true,
       name: data.name,
-      type: data.type,
+      orderNo : data.orderNo,
       label: "Update",
-      displayImageURL: data.displayImageURL,
+      videoUrl: data.videoUrl,
+      duration : data.duration
     });
   };
 
@@ -89,7 +95,8 @@ export default class CareerTrackVideo extends Component {
       openModel: true,
       label: "Create",
       name: "",
-      displayImageURL: "",
+      videoUrl: "",
+      duration : "",
       orderNo: "",
     });
   };
@@ -138,10 +145,10 @@ export default class CareerTrackVideo extends Component {
               <Grid item xs={12} sm={12} md={12}>
                 {/* videoUrl */}
                 <TextField
-                  label={"Name"}
+                  label={"Video URL"}
                   variant={"outlined"}
-                  value={this.state.name}
-                  onChange={(e) => this.setState({ name: e.target.value })}
+                  value={this.state.videoUrl}
+                  onChange={(e) => this.setState({ videoUrl: e.target.value })}
                   fullWidth
                 />
               </Grid>
@@ -149,10 +156,10 @@ export default class CareerTrackVideo extends Component {
               <Grid item xs={12} sm={12} md={12}>
                 {/* duration */}
                 <TextField
-                  label={"Name"}
+                  label={"Duration"}
                   variant={"outlined"}
-                  value={this.state.name}
-                  onChange={(e) => this.setState({ name: e.target.value })}
+                  value={this.state.duration}
+                  onChange={(e) => this.setState({ duration: e.target.value })}
                   fullWidth
                 />
               </Grid>
@@ -209,7 +216,7 @@ export default class CareerTrackVideo extends Component {
 
         /> */}
         <TableComponent
-          title={"Career Track Video Set"}
+          title={"Career Track Video"}
           data={data.length !== 0 ? data : null}
           cols={column}
           add={true}

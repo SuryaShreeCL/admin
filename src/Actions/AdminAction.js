@@ -16,3 +16,24 @@ export const adminLogin=(data)=>{
     }
     
 }
+
+export const toRefreshToken=(data)=>{
+    let refreshToken = window.sessionStorage.getItem("refreshToken")
+    return dispatch => {
+        axios.get(URL+"/api/v1/refresh/token",{
+            crossDomain: true,
+        headers : {
+            "x-refresh-token" : refreshToken,
+            "admin" : "yes"
+        }
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.refreshToken,refreshTokenDetails:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}

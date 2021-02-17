@@ -10,6 +10,7 @@ import QuestionSetReducer  from "../Reducer/QuestionSetReducer"
 import VideoReducer from "../Reducer/VideoReducer"
 import ProductReducer from "../Reducer/ProductReducer"
 import AdminReducer from "../Reducer/AdminReducer"
+import CareerTrackReducer from "../Reducer/CareerTrackReducer"
 export default combineReducers({
   CourseReducer: CourseReducer,
   QuestionsReducer: QuestionsReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
   VideoReducer : VideoReducer,
   ProductReducer : ProductReducer,
   AdminReducer : AdminReducer,
+  CareerTrackReducer : CareerTrackReducer,
 });

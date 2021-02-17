@@ -125,5 +125,13 @@ export const PRODUCT = {
 }
 
 export const ADMIN = {
-	adminLogin :  "adminLogin"
+	adminLogin :  "adminLogin",
+	refreshToken : "refreshToken",
+}
+
+export const CAREER_TRACK = {
+	addCareerTrack : "addCareerTrack",
+	viewCareerTrack : "viewCareerTrack",
+	updateCareerTrack : "updateCareerTrack",
+	deleteCareerTrack : "deleteCareerTrack",
 }
