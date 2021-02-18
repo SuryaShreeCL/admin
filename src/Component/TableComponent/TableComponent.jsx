@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Pagination from "@material-ui/lab/Pagination";
 import TablePagination from "@material-ui/core/TablePagination";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme, Hidden, ThemeProvider } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -228,6 +228,7 @@ export default class TableComponent extends Component {
 
   render() {
     const { header, spacer, footer, body } = table;
+    var spin=true    
     return (
       <div>
         {/* paper Container */}
@@ -283,8 +284,8 @@ export default class TableComponent extends Component {
                     </thead>
                     <tbody>{this.renderTableData()}</tbody>
                   </>
-                ) : (
-                  <Spinner visible={true} />
+                ) : (                                    
+                  <Spinner visible={spin} />                                                                      
                 )}
               </table>
             </Grid>

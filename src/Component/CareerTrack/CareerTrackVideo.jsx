@@ -7,35 +7,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import {getCareerTrackVideo ,createCareerTrackVideo ,updateCareerTrackVideo} from "../../Actions/CareerTrackAction"
+import { connect } from "react-redux";
 
-export default class CareerTrackVideo extends Component {
+export class CareerTrackVideo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {
-          id: "29cf2526-f1d0-40e2-95e5-d04f1c049c75",
-          name: "Skills Required",
-          orderNo: 10,
-          videoUrl:
-            "https://player.vimeo.com/external/371357696.hd.mp4?s=c78ef887961bc20cf38aba675dea3bbc8ae11162&profile_id=175",
-          duration: 50.0,
-          careerTrackVideoSet: {
-            id: "39b64faf-627c-4ee8-91ef-9b09f2362bde",
-          },
-        },
-        {
-          id: "29cf2526-f1d0-40e2-95e5-d04f1c049c75",
-          name: "Skills Required",
-          orderNo: 10,
-          videoUrl:
-            "https://player.vimeo.com/external/371357696.hd.mp4?s=c78ef887961bc20cf38aba675dea3bbc8ae11162&profile_id=175",
-          duration: 50.0,
-          careerTrackVideoSet: {
-            id: "39b64faf-627c-4ee8-91ef-9b09f2362bde",
-          },
-        },
-      ],
+      data: [],
       label: "",
       openModel: false,
       name: "",
@@ -43,6 +22,7 @@ export default class CareerTrackVideo extends Component {
       videoUrl:"",
       duration:0,
       displayImageURL: "",
+      id:"",
     };
   }
 
@@ -50,9 +30,15 @@ export default class CareerTrackVideo extends Component {
     { title: "Order No", fieldName: "orderNo" },
     { title: "Name", fieldName: "name" },
     { title: "Video Url", fieldName: "videoUrl" },
-    { title: "Duration", fieldName: "duration" },
-    { title: "Career track videoset ID", fieldName: "careerTrackVideoSet.id" },
+    { title: "Duration", fieldName: "duration" },    
   ];
+
+
+  componentDidMount(){
+    this.props.getCareerTrackVideo(this.props.match.params.id,(response)=>{      
+      this.setState({data:response})  
+    })    
+  }
 
   doCreateCareerTrackApp = () => {
     //Create Career Track
@@ -62,20 +48,38 @@ export default class CareerTrackVideo extends Component {
       orderNo: orderNo,
       videoUrl: videoUrl,
       duration : duration,
-    };
-    console.log("data is created", obj);
+      careerTrackVideoSet:{
+        id:this.props.match.params.id
+      }      
+    };  
+    
+    this.props.createCareerTrackVideo(obj,res=>{
+      this.props.getCareerTrackVideo(this.props.match.params.id,(response)=>{      
+        this.setState({data:response,openModel:false})  
+      }) 
+    })
+
   };
 
   doUpdateCareerTrackApp = () => {
     // Update Career Track App
-    const { name, orderNo, videoUrl, duration } = this.state;
+    const { name, orderNo, videoUrl, duration ,id} = this.state;
     let obj = {
       name: name,
       orderNo: orderNo,
       videoUrl: videoUrl,
       duration : duration,
+      careerTrackVideoSet:{
+        id:this.props.match.params.id
+      },           
+      id:id,
     };
-    console.log("Data is updated", obj)
+    
+    this.props.updateCareerTrackVideo(obj,response=>{
+      this.props.getCareerTrackVideo(this.props.match.params.id,(response)=>{      
+        this.setState({data:response,openModel:false})  
+      })
+    })
   };
 
   openUpdateModel = (data) => {
@@ -86,7 +90,8 @@ export default class CareerTrackVideo extends Component {
       orderNo : data.orderNo,
       label: "Update",
       videoUrl: data.videoUrl,
-      duration : data.duration
+      duration : data.duration,
+      id:data.id,
     });
   };
 
@@ -107,7 +112,7 @@ export default class CareerTrackVideo extends Component {
 
   renderCreateModel = () => {
     const { openModel, label } = this.state;
-    const { doCreateCareerTrackApp } = this;
+    const { doCreateCareerTrackApp ,doUpdateCareerTrackApp } = this;
     return (
       <Dialog
         fullWidth={"sm"}
@@ -176,7 +181,7 @@ export default class CareerTrackVideo extends Component {
           >
             Close
           </Button>
-          <Button color="primary" onClick={doCreateCareerTrackApp}>
+          <Button color="primary" onClick={label==='Create' ? doCreateCareerTrackApp : doUpdateCareerTrackApp}>
             {label}
           </Button>
         </DialogActions>
@@ -234,3 +239,5 @@ export default class CareerTrackVideo extends Component {
     );
   }
 }
+
+export default connect(null,{getCareerTrackVideo ,createCareerTrackVideo ,updateCareerTrackVideo})(CareerTrackVideo)
