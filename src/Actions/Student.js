@@ -3,9 +3,14 @@ import {URL} from './URL'
 import axios from 'axios'
 
 export const getStudents=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch => {
         axios.get(URL+"/api/v1/students", {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.getStudent,StudentList:result.data})
@@ -17,12 +22,17 @@ export const getStudents=()=>{
 }
 
 export const getStudentPaginate=(pageNumber,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     if(keyword === null || keyword === undefined ){
         keyword='';
     }
     return dispatch =>{        
         axios.get(URL+"/api/v1/students/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
             crossDomain:true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
         .then(result=>{
             dispatch({type:STUDENT.getStudentPaginate,StudentFilterResult:result.data});
