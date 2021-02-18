@@ -251,7 +251,47 @@ export default class Webinar extends Component {
               if (
                 document.getElementById("session").value == "Main Session - H"
               ) {
-                if (
+                if (newArray[m]["I want to build a PROFILE for"]=="Masters Abroad" &&
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A - C0";
+                  newArray[m]["Lead Category"] = "A - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (newArray[m]["I want to build a PROFILE for"]=="Masters Abroad" &&
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
+                  newArray[m]["Lead Category"] = "A - C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (newArray[m]["I want to build a PROFILE for"]=="Placements (Product/Core)" &&
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C - C0";
+                  newArray[m]["Lead Category"] = "C - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (newArray[m]["I want to build a PROFILE for"]=="Placements (Product/Core)" &&
+                  parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
+                  parseInt(document.getElementById("duration1").value)
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
+                  newArray[m]["Lead Category"] = "C - C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
