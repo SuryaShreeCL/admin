@@ -8,39 +8,22 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import history from "../History"
-import {careerTrackPath,careerTrackVideoPath} from "../RoutePaths"
+import {careerTrackPath, careerTrackVideoSetPath, careerTrackVideoPath} from "../RoutePaths"
+import { getCareerTrackVideoSet ,createCareerTrackVideoSet ,updateCareerTrackVideoSet } from "../../Actions/CareerTrackAction"
+import { connect } from "react-redux";
 
-export default class CareerTrackVideoSet extends Component {
+export class CareerTrackVideoSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {
-          id: "b911249d-7cb7-40fd-9078-eaf5353bda27",
-          name: "Upskill and Learn",
-          orderNo: 1,
-          displayImageURL:
-            "https://mobileapp-clabs.s3.ap-south-1.amazonaws.com/19362653.jpg",
-          careerTrackApp: {
-            id: "2e8e2e06-b99c-4c37-8305-0504b40ed5f2",
-          },
-        },
-        {
-          id: "b911249d-7cb7-40fd-9078-eaf5353bda28",
-          name: "Upskill and Learn 1",
-          orderNo: 2,
-          displayImageURL:
-            "https://mobileapp-clabs.s3.ap-south-1.amazonaws.com/19362653.jpg",
-          careerTrackApp: {
-            id: "2e8e2e06-b99c-4c37-8305-0504b40ed5f2",
-          },
-        },
-      ],
+      data: [],
       label:'',
       openModel:false,
       name:'',
       orderNo:'',
-      displayImageURL:''
+      displayImageURL:'',
+      id:'',
+
     };
   }
 
@@ -50,6 +33,12 @@ export default class CareerTrackVideoSet extends Component {
     { title: "Display Image Url", fieldName: "displayImageURL" },
   ];
 
+  componentDidMount(){
+    this.props.getCareerTrackVideoSet(this.props.match.params.id,(response)=>{
+      this.setState({data:response})
+    })
+  }
+
   doCreateCareerTrackApp=()=>{      
     //Create Career Track      
     const {name,orderNo,displayImageURL} = this.state
@@ -57,18 +46,36 @@ export default class CareerTrackVideoSet extends Component {
       name:name,      
       orderNo:orderNo,
       displayImageURL:displayImageURL,
+      careerTrackApp:{
+        id:this.props.match.params.id
+      }
     }
-    console.log("data is created",obj)
+    this.props.createCareerTrackVideoSet(obj,(response)=>{      
+      this.setState({openModel:false})
+      this.props.getCareerTrackVideoSet(this.props.match.params.id,(response)=>{
+        this.setState({data:response})
+      })
+    })    
 }
 
 doUpdateCareerTrackApp=()=>{
     // Update Career Track App
-    const {name,orderNo,displayImageURL} = this.state
+    const {name,orderNo,displayImageURL,id} = this.state
     let obj={        
       name:name,
       orderNo:orderNo,      
       displayImageURL:displayImageURL,   
-    }      
+      id:this.state.id,
+      careerTrackApp:{
+        id:this.props.match.params.id
+      }
+    }     
+    
+    this.props.updateCareerTrackVideoSet(obj,response=>{
+      this.props.getCareerTrackVideoSet(this.props.match.params.id,(response)=>{
+        this.setState({data:response ,openModel:false})
+      })
+    })
 }
 
 openUpdateModel=(data)=>{
@@ -78,8 +85,10 @@ openUpdateModel=(data)=>{
         name:data.name,
         type:data.type,
         label:'Update',
-        displayImageURL: data.displayImageURL     
-    })
+        displayImageURL: data.displayImageURL  ,
+        id:data.id,      
+        orderNo:data.orderNo  
+    })    
 }
 
 openCreateModel = () => {
@@ -87,12 +96,12 @@ openCreateModel = () => {
   };
 
 handleRowClick=(rowData)=>{
-    history.push(careerTrackPath+careerTrackVideoPath+"/"+rowData.id)
+    history.push(`${careerTrackPath}${careerTrackVideoSetPath}/${rowData.id}${careerTrackVideoPath}`)
 }
 
   renderCreateModel = () => {
     const { openModel, label } = this.state;
-    const { doCreateCareerTrackApp } = this;
+    const { doCreateCareerTrackApp ,doUpdateCareerTrackApp } = this;
     return (
       <Dialog
         fullWidth={"sm"}
@@ -149,7 +158,7 @@ handleRowClick=(rowData)=>{
           >
             Close
           </Button>
-          <Button color="primary" onClick={doCreateCareerTrackApp}>
+          <Button color="primary" onClick={label ==='Create' ? doCreateCareerTrackApp : doUpdateCareerTrackApp}>
             {label}
           </Button>
         </DialogActions>
@@ -159,8 +168,7 @@ handleRowClick=(rowData)=>{
 
   render() {
     const { data } = this.state;
-    const { column ,renderCreateModel ,openCreateModel,openUpdateModel,handleRowClick} = this;    
-
+    const { column ,renderCreateModel ,openCreateModel,openUpdateModel,handleRowClick} = this;        
     return (
       <div>
         {/* <TableComponent
@@ -202,3 +210,5 @@ handleRowClick=(rowData)=>{
     );
   }
 }
+
+export default connect(null,{getCareerTrackVideoSet ,createCareerTrackVideoSet ,updateCareerTrackVideoSet})(CareerTrackVideoSet)

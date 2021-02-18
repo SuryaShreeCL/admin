@@ -133,8 +133,8 @@ export default function Routes() {
           <Route exact path={productPath} component={Product} />
           <Route exact path={webinarPath} component={Webinar} />
           <Route exact path={careerTrackPath} component={CareerTrack} />
-          <Route exact path={careerTrackPath+careerTrackVideoSetPath} component={CareerTrackVideoSet} />
-          <Route exact path={careerTrackPath+careerTrackVideoPath+"/:id"} component={CareerTrackVideo} />
+          <Route exact path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`} component={CareerTrackVideoSet} />
+          <Route exact path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`} component={CareerTrackVideo} />
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>

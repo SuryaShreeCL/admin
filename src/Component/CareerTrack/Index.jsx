@@ -14,7 +14,7 @@ import Select from "@material-ui/core/Select";
 import { Grid, TextField } from "@material-ui/core";
 import {getCourses} from "../../Actions/Course";
 import {getBranches} from "../../Actions/College"
-import {viewAllCareerTrack,addCareerTrack} from "../../Actions/CareerTrackAction"
+import {viewAllCareerTrack,addCareerTrack ,updateCareerTrack} from "../../Actions/CareerTrackAction"
 import { careerTrackPath, careerTrackVideoSetPath } from "../RoutePaths";
 import history from '../History'
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -41,19 +41,20 @@ export class Index extends Component {
       displayImageURL: "",
       type: "",
       label: "",
+      id:"",
     };
   }
 
   column = [
     { title: "Name", fieldName: "name" },
-    { title: "Course Name", fieldName: "courseName" },
-    { title: "Department Name", fieldName: "departmentName" },
+    { title: "Course Id", fieldName: "courseId" },
+    { title: "Department Name", fieldName: "belongsTo.name" },
     { title: "Display Image Url", fieldName: "displayImageURL" },
     { title: "Type", fieldName: "type" },
   ];
 
   openCreateModel = () => {
-    this.setState({ openModel: true, label: "Create" ,name:'' ,type :'' });
+    this.setState({ openModel: true, label: "Create" ,name:'' ,type :'' ,departmentId :null,courseId :null });
   };
 
   openUpdateModel=(data)=>{
@@ -63,14 +64,15 @@ export class Index extends Component {
           name:data.name,
           type:data.type,
           label:'Update',
-          displayImageURL: data.displayImageURL     
+          displayImageURL: data.displayImageURL,
+          id:data.id          
       })
   }
 
   renderCreateModel = () => {
    
     const { openModel, label, courseList } = this.state;
-    const { doCreateCareerTrackApp } =this
+    const { doCreateCareerTrackApp ,doUpdateCareerTrackApp } =this
     return (
       <Dialog
         fullWidth={"sm"}
@@ -150,7 +152,7 @@ export class Index extends Component {
           </Button>
           <Button
             color="primary"
-            onClick={doCreateCareerTrackApp}
+            onClick={label==='Create' ? doCreateCareerTrackApp : doUpdateCareerTrackApp}
           >
             {label}
           </Button>
@@ -173,22 +175,32 @@ export class Index extends Component {
         type: type,
       };
       this.props.addCareerTrack(obj)
+      this.props.viewAllCareerTrack()
+      this.setState({openModel:false})
+
   }
 
   doUpdateCareerTrackApp=()=>{
       // Update Career Track App
-      const {name,type,courseId,departmentId,displayImageURL} = this.state
+      const {name,type,courseId,departmentId,displayImageURL,id} = this.state
       let obj={        
         name:name,
         type:type,
         courseId:courseId,
-        departmentId:departmentId,   
+        belongsTo: {
+          departmentId:departmentId
+      },
         displayImageURL:displayImageURL,   
-      }      
+        id:id
+      }
+      this.props.updateCareerTrack(obj,(response)=>{
+        this.props.viewAllCareerTrack()
+        this.setState({openModel:false})
+      })
   }
 
   handleRowClick=(rowData)=>{
-    history.push(careerTrackPath+careerTrackVideoSetPath)
+    history.push(careerTrackPath+`/${rowData.id}`+careerTrackVideoSetPath)
   }
 
   componentDidMount(){
@@ -197,16 +209,15 @@ export class Index extends Component {
     this.props.viewAllCareerTrack()
   }
 
-  render() {
-    
-    console.log(this.props.careerTrackList)
-    const { careerTrackAppList } = this.state;
+
+  render() {            
+    const { careerTrackList } = this.props;
     const { column, openCreateModel ,openUpdateModel ,handleRowClick} = this;
     return (
       <div>        
         <TableComponent
           title={"Career Track"}
-          data={careerTrackAppList.length !== 0 ? careerTrackAppList : null}
+          data={careerTrackList.length !== 0 ? careerTrackList : null}
           cols={column}
           add={true}
           action={true}
@@ -219,8 +230,8 @@ export class Index extends Component {
 
           // Paginate
           paginate={()=>{}}
-          totalCount={careerTrackAppList.length}          
-          pageCount={careerTrackAppList.length}
+          totalCount={careerTrackList.length}          
+          pageCount={careerTrackList.length}
 
         />             
 
@@ -237,5 +248,5 @@ const mapStateToProps=(state)=>{
     careerTrackList : state.CareerTrackReducer.careerTrackList,
   }
 }
-export default connect(mapStateToProps,{getCourses,getBranches,viewAllCareerTrack,addCareerTrack})(Index)
+export default connect(mapStateToProps,{getCourses,getBranches,viewAllCareerTrack,addCareerTrack ,updateCareerTrack})(Index)
 
