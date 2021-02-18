@@ -296,11 +296,13 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
+                  newArray[m]["Lead Category"] = "A - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
+                  newArray[m]["Lead Category"] = "A - C0a";
                 }
               }
               if (
@@ -440,7 +442,9 @@ export default class Webinar extends Component {
               "Semester",
               "Organization",
               "Job Title",
-              "Questions & Comments"
+              "Questions & Comments",
+              "Industry",
+              "Choice of Career After Graduation"
             ];
             
             let newModifiedObject;
@@ -489,16 +493,66 @@ export default class Webinar extends Component {
                 document.getElementById("session").value ==
                 "Main Session - P+H"
               ) {
-                if (
+                if ((newArray[m]["Industry"]=="Placements" &&
+                  parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value)) || (newArray[m]["Choice of Career After Graduation"]=="Placements" &&
+                  parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
+                  parseInt(document.getElementById("duration1").value))
+                ) {
+                  newArray[m]["Original Lead Stage"] = "C - C0";
+                  newArray[m]["Lead Category"] = "C - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if ((newArray[m]["Industry"]=="Placements" &&
+                parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
+                parseInt(document.getElementById("duration1").value)) || (newArray[m]["Choice of Career After Graduation"]=="Placements" &&
+                parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
+                parseInt(document.getElementById("duration1").value))
+              ) {
+                  newArray[m]["Original Lead Stage"] = "C - C0a";
+                  newArray[m]["Lead Category"] = "C - C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if ((newArray[m]["Industry"]=="HigherEducation" &&
+                parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
+                parseInt(document.getElementById("duration1").value)) || ((newArray[m]["Choice of Career After Graduation"]=="HIGHER EDUCATION - ABROAD" || newArray[m]["Choice of Career After Graduation"]=="HIGHER EDUCATION - INDIA") &&
+                parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
+                parseInt(document.getElementById("duration1").value))
+              ) {
+                  newArray[m]["Original Lead Stage"] = "A - C0";
+                  newArray[m]["Lead Category"] = "A - C0";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if ((newArray[m]["Industry"]=="HigherEducation" &&
+                parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
+                parseInt(document.getElementById("duration1").value)) || ((newArray[m]["Choice of Career After Graduation"]=="HIGHER EDUCATION - ABROAD" || newArray[m]["Choice of Career After Graduation"]=="HIGHER EDUCATION - INDIA") &&
+                parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
+                parseInt(document.getElementById("duration1").value))
+              ) {
+                  newArray[m]["Original Lead Stage"] = "A - C0a";
+                  newArray[m]["Lead Category"] = "A - C0a";
+                  console.log(
+                    typeof document.getElementById("duration1").value
+                  );
+                }
+                else if (
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
+                  newArray[m]["Lead Category"] = "C - C0";
                   console.log(
                     typeof document.getElementById("duration1").value
                   );
                 } else {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
+                  newArray[m]["Lead Category"] = "C - C0a";
                 }
               }
               if (
