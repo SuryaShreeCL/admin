@@ -204,6 +204,7 @@ export class Question extends Component {
           description : this.state.description,
           question : this.state.question,
           timeRemaining : this.state.time, 
+          ImgURL : this.state.url
     };
     if (this.state.name.length !== 0) {
       this.props.updateQuestion(newQuestionObj);

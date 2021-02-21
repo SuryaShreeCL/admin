@@ -90,7 +90,7 @@ export const addQuestion=(data)=>{
 }
 export const updateQuestion=(data)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/testquestion",data,{
+        axios.put(URL+"/api/v1/questions",data,{
             crossDomain: true
         })
             .then(result => {
