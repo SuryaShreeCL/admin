@@ -768,6 +768,9 @@ export default class Webinar extends Component {
         }, 2000);
       }
     }
+    function UpdateLead(){
+      console.log("updated")
+    }
     return (
       <div className="flexColumn">
         <h2 className="heading">Webinars Lead Automation</h2>
@@ -827,7 +830,15 @@ export default class Webinar extends Component {
           </h3>
           <div class="container1">
             <button id="btn-upload-csv" type="submit" onClick={ReadCSV}>
-              Download
+              Process and Download
+            </button>
+          </div>
+          <h3 className="step3">
+            Step 4: Click on Update button to update attendee details to leadsquared
+          </h3>
+          <div class="container1">
+            <button id="btn-update-attendee" type="submit" onClick={UpdateLead}>
+              Update Attendee
             </button>
           </div>
         </form>
