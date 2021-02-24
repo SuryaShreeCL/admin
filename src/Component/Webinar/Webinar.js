@@ -7,6 +7,7 @@ import "./Webinar.css";
 export default class Webinar extends Component {
   render() {
     let bigArray;
+    let newModifiedArray = [];
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
@@ -26,7 +27,7 @@ export default class Webinar extends Component {
             bigArray = results.data;
             console.log(bigArray);
             let newArray = [];
-            let newModifiedArray = [];
+            newModifiedArray = [];
             let keyItems = [
               "First Name",
               "Last Name",
@@ -429,7 +430,7 @@ export default class Webinar extends Component {
             bigArray = results.data;
             console.log(bigArray);
             let newArray = [];
-            let newModifiedArray = [];
+            newModifiedArray = [];
             let keyItems = [
               "First Name",
               "Last Name",
