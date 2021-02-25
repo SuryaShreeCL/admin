@@ -24,9 +24,9 @@ export default class Webinar extends Component {
           download: true,
           header: false,
           complete: function(results) {
-            console.log(results.data);
+            // console.log(results.data);
             bigArray = results.data;
-            console.log(bigArray);
+            // console.log(bigArray);
             let newArray = [];
             newModifiedArray = [];
             let keyItems = [
@@ -75,9 +75,9 @@ export default class Webinar extends Component {
                               time =
                                 parseInt(attendeeTimeArray[0]) * 60 +
                                 parseInt(attendeeTimeArray[2]);
-                              console.log(
-                                JSON.stringify(time) + " " + "minutes"
-                              );
+                              // console.log(
+                              //   JSON.stringify(time) + " " + "minutes"
+                              // );
                               object[element] =
                                 JSON.stringify(time) + " " + "minutes";
                             }
@@ -85,9 +85,9 @@ export default class Webinar extends Component {
                               time =
                                 parseInt(attendeeTimeArray[0]) * 60 +
                                 parseInt(attendeeTimeArray[2]);
-                              console.log(
-                                JSON.stringify(time) + " " + "minutes"
-                              );
+                              // console.log(
+                              //   JSON.stringify(time) + " " + "minutes"
+                              // );
                               object[element] =
                                 JSON.stringify(time) + " " + "minutes";
                             }
@@ -95,16 +95,16 @@ export default class Webinar extends Component {
                           if (attendeeTimeArray.length == 2) {
                             if (attendeeTimeArray[k].includes("hour")) {
                               time = parseInt(attendeeTimeArray[0]) * 60;
-                              console.log(
-                                JSON.stringify(time) + " " + "minutes"
-                              );
+                              // console.log(
+                              //   JSON.stringify(time) + " " + "minutes"
+                              // );
                               object[element] =
                                 JSON.stringify(time) + " " + "minutes";
                             }
                           }
                         }
                       }
-                      console.log(attendeeTimeArray);
+                      // console.log(attendeeTimeArray);
                     }
                   }
                 }
@@ -124,9 +124,9 @@ export default class Webinar extends Component {
             for (let m = 0; m < newArray.length; m++) {
               newArray[m]["Lead Stage"] = "c0";
               newArray[m]["Date"] = bigArray[4][1].split(" ")[0];
-              console.log(
-                newArray[m]["Time in Session"].replace("minutes", "")
-              );
+              // console.log(
+              //   newArray[m]["Time in Session"].replace("minutes", "")
+              // );
               newArray[m]["Time in Session"] = newArray[m][
                 "Time in Session"
               ].replace("minutes", "");
@@ -148,9 +148,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
                   newArray[m]["Lead Category"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (newArray[m]["I want to build a PROFILE for"]=="Placements (Product/Core)" &&
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
@@ -158,9 +158,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                   newArray[m]["Lead Category"] = "C - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (newArray[m]["I want to build a PROFILE for"]=="Masters Abroad" &&
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
@@ -168,9 +168,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
                   newArray[m]["Lead Category"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (newArray[m]["I want to build a PROFILE for"]=="Masters Abroad" &&
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
@@ -178,9 +178,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                   newArray[m]["Lead Category"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
@@ -188,9 +188,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
                   newArray[m]["Lead Category"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                   newArray[m]["Lead Category"] = "C - C0a";
@@ -215,9 +215,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                   newArray[m]["Lead Category"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C2a";
                   newArray[m]["Lead Category"] = "A - C0a";
@@ -242,9 +242,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                   newArray[m]["Lead Category"] = "C - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Lead Category"] = "C - C0a";
                   newArray[m]["Original Lead Stage"] = "C - C2a";
@@ -259,9 +259,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
                   newArray[m]["Lead Category"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (newArray[m]["I want to build a PROFILE for"]=="Masters Abroad" &&
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
@@ -269,9 +269,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                   newArray[m]["Lead Category"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (newArray[m]["I want to build a PROFILE for"]=="Placements (Product/Core)" &&
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
@@ -279,9 +279,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
                   newArray[m]["Lead Category"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (newArray[m]["I want to build a PROFILE for"]=="Placements (Product/Core)" &&
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) >=
@@ -289,9 +289,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                   newArray[m]["Lead Category"] = "C - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) <=
@@ -299,9 +299,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
                   newArray[m]["Lead Category"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                   newArray[m]["Lead Category"] = "A - C0a";
@@ -316,9 +316,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C2a";
                 }
@@ -332,9 +332,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "CLAPP - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else if (
                   parseInt(newArray[m]["Time in Session"].split(" ")[0]) >
                   parseInt(document.getElementById("duration2").value)
@@ -353,9 +353,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                 }
@@ -369,9 +369,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                 }
@@ -395,8 +395,8 @@ export default class Webinar extends Component {
             newModifiedArray.push(newModifiedObject);
             }            
             console.log(newArray);
-            console.log(document.getElementById("duration1").value);
-            console.log(document.getElementById("session").value);
+            // console.log(document.getElementById("duration1").value);
+            // console.log(document.getElementById("session").value);
 
             //   let time = newArray[1]["Time in Session"]
             //   console.log(time)
@@ -503,9 +503,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
                   newArray[m]["Lead Category"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if ((newArray[m]["Industry"]=="Placements" &&
                 parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
@@ -515,9 +515,9 @@ export default class Webinar extends Component {
               ) {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                   newArray[m]["Lead Category"] = "C - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if ((newArray[m]["Industry"]=="HigherEducation" &&
                 parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
@@ -527,9 +527,9 @@ export default class Webinar extends Component {
               ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
                   newArray[m]["Lead Category"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if ((newArray[m]["Industry"]=="HigherEducation" &&
                 parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
@@ -539,9 +539,9 @@ export default class Webinar extends Component {
               ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                   newArray[m]["Lead Category"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if (
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
@@ -549,9 +549,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
                   newArray[m]["Lead Category"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                   newArray[m]["Lead Category"] = "C - C0a";
@@ -565,9 +565,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C2a";
                 }
@@ -580,9 +580,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "C - C2a";
                 }
@@ -598,9 +598,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
                   newArray[m]["Lead Category"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if ((newArray[m]["Industry"]=="Placements" &&
                 parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
@@ -610,9 +610,9 @@ export default class Webinar extends Component {
               ) {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                   newArray[m]["Lead Category"] = "C - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if ((newArray[m]["Industry"]=="HigherEducation" &&
                 parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
@@ -622,9 +622,9 @@ export default class Webinar extends Component {
               ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
                   newArray[m]["Lead Category"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                 else if ((newArray[m]["Industry"]=="HigherEducation" &&
                 parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >=
@@ -634,9 +634,9 @@ export default class Webinar extends Component {
               ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                   newArray[m]["Lead Category"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 }
                else if (
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) <=
@@ -644,9 +644,9 @@ export default class Webinar extends Component {
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
                   newArray[m]["Lead Category"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                   newArray[m]["Lead Category"] = "A - C0a";
@@ -661,9 +661,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C2a";
                 }
@@ -677,9 +677,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "CLAPP - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else if (
                   parseInt(newArray[m]["Time in Session (minutes)"].split(" ")[0]) >
                   parseInt(document.getElementById("duration2").value)
@@ -698,9 +698,9 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "A - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
+                  // console.log(
+                  //   typeof document.getElementById("duration1").value
+                  // );
                 } else {
                   newArray[m]["Original Lead Stage"] = "A - C0a";
                 }
@@ -714,9 +714,6 @@ export default class Webinar extends Component {
                   parseInt(document.getElementById("duration1").value)
                 ) {
                   newArray[m]["Original Lead Stage"] = "C - C0";
-                  console.log(
-                    typeof document.getElementById("duration1").value
-                  );
                 } else {
                   newArray[m]["Original Lead Stage"] = "C - C0a";
                 }
@@ -738,8 +735,8 @@ export default class Webinar extends Component {
             newModifiedArray.push(newModifiedObject);
             }            
             console.log(newArray);
-            console.log(document.getElementById("duration1").value);
-            console.log(document.getElementById("session").value);
+            // console.log(document.getElementById("duration1").value);
+            // console.log(document.getElementById("session").value);
 
             //   let time = newArray[1]["Time in Session"]
             //   console.log(time)
@@ -771,7 +768,6 @@ export default class Webinar extends Component {
     }
     function UpdateLead(event){
       event.preventDefault();
-      console.log("updated")
               let p = 0;                                
         function myLoop() {         
           setTimeout(function() { 
