@@ -8,7 +8,7 @@ import "./Webinar.css";
 export default class Webinar extends Component {
   render() {
     let bigArray;
-    let newModifiedArray = [];
+    let newModifiedArray = "";
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
@@ -766,8 +766,14 @@ export default class Webinar extends Component {
         }, 2000);
       }
     }
-    function UpdateLead(event){
+    function UpdateLead(event){  
       event.preventDefault();
+      if(document.getElementById("upload-csv").value != "" &&
+      document.getElementById("session").value != "" &&
+      document.getElementById("duration1").value != "" &&
+      document.getElementById("account").value != "" &&
+      newModifiedArray!=""){
+        console.log(newModifiedArray)
               let p = 0;                                
         function myLoop() {         
           setTimeout(function() { 
@@ -785,13 +791,13 @@ export default class Webinar extends Component {
               "leadCategory":newModifiedArray[p]["Lead Category"],
               "attendeeTime":newModifiedArray[p]["Comments"]
           }
-          axios.post("https://careerwizard.thecareerlabs.com/ls/api/v1/registration",data)
-            .then(result => {
-                console.log(result)
-            })
-            .catch(error => {
-                console.log(error);
-            });  
+          // axios.post("https://careerwizard.thecareerlabs.com/ls/api/v1/registration",data)
+          //   .then(result => {
+          //       console.log(result)
+          //   })
+          //   .catch(error => {
+          //       console.log(error);
+          //   });  
             console.log(newModifiedArray[p]["Email Address"]);   
             p++;                    
             if (p < newModifiedArray.length) {           
@@ -803,6 +809,13 @@ export default class Webinar extends Component {
         myLoop(); 
       
     }
+    else{
+      document.getElementById("validationUpdateAttendee").style.display = "block";
+        setTimeout(function() {
+          document.getElementById("validationUpdateAttendee").style.display = "none";
+        }, 2000);
+    }
+  }
     return (
       <div className="flexColumn">
         <h2 className="heading">Webinars Lead Automation</h2>
@@ -857,6 +870,7 @@ export default class Webinar extends Component {
             </datalist>
           </div>
           <div id="validationMessage">please fill all required fields!!</div>
+          <div id="validationUpdateAttendee">please fill all required fields and click on process button!</div>
           <h3 className="step3">
             Step 3: Click on download button to download excel sheet
           </h3>

@@ -93,3 +93,9 @@ body{
         font-size:1rem;
         padding:2%;
     }
+    #validationUpdateAttendee{
+      display: none;
+        color:red;
+        font-size:1rem;
+        padding:2%;
+    }
