@@ -773,6 +773,8 @@ export default class Webinar extends Component {
       document.getElementById("duration1").value != "" &&
       document.getElementById("account").value != "" &&
       newModifiedArray!=""){
+        document.getElementById("btn-update-attendee").innerHTML ='Updating ..........'
+        document.getElementById("btn-update-attendee").style.backgroundColor="#6e77c4"
         console.log(newModifiedArray)
               let p = 0;                                
         function myLoop() {         
@@ -802,6 +804,10 @@ export default class Webinar extends Component {
             p++;                    
             if (p < newModifiedArray.length) {           
               myLoop();             
+            }
+            else{
+              document.getElementById("btn-update-attendee").innerHTML ='Updated'
+      document.getElementById("btn-update-attendee").style.backgroundColor="#4ec021"
             }                       
           }, 2000)
         }
@@ -810,6 +816,10 @@ export default class Webinar extends Component {
       
     }
     else{
+      // document.getElementById("btn-update-attendee").innerHTML ='Updating ..........'
+      //   document.getElementById("btn-update-attendee").style.backgroundColor="#6e77c4"
+        // document.getElementById("btn-update-attendee").innerHTML ='Updated'
+        // document.getElementById("btn-update-attendee").style.backgroundColor="#4ec021"
       document.getElementById("validationUpdateAttendee").style.display = "block";
         setTimeout(function() {
           document.getElementById("validationUpdateAttendee").style.display = "none";

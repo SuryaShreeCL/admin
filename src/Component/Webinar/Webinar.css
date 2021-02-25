@@ -61,7 +61,7 @@ body{
       margin-bottom: 1%;
     }
     #btn-upload-csv{
-      background-color: #4CAF50;
+      background-color: #3b8f1a;
       border: none;
       color: white;
       padding: 15px 32px;
@@ -76,6 +76,7 @@ body{
       background-color: #414fcc;
       border: none;
       color: white;
+      width: 220px;
       padding: 15px 32px;
       text-align: center;
       text-decoration: none;
