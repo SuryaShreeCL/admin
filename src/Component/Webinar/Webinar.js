@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Papa from "papaparse";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import axios from "axios";
 import "./Webinar.css";
 
 export default class Webinar extends Component {
@@ -399,18 +400,18 @@ export default class Webinar extends Component {
 
             //   let time = newArray[1]["Time in Session"]
             //   console.log(time)
-            const ws = XLSX.utils.json_to_sheet(newModifiedArray);
-            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-            const excelBuffer = XLSX.write(wb, {
-              bookType: "xlsx",
-              type: "array",
-            });
-            const data = new Blob([excelBuffer], { type: fileType });
-            FileSaver.saveAs(
-              data,
-              `${bigArray[0][1]} - ${bigArray[4][1].split(" ")[0]}` +
-                fileExtension
-            );
+            // const ws = XLSX.utils.json_to_sheet(newModifiedArray);
+            // const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+            // const excelBuffer = XLSX.write(wb, {
+            //   bookType: "xlsx",
+            //   type: "array",
+            // });
+            // const data = new Blob([excelBuffer], { type: fileType });
+            // FileSaver.saveAs(
+            //   data,
+            //   `${bigArray[0][1]} - ${bigArray[4][1].split(" ")[0]}` +
+            //     fileExtension
+            // );
           },
         });
         // document.getElementById("upload-csv").value = "";
@@ -742,18 +743,18 @@ export default class Webinar extends Component {
 
             //   let time = newArray[1]["Time in Session"]
             //   console.log(time)
-            const ws = XLSX.utils.json_to_sheet(newModifiedArray);
-            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-            const excelBuffer = XLSX.write(wb, {
-              bookType: "xlsx",
-              type: "array",
-            });
-            const data = new Blob([excelBuffer], { type: fileType });
-            FileSaver.saveAs(
-              data,
-              `${bigArray[3][0]} - ${bigArray[3][2].split(" ")[0]} ${bigArray[3][2].split(" ")[1]} ${bigArray[3][2].split(" ")[2]}` +
-                fileExtension
-            );
+            // const ws = XLSX.utils.json_to_sheet(newModifiedArray);
+            // const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+            // const excelBuffer = XLSX.write(wb, {
+            //   bookType: "xlsx",
+            //   type: "array",
+            // });
+            // const data = new Blob([excelBuffer], { type: fileType });
+            // FileSaver.saveAs(
+            //   data,
+            //   `${bigArray[3][0]} - ${bigArray[3][2].split(" ")[0]} ${bigArray[3][2].split(" ")[1]} ${bigArray[3][2].split(" ")[2]}` +
+            //     fileExtension
+            // );
           },
         });
         // document.getElementById("upload-csv").value = "";
@@ -768,8 +769,43 @@ export default class Webinar extends Component {
         }, 2000);
       }
     }
-    function UpdateLead(){
+    function UpdateLead(event){
+      event.preventDefault();
       console.log("updated")
+              let p = 0;                                
+        function myLoop() {         
+          setTimeout(function() { 
+            let data={
+              "account":"GRE",
+              "email":newModifiedArray[p]["Email Address"],
+              "firstName":newModifiedArray[p]["First Name"],
+              "lastName":newModifiedArray[p]["Last Name"],
+              "phone":newModifiedArray[p]["Phone"],
+              "college":newModifiedArray[p]["College"],
+              "department":newModifiedArray[p]["Branch"],
+              "semester":newModifiedArray[p]["Semester"],
+              "pageCode":"291",
+              "originalLeadStage":newModifiedArray[p]["Original Lead Stage"],
+              "leadCategory":newModifiedArray[p]["Lead Category"],
+              "attendeeTime":newModifiedArray[p]["Comments"]
+          }
+          axios.post("https://careerwizard.thecareerlabs.com/ls/api/v1/registration",data)
+            .then(result => {
+                console.log(result)
+            })
+            .catch(error => {
+                console.log(error);
+            });  
+            console.log(newModifiedArray[p]["Email Address"]);   
+            p++;                    
+            if (p < newModifiedArray.length) {           
+              myLoop();             
+            }                       
+          }, 2000)
+        }
+
+        myLoop(); 
+      
     }
     return (
       <div className="flexColumn">
