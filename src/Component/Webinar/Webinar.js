@@ -398,20 +398,20 @@ export default class Webinar extends Component {
             // console.log(document.getElementById("duration1").value);
             // console.log(document.getElementById("session").value);
 
-            //   let time = newArray[1]["Time in Session"]
-            //   console.log(time)
-            // const ws = XLSX.utils.json_to_sheet(newModifiedArray);
-            // const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-            // const excelBuffer = XLSX.write(wb, {
-            //   bookType: "xlsx",
-            //   type: "array",
-            // });
-            // const data = new Blob([excelBuffer], { type: fileType });
-            // FileSaver.saveAs(
-            //   data,
-            //   `${bigArray[0][1]} - ${bigArray[4][1].split(" ")[0]}` +
-            //     fileExtension
-            // );
+              let time = newArray[1]["Time in Session"]
+              console.log(time)
+            const ws = XLSX.utils.json_to_sheet(newModifiedArray);
+            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+            const excelBuffer = XLSX.write(wb, {
+              bookType: "xlsx",
+              type: "array",
+            });
+            const data = new Blob([excelBuffer], { type: fileType });
+            FileSaver.saveAs(
+              data,
+              `${bigArray[0][1]} - ${bigArray[4][1].split(" ")[0]}` +
+                fileExtension
+            );
           },
         });
         // document.getElementById("upload-csv").value = "";
@@ -738,20 +738,20 @@ export default class Webinar extends Component {
             // console.log(document.getElementById("duration1").value);
             // console.log(document.getElementById("session").value);
 
-            //   let time = newArray[1]["Time in Session"]
-            //   console.log(time)
-            // const ws = XLSX.utils.json_to_sheet(newModifiedArray);
-            // const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-            // const excelBuffer = XLSX.write(wb, {
-            //   bookType: "xlsx",
-            //   type: "array",
-            // });
-            // const data = new Blob([excelBuffer], { type: fileType });
-            // FileSaver.saveAs(
-            //   data,
-            //   `${bigArray[3][0]} - ${bigArray[3][2].split(" ")[0]} ${bigArray[3][2].split(" ")[1]} ${bigArray[3][2].split(" ")[2]}` +
-            //     fileExtension
-            // );
+              let time = newArray[1]["Time in Session"]
+              console.log(time)
+            const ws = XLSX.utils.json_to_sheet(newModifiedArray);
+            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+            const excelBuffer = XLSX.write(wb, {
+              bookType: "xlsx",
+              type: "array",
+            });
+            const data = new Blob([excelBuffer], { type: fileType });
+            FileSaver.saveAs(
+              data,
+              `${bigArray[3][0]} - ${bigArray[3][2].split(" ")[0]} ${bigArray[3][2].split(" ")[1]} ${bigArray[3][2].split(" ")[2]}` +
+                fileExtension
+            );
           },
         });
         // document.getElementById("upload-csv").value = "";
@@ -793,13 +793,13 @@ export default class Webinar extends Component {
               "leadCategory":newModifiedArray[p]["Lead Category"],
               "attendeeTime":newModifiedArray[p]["Comments"]
           }
-          // axios.post("https://careerwizard.thecareerlabs.com/ls/api/v1/registration",data)
-          //   .then(result => {
-          //       console.log(result)
-          //   })
-          //   .catch(error => {
-          //       console.log(error);
-          //   });  
+          axios.post("https://careerwizard.thecareerlabs.com/ls/api/v1/registration",data)
+            .then(result => {
+                console.log(result)
+            })
+            .catch(error => {
+                console.log(error);
+            });  
             console.log(newModifiedArray[p]["Email Address"]);   
             p++;                    
             if (p < newModifiedArray.length) {           
