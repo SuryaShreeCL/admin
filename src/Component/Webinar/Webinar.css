@@ -23,7 +23,7 @@ body{
       align-items: center;
     }
     .container1{
-      padding: 3% 34% 3% 34%;
+      padding: 3% 30% 3% 30%;
     }
     .form{
       display: flex;
@@ -61,7 +61,7 @@ body{
       margin-bottom: 1%;
     }
     #btn-upload-csv{
-      background-color: #4CAF50;
+      background-color: #3b8f1a;
       border: none;
       color: white;
       padding: 15px 32px;
@@ -72,11 +72,30 @@ body{
       margin: 4px 2px;
       cursor: pointer;
     }
+    #btn-update-attendee{
+      background-color: #414fcc;
+      border: none;
+      color: white;
+      width: 220px;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer
+    }
     label[for="session"],label[for="duration2"],label[for="account"]{
         margin-bottom: 0% !important;
     }
     #validationMessage{
         display: none;
+        color:red;
+        font-size:1rem;
+        padding:2%;
+    }
+    #validationUpdateAttendee{
+      display: none;
         color:red;
         font-size:1rem;
         padding:2%;
