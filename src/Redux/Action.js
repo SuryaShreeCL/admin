@@ -48,6 +48,9 @@ export const STUDENT={
 	careerInterestSurvey:'careerInterestSurvey',
 	getAnswer:'getAnswer',
 	getStudentPaginate:'getStudentPaginate',
+	viewDocumet : "viewDocumet",
+	downloadDocument : "downloadDocument",
+	mernStudentSignUp : "mernStudentSignUp",
 
 }
 export const CHOICE_ANSWER={
@@ -127,6 +130,7 @@ export const PRODUCT = {
 export const ADMIN = {
 	adminLogin :  "adminLogin",
 	refreshToken : "refreshToken",
+	studentAccess : "studentAccess"
 }
 
 export const CAREER_TRACK = {

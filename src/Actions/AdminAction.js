@@ -37,3 +37,19 @@ export const toRefreshToken=(data)=>{
     }
     
 }
+
+export const postStudentAccess=(data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/students/unifiedAccess",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.studentAccess,studentAccessResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}

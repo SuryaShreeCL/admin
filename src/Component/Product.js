@@ -61,23 +61,7 @@ function Product(props) {
     return (
         <div>
             <Grid container spacing={3}>
-                {/* <Grid item md={12} sm={12} xs={12} xl={12} lg={12}>
-                    <Typography>Purchased Product</Typography>
-                    <IconButton 
-                    onClick={(e)=>setCollapse(!collapse)}
-                    >
-                        {collapse === false ? 
-                         <VscChevronDown /> :  <VscChevronUp  />
-                    }
-                    </IconButton>
-                </Grid>
-                <Collapse in={collapse}>
-                <Grid item md={12} sm={12} xs={12} xl={12} lg={12}>
-                    Some Text
-                </Grid>
-                </Collapse> */}
-               
-            <Grid item md={6}>
+            <Grid item md={10}>
                 <Typography>Product Details</Typography>
                                 <TableContainer component={Paper}>
                                 <Table aria-label="caption table">
@@ -108,7 +92,7 @@ function Product(props) {
                                     </Table>
                                 </TableContainer>
             </Grid>
-            <Grid item md={6}>
+            <Grid item md={2}>
             <Button 
             variant={"contained"} 
             color={"primary"}

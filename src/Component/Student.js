@@ -6,6 +6,7 @@ import MaterialTable from "material-table";
 import history from "./History";
 import { createMuiTheme, MuiThemeProvider, ThemeProvider } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
 import ChevronLeft from "@material-ui/icons/ChevronLeft";
@@ -20,17 +21,40 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import { getStudents, getStudentPaginate } from "../Actions/Student";
+import { getStudents, getStudentPaginate, postStudents, mernStudentSignUp } from "../Actions/Student";
+import {getAllColleges,getBranches} from "../Actions/College"
 import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
 import { studentIdPath } from "./RoutePaths";
 import TableComponent from "./TableComponent/TableComponent";
-import {CircularProgress} from "@material-ui/core"
+import {CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Grid,
+  TextField,
+  FormControlLabel,
+  Checkbox
+} from "@material-ui/core"
 export class Student extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      dialogOpen : false,
+      firstName : null,
+      lastName : null,
+      eMail : null,
+      userName : null,
+      college : null,
+      department : null,
+      phone : null,
+      provider : false,
+      toogleButton : false,
+      password : "123456",
     };
   }
 
@@ -85,6 +109,8 @@ export class Student extends Component {
   componentDidMount() {
     this.props.getStudents();
     this.props.getStudentPaginate(0, 20);
+    this.props.getAllColleges()
+    this.props.getBranches()
   }
 
   rowClick = (rowData) => {
@@ -113,8 +139,25 @@ export class Student extends Component {
   paginate = (page, size, keyword) => {
     this.props.getStudentPaginate(page, size, keyword);
   };
-  render() {
-    // console.log(this.props)
+  handleSubmit = (e) =>{
+    let studentObj = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      username: this.state.eMail,
+      email: this.state.eMail,
+      phone: this.state.phone,
+      college: this.state.college,
+      department: this.state.department,
+      roles: ["Student"],
+      password: this.state.password,
+      provider: this.state.provider === true ? "Google" : "Local",
+      privacyPolicy: true,
+      avatar: "",
+    };
+    console.log(studentObj)
+  }
+  render() {  
+    console.log(this.state.provider)
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
@@ -142,6 +185,8 @@ export class Student extends Component {
                   ? this.props.StudentFilterList.content
                   : null
               }
+              add={true}
+              onAddClick={(e)=>this.setState({dialogOpen : true})}
               cols={this.stu_header}
               onRowClick={this.rowClick}
               onSearch={this.paginate}
@@ -168,6 +213,117 @@ export class Student extends Component {
               </ThemeProvider>
           )}
         </div>
+        <Dialog
+        open={this.state.dialogOpen}
+        onClose={(e)=>this.setState({dialogOpen : false})}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Add New Student"}</DialogTitle>
+        <DialogContent>
+            <Grid container spacing={2}>
+                <Grid item md={6}>
+               <TextField
+               variant="outlined"
+               size="small"
+               fullWidth
+               value={this.state.firstName}
+               onChange={(e)=>this.setState({firstName : e.target.value})}
+               label="First Name"
+               /> 
+                </Grid>
+                <Grid item md={6}>
+                <TextField
+               variant="outlined"
+               size="small"
+               fullWidth
+               value={this.state.lastName}
+               onChange={(e)=>this.setState({lastName : e.target.value})}
+               label="Last Name"
+               />
+                  </Grid>
+                  <Grid item md={6}>
+                  <TextField
+               variant="outlined"
+               size="small"
+               value={this.state.eMail}
+               onChange={(e)=>this.setState({eMail : e.target.value})}
+               fullWidth
+               label="E-Mail"
+               />
+                  </Grid>
+                  <Grid item md={6}>
+                  <TextField
+               variant="outlined"
+               size="small"
+               disabled
+               value={this.state.eMail}
+               InputLabelProps={{shrink : this.state.eMail !== null ? true : false}}
+               fullWidth
+               label="Username"
+               />
+                  </Grid>
+                  <Grid item md={6}>
+                  <Autocomplete
+                  id="combo-box-demo"
+                  options={this.props.allCollegeList}
+                  onChange={(e,newValue)=>this.setState({college : newValue.id})}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} size="small" label="College" variant="outlined" />}
+                />
+                  </Grid>
+                  <Grid item md={6}>
+                  <Autocomplete
+                  id="combo-box-demo"
+                  options={this.props.BranchList}
+                  onChange={(e,newValue)=>this.setState({department : newValue.id})}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} size="small" label="Department" variant="outlined" />}
+                />
+                  </Grid>
+                  <Grid item md={6}>
+                  <TextField
+               variant="outlined"
+               size="small"
+               value={this.state.phone}
+               onChange={(e)=>this.setState({phone : e.target.value})}
+               fullWidth
+               label="Phone Number"
+               />
+                  </Grid>
+                  <Grid item md={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        // checked={this.state.toogleButton}
+                        // onChange={(e)=>this.setState({toogleButton : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="Google"
+                  />
+                  </Grid>
+                  <Grid item md={12}>
+                  <TextField
+               variant="outlined"
+               size="small"
+               disabled
+               value={this.state.password}
+               fullWidth
+               label="Password"
+               />
+                  </Grid>
+            </Grid>
+         
+        </DialogContent>
+        <DialogActions>
+          
+          <Button onClick={(e)=>this.handleSubmit(e)} color="primary" autoFocus>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
       </MuiThemeProvider>
     );
   }
@@ -177,8 +333,10 @@ const mapStateToProps = (state) => {
   return {
     StudentsList: state.StudentReducer.StudentsList,
     StudentFilterList: state.StudentReducer.StudentFilterList,
+    allCollegeList : state.CollegeReducer.allCollegeList,
+    BranchList : state.CollegeReducer.BranchList
   };
 };
-export default connect(mapStateToProps, { getStudents, getStudentPaginate })(
+export default connect(mapStateToProps, { getStudents, getStudentPaginate, postStudents, getAllColleges, getBranches, mernStudentSignUp })(
   Student
 );

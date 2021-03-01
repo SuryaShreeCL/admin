@@ -1,5 +1,5 @@
 import {STUDENT} from '../Redux/Action'
-import {URL} from './URL'
+import {URL,AUTH_URL} from './URL'
 import axios from 'axios'
 
 export const getStudents=()=>{
@@ -44,9 +44,14 @@ export const getStudentPaginate=(pageNumber,size,keyword)=>{
 }
 
 export const getStudentsById=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch => {
         axios.get(URL+"/api/v1/students/"+id, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.getStudentById,StudentList:result.data})
@@ -155,5 +160,46 @@ export const getAnswer=(testId,questionId)=>{
             .catch(error => {
                 console.log(error);
             });
+    }
+}
+
+export const getDocumentsByStudentId=(studentId)=>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/files/get/"+studentId,{
+            crossDomain: true
+        })
+            .then(result => {                                                
+                dispatch({type:STUDENT.viewDocumet,studentDocumentList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const downloadDocumentByStudentId=(fileName)=>{
+    return dispatch =>{
+        axios.get(URL+"api/v1/files/download/"+fileName,{
+            crossDomain: true
+        })
+            .then(result => {                                                
+                dispatch({type:STUDENT.downloadDocument,downloadedDocumentResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const mernStudentSignUp=(data)=>{    
+    return dispatch=>{                
+        console.log(data)
+        axios.post(AUTH_URL+"/api/v1/auth/signup",data,{crossDomain:true})                
+        .then(result => {                                                               
+            dispatch({type:STUDENT.mernStudentSignUp,signUpResponse:result.data})
+        })
+        .catch(error=>{
+            console.log(error);
+        })
     }
 }

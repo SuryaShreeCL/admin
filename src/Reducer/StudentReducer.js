@@ -5,6 +5,8 @@ const initialState = {
   Answer:[],
   CareerIntertestSurvey:[],
   StudentFilterList:[],
+  studentDocumentList : [],
+  downloadedDocumentResponse : [],
   
 };
 
@@ -60,6 +62,16 @@ export default (state = initialState, action) => {
         ...state,
         StudentFilterList:action.StudentFilterResult,
       }
+      case STUDENT.viewDocumet:
+        return {
+          ...state,
+          studentDocumentList:action.studentDocumentList,
+        }
+        case STUDENT.downloadDocument:
+        return {
+          ...state,
+          downloadedDocumentResponse:action.downloadedDocumentResponse,
+        }
     default:
       break;
   }

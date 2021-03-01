@@ -119,9 +119,14 @@ export const getPopularCourses=()=>{
  }
  
  export const getMarkettingRecommended=(studentId)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
      axios.get(URL+'/api/v1/students/'+ studentId +'/RunRecommendationEngine?type=marketing', {
-         crossDomain: true
+         crossDomain: true,
+         headers : {
+            "admin" : "yes",
+            "Authorization" : `Bearer ${accessToken}`
+        }
      })
          .then(result => {
              dispatch({type:COURSES.GetMarkettingRecommended,MarkettingRecommended:result.data})
