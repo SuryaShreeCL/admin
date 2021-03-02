@@ -63,6 +63,7 @@ import CareerTrack from "./CareerTrack/Index"
 import CareerTrackVideoSet from "./CareerTrack/CareerTrackVideoSet";
 import CareerTrackVideo from "./CareerTrack/CareerTrackVideo";
 import StudentDocuments from "./StudentDocuments";
+import StudentHome from "./StudentHome";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -70,8 +71,8 @@ export default function Routes() {
         <Switch>
           <Router history={history}>
             {/* <Route restricted={false} exact path="/" component={Login} /> */}
-            <Route exact path={rootPath} component={Student} />
-            <Route exact path={studentPath} component={Student} />
+            <Route exact path={rootPath} component={StudentHome} />
+            <Route exact path={studentPath} component={StudentHome} />
             <Route exact path={coursePath} component={Courses} />
             <Route
               exact

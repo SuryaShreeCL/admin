@@ -203,3 +203,109 @@ export const mernStudentSignUp=(data)=>{
         })
     }
 }
+
+export const mernStudentEdit=(id,data)=>{  
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+    return dispatch=>{                
+        console.log(data)
+        axios.put(AUTH_URL+"/api/v1/auth/students/"+id,data,{crossDomain:true,
+        headers : {
+            "x-access-token" : accessToken
+        }
+        })                
+        .then(result => {                                                               
+            dispatch({type:STUDENT.mernStudentEdit,editStudentResponse:result.data})
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getBlackListedUser=(pageNumber,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    if(keyword === null || keyword === undefined ){
+        keyword='';
+    }
+    return dispatch =>{        
+        axios.get(URL+"/api/v1/students/searchblacklisted?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            crossDomain:true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:STUDENT.getBlackListedUser,blackListedUserDetails:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getWhiteListedUser=(pageNumber,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    if(keyword === null || keyword === undefined ){
+        keyword='';
+    }
+    return dispatch =>{        
+        axios.get(URL+"/api/v1/students/searchwhitelisted?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            crossDomain:true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:STUDENT.getWhiteListedUser,whiteListedUserDetails:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getManualUser=(pageNumber,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    if(keyword === null || keyword === undefined ){
+        keyword='';
+    }
+    return dispatch =>{        
+        axios.get(URL+"/api/v1/students/searchmanualnusers?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            crossDomain:true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:STUDENT.getManualUser,manualUserDetails:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getMernUser=(pageNumber,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    if(keyword === null || keyword === undefined ){
+        keyword='';
+    }
+    return dispatch =>{        
+        axios.get(URL+"/api/v1/students/searchmernusers?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            crossDomain:true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:STUDENT.getMernUser,mernUserDetails:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

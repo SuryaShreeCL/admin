@@ -51,6 +51,11 @@ export const STUDENT={
 	viewDocumet : "viewDocumet",
 	downloadDocument : "downloadDocument",
 	mernStudentSignUp : "mernStudentSignUp",
+	mernStudentEdit : "mernStudentEdit",
+	getBlackListedUser : "getBlackListedUser",
+	getWhiteListedUser : "getWhiteListedUser",
+	getMernUser : "getMernUser",
+	getManualUser : "getManualUser"
 
 }
 export const CHOICE_ANSWER={

@@ -22,7 +22,7 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import { getStudents, getStudentPaginate, postStudents, mernStudentSignUp, mernStudentEdit } from "../Actions/Student";
+import { getStudents, getStudentPaginate, postStudents, mernStudentSignUp, mernStudentEdit, getWhiteListedUser } from "../Actions/Student";
 import {getAllColleges,getBranches} from "../Actions/College"
 import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
@@ -40,7 +40,7 @@ import {CircularProgress,
   FormControlLabel,
   Checkbox
 } from "@material-ui/core"
-export class Student extends Component {
+export class ActiveStudents extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -119,7 +119,7 @@ export class Student extends Component {
 
   componentDidMount() {
     // this.props.getStudents();
-    this.props.getStudentPaginate(0, 20);
+    this.props.getWhiteListedUser(0, 20);
     this.props.getAllColleges()
     this.props.getBranches()
   }
@@ -148,7 +148,7 @@ export class Student extends Component {
       }
     });
   paginate = (page, size, keyword) => {
-    this.props.getStudentPaginate(page, size, keyword);
+    this.props.getWhiteListedUser(page, size, keyword);
   };
   handleSubmit = (e) =>{
     this.state.firstName === null && this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
@@ -246,7 +246,7 @@ export class Student extends Component {
   }
   }
   render() {  
-    console.log("State............",this.state)
+    console.log("Props............",this.props.whiteListedUserDetails)
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
@@ -267,11 +267,11 @@ export class Student extends Component {
             }}
           /> */}
 
-          {this.props.StudentFilterList.length !== 0 ? (
+          {this.props.whiteListedUserDetails.length !== 0 ? (
             <TableComponent
               data={
-                this.props.StudentFilterList.length !== 0
-                  ? this.props.StudentFilterList.content
+                this.props.whiteListedUserDetails.length !== 0
+                  ? this.props.whiteListedUserDetails.content
                   : null
               }
               add={true}
@@ -313,9 +313,9 @@ export class Student extends Component {
               onRowClick={this.rowClick}
               onSearch={this.paginate}
               paginate={this.paginate}
-              totalCount={this.props.StudentFilterList.totalElements}
+              totalCount={this.props.whiteListedUserDetails.totalElements}
               title={"Student"}
-              pageCount={this.props.StudentFilterList.totalPages}
+              pageCount={this.props.whiteListedUserDetails.totalPages}
             />
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
@@ -491,9 +491,10 @@ const mapStateToProps = (state) => {
     StudentsList: state.StudentReducer.StudentsList,
     StudentFilterList: state.StudentReducer.StudentFilterList,
     allCollegeList : state.CollegeReducer.allCollegeList,
-    BranchList : state.CollegeReducer.BranchList
+    BranchList : state.CollegeReducer.BranchList,
+    whiteListedUserDetails : state.StudentReducer.whiteListedUserDetails,
   };
 };
-export default connect(mapStateToProps, { getStudents, getStudentPaginate, postStudents, getAllColleges, getBranches, mernStudentSignUp, mernStudentEdit })(
-  Student
+export default connect(mapStateToProps, { getStudents, getStudentPaginate, getWhiteListedUser ,postStudents, getAllColleges, getBranches, mernStudentSignUp, mernStudentEdit })(
+    ActiveStudents
 );

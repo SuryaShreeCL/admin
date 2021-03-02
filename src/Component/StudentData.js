@@ -82,7 +82,7 @@ export function Student_data(props) {
     <div className={classes.root}>
       <>
         <div>
-          <Grid container>
+          {/* <Grid container>
             <Grid item md={12}>
               <FormControlLabel
                 control={
@@ -96,7 +96,7 @@ export function Student_data(props) {
                 label="Activate"
               />
             </Grid>
-          </Grid>
+          </Grid> */}
           <ProfileInfo id={props.match.params.id} />
         </div>
         <AppBar position="sticky" color="default">

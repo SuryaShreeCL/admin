@@ -7,7 +7,12 @@ const initialState = {
   StudentFilterList:[],
   studentDocumentList : [],
   downloadedDocumentResponse : [],
-  
+  signUpResponse : [],
+  editStudentResponse : [],
+  blackListedUserDetails : [],
+  whiteListedUserDetails : [],
+  manualUserDetails : [],
+  mernUserDetails : [],
 };
 
 export default (state = initialState, action) => {
@@ -72,6 +77,37 @@ export default (state = initialState, action) => {
           ...state,
           downloadedDocumentResponse:action.downloadedDocumentResponse,
         }
+        case STUDENT.mernStudentSignUp:
+          return {
+            ...state,
+            signUpResponse:action.signUpResponse,
+          }
+          case STUDENT.mernStudentEdit:
+            return {
+              ...state,
+              editStudentResponse:action.editStudentResponse,
+            }
+            case STUDENT.getBlackListedUser:
+              return {
+                ...state,
+                blackListedUserDetails:action.blackListedUserDetails,
+              }
+              case STUDENT.getWhiteListedUser:
+              return {
+                ...state,
+                whiteListedUserDetails:action.whiteListedUserDetails,
+              }
+              case STUDENT.getManualUser:
+              return {
+                ...state,
+                manualUserDetails:action.manualUserDetails,
+              }
+              case STUDENT.getMernUser:
+                return {
+                  ...state,
+                  mernUserDetails:action.mernUserDetails,
+                }
+              
     default:
       break;
   }
