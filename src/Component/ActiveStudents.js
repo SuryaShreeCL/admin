@@ -59,7 +59,7 @@ export class ActiveStudents extends Component {
       college : null,
       department : null,
       phone : null,
-      provider : null,
+      provider : "",
       toogleButton : false,
       password : "123456",
       studentId : null,
@@ -232,6 +232,7 @@ export class ActiveStudents extends Component {
         department : null,
         isActive : false,
         toogleButton : false,
+        provider : "",
         studentId : null
       })
    }
@@ -277,6 +278,7 @@ export class ActiveStudents extends Component {
       department : null,
       isActive : false,
       toogleButton : false,
+      provider : "",
       studentId : null
     })
   }
@@ -322,7 +324,7 @@ export class ActiveStudents extends Component {
                 college : null,
                 department : null,
                 phone : null,
-                provider : null,
+                provider : "",
                 toogleButton : false,
                 studentId : null,
                 isActive : false,
@@ -341,6 +343,8 @@ export class ActiveStudents extends Component {
                   college : {id : rowdata.college.id, name : rowdata.college.name},
                   department : {id :rowdata.department.id, name : rowdata.department.name},
                   isActive : rowdata.isactive,
+                  toogleButton : rowdata.provider === "Google" ? true : false,
+                  provider : rowdata.provider,
                   studentId : rowdata.studentID,
                   dialogOpen : true
                 })
@@ -477,10 +481,12 @@ export class ActiveStudents extends Component {
                         checked={this.state.toogleButton}
                         onChange={(e)=>this.setState({toogleButton : e.target.checked})}
                         name="checkedB"
+                        disabled={this.state.provider === null ? true : false}
                         color="primary"
+                        
                       />
                     }
-                    label="Google"
+                    label={this.state.provider === null ? "App User" : "Google"}
                   />
                 
                   </Grid>

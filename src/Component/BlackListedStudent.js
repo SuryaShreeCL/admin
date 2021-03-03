@@ -59,7 +59,7 @@ export class BlackListedStudents extends Component {
       college : null,
       department : null,
       phone : null,
-      provider : null,
+      provider : "",
       toogleButton : false,
       password : "123456",
       studentId : null,
@@ -230,6 +230,7 @@ export class BlackListedStudents extends Component {
         department : null,
         isActive : false,
         toogleButton : false,
+        provider : "",
         studentId : null
       })
    }
@@ -275,6 +276,7 @@ export class BlackListedStudents extends Component {
       department : null,
       isActive : false,
       toogleButton : false,
+      provider : "",
       studentId : null
     })
   }
@@ -320,7 +322,7 @@ export class BlackListedStudents extends Component {
                 college : null,
                 department : null,
                 phone : null,
-                provider : null,
+                provider : "",
                 toogleButton : false,
                 studentId : null,
                 isActive : false,
@@ -339,6 +341,8 @@ export class BlackListedStudents extends Component {
                   college : {id : rowdata.college.id, name : rowdata.college.name},
                   department : {id :rowdata.department.id, name : rowdata.department.name},
                   isActive : rowdata.isactive,
+                  toogleButton : rowdata.provider === "Google" ? true : false,
+                  provider : rowdata.provider,
                   studentId : rowdata.studentID,
                   dialogOpen : true
                 })
@@ -473,12 +477,13 @@ export class BlackListedStudents extends Component {
                     control={
                       <Checkbox
                         checked={this.state.toogleButton}
+                        disabled={this.state.provider === null ? true : false}
                         onChange={(e)=>this.setState({toogleButton : e.target.checked})}
                         name="checkedB"
                         color="primary"
                       />
                     }
-                    label="Google"
+                    label={this.state.provider === null ? "App User" : "Google"}
                   />
                 
                   </Grid>
