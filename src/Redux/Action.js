@@ -55,7 +55,8 @@ export const STUDENT={
 	getBlackListedUser : "getBlackListedUser",
 	getWhiteListedUser : "getWhiteListedUser",
 	getMernUser : "getMernUser",
-	getManualUser : "getManualUser"
+	getManualUser : "getManualUser",
+	catchSignUpError : "catchSignUpError"
 
 }
 export const CHOICE_ANSWER={

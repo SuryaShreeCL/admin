@@ -192,6 +192,7 @@ export const downloadDocumentByStudentId=(fileName)=>{
 }
 
 export const mernStudentSignUp=(data)=>{    
+    
     return dispatch=>{                
         console.log(data)
         axios.post(AUTH_URL+"/api/v1/auth/signup",data,{crossDomain:true})                
@@ -199,7 +200,10 @@ export const mernStudentSignUp=(data)=>{
             dispatch({type:STUDENT.mernStudentSignUp,signUpResponse:result.data})
         })
         .catch(error=>{
-            console.log(error);
+            console.log(error)
+            // console.log(error.response.data);
+                dispatch({type:STUDENT.catchSignUpError,signUpError:error.response.data})
+            
         })
     }
 }

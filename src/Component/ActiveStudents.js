@@ -26,6 +26,8 @@ import { getStudents, getStudentPaginate, postStudents, mernStudentSignUp, mernS
 import {getAllColleges,getBranches} from "../Actions/College"
 import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import { studentIdPath } from "./RoutePaths";
 import TableComponent from "./TableComponent/TableComponent";
 import {CircularProgress,
@@ -45,6 +47,9 @@ export class ActiveStudents extends Component {
     super(props);
     this.state = {
       id : null,
+      snackOpen : false,
+      snackColor : null,
+      snackMessage : null,
       data: [],
       dialogOpen : false,
       firstName : null,
@@ -124,6 +129,37 @@ export class ActiveStudents extends Component {
     this.props.getBranches()
   }
 
+  componentDidUpdate(prevProps,prevState){
+    if(this.props.signUpResponse !== prevProps.signUpResponse){
+      if(this.props.signUpResponse.auth === true){
+        this.setState({
+          snackMessage : "Student Registered Successfully",
+          snackColor : "success",
+          snackOpen : true
+        }) 
+        
+      }
+      this.props.getWhiteListedUser(0, 20);
+    }
+    if(this.props.signUpError !== prevProps.signUpError){
+      console.log("Something")
+      this.setState({
+        snackMessage : this.props.signUpError,
+        snackColor : "error",
+        snackOpen : true
+      })
+    }
+    if(this.props.editStudentResponse !== prevProps.editStudentResponse){
+      this.setState({
+        snackMessage : "Student Edited Successfully",
+        snackColor : "success",
+        snackOpen : true
+      }) 
+      this.props.getWhiteListedUser(0, 20);
+    } 
+  }
+
+
   rowClick = (rowData) => {
     history.push(studentIdPath + rowData.id);
   };
@@ -151,13 +187,13 @@ export class ActiveStudents extends Component {
     this.props.getWhiteListedUser(page, size, keyword);
   };
   handleSubmit = (e) =>{
-    this.state.firstName === null && this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
-    this.state.lastName === null && this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
-    this.state.eMail === null && this.state.eMail.length === 0 ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
-    this.state.phone === null && this.state.phone.length === 0 ? this.setState({phoneHelperText : "Please fill the required feild"}) : this.setState({phoneHelperText : null})
-    this.state.college === null && this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
-    this.state.department === null && this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
-    this.state.studentId === null && this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
+    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
+    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
+    this.state.eMail === null || this.state.eMail.length === 0 ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
+    this.state.phone === null || this.state.phone.length === 0 ? this.setState({phoneHelperText : "Please fill the required feild"}) : this.setState({phoneHelperText : null})
+    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
+    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
+    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
     if(
      this.state.firstName !== null && this.state.firstName.length !== 0 &&
      this.state.lastName !== null && this.state.lastName.length !== 0 &&
@@ -202,21 +238,21 @@ export class ActiveStudents extends Component {
    
   }
   handleEdit = () =>{
-    this.state.firstName === null ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
-    this.state.lastName === null ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
-    this.state.eMail === null ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
-    this.state.phone === null ? this.setState({phoneHelperText : "Please fill the required feild"}) : this.setState({phoneHelperText : null})
-    this.state.college === null ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
-    this.state.department === null ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
-    this.state.studentId === null ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
+    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
+    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
+    this.state.eMail === null || this.state.eMail.length === 0  ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
+    this.state.phone === null || this.state.phone.length === 0 ? this.setState({phoneHelperText : "Please fill the required feild"}) : this.setState({phoneHelperText : null})
+    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
+    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
+    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
     if(
-      this.state.firstName !== null &&
-      this.state.lastName !== null && 
-      this.state.eMail !== null && 
-      this.state.phone !== null &&
-      this.state.college !== null &&
-      this.state.department !== null &&
-      this.state.studentId !== null
+      this.state.firstName !== null && this.state.firstName.length !== 0 &&
+     this.state.lastName !== null && this.state.lastName.length !== 0 &&
+     this.state.eMail !== null && this.state.eMail.length !== 0 &&
+     this.state.phone !== null && this.state.phone.length !== 0 &&
+     this.state.college !== null && this.state.college.length !== 0 &&
+     this.state.department !== null && this.state.department.length !== 0 &&
+     this.state.studentId !== null && this.state.studentId.length !== 0 
       ){
     let studentObj = {
       firstName: this.state.firstName,
@@ -481,10 +517,20 @@ export class ActiveStudents extends Component {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar open={this.state.snackOpen} autoHideDuration={3000} onClose={()=>this.setState({snackOpen : false})}>
+        <Alert onClose={()=>this.setState({snackOpen : false})} severity={this.state.snackColor}>
+          {this.state.snackMessage}
+        </Alert>
+      </Snackbar>
       </MuiThemeProvider>
     );
   }
 }
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 
 const mapStateToProps = (state) => {
   return {
@@ -493,6 +539,9 @@ const mapStateToProps = (state) => {
     allCollegeList : state.CollegeReducer.allCollegeList,
     BranchList : state.CollegeReducer.BranchList,
     whiteListedUserDetails : state.StudentReducer.whiteListedUserDetails,
+    signUpResponse : state.StudentReducer.signUpResponse,
+    signUpError : state.StudentReducer.signUpError,
+    editStudentResponse : state.StudentReducer.editStudentResponse
   };
 };
 export default connect(mapStateToProps, { getStudents, getStudentPaginate, getWhiteListedUser ,postStudents, getAllColleges, getBranches, mernStudentSignUp, mernStudentEdit })(

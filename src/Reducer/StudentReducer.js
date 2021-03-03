@@ -13,6 +13,7 @@ const initialState = {
   whiteListedUserDetails : [],
   manualUserDetails : [],
   mernUserDetails : [],
+  signUpError : [],
 };
 
 export default (state = initialState, action) => {
@@ -107,6 +108,11 @@ export default (state = initialState, action) => {
                   ...state,
                   mernUserDetails:action.mernUserDetails,
                 }
+                case STUDENT.catchSignUpError:
+                  return {
+                    ...state,
+                    signUpError:action.signUpError,
+                  }
               
     default:
       break;
