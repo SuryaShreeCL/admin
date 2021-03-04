@@ -31,6 +31,7 @@ export const deleteTestimonial = (id) => async (dispatch) => {
       type: TESTIMONIAL.DELETE_SUCCESS,
     });
   } catch (error) {
+    console.log(error.message);
     const message =
       error.response && error.response.data.message ? error.response.data.message : error.message;
 
