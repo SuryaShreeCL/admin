@@ -1,11 +1,11 @@
 import { TESTIMONIAL } from '../Redux/Action';
 import axios from 'axios';
 
-export const listTestimonials = (keyword = '', pageNumber = '') => async (dispatch) => {
+export const listTestimonials = () => async (dispatch) => {
   try {
     dispatch({ type: TESTIMONIAL.LIST_REQUEST });
 
-    const { data } = await axios.get(`/services/testimonials?keyword=${keyword}&pageNumber=${pageNumber}`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API}/services/testimonials`);
 
     dispatch({
       type: TESTIMONIAL.LIST_SUCCESS,
@@ -20,33 +20,13 @@ export const listTestimonials = (keyword = '', pageNumber = '') => async (dispat
   }
 };
 
-export const listTestimonialDetails = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: TESTIMONIAL.DETAILS_REQUEST });
-
-    const { data } = await axios.get(`/services/testimonials/${id}`);
-
-    dispatch({
-      type: TESTIMONIAL.DETAILS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: TESTIMONIAL.DETAILS_FAIL,
-      payload:
-        error.response && error.response.data.message ? error.response.data.message : error.message,
-    });
-  }
-};
-
 export const deleteTestimonial = (id) => async (dispatch) => {
   try {
     dispatch({
       type: TESTIMONIAL.DELETE_REQUEST,
     });
 
-    await axios.delete(`/services/testimonials/${id}`);
-
+    await axios.delete(`${process.env.REACT_APP_API}/services/testimonials/${id}`);
     dispatch({
       type: TESTIMONIAL.DELETE_SUCCESS,
     });
@@ -61,13 +41,16 @@ export const deleteTestimonial = (id) => async (dispatch) => {
   }
 };
 
-export const createTestimonial = () => async (dispatch) => {
+export const createTestimonial = (testimonial) => async (dispatch) => {
   try {
     dispatch({
       type: TESTIMONIAL.CREATE_REQUEST,
     });
-
-    const { data } = await axios.post(`/services/testimonials`);
+    console.log(testimonial);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API}/services/testimonials`,
+      testimonial
+    );
 
     dispatch({
       type: TESTIMONIAL.CREATE_SUCCESS,
@@ -90,7 +73,10 @@ export const updateTestimonial = (testimonial) => async (dispatch) => {
       type: TESTIMONIAL.UPDATE_REQUEST,
     });
 
-    const { data } = await axios.put(`/services/testimonials/${product._id}`, testimonial);
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_API}/services/testimonials/${testimonial.id}`,
+      testimonial
+    );
 
     dispatch({
       type: TESTIMONIAL.UPDATE_SUCCESS,

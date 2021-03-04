@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import Controls from '../components/controls/Controls';
+import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { useForm, Form } from '../components/useForm';
-import * as testimonialService from '../services/testimonialService';
+
+const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
+const checkedIcon = <CheckBoxIcon fontSize='small' />;
 
 const genderItems = [
   { id: 'male', title: 'Male' },
@@ -10,16 +17,23 @@ const genderItems = [
   { id: 'other', title: 'Other' },
 ];
 
+const getDepartmentCollection = () => [
+  { id: '1', title: 'Development' },
+  { id: '2', title: 'Marketing' },
+  { id: '3', title: 'Accounting' },
+  { id: '4', title: 'HR' },
+];
+
+const careerlabsProducts = ['ACS', 'GMAT', 'GRE'];
+
 const initialFValues = {
-  id: 0,
-  fullName: '',
-  email: '',
-  mobile: '',
-  city: '',
+  studentName: '',
+  avatar: '',
+  mixedTag: '',
   gender: 'male',
-  departmentId: '',
-  hireDate: new Date(),
-  isPermanent: false,
+  products: [],
+  department: '',
+  testimonialDate: new Date(),
 };
 
 export default function TestimonialForm(props) {
@@ -27,14 +41,14 @@ export default function TestimonialForm(props) {
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ('fullName' in fieldValues)
-      temp.fullName = fieldValues.fullName ? '' : 'This field is required.';
-    if ('email' in fieldValues)
-      temp.email = /$^|.+@.+..+/.test(fieldValues.email) ? '' : 'Email is not valid.';
-    if ('mobile' in fieldValues)
-      temp.mobile = fieldValues.mobile.length > 9 ? '' : 'Minimum 10 numbers required.';
-    if ('departmentId' in fieldValues)
-      temp.departmentId = fieldValues.departmentId.length != 0 ? '' : 'This field is required.';
+    if ('studentName' in fieldValues)
+      temp.studentName = fieldValues.studentName ? '' : 'This field is required.';
+    // if ('email' in fieldValues)
+    //   temp.email = /$^|.+@.+..+/.test(fieldValues.email) ? '' : 'Email is not valid.';
+    // if ('mobile' in fieldValues)
+    //   temp.mobile = fieldValues.mobile.length > 9 ? '' : 'Minimum 10 numbers required.';
+    // if ('department' in fieldValues)
+    //   temp.department = fieldValues.department.length != 0 ? '' : 'This field is required.';
     setErrors({
       ...temp,
     });
@@ -64,33 +78,33 @@ export default function TestimonialForm(props) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Grid container fluid>
+      <Grid container>
         <Grid item xs={6}>
           <Controls.Input
-            name='fullName'
+            name='studentName'
             label='Full Name'
-            value={values.fullName}
+            value={values.studentName}
             onChange={handleInputChange}
-            error={errors.fullName}
+            error={errors.studentName}
           />
           <Controls.Input
-            label='Email'
-            name='email'
-            value={values.email}
+            label='Products'
+            name='products'
+            value={values.products}
             onChange={handleInputChange}
-            error={errors.email}
+            error={errors.products}
           />
           <Controls.Input
-            label='Mobile'
-            name='mobile'
-            value={values.mobile}
+            label='Avatar'
+            name='avatar'
+            value={values.avatar}
             onChange={handleInputChange}
-            error={errors.mobile}
+            error={errors.avatar}
           />
           <Controls.Input
-            label='City'
-            name='city'
-            value={values.city}
+            label='Tagging'
+            name='mixedTag'
+            value={values.mixedTag}
             onChange={handleInputChange}
           />
         </Grid>
@@ -102,27 +116,57 @@ export default function TestimonialForm(props) {
             onChange={handleInputChange}
             items={genderItems}
           />
+          {/* <Autocomplete
+            multiple
+            id='checkboxes-tags-demo'
+            onSelect={(e, newValue) => initialFValues.products.push(newValue)}
+            options={careerlabsProducts}
+            disableCloseOnSelect
+            name='products'
+            label='Products'
+            value={values.products}
+            // onChange={handleInputChange}
+            getOptionLabel={(option) => option}
+            renderOption={(option, { selected }) => (
+              <React.Fragment>
+                <Checkbox
+                  icon={icon}
+                  checkedIcon={checkedIcon}
+                  style={{ marginRight: 8 }}
+                  checked={selected}
+                />
+                {option}
+              </React.Fragment>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant='outlined'
+                label='Checkboxes'
+                placeholder='Favorites'
+              />
+            )}
+          /> */}
           <Controls.Select
-            name='departmentId'
+            name='department'
             label='Department'
-            value={values.departmentId}
+            value={values.department}
             onChange={handleInputChange}
-            options={testimonialService.getDepartmentCollection()}
-            error={errors.departmentId}
+            options={getDepartmentCollection()}
+            error={errors.department}
           />
           <Controls.DatePicker
-            name='hireDate'
-            label='Hire Date'
-            value={values.hireDate}
+            name='testimonialDate'
+            label='Testimonial Date'
+            value={values.testimonialDate}
             onChange={handleInputChange}
           />
-          <Controls.Checkbox
+          {/* <Controls.Checkbox
             name='isPermanent'
             label='Permanent Employee'
             value={values.isPermanent}
             onChange={handleInputChange}
-          />
-
+          /> */}
           <div>
             <Controls.Button type='submit' text='Submit' />
             <Controls.Button text='Reset' color='default' onClick={resetForm} />

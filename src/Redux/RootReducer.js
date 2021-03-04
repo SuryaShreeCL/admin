@@ -15,7 +15,6 @@ import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
   testimonialUpdateReducer,
-  testimonialDetailsReducer,
   testimonialListReducer,
 } from '../Reducer/TestimonialReducer';
 
@@ -35,6 +34,5 @@ export default combineReducers({
   testimonialCreateReducer: testimonialCreateReducer,
   testimonialDeleteReducer: testimonialDeleteReducer,
   testimonialUpdateReducer: testimonialUpdateReducer,
-  testimonialDetailsReducer: testimonialDetailsReducer,
   testimonialListReducer: testimonialListReducer,
 });

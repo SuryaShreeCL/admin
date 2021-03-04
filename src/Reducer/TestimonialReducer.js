@@ -7,7 +7,7 @@ export const testimonialListReducer = (state = { testimonials: [] }, action) => 
     case TESTIMONIAL.LIST_SUCCESS:
       return {
         loading: false,
-        testimonials: action.payload.testimonials,
+        testimonials: action.payload,
       };
     case TESTIMONIAL.LIST_FAIL:
       return { loading: false, error: action.payload };

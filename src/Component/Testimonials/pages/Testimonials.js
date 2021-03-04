@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TestimonialForm from './TestimonialForm';
 import {
   Paper,
@@ -10,7 +10,6 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import useTable from '../components/useTable';
-import * as testimonialService from '../services/testimonialService';
 import Controls from '../components/controls/Controls';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
@@ -18,11 +17,22 @@ import Popup from '../components/Popup';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../components/Notification';
+import Loader from '../components/controls/Loader';
+import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../components/ConfirmDialog';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  listTestimonials,
+  deleteTestimonial,
+  createTestimonial,
+  updateTestimonial,
+} from '../../../Actions/TestimonialActions';
+
+const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(3),
+    marginTop: theme.spacing(3),
     padding: theme.spacing(2),
   },
   searchInput: {
@@ -35,22 +45,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'fullName', label: 'Employee Name' },
-  { id: 'email', label: 'Email Address (Personal)' },
-  { id: 'mobile', label: 'Mobile Number' },
-  { id: 'department', label: 'Department' },
+  { id: 'studentName', label: 'Student Name' },
+  { id: 'program', label: 'Program' },
+  { id: 'mixedTag', label: 'Tagging' },
+  { id: 'gre', label: 'GRE Score' },
+  { id: 'gmat', label: 'GMAT Score' },
+  { id: 'products', label: 'Products' },
+  { id: 'graduatingCollege', label: 'Graduating College' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
 export default function Testimonials() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [records, setRecords] = useState(testimonialService.getAllEmployees());
+
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
   });
+
+  const { loading, error, testimonials } = useSelector((state) => state.testimonialListReducer);
+
   const [openPopup, setOpenPopup] = useState(false);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
@@ -60,7 +77,7 @@ export default function Testimonials() {
   });
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    records,
+    testimonials,
     headCells,
     filterFn
   );
@@ -70,18 +87,20 @@ export default function Testimonials() {
     setFilterFn({
       fn: (items) => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.fullName.toLowerCase().includes(target.value));
+        else return items.filter((x) => x.studentName.toLowerCase().includes(target.value));
       },
     });
   };
 
-  const addOrEdit = (employee, resetForm) => {
-    if (employee.id == 0) testimonialService.insertEmployee(employee);
-    else testimonialService.updateEmployee(employee);
+  const addOrEdit = (testimonial, resetForm) => {
+    if (!testimonial.id) dispatch(createTestimonial(testimonial));
+    else dispatch(updateTestimonial(testimonial));
     resetForm();
     setRecordForEdit(null);
     setOpenPopup(false);
-    setRecords(testimonialService.getAllEmployees());
+    setTimeout(() => {
+      dispatch(listTestimonials());
+    }, 1200);
     setNotify({
       isOpen: true,
       message: 'Submitted Successfully',
@@ -99,8 +118,10 @@ export default function Testimonials() {
       ...confirmDialog,
       isOpen: false,
     });
-    testimonialService.deleteEmployee(id);
-    setRecords(testimonialService.getAllEmployees());
+    dispatch(deleteTestimonial(id));
+    setTimeout(() => {
+      dispatch(listTestimonials());
+    }, 1200);
     setNotify({
       isOpen: true,
       message: 'Deleted Successfully',
@@ -108,12 +129,18 @@ export default function Testimonials() {
     });
   };
 
+  useEffect(() => {
+    dispatch(listTestimonials());
+  }, [dispatch]);
+
   return (
     <>
+      {loading && <Loader />}
+      {error && <Alert severity='error'>{error}</Alert>}
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
-            label='Search Testimonials'
+            label='Search Students'
             className={classes.searchInput}
             InputProps={{
               startAdornment: (
@@ -137,41 +164,46 @@ export default function Testimonials() {
         </Toolbar>
         <TblContainer>
           <TblHead />
-          <TableBody>
-            {recordsAfterPagingAndSorting().map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.fullName}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.mobile}</TableCell>
-                <TableCell>{item.department}</TableCell>
-                <TableCell>
-                  <Controls.ActionButton
-                    color='primary'
-                    onClick={() => {
-                      openInPopup(item);
-                    }}
-                  >
-                    <EditOutlinedIcon fontSize='small' />
-                  </Controls.ActionButton>
-                  <Controls.ActionButton
-                    color='secondary'
-                    onClick={() => {
-                      setConfirmDialog({
-                        isOpen: true,
-                        title: 'Are you sure to delete this record?',
-                        subTitle: "You can't undo this operation",
-                        onConfirm: () => {
-                          onDelete(item.id);
-                        },
-                      });
-                    }}
-                  >
-                    <CloseIcon fontSize='small' />
-                  </Controls.ActionButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {testimonials && (
+            <TableBody>
+              {recordsAfterPagingAndSorting().map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.studentName}</TableCell>
+                  <TableCell>{item?.program?.acronym}</TableCell>
+                  <TableCell>{item?.mixedTag}</TableCell>
+                  <TableCell>{item?.scores?.gre}</TableCell>
+                  <TableCell>{item?.scores?.gmat}</TableCell>
+                  <TableCell>{item.products?.map((product) => `${product} `)}</TableCell>
+                  <TableCell>{item?.graduatingCollege?.name}</TableCell>
+                  <TableCell>
+                    <Controls.ActionButton
+                      color='primary'
+                      onClick={() => {
+                        openInPopup(item);
+                      }}
+                    >
+                      <EditOutlinedIcon fontSize='small' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton
+                      color='secondary'
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: 'Are you sure to delete this record?',
+                          subTitle: "You can't undo this operation",
+                          onConfirm: () => {
+                            onDelete(item.id);
+                          },
+                        });
+                      }}
+                    >
+                      <CloseIcon fontSize='small' />
+                    </Controls.ActionButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </TblContainer>
         <TblPagination />
       </Paper>
