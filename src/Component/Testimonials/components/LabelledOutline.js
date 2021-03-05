@@ -14,15 +14,16 @@ const styles = {
     borderRadius: '5px',
     display: 'flex',
     flexWrap: 'wrap',
-    flex: '1 1 30%',
+    flex: '1 1 50%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   inputLabel: {
     position: 'absolute',
-    left: 0,
+    left: '10px',
+    color: 'grey',
     top: 0,
-    // slight alteration to spec spacing to match visual spec result
+    fontSize:'1.2rem',
     transform: 'translate(0, 24px) scale(1)',
   },
 };

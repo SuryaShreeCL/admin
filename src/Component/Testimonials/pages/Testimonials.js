@@ -174,7 +174,7 @@ export default function Testimonials() {
                   <TableCell>{item?.scores?.gre}</TableCell>
                   <TableCell>{item?.scores?.gmat}</TableCell>
                   <TableCell>{item.products?.map((product) => `${product} `)}</TableCell>
-                  <TableCell>{item?.graduatingCollege?.name}</TableCell>
+                  <TableCell>{item?.testimonialOrigin}</TableCell>
                   <TableCell>
                     <Controls.ActionButton
                       color='primary'
@@ -207,7 +207,7 @@ export default function Testimonials() {
         </TblContainer>
         <TblPagination />
       </Paper>
-      <Popup title='Testimonial Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
+      <Popup title='Add or Edit Testimonial' openPopup={openPopup} setOpenPopup={setOpenPopup}>
         <TestimonialForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
       </Popup>
       <Notification notify={notify} setNotify={setNotify} />

@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import Controls from '../components/controls/Controls';
-import Checkbox from '@material-ui/core/Checkbox';
+import { useForm, Form } from '../components/useForm';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import LabelledOutline from '../components/LabelledOutline';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import { makeStyles } from '@material-ui/styles';
+import { Formik, FieldArray, Field } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
+import { getBranches, getAllColleges } from '../../../Actions/College';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import { useForm, Form } from '../components/useForm';
-import LabelledOutline from '../components/LabelledOutline';
-
-const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
-const checkedIcon = <CheckBoxIcon fontSize='small' />;
 
 const genderItems = [
-  { id: 'male', title: 'Male' },
-  { id: 'female', title: 'Female' },
+  { id: '1', title: 'Male' },
+  { id: '2', title: 'Female' },
 ];
 
-const getDepartmentCollection = () => [
-  { id: '1', title: 'Development' },
-  { id: '2', title: 'Marketing' },
-  { id: '3', title: 'Accounting' },
-  { id: '4', title: 'HR' },
+const Tags = () => [
+  { id: '1', title: 'Good' },
+  { id: '2', title: 'OK' },
+  { id: '3', title: 'Best' },
 ];
 
 const getOriginCollection = () => [
@@ -29,331 +28,347 @@ const getOriginCollection = () => [
   { id: '2', title: 'Quora' },
   { id: '3', title: 'Facebook' },
   { id: '4', title: 'Email' },
+  { id: '5', title: 'WhatsApp' },
 ];
 
-const careerlabsProducts = ['ACS', 'GMAT', 'GRE'];
-
-// const [initialFValues, setinitialFValues] = useState({
-//   studentName: '',
-//   avatar: '',
-//   scores: { gre: '', gmat: '' },
-//   mixedTag: '',
-//   yearOfPassing: '',
-//   testimonialOrigin: '',
-//   graduatingCollege: { name: '', logo: '' },
-//   company: { name: '', workExp: '' },
-//   program: { name: '', acronym: '' },
-//   textTestimonial: { tagLine: '', fullTestimonial: '' },
-//   videoTestimonial: { tagLine: '', videoLink: '' },
-//   gender: '',
-//   admitCollege: { name: '', logo: '', country: '', intake: '' },
-//   interviewCallsFrom: [{ name: '', logo: '' }],
-//   products: [],
-//   department: '',
-//   testimonialDate: new Date(),
-// });
-
-const initialFValues = {
-  studentName: '',
-  avatar: '',
-  scores: { gre: '', gmat: '' },
-  mixedTag: '',
-  yearOfPassing: '',
-  testimonialOrigin: '',
-  graduatingCollege: { name: '', logo: '' },
-  company: { name: '', workExp: '' },
-  program: { name: '', acronym: '' },
-  textTestimonial: { tagLine: '', fullTestimonial: '' },
-  videoTestimonial: { tagLine: '', videoLink: '' },
-  gender: '',
-  admitCollege: { name: '', logo: '', country: '', intake: '' },
-  interviewCallsFrom: [{ name: '', logo: '' }],
-  products: [],
-  department: '',
-  testimonialDate: new Date(),
-};
+const useStyles = makeStyles((theme) => ({
+  root: { display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' },
+  spacer: { padding: '1rem', margin: theme.spacing(1) },
+}));
 
 export default function TestimonialForm(props) {
+  const dispatch = useDispatch();
+  const classes = useStyles();
   const { addOrEdit, recordForEdit } = props;
 
-  const validate = (fieldValues = values) => {
-    let temp = { ...errors };
-    if ('studentName' in fieldValues)
-      temp.studentName = fieldValues.studentName ? '' : 'This field is required.';
-    // if ('email' in fieldValues)
-    //   temp.email = /$^|.+@.+..+/.test(fieldValues.email) ? '' : 'Email is not valid.';
-    // if ('mobile' in fieldValues)
-    //   temp.mobile = fieldValues.mobile.length > 9 ? '' : 'Minimum 10 numbers required.';
-    // if ('department' in fieldValues)
-    //   temp.department = fieldValues.department.length != 0 ? '' : 'This field is required.';
-    setErrors({
-      ...temp,
-    });
+  const { BranchList } = useSelector((state) => state.CollegeReducer);
+  const { allCollegeList } = useSelector((state) => state.CollegeReducer);
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == '');
+  const initialValues = {
+    studentName: '',
+    avatar: '',
+    scores: { gre: 0, gmat: 0 },
+    mixedTag: '',
+    yearOfPassing: 0,
+    testimonialOrigin: '',
+    graduatingCollege: { name: '', logo: '' },
+    company: { name: '', workExp: 0 },
+    program: { name: '', acronym: '' },
+    textTestimonial: { tagLine: '', fullTestimonial: '' },
+    videoTestimonial: { tagLine: '', videoLink: '' },
+    gender: '',
+    admitCollege: { name: '', logo: '', country: '', intake: 0 },
+    interviewCallsFrom: [{ name: '', logo: '' }],
+    products: [],
+    department: '',
+    testimonialDate: new Date(),
   };
 
-  const { values, setValues, errors, setErrors, handleInputChange, resetForm } = useForm(
-    initialFValues,
-    true,
-    validate
-  );
+  const { records, setRecords, resetForm } = useForm(initialValues);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      addOrEdit(values, resetForm);
-    }
-  };
+  // const handleSubmit = (e) => {
+  //   console.log(records);
+  //   e.preventDefault();
+  //   addOrEdit(records, resetForm);
+  // };
 
   useEffect(() => {
+    dispatch(getBranches());
+    dispatch(getAllColleges());
+
     if (recordForEdit != null)
-      setValues({
+      setRecords({
         ...recordForEdit,
       });
-  }, [recordForEdit]);
+  }, [recordForEdit, dispatch]);
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Grid container>
-        <Grid item>
-          <LabelledOutline id='BSD' label='Basic Details'>
-            <Controls.Input
-              name='studentName'
-              label='Student Name'
-              value={values.studentName}
-              onChange={handleInputChange}
-              error={errors.studentName}
-            />
-            <Controls.Input
-              label='Avatar'
-              name='avatar'
-              value={values.avatar}
-              onChange={handleInputChange}
-              error={errors.avatar}
-            />
-            <Controls.Input
-              label='Graduating College Name'
-              name='graduatingCollege'
-              value={values.graduatingCollege.name}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              label='Graduating College Logo'
-              name='graduatingCollege'
-              value={values.graduatingCollege.logo}
-              onChange={handleInputChange}
-            />
-            <Controls.RadioGroup
-              name='gender'
-              value={values.gender}
-              onChange={handleInputChange}
-              items={genderItems}
-            />
-            <Controls.Input
-              label='Year Of Passing'
-              name='yearOfPassing'
-              value={values.yearOfPassing}
-              onChange={handleInputChange}
-            />
-            <Controls.Select
-              name='department'
-              label='Department'
-              value={values.department}
-              onChange={handleInputChange}
-              options={getDepartmentCollection()}
-              error={errors.department}
-            />
-            <Controls.Select
-              label='Testimonial Origin'
-              name='testimonialOrigin'
-              value={values.testimonialOrigin}
-              onChange={handleInputChange}
-              options={getOriginCollection()}
-            />
-            <Controls.Input
-              label='Company'
-              name='company'
-              value={values.company.name}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              label='Work Experience'
-              name='workExp'
-              value={values.company.workExp}
-              onChange={handleInputChange}
-            />
-            <Autocomplete
-              multiple
-              style={{ width: '400px' }}
-              id='checkboxes-tags-demo'
-              // onSelect={(e, newValue) => initialFValues.products.push(newValue)}
-              options={careerlabsProducts}
-              disableCloseOnSelect
-              name='products'
-              // label='Products'
-              value={values.products}
-              // onChange={handleInputChange}
-              getOptionLabel={(option) => option}
-              renderOption={(option, { selected }) => (
-                <React.Fragment>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                  />
-                  {option}
-                </React.Fragment>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant='outlined'
-                  label='Checkboxes'
-                  placeholder='Favorites'
+    <Formik
+      initialValues={{
+        ...initialValues,
+      }}
+      onSubmit={(values) => {
+        addOrEdit(values, resetForm);
+      }}
+    >
+      {({ handleChange, handleSubmit, values }) => (
+        <Form onSubmit={handleSubmit}>
+          {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
+          <Grid container>
+            <Grid item>
+              <LabelledOutline id='BSD' label='Basic Details'>
+                <Controls.Input
+                  name='studentName'
+                  label='Student Name'
+                  value={values.studentName}
+                  onChange={handleChange}
                 />
-              )}
-            />
-          </LabelledOutline>
-        </Grid>
-        <Grid item>
-          <LabelledOutline id='PD' label='Program Details'>
-            <Controls.Input
-              name='program'
-              label='Progam'
-              value={values.program.name}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              name='acronym'
-              label='Acronym'
-              value={values.program.acronym}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              name='scores'
-              label='GRE Score'
-              value={values.scores.gre}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              name='scores'
-              label='GMAT Score'
-              value={values.scores.gmat}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              label='Admit College Name'
-              name='admitCollege'
-              value={values.admitCollege.name}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              label='Admit College Logo'
-              name='admitCollege'
-              value={values.admitCollege.logo}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              label='Admit College Country'
-              name='admitCollege'
-              value={values.admitCollege.country}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              label='Admit College intake'
-              name='admitCollege'
-              value={values.admitCollege.intake}
-              onChange={handleInputChange}
-            />
-            {/* {values.interviewCallsFrom.map((call, i) => {
-              return (
-                <div key={i}>
-                  <Controls.Input
-                    label='Interview Calls From'
-                    name='interviewCallFrom'
-                    value={call.name}
-                    onChange={handleInputChange}
-                  />
-                  <Controls.Input
-                    label='Interview Company Logo'
-                    name='interviewCallsFrom'
-                    value={call.logo}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              );
-            })} */}
-            <Controls.Input
-              label='Interview Calls From'
-              name='interviewCallFrom'
-              value={values.interviewCallsFrom.name}
-              onChange={handleInputChange}
-              error={errors.avatar}
-            />
-            <Controls.Input
-              label='Interview Company Logo'
-              name='interviewCallsFrom'
-              value={values.interviewCallsFrom.logo}
-              onChange={handleInputChange}
-              error={errors.avatar}
-            />
-            <Controls.Input
-              label='Tagging'
-              name='mixedTag'
-              value={values.mixedTag}
-              onChange={handleInputChange}
-            />
-            <Controls.DatePicker
-              name='testimonialDate'
-              label='Testimonial Date'
-              value={values.testimonialDate}
-              onChange={handleInputChange}
-            />
-          </LabelledOutline>
-        </Grid>
-        <Grid item xs={6}>
-          <LabelledOutline id='VT' label='Video Testimonial'>
-            <Controls.Input
-              style={{ width: '500px', marginBottom: '10px' }}
-              name='videoTestimonial'
-              label='Video Tag Line'
-              value={values.videoTestimonial.tagLine}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              style={{ width: '500px', marginBottom: '10px' }}
-              label='Video Link'
-              name='videoTestimonial'
-              value={values.videoTestimonial.videoLink}
-              onChange={handleInputChange}
-            />
-          </LabelledOutline>
-        </Grid>
-        <Grid item xs={6}>
-          <LabelledOutline id='TT' label='Text Testimonial'>
-            <Controls.Input
-              style={{ width: '500px', marginBottom: '10px' }}
-              name='textTestimonial'
-              label='Text Tag Line'
-              value={values.textTestimonial.tagLine}
-              onChange={handleInputChange}
-            />
-            <Controls.Input
-              style={{ width: '500px', marginBottom: '10px' }}
-              label='Full Testimonial'
-              name='textTestimonial'
-              value={values.textTestimonial.fullTestimonial}
-              onChange={handleInputChange}
-            />
-          </LabelledOutline>
-        </Grid>
-      </Grid>
-      <div>
-        <Controls.Button type='submit' text='Submit' />
-        <Controls.Button text='Reset' color='default' onClick={resetForm} />
-      </div>
-    </Form>
+                <Controls.Input
+                  label='Avatar Link'
+                  name='avatar'
+                  value={values.avatar}
+                  onChange={handleChange}
+                />
+                <Autocomplete
+                  value={values.graduatingCollege.name}
+                  getOptionSelected={(option, value) => option.name === value.name}
+                  options={allCollegeList.map((clg) => clg.name) ?? []}
+                  style={{ width: 300, margin: ' .5em 1em' }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Grad College?'
+                      name='graduatingCollege.name'
+                      onSelect={handleChange}
+                      variant='outlined'
+                    />
+                  )}
+                />
+                <Controls.Input
+                  label='Grad College Logo'
+                  name='graduatingCollege.logo'
+                  value={values.graduatingCollege.logo}
+                  onChange={handleChange}
+                />
+                <Controls.RadioGroup
+                  name='gender'
+                  value={values.gender}
+                  onChange={handleChange}
+                  items={genderItems}
+                />
+                <Controls.Input
+                  label='Year Of Passing'
+                  name='yearOfPassing'
+                  type='number'
+                  value={values.yearOfPassing}
+                  onChange={handleChange}
+                />
+                <Autocomplete
+                  value={values.department}
+                  getOptionSelected={(option, value) => option.name === value.name}
+                  options={BranchList.map((branch) => branch.name) ?? []}
+                  style={{ width: 220, margin: ' .5em 1em' }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Department'
+                      name='department'
+                      onSelect={handleChange}
+                      variant='outlined'
+                    />
+                  )}
+                />
+                <Controls.Select
+                  label='Testimonial Origin'
+                  name='testimonialOrigin'
+                  value={values.testimonialOrigin}
+                  onChange={handleChange}
+                  options={getOriginCollection()}
+                />
+                <Controls.Input
+                  label='Company'
+                  name='company.name'
+                  value={values.company.name}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='Work Experience'
+                  type='number'
+                  name='company.workExp'
+                  value={values.company.workExp}
+                  onChange={handleChange}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item>
+              <LabelledOutline id='PD' label='Program Details'>
+                <Controls.Input
+                  name='program.name'
+                  label='Progam'
+                  value={values.program.name}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  name='program.acronym'
+                  label='Acronym'
+                  value={values.program.acronym}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  name='scores.gre'
+                  label='GRE Score'
+                  type='number'
+                  value={values.scores.gre}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  name='scores.gmat'
+                  label='GMAT Score'
+                  type='number'
+                  value={values.scores.gmat}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='Admit College Name'
+                  name='admitCollege.name'
+                  value={values.admitCollege.name}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='Admit College Logo'
+                  name='admitCollege.logo'
+                  value={values.admitCollege.logo}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='Admit College Country'
+                  name='admitCollege.country'
+                  value={values.admitCollege.country}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='Admit College intake'
+                  name='admitCollege.intake'
+                  type='number'
+                  value={values.admitCollege.intake}
+                  onChange={handleChange}
+                />
+                <Controls.Select
+                  label='Tagging'
+                  name='mixedTag'
+                  value={values.mixedTag}
+                  onChange={handleChange}
+                  options={Tags()}
+                />
+                <Controls.DatePicker
+                  name='testimonialDate'
+                  label='Testimonial Date'
+                  value={values.testimonialDate}
+                  onChange={handleChange}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={6}>
+              <LabelledOutline id='ICF' label='Interview Calls'>
+                <FieldArray
+                  name='interviewCallsFrom'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.interviewCallsFrom.map((interview, index) => (
+                        <div key={index}>
+                          <Field
+                            className={classes.spacer}
+                            placeholder='College Name'
+                            name={`interviewCallsFrom.${index}.name`}
+                          />
+                          <Field
+                            className={classes.spacer}
+                            placeholder='College Logo'
+                            name={`interviewCallsFrom.${index}.logo`}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push({ name: '', logo: '' })}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={6}>
+              <LabelledOutline id='Prod' label='Service Taken'>
+                <FieldArray
+                  name='products'
+                  render={(arrayHelpers) => (
+                    <div>
+                      {values.products && values.products.length > 0 ? (
+                        values.products.map((product, index) => (
+                          <div key={index} className={classes.root}>
+                            <Field
+                              className={classes.spacer}
+                              placeholder='Product Name'
+                              name={`products.${index}`}
+                            />
+                            <Controls.ActionButton
+                              color='secondary'
+                              onClick={() => arrayHelpers.remove(index)}
+                            >
+                              <RemoveCircleIcon fontSize='large' />
+                            </Controls.ActionButton>
+                            <Controls.ActionButton
+                              color='primary'
+                              onClick={() => arrayHelpers.insert(index, '')}
+                            >
+                              <AddBoxIcon fontSize='large' />
+                            </Controls.ActionButton>
+                          </div>
+                        ))
+                      ) : (
+                        <Controls.ActionButton
+                          color='primary'
+                          onClick={() => arrayHelpers.push('')}
+                        >
+                          <AddBoxIcon fontSize='large' />
+                        </Controls.ActionButton>
+                      )}
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={6}>
+              <LabelledOutline id='VT' label='Video Testimonial'>
+                <Controls.Input
+                  style={{ width: '500px', marginBottom: '10px' }}
+                  name='videoTestimonial.tagLine'
+                  label='Video Tag Line'
+                  value={values.videoTestimonial.tagLine}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  style={{ width: '500px', marginBottom: '10px' }}
+                  label='Video Link'
+                  name='videoTestimonial.videoLink'
+                  value={values.videoTestimonial.videoLink}
+                  onChange={handleChange}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={6}>
+              <LabelledOutline id='TT' label='Text Testimonial'>
+                <Controls.Input
+                  style={{ width: '500px', marginBottom: '10px' }}
+                  name='textTestimonial.tagLine'
+                  label='Text Tag Line'
+                  value={values.textTestimonial.tagLine}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  style={{ width: '500px', marginBottom: '10px' }}
+                  label='Full Testimonial'
+                  name='textTestimonial.fullTestimonial'
+                  value={values.textTestimonial.fullTestimonial}
+                  onChange={handleChange}
+                />
+              </LabelledOutline>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} align='center'>
+            <Controls.Button type='submit' text='Submit' />
+            <Controls.Button text='Reset' color='default' onClick={resetForm} />
+          </Grid>
+        </Form>
+      )}
+    </Formik>
   );
 }
