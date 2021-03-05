@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 export function useForm(initialValues) {
-  const [records, setRecords] = useState(initialValues);
+  const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
 
   const resetForm = () => {
-    setRecords(initialValues);
+    setValues(initialValues);
     setErrors({});
   };
 
   return {
-    records,
-    setRecords,
+    values,
+    setValues,
     errors,
     setErrors,
     resetForm,

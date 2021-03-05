@@ -87,7 +87,13 @@ export default function Testimonials() {
     setFilterFn({
       fn: (items) => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.studentName.toLowerCase().includes(target.value));
+        else
+          return items.filter(
+            (x) =>
+              x.studentName.toLowerCase().includes(target.value) ||
+              x.mixedTag.toLowerCase().includes(target.value) ||
+              x.program.acronym.toLowerCase().includes(target.value)
+          );
       },
     });
   };

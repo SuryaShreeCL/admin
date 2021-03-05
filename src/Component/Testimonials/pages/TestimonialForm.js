@@ -36,6 +36,26 @@ const useStyles = makeStyles((theme) => ({
   spacer: { padding: '1rem', margin: theme.spacing(1) },
 }));
 
+const initialValues = {
+  studentName: '',
+  avatar: '',
+  scores: { gre: 0, gmat: 0 },
+  mixedTag: '',
+  yearOfPassing: 0,
+  testimonialOrigin: '',
+  graduatingCollege: { name: '', logo: '' },
+  company: { name: '', workExp: 0 },
+  program: { name: '', acronym: '' },
+  textTestimonial: { tagLine: '', fullTestimonial: '' },
+  videoTestimonial: { tagLine: '', videoLink: '' },
+  gender: '',
+  admitCollege: { name: '', logo: '', country: '', intake: 0 },
+  interviewCallsFrom: [{ name: '', logo: '' }],
+  products: [],
+  department: '',
+  testimonialDate: new Date(),
+};
+
 export default function TestimonialForm(props) {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -44,27 +64,7 @@ export default function TestimonialForm(props) {
   const { BranchList } = useSelector((state) => state.CollegeReducer);
   const { allCollegeList } = useSelector((state) => state.CollegeReducer);
 
-  const initialValues = {
-    studentName: '',
-    avatar: '',
-    scores: { gre: 0, gmat: 0 },
-    mixedTag: '',
-    yearOfPassing: 0,
-    testimonialOrigin: '',
-    graduatingCollege: { name: '', logo: '' },
-    company: { name: '', workExp: 0 },
-    program: { name: '', acronym: '' },
-    textTestimonial: { tagLine: '', fullTestimonial: '' },
-    videoTestimonial: { tagLine: '', videoLink: '' },
-    gender: '',
-    admitCollege: { name: '', logo: '', country: '', intake: 0 },
-    interviewCallsFrom: [{ name: '', logo: '' }],
-    products: [],
-    department: '',
-    testimonialDate: new Date(),
-  };
-
-  const { records, setRecords, resetForm } = useForm(initialValues);
+  const { values, setValues, resetForm } = useForm(initialValues);
 
   // const handleSubmit = (e) => {
   //   console.log(records);
@@ -77,7 +77,7 @@ export default function TestimonialForm(props) {
     dispatch(getAllColleges());
 
     if (recordForEdit != null)
-      setRecords({
+      setValues({
         ...recordForEdit,
       });
   }, [recordForEdit, dispatch]);
