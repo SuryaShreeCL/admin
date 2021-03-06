@@ -6,6 +6,7 @@ export function useForm(initialValues) {
   const [errors, setErrors] = useState({});
 
   const resetForm = () => {
+    console.log('reset');
     setValues(initialValues);
     setErrors({});
   };

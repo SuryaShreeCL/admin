@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import Controls from '../components/controls/Controls';
-import { useForm, Form } from '../components/useForm';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import LabelledOutline from '../components/LabelledOutline';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { makeStyles } from '@material-ui/styles';
-import { Formik, FieldArray, Field } from 'formik';
+import { Formik, FieldArray, Field, Form } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBranches, getAllColleges } from '../../../Actions/College';
 import TextField from '@material-ui/core/TextField';
@@ -23,7 +22,7 @@ const Tags = () => [
   { id: '3', title: 'Best' },
 ];
 
-const getOriginCollection = () => [
+const getOrigin = () => [
   { id: '1', title: 'Careerlabs' },
   { id: '2', title: 'Quora' },
   { id: '3', title: 'Facebook' },
@@ -61,37 +60,32 @@ export default function TestimonialForm(props) {
   const classes = useStyles();
   const { addOrEdit, recordForEdit } = props;
 
+  const [records, setRecords] = useState(recordForEdit);
+
   const { BranchList } = useSelector((state) => state.CollegeReducer);
   const { allCollegeList } = useSelector((state) => state.CollegeReducer);
-
-  const { values, setValues, resetForm } = useForm(initialValues);
-
-  // const handleSubmit = (e) => {
-  //   console.log(records);
-  //   e.preventDefault();
-  //   addOrEdit(records, resetForm);
-  // };
 
   useEffect(() => {
     dispatch(getBranches());
     dispatch(getAllColleges());
 
-    if (recordForEdit != null)
-      setValues({
+    //SETTING PRE POPULATED RECORD
+    if (records != null)
+      setRecords({
         ...recordForEdit,
       });
   }, [recordForEdit, dispatch]);
 
   return (
     <Formik
-      initialValues={{
-        ...initialValues,
-      }}
-      onSubmit={(values) => {
+      initialValues={records || initialValues}
+      onSubmit={(values, { resetForm }) => {
         addOrEdit(values, resetForm);
+        resetForm();
       }}
+      enableReinitialize
     >
-      {({ handleChange, handleSubmit, values }) => (
+      {({ handleChange, handleSubmit, resetForm, values }) => (
         <Form onSubmit={handleSubmit}>
           {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
           <Grid container>
@@ -110,9 +104,9 @@ export default function TestimonialForm(props) {
                   onChange={handleChange}
                 />
                 <Autocomplete
-                  value={values.graduatingCollege.name}
+                  value={values.graduatingCollege?.name}
                   getOptionSelected={(option, value) => option.name === value.name}
-                  options={allCollegeList.map((clg) => clg.name) ?? []}
+                  options={allCollegeList.map((clg) => clg.name ?? [])}
                   style={{ width: 300, margin: ' .5em 1em' }}
                   renderInput={(params) => (
                     <TextField
@@ -127,7 +121,7 @@ export default function TestimonialForm(props) {
                 <Controls.Input
                   label='Grad College Logo'
                   name='graduatingCollege.logo'
-                  value={values.graduatingCollege.logo}
+                  value={values.graduatingCollege?.logo}
                   onChange={handleChange}
                 />
                 <Controls.RadioGroup
@@ -163,19 +157,19 @@ export default function TestimonialForm(props) {
                   name='testimonialOrigin'
                   value={values.testimonialOrigin}
                   onChange={handleChange}
-                  options={getOriginCollection()}
+                  options={getOrigin()}
                 />
                 <Controls.Input
                   label='Company'
                   name='company.name'
-                  value={values.company.name}
+                  value={values.company?.name}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   label='Work Experience'
                   type='number'
                   name='company.workExp'
-                  value={values.company.workExp}
+                  value={values.company?.workExp}
                   onChange={handleChange}
                 />
               </LabelledOutline>
@@ -185,52 +179,52 @@ export default function TestimonialForm(props) {
                 <Controls.Input
                   name='program.name'
                   label='Progam'
-                  value={values.program.name}
+                  value={values.program?.name}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   name='program.acronym'
                   label='Acronym'
-                  value={values.program.acronym}
+                  value={values.program?.acronym}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   name='scores.gre'
                   label='GRE Score'
                   type='number'
-                  value={values.scores.gre}
+                  value={values.scores?.gre}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   name='scores.gmat'
                   label='GMAT Score'
                   type='number'
-                  value={values.scores.gmat}
+                  value={values.scores?.gmat}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   label='Admit College Name'
                   name='admitCollege.name'
-                  value={values.admitCollege.name}
+                  value={values.admitCollege?.name}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   label='Admit College Logo'
                   name='admitCollege.logo'
-                  value={values.admitCollege.logo}
+                  value={values.admitCollege?.logo}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   label='Admit College Country'
                   name='admitCollege.country'
-                  value={values.admitCollege.country}
+                  value={values.admitCollege?.country}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   label='Admit College intake'
                   name='admitCollege.intake'
                   type='number'
-                  value={values.admitCollege.intake}
+                  value={values.admitCollege?.intake}
                   onChange={handleChange}
                 />
                 <Controls.Select
@@ -332,14 +326,14 @@ export default function TestimonialForm(props) {
                   style={{ width: '500px', marginBottom: '10px' }}
                   name='videoTestimonial.tagLine'
                   label='Video Tag Line'
-                  value={values.videoTestimonial.tagLine}
+                  value={values.videoTestimonial?.tagLine}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   style={{ width: '500px', marginBottom: '10px' }}
                   label='Video Link'
                   name='videoTestimonial.videoLink'
-                  value={values.videoTestimonial.videoLink}
+                  value={values.videoTestimonial?.videoLink}
                   onChange={handleChange}
                 />
               </LabelledOutline>
@@ -350,14 +344,14 @@ export default function TestimonialForm(props) {
                   style={{ width: '500px', marginBottom: '10px' }}
                   name='textTestimonial.tagLine'
                   label='Text Tag Line'
-                  value={values.textTestimonial.tagLine}
+                  value={values.textTestimonial?.tagLine}
                   onChange={handleChange}
                 />
                 <Controls.Input
                   style={{ width: '500px', marginBottom: '10px' }}
                   label='Full Testimonial'
                   name='textTestimonial.fullTestimonial'
-                  value={values.textTestimonial.fullTestimonial}
+                  value={values.textTestimonial?.fullTestimonial}
                   onChange={handleChange}
                 />
               </LabelledOutline>
@@ -365,7 +359,7 @@ export default function TestimonialForm(props) {
           </Grid>
           <Grid item xs={12} align='center'>
             <Controls.Button type='submit' text='Submit' />
-            <Controls.Button text='Reset' color='default' onClick={resetForm} />
+            {/* <Controls.Button text='Reset' color='default' onClick={resetForm} /> */}
           </Grid>
         </Form>
       )}

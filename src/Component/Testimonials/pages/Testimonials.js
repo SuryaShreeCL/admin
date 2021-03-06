@@ -51,7 +51,7 @@ const headCells = [
   { id: 'gre', label: 'GRE Score' },
   { id: 'gmat', label: 'GMAT Score' },
   { id: 'products', label: 'Products' },
-  { id: 'graduatingCollege', label: 'Graduating College' },
+  { id: 'graduatingCollege', label: 'Admit College Country' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -98,11 +98,10 @@ export default function Testimonials() {
     });
   };
 
-  const addOrEdit = (testimonial, resetForm) => {
-    if (!testimonial.id) dispatch(createTestimonial(testimonial));
+  const addOrEdit = (testimonial) => {
+    if (testimonial.id == null || testimonial.id == undefined)
+      dispatch(createTestimonial(testimonial));
     else dispatch(updateTestimonial(testimonial));
-    resetForm();
-    setRecordForEdit(null);
     setOpenPopup(false);
     setTimeout(() => {
       dispatch(listTestimonials());
@@ -180,7 +179,7 @@ export default function Testimonials() {
                   <TableCell>{item?.scores?.gre}</TableCell>
                   <TableCell>{item?.scores?.gmat}</TableCell>
                   <TableCell>{item.products?.map((product) => `${product} `)}</TableCell>
-                  <TableCell>{item?.testimonialOrigin}</TableCell>
+                  <TableCell>{item?.admitCollege?.country}</TableCell>
                   <TableCell>
                     <Controls.ActionButton
                       color='primary'
