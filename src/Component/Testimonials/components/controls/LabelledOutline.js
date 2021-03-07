@@ -10,12 +10,12 @@ const styles = {
     margin: '10px',
   },
   content: {
-    padding: '1rem',
+    padding: '1.2rem .5rem',
     borderRadius: '5px',
     display: 'flex',
     flexWrap: 'wrap',
     flex: '1 1 50%',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   inputLabel: {

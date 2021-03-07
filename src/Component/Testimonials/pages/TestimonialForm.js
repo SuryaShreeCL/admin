@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getBranches, getAllColleges } from '../../../Actions/College';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const genderItems = [
   { id: '1', title: 'Male' },
@@ -61,9 +62,9 @@ const initialValues = {
   textTestimonial: { tagLine: '', fullTestimonial: '' },
   videoTestimonial: { tagLine: '', videoLink: '' },
   gender: '',
-  admitCollege: { name: '', logo: '', country: '', intake: 0 },
+  admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
-  products: [],
+  products: [' '],
   department: '',
   testimonialDate: new Date(),
 };
@@ -311,7 +312,7 @@ export default function TestimonialForm(props) {
                 <FieldArray
                   name='products'
                   render={(arrayHelpers) => (
-                    <div style={{ display: 'flex' ,flexWrap: 'wrap'}}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                       {values.products && values.products.length > 0 ? (
                         values.products.map((product, index) => (
                           <div key={index} className={classes.root}>
@@ -381,12 +382,14 @@ export default function TestimonialForm(props) {
                   value={values.textTestimonial?.tagLine}
                   onChange={handleChange}
                 />
-                <Controls.Input
-                  style={{ width: '500px', marginBottom: '10px' }}
-                  label='Full Testimonial'
-                  name='textTestimonial.fullTestimonial'
+                <TextareaAutosize
+                  aria-label='Full Testimonial'
+                  style={{ width: '500px', marginBottom: '4px' }}
+                  rowsMin={3}
                   value={values.textTestimonial?.fullTestimonial}
                   onChange={handleChange}
+                  placeholder='Write testimonial'
+                  name='textTestimonial.fullTestimonial'
                 />
               </LabelledOutline>
             </Grid>
