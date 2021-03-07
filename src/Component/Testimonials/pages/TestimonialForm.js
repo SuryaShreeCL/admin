@@ -39,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
     width: '200px',
     border: '1px solid gray',
   },
+  shortSpacer: {
+    width: '100px',
+    padding: '1rem 5px',
+    margin: theme.spacing(1),
+    borderRadius: '5px',
+    border: '1px solid gray',
+  },
 }));
 
 const initialValues = {
@@ -304,17 +311,17 @@ export default function TestimonialForm(props) {
                 <FieldArray
                   name='products'
                   render={(arrayHelpers) => (
-                    <div>
+                    <div style={{ display: 'flex' ,flexWrap: 'wrap'}}>
                       {values.products && values.products.length > 0 ? (
                         values.products.map((product, index) => (
                           <div key={index} className={classes.root}>
                             <Field
                               as='select'
-                              className={classes.spacer}
+                              className={classes.shortSpacer}
                               placeholder='Product Name'
                               name={`products.${index}`}
                             >
-                              <option value=''>Select Product</option>
+                              <option value=''>Product?</option>
                               <option value='GMAT'>GMAT</option>
                               <option value='GRE'>GRE</option>
                               <option value='MS'>MS</option>
