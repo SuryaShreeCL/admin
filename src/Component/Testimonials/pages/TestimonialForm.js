@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import Controls from '../components/controls/Controls';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import LabelledOutline from '../components/LabelledOutline';
+import LabelledOutline from '../components/controls/LabelledOutline';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { makeStyles } from '@material-ui/styles';
 import { Formik, FieldArray, Field, Form } from 'formik';
@@ -18,8 +18,8 @@ const genderItems = [
 
 const Tags = () => [
   { id: '1', title: 'Good' },
-  { id: '2', title: 'OK' },
-  { id: '3', title: 'Best' },
+  { id: '2', title: 'Moderate' },
+  { id: '3', title: 'Excellent' },
 ];
 
 const getOrigin = () => [
@@ -140,7 +140,7 @@ export default function TestimonialForm(props) {
                 <Autocomplete
                   value={values.department}
                   getOptionSelected={(option, value) => option.name === value.name}
-                  options={BranchList.map((branch) => branch.name) ?? []}
+                  options={BranchList.map((branch) => branch.name ?? [])}
                   style={{ width: 220, margin: ' .5em 1em' }}
                   renderInput={(params) => (
                     <TextField
