@@ -32,7 +32,13 @@ const getOrigin = () => [
 
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' },
-  spacer: { padding: '1rem', margin: theme.spacing(1) },
+  spacer: {
+    padding: '1rem',
+    margin: theme.spacing(1),
+    borderRadius: '5px',
+    width: '200px',
+    border: '1px solid gray',
+  },
 }));
 
 const initialValues = {
@@ -76,6 +82,10 @@ export default function TestimonialForm(props) {
       });
   }, [recordForEdit, dispatch]);
 
+  // const collegeOptions = allCollegeList?.map((clg) => {
+  //   return <option value={clg.name}>{clg.name}</option>;
+  // });
+
   return (
     <Formik
       initialValues={records || initialValues}
@@ -85,9 +95,9 @@ export default function TestimonialForm(props) {
       }}
       enableReinitialize
     >
-      {({ handleChange, handleSubmit, resetForm, values }) => (
+      {({ handleChange, handleSubmit, resetForm, setFieldValue, values }) => (
         <Form onSubmit={handleSubmit}>
-          {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
+          <pre>{JSON.stringify(values, null, 4)}</pre>
           <Grid container>
             <Grid item>
               <LabelledOutline id='BSD' label='Basic Details'>
@@ -104,16 +114,23 @@ export default function TestimonialForm(props) {
                   onChange={handleChange}
                 />
                 <Autocomplete
-                  value={values.graduatingCollege?.name}
-                  getOptionSelected={(option, value) => option.name === value.name}
+                  id='graduatingCollege'
+                  name='graduatingCollege.name'
+                  getOptionSelected={(option, value) => option.value === value.name}
                   options={allCollegeList.map((clg) => clg.name ?? [])}
+                  onChange={(e, value) => {
+                    setFieldValue(
+                      'graduatingCollege.name',
+                      value !== null ? value : initialValues.graduatingCollege.name
+                    );
+                  }}
+                  value={values.graduatingCollege.name}
                   style={{ width: 300, margin: ' .5em 1em' }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       label='Grad College?'
                       name='graduatingCollege.name'
-                      onSelect={handleChange}
                       variant='outlined'
                     />
                   )}
@@ -139,6 +156,10 @@ export default function TestimonialForm(props) {
                 />
                 <Autocomplete
                   value={values.department}
+                  onChange={(e, value) => {
+                    setFieldValue('department', value !== null ? value : initialValues.department);
+                  }}
+                  id='department'
                   getOptionSelected={(option, value) => option.name === value.name}
                   options={BranchList.map((branch) => branch.name ?? [])}
                   style={{ width: 220, margin: ' .5em 1em' }}
@@ -147,7 +168,6 @@ export default function TestimonialForm(props) {
                       {...params}
                       label='Department'
                       name='department'
-                      onSelect={handleChange}
                       variant='outlined'
                     />
                   )}
@@ -289,10 +309,17 @@ export default function TestimonialForm(props) {
                         values.products.map((product, index) => (
                           <div key={index} className={classes.root}>
                             <Field
+                              as='select'
                               className={classes.spacer}
                               placeholder='Product Name'
                               name={`products.${index}`}
-                            />
+                            >
+                              <option value=''>Select Product</option>
+                              <option value='GMAT'>GMAT</option>
+                              <option value='GRE'>GRE</option>
+                              <option value='MS'>MS</option>
+                              <option value='Profile Builder'>Profile Builder</option>
+                            </Field>
                             <Controls.ActionButton
                               color='secondary'
                               onClick={() => arrayHelpers.remove(index)}

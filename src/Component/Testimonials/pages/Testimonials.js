@@ -99,8 +99,7 @@ export default function Testimonials() {
   };
 
   const addOrEdit = (testimonial) => {
-    if (testimonial.id == null || testimonial.id == undefined)
-      dispatch(createTestimonial(testimonial));
+    if (!testimonial.id) dispatch(createTestimonial(testimonial));
     else dispatch(updateTestimonial(testimonial));
     setOpenPopup(false);
     setTimeout(() => {
