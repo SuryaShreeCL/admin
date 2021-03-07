@@ -97,7 +97,7 @@ export default function TestimonialForm(props) {
     >
       {({ handleChange, handleSubmit, resetForm, setFieldValue, values }) => (
         <Form onSubmit={handleSubmit}>
-          <pre>{JSON.stringify(values, null, 4)}</pre>
+          {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
           <Grid container>
             <Grid item>
               <LabelledOutline id='BSD' label='Basic Details'>
