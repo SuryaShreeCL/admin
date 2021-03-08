@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Formik, FieldArray, Field, Form } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBranches, getAllColleges } from '../../../Actions/College';
+import { viewCollege } from '../../../Actions/Aspiration';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -57,13 +58,14 @@ const initialValues = {
   yearOfPassing: 0,
   testimonialOrigin: '',
   graduatingCollege: { name: '', logo: '' },
-  company: { name: '', workExp: 0 },
+  company: { name: '', workExp: 0, logo: '' },
   program: { name: '', acronym: '' },
   textTestimonial: { tagLine: '', fullTestimonial: '' },
   videoTestimonial: { tagLine: '', videoLink: '' },
   gender: '',
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
+  companyCalls: [{ name: '', logo: '' }],
   products: [' '],
   department: '',
   testimonialDate: new Date(),
@@ -78,10 +80,13 @@ export default function TestimonialForm(props) {
 
   const { BranchList } = useSelector((state) => state.CollegeReducer);
   const { allCollegeList } = useSelector((state) => state.CollegeReducer);
+  const { viewCollegeList } = useSelector((state) => state.AspirationReducer);
 
+  console.log(viewCollegeList?.content);
   useEffect(() => {
     dispatch(getBranches());
     dispatch(getAllColleges());
+    dispatch(viewCollege(0, 24, null));
 
     //SETTING PRE POPULATED RECORD
     if (records != null)
@@ -89,10 +94,6 @@ export default function TestimonialForm(props) {
         ...recordForEdit,
       });
   }, [recordForEdit, dispatch]);
-
-  // const collegeOptions = allCollegeList?.map((clg) => {
-  //   return <option value={clg.name}>{clg.name}</option>;
-  // });
 
   return (
     <Formik
@@ -133,7 +134,7 @@ export default function TestimonialForm(props) {
                     );
                   }}
                   value={values.graduatingCollege.name}
-                  style={{ width: 300, margin: ' .5em 1em' }}
+                  style={{ width: 250, margin: ' .5em 1em' }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -156,9 +157,10 @@ export default function TestimonialForm(props) {
                   items={genderItems}
                 />
                 <Controls.Input
-                  label='Year Of Passing'
+                  label='Year Of Pass'
                   name='yearOfPassing'
                   type='number'
+                  style={{ width: '120px' }}
                   value={values.yearOfPassing}
                   onChange={handleChange}
                 />
@@ -169,7 +171,7 @@ export default function TestimonialForm(props) {
                   }}
                   id='department'
                   getOptionSelected={(option, value) => option.name === value.name}
-                  options={BranchList.map((branch) => branch.name ?? [])}
+                  options={BranchList.map((branch) => branch.name) ?? []}
                   style={{ width: 220, margin: ' .5em 1em' }}
                   renderInput={(params) => (
                     <TextField
@@ -194,8 +196,15 @@ export default function TestimonialForm(props) {
                   onChange={handleChange}
                 />
                 <Controls.Input
-                  label='Work Experience'
+                  label='Company Logo'
+                  name='company.logo'
+                  value={values.company?.logo}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='Work Exp'
                   type='number'
+                  style={{ width: '100px' }}
                   name='company.workExp'
                   value={values.company?.workExp}
                   onChange={handleChange}
@@ -230,11 +239,27 @@ export default function TestimonialForm(props) {
                   value={values.scores?.gmat}
                   onChange={handleChange}
                 />
-                <Controls.Input
-                  label='Admit College Name'
+                <Autocomplete
+                  id='admitCollege'
                   name='admitCollege.name'
+                  getOptionSelected={(option, value) => option.value === value.name}
+                  options={viewCollegeList?.content?.map((clg) => clg.name) ?? []}
+                  onChange={(e, value) => {
+                    setFieldValue(
+                      'admitCollege.name',
+                      value !== null ? value : initialValues.admitCollege.name
+                    );
+                  }}
                   value={values.admitCollege?.name}
-                  onChange={handleChange}
+                  style={{ width: 250 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Admit College Name'
+                      name='admitCollege.name'
+                      variant='outlined'
+                    />
+                  )}
                 />
                 <Controls.Input
                   label='Admit College Logo'
@@ -271,17 +296,34 @@ export default function TestimonialForm(props) {
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
-              <LabelledOutline id='ICF' label='Interview Calls'>
+              <LabelledOutline id='ICF' label='College Interview Calls'>
                 <FieldArray
                   name='interviewCallsFrom'
                   render={(arrayHelpers) => (
                     <div className={classes.root}>
                       {values.interviewCallsFrom.map((interview, index) => (
-                        <div key={index}>
-                          <Field
-                            className={classes.spacer}
-                            placeholder='College Name'
-                            name={`interviewCallsFrom.${index}.name`}
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Autocomplete
+                            onChange={(e, value) => {
+                              setFieldValue(
+                                `interviewCallsFrom.${index}.name`,
+                                value !== null
+                                  ? value
+                                  : `initialValues.interviewCallsFrom.${index}.name`
+                              );
+                            }}
+                            id='interviewCalls'
+                            getOptionSelected={(option, value) => option.name === value.name}
+                            options={viewCollegeList?.content?.map((clg) => clg.name) ?? []}
+                            style={{ width: 200 }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label='College Name'
+                                name={`interviewCallsFrom.${index}.name`}
+                                variant='outlined'
+                              />
+                            )}
                           />
                           <Field
                             className={classes.spacer}
@@ -328,6 +370,7 @@ export default function TestimonialForm(props) {
                               <option value='MS'>MS</option>
                               <option value='Profile Builder'>Profile Builder</option>
                             </Field>
+
                             <Controls.ActionButton
                               color='secondary'
                               onClick={() => arrayHelpers.remove(index)}
@@ -350,6 +393,43 @@ export default function TestimonialForm(props) {
                           <AddBoxIcon fontSize='large' />
                         </Controls.ActionButton>
                       )}
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={12}>
+              <LabelledOutline id='CC' label='Company Calls'>
+                <FieldArray
+                  name='companyCalls'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.companyCalls.map((calls, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Field
+                            className={classes.spacer}
+                            placeholder='Company Name'
+                            name={`companyCalls.${index}.name`}
+                          />
+                          <Field
+                            className={classes.spacer}
+                            placeholder='Company Logo'
+                            name={`companyCalls.${index}.logo`}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push({ name: '', logo: '' })}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
                     </div>
                   )}
                 />
