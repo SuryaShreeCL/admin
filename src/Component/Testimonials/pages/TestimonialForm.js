@@ -90,7 +90,6 @@ export default function TestimonialForm(props) {
   const { allCollegeList } = useSelector((state) => state.CollegeReducer);
   const { viewCollegeList } = useSelector((state) => state.AspirationReducer);
 
-  console.log(viewCollegeList?.content);
   useEffect(() => {
     dispatch(getBranches());
     dispatch(getAllColleges());
@@ -114,7 +113,7 @@ export default function TestimonialForm(props) {
     >
       {({ handleChange, handleSubmit, resetForm, setFieldValue, values }) => (
         <Form onSubmit={handleSubmit}>
-          <pre>{JSON.stringify(values, null, 4)}</pre>
+          {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
           <Grid container>
             <Grid item>
               <LabelledOutline id='BSD' label='Basic Details'>
@@ -367,7 +366,7 @@ export default function TestimonialForm(props) {
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
-              <LabelledOutline id='CC' label='Company Calls'>
+              <LabelledOutline id='CC' label='Company Interview Calls'>
                 <FieldArray
                   name='companyCalls'
                   render={(arrayHelpers) => (
