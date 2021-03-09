@@ -32,6 +32,14 @@ const getOrigin = () => [
   { id: '5', title: 'WhatsApp' },
 ];
 
+const getProducts = () => [
+  { id: '1', title: 'GMAT' },
+  { id: '2', title: 'GRE' },
+  { id: '3', title: 'MBA Admission' },
+  { id: '4', title: 'Profile Builder' },
+  { id: '5', title: 'ACS' },
+];
+
 const useStyles = makeStyles((theme) => ({
   root: { display: 'flex', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' },
   spacer: {
@@ -66,7 +74,7 @@ const initialValues = {
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
   companyCalls: [{ name: '', logo: '' }],
-  products: [' '],
+  products: '',
   department: '',
   testimonialDate: new Date(),
 };
@@ -106,7 +114,7 @@ export default function TestimonialForm(props) {
     >
       {({ handleChange, handleSubmit, resetForm, setFieldValue, values }) => (
         <Form onSubmit={handleSubmit}>
-          {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
+          <pre>{JSON.stringify(values, null, 4)}</pre>
           <Grid container>
             <Grid item>
               <LabelledOutline id='BSD' label='Basic Details'>
@@ -229,6 +237,7 @@ export default function TestimonialForm(props) {
                   name='scores.gre'
                   label='GRE Score'
                   type='number'
+                  style={{ width: '120px' }}
                   value={values.scores?.gre}
                   onChange={handleChange}
                 />
@@ -236,6 +245,7 @@ export default function TestimonialForm(props) {
                   name='scores.gmat'
                   label='GMAT Score'
                   type='number'
+                  style={{ width: '120px' }}
                   value={values.scores?.gmat}
                   onChange={handleChange}
                 />
@@ -292,6 +302,13 @@ export default function TestimonialForm(props) {
                   label='Testimonial Date'
                   value={values.testimonialDate}
                   onChange={handleChange}
+                />
+                <Controls.Select
+                  label='Product'
+                  name='products'
+                  value={values.products}
+                  onChange={handleChange}
+                  options={getProducts()}
                 />
               </LabelledOutline>
             </Grid>
@@ -350,55 +367,6 @@ export default function TestimonialForm(props) {
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
-              <LabelledOutline id='Prod' label='Service Taken'>
-                <FieldArray
-                  name='products'
-                  render={(arrayHelpers) => (
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                      {values.products && values.products.length > 0 ? (
-                        values.products.map((product, index) => (
-                          <div key={index} className={classes.root}>
-                            <Field
-                              as='select'
-                              className={classes.shortSpacer}
-                              placeholder='Product Name'
-                              name={`products.${index}`}
-                            >
-                              <option value=''>Product?</option>
-                              <option value='GMAT'>GMAT</option>
-                              <option value='GRE'>GRE</option>
-                              <option value='MS'>MS</option>
-                              <option value='Profile Builder'>Profile Builder</option>
-                            </Field>
-
-                            <Controls.ActionButton
-                              color='secondary'
-                              onClick={() => arrayHelpers.remove(index)}
-                            >
-                              <RemoveCircleIcon fontSize='large' />
-                            </Controls.ActionButton>
-                            <Controls.ActionButton
-                              color='primary'
-                              onClick={() => arrayHelpers.insert(index, '')}
-                            >
-                              <AddBoxIcon fontSize='large' />
-                            </Controls.ActionButton>
-                          </div>
-                        ))
-                      ) : (
-                        <Controls.ActionButton
-                          color='primary'
-                          onClick={() => arrayHelpers.push('')}
-                        >
-                          <AddBoxIcon fontSize='large' />
-                        </Controls.ActionButton>
-                      )}
-                    </div>
-                  )}
-                />
-              </LabelledOutline>
-            </Grid>
-            <Grid item xs={12}>
               <LabelledOutline id='CC' label='Company Calls'>
                 <FieldArray
                   name='companyCalls'
@@ -435,6 +403,7 @@ export default function TestimonialForm(props) {
                 />
               </LabelledOutline>
             </Grid>
+
             <Grid item xs={6}>
               <LabelledOutline id='VT' label='Video Testimonial'>
                 <Controls.Input

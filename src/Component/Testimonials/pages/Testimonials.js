@@ -50,7 +50,7 @@ const headCells = [
   { id: 'mixedTag', label: 'Tagging' },
   { id: 'scores.gre', label: 'GRE Score' },
   { id: 'scores.gmat', label: 'GMAT Score' },
-  { id: 'products', label: 'Products' },
+  { id: 'products', label: 'Product' },
   { id: 'yearOfPassing', label: 'Year Of Passing' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -92,7 +92,7 @@ export default function Testimonials() {
             (x) =>
               x.studentName.toLowerCase().includes(target.value) ||
               x.mixedTag.toLowerCase().includes(target.value) ||
-              x.program.acronym.toLowerCase().includes(target.value)
+              x.products.toLowerCase().includes(target.value)
           );
       },
     });
@@ -177,7 +177,7 @@ export default function Testimonials() {
                   <TableCell>{item?.mixedTag}</TableCell>
                   <TableCell>{item?.scores?.gre}</TableCell>
                   <TableCell>{item?.scores?.gmat}</TableCell>
-                  <TableCell>{item.products?.map((product) => `${product} `)}</TableCell>
+                  <TableCell>{item?.products}</TableCell>
                   <TableCell>{item?.yearOfPassing}</TableCell>
                   <TableCell>
                     <Controls.ActionButton
