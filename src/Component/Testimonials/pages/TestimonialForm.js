@@ -27,7 +27,7 @@ const Tags = () => [
 const getOrigin = () => [
   { id: '1', title: 'Careerlabs' },
   { id: '2', title: 'Quora' },
-  { id: '3', title: 'Facebook' },
+  { id: '3', title: 'LinkedIn' },
   { id: '4', title: 'Email' },
   { id: '5', title: 'WhatsApp' },
 ];
@@ -37,7 +37,7 @@ const getProducts = () => [
   { id: '2', title: 'GRE' },
   { id: '3', title: 'MBA Admission' },
   { id: '4', title: 'Profile Builder' },
-  { id: '5', title: 'ACS' },
+  { id: '5', title: 'Admission Consulting Services' },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +83,6 @@ export default function TestimonialForm(props) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { addOrEdit, recordForEdit } = props;
-
   const [records, setRecords] = useState(recordForEdit);
 
   const { BranchList } = useSelector((state) => state.CollegeReducer);
@@ -402,7 +401,6 @@ export default function TestimonialForm(props) {
                 />
               </LabelledOutline>
             </Grid>
-
             <Grid item xs={6}>
               <LabelledOutline id='VT' label='Video Testimonial'>
                 <Controls.Input
