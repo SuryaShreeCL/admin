@@ -1,0 +1,50 @@
+import {REPORTS} from "../Redux/Action"
+import axios from "axios"
+import {URL} from "../Actions/URL"
+
+export const viewTermsAndConReports = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/student/get/terms")
+        .then(result=>{
+            dispatch({type:REPORTS.viewTermsAndConReport,termsAndConReport:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+export const viewCvReport = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/student/cvRatings")
+        .then(result=>{
+            dispatch({type:REPORTS.viewCvReport,cvReport:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const viewMarkSheetReport = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/student/marksheet")
+        .then(result=>{
+            dispatch({type:REPORTS.viewMarksheetReport,markSheetReport:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const viewMydetailsReport = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/student/cvRatings")
+        .then(result=>{
+            dispatch({type:REPORTS.viewMyDetailsReport,myDetailsReport:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

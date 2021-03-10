@@ -8,6 +8,7 @@ import { createMuiTheme,ThemeProvider } from '@material-ui/core/styles'
 import  DetailsOfHigherEducation  from './Table/StudentDetail/ProfileInfoComponents/DetailsOfHigherEducation';
 import Aspiration from './Table/StudentDetail/ProfileInfoComponents/Aspiration';
 import  DiagnosticTestType  from './Table/StudentDetail/ProfileInfoComponents/DiagnosticTestType';
+import { StudentUploadedDocuments } from './Table/StudentDetail/ProfileInfoComponents/StudentUploadedDocument';
 
 
 export class Other_data extends Component {
@@ -285,6 +286,9 @@ export class Other_data extends Component {
                     <div className={item_classes}>
                     <DetailsOfHigherEducation id={this.props.id} />
                     </div>  
+                    <div className={item_classes}>
+                    <StudentUploadedDocuments id={this.props.id} />
+                    </div>
                     <div className={item_classes}>
                     <Aspiration />
                     </div> 

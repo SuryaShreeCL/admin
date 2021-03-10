@@ -45,7 +45,9 @@ import {
   careerTrackPath,
   careerTrackVideoSetPath,
   careerTrackVideoPath,
-  documentDetailsPath
+  documentDetailsPath,
+  notificationPath,
+  reportsPath
 } from "./RoutePaths";
 import College  from "./College";
 import University from "./University";
@@ -64,6 +66,9 @@ import CareerTrackVideoSet from "./CareerTrack/CareerTrackVideoSet";
 import CareerTrackVideo from "./CareerTrack/CareerTrackVideo";
 import StudentDocuments from "./StudentDocuments";
 import StudentHome from "./StudentHome";
+import Notification from "./Notification"
+import ReportTab from "./ReportTab";
+import ReportHome from "./ReportHome";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -135,10 +140,12 @@ export default function Routes() {
           <Route exact path={videoPath} component={Video} />
           <Route exact path={productPath} component={Product} />
           <Route exact path={webinarPath} component={Webinar} />
+          <Route exact path={notificationPath} component={Notification} />
           <Route exact path={careerTrackPath} component={CareerTrack} />
           <Route exact path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`} component={CareerTrackVideoSet} />
           <Route exact path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`} component={CareerTrackVideo} />
           <Route exact path={documentDetailsPath} component={StudentDocuments} />
+          <Route exact path={reportsPath} component={ReportHome} />
             {/* <Route exact path='/Renginelite/Rengine' component={RecHome} /> */}
           </Router>
         </Switch>

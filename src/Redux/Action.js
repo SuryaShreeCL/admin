@@ -145,3 +145,19 @@ export const CAREER_TRACK = {
 	updateCareerTrack : "updateCareerTrack",
 	deleteCareerTrack : "deleteCareerTrack",
 }
+
+export const NOTIFICATION = {
+	viewNotification : "viewNotification",
+	addNotification : "addNotification",
+	editNotification : "editNotification",
+	deleteNotification : "deleteNotification"
+}
+
+export const REPORTS = {
+	viewTermsAndConReport : "viewTermsAndConReport",
+	viewCvReport : "viewCvReport",
+	viewMarksheetReport : "viewMarksheetReport",
+	viewMyDetailsReport : "viewMyDetailsReport"
+}
+
+

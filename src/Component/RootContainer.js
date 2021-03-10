@@ -37,7 +37,9 @@ import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
 import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';const drawerWidth = 240;
+import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
+import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+const drawerWidth = 240;
 const NavbarList = [
       {id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
       {id: 'students', icon: <PeopleIcon />, title: 'Students' },
@@ -51,8 +53,9 @@ const NavbarList = [
       {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
       {id: 'webinar', icon:<SupervisorAccountIcon />, title:'Webinar'},
       {id: 'career-track', icon:<TrendingUpRoundedIcon />, title:'Career Track'},
-      // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},      
-      // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
+      // {id: 'notification', icon:<TrendingUpRoundedIcon />, title:'Notification'},
+      {id: 'reports', icon:<AssessmentRoundedIcon />, title:'Reports'},
+      
     ];
 
 const useStyles = makeStyles((theme) => ({

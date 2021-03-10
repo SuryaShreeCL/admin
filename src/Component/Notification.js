@@ -1,0 +1,403 @@
+import React, { Component,forwardRef } from 'react'
+import 'bootstrap/dist/css/bootstrap.css'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import {
+     Button,
+     Dialog,
+     DialogTitle,
+     IconButton,
+     TextField,
+     DialogActions,
+     DialogContent, 
+     CircularProgress,
+     Slide,
+     Grid,
+    } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from "@material-ui/icons/Close";
+import {connect} from 'react-redux'
+import {viewNotification} from '../Actions/Notification'
+import TableComponent from "./TableComponent/TableComponent";
+
+export class Notification extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],
+            id : "",
+            courseId : "",
+            name : "",
+            shortName : "",
+            description : "",
+            lmsURL : "",
+            displayImageURL : "",
+            thumnailImageURL : "",
+            bannerURL : "",
+            show : false,
+        }
+    }
+
+    
+      rowClick = (rowData) => {
+      };
+    componentDidMount() { 
+        this.props.viewNotification()        
+    }
+    // Paginate For Course
+    paginate = (page, size, keyword) => {
+        this.props.getPaginateCourse(page, size, keyword);
+      };
+    // Table Theme
+    tableTheme = () =>
+    createMuiTheme({
+      palette: {
+        primary: {
+          main: "#007bff",
+        },
+      },
+      overrides: {
+        MuiTypography: {
+          h6: {
+            fontWeight: "bold",
+          },
+        },
+        MuiIconButton: {
+          root: {
+            "&:hover": {
+              backgroundColor: "none",
+              borderRadius: 0,
+            },
+          },
+        },
+      },
+    });
+    // Model Theme
+    modeltheme = () =>
+  createMuiTheme({
+    overrides: {
+      MuiDialog: {
+        paperWidthSm: {
+          width: 500,
+        },
+      },
+      MuiDialogTitle: {
+        root: {
+          padding: "8px 24px",
+        },
+      },
+      MuiTypography: {
+        h6: {
+          display: "flex",
+          alignItems: "center",
+        },
+      },
+      MuiSvgIcon: {
+        root: {
+          margin: 0,
+        },
+      },
+      MuiDialogActions: {
+        root: {
+          justifyContent: "center",
+        },
+      },
+      MuiDialogContentText: {
+        root: {
+          textAlign: "center",
+          display: "block",
+          marginBottom: 34,
+          color: "rgba(0,0,0,0.7)",
+        },
+      },
+      MuiTextField: {
+        root: {
+          marginBottom: 15,
+        },
+      },
+    },
+  });
+spinnerTheme = () =>createMuiTheme({
+    overrides :{
+      MuiCircularProgress :  {
+        colorPrimary:{
+          color: "#009be5"
+        }
+      }
+    }
+  });
+  handleEdit = (data) =>{
+    console.log(data)
+    this.setState({
+      id : data.id,
+      name : data.name,
+      courseId : data.courseId,
+      description : data.description,
+      lmsURL : data.lmsURL,
+      displayImageURL : data.displayImageURL,
+      thumnailImageURL : data.thumnailImageURL,
+      show : true,
+    })
+  } 
+   // Dialog Open
+   handleClickOpen = (e) => {
+    this.setState({
+       show: true,
+       id: "",
+          courseId : "",
+          name: "",
+          shortName : "",
+          description : "",
+          lmsURL : "",
+          displayImageURL : "",
+          thumnailImageURL : "",
+      });
+  };
+  // Delete
+    handleDelete = (data) =>{
+      // this.props.deleteCourse(data.id)
+    }
+    // Add Course
+    newCourse = () =>{
+      this.setState({ show: false });
+      let newCourseObj = {
+        courseId : this.state.courseId,
+        name: this.state.name,
+        shortName : this.state.shortName,
+        description : this.state.description,
+        lmsURL : this.state.lmsURL,
+        displayImageURL : this.state.displayImageURL,
+        thumnailImageURL : this.state.thumnailImageURL
+      };
+      if (this.state.name.length !== 0) {
+        this.props.addCourses(newCourseObj);
+        this.setState({
+          id: "",
+          courseId : "",
+          name: "",
+          shortName : "",
+          description : "",
+          lmsURL : "",
+          displayImageURL : "",
+          thumnailImageURL : "",
+        });
+      }
+      this.props.getPaginateCourse(0, 20,null);    
+      }
+  // Update Course
+  updateCourse = () =>{
+      this.setState({ show: false });
+  let newCourseObj = {
+    id : this.state.id,
+    courseId : this.state.courseId,
+    name: this.state.name,
+    shortName : this.state.shortName,
+    description : this.state.description,
+    lmsURL : this.state.lmsURL,
+    displayImageURL : this.state.displayImageURL,
+    thumnailImageURL : this.state.thumnailImageURL
+  };
+  if (this.state.name.length !== 0) {
+    this.props.updateCourse(this.state.id,newCourseObj);
+    this.setState({
+      id: "",
+      courseId : "",
+      name: "",
+      shortName : "",
+      description : "",
+      lmsURL : "",
+      displayImageURL : "",
+      thumnailImageURL : "",
+      update: true,
+    });      
+  }
+  this.props.getPaginateCourse(0, 20,null);    
+}
+ column = [
+    { title: 'Id', fieldName:'id'},
+    { title: 'Name', fieldName:'featureName'},
+    { title: 'Completed Task', fieldName:'completedTask'},
+];
+    render() {  
+      console.log(this.props.viewNotificationList)
+        return (
+            <ThemeProvider theme={this.tableTheme()}>
+            <div>
+               {this.props.viewNotificationList.length !== 0 ? (
+                <TableComponent
+                  data={
+                    this.props.viewNotificationList.length !== 0
+                      ? this.props.viewNotificationList
+                      : null
+                  }
+                  cols={this.column}
+                  onRowClick={this.rowClick}
+                  add={true}
+                  action={true}
+                  onEdit={true}  
+                  onDelete = {true}
+                  onDeleteClick = {this.handleDelete}
+                  onEditClick={this.handleEdit} 
+                  onAddClick={this.handleClickOpen}
+                   onSearch={this.paginate}
+                //   paginate={this.paginate}
+                //   totalCount={this.props.courseFilterList.totalElements}
+                //   title={"Course"}
+                //   pageCount={this.props.courseFilterList.totalPages}
+                />
+              ) : (
+                <ThemeProvider theme={this.spinnerTheme()}>
+                <div style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "65vh",
+                }}>
+              <CircularProgress
+             color="primary"
+              variant="indeterminate"
+              size = "3rem"
+              thickness="3"
+               />
+               </div>
+              </ThemeProvider>
+              )} 
+            </div>
+             {/* add and edit Course */}
+             <ThemeProvider theme={this.modeltheme()}>
+                <Dialog
+                maxWidth={'lg'}
+                TransitionComponent={Transition}
+                  open={this.state.show}
+                  onClose={(e)=>this.setState({show : false})}
+                  aria-labelledby="customized-dialog-title"
+                >
+                  <DialogTitle id="customized-dialog-title">
+                    <div className="flex-1 text-center">
+                      {this.state.id.length !== 0 ? "Edit Course" : "Add Course"}
+                    </div>
+                    <div className="model-close-button">
+                      <IconButton aria-label="close" onClick={(e)=>this.setState({show : false})}>
+                        <CloseIcon />
+                      </IconButton>
+                    </div>
+                  </DialogTitle>
+                  <DialogContent>
+                  <Grid container spacing={3}>
+                  <Grid item md={2}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Course ID"
+                      fullWidth
+                      value={this.state.courseId}
+                      onChange={(e) => this.setState({ courseId: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={2}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Course Name"
+                      fullWidth
+                      value={this.state.name}
+                      onChange={(e) => this.setState({ name: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Short Name"
+                      fullWidth
+                      value={this.state.shortName}
+                      onChange={(e) => this.setState({ shortName: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                    <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Description"
+                      rowsMin={3}
+                      multiline
+                      fullWidth
+                      value={this.state.description}
+                      onChange={(e) =>
+                        this.setState({ description: e.target.value })
+                      }
+                    /> 
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter LMS Url"
+                      fullWidth
+                      value={this.state.lmsURL}
+                      onChange={(e) => this.setState({ lmsURL: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Display Image Url"
+                      fullWidth
+                      value={this.state.displayImageURL}
+                      onChange={(e) => this.setState({ displayImageURL: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Enter Thumbnail Image Url"
+                      fullWidth
+                      value={this.state.thumnailImageURL}
+                      onChange={(e) => this.setState({ thumnailImageURL: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                   </Grid>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={
+                        this.state.id.length === 0
+                          ? this.newCourse
+                          : this.updateCourse
+                      }
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                    >
+                      {this.state.id.length !== 0 ? "Update" : "Add"}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </ThemeProvider>
+             
+          </ThemeProvider>
+         
+            
+            
+        )
+    }
+}
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+const mapStateToprops=(state)=>{
+    console.log(state);
+    return{
+        viewNotificationList:state.NotificationReducer.viewNotificationList,
+    }
+}
+
+export default connect(mapStateToprops,{viewNotification})(Notification)
