@@ -18,6 +18,11 @@ const genderItems = [
   { id: '2', title: 'Female' },
 ];
 
+const testimonialTypes = [
+  { id: '1', title: 'Text' },
+  { id: '2', title: 'Video' },
+];
+
 const Tags = () => [
   { id: '1', title: 'Good' },
   { id: '2', title: 'Moderate' },
@@ -71,6 +76,7 @@ const initialValues = {
   textTestimonial: { tagLine: '', fullTestimonial: '' },
   videoTestimonial: { tagLine: '', videoLink: '' },
   gender: '',
+  type: '',
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
   companyCalls: [{ name: '', logo: '' }],
@@ -228,6 +234,7 @@ export default function TestimonialForm(props) {
                 <Controls.Input
                   name='program.acronym'
                   label='Acronym'
+                  style={{ width: '150px' }}
                   value={values.program?.acronym}
                   onChange={handleChange}
                 />
@@ -278,22 +285,32 @@ export default function TestimonialForm(props) {
                 <Controls.Input
                   label='Admit College Country'
                   name='admitCollege.country'
+                  style={{ width: '120px' }}
                   value={values.admitCollege?.country}
                   onChange={handleChange}
                 />
                 <Controls.Input
-                  label='Admit College intake'
+                  label='Fall intake'
                   name='admitCollege.intake'
                   type='number'
+                  style={{ width: '120px' }}
                   value={values.admitCollege?.intake}
                   onChange={handleChange}
                 />
                 <Controls.Select
                   label='Tagging'
                   name='mixedTag'
+                  style={{ width: '150px' }}
                   value={values.mixedTag}
                   onChange={handleChange}
                   options={Tags()}
+                />
+                <Controls.Select
+                  label='Type'
+                  name='type'
+                  value={values.type}
+                  onChange={handleChange}
+                  options={testimonialTypes}
                 />
                 <Controls.DatePicker
                   name='testimonialDate'
@@ -401,44 +418,48 @@ export default function TestimonialForm(props) {
                 />
               </LabelledOutline>
             </Grid>
-            <Grid item xs={6}>
-              <LabelledOutline id='VT' label='Video Testimonial'>
-                <Controls.Input
-                  style={{ width: '500px', marginBottom: '10px' }}
-                  name='videoTestimonial.tagLine'
-                  label='Video Tag Line'
-                  value={values.videoTestimonial?.tagLine}
-                  onChange={handleChange}
-                />
-                <Controls.Input
-                  style={{ width: '500px', marginBottom: '10px' }}
-                  label='Video Link'
-                  name='videoTestimonial.videoLink'
-                  value={values.videoTestimonial?.videoLink}
-                  onChange={handleChange}
-                />
-              </LabelledOutline>
-            </Grid>
-            <Grid item xs={6}>
-              <LabelledOutline id='TT' label='Text Testimonial'>
-                <Controls.Input
-                  style={{ width: '500px', marginBottom: '10px' }}
-                  name='textTestimonial.tagLine'
-                  label='Text Tag Line'
-                  value={values.textTestimonial?.tagLine}
-                  onChange={handleChange}
-                />
-                <TextareaAutosize
-                  aria-label='Full Testimonial'
-                  style={{ width: '500px', marginBottom: '4px' }}
-                  rowsMin={3}
-                  value={values.textTestimonial?.fullTestimonial}
-                  onChange={handleChange}
-                  placeholder='Write testimonial'
-                  name='textTestimonial.fullTestimonial'
-                />
-              </LabelledOutline>
-            </Grid>
+            {values.type?.includes('Video') && (
+              <Grid item xs={12}>
+                <LabelledOutline id='VT' label='Video Testimonial'>
+                  <Controls.Input
+                    style={{ width: '500px', marginBottom: '10px' }}
+                    name='videoTestimonial.tagLine'
+                    label='Video Tag Line'
+                    value={values.videoTestimonial?.tagLine}
+                    onChange={handleChange}
+                  />
+                  <Controls.Input
+                    style={{ width: '500px', marginBottom: '10px' }}
+                    label='Video Link'
+                    name='videoTestimonial.videoLink'
+                    value={values.videoTestimonial?.videoLink}
+                    onChange={handleChange}
+                  />
+                </LabelledOutline>
+              </Grid>
+            )}
+            {values.type?.includes('Text') && (
+              <Grid item xs={12}>
+                <LabelledOutline id='TT' label='Text Testimonial'>
+                  <Controls.Input
+                    style={{ width: '500px', marginBottom: '10px' }}
+                    name='textTestimonial.tagLine'
+                    label='Text Tag Line'
+                    value={values.textTestimonial?.tagLine}
+                    onChange={handleChange}
+                  />
+                  <TextareaAutosize
+                    aria-label='Full Testimonial'
+                    style={{ width: '500px', marginBottom: '4px' }}
+                    rowsMin={3}
+                    value={values.textTestimonial?.fullTestimonial}
+                    onChange={handleChange}
+                    placeholder='Write testimonial'
+                    name='textTestimonial.fullTestimonial'
+                  />
+                </LabelledOutline>
+              </Grid>
+            )}
           </Grid>
           <Grid item xs={12} align='center'>
             <Controls.Button type='submit' text='Submit' />

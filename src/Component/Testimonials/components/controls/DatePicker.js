@@ -19,6 +19,7 @@ export default function DatePicker(props) {
         variant='inline'
         inputVariant='outlined'
         label={label}
+        style={{ width: '200px' }}
         format='MMM/dd/yyyy'
         name={name}
         value={value}
