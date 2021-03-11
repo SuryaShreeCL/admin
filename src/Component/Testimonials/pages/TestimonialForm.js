@@ -68,7 +68,7 @@ const initialValues = {
   avatar: '',
   scores: { gre: 0, gmat: 0 },
   mixedTag: '',
-  yearOfPassing: 0,
+  yearOfPassing: '',
   testimonialOrigin: '',
   graduatingCollege: { name: '', logo: '' },
   company: { name: '', workExp: 0, logo: '' },
@@ -171,7 +171,6 @@ export default function TestimonialForm(props) {
                 <Controls.Input
                   label='Year Of Pass'
                   name='yearOfPassing'
-                  type='number'
                   style={{ width: '120px' }}
                   value={values.yearOfPassing}
                   onChange={handleChange}

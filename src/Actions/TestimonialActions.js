@@ -49,7 +49,7 @@ export const createTestimonial = (testimonial) => async (dispatch) => {
     });
     console.log(testimonial);
     const { data } = await axios.post(
-      `${process.env.REACT_APP_API}/services/testimonials`,
+      `${process.env.REACT_APP_API}/services/testimonials/`,
       testimonial
     );
 
