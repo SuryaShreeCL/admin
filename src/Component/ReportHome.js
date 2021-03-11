@@ -9,6 +9,8 @@ import {
   TableHead,
   TableContainer,
   Paper,
+  ThemeProvider,
+  createMuiTheme,
 } from "@material-ui/core";
 import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport } from "../Actions/Reports";
 import React from "react";
@@ -23,14 +25,20 @@ function ReportHome(props) {
   React.useEffect(() => {
     props.viewTermsAndConReports();
     props.viewCvReport();
-    props.viewMarkSheetReport()
+    // props.viewMarkSheetReport()
   }, []);
   console.log(props.markSheetReport);
   if(props.cvReport.length !== 0){
     console.log(Object.keys(props.cvReport[0]).length)
   }
+  const theme = createMuiTheme({
+    overrides : {
+
+    }
+  })
   return (
     <div>
+      
       <Grid container spacing={2}>
         <Grid item md={12}>
           <Typography variant="h6">Reports</Typography>
@@ -74,38 +82,38 @@ function ReportHome(props) {
                         name="Terms and condition report"
                       >
                         <ExcelColumn
-                          label="Student ID"
+                          label="STUDENT_ID"
                           value="studentID"
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="Created"
+                          label="created"
                           value="created"
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="Completed"
+                          label="completed"
                           value="completed"
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="In Draft"
-                          value="inDraft"
+                          label="in_draft"
+                          value="in_draft"
                         ></ExcelColumn>
-                        <ExcelColumn label="UID ID" value="uidId"></ExcelColumn>
+                        <ExcelColumn label="uid__id" value="uid__id"></ExcelColumn>
                         <ExcelColumn
-                          label="UID Title"
-                          value="studentID"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="Entity Id"
-                          value="entityId"
-                        ></ExcelColumn>
-                        <ExcelColumn label="Notes" value="notes"></ExcelColumn>
-                        <ExcelColumn
-                          label="TCACK Status Accept"
-                          value="trackstatusAccept"
+                          label="uid__title"
+                          value="uid__title"
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="TCACK Status Reject"
-                          value="trackstatusReject"
+                          label="entity_id"
+                          value="entity_id"
+                        ></ExcelColumn>
+                        <ExcelColumn label="notes" value="notes"></ExcelColumn>
+                        <ExcelColumn
+                          label="tcackstatus__Accept"
+                          value="tcackstatus__Accept"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="tcackstatus__Reject"
+                          value="tcackstatus__Reject"
                         ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
@@ -543,7 +551,7 @@ function ReportHome(props) {
                 </TableRow> */}
                 {/* Testing Excel */}
                 {/* <TableRow>
-                <TableCell align="left">{"3"}</TableCell>
+                <TableCell align="left">{"4"}</TableCell>
                   <TableCell align="left">{"Testing Component"}</TableCell>
                   <TableCell align="left">
                       <ExcelExporter data={props.cvReport} fileName={"Testiing Component"} noOfColumns={props.cvReport.length !== 0 ? Object.keys(props.cvReport[0]).length : null} />

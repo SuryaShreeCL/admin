@@ -39,6 +39,7 @@ import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounde
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+import { MenuItem } from '@material-ui/core';
 const drawerWidth = 240;
 const NavbarList = [
       {id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
@@ -155,6 +156,13 @@ const theme=createMuiTheme({
         },
       },
     overrides:{
+      MuiListItem : {
+        root : {
+          "&$selected": {
+            backgroundColor: "rgb(0 155 229)",
+          },
+        }
+      },
         MuiDrawer: {
             paper: {
               backgroundColor: '#18202c',
@@ -205,7 +213,8 @@ const theme=createMuiTheme({
             root:{
               color:'white',
             }
-          }
+          },
+
     }
 })
 
@@ -213,7 +222,7 @@ export default function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-
+  const [selectedMenu, setSelectedMenu] = React.useState(0)
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -287,8 +296,14 @@ export default function RootContainer(props) {
         </div>
         <Divider />
         <List>
-          {NavbarList.map((Item) => (
-            <ListItem button key={Item.id}  onClick={() => { history.push( rootPath.concat('/',Item.id)) }} >              
+          {NavbarList.map((Item, index) => (
+            <ListItem
+            selected={selectedMenu === index}
+            button key={Item.id} 
+             onClick={() => { 
+               setSelectedMenu(index)
+               history.push( rootPath.concat('/',Item.id)) }
+               } >              
               <ListItemIcon className={classes.ListItemIcon} >{Item.icon}</ListItemIcon>
               <ListItemText primary={Item.title} />
             </ListItem>

@@ -8,29 +8,23 @@ function ExcelExporter(props) {
   const renderExcelColumn = () =>{
       if(props.data[0] !== undefined && props.data[0] !== undefined){
         let objectKeys = Object.keys(props.data[0])
-        for (let i=0; i<=objectKeys.length; i++){
-            console.log(i)
-            console.log(props.data[0])
-            // if(props.data[0] !== undefined && props.data[0] !== undefined){
-            //     console.log(Object.keys(props.data[0]))
-            //     console.log(objectKeys[i])
-            //       return (
-            //           <ExcelColumn
-            //           label={objectKeys[i]}
-            //           value={objectKeys[i]}
-            //         ></ExcelColumn>
-            //       )
-            // }   
-           
-        }
+        objectKeys.map((oneValue,index)=>{
+            console.log(oneValue)
+            return(
+                <ExcelColumn
+                label={oneValue}
+              value={oneValue}
+                >
+                </ExcelColumn>  
+            )
+        })
       }
       
   }
   console.log(props.data, "data.......")
   console.log(props.noOfColumns, "length.......")
   console.log(props.fileName, "file Name.......")
-  let singleData = props.data[0]
-  console.log(singleData)
+ 
     return (
         <div>
              <ExcelFile
@@ -50,6 +44,20 @@ function ExcelExporter(props) {
                         name={props.fileName}
                       >
                           {renderExcelColumn()}
+                          {/* {()=>{
+                                let objectKeys = Object.keys(props.data[0])
+                                objectKeys.map((oneValue,index)=>{
+                                    console.log(oneValue)
+                                    return(
+
+                                        <ExcelColumn
+                                        label={oneValue}
+                                      value={oneValue}
+                                        >
+                                        </ExcelColumn>  
+                                    )
+                                })
+                          }} */}
                       </ExcelSheet>
                     </ExcelFile>
                     

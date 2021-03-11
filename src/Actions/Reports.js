@@ -4,7 +4,7 @@ import {URL} from "../Actions/URL"
 
 export const viewTermsAndConReports = () =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/student/get/terms")
+        axios.get(URL+"/api/v1/students/report/tnc")
         .then(result=>{
             dispatch({type:REPORTS.viewTermsAndConReport,termsAndConReport:result.data});
         })
@@ -15,7 +15,7 @@ export const viewTermsAndConReports = () =>{
 }
 export const viewCvReport = () =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/student/cvRatings")
+        axios.get(URL+"/api/v1/students/reports/cvratings")
         .then(result=>{
             dispatch({type:REPORTS.viewCvReport,cvReport:result.data});
         })
