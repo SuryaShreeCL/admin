@@ -328,6 +328,10 @@ function ReportHome(props) {
                           value="Alt.Phone Number"
                         ></ExcelColumn>
                           <ExcelColumn
+                          label="Email ID"
+                          value="Email ID"
+                        ></ExcelColumn>
+                          <ExcelColumn
                           label="Alt.Email ID"
                           value="Alt.Email ID"
                         ></ExcelColumn>
@@ -422,6 +426,10 @@ function ReportHome(props) {
                           <ExcelColumn
                           label="Expected Date of Exam"
                           value="Expected Date of Exam"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Quant"
+                          value="Quant"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Verbal"
