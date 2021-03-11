@@ -27,7 +27,7 @@ export const viewCvReport = () =>{
 
 export const viewMarkSheetReport = () =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/student/marksheet")
+        axios.get(URL+"/api/v1/students/report/marksheet")
         .then(result=>{
             dispatch({type:REPORTS.viewMarksheetReport,markSheetReport:result.data});
         })
@@ -39,7 +39,7 @@ export const viewMarkSheetReport = () =>{
 
 export const viewMydetailsReport = () =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/student/cvRatings")
+        axios.get(URL+"/api/v1/students/report/mydetails")
         .then(result=>{
             dispatch({type:REPORTS.viewMyDetailsReport,myDetailsReport:result.data});
         })

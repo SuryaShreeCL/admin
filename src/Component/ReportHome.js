@@ -12,7 +12,7 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core";
-import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport } from "../Actions/Reports";
+import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-data-export";
@@ -25,17 +25,11 @@ function ReportHome(props) {
   React.useEffect(() => {
     props.viewTermsAndConReports();
     props.viewCvReport();
-    // props.viewMarkSheetReport()
+    props.viewMarkSheetReport()
+    props.viewMydetailsReport()
   }, []);
-  console.log(props.markSheetReport);
-  if(props.cvReport.length !== 0){
-    console.log(Object.keys(props.cvReport[0]).length)
-  }
-  const theme = createMuiTheme({
-    overrides : {
+  console.log(props.myDetailsReport);
 
-    }
-  })
   return (
     <div>
       
@@ -182,9 +176,9 @@ function ReportHome(props) {
                   </TableCell>
                 </TableRow>
                 {/* Marksheet Report */}
-                {/* <TableRow>
+                <TableRow>
                 <TableCell align="left">{"3"}</TableCell>
-                  <TableCell align="left">{"MarksheetReport"}</TableCell>
+                  <TableCell align="left">{"Marksheet Report"}</TableCell>
                   <TableCell align="left">
                   <ExcelFile
                       filename={"Marksheet Report"}
@@ -262,9 +256,9 @@ function ReportHome(props) {
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
-                </TableRow> */}
+                </TableRow>
                 {/* My Details Report */}
-                {/* <TableRow>
+                <TableRow>
                 <TableCell align="left">{"4"}</TableCell>
                   <TableCell align="left">{"My Details Report"}</TableCell>
                   <TableCell align="left">
@@ -280,275 +274,275 @@ function ReportHome(props) {
                         </Button>
                       }
                     >
-                      <ExcelSheet data={props.cvReport} name="My Details Report">
+                      <ExcelSheet data={props.myDetailsReport} name="My Details Report">
                         <ExcelColumn
                           label="STUDENT_ID"
-                          value="submittedByTitle"
+                          value="STUDENT_ID"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Created"
-                          value="created"
+                          value="Created"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Completed"
-                          value="completed"
+                          value="Completed"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Changed"
-                          value="changed"
+                          value="Changed"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Is draft"
-                          value="isDraft"
+                          value="Is draft"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Submitted by: ID"
-                          value="submittedByTitle"
+                          value="Submitted by: ID"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Submitted by: Title"
-                          value="question"
+                          value="Submitted by: Title"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Notes"
-                          value="rate"
+                          value="Notes"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="I understand and am ready to begin"
-                          value="pafCfEmail"
+                          value="I understand and am ready to begin"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="First Name"
-                          value="cvLink"
+                          value="First Name"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Last Name"
-                          value="cvLink"
+                          value="Last Name"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Phone Number"
-                          value="cvLink"
+                          value="Phone Number"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Alt.Phone Number"
-                          value="cvLink"
+                          value="Alt.Phone Number"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Alt.Email ID"
-                          value="cvLink"
+                          value="Alt.Email ID"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="UG Degree"
-                          value="cvLink"
+                          value="UG Degree"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="College Name"
-                          value="cvLink"
+                          value="College Name"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Department"
-                          value="cvLink"
+                          value="Department"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="No.of Active Backlogs"
-                          value="cvLink"
+                          value="No.of Active Backlogs"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="No.of Cleared Backlogs"
-                          value="cvLink"
+                          value="No.of Cleared Backlogs"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="University"
-                          value="cvLink"
+                          value="University"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="UG GPA Scale"
-                          value="cvLink"
+                          value="UG GPA Scale"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="UG-GPA"
-                          value="cvLink"
+                          value="UG-GPA"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Present Semester"
-                          value="cvLink"
+                          value="Present Semester"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Expected Year of Graduation"
-                          value="cvLink"
+                          value="Expected Year of Graduation"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Are you planning to pursue Higher Education"
-                          value="cvLink"
+                          value="Are you planning to pursue Higher Education"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Which of the below fields would you choose to pursue your higher education in?"
-                          value="cvLink"
+                          value="Which of the below fields would you choose to pursue your higher education in?"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Which of the following tests do you intend to take?"
-                          value="cvLink"
+                          value="Which of the following tests do you intend to take?"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="ALREADY TAKEN ?"
-                          value="cvLink"
+                          value="ALREADY TAKEN ?"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Test Details"
-                          value="cvLink"
+                          value="Test Details"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Taken GRE?"
-                          value="cvLink"
+                          value="Taken GRE?"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Expected Date of Exam"
-                          value="cvLink"
+                          value="Expected Date of Exam"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Quant"
-                          value="cvLink"
+                          value="Quant"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Verbal"
-                          value="cvLink"
+                          value="Verbal"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="AWA"
-                          value="cvLink"
+                          value="AWA"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Total"
-                          value="cvLink"
+                          value="Total"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Taken GMAT?"
-                          value="cvLink"
+                          value="Taken GMAT?"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Expected Date of Exam"
-                          value="cvLink"
+                          value="Expected Date of Exam"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Verbal"
-                          value="cvLink"
+                          value="Verbal"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="AWA"
-                          value="cvLink"
+                          value="AWA"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Total"
-                          value="cvLink"
+                          value="Total"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Integrated Reasoning"
-                          value="cvLink"
+                          value="Integrated Reasoning"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Taken TOEFL?"
-                          value="cvLink"
+                          value="Taken TOEFL?"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Expected Date of Exam"
-                          value="cvLink"
+                          value="Expected Date of Exam"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Reading"
-                          value="cvLink"
+                          value="Reading"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Listening"
-                          value="cvLink"
+                          value="Listening"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Speaking"
-                          value="cvLink"
+                          value="Speaking"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Writing"
-                          value="cvLink"
+                          value="Writing"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Total"
-                          value="cvLink"
+                          value="Total"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Taken IELTS?"
-                          value="cvLink"
+                          value="Taken IELTS?"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Expected Date of Exam"
-                          value="cvLink"
+                          value="Expected Date of Exam"
                         ></ExcelColumn>
                            <ExcelColumn
                           label="Reading"
-                          value="cvLink"
+                          value="Reading"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Listening"
-                          value="cvLink"
+                          value="Listening"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Speaking"
-                          value="cvLink"
+                          value="Speaking"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Writing"
-                          value="cvLink"
+                          value="Writing"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Total"
-                          value="cvLink"
+                          value="Total"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="GATE Rank"
-                          value="cvLink"
+                          value="GATE Rank"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Branch"
-                          value="cvLink"
+                          value="Branch"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Nos of Schools"
-                          value="cvLink"
+                          value="Nos of Schools"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Term"
-                          value="cvLink"
+                          value="Term"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Year"
-                          value="cvLink"
+                          value="Year"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Degree"
-                          value="cvLink"
+                          value="Degree"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Field of Study"
-                          value="cvLink"
+                          value="Field of Study"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Where do you want to apply"
-                          value="cvLink"
+                          value="Where do you want to apply"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="List of Dream Colleges"
-                          value="cvLink"
+                          value="List of Dream Colleges"
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Area of Specialization"
-                          value="cvLink"
+                          value="Area of Specialization"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="paf_cxemail"
-                          value="cvLink"
+                          value="paf_cxemail"
                         ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
-                </TableRow> */}
+                </TableRow>
                 {/* Testing Excel */}
                 {/* <TableRow>
                 <TableCell align="left">{"4"}</TableCell>
@@ -570,10 +564,12 @@ const mapStateToProps = (state) => {
     termsAndConReport: state.ReportReducer.termsAndConReport,
     cvReport: state.ReportReducer.cvReport,
     markSheetReport: state.ReportReducer.markSheetReport,
+    myDetailsReport : state.ReportReducer.myDetailsReport
   };
 };
 export default connect(mapStateToProps, {
   viewTermsAndConReports,
   viewCvReport,
-  viewMarkSheetReport
+  viewMarkSheetReport,
+   viewMydetailsReport
 })(ReportHome);
