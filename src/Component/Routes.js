@@ -62,7 +62,6 @@ import Product from './Product/Product';
 import TestimonialDashboard from './Testimonials/TestimonialDashboard';
 import Webinar from './Webinar/Webinar';
 import CareerTrack from './CareerTrack/Index';
-import TestimonialDashboard from './Testimonials/TestimonialDashboard';
 import CareerTrackVideoSet from './CareerTrack/CareerTrackVideoSet';
 import CareerTrackVideo from './CareerTrack/CareerTrackVideo';
 import StudentDocuments from './StudentDocuments';
