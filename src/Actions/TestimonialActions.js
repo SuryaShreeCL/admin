@@ -5,7 +5,9 @@ export const listTestimonials = () => async (dispatch) => {
   try {
     dispatch({ type: TESTIMONIAL.LIST_REQUEST });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_API}/services/testimonials`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API}/services/testimonials`, {
+      crossDomain: true,
+    });
 
     dispatch({
       type: TESTIMONIAL.LIST_SUCCESS,
@@ -26,7 +28,9 @@ export const deleteTestimonial = (id) => async (dispatch) => {
       type: TESTIMONIAL.DELETE_REQUEST,
     });
 
-    await axios.delete(`${process.env.REACT_APP_API}/services/testimonials/${id}`);
+    await axios.delete(`${process.env.REACT_APP_API}/services/testimonials/${id}`, {
+      crossDomain: true,
+    });
     dispatch({
       type: TESTIMONIAL.DELETE_SUCCESS,
     });
@@ -47,10 +51,12 @@ export const createTestimonial = (testimonial) => async (dispatch) => {
     dispatch({
       type: TESTIMONIAL.CREATE_REQUEST,
     });
-    console.log(testimonial);
     const { data } = await axios.post(
       `${process.env.REACT_APP_API}/services/testimonials/`,
-      testimonial
+      testimonial,
+      {
+        crossDomain: true,
+      }
     );
 
     dispatch({
@@ -76,7 +82,10 @@ export const updateTestimonial = (testimonial) => async (dispatch) => {
 
     const { data } = await axios.put(
       `${process.env.REACT_APP_API}/services/testimonials/${testimonial.id}`,
-      testimonial
+      testimonial,
+      {
+        crossDomain: true,
+      }
     );
 
     dispatch({
