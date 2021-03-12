@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme,ThemeProvider,createMuiTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -22,10 +22,10 @@ import PeopleIcon from '@material-ui/icons/People';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Avatar from '@material-ui/core/Avatar';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Content from './Content';
-import history from './History'
-import {rootPath, rootLoginPath} from './RoutePaths'
+import history from './History';
+import { rootPath, rootLoginPath } from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -35,11 +35,12 @@ import SportsHandballRoundedIcon from '@material-ui/icons/SportsHandballRounded'
 import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
+import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded';
 import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import { MenuItem } from '@material-ui/core';
+
 const drawerWidth = 240;
 const NavbarList = [
       {id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
@@ -54,21 +55,22 @@ const NavbarList = [
       {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
       {id: 'webinar', icon:<SupervisorAccountIcon />, title:'Webinar'},
       {id: 'career-track', icon:<TrendingUpRoundedIcon />, title:'Career Track'},
+       { id: 'testimonials', icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
       // {id: 'notification', icon:<TrendingUpRoundedIcon />, title:'Notification'},
       {id: 'reports', icon:<AssessmentRoundedIcon />, title:'Reports'},
       
     ];
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    flexDirection:'column',
-    minHeight:'100vh',
-    
+    flexDirection: 'column',
+    minHeight: '100vh',
   },
   homelogo: {
-    height: '3.1rem',    
-},
+    height: '3.1rem',
+  },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -86,8 +88,8 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  arrowButton:{
-      color:'unset',
+  arrowButton: {
+    color: 'unset',
   },
   hide: {
     display: 'none',
@@ -124,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 55,
     background: '#eaeff1',
     flex: 1,
-    padding: theme.spacing(6, 4),    
+    padding: theme.spacing(6, 4),
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -133,90 +135,81 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 240,
   },
-  ListItemIcon:{
-      minWidth:42,
-      color:'unset',
+  ListItemIcon: {
+    minWidth: 42,
+    color: 'unset',
   },
   footer: {
     padding: theme.spacing(2),
     background: '#eaeff1',
   },
-  spacer:{
-      flex:1,
+  spacer: {
+    flex: 1,
   },
-
 }));
 
-const theme=createMuiTheme({
-    palette: {
-        primary: {
-          light: '#63ccff',
-          main: '#009be5',
-          dark: '#006db3',
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#63ccff',
+      main: '#009be5',
+      dark: '#006db3',
+    },
+  },
+  overrides: {
+    MuiDrawer: {
+      paper: {
+        backgroundColor: '#18202c',
+      },
+    },
+    MuiToolbar: {
+      regular: {
+        minHeight: 48,
+      },
+    },
+    MuiButton: {
+      label: {
+        textTransform: 'none',
+      },
+      contained: {
+        boxShadow: 'none',
+        '&:active': {
+          boxShadow: 'none',
         },
       },
-    overrides:{
-      MuiListItem : {
-        root : {
-          "&$selected": {
-            backgroundColor: "rgb(0 155 229)",
-          },
-        }
+    },
+    MuiDivider: {
+      root: {
+        backgroundColor: '#404854',
       },
-        MuiDrawer: {
-            paper: {
-              backgroundColor: '#18202c',
-            },
-          },
-          MuiToolbar:{
-              regular:{
-                minHeight: 48,
-              }
-          },
-          MuiButton: {
-            label: {
-              textTransform: 'none',
-            },
-            contained: {
-              boxShadow: 'none',
-              '&:active': {
-                boxShadow: 'none',
-              },
-            },
-          },                    
-          MuiDivider: {
-            root: {
-              backgroundColor: '#404854',
-            },
-          },          
-          MuiListItemIcon: {
-            root: {
-              color: 'inherit',
-              marginRight: 0,
-              '& svg': {
-                fontSize: 20,
-              },
-            },
-          },
-          MuiAvatar: {
-            root: {
-              width: 32,
-              height: 32,
-            },
-          },
-          MuiTypography:{
-              body1:{
-                  fontSize:'unset',
-              }
-          },
-          MuiSvgIcon:{
-            root:{
-              color:'white',
-            }
-          },
-
-    }
-})
+    },
+    MuiListItemIcon: {
+      root: {
+        color: 'inherit',
+        marginRight: 0,
+        '& svg': {
+          fontSize: 20,
+        },
+      },
+    },
+    MuiAvatar: {
+      root: {
+        width: 32,
+        height: 32,
+      },
+    },
+    MuiTypography: {
+      body1: {
+        fontSize: 'unset',
+      },
+    },
+    MuiSvgIcon: {
+      root: {
+        color: 'white',
+      },
+    },
+  },
+});
 
 export default function RootContainer(props) {
   const classes = useStyles();
@@ -229,111 +222,108 @@ export default function RootContainer(props) {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  }; 
+  };
 
-  const logout = () => {    
-
-    window.sessionStorage.setItem('token','false'); 
-    window.sessionStorage.clear()
-    props.history.push(rootLoginPath);       
-  }
+  const logout = () => {
+    window.sessionStorage.setItem('token', 'false');
+    window.sessionStorage.clear();
+    props.history.push(rootLoginPath);
+  };
 
   return (
-      <ThemeProvider theme={theme}>
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>          
-          <img className={classes.homelogo}                            
-               src="https://mernlmsassets.s3.ap-south-1.amazonaws.com/img/Careerlabs.png"
-               alt="CareerLabs" />
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar
+          position='fixed'
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar>
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              onClick={handleDrawerOpen}
+              edge='start'
+              className={clsx(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <img
+              className={classes.homelogo}
+              src='https://mernlmsassets.s3.ap-south-1.amazonaws.com/img/Careerlabs.png'
+              alt='CareerLabs'
+            />
             <div className={classes.spacer}></div>
-               <IconButton color="inherit">
-                  <NotificationsIcon />
-                </IconButton>                  
-                {/* <GoogleBtn {...props} />       */}
-                <IconButton onClick={logout}>
-                  <ExitToAppRoundedIcon color='inherit' />
-                </IconButton>
-
-        </Toolbar>
-      </AppBar>      
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>        
-        <ListItem button>
-          <ListItemIcon className={classes.ListItemIcon}>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText>
-            Overview
-          </ListItemText>
-        </ListItem>                   
-          <IconButton onClick={handleDrawerClose} className={classes.arrowButton}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {NavbarList.map((Item, index) => (
-            <ListItem
-            selected={selectedMenu === index}
-            button key={Item.id} 
-             onClick={() => { 
-               setSelectedMenu(index)
-               history.push( rootPath.concat('/',Item.id)) }
-               } >              
-              <ListItemIcon className={classes.ListItemIcon} >{Item.icon}</ListItemIcon>
-              <ListItemText primary={Item.title} />
+            <IconButton color='inherit'>
+              <NotificationsIcon />
+            </IconButton>
+            {/* <GoogleBtn {...props} />       */}
+            <IconButton onClick={logout}>
+              <ExitToAppRoundedIcon color='inherit' />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant='persistent'
+          anchor='left'
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <ListItem button>
+              <ListItemIcon className={classes.ListItemIcon}>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText>Overview</ListItemText>
             </ListItem>
-          ))}
-        </List>
-        <Divider />       
-      </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <Content />           
-      </main>
-      <footer className={classes.footer}>
-            <Copyright />
-      </footer>
-    </div>
+            <IconButton onClick={handleDrawerClose} className={classes.arrowButton}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            {NavbarList.map((Item) => (
+              <ListItem
+                button
+                key={Item.id}
+                onClick={() => {
+                  history.push(rootPath.concat('/', Item.id));
+                }}
+              >
+                <ListItemIcon className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
+                <ListItemText primary={Item.title} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+        </Drawer>
+        <main
+          className={clsx(classes.content, {
+            [classes.contentShift]: open,
+          })}
+        >
+          <Content />
+        </main>
+        <footer className={classes.footer}>
+          <Copyright />
+        </footer>
+      </div>
     </ThemeProvider>
   );
 }
 
 function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}       
-          
-        {new Date().getFullYear() +' '}
-        CareerLabs
-        {'.'}
-      </Typography>
-    );
-  }
+  return (
+    <Typography variant='body2' color='textSecondary' align='center'>
+      {'Copyright © '}
+      {new Date().getFullYear() + ' '}
+      CareerLabs
+      {'.'}
+    </Typography>
+  );
+}
