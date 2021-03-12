@@ -1,6 +1,6 @@
 import React from 'react'
-import ReactExport from "react-data-export";
 import {Button} from "@material-ui/core"
+import ReactExport from "react-export-excel";
 function ExcelExporter(props) {
     const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;

@@ -15,7 +15,7 @@ import {
 import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
-import ReactExport from "react-data-export";
+import ReactExport from "react-export-excel";
 import ExcelExporter from "./Table/StudentDetail/Utils/ExcelExporter";
 
 function ReportHome(props) {
