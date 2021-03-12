@@ -3,8 +3,14 @@ import axios from "axios"
 import {URL} from "../Actions/URL"
 
 export const viewTermsAndConReports = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/report/tnc")
+        axios.get(URL+"/api/v1/students/report/tnc",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:REPORTS.viewTermsAndConReport,termsAndConReport:result.data});
         })
@@ -14,8 +20,14 @@ export const viewTermsAndConReports = () =>{
     }
 }
 export const viewCvReport = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/reports/cvratings")
+        axios.get(URL+"/api/v1/students/reports/cvratings",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:REPORTS.viewCvReport,cvReport:result.data});
         })
@@ -26,8 +38,14 @@ export const viewCvReport = () =>{
 }
 
 export const viewMarkSheetReport = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/report/marksheet")
+        axios.get(URL+"/api/v1/students/report/marksheet",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:REPORTS.viewMarksheetReport,markSheetReport:result.data});
         })
@@ -38,8 +56,14 @@ export const viewMarkSheetReport = () =>{
 }
 
 export const viewMydetailsReport = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/report/mydetails")
+        axios.get(URL+"/api/v1/students/report/mydetails",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:REPORTS.viewMyDetailsReport,myDetailsReport:result.data});
         })
