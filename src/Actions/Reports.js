@@ -72,3 +72,23 @@ export const viewMydetailsReport = () =>{
         })
     }
 }
+
+export const viewTechTestReport = (QuestionSetName) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/report/technicaltest/"+QuestionSetName,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            if(QuestionSetName === "Technical Test Mechanical"){
+            dispatch({type:REPORTS.viewTechTestMechReport,techTestMechReport:result.data});
+            }
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

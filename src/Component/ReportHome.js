@@ -12,7 +12,7 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core";
-import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport } from "../Actions/Reports";
+import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
@@ -27,9 +27,17 @@ function ReportHome(props) {
     props.viewCvReport();
     props.viewMarkSheetReport()
     props.viewMydetailsReport()
+    props.viewTechTestReport("Technical Test Mechanical")
   }, []);
-  console.log(props.myDetailsReport);
+  console.log(props.techTestMechReport);
+// if(props.techTestMechReport.length !== 0){
+//   props.techTestMechReport.map(someElement=>{
+//     if(someElement.technicaltest !== null){
+//       console.log(someElement.technicaltest.['\" Which of the following statements is/are true for mechanisms?\"'])
 
+//     }
+//   })
+// }
   return (
     <div>
       
@@ -551,6 +559,277 @@ function ReportHome(props) {
                     </ExcelFile>
                   </TableCell>
                 </TableRow>
+                {/* Technical test mechanical */}
+                <TableRow>
+                <TableCell align="left">{"5"}</TableCell>
+                  <TableCell align="left">{"Technical Test Mechanical Report"}</TableCell>
+                  <TableCell align="left">
+                  <ExcelFile
+                      filename={"Technical Test Mechanical Report"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet data={props.techTestMechReport} name="Technical Test Mechanical Report">
+                        <ExcelColumn
+                          label="Student ID"
+                          value="Student ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Date submitted"
+                          value="Date submitted"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Last page"
+                          value="Last page"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Start language"
+                          value="Start language"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Seed"
+                          value="Seed"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Please enter your registered email id:"
+                          value="Please enter your registered email id:"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="1. The universal gas constant (or molar constant) of a gas is the product of:"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The universal gas constant (or molar constant) of a gas is the product of:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="2. The value of bulk modulus of a fluid is required to determine"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The value of bulk modulus of a fluid is required to determine']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="3. The metacentric heights of two floating bodies A and B are 1 m and 1.5 m respectively. Select the correct statement."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The metacentric heights of two floating bodies A and B are 1 m and 1.5 m respectively. Select the correct statement.']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="4. The acme threads are usually found on:"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The acme threads are usually found on:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="5. When cut-off ratio is __________ the efficiency of Diesel cycle approaches to Otto cycle efficiency"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['When cut-off ratio is __________ the efficiency of Diesel cycle approaches to Otto cycle efficiency']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="6. In a stress-strain diagram for mild steel, as shown in the below figure, the point A represents,"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                                return null
+                              //  return col.technicaltest.['']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="7. A spur gear with 20° full depth teeth is transmitting 20 kW at 200 rad/s. The pitch circle diameter of the gear is 100 mm. The magnitude of the force applied on the gear in the radial direction is"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                                return null
+                              //  return col.technicaltest.['']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="8. During a non-flow thermodynamic process (1-2) executed by a perfect gas, the heat interaction is equal to the work interaction (Q1-2 = W1-2) when the process is:"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                                return null
+                              //  return col.technicaltest.['']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="9. As per common design practice, the three types of hydraulic turbines, in descending order of flow rate, are:"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['As per common design practice, the three types of hydraulic turbines, in descending order of flow rate, are:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="10. Consider an ideal vapor compression refrigeration cycle. If the throttling process is replaced by an isentropic expansion process, keeping all the other processes unchanged, which one of the following statements is true for the modified cycle?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Consider an ideal vapor compression refrigeration cycle. If the throttling process is replaced by an isentropic expansion process, keeping all the other processes unchanged, which one of the following statements is true for the modified cycle?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="11. The length, width and thickness of a steel sample are 400 mm, 40 mm and 20 mm, respectively. Its thickness needs to be uniformly reduced by 2 mm in a single pass by using horizontal slab milling. The milling cutter (diameter: 100 mm, width: 50 mm) has 20 teeth and rotates at 1200 rpm. The feed per tooth is 0.05 mm. The feed direction is along the length of the sample. If the over-travel distance is the same as the approach distance, the approach distance and time taken to complete the required machining task are"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['" The length, width and thickness of a steel sample are 400 mm, 40 mm and 20 mm, respectively. Its thickness needs to be uniformly reduced by 2 mm in a single pass by using horizontal slab milling. The milling cutter (diameter: 100 mm, width: 50 mm) has 20 teeth and rotates at 1200 rpm. The feed per tooth is 0.05 mm. The feed direction is along the length of the sample. If the over-travel distance is the same as the approach distance, the approach distance and time taken to complete the required machining task are"']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="12. What will be the change in specific entropy of an ideal gas when it is throttled from 10 bar, 298 k to 4 bars? (approximately) (Tape R = 287 J/(kg-k))"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['" What will be the change in specific entropy of an ideal gas when it is throttled from 10 bar,298 k to 4 bars? (approximately)(Tape R = 287 J/(kg-k)"']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="13. Which of the following is the correct statement of the second law of thermodynamics?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which of the following is the correct statement of the second law of thermodynamics?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="14. During steady flow compression of a gas with mass flow rate of 2 kg/s, increase in specific enthalpy is 15 KJ/Kg and decrease in kinetic energy is 2 KJ/Kg . The rate of heat rejection to the environment is 3 kW. The power required to drive the compressor is __________."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['During steady flow compression of a gas with mass flow rate of 2 kg/s, increase in specific enthalpy is 15 KJ/Kg and decrease in kinetic energy is 2 KJ/Kg . The rate of heat rejection to the environment is 3 kW. The power required to drive the compressor is __________.']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="15. A thin steel rule (E = 200 GPa) having thickness 20 mm and it is bent by couples Mo at the ends into a circular arc of length 25 cm subtending a central angle of 60o. What is maximum stress in the beam __________ (MPa)."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['A thin steel rule (E = 200 GPa) having thickness 20 mm and it is bent by couples Mo at the ends into a circular arc of length 25 cm subtending a central angle of 60o. What is maximum stress in the beam __________ (MPa).']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="16. Which of the following statements is/are true for mechanisms?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.[' Which of the following statements is/are true for mechanisms?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="17. A cycle consisting of one constant pressure, one constant volume and two isentropic processes is known as"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.[' A cycle consisting of one constant pressure, one constant volume and two isentropic processes is known as']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="18. Which of the following factors increases hardenability of a metal?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which of the following factors increases hardenability of a metal?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="19. The ratio of the actual damping coefficient to the critical damping coefficient is called damping factor."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The ratio of the actual damping coefficient to the critical damping coefficient is called damping factor.']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="20. A shaft has an attached disc at the center of its length. The disc has its center of gravity located at a distance of 2 mm from the axis of the shaft. When the shaft is allowed to vibrate in its natural bow-shaped mode, it has a frequency of vibration of 10 rad/s. When the shaft is rotated at 300 r.p.m., it will whirl with a radius of"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.[' A shaft has an attached disc at the center of its length. The disc has its center of gravity located at a distance of 2 mm from the axis of the shaft. When the shaft is allowed to vibrate in its natural bow-shaped mode, it has a frequency of vibration of 10 rad/s. When the shaft is rotated at 300 r.p.m., it will whirl with a radius of']
+                              }else{
+                                return null
+                              }
+                            }
+                          }                        ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
                 {/* Testing Excel */}
                 {/* <TableRow>
                 <TableCell align="left">{"4"}</TableCell>
@@ -572,12 +851,14 @@ const mapStateToProps = (state) => {
     termsAndConReport: state.ReportReducer.termsAndConReport,
     cvReport: state.ReportReducer.cvReport,
     markSheetReport: state.ReportReducer.markSheetReport,
-    myDetailsReport : state.ReportReducer.myDetailsReport
+    myDetailsReport : state.ReportReducer.myDetailsReport,
+    techTestMechReport : state.ReportReducer.techTestMechReport
   };
 };
 export default connect(mapStateToProps, {
   viewTermsAndConReports,
   viewCvReport,
   viewMarkSheetReport,
-   viewMydetailsReport
+   viewMydetailsReport,
+   viewTechTestReport
 })(ReportHome);

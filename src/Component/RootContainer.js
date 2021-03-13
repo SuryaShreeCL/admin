@@ -54,7 +54,7 @@ const NavbarList = [
       {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
       {id: 'webinar', icon:<SupervisorAccountIcon />, title:'Webinar'},
       {id: 'career-track', icon:<TrendingUpRoundedIcon />, title:'Career Track'},
-      // {id: 'notification', icon:<TrendingUpRoundedIcon />, title:'Notification'},
+      {id: 'notification', icon:<NotificationsIcon /> , title:'Notification'},
       {id: 'reports', icon:<AssessmentRoundedIcon />, title:'Reports'},
       
     ];

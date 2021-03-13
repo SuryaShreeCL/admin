@@ -16,8 +16,9 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from "@material-ui/icons/Close";
 import {connect} from 'react-redux'
-import {viewNotification} from '../Actions/Notification'
+import {viewnotification,addnotification,updatenotification,deletenotification} from '../Actions/Notification'
 import TableComponent from "./TableComponent/TableComponent";
+import { data } from 'jquery';
 
 export class Notification extends Component {
 
@@ -26,28 +27,48 @@ export class Notification extends Component {
         this.state = {
             data: [],
             id : "",
-            courseId : "",
-            name : "",
-            shortName : "",
-            description : "",
-            lmsURL : "",
-            displayImageURL : "",
-            thumnailImageURL : "",
-            bannerURL : "",
+            code :"",
+            featureName : "",
+            completedTask : "",
+            firstDay : "",
+            secondDay : "",
+            thirdDay : "",
+            fourthDay : "",
+            fifthDay : "",
+            sixthDay : "",
+            seventhDay : "",
+            tenMinutes : "",
             show : false,
+            deleteshow: false,
         }
     }
 
-    
-      rowClick = (rowData) => {
+    rowClick = (rowData) => {
       };
+
     componentDidMount() { 
-        this.props.viewNotification()        
+    this.props.viewnotification()
+    // setInterval((this.props.viewnotification), 2000);
     }
-    // Paginate For Course
-    paginate = (page, size, keyword) => {
-        this.props.getPaginateCourse(page, size, keyword);
-      };
+
+    componentDidUpdate(prevProps, prevState) {
+      if(this.props.updatenotificationList !== prevProps.updatenotificationList){
+        this.props.viewnotification()
+      }
+      // if (this.props !== prevProps) {
+      //   if (this.props.data !== null) {
+      //     this.setState({ tableColumn: this.props.cols });
+      //     this.setState({Data: this.props.data });
+          // this.props.viewnotification()
+          // this.forceUpdate();
+        // }} 
+    }
+
+      // Paginate For Notification
+    // paginate = (page, size, keyword) => {
+    //   this.props.getPaginateNotification(page, size, keyword);
+    // };
+   
     // Table Theme
     tableTheme = () =>
     createMuiTheme({
@@ -72,6 +93,8 @@ export class Notification extends Component {
         },
       },
     });
+
+
     // Model Theme
     modeltheme = () =>
   createMuiTheme({
@@ -117,6 +140,8 @@ export class Notification extends Component {
       },
     },
   });
+
+
 spinnerTheme = () =>createMuiTheme({
     overrides :{
       MuiCircularProgress :  {
@@ -126,124 +151,187 @@ spinnerTheme = () =>createMuiTheme({
       }
     }
   });
+
+
+
   handleEdit = (data) =>{
-    console.log(data)
     this.setState({
       id : data.id,
-      name : data.name,
-      courseId : data.courseId,
-      description : data.description,
-      lmsURL : data.lmsURL,
-      displayImageURL : data.displayImageURL,
-      thumnailImageURL : data.thumnailImageURL,
+      code:data.code,
+      featureName : data.featureName,
+      completedTask : data.completedTask,
+      firstDay : data.firstDay,
+      secondDay : data.secondDay,
+      thirdDay : data.thirdDay,
+      fourthDay : data.fourthDay,
+      fifthDay : data.fifthDay,
+      sixthDay : data.sixthDay,
+      seventhDay : data.seventhDay,
+      tenMinutes : data.tenMinutes,
       show : true,
     })
   } 
+
    // Dialog Open
    handleClickOpen = (e) => {
     this.setState({
        show: true,
-       id: "",
-          courseId : "",
-          name: "",
-          shortName : "",
-          description : "",
-          lmsURL : "",
-          displayImageURL : "",
-          thumnailImageURL : "",
+       id :"",
+       code:"",
+          featureName : "",
+          completedTask: "",
+          tenMinutes : "",
+          firstDay : "",
+          secondDay : "",
+          thirdDay : "",
+          fourthDay : "",
+          fifthDay : "",
+          sixthDay : "",
+          seventhDay : "",
+          notificationId:"",
       });
   };
+
+
   // Delete
     handleDelete = (data) =>{
-      // this.props.deleteCourse(data.id)
+      console.log(data)
+      this.setState({
+        deleteshow:true,
+        notificationId:data.id
+      });
     }
-    // Add Course
-    newCourse = () =>{
+
+    //cancel
+    cancel=()=>{
+      // alert("cancel")
+      this.setState({deleteshow:false})
+  }
+ 
+//confirm
+    confirm=()=>{
+      // alert("confirm")      
+    this.props.deletenotification(this.state.notificationId);
+    this.setState({
+      deleteshow:false
+    })
+    }
+
+    // Add Notification
+    newNotify = () =>{
       this.setState({ show: false });
-      let newCourseObj = {
-        courseId : this.state.courseId,
-        name: this.state.name,
-        shortName : this.state.shortName,
-        description : this.state.description,
-        lmsURL : this.state.lmsURL,
-        displayImageURL : this.state.displayImageURL,
-        thumnailImageURL : this.state.thumnailImageURL
+      let obj = {
+        code: parseInt(this.state.code),
+        featureName: this.state.featureName,
+        completedTask : this.state.completedTask,
+        firstDay : this.state.firstDay,
+        secondDay : this.state.secondDay,
+        thirdDay : this.state.thirdDay,
+        fourthDay : this.state.fourthDay,
+        fifthDay : this.state.fifthDay,
+        sixthDay : this.state.sixthDay,
+        seventhDay : this.state.seventhDay,
+        tenMinutes : this.state.tenMinutes,
+
       };
-      if (this.state.name.length !== 0) {
-        this.props.addCourses(newCourseObj);
+      if (this.state.id.length === 0) {
+        this.props.addnotification(obj);
         this.setState({
           id: "",
-          courseId : "",
-          name: "",
-          shortName : "",
-          description : "",
-          lmsURL : "",
-          displayImageURL : "",
-          thumnailImageURL : "",
+          code:"",
+          featureName : "",
+          completedTask: "",
+          firstDay : "",
+          secondDay : "",
+          thirdDay : "",
+          fourthDay : "",
+          fifthDay : "",
+          sixthDay : "",
+          seventhDay : "",
+          tenMinutes : ""
         });
       }
-      this.props.getPaginateCourse(0, 20,null);    
+      // this.props.getPaginateNotification(0, 20,null);    
       }
-  // Update Course
-  updateCourse = () =>{
+
+  // Update Notification
+  updateNotify = () =>{
       this.setState({ show: false });
-  let newCourseObj = {
+  let 
+  obj1 = {
     id : this.state.id,
-    courseId : this.state.courseId,
-    name: this.state.name,
-    shortName : this.state.shortName,
-    description : this.state.description,
-    lmsURL : this.state.lmsURL,
-    displayImageURL : this.state.displayImageURL,
-    thumnailImageURL : this.state.thumnailImageURL
+    code:this.state.code,
+    featureName: this.state.featureName,
+    completedTask : this.state.completedTask,
+    firstDay : this.state.firstDay,
+    secondDay : this.state.secondDay,
+    thirdDay : this.state.thirdDay,
+    fourthDay : this.state.fourthDay,
+    fifthDay : this.state.fifthDay,
+    sixthDay :this.state.sixthDay,
+    seventhDay : this.state.seventhDay,
+    tenMinutes : this.state.tenMinutes
   };
-  if (this.state.name.length !== 0) {
-    this.props.updateCourse(this.state.id,newCourseObj);
+  if (this.state.id.length !== 0) {
+    this.props.updatenotification(this.state.id,obj1);
     this.setState({
       id: "",
-      courseId : "",
-      name: "",
-      shortName : "",
-      description : "",
-      lmsURL : "",
-      displayImageURL : "",
-      thumnailImageURL : "",
+      code:"",
+      featureName: "",
+      completedTask : "",
+      firstDay : "",
+      secondDay : "",
+      thirdDay : "",
+      fourthDay : "",
+      fifthDay:"",
+      sixthDay:"",
+      seventhDay:"",
+      tenMinutes:"",
       update: true,
     });      
   }
-  this.props.getPaginateCourse(0, 20,null);    
+  // this.props.getPaginateNotification(0, 20,null);    
 }
  column = [
     { title: 'Id', fieldName:'id'},
-    { title: 'Name', fieldName:'featureName'},
-    { title: 'Completed Task', fieldName:'completedTask'},
+    {title:'Code',fieldName:'code'},
+    { title: 'FeatureName', fieldName:'featureName'},
+    { title: 'CompletedTask', fieldName:'completedTask'},
+    { title: 'FirstDay', fieldName:'firstDay'},
+    { title: 'SecondDay', fieldName:'secondDay'},
+    { title: 'ThirdDay', fieldName:'thirdDay'},
+    { title: 'FourthDay', fieldName:'fourthDay'},
+    { title: 'FifthDay', fieldName:'fifthDay'},
+    { title: 'SixthDay', fieldName:'sixthDay'},
+    { title: 'SeventhDay', fieldName:'seventhDay'},
+    { title: 'Tenminutes', fieldName:'tenMinutes'},
 ];
-    render() {  
-      console.log(this.props.viewNotificationList)
+    render() {
         return (
             <ThemeProvider theme={this.tableTheme()}>
             <div>
-               {this.props.viewNotificationList.length !== 0 ? (
+               {this.props.viewNotification !== 0 ? (
                 <TableComponent
                   data={
-                    this.props.viewNotificationList.length !== 0
-                      ? this.props.viewNotificationList
+                    this.props.viewnotificationList.length !== 0
+                      ? this.props.viewnotificationList
                       : null
                   }
                   cols={this.column}
                   onRowClick={this.rowClick}
                   add={true}
                   action={true}
-                  onEdit={true}  
-                  onDelete = {true}
-                  onDeleteClick = {this.handleDelete}
+                  onEdit={true}
+                  onDelete = {true} 
+                  onDeleteClick ={this.handleDelete}
                   onEditClick={this.handleEdit} 
                   onAddClick={this.handleClickOpen}
-                   onSearch={this.paginate}
-                //   paginate={this.paginate}
-                //   totalCount={this.props.courseFilterList.totalElements}
-                //   title={"Course"}
-                //   pageCount={this.props.courseFilterList.totalPages}
+                  // onSearch={this.paginate}
+                  // paginate={this.paginate}
+                  // totalCount={this.props.viewnotificationList.totalElements}
+                  title={"Notification"}
+                  // pageCount={this.props.viewnotificationList.totalPages}
+
                 />
               ) : (
                 <ThemeProvider theme={this.spinnerTheme()}>
@@ -270,11 +358,10 @@ spinnerTheme = () =>createMuiTheme({
                 TransitionComponent={Transition}
                   open={this.state.show}
                   onClose={(e)=>this.setState({show : false})}
-                  aria-labelledby="customized-dialog-title"
-                >
+                  aria-labelledby="customized-dialog-title">
                   <DialogTitle id="customized-dialog-title">
                     <div className="flex-1 text-center">
-                      {this.state.id.length !== 0 ? "Edit Course" : "Add Course"}
+                      {this.state.id.length !== 0 ? "Edit Notification" : "Add Notification"}
                     </div>
                     <div className="model-close-button">
                       <IconButton aria-label="close" onClick={(e)=>this.setState({show : false})}>
@@ -284,25 +371,14 @@ spinnerTheme = () =>createMuiTheme({
                   </DialogTitle>
                   <DialogContent>
                   <Grid container spacing={3}>
-                  <Grid item md={2}>
+                    <Grid item md={4}>
                   <TextField
                       variant="outlined"
                       color="primary"
-                      label="Enter Course ID"
+                      label="Featurename"
                       fullWidth
-                      value={this.state.courseId}
-                      onChange={(e) => this.setState({ courseId: e.target.value })}
-                      multiline
-                    />
-                    </Grid>
-                    <Grid item md={2}>
-                  <TextField
-                      variant="outlined"
-                      color="primary"
-                      label="Enter Course Name"
-                      fullWidth
-                      value={this.state.name}
-                      onChange={(e) => this.setState({ name: e.target.value })}
+                      value={this.state.featureName}
+                      onChange={(e) => this.setState({ featureName: e.target.value })}
                       multiline
                     />
                     </Grid>
@@ -310,10 +386,20 @@ spinnerTheme = () =>createMuiTheme({
                   <TextField
                       variant="outlined"
                       color="primary"
-                      label="Enter Short Name"
+                      label="Code"
                       fullWidth
-                      value={this.state.shortName}
-                      onChange={(e) => this.setState({ shortName: e.target.value })}
+                      value={this.state.code}
+                      onChange={(e) => this.setState({ code: e.target.value })}
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="Completed Task"
+                      fullWidth
+                      value={this.state.completedTask}
+                      onChange={(e) => this.setState({ completedTask: e.target.value })}
                       multiline
                     />
                     </Grid>
@@ -321,13 +407,13 @@ spinnerTheme = () =>createMuiTheme({
                     <TextField
                       variant="outlined"
                       color="primary"
-                      label="Description"
+                      label="FirstDay"
                       rowsMin={3}
                       multiline
                       fullWidth
-                      value={this.state.description}
+                      value={this.state.firstDay}
                       onChange={(e) =>
-                        this.setState({ description: e.target.value })
+                        this.setState({ firstDay: e.target.value })
                       }
                     /> 
                     </Grid>
@@ -335,10 +421,10 @@ spinnerTheme = () =>createMuiTheme({
                   <TextField
                       variant="outlined"
                       color="primary"
-                      label="Enter LMS Url"
+                      label="SecondDay"
                       fullWidth
-                      value={this.state.lmsURL}
-                      onChange={(e) => this.setState({ lmsURL: e.target.value })}
+                      value={this.state.secondDay}
+                      onChange={(e) => this.setState({ secondDay: e.target.value })}
                       multiline
                     />
                     </Grid>
@@ -346,10 +432,10 @@ spinnerTheme = () =>createMuiTheme({
                   <TextField
                       variant="outlined"
                       color="primary"
-                      label="Enter Display Image Url"
+                      label="ThirdDay"
                       fullWidth
-                      value={this.state.displayImageURL}
-                      onChange={(e) => this.setState({ displayImageURL: e.target.value })}
+                      value={this.state.thirdDay}
+                      onChange={(e) => this.setState({ thirdDay: e.target.value })}
                       multiline
                     />
                     </Grid>
@@ -357,10 +443,54 @@ spinnerTheme = () =>createMuiTheme({
                   <TextField
                       variant="outlined"
                       color="primary"
-                      label="Enter Thumbnail Image Url"
+                      label="FourthDay"
                       fullWidth
-                      value={this.state.thumnailImageURL}
-                      onChange={(e) => this.setState({ thumnailImageURL: e.target.value })}
+                      value={this.state.fourthDay}
+                      onChange={(e) => this.setState({ fourthDay: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="FifthDay"
+                      fullWidth
+                      value={this.state.fifthDay}
+                      onChange={(e) => this.setState({ fifthDay: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="SixthDay"
+                      fullWidth
+                      value={this.state.sixthDay}
+                      onChange={(e) => this.setState({ sixthDay: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="SeventhDay"
+                      fullWidth
+                      value={this.state.seventhDay}
+                      onChange={(e) => this.setState({ seventhDay: e.target.value })}
+                      multiline
+                    />
+                    </Grid>
+                    <Grid item md={4}>
+                  <TextField
+                      variant="outlined"
+                      color="primary"
+                      label="TenMinutes"
+                      fullWidth
+                      value={this.state.tenMinutes}
+                      onChange={(e) => this.setState({ tenMinutes: e.target.value })}
                       multiline
                     />
                     </Grid>
@@ -370,8 +500,8 @@ spinnerTheme = () =>createMuiTheme({
                     <Button
                       onClick={
                         this.state.id.length === 0
-                          ? this.newCourse
-                          : this.updateCourse
+                          ? this.newNotify
+                          : this.updateNotify
                       }
                       variant="contained"
                       color="primary"
@@ -379,14 +509,30 @@ spinnerTheme = () =>createMuiTheme({
                     >
                       {this.state.id.length !== 0 ? "Update" : "Add"}
                     </Button>
-                  </DialogActions>
+                  </DialogActions>                  
                 </Dialog>
               </ThemeProvider>
-             
+              <ThemeProvider>
+              <Dialog
+                maxWidth={'lg'}
+                // TransitionComponent={Transition}
+                  open={this.state.deleteshow}
+                  onClose={(e)=>this.setState({deleteshow : false})}
+                  aria-labelledby="customized-dialog-title">             
+                 <DialogTitle>
+                    <div>
+                      <h2>Popup Message!!!</h2>
+                    </div>
+                  </DialogTitle>
+                  <DialogContent>
+                    <p>Are you Sure?</p>
+                    <Button variant="contained" color="primary" onClick={this.cancel}>Cancel</Button>
+                    <Button variant="contained" color="secondary" onClick={this.confirm}>Confirm</Button>
+                  </DialogContent>
+                </Dialog>
+              </ThemeProvider>
           </ThemeProvider>
          
-            
-            
         )
     }
 }
@@ -396,8 +542,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToprops=(state)=>{
     console.log(state);
     return{
-        viewNotificationList:state.NotificationReducer.viewNotificationList,
+      viewnotificationList:state.NotificationReducer.viewnotificationList,
+      updatenotificationList : state.NotificationReducer.updatenotificationList
     }
 }
 
-export default connect(mapStateToprops,{viewNotification})(Notification)
+export default connect(mapStateToprops,{viewnotification,addnotification,updatenotification,deletenotification})(Notification)

@@ -149,7 +149,7 @@ export const CAREER_TRACK = {
 export const NOTIFICATION = {
 	viewNotification : "viewNotification",
 	addNotification : "addNotification",
-	editNotification : "editNotification",
+	updateNotification : "updateNotification",
 	deleteNotification : "deleteNotification"
 }
 
@@ -157,7 +157,8 @@ export const REPORTS = {
 	viewTermsAndConReport : "viewTermsAndConReport",
 	viewCvReport : "viewCvReport",
 	viewMarksheetReport : "viewMarksheetReport",
-	viewMyDetailsReport : "viewMyDetailsReport"
+	viewMyDetailsReport : "viewMyDetailsReport",
+	viewTechTestMechReport : "viewTechTestMechReport"
 }
 
 
