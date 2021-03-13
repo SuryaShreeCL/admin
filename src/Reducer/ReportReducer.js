@@ -4,7 +4,8 @@ const initialState = {
 	cvReport : [],
 	markSheetReport : [],
 	myDetailsReport : [],
-	techTestMechReport : []
+	techTestMechReport : [],
+	techTestElectronics:[]
 }
 
 export default (state = initialState, action) => {
@@ -34,6 +35,11 @@ export default (state = initialState, action) => {
 						...state,
 						techTestMechReport:action.techTestMechReport,
 					}
+					case REPORTS.viewTechTestElectronics:
+						return {
+							...state,
+							techTestElectronics:action.techTestElectronics,
+						}
 		default:
 			break
 	}
