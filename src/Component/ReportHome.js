@@ -12,7 +12,7 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core";
-import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport } from "../Actions/Reports";
+import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport ,} from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
@@ -28,8 +28,10 @@ function ReportHome(props) {
     props.viewMarkSheetReport()
     props.viewMydetailsReport()
     props.viewTechTestReport("Technical Test Mechanical")
+    props.viewTechTestReport("Technical Test Computer")
   }, []);
-  console.log(props.techTestMechReport);
+  console.log(props.techTestCseReport);
+
 // if(props.techTestMechReport.length !== 0){
 //   props.techTestMechReport.map(someElement=>{
 //     if(someElement.technicaltest !== null){
@@ -830,6 +832,322 @@ function ReportHome(props) {
                     </ExcelFile>
                   </TableCell>
                 </TableRow>
+                {/* cse */}
+                <TableRow>
+                  <TableCell align="left">{"6"}</TableCell>
+                  <TableCell align="left">{"Technical Test Computer"}</TableCell>
+                  <TableCell align="left">
+                    <ExcelFile
+                      filename={"Technical Test Computer"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet
+                        data={props.techTestCseReport}
+                        name="Technical Test Computer"
+                      >
+                        <ExcelColumn
+                          label="Student ID"
+                          value="Student ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Date submitted"
+                          value="Date submitted"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Last page"
+                          value="Last page"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Start language"
+                          value="Start language"
+                        ></ExcelColumn>
+                        <ExcelColumn label="uid__id" value="uid__id"></ExcelColumn>
+                        <ExcelColumn
+                          label="Seed"
+                          value="Seed"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Please enter your registered email id:"
+                          value="Please enter your registered email id:"
+                        ></ExcelColumn>
+                        <ExcelColumn label="notes" value="notes"></ExcelColumn>
+                        <ExcelColumn
+                          label="1. Heap is an example of"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Heap is an example of:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="1. What is (void*)0?"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['What is (void*)0?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="2.Which of the following cannot be checked in a switch-case statement?"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Which of the following cannot be checked in a switch-case statement?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="3.Which one of the below is not divide and conquer approach?"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Which one of the below is not divide and conquer approach?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="4.Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency."
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency.:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="5.The concept of order (Big O) is important because"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['The concept of order (Big O) is important because:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="6.The concept of order (Big O) is important because"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['The concept of order (Big O) is important because:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="7.Which operator performs pattern matching"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Which operator performs pattern matching:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="8.Which of the following can be used to add data to a database table?"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Which of the following can be used to add data to a database table?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label=" 9.Which of the following are also known as “inner join?"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Which of the following are also known as “inner join”?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label=" 10.Hiding the complexity is known as"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Hiding the complexity is known as”?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                      
+                         <ExcelColumn
+                          label="11.For Cat and Animal class, correct way of inheritance is"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['For Cat and Animal class, correct way of inheritance is”?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="12.Which C++ oops feature is related to re-usability?"
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['Which C++ oops feature is related to re-usability?:']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='How many times will "CareerLabs" get printed?#include int main() { int x; for(x=-1; x&lt;=10; x++) { if(x &lt; 5) continue; else break; printf("Careerlabs"); } return 0; }'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.["How many times will 'CareerLabs' get printed?:"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='15.How many times the while loop will get executed if a short int is 2 byte wide?#include int main() {int j=1;while(j &lt;= 255){printf("%c %d\n", j, j);j++;}return 0; }'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['How many times the while loop will get executed if a short int is 2 byte wide?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='16.What does the following function do for a given Linked List with first node as head? void fun1(struct node* head) {if(head == NULL)return;fun1(head-&gt;next);printf("%d", head-&gt;data); }'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['What does the following function do for a given Linked List with first node as head?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         
+                        <ExcelColumn
+                          label='18.Stack is also called as'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.["Stack is also called as "]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label='19.________ is a pile in which items are added at one end and removed from the other.'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['________ is a pile in which items are added at one end and removed from the other']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         
+                         <ExcelColumn
+                          label='20.What is the output of this program? int main() {static char *s[] = violet;char **ptr[] = s + 3, s + 2, s + 1, s, ***p;p = ptr;++p;printf("%s", **p+1);return 0; }'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['What is the output of this program?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label='21.A pointer is'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['A pointer is']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        
+                        <ExcelColumn
+                          label='22.If the two strings are identical, then strcmp() function returns'
+                          value={
+                            (col)=>{
+                              if(col.computertest !== null){
+                               return col.computertest.['If the two strings are identical, then strcmp() function returns']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        
+
+
+
+
+
+
+
+
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
                 {/* Testing Excel */}
                 {/* <TableRow>
                 <TableCell align="left">{"4"}</TableCell>
@@ -852,7 +1170,8 @@ const mapStateToProps = (state) => {
     cvReport: state.ReportReducer.cvReport,
     markSheetReport: state.ReportReducer.markSheetReport,
     myDetailsReport : state.ReportReducer.myDetailsReport,
-    techTestMechReport : state.ReportReducer.techTestMechReport
+    techTestMechReport : state.ReportReducer.techTestMechReport,
+    techTestCseReport :state.ReportReducer.techTestCseReport
   };
 };
 export default connect(mapStateToProps, {
@@ -860,5 +1179,6 @@ export default connect(mapStateToProps, {
   viewCvReport,
   viewMarkSheetReport,
    viewMydetailsReport,
-   viewTechTestReport
+   viewTechTestReport,
+   
 })(ReportHome);
