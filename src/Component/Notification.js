@@ -18,7 +18,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import {connect} from 'react-redux'
 import {viewnotification,addnotification,updatenotification,deletenotification} from '../Actions/Notification'
 import TableComponent from "./TableComponent/TableComponent";
-import { data } from 'jquery';
 
 export class Notification extends Component {
 
@@ -47,6 +46,7 @@ export class Notification extends Component {
       };
 
     componentDidMount() { 
+
     this.props.viewnotification()
     // setInterval((this.props.viewnotification), 2000);
     }
