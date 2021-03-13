@@ -12,7 +12,7 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core";
-import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport } from "../Actions/Reports";
+import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
@@ -28,8 +28,9 @@ function ReportHome(props) {
     props.viewMarkSheetReport()
     props.viewMydetailsReport()
     props.viewTechTestReport("Technical Test Mechanical")
+    props.viewTestRating()
   }, []);
-  console.log(props.techTestMechReport);
+  console.log(props.testRatingResult);
 // if(props.techTestMechReport.length !== 0){
 //   props.techTestMechReport.map(someElement=>{
 //     if(someElement.technicaltest !== null){
@@ -825,7 +826,93 @@ function ReportHome(props) {
                                 return null
                               }
                             }
-                          }                        ></ExcelColumn>
+                          }                       
+                           ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
+                {/* Test Rating */}
+                <TableRow>
+                  <TableCell align="left">{"6"}</TableCell>
+                  <TableCell align="left">{"Test Rating Report"}</TableCell>
+                  <TableCell align="left">
+                    <ExcelFile
+                      filename={"Test Rating Report"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet
+                        data={props.testRatingResult}
+                        name="Test Rating Report"
+                      >
+                         <ExcelColumn
+                          label="Submitted by: Title"
+                          value="Submitted by: Title"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Created"
+                          value="Created"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Completed"
+                          value="Completed"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Changed"
+                          value="Changed"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Is draft"
+                          value="Is draft"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Submitted by: Title"
+                          value="Submitted by: Title"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Submitted to: Entity ID"
+                          value="Submitted to: Entity ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="I Understand the need for Tests"
+                          value="I Understand the need for Tests"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="I Agree"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn 
+                        label="Rate Your Diagnostic Test Experience" 
+                        value="Rate Your Diagnostic Test Experience"
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="I Agree"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Rate Your Exploration Experience"
+                          value="Rate Your Exploration Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="I have Taken the test"
+                          value="I have Taken the test"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Rate Your Test Experience"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="testup_cxemail"
+                          value="testup_cxemail"
+                        ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
@@ -852,7 +939,8 @@ const mapStateToProps = (state) => {
     cvReport: state.ReportReducer.cvReport,
     markSheetReport: state.ReportReducer.markSheetReport,
     myDetailsReport : state.ReportReducer.myDetailsReport,
-    techTestMechReport : state.ReportReducer.techTestMechReport
+    techTestMechReport : state.ReportReducer.techTestMechReport,
+    testRatingResult : state.ReportReducer.testRatingResult
   };
 };
 export default connect(mapStateToProps, {
@@ -860,5 +948,6 @@ export default connect(mapStateToProps, {
   viewCvReport,
   viewMarkSheetReport,
    viewMydetailsReport,
-   viewTechTestReport
+   viewTechTestReport,
+   viewTestRating
 })(ReportHome);
