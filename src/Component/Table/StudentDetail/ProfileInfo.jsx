@@ -58,7 +58,7 @@ export class ProfileInfo extends Component {
   }
 
   render() {      
-    console.log(this.props.StudentDetails)      
+    console.log(this.props)      
     return (
       <ThemeProvider>
         <div>

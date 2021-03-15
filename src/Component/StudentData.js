@@ -20,6 +20,7 @@ import Product from "./Product";
 import { connect } from "react-redux";
 import { Grid, FormControlLabel, Switch } from "@material-ui/core";
 import StudentDocuments from "./StudentDocuments";
+import SubStudentTab from "./SubStudentTab";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -109,7 +110,7 @@ export function Student_data(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Profile Information" {...a11yProps(1)} />
+            <Tab label="Student Information" {...a11yProps(1)} />
             <Tab label="Career Intrest Survey" {...a11yProps(2)} />
             <Tab label="Recommendation" {...a11yProps(3)} />
             <Tab label="Product" {...a11yProps(4)} />
@@ -118,6 +119,7 @@ export function Student_data(props) {
         </AppBar>
         <TabPanel value={value} index={0}>
           <Other_data id={props.match.params.id} />
+          {/* <SubStudentTab id={props.match.params.id} /> */}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <CareerInterestSurveyResults id={props.match.params.id} />

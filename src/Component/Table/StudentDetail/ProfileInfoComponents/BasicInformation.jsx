@@ -14,7 +14,7 @@ export class BasicInformation extends Component {
   }
 
   componentDidMount() {
-    this.props.getStudentsById(this.props.id);
+    // this.props.getStudentsById(this.props.id);
   }
 
   renderStudent = () => {
@@ -62,6 +62,7 @@ export class BasicInformation extends Component {
     });
   };
   render() {    
+   
     return (
       <div>
         <CollapseContainer
@@ -70,7 +71,7 @@ export class BasicInformation extends Component {
           show={this.state.show}
         >
           <Grid container spacing={3} style={_TableTitle}>
-          {(this.props.StudentDetails.length !== 0)? this.renderStudent() :null }
+          {/* {(this.props.StudentDetails.length !== 0)? this.renderStudent() :null } */}
           </Grid>
         </CollapseContainer>
       </div>
