@@ -15,6 +15,8 @@ export class ProfileInfo extends Component {
       id:'',
       name:'',
       mobileNo:'',
+      firstName : '',
+      lastName : '',
       email:'',
       branch:'',  
       college:'',
@@ -34,7 +36,7 @@ export class ProfileInfo extends Component {
   componentDidUpdate(prevProps,prevState){
       if(prevProps!==this.props){
         if(this.props.StudentDetails.length!==0){
-          const { studentID,fullName,phoneNumber,emailId,department,college,university,currentSem,ugDegree} =this.props.StudentDetails          
+          const { studentID,fullName,phoneNumber,emailId,department,college,university,currentSem,ugDegree, firstName, lastName} =this.props.StudentDetails          
             this.setState({
                 id:studentID,
                 name:fullName,
@@ -44,7 +46,9 @@ export class ProfileInfo extends Component {
                 college:college!==null ? college.name :'',
                 university:university !==null ? university.name :'',  
                 currentSem:currentSem,
-                degree:ugDegree,
+                degree:ugDegree.name,
+                firstName : firstName,
+                lastName : lastName,
                 field:'field',
                 spacialization:'spacialization'
 
@@ -110,7 +114,7 @@ export class ProfileInfo extends Component {
                             <label>Name of the Client</label>
                           </Grid>
                           <Grid item md={6} className="_value">
-                            <label>{this.state.name}</label>
+                            <label>{this.state.firstName+" "+this.state.lastName}</label>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -185,7 +189,7 @@ export class ProfileInfo extends Component {
                             <label>Current Semester</label>
                           </Grid>
                           <Grid item md={6} className="_value">
-                            {/* <label>{this.state.currentSem}</label> */}
+                            <label>{this.state.currentSem}</label>
                           </Grid>
                         </Grid>
                       </Grid>

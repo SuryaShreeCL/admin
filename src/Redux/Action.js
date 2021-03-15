@@ -157,7 +157,8 @@ export const REPORTS = {
 	viewMarksheetReport : "viewMarksheetReport",
 	viewMyDetailsReport : "viewMyDetailsReport",
 	viewTechTestMechReport : "viewTechTestMechReport",
-  viewTestRating : "viewTestRating"
+  viewTestRating : "viewTestRating",
+  viewTechTestElectronics : "viewTechTestElectronics"
 }
 
 
