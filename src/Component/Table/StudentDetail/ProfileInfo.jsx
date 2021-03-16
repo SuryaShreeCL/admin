@@ -46,7 +46,7 @@ export class ProfileInfo extends Component {
                 college:college!==null ? college.name :'',
                 university:university !==null ? university.name :'',  
                 currentSem:currentSem,
-                degree:ugDegree.name,
+                degree: ugDegree !== null ?  ugDegree.name : '',
                 firstName : firstName,
                 lastName : lastName,
                 field:'field',

@@ -64,8 +64,8 @@ export default function SubStudentTab(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={value}
-         onChange={handleChange} 
-         variant="scrollable"
+         onChange={handleChange}
+         variant="fullWidth"
          scrollButtons="auto"
           aria-label="simple tabs example"
           >
