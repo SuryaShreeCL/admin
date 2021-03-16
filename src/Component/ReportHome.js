@@ -12,7 +12,7 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core";
-import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport ,} from "../Actions/Reports";
+import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
@@ -30,6 +30,7 @@ function ReportHome(props) {
     props.viewTechTestReport("Technical Test Mechanical")
     props.viewTechTestReport("Technical Test Computer")
     props.viewTechTestReport("Technical Test Electronics")
+    props.viewTestRating()
   }, []);
   console.log(props.techTestCseReport);
 
@@ -828,14 +829,390 @@ function ReportHome(props) {
                                 return null
                               }
                             }
-                          }                        ></ExcelColumn>
+                          }                       
+                           ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
+
+                {/* ELectronics */}
+
+                <TableRow>
+                  <TableCell align="left">{"6"}</TableCell>
+                  <TableCell align="left">{"Technical Test Electronics Report"}</TableCell>
+                  <TableCell align="left">
+                    <ExcelFile
+                      filename={"Electronics Report"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet
+                        data={props.techTestElectronics}
+                        name="Electronics report"
+                      >
+                        <ExcelColumn
+                          label="Student ID"
+                          value="Student ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Date submitted"
+                          value="Date submitted"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Last page"
+                          value="Last page"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Start language"
+                          value="Start language"
+                        ></ExcelColumn>
+                        <ExcelColumn label="Seed" value="Seed"></ExcelColumn>
+                        <ExcelColumn
+                          label="Please enter your registered email id:"
+                          value="Please enter your registered email id:"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="In which of these is reverse recovery time nearly zero?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['In which of these is reverse recovery time nearly zero?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="The v-i characteristics of a FET is shown in figure. In which region is the device biased for small signal amplification"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The v-i characteristics of a FET is shown in figure. In which region is the device biased for small signal amplification']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label={'What is the output of this C code? int main() {int y = 1, x = 0;int l = (y++, x++) ? y : x;printf("%d\n", l); }'}
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What is the output of this C code?int main(){ int y = 1, x = 0; int l = (y++, x++) ? y : x; printf("%d\n", l);}']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What is the range of an FET's input impedance?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["What is the range of an FET's input impedance?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="An LED has a rating of 2 V and 10 mA. It is used along with 6V battery. The range of series resistance is"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['An LED has a rating of 2 V and 10 mA. It is used along with 6V battery. The range of series resistance is']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='What is the output of this C code? int main() {char *p = NULL;char *q = 0;if (p)printf(" p ");elseprintf("nullp");if (q) printf("q\n");elseprintf(" nullq\n"); }'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What is the output of this C code?int main(){ char *p = NULL; char *q = 0; if (p) printf(" p "); else printf("nullp"); if (q) printf("q\n"); else printf(" nullq\n");}']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="An increase in temperature increases the width of depletion layer."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["An increase in temperature increases the width of depletion layer."]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="If the input to the ideal comparator shown in the figure is a sinusoidal signal of 8 V (peak to peak) without any DC component, then the output of the comparator has a duty cycle of"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["If the input to the ideal comparator shown in the figure is a sinusoidal signal of 8 V (peak to peak) without any DC component, then the output of the comparator has a duty cycle of"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label='What is the output of this C code? int main() {int i = -5; int k = i %4; printf("%d\n", k); }'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What is the output of this C code?int main(){ int i = -5; int k = i %4; printf("%d\\n", k);}']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='When the emitter current of a transistor is changed by 1 mA, its collector current changes by 0.990 mA. The common-emitter short-circuit current gain is'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['When the emitter current of a transistor is changed by 1 mA, its collector current changes by 0.990 mA. The common-emitter short-circuit current gain is']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+
+                        <ExcelColumn
+                          label="The conversion resolution of an 8-stage counter operating an 8-stage ladder network using a reference voltage of 5 V is ________."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["The conversion resolution of an 8-stage counter operating an 8-stage ladder network using a reference voltage of 5 V is "]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="A transformer is plugged into a 120 V rms source and has a primary current of 300 mA rms. The secondary is providing 18 V across a 10 ohm load. What is the efficiency of the transformer?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["A transformer is plugged into a 120 V rms source and has a primary current of 300 mA rms. The secondary is providing 18 V across a 10 ohm load. What is the efficiency of the transformer?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Calculate the voltage dropped across L2 in the given circuit."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["Calculate the voltage dropped across L2 in the given circuit."]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='How many times will "CareerLabs" get printed?int main(){int x;for(x=-1; x&lt;=10; x++){if(x &lt; 5)continue;elsebreak;printf("Careerlabs");}return 0;}'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['How many times will '+'CareerLabs'+" get printed?int main(){ int x; for(x=-1; x<=10; x++) { if(x < 5) continue;else break; printf("+"Careerlabs"+'); } return 0;}']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Calculate the duty cycle of the repetitive pulse waveform in the given circuit."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["Calculate the duty cycle of the repetitive pulse waveform in the given circuit."]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What is the secondary voltage in the given circuit?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["What is the secondary voltage in the given circuit?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What is the current through the LED?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["What is the current through the LED?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label='What is the output of this C code? int main() {void foo();void f(){foo();}f(); }void foo() {printf("2 "); }'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                                return col.technicaltest.['What is the output of this C code?int main(){ void foo(); void f() { foo(); } f();}void foo(){printf(2);}']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Why is the given circuit called an inverter?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["Why is the given circuit called an inverter?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="1001012 is equal to decimal number"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["1001012 is equal to decimal number"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
+
+                {/* Test Rating */}
+                <TableRow>
+                  <TableCell align="left">{"7"}</TableCell>
+                  <TableCell align="left">{"Test Rating Report"}</TableCell>
+                  <TableCell align="left">
+                    <ExcelFile
+                      filename={"Test Rating Report"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet
+                        data={props.testRatingResult}
+                        name="Test Rating Report"
+                      >
+                         <ExcelColumn
+                          label="Submitted by: Title"
+                          value="Submitted by: Title"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Created"
+                          value="Created"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Completed"
+                          value="Completed"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Changed"
+                          value="Changed"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Is draft"
+                          value="Is draft"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Submitted by: Title"
+                          value="Submitted by: Title"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Submitted to: Entity ID"
+                          value="Submitted to: Entity ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="I Understand the need for Tests"
+                          value="I Understand the need for Tests"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="I Agree"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn 
+                        label="Rate Your Diagnostic Test Experience" 
+                        value="Rate Your Diagnostic Test Experience"
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="I Agree"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Rate Your Exploration Experience"
+                          value="Rate Your Exploration Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="I have Taken the test"
+                          value="I have Taken the test"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Rate Your Test Experience"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="testup_cxemail"
+                          value="testup_cxemail"
+                        ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
                 </TableRow>
                 {/* cse */}
                 <TableRow>
-                  <TableCell align="left">{"6"}</TableCell>
+                  <TableCell align="left">{"8"}</TableCell>
                   <TableCell align="left">{"Technical Test Computer"}</TableCell>
                   <TableCell align="left">
                     <ExcelFile
@@ -1151,7 +1528,9 @@ const mapStateToProps = (state) => {
     markSheetReport: state.ReportReducer.markSheetReport,
     myDetailsReport : state.ReportReducer.myDetailsReport,
     techTestMechReport : state.ReportReducer.techTestMechReport,
-    techTestCseReport :state.ReportReducer.techTestCseReport
+    techTestCseReport :state.ReportReducer.techTestCseReport,
+    testRatingResult : state.ReportReducer.testRatingResult,
+    techTestElectronics : state.ReportReducer.techTestElectronics
   };
 };
 export default connect(mapStateToProps, {
@@ -1160,5 +1539,6 @@ export default connect(mapStateToProps, {
   viewMarkSheetReport,
    viewMydetailsReport,
    viewTechTestReport,
+   viewTestRating
    
 })(ReportHome);

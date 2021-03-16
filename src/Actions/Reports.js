@@ -99,3 +99,22 @@ export const viewTechTestReport = (QuestionSetName) =>{
         })
     }
 }
+
+export const viewTestRating = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/report/testRating",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:REPORTS.viewTestRating,testRatingResult:result.data});
+            
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
