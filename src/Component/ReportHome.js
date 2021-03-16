@@ -29,6 +29,7 @@ function ReportHome(props) {
     props.viewMydetailsReport()
     props.viewTechTestReport("Technical Test Mechanical")
     props.viewTechTestReport("Technical Test Computer")
+    props.viewTechTestReport("Technical Test Electronics")
   }, []);
   console.log(props.techTestCseReport);
 
