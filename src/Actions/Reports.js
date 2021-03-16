@@ -86,16 +86,13 @@ export const viewTechTestReport = (QuestionSetName) =>{
             if(QuestionSetName === "Technical Test Mechanical"){
             dispatch({type:REPORTS.viewTechTestMechReport,techTestMechReport:result.data});
             }
-<<<<<<< HEAD
             else if(QuestionSetName === "Technical Test Computer"){
                 dispatch({type:REPORTS.viewTechTestCseReport,techTestCseReport:result.data});
             }
              
-=======
             else if(QuestionSetName === "Technical Test Electronics"){
                 dispatch({type:REPORTS.viewTechTestElectronics,techTestElectronics:result.data});
             }
->>>>>>> 1e7c50cad8fecc035b3b8f694e8df1b6a0ea2d6c
         })
         .catch(error=>{
             console.log(error);

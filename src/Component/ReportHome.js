@@ -879,13 +879,12 @@ function ReportHome(props) {
                           label="Please enter your registered email id:"
                           value="Please enter your registered email id:"
                         ></ExcelColumn>
-                        <ExcelColumn label="notes" value="notes"></ExcelColumn>
                         <ExcelColumn
-                          label="1. Heap is an example of"
+                          label=" Heap is an example of"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Heap is an example of:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Heap is an example of']
                               }else{
                                 return null
                               }
@@ -893,11 +892,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="1. What is (void*)0?"
+                          label=" What is (void*)0?"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['What is (void*)0?:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What is (void*)0?']
                               }else{
                                 return null
                               }
@@ -905,11 +904,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                           <ExcelColumn
-                          label="2.Which of the following cannot be checked in a switch-case statement?"
+                          label="Which of the following cannot be checked in a switch-case statement?"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Which of the following cannot be checked in a switch-case statement?:']
+                              if(col.technicaltest!== null){
+                               return col.technicaltest.['Which of the following cannot be checked in a switch-case statement?']
                               }else{
                                 return null
                               }
@@ -917,11 +916,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="3.Which one of the below is not divide and conquer approach?"
+                          label="Which one of the below is not divide and conquer approach?"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Which one of the below is not divide and conquer approach?:']
+                              if(col.technicaltest!== null){
+                               return col.technicaltest.['Which one of the below is not divide and conquer approach?']
                               }else{
                                 return null
                               }
@@ -929,11 +928,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="4.Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency."
+                          label="Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency."
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency.:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency.']
                               }else{
                                 return null
                               }
@@ -941,11 +940,24 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                          <ExcelColumn
-                          label="5.The concept of order (Big O) is important because"
+                          label="The concept of order (Big O) is important because"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['The concept of order (Big O) is important because:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The concept of order (Big O) is important because']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                
+                         <ExcelColumn
+                          label="Which operator performs pattern matching"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which operator performs pattern matching']
                               }else{
                                 return null
                               }
@@ -953,35 +965,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                          <ExcelColumn
-                          label="6.The concept of order (Big O) is important because"
+                          label="Which of the following can be used to add data to a database table?"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['The concept of order (Big O) is important because:']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="7.Which operator performs pattern matching"
-                          value={
-                            (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Which operator performs pattern matching:']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="8.Which of the following can be used to add data to a database table?"
-                          value={
-                            (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Which of the following can be used to add data to a database table?:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which of the following can be used to add data to a database table?']
                               }else{
                                 return null
                               }
@@ -989,11 +977,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                         <ExcelColumn
-                          label=" 9.Which of the following are also known as “inner join?"
+                          label=" Which of the following are also known as “inner join?"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Which of the following are also known as “inner join”?:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which of the following are also known as “inner join”?']
                               }else{
                                 return null
                               }
@@ -1001,11 +989,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                         <ExcelColumn
-                          label=" 10.Hiding the complexity is known as"
+                          label=" Hiding the complexity is known as"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Hiding the complexity is known as”?:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Hiding the complexity is known as”?']
                               }else{
                                 return null
                               }
@@ -1014,11 +1002,11 @@ function ReportHome(props) {
                         ></ExcelColumn>
                       
                          <ExcelColumn
-                          label="11.For Cat and Animal class, correct way of inheritance is"
+                          label="For Cat and Animal class, correct way of inheritance is"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['For Cat and Animal class, correct way of inheritance is”?:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['For Cat and Animal class, correct way of inheritance is”?']
                               }else{
                                 return null
                               }
@@ -1026,11 +1014,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                          <ExcelColumn
-                          label="12.Which C++ oops feature is related to re-usability?"
+                          label="Which C++ oops feature is related to re-usability?"
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['Which C++ oops feature is related to re-usability?:']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which C++ oops feature is related to re-usability?']
                               }else{
                                 return null
                               }
@@ -1041,8 +1029,8 @@ function ReportHome(props) {
                           label='How many times will "CareerLabs" get printed?#include int main() { int x; for(x=-1; x&lt;=10; x++) { if(x &lt; 5) continue; else break; printf("Careerlabs"); } return 0; }'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.["How many times will 'CareerLabs' get printed?:"]
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["How many times will 'CareerLabs' get printed?"]
                               }else{
                                 return null
                               }
@@ -1050,11 +1038,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                          <ExcelColumn
-                          label='15.How many times the while loop will get executed if a short int is 2 byte wide?#include int main() {int j=1;while(j &lt;= 255){printf("%c %d\n", j, j);j++;}return 0; }'
+                          label='How many times the while loop will get executed if a short int is 2 byte wide?#include int main() {int j=1;while(j &lt;= 255){printf("%c %d\n", j, j);j++;}return 0; }'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['How many times the while loop will get executed if a short int is 2 byte wide?']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['How many times the while loop will get executed if a short int is 2 byte wide?']
                               }else{
                                 return null
                               }
@@ -1062,11 +1050,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                          <ExcelColumn
-                          label='16.What does the following function do for a given Linked List with first node as head? void fun1(struct node* head) {if(head == NULL)return;fun1(head-&gt;next);printf("%d", head-&gt;data); }'
+                          label='What does the following function do for a given Linked List with first node as head? void fun1(struct node* head) {if(head == NULL)return;fun1(head-&gt;next);printf("%d", head-&gt;data); }'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['What does the following function do for a given Linked List with first node as head?']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What does the following function do for a given Linked List with first node as head?']
                               }else{
                                 return null
                               }
@@ -1075,11 +1063,11 @@ function ReportHome(props) {
                         ></ExcelColumn>
                          
                         <ExcelColumn
-                          label='18.Stack is also called as'
+                          label='Stack is also called as'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.["Stack is also called as "]
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["Stack is also called as "]
                               }else{
                                 return null
                               }
@@ -1087,11 +1075,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                         <ExcelColumn
-                          label='19.________ is a pile in which items are added at one end and removed from the other.'
+                          label='________ is a pile in which items are added at one end and removed from the other.'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['________ is a pile in which items are added at one end and removed from the other']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['________ is a pile in which items are added at one end and removed from the other']
                               }else{
                                 return null
                               }
@@ -1100,11 +1088,11 @@ function ReportHome(props) {
                         ></ExcelColumn>
                          
                          <ExcelColumn
-                          label='20.What is the output of this program? int main() {static char *s[] = violet;char **ptr[] = s + 3, s + 2, s + 1, s, ***p;p = ptr;++p;printf("%s", **p+1);return 0; }'
+                          label='What is the output of this program? int main() {static char *s[] = violet;char **ptr[] = s + 3, s + 2, s + 1, s, ***p;p = ptr;++p;printf("%s", **p+1);return 0; }'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['What is the output of this program?']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What is the output of this program?']
                               }else{
                                 return null
                               }
@@ -1112,11 +1100,11 @@ function ReportHome(props) {
                           }
                         ></ExcelColumn>
                         <ExcelColumn
-                          label='21.A pointer is'
+                          label='A pointer is'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['A pointer is']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['A pointer is']
                               }else{
                                 return null
                               }
@@ -1125,26 +1113,17 @@ function ReportHome(props) {
                         ></ExcelColumn>
                         
                         <ExcelColumn
-                          label='22.If the two strings are identical, then strcmp() function returns'
+                          label='If the two strings are identical, then strcmp() function returns'
                           value={
                             (col)=>{
-                              if(col.computertest !== null){
-                               return col.computertest.['If the two strings are identical, then strcmp() function returns']
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['If the two strings are identical, then strcmp() function returns']
                               }else{
                                 return null
                               }
                             }
                           }
                         ></ExcelColumn>
-                        
-
-
-
-
-
-
-
-
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
