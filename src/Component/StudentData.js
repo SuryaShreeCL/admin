@@ -98,7 +98,7 @@ export function Student_data(props) {
               />
             </Grid>
           </Grid> */}
-          <ProfileInfo id={props.match.params.id} />
+          {/* <ProfileInfo id={props.match.params.id} /> */}
         </div>
         <AppBar position="sticky" color="default">
           <Tabs
@@ -118,8 +118,8 @@ export function Student_data(props) {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <Other_data id={props.match.params.id} />
-          {/* <SubStudentTab id={props.match.params.id} /> */}
+          {/* <Other_data id={props.match.params.id} /> */}
+          <SubStudentTab id={props.match.params.id} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <CareerInterestSurveyResults id={props.match.params.id} />
