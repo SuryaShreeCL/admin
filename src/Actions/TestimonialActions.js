@@ -5,7 +5,7 @@ export const listTestimonials = () => async (dispatch) => {
   try {
     dispatch({ type: TESTIMONIAL.LIST_REQUEST });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_API}/services/testimonials`, {
+    const { data } = await axios.get(`${process.env.REACT_APP_API}/services/testimonials/`, {
       crossDomain: true,
     });
 
