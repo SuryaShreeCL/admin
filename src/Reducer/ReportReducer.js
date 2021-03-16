@@ -5,6 +5,7 @@ const initialState = {
 	markSheetReport : [],
 	myDetailsReport : [],
 	techTestMechReport : [],
+	techTestCseReport:[],
 	testRatingResult : [],
 	techTestElectronics:[]
 }
@@ -36,6 +37,11 @@ export default (state = initialState, action) => {
 						...state,
 						techTestMechReport:action.techTestMechReport,
 					}
+					case REPORTS.viewTechTestCseReport:
+						return{
+							...state,
+						techTestCseReport:action.techTestCseReport,
+						}
 					case REPORTS.viewTestRating:
 						return {
 							...state,

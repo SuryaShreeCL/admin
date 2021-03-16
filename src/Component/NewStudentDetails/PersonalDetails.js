@@ -168,7 +168,7 @@ export class PersonalDetails extends Component {
                 value={this.state.fullName}
                 />             
                </Grid>
-                <Grid item md={6} style={divStyle} justify="space-between">
+                {/* <Grid item md={6} style={divStyle} justify="space-between">
                 <Typography color="primary" style={textStyle} variant="subtitle1">{"E-Mail ID:"}</Typography>
                 <TextField
                 variant="outlined"  
@@ -191,7 +191,7 @@ export class PersonalDetails extends Component {
                 label="Phone Number"
                 value={this.state.phoneNumber}
                 />     
-                </Grid>
+                </Grid> */}
                 <Grid item md={12} style={divStyle} justify="flex-end">
                 <Button
                  variant="outlined" 

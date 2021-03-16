@@ -10,6 +10,7 @@ import {
   TableContainer,
   Paper,
   ThemeProvider,
+  CircularProgress,
   createMuiTheme,
 } from "@material-ui/core";
 import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating } from "../Actions/Reports";
@@ -28,10 +29,12 @@ function ReportHome(props) {
     props.viewMarkSheetReport()
     props.viewMydetailsReport()
     props.viewTechTestReport("Technical Test Mechanical")
-    props.viewTestRating()
+    props.viewTechTestReport("Technical Test Computer")
     props.viewTechTestReport("Technical Test Electronics")
+    props.viewTestRating()
   }, []);
-  console.log(props.testRatingResult);
+  console.log(props.techTestCseReport);
+
 // if(props.techTestMechReport.length !== 0){
 //   props.techTestMechReport.map(someElement=>{
 //     if(someElement.technicaltest !== null){
@@ -48,6 +51,16 @@ function ReportHome(props) {
           <Typography variant="h6">Reports</Typography>
         </Grid>
         <Grid item md={12} align="center">
+          {props.termsAndConReport.length &&
+          props.cvReport.length &&
+          props.markSheetReport.length &&
+          props.myDetailsReport.length &&
+          props.techTestMechReport.length &&
+          props.techTestCseReport.length &&
+          props.testRatingResult.length &&
+          props.techTestElectronics.length 
+           !== 0 ? 
+          
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
               <TableHead>
@@ -833,96 +846,11 @@ function ReportHome(props) {
                     </ExcelFile>
                   </TableCell>
                 </TableRow>
-                {/* Test Rating */}
-                <TableRow>
-                  <TableCell align="left">{"6"}</TableCell>
-                  <TableCell align="left">{"Test Rating Report"}</TableCell>
-                  <TableCell align="left">
-                    <ExcelFile
-                      filename={"Test Rating Report"}
-                      element={
-                        <Button
-                          variant="contained"
-                          size="small"
-                          color="primary"
-                        >
-                          Download
-                        </Button>
-                      }
-                    >
-                      <ExcelSheet
-                        data={props.testRatingResult}
-                        name="Test Rating Report"
-                      >
-                         <ExcelColumn
-                          label="Submitted by: Title"
-                          value="Submitted by: Title"
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="Created"
-                          value="Created"
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="Completed"
-                          value="Completed"
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="Changed"
-                          value="Changed"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="Is draft"
-                          value="Is draft"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="Submitted by: Title"
-                          value="Submitted by: Title"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="Submitted to: Entity ID"
-                          value="Submitted to: Entity ID"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="I Understand the need for Tests"
-                          value="I Understand the need for Tests"
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="I Agree"
-                          value="I Agree"
-                        ></ExcelColumn>
-                        <ExcelColumn 
-                        label="Rate Your Diagnostic Test Experience" 
-                        value="Rate Your Diagnostic Test Experience"
-                        ></ExcelColumn>
-                          <ExcelColumn
-                          label="I Agree"
-                          value="I Agree"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="Rate Your Exploration Experience"
-                          value="Rate Your Exploration Experience"
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="I have Taken the test"
-                          value="I have Taken the test"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="Rate Your Test Experience"
-                          value="Rate Your Test Experience"
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="testup_cxemail"
-                          value="testup_cxemail"
-                        ></ExcelColumn>
-                      </ExcelSheet>
-                    </ExcelFile>
-                  </TableCell>
-                </TableRow>
 
                 {/* ELectronics */}
 
                 <TableRow>
-                  <TableCell align="left">{"7"}</TableCell>
+                  <TableCell align="left">{"6"}</TableCell>
                   <TableCell align="left">{"Technical Test Electronics Report"}</TableCell>
                   <TableCell align="left">
                     <ExcelFile
@@ -1207,6 +1135,387 @@ function ReportHome(props) {
                     </ExcelFile>
                   </TableCell>
                 </TableRow>
+
+                {/* Test Rating */}
+                <TableRow>
+                  <TableCell align="left">{"7"}</TableCell>
+                  <TableCell align="left">{"Test Rating Report"}</TableCell>
+                  <TableCell align="left">
+                    <ExcelFile
+                      filename={"Test Rating Report"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet
+                        data={props.testRatingResult}
+                        name="Test Rating Report"
+                      >
+                         <ExcelColumn
+                          label="Submitted by: Title"
+                          value="Submitted by: Title"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Created"
+                          value="Created"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Completed"
+                          value="Completed"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Changed"
+                          value="Changed"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Is draft"
+                          value="Is draft"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Submitted by: Title"
+                          value="Submitted by: Title"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Submitted to: Entity ID"
+                          value="Submitted to: Entity ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="I Understand the need for Tests"
+                          value="I Understand the need for Tests"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="I Agree"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn 
+                        label="Rate Your Diagnostic Test Experience" 
+                        value="Rate Your Diagnostic Test Experience"
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="I Agree"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Rate Your Exploration Experience"
+                          value="Rate Your Exploration Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="I have Taken the test"
+                          value="I have Taken the test"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Rate Your Test Experience"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="testup_cxemail"
+                          value="testup_cxemail"
+                        ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
+                {/* cse */}
+                <TableRow>
+                  <TableCell align="left">{"8"}</TableCell>
+                  <TableCell align="left">{"Technical Test Computer"}</TableCell>
+                  <TableCell align="left">
+                    <ExcelFile
+                      filename={"Technical Test Computer"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet
+                        data={props.techTestCseReport}
+                        name="Technical Test Computer"
+                      >
+                        <ExcelColumn
+                          label="Student ID"
+                          value="Student ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Date submitted"
+                          value="Date submitted"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Last page"
+                          value="Last page"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Start language"
+                          value="Start language"
+                        ></ExcelColumn>
+                        <ExcelColumn label="uid__id" value="uid__id"></ExcelColumn>
+                        <ExcelColumn
+                          label="Seed"
+                          value="Seed"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Please enter your registered email id:"
+                          value="Please enter your registered email id:"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label=" Heap is an example of"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Heap is an example of']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label=" What is (void*)0?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What is (void*)0?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Which of the following cannot be checked in a switch-case statement?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest!== null){
+                               return col.technicaltest.['Which of the following cannot be checked in a switch-case statement?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Which one of the below is not divide and conquer approach?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest!== null){
+                               return col.technicaltest.['Which one of the below is not divide and conquer approach?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency."
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency.']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="The concept of order (Big O) is important because"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['The concept of order (Big O) is important because']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                
+                         <ExcelColumn
+                          label="Which operator performs pattern matching"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which operator performs pattern matching']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Which of the following can be used to add data to a database table?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which of the following can be used to add data to a database table?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label=" Which of the following are also known as “inner join?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which of the following are also known as “inner join”?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label=" Hiding the complexity is known as"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Hiding the complexity is known as”?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                      
+                         <ExcelColumn
+                          label="For Cat and Animal class, correct way of inheritance is"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['For Cat and Animal class, correct way of inheritance is”?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Which C++ oops feature is related to re-usability?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Which C++ oops feature is related to re-usability?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='How many times will "CareerLabs" get printed?#include int main() { int x; for(x=-1; x&lt;=10; x++) { if(x &lt; 5) continue; else break; printf("Careerlabs"); } return 0; }'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["How many times will 'CareerLabs' get printed?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='How many times the while loop will get executed if a short int is 2 byte wide?#include int main() {int j=1;while(j &lt;= 255){printf("%c %d\n", j, j);j++;}return 0; }'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['How many times the while loop will get executed if a short int is 2 byte wide?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label='What does the following function do for a given Linked List with first node as head? void fun1(struct node* head) {if(head == NULL)return;fun1(head-&gt;next);printf("%d", head-&gt;data); }'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What does the following function do for a given Linked List with first node as head?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         
+                        <ExcelColumn
+                          label='Stack is also called as'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.["Stack is also called as "]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label='________ is a pile in which items are added at one end and removed from the other.'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['________ is a pile in which items are added at one end and removed from the other']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         
+                         <ExcelColumn
+                          label='What is the output of this program? int main() {static char *s[] = violet;char **ptr[] = s + 3, s + 2, s + 1, s, ***p;p = ptr;++p;printf("%s", **p+1);return 0; }'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What is the output of this program?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label='A pointer is'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['A pointer is']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        
+                        <ExcelColumn
+                          label='If the two strings are identical, then strcmp() function returns'
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['If the two strings are identical, then strcmp() function returns']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
                 {/* Testing Excel */}
                 {/* <TableRow>
                 <TableCell align="left">{"4"}</TableCell>
@@ -1218,6 +1527,21 @@ function ReportHome(props) {
               </TableBody>
             </Table>
           </TableContainer>
+           :
+           <div style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "65vh",
+      }}>
+    <CircularProgress
+   color="primary"
+    variant="indeterminate"
+    size = "3rem"
+    thickness="3"
+     />
+     </div>
+           }
         </Grid>
       </Grid>
     </div>
@@ -1230,6 +1554,7 @@ const mapStateToProps = (state) => {
     markSheetReport: state.ReportReducer.markSheetReport,
     myDetailsReport : state.ReportReducer.myDetailsReport,
     techTestMechReport : state.ReportReducer.techTestMechReport,
+    techTestCseReport :state.ReportReducer.techTestCseReport,
     testRatingResult : state.ReportReducer.testRatingResult,
     techTestElectronics : state.ReportReducer.techTestElectronics
   };
