@@ -74,7 +74,7 @@ const initialValues = {
   company: { name: '', workExp: 0, logo: '' },
   program: { name: '', acronym: '' },
   textTestimonial: { tagLine: '', fullTestimonial: '' },
-  videoTestimonial: { tagLine: '', videoLink: '' },
+  videoTestimonial: { tagLine: '', videoLink: '', fullTestimonial: '' },
   gender: '',
   type: '',
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
@@ -439,14 +439,23 @@ export default function TestimonialForm(props) {
               <Grid item xs={12}>
                 <LabelledOutline id='VT' label='Video Testimonial'>
                   <Controls.Input
-                    style={{ width: '500px', marginBottom: '10px' }}
+                    style={{ width: '300px', marginBottom: '10px' }}
                     name='videoTestimonial.tagLine'
                     label='Video Tag Line'
                     value={values.videoTestimonial?.tagLine}
                     onChange={handleChange}
                   />
+                  <TextareaAutosize
+                    aria-label='Video Testimonial'
+                    style={{ width: '300px', marginBottom: '4px' }}
+                    rowsMin={3}
+                    value={values.videoTestimonial?.fullTestimonial}
+                    onChange={handleChange}
+                    placeholder='Write full testimonial'
+                    name='videoTestimonial.fullTestimonial'
+                  />
                   <Controls.Input
-                    style={{ width: '500px', marginBottom: '10px' }}
+                    style={{ width: '300px', marginBottom: '10px' }}
                     label='Video Link'
                     name='videoTestimonial.videoLink'
                     value={values.videoTestimonial?.videoLink}
