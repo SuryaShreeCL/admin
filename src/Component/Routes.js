@@ -48,7 +48,7 @@ import {
   careerTrackVideoPath,
   documentDetailsPath,
   notificationPath,
-  reportsPath
+  reportsPath,
 } from './RoutePaths';
 import College from './College';
 import University from './University';

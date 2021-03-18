@@ -28,7 +28,6 @@ export const webinarPath = rootPath.concat('/webinar');
 export const notificationPath = rootPath.concat('/notification');
 export const reportsPath = rootPath.concat('/reports');
 export const testimonialsPath = rootPath.concat('/testimonials');
-
 export const careerTrackPath = rootPath.concat('/career-track');
 export const careerTrackVideoSetPath = '/videoset';
 export const careerTrackVideoPath = '/video';

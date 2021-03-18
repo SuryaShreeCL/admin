@@ -135,6 +135,9 @@ export const ADMIN = {
   adminLogin: 'adminLogin',
   refreshToken: 'refreshToken',
   studentAccess: 'studentAccess',
+  updatePersonalData : 'updatePersonalData',
+  viewStudentStatus : 'viewStudentStatus',
+  updateVerificationStatus : 'updateVerificationStatus',
 };
 
 export const CAREER_TRACK = {

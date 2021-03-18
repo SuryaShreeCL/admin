@@ -1,7 +1,8 @@
 import {createStore,applyMiddleware} from 'redux'
 import Reducer from './RootReducer'
 import thunk from 'redux-thunk'
-
+import ReduxLoger from "redux-logger"
+import { composeWithDevTools } from 'redux-devtools-extension';
 // var intialState = {};
 // try {
 // intialState = sessionStorage.getItem("master_class") ? JSON.parse(sessionStorage.getItem("master_class")) : {};
@@ -16,4 +17,4 @@ import thunk from 'redux-thunk'
 // return next(action);
 // }
 
-export default createStore(Reducer,applyMiddleware(thunk))
+export default createStore(Reducer, composeWithDevTools(applyMiddleware(thunk)))
