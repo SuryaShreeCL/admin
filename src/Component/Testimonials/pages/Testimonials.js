@@ -51,7 +51,6 @@ const headCells = [
   { id: 'scores.gre', label: 'GRE Score' },
   { id: 'scores.gmat', label: 'GMAT Score' },
   { id: 'products', label: 'Product' },
-  { id: 'yearOfPassing', label: 'Year Of Passing' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -178,7 +177,6 @@ export default function Testimonials() {
                   <TableCell>{item?.scores?.gre}</TableCell>
                   <TableCell>{item?.scores?.gmat}</TableCell>
                   <TableCell>{item?.products}</TableCell>
-                  <TableCell>{item?.yearOfPassing}</TableCell>
                   <TableCell>
                     <Controls.ActionButton
                       color='primary'
