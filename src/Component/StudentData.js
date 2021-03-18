@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import { Grid, FormControlLabel, Switch } from "@material-ui/core";
 import StudentDocuments from "./StudentDocuments";
 import SubStudentTab from "./SubStudentTab";
+import {viewStudentStatus} from "../Actions/AdminAction"
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -63,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Student_data(props) {
+  React.useEffect(()=>{
+    props.viewStudentStatus(props.match.params.id)
+  },[])
   console.log(props.match.params.id);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -71,33 +75,13 @@ export function Student_data(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleActivate = (e) => {
-    setActivate(!activate);
-    let obj = {
-      id: props.match.params.id,
-      unifiedAccess: !activate,
-    };
-    props.postStudentAccess(obj);
-  };
+ 
+  console.log(props.studentStatusResponse)
   return (
     <div className={classes.root}>
       <>
         <div>
-          {/* <Grid container>
-            <Grid item md={12}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={activate}
-                    onChange={(e) => handleActivate(e)}
-                    name="checkedB"
-                    color="primary"
-                  />
-                }
-                label="Activate"
-              />
-            </Grid>
-          </Grid> */}
+         
           {/* <ProfileInfo id={props.match.params.id} /> */}
         </div>
         <AppBar position="sticky" color="default">
@@ -106,7 +90,7 @@ export function Student_data(props) {
             onChange={handleChange}
             indicatorColor="primary"
             textColor="primary"
-            variant="scrollable"
+            variant="fullWidth"
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
@@ -141,6 +125,7 @@ export function Student_data(props) {
 const mapStateToProps = (state) => {
   return {
     studentAccessResponse: state.AdminReducer.studentAccessResponse,
+    studentStatusResponse: state.AdminReducer.studentStatusResponse
   };
 };
-export default connect(mapStateToProps, { postStudentAccess })(Student_data);
+export default connect(mapStateToProps, { postStudentAccess, viewStudentStatus })(Student_data);

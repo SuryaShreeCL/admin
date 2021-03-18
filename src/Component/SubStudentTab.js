@@ -84,7 +84,7 @@ export default function SubStudentTab(props) {
       <TabPanel value={value} index={2}>
         <EducationalDetails id={props.id} />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={3}>
         <AccountStatus id={props.id} />
       </TabPanel>
     </div>
