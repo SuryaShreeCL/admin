@@ -6,12 +6,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { connect } from "react-redux";
 import { BasicInformation } from './Table/StudentDetail/ProfileInfoComponents/BasicInformation';
 import PersonalDetails from './NewStudentDetails/PersonalDetails';
 import ContactDetails from './NewStudentDetails/ContactDetails';
 import EducationalDetails from './NewStudentDetails/EducationalDetails';
 import AccountStatus from './NewStudentDetails/AccountStatus';
-
+import {getAspirationByStudentId} from "../Actions/Student"
+import AspirationDetails from './NewStudentDetails/AspirationDetails';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -52,14 +54,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubStudentTab(props) {
+ function SubStudentTab(props) {
+   React.useEffect(()=>{
+    props.getAspirationByStudentId(props.id)
+   },[])
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+console.log(props.aspirationDetails)
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -72,7 +77,8 @@ export default function SubStudentTab(props) {
           <Tab label="Personal Details" {...a11yProps(0)} />
           <Tab label="Contact Details" {...a11yProps(1)} />
           <Tab label="Educational Details" {...a11yProps(2)} />
-          <Tab label="Account Status" {...a11yProps(2)} />
+          <Tab label="Aspiration Details" {...a11yProps(3)} />
+          <Tab label="Account Status" {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -85,8 +91,18 @@ export default function SubStudentTab(props) {
         <EducationalDetails id={props.id} />
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <AspirationDetails id={props.id} />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <AccountStatus id={props.id} />
       </TabPanel>
+      
     </div>
   );
 }
+const mapStateToProps = (state) =>{
+  return {
+    aspirationDetails : state.StudentReducer.aspirationDetails
+  }
+}
+export default connect(mapStateToProps,{getAspirationByStudentId})(SubStudentTab)

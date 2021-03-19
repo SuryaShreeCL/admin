@@ -313,3 +313,27 @@ export const getMernUser=(pageNumber,size,keyword)=>{
         })
     }
 }
+
+export const viewAllCities = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/cities")
+        .then(result=>{
+            dispatch({type:STUDENT.viewAllCity,cityList:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const getAspirationByStudentId = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/aspiration/get/"+id)
+        .then(result=>{
+            dispatch({type:STUDENT.getAspirationById,aspirationDetails:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

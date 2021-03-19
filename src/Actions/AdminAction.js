@@ -71,6 +71,72 @@ export const updateStudentPersonal=(id,data)=>{
     
 }
 
+export const updateStudentEducation=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/"+id+"/educationaldetails",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateEducationalData,updateEducationalonalResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateStudentContact=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/"+id+"/contactdetails",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateContactData,contactDataResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateAccountStatus=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/"+id+"/accountstatus",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateAccountStatus,updateAccStatusResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateAspirationData=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/aspiration/update/"+id,data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateAspirationData,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+
+
 export const viewStudentStatus=(id)=>{
     return dispatch => {
         axios.get(URL+"/studentVerification/view/"+id,{
@@ -86,6 +152,7 @@ export const viewStudentStatus=(id)=>{
     }
     
 }
+
 
 export const updateVerificationStatus=(data)=>{
     return dispatch => {

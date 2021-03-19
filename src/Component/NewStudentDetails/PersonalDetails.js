@@ -69,6 +69,13 @@ export class PersonalDetails extends Component {
         snackOpen: true,
       });
     }
+    if(this.props.updateVerificationResponse !== prevProps.updateVerificationResponse){
+      this.setState({
+        snackVariant: "success",
+        snackMessage: "Status Updated Successfully",
+        snackOpen: true,
+      });
+    }
   }
   theme = createMuiTheme({
     overrides: {
@@ -137,22 +144,25 @@ export class PersonalDetails extends Component {
     }
   };
   handleStatusUpdate = () =>{
-    let obj = {
-      student: {
-        id: this.props.id,
-      },
-      section: {
-        name: "personaldetails",
-      },
-      remark: this.state.misMatchDetails,
-      status: this.state.status.value,
-      updateDate: null,
-    };
-  console.log(obj)
-  this.props.updateVerificationStatus(obj)
-  this.setState({
-    misMatchDetails : null,
-  })
+    if(this.state.status !== null){
+      let obj = {
+        student: {
+          id: this.props.id,
+        },
+        section: {
+          name: "personaldetails",
+        },
+        remark: this.state.misMatchDetails,
+        status: this.state.status.value,
+        updateDate: null,
+      };
+    console.log(obj)
+    this.props.updateVerificationStatus(obj)
+    this.setState({
+      misMatchDetails : null,
+    })
+    }
+   
   }
   render() {
     const { divStyle, textStyle, divContainer } = style;
@@ -161,13 +171,8 @@ export class PersonalDetails extends Component {
         {this.state.StudentDetails !== null ? (
           <ThemeProvider theme={this.theme}>
             <Grid container spacing={2} style={divContainer}>
-              <Grid item md={3} style={divStyle} alignItems="center">
-                <Tooltip arrow title="Edit" aria-label="Edit">
-                  <IconButton onClick={() => this.setState({ letEdit: true })}>
-                    <EditRoundedIcon />
-                  </IconButton>
-                </Tooltip>
-                <Autocomplete
+              <Grid item md={2} style={divStyle} alignItems="center">
+              <Autocomplete
                   id="combo-box-demo"
                   options={this.status}
                   value={this.state.status}
@@ -186,19 +191,12 @@ export class PersonalDetails extends Component {
                   )}
                 />
               </Grid>
+
               {this.state.status !== null &&
-              this.state.status.value === "mismatched" ? (
-                <Grid
-                  item
-                  md={7}
-                  style={divStyle}
-                  justify="space-between"
-                  alignItems="center"
-                >
-                  {this.state.status !== null &&
-                  this.state.status.value === "mismatched" ? (
-                    <>
-                      <TextField
+              this.state.status.value === "mismatched" ? 
+              <>
+              <Grid item md={7} style={divStyle} alignItems="center">
+              <TextField
                         fullWidth
                         size="small"
                         onChange={(e) => this.handleChange(e)}
@@ -207,23 +205,28 @@ export class PersonalDetails extends Component {
                         variant="outlined"
                         label={"Remark"}
                       />
-                    </>
-                  ) : null}
                 </Grid>
-              ) : (
-                <Grid item md={7} style={divStyle} alignItems="center">
-                  <Button variant="outlined" onClick={this.handleStatusUpdate} color="primary" size="small">
+              <Grid item md={2} style={divStyle} alignItems="center"> 
+              <Button variant="outlined" onClick={this.handleStatusUpdate} color="primary" size="small">
                     Update Status
                   </Button>
-                </Grid>
-              )}
-              <Grid item md={2} style={divStyle} alignItems="center">
-                {this.state.status !== null &&
-                this.state.status.value === "mismatched" ? (
-                  <Button variant="outlined" onClick={this.handleStatusUpdate} color="primary" size="small">
+              </Grid>
+              </>
+              :
+              <Grid item md={9} style={divStyle} alignItems="center">
+              <Button variant="outlined" onClick={this.handleStatusUpdate} color="primary" size="small">
                     Update Status
                   </Button>
-                ) : null}
+              </Grid>
+                
+                }
+
+              <Grid item md={1} style={divStyle} alignItems="center">
+              <Tooltip arrow title="Edit" aria-label="Edit">
+                  <IconButton onClick={() => this.setState({ letEdit: true })}>
+                    <EditRoundedIcon />
+                  </IconButton>
+                </Tooltip>
               </Grid>
               <Grid item md={6} style={divStyle} justify="space-between">
                 <Typography

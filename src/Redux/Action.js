@@ -56,6 +56,8 @@ export const STUDENT = {
   getMernUser: 'getMernUser',
   getManualUser: 'getManualUser',
   catchSignUpError: 'catchSignUpError',
+  viewAllCity : 'viewAllCity',
+  getAspirationById : 'getAspirationById'
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -64,11 +66,16 @@ export const CHOICE_ANSWER = {
 export const DEPARTMENT = {
   addDepartment: 'addDepartment',
   updateDepartment: 'updateDepartment',
-  deleteDepatment: 'deleteDepartment,',
+  deleteDepatment: 'deleteDepartment',
 };
 
 // Selva
 export const ASPIRATION = {
+  getAllSpecialization : 'getAllSpecialization',
+  getAllDegree : 'getAllDegree',
+  getAllBranch : 'getAllBranch',
+  getAllUniversity : 'getAllUniversity',
+  getAllTerms : 'getAllTerms',
   viewSpecialization: 'viewSpecialization',
   addSpecialization: 'addSpecialization',
   updateSpecialization: 'updateSpecialization',
@@ -136,6 +143,10 @@ export const ADMIN = {
   refreshToken: 'refreshToken',
   studentAccess: 'studentAccess',
   updatePersonalData : 'updatePersonalData',
+  updateEducationalData : 'updateEducationalData',
+  updateContactData : 'updateContactData',
+  updateAccountStatus : 'updateAccountStatus',
+  updateAspirationData : 'updateAspirationData',
   viewStudentStatus : 'viewStudentStatus',
   updateVerificationStatus : 'updateVerificationStatus',
 };
