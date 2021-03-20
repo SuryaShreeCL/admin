@@ -156,7 +156,7 @@ export const viewStudentStatus=(id)=>{
 
 export const updateVerificationStatus=(data)=>{
     return dispatch => {
-        axios.put(URL+"/studentVerification/update",data,{
+        axios.put(URL+"/api/v1/studentVerification/update",data,{
             crossDomain: true
         })
             .then(result => {
