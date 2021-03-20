@@ -291,7 +291,7 @@ export class EducationalDetails extends Component {
           id: this.state.university.id,
         },
         uggpa: parseFloat(this.state.uggpa),
-        uggpaScale: parseFloat(
+        uggpascale: parseFloat(
           this.state.uggpaScale.title === "%"
             ? 100
             : this.state.uggpaScale.title

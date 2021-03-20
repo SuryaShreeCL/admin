@@ -114,6 +114,7 @@ export class ContactDetails extends Component {
           altEmailId: this.state.altEmailId,
           phoneNumber: this.state.phoneNumber,
           altPhoneNumber: this.state.altPhoneNumber,
+          linkedInProfile : this.state.linkedInProfile,
           city: {
             id: this.state.city.id,
           },

@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function Student_data(props) {
   React.useEffect(()=>{
-    props.viewStudentStatus(props.match.params.id)
+    // props.viewStudentStatus(props.match.params.id)
   },[])
   console.log(props.match.params.id);
   const classes = useStyles();
