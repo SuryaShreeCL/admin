@@ -338,8 +338,8 @@ export class BlackListedStudents extends Component {
                   lastName : rowdata.lastName,
                   eMail : rowdata.emailId,
                   phone : rowdata.phoneNumber,
-                  college : {id : rowdata.college.id, name : rowdata.college.name},
-                  department : {id :rowdata.department.id, name : rowdata.department.name},
+                  college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
+                  department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
                   toogleButton : rowdata.provider === "Google" ? true : false,
                   provider : rowdata.provider,
@@ -433,7 +433,7 @@ export class BlackListedStudents extends Component {
                   id="combo-box-demo"
                   value={this.state.college}
                   options={this.props.allCollegeList}
-                  onChange={(e,newValue)=>this.setState({college : {id : newValue.id, name : newValue.name}})}
+                  onChange={(e,newValue)=>this.setState({college : {id : newValue !== null ? newValue.id : null, name : newValue !== null ? newValue.name : null}})}
                   // onChange={(e,newValue)=>console.log(newValue)}
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => <TextField helperText={this.state.collegeHelperText} {...params} size="small" label="College" variant="outlined" />}
@@ -444,7 +444,7 @@ export class BlackListedStudents extends Component {
                   id="combo-box-demo"
                   value={this.state.department}
                   options={this.props.BranchList}
-                  onChange={(e,newValue)=>this.setState({department : {id :newValue.id, name : newValue.name}})}
+                  onChange={(e,newValue)=>this.setState({department : {id :newValue !== null ?  newValue.id : null, name : newValue !== null ? newValue.name : null}})}
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => <TextField helperText={this.state.departmentHelperText} {...params} size="small" label="Department" variant="outlined" />}
                 />
