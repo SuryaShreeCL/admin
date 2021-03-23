@@ -512,7 +512,35 @@ export class EducationalDetails extends Component {
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify="space-between">
-                <Typography
+              <Typography
+                  color="primary"
+                  style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Current Sem:"}
+                </Typography>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={this.renderSem()}
+                  value={this.state.sem}
+                  style={{ width: "60%" }}
+                  disabled={this.state.letEdit === false ? true : false}
+                  name={"sem"}
+                  size="small"
+                  onChange={(e, newValue) => this.setState({ sem: newValue })}
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      helperText={this.state.semHelperTxt}
+                      label="Current Sem"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item md={6} style={divStyle} justify="space-between">
+              <Typography
                   color="primary"
                   style={textStyle}
                   variant="subtitle1"
@@ -540,34 +568,7 @@ export class EducationalDetails extends Component {
                     />
                   )}
                 />
-              </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
-                <Typography
-                  color="primary"
-                  style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"Current Sem:"}
-                </Typography>
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={this.renderSem()}
-                  value={this.state.sem}
-                  style={{ width: "60%" }}
-                  disabled={this.state.letEdit === false ? true : false}
-                  name={"sem"}
-                  size="small"
-                  onChange={(e, newValue) => this.setState({ sem: newValue })}
-                  getOptionLabel={(option) => option.title}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      helperText={this.state.semHelperTxt}
-                      label="Current Sem"
-                      variant="outlined"
-                    />
-                  )}
-                />
+               
               </Grid>
               <Grid item md={6} style={divStyle} justify="space-between">
                 <Typography
