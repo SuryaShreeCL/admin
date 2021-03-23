@@ -173,7 +173,9 @@ export const REPORTS = {
   viewTechTestMechReport : "viewTechTestMechReport",
   viewTechTestCseReport:"viewTechTestCseReport",
   viewTestRating : "viewTestRating",
-  viewTechTestElectronics : "viewTechTestElectronics"
+  viewTechTestElectronics : "viewTechTestElectronics",
+  viewDiagTestReport : 'viewDiagTestReport',
+  viewCareerExpoTest : 'viewCareerExpoTest'
 }
 
 

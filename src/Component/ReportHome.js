@@ -13,7 +13,7 @@ import {
   CircularProgress,
   createMuiTheme,
 } from "@material-ui/core";
-import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating } from "../Actions/Reports";
+import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating, viewDiagTestReport } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
@@ -31,9 +31,11 @@ function ReportHome(props) {
     props.viewTechTestReport("Technical Test Mechanical")
     props.viewTechTestReport("Technical Test Computer")
     props.viewTechTestReport("Technical Test Electronics")
+    props.viewTechTestReport("Career Exploration Test")
     props.viewTestRating()
+    props.viewDiagTestReport()
   }, []);
-  console.log(props.techTestCseReport);
+  console.log(props.careerReport);
 
 // if(props.techTestMechReport.length !== 0){
 //   props.techTestMechReport.map(someElement=>{
@@ -58,7 +60,9 @@ function ReportHome(props) {
           props.techTestMechReport.length &&
           props.techTestCseReport.length &&
           props.testRatingResult.length &&
-          props.techTestElectronics.length 
+          props.techTestElectronics.length  &&
+          props.careerReport.length &&
+          props.diagTestResult
            !== 0 ? 
           
           <TableContainer component={Paper}>
@@ -1512,10 +1516,339 @@ function ReportHome(props) {
                             }
                           }
                         ></ExcelColumn>
+
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
                 </TableRow>
+
+              {/* Diagnostic test */}
+
+              <TableRow>
+                  <TableCell align="left">{"9"}</TableCell>
+                  <TableCell align="left">{"Diagnostic Test Report"}</TableCell>
+                  <TableCell align="left">
+                    <ExcelFile
+                      filename={"Diagnostic Test Report"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet
+                        data={props.diagTestResult}
+                        name="Diagnostic Test Report"
+                      >
+                         <ExcelColumn
+                          label="Student ID"
+                          value="StudentID"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Date of Test Completion"
+                          value="Date of Test Completion"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Email Id"
+                          value="Email Id"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Overall Aptitude Score"
+                          value="Overall Aptitude Score"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Numerical Ability (Score Out of 100)"
+                          value="Numerical Ability (Score Out of 100)"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Spatial Reasoning (Score Out of 100)"
+                          value="Submitted by: Title"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Abstract Reasoning (Score Out of 100)"
+                          value="Submitted to: Entity ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Logical Reasoning (Score Out of 100)"
+                          value="Logical Reasoning (Score Out of 100)"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Data Interpretation (Score Out of 100)"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn 
+                        label="Verbal Reasoning (Score Out of 100)" 
+                        value="Verbal Reasoning (Score Out of 100)"
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Reading Comprehension (Score Out of 100)"
+                          value="I Agree"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Speaking (Score Out of 100)"
+                          value="Rate Your Exploration Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Writing (Score Out of 100)"
+                          value="I have Taken the test"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Listening (Score Out of 100)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Achievement Drive (Score Out of 100)"
+                          value="testup_cxemail"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="People Skills (Score Out of 100)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Locus of Control (Score Out of 40)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Creativity (Score Out of 100)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Creativity : Finding Problems (Preparation) (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Creativity : Gathering and Reflecting on Information (Incubation) (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Creativity : Problem Exploration (Insight) (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Creativity : Generating and Evaluating Ideas (Evaluation) (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Creativity : Implementation (Elaboration) (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Emotional Intelligence (Score Out of 100)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Emotional Intelligence : Emotional Self Awareness (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Emotional Intelligence : Empathy (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Emotional Intelligence : Positive Outlook (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Emotional Intelligence : Emotional Self Control (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Emotional Intelligence : Adaptability (Score Out of 20)"
+                          value="Rate Your Test Experience"
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Personality Code"
+                          value="Personality Code"
+                        ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
+
+                {/* Career Expo */}
+
+                <TableRow>
+                <TableCell align="left">{"10"}</TableCell>
+                  <TableCell align="left">{"Career Intrest Test Report"}</TableCell>
+                  <TableCell align="left">
+                  <ExcelFile
+                      filename={"Career Intrest Test Report"}
+                      element={
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary"
+                        >
+                          Download
+                        </Button>
+                      }
+                    >
+                      <ExcelSheet data={props.careerReport} name="Career Intrest Test Report">
+                        <ExcelColumn
+                          label="Student ID"
+                          value="Student ID"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Date submitted"
+                          value="Date submitted"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Last page"
+                          value="Last page"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Start language"
+                          value="Start language"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Seed"
+                          value="Seed"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Please enter your registered Email Id."
+                          value="Please enter your registered email id:"
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Do you like talking to people?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Do you like talking to people?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Do you like to code?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Do you like to code?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Do you like your undergraduate field of study?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Do you like your undergraduate field of study?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="From the following, what is your first preference for a career option immediately after graduation?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['From the following, what is your first preference for a career option immediately after graduation?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="How would you go about selecting your career paths?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['How would you go about selecting your career paths?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="My back up option is to"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['My back up option is to']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="On a regular basis at work, what is it that you would really like to do?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['On a regular basis at work, what is it that you would really like to do?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What would you look for in your ideal job?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['What would you look for in your ideal job?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Would you like to pursue a career in your undergraduate your field of study?"
+                          value={
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['Would you like to pursue a career in your undergraduate your field of study?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                      </ExcelSheet>
+                    </ExcelFile>
+                  </TableCell>
+                </TableRow>
+
                 {/* Testing Excel */}
                 {/* <TableRow>
                 <TableCell align="left">{"4"}</TableCell>
@@ -1556,7 +1889,9 @@ const mapStateToProps = (state) => {
     techTestMechReport : state.ReportReducer.techTestMechReport,
     techTestCseReport :state.ReportReducer.techTestCseReport,
     testRatingResult : state.ReportReducer.testRatingResult,
-    techTestElectronics : state.ReportReducer.techTestElectronics
+    techTestElectronics : state.ReportReducer.techTestElectronics,
+    diagTestResult : state.ReportReducer.diagTestResult,
+    careerReport : state.ReportReducer.careerReportResult,
   };
 };
 export default connect(mapStateToProps, {
@@ -1565,6 +1900,7 @@ export default connect(mapStateToProps, {
   viewMarkSheetReport,
    viewMydetailsReport,
    viewTechTestReport,
-   viewTestRating
+   viewTestRating,
+   viewDiagTestReport
    
 })(ReportHome);

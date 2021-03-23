@@ -93,6 +93,9 @@ export const viewTechTestReport = (QuestionSetName) =>{
             else if(QuestionSetName === "Technical Test Electronics"){
                 dispatch({type:REPORTS.viewTechTestElectronics,techTestElectronics:result.data});
             }
+            else if(QuestionSetName === "Career Exploration Test"){
+                dispatch({type:REPORTS.viewCareerExpoTest,payload:result.data});
+            }   
         })
         .catch(error=>{
             console.log(error);
@@ -111,6 +114,25 @@ export const viewTestRating = () =>{
         })
         .then(result=>{
             dispatch({type:REPORTS.viewTestRating,testRatingResult:result.data});
+            
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const viewDiagTestReport = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/report/diagonostictest",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:REPORTS.viewDiagTestReport,diagTestResult:result.data});
             
         })
         .catch(error=>{
