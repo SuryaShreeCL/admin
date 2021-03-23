@@ -62,7 +62,7 @@ function ReportHome(props) {
           props.testRatingResult.length &&
           props.techTestElectronics.length  &&
           props.careerReport.length &&
-          props.diagTestResult
+          props.diagTestResult.length
            !== 0 ? 
           
           <TableContainer component={Paper}>
