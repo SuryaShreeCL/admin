@@ -378,11 +378,14 @@ function ReportHome(props) {
                         ></ExcelColumn>
                          <ExcelColumn
                           label="No.of Active Backlogs"
-                          value="No.of Active Backlogs"
+                          value={(col)=>col.['No.of Active Backlogs'] === "100" ? "0" : col.['No.of Active Backlogs']}
+                            
+                          // "No.of Active Backlogs"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="No.of Cleared Backlogs"
-                          value="No.of Cleared Backlogs"
+                          value={(col)=>col.['No.of Cleared Backlogs'] === "100" ? "0" : col.['No.of Cleared Backlogs']}
+                          
                         ></ExcelColumn>
                          <ExcelColumn
                           label="University"
@@ -398,7 +401,7 @@ function ReportHome(props) {
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Present Semester"
-                          value="Present Semester"
+                          value={(col)=>col.['Present Semester'] === "100" ? "0" : col.['Present Semester']}
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Expected Year of Graduation"
