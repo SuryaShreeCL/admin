@@ -899,122 +899,262 @@ function ReportHome(props) {
                          <ExcelColumn
                           label="In which of these is reverse recovery time nearly zero?"
                           value={
-                            "technicalTestElectronicsQ1"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ1']
+                              }else{
+                                return null
+                              }
+                            }
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label="The v-i characteristics of a FET is shown in figure. In which region is the device biased for small signal amplification"
                           value={
-                           "technicalTestElectronicsQ2"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ2']
+                              }else{
+                                return null
+                              }
+                            }
+                           
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label={'What is the output of this C code? int main() {int y = 1, x = 0;int l = (y++, x++) ? y : x;printf("%d\n", l); }'}
                           value={
-                           "technicalTestElectronicsQ3"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ3']
+                              }else{
+                                return null
+                              }
+                            }
+                           
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label="What is the range of an FET's input impedance?"
                           value={
-                            "technicalTestElectronicsQ4"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ4']
+                              }else{
+                                return null
+                              }
+                            }
+                           
+                            
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label="An LED has a rating of 2 V and 10 mA. It is used along with 6V battery. The range of series resistance is"
                           value={
-                           "technicalTestElectronicsQ5"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ5']
+                              }else{
+                                return null
+                              }
+                            }
+                           
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label='What is the output of this C code? int main() {char *p = NULL;char *q = 0;if (p)printf(" p ");elseprintf("nullp");if (q) printf("q\n");elseprintf(" nullq\n"); }'
                           value={
-                           "technicalTestElectronicsQ6"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ6']
+                              }else{
+                                return null
+                              }
+                            }
+                           
                           }
                         ></ExcelColumn>
                         <ExcelColumn
                           label="An increase in temperature increases the width of depletion layer."
                           value={
-                          "technicalTestElectronicsQ7"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ7']
+                              }else{
+                                return null
+                              }
+                            }
+                          
                           }
                         ></ExcelColumn>
                         <ExcelColumn
                           label="If the input to the ideal comparator shown in the figure is a sinusoidal signal of 8 V (peak to peak) without any DC component, then the output of the comparator has a duty cycle of"
                           value={
-                            "technicalTestElectronicsQ8"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ8']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                         <ExcelColumn
                           label='What is the output of this C code? int main() {int i = -5; int k = i %4; printf("%d\n", k); }'
                           value={
-                           "technicalTestElectronicsQ9"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ9']
+                              }else{
+                                return null
+                              }
+                            }
+                           
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label='When the emitter current of a transistor is changed by 1 mA, its collector current changes by 0.990 mA. The common-emitter short-circuit current gain is'
                           value={
-                          "technicalTestElectronicsQ10"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ10']
+                              }else{
+                                return null
+                              }
+                            }
+                          
                           }
                         ></ExcelColumn>
 
                         <ExcelColumn
                           label="The conversion resolution of an 8-stage counter operating an 8-stage ladder network using a reference voltage of 5 V is ________."
                           value={
-                           "technicalTestElectronicsQ11"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ11']
+                              }else{
+                                return null
+                              }
+                            }
+                           
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label="A transformer is plugged into a 120 V rms source and has a primary current of 300 mA rms. The secondary is providing 18 V across a 10 ohm load. What is the efficiency of the transformer?"
                           value={
-                            "technicalTestElectronicsQ12"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ12']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Calculate the voltage dropped across L2 in the given circuit."
                           value={
-                            "technicalTestElectronicsQ13"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ13']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label='How many times will "CareerLabs" get printed?int main(){int x;for(x=-1; x&lt;=10; x++){if(x &lt; 5)continue;elsebreak;printf("Careerlabs");}return 0;}'
                           value={
-                            "technicalTestElectronicsQ14"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ14']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Calculate the duty cycle of the repetitive pulse waveform in the given circuit."
                           value={
-                            "technicalTestElectronicsQ15"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ15']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                          <ExcelColumn
                           label="What is the secondary voltage in the given circuit?"
                           value={
-                            "technicalTestElectronicsQ16"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ16']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                           <ExcelColumn
                           label="What is the current through the LED?"
                           value={
-                            "technicalTestElectronicsQ17"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ17']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                           <ExcelColumn
                           label='What is the output of this C code? int main() {void foo();void f(){foo();}f(); }void foo() {printf("2 "); }'
                           value={
-                            "technicalTestElectronicsQ18"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ18']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Why is the given circuit called an inverter?"
                           value={
-                            "technicalTestElectronicsQ19"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ19']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                           <ExcelColumn
                           label="1001012 is equal to decimal number"
                           value={
-                            "technicalTestElectronicsQ20"
+                            (col)=>{
+                              if(col.technicaltest !== null){
+                               return col.technicaltest.['technicalTestElectronicsQ20']
+                              }else{
+                                return null
+                              }
+                            }
+                            
                           }
                         ></ExcelColumn>
                       </ExcelSheet>
