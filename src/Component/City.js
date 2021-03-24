@@ -23,6 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
   import EditIcon from "@material-ui/icons/Edit";
   import DeleteIcon from "@material-ui/icons/Delete";
   import {connect} from 'react-redux';
+  import {viewAllCities} from "../Actions/Student"
   import {viewCity,addCity,updateCity,deleteCity} from "../Actions/Aspiration"
 export class City extends Component {
     constructor(props) {
@@ -147,7 +148,8 @@ export class City extends Component {
           });
       };
     componentDidMount(){
-        this.props.viewCity(0, 20, null);
+        // this.props.viewCity(0, 20, null);
+        this.props.viewAllCities()
         }
     // Add term
     addCity(){
@@ -190,26 +192,26 @@ export class City extends Component {
     this.props.viewCity(0, 20, null);
     }
     render() {
-      console.log(this.props.viewCityList)
+      console.log(this.props.cityList)
         return (
             <div>
                 <ThemeProvider theme={this.getmuitheme()}>
                <Grid container>
                    <Grid item md={12}>
-                   {this.props.viewCityList.length !== 0 ? (
+                   {this.props.cityList.length !== 0 ? (
             <TableComponent
               data={
-                    this.props.viewCityList.length !== 0
-                  ? this.props.viewCityList.content
+                    this.props.cityList.length !== 0
+                  ? this.props.cityList
                   : null
               }
               cols={this.col}
               onRowClick={this.rowClick}
               onSearch={this.paginate}
               paginate={this.paginate}
-              totalCount={this.props.viewCityList.totalElements}
+              // totalCount={this.props.viewCityList.totalElements}
               title={"City"}
-              pageCount={this.props.viewCityList.totalPages}
+              // pageCount={this.props.viewCityList.totalPages}
               action={true}
               onDelete={true}
               onDeleteClick={this.deleteHandler}
@@ -303,6 +305,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
   return {
     viewCityList: state.AspirationReducer.viewCityList,
+    cityList : state.StudentReducer.cityList
   }
 }
-export default connect(mapStateToProps,{addCity, updateCity, viewCity, deleteCity})(City)
+export default connect(mapStateToProps,{addCity, updateCity, viewCity, deleteCity, viewAllCities})(City)

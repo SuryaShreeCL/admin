@@ -157,6 +157,13 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiListItem : {
+      root : {
+        "&$selected" : {
+          backgroundColor : '#009be5'
+        },
+      },
+    },
     MuiDrawer: {
       paper: {
         backgroundColor: '#18202c',
@@ -215,7 +222,7 @@ export default function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [selectedMenu, setSelectedMenu] = React.useState(0)
+  const [selectedMenu, setSelectedMenu] = React.useState(null)
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -287,11 +294,13 @@ export default function RootContainer(props) {
           </div>
           <Divider />
           <List>
-            {NavbarList.map((Item) => (
+            {NavbarList.map((Item,index) => (
               <ListItem
+              selected={selectedMenu === index}
                 button
                 key={Item.id}
                 onClick={() => {
+                  setSelectedMenu(index)
                   history.push(rootPath.concat('/', Item.id));
                 }}
               >
