@@ -1871,7 +1871,7 @@ function ReportHome(props) {
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['What are the Top 3 subjects you Hate in your undergraduate studies↵so far?']
+                               return col.technicaltest.['What are the Top 3 subjects you Hate in your undergraduate studies\nso far?']
                               }else{
                                 return null
                               }
