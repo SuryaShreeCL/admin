@@ -139,7 +139,7 @@ export const updateAspirationData=(id,data)=>{
 
 export const viewStudentStatus=(id)=>{
     return dispatch => {
-        axios.get(URL+"/studentVerification/view/"+id,{
+        axios.get(URL+"/api/v1/studentVerification/view/"+id,{
             crossDomain: true
         })
             .then(result => {

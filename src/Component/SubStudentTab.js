@@ -12,7 +12,8 @@ import PersonalDetails from './NewStudentDetails/PersonalDetails';
 import ContactDetails from './NewStudentDetails/ContactDetails';
 import EducationalDetails from './NewStudentDetails/EducationalDetails';
 import AccountStatus from './NewStudentDetails/AccountStatus';
-import {getAspirationByStudentId} from "../Actions/Student"
+import {getAspirationByStudentId,} from "../Actions/Student"
+import {viewStudentStatus} from "../Actions/AdminAction"
 import AspirationDetails from './NewStudentDetails/AspirationDetails';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,16 +56,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
  function SubStudentTab(props) {
+  // function usePrevious(value) {
+  //   const ref = React.useRef();
+  //   React.useEffect(() => {
+  //     ref.current = value;
+  //   });
+  //   return ref.current;
+  // }
+
+  // const prevResponse = usePrevious(props.studentStatusResponse)
    React.useEffect(()=>{
     props.getAspirationByStudentId(props.id)
-   },[])
+    props.viewStudentStatus(props.id)
+  
+   },[props.updateVerificationResponse])
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-console.log(props.aspirationDetails)
+console.log(props.studentStatusResponse)
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -102,7 +114,10 @@ console.log(props.aspirationDetails)
 }
 const mapStateToProps = (state) =>{
   return {
-    aspirationDetails : state.StudentReducer.aspirationDetails
+    aspirationDetails : state.StudentReducer.aspirationDetails,
+    studentStatusResponse : state.AdminReducer.studentStatusResponse,
+    updateVerificationResponse : state.AdminReducer.updateVerificationResponse,
+
   }
 }
-export default connect(mapStateToProps,{getAspirationByStudentId})(SubStudentTab)
+export default connect(mapStateToProps,{getAspirationByStudentId, viewStudentStatus})(SubStudentTab)

@@ -30,7 +30,41 @@ export class AccountStatus extends Component {
     componentDidMount() {
         this.props.getStudentsById(this.props.id)
     }   
+
+    flag = false
+
     componentDidUpdate(prevProps, prevState) {
+
+      if(this.state.status !== prevState.status){
+        if(this.state.status !== null && this.state.status.value !== "mismatched"){
+          this.setState({misMatchDetails : null})
+        }
+    }
+  
+      var findObj = this.props.studentStatusResponse.find(
+        (res) => res.section.name === "accountstatus"
+      );
+      console.log(findObj);
+  
+      if(findObj !== undefined){
+        if(findObj.section.name === "accountstatus"){
+          if(this.flag === false && findObj.status === "verified"){
+            this.setState({status : this.status[0]}) 
+            this.flag = true
+          }else if(this.flag === false && findObj.status === "Notverified"){
+            this.setState({status : this.status[1]}) 
+            this.flag = true
+          }else if(this.flag === false && findObj.status === "mismatched"){
+            this.setState({
+              status : this.status[2],
+              misMatchDetails : findObj.remark
+            }) 
+            this.flag = true
+  
+          }
+        }
+      }
+
          if(this.props.StudentDetails !== prevProps.StudentDetails){
              this.setState({
                 StudentDetails : this.props.StudentDetails,
@@ -97,6 +131,7 @@ export class AccountStatus extends Component {
             isActive: this.state.isActive,
           };
           this.props.updateAccountStatus(this.props.id,obj)
+         
        }
    }
 
@@ -289,7 +324,8 @@ const mapStateToProps = (state) => {
     return {
       StudentDetails: state.StudentReducer.StudentList,
       updateAccStatusResponse : state.AdminReducer.updateAccStatusResponse,
-      updateVerificationResponse : state.AdminReducer.updateVerificationResponse
+      updateVerificationResponse : state.AdminReducer.updateVerificationResponse,
+      studentStatusResponse: state.AdminReducer.studentStatusResponse,
     };
   };
   

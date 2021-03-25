@@ -71,7 +71,38 @@ export class EducationalDetails extends Component {
     this.props.getDegree();
     this.props.getBranches();
   }
+  flag = false
   componentDidUpdate(prevProps, prevState) {
+    if(this.state.status !== prevState.status){
+      if(this.state.status !== null && this.state.status.value !== "mismatched"){
+        this.setState({misMatchDetails : null})
+      }
+  }
+
+    var findObj = this.props.studentStatusResponse.find(
+      (res) => res.section.name === "Educationaldetails"
+    );
+    console.log(findObj);
+
+    if(findObj !== undefined){
+      if(findObj.section.name === "Educationaldetails"){
+        if(this.flag === false && findObj.status === "verified"){
+          this.setState({status : this.status[0]}) 
+          this.flag = true
+        }else if(this.flag === false && findObj.status === "Notverified"){
+          this.setState({status : this.status[1]}) 
+          this.flag = true
+        }else if(this.flag === false && findObj.status === "mismatched"){
+          this.setState({
+            status : this.status[2],
+            misMatchDetails : findObj.remark
+          }) 
+          this.flag = true
+
+        }
+      }
+    }
+
     if (this.props.StudentDetails !== prevProps.StudentDetails) {
       this.setState({
         StudentDetails: this.props.StudentDetails,
@@ -303,6 +334,7 @@ export class EducationalDetails extends Component {
         currentSem: this.state.sem.value,
       };
       this.props.updateStudentEducation(this.props.id,obj)
+     
     }
   };
   updateStatus = () => {
@@ -726,7 +758,8 @@ const mapStateToProps = (state) => {
     degreeList: state.CollegeReducer.Degree,
     branchList: state.CollegeReducer.BranchList,
     updateEducationalonalResponse : state.AdminReducer.updateEducationalonalResponse,
-    updateVerificationResponse :state.AdminReducer.updateVerificationResponse
+    updateVerificationResponse :state.AdminReducer.updateVerificationResponse,
+    studentStatusResponse : state.AdminReducer.studentStatusResponse
   };
 };
 
