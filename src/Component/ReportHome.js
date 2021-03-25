@@ -1850,7 +1850,7 @@ function ReportHome(props) {
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['What would you look for in your ideal job?']
+                               return col.technicaltest.['What would you look for in your ideal job?(Select all Options that Apply)']
                               }else{
                                 return null
                               }
