@@ -851,6 +851,10 @@ function ReportHome(props) {
                             }
                           }                       
                            ></ExcelColumn>
+                            <ExcelColumn
+                          label=""
+                          value="score"
+                        ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
@@ -1159,6 +1163,10 @@ function ReportHome(props) {
                             }
                             
                           }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label=""
+                          value="score"
                         ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
@@ -1541,7 +1549,10 @@ function ReportHome(props) {
                             }
                           }
                         ></ExcelColumn>
-
+                          <ExcelColumn
+                          label=""
+                          value="score"
+                        ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
