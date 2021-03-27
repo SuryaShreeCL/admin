@@ -65,8 +65,8 @@ export default function StudentHome() {
         <Tabs value={value} variant="fullWidth" onChange={handleChange} aria-label="simple tabs example">
           <Tab label="All Users" {...a11yProps(0)} />
           <Tab label="Active Users" {...a11yProps(1)} />
-          <Tab label="Blacklisted Users" {...a11yProps(2)} />
-          <Tab label="Mern Users" {...a11yProps(3)} />
+          <Tab label="In Active Users" {...a11yProps(2)} />
+          <Tab label="Marketing" {...a11yProps(3)} />
           <Tab label="Manual Users" {...a11yProps(4)} />
         </Tabs>
       </AppBar>

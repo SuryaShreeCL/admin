@@ -196,10 +196,10 @@ function ReportHome(props) {
                           label="cv_cxemail"
                           value="pafCfEmail"
                         ></ExcelColumn>
-                         <ExcelColumn
+                         {/* <ExcelColumn
                           label="CV Link"
                           value="cvLink"
-                        ></ExcelColumn>
+                        ></ExcelColumn> */}
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
@@ -1287,7 +1287,7 @@ function ReportHome(props) {
                           label="Start language"
                           value="Start language"
                         ></ExcelColumn>
-                        <ExcelColumn label="uid__id" value="uid__id"></ExcelColumn>
+                        {/* <ExcelColumn label="uid__id" value="uid__id"></ExcelColumn> */}
                         <ExcelColumn
                           label="Seed"
                           value="Seed"
@@ -1687,7 +1687,9 @@ function ReportHome(props) {
                         ></ExcelColumn>
                           <ExcelColumn
                           label="Personality Code"
-                          value="Personality Code"
+                          value={
+                            (col)=>col.['Personality Code'].replaceAll(",","").replaceAll("[","").replaceAll("]","").replaceAll(" ","")
+                          }
                         ></ExcelColumn>
                       </ExcelSheet>
                     </ExcelFile>
@@ -1698,10 +1700,10 @@ function ReportHome(props) {
 
                 <TableRow>
                 <TableCell align="left">{"10"}</TableCell>
-                  <TableCell align="left">{"Career Intrest Test Report"}</TableCell>
+                  <TableCell align="left">{"Career Interest Test Report"}</TableCell>
                   <TableCell align="left">
                   <ExcelFile
-                      filename={"Career Intrest Test Report"}
+                      filename={"Career Interest Test Report"}
                       element={
                         <Button
                           variant="contained"
@@ -1712,7 +1714,7 @@ function ReportHome(props) {
                         </Button>
                       }
                     >
-                      <ExcelSheet data={props.careerReport} name="Career Intrest Test Report">
+                      <ExcelSheet data={props.careerReport} name="Career Interest Test Report">
                         <ExcelColumn
                           label="Student ID"
                           value="Student ID"

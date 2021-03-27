@@ -33,6 +33,8 @@ export class City extends Component {
             id : "",
             name : "",
             stateName : "",
+            nameHlpTxt : '',
+            stateHlpTxt : '',
             update : false,
         }
     }
@@ -153,20 +155,22 @@ export class City extends Component {
         }
     // Add term
     addCity(){
-        this.setState({ show: false });
-        let newCityObj = {
-          name: this.state.name,
-          stateName : this.state.stateName,
-        };
-        if (this.state.name.length !== 0) {
+      let helpTxt = "Please fill the required feild"
+      this.state.name.length === 0 ? this.setState({nameHlpTxt : helpTxt}) : this.setState({nameHlpTxt : ''})
+      this.state.stateName.length === 0 ? this.setState({stateHlpTxt : helpTxt}) : this.setState({stateHlpTxt : ''})
+        if(this.state.name.length !== 0 && this.state.stateName.length !== 0){
+          let newCityObj = {
+            name: this.state.name,
+            stateName : this.state.stateName,
+          };
           this.props.addCity(newCityObj);
           this.setState({
             id: "",
             name: "",
             stateName : "",
+            show : false
           });
         }
-        this.props.viewCity(0, 20, null);
     }
     // Delete Handler
     deleteHandler = (data) =>{
@@ -174,23 +178,38 @@ export class City extends Component {
     }
     // Update Term
     updateCity(){
-        this.setState({ show: false });
-    let newCityObj = {
-      id : this.state.id,
-      name: this.state.name,
-      stateName : this.state.stateName,
-    };
-    if (this.state.name.length !== 0) {
-      this.props.updateCity(newCityObj);
-      this.setState({
-        id: "",
-        name: "",
-        stateName : "",
-        update: true,
-      });      
+      let helpTxt = "Please fill the required feild"
+      
+      this.state.name.length === 0 ? this.setState({nameHlpTxt : helpTxt}) : this.setState({nameHlpTxt : ''})
+      this.state.stateName.length === 0 ? this.setState({stateHlpTxt : helpTxt}) : this.setState({stateHlpTxt : ''})
+        
+      if(this.state.name.length !== 0 && this.state.stateName.length !== 0){
+        let newCityObj = {
+          id : this.state.id,
+          name: this.state.name,
+          stateName : this.state.stateName,
+        };
+        this.props.updateCity(newCityObj);
+        this.setState({
+          id: "",
+          name: "",
+          stateName : "",
+          update: true,
+          show : false
+        });    
+      }   
     }
-    this.props.viewCity(0, 20, null);
+
+    componentDidUpdate(prevProps, prevState) {
+      if(this.props.addCityList !== prevProps.addCityList){
+        this.props.viewAllCities()
+      }
+      if(this.props.updateCityList !== prevProps.updateCityList){
+        this.props.viewAllCities()
+      }
     }
+    
+
     render() {
       console.log(this.props.cityList)
         return (
@@ -305,7 +324,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
   return {
     viewCityList: state.AspirationReducer.viewCityList,
-    cityList : state.StudentReducer.cityList
+    cityList : state.StudentReducer.cityList,
+    addCityList : state.AspirationReducer.addCityList,
+    updateCityList : state.AspirationReducer.updateCityList
   }
 }
 export default connect(mapStateToProps,{addCity, updateCity, viewCity, deleteCity, viewAllCities})(City)
