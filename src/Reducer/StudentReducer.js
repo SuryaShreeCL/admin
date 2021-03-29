@@ -7,6 +7,8 @@ const initialState = {
   StudentFilterList: [],
   studentDocumentList: [],
   downloadedDocumentResponse: [],
+  editDocumentResponse: [],
+  deletedFileResponse: [],
   signUpResponse: [],
   editStudentResponse: [],
   blackListedUserDetails: [],
@@ -124,6 +126,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         aspirationDetails: action.aspirationDetails,
+      };
+    case STUDENT.deleteDocument:
+      return {
+        ...state,
+        deletedFileResponse: action.deletedFileResponse,
+      };
+    case STUDENT.editDocument:
+      return {
+        ...state,
+        editDocumentResponse: action.editDocumentResponse,
       };
 
     default:

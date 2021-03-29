@@ -191,6 +191,40 @@ export const downloadDocumentByStudentId=(fileName)=>{
     }
 }
 
+export const deleteStudentFileById=(id,path)=>{    
+    return dispatch =>{
+        axios.delete(URL+"/api/v1/files/delete/"+id+"/"+path,{
+            crossDomain: true
+        })
+            .then(result => {                                                
+                dispatch({type:STUDENT.deleteDocument,deletedFileResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const editDocumentsByStudentId=(studentId,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    return dispatch =>{
+        axios.post(URL+"/api/v1/files/upload/"+studentId,data,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+            .then(result => {                                                
+                dispatch({type:STUDENT.editDocument,editDocumentResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+
+
 export const mernStudentSignUp=(data)=>{    
     
     return dispatch=>{                
