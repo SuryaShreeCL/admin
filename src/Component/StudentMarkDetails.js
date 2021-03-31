@@ -15,8 +15,21 @@ const [show,setShow] =  useState(false);
 // const quesAns = []
 const [quesAns , setQuesAns] = useState([])
   React.useEffect(() => {
+
     props.viewstudentmarkdetails(props.id)
-  },[props.viewAnswers, props.viewReseTestList]);
+    // console.log(props.viewAnswers)
+    console.log(Object.keys(props.viewAnswers).length)
+   
+    if(Object.keys(props.viewAnswers).length === 0){
+    for (const property in props.viewAnswers){
+         console.log(`${property}: ${props.viewAnswers[property]}`)
+        setQuesAns(quesAns.push({question :property , answer : props.viewAnswers[property]})) 
+      }
+    }
+   
+
+
+  },[props.viewReseTestList, props.viewAnswers]);
 
 
 
@@ -48,37 +61,12 @@ const BorderLinearProgress = withStyles((theme) => ({
 }
 
 const answers =(questionSetName)=>{
-  console.log(props)
-  setShow(true)
+
   props.viewanswers(props.id,questionSetName);
+  setShow(true)
 }
 
-console.log(show)
-const getAnswerList = () =>{
-
-  // for (const property in props.viewAnswers) {
-  //   return (
-  //     <h5>jdks</h5>
-  //   )
-  // console.log(`${property}: ${props.viewAnswers[property]}`);
-  // }
-  
- for (const property in props.viewAnswers){
-   if(props.viewAnswers.length === 0){
-    quesAns.push({question :property , answer : props.viewAnswers[property]})
-   }
-  // console.log(`${property}: ${props.viewAnswers[property]}`)
-    // return <h6>{property} : {props.viewAnswers[property]}</h6>
- }
-
-//  quesAns.map((quesAns)=>{
-//   return (
-//       <h4>{quesAns.question} : {quesAns.answer}</h4>
-
-//   )
-// })
-}
-console.log(props.viewReseTestList)
+console.log(quesAns)
     return (
       <div>
         <div style={{position: 'relative',}}>
@@ -102,17 +90,10 @@ console.log(props.viewReseTestList)
                    Reset Test
                    </Button>
                    
-                   {/* <Button Rounded variant={"contained"}
-                    size={"small"}
-                    color={"primary"}
-                    style={{borderRadius:30}}
-                    onClick={viewScore}
-                    >  
-                     Score Details 
-                   </Button> */}
+                 
                    <Button Rounded variant={"contained"}
                     size={"small"}
-                    disabled
+                    // disabled
                     color={"primary"}
                     style={{borderRadius:30}}
                     onClick={(e)=>answers(singleObject.questionSetName)}>
@@ -149,7 +130,14 @@ console.log(props.viewReseTestList)
     <Dialog open={show}>
                 <DialogTitle>Answers</DialogTitle>
                 <DialogContent>
-                  {getAnswerList()}
+                  {quesAns.map(content=>{
+                    return (
+                      <Grid>
+                      <Typography>{content.question}</Typography>
+                      <Typography>{content.answer}</Typography>
+                      </Grid>
+                    )
+                  })}
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={()=>setShow(false)}>

@@ -212,7 +212,7 @@ const theme = createMuiTheme({
     },
     MuiSvgIcon: {
       root: {
-        color: 'white',
+        // color: 'white',
       },
     },
   },

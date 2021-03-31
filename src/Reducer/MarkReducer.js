@@ -2,7 +2,7 @@ import { STUDENTMARKDETAILS } from "../Redux/Action";
 const initialState = {
   viewStudentMarkDetailsList:[],
   viewReseTestList:[],
-  viewAnswersList:[]
+  viewAnswersList:{}
 };
 
 export default (state = initialState, action) => {
