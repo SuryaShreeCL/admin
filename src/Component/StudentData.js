@@ -21,6 +21,8 @@ import { connect } from "react-redux";
 import { Grid, FormControlLabel, Switch } from "@material-ui/core";
 import StudentDocuments from "./StudentDocuments";
 import SubStudentTab from "./SubStudentTab";
+import StudentMarkDetails from "./StudentMarkDetails";
+import ScoreDetails from "./ScoreDetails";
 import {viewStudentStatus} from "../Actions/AdminAction"
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -99,6 +101,9 @@ export function Student_data(props) {
             <Tab label="Recommendation" {...a11yProps(3)} />
             <Tab label="Product" {...a11yProps(4)} />
             <Tab label="Documents" {...a11yProps(5)} />
+            <Tab label="StudentMarkDetails" {...a11yProps(6)} />
+            <Tab label="ScoreDetails" {...a11yProps(7)} />
+
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -117,6 +122,13 @@ export function Student_data(props) {
         <TabPanel value={value} index={4}>
           <StudentDocuments id={props.match.params.id} />
         </TabPanel>
+        <TabPanel value={value} index={5}>
+          <StudentMarkDetails id={props.match.params.id} />
+        </TabPanel>
+        <TabPanel value={value} index={6}>
+          <ScoreDetails id={props.match.params.id} />
+        </TabPanel>
+
       </>
     </div>
   );

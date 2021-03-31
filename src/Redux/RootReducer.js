@@ -19,6 +19,9 @@ import {
   testimonialUpdateReducer,
   testimonialListReducer,
 } from '../Reducer/TestimonialReducer';
+import StudentMarkDetailReducer from "../Reducer/MarkReducer";
+import ScoreDetailsReducer from "../Reducer/ScoreReducer"
+
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -35,6 +38,8 @@ export default combineReducers({
   ReportReducer : ReportReducer,
   CareerTrackReducer: CareerTrackReducer,
   NotificationReducer : NotificationReducer,
+  StudentMarkDetailReducer:StudentMarkDetailReducer,
+  ScoreDetailsReducer :ScoreDetailsReducer,
   testimonialCreateReducer: testimonialCreateReducer,
   testimonialDeleteReducer: testimonialDeleteReducer,
   testimonialUpdateReducer: testimonialUpdateReducer,

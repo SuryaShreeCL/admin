@@ -180,6 +180,16 @@ export const REPORTS = {
   viewCareerExpoTest : 'viewCareerExpoTest'
 }
 
+export const STUDENTMARKDETAILS={
+  viewStudentMarkDetails :"viewStudentMarkDetails",
+  viewResetTest :"viewResetTest",
+  viewAnswers :"viewAnswers"
+}
+export const SCOREDETAILS={
+  viewScoreDetails :"viewScoreDetails"
+}
+
+
 
 //MOHAMMED
 export const TESTIMONIAL = {
