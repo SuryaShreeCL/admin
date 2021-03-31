@@ -34,7 +34,7 @@ function StudentDocuments(props) {
   React.useEffect(() => {
     // To get the list of documents that belongs to specific student
     props.getDocumentsByStudentId(props.id);
-  }, [props.deletedFileResponse]);
+  }, [props.deletedFileResponse,props.editDocumentResponse]);
 
 
   const filterText = (path) =>{
@@ -46,18 +46,24 @@ function StudentDocuments(props) {
 
   console.log(typeof props.studentDocumentList);
   const fileChange=(e)=>{   // console.log(typeof props.viewDocumentList);
-console.log(e.target.files[0])
+console.log(e.target.name)
+let fileNameIndex = e.target.name.lastIndexOf(".")
+let removedName = e.target.name.substring(0,fileNameIndex)
+console.log(removedName)
   if(e.target.files[0].size < 5242880){
       var element = document.getElementById(e.target.id);
     console.log("ELEMENT..............",element)
     var file = element.files[0];
     console.log("FILE.........",file)
     console.log("File type........",file.type)
+    let startIndex = file.type.indexOf("/")
+    let fileExtension = file.type.substring(startIndex+1,file.type.length)
+    console.log(fileExtension)
     var blob = new Blob([file],{type : file.type})
     console.log("Blob...........",blob)
     console.log("file name........",file.name)
-    console.log(filterText(e.target.name))
-    var newFile = new File([blob], filterText(e.target.name), {type: file.type});
+    console.log("filter text.......",filterText(removedName+"."+fileExtension))
+    var newFile = new File([blob], filterText(removedName+"."+fileExtension), {type: file.type});
     console.log("NEW FILE..................",newFile)
     console.log("NEW FILE TYPE..................",newFile.type)
     if(newFile.type=== "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || newFile.type=== "application/msword" || newFile.type=== "application/pdf" || newFile.type === "image/png" || newFile.type === "image/jpg" || newFile.type === "image/jpeg"){
@@ -87,6 +93,7 @@ console.log(e.target.files[0])
   setSnack(true)
 }
 console.log(file !== null ?file : "")
+
   return (
     <div>
       <form encType="multipart/form-data" onSubmit={uploadFile}>
@@ -189,7 +196,8 @@ const mapStateToProps = (state) => {
   return {
     studentDocumentList: state.StudentReducer.studentDocumentList,
     deletedFileResponse : state.StudentReducer.deletedFileResponse,
-    downloadedDocumentResponse : state.StudentReducer.downloadedDocumentResponse
+    downloadedDocumentResponse : state.StudentReducer.downloadedDocumentResponse,
+    editDocumentResponse : state.StudentReducer.editDocumentResponse
   };
 };
 
