@@ -26,26 +26,39 @@ import {
 
 function CustomizedPrograss(props) {
   const [show, setShow] = useState(false);
+  // const quesAns = []
   const [quesAns, setQuesAns] = useState([]);
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMsg, setSnackMsg] = useState("");
   const [snackColor, setSnackColor] = useState("");
   React.useEffect(() => {
     props.viewstudentmarkdetails(props.id);
-    // console.log(props.viewAnswers)
-    console.log(Object.keys(props.viewAnswers).length);
 
-    // if (Object.keys(props.viewAnswers).length === 0) {
-      for (const property in props.viewAnswers) {
-        console.log(`${property}: ${props.viewAnswers[property]}`);
-       
-          quesAns.push({
-            question: property,
-            answer: props.viewAnswers[property],
-          })
-      
-      }
+    // for (const property in props.viewAnswers) {
+    //   console.log(`${property}: ${props.viewAnswers[property]}`);
+    //     quesAns.push({
+    //       question: property,
+    //       answer: props.viewAnswers[property],
+    //     })
     // }
+    console.log(props.viewAnswers.length);
+    console.log(Object.keys(props.viewAnswers).length);
+    console.log(quesAns.length);
+    console.log(typeof props.viewAnswers)
+    if(typeof props.viewAnswers === "object"){
+      if(quesAns.length === 0){
+         for (const property in props.viewAnswers) {
+      console.log(`${property}: ${props.viewAnswers[property]}`);
+        quesAns.push({
+          question: property,
+          answer: props.viewAnswers[property],
+        })
+    }
+      }
+    }else{
+      setQuesAns([])
+    }
+      
   }, [props.viewReseTestList, props.viewAnswers]);
 
   const BorderLinearProgress = withStyles((theme) => ({
@@ -72,7 +85,7 @@ function CustomizedPrograss(props) {
     props.viewanswers(props.id, questionSetName);
     setShow(true);
   };
-
+  console.log(props.viewAnswers);
   console.log(quesAns);
   return (
     <div>
@@ -112,12 +125,10 @@ function CustomizedPrograss(props) {
                       >
                         Reset Test
                       </Button>
-
                       <Button
                         Rounded
                         variant={"contained"}
                         size={"small"}
-                        // disabled
                         color={"primary"}
                         style={{ borderRadius: 30 }}
                         onClick={(e) => answers(singleObject.questionSetName)}
@@ -125,7 +136,6 @@ function CustomizedPrograss(props) {
                         Answers
                       </Button>
                     </Grid>
-                   
                   </Grid>
                 </>
               );
@@ -134,14 +144,25 @@ function CustomizedPrograss(props) {
         <Dialog open={show}>
           <DialogTitle>Answers</DialogTitle>
           <DialogContent>
-            {quesAns.map((content) => {
-              return (
-                <Grid>
-                  <Typography>{content.question}</Typography>
-                  <Typography>{content.answer}</Typography>
-                </Grid>
-              );
-            })}
+            {quesAns.length !== 0 ?
+            <ol>
+              {quesAns.map((content) => {
+                return (
+                  <Grid>
+                    <li>
+                      <Typography>{content.question}</Typography>
+                    </li>
+                    <Typography style={{ color: "green" }}>
+                      {content.answer}
+                    </Typography>
+                  </Grid>
+                );
+              })}
+            </ol> :
+              <Grid>
+                <Typography>Please Attend The Test !</Typography>
+              </Grid>
+            }
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setShow(false)}>okay</Button>
@@ -163,6 +184,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   viewstudentmarkdetails,
   viewresettest,
-
   viewanswers,
 })(CustomizedPrograss);
