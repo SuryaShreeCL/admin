@@ -23,6 +23,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import NoDataImg from '../Asset/Images/noData.jpg'
 
 function CustomizedPrograss(props) {
   const [show, setShow] = useState(false);
@@ -142,9 +143,10 @@ function CustomizedPrograss(props) {
             })
           : null}
         <Dialog open={show}>
+          {quesAns.length !== 0 ?
+          <>
           <DialogTitle>Answers</DialogTitle>
           <DialogContent>
-            {quesAns.length !== 0 ?
             <ol>
               {quesAns.map((content) => {
                 return (
@@ -158,14 +160,22 @@ function CustomizedPrograss(props) {
                   </Grid>
                 );
               })}
-            </ol> :
-              <Grid>
-                <Typography>Please Attend The Test !</Typography>
-              </Grid>
-            }
+            </ol> 
           </DialogContent>
+          </>
+          :
+          <>
+              <DialogTitle>Please Attend The Test !</DialogTitle>
+              <DialogContent>
+                <Grid item align={"center"}>
+                <img src={NoDataImg} style={{width : "80%"}}></img>
+                </Grid>
+              </DialogContent>
+              </>
+
+            }
           <DialogActions>
-            <Button onClick={() => setShow(false)}>okay</Button>
+            <Button variant={"outlined"} color={"primary"} size={"small"} onClick={() => setShow(false)}>OK</Button>
           </DialogActions>
         </Dialog>
       </div>
