@@ -237,6 +237,8 @@ export default function RootContainer(props) {
     props.history.push(rootLoginPath);
   };
 
+  console.log("........",history)
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -267,8 +269,8 @@ export default function RootContainer(props) {
               <NotificationsIcon />
             </IconButton>
             {/* <GoogleBtn {...props} />       */}
-            <IconButton onClick={logout}>
-              <ExitToAppRoundedIcon color='inherit' />
+            <IconButton color='inherit' onClick={logout}>
+              <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -304,7 +306,7 @@ export default function RootContainer(props) {
                   history.push(rootPath.concat('/', Item.id));
                 }}
               >
-                <ListItemIcon className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
+                <ListItemIcon  className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
                 <ListItemText primary={Item.title} />
               </ListItem>
             ))}

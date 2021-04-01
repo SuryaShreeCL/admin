@@ -26,7 +26,6 @@ import {
 
 function CustomizedPrograss(props) {
   const [show, setShow] = useState(false);
-  // const quesAns = []
   const [quesAns, setQuesAns] = useState([]);
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMsg, setSnackMsg] = useState("");
@@ -36,23 +35,18 @@ function CustomizedPrograss(props) {
     // console.log(props.viewAnswers)
     console.log(Object.keys(props.viewAnswers).length);
 
-    if (Object.keys(props.viewAnswers).length === 0) {
+    // if (Object.keys(props.viewAnswers).length === 0) {
       for (const property in props.viewAnswers) {
         console.log(`${property}: ${props.viewAnswers[property]}`);
-        setQuesAns(
+       
           quesAns.push({
             question: property,
             answer: props.viewAnswers[property],
           })
-        );
+      
       }
-    }
+    // }
   }, [props.viewReseTestList, props.viewAnswers]);
-
-  // const takeTestCompleted = props.takeTest !== undefined ? props.takeTest.map(test=>{
-  //   return test.completed
-  // })  : null
-  // const [collapse,setCollapse] = React.useState(false)
 
   const BorderLinearProgress = withStyles((theme) => ({
     root: {
@@ -123,7 +117,7 @@ function CustomizedPrograss(props) {
                         Rounded
                         variant={"contained"}
                         size={"small"}
-                        disabled
+                        // disabled
                         color={"primary"}
                         style={{ borderRadius: 30 }}
                         onClick={(e) => answers(singleObject.questionSetName)}
