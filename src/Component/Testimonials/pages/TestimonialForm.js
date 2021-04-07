@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
   studentName: '',
   avatar: '',
-  scores: { gre: 0, gmat: 0 },
+  scores: { gre: 0, gmat: 0, ielts:"0" },
   mixedTag: '',
   yearOfPassing: '',
   testimonialOrigin: '',
@@ -77,6 +77,7 @@ const initialValues = {
   videoTestimonial: { tagLine: '', videoLink: '' },
   gender: '',
   type: '',
+  sector:'',
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
   companyCalls: [{ name: '', logo: '' }],
@@ -220,6 +221,14 @@ export default function TestimonialForm(props) {
                   value={values.company?.workExp}
                   onChange={handleChange}
                 />
+                
+                <Controls.Input
+                  label='Sector'
+                  name='sector'
+                  style={{ width: '120px' }}
+                  value={values.sector}
+                  onChange={handleChange}
+                />
               </LabelledOutline>
             </Grid>
             <Grid item>
@@ -251,6 +260,14 @@ export default function TestimonialForm(props) {
                   type='number'
                   style={{ width: '120px' }}
                   value={values.scores?.gmat}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  name='scores.ielts'
+                  label='IELTS Score'
+                  type='number'
+                  style={{ width: '120px' }}
+                  value={values.scores?.ielts}
                   onChange={handleChange}
                 />
                 <Autocomplete
@@ -324,6 +341,55 @@ export default function TestimonialForm(props) {
                   onChange={handleChange}
                   options={getProducts()}
                 />
+                {/* <Grid item xs={3}>
+              <LabelledOutline id='PRD' label='Products'>
+                <FieldArray
+                  name='interviewCallsFrom'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.interviewCallsFrom.map((interview, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Autocomplete
+                            onChange={(e, value) => {
+                              setFieldValue(
+                                `interviewCallsFrom.${index}.name`,
+                                value !== null
+                                  ? value
+                                  : `initialValues.interviewCallsFrom.${index}.name`
+                              );
+                            }}
+                            id='interviewCalls'
+                            getOptionSelected={(option, value) => option.name === value.name}
+                            options={viewCollegeList?.content?.map((clg) => clg.name) ?? []}
+                            style={{ width: 200 }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label='Product'
+                                name={`interviewCallsFrom.${index}.name`}
+                                variant='outlined'
+                              />
+                            )}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push({ name: '', logo: '' })}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid> */}
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
