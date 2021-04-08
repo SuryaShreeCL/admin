@@ -97,12 +97,12 @@ export default function TestimonialForm(props) {
 
   const { BranchList } = useSelector((state) => state.CollegeReducer);
   const { allCollegeList } = useSelector((state) => state.CollegeReducer);
-  // const { viewCollegeList } = useSelector((state) => state.AspirationReducer);
+  const { viewCollegeList } = useSelector((state) => state.AspirationReducer);
 
   useEffect(() => {
     dispatch(getBranches());
-    // dispatch(getAllColleges());
-    // dispatch(viewCollege(0, 100, null));
+    dispatch(getAllColleges());
+    dispatch(viewCollege(0, 1000, null));
 
     //SETTING PRE POPULATED RECORD
     if (records != null)
@@ -300,7 +300,7 @@ export default function TestimonialForm(props) {
                       variant='outlined'
                     />
                   )}
-                /> */}
+                /> 
                 <Controls.Input
                   label='Admit College'
                   style={{ width: '250px' }}
@@ -527,12 +527,7 @@ export default function TestimonialForm(props) {
                                 variant='outlined'
                               />
                             )}
-                          /> */}
-                          <Field
-                            className={classes.spacer}
-                            placeholder='College Name'
-                            name={`interviewCallsFrom.${index}.name`}
-                          />
+                          /> 
                           <Field
                             className={classes.spacer}
                             placeholder='College Logo'

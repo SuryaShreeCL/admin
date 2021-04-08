@@ -51,6 +51,7 @@ const headCells = [
   { id: 'scores.gre', label: 'GRE Score' },
   { id: 'scores.gmat', label: 'GMAT Score' },
   { id: 'products', label: 'Product' },
+  { id: 'yop', label: 'Year' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
