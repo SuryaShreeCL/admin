@@ -40,9 +40,9 @@ const getOrigin = () => [
 const getProducts = () => [
   { id: '1', title: 'GMAT' },
   { id: '2', title: 'GRE' },
-  { id: '3', title: 'MBA Admission' },
+  { id: '3', title: 'MBA Admissions' },
   { id: '4', title: 'Profile Builder' },
-  { id: '5', title: 'Admission Consulting Services' },
+  { id: '5', title: 'MS Admissions' },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
   studentName: '',
   avatar: '',
-  scores: { gre: 0, gmat: 0 },
+  scores: { gre: 0, gmat: 0, ielts:"0" },
   mixedTag: '',
   yearOfPassing: '',
   testimonialOrigin: '',
@@ -77,9 +77,13 @@ const initialValues = {
   videoTestimonial: { tagLine: '', videoLink: '', fullTestimonial: '' },
   gender: '',
   type: '',
+  sector:'',
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
-  interviewCallsFrom: [],
-  companyCalls: [],
+  interviewCallsFrom: [{ name: '', logo: '' }],
+  companyCalls: [{ name: '', logo: '' }],
+  productList: [''],
+  domains: [{ name: ''}],
+  otherAdmits: [{ name: '', logo:''}],
   products: '',
   department: '',
   testimonialDate: new Date(),
@@ -226,6 +230,14 @@ export default function TestimonialForm(props) {
                   value={values.company?.workExp}
                   onChange={handleChange}
                 />
+                
+                <Controls.Input
+                  label='Sector'
+                  name='sector'
+                  style={{ width: '120px' }}
+                  value={values.sector}
+                  onChange={handleChange}
+                />
               </LabelledOutline>
             </Grid>
             <Grid item>
@@ -259,7 +271,15 @@ export default function TestimonialForm(props) {
                   value={values.scores?.gmat}
                   onChange={handleChange}
                 />
-                {/* <Autocomplete
+                <Controls.Input
+                  name='scores.ielts'
+                  label='IELTS Score'
+                  type='number'
+                  style={{ width: '120px' }}
+                  value={values.scores?.ielts}
+                  onChange={handleChange}
+                />
+                <Autocomplete
                   id='admitCollege'
                   name='admitCollege.name'
                   getOptionSelected={(option, value) => option.value === value.name}
@@ -330,13 +350,151 @@ export default function TestimonialForm(props) {
                   value={values.testimonialDate}
                   onChange={handleChange}
                 />
-                <Controls.Select
+                {/* <Controls.Select
                   label='Product'
                   name='products'
                   value={values.products}
                   onChange={handleChange}
                   options={getProducts()}
+                /> */}
+                <Grid item xs={5}>
+              <LabelledOutline id='PRD' label='Products'>
+                <FieldArray
+                  name='productList'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.productList.map((product, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Autocomplete
+                          value={values.productList[index]}
+                            onChange={(e, value) => {
+                              setFieldValue(
+                                `productList.${index}`,
+                                value !== null
+                                  ? value
+                                  : initialValues.productList[0]
+                              );
+                            }}
+                            id='productList'
+                            getOptionSelected={(option, value) => option.name === value.name}
+                            options={getProducts()?.map((prd) => prd.title) ?? []}
+                            style={{ width: 200 }}
+                            renderInput={(params) => (
+                              <TextField
+                              style={{ marginTop: '4%'} }
+                                {...params}
+                                label='Product'
+                                name={`productList.${index}`}
+                                variant='outlined'
+                              />
+                            )}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push('')}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
+                    </div>
+                  )}
                 />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={5}>
+              <LabelledOutline id='DOM' label='Domain of Interest'>
+                <FieldArray
+                  name='domains'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.domains.map((domain, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Field
+                            className={classes.spacer}
+                            placeholder='Domain'
+                            name={`domains.${index}.name`}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push({ name: '' })}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={6}>
+              <LabelledOutline id='OA' label='Other Admit Colleges'>
+                <FieldArray
+                  name='otherAdmits'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.otherAdmits.map((admits, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Autocomplete
+                          value={values.otherAdmits[index].name}
+                            onChange={(e, value) => {
+                              setFieldValue(
+                                `otherAdmits.${index}.name`,
+                                value !== null
+                                  ? value
+                                  : initialValues.otherAdmits[0].name
+                              );
+                            }}
+                            id='interviewCalls'
+                            getOptionSelected={(option, value) => option.name === value.name}
+                            options={viewCollegeList?.content?.map((clg) => clg.name) ?? []}
+                            style={{ width: 200 }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label='College Name'
+                                name={`otherAdmits.${index}.name`}
+                                variant='outlined'
+                              />
+                            )}
+                          />
+                          <Field
+                            className={classes.spacer}
+                            placeholder='College Logo'
+                            name={`otherAdmits.${index}.logo`}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push({ name: '', logo: '' })}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid>
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
@@ -347,13 +505,14 @@ export default function TestimonialForm(props) {
                     <div className={classes.root}>
                       {values.interviewCallsFrom.map((interview, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                          {/* <Autocomplete
+                          <Autocomplete
+                          value={values.interviewCallsFrom[index].name}
                             onChange={(e, value) => {
                               setFieldValue(
                                 `interviewCallsFrom.${index}.name`,
                                 value !== null
                                   ? value
-                                  : `initialValues.interviewCallsFrom.${index}.name`
+                                  : initialValues.interviewCallsFrom[0].name
                               );
                             }}
                             id='interviewCalls'
