@@ -10,6 +10,8 @@ const initialState = {
   updateAspirationResponse: [],
   contactDataResponse: [],
   updateAccStatusResponse: [],
+  mentorList :[],
+  mentorAllocationResponse : [],
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -63,6 +65,16 @@ export default (state = initialState, action) => {
         ...state,
         updateAspirationResponse: action.payload,
       };
+      case ADMIN.getAllMentor : 
+      return {
+        ...state,
+        mentorList : action.payload
+      }
+      case ADMIN.alocateMentor : 
+      return {
+        ...state,
+        mentorAllocationResponse : action.payload
+      }
     default:
       break;
   }

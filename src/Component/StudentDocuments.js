@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { getDocumentsByStudentId, getStudentsById } from "../Actions/Student";
+import { updateVerificationStatus } from "../Actions/AdminAction";
 import { connect } from "react-redux";
 import { Alert } from "@material-ui/lab";
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import {viewStudentStatus} from "../Actions/AdminAction"
+import {TextField} from '@material-ui/core'
 // import aws from 'aws-sdk'
 import {
   Grid,
@@ -21,35 +28,57 @@ import {
   DialogActions
 } from "@material-ui/core";
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {editDocumentsByStudentId, deleteStudentFileById,downloadDocumentByStudentId} from "../Actions/Student"
 import { URL } from "../Actions/URL";
+
+function usePrevious(value) {
+  const ref = React.useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
 ///include json file
 function StudentDocuments(props) {
+const  prevPropsVerification = usePrevious(props.updateVerificationResponse)
   const [file,setFile] = React.useState(null)
     const [snack,setSnack] = React.useState(false)
     const [snackMessage,setSnackMessage] = React.useState(null)
     const [snackColor,setSnackColor] = React.useState(null)
+
   React.useEffect(() => {
+    console.log("useeffect1")
+    if(prevPropsVerification !== undefined && props.updateVerificationResponse.length !== prevPropsVerification.length){
+      setSnackMessage("Status Updated Successfully")
+      setSnackColor("success")
+      setSnack(true)
+    }else{
+      setSnackMessage(null)
+    }
     // To get the list of documents that belongs to specific student
     props.getDocumentsByStudentId(props.id);
-  }, [props.deletedFileResponse,props.editDocumentResponse]);
 
+    props.viewStudentStatus(props.id)
+    // props.studentStatusResponse
+  }, [props.deletedFileResponse,props.editDocumentResponse,props.updateVerificationResponse]);
+
+ 
 
   const filterText = (path) =>{
     var slashIndex = path.indexOf("/")
    var newPath= path.slice(slashIndex+1,path.length)
    return newPath.replace("vnd.openxmlformats-officedocument.wordprocessingml.document","docx")
 }
-
-
-  console.log(typeof props.studentDocumentList);
+  // console.log(typeof props.studentDocumentList);
   const fileChange=(e)=>{   // console.log(typeof props.viewDocumentList);
-console.log(e.target.name)
-let fileNameIndex = e.target.name.lastIndexOf(".")
-let removedName = e.target.name.substring(0,fileNameIndex)
-console.log(removedName)
+  console.log(e.target.name)
+  let fileNameIndex = e.target.name.lastIndexOf(".")
+  let removedName = e.target.name.substring(0,fileNameIndex)
+  console.log(removedName)
   if(e.target.files[0].size < 5242880){
       var element = document.getElementById(e.target.id);
     console.log("ELEMENT..............",element)
@@ -92,15 +121,151 @@ console.log(removedName)
   setSnackMessage("File Updated Successfully")
   setSnack(true)
 }
-console.log(file !== null ?file : "")
+var flag = false
 
+// console.log(file !== null ?file : "")
+
+ 
+const details = [
+  { title: "Verified", value: "verified" },
+  { title: "Not Verified", value: "Notverified" },
+  { title: "Mismatch", value: "mismatched" },
+];
+console.log(props.studentStatusResponse)
+
+const [state,setState] = React.useState('')
+const [status,setStatus] = React.useState(details[1])
+const [misMatchDetails,setMisMatchDetails] = React.useState('')
+
+useEffect(() => {
+  
+  console.log("useeffect2")
+  console.log(props.studentStatusResponse)
+  console.log(status)
+  console.log(setStatus)
+  if(status !== setStatus ){
+    if( status !== null && status.value === "mismatched"){
+      setState({
+        misMatchDetails : null,
+      })
+    }
+  }
+ 
+ var findObj = props.studentStatusResponse.find(
+    (res) => res.section.name === "supportingdocuments"
+  );
+  console.log(findObj);  //changes
+
+  if(findObj !== undefined){
+    console.log("firstif")
+    if(findObj.section.name === "supportingdocuments"){
+      console.log("secondif")
+      if(flag === false && findObj.status === "verified"){
+        console.log("thirdif")
+        setStatus( details[0]) 
+        flag = true
+      }else if(flag === false && findObj.status === "Notverified"){
+        console.log("elseiffirst")
+        setStatus(details[1]) 
+        flag = true
+      }else if(flag === false && findObj.status === "mismatched"){
+        console.log("elseifsecond")
+        setStatus(details[2]) 
+        setMisMatchDetails(findObj.remark)
+        flag = true
+      }
+    }
+  }
+}, [props.studentStatusResponse])
+
+const handleUpdate = () => {
+  if(details !== null){
+    let obj = {
+      student: {
+        id: props.id,
+      },
+      section: {
+        name: "supportingdocuments",
+      },
+      remark: status.value === "mismatched" ? state.misMatchDetails:null,
+      status:status.value,
+      updateDate: null,
+    };
+  console.log(obj)
+  props.updateVerificationStatus(obj)
+  setState({
+    misMatchDetails : null,
+  })
+}
+}
+const handleChange = (e) => {
+  setMisMatchDetails(e.target.value)
+    setState({ [e.target.name]: e.target.value });
+}
+
+// console.log(details)    
+console.log(status)   //updated status 
+console.log(props.studentStatusResponse)
+console.log(props.updateVerificationResponse)  //update response
+// console.log(status !== '' ? status.value : status)
+// console.log(status.value)
   return (
     <div>
       <form encType="multipart/form-data" onSubmit={uploadFile}>
       <Grid container>
         <Grid item md={12}>
-          <Typography>Documents</Typography>
+          <Typography style={{fontSize:25}}>Documents</Typography>
         </Grid>
+        <Grid container>
+          <Grid item md={2}>
+              <Autocomplete
+                  id="combo-box-demo"
+                  options={details}
+                  value={status}
+                  fullWidth
+                  onChange={(e,newValue)=>setStatus(newValue)}
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      size="small"
+                      label="Verification Status"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </Grid>
+              {  status !== null && status.value === "mismatched" ?
+                <>
+                <Grid item md={7} alignItems="center">
+                <TextField
+                          fullWidth
+                          size="small"
+                          onChange={(e)=>handleChange(e)}
+                          name={"misMatchDetails"}
+                          // value={setMisMatchDetails}
+                          // value={misMatchDetails}
+                          // value={findObj.remark}
+                          value={misMatchDetails}
+                          variant="outlined"
+                          label={"Remark"}
+                        />
+                  </Grid>
+                <Grid item md={2} alignItems="center"> 
+                <Button variant="outlined" onClick={handleUpdate} color="primary" size="small">
+                      Update Status
+                    </Button>
+                </Grid>
+                </>
+                :
+                <Grid item md={9} alignItems="center">
+                  
+                <Button variant="outlined" onClick={handleUpdate} color="primary" size="small">
+                      Update Status
+                    </Button>
+                </Grid>
+              }
+              </Grid>
         <Grid item md={12}>
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
@@ -124,12 +289,7 @@ console.log(file !== null ?file : "")
                             window.open(URL+"/api/v1/files/download/"+props.id+"/"+singleDocument.path)
                             // props.downloadDocumentByStudentId(props.id,singleDocument.path)
                           }}> View</Button>
-                        </TableCell>
-                        {/* <TableCell align="left">
-                        <Button startIcon={<GetAppRoundedIcon/>} variant="contained" color="secondary" size="small">
-                          Download
-                        </Button>
-                        </TableCell> */}
+                        </TableCell>                       
                         <TableCell align="center">
                         <label for={singleDocument.path}>
                                 <Button
@@ -181,7 +341,7 @@ console.log(file !== null ?file : "")
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Snackbar open={snack} autoHideDuration={6000} onClose={(e)=>setSnack(false)}>
+            <Snackbar open={snack} autoHideDuration={3000} onClose={(e)=>setSnack(false)}>
   <Alert onClose={(e)=>setSnack(false)} variant="filled" severity={snackColor}>
     {snackMessage}
   </Alert>
@@ -197,7 +357,10 @@ const mapStateToProps = (state) => {
     studentDocumentList: state.StudentReducer.studentDocumentList,
     deletedFileResponse : state.StudentReducer.deletedFileResponse,
     downloadedDocumentResponse : state.StudentReducer.downloadedDocumentResponse,
-    editDocumentResponse : state.StudentReducer.editDocumentResponse
+    editDocumentResponse : state.StudentReducer.editDocumentResponse,
+    studentStatusResponse : state.AdminReducer.studentStatusResponse,
+    updateVerificationResponse :state.AdminReducer.updateVerificationResponse,
+
   };
 };
 
@@ -205,5 +368,7 @@ export default connect(mapStateToProps, {
   getDocumentsByStudentId,
   editDocumentsByStudentId,
   deleteStudentFileById,
-  downloadDocumentByStudentId
+  downloadDocumentByStudentId,
+  updateVerificationStatus,
+  viewStudentStatus
 })(StudentDocuments);

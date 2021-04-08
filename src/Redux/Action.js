@@ -151,6 +151,8 @@ export const ADMIN = {
   updateAspirationData : 'updateAspirationData',
   viewStudentStatus : 'viewStudentStatus',
   updateVerificationStatus : 'updateVerificationStatus',
+  getAllMentor : "getAllMentor",
+  alocateMentor : "alocateMentor"
 };
 
 export const CAREER_TRACK = {

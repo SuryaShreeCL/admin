@@ -169,3 +169,27 @@ export const updateVerificationStatus=(data)=>{
     }
     
 }
+
+export const getAllMentors = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/mentors")
+        .then(result=>{
+            dispatch({type : ADMIN.getAllMentor, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+} 
+
+export const allocateMentor = (mentorId,studentId,data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/student/mentor/"+studentId+"/"+mentorId,data)
+        .then(result=>{
+            dispatch({type : ADMIN.allocateMentor, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

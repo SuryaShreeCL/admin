@@ -22,6 +22,7 @@ import { Grid, FormControlLabel, Switch } from "@material-ui/core";
 import StudentDocuments from "./StudentDocuments";
 import SubStudentTab from "./SubStudentTab";
 import StudentMarkDetails from "./StudentMarkDetails";
+import AllocateMentor from "./AllocateMentor"
 import ScoreDetails from "./ScoreDetails";
 import {viewStudentStatus} from "../Actions/AdminAction"
 function TabPanel(props) {
@@ -92,17 +93,18 @@ export function Student_data(props) {
             onChange={handleChange}
             indicatorColor="primary"
             textColor="primary"
-            variant="fullWidth"
+            variant="scrollable"
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
             <Tab label="Student Information" {...a11yProps(1)} />
-            <Tab label="Career Intrest Survey" {...a11yProps(2)} />
+            <Tab label="Career Interest Survey" {...a11yProps(2)} />
             <Tab label="Recommendation" {...a11yProps(3)} />
             <Tab label="Product" {...a11yProps(4)} />
             <Tab label="Documents" {...a11yProps(5)} />
             <Tab label="StudentMarkDetails" {...a11yProps(6)} />
             <Tab label="ScoreDetails" {...a11yProps(7)} />
+            <Tab label="Mentor Allocation" {...a11yProps(8)} />
 
           </Tabs>
         </AppBar>
@@ -127,6 +129,9 @@ export function Student_data(props) {
         </TabPanel>
         <TabPanel value={value} index={6}>
           <ScoreDetails id={props.match.params.id} />
+        </TabPanel>
+        <TabPanel value={value} index={7}>
+          <AllocateMentor id={props.match.params.id} />
         </TabPanel>
 
       </>

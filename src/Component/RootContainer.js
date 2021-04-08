@@ -40,6 +40,8 @@ import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounde
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+import CallIcon from '@material-ui/icons/Call';
+
 
 const drawerWidth = 240;
 const NavbarList = [
@@ -58,6 +60,7 @@ const NavbarList = [
       {id: 'notification', icon:<NotificationsIcon /> , title:'Notification'},
        { id: 'testimonials', icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
       {id: 'reports', icon:<AssessmentRoundedIcon />, title:'Reports'},
+      {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'}
       
     ];
 

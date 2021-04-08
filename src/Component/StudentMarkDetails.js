@@ -25,7 +25,20 @@ import {
 } from "@material-ui/core";
 import NoDataImg from '../Asset/Images/noData.jpg'
 
+function usePrevious(value) {
+  const ref =  React.useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+
 function CustomizedPrograss(props) {
+
+  const prevViewAnswers = usePrevious(props.viewAnswers)
+  console.log(prevViewAnswers)
+
   const [show, setShow] = useState(false);
   // const quesAns = []
   const [quesAns, setQuesAns] = useState([]);
@@ -34,28 +47,27 @@ function CustomizedPrograss(props) {
   const [snackColor, setSnackColor] = useState("");
   React.useEffect(() => {
     props.viewstudentmarkdetails(props.id);
+  
+    console.log(props.viewAnswers)
 
-    // for (const property in props.viewAnswers) {
-    //   console.log(`${property}: ${props.viewAnswers[property]}`);
-    //     quesAns.push({
-    //       question: property,
-    //       answer: props.viewAnswers[property],
-    //     })
-    // }
-    console.log(props.viewAnswers.length);
-    console.log(Object.keys(props.viewAnswers).length);
-    console.log(quesAns.length);
-    console.log(typeof props.viewAnswers)
     if(typeof props.viewAnswers === "object"){
-      if(quesAns.length === 0){
-         for (const property in props.viewAnswers) {
-      console.log(`${property}: ${props.viewAnswers[property]}`);
-        quesAns.push({
-          question: property,
-          answer: props.viewAnswers[property],
-        })
-    }
+      // if(quesAns.length === 0){
+        if(prevViewAnswers !== undefined){
+         if(Object.keys(props.viewAnswers).length !== Object.keys(prevViewAnswers).length){
+          let arr=[]
+          for (const property in props.viewAnswers) {
+            console.log(`${property}: ${props.viewAnswers[property]}`);
+              arr.push({
+                question: property,
+                answer: props.viewAnswers[property],
+              })
+          }
+          setQuesAns(arr)
+         }
+        // } 
       }
+      console.log(quesAns)
+
     }else{
       setQuesAns([])
     }
@@ -88,6 +100,7 @@ function CustomizedPrograss(props) {
   };
   console.log(props.viewAnswers);
   console.log(quesAns);
+  
   return (
     <div>
       <div style={{ position: "relative" }}>

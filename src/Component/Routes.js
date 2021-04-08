@@ -49,6 +49,7 @@ import {
   documentDetailsPath,
   notificationPath,
   reportsPath,
+  callSchedulePath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -71,6 +72,7 @@ import StudentHome from './StudentHome';
 import Notification from "./Notification";
 import Report from "./ReportHome"
 import ReportHome from './ReportHome';
+import Callschedule from "./Callschedule"
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -92,7 +94,7 @@ export default function Routes() {
             <Route exact path={curatedPath} component={Curated_Course} />
             <Route exact path={questionBankPath} component={QuestionBank} />
             <Route exact path={'/admin/table'} component={TableComponent} />
-
+            <Route exact path={callSchedulePath} component={Callschedule} />
             {/* Selva */}
             <Route exact path={cityPath} component={City} />
             <Route exact path={aspirationPath} component={AspirationTab} />
