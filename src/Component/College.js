@@ -164,8 +164,9 @@ createMuiTheme({
     this.setState({ show: false });
     let newCollegeObj = {
       name: this.state.name,
-      description: this.state.description,
-      logoURL : this.state.logo,
+      decription: this.state.description,
+      logourl : this.state.logoURL,
+      status : null
     };
     if (this.state.name.length !== 0) {
       this.props.addColleges(newCollegeObj);
@@ -183,7 +184,7 @@ createMuiTheme({
     let newCollegeObj = {
       name: this.state.name,
       description: this.state.description,
-      logoURL: this.state.logo,
+      logoURL: this.state.logoURL,
     };
     if (this.state.name.length !== 0) {
       this.props.updateColleges(this.state.id, newCollegeObj);

@@ -20,6 +20,11 @@ import Product from "./Product";
 import { connect } from "react-redux";
 import { Grid, FormControlLabel, Switch } from "@material-ui/core";
 import StudentDocuments from "./StudentDocuments";
+import SubStudentTab from "./SubStudentTab";
+import StudentMarkDetails from "./StudentMarkDetails";
+import AllocateMentor from "./AllocateMentor"
+import ScoreDetails from "./ScoreDetails";
+import {viewStudentStatus} from "../Actions/AdminAction"
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -62,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Student_data(props) {
+  React.useEffect(()=>{
+    // props.viewStudentStatus(props.match.params.id)
+  },[])
   console.log(props.match.params.id);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -70,34 +78,14 @@ export function Student_data(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleActivate = (e) => {
-    setActivate(!activate);
-    let obj = {
-      id: props.match.params.id,
-      unifiedAccess: !activate,
-    };
-    props.postStudentAccess(obj);
-  };
+ 
+  console.log(props.studentStatusResponse)
   return (
     <div className={classes.root}>
       <>
         <div>
-          {/* <Grid container>
-            <Grid item md={12}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={activate}
-                    onChange={(e) => handleActivate(e)}
-                    name="checkedB"
-                    color="primary"
-                  />
-                }
-                label="Activate"
-              />
-            </Grid>
-          </Grid> */}
-          <ProfileInfo id={props.match.params.id} />
+         
+          {/* <ProfileInfo id={props.match.params.id} /> */}
         </div>
         <AppBar position="sticky" color="default">
           <Tabs
@@ -109,15 +97,20 @@ export function Student_data(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Profile Information" {...a11yProps(1)} />
-            <Tab label="Career Intrest Survey" {...a11yProps(2)} />
+            <Tab label="Student Information" {...a11yProps(1)} />
+            <Tab label="Career Interest Survey" {...a11yProps(2)} />
             <Tab label="Recommendation" {...a11yProps(3)} />
             <Tab label="Product" {...a11yProps(4)} />
             <Tab label="Documents" {...a11yProps(5)} />
+            <Tab label="StudentMarkDetails" {...a11yProps(6)} />
+            <Tab label="ScoreDetails" {...a11yProps(7)} />
+            <Tab label="Mentor Allocation" {...a11yProps(8)} />
+
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <Other_data id={props.match.params.id} />
+          {/* <Other_data id={props.match.params.id} /> */}
+          <SubStudentTab id={props.match.params.id} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <CareerInterestSurveyResults id={props.match.params.id} />
@@ -131,6 +124,16 @@ export function Student_data(props) {
         <TabPanel value={value} index={4}>
           <StudentDocuments id={props.match.params.id} />
         </TabPanel>
+        <TabPanel value={value} index={5}>
+          <StudentMarkDetails id={props.match.params.id} />
+        </TabPanel>
+        <TabPanel value={value} index={6}>
+          <ScoreDetails id={props.match.params.id} />
+        </TabPanel>
+        <TabPanel value={value} index={7}>
+          <AllocateMentor id={props.match.params.id} />
+        </TabPanel>
+
       </>
     </div>
   );
@@ -139,6 +142,7 @@ export function Student_data(props) {
 const mapStateToProps = (state) => {
   return {
     studentAccessResponse: state.AdminReducer.studentAccessResponse,
+    studentStatusResponse: state.AdminReducer.studentStatusResponse
   };
 };
-export default connect(mapStateToProps, { postStudentAccess })(Student_data);
+export default connect(mapStateToProps, { postStudentAccess, viewStudentStatus })(Student_data);

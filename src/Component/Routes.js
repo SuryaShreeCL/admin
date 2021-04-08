@@ -47,6 +47,9 @@ import {
   careerTrackVideoSetPath,
   careerTrackVideoPath,
   documentDetailsPath,
+  notificationPath,
+  reportsPath,
+  callSchedulePath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -59,13 +62,17 @@ import Question from './Question/Question';
 import Choice from './Question/Choice';
 import Video from './Video/Video';
 import Product from './Product/Product';
+import TestimonialDashboard from './Testimonials/TestimonialDashboard';
 import Webinar from './Webinar/Webinar';
 import CareerTrack from './CareerTrack/Index';
-import TestimonialDashboard from './Testimonials/TestimonialDashboard';
 import CareerTrackVideoSet from './CareerTrack/CareerTrackVideoSet';
 import CareerTrackVideo from './CareerTrack/CareerTrackVideo';
 import StudentDocuments from './StudentDocuments';
 import StudentHome from './StudentHome';
+import Notification from "./Notification";
+import Report from "./ReportHome"
+import ReportHome from './ReportHome';
+import Callschedule from "./Callschedule"
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -87,7 +94,7 @@ export default function Routes() {
             <Route exact path={curatedPath} component={Curated_Course} />
             <Route exact path={questionBankPath} component={QuestionBank} />
             <Route exact path={'/admin/table'} component={TableComponent} />
-
+            <Route exact path={callSchedulePath} component={Callschedule} />
             {/* Selva */}
             <Route exact path={cityPath} component={City} />
             <Route exact path={aspirationPath} component={AspirationTab} />
@@ -97,6 +104,8 @@ export default function Routes() {
             <Route exact path={videoPath} component={Video} />
             <Route exact path={productPath} component={Product} />
             <Route exact path={testimonialsPath} component={TestimonialDashboard} />
+            <Route exact path={notificationPath} component={Notification} />
+            <Route exact path={reportsPath} component={ReportHome} />
             <Route exact path={webinarPath} component={Webinar} />
             <Route exact path={careerTrackPath} component={CareerTrack} />
             <Route

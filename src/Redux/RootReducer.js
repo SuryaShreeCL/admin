@@ -11,12 +11,17 @@ import VideoReducer from '../Reducer/VideoReducer';
 import ProductReducer from '../Reducer/ProductReducer';
 import AdminReducer from '../Reducer/AdminReducer';
 import CareerTrackReducer from '../Reducer/CareerTrackReducer';
+import NotificationReducer from "../Reducer/NotificationReducer";
+import ReportReducer from "../Reducer/ReportReducer"
 import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
   testimonialUpdateReducer,
   testimonialListReducer,
 } from '../Reducer/TestimonialReducer';
+import StudentMarkDetailReducer from "../Reducer/MarkReducer";
+import ScoreDetailsReducer from "../Reducer/ScoreReducer"
+
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -30,7 +35,11 @@ export default combineReducers({
   VideoReducer: VideoReducer,
   ProductReducer: ProductReducer,
   AdminReducer: AdminReducer,
+  ReportReducer : ReportReducer,
   CareerTrackReducer: CareerTrackReducer,
+  NotificationReducer : NotificationReducer,
+  StudentMarkDetailReducer:StudentMarkDetailReducer,
+  ScoreDetailsReducer :ScoreDetailsReducer,
   testimonialCreateReducer: testimonialCreateReducer,
   testimonialDeleteReducer: testimonialDeleteReducer,
   testimonialUpdateReducer: testimonialUpdateReducer,

@@ -51,6 +51,7 @@ export class Login extends Component {
         window.sessionStorage.setItem("token", "true");
         window.sessionStorage.setItem("accessToken",this.props.adminLoginDetails.accessToken);
         window.sessionStorage.setItem("refreshToken",this.props.adminLoginDetails.refreshToken);
+        window.sessionStorage.setItem("role", this.props.adminLoginDetails.role);
         this.props.history.push(rootPath + "/"); 
       }else{
          this.setState({ error: "Invalid Username or Password" });

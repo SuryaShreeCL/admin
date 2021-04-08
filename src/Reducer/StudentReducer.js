@@ -1,19 +1,23 @@
 import { STUDENT } from "../Redux/Action";
 const initialState = {
   StudentList: [],
-  StudentsList:[],
-  Answer:[],
-  CareerIntertestSurvey:[],
-  StudentFilterList:[],
-  studentDocumentList : [],
-  downloadedDocumentResponse : [],
-  signUpResponse : [],
-  editStudentResponse : [],
-  blackListedUserDetails : [],
-  whiteListedUserDetails : [],
-  manualUserDetails : [],
-  mernUserDetails : [],
-  signUpError : [],
+  StudentsList: [],
+  Answer: [],
+  CareerIntertestSurvey: [],
+  StudentFilterList: [],
+  studentDocumentList: [],
+  downloadedDocumentResponse: [],
+  editDocumentResponse: [],
+  deletedFileResponse: [],
+  signUpResponse: [],
+  editStudentResponse: [],
+  blackListedUserDetails: [],
+  whiteListedUserDetails: [],
+  manualUserDetails: [],
+  mernUserDetails: [],
+  signUpError: [],
+  cityList: [],
+  aspirationDetails: [],
 };
 
 export default (state = initialState, action) => {
@@ -51,69 +55,89 @@ export default (state = initialState, action) => {
     case STUDENT.startTestExecution:
       return {
         ...state,
-        StudentList:action.TestExecution,
+        StudentList: action.TestExecution,
       };
     case STUDENT.careerInterestSurvey:
       return {
         ...state,
-        CareerIntertestSurvey:action.CareerInterestSurvey,
+        CareerIntertestSurvey: action.CareerInterestSurvey,
       };
     case STUDENT.getAnswer:
       return {
         ...state,
-        Answer:action.Answer,
+        Answer: action.Answer,
       };
     case STUDENT.getStudentPaginate:
       return {
         ...state,
-        StudentFilterList:action.StudentFilterResult,
-      }
-      case STUDENT.viewDocumet:
-        return {
-          ...state,
-          studentDocumentList:action.studentDocumentList,
-        }
-        case STUDENT.downloadDocument:
-        return {
-          ...state,
-          downloadedDocumentResponse:action.downloadedDocumentResponse,
-        }
-        case STUDENT.mernStudentSignUp:
-          return {
-            ...state,
-            signUpResponse:action.signUpResponse,
-          }
-          case STUDENT.mernStudentEdit:
-            return {
-              ...state,
-              editStudentResponse:action.editStudentResponse,
-            }
-            case STUDENT.getBlackListedUser:
-              return {
-                ...state,
-                blackListedUserDetails:action.blackListedUserDetails,
-              }
-              case STUDENT.getWhiteListedUser:
-              return {
-                ...state,
-                whiteListedUserDetails:action.whiteListedUserDetails,
-              }
-              case STUDENT.getManualUser:
-              return {
-                ...state,
-                manualUserDetails:action.manualUserDetails,
-              }
-              case STUDENT.getMernUser:
-                return {
-                  ...state,
-                  mernUserDetails:action.mernUserDetails,
-                }
-                case STUDENT.catchSignUpError:
-                  return {
-                    ...state,
-                    signUpError:action.signUpError,
-                  }
-              
+        StudentFilterList: action.StudentFilterResult,
+      };
+    case STUDENT.viewDocumet:
+      return {
+        ...state,
+        studentDocumentList: action.studentDocumentList,
+      };
+    case STUDENT.downloadDocument:
+      return {
+        ...state,
+        downloadedDocumentResponse: action.downloadedDocumentResponse,
+      };
+    case STUDENT.mernStudentSignUp:
+      return {
+        ...state,
+        signUpResponse: action.signUpResponse,
+      };
+    case STUDENT.mernStudentEdit:
+      return {
+        ...state,
+        editStudentResponse: action.editStudentResponse,
+      };
+    case STUDENT.getBlackListedUser:
+      return {
+        ...state,
+        blackListedUserDetails: action.blackListedUserDetails,
+      };
+    case STUDENT.getWhiteListedUser:
+      return {
+        ...state,
+        whiteListedUserDetails: action.whiteListedUserDetails,
+      };
+    case STUDENT.getManualUser:
+      return {
+        ...state,
+        manualUserDetails: action.manualUserDetails,
+      };
+    case STUDENT.getMernUser:
+      return {
+        ...state,
+        mernUserDetails: action.mernUserDetails,
+      };
+    case STUDENT.catchSignUpError:
+      return {
+        ...state,
+        signUpError: action.signUpError,
+      };
+    case STUDENT.viewAllCity:
+      return {
+        ...state,
+        cityList: action.cityList,
+      };
+    case STUDENT.getAspirationById:
+      return {
+        ...state,
+        aspirationDetails: action.aspirationDetails,
+      };
+    case STUDENT.deleteDocument:
+      return {
+        ...state,
+        deletedFileResponse: action.deletedFileResponse,
+      };
+    case STUDENT.editDocument:
+      return {
+        ...state,
+        editDocumentResponse: action.editDocumentResponse,
+      };
+
     default:
       break;
   }

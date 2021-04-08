@@ -8,6 +8,7 @@ import {
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
+import Loader from "./Testimonials/components/controls/Loader";
 
 export class Recommendation extends Component {
   constructor(props) {
@@ -16,12 +17,15 @@ export class Recommendation extends Component {
       data: [],
       dataFromdb: [],
       courses: [],
+      snackOpen : false,
+      loading : false,
+      snackMsg : '',
+      snackColor : '',
     };
   }
 
   componentDidMount() {
     this.props.getStudentsById(this.props.id);
-    this.props.getMarkettingRecommended(this.props.id);
   }
 
   testcourses(arrayf, arrays) {
@@ -79,6 +83,15 @@ export class Recommendation extends Component {
       }
     }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.MarkettingRecommended !== prevProps.MarkettingRecommended){
+      this.setState({
+        loading : false
+      })
+    }
+  }
+  
 
   render() {
     // let result = [];
@@ -153,6 +166,11 @@ export class Recommendation extends Component {
                   variant="contained"
                   color="primary"
                   className="text-margin-bottom"
+                  onClick={()=>{
+                    this.setState({loading  : true})
+                    this.props.getMarkettingRecommended(this.props.id)
+
+                  }}
                 >
                   Run Marketing Recommendation
                 </Button>
@@ -162,6 +180,7 @@ export class Recommendation extends Component {
                   variant="contained"
                   color="primary"
                   className="text-margin-bottom"
+                  onClick={()=>this.props.getServiceRecommended(this.props.id)}
                 >
                   Run Service Recommendation
                 </Button>
@@ -177,14 +196,24 @@ export class Recommendation extends Component {
                 <th>Mentor Recommendation</th>
               </tr>
             </thead>
+            
             <tbody>
+            {this.state.loading === true ? 
+              <tr>
+                <td colSpan={"3"} style={{margin : "auto"}}>
+             <Loader /> 
+             </td>
+              </tr> :
               <tr>
                 <td>{this.getCourse("recommended")}</td>
                 <td> {this.getCourse("services")} </td>
                 <td> {this.getCourse("mentor")} </td>
               </tr>
+  }
             </tbody>
+
           </table>
+       
         </div>
       </div>
     );

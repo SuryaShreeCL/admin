@@ -74,7 +74,7 @@ const initialValues = {
   company: { name: '', workExp: 0, logo: '' },
   program: { name: '', acronym: '' },
   textTestimonial: { tagLine: '', fullTestimonial: '' },
-  videoTestimonial: { tagLine: '', videoLink: '' },
+  videoTestimonial: { tagLine: '', videoLink: '', fullTestimonial: '' },
   gender: '',
   type: '',
   sector:'',
@@ -97,12 +97,12 @@ export default function TestimonialForm(props) {
 
   const { BranchList } = useSelector((state) => state.CollegeReducer);
   const { allCollegeList } = useSelector((state) => state.CollegeReducer);
-  const { viewCollegeList } = useSelector((state) => state.AspirationReducer);
+  // const { viewCollegeList } = useSelector((state) => state.AspirationReducer);
 
   useEffect(() => {
     dispatch(getBranches());
-    dispatch(getAllColleges());
-    dispatch(viewCollege(0, 24, null));
+    // dispatch(getAllColleges());
+    // dispatch(viewCollege(0, 100, null));
 
     //SETTING PRE POPULATED RECORD
     if (records != null)
@@ -138,7 +138,13 @@ export default function TestimonialForm(props) {
                   value={values.avatar}
                   onChange={handleChange}
                 />
-                <Autocomplete
+                <Controls.Input
+                  label='Grad College?'
+                  name='graduatingCollege.name'
+                  value={values.graduatingCollege.name}
+                  onChange={handleChange}
+                />
+                {/* <Autocomplete
                   id='graduatingCollege'
                   name='graduatingCollege.name'
                   getOptionSelected={(option, value) => option.value === value.name}
@@ -159,7 +165,7 @@ export default function TestimonialForm(props) {
                       variant='outlined'
                     />
                   )}
-                />
+                /> */}
                 <Controls.Input
                   label='Grad College Logo'
                   name='graduatingCollege.logo'
@@ -294,6 +300,13 @@ export default function TestimonialForm(props) {
                       variant='outlined'
                     />
                   )}
+                /> */}
+                <Controls.Input
+                  label='Admit College'
+                  style={{ width: '250px' }}
+                  name='admitCollege.name'
+                  value={values.admitCollege.name}
+                  onChange={handleChange}
                 />
                 <Controls.Input
                   label='Admit College Logo'
@@ -514,6 +527,11 @@ export default function TestimonialForm(props) {
                                 variant='outlined'
                               />
                             )}
+                          /> */}
+                          <Field
+                            className={classes.spacer}
+                            placeholder='College Name'
+                            name={`interviewCallsFrom.${index}.name`}
                           />
                           <Field
                             className={classes.spacer}
@@ -580,18 +598,27 @@ export default function TestimonialForm(props) {
               <Grid item xs={12}>
                 <LabelledOutline id='VT' label='Video Testimonial'>
                   <Controls.Input
-                    style={{ width: '500px', marginBottom: '10px' }}
+                    style={{ width: '45%', marginBottom: '10px' }}
                     name='videoTestimonial.tagLine'
                     label='Video Tag Line'
                     value={values.videoTestimonial?.tagLine}
                     onChange={handleChange}
                   />
                   <Controls.Input
-                    style={{ width: '500px', marginBottom: '10px' }}
+                    style={{ width: '45%', marginBottom: '10px' }}
                     label='Video Link'
                     name='videoTestimonial.videoLink'
                     value={values.videoTestimonial?.videoLink}
                     onChange={handleChange}
+                  />
+                  <TextareaAutosize
+                    aria-label='Video Testimonial'
+                    style={{ width: '90%', marginTop: '4px' }}
+                    rowsMin={3}
+                    value={values.videoTestimonial?.fullTestimonial}
+                    onChange={handleChange}
+                    placeholder='Write full testimonial'
+                    name='videoTestimonial.fullTestimonial'
                   />
                 </LabelledOutline>
               </Grid>
@@ -600,7 +627,7 @@ export default function TestimonialForm(props) {
               <Grid item xs={12}>
                 <LabelledOutline id='TT' label='Text Testimonial'>
                   <Controls.Input
-                    style={{ width: '500px', marginBottom: '10px' }}
+                    style={{ width: '45%', marginBottom: '10px' }}
                     name='textTestimonial.tagLine'
                     label='Text Tag Line'
                     value={values.textTestimonial?.tagLine}
@@ -608,7 +635,7 @@ export default function TestimonialForm(props) {
                   />
                   <TextareaAutosize
                     aria-label='Full Testimonial'
-                    style={{ width: '500px', marginBottom: '4px' }}
+                    style={{ width: '45%', marginBottom: '4px' }}
                     rowsMin={3}
                     value={values.textTestimonial?.fullTestimonial}
                     onChange={handleChange}

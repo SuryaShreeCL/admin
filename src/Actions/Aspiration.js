@@ -2,6 +2,19 @@ import {ASPIRATION} from "../Redux/Action"
 import axios from "axios"
 import {URL} from "../Actions/URL"
 // For Aspiration Specialization
+
+export const getAllSpecialization = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/aspiration/specialization")
+        .then(result=>{
+            dispatch({type: ASPIRATION.getAllSpecialization, payload: result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
 export const viewSpecialization = (pageNumber,size,keyword) =>{
     keyword=keyword===null? '':keyword
     return dispatch =>{
@@ -64,6 +77,26 @@ export const deleteSpecialization=(id)=>{
 
 // For Aspiration Degree
 
+export const getAllDegree = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch=>{
+        axios.get(URL+"/api/v1/aspiration/degree",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type: ASPIRATION.getAllDegree, payload: result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+
 export const viewDegree = (pageNumber,size,keyword) =>{
     keyword=keyword===null? '':keyword
     return dispatch =>{
@@ -124,6 +157,20 @@ export const deleteDegree=(id)=>{
 }
 
 // For Aspiration Feild Of study 
+
+
+export const getAllBranch = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/aspiration/branch")
+        .then(result=>{
+            dispatch({type: ASPIRATION.getAllBranch, payload: result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
 
 
 export const viewFeild = (pageNumber,size,keyword) =>{
@@ -264,6 +311,20 @@ export const deleteCountry=(id)=>{
 // For Aspiration College
 
 
+export const getAllUniversity = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/aspiration/university")
+        .then(result=>{
+            dispatch({type: ASPIRATION.getAllUniversity, payload: result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+
+
 export const viewCollege = (pageNumber,size,keyword) =>{
     keyword=keyword===null? '':keyword
     return dispatch =>{
@@ -324,6 +385,18 @@ export const deleteCollege=(id)=>{
 }
 
 // For Aspiration Term
+
+export const getAllTerms = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/aspiration/terms")
+        .then(result=>{
+            dispatch({type: ASPIRATION.getAllTerms, payload: result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
 
 
 export const viewTerm = (pageNumber,size,keyword) =>{

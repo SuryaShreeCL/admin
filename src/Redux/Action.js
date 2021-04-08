@@ -48,7 +48,9 @@ export const STUDENT = {
   getAnswer: 'getAnswer',
   getStudentPaginate: 'getStudentPaginate',
   viewDocumet: 'viewDocumet',
+  editDocument : 'editDocument',
   downloadDocument: 'downloadDocument',
+  deleteDocument : 'deleteDocument',
   mernStudentSignUp: 'mernStudentSignUp',
   mernStudentEdit: 'mernStudentEdit',
   getBlackListedUser: 'getBlackListedUser',
@@ -56,6 +58,8 @@ export const STUDENT = {
   getMernUser: 'getMernUser',
   getManualUser: 'getManualUser',
   catchSignUpError: 'catchSignUpError',
+  viewAllCity : 'viewAllCity',
+  getAspirationById : 'getAspirationById'
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -64,11 +68,16 @@ export const CHOICE_ANSWER = {
 export const DEPARTMENT = {
   addDepartment: 'addDepartment',
   updateDepartment: 'updateDepartment',
-  deleteDepatment: 'deleteDepartment,',
+  deleteDepatment: 'deleteDepartment',
 };
 
 // Selva
 export const ASPIRATION = {
+  getAllSpecialization : 'getAllSpecialization',
+  getAllDegree : 'getAllDegree',
+  getAllBranch : 'getAllBranch',
+  getAllUniversity : 'getAllUniversity',
+  getAllTerms : 'getAllTerms',
   viewSpecialization: 'viewSpecialization',
   addSpecialization: 'addSpecialization',
   updateSpecialization: 'updateSpecialization',
@@ -135,6 +144,15 @@ export const ADMIN = {
   adminLogin: 'adminLogin',
   refreshToken: 'refreshToken',
   studentAccess: 'studentAccess',
+  updatePersonalData : 'updatePersonalData',
+  updateEducationalData : 'updateEducationalData',
+  updateContactData : 'updateContactData',
+  updateAccountStatus : 'updateAccountStatus',
+  updateAspirationData : 'updateAspirationData',
+  viewStudentStatus : 'viewStudentStatus',
+  updateVerificationStatus : 'updateVerificationStatus',
+  getAllMentor : "getAllMentor",
+  alocateMentor : "alocateMentor"
 };
 
 export const CAREER_TRACK = {
@@ -143,6 +161,37 @@ export const CAREER_TRACK = {
   updateCareerTrack: 'updateCareerTrack',
   deleteCareerTrack: 'deleteCareerTrack',
 };
+
+export const NOTIFICATION = {
+	viewNotification : "viewNotification",
+	addNotification : "addNotification",
+	updateNotification : "updateNotification",
+	deleteNotification : "deleteNotification"
+}
+
+export const REPORTS = {
+	viewTermsAndConReport : "viewTermsAndConReport",
+	viewCvReport : "viewCvReport",
+	viewMarksheetReport : "viewMarksheetReport",
+	viewMyDetailsReport : "viewMyDetailsReport",
+  viewTechTestMechReport : "viewTechTestMechReport",
+  viewTechTestCseReport:"viewTechTestCseReport",
+  viewTestRating : "viewTestRating",
+  viewTechTestElectronics : "viewTechTestElectronics",
+  viewDiagTestReport : 'viewDiagTestReport',
+  viewCareerExpoTest : 'viewCareerExpoTest'
+}
+
+export const STUDENTMARKDETAILS={
+  viewStudentMarkDetails :"viewStudentMarkDetails",
+  viewResetTest :"viewResetTest",
+  viewAnswers :"viewAnswers"
+}
+export const SCOREDETAILS={
+  viewScoreDetails :"viewScoreDetails"
+}
+
+
 
 //MOHAMMED
 export const TESTIMONIAL = {

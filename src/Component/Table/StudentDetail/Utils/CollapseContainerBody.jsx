@@ -5,7 +5,9 @@ import IconButton from "@material-ui/core/IconButton";
 import { VscChevronUp, VscChevronDown } from "react-icons/vsc";
 
 export default class CollapseContainerBody extends Component {
+
   render() {
+    console.log(this.props)
     return (    
              <>                                              
                 <Grid
@@ -29,7 +31,7 @@ export default class CollapseContainerBody extends Component {
                   }
                   className="_value"
                 >
-                  <label>{this.props.value}</label>
+                  <label>{typeof this.props.value === "string" ? this.props.value : ""}</label>
                 </Grid>                                                
                 </>
     );

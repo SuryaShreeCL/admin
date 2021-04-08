@@ -39,24 +39,31 @@ import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded';
 import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
+import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+import CallIcon from '@material-ui/icons/Call';
+
+
 const drawerWidth = 240;
 const NavbarList = [
-  { id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
-  { id: 'students', icon: <PeopleIcon />, title: 'Students' },
-  { id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },
-  { id: 'college', icon: <AccountBalanceRoundedIcon />, title: 'Colleges' },
-  { id: 'university', icon: <SchoolRoundedIcon />, title: 'University' },
-  { id: 'city', icon: <LocationCityRoundedIcon />, title: 'City' },
-  { id: 'aspiration', icon: <SportsHandballRoundedIcon />, title: 'Aspiration' },
-  { id: 'questionSet', icon: <HelpRoundedIcon />, title: 'Question Set' },
-  { id: 'video', icon: <VideocamRoundedIcon />, title: 'Video' },
-  { id: 'product', icon: <AddShoppingCartRoundedIcon />, title: 'Product' },
-  { id: 'webinar', icon: <SupervisorAccountIcon />, title: 'Webinar' },
-  { id: 'career-track', icon: <TrendingUpRoundedIcon />, title: 'Career Track' },
-  { id: 'testimonials', icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
-  // {id: 'questionbank', icon:<PeopleIcon />, title:'Question Bank'},
-  // {id:'/',icon:<DnsRoundedIcon/>,title:'Logout'}
-];
+      {id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
+      {id: 'students', icon: <PeopleIcon />, title: 'Students' },
+      {id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
+      {id: 'college', icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
+      {id: 'university', icon:<SchoolRoundedIcon />, title:'University'},
+      {id: 'city', icon:<LocationCityRoundedIcon />, title:'City'},
+      {id: 'aspiration', icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
+      {id: 'questionSet', icon:<HelpRoundedIcon />, title:'Question Set'},
+      {id: 'video', icon:<VideocamRoundedIcon />, title:'Video'},
+      {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
+      {id: 'webinar', icon:<SupervisorAccountIcon />, title:'Webinar'},
+      {id: 'career-track', icon:<TrendingUpRoundedIcon />, title:'Career Track'},
+      {id: 'notification', icon:<NotificationsIcon /> , title:'Notification'},
+       { id: 'testimonials', icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
+      {id: 'reports', icon:<AssessmentRoundedIcon />, title:'Reports'},
+      {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'}
+      
+    ];
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -153,6 +160,13 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiListItem : {
+      root : {
+        "&$selected" : {
+          backgroundColor : '#009be5'
+        },
+      },
+    },
     MuiDrawer: {
       paper: {
         backgroundColor: '#18202c',
@@ -201,7 +215,7 @@ const theme = createMuiTheme({
     },
     MuiSvgIcon: {
       root: {
-        color: 'white',
+        // color: 'white',
       },
     },
   },
@@ -211,7 +225,7 @@ export default function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-
+  const [selectedMenu, setSelectedMenu] = React.useState(null)
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -225,6 +239,8 @@ export default function RootContainer(props) {
     window.sessionStorage.clear();
     props.history.push(rootLoginPath);
   };
+
+  console.log("........",history)
 
   return (
     <ThemeProvider theme={theme}>
@@ -256,8 +272,8 @@ export default function RootContainer(props) {
               <NotificationsIcon />
             </IconButton>
             {/* <GoogleBtn {...props} />       */}
-            <IconButton onClick={logout}>
-              <ExitToAppRoundedIcon color='inherit' />
+            <IconButton color='inherit' onClick={logout}>
+              <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -283,15 +299,17 @@ export default function RootContainer(props) {
           </div>
           <Divider />
           <List>
-            {NavbarList.map((Item) => (
+            {NavbarList.map((Item,index) => (
               <ListItem
+              selected={selectedMenu === index}
                 button
                 key={Item.id}
                 onClick={() => {
+                  setSelectedMenu(index)
                   history.push(rootPath.concat('/', Item.id));
                 }}
               >
-                <ListItemIcon className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
+                <ListItemIcon  className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
                 <ListItemText primary={Item.title} />
               </ListItem>
             ))}

@@ -107,6 +107,7 @@ export default class TableComponent extends Component {
             <Button
               variant="contained"
               color="primary"
+              disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
               name='action'
               onClick={(e) =>{
                 e.stopPropagation();
@@ -125,6 +126,7 @@ export default class TableComponent extends Component {
           <td style={body.td}>
             <Button
               variant="contained"
+              disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
               color="secondary"
               onClick={(e) =>{
                 e.stopPropagation();
@@ -259,6 +261,7 @@ export default class TableComponent extends Component {
                   <Button
                     variant="contained"
                     color="primary"
+                    disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
                     onClick={(e) =>
                       typeof this.props.onAddClick === "function"
                         ? this.props.onAddClick(e)

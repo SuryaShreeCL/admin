@@ -1,6 +1,7 @@
 import {ADMIN} from "../Redux/Action"
 import axios from "axios"
 import {URL} from "../Actions/URL"
+
 export const adminLogin=(data)=>{
     return dispatch => {
         axios.put(URL+"/api/v1/students/validateAdmin",data,{
@@ -52,4 +53,143 @@ export const postStudentAccess=(data)=>{
             });
     }
     
+}
+
+export const updateStudentPersonal=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/"+id+"/personaldetails",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updatePersonalData,updatePersonalResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateStudentEducation=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/"+id+"/educationaldetails",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateEducationalData,updateEducationalonalResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateStudentContact=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/"+id+"/contactdetails",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateContactData,contactDataResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateAccountStatus=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/"+id+"/accountstatus",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateAccountStatus,updateAccStatusResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const updateAspirationData=(id,data)=>{
+    return dispatch => {
+        axios.put(URL+"/aspiration/update/"+id,data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateAspirationData,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+
+
+export const viewStudentStatus=(id)=>{
+    return dispatch => {
+        axios.get(URL+"/api/v1/studentVerification/view/"+id,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.viewStudentStatus,studentStatusResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+
+export const updateVerificationStatus=(data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/studentVerification/update",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateVerificationStatus,updateVerificationResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+}
+
+export const getAllMentors = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/mentors")
+        .then(result=>{
+            dispatch({type : ADMIN.getAllMentor, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+} 
+
+export const allocateMentor = (mentorId,studentId,data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/student/mentor/"+studentId+"/"+mentorId,data)
+        .then(result=>{
+            dispatch({type : ADMIN.allocateMentor, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
 }

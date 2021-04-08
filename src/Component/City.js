@@ -23,6 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
   import EditIcon from "@material-ui/icons/Edit";
   import DeleteIcon from "@material-ui/icons/Delete";
   import {connect} from 'react-redux';
+  import {viewAllCities} from "../Actions/Student"
   import {viewCity,addCity,updateCity,deleteCity} from "../Actions/Aspiration"
 export class City extends Component {
     constructor(props) {
@@ -32,6 +33,8 @@ export class City extends Component {
             id : "",
             name : "",
             stateName : "",
+            nameHlpTxt : '',
+            stateHlpTxt : '',
             update : false,
         }
     }
@@ -147,24 +150,27 @@ export class City extends Component {
           });
       };
     componentDidMount(){
-        this.props.viewCity(0, 20, null);
+        // this.props.viewCity(0, 20, null);
+        this.props.viewAllCities()
         }
     // Add term
     addCity(){
-        this.setState({ show: false });
-        let newCityObj = {
-          name: this.state.name,
-          stateName : this.state.stateName,
-        };
-        if (this.state.name.length !== 0) {
+      let helpTxt = "Please fill the required feild"
+      this.state.name.length === 0 ? this.setState({nameHlpTxt : helpTxt}) : this.setState({nameHlpTxt : ''})
+      this.state.stateName.length === 0 ? this.setState({stateHlpTxt : helpTxt}) : this.setState({stateHlpTxt : ''})
+        if(this.state.name.length !== 0 && this.state.stateName.length !== 0){
+          let newCityObj = {
+            name: this.state.name,
+            stateName : this.state.stateName,
+          };
           this.props.addCity(newCityObj);
           this.setState({
             id: "",
             name: "",
             stateName : "",
+            show : false
           });
         }
-        this.props.viewCity(0, 20, null);
     }
     // Delete Handler
     deleteHandler = (data) =>{
@@ -172,44 +178,59 @@ export class City extends Component {
     }
     // Update Term
     updateCity(){
-        this.setState({ show: false });
-    let newCityObj = {
-      id : this.state.id,
-      name: this.state.name,
-      stateName : this.state.stateName,
-    };
-    if (this.state.name.length !== 0) {
-      this.props.updateCity(newCityObj);
-      this.setState({
-        id: "",
-        name: "",
-        stateName : "",
-        update: true,
-      });      
+      let helpTxt = "Please fill the required feild"
+      
+      this.state.name.length === 0 ? this.setState({nameHlpTxt : helpTxt}) : this.setState({nameHlpTxt : ''})
+      this.state.stateName.length === 0 ? this.setState({stateHlpTxt : helpTxt}) : this.setState({stateHlpTxt : ''})
+        
+      if(this.state.name.length !== 0 && this.state.stateName.length !== 0){
+        let newCityObj = {
+          id : this.state.id,
+          name: this.state.name,
+          stateName : this.state.stateName,
+        };
+        this.props.updateCity(newCityObj);
+        this.setState({
+          id: "",
+          name: "",
+          stateName : "",
+          update: true,
+          show : false
+        });    
+      }   
     }
-    this.props.viewCity(0, 20, null);
+
+    componentDidUpdate(prevProps, prevState) {
+      if(this.props.addCityList !== prevProps.addCityList){
+        this.props.viewAllCities()
+      }
+      if(this.props.updateCityList !== prevProps.updateCityList){
+        this.props.viewAllCities()
+      }
     }
+    
+
     render() {
-      console.log(this.props.viewCityList)
+      console.log(this.props.cityList)
         return (
             <div>
                 <ThemeProvider theme={this.getmuitheme()}>
                <Grid container>
                    <Grid item md={12}>
-                   {this.props.viewCityList.length !== 0 ? (
+                   {this.props.cityList.length !== 0 ? (
             <TableComponent
               data={
-                    this.props.viewCityList.length !== 0
-                  ? this.props.viewCityList.content
+                    this.props.cityList.length !== 0
+                  ? this.props.cityList
                   : null
               }
               cols={this.col}
               onRowClick={this.rowClick}
               onSearch={this.paginate}
               paginate={this.paginate}
-              totalCount={this.props.viewCityList.totalElements}
+              // totalCount={this.props.viewCityList.totalElements}
               title={"City"}
-              pageCount={this.props.viewCityList.totalPages}
+              // pageCount={this.props.viewCityList.totalPages}
               action={true}
               onDelete={true}
               onDeleteClick={this.deleteHandler}
@@ -303,6 +324,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
   return {
     viewCityList: state.AspirationReducer.viewCityList,
+    cityList : state.StudentReducer.cityList,
+    addCityList : state.AspirationReducer.addCityList,
+    updateCityList : state.AspirationReducer.updateCityList
   }
 }
-export default connect(mapStateToProps,{addCity, updateCity, viewCity, deleteCity})(City)
+export default connect(mapStateToProps,{addCity, updateCity, viewCity, deleteCity, viewAllCities})(City)
