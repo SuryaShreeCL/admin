@@ -40,9 +40,9 @@ const getOrigin = () => [
 const getProducts = () => [
   { id: '1', title: 'GMAT' },
   { id: '2', title: 'GRE' },
-  { id: '3', title: 'MBA Admission' },
+  { id: '3', title: 'MBA Admissions' },
   { id: '4', title: 'Profile Builder' },
-  { id: '5', title: 'Admission Consulting Services' },
+  { id: '5', title: 'MS Admissions' },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,7 @@ const initialValues = {
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
   companyCalls: [{ name: '', logo: '' }],
-  productList: [{ name: ''}],
+  productList: [''],
   domains: [{ name: ''}],
   otherAdmits: [{ name: '', logo:''}],
   products: '',
@@ -353,13 +353,13 @@ export default function TestimonialForm(props) {
                       {values.productList.map((product, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                           <Autocomplete
-                          value={values.productList[index].name}
+                          value={values.productList[index]}
                             onChange={(e, value) => {
                               setFieldValue(
-                                `productList.${index}.name`,
+                                `productList.${index}`,
                                 value !== null
                                   ? value
-                                  : initialValues.productList[0].name
+                                  : initialValues.productList[0]
                               );
                             }}
                             id='productList'
@@ -371,7 +371,7 @@ export default function TestimonialForm(props) {
                               style={{ marginTop: '4%'} }
                                 {...params}
                                 label='Product'
-                                name={`productList.${index}.name`}
+                                name={`productList.${index}`}
                                 variant='outlined'
                               />
                             )}
@@ -386,7 +386,7 @@ export default function TestimonialForm(props) {
                       ))}
                       <Controls.ActionButton
                         color='primary'
-                        onClick={() => arrayHelpers.push({ name: '' })}
+                        onClick={() => arrayHelpers.push('')}
                       >
                         <AddBoxIcon fontSize='large' />
                       </Controls.ActionButton>

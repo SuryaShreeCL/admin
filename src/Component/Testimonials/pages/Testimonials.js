@@ -177,7 +177,7 @@ export default function Testimonials() {
                   <TableCell>{item?.mixedTag}</TableCell>
                   <TableCell>{item?.scores?.gre}</TableCell>
                   <TableCell>{item?.scores?.gmat}</TableCell>
-                  <TableCell>{item?.productList.map((prd) => `${prd.name} `) ?? []}</TableCell>
+                  <TableCell>{item?.productList.map((prd) => `${prd} `) ?? []}</TableCell>
                   <TableCell>{item?.yearOfPassing}</TableCell>
                   <TableCell>
                     <Controls.ActionButton
