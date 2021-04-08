@@ -81,6 +81,9 @@ const initialValues = {
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
   companyCalls: [{ name: '', logo: '' }],
+  productList: [{ name: ''}],
+  domains: [{ name: ''}],
+  otherAdmits: [{ name: '', logo:''}],
   products: '',
   department: '',
   testimonialDate: new Date(),
@@ -334,28 +337,112 @@ export default function TestimonialForm(props) {
                   value={values.testimonialDate}
                   onChange={handleChange}
                 />
-                <Controls.Select
+                {/* <Controls.Select
                   label='Product'
                   name='products'
                   value={values.products}
                   onChange={handleChange}
                   options={getProducts()}
-                />
-                {/* <Grid item xs={3}>
+                /> */}
+                <Grid item xs={5}>
               <LabelledOutline id='PRD' label='Products'>
                 <FieldArray
-                  name='interviewCallsFrom'
+                  name='productList'
                   render={(arrayHelpers) => (
                     <div className={classes.root}>
-                      {values.interviewCallsFrom.map((interview, index) => (
+                      {values.productList.map((product, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                           <Autocomplete
+                          value={values.productList[index].name}
                             onChange={(e, value) => {
                               setFieldValue(
-                                `interviewCallsFrom.${index}.name`,
+                                `productList.${index}.name`,
                                 value !== null
                                   ? value
-                                  : `initialValues.interviewCallsFrom.${index}.name`
+                                  : initialValues.productList[0].name
+                              );
+                            }}
+                            id='productList'
+                            getOptionSelected={(option, value) => option.name === value.name}
+                            options={getProducts()?.map((prd) => prd.title) ?? []}
+                            style={{ width: 200 }}
+                            renderInput={(params) => (
+                              <TextField
+                              style={{ marginTop: '4%'} }
+                                {...params}
+                                label='Product'
+                                name={`productList.${index}.name`}
+                                variant='outlined'
+                              />
+                            )}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push({ name: '' })}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={5}>
+              <LabelledOutline id='DOM' label='Domain of Interest'>
+                <FieldArray
+                  name='domains'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.domains.map((domain, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Field
+                            className={classes.spacer}
+                            placeholder='Domain'
+                            name={`domains.${index}.name`}
+                          />
+                          <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <RemoveCircleIcon fontSize='large' />
+                          </Controls.ActionButton>
+                        </div>
+                      ))}
+                      <Controls.ActionButton
+                        color='primary'
+                        onClick={() => arrayHelpers.push({ name: '' })}
+                      >
+                        <AddBoxIcon fontSize='large' />
+                      </Controls.ActionButton>
+                    </div>
+                  )}
+                />
+              </LabelledOutline>
+            </Grid>
+            <Grid item xs={6}>
+              <LabelledOutline id='OA' label='Other Admit Colleges'>
+                <FieldArray
+                  name='otherAdmits'
+                  render={(arrayHelpers) => (
+                    <div className={classes.root}>
+                      {values.otherAdmits.map((admits, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                          <Autocomplete
+                          value={values.otherAdmits[index].name}
+                            onChange={(e, value) => {
+                              setFieldValue(
+                                `otherAdmits.${index}.name`,
+                                value !== null
+                                  ? value
+                                  : initialValues.otherAdmits[0].name
                               );
                             }}
                             id='interviewCalls'
@@ -365,11 +452,16 @@ export default function TestimonialForm(props) {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                label='Product'
-                                name={`interviewCallsFrom.${index}.name`}
+                                label='College Name'
+                                name={`otherAdmits.${index}.name`}
                                 variant='outlined'
                               />
                             )}
+                          />
+                          <Field
+                            className={classes.spacer}
+                            placeholder='College Logo'
+                            name={`otherAdmits.${index}.logo`}
                           />
                           <Controls.ActionButton
                             color='secondary'
@@ -389,7 +481,7 @@ export default function TestimonialForm(props) {
                   )}
                 />
               </LabelledOutline>
-            </Grid> */}
+            </Grid>
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
@@ -401,12 +493,13 @@ export default function TestimonialForm(props) {
                       {values.interviewCallsFrom.map((interview, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                           <Autocomplete
+                          value={values.interviewCallsFrom[index].name}
                             onChange={(e, value) => {
                               setFieldValue(
                                 `interviewCallsFrom.${index}.name`,
                                 value !== null
                                   ? value
-                                  : `initialValues.interviewCallsFrom.${index}.name`
+                                  : initialValues.interviewCallsFrom[0].name
                               );
                             }}
                             id='interviewCalls'
