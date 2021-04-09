@@ -1,61 +1,96 @@
 import React, { Component } from 'react'
 import {connect} from "react-redux"
-import {getAllMentors} from "../Actions/AdminAction"
+import {getAllMentors, allocateMentor} from "../Actions/AdminAction"
 import { Button, Grid, TextField } from "@material-ui/core"
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 }
-]
 class AllocateMentor extends Component {
     constructor(props){
         super(props);
         this.state ={
-
+            mentor : null,
+            snackColor : null,
+            snackMsg : null,
+            snackOpen : false
         }
     }
 
     componentDidMount() {
         this.props.getAllMentors()
     }
-    
 
+    handleSubmit = () =>{
+        if(this.state.mentor !== null){
+            this.props.allocateMentor(this.state.mentor.id,this.props.id)
+        }else{
+            this.setState({
+                snackMsg : "Please select the Mentor",
+                snackColor : "error",
+                snackOpen : true,
+            })
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.mentorAllocationResponse !== prevProps.mentorAllocationResponse){
+            this.setState({
+                snackMsg : "Mentor Allocated Successfully",
+                snackColor : "success",
+                snackOpen : true,
+            })
+        }
+    }
+    
     render() {
-        console.log(this.props.mentorList)
+        console.log(this.state.mentor)
+        console.log(this.props.mentorAllocationResponse)
         return (
             <div>
                 <Grid container spacing={2} alignItems='center' justify="center">
                     <Grid item md={7} align="right">
                     <Autocomplete
                         id="combo-box-demo"
-                        options={top100Films}
-                        getOptionLabel={(option) => option.title}
+                        options={this.props.mentorList}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e,value)=>this.setState({mentor : value})}
                         style={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Select Mentor" variant="outlined" />}
                         />
                     </Grid>
                     <Grid item md={5}>
-                        <Button variant="outlined" size="large" color="primary">Allocate</Button>
+                        <Button variant="outlined" onClick={this.handleSubmit} size="large" color="primary">Allocate</Button>
                     </Grid>
                 </Grid>
+                <Snackbar
+          open={this.state.snackOpen}
+          variant="filled"
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackOpen: false })}
+        >
+          <Alert
+            onClose={() => this.setState({ snackOpen: false })}
+            severity={this.state.snackColor}
+          >
+            {this.state.snackMsg}
+          </Alert>
+        </Snackbar>
             </div>
         )
     }
 }
 
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 const mapStateToProps = (state) =>{
+    console.log(state)
     return {
-        mentorList : state.AdminReducer.mentorList
+        mentorList : state.AdminReducer.mentorList,
+        mentorAllocationResponse : state.AdminReducer.mentorAllocationResponse
     }
 }
 
-export default connect(mapStateToProps,{getAllMentors})(AllocateMentor)
+export default connect(mapStateToProps,{getAllMentors, allocateMentor})(AllocateMentor)

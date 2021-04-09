@@ -182,11 +182,11 @@ export const getAllMentors = () =>{
     }
 } 
 
-export const allocateMentor = (mentorId,studentId,data) =>{
+export const allocateMentor = (mentorId,studentId) =>{
     return dispatch =>{
-        axios.post(URL+"/api/v1/student/mentor/"+studentId+"/"+mentorId,data)
+        axios.post(URL+"/api/v1/student/mentor/"+studentId+"/"+mentorId)
         .then(result=>{
-            dispatch({type : ADMIN.allocateMentor, payload : result.data})
+            dispatch({type : ADMIN.alocateMentor, payload : result.data})
         })
         .catch(error=>{
             console.log(error)

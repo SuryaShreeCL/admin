@@ -69,7 +69,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         mentorList : action.payload
-      }
+      };
       case ADMIN.alocateMentor : 
       return {
         ...state,
