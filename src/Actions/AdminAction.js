@@ -155,8 +155,14 @@ export const viewStudentStatus=(id)=>{
 
 
 export const updateVerificationStatus=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     return dispatch => {
         axios.put(URL+"/api/v1/studentVerification/update",data,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
             crossDomain: true
         })
             .then(result => {
