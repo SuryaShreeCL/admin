@@ -6,8 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import CallbyTommorrow from '../Component/MentorDetails/Callbytommorrow';
-import CallBydayafterTommorrow from '../Component/MentorDetails/Callbydayaftertommorow';
+import CallbyTommorrow from './Callbytommorrow';
+import CallBydayafterTommorrow from './Callbydayaftertommorow';
+import Callbytoday from './Callbytoday';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,14 +62,19 @@ export default function SimpleTabs() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Call-By Tommorrow" {...a11yProps(0)} />
-          <Tab label="Call-By day after Tommorrow" {...a11yProps(1)} />
+          <Tab label="Call for Today" {...a11yProps(0)} />
+          <Tab label="Call for Tommorrow" {...a11yProps(1)} />
+          <Tab label="Call for day after Tommorrow" {...a11yProps(2)} />
+
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <CallbyTommorrow/>
+        <Callbytoday />
       </TabPanel>
       <TabPanel value={value} index={1}>
+        <CallbyTommorrow/>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
         <CallBydayafterTommorrow/>
       </TabPanel>
     

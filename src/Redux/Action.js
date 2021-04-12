@@ -155,6 +155,12 @@ export const ADMIN = {
   alocateMentor : "alocateMentor"
 };
 
+export const MENTORSCHEDULELIST={
+  viewSchedule : "viewSchedule"
+}
+
+
+
 export const CAREER_TRACK = {
   addCareerTrack: 'addCareerTrack',
   viewCareerTrack: 'viewCareerTrack',
