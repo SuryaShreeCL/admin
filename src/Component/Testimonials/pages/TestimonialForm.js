@@ -440,7 +440,7 @@ export default function TestimonialForm(props) {
                 />
               </LabelledOutline>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <LabelledOutline id='OA' label='Other Admit Colleges'>
                 <FieldArray
                   name='otherAdmits'
@@ -494,7 +494,7 @@ export default function TestimonialForm(props) {
                   )}
                 />
               </LabelledOutline>
-            </Grid>
+            </Grid> */}
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
