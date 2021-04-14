@@ -279,7 +279,7 @@ export default function TestimonialForm(props) {
                   value={values.scores?.ielts}
                   onChange={handleChange}
                 />
-                <Autocomplete
+                {/* <Autocomplete
                   id='admitCollege'
                   name='admitCollege.name'
                   getOptionSelected={(option, value) => option.value === value.name}
@@ -300,7 +300,7 @@ export default function TestimonialForm(props) {
                       variant='outlined'
                     />
                   )}
-                /> 
+                />  */}
                 <Controls.Input
                   label='Admit College'
                   style={{ width: '250px' }}
@@ -505,7 +505,7 @@ export default function TestimonialForm(props) {
                     <div className={classes.root}>
                       {values.interviewCallsFrom.map((interview, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                          <Autocomplete
+                          {/* <Autocomplete
                           value={values.interviewCallsFrom[index].name}
                             onChange={(e, value) => {
                               setFieldValue(
@@ -527,7 +527,12 @@ export default function TestimonialForm(props) {
                                 variant='outlined'
                               />
                             )}
-                          /> 
+                          />  */}
+                          <Field
+                            className={classes.spacer}
+                            placeholder='College Name'
+                            name={`interviewCallsFrom.${index}.name`}
+                          />
                           <Field
                             className={classes.spacer}
                             placeholder='College Logo'
