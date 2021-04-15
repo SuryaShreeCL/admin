@@ -13,39 +13,77 @@ import {
   CircularProgress,
   createMuiTheme,
 } from "@material-ui/core";
-import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating, viewDiagTestReport } from "../Actions/Reports";
+import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating, viewDiagTestReport, getCareerExpoReport } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
 import ExcelExporter from "./Table/StudentDetail/Utils/ExcelExporter";
 import Loader from "./Testimonials/components/controls/Loader";
-
-function ReportHome(props) {
-  const ExcelFile = ReactExport.ExcelFile;
+const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-  React.useEffect(() => {
-    props.viewTermsAndConReports();
-    props.viewCvReport();
-    props.viewMarkSheetReport()
-    props.viewMydetailsReport()
-    props.viewTechTestReport("Technical Test Mechanical")
-    props.viewTechTestReport("Technical Test Computer")
-    props.viewTechTestReport("Technical Test Electronics")
-    props.viewTechTestReport("Career Exploration Test")
-    props.viewTestRating()
-    props.viewDiagTestReport()
-  }, []);
-  console.log(props.careerReport);
+class ReportHome extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+        careerReportData : [],
+        arr : [
+          {col1 : "one", col2 : "two", col3 : "three"},
+          {col1 : "1", col2 : "2", col3 : "3"},
+        ],
+        objectKeys : []
+    }
+  }  
 
-// if(props.techTestMechReport.length !== 0){
-//   props.techTestMechReport.map(someElement=>{
-//     if(someElement.technicaltest !== null){
-//       console.log(someElement.technicaltest.['\" Which of the following statements is/are true for mechanisms?\"'])
+componentDidMount() {
 
-//     }
-//   })
-// }
+    this.props.viewTermsAndConReports();
+    this.props.viewCvReport();
+    this.props.viewMarkSheetReport()
+    this.props.viewMydetailsReport()
+    this.props.viewTechTestReport("Technical Test Mechanical")
+    this.props.viewTechTestReport("Technical Test Computer")
+    this.props.viewTechTestReport("Technical Test Electronics")
+    this.props.viewTestRating()
+    this.props.viewDiagTestReport()
+    this.props.getCareerExpoReport()
+}
+
+componentDidUpdate(prevProps, prevState) {
+
+    if(this.props.careerReport !== prevProps.careerReport){
+      
+      let myArr = []
+      this.props.careerReport.map(eachReport=>{
+       
+        let myObj = {}
+        for(const property in eachReport ){
+            myObj.[property] =  typeof eachReport[property] === "object" ? "" : eachReport[property]
+            if(typeof eachReport[property] !== "string" &&  eachReport[property] !== null && Object.keys(eachReport[property]).length !== 0){
+              for(const innerProperty in eachReport[property]){
+                myObj.[innerProperty] = eachReport[property].[innerProperty]
+              }
+            }
+        }
+        myArr.push(myObj)
+      
+        this.setState({careerReportData : myArr})
+      })
+    }
+
+    if(this.state.careerReportData !== prevState.careerReportData){
+      this.setState({
+        objectKeys : Object.keys(this.state.careerReportData[532]) 
+      })
+    }
+}
+
+
+render(){
+  console.log(this.props.careerReport)
+  console.log(this.state.careerReportData)
+  console.log(this.state.careerReportData[532])
+  console.log(this.state.objectKeys)
   return (
     <div>
       
@@ -55,16 +93,16 @@ function ReportHome(props) {
         </Grid>
         <Grid item md={12} align="center">
           {
-          props.termsAndConReport.length &&
-          props.cvReport.length &&
-          props.markSheetReport.length &&
-          props.myDetailsReport.length &&
-          props.techTestMechReport.length &&
-          props.techTestCseReport.length &&
-          props.testRatingResult.length &&
-          props.techTestElectronics.length  &&
-          props.careerReport.length &&
-          props.diagTestResult.length
+          this.props.termsAndConReport.length &&
+          this.props.cvReport.length &&
+          this.props.markSheetReport.length &&
+          this.props.myDetailsReport.length &&
+          this.props.techTestMechReport.length &&
+          this.props.techTestCseReport.length &&
+          this.props.testRatingResult.length &&
+          this.props.techTestElectronics.length  &&
+          this.props.careerReport.length &&
+          this.props.diagTestResult.length
            !== 0 ? 
           
           <TableContainer component={Paper}>
@@ -83,11 +121,13 @@ function ReportHome(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
+             
                 {/* Terms and con */}
                 <TableRow>
                   <TableCell align="left">{"1"}</TableCell>
                   <TableCell align="left">{"T&C Report"}</TableCell>
                   <TableCell align="left">
+
                     <ExcelFile
                       filename={"Terms & Condition Report"}
                       element={
@@ -101,7 +141,7 @@ function ReportHome(props) {
                       }
                     >
                       <ExcelSheet
-                        data={props.termsAndConReport}
+                        data={this.props.termsAndConReport}
                         name="Terms and condition report"
                       >
                         <ExcelColumn
@@ -159,7 +199,7 @@ function ReportHome(props) {
                         </Button>
                       }
                     >
-                      <ExcelSheet data={props.cvReport} name="CV Rating Report">
+                      <ExcelSheet data={this.props.cvReport} name="CV Rating Report">
                         <ExcelColumn
                           label="Submitted by: Title"
                           value="submittedByTitle"
@@ -221,7 +261,7 @@ function ReportHome(props) {
                         </Button>
                       }
                     >
-                      <ExcelSheet data={props.markSheetReport} name="Marksheet Report">
+                      <ExcelSheet data={this.props.markSheetReport} name="Marksheet Report">
                         <ExcelColumn
                           label="ID"
                           value="id"
@@ -303,7 +343,7 @@ function ReportHome(props) {
                         </Button>
                       }
                     >
-                      <ExcelSheet data={props.myDetailsReport} name="My Details Report">
+                      <ExcelSheet data={this.props.myDetailsReport} name="My Details Report">
                         <ExcelColumn
                           label="STUDENT_ID"
                           value="STUDENT_ID"
@@ -600,7 +640,7 @@ function ReportHome(props) {
                         </Button>
                       }
                     >
-                      <ExcelSheet data={props.techTestMechReport} name="Technical Test Mechanical Report">
+                      <ExcelSheet data={this.props.techTestMechReport} name="Technical Test Mechanical Report">
                         <ExcelColumn
                           label="Student ID"
                           value="Student ID"
@@ -879,7 +919,7 @@ function ReportHome(props) {
                       }
                     >
                       <ExcelSheet
-                        data={props.techTestElectronics}
+                        data={this.props.techTestElectronics}
                         name="Electronics report"
                       >
                         <ExcelColumn
@@ -1191,7 +1231,7 @@ function ReportHome(props) {
                       }
                     >
                       <ExcelSheet
-                        data={props.testRatingResult}
+                        data={this.props.testRatingResult}
                         name="Test Rating Report"
                       >
                          <ExcelColumn
@@ -1276,7 +1316,7 @@ function ReportHome(props) {
                       }
                     >
                       <ExcelSheet
-                        data={props.techTestCseReport}
+                        data={this.props.techTestCseReport}
                         name="Technical Test Computer"
                       >
                         <ExcelColumn
@@ -1577,7 +1617,7 @@ function ReportHome(props) {
                       }
                     >
                       <ExcelSheet
-                        data={props.diagTestResult}
+                        data={this.props.diagTestResult}
                         name="Diagnostic Test Report"
                       >
                          <ExcelColumn
@@ -1725,8 +1765,18 @@ function ReportHome(props) {
                         </Button>
                       }
                     >
-                      <ExcelSheet data={props.careerReport} name="Career Interest Test Report">
-                        <ExcelColumn
+                      <ExcelSheet data={this.state.careerReportData} name="Career Interest Test Report">
+                      {
+                        this.state.objectKeys.filter(oneDat=>oneDat !== "TestAnswer").map(eachData=>{
+                          return(
+                            <ExcelColumn
+                            label={eachData}
+                            value={eachData}
+                            />
+                          )
+                        })
+                      }
+                        {/* <ExcelColumn
                           label="Student ID"
                           value="Student ID"
                         ></ExcelColumn>
@@ -1941,18 +1991,19 @@ function ReportHome(props) {
                               }
                             }
                           }
-                        ></ExcelColumn>
+                        ></ExcelColumn> */}
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>
                 </TableRow>
 
+               
                 {/* Testing Excel */}
                 {/* <TableRow>
                 <TableCell align="left">{"4"}</TableCell>
                   <TableCell align="left">{"Testing Component"}</TableCell>
                   <TableCell align="left">
-                      <ExcelExporter data={props.cvReport} fileName={"Testiing Component"} noOfColumns={props.cvReport.length !== 0 ? Object.keys(props.cvReport[0]).length : null} />
+                      <ExcelExporter data={this.props.cvReport} fileName={"Testiing Component"} noOfColumns={this.props.cvReport.length !== 0 ? Object.keys(this.props.cvReport[0]).length : null} />
                   </TableCell>
                 </TableRow> */}
               </TableBody>
@@ -1972,6 +2023,8 @@ function ReportHome(props) {
       </Grid>
     </div>
   );
+}
+  
 }
 const mapStateToProps = (state) => {
   return {
@@ -1994,6 +2047,7 @@ export default connect(mapStateToProps, {
    viewMydetailsReport,
    viewTechTestReport,
    viewTestRating,
-   viewDiagTestReport
+   viewDiagTestReport,
+   getCareerExpoReport
    
 })(ReportHome);
