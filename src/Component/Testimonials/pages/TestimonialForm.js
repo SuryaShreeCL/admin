@@ -71,7 +71,7 @@ const initialValues = {
   yearOfPassing: '',
   testimonialOrigin: '',
   graduatingCollege: { name: '', logo: '' },
-  company: { name: '', workExp: 0, logo: '' },
+  company: { name: '', workExperience: '0', logo: '' },
   program: { name: '', acronym: '' },
   textTestimonial: { tagLine: '', fullTestimonial: '' },
   videoTestimonial: { tagLine: '', videoLink: '', fullTestimonial: '' },
@@ -224,10 +224,9 @@ export default function TestimonialForm(props) {
                 />
                 <Controls.Input
                   label='Work Exp'
-                  type='number'
                   style={{ width: '100px' }}
-                  name='company.workExp'
-                  value={values.company?.workExp}
+                  name='company.workExperience'
+                  value={values.company?.workExperience}
                   onChange={handleChange}
                 />
                 
