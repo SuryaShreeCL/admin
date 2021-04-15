@@ -441,7 +441,7 @@ export default class Webinar extends Component {
               "Department",
               "Department.",
               "Phone",
-              "Semester",
+              "Current Semester",
               "Organization",
               "Job Title",
               "Questions & Comments",
@@ -728,7 +728,7 @@ export default class Webinar extends Component {
                 "Lead Category":newArray[m]["Lead Category"],
                 "Comments": newArray[m]["Time in Session (minutes)"],
                 "Branch": newArray[m]["Department"] || newArray[m]["Department."] || newArray[m]["Job Title"],
-                "Semester": newArray[m]["Semester"] || newArray[m]["Questions & Comments"],
+                "Semester": newArray[m]["Current Semester"] || newArray[m]["Questions & Comments"],
                 "Lead Stage": newArray[m]["Lead Stage"],
                 "Original Lead Stage": newArray[m]["Original Lead Stage"],
               };            

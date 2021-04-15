@@ -71,7 +71,7 @@ const initialValues = {
   yearOfPassing: '',
   testimonialOrigin: '',
   graduatingCollege: { name: '', logo: '' },
-  company: { name: '', workExp: 0, logo: '' },
+  company: { name: '', workExperience: '0', logo: '' },
   program: { name: '', acronym: '' },
   textTestimonial: { tagLine: '', fullTestimonial: '' },
   videoTestimonial: { tagLine: '', videoLink: '', fullTestimonial: '' },
@@ -224,10 +224,9 @@ export default function TestimonialForm(props) {
                 />
                 <Controls.Input
                   label='Work Exp'
-                  type='number'
                   style={{ width: '100px' }}
-                  name='company.workExp'
-                  value={values.company?.workExp}
+                  name='company.workExperience'
+                  value={values.company?.workExperience}
                   onChange={handleChange}
                 />
                 
@@ -279,7 +278,7 @@ export default function TestimonialForm(props) {
                   value={values.scores?.ielts}
                   onChange={handleChange}
                 />
-                <Autocomplete
+                {/* <Autocomplete
                   id='admitCollege'
                   name='admitCollege.name'
                   getOptionSelected={(option, value) => option.value === value.name}
@@ -300,7 +299,7 @@ export default function TestimonialForm(props) {
                       variant='outlined'
                     />
                   )}
-                /> 
+                />  */}
                 <Controls.Input
                   label='Admit College'
                   style={{ width: '250px' }}
@@ -440,7 +439,7 @@ export default function TestimonialForm(props) {
                 />
               </LabelledOutline>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <LabelledOutline id='OA' label='Other Admit Colleges'>
                 <FieldArray
                   name='otherAdmits'
@@ -494,7 +493,7 @@ export default function TestimonialForm(props) {
                   )}
                 />
               </LabelledOutline>
-            </Grid>
+            </Grid> */}
               </LabelledOutline>
             </Grid>
             <Grid item xs={6}>
@@ -505,7 +504,7 @@ export default function TestimonialForm(props) {
                     <div className={classes.root}>
                       {values.interviewCallsFrom.map((interview, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                          <Autocomplete
+                          {/* <Autocomplete
                           value={values.interviewCallsFrom[index].name}
                             onChange={(e, value) => {
                               setFieldValue(
@@ -527,7 +526,12 @@ export default function TestimonialForm(props) {
                                 variant='outlined'
                               />
                             )}
-                          /> 
+                          />  */}
+                          <Field
+                            className={classes.spacer}
+                            placeholder='College Name'
+                            name={`interviewCallsFrom.${index}.name`}
+                          />
                           <Field
                             className={classes.spacer}
                             placeholder='College Logo'
