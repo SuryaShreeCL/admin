@@ -140,3 +140,15 @@ export const viewDiagTestReport = () =>{
         })
     }
 }
+
+export const getCareerExpoReport = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/reports/cit/Career Exploration Test")
+        .then(result =>{
+            dispatch({type:REPORTS.viewCareerExpoTest,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from "react-redux"
 import {getAllMentors, allocateMentor} from "../Actions/AdminAction"
+import {getStudentsById} from "../Actions/Student"
 import { Button, Grid, TextField } from "@material-ui/core"
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Snackbar from "@material-ui/core/Snackbar";
@@ -19,6 +20,12 @@ class AllocateMentor extends Component {
 
     componentDidMount() {
         this.props.getAllMentors()
+        console.log(this.props.studentDetails)
+        if(this.props.studentDetails.mentor !== null){
+            this.setState({
+                mentor : this.props.studentDetails.mentor
+            })
+        }
     }
 
     handleSubmit = () =>{
@@ -39,12 +46,14 @@ class AllocateMentor extends Component {
                 snackColor : "success",
                 snackOpen : true,
             })
+            this.props.getStudentsById(this.props.id)
         }
     }
     
     render() {
         console.log(this.state.mentor)
         console.log(this.props.mentorAllocationResponse)
+        console.log(this.props.studentDetails)
         return (
             <div>
                 <Grid container spacing={2} alignItems='center' justify="center">
@@ -52,6 +61,7 @@ class AllocateMentor extends Component {
                     <Autocomplete
                         id="combo-box-demo"
                         options={this.props.mentorList}
+                        value={this.state.mentor}
                         getOptionLabel={(option) => option.name}
                         onChange={(e,value)=>this.setState({mentor : value})}
                         style={{ width: 300 }}
@@ -89,8 +99,9 @@ const mapStateToProps = (state) =>{
     console.log(state)
     return {
         mentorList : state.AdminReducer.mentorList,
-        mentorAllocationResponse : state.AdminReducer.mentorAllocationResponse
+        mentorAllocationResponse : state.AdminReducer.mentorAllocationResponse,
+        studentDetails : state.StudentReducer.StudentList
     }
 }
 
-export default connect(mapStateToProps,{getAllMentors, allocateMentor})(AllocateMentor)
+export default connect(mapStateToProps,{getAllMentors, allocateMentor, getStudentsById})(AllocateMentor)

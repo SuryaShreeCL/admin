@@ -25,6 +25,7 @@ import StudentMarkDetails from "./StudentMarkDetails";
 import AllocateMentor from "./AllocateMentor"
 import ScoreDetails from "./ScoreDetails";
 import {viewStudentStatus} from "../Actions/AdminAction"
+import PgaTab from "./Pga/PgaTab";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -97,6 +98,7 @@ export function Student_data(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
+
             <Tab label="Student Information" {...a11yProps(1)} />
             <Tab label="Career Interest Survey" {...a11yProps(2)} />
             <Tab label="Recommendation" {...a11yProps(3)} />
@@ -105,7 +107,7 @@ export function Student_data(props) {
             <Tab label="StudentMarkDetails" {...a11yProps(6)} />
             <Tab label="ScoreDetails" {...a11yProps(7)} />
             <Tab label="Mentor Allocation" {...a11yProps(8)} />
-
+            {/* <Tab label="PGA" {...a11yProps(9)} /> */}
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -133,6 +135,9 @@ export function Student_data(props) {
         <TabPanel value={value} index={7}>
           <AllocateMentor id={props.match.params.id} />
         </TabPanel>
+        {/* <TabPanel value={value} index={8}>
+          <PgaTab id={props.match.params.id} />
+        </TabPanel> */}
 
       </>
     </div>
