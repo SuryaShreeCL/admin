@@ -1,4 +1,4 @@
-import { Grid, Typography, TextField } from "@material-ui/core";
+import { Grid, Divider, Typography, TextField } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -32,6 +32,14 @@ class GeneralDetails extends Component {
             eMailHelperTxt : '',
             phoneNumber : null,
             phoneHelperTxt : '',
+            uggpaScale: {},
+            uggpaScaleHelperTxt: "",
+            uggpa: null,
+            uggpaHelperTxt: "",
+            sem: {},
+            semHelperTxt: "",
+            expectedYear: {},
+            expectedYearHelperTxt: "",
 
         }
     }
@@ -59,9 +67,22 @@ class GeneralDetails extends Component {
                   lastName: this.props.StudentDetails.lastName,
                   eMail: this.props.StudentDetails.emailId,
                   phoneNumber: this.props.StudentDetails.phoneNumber,
-
-
-
+                  expectedYear: {
+                    title: this.props.StudentDetails.expectedYrOfGrad.toString(),
+                    value: this.props.StudentDetails.expectedYrOfGrad,
+                  },
+                  sem:
+                    this.props.StudentDetails.currentSem === 100
+                      ? { title: "Graduated", value: 100 }
+                      : {
+                          title: this.props.StudentDetails.currentSem.toString(),
+                          value: this.props.StudentDetails.currentSem,
+                        },
+                        uggpaScale: {
+                          title: this.props.StudentDetails.uggpascale.toString(),
+                          value: this.props.StudentDetails.uggpascale,
+                        },
+                        uggpa: this.props.StudentDetails.uggpa,
             })
         }
 
@@ -70,7 +91,52 @@ class GeneralDetails extends Component {
     handleChange = (e) =>{
         this.setState({[e.target.name] : e.target.value})
     }
-    
+    renderYear = () => {
+      let d = new Date();
+      let currentYr = d.getFullYear();
+      if (this.state.sem === null) {
+        let startingYear = currentYr - 5;
+        let endingYear = currentYr + 5;
+        let year = [];
+        for (startingYear; startingYear <= endingYear; startingYear++) {
+          year.push({ title: startingYear.toString(), value: startingYear });
+        }
+        return year;
+      } else if (this.state.sem.value === 100) {
+        let startingYear = currentYr - 5;
+        let endingYear = currentYr;
+        let year = [];
+        for (startingYear; startingYear <= endingYear; startingYear++) {
+          year.push({ title: startingYear.toString(), value: startingYear });
+        }
+        return year;
+      } else {
+        let startingYear = currentYr;
+        let endingYear = currentYr + 5;
+        let year = [];
+        for (startingYear; startingYear <= endingYear; startingYear++) {
+          year.push({ title: startingYear.toString(), value: startingYear });
+        }
+        return year;
+      }
+    };
+    renderSem = () => {
+      let sem = [];
+      let graduate = 100;
+      for (let i = 1; i <= 8; i++) sem.push({ title: i.toString(), value: i });
+      sem.push({ title: "Graduated", value: graduate });
+      return sem;
+    };
+  
+    renderUggpaScale = () => {
+      let cgpascalelist = [
+        { title: "10", value: 10 },
+        { title: "7", value: 7 },
+        { title: "4", value: 4 },
+        { title: "%", value: 100 },
+      ];
+      return cgpascalelist;
+    };
 
   render() {
       console.log(this.props.StudentDetails)
@@ -267,16 +333,225 @@ class GeneralDetails extends Component {
                 />
           </Grid>
           <Grid item md={1}>
-                    
+          {/* <Typography
+                  color="primary"
+                  // style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Expected Year Of Grad:"}
+                </Typography> */}
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={this.renderYear()}
+                  fullWidth
+                  value={this.state.expectedYear}
+                  name={"expectedYear"}
+                  size="small"
+                  onChange={(e, newValue) =>
+                    this.setState({ expectedYear: newValue })
+                  }
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      helperText={this.state.expectedYearHelperTxt}
+                      label="Year Of Graduation"
+                      variant="outlined"
+                    />
+                  )}
+                /> 
           </Grid>
           <Grid item md={1}>
-
+          {/* <Typography
+                  color="primary"
+                  // style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Current Sem:"}
+                </Typography> */}
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={this.renderSem()}
+                  value={this.state.sem}
+                  name={"sem"}
+                  fullWidth
+                  size="small"
+                  onChange={(e, newValue) => this.setState({ sem: newValue })}
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      helperText={this.state.semHelperTxt}
+                      label="Current Sem"
+                      variant="outlined"
+                    />
+                  )}
+                />
           </Grid>
           <Grid item md={1}>
-
+          {/* <Typography
+                  color="primary"
+                  // style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"UG GPA Scale:"}
+                </Typography> */}
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={this.renderUggpaScale()}
+                  value={this.state.uggpaScale}
+                  name={"uggpaScale"}
+                  fullWidth
+                  size="small"
+                  onChange={(e, newValue) =>
+                    this.setState({ uggpaScale: newValue })
+                  }
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      helperText={this.state.uggpaScaleHelperTxt}
+                      label="UG GPA Scale"
+                      variant="outlined"
+                    />
+                  )}
+                />
           </Grid>
           <Grid item md={1}>
-
+          {/* <Typography
+                  color="primary"
+                  // style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"UG GPA:"}
+                </Typography> */}
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  type="number"
+                  error={this.state.uggpaScale !== null && this.state.uggpa > this.state.uggpaScale.value ? true : false}
+                  helperText={this.state.uggpaScale !== null &&this.state.uggpa > this.state.uggpaScale.value ? "Enter the valid UG GPA" :""}
+                  onChange={(e) => this.handleChange(e)}
+                  name={"uggpa"}
+                  label="UG GPA"
+                  value={this.state.uggpa}
+                  InputLabelProps={{shrink : true}}
+                />
+          </Grid>
+          <Grid item md={2}>
+          <TextField
+                  variant="outlined"
+                  size="small"
+                  label="Area Of Interest 5"
+                />
+          </Grid>
+          <Grid item md={2}>
+          <TextField
+                  variant="outlined"
+                  size="small"
+                  label="Area Of Interest 6"
+                />
+          </Grid>
+        </Grid>
+        <hr />
+        <h5 style={{ padding: "1%" }}>Test Result</h5>
+        <Grid container style={{ padding: "1%" }}>
+          <Grid item md={6}>
+            <Grid container spacing={2}>
+            <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="Overall Result"
+            size="small" />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="Numerical Ability"
+            size="small" />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="Logical Reasoning"
+            size="small" />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="Verbal Reasoning"
+            size="small" />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="Personality Code"
+            size="small" />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="Mech Technical Test"
+            size="small" />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="CS Technical Test"
+            size="small" />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+            variant="outlined"
+            label="ECE Technical Test"
+            size="small" />
+          </Grid>
+            </Grid>
+            <hr />
+          </Grid>
+        </Grid>
+        <h5 style={{ padding: "1%" }}>Package Details</h5>
+        <Grid container style={{ padding: "1%" }}>
+          <Grid item md={6}>
+            <Grid container spacing={2}>
+              <Grid item md={4}>
+                <TextField
+                variant="outlined"
+                size="small"
+                label="Package" />
+              </Grid>
+              <Grid item md={4}>
+                <TextField
+                variant="outlined"
+                size="small"
+                label="Chosen Degree" />
+              </Grid>
+              <Grid item md={4}>
+                <TextField
+                variant="outlined"
+                size="small"
+                label="Choosen Field" />
+              </Grid>
+              <Grid item md={4}>
+                <TextField
+                variant="outlined"
+                size="small"
+                label="Choosen specialisation" />
+              </Grid>
+              <Grid item md={4}>
+                <TextField
+                variant="outlined"
+                size="small"
+                label="Course Opted" />
+              </Grid>
+              <Grid item md={4}>
+                <TextField
+                variant="outlined"
+                size="small"
+                label="Chosen Track" />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </div>
