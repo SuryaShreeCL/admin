@@ -37,15 +37,15 @@ class ReportHome extends React.Component {
 
 componentDidMount() {
 
-    // this.props.viewTermsAndConReports();
-    // this.props.viewCvReport();
-    // this.props.viewMarkSheetReport()
-    // this.props.viewMydetailsReport()
-    // this.props.viewTechTestReport("Technical Test Mechanical")
-    // this.props.viewTechTestReport("Technical Test Computer")
-    // this.props.viewTechTestReport("Technical Test Electronics")
-    // this.props.viewTestRating()
-    // this.props.viewDiagTestReport()
+    this.props.viewTermsAndConReports();
+    this.props.viewCvReport();
+    this.props.viewMarkSheetReport()
+    this.props.viewMydetailsReport()
+    this.props.viewTechTestReport("Technical Test Mechanical")
+    this.props.viewTechTestReport("Technical Test Computer")
+    this.props.viewTechTestReport("Technical Test Electronics")
+    this.props.viewTestRating()
+    this.props.viewDiagTestReport()
     this.props.getCareerExpoReport()
 }
 
@@ -92,16 +92,16 @@ render(){
         </Grid>
         <Grid item md={12} align="center">
           {
-          // this.props.termsAndConReport.length &&
-          // this.props.cvReport.length &&
-          // this.props.markSheetReport.length &&
-          // this.props.myDetailsReport.length &&
-          // this.props.techTestMechReport.length &&
-          // this.props.techTestCseReport.length &&
-          // this.props.testRatingResult.length &&
-          // this.props.techTestElectronics.length  &&
-          this.props.careerReport.length 
-          // this.props.diagTestResult.length
+          this.props.termsAndConReport.length &&
+          this.props.cvReport.length &&
+          this.props.markSheetReport.length &&
+          this.props.myDetailsReport.length &&
+          this.props.techTestMechReport.length &&
+          this.props.techTestCseReport.length &&
+          this.props.testRatingResult.length &&
+          this.props.techTestElectronics.length  &&
+          this.props.careerReport.length  &&
+          this.props.diagTestResult.length
            !== 0 ? 
           
           <TableContainer component={Paper}>
