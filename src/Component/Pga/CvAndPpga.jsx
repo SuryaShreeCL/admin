@@ -275,6 +275,78 @@ import React, { Component } from 'react'
                         size="small"
                         label="Notes After PPGA " />
                     </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Question from Database" />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Question from Database" />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Question from Database" />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Question from Database" />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
                 </Grid>
             </div>
         )

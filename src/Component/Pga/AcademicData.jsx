@@ -1,7 +1,14 @@
 import { Divider, Grid, TextField } from '@material-ui/core'
 import React, { Component } from 'react'
+import Autocomplete from '@material-ui/lab/Autocomplete'
 
  class AcademicData extends Component {
+     choice=[
+        { title: "10", value: 10 },
+        { title: "7", value: 7 },
+        { title: "4", value: 4 },
+        { title: "%", value: 100 },
+     ]
     render() {
         return (
             <div>
@@ -21,10 +28,22 @@ import React, { Component } from 'react'
               label="Exam Board Name(10th)" />
              </Grid>
              <Grid item md={1}>
-             <TextField
-              variant="outlined"
-              size="small"
-              label="Score Scale" />
+             <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
              </Grid>
              <Grid item md={1}>
              <TextField
@@ -45,10 +64,22 @@ import React, { Component } from 'react'
               label="Exam Board Name(12th)" />
              </Grid>
              <Grid item md={1}>
-             <TextField
-              variant="outlined"
-              size="small"
-              label="Score Scale" />
+             <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
              </Grid>
              <Grid item md={1}>
              <TextField
@@ -67,10 +98,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     size="small"
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -120,11 +163,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     size="small"
-                     fullWidth
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -179,11 +233,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     size="small"
-                     fullWidth
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -238,11 +303,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     size="small"
-                     fullWidth
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -297,11 +373,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     fullWidth
-                     size="small"
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -356,11 +443,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     size="small"
-                     fullWidth
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -415,11 +513,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     fullWidth
-                     size="small"
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -474,11 +583,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     size="small"
-                     fullWidth
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField
@@ -533,11 +653,22 @@ import React, { Component } from 'react'
                      label="Semester" />
                  </Grid>
                  <Grid item md={1}>
-                     <TextField
-                     variant="outlined"
-                     size="small"
-                     fullWidth
-                     label="Score Scale" />
+                 <Autocomplete
+                           id="combo-box-demo"
+                        options={this.choice}
+                        getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Score Scale"
+                              variant="outlined"
+                            />
+                            )}
+                            />
                  </Grid>
                  <Grid item md ={1}>
                      <TextField

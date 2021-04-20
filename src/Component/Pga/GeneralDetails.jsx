@@ -150,6 +150,7 @@ class GeneralDetails extends Component {
           <TextField
                   variant="outlined"
                   size="small"
+                  fullWidth
                   error={
                     this.state.studentIdHelperTxt.length !== 0 ? true : false
                   }

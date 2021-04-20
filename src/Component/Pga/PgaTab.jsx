@@ -9,6 +9,9 @@ import Box from '@material-ui/core/Box';
 import GeneralDetails from './GeneralDetails';
 import AcademicData from './AcademicData';
 import CvAndPpga from './CvAndPpga';
+import Pgaplan from './Pgaplan';
+import Comment from './Commentandpoints';
+import Review from './ReviewandRollout';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -53,6 +56,10 @@ function TabPanel(props) {
           <Tab label="General Details" {...a11yProps(0)} />
           <Tab label="Academic Data" {...a11yProps(1)} />
           <Tab label="CV And PPGA Questions" {...a11yProps(2)} />
+          <Tab label="PGA Plan" {...a11yProps(3)} />
+          <Tab label="Comment and Points" {...a11yProps(4)} />
+          <Tab label="Review and Rollout" {...a11yProps(5)} />
+
         </Tabs>
       </AppBar>
       <TabPanel value={this.state.value} index={0}>
@@ -63,6 +70,15 @@ function TabPanel(props) {
       </TabPanel>
       <TabPanel value={this.state.value} index={2}>
             <CvAndPpga id={this.props.id} />
+      </TabPanel>
+      <TabPanel value={this.state.value} index={3}>
+            <Pgaplan id={this.props.id} />
+      </TabPanel>
+      <TabPanel value={this.state.value} index={4}>
+            <Comment id={this.props.id} />
+      </TabPanel>
+      <TabPanel value={this.state.value} index={5}>
+            <Review id={this.props.id} />
       </TabPanel>
             </div>
         )
