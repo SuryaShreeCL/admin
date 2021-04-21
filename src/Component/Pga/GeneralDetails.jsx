@@ -8,6 +8,7 @@ import {
     getBranches,
   } from "../../Actions/College";
   import Autocomplete from "@material-ui/lab/Autocomplete";
+  import {getAllBranch,getAllDegree,getAllSpecialization} from "../../Actions/Aspiration"
 
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
@@ -40,7 +41,12 @@ class GeneralDetails extends Component {
             semHelperTxt: "",
             expectedYear: {},
             expectedYearHelperTxt: "",
-
+            branch : [],
+            branchHelperTxt : '',
+            degree : [],
+            degreeHelperTxt : '',
+            specialization : [],
+            specializationHelperTxt : '',
         }
     }
 
@@ -50,6 +56,9 @@ class GeneralDetails extends Component {
         this.props.getUniversity()
         this.props.getDegree()
         this.props.getAllColleges()
+        this.props.getAllBranch()
+        this.props.getAllDegree()
+        this.props.getAllSpecialization()
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -83,9 +92,18 @@ class GeneralDetails extends Component {
                           value: this.props.StudentDetails.uggpascale,
                         },
                         uggpa: this.props.StudentDetails.uggpa,
+                        branch : this.props.aspirationDetails.branches,
+                        degree : this.props.aspirationDetails.degrees,
+                        specialization : this.props.aspirationDetails.specializations,
             })
         }
-
+        // if (this.props.StudentDetails !== prevProps.StudentDetails) {
+        //   this.setState({
+        //     branch : this.props.aspirationDetails.branches,
+        //     degree : this.props.aspirationDetails.degrees,
+        //     specialization : this.props.aspirationDetails.specializations,
+        //   });
+        // }
     }
     
     handleChange = (e) =>{
@@ -140,6 +158,9 @@ class GeneralDetails extends Component {
 
   render() {
       console.log(this.props.StudentDetails)
+      console.log(this.props.aspirationDetails)
+      // console.log(this.props.aspidegreeList)
+      console.log(this.state.degree)
     return (
       <div>
         <Grid container style={{ padding: "2%" }} spacing={1}>
@@ -523,22 +544,62 @@ class GeneralDetails extends Component {
                 label="Package" />
               </Grid>
               <Grid item md={4}>
-                <TextField
-                variant="outlined"
-                size="small"
-                label="Chosen Degree" />
+                <Autocomplete
+                  id="combo-box-demo"
+                  value={this.state.degree}
+                  name={"aspiDegree"}
+                  multiple
+                  options={this.props.aspidegreeList}
+                  onChange={(e, newValue) => this.setState({degree : newValue})}
+                  getOptionLabel={(option) => option.name}
+                  size="small"
+                  renderInput={(params) =>
+                  <TextField
+                     {...params}
+                     label="Choosen Degree"
+                     variant="outlined"
+                    //  value={this.state.degree}
+                     helperText={this.state.degreeHelperTxt}
+                     />}
+               />
               </Grid>
               <Grid item md={4}>
-                <TextField
-                variant="outlined"
-                size="small"
-                label="Choosen Field" />
+                <Autocomplete
+                  id="combo-box-demo"
+                  value={this.state.branch}
+                  name={"aspiBranch"}
+                  multiple
+                  options={this.props.aspibranchList}
+                  onChange={(e, newValue) => this.setState({branch : newValue})}
+                  getOptionLabel={(option) => option.name}
+                  size="small"
+                  renderInput={(params) =>
+                  <TextField
+                     {...params}
+                     label="Choosen Field"
+                     variant="outlined"
+                     helperText={this.state.branchHelperTxt}
+                     />}
+               />
               </Grid>
               <Grid item md={4}>
-                <TextField
-                variant="outlined"
-                size="small"
-                label="Choosen specialisation" />
+                  <Autocomplete
+                  id="combo-box-demo"
+                  value={this.state.specialization}
+                  name={"specialization"}
+                  multiple
+                  options={this.props.specializationList}
+                  onChange={(e, newValue) => this.setState({specialization : newValue})}
+                  getOptionLabel={(option) => option.name}
+                  size="small"
+                  renderInput={(params) =>
+                  <TextField
+                     {...params}
+                     label="Choosen specilaization"
+                     variant="outlined"
+                     helperText={this.state.specializationHelperTxt}
+                     />}
+               />
               </Grid>
               <Grid item md={4}>
                 <TextField
@@ -568,10 +629,20 @@ const mapStateToProps = (state) => {
       universityList: state.CollegeReducer.University,
       degreeList: state.CollegeReducer.Degree,
       branchList: state.CollegeReducer.BranchList,
+      aspibranchList : state.AspirationReducer.allBranchList,
+      aspidegreeList : state.AspirationReducer.allDegreeList,
+      specializationList : state.AspirationReducer.allSpeciaizationList,
+      aspirationDetails : state.StudentReducer.aspirationDetails,
+
     };
   };
 
-export default connect(mapStateToProps,{getStudentsById, getAllColleges,
+export default connect(mapStateToProps,{
+    getStudentsById,
+    getAllColleges,
     getUniversity,
     getDegree,
+    getAllBranch,
+    getAllDegree,
+    getAllSpecialization,
     getBranches,})(GeneralDetails)

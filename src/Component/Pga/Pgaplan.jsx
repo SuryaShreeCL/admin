@@ -12,6 +12,32 @@ export default class Pgaplan extends Component {
        {title:"Option 4"},
        {title:"Option 5"},
    ]
+  //  specialization=[
+  //    {title:"Full Stack Development"},
+  //    {title:"Front End Development"},
+  //    {title:"Programming Basics"},
+  //    {title:"Competitive Programming"},
+  //    {title:"Data Science"},
+  //    {title:"Machine Learning "},
+  //    {title:"Computer Vision"},
+  //    {title:"Embedded Systems and Hardware"},
+  //    {title:"VLSI"},
+  //    {title:"Design and Modelling"},
+  //    {title:"Civil Engineering"},
+  //    {title:"Marketing"},
+  //    {title:"Analytics"},
+  //    {title:"Structural Stress Engineering"},
+  //    {title:"Tool Design"},
+  //    {title:""},
+  //    {title:""},
+  //    {title:""},
+  //    {title:""},
+  //    {title:""},
+  //    {title:""},
+  //    {title:""},
+  //    {title:""},
+  //    {title:""},
+  //  ]
     render() {
         return (
             <div>
@@ -21,6 +47,8 @@ export default class Pgaplan extends Component {
                         <TextField
                         variant="outlined"
                         size="small"
+                        value="Ambitious"
+                        disabled
                         label="Career Track" />
                     </Grid>
                     <Grid item md={2}>
@@ -28,7 +56,6 @@ export default class Pgaplan extends Component {
                            id="combo-box-demo"
                         options={this.choice}
                         getOptionLabel={(option) => option.title}
-                        // value={}
                         fullWidth
                         size="small"
                         renderInput={(params) => (
@@ -106,6 +133,8 @@ export default class Pgaplan extends Component {
                         <TextField
                         variant="outlined"
                         size="small"
+                        value="Balanced"
+                        disabled
                         label="Career Track" />
                     </Grid>
                     <Grid item md={2}>
@@ -191,6 +220,8 @@ export default class Pgaplan extends Component {
                         <TextField
                         variant="outlined"
                         size="small"
+                        value="Casual"
+                        disabled
                         label="Career Track" />
                     </Grid>
                     <Grid item md={2}>
@@ -276,6 +307,8 @@ export default class Pgaplan extends Component {
                         <TextField
                         variant="outlined"
                         size="small"
+                        value="Exploratory"
+                        disabled
                         label="Career Track" />
                     </Grid>
                     <Grid item md={2}>

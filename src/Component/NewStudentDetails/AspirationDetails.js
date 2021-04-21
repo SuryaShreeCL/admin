@@ -214,6 +214,7 @@ export class AspirationDetails extends Component {
     return year;
 }
   render() {
+    console.log(this.props.aspirationDetails)
     const { divStyle, textStyle, divContainer } = style;
     return (
       <div>
