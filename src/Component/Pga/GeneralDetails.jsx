@@ -108,7 +108,7 @@ class GeneralDetails extends Component {
                         branch : this.props.aspirationDetails.branches,
                         degree : this.props.aspirationDetails.degrees,
                         specialization : this.props.aspirationDetails.specializations,
-                        country : this.props.aspirationDetails.countries
+                        country : this.props.aspirationDetails.countries !== undefined ? this.props.aspirationDetails.countries : []
             })
         }
         if(this.props.pgaScoreDetails !== prevProps.pgaScoreDetails){
@@ -200,27 +200,17 @@ class GeneralDetails extends Component {
         {title:"July to Sep"},
         {title:"Oct to Dec"},
       ] 
-<<<<<<< HEAD
-  country=[
-    {title:"India"},
-    {title:"South Africa"},
-    {title:"Srilanka"},
-    {title:"Australia"},
-    {title:"Japan"},
-  ]
+ 
   track=[
     {title:"Masters"},
     {title:"PB-Masters"},
     {title:"PB-Placements"},
     {title:"Others"},
   ]
-=======
 
->>>>>>> dabd9280ecacac5ad663eaaae952c542fe4c0b55
   
       render() {
-        
-        console.log(this.state.country)
+        console.log(this.props.aspirationDetails.countries)
       console.log(this.props.careerInterestList)
       
     return (
