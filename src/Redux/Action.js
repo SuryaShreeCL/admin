@@ -197,6 +197,10 @@ export const SCOREDETAILS={
   viewScoreDetails :"viewScoreDetails"
 }
 
+export const PGA = {
+  getScoreDetails : "getScoreDetails"
+}
+
 
 
 //MOHAMMED

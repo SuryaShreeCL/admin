@@ -8,7 +8,7 @@ import {
     getBranches,
   } from "../../Actions/College";
   import Autocomplete from "@material-ui/lab/Autocomplete";
-
+import {getPgaScores} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -50,6 +50,7 @@ class GeneralDetails extends Component {
         this.props.getUniversity()
         this.props.getDegree()
         this.props.getAllColleges()
+        this.props.getPgaScores(this.props.id)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -139,7 +140,7 @@ class GeneralDetails extends Component {
     };
 
   render() {
-      console.log(this.props.StudentDetails)
+      console.log(this.props.pgaScoreDetails)
     return (
       <div>
         <Grid container style={{ padding: "2%" }} spacing={1}>
@@ -568,10 +569,12 @@ const mapStateToProps = (state) => {
       universityList: state.CollegeReducer.University,
       degreeList: state.CollegeReducer.Degree,
       branchList: state.CollegeReducer.BranchList,
+      pgaScoreDetails : state.PgaReducer.pgaScoreDetails
     };
   };
 
 export default connect(mapStateToProps,{getStudentsById, getAllColleges,
     getUniversity,
     getDegree,
+    getPgaScores,
     getBranches,})(GeneralDetails)

@@ -5,6 +5,12 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { TurnedInSharp } from '@material-ui/icons';
 
 export default class Pgaplan extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    }
+  }
    choice=[
        {title:"Option 1"},
        {title:"Option 2"},
