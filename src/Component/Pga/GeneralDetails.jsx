@@ -99,13 +99,6 @@ class GeneralDetails extends Component {
                         specialization : this.props.aspirationDetails.specializations,
             })
         }
-        // if (this.props.StudentDetails !== prevProps.StudentDetails) {
-        //   this.setState({
-        //     branch : this.props.aspirationDetails.branches,
-        //     degree : this.props.aspirationDetails.degrees,
-        //     specialization : this.props.aspirationDetails.specializations,
-        //   });
-        // }
     }
     
     handleChange = (e) =>{
@@ -157,8 +150,23 @@ class GeneralDetails extends Component {
       ];
       return cgpascalelist;
     };
-
-  render() {
+    
+    
+    period=[
+        {title:"Jan to Mar"},
+        {title:"Apr to June"},
+        {title:"July to Sep"},
+        {title:"Oct to Dec"},
+      ] 
+  country=[
+    {title:"India"},
+    {title:"South Africa"},
+    {title:"Srilanka"},
+    {title:"Australia"},
+    {title:"Japan"},
+  ]
+  
+      render() {
       console.log(this.props.StudentDetails)
       console.log(this.props.aspirationDetails)
       // console.log(this.props.aspidegreeList)
@@ -615,6 +623,40 @@ class GeneralDetails extends Component {
                 variant="outlined"
                 size="small"
                 label="Chosen Track" />
+              </Grid>
+              <Grid item md={4}>
+                  <TextField
+                  variant="outlined"
+                  size="small"
+                  label="Drive Link" />
+              </Grid>
+              <Grid item md={4}>
+                <Autocomplete
+                   id="combo-box-demo"
+                   options={this.period}
+                   getOptionLabel={(option) => option.title}
+                   size="small"
+                   renderInput={(params) =>
+                   <TextField
+                    {...params}
+                    label="Enrollment Period"
+                    variant="outlined"
+                   />}
+                />
+              </Grid>
+              <Grid item md={4}>
+                <Autocomplete
+                 id="combo-box-demo"
+                 options={this.country}
+                 getOptionLabel={(option) => option.title}
+                 size="small"
+                 renderInput={(params) =>
+                 <TextField
+                  {...params}
+                  label="Preferred Region"
+                  variant="outlined"
+                 />}
+                />
               </Grid>
             </Grid>
           </Grid>

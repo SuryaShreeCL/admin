@@ -18,32 +18,31 @@ export default class Pgaplan extends Component {
        {title:"Option 4"},
        {title:"Option 5"},
    ]
-  //  specialization=[
-  //    {title:"Full Stack Development"},
-  //    {title:"Front End Development"},
-  //    {title:"Programming Basics"},
-  //    {title:"Competitive Programming"},
-  //    {title:"Data Science"},
-  //    {title:"Machine Learning "},
-  //    {title:"Computer Vision"},
-  //    {title:"Embedded Systems and Hardware"},
-  //    {title:"VLSI"},
-  //    {title:"Design and Modelling"},
-  //    {title:"Civil Engineering"},
-  //    {title:"Marketing"},
-  //    {title:"Analytics"},
-  //    {title:"Structural Stress Engineering"},
-  //    {title:"Tool Design"},
-  //    {title:""},
-  //    {title:""},
-  //    {title:""},
-  //    {title:""},
-  //    {title:""},
-  //    {title:""},
-  //    {title:""},
-  //    {title:""},
-  //    {title:""},
-  //  ]
+   specialization=[
+     {title:"Full Stack Development"},
+     {title:"Front End Development"},
+     {title:"Programming Basics"},
+     {title:"Competitive Programming"},
+     {title:"Data Science"},
+     {title:"Machine Learning "},
+     {title:"Computer Vision"},
+     {title:"Embedded Systems and Hardware"},
+     {title:"VLSI"},
+     {title:"Design and Modelling"},
+     {title:"Civil Engineering"},
+     {title:"Marketing"},
+     {title:"Analytics"},
+     {title:"Structural Stress Engineering"},
+     {title:"Tool Design"},
+     {title:"NC Programming"},
+     {title:"Internet of Things"},
+     {title:"Robotics and Mechatronics"},
+     {title:"Cloud Computing Starter Pack"},
+     {title:"Digital Signal Processing"},
+     {title:"Finance"},
+     {title:"Equipment & System Engineering"},
+     {title:"HR Analytics"},
+   ]
     render() {
         return (
             <div>
@@ -60,7 +59,7 @@ export default class Pgaplan extends Component {
                     <Grid item md={2}>
                         <Autocomplete
                            id="combo-box-demo"
-                        options={this.choice}
+                        options={this.specialization}
                         getOptionLabel={(option) => option.title}
                         fullWidth
                         size="small"
@@ -146,8 +145,8 @@ export default class Pgaplan extends Component {
                     <Grid item md={2}>
                         <Autocomplete
                            id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
+                           options={this.specialization}
+                           getOptionLabel={(option) => option.title}
                         // value={}
                         fullWidth
                         size="small"
@@ -233,8 +232,8 @@ export default class Pgaplan extends Component {
                     <Grid item md={2}>
                         <Autocomplete
                            id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
+                           options={this.specialization}
+                           getOptionLabel={(option) => option.title}
                         // value={}
                         fullWidth
                         size="small"
@@ -320,8 +319,8 @@ export default class Pgaplan extends Component {
                     <Grid item md={2}>
                         <Autocomplete
                            id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
+                           options={this.specialization}
+                           getOptionLabel={(option) => option.title}
                         // value={}
                         fullWidth
                         size="small"
