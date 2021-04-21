@@ -15,3 +15,27 @@ export const getPgaScores = (id) =>{
         })
     }
 }
+
+export const getCareerInterest = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/areaOfInterest/"+id)
+        .then(result=>{
+            dispatch({type : PGA.getCareerInterest, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const postPgaAcademicData = () =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/students/save/pgaacademicdetails")
+        .then(result=>{
+            dispatch({type : PGA.postAcademicData, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
