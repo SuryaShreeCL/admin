@@ -10,6 +10,7 @@ import {
   import Autocomplete from "@material-ui/lab/Autocomplete";
   import {getAllBranch,getAllDegree,getAllSpecialization} from "../../Actions/Aspiration"
 
+import {getPgaScores} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -59,6 +60,7 @@ class GeneralDetails extends Component {
         this.props.getAllBranch()
         this.props.getAllDegree()
         this.props.getAllSpecialization()
+        this.props.getPgaScores(this.props.id)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -161,6 +163,7 @@ class GeneralDetails extends Component {
       console.log(this.props.aspirationDetails)
       // console.log(this.props.aspidegreeList)
       console.log(this.state.degree)
+      console.log(this.props.pgaScoreDetails)
     return (
       <div>
         <Grid container style={{ padding: "2%" }} spacing={1}>
@@ -633,7 +636,7 @@ const mapStateToProps = (state) => {
       aspidegreeList : state.AspirationReducer.allDegreeList,
       specializationList : state.AspirationReducer.allSpeciaizationList,
       aspirationDetails : state.StudentReducer.aspirationDetails,
-
+      pgaScoreDetails : state.PgaReducer.pgaScoreDetails
     };
   };
 
@@ -645,4 +648,5 @@ export default connect(mapStateToProps,{
     getAllBranch,
     getAllDegree,
     getAllSpecialization,
+    getPgaScores,
     getBranches,})(GeneralDetails)
