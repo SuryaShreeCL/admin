@@ -1,7 +1,8 @@
 import { PGA } from "../Redux/Action";
 
 const initialState = {
-    pgaScoreDetails : []
+    pgaScoreDetails : [],
+    careerInterestList : [],
 }
 
 export default (state = initialState, action) =>{
@@ -10,6 +11,11 @@ export default (state = initialState, action) =>{
                 return {
                     ...state,
                     pgaScoreDetails : action.payload
+                }
+                case PGA.getCareerInterest:
+                return {
+                    ...state,
+                    careerInterestList : action.payload
                 }
         default:
             return state

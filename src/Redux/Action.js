@@ -198,7 +198,9 @@ export const SCOREDETAILS={
 }
 
 export const PGA = {
-  getScoreDetails : "getScoreDetails"
+  getScoreDetails : "getScoreDetails",
+  getCareerInterest : "getCareerInterest",
+  postAcademicData : "postAcademicData"
 }
 
 

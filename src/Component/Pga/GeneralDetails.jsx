@@ -8,9 +8,9 @@ import {
     getBranches,
   } from "../../Actions/College";
   import Autocomplete from "@material-ui/lab/Autocomplete";
-  import {getAllBranch,getAllDegree,getAllSpecialization} from "../../Actions/Aspiration"
+  import {getAllBranch,getAllDegree,getAllSpecialization, viewCountryForSelect} from "../../Actions/Aspiration"
 
-import {getPgaScores} from "../../Actions/PgaAction"
+import {getPgaScores, getCareerInterest} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -48,6 +48,8 @@ class GeneralDetails extends Component {
             degreeHelperTxt : '',
             specialization : [],
             specializationHelperTxt : '',
+            country : [],
+            countryHlpTxt : '',
             overallResult : null,
             numericalAbility : null,
             logicalReasoning : null,
@@ -68,6 +70,8 @@ class GeneralDetails extends Component {
         this.props.getAllDegree()
         this.props.getAllSpecialization()
         this.props.getPgaScores(this.props.id)
+        this.props.viewCountryForSelect()
+        this.props.getCareerInterest(this.props.id)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -104,6 +108,7 @@ class GeneralDetails extends Component {
                         branch : this.props.aspirationDetails.branches,
                         degree : this.props.aspirationDetails.degrees,
                         specialization : this.props.aspirationDetails.specializations,
+                        country : this.props.aspirationDetails.countries
             })
         }
         if(this.props.pgaScoreDetails !== prevProps.pgaScoreDetails){
@@ -195,6 +200,7 @@ class GeneralDetails extends Component {
         {title:"July to Sep"},
         {title:"Oct to Dec"},
       ] 
+<<<<<<< HEAD
   country=[
     {title:"India"},
     {title:"South Africa"},
@@ -208,13 +214,15 @@ class GeneralDetails extends Component {
     {title:"PB-Placements"},
     {title:"Others"},
   ]
+=======
+
+>>>>>>> dabd9280ecacac5ad663eaaae952c542fe4c0b55
   
       render() {
-      console.log(this.props.StudentDetails)
-      console.log(this.props.aspirationDetails)
-      // console.log(this.props.aspidegreeList)
-      console.log(this.state.degree)
-      console.log(this.props.pgaScoreDetails)
+        
+        console.log(this.state.country)
+      console.log(this.props.careerInterestList)
+      
     return (
       <div>
         <Grid container style={{ padding: "2%" }} spacing={1}>
@@ -741,8 +749,11 @@ class GeneralDetails extends Component {
               <Grid item md={4}>
                 <Autocomplete
                  id="combo-box-demo"
-                 options={this.country}
-                 getOptionLabel={(option) => option.title}
+                 multiple
+                 value={this.state.country}
+                 options={this.props.aspirationCountryList}
+                 onChange={(e,newValue)=>this.setState({country : newValue})}
+                 getOptionLabel={(option) => option.name}
                  size="small"
                  renderInput={(params) =>
                  <TextField
@@ -772,7 +783,9 @@ const mapStateToProps = (state) => {
       aspidegreeList : state.AspirationReducer.allDegreeList,
       specializationList : state.AspirationReducer.allSpeciaizationList,
       aspirationDetails : state.StudentReducer.aspirationDetails,
-      pgaScoreDetails : state.PgaReducer.pgaScoreDetails
+      pgaScoreDetails : state.PgaReducer.pgaScoreDetails,
+      aspirationCountryList : state.AspirationReducer.viewCountryForSelectList,
+      careerInterestList : state.PgaReducer.careerInterestList
     };
   };
 
@@ -785,4 +798,6 @@ export default connect(mapStateToProps,{
     getAllDegree,
     getAllSpecialization,
     getPgaScores,
+    viewCountryForSelect,
+    getCareerInterest,
     getBranches,})(GeneralDetails)
