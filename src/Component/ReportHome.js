@@ -81,7 +81,6 @@ componentDidUpdate(prevProps, prevState) {
 
 render(){
   console.log(this.props.careerReport)
-  console.log(this.state.careerReportData[532])
   console.log(this.state.objectKeys)
   return (
     <div>
@@ -100,7 +99,7 @@ render(){
           this.props.techTestCseReport.length &&
           this.props.testRatingResult.length &&
           this.props.techTestElectronics.length  &&
-          this.props.careerReport.length  &&
+          this.props.careerReport.length &&
           this.props.diagTestResult.length
            !== 0 ? 
           
