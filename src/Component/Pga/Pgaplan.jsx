@@ -43,6 +43,10 @@ export default class Pgaplan extends Component {
      {title:"Equipment & System Engineering"},
      {title:"HR Analytics"},
    ]
+   type=[
+     {title:"Above Average"},
+     {title:"Below Average"},
+   ]
     render() {
         return (
             <div>
@@ -397,10 +401,10 @@ export default class Pgaplan extends Component {
                     </Grid>
                 </Grid>
                 <hr />
-                <Grid>
+                <Grid style={{padding:"1%"}}>
                 <Autocomplete
                            id="combo-box-demo"
-                        options={this.choice}
+                        options={this.type}
                         getOptionLabel={(option) => option.title}
                         // value={}
                         fullWidth
@@ -787,8 +791,8 @@ export default class Pgaplan extends Component {
                             )} />
                    </Grid>
                </Grid>
-               <Grid>
-               <Autocomplete
+               <Grid style={{padding:"1%"}}>
+                   <Autocomplete
                             id="combo-box-demo"
                             options={this.choice}
                             getOptionLabel={(option) => option.title}

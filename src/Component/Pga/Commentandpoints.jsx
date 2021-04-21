@@ -12,6 +12,12 @@ export default class commentandpoints extends Component {
         {title:"Option 4"},
         {title:"Option 5"},
     ]
+    status=[
+      {title:"Not started"},
+      {title:"In progress"},
+      {title:"Completed"},
+      {title:"Backlog"},
+    ]
     render() {
         return (
             <div>
@@ -52,7 +58,7 @@ export default class commentandpoints extends Component {
                     <Grid item md={2}>
                     <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.status}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -100,7 +106,7 @@ export default class commentandpoints extends Component {
                     <Grid item md={2}>
                     <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.status}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -149,7 +155,7 @@ export default class commentandpoints extends Component {
                     <Grid item md={2}>
                     <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.status}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -199,7 +205,7 @@ export default class commentandpoints extends Component {
                     <Autocomplete
                             id="combo-box-demo"
                             // value={}
-                            options={this.choice}
+                            options={this.status}
                             getOptionLabel={(option) => option.title}
                             fullWidth
                             size="small"

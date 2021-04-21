@@ -202,6 +202,12 @@ class GeneralDetails extends Component {
     {title:"Australia"},
     {title:"Japan"},
   ]
+  track=[
+    {title:"Masters"},
+    {title:"PB-Masters"},
+    {title:"PB-Placements"},
+    {title:"Others"},
+  ]
   
       render() {
       console.log(this.props.StudentDetails)
@@ -621,6 +627,7 @@ class GeneralDetails extends Component {
                 <TextField
                 variant="outlined"
                 size="small"
+                disabled
                 label="Package" />
               </Grid>
               <Grid item md={4}>
@@ -684,19 +691,37 @@ class GeneralDetails extends Component {
               <Grid item md={4}>
                 <TextField
                 variant="outlined"
+                disabled
                 size="small"
                 label="Course Opted" />
               </Grid>
               <Grid item md={4}>
-                <TextField
+                {/* <TextField
                 variant="outlined"
                 size="small"
-                label="Chosen Track" />
+                label="Chosen Track" /> */}
+                 <Autocomplete
+                  id="combo-box-demo"
+                  // value={this.track}
+                  name={"choosetrack"}
+                  multiple
+                  options={this.track}
+                  // onChange={(e, newValue) => this.setState({choosentrack : newValue})}
+                  getOptionLabel={(option) => option.title}
+                  size="small"
+                  renderInput={(params) =>
+                  <TextField
+                     {...params}
+                     label="Choosen Track"
+                     variant="outlined"
+                     />}
+               />
               </Grid>
               <Grid item md={4}>
                   <TextField
                   variant="outlined"
                   size="small"
+                  disabled
                   label="Drive Link" />
               </Grid>
               <Grid item md={4}>
