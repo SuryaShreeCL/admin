@@ -37,15 +37,15 @@ class ReportHome extends React.Component {
 
 componentDidMount() {
 
-    this.props.viewTermsAndConReports();
-    this.props.viewCvReport();
-    this.props.viewMarkSheetReport()
-    this.props.viewMydetailsReport()
-    this.props.viewTechTestReport("Technical Test Mechanical")
-    this.props.viewTechTestReport("Technical Test Computer")
-    this.props.viewTechTestReport("Technical Test Electronics")
-    this.props.viewTestRating()
-    this.props.viewDiagTestReport()
+    // this.props.viewTermsAndConReports();
+    // this.props.viewCvReport();
+    // this.props.viewMarkSheetReport()
+    // this.props.viewMydetailsReport()
+    // this.props.viewTechTestReport("Technical Test Mechanical")
+    // this.props.viewTechTestReport("Technical Test Computer")
+    // this.props.viewTechTestReport("Technical Test Electronics")
+    // this.props.viewTestRating()
+    // this.props.viewDiagTestReport()
     this.props.getCareerExpoReport()
 }
 
@@ -91,16 +91,16 @@ render(){
         </Grid>
         <Grid item md={12} align="center">
           {
-          this.props.termsAndConReport.length &&
-          this.props.cvReport.length &&
-          this.props.markSheetReport.length &&
-          this.props.myDetailsReport.length &&
-          this.props.techTestMechReport.length &&
-          this.props.techTestCseReport.length &&
-          this.props.testRatingResult.length &&
-          this.props.techTestElectronics.length  &&
-          this.props.careerReport.length &&
-          this.props.diagTestResult.length
+          // this.props.termsAndConReport.length &&
+          // this.props.cvReport.length &&
+          // this.props.markSheetReport.length &&
+          // this.props.myDetailsReport.length &&
+          // this.props.techTestMechReport.length &&
+          // this.props.techTestCseReport.length &&
+          // this.props.testRatingResult.length &&
+          // this.props.techTestElectronics.length  &&
+          this.props.careerReport.length 
+          // this.props.diagTestResult.length
            !== 0 ? 
           
           <TableContainer component={Paper}>
@@ -2069,7 +2069,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?1"]
+                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?1"]
                               }else{
                                 return null
                               }
@@ -2081,7 +2081,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?2"]
+                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?2"]
                               }else{
                                 return null
                               }
@@ -2093,7 +2093,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?3"]
+                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?3"]
                               }else{
                                 return null
                               }
@@ -2489,7 +2489,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?1"]
+                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?1"]
                               }else{
                                 return null
                               }
@@ -2501,7 +2501,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?2"]
+                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?2"]
                               }else{
                                 return null
                               }
@@ -2513,7 +2513,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?3"]
+                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?3"]
                               }else{
                                 return null
                               }
