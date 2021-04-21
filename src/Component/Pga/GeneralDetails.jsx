@@ -48,6 +48,13 @@ class GeneralDetails extends Component {
             degreeHelperTxt : '',
             specialization : [],
             specializationHelperTxt : '',
+            overallResult : null,
+            numericalAbility : null,
+            logicalReasoning : null,
+            verbalReasoning : null,
+            personalityCode : null,
+            csTest : null,
+            eceTest : null,
         }
     }
 
@@ -99,13 +106,36 @@ class GeneralDetails extends Component {
                         specialization : this.props.aspirationDetails.specializations,
             })
         }
-        // if (this.props.StudentDetails !== prevProps.StudentDetails) {
-        //   this.setState({
-        //     branch : this.props.aspirationDetails.branches,
-        //     degree : this.props.aspirationDetails.degrees,
-        //     specialization : this.props.aspirationDetails.specializations,
-        //   });
-        // }
+        if(this.props.pgaScoreDetails !== prevProps.pgaScoreDetails){
+          this.setState({
+            overallResult : this.props.pgaScoreDetails.["Overall Aptitude Score"],
+            numericalAbility : this.props.pgaScoreDetails.["Numerical Ability (Score Out of 100)"],
+            logicalReasoning : this.props.pgaScoreDetails.["Logical Reasoning (Score Out of 100)"],
+            verbalReasoning : this.props.pgaScoreDetails.["Verbal Reasoning (Score Out of 100)"],
+            personalityCode : this.props.pgaScoreDetails.personalitycode.replace("[","").replace("]",""),
+
+          })
+          let mechObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Mechanical")
+         if(mechObj !== undefined){
+           this.setState({
+              mechTest : mechObj.score,
+           })
+         }
+         let csObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Computer")
+         if(csObj !== undefined){
+           this.setState({
+              csTest : csObj.score,
+           })
+         }
+         let eceObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Electronics")
+         if(eceObj !== undefined){
+           this.setState({
+              eceTest : eceObj.score,
+           })
+         }
+        }
+
+       
     }
     
     handleChange = (e) =>{
@@ -487,48 +517,80 @@ class GeneralDetails extends Component {
             <Grid item md={4}>
             <TextField
             variant="outlined"
+            name="overallResult"
+            InputLabelProps={{shrink : true}}
+            value={this.state.overallResult}
+            disabled
             label="Overall Result"
             size="small" />
           </Grid>
           <Grid item md={4}>
             <TextField
             variant="outlined"
+            disabled
+            InputLabelProps={{shrink : true}}
+            name="numericalAbility"
+            value={this.state.numericalAbility}
             label="Numerical Ability"
             size="small" />
           </Grid>
           <Grid item md={4}>
             <TextField
             variant="outlined"
+            disabled
+            InputLabelProps={{shrink : true}}
             label="Logical Reasoning"
+            name={"logicalReasoning"}
+            value={this.state.logicalReasoning}
             size="small" />
           </Grid>
           <Grid item md={4}>
             <TextField
             variant="outlined"
+            InputLabelProps={{shrink : true}}
+            disabled
+            name={"verbalReasoning"}
+            value={this.state.verbalReasoning}
             label="Verbal Reasoning"
             size="small" />
           </Grid>
           <Grid item md={4}>
             <TextField
             variant="outlined"
+            InputLabelProps={{shrink : true}}
+            disabled
+            name={"personalityCode"}
+            value= {this.state.personalityCode}
             label="Personality Code"
             size="small" />
           </Grid>
           <Grid item md={4}>
             <TextField
             variant="outlined"
+            InputLabelProps={{shrink : true}}
+            disabled
+            name={"mechTest"}
+            value={this.state.mechTest}
             label="Mech Technical Test"
             size="small" />
           </Grid>
           <Grid item md={4}>
             <TextField
             variant="outlined"
+            InputLabelProps={{shrink : true}}
+            name={"csTest"}
+            value={this.state.csTest}
+            disabled
             label="CS Technical Test"
             size="small" />
           </Grid>
           <Grid item md={4}>
             <TextField
             variant="outlined"
+            InputLabelProps={{shrink : true}}
+            name={"eceTest"}
+            value={this.state.eceTest}
+            disabled
             label="ECE Technical Test"
             size="small" />
           </Grid>
