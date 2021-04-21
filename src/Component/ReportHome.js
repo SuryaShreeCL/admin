@@ -1861,11 +1861,11 @@ render(){
                           }
                         ></ExcelColumn>
                           <ExcelColumn
-                          label="What would you look for in your ideal job?"
+                          label="What would you look for in your ideal job? [Pay]"
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['What would you look for in your ideal job?']
+                               return col.TestAnswer.['What would you look for in your ideal job?Pay']
                               }else{
                                 return null
                               }
@@ -1873,11 +1873,11 @@ render(){
                           }
                         ></ExcelColumn>
                           <ExcelColumn
-                          label="What would you look for in your ideal job?[Others]"
+                          label="What would you look for in your ideal job? [Growth]"
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['What would you look for in your ideal job?Others']
+                               return col.TestAnswer.['What would you look for in your ideal job?Growth']
                               }else{
                                 return null
                               }
@@ -1885,7 +1885,31 @@ render(){
                           }
                         ></ExcelColumn>
                           <ExcelColumn
-                          label="What would you look for in your ideal job?[Others]"
+                          label="What would you look for in your ideal job? [Applying what you studied]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['What would you look for in your ideal job?Applying what you studied']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What would you look for in your ideal job? [Working with people from different backgrounds]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['What would you look for in your ideal job?Working with people from different backgrounds']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What would you look for in your ideal job? [Other]"
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
@@ -2081,7 +2105,31 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?"]
+                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?1"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What electives are you taking in the current semester or will be taking in the coming semester? (Please mention N/A if Not Applicable) [2.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?2"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What electives are you taking in the current semester or will be taking in the coming semester? (Please mention N/A if Not Applicable) [3.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?3"]
                               }else{
                                 return null
                               }
