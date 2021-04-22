@@ -1,14 +1,20 @@
-import { Divider, Grid, TextField } from '@material-ui/core'
+import { Button, Divider, Grid, TextField } from '@material-ui/core'
 import React, { Component } from 'react'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 
  class AcademicData extends Component {
+
      choice=[
         { title: "10", value: 10 },
         { title: "7", value: 7 },
         { title: "4", value: 4 },
         { title: "%", value: 100 },
      ]
+
+     handleSaved=()=>{
+         alert("Data Saved")
+     }
+
     render() {
         return (
             <div>
@@ -713,6 +719,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
                      fullWidth
                      label="Cleared Backlog Subjects" />
                  </Grid>
+                 </Grid>
+                 <Grid style={{padding:"1%"}}>
+                     <Button variant="contained" color="primary" onClick={this.handleSaved}>Save</Button>
                  </Grid>
             </div>
         )

@@ -1,4 +1,4 @@
-import { Grid, Divider, Typography, TextField } from "@material-ui/core";
+import { Grid, Divider, Button, Typography, TextField } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -207,7 +207,9 @@ class GeneralDetails extends Component {
     {title:"PB-Placements"},
     {title:"Others"},
   ]
-
+handleSaved=()=>{
+  alert("Data Saved")
+}
   
       render() {
         console.log(this.props.aspirationDetails.countries)
@@ -755,6 +757,9 @@ class GeneralDetails extends Component {
               </Grid>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid style={{padding:"1%"}}>
+          <Button variant="contained" color="primary" onClick={this.handleSaved}>Save</Button>
         </Grid>
       </div>
     );

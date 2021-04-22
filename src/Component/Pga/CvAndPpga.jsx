@@ -25,6 +25,22 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
          {title:"Technical Skills"},
          {title:"Other"},
      ]
+     ppgaques=[
+       {title:"UG | School-Board-Grades"},
+       {title:"Interested Subjects"},
+       {title:"Confirm package (Placements/Masters)"},
+       {title:"Higher Education Readiness (program, areas of study/specialization, location)"},
+       {title:"Back-up options for Master’s"},
+       {title:"Suggest a Specialization Track"},
+       {title:"Ask the reason for the Job. Why now? What is the end goal?"},
+       {title:"Ask about career interest. Clear? Suggest suitable courses. Unclear? Walk through steps options available"},
+       {title:"If Backlogs.Ask for a reason. Cleared? If pending, when are they clearing?"},
+       {title:"If gap in academics/career. Ask for reason. Will it affect chances? "},
+       {title:"Relevant research experience. "},
+       {title:"Relevant work experience. "},
+       {title:"Relevant Extracurricular activities"},
+     ]
+     
     render() {
         return (
             <div>
@@ -347,14 +363,128 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
                 <h5 style={{padding:"1%"}}>PPGA Question</h5>
                 <Grid container style={{padding:"2%"}} spacing={2}>
                     <Grid item md={4}>
-                        <TextField
+                        {/* <TextField
                         variant="outlined"
                         size="small"
-                        label="Question from Database" />
+                        label="Question from Database" /> */}
+                        <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
                     </Grid>
                     <Grid item md={4}>
                         <TextField
                         variant="outlined"
+                        size="small"
+                        fullWidth
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
                         size="small"
                         label="Notes Before PPGA " />
                     </Grid>
@@ -365,14 +495,60 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
                         label="Notes After PPGA " />
                     </Grid>
                     <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
+                    <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
                         size="small"
-                        label="Question from Database" />
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
                     </Grid>
                     <Grid item md={4}>
                         <TextField
                         variant="outlined"
+                        size="small"
+                        fullWidth
+                        label="Notes Before PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        size="small"
+                        label="Notes After PPGA " />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
+                    </Grid>
+                    <Grid item md={4}>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
                         size="small"
                         label="Notes Before PPGA " />
                     </Grid>
@@ -383,32 +559,28 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
                         label="Notes After PPGA " />
                     </Grid>
                     <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
+                    <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
                         size="small"
-                        label="Question from Database" />
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
                     </Grid>
                     <Grid item md={4}>
                         <TextField
                         variant="outlined"
-                        size="small"
-                        label="Notes Before PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Notes After PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Question from Database" />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
+                        fullWidth
                         size="small"
                         label="Notes Before PPGA " />
                     </Grid>
@@ -419,68 +591,28 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
                         label="Notes After PPGA " />
                     </Grid>
                     <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
+                    <Autocomplete
+                           id="combo-box-demo"
+                           options={this.ppgaques}
+                           getOptionLabel={(option) => option.title}
+                        // value={}
+                        fullWidth
                         size="small"
-                        label="Question from Database" />
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Question From Database"
+                              variant="outlined"
+                              size="small"
+                            />
+                        )}
+                         />
                     </Grid>
                     <Grid item md={4}>
                         <TextField
                         variant="outlined"
-                        size="small"
-                        label="Notes Before PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Notes After PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Question from Database" />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Notes Before PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Notes After PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Question from Database" />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Notes Before PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Notes After PPGA " />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        label="Question from Database" />
-                    </Grid>
-                    <Grid item md={4}>
-                        <TextField
-                        variant="outlined"
+                        fullWidth
                         size="small"
                         label="Notes Before PPGA " />
                     </Grid>
