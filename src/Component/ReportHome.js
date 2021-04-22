@@ -37,15 +37,15 @@ class ReportHome extends React.Component {
 
 componentDidMount() {
 
-    // this.props.viewTermsAndConReports();
-    // this.props.viewCvReport();
-    // this.props.viewMarkSheetReport()
-    // this.props.viewMydetailsReport()
-    // this.props.viewTechTestReport("Technical Test Mechanical")
-    // this.props.viewTechTestReport("Technical Test Computer")
-    // this.props.viewTechTestReport("Technical Test Electronics")
-    // this.props.viewTestRating()
-    // this.props.viewDiagTestReport()
+    this.props.viewTermsAndConReports();
+    this.props.viewCvReport();
+    this.props.viewMarkSheetReport()
+    this.props.viewMydetailsReport()
+    this.props.viewTechTestReport("Technical Test Mechanical")
+    this.props.viewTechTestReport("Technical Test Computer")
+    this.props.viewTechTestReport("Technical Test Electronics")
+    this.props.viewTestRating()
+    this.props.viewDiagTestReport()
     this.props.getCareerExpoReport()
 }
 
@@ -81,8 +81,6 @@ componentDidUpdate(prevProps, prevState) {
 
 render(){
   console.log(this.props.careerReport)
-  console.log(this.state.careerReportData)
-  console.log(this.state.careerReportData[532])
   console.log(this.state.objectKeys)
   return (
     <div>
@@ -93,16 +91,16 @@ render(){
         </Grid>
         <Grid item md={12} align="center">
           {
-          // this.props.termsAndConReport.length &&
-          // this.props.cvReport.length &&
-          // this.props.markSheetReport.length &&
-          // this.props.myDetailsReport.length &&
-          // this.props.techTestMechReport.length &&
-          // this.props.techTestCseReport.length &&
-          // this.props.testRatingResult.length &&
-          // this.props.techTestElectronics.length  &&
-          this.props.careerReport.length 
-          // this.props.diagTestResult.length
+          this.props.termsAndConReport.length &&
+          this.props.cvReport.length &&
+          this.props.markSheetReport.length &&
+          this.props.myDetailsReport.length &&
+          this.props.techTestMechReport.length &&
+          this.props.techTestCseReport.length &&
+          this.props.testRatingResult.length &&
+          this.props.techTestElectronics.length  &&
+          this.props.careerReport.length &&
+          this.props.diagTestResult.length
            !== 0 ? 
           
           <TableContainer component={Paper}>
@@ -1765,8 +1763,8 @@ render(){
                         </Button>
                       }
                     >
-                      <ExcelSheet data={this.state.careerReportData} name="Career Interest Test Report">
-                      {
+                      <ExcelSheet data={this.props.careerReport} name="Career Interest Test Report">
+                      {/* {
                         this.state.objectKeys.filter(oneDat=>oneDat !== "TestAnswer").map(eachData=>{
                           return(
                             <ExcelColumn
@@ -1775,10 +1773,10 @@ render(){
                             />
                           )
                         })
-                      }
-                        {/* <ExcelColumn
+                      } */}
+                        <ExcelColumn
                           label="Student ID"
-                          value="Student ID"
+                          value="StudentID"
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Date submitted"
@@ -1798,14 +1796,724 @@ render(){
                         ></ExcelColumn>
                         <ExcelColumn
                           label="Please enter your registered Email Id."
-                          value="Please enter your registered email id:"
+                          value="Please enter your registered Email Id."
                         ></ExcelColumn>
                         <ExcelColumn
-                          label="Do you like talking to people?"
+                          label="Do you like your undergraduate field of study?"
                           value={
                             (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['Do you like talking to people?']
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['Do you like your undergraduate field of study?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                            <ExcelColumn
+                          label="How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)? [Other]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?Others']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+
+                            <ExcelColumn
+                          label="From the following, what is your first preference for a career option immediately after graduation?"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['From the following, what is your first preference for a career option immediately after graduation?']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+
+                        <ExcelColumn
+                          label="From the following, what is your first preference for a career option immediately after graduation?Others"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['From the following, what is your first preference for a career option immediately after graduation?Others']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What would you look for in your ideal job? [Pay]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['What would you look for in your ideal job?Pay']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What would you look for in your ideal job? [Growth]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['What would you look for in your ideal job?Growth']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What would you look for in your ideal job? [Applying what you studied]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['What would you look for in your ideal job?Applying what you studied']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What would you look for in your ideal job? [Working with people from different backgrounds]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['What would you look for in your ideal job?Working with people from different backgrounds']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What would you look for in your ideal job? [Other]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['What would you look for in your ideal job?Others']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Build a system to automatically recognise different food items]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Build a system to automatically recognise different food items']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Recruit new employees and design employee benefit program for them]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Recruit new employees and design employee benefit program']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Develop systems where multiple devices that talk to each other]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Develop systems where multiple devices that talk to each other]']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Design User Interface for different mobile applications]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Design User Interface and User experience for different web and mobile applications']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Generate more revenue for the bank by bringing in customers]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Generate more revenue for the bank by bringing in customers]']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Use design software to model, test, and create products/assemblies ]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Use design software to model, test, and create products/assemblies']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Recognise and analyse patterns in large datasets]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Recognise and analyse patterns in large datasets']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="OnOn a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Help business grow by improving their sales]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Help business grow by improving their sales']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Design and develop machines that replace humans for various activities.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Design and develop machines that replace humans for various activities.]']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Create my own 3D animated film like Kungfu Panda]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Create my own 3D animated film like Kungfu Panda]']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Analyse stocks and forecast capital markets ]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Analyse stocks and forecast capital markets ]']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Design machinery for large manufacturing companies]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Design machinery for large manufacturing companies']
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What are your top three favorite subjects in your undergraduate field of study?[1.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?1"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What are your top three favorite subjects in your undergraduate field of study?[2.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?2"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What are your top three favorite subjects in your undergraduate field of study?[3.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?3"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What electives are you taking in the current semester or will be taking in the coming semester? (Please mention N/A if Not Applicable) [1.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?1"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What electives are you taking in the current semester or will be taking in the coming semester? (Please mention N/A if Not Applicable) [2.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?2"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What electives are you taking in the current semester or will be taking in the coming semester? (Please mention N/A if Not Applicable) [3.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?3"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Would you want to pursue a career in your undergraduate field of study?"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["Would you like to pursue a career in your undergraduate your field of study?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="You are halfway there! How would you go about selecting your career paths?"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["How would you go about selecting your career paths?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="You are halfway there!How would you go about selecting your career paths?[Other]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["How would you go about selecting your career paths?Others"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Develop captivating &amp; responsive websites and manage databases]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Develop captivating responsive websites and manage databases"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Promote Products or Services to End Customer using different social media channels]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Promote Products or Services to End Customer using different social media channels]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Explore an interdisciplinary field which combines Mechanics,Electronics, Automation and Computers.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Explore an interdisciplinary field which combines Mechanics,Electronics, Automation and Computers."]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Create an explosion scene for an action film]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Create an explosion scene for an action film]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                           <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Prevent fraudulent losses for business]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Prevent fraudulent losses for business]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                            <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Evaluate, analyse maintain boilers or turbo machinery.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Evaluate, analyze maintain boilers or turbo machinery"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Take part in competitions and solve coding problems ]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Take part in competitions and solve coding problems"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Plan, direct, and coordinate the administrative functions of an organisation.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Plan, organize, and direct the completion of specific projects for an organization"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Design dedicated computer hardware and software for intelligent devices]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Design dedicated computer hardware and software for intelligent devices"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Work on Augmented reality and Virtual Reality]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Work on Augmented reality and Virtual Reality]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                           <ExcelColumn
+                          label="Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage wealth of high net worth individuals for their future needs]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage wealth of high net worth individuals for their future needs]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [To perform structural analysis using hand calculations and finite element analysis software]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Perform structural analysis using hand calculations and finite element analysis software"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?[Other]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?Others"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What are your top three hobbies? [1.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are your top three hobbies?1"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What are your top three hobbies? [2.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are your top three hobbies?2"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What are your top three hobbies? [3.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are your top three hobbies?3"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                           <ExcelColumn
+                          label="My back up option is to:"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["My back up option is to"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                           <ExcelColumn
+                          label="My back up option is to:[Other]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["My back up option is toOthers"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process analyse digital images that enable computers to see]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process analyse digital images that enable computers to see]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage the process that transforms inputs to outputs in an organisation]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage the process that transforms inputs to outputs in an organisation]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Build the next 8G network]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Build the next 8G network]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Be a part of developing PC or mobile games]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Be a part of developing PC or mobile games"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process and settle financial transactions for trading desks]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process and settle financial transactions for trading desks]"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Develop numerical programs to drive NC and CNC tools.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Develop numerical programs to drive NC and CNC tools"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What was your favourite subject in 11th /12th grade?"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What was your favourite subject in 11th /12th grade?"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                          <ExcelColumn
+                          label="What are the top three subjects you hate in your undergraduate studies so far?[1.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?1"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                         <ExcelColumn
+                          label="What are the top three subjects you hate in your undergraduate studies so far?[2.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?2"]
+                              }else{
+                                return null
+                              }
+                            }
+                          }
+                        ></ExcelColumn>
+                        <ExcelColumn
+                          label="What are the top three subjects you hate in your undergraduate studies so far?[3.]"
+                          value={
+                            (col)=>{
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?3"]
                               }else{
                                 return null
                               }
@@ -1816,20 +2524,8 @@ render(){
                           label="Do you like to code?"
                           value={
                             (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['Do you like to code?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                        <ExcelColumn
-                          label="Do you like your undergraduate field of study?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['Do you like your undergraduate field of study?']
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['Do you like to code?']
                               }else{
                                 return null
                               }
@@ -1837,161 +2533,17 @@ render(){
                           }
                         ></ExcelColumn>
                          <ExcelColumn
-                          label="From the following, what is your first preference for a career option immediately after graduation?"
+                          label="Do you like talking to people?"
                           value={
                             (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['From the following, what is your first preference for a career option immediately after graduation?']
+                              if(col.TestAnswer !== null){
+                               return col.TestAnswer.['Do you like talking to people?']
                               }else{
                                 return null
                               }
                             }
                           }
                         ></ExcelColumn>
-                         <ExcelColumn
-                          label="How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                          <ExcelColumn
-                          label="How would you go about selecting your career paths?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['How would you go about selecting your career paths?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="My back up option is to"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['My back up option is to']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                          <ExcelColumn
-                          label="On a regular basis at work, what is it that you would really like to do?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['On a regular basis at work, what is it that you would really like to do?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                          <ExcelColumn
-                          label="What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                          <ExcelColumn
-                          label="What would you look for in your ideal job?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['What would you look for in your ideal job?(Select all Options that Apply)']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                          <ExcelColumn
-                          label="Would you like to pursue a career in your undergraduate your field of study?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['Would you like to pursue a career in your undergraduate your field of study?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="What are the Top 3 subjects you Hate in your undergraduate studies↵so far?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['What are the Top 3 subjects you Hate in your undergraduate studies\nso far?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="What are your top three favorite subjects in your undergraduate field of study?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['What are your top three favorite subjects in your undergraduate field of study?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="What are your top three hobbies?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['What are your top three hobbies?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="What electives are you taking in the current semester or will be taking in the coming semester?(Please mention N/A if Not Applicable)"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['What electives are you taking in the current semester or will be taking in the coming semester?(Please mention N/A if Not Applicable)']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn>
-                         <ExcelColumn
-                          label="What was your favourite subject in 11th /12th grade?"
-                          value={
-                            (col)=>{
-                              if(col.technicaltest !== null){
-                               return col.technicaltest.['What was your favourite subject in 11th /12th grade?']
-                              }else{
-                                return null
-                              }
-                            }
-                          }
-                        ></ExcelColumn> */}
                       </ExcelSheet>
                     </ExcelFile>
                   </TableCell>

@@ -71,7 +71,7 @@ const initialValues = {
   yearOfPassing: '',
   testimonialOrigin: '',
   graduatingCollege: { name: '', logo: '' },
-  company: { name: '', workExperience: '0', logo: '' },
+  company: { name: '',work_exp:0, workExperience: '0', logo: '' },
   program: { name: '', acronym: '' },
   textTestimonial: { tagLine: '', fullTestimonial: '' },
   videoTestimonial: { tagLine: '', videoLink: '', fullTestimonial: '' },
