@@ -54,9 +54,9 @@
   },
   "scripts": {
     "start": "PORT=8000 react-scripts start",
-    "build": "env-cmd -f .env.production react-scripts  build",
+    "build": "env-cmd -f .env.production react-scripts build",
     "start:dev": "env-cmd -f .env.staging react-scripts start",
-    "build:staging": "env-cmd -f .env.staging npm run build",
+    "build:staging": "env-cmd -f .env.staging react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js src/**/*.jsx",
