@@ -436,7 +436,6 @@ export default class Pgaplan extends Component {
                        <h6>Nov-Jan</h6>
                    </Grid>
                    <Grid item md={2}>
-                       <h6>Overall Focus</h6>
                    </Grid>
                    <Grid item md={2}>
                        <h6>Focus 1</h6>
@@ -510,21 +509,7 @@ export default class Pgaplan extends Component {
                             )} />
                    </Grid>
                    <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
+                      
                    </Grid>
                    <Grid item md={2}>
                        <h6>Focus 2</h6>
@@ -598,21 +583,7 @@ export default class Pgaplan extends Component {
                             )} />
                    </Grid>
                    <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
+                     
                    </Grid>
                    <Grid item md={2}>
                        <h6>Focus 3</h6>
@@ -686,21 +657,7 @@ export default class Pgaplan extends Component {
                             )} />
                    </Grid>
                    <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
+                    
                    </Grid>
                    <Grid item md={2}>
                        <h6>Focus 4</h6>
@@ -774,21 +731,7 @@ export default class Pgaplan extends Component {
                             )} />
                    </Grid>
                    <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
+                      
                    </Grid>
                </Grid>
                <Grid style={{padding:"1%"}}>

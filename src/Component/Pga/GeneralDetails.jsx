@@ -55,8 +55,10 @@ class GeneralDetails extends Component {
             logicalReasoning : null,
             verbalReasoning : null,
             personalityCode : null,
-            csTest : null,
-            eceTest : null,
+            s3Link : "https://unifiedportalfiles-stage.s3.ap-south-1.amazonaws.com/"+this.props.id,
+            techTestLabel : "",
+            techTestValue : '',
+
         }
     }
 
@@ -123,19 +125,22 @@ class GeneralDetails extends Component {
           let mechObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Mechanical")
          if(mechObj !== undefined){
            this.setState({
-              mechTest : mechObj.score,
+             techTestLabel : "Mech Technical Test",
+              techTestValue : mechObj.score,
            })
          }
          let csObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Computer")
          if(csObj !== undefined){
            this.setState({
-              csTest : csObj.score,
+            techTestLabel : "CS Technical Test",
+            techTestValue : mechObj.score,
            })
          }
          let eceObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Electronics")
          if(eceObj !== undefined){
            this.setState({
-              eceTest : eceObj.score,
+            techTestLabel : "ECE Technical Test",
+            techTestValue : mechObj.score,
            })
          }
         }
@@ -195,10 +200,10 @@ class GeneralDetails extends Component {
     
     
     period=[
-        {title:"Jan to Mar"},
-        {title:"Apr to June"},
-        {title:"July to Sep"},
-        {title:"Oct to Dec"},
+        {title:"Nov-jan"},
+        {title:"Feb-april"},
+        {title:"May-july"},
+        {title:"April-Oct"},
       ] 
  
   track=[
@@ -282,22 +287,7 @@ handleSaved=()=>{
                   )}
                 />
           </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 1"
-            
-                />
-          </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 2"
-            
-                />
-          </Grid>
+          
           <Grid item md={2}>
           <TextField
                   variant="outlined"
@@ -324,7 +314,7 @@ handleSaved=()=>{
                   value={this.state.lastName}
                 />    
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
           <Autocomplete
                   id="combo-box-demo"
                   value={this.state.college}
@@ -342,7 +332,7 @@ handleSaved=()=>{
                   )}
                 />   
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
           <Autocomplete
                   id="combo-box-demo"
                   value={this.state.university}
@@ -366,23 +356,8 @@ handleSaved=()=>{
                   )}
                 />      
           </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 3"
-            
-                />
-          </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 4"
-            
-                />
-          </Grid>
-          <Grid item md={2}>
+          
+          <Grid item md={3}>
           <TextField
                   variant="outlined"
                   size="small"
@@ -395,7 +370,7 @@ handleSaved=()=>{
                   value={this.state.eMail}
                 />
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
           <TextField
                   variant="outlined"
                   size="small"
@@ -408,14 +383,8 @@ handleSaved=()=>{
                   value={this.state.phoneNumber}
                 />
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"Expected Year Of Grad:"}
-                </Typography> */}
+          <Grid item md={3}>
+         
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.renderYear()}
@@ -437,14 +406,8 @@ handleSaved=()=>{
                   )}
                 /> 
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"Current Sem:"}
-                </Typography> */}
+          <Grid item md={3}>
+          
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.renderSem()}
@@ -464,14 +427,8 @@ handleSaved=()=>{
                   )}
                 />
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"UG GPA Scale:"}
-                </Typography> */}
+          <Grid item md={3}>
+          
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.renderUggpaScale()}
@@ -493,14 +450,8 @@ handleSaved=()=>{
                   )}
                 />
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"UG GPA:"}
-                </Typography> */}
+          <Grid item md={3}>
+        
                 <TextField
                   variant="outlined"
                   size="small"
@@ -515,20 +466,10 @@ handleSaved=()=>{
                   InputLabelProps={{shrink : true}}
                 />
           </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 5"
-                />
-          </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 6"
-                />
-          </Grid>
+         <Grid item md={12}>
+              <Typography color={"textSecondary"}>Area Of Interest</Typography>
+         </Grid>
+         {/* Map Here */}
         </Grid>
         <hr />
         <h5 style={{ padding: "1%" }}>Test Result</h5>
@@ -585,36 +526,18 @@ handleSaved=()=>{
             label="Personality Code"
             size="small" />
           </Grid>
+         {this.state.techTestValue.length !== 0 ?
           <Grid item md={4}>
-            <TextField
-            variant="outlined"
+              <TextField
+              value={this.state.techTestValue}
+              label={this.state.techTestLabel}
+              disabled
+              variant="outlined"
             InputLabelProps={{shrink : true}}
-            disabled
-            name={"mechTest"}
-            value={this.state.mechTest}
-            label="Mech Technical Test"
-            size="small" />
+            size={"small"}
+              />
           </Grid>
-          <Grid item md={4}>
-            <TextField
-            variant="outlined"
-            InputLabelProps={{shrink : true}}
-            name={"csTest"}
-            value={this.state.csTest}
-            disabled
-            label="CS Technical Test"
-            size="small" />
-          </Grid>
-          <Grid item md={4}>
-            <TextField
-            variant="outlined"
-            InputLabelProps={{shrink : true}}
-            name={"eceTest"}
-            value={this.state.eceTest}
-            disabled
-            label="ECE Technical Test"
-            size="small" />
-          </Grid>
+          : null}
             </Grid>
             <hr />
           </Grid>
@@ -704,7 +627,6 @@ handleSaved=()=>{
                   id="combo-box-demo"
                   // value={this.track}
                   name={"choosetrack"}
-                  multiple
                   options={this.track}
                   // onChange={(e, newValue) => this.setState({choosentrack : newValue})}
                   getOptionLabel={(option) => option.title}
@@ -721,8 +643,9 @@ handleSaved=()=>{
                   <TextField
                   variant="outlined"
                   size="small"
+                  value={this.state.s3Link}
                   disabled
-                  label="Drive Link" />
+                  label="S3 Bucket Link" />
               </Grid>
               <Grid item md={4}>
                 <Autocomplete
