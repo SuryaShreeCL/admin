@@ -150,10 +150,7 @@ class CvAndPpga extends Component {
     });
   };
 
-shouldComponentUpdate(nextProps, nextState) {
-  console.log("............",nextProps)
-  console.log("..........",nextState)
-}
+
 
   render() {
     return (
