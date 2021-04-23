@@ -8,9 +8,11 @@ export default class Pgaplan extends Component {
   constructor(props){
     super(props);
     this.state = {
-
+         option:""
     }
   }
+
+
    choice=[
        {title:"Option 1"},
        {title:"Option 2"},
@@ -43,11 +45,34 @@ export default class Pgaplan extends Component {
      {title:"Equipment & System Engineering"},
      {title:"HR Analytics"},
    ]
+
    type=[
      {title:"Above Average"},
      {title:"Below Average"},
    ]
+
+   handleChange=(e,value)=>{
+     this.setState({
+       option:value.title
+     })
+   }
+
+   componentDidUpdate(prevProps,prevState){
+    //  if( prevState.option !== this.state.option ){
+    //     let index = this.choice.findIndex(item => item.title === this.state.option)
+    //     let slicedvalue = this.choice.slice(index,1)
+    //     console.log(slicedvalue)
+    //  }
+    if(prevState.option !== this.state.option ){
+      this.choice=this.choice.filter((value)=> this.state.option !== value)
+      console.log(this.choice)
+  
+    }
+  }
+
     render() {
+      // console.log(this.choice.findIndex(item => item.title === "Option 1"))
+      console.log(this.state.option)
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
@@ -82,7 +107,8 @@ export default class Pgaplan extends Component {
                            id="combo-box-demo"
                         options={this.choice}
                         getOptionLabel={(option) => option.title}
-                        // value={}
+                        value={this.state.option}
+                        onChange={this.handleChange}
                         fullWidth
                         size="small"
                         renderInput={(params) => (
