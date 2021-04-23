@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, TextField } from "@material-ui/core";
+import { Button, Divider, Grid, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import React, { Component } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -9,6 +9,8 @@ class AcademicData extends Component {
       sem: 6,
     };
   }
+
+ 
   choice = [
     { title: "10", value: 10 },
     { title: "7", value: 7 },
@@ -20,6 +22,15 @@ class AcademicData extends Component {
     alert("Data Saved");
   };
 
+  handleChange = (e,value) =>{
+   
+      this.setState({
+        [e.target.name] : e.target.value
+      })
+    
+   
+  }
+
   renderUgDegreeDetails = () => {
     let myArr = [];
     for (let i = 1; i <= this.state.sem; i++) {
@@ -27,33 +38,40 @@ class AcademicData extends Component {
         sem: (
           <TextField
             variant={"outlined"}
+            name={"sem".concat(i)}
+            onChange={this.handleChange}
             label={"Semester ".concat(i)}
             size={"small"}
           />
         ),
         scoreScale: (
-          <Autocomplete
-            id="combo-box-demo"
-            options={this.choice}
-            getOptionLabel={(option) => option.title}
-            fullWidth
-            size="small"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                //   helperText={}
-                label="Score Scale"
-                variant="outlined"
-              />
-            )}
-          />
+          <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Score Scale</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          onChange={this.handleChange}
+          label="Score Scale"
+          name={"scoreScaleSem".concat(i)}
+
+        >
+          {this.choice.map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.value}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>
         ),
         score: (
-          <TextField variant={"outlined"} label={"Score"} size={"small"} />
+          <TextField variant={"outlined"} name={"sem".concat(i).concat("score")} onChange={this.handleChange} label={"Score"} size={"small"} />
         ),
         topThreeSub: (
           <TextField
             variant={"outlined"}
+            name={"sem".concat(i).concat("top3")}
+            onChange={this.handleChange}
             label={"Top 3 Subjects"}
             size={"small"}
           />
@@ -61,6 +79,8 @@ class AcademicData extends Component {
         activeBackLog: (
           <TextField
             variant={"outlined"}
+            name={"sem".concat(i).concat("activeBacklog")}
+            onChange={this.handleChange}
             label={"#Active Backlog"}
             size={"small"}
           />
@@ -68,6 +88,8 @@ class AcademicData extends Component {
         backLogSub: (
           <TextField
             variant={"outlined"}
+            name={"sem".concat(i).concat("backlogSub")}
+            onChange={this.handleChange}
             label={"Backlog Subject"}
             size={"small"}
           />
@@ -75,6 +97,8 @@ class AcademicData extends Component {
         clearBacklog: (
           <TextField
             variant={"outlined"}
+            name={"sem".concat(i).concat("clearedBacklog")}
+            onChange={this.handleChange}
             label={"#Cleared Backlog"}
             size={"small"}
           />
@@ -82,6 +106,8 @@ class AcademicData extends Component {
         clearBacklogSub: (
           <TextField
             variant={"outlined"}
+            name={"sem".concat(i).concat("clearedSub")}
+            onChange={this.handleChange}
             label={"#Cleared Backlog Subject"}
             size={"small"}
           />
@@ -122,6 +148,7 @@ class AcademicData extends Component {
   };
 
   render() {
+    console.log(this.state)
     return (
       <div>
         <h5 style={{ padding: "1%" }}>10th Details</h5>
