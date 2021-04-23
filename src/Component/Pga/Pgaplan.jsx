@@ -3,16 +3,18 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import React, { Component } from 'react'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { TurnedInSharp } from '@material-ui/icons';
+import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
 
 export default class Pgaplan extends Component {
   constructor(props){
     super(props);
     this.state = {
-         option:""
+        ambitiousCount : 3,
+        casualCount : 3,
+        balancedCount : 3,
+        exploCount : 3,
     }
   }
-
-
    choice=[
        {title:"Option 1"},
        {title:"Option 2"},
@@ -45,48 +47,151 @@ export default class Pgaplan extends Component {
      {title:"Equipment & System Engineering"},
      {title:"HR Analytics"},
    ]
-
    type=[
      {title:"Above Average"},
      {title:"Below Average"},
    ]
-
-   handleChange=(e,value)=>{
-     this.setState({
-       option:value.title
-     })
+   renderAmbitious = () =>{
+      let ambitiousArr = []
+      for (let i=1;i<=this.state.ambitiousCount; i++){
+        ambitiousArr.push({
+          starterPack :  <Autocomplete
+          id="combo-box-demo"
+       options={this.choice}
+       getOptionLabel={(option) => option.title}
+       // value={}
+       fullWidth
+       size="small"
+       renderInput={(params) => (
+           <TextField
+             {...params}
+           //   helperText={}
+             label={"Starter Pack Course ".concat(i)}
+             variant="outlined"
+           />
+       )}
+        />
+        })
+      }
+      return ambitiousArr.map(eachAmbitious=>{
+        return(
+          <Grid item md={4}>
+            {eachAmbitious.starterPack}
+          </Grid>
+        )
+      })
    }
 
-   componentDidUpdate(prevProps,prevState){
-    //  if( prevState.option !== this.state.option ){
-    //     let index = this.choice.findIndex(item => item.title === this.state.option)
-    //     let slicedvalue = this.choice.slice(index,1)
-    //     console.log(slicedvalue)
-    //  }
-    if(prevState.option !== this.state.option ){
-      this.choice=this.choice.filter((value)=> this.state.option !== value)
-      console.log(this.choice)
-  
+   renderCasual = () =>{
+    let casualArr = []
+      for (let i=1;i<=this.state.casualCount; i++){
+        casualArr.push({
+          starterPack :  <Autocomplete
+          id="combo-box-demo"
+       options={this.choice}
+       getOptionLabel={(option) => option.title}
+       // value={}
+       fullWidth
+       size="small"
+       renderInput={(params) => (
+           <TextField
+             {...params}
+           //   helperText={}
+             label={"Starter Pack Course ".concat(i)}
+             variant="outlined"
+           />
+       )}
+        />
+        })
+      }
+      return casualArr.map(eachCasual=>{
+        return(
+          <Grid item md={4}>
+            {eachCasual.starterPack}
+          </Grid>
+        )
+      })
+   }
+
+   renderBalanced = () =>{
+    let balanceArr = []
+    for (let i=1;i<=this.state.balancedCount; i++){
+      balanceArr.push({
+        starterPack :  <Autocomplete
+        id="combo-box-demo"
+     options={this.choice}
+     getOptionLabel={(option) => option.title}
+     // value={}
+     fullWidth
+     size="small"
+     renderInput={(params) => (
+         <TextField
+           {...params}
+         //   helperText={}
+           label={"Starter Pack Course ".concat(i)}
+           variant="outlined"
+         />
+     )}
+      />
+      })
     }
-  }
+    return balanceArr.map(eachBalance=>{
+      return(
+        <Grid item md={4}>
+          {eachBalance.starterPack}
+        </Grid>
+      )
+    })
+   }
+
+   renderExplo = () =>{
+    let exploArr = []
+    for (let i=1;i<=this.state.exploCount; i++){
+      exploArr.push({
+        starterPack :  <Autocomplete
+        id="combo-box-demo"
+     options={this.choice}
+     getOptionLabel={(option) => option.title}
+     // value={}
+     fullWidth
+     size="small"
+     renderInput={(params) => (
+         <TextField
+           {...params}
+         //   helperText={}
+           label={"Starter Pack Course ".concat(i)}
+           variant="outlined"
+         />
+     )}
+      />
+      })
+    }
+    return exploArr.map(eachExplo=>{
+      return(
+        <Grid item md={4}>
+          {eachExplo.starterPack}
+        </Grid>
+      )
+    })
+   }
 
     render() {
-      // console.log(this.choice.findIndex(item => item.title === "Option 1"))
-      console.log(this.state.option)
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
                 <Grid container spacing={2} style={{padding:"1%"}}>
-                    <Grid item md={2}>
-                        <TextField
+                    <Grid item md={4}>
+                    <Grid container spacing={2}>
+                      <Grid item md={6}>
+                      <TextField
                         variant="outlined"
                         size="small"
                         value="Ambitious"
                         disabled
                         label="Career Track" />
-                    </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
+                      </Grid>
+                      <Grid item md={6}>
+                      <Autocomplete
                            id="combo-box-demo"
                         options={this.specialization}
                         getOptionLabel={(option) => option.title}
@@ -101,83 +206,93 @@ export default class Pgaplan extends Component {
                             />
                         )}
                          />
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
-                        value={this.state.option}
-                        onChange={this.handleChange}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 1"
-                              variant="outlined"
-                            />
-                        )}
-                         />
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 2"
-                              variant="outlined"
-                            />
-                        )}
-                         />
+                    <Grid item md={7}>
+                      <Grid container spacing={2}>
+                      {this.renderAmbitious()}
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                           options={this.choice}
-                           getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 3"
-                              variant="outlined"
-                            />
-                        )}
-                         />  
-                    </Grid>
-                    <Grid item md={2}>
-                    <IconButton>
+                    <Grid item md={1}>
+                      <Grid container spacing={2}>
+                      <IconButton
+                       onClick={()=>this.setState({ambitiousCount : this.state.ambitiousCount +1})}>
                              <Icon>
                                  <AddCircleIcon />
                              </Icon>
                          </IconButton> 
+                         <IconButton 
+                         disabled={this.state.ambitiousCount === 1}
+                         onClick={()=>this.setState({ambitiousCount : this.state.ambitiousCount !== 1 ? this.state.ambitiousCount -1 : 1})}>
+                           <IndeterminateCheckBoxRoundedIcon />
+                         </IconButton>
+                        
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <TextField
+                    <Grid item md={4}>
+                    <Grid container spacing={2}>
+                      <Grid item md={6}>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value="Ambitious"
+                        disabled
+                        label="Career Track" />
+                      </Grid>
+                      <Grid item md={6}>
+                      <Autocomplete
+                           id="combo-box-demo"
+                        options={this.specialization}
+                        getOptionLabel={(option) => option.title}
+                        fullWidth
+                        size="small"
+                        renderInput={(params) => (
+                            <TextField
+                              {...params}
+                            //   helperText={}
+                              label="Specialization"
+                              variant="outlined"
+                            />
+                        )}
+                         />
+                      </Grid>
+                    </Grid>
+                    </Grid>
+                    <Grid item md={7}>
+                      <Grid container spacing={2}>
+                      {this.renderCasual()}
+                      </Grid>
+                    </Grid>
+                    <Grid item md={1}>
+                      <Grid container spacing={2}>
+                      <IconButton onClick={()=>this.setState({casualCount : this.state.casualCount +1})}>
+                             <Icon>
+                                 <AddCircleIcon />
+                             </Icon>
+                         </IconButton> 
+                         <IconButton 
+                         disabled={this.state.casualCount === 1}
+                         onClick={()=>this.setState({casualCount : this.state.casualCount !== 1 ? this.state.casualCount -1 : 1})}>
+                           <IndeterminateCheckBoxRoundedIcon />
+                         </IconButton>
+                      </Grid>
+                    </Grid>
+                    <Grid item md={4}>
+                    <Grid container spacing={2}>
+                      <Grid item md={6}>
+                      <TextField
                         variant="outlined"
                         size="small"
                         value="Balanced"
                         disabled
                         label="Career Track" />
-                    </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
+                      </Grid>
+                      <Grid item md={6}>
+                      <Autocomplete
                            id="combo-box-demo"
-                           options={this.specialization}
-                           getOptionLabel={(option) => option.title}
-                        // value={}
+                        options={this.specialization}
+                        getOptionLabel={(option) => option.title}
                         fullWidth
                         size="small"
                         renderInput={(params) => (
@@ -189,169 +304,43 @@ export default class Pgaplan extends Component {
                             />
                         )}
                          />
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 1"
-                              variant="outlined"
-                            />
-                        )}
-                         />
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 2"
-                              variant="outlined"
-                            />
-                        )}
-                         />
+                    <Grid item md={7}>
+                      <Grid container spacing={2}>
+                      {this.renderBalanced()}
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                           options={this.choice}
-                           getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 3"
-                              variant="outlined"
-                            />
-                        )}
-                         />  
-                    </Grid>
-                    <Grid item md={2}>
-                    <IconButton>
-                             <Icon>
-                                 <AddCircleIcon/>
-                             </Icon>
-                         </IconButton> 
-                    </Grid>
-                    <Grid item md={2}>
-                        <TextField
-                        variant="outlined"
-                        size="small"
-                        value="Casual"
-                        disabled
-                        label="Career Track" />
-                    </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                           options={this.specialization}
-                           getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Specialization"
-                              variant="outlined"
-                            />
-                        )}
-                         />
-                    </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                           options={this.choice}
-                           getOptionLabel={(option) => option.title}
-                           // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 1"
-                              variant="outlined"
-                            />
-                        )}
-                         />
-                    </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                           options={this.choice}
-                           getOptionLabel={(option) => option.title}
-                           // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 2"
-                              variant="outlined"
-                            />
-                        )}
-                         />
-                    </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                           options={this.choice}
-                           getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 3"
-                              variant="outlined"
-                            />
-                        )}
-                         />  
-                    </Grid>
-                    <Grid item md={2}>
-                    <IconButton>
+                    <Grid item md={1}>
+                      <Grid container spacing={2}>
+                      <IconButton onClick={()=>this.setState({balancedCount : this.state.balancedCount +1})}>
                              <Icon>
                                  <AddCircleIcon />
                              </Icon>
                          </IconButton> 
+                         <IconButton
+                         disabled={this.state.balancedCount === 1}
+                         onClick={()=>this.setState({balancedCount : this.state.balancedCount !== 1 ? this.state.balancedCount -1 : 1})}>
+                           <IndeterminateCheckBoxRoundedIcon />
+                         </IconButton>
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <TextField
+                    <Grid item md={4}>
+                    <Grid container spacing={2}>
+                      <Grid item md={6}>
+                      <TextField
                         variant="outlined"
                         size="small"
                         value="Exploratory"
                         disabled
                         label="Career Track" />
-                    </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
+                      </Grid>
+                      <Grid item md={6}>
+                      <Autocomplete
                            id="combo-box-demo"
-                           options={this.specialization}
-                           getOptionLabel={(option) => option.title}
-                        // value={}
+                        options={this.specialization}
+                        getOptionLabel={(option) => option.title}
                         fullWidth
                         size="small"
                         renderInput={(params) => (
@@ -363,67 +352,27 @@ export default class Pgaplan extends Component {
                             />
                         )}
                          />
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 1"
-                              variant="outlined"
-                            />
-                        )}
-                         />
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                        options={this.choice}
-                        getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 2"
-                              variant="outlined"
-                            />
-                        )}
-                         />
+                    <Grid item md={7}>
+                      <Grid container spacing={2}>
+                      {this.renderExplo()}
+                      </Grid>
                     </Grid>
-                    <Grid item md={2}>
-                        <Autocomplete
-                           id="combo-box-demo"
-                           options={this.choice}
-                           getOptionLabel={(option) => option.title}
-                        // value={}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Starter Pack Course 3"
-                              variant="outlined"
-                            />
-                        )}
-                         />  
-                    </Grid>
-                    <Grid item md={2}>
-                    <IconButton>
+                    <Grid item md={1}>
+                      <Grid container spacing={2}>
+                      <IconButton onClick={()=>this.setState({exploCount : this.state.exploCount +1})}>
                              <Icon>
                                  <AddCircleIcon />
                              </Icon>
                          </IconButton> 
+                         <IconButton 
+                         disabled={this.state.exploCount === 1}
+                         onClick={()=>this.setState({exploCount : this.state.exploCount !== 1 ? this.state.exploCount -1 : 1})}>
+                           <IndeterminateCheckBoxRoundedIcon />
+                         </IconButton>
+                      </Grid>
                     </Grid>
                 </Grid>
                 <hr />
