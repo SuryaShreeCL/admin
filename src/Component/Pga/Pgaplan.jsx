@@ -1,30 +1,127 @@
-import { Divider, Grid, Icon, IconButton, TextField } from '@material-ui/core'
+import { Divider, Grid, Icon, IconButton, TextField, FormControlLabel, InputLabel, Select, MenuItem, FormControl } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import React, { Component } from 'react'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { TurnedInSharp } from '@material-ui/icons';
+import { TransferWithinAStationOutlined, TurnedInSharp } from '@material-ui/icons';
 import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
 
 export default class Pgaplan extends Component {
   constructor(props){
     super(props);
     this.state = {
-        ambitiousCount : 3,
-        casualCount : 3,
-        balancedCount : 3,
-        exploCount : 3,
-        option:"",
+        ambOption1:"",
+        ambOption2:"",
+        ambOption3:"",
+        casOption1:"",
+        casOption2:"",
+        casOption3:"",
+        balOption1:"",
+        balOption2:"",
+        balOption3:"",
+        expoOption1:"",
+        expoOption2:"",
+        expoOption3:"",
         ambarr:[],
-        choice:[
+        ambitiousCount : 1,
+        casualCount : 1,
+        balancedCount : 1,
+        exploCount : 1,
+        index:"",
+        ambpack1:[
           {title:"Option 1"},
           {title:"Option 2"},
           {title:"Option 3"},
           {title:"Option 4"},
           {title:"Option 5"},
-      ]
+        ],
+        ambpack2:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        ambpack3:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        caspack1:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        caspack2:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        caspack3:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        balpack1:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        balpack2:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        balpack3:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        expopack1:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        expopack2:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
+        expopack3:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+        ],
     }
   }
-  
+ componentDidUpdate(prevProps,prevState){
+   if(prevState.ambOption1 !== this.state.ambOption1){
+    // let myArr = []
+    //  myArr=this.state.ambpack2.filter((opt) => this.state.ambOption1 !== opt.title )
+    //  this.setState({
+    //    ambpack2 : myArr
+    //  })
+   }
+ }
    specialization=[
      {title:"Full Stack Development"},
      {title:"Front End Development"},
@@ -54,53 +151,113 @@ export default class Pgaplan extends Component {
      {title:"Above Average"},
      {title:"Below Average"},
    ]
+   choice=[
+    {title:"Option 1"},
+    {title:"Option 2"},
+    {title:"Option 3"},
+    {title:"Option 4"},
+    {title:"Option 5"},
+]
+
+
    handleChange=(e,value)=>{
-       this.setState({
-         option:value.title
-       })
-       this.state.ambarr.push(value.title)
-       console.log(this.state.ambarr)
-   }
-   componentDidUpdate(prevProps,prevState){
-     if(prevState.choice !== this.state.choice){
       this.setState({
-        choice:this.state.choice.filter((value)=> this.state.choice !== value)
+        [e.target.name]:e.target.value
       })
-      console.log(this.state.choice)
-   }
-   }
+     let index=this.state.ambpack1.findIndex((item)=>item.title === e.target.value)
+      console.log(index)
+    }
 
    renderAmbitious = () =>{
       let ambitiousArr = []
       for (let i=1;i<=this.state.ambitiousCount; i++){
         ambitiousArr.push({
-          starterPack :  <Autocomplete
-          id="combo-box-demo"
-       options={this.state.choice}
-       filterSelectedOptions
-       multiple
-       getOptionLabel={(option) => option.title}
-      //  value={this.state.option}
-       onChange={this.handleChange}
-       name={"Starter Pack Course".concat(i)}
-       fullWidth
-       size="small"
-       renderInput={(params) => (
-           <TextField
-             {...params}
-           //   helperText={}
-             label={"Starter Pack Course ".concat(i)}
-             variant="outlined"
-           />
-       )}
-        />
+          ambSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            label="Specialization"
+  
+          >
+            {this.specialization.map(eachChoice=>{
+              return(
+                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>,
+          starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            label="Starter Pack 1"
+            name="ambOption1"
+            onChange={this.handleChange}
+
+          >
+            {this.state.ambpack1.map(eachChoice=>{
+              return(
+                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>,
+        starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Starter Pack 2"
+          name="ambOption2"
+          onChange={this.handleChange}
+        >
+          {this.state.ambpack2.filter((opt)=>opt.title !== this.state.ambOption1).map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+        starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Starter Pack 3"
+          name="ambOption3"
+          onChange={this.handleChange}
+        >
+          {this.state.ambpack3.filter((opt1) => (opt1.title!==this.state.ambOption1) && (opt1.title !== this.state.ambOption2)).map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>
         })
       }
       return ambitiousArr.map(eachAmbitious=>{
         return(
-          <Grid item md={4}>
-            {eachAmbitious.starterPack}
+          <>
+          <Grid item md={3}>
+            {eachAmbitious.ambSpecializaiton}
           </Grid>
+          <Grid item md={3}>
+            {eachAmbitious.starterPackOne}
+          </Grid>
+          <Grid item md={3}>
+            {eachAmbitious.starterPackTwo}
+          </Grid>
+          <Grid item md={3}>
+            {eachAmbitious.starterPackThree}
+          </Grid>
+          </>
         )
       })
    }
@@ -109,29 +266,93 @@ export default class Pgaplan extends Component {
     let casualArr = []
       for (let i=1;i<=this.state.casualCount; i++){
         casualArr.push({
-          starterPack :  <Autocomplete
-          id="combo-box-demo"
-       options={this.choice}
-       getOptionLabel={(option) => option.title}
-       // value={}
-       fullWidth
-       size="small"
-       renderInput={(params) => (
-           <TextField
-             {...params}
-           //   helperText={}
-             label={"Starter Pack Course ".concat(i)}
-             variant="outlined"
-           />
-       )}
-        />
+          casualSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            label="Specialization"
+  
+          >
+            {this.specialization.map(eachChoice=>{
+              return(
+                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>,
+          starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            label="Starter Pack 1"
+            name="casOption1"
+            onChange={this.handleChange}
+
+          >
+            {this.state.caspack1.map(eachChoice=>{
+              return(
+                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>,
+        starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Starter Pack 2"
+           name="casOption2"
+           onChange={this.handleChange}
+
+        >
+          {this.state.caspack2.filter((cas1)=>cas1.title !== this.state.casOption1).map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+        starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Starter Pack 3"
+          name="casOption3"
+          onChange={this.handleChange}
+        >
+          {this.state.caspack3.filter((cas2) => (cas2.title !== this.state.casOption1) && (cas2.title !== this.state.casOption2)).map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>
         })
       }
       return casualArr.map(eachCasual=>{
         return(
-          <Grid item md={4}>
-            {eachCasual.starterPack}
+          <>
+          <Grid item md={3}>
+            {eachCasual.casualSpecializaiton}
           </Grid>
+          <Grid item md={3}>
+            {eachCasual.starterPackOne}
+          </Grid>
+          <Grid item md={3}>
+            {eachCasual.starterPackTwo}
+          </Grid>
+          <Grid item md={3}>
+            {eachCasual.starterPackThree}
+          </Grid>
+          </>
         )
       })
    }
@@ -140,73 +361,196 @@ export default class Pgaplan extends Component {
     let balanceArr = []
     for (let i=1;i<=this.state.balancedCount; i++){
       balanceArr.push({
-        starterPack :  <Autocomplete
-        id="combo-box-demo"
-     options={this.choice}
-     getOptionLabel={(option) => option.title}
-     // value={}
-     fullWidth
-     size="small"
-     renderInput={(params) => (
-         <TextField
-           {...params}
-         //   helperText={}
-           label={"Starter Pack Course ".concat(i)}
-           variant="outlined"
-         />
-     )}
-      />
+        balanceSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            label="Specialization"
+           
+          >
+            {this.specialization.map(eachChoice=>{
+              return(
+                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>,
+          starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            label="Starter Pack 1"
+            name="balOption1"
+            onChange={this.handleChange}
+          >
+            {this.state.balpack1.map(eachChoice=>{
+              return(
+                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>,
+        starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Starter Pack 2"
+          name="balOption2"
+          onChange={this.handleChange}
+        >
+          {this.state.balpack2.filter((bal)=>bal.title !== this.state.balOption1).map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+        starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Starter Pack 3"
+          name="balOption3"
+          onChange={this.handleChange}
+        >
+          {this.state.balpack3.filter((bal)=>(bal.title !== this.state.balOption1)&&(bal.title !== this.state.balOption2)).map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>
       })
     }
     return balanceArr.map(eachBalance=>{
       return(
-        <Grid item md={4}>
-          {eachBalance.starterPack}
+        <>
+        <Grid item md={3}>
+          {eachBalance.balanceSpecializaiton}
         </Grid>
+        <Grid item md={3}>
+          {eachBalance.starterPackOne}
+        </Grid>
+        <Grid item md={3}>
+          {eachBalance.starterPackTwo}
+        </Grid>
+        <Grid item md={3}>
+          {eachBalance.starterPackThree}
+        </Grid>
+        </>
       )
     })
    }
-
    renderExplo = () =>{
     let exploArr = []
     for (let i=1;i<=this.state.exploCount; i++){
       exploArr.push({
-        starterPack :  <Autocomplete
-        id="combo-box-demo"
-     options={this.state.choice}
-     getOptionLabel={(option) => option.title}
-     // value={}
-     fullWidth
-     size="small"
-     renderInput={(params) => (
-         <TextField
-           {...params}
-         //   helperText={}
-           label={"Starter Pack Course ".concat(i)}
-           variant="outlined"
-         />
-     )}
-      />
+        exploSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Specialization"
+
+        >
+          {this.specialization.map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+        starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Starter Pack 1"
+          name="expoOption1"
+          onChange={this.handleChange}
+        >
+          {this.state.expopack1.map(eachChoice=>{
+            return(
+              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+      starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
+      <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
+      <Select
+      fullWidth
+        labelId="demo-simple-select-outlined-label"
+        id="demo-simple-select-outlined"
+        label="Starter Pack 2"
+        name="expoOption2"
+        onChange={this.handleChange}
+      >
+        {this.state.expopack2.filter((ex) => ex.title !== this.state.expoOption1).map(eachChoice=>{
+          return(
+            <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+          )
+        })}
+      </Select>
+    </FormControl>,
+      starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
+      <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
+      <Select
+      fullWidth
+        labelId="demo-simple-select-outlined-label"
+        id="demo-simple-select-outlined"
+        label="Starter Pack 3"
+        name="expoOption3"
+        onChange={this.handleChange}
+      >
+        {this.state.expopack3.filter((ex) => (ex.title !== this.state.expoOption1) && (this.state.expoOption2 !== ex.title)).map(eachChoice=>{
+          return(
+            <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
+          )
+        })}
+      </Select>
+    </FormControl>
       })
     }
     return exploArr.map(eachExplo=>{
       return(
-        <Grid item md={4}>
-          {eachExplo.starterPack}
+        <>
+        <Grid item md={3}>
+          {eachExplo.exploSpecializaiton}
         </Grid>
+        <Grid item md={3}>
+          {eachExplo.starterPackOne}
+        </Grid>
+        <Grid item md={3}>
+          {eachExplo.starterPackTwo}
+        </Grid>
+        <Grid item md={3}>
+          {eachExplo.starterPackThree}
+        </Grid>
+        </>
       )
     })
    }
   
     render() {
-      console.log(this.state.option)
+      console.log(this.state.option1)
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
                 <Grid container spacing={2} style={{padding:"1%"}}>
-                    <Grid item md={4}>
+                    <Grid item md={2}>
                     <Grid container spacing={2}>
-                      <Grid item md={6}>
+                      <Grid item md={12}>
                       <TextField
                         variant="outlined"
                         size="small"
@@ -214,49 +558,37 @@ export default class Pgaplan extends Component {
                         disabled
                         label="Career Track" />
                       </Grid>
-                      <Grid item md={6}>
-                      <Autocomplete
-                           id="combo-box-demo"
-                        options={this.specialization}
-                        getOptionLabel={(option) => option.title}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Specialization"
-                              variant="outlined"
-                            />
-                        )}
-                         />
-                      </Grid>
+                     
                     </Grid>
                     </Grid>
-                    <Grid item md={7}>
+                    <Grid item md={9}>
                       <Grid container spacing={2}>
                       {this.renderAmbitious()}
                       </Grid>
                     </Grid>
                     <Grid item md={1}>
                       <Grid container spacing={2}>
-                      <IconButton
+                        <Grid item md={6}>
+                        <IconButton
                        onClick={()=>this.setState({ambitiousCount : this.state.ambitiousCount +1})}>
                              <Icon>
                                  <AddCircleIcon />
                              </Icon>
                          </IconButton> 
-                         <IconButton 
+                        </Grid>
+                        <Grid item md={6}>
+                        <IconButton 
                          disabled={this.state.ambitiousCount === 1}
                          onClick={()=>this.setState({ambitiousCount : this.state.ambitiousCount !== 1 ? this.state.ambitiousCount -1 : 1})}>
                            <IndeterminateCheckBoxRoundedIcon />
                          </IconButton>
-                        
+                      </Grid>
+                    
                       </Grid>
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item md={2}>
                     <Grid container spacing={2}>
-                      <Grid item md={6}>
+                      <Grid item md={12}>
                       <TextField
                         variant="outlined"
                         size="small"
@@ -264,47 +596,34 @@ export default class Pgaplan extends Component {
                         disabled
                         label="Career Track" />
                       </Grid>
-                      <Grid item md={6}>
-                      <Autocomplete
-                           id="combo-box-demo"
-                        options={this.specialization}
-                        getOptionLabel={(option) => option.title}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Specialization"
-                              variant="outlined"
-                            />
-                        )}
-                         />
-                      </Grid>
                     </Grid>
                     </Grid>
-                    <Grid item md={7}>
+                    <Grid item md={9}>
                       <Grid container spacing={2}>
                       {this.renderCasual()}
                       </Grid>
                     </Grid>
                     <Grid item md={1}>
                       <Grid container spacing={2}>
-                      <IconButton onClick={()=>this.setState({casualCount : this.state.casualCount +1})}>
+                        <Grid item md={6}>
+                        <IconButton onClick={()=>this.setState({casualCount : this.state.casualCount +1})}>
                              <Icon>
                                  <AddCircleIcon />
                              </Icon>
                          </IconButton> 
-                         <IconButton 
+                        </Grid>
+                        <Grid item md={6}>
+                        <IconButton 
                          disabled={this.state.casualCount === 1}
                          onClick={()=>this.setState({casualCount : this.state.casualCount !== 1 ? this.state.casualCount -1 : 1})}>
                            <IndeterminateCheckBoxRoundedIcon />
                          </IconButton>
+                        </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item md={2}>
                     <Grid container spacing={2}>
-                      <Grid item md={6}>
+                      <Grid item md={12}>
                       <TextField
                         variant="outlined"
                         size="small"
@@ -312,47 +631,37 @@ export default class Pgaplan extends Component {
                         disabled
                         label="Career Track" />
                       </Grid>
-                      <Grid item md={6}>
-                      <Autocomplete
-                           id="combo-box-demo"
-                        options={this.specialization}
-                        getOptionLabel={(option) => option.title}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Specialization"
-                              variant="outlined"
-                            />
-                        )}
-                         />
-                      </Grid>
+                     
                     </Grid>
                     </Grid>
-                    <Grid item md={7}>
+                    <Grid item md={9}>
                       <Grid container spacing={2}>
                       {this.renderBalanced()}
                       </Grid>
                     </Grid>
                     <Grid item md={1}>
                       <Grid container spacing={2}>
-                      <IconButton onClick={()=>this.setState({balancedCount : this.state.balancedCount +1})}>
+                        <Grid item md={6}>
+                        <IconButton onClick={()=>this.setState({balancedCount : this.state.balancedCount +1})}>
                              <Icon>
                                  <AddCircleIcon />
                              </Icon>
                          </IconButton> 
-                         <IconButton
+                        </Grid>
+                        <Grid item md={6}>
+                        <IconButton
                          disabled={this.state.balancedCount === 1}
                          onClick={()=>this.setState({balancedCount : this.state.balancedCount !== 1 ? this.state.balancedCount -1 : 1})}>
                            <IndeterminateCheckBoxRoundedIcon />
                          </IconButton>
+                        </Grid>
+                     
+                       
                       </Grid>
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item md={2}>
                     <Grid container spacing={2}>
-                      <Grid item md={6}>
+                      <Grid item md={12}>
                       <TextField
                         variant="outlined"
                         size="small"
@@ -360,42 +669,31 @@ export default class Pgaplan extends Component {
                         disabled
                         label="Career Track" />
                       </Grid>
-                      <Grid item md={6}>
-                      <Autocomplete
-                           id="combo-box-demo"
-                        options={this.specialization}
-                        getOptionLabel={(option) => option.title}
-                        fullWidth
-                        size="small"
-                        renderInput={(params) => (
-                            <TextField
-                              {...params}
-                            //   helperText={}
-                              label="Specialization"
-                              variant="outlined"
-                            />
-                        )}
-                         />
-                      </Grid>
+                   
                     </Grid>
                     </Grid>
-                    <Grid item md={7}>
+                    <Grid item md={9}>
                       <Grid container spacing={2}>
                       {this.renderExplo()}
                       </Grid>
                     </Grid>
                     <Grid item md={1}>
                       <Grid container spacing={2}>
-                      <IconButton onClick={()=>this.setState({exploCount : this.state.exploCount +1})}>
+                        <Grid item md={6}>
+                        <IconButton onClick={()=>this.setState({exploCount : this.state.exploCount +1})}>
                              <Icon>
                                  <AddCircleIcon />
                              </Icon>
                          </IconButton> 
-                         <IconButton 
+                        </Grid>
+                        <Grid item md={6}>
+                        <IconButton 
                          disabled={this.state.exploCount === 1}
                          onClick={()=>this.setState({exploCount : this.state.exploCount !== 1 ? this.state.exploCount -1 : 1})}>
                            <IndeterminateCheckBoxRoundedIcon />
                          </IconButton>
+                      </Grid>
+ 
                       </Grid>
                     </Grid>
                 </Grid>
@@ -442,7 +740,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -459,7 +757,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -476,7 +774,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -493,7 +791,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -516,7 +814,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -533,7 +831,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -550,7 +848,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -567,7 +865,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -590,7 +888,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -607,7 +905,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -624,7 +922,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -641,7 +939,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -664,7 +962,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -681,7 +979,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -698,7 +996,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -715,7 +1013,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -736,7 +1034,7 @@ export default class Pgaplan extends Component {
                <Grid style={{padding:"1%"}}>
                    <Autocomplete
                             id="combo-box-demo"
-                            options={this.state.choice}
+                            options={this.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth

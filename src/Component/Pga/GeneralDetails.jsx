@@ -213,8 +213,64 @@ class GeneralDetails extends Component {
     {title:"Others"},
   ]
 handleSaved=()=>{
-  alert("Data Saved")
+  let helpMsg = "Please Fill The Required Feild";
+  this.state.studentId === null ||
+  this.state.studentId.length === 0 
+  
+    ? this.setState({ studentIdHelperTxt: helpMsg })
+    : this.setState({ studentIdHelperTxt: "" });
+    this.state.firstName === null ||
+    this.state.firstName.length === 0 
+  
+    ? this.setState({ fNameHelperTxt: helpMsg })
+    : this.setState({ fNameHelperTxt: "" });
+    this.state.lastName === null ||
+    this.state.lastName.length === 0 
+  
+    ? this.setState({ lNameHelperTxt: helpMsg })
+    : this.setState({ lNameHelperTxt: "" });
+    this.state.ugDegree === null ||
+    Object.keys(this.state.ugDegree).length === 0 ||
+      this.state.ugDegree.constructor !== Object ? 
+      this.setState({ugDegreeHelperTxt : helpMsg}) :
+      this.setState({ugDegreeHelperTxt : ''}) 
+      this.state.department === null ||
+      Object.keys(this.state.department).length === 0 ||
+      this.state.department.constructor !== Object  ? 
+      this.setState({departmentHelperTxt : helpMsg}) : 
+      this.setState({departmentHelperTxt : ''})
+      this.state.college === null ||
+      Object.keys(this.state.college).length === 0 ||
+      this.state.college.constructor !== Object ? 
+      this.setState({collegeHelperTxt : helpMsg}) : 
+      this.setState({collegeHelperTxt : ''})
+      this.state.university === null ||
+      Object.keys(this.state.university).length === 0 ||
+      this.state.university.constructor !== Object ?
+      this.setState({universityHelperTxt : helpMsg}) : 
+      this.setState({universityHelperTxt : ''})
+      this.state.uggpa === null ||
+      this.state.uggpa.toString().length === 0 ?
+      this.setState({uggpaHelperTxt : helpMsg}) : 
+      this.setState({uggpaHelperTxt : ''})
+      this.state.uggpaScale === null ||
+      Object.keys(this.state.uggpaScale).length === 0 ||
+      this.state.uggpaScale.constructor !== Object ?
+      this.setState({uggpaScaleHelperTxt : helpMsg}) : 
+      this.setState({uggpaScaleHelperTxt : ''})
+      this.state.expectedYear === null ||
+      Object.keys(this.state.expectedYear).length === 0 ||
+      this.state.expectedYear.constructor !== Object ?
+      this.setState({expectedYearHelperTxt : helpMsg}) : 
+      this.setState({expectedYearHelperTxt : ''})
+      this.state.sem === null ||
+      Object.keys(this.state.sem).length === 0 ||
+      this.state.sem.constructor !== Object ?
+      this.setState({semHelperTxt : helpMsg}) : 
+      this.setState({semHelperTxt : ''})
+
 }
+
   
       render() {
         console.log(this.props.aspirationDetails.countries)
