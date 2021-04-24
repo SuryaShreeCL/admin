@@ -13,15 +13,18 @@ export default class Pgaplan extends Component {
         casualCount : 3,
         balancedCount : 3,
         exploCount : 3,
+        option:"",
+        ambarr:[],
+        choice:[
+          {title:"Option 1"},
+          {title:"Option 2"},
+          {title:"Option 3"},
+          {title:"Option 4"},
+          {title:"Option 5"},
+      ]
     }
   }
-   choice=[
-       {title:"Option 1"},
-       {title:"Option 2"},
-       {title:"Option 3"},
-       {title:"Option 4"},
-       {title:"Option 5"},
-   ]
+  
    specialization=[
      {title:"Full Stack Development"},
      {title:"Front End Development"},
@@ -51,15 +54,35 @@ export default class Pgaplan extends Component {
      {title:"Above Average"},
      {title:"Below Average"},
    ]
+   handleChange=(e,value)=>{
+       this.setState({
+         option:value.title
+       })
+       this.state.ambarr.push(value.title)
+       console.log(this.state.ambarr)
+   }
+   componentDidUpdate(prevProps,prevState){
+     if(prevState.choice !== this.state.choice){
+      this.setState({
+        choice:this.state.choice.filter((value)=> this.state.choice !== value)
+      })
+      console.log(this.state.choice)
+   }
+   }
+
    renderAmbitious = () =>{
       let ambitiousArr = []
       for (let i=1;i<=this.state.ambitiousCount; i++){
         ambitiousArr.push({
           starterPack :  <Autocomplete
           id="combo-box-demo"
-       options={this.choice}
+       options={this.state.choice}
+       filterSelectedOptions
+       multiple
        getOptionLabel={(option) => option.title}
-       // value={}
+      //  value={this.state.option}
+       onChange={this.handleChange}
+       name={"Starter Pack Course".concat(i)}
        fullWidth
        size="small"
        renderInput={(params) => (
@@ -150,7 +173,7 @@ export default class Pgaplan extends Component {
       exploArr.push({
         starterPack :  <Autocomplete
         id="combo-box-demo"
-     options={this.choice}
+     options={this.state.choice}
      getOptionLabel={(option) => option.title}
      // value={}
      fullWidth
@@ -174,8 +197,9 @@ export default class Pgaplan extends Component {
       )
     })
    }
-
+  
     render() {
+      console.log(this.state.option)
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
@@ -236,7 +260,7 @@ export default class Pgaplan extends Component {
                       <TextField
                         variant="outlined"
                         size="small"
-                        value="Ambitious"
+                        value="Casual"
                         disabled
                         label="Career Track" />
                       </Grid>
@@ -418,7 +442,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -435,7 +459,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -452,7 +476,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -469,7 +493,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -492,7 +516,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -509,7 +533,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -526,7 +550,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -543,7 +567,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -566,7 +590,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -583,7 +607,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -600,7 +624,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -617,7 +641,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -640,7 +664,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -657,7 +681,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -674,7 +698,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -691,7 +715,7 @@ export default class Pgaplan extends Component {
                    <Grid item md={2}>
                        <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
@@ -712,7 +736,7 @@ export default class Pgaplan extends Component {
                <Grid style={{padding:"1%"}}>
                    <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
+                            options={this.state.choice}
                             getOptionLabel={(option) => option.title}
                             // value={}
                             fullWidth
