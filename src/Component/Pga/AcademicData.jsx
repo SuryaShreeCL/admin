@@ -59,13 +59,17 @@ class AcademicData extends Component {
           id="demo-simple-select-outlined"
           onChange={this.handleChange}
           value={this.state.["scoreScaleSem".concat(i)]}
+          // value={this.choice[0]}
           label="Score Scale"
           name={"scoreScaleSem".concat(i)}
 
         >
           {this.choice.map(eachChoice=>{
             return(
-              <MenuItem value={this.state.["scoreScaleSem".concat(i)]}>{eachChoice.title}</MenuItem>
+              <MenuItem
+               value={this.state.["scoreScaleSem".concat(i)]}
+
+               >{eachChoice.title}</MenuItem>
             )
           })}
         </Select>
@@ -183,8 +187,8 @@ class AcademicData extends Component {
 
   semesterResponse = [
     {sem : "1", scoreScale : {title : "7", value : 7}, score : "70", top3 : "sub1,sub2,sub3", activeBack : "2", backLogSub : "sub8", clearBack : "1", clearSub : "sub4" },
-    {sem : "2", scoreScale : {title : "7", value : 7}, score : "80", top3 : "sub1,sub2,sub3", activeBack : "1", backLogSub : "sub6", clearBack : "2", clearSub : "sub5"},
-    {sem : "3", scoreScale : {title : "7", value : 7}, score : "90", top3 : "sub1,sub2,sub3", activeBack : "3", backLogSub : "sub7", clearBack : "1", clearSub : "sub6"},
+    {sem : "2", scoreScale : {title : "%", value : 100}, score : "80", top3 : "sub1,sub2,sub3", activeBack : "1", backLogSub : "sub6", clearBack : "2", clearSub : "sub5"},
+    {sem : "3", scoreScale : {title : "%", value : 100}, score : "90", top3 : "sub1,sub2,sub3", activeBack : "3", backLogSub : "sub7", clearBack : "1", clearSub : "sub6"},
   ]
 
   render() {
