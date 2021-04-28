@@ -83,6 +83,18 @@ console.log(obj)
         snackOpen : true
       })
     } 
+    if(this.props.pgaAcademicDetails !== prevProps.pgaAcademicDetails){
+      this.setState({
+        tenthBoardName : this.props.pgaAcademicDetails.studentSsc.examBoardName,
+        tenthSclName : this.props.pgaAcademicDetails.studentSsc.schoolName,
+        tenthScore : this.props.pgaAcademicDetails.studentSsc.score,
+        tenthScoreScale : {title : this.props.pgaAcademicDetails.studentSsc.scoreScale,value : parseInt(this.props.pgaAcademicDetails.studentSsc.scoreScale)} ,
+        twelthBoardName : this.props.pgaAcademicDetails.studentHsc.examBoardName,
+        twelthSclName : this.props.pgaAcademicDetails.studentHsc.schoolName,
+        twelthScore : this.props.pgaAcademicDetails.studentHsc.score,
+        twelthScoreScale : {title : this.props.pgaAcademicDetails.studentHsc.scoreScale, value : parseInt(this.props.pgaAcademicDetails.studentHsc.scoreScale) } ,
+      })
+    }
   }
   
 
