@@ -200,7 +200,8 @@ export const SCOREDETAILS={
 export const PGA = {
   getScoreDetails : "getScoreDetails",
   getCareerInterest : "getCareerInterest",
-  postAcademicData : "postAcademicData"
+  postAcademicData : "postAcademicData",
+  getPgaAcademicData : "getPgaAcademicData"
 }
 
 

@@ -3,6 +3,9 @@ import { PGA } from "../Redux/Action";
 const initialState = {
     pgaScoreDetails : [],
     careerInterestList : [],
+    academicDataPostResponse : [],
+    pgaAcademicDetails : [],
+
 }
 
 export default (state = initialState, action) =>{
@@ -17,6 +20,16 @@ export default (state = initialState, action) =>{
                     ...state,
                     careerInterestList : action.payload
                 }
+                case PGA.postAcademicData:
+                return {
+                    ...state,
+                    academicDataPostResponse : action.payload
+                }
+                case PGA.getPgaAcademicData:
+                    return {
+                        ...state,
+                        pgaAcademicDetails : action.payload
+                    }
         default:
             return state
     }
