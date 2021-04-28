@@ -58,6 +58,7 @@ class GeneralDetails extends Component {
             s3Link : "https://unifiedportalfiles-stage.s3.ap-south-1.amazonaws.com/"+this.props.id,
             techTestLabel : "",
             techTestValue : '',
+            areaOfInterest : [],
 
         }
     }
@@ -143,6 +144,21 @@ class GeneralDetails extends Component {
             techTestValue : mechObj.score,
            })
          }
+        }
+
+        if(this.props.careerInterestList !== prevProps.careerInterestList){
+          if(Object.keys(this.props.careerInterestList).length !== 0){
+            let arr = []
+            for(const property in this.props.careerInterestList){
+              console.log("Property:",property)
+              console.log("Value:",this.props.careerInterestList[property])
+              arr.push(this.props.careerInterestList[property])
+            }
+            this.setState({
+              areaOfInterest : arr
+            })
+          }
+         
         }
 
        
@@ -273,8 +289,7 @@ handleSaved=()=>{
 
   
       render() {
-        console.log(this.props.aspirationDetails.countries)
-      console.log(this.props.careerInterestList)
+        console.log(this.state.areaOfInterest)
       
     return (
       <div>
@@ -526,6 +541,19 @@ handleSaved=()=>{
               <Typography color={"textSecondary"}>Area Of Interest</Typography>
          </Grid>
          {/* Map Here */}
+         {this.state.areaOfInterest.map(eachData=>{
+           return(
+             <Grid item md={3}>
+               <TextField
+             variant="outlined"
+            disabled
+            size="small"
+            value={eachData}
+             />
+               </Grid>
+             
+           )
+         })}
         </Grid>
         <hr />
         <h5 style={{ padding: "1%" }}>Test Result</h5>

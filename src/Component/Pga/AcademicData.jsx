@@ -42,8 +42,8 @@ class AcademicData extends Component {
     for(let i=1; i<=this.state.semester; i++){
       arr.push({
         semester :  parseInt(this.state.["sem"+i]),
-        top3Subjects : this.state.["sem"+(i)+"top3"],
-        activeBacklogs : parseInt(this.state.["sem".concat(i).concat("top3")]),
+        top3Subjects : this.state.["sem"+i+"top3"],
+        activeBacklogs : parseInt(this.state.["sem".concat(i).concat("activeBacklog")]),
         backlogSubjects : this.state.["sem".concat(i).concat("backlogSub")],
         clearedBacklogs : parseInt(this.state.["sem".concat(i).concat("clearedBacklog")]) ,
         scoreScale : this.state.["scoreScaleSem".concat(i)],
@@ -84,6 +84,7 @@ console.log(obj)
       })
     } 
     if(this.props.pgaAcademicDetails !== prevProps.pgaAcademicDetails){
+      if(this.props.pgaAcademicDetails.studentHsc !== null && this.props.pgaAcademicDetails.studentSsc !== null && this.props.pgaAcademicDetails.studentUg.length !== 0)
       this.setState({
         tenthBoardName : this.props.pgaAcademicDetails.studentSsc.examBoardName,
         tenthSclName : this.props.pgaAcademicDetails.studentSsc.schoolName,
@@ -93,6 +94,18 @@ console.log(obj)
         twelthSclName : this.props.pgaAcademicDetails.studentHsc.schoolName,
         twelthScore : this.props.pgaAcademicDetails.studentHsc.score,
         twelthScoreScale : {title : this.props.pgaAcademicDetails.studentHsc.scoreScale, value : parseInt(this.props.pgaAcademicDetails.studentHsc.scoreScale) } ,
+      })
+      this.props.pgaAcademicDetails.studentUg.map((eachData,index)=>{
+        this.setState({
+          ["sem"+eachData.semester] : eachData.semester,
+          ["scoreScaleSem"+eachData.semester] : parseInt(eachData.scoreScale),
+          ["sem"+eachData.semester+"score"] : eachData.score,
+          ["sem"+eachData.semester+"top3"] : eachData.top3Subjects,
+          ["sem"+eachData.semester+"backlogSub"] : eachData.backlogSubjects,
+          ["sem"+eachData.semester+"clearedBacklog"] : eachData.clearedBacklogs,
+          ["sem"+eachData.semester+"clearedSub"] : eachData. clearedBacklogSubjects,
+          ["sem"+eachData.semester+"activeBacklog"] : eachData.activeBacklogs
+        })
       })
     }
   }
@@ -122,7 +135,7 @@ console.log(obj)
            }}}
             name={"sem".concat(i)}
             onChange={this.handleChange}
-            label={"Semester ".concat(i)}
+            label={"Semester"}
             size={"small"}
           />
         ),
@@ -134,7 +147,7 @@ console.log(obj)
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           onChange={this.handleChange}
-          value={this.state.["scoreScaleSem".concat(i)]}
+          value={this.state.["scoreScaleSem".concat(i)] !== undefined ? this.state.["scoreScaleSem".concat(i)] : null}
           label="Score Scale"
           name={"scoreScaleSem".concat(i)}
 
