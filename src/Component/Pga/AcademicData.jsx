@@ -250,7 +250,7 @@ console.log(obj)
 
   semesterResponse = [
     {sem : "1", scoreScale : {title : "7", value : 7}, score : "70", top3 : "sub1,sub2,sub3", activeBack : "2", backLogSub : "sub8", clearBack : "1", clearSub : "sub4" },
-    {sem : "2", scoreScale : {title : "%", value : 100}, score : "80", top3 : "sub1,sub2,sub3", activeBack : "1", backLogSub : "sub6", clearBack : "2", clearSub : "sub5"},
+    {sem : "2", scoreScale : {title : "4", value : 4}, score : "80", top3 : "sub1,sub2,sub3", activeBack : "1", backLogSub : "sub6", clearBack : "2", clearSub : "sub5"},
     {sem : "3", scoreScale : {title : "%", value : 100}, score : "90", top3 : "sub1,sub2,sub3", activeBack : "3", backLogSub : "sub7", clearBack : "1", clearSub : "sub6"},
   ]
 
