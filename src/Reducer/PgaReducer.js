@@ -5,6 +5,7 @@ const initialState = {
     careerInterestList : [],
     academicDataPostResponse : [],
     pgaAcademicDetails : [],
+    choosenTrackForStudent : [],
 
 }
 
@@ -30,6 +31,11 @@ export default (state = initialState, action) =>{
                         ...state,
                         pgaAcademicDetails : action.payload
                     }
+                    case PGA.getChoosenTrack:
+                        return {
+                            ...state,
+                            choosenTrackForStudent : action.payload
+                        }
         default:
             return state
     }

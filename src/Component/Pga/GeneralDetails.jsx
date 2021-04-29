@@ -10,7 +10,7 @@ import {
   import Autocomplete from "@material-ui/lab/Autocomplete";
   import {getAllBranch,getAllDegree,getAllSpecialization, viewCountryForSelect} from "../../Actions/Aspiration"
 
-import {getPgaScores, getCareerInterest} from "../../Actions/PgaAction"
+import {getPgaScores, getCareerInterest,getChoosenTrackById} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -59,6 +59,7 @@ class GeneralDetails extends Component {
             techTestLabel : "",
             techTestValue : '',
             areaOfInterest : [],
+            choosenTrackOption : [],
 
         }
     }
@@ -75,6 +76,7 @@ class GeneralDetails extends Component {
         this.props.getPgaScores(this.props.id)
         this.props.viewCountryForSelect()
         this.props.getCareerInterest(this.props.id)
+        this.props.getChoosenTrackById(this.props.id)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -159,6 +161,21 @@ class GeneralDetails extends Component {
             })
           }
          
+        }
+
+        if(this.props.choosenTrackForStudent !== prevProps.choosenTrackForStudent){
+          if(Object.keys(this.props.choosenTrackForStudent).length !== 0){
+            let arr = [];
+            for(const property in this.props.choosenTrackForStudent){
+              arr.push({
+                title : property,
+                value : this.props.choosenTrackForStudent[property]
+              })
+            }
+            this.setState({
+              choosenTrackOption : arr
+            })
+          }
         }
 
        
@@ -289,7 +306,7 @@ handleSaved=()=>{
 
   
       render() {
-        console.log(this.state.areaOfInterest)
+        console.log(this.state.choosenTrackOption)
       
     return (
       <div>
@@ -703,17 +720,14 @@ handleSaved=()=>{
                 label="Course Opted" />
               </Grid>
               <Grid item md={4}>
-                {/* <TextField
-                variant="outlined"
-                size="small"
-                label="Chosen Track" /> */}
+              
                  <Autocomplete
                   id="combo-box-demo"
                   // value={this.track}
                   name={"choosetrack"}
-                  options={this.track}
+                  options={this.state.choosenTrackOption}
                   // onChange={(e, newValue) => this.setState({choosentrack : newValue})}
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={(option) => option.value}
                   size="small"
                   renderInput={(params) =>
                   <TextField
@@ -787,7 +801,8 @@ const mapStateToProps = (state) => {
       aspirationDetails : state.StudentReducer.aspirationDetails,
       pgaScoreDetails : state.PgaReducer.pgaScoreDetails,
       aspirationCountryList : state.AspirationReducer.viewCountryForSelectList,
-      careerInterestList : state.PgaReducer.careerInterestList
+      careerInterestList : state.PgaReducer.careerInterestList,
+      choosenTrackForStudent : state.PgaReducer.choosenTrackForStudent
     };
   };
 
@@ -802,4 +817,5 @@ export default connect(mapStateToProps,{
     getPgaScores,
     viewCountryForSelect,
     getCareerInterest,
+    getChoosenTrackById,
     getBranches,})(GeneralDetails)

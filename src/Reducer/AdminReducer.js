@@ -12,6 +12,7 @@ const initialState = {
   updateAccStatusResponse: [],
   mentorList :[],
   mentorAllocationResponse : [],
+  internAccessResponse : []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -74,6 +75,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         mentorAllocationResponse : action.payload
+      }
+      case ADMIN.giveInternAccess : 
+      return {
+        ...state,
+        internAccessResponse : action.payload
       }
     default:
       break;

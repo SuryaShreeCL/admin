@@ -148,6 +148,7 @@ export const ADMIN = {
   updateEducationalData : 'updateEducationalData',
   updateContactData : 'updateContactData',
   updateAccountStatus : 'updateAccountStatus',
+  giveInternAccess : "giveInternAccess",
   updateAspirationData : 'updateAspirationData',
   viewStudentStatus : 'viewStudentStatus',
   updateVerificationStatus : 'updateVerificationStatus',
@@ -201,7 +202,9 @@ export const PGA = {
   getScoreDetails : "getScoreDetails",
   getCareerInterest : "getCareerInterest",
   postAcademicData : "postAcademicData",
-  getPgaAcademicData : "getPgaAcademicData"
+  getPgaAcademicData : "getPgaAcademicData",
+  getChoosenTrack : "getChoosenTrack",
+  postGenralDetails : "postGenralDetails"
 }
 
 

@@ -51,3 +51,15 @@ export const getPgaAcademicData = (id) =>{
         })
     }
 }
+
+export const getChoosenTrackById = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/"+id+"/citquestion")
+        .then(result=>{
+            dispatch({type : PGA.getChoosenTrack, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

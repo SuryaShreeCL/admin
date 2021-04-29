@@ -119,6 +119,25 @@ export const updateAccountStatus=(id,data)=>{
     
 }
 
+export const updateInternAccess = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+    return dispatch =>{
+        axios.put(URL+"/api/v1/students/olduser/"+id+"/"+data,{},{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.giveInternAccess,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } 
+}
+ 
 export const updateAspirationData=(id,data)=>{
     return dispatch => {
         axios.put(URL+"/aspiration/update/"+id,data,{
@@ -199,3 +218,4 @@ export const allocateMentor = (mentorId,studentId) =>{
         })
     }
 }
+
