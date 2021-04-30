@@ -72,6 +72,7 @@ export class Student extends Component {
       departmentHelperText : null,
       phoneHelperText : null,
       studentIdHelperText : null,
+      internAccess : false,
     };
   }
 
@@ -221,6 +222,7 @@ export class Student extends Component {
         avatar: "",
         isActive: this.state.isActive,
         studentId: this.state.studentId,
+        internshipAccess : this.state.internAccess === false ? "no" : "yes",
         origin : "ADMIN Portal"
       };
       this.props.mernStudentSignUp(studentObj)
@@ -236,6 +238,7 @@ export class Student extends Component {
         isActive : false,
         toogleButton : false,
         provider : "",
+        internAccess : false,
         studentId : null
       })
    }
@@ -266,6 +269,7 @@ export class Student extends Component {
       isActive: this.state.isActive,
       avatar: "",
       studentId: this.state.studentId,
+      internshipAccess : this.state.internAccess === false ? "no" : "yes",
       provider: this.state.toogleButton === true ? "Google" : "Local",
       password: this.state.password,
     };
@@ -281,6 +285,7 @@ export class Student extends Component {
       department : null,
       isActive : false,
       toogleButton : false,
+      internshipAccess : false,
       provider : "",
       studentId : null
     })
@@ -328,6 +333,7 @@ export class Student extends Component {
                 college : null,
                 department : null,
                 phone : null,
+                internAccess : false,
                 provider : "",
                 toogleButton : false,
                 studentId : null,
@@ -347,6 +353,7 @@ export class Student extends Component {
                   college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
+                  internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   provider : rowdata.provider,
                   toogleButton : rowdata.provider === "Google" ? true : false,
                   studentId : rowdata.studentID,
@@ -478,7 +485,8 @@ export class Student extends Component {
                label="Student ID"
                />
                   </Grid>
-                  <Grid item md={6} align="center">
+
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -493,7 +501,7 @@ export class Student extends Component {
                   />
                 
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -504,6 +512,19 @@ export class Student extends Component {
                       />
                     }
                     label="Is Active"
+                  />
+                  </Grid>
+                  <Grid item md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.internAccess}
+                        onChange={(e)=>this.setState({internAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="Internship Access"
                   />
                   </Grid>
                   <Grid item md={12}>

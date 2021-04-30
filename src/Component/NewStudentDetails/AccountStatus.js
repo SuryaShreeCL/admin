@@ -8,7 +8,7 @@ import Loader from '../Testimonials/components/controls/Loader';
 import {getStudentsById} from "../../Actions/Student"
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import {updateAccountStatus, updateVerificationStatus} from "../../Actions/AdminAction"
+import {updateAccountStatus, updateVerificationStatus, updateInternAccess} from "../../Actions/AdminAction"
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 export class AccountStatus extends Component {
     constructor(props){
@@ -25,6 +25,7 @@ export class AccountStatus extends Component {
             snackMessage: null,
             snackVariant: null,
             dialogOpen : false,
+            internAccess : false,
         }
     }
     componentDidMount() {
@@ -69,7 +70,8 @@ export class AccountStatus extends Component {
              this.setState({
                 StudentDetails : this.props.StudentDetails,
                isActive : this.props.StudentDetails.isactive,
-               provider : this.props.StudentDetails.provider !== null ? {title : this.props.StudentDetails.provider, value : this.props.StudentDetails.provider} : null
+               provider : this.props.StudentDetails.provider !== null ? {title : this.props.StudentDetails.provider, value : this.props.StudentDetails.provider} : null,
+               internAccess : this.props.StudentDetails.oldUser === "yes" ? true : false
              })
          }
          if(this.props.updateAccStatusResponse !== prevProps.updateAccStatusResponse){
@@ -86,6 +88,7 @@ export class AccountStatus extends Component {
                 snackOpen: true,
               });
          }
+         
     }
     theme = createMuiTheme({
         overrides : {
@@ -133,6 +136,7 @@ export class AccountStatus extends Component {
           this.props.updateAccountStatus(this.props.id,obj)
          
        }
+       this.props.updateInternAccess(this.props.id,this.state.internAccess === false ? "no" : "yes")
    }
 
    // Status Update
@@ -224,7 +228,7 @@ export class AccountStatus extends Component {
                 </Tooltip>
               </Grid>
             
-               <Grid item md={6} style={divStyle} alignItems="center" justify="center">
+               <Grid item md={4} style={divStyle} alignItems="center" justify="center">
                 <FormControlLabel
                     control={
                     <Checkbox
@@ -238,7 +242,7 @@ export class AccountStatus extends Component {
                     label="Is Active"
                 />
                 </Grid>
-                <Grid item md={6} style={divStyle} justify="space-between">
+                <Grid item md={4} style={divStyle} justify="space-between">
                 <Typography color="primary" style={textStyle} variant="subtitle1">{"Provider:"}</Typography>
                 <Autocomplete
                   id="combo-box-demo"
@@ -262,6 +266,20 @@ export class AccountStatus extends Component {
                   )}
                 />
             
+                </Grid>
+                <Grid item md={4} align="center">
+                <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.internAccess}
+                        disabled={this.state.letEdit === false ? true : false}
+                        onChange={(e)=>this.setState({internAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="Internship Access"
+                  />
                 </Grid>
                 <Grid item md={12} style={divStyle} justify="flex-end">
                 <Button
@@ -326,8 +344,9 @@ const mapStateToProps = (state) => {
       updateAccStatusResponse : state.AdminReducer.updateAccStatusResponse,
       updateVerificationResponse : state.AdminReducer.updateVerificationResponse,
       studentStatusResponse: state.AdminReducer.studentStatusResponse,
+      internAccessResponse : state.AdminReducer.internAccessResponse
     };
   };
   
-  export default connect(mapStateToProps, { getStudentsById, updateAccountStatus, updateVerificationStatus })(AccountStatus);
+  export default connect(mapStateToProps, { getStudentsById, updateAccountStatus, updateVerificationStatus, updateInternAccess })(AccountStatus);
   

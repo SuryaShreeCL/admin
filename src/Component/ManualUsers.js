@@ -71,6 +71,7 @@ export class ManualUsers extends Component {
       departmentHelperText : null,
       phoneHelperText : null,
       studentIdHelperText : null,
+      internAccess : false,
     };
   }
 
@@ -209,6 +210,7 @@ export class ManualUsers extends Component {
         department: this.state.department.id,
         roles: ["Student"],
         password: this.state.password,
+        internshipAccess : this.state.internAccess === false ? "no" : "yes",
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
         avatar: "",
@@ -225,6 +227,7 @@ export class ManualUsers extends Component {
         eMail : null,
         phone : null,
         college : null,
+        internAccess : false,
         department : null,
         isActive : false,
         provider : "",
@@ -257,6 +260,7 @@ export class ManualUsers extends Component {
       college: this.state.college.id,
       department: this.state.department.id,
       isActive: this.state.isActive,
+      internshipAccess : this.state.internAccess === false ? "no" : "yes",
       avatar: "",
       studentId: this.state.studentId,
       provider: this.state.toogleButton === true ? "Google" : "Local",
@@ -270,6 +274,7 @@ export class ManualUsers extends Component {
       lastName : null,
       eMail : null,
       phone : null,
+      internAccess : false,
       college : null,
       department : null,
       isActive : false,
@@ -321,6 +326,7 @@ export class ManualUsers extends Component {
                 college : null,
                 department : null,
                 phone : null,
+                internAccess : false,
                 provider : "",
                 toogleButton : false,
                 studentId : null,
@@ -337,6 +343,7 @@ export class ManualUsers extends Component {
                   lastName : rowdata.lastName,
                   eMail : rowdata.emailId,
                   phone : rowdata.phoneNumber,
+                  internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
@@ -471,7 +478,7 @@ export class ManualUsers extends Component {
                label="Student ID"
                />
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -486,7 +493,7 @@ export class ManualUsers extends Component {
                   />
                 
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -497,6 +504,19 @@ export class ManualUsers extends Component {
                       />
                     }
                     label="Is Active"
+                  />
+                  </Grid>
+                  <Grid item md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.internAccess}
+                        onChange={(e)=>this.setState({internAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="Internship Access"
                   />
                   </Grid>
                   <Grid item md={12}>

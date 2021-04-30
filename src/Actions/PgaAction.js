@@ -28,11 +28,47 @@ export const getCareerInterest = (id) =>{
     }
 }
 
-export const postPgaAcademicData = () =>{
+export const postPgaAcademicData = (id,data) =>{
     return dispatch =>{
-        axios.post(URL+"/api/v1/students/save/pgaacademicdetails")
+        axios.post(URL+"/api/v1/students/"+id+"/save/pgaacademicdetails",data)
         .then(result=>{
             dispatch({type : PGA.postAcademicData, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const getPgaAcademicData = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/"+id+"/getpgaAcademicdata")
+        .then(result=>{
+            dispatch({type : PGA.getPgaAcademicData, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const getChoosenTrackById = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/"+id+"/citquestion")
+        .then(result=>{
+            dispatch({type : PGA.getChoosenTrack, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const postGenralDetails = (id,data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/students/"+id+"/save/pgageneraldetails", data)
+        .then(result=>{
+            dispatch({type : PGA.postGenralDetails, payload : result.data})
         })
         .catch(error=>{
             console.log(error)

@@ -71,6 +71,7 @@ export class BlackListedStudents extends Component {
       departmentHelperText : null,
       phoneHelperText : null,
       studentIdHelperText : null,
+      internAccess : false,
     };
   }
 
@@ -211,6 +212,7 @@ export class BlackListedStudents extends Component {
         department: this.state.department.id,
         roles: ["Student"],
         password: this.state.password,
+        internshipAccess : this.state.internAccess === false ? "no" : "yes",
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
         avatar: "",
@@ -228,6 +230,7 @@ export class BlackListedStudents extends Component {
         phone : null,
         college : null,
         department : null,
+        internAccess : false,
         isActive : false,
         toogleButton : false,
         provider : "",
@@ -260,6 +263,7 @@ export class BlackListedStudents extends Component {
       department: this.state.department.id,
       isActive: this.state.isActive,
       avatar: "",
+      internshipAccess : this.state.internAccess === false ? "no" : "yes",
       studentId: this.state.studentId,
       provider: this.state.toogleButton === true ? "Google" : "Local",
       password: this.state.password,
@@ -275,6 +279,7 @@ export class BlackListedStudents extends Component {
       college : null,
       department : null,
       isActive : false,
+      internAccess :  false,
       toogleButton : false,
       provider : "",
       studentId : null
@@ -322,6 +327,7 @@ export class BlackListedStudents extends Component {
                 college : null,
                 department : null,
                 phone : null,
+                internAccess : false,
                 provider : "",
                 toogleButton : false,
                 studentId : null,
@@ -341,6 +347,7 @@ export class BlackListedStudents extends Component {
                   college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
+                  internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   toogleButton : rowdata.provider === "Google" ? true : false,
                   provider : rowdata.provider,
                   studentId : rowdata.studentID,
@@ -472,7 +479,7 @@ export class BlackListedStudents extends Component {
                label="Student ID"
                />
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -487,7 +494,7 @@ export class BlackListedStudents extends Component {
                   />
                 
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -498,6 +505,19 @@ export class BlackListedStudents extends Component {
                       />
                     }
                     label="Is Active"
+                  />
+                  </Grid>
+                  <Grid item md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.internAccess}
+                        onChange={(e)=>this.setState({internAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="Internship Access"
                   />
                   </Grid>
                   <Grid item md={12}>

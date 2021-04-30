@@ -71,6 +71,7 @@ export class ActiveStudents extends Component {
       departmentHelperText : null,
       phoneHelperText : null,
       studentIdHelperText : null,
+      internAccess : false,
     };
   }
 
@@ -215,6 +216,7 @@ export class ActiveStudents extends Component {
         password: this.state.password,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
+        internshipAccess : this.state.internAccess === false ? "no" : "yes",
         avatar: "",
         isActive: this.state.isActive,
         studentId: this.state.studentId,
@@ -229,6 +231,7 @@ export class ActiveStudents extends Component {
         eMail : null,
         phone : null,
         college : null,
+        internAccess : false,
         department : null,
         isActive : false,
         toogleButton : false,
@@ -262,6 +265,7 @@ export class ActiveStudents extends Component {
       department: this.state.department.id,
       isActive: this.state.isActive,
       avatar: "",
+      internshipAccess : this.state.internAccess === false ? "no" : "yes",
       studentId: this.state.studentId,
       provider: this.state.toogleButton === true ? "Google" : "Local",
       password: this.state.password,
@@ -278,6 +282,7 @@ export class ActiveStudents extends Component {
       department : null,
       isActive : false,
       toogleButton : false,
+      internAccess : false,
       provider : "",
       studentId : null
     })
@@ -325,6 +330,7 @@ export class ActiveStudents extends Component {
                 department : null,
                 phone : null,
                 provider : "",
+                internAccess : false,
                 toogleButton : false,
                 studentId : null,
                 isActive : false,
@@ -343,6 +349,7 @@ export class ActiveStudents extends Component {
                   college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
+                  internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   toogleButton : rowdata.provider === "Google" ? true : false,
                   provider : rowdata.provider,
                   studentId : rowdata.studentID,
@@ -474,7 +481,7 @@ export class ActiveStudents extends Component {
                label="Student ID"
                />
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -490,7 +497,7 @@ export class ActiveStudents extends Component {
                   />
                 
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -501,6 +508,19 @@ export class ActiveStudents extends Component {
                       />
                     }
                     label="Is Active"
+                  />
+                  </Grid>
+                  <Grid item md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.internAccess}
+                        onChange={(e)=>this.setState({internAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="Internship Access"
                   />
                   </Grid>
                   <Grid item md={12}>

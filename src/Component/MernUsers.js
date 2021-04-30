@@ -71,6 +71,7 @@ export class MernUsers extends Component {
       departmentHelperText : null,
       phoneHelperText : null,
       studentIdHelperText : null,
+      internAccess : false,
     };
   }
 
@@ -210,6 +211,7 @@ export class MernUsers extends Component {
         college: this.state.college.id,
         department: this.state.department.id,
         roles: ["Student"],
+        internshipAccess : this.state.internAccess === false ? "no" : "yes",
         password: this.state.password,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
@@ -225,6 +227,7 @@ export class MernUsers extends Component {
         firstName : null,
         lastName : null,
         eMail : null,
+        internAccess : false,
         phone : null,
         college : null,
         department : null,
@@ -259,6 +262,7 @@ export class MernUsers extends Component {
       college: this.state.college.id,
       department: this.state.department.id,
       isActive: this.state.isActive,
+      internshipAccess : this.state.internAccess === false ? "no" : "yes",
       avatar: "",
       studentId: this.state.studentId,
       provider: this.state.toogleButton === true ? "Google" : "Local",
@@ -272,6 +276,7 @@ export class MernUsers extends Component {
       lastName : null,
       eMail : null,
       phone : null,
+      internAccess : false,
       college : null,
       department : null,
       isActive : false,
@@ -324,6 +329,7 @@ export class MernUsers extends Component {
                 phone : null,
                 provider : "",
                 toogleButton : false,
+                internAccess : false,
                 studentId : null,
                 isActive : false,
 
@@ -338,6 +344,7 @@ export class MernUsers extends Component {
                   lastName : rowdata.lastName,
                   eMail : rowdata.emailId,
                   phone : rowdata.phoneNumber,
+                  internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
@@ -472,7 +479,7 @@ export class MernUsers extends Component {
                label="Student ID"
                />
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -487,7 +494,7 @@ export class MernUsers extends Component {
                   />
                 
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={4} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -498,6 +505,19 @@ export class MernUsers extends Component {
                       />
                     }
                     label="Is Active"
+                  />
+                  </Grid>
+                  <Grid item md={4}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.internAccess}
+                        onChange={(e)=>this.setState({internAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="Internship Access"
                   />
                   </Grid>
                   <Grid item md={12}>

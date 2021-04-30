@@ -1,4 +1,4 @@
-import { Grid, Divider, Typography, TextField } from "@material-ui/core";
+import { Grid, Divider, Button, Typography, TextField } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -7,10 +7,12 @@ import {
     getDegree,
     getBranches,
   } from "../../Actions/College";
+  import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
   import Autocomplete from "@material-ui/lab/Autocomplete";
   import {getAllBranch,getAllDegree,getAllSpecialization, viewCountryForSelect} from "../../Actions/Aspiration"
 
-import {getPgaScores, getCareerInterest} from "../../Actions/PgaAction"
+import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -55,8 +57,15 @@ class GeneralDetails extends Component {
             logicalReasoning : null,
             verbalReasoning : null,
             personalityCode : null,
-            csTest : null,
-            eceTest : null,
+            s3Link : "https://unifiedportalfiles-stage.s3.ap-south-1.amazonaws.com/"+this.props.id,
+            techTestLabel : "",
+            techTestValue : '',
+            areaOfInterest : [],
+            choosenTrackOption : [],
+            snackOpen: false,
+            snackMessage: null,
+            snackVariant: null,
+
         }
     }
 
@@ -72,6 +81,7 @@ class GeneralDetails extends Component {
         this.props.getPgaScores(this.props.id)
         this.props.viewCountryForSelect()
         this.props.getCareerInterest(this.props.id)
+        this.props.getChoosenTrackById(this.props.id)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -123,23 +133,63 @@ class GeneralDetails extends Component {
           let mechObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Mechanical")
          if(mechObj !== undefined){
            this.setState({
-              mechTest : mechObj.score,
+             techTestLabel : "Mech Technical Test",
+              techTestValue : mechObj.score,
            })
          }
          let csObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Computer")
          if(csObj !== undefined){
            this.setState({
-              csTest : csObj.score,
+            techTestLabel : "CS Technical Test",
+            techTestValue : mechObj.score,
            })
          }
          let eceObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Electronics")
          if(eceObj !== undefined){
            this.setState({
-              eceTest : eceObj.score,
+            techTestLabel : "ECE Technical Test",
+            techTestValue : mechObj.score,
            })
          }
         }
 
+        if(this.props.careerInterestList !== prevProps.careerInterestList){
+          if(Object.keys(this.props.careerInterestList).length !== 0){
+            let arr = []
+            for(const property in this.props.careerInterestList){
+              console.log("Property:",property)
+              console.log("Value:",this.props.careerInterestList[property])
+              arr.push(this.props.careerInterestList[property])
+            }
+            this.setState({
+              areaOfInterest : arr
+            })
+          }
+         
+        }
+
+        if(this.props.choosenTrackForStudent !== prevProps.choosenTrackForStudent){
+          if(Object.keys(this.props.choosenTrackForStudent).length !== 0){
+            let arr = [];
+            for(const property in this.props.choosenTrackForStudent){
+              arr.push({
+                title : property,
+                value : this.props.choosenTrackForStudent[property]
+              })
+            }
+            this.setState({
+              choosenTrackOption : arr
+            })
+          }
+        }
+
+        if(this.props.postGeneralDetailsResponse !== prevProps.postGeneralDetailsResponse){
+          this.setState({
+              snackMessage : "Updated Successfully",
+              snackVariant : "success",
+              snackOpen : true
+          })
+        }
        
     }
     
@@ -195,10 +245,10 @@ class GeneralDetails extends Component {
     
     
     period=[
-        {title:"Jan to Mar"},
-        {title:"Apr to June"},
-        {title:"July to Sep"},
-        {title:"Oct to Dec"},
+        {title:"Nov-jan"},
+        {title:"Feb-april"},
+        {title:"May-july"},
+        {title:"April-Oct"},
       ] 
  
   track=[
@@ -207,11 +257,126 @@ class GeneralDetails extends Component {
     {title:"PB-Placements"},
     {title:"Others"},
   ]
+handleSaved=()=>{
+  let helpMsg = "Please Fill The Required Feild";
+  this.state.studentId === null ||
+  this.state.studentId.length === 0 
+  
+    ? this.setState({ studentIdHelperTxt: helpMsg })
+    : this.setState({ studentIdHelperTxt: "" });
+    this.state.firstName === null ||
+    this.state.firstName.length === 0 
+  
+    ? this.setState({ fNameHelperTxt: helpMsg })
+    : this.setState({ fNameHelperTxt: "" });
+    this.state.lastName === null ||
+    this.state.lastName.length === 0 
+  
+    ? this.setState({ lNameHelperTxt: helpMsg })
+    : this.setState({ lNameHelperTxt: "" });
+    this.state.ugDegree === null ||
+    Object.keys(this.state.ugDegree).length === 0 ||
+      this.state.ugDegree.constructor !== Object ? 
+      this.setState({ugDegreeHelperTxt : helpMsg}) :
+      this.setState({ugDegreeHelperTxt : ''}) 
+      this.state.department === null ||
+      Object.keys(this.state.department).length === 0 ||
+      this.state.department.constructor !== Object  ? 
+      this.setState({departmentHelperTxt : helpMsg}) : 
+      this.setState({departmentHelperTxt : ''})
+      this.state.college === null ||
+      Object.keys(this.state.college).length === 0 ||
+      this.state.college.constructor !== Object ? 
+      this.setState({collegeHelperTxt : helpMsg}) : 
+      this.setState({collegeHelperTxt : ''})
+      this.state.university === null ||
+      Object.keys(this.state.university).length === 0 ||
+      this.state.university.constructor !== Object ?
+      this.setState({universityHelperTxt : helpMsg}) : 
+      this.setState({universityHelperTxt : ''})
+      this.state.uggpa === null ||
+      this.state.uggpa.toString().length === 0 ?
+      this.setState({uggpaHelperTxt : helpMsg}) : 
+      this.setState({uggpaHelperTxt : ''})
+      this.state.uggpaScale === null ||
+      Object.keys(this.state.uggpaScale).length === 0 ||
+      this.state.uggpaScale.constructor !== Object ?
+      this.setState({uggpaScaleHelperTxt : helpMsg}) : 
+      this.setState({uggpaScaleHelperTxt : ''})
+      this.state.expectedYear === null ||
+      Object.keys(this.state.expectedYear).length === 0 ||
+      this.state.expectedYear.constructor !== Object ?
+      this.setState({expectedYearHelperTxt : helpMsg}) : 
+      this.setState({expectedYearHelperTxt : ''})
+      this.state.sem === null ||
+      Object.keys(this.state.sem).length === 0 ||
+      this.state.sem.constructor !== Object ?
+      this.setState({semHelperTxt : helpMsg}) : 
+      this.setState({semHelperTxt : ''})
+
+      let aspirationDegree = this.state.degree.map(eachDegree=>{
+        return {id : eachDegree.id}
+      })
+      let aspirationBranches = this.state.branch.map(eachBranch=>{
+        return {id : eachBranch.id}
+      })
+      let aspirationSpecialization = this.state.specialization.map(eachSpl=>{
+        return {id : eachSpl.id}
+      })
+      let aspirationCountries = this.state.country.map(eachCountry=>{
+        return {id : eachCountry.id}
+      })
+      let obj = {
+        "student": {
+            "firstname": this.state.firstName,
+            "lastName": this.state.lastName,
+            "studentID": this.state.studentId,
+            "emailId": this.state.eMail,
+            "phoneNumber": this.state.phoneNumber,
+            "expectedYrOfGrad": this.state.expectedYear.value,
+            "currentSem": this.state.sem.value,
+            "UGGPAScale": parseFloat(
+              this.state.uggpaScale.title === "%"
+                ? 100
+                : this.state.uggpaScale.title
+            ),
+            "UGGPA": parseFloat(this.state.uggpa),
+            "college": {
+                "name": this.state.college.name
+            },
+            "university": {
+                "name": this.state.university.name
+            },
+            "department": {
+                "name": this.state.department.name
+            },
+            "ugDegree": {
+                "name": this.state.ugDegree.name
+            }
+        },
+        "aspirationModel": {
+        "degrees": aspirationDegree,
+        "branches": aspirationBranches,
+        "specializations": aspirationSpecialization,
+        "countries": aspirationCountries,
+        "terms":[],
+        "year": null,
+        "noOfSchool": null
+    },
+    "product":{
+        "name": null,
+        "courseOpted": null,
+        "googleDriveLink": this.state.s3Link
+    }
+    }
+
+    this.props.postGenralDetails(this.props.id, obj)
+
+}
 
   
       render() {
-        console.log(this.props.aspirationDetails.countries)
-      console.log(this.props.careerInterestList)
+        console.log(this.state)
       
     return (
       <div>
@@ -280,22 +445,7 @@ class GeneralDetails extends Component {
                   )}
                 />
           </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 1"
-            
-                />
-          </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 2"
-            
-                />
-          </Grid>
+          
           <Grid item md={2}>
           <TextField
                   variant="outlined"
@@ -322,7 +472,7 @@ class GeneralDetails extends Component {
                   value={this.state.lastName}
                 />    
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
           <Autocomplete
                   id="combo-box-demo"
                   value={this.state.college}
@@ -340,7 +490,7 @@ class GeneralDetails extends Component {
                   )}
                 />   
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
           <Autocomplete
                   id="combo-box-demo"
                   value={this.state.university}
@@ -364,23 +514,8 @@ class GeneralDetails extends Component {
                   )}
                 />      
           </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 3"
-            
-                />
-          </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 4"
-            
-                />
-          </Grid>
-          <Grid item md={2}>
+          
+          <Grid item md={3}>
           <TextField
                   variant="outlined"
                   size="small"
@@ -393,7 +528,7 @@ class GeneralDetails extends Component {
                   value={this.state.eMail}
                 />
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
           <TextField
                   variant="outlined"
                   size="small"
@@ -406,14 +541,8 @@ class GeneralDetails extends Component {
                   value={this.state.phoneNumber}
                 />
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"Expected Year Of Grad:"}
-                </Typography> */}
+          <Grid item md={3}>
+         
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.renderYear()}
@@ -435,14 +564,8 @@ class GeneralDetails extends Component {
                   )}
                 /> 
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"Current Sem:"}
-                </Typography> */}
+          <Grid item md={3}>
+          
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.renderSem()}
@@ -462,14 +585,8 @@ class GeneralDetails extends Component {
                   )}
                 />
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"UG GPA Scale:"}
-                </Typography> */}
+          <Grid item md={3}>
+          
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.renderUggpaScale()}
@@ -491,14 +608,8 @@ class GeneralDetails extends Component {
                   )}
                 />
           </Grid>
-          <Grid item md={1}>
-          {/* <Typography
-                  color="primary"
-                  // style={textStyle}
-                  variant="subtitle1"
-                >
-                  {"UG GPA:"}
-                </Typography> */}
+          <Grid item md={3}>
+        
                 <TextField
                   variant="outlined"
                   size="small"
@@ -513,20 +624,23 @@ class GeneralDetails extends Component {
                   InputLabelProps={{shrink : true}}
                 />
           </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 5"
-                />
-          </Grid>
-          <Grid item md={2}>
-          <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Area Of Interest 6"
-                />
-          </Grid>
+         <Grid item md={12}>
+              <Typography color={"textSecondary"}>Area Of Interest</Typography>
+         </Grid>
+         {/* Map Here */}
+         {this.state.areaOfInterest.map(eachData=>{
+           return(
+             <Grid item md={3}>
+               <TextField
+             variant="outlined"
+            disabled
+            size="small"
+            value={eachData}
+             />
+               </Grid>
+             
+           )
+         })}
         </Grid>
         <hr />
         <h5 style={{ padding: "1%" }}>Test Result</h5>
@@ -583,36 +697,18 @@ class GeneralDetails extends Component {
             label="Personality Code"
             size="small" />
           </Grid>
+         {this.state.techTestValue.length !== 0 ?
           <Grid item md={4}>
-            <TextField
-            variant="outlined"
+              <TextField
+              value={this.state.techTestValue}
+              label={this.state.techTestLabel}
+              disabled
+              variant="outlined"
             InputLabelProps={{shrink : true}}
-            disabled
-            name={"mechTest"}
-            value={this.state.mechTest}
-            label="Mech Technical Test"
-            size="small" />
+            size={"small"}
+              />
           </Grid>
-          <Grid item md={4}>
-            <TextField
-            variant="outlined"
-            InputLabelProps={{shrink : true}}
-            name={"csTest"}
-            value={this.state.csTest}
-            disabled
-            label="CS Technical Test"
-            size="small" />
-          </Grid>
-          <Grid item md={4}>
-            <TextField
-            variant="outlined"
-            InputLabelProps={{shrink : true}}
-            name={"eceTest"}
-            value={this.state.eceTest}
-            disabled
-            label="ECE Technical Test"
-            size="small" />
-          </Grid>
+          : null}
             </Grid>
             <hr />
           </Grid>
@@ -694,18 +790,14 @@ class GeneralDetails extends Component {
                 label="Course Opted" />
               </Grid>
               <Grid item md={4}>
-                {/* <TextField
-                variant="outlined"
-                size="small"
-                label="Chosen Track" /> */}
+              
                  <Autocomplete
                   id="combo-box-demo"
                   // value={this.track}
                   name={"choosetrack"}
-                  multiple
-                  options={this.track}
+                  options={this.state.choosenTrackOption}
                   // onChange={(e, newValue) => this.setState({choosentrack : newValue})}
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={(option) => option.value}
                   size="small"
                   renderInput={(params) =>
                   <TextField
@@ -719,8 +811,9 @@ class GeneralDetails extends Component {
                   <TextField
                   variant="outlined"
                   size="small"
+                  value={this.state.s3Link}
                   disabled
-                  label="Drive Link" />
+                  label="S3 Bucket Link" />
               </Grid>
               <Grid item md={4}>
                 <Autocomplete
@@ -756,9 +849,29 @@ class GeneralDetails extends Component {
             </Grid>
           </Grid>
         </Grid>
+        <Grid style={{padding:"1%"}}>
+          <Button variant="contained" color="primary" onClick={this.handleSaved}>Save</Button>
+        </Grid>
+        <Snackbar
+          open={this.state.snackOpen}
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackOpen: false })}
+        >
+          <Alert
+            variant="filled"
+            onClose={() => this.setState({ snackOpen: false })}
+            severity={this.state.snackVariant}
+          >
+            {this.state.snackMessage}
+          </Alert>
+        </Snackbar>
       </div>
     );
   }
+}
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const mapStateToProps = (state) => {
@@ -775,7 +888,9 @@ const mapStateToProps = (state) => {
       aspirationDetails : state.StudentReducer.aspirationDetails,
       pgaScoreDetails : state.PgaReducer.pgaScoreDetails,
       aspirationCountryList : state.AspirationReducer.viewCountryForSelectList,
-      careerInterestList : state.PgaReducer.careerInterestList
+      careerInterestList : state.PgaReducer.careerInterestList,
+      choosenTrackForStudent : state.PgaReducer.choosenTrackForStudent,
+      postGeneralDetailsResponse : state.PgaReducer.postGeneralDetailsResponse
     };
   };
 
@@ -790,4 +905,6 @@ export default connect(mapStateToProps,{
     getPgaScores,
     viewCountryForSelect,
     getCareerInterest,
+    getChoosenTrackById,
+    postGenralDetails,
     getBranches,})(GeneralDetails)
