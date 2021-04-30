@@ -216,6 +216,7 @@ export class ActiveStudents extends Component {
         password: this.state.password,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
+        internshipAccess : this.state.internAccess === false ? "no" : "yes",
         avatar: "",
         isActive: this.state.isActive,
         studentId: this.state.studentId,
@@ -230,6 +231,7 @@ export class ActiveStudents extends Component {
         eMail : null,
         phone : null,
         college : null,
+        internAccess : false,
         department : null,
         isActive : false,
         toogleButton : false,
@@ -263,6 +265,7 @@ export class ActiveStudents extends Component {
       department: this.state.department.id,
       isActive: this.state.isActive,
       avatar: "",
+      internshipAccess : this.state.internAccess === false ? "no" : "yes",
       studentId: this.state.studentId,
       provider: this.state.toogleButton === true ? "Google" : "Local",
       password: this.state.password,
@@ -279,6 +282,7 @@ export class ActiveStudents extends Component {
       department : null,
       isActive : false,
       toogleButton : false,
+      internAccess : false,
       provider : "",
       studentId : null
     })

@@ -7,10 +7,12 @@ import {
     getDegree,
     getBranches,
   } from "../../Actions/College";
+  import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
   import Autocomplete from "@material-ui/lab/Autocomplete";
   import {getAllBranch,getAllDegree,getAllSpecialization, viewCountryForSelect} from "../../Actions/Aspiration"
 
-import {getPgaScores, getCareerInterest,getChoosenTrackById} from "../../Actions/PgaAction"
+import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -60,6 +62,9 @@ class GeneralDetails extends Component {
             techTestValue : '',
             areaOfInterest : [],
             choosenTrackOption : [],
+            snackOpen: false,
+            snackMessage: null,
+            snackVariant: null,
 
         }
     }
@@ -178,6 +183,13 @@ class GeneralDetails extends Component {
           }
         }
 
+        if(this.props.postGeneralDetailsResponse !== prevProps.postGeneralDetailsResponse){
+          this.setState({
+              snackMessage : "Updated Successfully",
+              snackVariant : "success",
+              snackOpen : true
+          })
+        }
        
     }
     
@@ -302,11 +314,69 @@ handleSaved=()=>{
       this.setState({semHelperTxt : helpMsg}) : 
       this.setState({semHelperTxt : ''})
 
+      let aspirationDegree = this.state.degree.map(eachDegree=>{
+        return {id : eachDegree.id}
+      })
+      let aspirationBranches = this.state.branch.map(eachBranch=>{
+        return {id : eachBranch.id}
+      })
+      let aspirationSpecialization = this.state.specialization.map(eachSpl=>{
+        return {id : eachSpl.id}
+      })
+      let aspirationCountries = this.state.country.map(eachCountry=>{
+        return {id : eachCountry.id}
+      })
+      let obj = {
+        "student": {
+            "firstname": this.state.firstName,
+            "lastName": this.state.lastName,
+            "studentID": this.state.studentId,
+            "emailId": this.state.eMail,
+            "phoneNumber": this.state.phoneNumber,
+            "expectedYrOfGrad": this.state.expectedYear.value,
+            "currentSem": this.state.sem.value,
+            "UGGPAScale": parseFloat(
+              this.state.uggpaScale.title === "%"
+                ? 100
+                : this.state.uggpaScale.title
+            ),
+            "UGGPA": parseFloat(this.state.uggpa),
+            "college": {
+                "name": this.state.college.name
+            },
+            "university": {
+                "name": this.state.university.name
+            },
+            "department": {
+                "name": this.state.department.name
+            },
+            "ugDegree": {
+                "name": this.state.ugDegree.name
+            }
+        },
+        "aspirationModel": {
+        "degrees": aspirationDegree,
+        "branches": aspirationBranches,
+        "specializations": aspirationSpecialization,
+        "countries": aspirationCountries,
+        "terms":[],
+        "year": null,
+        "noOfSchool": null
+    },
+    "product":{
+        "name": null,
+        "courseOpted": null,
+        "googleDriveLink": this.state.s3Link
+    }
+    }
+
+    this.props.postGenralDetails(this.props.id, obj)
+
 }
 
   
       render() {
-        console.log(this.state.choosenTrackOption)
+        console.log(this.state)
       
     return (
       <div>
@@ -782,9 +852,26 @@ handleSaved=()=>{
         <Grid style={{padding:"1%"}}>
           <Button variant="contained" color="primary" onClick={this.handleSaved}>Save</Button>
         </Grid>
+        <Snackbar
+          open={this.state.snackOpen}
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackOpen: false })}
+        >
+          <Alert
+            variant="filled"
+            onClose={() => this.setState({ snackOpen: false })}
+            severity={this.state.snackVariant}
+          >
+            {this.state.snackMessage}
+          </Alert>
+        </Snackbar>
       </div>
     );
   }
+}
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const mapStateToProps = (state) => {
@@ -802,7 +889,8 @@ const mapStateToProps = (state) => {
       pgaScoreDetails : state.PgaReducer.pgaScoreDetails,
       aspirationCountryList : state.AspirationReducer.viewCountryForSelectList,
       careerInterestList : state.PgaReducer.careerInterestList,
-      choosenTrackForStudent : state.PgaReducer.choosenTrackForStudent
+      choosenTrackForStudent : state.PgaReducer.choosenTrackForStudent,
+      postGeneralDetailsResponse : state.PgaReducer.postGeneralDetailsResponse
     };
   };
 
@@ -818,4 +906,5 @@ export default connect(mapStateToProps,{
     viewCountryForSelect,
     getCareerInterest,
     getChoosenTrackById,
+    postGenralDetails,
     getBranches,})(GeneralDetails)

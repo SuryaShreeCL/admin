@@ -63,3 +63,15 @@ export const getChoosenTrackById = (id) =>{
         })
     }
 }
+
+export const postGenralDetails = (id,data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/students/"+id+"/save/pgageneraldetails", data)
+        .then(result=>{
+            dispatch({type : PGA.postGenralDetails, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

@@ -222,6 +222,7 @@ export class Student extends Component {
         avatar: "",
         isActive: this.state.isActive,
         studentId: this.state.studentId,
+        internshipAccess : this.state.internAccess === false ? "no" : "yes",
         origin : "ADMIN Portal"
       };
       this.props.mernStudentSignUp(studentObj)
@@ -237,6 +238,7 @@ export class Student extends Component {
         isActive : false,
         toogleButton : false,
         provider : "",
+        internshipAccess : false,
         studentId : null
       })
    }
@@ -267,6 +269,7 @@ export class Student extends Component {
       isActive: this.state.isActive,
       avatar: "",
       studentId: this.state.studentId,
+      internshipAccess : this.state.internAccess === false ? "no" : "yes",
       provider: this.state.toogleButton === true ? "Google" : "Local",
       password: this.state.password,
     };
@@ -282,6 +285,7 @@ export class Student extends Component {
       department : null,
       isActive : false,
       toogleButton : false,
+      internshipAccess : false,
       provider : "",
       studentId : null
     })
