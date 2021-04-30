@@ -329,6 +329,7 @@ export class MernUsers extends Component {
                 phone : null,
                 provider : "",
                 toogleButton : false,
+                internAccess : false,
                 studentId : null,
                 isActive : false,
 
@@ -343,6 +344,7 @@ export class MernUsers extends Component {
                   lastName : rowdata.lastName,
                   eMail : rowdata.emailId,
                   phone : rowdata.phoneNumber,
+                  internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
