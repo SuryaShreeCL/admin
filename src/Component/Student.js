@@ -238,7 +238,7 @@ export class Student extends Component {
         isActive : false,
         toogleButton : false,
         provider : "",
-        internshipAccess : false,
+        internAccess : false,
         studentId : null
       })
    }
