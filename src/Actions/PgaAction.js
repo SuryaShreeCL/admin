@@ -75,3 +75,42 @@ export const postGenralDetails = (id,data) =>{
         })
     }
 }
+
+export const getAllEnrollmentPerid = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/enrollment/period")
+        .then(result=>{
+            dispatch({type : PGA.getAllEnrollmentPeriod, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const getQuarterPlanByType = (id,type) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan?studentType="+type)
+        .then(result=>{
+            dispatch({type : PGA.getQuarterPlan, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+
+export const getAllStarterPack = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/quarterPlan/careerTrack")
+        .then(result=>{
+            dispatch({type : PGA.getAllStarterPack, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+

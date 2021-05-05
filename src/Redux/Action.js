@@ -204,7 +204,10 @@ export const PGA = {
   postAcademicData : "postAcademicData",
   getPgaAcademicData : "getPgaAcademicData",
   getChoosenTrack : "getChoosenTrack",
-  postGenralDetails : "postGenralDetails"
+  postGenralDetails : "postGenralDetails",
+  getAllEnrollmentPeriod : "getAllEnrollmentPeriod",
+  getQuarterPlan : "getQuarterPlan",
+  getAllStarterPack : "getAllStarterPack"
 }
 
 
