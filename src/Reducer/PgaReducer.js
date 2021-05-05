@@ -7,6 +7,10 @@ const initialState = {
     pgaAcademicDetails : [],
     choosenTrackForStudent : [],
     postGeneralDetailsResponse : [],
+    cvandppgaResponse : [],
+    getcvandppgaResponse :[],
+    getppgaResponse : [],
+    getcvResponse :[]
 
 }
 
@@ -42,6 +46,26 @@ export default (state = initialState, action) =>{
                             ...state,
                             postGeneralDetailsResponse : action.payload
                         }
+                        case PGA.postcvandppga:
+                            return {
+                                ...state,
+                                cvandppgaResponse : action.payload
+                            }
+                        case PGA.getcvandppga:
+                            return {
+                             ...state,
+                             getcvandppgaResponse : action.payload
+                            }
+                        case PGA.getppgaques:
+                            return {
+                                ...state,
+                                getppgaResponse : action.payload
+                             }
+                         case PGA.getcvques:
+                            return {
+                              ...state,
+                              getcvResponse : action.payload
+                            }
         default:
             return state
     }
