@@ -80,6 +80,12 @@ export const getcvandppga = (id) => {
         axios.get(URL+"/api/v1/students/get/cvandppga/"+id )
         .then(result=>{
             dispatch({type : PGA.getcvandppga, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
 
 export const getAllEnrollmentPerid = () =>{
     return dispatch=>{
@@ -97,6 +103,12 @@ export const getppgaques = () => {
         axios.get(URL+"/api/v1/ppgaQuestions" )
         .then(result=>{
             dispatch({type : PGA.getppgaques, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
 
 export const getQuarterPlanByType = (id,type) =>{
     return dispatch=>{
@@ -109,11 +121,18 @@ export const getQuarterPlanByType = (id,type) =>{
         })
     }
 }
+
 export const getcvques = () => {
     return dispatch=>{
         axios.get(URL+"/api/v1/cvFactors" )
         .then(result=>{
             dispatch({type : PGA.getcvques, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
 
 
 export const getAllStarterPack = () =>{
