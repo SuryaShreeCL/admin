@@ -4,114 +4,135 @@ import React, { Component } from 'react'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { TransferWithinAStationOutlined, TurnedInSharp } from '@material-ui/icons';
 import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
-
-export default class Pgaplan extends Component {
+import { connect } from 'react-redux';
+import {getQuarterPlanByType, getAllStarterPack} from "../../Actions/PgaAction" 
+class Pgaplan extends Component {
   constructor(props){
     super(props);
     this.state = {
-        ambOption1:"",
-        ambOption2:"",
-        ambOption3:"",
-        casOption1:"",
-        casOption2:"",
-        casOption3:"",
-        balOption1:"",
-        balOption2:"",
-        balOption3:"",
-        expoOption1:"",
-        expoOption2:"",
-        expoOption3:"",
-        ambarr:[],
-        ambitiousCount : 1,
-        casualCount : 1,
-        balancedCount : 1,
-        exploCount : 1,
-        index:"",
-        ambpack1:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        ambpack2:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        ambpack3:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        caspack1:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        caspack2:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        caspack3:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        balpack1:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        balpack2:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        balpack3:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        expopack1:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        expopack2:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-        expopack3:[
-          {title:"Option 1"},
-          {title:"Option 2"},
-          {title:"Option 3"},
-          {title:"Option 4"},
-          {title:"Option 5"},
-        ],
-    }
+      ambOption1: "",
+      ambOption2: "",
+      ambOption3: "",
+      casOption1: "",
+      casOption2: "",
+      casOption3: "",
+      balOption1: "",
+      balOption2: "",
+      balOption3: "",
+      expoOption1: "",
+      expoOption2: "",
+      expoOption3: "",
+      ambarr: [],
+      ambitiousCount: 1,
+      casualCount: 1,
+      balancedCount: 1,
+      exploCount: 1,
+      index: "",
+      ambpack1: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      ambpack2: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      ambpack3: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      caspack1: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      caspack2: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      caspack3: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      balpack1: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      balpack2: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      balpack3: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      expopack1: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      expopack2: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      expopack3: [
+        { title: "Option 1" },
+        { title: "Option 2" },
+        { title: "Option 3" },
+        { title: "Option 4" },
+        { title: "Option 5" },
+      ],
+      selectedSpecialization : [],
+      rawStarterPack: [
+        {
+          id: "1",
+          name: "Ambitious",
+          specializations: [
+            {
+              id: "1",
+              name: "Front End",
+              starterPackCourses: [{id : "1", name : "courseOne"}],
+            },
+            {
+              id: "2",
+              name: "Backend",
+              starterPackCourses: [{id : "2", name : "courseTwo"}],
+            },
+          ],
+        },
+      ],
+      rawSpecialization : [],
+    };
   }
  componentDidUpdate(prevProps,prevState){
    if(prevState.ambOption1 !== this.state.ambOption1){
@@ -122,6 +143,12 @@ export default class Pgaplan extends Component {
     //  })
    }
  }
+
+ componentDidMount() {
+  this.props.getAllStarterPack()
+ }
+ 
+
    specialization=[
      {title:"Full Stack Development"},
      {title:"Front End Development"},
@@ -148,8 +175,8 @@ export default class Pgaplan extends Component {
      {title:"HR Analytics"},
    ]
    type=[
-     {title:"Above Average"},
-     {title:"Below Average"},
+     {title:"Above Average", value : "above"},
+     {title:"Below Average", value : "below"},
    ]
    choice=[
     {title:"Option 1"},
@@ -164,8 +191,7 @@ export default class Pgaplan extends Component {
       this.setState({
         [e.target.name]:e.target.value
       })
-     let index=this.state.ambpack1.findIndex((item)=>item.title === e.target.value)
-      console.log(index)
+    
     }
 
    renderAmbitious = () =>{
@@ -541,13 +567,22 @@ export default class Pgaplan extends Component {
       )
     })
    }
+
+   handleTypeChange = (e,newValue) =>{
+    if(newValue !== null){
+      this.props.getQuarterPlanByType(this.props.id,newValue.value)
+    }
+   }
+
   
     render() {
-      console.log(this.state.option1)
+    console.log(this.state.rawStarterPack)
+      console.log(this.props.starterPackDetails)
+      console.log(this.state)
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
-                <Grid container spacing={2} style={{padding:"1%"}}>
+                <Grid container style={{padding:"1%"}} spacing={2}>
                     <Grid item md={2}>
                     <Grid container spacing={2}>
                       <Grid item md={12}>
@@ -704,6 +739,7 @@ export default class Pgaplan extends Component {
                         options={this.type}
                         getOptionLabel={(option) => option.title}
                         // value={}
+                        onChange={this.handleTypeChange}
                         fullWidth
                         size="small"
                         renderInput={(params) => (
@@ -1052,3 +1088,12 @@ export default class Pgaplan extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) =>{
+  return {
+    quarterPlan : state.PgaReducer.quarterPlan,
+    starterPackDetails : state.PgaReducer.starterPackDetails
+  }
+}
+
+export default connect(mapStateToProps, {getQuarterPlanByType, getAllStarterPack})(Pgaplan)

@@ -208,7 +208,10 @@ export const PGA = {
   postcvandppga :"postcvandppga",
   getcvandppga : "getcvandppga",
   getppgaques : "getppgaques",
-  getcvques : "getcvques"
+  getcvques : "getcvques",
+  getAllEnrollmentPeriod : "getAllEnrollmentPeriod",
+  getQuarterPlan : "getQuarterPlan",
+  getAllStarterPack : "getAllStarterPack"
 }
 
 

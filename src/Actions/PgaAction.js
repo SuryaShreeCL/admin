@@ -80,6 +80,12 @@ export const getcvandppga = (id) => {
         axios.get(URL+"/api/v1/students/get/cvandppga/"+id )
         .then(result=>{
             dispatch({type : PGA.getcvandppga, payload : result.data})
+
+export const getAllEnrollmentPerid = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/enrollment/period")
+        .then(result=>{
+            dispatch({type : PGA.getAllEnrollmentPeriod, payload : result.data})
         })
         .catch(error=>{
             console.log(error)
@@ -91,6 +97,12 @@ export const getppgaques = () => {
         axios.get(URL+"/api/v1/ppgaQuestions" )
         .then(result=>{
             dispatch({type : PGA.getppgaques, payload : result.data})
+
+export const getQuarterPlanByType = (id,type) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan?studentType="+type)
+        .then(result=>{
+            dispatch({type : PGA.getQuarterPlan, payload : result.data})
         })
         .catch(error=>{
             console.log(error)
@@ -102,6 +114,13 @@ export const getcvques = () => {
         axios.get(URL+"/api/v1/cvFactors" )
         .then(result=>{
             dispatch({type : PGA.getcvques, payload : result.data})
+
+
+export const getAllStarterPack = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/quarterPlan/careerTrack")
+        .then(result=>{
+            dispatch({type : PGA.getAllStarterPack, payload : result.data})
         })
         .catch(error=>{
             console.log(error)

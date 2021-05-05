@@ -12,7 +12,7 @@ import MuiAlert from "@material-ui/lab/Alert";
   import Autocomplete from "@material-ui/lab/Autocomplete";
   import {getAllBranch,getAllDegree,getAllSpecialization, viewCountryForSelect} from "../../Actions/Aspiration"
 
-import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails} from "../../Actions/PgaAction"
+import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails, getAllEnrollmentPerid} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -58,6 +58,7 @@ class GeneralDetails extends Component {
             verbalReasoning : null,
             personalityCode : null,
             s3Link : "https://unifiedportalfiles-stage.s3.ap-south-1.amazonaws.com/"+this.props.id,
+            enrollmentPeriod : null,
             techTestLabel : "",
             techTestValue : '',
             areaOfInterest : [],
@@ -82,6 +83,7 @@ class GeneralDetails extends Component {
         this.props.viewCountryForSelect()
         this.props.getCareerInterest(this.props.id)
         this.props.getChoosenTrackById(this.props.id)
+        this.props.getAllEnrollmentPerid()
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -335,6 +337,7 @@ handleSaved=()=>{
             "phoneNumber": this.state.phoneNumber,
             "expectedYrOfGrad": this.state.expectedYear.value,
             "currentSem": this.state.sem.value,
+            "enrollmentPeriod":this.state.enrollmentPeriod.id,
             "UGGPAScale": parseFloat(
               this.state.uggpaScale.title === "%"
                 ? 100
@@ -376,7 +379,7 @@ handleSaved=()=>{
 
   
       render() {
-        console.log(this.state)
+        console.log(this.props.enrollmentPeriod)
       
     return (
       <div>
@@ -818,9 +821,11 @@ handleSaved=()=>{
               <Grid item md={4}>
                 <Autocomplete
                    id="combo-box-demo"
-                   options={this.period}
-                   getOptionLabel={(option) => option.title}
+                   options={this.props.enrollmentPeriod}
+                   getOptionLabel={(option) => option.name}
                    size="small"
+                   value={this.state.enrollmentPeriod}
+                   onChange={(e,newValue)=>this.setState({enrollmentPeriod : newValue})}
                    renderInput={(params) =>
                    <TextField
                     {...params}
@@ -890,7 +895,8 @@ const mapStateToProps = (state) => {
       aspirationCountryList : state.AspirationReducer.viewCountryForSelectList,
       careerInterestList : state.PgaReducer.careerInterestList,
       choosenTrackForStudent : state.PgaReducer.choosenTrackForStudent,
-      postGeneralDetailsResponse : state.PgaReducer.postGeneralDetailsResponse
+      postGeneralDetailsResponse : state.PgaReducer.postGeneralDetailsResponse,
+      enrollmentPeriod : state.PgaReducer.enrollmentPeriod
     };
   };
 
@@ -907,4 +913,5 @@ export default connect(mapStateToProps,{
     getCareerInterest,
     getChoosenTrackById,
     postGenralDetails,
+    getAllEnrollmentPerid,
     getBranches,})(GeneralDetails)

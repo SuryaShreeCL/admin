@@ -10,8 +10,10 @@ const initialState = {
     cvandppgaResponse : [],
     getcvandppgaResponse :[],
     getppgaResponse : [],
-    getcvResponse :[]
-
+    getcvResponse :[],
+    enrollmentPeriod : [],
+    quarterPlan : [],
+    starterPackDetails : []
 }
 
 export default (state = initialState, action) =>{
@@ -66,6 +68,21 @@ export default (state = initialState, action) =>{
                               ...state,
                               getcvResponse : action.payload
                             }
+                        case PGA.getAllEnrollmentPeriod:
+                            return {
+                                ...state,
+                                enrollmentPeriod : action.payload
+                            }
+                            case PGA.getQuarterPlan:
+                                return {
+                                    ...state,
+                                    quarterPlan : action.payload
+                                }
+                                case PGA.getAllStarterPack:
+                                    return {
+                                        ...state,
+                                        starterPackDetails : action.payload
+                                    }
         default:
             return state
     }
