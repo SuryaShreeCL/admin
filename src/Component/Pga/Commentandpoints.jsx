@@ -3,8 +3,9 @@ import React, { Component } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
-
-export default class commentandpoints extends Component {
+import { connect } from "react-redux";
+import {getQuarterPlan} from "../../Actions/PgaAction"
+ class commentandpoints extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +75,25 @@ export default class commentandpoints extends Component {
       );
     });
   };
+
+  componentDidMount() {
+    this.props.getQuarterPlan(this.props.id)
+  }
+  
+  // componentDidUpdate(prevProps, prevState) {
+  //   if(this.props.quarterPlanDetails !== prevProps.quarterPlanDetails){
+  //     this.props.quarterPlanDetails.map((eachData,index)=>{
+  //       this.setState({
+  //         ["focus".concat(index+1).concat("enrollmentPeriod")] : eachData.enrollmentPeriod,
+  //         ["focus".concat(index+1).concat("")]
+  //       })
+  //     })
+  //   }
+  // }
+  
+
   render() {
+    console.log(this.props.quarterPlanDetails)
     return (
       <div>
         <h6 style={{ padding: "1%" }}>
@@ -87,8 +106,8 @@ export default class commentandpoints extends Component {
           <Grid item md={2}>
             <Autocomplete
               id="combo-box-demo"
-              options={this.choice}
-              getOptionLabel={(option) => option.title}
+              options={this.props.quarterPlanDetails}
+              getOptionLabel={(option) => option.quarterPlanCourse.name}
               // value={}
               fullWidth
               size="small"
@@ -140,7 +159,8 @@ export default class commentandpoints extends Component {
           <Grid item md={2}>
             <Autocomplete
               id="combo-box-demo"
-              // options={}
+              options={this.props.quarterPlanDetails}
+              getOptionLabel={(option) => option.quarterPlanCourse.name}
               // value={}
               fullWidth
               size="small"
@@ -192,8 +212,8 @@ export default class commentandpoints extends Component {
           <Grid item md={2}>
             <Autocomplete
               id="combo-box-demo"
-              options={this.choice}
-              getOptionLabel={(option) => option.title}
+              options={this.props.quarterPlanDetails}
+              getOptionLabel={(option) => option.quarterPlanCourse.name}
               // value={}
               fullWidth
               size="small"
@@ -246,8 +266,8 @@ export default class commentandpoints extends Component {
             <Autocomplete
               id="combo-box-demo"
               // value={}
-              options={this.choice}
-              getOptionLabel={(option) => option.title}
+              options={this.props.quarterPlanDetails}
+              getOptionLabel={(option) => option.quarterPlanCourse.name}
               fullWidth
               size="small"
               renderInput={(params) => (
@@ -316,3 +336,12 @@ export default class commentandpoints extends Component {
     );
   }
 }
+
+ const mapStateToProps = (state) =>{
+   console.log(state)
+  return {
+    quarterPlanDetails : state.PgaReducer.quarterPlan
+  }
+}
+
+export default connect(mapStateToProps, {getQuarterPlan})(commentandpoints)

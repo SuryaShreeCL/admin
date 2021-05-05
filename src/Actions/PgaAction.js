@@ -113,4 +113,26 @@ export const getAllStarterPack = () =>{
     }
 }
 
+export const getPackageByStudentId = (id) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/"+id+"/product")
+        .then(result=>{
+            dispatch({type : PGA.getPackageByStudentId, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
 
+export const getQuarterPlan = (id) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan/comment")
+        .then(result=>{
+            dispatch({type : PGA.getQuarterPlan, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

@@ -12,7 +12,7 @@ import MuiAlert from "@material-ui/lab/Alert";
   import Autocomplete from "@material-ui/lab/Autocomplete";
   import {getAllBranch,getAllDegree,getAllSpecialization, viewCountryForSelect} from "../../Actions/Aspiration"
 
-import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails, getAllEnrollmentPerid} from "../../Actions/PgaAction"
+import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails, getAllEnrollmentPerid, getPackageByStudentId} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -61,6 +61,9 @@ class GeneralDetails extends Component {
             enrollmentPeriod : null,
             techTestLabel : "",
             techTestValue : '',
+            choosentrack : null,
+            courseOpted : "",
+            package : "",
             areaOfInterest : [],
             choosenTrackOption : [],
             snackOpen: false,
@@ -84,6 +87,7 @@ class GeneralDetails extends Component {
         this.props.getCareerInterest(this.props.id)
         this.props.getChoosenTrackById(this.props.id)
         this.props.getAllEnrollmentPerid()
+        this.props.getPackageByStudentId(this.props.id)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -100,7 +104,9 @@ class GeneralDetails extends Component {
                   firstName: this.props.StudentDetails.firstName,
                   lastName: this.props.StudentDetails.lastName,
                   eMail: this.props.StudentDetails.emailId,
+                  choosentrack : this.props.StudentDetails.chosenTrack !== null ? {title : this.props.StudentDetails.chosenTrack, value : this.props.StudentDetails.chosenTrack} : null,
                   phoneNumber: this.props.StudentDetails.phoneNumber,
+                  enrollmentPeriod : this.props.StudentDetails.enrollmentPeriod !== null ? this.props.StudentDetails.enrollmentPeriod : null,
                   expectedYear: {
                     title: this.props.StudentDetails.expectedYrOfGrad.toString(),
                     value: this.props.StudentDetails.expectedYrOfGrad,
@@ -143,14 +149,14 @@ class GeneralDetails extends Component {
          if(csObj !== undefined){
            this.setState({
             techTestLabel : "CS Technical Test",
-            techTestValue : mechObj.score,
+            techTestValue : csObj.score,
            })
          }
          let eceObj = this.props.pgaScoreDetails.score.find(eachDetails=>eachDetails.questionSetName === "Technical Test Electronics")
          if(eceObj !== undefined){
            this.setState({
             techTestLabel : "ECE Technical Test",
-            techTestValue : mechObj.score,
+            techTestValue : eceObj.score,
            })
          }
         }
@@ -190,6 +196,13 @@ class GeneralDetails extends Component {
               snackMessage : "Updated Successfully",
               snackVariant : "success",
               snackOpen : true
+          })
+        }
+
+        if(this.props.studentPackage !== prevProps.studentPackage){
+          this.setState({
+            courseOpted : this.props.studentPackage.courseOpted,
+            package : this.props.studentPackage.name
           })
         }
        
@@ -330,14 +343,15 @@ handleSaved=()=>{
       })
       let obj = {
         "student": {
-            "firstname": this.state.firstName,
+            "firstName": this.state.firstName,
             "lastName": this.state.lastName,
             "studentID": this.state.studentId,
             "emailId": this.state.eMail,
             "phoneNumber": this.state.phoneNumber,
             "expectedYrOfGrad": this.state.expectedYear.value,
             "currentSem": this.state.sem.value,
-            "enrollmentPeriod":this.state.enrollmentPeriod.id,
+            "chosenTrack" : this.state.choosentrack !== null ? this.state.choosentrack.value : null,
+            "enrollmentPeriod": this.state.enrollmentPeriod !== null ?  {id : this.state.enrollmentPeriod.id} : null,
             "UGGPAScale": parseFloat(
               this.state.uggpaScale.title === "%"
                 ? 100
@@ -367,8 +381,8 @@ handleSaved=()=>{
         "noOfSchool": null
     },
     "product":{
-        "name": null,
-        "courseOpted": null,
+        "name": this.state.package,
+        "courseOpted": this.state.courseOpted,
         "googleDriveLink": this.state.s3Link
     }
     }
@@ -377,9 +391,12 @@ handleSaved=()=>{
 
 }
 
-  
+choosenTrackOption = [
+  {title : "PB - Masters", value : "PB - Masters"},
+  {title : "PB - Placements", value : "PB - Placements"},
+]
       render() {
-        console.log(this.props.enrollmentPeriod)
+        console.log(this.props.studentPackage)
       
     return (
       <div>
@@ -724,7 +741,11 @@ handleSaved=()=>{
                 <TextField
                 variant="outlined"
                 size="small"
-                disabled
+
+                name="package"
+                value={this.state.package}
+                onChange={this.handleChange}
+                // disabled
                 label="Package" />
               </Grid>
               <Grid item md={4}>
@@ -788,7 +809,10 @@ handleSaved=()=>{
               <Grid item md={4}>
                 <TextField
                 variant="outlined"
-                disabled
+                // disabled
+                name="courseOpted"
+                value={this.state.courseOpted}
+                onChange={this.handleChange}
                 size="small"
                 label="Course Opted" />
               </Grid>
@@ -796,10 +820,10 @@ handleSaved=()=>{
               
                  <Autocomplete
                   id="combo-box-demo"
-                  // value={this.track}
+                  value={this.state.choosentrack}
                   name={"choosetrack"}
-                  options={this.state.choosenTrackOption}
-                  // onChange={(e, newValue) => this.setState({choosentrack : newValue})}
+                  options={this.choosenTrackOption}
+                  onChange={(e, newValue) => this.setState({choosentrack : newValue})}
                   getOptionLabel={(option) => option.value}
                   size="small"
                   renderInput={(params) =>
@@ -896,7 +920,8 @@ const mapStateToProps = (state) => {
       careerInterestList : state.PgaReducer.careerInterestList,
       choosenTrackForStudent : state.PgaReducer.choosenTrackForStudent,
       postGeneralDetailsResponse : state.PgaReducer.postGeneralDetailsResponse,
-      enrollmentPeriod : state.PgaReducer.enrollmentPeriod
+      enrollmentPeriod : state.PgaReducer.enrollmentPeriod,
+      studentPackage : state.PgaReducer.studentPackage
     };
   };
 
@@ -914,4 +939,5 @@ export default connect(mapStateToProps,{
     getChoosenTrackById,
     postGenralDetails,
     getAllEnrollmentPerid,
+    getPackageByStudentId,
     getBranches,})(GeneralDetails)

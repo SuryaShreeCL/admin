@@ -575,6 +575,7 @@ class Pgaplan extends Component {
    }
 
   
+   
     render() {
     console.log(this.state.rawStarterPack)
       console.log(this.props.starterPackDetails)
@@ -583,6 +584,7 @@ class Pgaplan extends Component {
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
                 <Grid container style={{padding:"1%"}} spacing={2}>
+                 
                     <Grid item md={2}>
                     <Grid container spacing={2}>
                       <Grid item md={12}>
@@ -593,7 +595,6 @@ class Pgaplan extends Component {
                         disabled
                         label="Career Track" />
                       </Grid>
-                     
                     </Grid>
                     </Grid>
                     <Grid item md={9}>
@@ -712,7 +713,7 @@ class Pgaplan extends Component {
                       {this.renderExplo()}
                       </Grid>
                     </Grid>
-                    <Grid item md={1}>
+                    <Grid item md={1}> 
                       <Grid container spacing={2}>
                         <Grid item md={6}>
                         <IconButton onClick={()=>this.setState({exploCount : this.state.exploCount +1})}>
@@ -731,6 +732,7 @@ class Pgaplan extends Component {
  
                       </Grid>
                     </Grid>
+                   
                 </Grid>
                 <hr />
                 <Grid style={{padding:"1%"}}>

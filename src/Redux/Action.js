@@ -207,7 +207,9 @@ export const PGA = {
   postGenralDetails : "postGenralDetails",
   getAllEnrollmentPeriod : "getAllEnrollmentPeriod",
   getQuarterPlan : "getQuarterPlan",
-  getAllStarterPack : "getAllStarterPack"
+  getAllStarterPack : "getAllStarterPack",
+  getPackageByStudentId : "getPackageByStudentId",
+  getQuarterPlan : "getQuarterPlan"
 }
 
 
