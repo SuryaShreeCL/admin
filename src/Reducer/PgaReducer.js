@@ -11,7 +11,11 @@ const initialState = {
   quarterPlan: [],
   starterPackDetails: [],
   studentPackage: [],
-  quarterPlanDetails : []
+  quarterPlanDetails: [],
+  cvandppgaResponse: [],
+  getcvandppgaResponse: [],
+  getppgaResponse: [],
+  getcvResponse: [],
 };
 
 export default (state = initialState, action) => {
@@ -66,11 +70,31 @@ export default (state = initialState, action) => {
         ...state,
         studentPackage: action.payload,
       };
-      case PGA.getQuarterPlan:
-        return {
-          ...state,
-          quarterPlanDetails: action.payload,
-        };
+    case PGA.getQuarterPlan:
+      return {
+        ...state,
+        quarterPlanDetails: action.payload,
+      };
+    case PGA.postcvandppga:
+      return {
+        ...state,
+        cvandppgaResponse: action.payload,
+      };
+    case PGA.getcvandppga:
+      return {
+        ...state,
+        getcvandppgaResponse: action.payload,
+      };
+    case PGA.getppgaques:
+      return {
+        ...state,
+        getppgaResponse: action.payload,
+      };
+    case PGA.getcvques:
+      return {
+        ...state,
+        getcvResponse: action.payload,
+      };
     default:
       return state;
   }
