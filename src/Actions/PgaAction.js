@@ -159,9 +159,9 @@ export const getcvques = () => {
         })
     }
 }
-export const postcvandppga = (data) =>{
+export const postcvandppga = (id,data) =>{
     return dispatch=>{
-        axios.post(URL+"/api/v1/students/save/cvandppga",data)
+        axios.post(URL+"/api/v1/students/"+id+"/save/cvandppga",data)
         .then(result=>{
             dispatch({type : PGA.postcvandppga, payload : result.data})
         })

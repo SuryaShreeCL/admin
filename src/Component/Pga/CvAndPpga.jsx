@@ -263,7 +263,7 @@ if(
       "ppga":ppgaArr,
       "cvDetails":cvArr
   }
-    this.props.postcvandppga(obj1)
+    this.props.postcvandppga(this.props.id,obj1)
    }
 else{
   let ppgaupdateArr=[]
@@ -305,7 +305,7 @@ let obj2={
 "ppga":ppgaupdateArr,
 "cvDetails":cvupdateArr
 }
-  this.props.postcvandppga(obj2)
+  this.props.postcvandppga(this.props.id,obj2)
   }
 
 
