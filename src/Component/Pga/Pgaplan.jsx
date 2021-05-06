@@ -1,11 +1,11 @@
-import { Divider, Grid, Icon, IconButton, TextField, FormControlLabel, InputLabel, Select, MenuItem, FormControl } from '@material-ui/core'
+import { Divider, Grid, Icon, IconButton, TextField, Button, FormControlLabel, InputLabel, Select, MenuItem, FormControl } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import React, { Component } from 'react'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { TransferWithinAStationOutlined, TurnedInSharp } from '@material-ui/icons';
 import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
 import { connect } from 'react-redux';
-import {getQuarterPlanByType, getAllStarterPack} from "../../Actions/PgaAction" 
+import {getQuarterPlanByType, getAllStarterPack,getAllQuarterPlan} from "../../Actions/PgaAction" 
 class Pgaplan extends Component {
   constructor(props){
     super(props);
@@ -132,20 +132,28 @@ class Pgaplan extends Component {
         },
       ],
       rawSpecialization : [],
+      
     };
   }
+
  componentDidUpdate(prevProps,prevState){
-   if(prevState.ambOption1 !== this.state.ambOption1){
-    // let myArr = []
-    //  myArr=this.state.ambpack2.filter((opt) => this.state.ambOption1 !== opt.title )
-    //  this.setState({
-    //    ambpack2 : myArr
-    //  })
-   }
+    if(this.props.byTypeDetails !== prevProps.byTypeDetails){
+      this.props.byTypeDetails.map((eachData,index)=>{
+        this.setState({
+          ["focus".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.courseName,
+          ["uniqueId".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.id,
+          ["startingQuarter".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.startingQuarter,
+          ["enrolmentPeriod".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.enrollmentPeriod,
+          ["grade".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.grade,
+          ["focusNo".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)]  : eachData.focusNo
+        })
+      })
+    }
  }
 
  componentDidMount() {
   this.props.getAllStarterPack()
+  this.props.getAllQuarterPlan()
  }
  
 
@@ -175,8 +183,8 @@ class Pgaplan extends Component {
      {title:"HR Analytics"},
    ]
    type=[
-     {title:"Above Average", value : "above"},
-     {title:"Below Average", value : "below"},
+     {title:"Above Average", value : "Above Average"},
+     {title:"Below Average", value : "Below Average"},
    ]
    choice=[
     {title:"Option 1"},
@@ -574,17 +582,136 @@ class Pgaplan extends Component {
     }
    }
 
+   renderFocus = () =>{
+    let focusArr = []
+    let periodArr = ["May - Jul","Aug - Oct","Nov - Jan","Feb - Apr","May - Jul"]
+    for(let i=0; i<4; i++){
+      focusArr.push({
+        focusNo : <h6>{"Focus ".concat(i)}</h6>,
+        focusSelectControl0 :   <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Select Option"
+          value={this.state.["focus".concat(i).concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[0])] : null}
+          name={"focus".concat(i).concat(periodArr[0])}
+          onChange={this.handleChange}
+        >
+          {this.props.allQuarterPlan.map(eachPlan=>{
+            return(
+              <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+        focusSelectControl1 :   <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Select Option"
+          value={this.state.["focus".concat(i).concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[0])] : null}
+          name={"focus".concat(i).concat(periodArr[0])}
+          onChange={this.handleChange}
+        >
+          {this.props.allQuarterPlan.map(eachPlan=>{
+            return(
+              <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+      focusSelectControl2 :  <FormControl size="small" fullWidth variant="outlined">
+      <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+      <Select
+      fullWidth
+        labelId="demo-simple-select-outlined-label"
+        id="demo-simple-select-outlined"
+        label="Select Option"
+        value={this.state.["focus".concat(i).concat(periodArr[1])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[1])] : null}
+          name={"focus".concat(i).concat(periodArr[1])}
+        onChange={this.handleChange}
+      >
+        {this.props.allQuarterPlan.map(eachPlan=>{
+          return(
+            <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+          )
+        })}
+      </Select>
+    </FormControl>,
+     focusSelectControl3 :  <FormControl  size="small" fullWidth variant="outlined">
+     <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+     <Select
+     fullWidth
+       labelId="demo-simple-select-outlined-label"
+       id="demo-simple-select-outlined"
+       label="Select Option"
+       value={this.state.["focus".concat(i).concat(periodArr[2])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[2])] : null}
+          name={"focus".concat(i).concat(periodArr[2])}
+       onChange={this.handleChange}
+     >
+       {this.props.allQuarterPlan.map(eachPlan=>{
+         return(
+           <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+         )
+       })}
+     </Select>
+   </FormControl>,
+    focusSelectControl4 :  <FormControl size="small" fullWidth variant="outlined">
+    <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+    <Select
+    fullWidth
+      labelId="demo-simple-select-outlined-label"
+      id="demo-simple-select-outlined"
+      label="Select Option"
+      value={this.state.["focus".concat(i).concat(periodArr[3])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[3])] : null}
+      name={"focus".concat(i).concat(periodArr[3])}
+      onChange={this.handleChange}
+    >
+      {this.props.allQuarterPlan.map(eachPlan=>{
+        return(
+          <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+        )
+      })}
+    </Select>
+  </FormControl>
+      })
+    }
+
+    return focusArr.map(eachElement=>{
+      return(
+        <>
+        <Grid item md={2}>{eachElement.focusNo}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl0}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl1}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl2}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl3}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl4}</Grid>
+        </>
+      )
+    })
+
+
+   }
   
-   
+   handleSave = () =>{
+
+    let postArr = []
+
+
+
+   }   
     render() {
-    console.log(this.state.rawStarterPack)
+    console.log(this.props.byTypeDetails)
       console.log(this.props.starterPackDetails)
       console.log(this.state)
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
                 <Grid container style={{padding:"1%"}} spacing={2}>
-                 
                     <Grid item md={2}>
                     <Grid container spacing={2}>
                       <Grid item md={12}>
@@ -755,15 +882,14 @@ class Pgaplan extends Component {
                          />
                 </Grid>
                <Grid container spacing={2} style={{padding:"1%"}}>
+
                    <Grid item md={2}>
                        <h6>Focus</h6>
                    </Grid>
                    <Grid item md={2}>
-                       <h6>Feb-Apr</h6>
+                     May 2020 - Jul 2020
                    </Grid>
-                   <Grid item md={2}>
-                       <h6>May-July</h6>
-                   </Grid>
+
                    <Grid item md={2}>
                        <h6>Aug-Oct</h6>
                    </Grid>
@@ -771,305 +897,14 @@ class Pgaplan extends Component {
                        <h6>Nov-Jan</h6>
                    </Grid>
                    <Grid item md={2}>
+                       <h6>Feb -Apr</h6>
                    </Grid>
                    <Grid item md={2}>
-                       <h6>Focus 1</h6>
+                       <h6>May - Jul</h6>
                    </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                      
-                   </Grid>
-                   <Grid item md={2}>
-                       <h6>Focus 2</h6>
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                     
-                   </Grid>
-                   <Grid item md={2}>
-                       <h6>Focus 3</h6>
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                    
-                   </Grid>
-                   <Grid item md={2}>
-                       <h6>Focus 4</h6>
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                       <Autocomplete
-                            id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
-                            fullWidth
-                            size="small"
-                            renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                //   helperText={}
-                                  label="Select Option"
-                                  variant="outlined"
-                                />
-                            )} />
-                   </Grid>
-                   <Grid item md={2}>
-                      
-                   </Grid>
-               </Grid>
-               <Grid style={{padding:"1%"}}>
+                  
+                    {this.renderFocus()}
+                    <Grid item md={12} style={{padding:"1%"}}>
                    <Autocomplete
                             id="combo-box-demo"
                             options={this.choice}
@@ -1086,6 +921,11 @@ class Pgaplan extends Component {
                                 />
                             )} />
                </Grid>
+               <Grid item md={12}>
+                  <Button variant="contained" onClick={this.handleSave} color="primary">Save</Button>
+               </Grid>
+               </Grid>
+              
             </div>
         )
     }
@@ -1094,8 +934,10 @@ class Pgaplan extends Component {
 const mapStateToProps = (state) =>{
   return {
     quarterPlan : state.PgaReducer.quarterPlan,
-    starterPackDetails : state.PgaReducer.starterPackDetails
+    starterPackDetails : state.PgaReducer.starterPackDetails,
+    allQuarterPlan : state.PgaReducer.allQuarterPlan,
+    byTypeDetails : state.PgaReducer.byTypeDetails
   }
 }
 
-export default connect(mapStateToProps, {getQuarterPlanByType, getAllStarterPack})(Pgaplan)
+export default connect(mapStateToProps, {getQuarterPlanByType, getAllStarterPack, getAllQuarterPlan})(Pgaplan)
