@@ -5,6 +5,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { TransferWithinAStationOutlined, TurnedInSharp } from '@material-ui/icons';
 import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
 import { connect } from 'react-redux';
+import {response} from "./PgaResponse"
 import {getQuarterPlanByType, getAllStarterPack,getAllQuarterPlan} from "../../Actions/PgaAction" 
 class Pgaplan extends Component {
   constructor(props){
@@ -28,6 +29,9 @@ class Pgaplan extends Component {
       balancedCount: 1,
       exploCount: 1,
       index: "",
+      response : response,
+      commonFocusFist : null,
+      commonFocusSecond : null,
       ambpack1: [
         { title: "Option 1" },
         { title: "Option 2" },
@@ -154,6 +158,14 @@ class Pgaplan extends Component {
  componentDidMount() {
   this.props.getAllStarterPack()
   this.props.getAllQuarterPlan()
+
+  this.state.response.map((eachElement,index)=>{
+    console.log(index,eachElement)
+    this.setState({
+      ["focus".concat(eachElement.focusNo).concat(eachElement.enrollmentPeriod)] : eachElement.courseName,
+    })
+  })
+
  }
  
 
@@ -582,30 +594,12 @@ class Pgaplan extends Component {
     }
    }
 
-   renderFocus = () =>{
+   renderBeforeFocus = () =>{
     let focusArr = []
-    let periodArr = ["May - Jul","Aug - Oct","Nov - Jan","Feb - Apr","May - Jul"]
-    for(let i=0; i<4; i++){
+    let periodArr = ["May 2020 - Jul 2020","Aug 2020 - Oct 2020","Nov 2020 - Jan 2021","Feb 2021 - Apr 2021"]
+    for(let i=1; i<=4; i++){
       focusArr.push({
         focusNo : <h6>{"Focus ".concat(i)}</h6>,
-        focusSelectControl0 :   <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Select Option"
-          value={this.state.["focus".concat(i).concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[0])] : null}
-          name={"focus".concat(i).concat(periodArr[0])}
-          onChange={this.handleChange}
-        >
-          {this.props.allQuarterPlan.map(eachPlan=>{
-            return(
-              <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>,
         focusSelectControl1 :   <FormControl size="small" fullWidth variant="outlined">
         <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
         <Select
@@ -685,15 +679,111 @@ class Pgaplan extends Component {
       return(
         <>
         <Grid item md={2}>{eachElement.focusNo}</Grid>
-        <Grid item md={2}>{eachElement.focusSelectControl0}</Grid>
         <Grid item md={2}>{eachElement.focusSelectControl1}</Grid>
         <Grid item md={2}>{eachElement.focusSelectControl2}</Grid>
         <Grid item md={2}>{eachElement.focusSelectControl3}</Grid>
         <Grid item md={2}>{eachElement.focusSelectControl4}</Grid>
+        <Grid item md={2}></Grid>
         </>
       )
     })
 
+
+   }
+
+   renderAfterFocus = () =>{
+    let focusArr = []
+    let periodArr = ["May 2021 - Jul 2021","Aug 2021 - Oct 2021","Nov 2021 - Jan 2022","Feb 2022 - Apr 2022"]
+    for(let i=1; i<=4; i++){
+      focusArr.push({
+        focusNo : <h6>{"Focus ".concat(i)}</h6>,
+        focusSelectControl1 :   <FormControl size="small" fullWidth variant="outlined">
+        <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+        <Select
+        fullWidth
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Select Option"
+          value={this.state.["focus".concat(i).concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[0])] : null}
+          name={"focus".concat(i).concat(periodArr[0])}
+          onChange={this.handleChange}
+        >
+          {this.props.allQuarterPlan.map(eachPlan=>{
+            return(
+              <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+            )
+          })}
+        </Select>
+      </FormControl>,
+      focusSelectControl2 :  <FormControl size="small" fullWidth variant="outlined">
+      <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+      <Select
+      fullWidth
+        labelId="demo-simple-select-outlined-label"
+        id="demo-simple-select-outlined"
+        label="Select Option"
+        value={this.state.["focus".concat(i).concat(periodArr[1])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[1])] : null}
+          name={"focus".concat(i).concat(periodArr[1])}
+        onChange={this.handleChange}
+      >
+        {this.props.allQuarterPlan.map(eachPlan=>{
+          return(
+            <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+          )
+        })}
+      </Select>
+    </FormControl>,
+     focusSelectControl3 :  <FormControl  size="small" fullWidth variant="outlined">
+     <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+     <Select
+     fullWidth
+       labelId="demo-simple-select-outlined-label"
+       id="demo-simple-select-outlined"
+       label="Select Option"
+       value={this.state.["focus".concat(i).concat(periodArr[2])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[2])] : null}
+          name={"focus".concat(i).concat(periodArr[2])}
+       onChange={this.handleChange}
+     >
+       {this.props.allQuarterPlan.map(eachPlan=>{
+         return(
+           <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+         )
+       })}
+     </Select>
+   </FormControl>,
+    focusSelectControl4 :  <FormControl size="small" fullWidth variant="outlined">
+    <InputLabel shrink={true} id="demo-simple-select-outlined-label">Select Option</InputLabel>
+    <Select
+    fullWidth
+      labelId="demo-simple-select-outlined-label"
+      id="demo-simple-select-outlined"
+      label="Select Option"
+      value={this.state.["focus".concat(i).concat(periodArr[3])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[3])] : null}
+      name={"focus".concat(i).concat(periodArr[3])}
+      onChange={this.handleChange}
+    >
+      {this.props.allQuarterPlan.map(eachPlan=>{
+        return(
+          <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+        )
+      })}
+    </Select>
+  </FormControl>
+      })
+    }
+
+    return focusArr.map(eachElement=>{
+      return(
+        <>
+        <Grid item md={2}>{eachElement.focusNo}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl1}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl2}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl3}</Grid>
+        <Grid item md={2}>{eachElement.focusSelectControl4}</Grid>
+        <Grid item md={2}></Grid>
+        </>
+      )
+    })
 
    }
   
@@ -706,8 +796,8 @@ class Pgaplan extends Component {
    }   
     render() {
     console.log(this.props.byTypeDetails)
-      console.log(this.props.starterPackDetails)
       console.log(this.state)
+      console.log(this.state.response)
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
@@ -868,7 +958,7 @@ class Pgaplan extends Component {
                         options={this.type}
                         getOptionLabel={(option) => option.title}
                         // value={}
-                        onChange={this.handleTypeChange}
+                        // onChange={this.handleTypeChange}
                         fullWidth
                         size="small"
                         renderInput={(params) => (
@@ -887,30 +977,68 @@ class Pgaplan extends Component {
                        <h6>Focus</h6>
                    </Grid>
                    <Grid item md={2}>
-                     May 2020 - Jul 2020
+                    <h6>May 2020 - Jul 2020</h6> 
                    </Grid>
 
                    <Grid item md={2}>
-                       <h6>Aug-Oct</h6>
+                       <h6>Aug 2020 - Oct 2020</h6>
                    </Grid>
                    <Grid item md={2}>
-                       <h6>Nov-Jan</h6>
+                       <h6>Nov 2020 - Jan 2021</h6>
                    </Grid>
                    <Grid item md={2}>
-                       <h6>Feb -Apr</h6>
+                       <h6>Feb 2021 -Apr 2021</h6>
                    </Grid>
                    <Grid item md={2}>
-                       <h6>May - Jul</h6>
                    </Grid>
                   
-                    {this.renderFocus()}
+                    {this.renderBeforeFocus()}
                     <Grid item md={12} style={{padding:"1%"}}>
                    <Autocomplete
                             id="combo-box-demo"
-                            options={this.choice}
-                            getOptionLabel={(option) => option.title}
-                            // value={}
+                            options={this.props.allQuarterPlan}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.commonFocusFist}
                             fullWidth
+                            onChange={(e,newValue)=>this.setState({commonFocusFist : newValue})}
+                            size="small"
+                            renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                //   helperText={}
+                                  label="Common Focus(for first each 4 quarter combined)"
+                                  variant="outlined"
+                                />
+                            )} />
+               </Grid>
+               <Grid item md={2}>
+                       <h6>Focus</h6>
+                   </Grid>
+                   <Grid item md={2}>
+                    <h6>May 2021 - Jul 2021</h6> 
+                   </Grid>
+
+                   <Grid item md={2}>
+                       <h6>Aug 2021 - Oct 2021</h6>
+                   </Grid>
+                   <Grid item md={2}>
+                       <h6>Nov 2021 - Jan 2022</h6>
+                   </Grid>
+                   <Grid item md={2}>
+                       <h6>Feb 2022 -Apr 2022</h6>
+                   </Grid>
+                   <Grid item md={2}>
+                   </Grid>
+                  
+                    {this.renderAfterFocus()}
+                    <Grid item md={12} style={{padding:"1%"}}>
+                   <Autocomplete
+                            id="combo-box-demo"
+                            options={this.props.allQuarterPlan}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.commonFocusSecond}
+                            fullWidth
+                            onChange={(e,newValue)=>this.setState({commonFocusSecond : newValue})}
                             size="small"
                             renderInput={(params) => (
                                 <TextField
@@ -924,6 +1052,9 @@ class Pgaplan extends Component {
                <Grid item md={12}>
                   <Button variant="contained" onClick={this.handleSave} color="primary">Save</Button>
                </Grid>
+
+                
+
                </Grid>
               
             </div>

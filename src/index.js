@@ -42,6 +42,8 @@ function App(props) {
     // }
   },[])
   console.log(props)
+  console.warn=()=>{}
+   console.error=()=>{}
   return( 
    <BrowserRouter history={history} >
   <Switch>    

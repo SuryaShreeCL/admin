@@ -396,7 +396,7 @@ choosenTrackOption = [
   {title : "PB - Placements", value : "PB - Placements"},
 ]
       render() {
-        console.log(this.props.studentPackage)
+        console.log(this.props.enrollmentPeriod)
       
     return (
       <div>

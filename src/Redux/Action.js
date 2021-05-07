@@ -217,7 +217,9 @@ export const PGA = {
   postCommentsAndPoints : "postCommentsAndPoints",
   getAdditionalPoints : "getAdditionalPoints",
   postAditionalPoints : "postAditionalPoints",
-  getQuarterPlanByType : "getQuarterPlanByType"
+  getQuarterPlanByType : "getQuarterPlanByType",
+  getPbChoosenTrack : "getPbChoosenTrack",
+  getStudentGrade : "getStudentGrade"
 }
 
 

@@ -21,6 +21,8 @@ const initialState = {
   additionalPointsDetails : [],
   postAdditionalPointsResponse : [],
   byTypeDetails : [],
+  pbChoosenTrackDetails : [],
+  studentGradeList : []
 };
 
 export default (state = initialState, action) => {
@@ -125,6 +127,16 @@ export default (state = initialState, action) => {
                 ...state,
                 byTypeDetails: action.payload,
               };
+              case PGA.getPbChoosenTrack:
+                return {
+                  ...state,
+                  pbChoosenTrackDetails: action.payload,
+                };
+                case PGA.getStudentGrade:
+                  return {
+                    ...state,
+                    studentGradeList: action.payload,
+                  };
     default:
       return state;
   }

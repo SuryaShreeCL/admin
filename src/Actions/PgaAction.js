@@ -229,3 +229,27 @@ export const postAdditionalPoints = (id,data) =>{
         })
     }
 }
+
+export const getPbChoosenTrack = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/chosenTrack")
+        .then(result=>{
+            dispatch({type : PGA.getPbChoosenTrack, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }  
+}
+
+export const getStudentGrade = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/grade")
+        .then(result=>{
+            dispatch({type : PGA.getStudentGrade, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }  
+}
