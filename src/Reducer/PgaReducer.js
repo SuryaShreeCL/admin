@@ -22,7 +22,8 @@ const initialState = {
   postAdditionalPointsResponse : [],
   byTypeDetails : [],
   pbChoosenTrackDetails : [],
-  studentGradeList : []
+  studentGradeList : [],
+  allSpecialization : []
 };
 
 export default (state = initialState, action) => {
@@ -137,6 +138,11 @@ export default (state = initialState, action) => {
                     ...state,
                     studentGradeList: action.payload,
                   };
+                  case PGA.getAllSpecialization:
+                                    return {
+                                        ...state,
+                                        allSpecialization:action.payload
+                                    }
     default:
       return state;
   }

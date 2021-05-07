@@ -6,7 +6,7 @@ import { TransferWithinAStationOutlined, TurnedInSharp } from '@material-ui/icon
 import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
 import { connect } from 'react-redux';
 import {response} from "./PgaResponse"
-import {getQuarterPlanByType, getAllStarterPack,getAllQuarterPlan} from "../../Actions/PgaAction" 
+import {getQuarterPlanByType, getAllStarterPack,getAllSpecialization,getAllQuarterPlan} from "../../Actions/PgaAction" 
 class Pgaplan extends Component {
   constructor(props){
     super(props);
@@ -117,25 +117,32 @@ class Pgaplan extends Component {
         { title: "Option 5" },
       ],
       selectedSpecialization : [],
-      rawStarterPack: [
+      selectedSpecializationItem: [],
+      rawSpecialization : [],
+      specializationRow: [
         {
-          id: "1",
-          name: "Ambitious",
-          specializations: [
-            {
-              id: "1",
-              name: "Front End",
-              starterPackCourses: [{id : "1", name : "courseOne"}],
-            },
-            {
-              id: "2",
-              name: "Backend",
-              starterPackCourses: [{id : "2", name : "courseTwo"}],
-            },
-          ],
+          trackName: "Ambitious",
+          row: [0],
+        },
+        {
+          trackName: "Casual",
+          row: [0],
+        },
+        {
+          trackName: "Balanced",
+          row: [0],
+        },
+        {
+          trackName: "Exploratory",
+          row: [0],
         },
       ],
-      rawSpecialization : [],
+      quarterPlanCareerTrack: [
+        "Ambitious",
+        "Casual",
+        "Balanced",
+        "Exploratory",
+      ],
       
     };
   }
@@ -158,7 +165,7 @@ class Pgaplan extends Component {
  componentDidMount() {
   this.props.getAllStarterPack()
   this.props.getAllQuarterPlan()
-
+  this.props.getAllSpecialization();
   this.state.response.map((eachElement,index)=>{
     console.log(index,eachElement)
     this.setState({
@@ -169,424 +176,119 @@ class Pgaplan extends Component {
  }
  
 
-   specialization=[
-     {title:"Full Stack Development"},
-     {title:"Front End Development"},
-     {title:"Programming Basics"},
-     {title:"Competitive Programming"},
-     {title:"Data Science"},
-     {title:"Machine Learning "},
-     {title:"Computer Vision"},
-     {title:"Embedded Systems and Hardware"},
-     {title:"VLSI"},
-     {title:"Design and Modelling"},
-     {title:"Civil Engineering"},
-     {title:"Marketing"},
-     {title:"Analytics"},
-     {title:"Structural Stress Engineering"},
-     {title:"Tool Design"},
-     {title:"NC Programming"},
-     {title:"Internet of Things"},
-     {title:"Robotics and Mechatronics"},
-     {title:"Cloud Computing Starter Pack"},
-     {title:"Digital Signal Processing"},
-     {title:"Finance"},
-     {title:"Equipment & System Engineering"},
-     {title:"HR Analytics"},
-   ]
    type=[
      {title:"Above Average", value : "Above Average"},
      {title:"Below Average", value : "Below Average"},
    ]
-   choice=[
-    {title:"Option 1"},
-    {title:"Option 2"},
-    {title:"Option 3"},
-    {title:"Option 4"},
-    {title:"Option 5"},
-]
 
-
-   handleChange=(e,value)=>{
-      this.setState({
-        [e.target.name]:e.target.value
-      })
+  //  handleChange=(e,value)=>{
+     
+  //     this.setState({
+  //       [e.target.name]:e.target.value
+  //     })
     
-    }
+  //   }
 
-   renderAmbitious = () =>{
-      let ambitiousArr = []
-      for (let i=1;i<=this.state.ambitiousCount; i++){
-        ambitiousArr.push({
-          ambSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
-          <Select
-          fullWidth
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Specialization"
   
-          >
-            {this.specialization.map(eachChoice=>{
-              return(
-                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>,
-          starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
-          <Select
-          fullWidth
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Starter Pack 1"
-            name="ambOption1"
-            onChange={this.handleChange}
-
-          >
-            {this.state.ambpack1.map(eachChoice=>{
-              return(
-                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>,
-        starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Starter Pack 2"
-          name="ambOption2"
-          onChange={this.handleChange}
-        >
-          {this.state.ambpack2.filter((opt)=>opt.title !== this.state.ambOption1).map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>,
-        starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Starter Pack 3"
-          name="ambOption3"
-          onChange={this.handleChange}
-        >
-          {this.state.ambpack3.filter((opt1) => (opt1.title!==this.state.ambOption1) && (opt1.title !== this.state.ambOption2)).map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>
-        })
-      }
-      return ambitiousArr.map(eachAmbitious=>{
-        return(
-          <>
-          <Grid item md={3}>
-            {eachAmbitious.ambSpecializaiton}
-          </Grid>
-          <Grid item md={3}>
-            {eachAmbitious.starterPackOne}
-          </Grid>
-          <Grid item md={3}>
-            {eachAmbitious.starterPackTwo}
-          </Grid>
-          <Grid item md={3}>
-            {eachAmbitious.starterPackThree}
-          </Grid>
-          </>
-        )
-      })
-   }
-
-   renderCasual = () =>{
-    let casualArr = []
-      for (let i=1;i<=this.state.casualCount; i++){
-        casualArr.push({
-          casualSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
-          <Select
-          fullWidth
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Specialization"
+    handleChange = (e, i, careerTrackIndex, specializationIndex, item) => {
+    
+      let obj = {
+        index: i,
+        careerTrackIndex: careerTrackIndex,
+        specializationIndex: specializationIndex,
+        ...e.target.value,
+      };
   
-          >
-            {this.specialization.map(eachChoice=>{
-              return(
-                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>,
-          starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
-          <Select
-          fullWidth
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Starter Pack 1"
-            name="casOption1"
-            onChange={this.handleChange}
-
-          >
-            {this.state.caspack1.map(eachChoice=>{
-              return(
-                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>,
-        starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Starter Pack 2"
-           name="casOption2"
-           onChange={this.handleChange}
-
-        >
-          {this.state.caspack2.filter((cas1)=>cas1.title !== this.state.casOption1).map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>,
-        starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Starter Pack 3"
-          name="casOption3"
-          onChange={this.handleChange}
-        >
-          {this.state.caspack3.filter((cas2) => (cas2.title !== this.state.casOption1) && (cas2.title !== this.state.casOption2)).map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>
-        })
+      let selectArr = [];
+      let selectObj = {
+        id: e.target.value.id,
+        name: e.target.value.name,
+        startedPackCourse: [],
+        specializationIndex: specializationIndex,
+      };
+      selectArr.push(selectObj);
+  
+      let removeExistCareerTrackArr=this.state.selectedSpecializationItem.filter(item=>item.careerTrackIndex!==careerTrackIndex)    
+      let newCareerTrack=[]
+      let existCareerTrack=this.state.selectedSpecializationItem.filter(item=>item.careerTrackIndex===careerTrackIndex)
+      let removeOldSpecialization=[]
+      if(existCareerTrack.length>0){
+        removeOldSpecialization=existCareerTrack[0].specialization.filter(item=>item.specializationIndex!==specializationIndex)      
       }
-      return casualArr.map(eachCasual=>{
-        return(
-          <>
-          <Grid item md={3}>
-            {eachCasual.casualSpecializaiton}
-          </Grid>
-          <Grid item md={3}>
-            {eachCasual.starterPackOne}
-          </Grid>
-          <Grid item md={3}>
-            {eachCasual.starterPackTwo}
-          </Grid>
-          <Grid item md={3}>
-            {eachCasual.starterPackThree}
-          </Grid>
-          </>
-        )
-      })
-   }
+      let newSpecialization=removeOldSpecialization.concat(selectObj);
+  
+      let selectItem={
+        careerTrackName:item,
+        specializationIndex:specializationIndex,
+        careerTrackIndex:careerTrackIndex,
+        specialization:newSpecialization,
+      }
+  
+      if(removeExistCareerTrackArr.length!==0){                        
+        newCareerTrack=removeExistCareerTrackArr.concat(selectItem) 
+      this.setState({selectedSpecializationItem:newCareerTrack})
+      }else{
+        newCareerTrack=removeExistCareerTrackArr.concat(selectItem)
+        this.setState({selectedSpecializationItem:newCareerTrack})
+      }
+  
+      let duplicateIndex = null;
+      for (let i = 0; i < this.state.selectedSpecialization.length; i++) {
+        if (
+          this.state.selectedSpecialization[i].careerTrackIndex ===
+            careerTrackIndex &&
+          this.state.selectedSpecialization[i].specializationIndex ===
+            specializationIndex
+        ) {
+          duplicateIndex = i;
+        }
+      }
+  
+      let arr = [];
+      if (duplicateIndex !== null) {
+        arr = this.state.selectedSpecialization.splice(duplicateIndex, 1);
+      }
+      arr = this.state.selectedSpecialization.concat(obj);
+      this.setState({ selectedSpecialization: arr });
+    };
 
-   renderBalanced = () =>{
-    let balanceArr = []
-    for (let i=1;i<=this.state.balancedCount; i++){
-      balanceArr.push({
-        balanceSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
-          <Select
-          fullWidth
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Specialization"
-           
-          >
-            {this.specialization.map(eachChoice=>{
-              return(
-                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>,
-          starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
-          <Select
-          fullWidth
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label="Starter Pack 1"
-            name="balOption1"
-            onChange={this.handleChange}
-          >
-            {this.state.balpack1.map(eachChoice=>{
-              return(
-                <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>,
-        starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Starter Pack 2"
-          name="balOption2"
-          onChange={this.handleChange}
-        >
-          {this.state.balpack2.filter((bal)=>bal.title !== this.state.balOption1).map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>,
-        starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Starter Pack 3"
-          name="balOption3"
-          onChange={this.handleChange}
-        >
-          {this.state.balpack3.filter((bal)=>(bal.title !== this.state.balOption1)&&(bal.title !== this.state.balOption2)).map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>
-      })
-    }
-    return balanceArr.map(eachBalance=>{
-      return(
-        <>
-        <Grid item md={3}>
-          {eachBalance.balanceSpecializaiton}
-        </Grid>
-        <Grid item md={3}>
-          {eachBalance.starterPackOne}
-        </Grid>
-        <Grid item md={3}>
-          {eachBalance.starterPackTwo}
-        </Grid>
-        <Grid item md={3}>
-          {eachBalance.starterPackThree}
-        </Grid>
-        </>
-      )
-    })
-   }
-   renderExplo = () =>{
-    let exploArr = []
-    for (let i=1;i<=this.state.exploCount; i++){
-      exploArr.push({
-        exploSpecializaiton :    <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Specialization</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Specialization"
-
-        >
-          {this.specialization.map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>,
-        starterPackOne :   <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Starter Pack 1</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Starter Pack 1"
-          name="expoOption1"
-          onChange={this.handleChange}
-        >
-          {this.state.expopack1.map(eachChoice=>{
-            return(
-              <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>,
-      starterPackTwo : <FormControl size="small" fullWidth variant="outlined">
-      <InputLabel id="demo-simple-select-outlined-label">Starter Pack 2</InputLabel>
-      <Select
-      fullWidth
-        labelId="demo-simple-select-outlined-label"
-        id="demo-simple-select-outlined"
-        label="Starter Pack 2"
-        name="expoOption2"
-        onChange={this.handleChange}
-      >
-        {this.state.expopack2.filter((ex) => ex.title !== this.state.expoOption1).map(eachChoice=>{
-          return(
-            <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-          )
-        })}
-      </Select>
-    </FormControl>,
-      starterPackThree :   <FormControl size="small" fullWidth variant="outlined">
-      <InputLabel id="demo-simple-select-outlined-label">Starter Pack 3</InputLabel>
-      <Select
-      fullWidth
-        labelId="demo-simple-select-outlined-label"
-        id="demo-simple-select-outlined"
-        label="Starter Pack 3"
-        name="expoOption3"
-        onChange={this.handleChange}
-      >
-        {this.state.expopack3.filter((ex) => (ex.title !== this.state.expoOption1) && (this.state.expoOption2 !== ex.title)).map(eachChoice=>{
-          return(
-            <MenuItem value={eachChoice.title}>{eachChoice.title}</MenuItem>
-          )
-        })}
-      </Select>
-    </FormControl>
-      })
-    }
-    return exploArr.map(eachExplo=>{
-      return(
-        <>
-        <Grid item md={3}>
-          {eachExplo.exploSpecializaiton}
-        </Grid>
-        <Grid item md={3}>
-          {eachExplo.starterPackOne}
-        </Grid>
-        <Grid item md={3}>
-          {eachExplo.starterPackTwo}
-        </Grid>
-        <Grid item md={3}>
-          {eachExplo.starterPackThree}
-        </Grid>
-        </>
-      )
-    })
-   }
+    handleCourseChange = (e, careerTrackIndex, specializationIndex,courseIndex) => {
+      let starterCourse={
+        id:e.target.value.id,
+        name:e.target.value.name,     
+        courseIndex:courseIndex,     
+      }
+      var existCareerTrack=[]
+      var existSpecialization=[]
+      var existStarterPack=[]
+      existCareerTrack=this.state.selectedSpecializationItem.filter(item=>item.careerTrackIndex===careerTrackIndex)                
+      if(existCareerTrack.length>0){                
+        existSpecialization=existCareerTrack[0].specialization.filter(item=>item.specializationIndex===specializationIndex)
+        if(existSpecialization.length>0){        
+          existStarterPack=existSpecialization[0].startedPackCourse.filter(item=>item.courseIndex!==courseIndex)        
+          if(existCareerTrack.length<3){          
+            existStarterPack=existStarterPack.concat(starterCourse)          
+          }
+        }
+      }
+      
+  
+      let specializations={
+        ...existSpecialization[0],
+        startedPackCourse:existStarterPack,      
+      }
+  
+      let removeSpecialization=existCareerTrack[0].specialization.filter(item=>item.specializationIndex!==specializationIndex)
+      
+      let existCareerTrackObj={
+        ...existCareerTrack[0],
+        specialization:removeSpecialization.concat(specializations),
+      }
+      
+      let removeExistCareerTrackArr=this.state.selectedSpecializationItem.filter(item=>item.careerTrackIndex!==careerTrackIndex)
+      removeExistCareerTrackArr=removeExistCareerTrackArr.concat(existCareerTrackObj);
+      this.setState({selectedSpecializationItem:removeExistCareerTrackArr});
+    };
 
    handleTypeChange = (e,newValue) =>{
     if(newValue !== null){
@@ -791,9 +493,201 @@ class Pgaplan extends Component {
 
     let postArr = []
 
-
-
    }   
+
+   renderSpecialization = () => {
+    console.log("--State--",this.state.selectedSpecializationItem)
+    return (
+      <>
+        {this.state.quarterPlanCareerTrack.map((item, careerTrackIndex) => {
+          return (
+            <>
+              <Grid item md={2}>
+                <Grid container spacing={2}>
+                  <Grid item md={12}>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      value={item}
+                      disabled
+                      label="Career Track"
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item md={9}>
+                <Grid container spacing={2}>
+                  {/* Specialization */}
+                  {this.state.specializationRow
+                    .filter((row) => row.trackName === item)
+                    .map((specialization) => {
+                      return specialization.row.map(
+                        (specializationItem, specializationIndex) => {
+                          return (
+                            <>
+                              <Grid item md={3}>
+                                <FormControl
+                                  size="small"
+                                  fullWidth
+                                  variant="outlined"
+                                >
+                                  <InputLabel id="demo-simple-select-outlined-label">
+                                    Specialization
+                                  </InputLabel>
+                                  <Select
+                                    fullWidth
+                                    labelId="demo-simple-select-outlined-label"
+                                    id="demo-simple-select-outlined"
+                                    label="Specialization"
+                                    onChange={(e) =>
+                                      this.handleChange(
+                                        e,
+                                        careerTrackIndex,
+                                        careerTrackIndex,
+                                        specializationIndex,
+                                        item
+                                      )
+                                    }
+                                  >
+                                    {this.props.allSpecialization.map(
+                                      (eachChoice, i) => {
+                                        return (
+                                          <MenuItem value={eachChoice}>
+                                            {eachChoice.name}
+                                          </MenuItem>
+                                        );
+                                      }
+                                    )}
+                                  </Select>
+                                </FormControl>
+                              </Grid>
+
+                              {[1, 2, 3].map((data, index) => {
+                                return (
+                                  <Grid item md={3}>
+                                    <FormControl
+                                      size="small"
+                                      fullWidth
+                                      variant="outlined"
+                                    >
+                                      <InputLabel id="demo-simple-select-outlined-label">
+                                        Starter Pack {data}
+                                      </InputLabel>
+                                      <Select
+                                        fullWidth
+                                        labelId="demo-simple-select-outlined-label"
+                                        id="demo-simple-select-outlined"
+                                        label="Course"
+                                        name="ambOption1"
+                                        onChange={(e) =>
+                                          this.handleCourseChange(
+                                            e,
+                                            careerTrackIndex,
+                                            specializationIndex,
+                                            index
+                                          )
+                                        }
+                                      >
+                                        {this.state.selectedSpecialization
+                                          .filter(
+                                            (item, i) =>
+                                              item.careerTrackIndex ===
+                                                careerTrackIndex &&
+                                              item.specializationIndex ===
+                                                specializationIndex
+                                          )
+                                          .map((eachChoice, i) => {
+                                            return eachChoice.starterPackCourses.map(
+                                              (item) => {
+                                                return (
+                                                  <MenuItem value={item} >
+                                                    {item.name}
+                                                  </MenuItem>
+                                                );
+                                              }
+                                            );
+                                          })}
+                                      </Select>
+                                    </FormControl>
+                                  </Grid>
+                                );
+                              })}
+                            </>
+                          );
+                        }
+                      );
+                    })}
+                  {/* End of Specialization */}
+                </Grid>
+              </Grid>
+              <Grid item md={1}>
+                <Grid container spacing={2}>
+                  <Grid item md={6}>
+                    <IconButton
+                      onClick={() => {
+                        let arr = this.state.specializationRow.filter(
+                          (data) => data.trackName === item
+                        );
+                        arr[0].row.push(Math.random());
+                        let removeOldArr = this.state.specializationRow
+                          .filter((data) => data.trackName !== item)
+                          .concat(arr);
+                        this.setState({ specializationRow: removeOldArr });                        
+
+                      }}
+                    >
+                      <Icon>
+                        <AddCircleIcon />
+                      </Icon>
+                    </IconButton>
+                  </Grid>
+                  <Grid item md={6}>
+                    <IconButton
+                      disabled={this.state.specializationRow === 1}
+                      onClick={() => {
+                        let arr = this.state.specializationRow.filter(
+                          (data) => data.trackName === item
+                        );
+                        if (arr[0].row.length > 1) {
+                          arr[0].row.pop();
+                          //delete arr
+                          let existCareerTrack=this.state.selectedSpecializationItem.filter(arr=>arr.careerTrackIndex===careerTrackIndex)
+                        let existSpecialization=existCareerTrack[0].specialization.sort((a,b)=>(a.specializationIndex > b.specializationIndex) ? 1 : ((b.specializationIndex > a.specializationIndex) ? -1 : 0))
+                        console.log("sorted Array",existSpecialization)                                                
+                        existSpecialization.pop()
+                        let arrConvert=[]                        
+                        if(!Array.isArray(existSpecialization)){
+                          arrConvert.push(existSpecialization)
+                        }
+                        let newTrack={
+                          ...existCareerTrack[0],
+                          specialization:existSpecialization,                          
+                        }                                    
+                        let newCareerTrack=this.state.selectedSpecializationItem.filter(arr=>arr.careerTrackIndex!==careerTrackIndex)
+                        newCareerTrack=newCareerTrack.concat(newTrack)
+                        this.setState({
+                          selectedSpecializationItem:newCareerTrack
+                        })
+                        }
+                        let removeOldArr = this.state.specializationRow
+                          .filter((data) => data.trackName !== item)
+                          .concat(arr);
+
+                        this.setState({ specializationRow: removeOldArr });
+                      }}
+                    >
+                      <IndeterminateCheckBoxRoundedIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </>
+          );
+        })}
+      </>
+    );
+  };
+
     render() {
     console.log(this.props.byTypeDetails)
       console.log(this.state)
@@ -802,154 +696,7 @@ class Pgaplan extends Component {
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
                 <Grid container style={{padding:"1%"}} spacing={2}>
-                    <Grid item md={2}>
-                    <Grid container spacing={2}>
-                      <Grid item md={12}>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value="Ambitious"
-                        disabled
-                        label="Career Track" />
-                      </Grid>
-                    </Grid>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Grid container spacing={2}>
-                      {this.renderAmbitious()}
-                      </Grid>
-                    </Grid>
-                    <Grid item md={1}>
-                      <Grid container spacing={2}>
-                        <Grid item md={6}>
-                        <IconButton
-                       onClick={()=>this.setState({ambitiousCount : this.state.ambitiousCount +1})}>
-                             <Icon>
-                                 <AddCircleIcon />
-                             </Icon>
-                         </IconButton> 
-                        </Grid>
-                        <Grid item md={6}>
-                        <IconButton 
-                         disabled={this.state.ambitiousCount === 1}
-                         onClick={()=>this.setState({ambitiousCount : this.state.ambitiousCount !== 1 ? this.state.ambitiousCount -1 : 1})}>
-                           <IndeterminateCheckBoxRoundedIcon />
-                         </IconButton>
-                      </Grid>
-                    
-                      </Grid>
-                    </Grid>
-                    <Grid item md={2}>
-                    <Grid container spacing={2}>
-                      <Grid item md={12}>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value="Casual"
-                        disabled
-                        label="Career Track" />
-                      </Grid>
-                    </Grid>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Grid container spacing={2}>
-                      {this.renderCasual()}
-                      </Grid>
-                    </Grid>
-                    <Grid item md={1}>
-                      <Grid container spacing={2}>
-                        <Grid item md={6}>
-                        <IconButton onClick={()=>this.setState({casualCount : this.state.casualCount +1})}>
-                             <Icon>
-                                 <AddCircleIcon />
-                             </Icon>
-                         </IconButton> 
-                        </Grid>
-                        <Grid item md={6}>
-                        <IconButton 
-                         disabled={this.state.casualCount === 1}
-                         onClick={()=>this.setState({casualCount : this.state.casualCount !== 1 ? this.state.casualCount -1 : 1})}>
-                           <IndeterminateCheckBoxRoundedIcon />
-                         </IconButton>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item md={2}>
-                    <Grid container spacing={2}>
-                      <Grid item md={12}>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value="Balanced"
-                        disabled
-                        label="Career Track" />
-                      </Grid>
-                     
-                    </Grid>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Grid container spacing={2}>
-                      {this.renderBalanced()}
-                      </Grid>
-                    </Grid>
-                    <Grid item md={1}>
-                      <Grid container spacing={2}>
-                        <Grid item md={6}>
-                        <IconButton onClick={()=>this.setState({balancedCount : this.state.balancedCount +1})}>
-                             <Icon>
-                                 <AddCircleIcon />
-                             </Icon>
-                         </IconButton> 
-                        </Grid>
-                        <Grid item md={6}>
-                        <IconButton
-                         disabled={this.state.balancedCount === 1}
-                         onClick={()=>this.setState({balancedCount : this.state.balancedCount !== 1 ? this.state.balancedCount -1 : 1})}>
-                           <IndeterminateCheckBoxRoundedIcon />
-                         </IconButton>
-                        </Grid>
-                     
-                       
-                      </Grid>
-                    </Grid>
-                    <Grid item md={2}>
-                    <Grid container spacing={2}>
-                      <Grid item md={12}>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value="Exploratory"
-                        disabled
-                        label="Career Track" />
-                      </Grid>
-                   
-                    </Grid>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Grid container spacing={2}>
-                      {this.renderExplo()}
-                      </Grid>
-                    </Grid>
-                    <Grid item md={1}> 
-                      <Grid container spacing={2}>
-                        <Grid item md={6}>
-                        <IconButton onClick={()=>this.setState({exploCount : this.state.exploCount +1})}>
-                             <Icon>
-                                 <AddCircleIcon />
-                             </Icon>
-                         </IconButton> 
-                        </Grid>
-                        <Grid item md={6}>
-                        <IconButton 
-                         disabled={this.state.exploCount === 1}
-                         onClick={()=>this.setState({exploCount : this.state.exploCount !== 1 ? this.state.exploCount -1 : 1})}>
-                           <IndeterminateCheckBoxRoundedIcon />
-                         </IconButton>
-                      </Grid>
- 
-                      </Grid>
-                    </Grid>
-                   
+                {this.renderSpecialization()}
                 </Grid>
                 <hr />
                 <Grid style={{padding:"1%"}}>
@@ -958,7 +705,7 @@ class Pgaplan extends Component {
                         options={this.type}
                         getOptionLabel={(option) => option.title}
                         // value={}
-                        // onChange={this.handleTypeChange}
+                        onChange={this.handleTypeChange}
                         fullWidth
                         size="small"
                         renderInput={(params) => (
@@ -1067,8 +814,9 @@ const mapStateToProps = (state) =>{
     quarterPlan : state.PgaReducer.quarterPlan,
     starterPackDetails : state.PgaReducer.starterPackDetails,
     allQuarterPlan : state.PgaReducer.allQuarterPlan,
-    byTypeDetails : state.PgaReducer.byTypeDetails
+    byTypeDetails : state.PgaReducer.byTypeDetails,
+    allSpecialization : state.PgaReducer.allSpecialization
   }
 }
 
-export default connect(mapStateToProps, {getQuarterPlanByType, getAllStarterPack, getAllQuarterPlan})(Pgaplan)
+export default connect(mapStateToProps, {getQuarterPlanByType, getAllStarterPack,getAllSpecialization,getAllQuarterPlan})(Pgaplan)

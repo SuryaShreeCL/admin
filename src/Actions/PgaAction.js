@@ -253,3 +253,15 @@ export const getStudentGrade = () =>{
         })
     }  
 }
+
+export const getAllSpecialization=()=>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/students/specialization/getAll")
+        .then(result=>{
+            dispatch({type : PGA.getAllSpecialization, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
