@@ -676,11 +676,12 @@ class Pgaplan extends Component {
                         );
                         if (arr[0].row.length > 1) {
                           arr[0].row.pop();
-                          //delete arr
+                          //delete arr                          
                           let existCareerTrack=this.state.selectedSpecializationItem.filter(arr=>arr.careerTrackIndex===careerTrackIndex)
-                        let existSpecialization=existCareerTrack[0].specialization.sort((a,b)=>(a.specializationIndex > b.specializationIndex) ? 1 : ((b.specializationIndex > a.specializationIndex) ? -1 : 0))
-                        console.log("sorted Array",existSpecialization)                                                
-                        existSpecialization.pop()
+                         let existSpecialization=[]
+                         if(existCareerTrack[0]!==undefined) 
+                         {existSpecialization=existCareerTrack[0].specialization.sort((a,b)=>(a.specializationIndex > b.specializationIndex) ? 1 : ((b.specializationIndex > a.specializationIndex) ? -1 : 0))                                                                     
+                        existSpecialization.pop()}
                         let arrConvert=[]                        
                         if(!Array.isArray(existSpecialization)){
                           arrConvert.push(existSpecialization)
