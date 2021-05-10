@@ -220,7 +220,9 @@ export const PGA = {
   getQuarterPlanByType : "getQuarterPlanByType",
   getPbChoosenTrack : "getPbChoosenTrack",
   getStudentGrade : "getStudentGrade",
-  getAllSpecialization : "getAllSpecialization"
+  getAllSpecialization : "getAllSpecialization",
+  postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
+  postQuarterPgaPlan : "postQuarterPgaPlan"
 
 }
 

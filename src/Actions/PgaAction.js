@@ -265,3 +265,28 @@ export const getAllSpecialization=()=>{
         })
     }
 }
+
+
+export const postPgaPlanCareerTrack = (id,data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/students/"+id+"/quarterPlan/careerTrack",data)
+        .then(result=>{
+            dispatch({type : PGA.postPgaPlanCareerTrack, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const postPGaQuarter = (id,data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/students/"+id+"/quarter/plan/update",data)
+        .then(result=>{
+            dispatch({type : PGA.postQuarterPgaPlan, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

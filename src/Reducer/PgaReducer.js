@@ -16,14 +16,16 @@ const initialState = {
   getcvandppgaResponse: [],
   getppgaResponse: [],
   getcvResponse: [],
-  allQuarterPlan : [],
-  postCommentsAndPointsResponse : [],
-  additionalPointsDetails : [],
-  postAdditionalPointsResponse : [],
-  byTypeDetails : [],
-  pbChoosenTrackDetails : [],
-  studentGradeList : [],
-  allSpecialization : []
+  allQuarterPlan: [],
+  postCommentsAndPointsResponse: [],
+  additionalPointsDetails: [],
+  postAdditionalPointsResponse: [],
+  byTypeDetails: [],
+  pbChoosenTrackDetails: [],
+  studentGradeList: [],
+  allSpecialization: [],
+  postPGaPlanCareerTrack: [],
+  postPgaQuarterResponse : []
 };
 
 export default (state = initialState, action) => {
@@ -103,46 +105,57 @@ export default (state = initialState, action) => {
         ...state,
         getcvResponse: action.payload,
       };
-      case PGA.getAllQuarterPlan:
+    case PGA.getAllQuarterPlan:
+      return {
+        ...state,
+        allQuarterPlan: action.payload,
+      };
+    case PGA.postCommentsAndPoints:
+      return {
+        ...state,
+        postCommentsAndPointsResponse: action.payload,
+      };
+    case PGA.getAdditionalPoints:
+      return {
+        ...state,
+        additionalPointsDetails: action.payload,
+      };
+    case PGA.postAditionalPoints:
+      return {
+        ...state,
+        postAdditionalPointsResponse: action.payload,
+      };
+    case PGA.getQuarterPlanByType:
+      return {
+        ...state,
+        byTypeDetails: action.payload,
+      };
+    case PGA.getPbChoosenTrack:
+      return {
+        ...state,
+        pbChoosenTrackDetails: action.payload,
+      };
+    case PGA.getStudentGrade:
+      return {
+        ...state,
+        studentGradeList: action.payload,
+      };
+    case PGA.getAllSpecialization:
+      return {
+        ...state,
+        allSpecialization: action.payload,
+      };
+    case PGA.postPgaPlanCareerTrack:
+      return {
+        ...state,
+        postPGaPlanCareerTrack: action.payload,
+      };
+      case PGA.postQuarterPgaPlan:
         return {
           ...state,
-          allQuarterPlan: action.payload,
+          postPgaQuarterResponse: action.payload,
         };
-        case PGA.postCommentsAndPoints:
-        return {
-          ...state,
-          postCommentsAndPointsResponse: action.payload,
-        };
-        case PGA.getAdditionalPoints:
-          return {
-            ...state,
-            additionalPointsDetails: action.payload,
-          };
-          case PGA.postAditionalPoints:
-            return {
-              ...state,
-              postAdditionalPointsResponse: action.payload,
-            };
-            case PGA.getQuarterPlanByType:
-              return {
-                ...state,
-                byTypeDetails: action.payload,
-              };
-              case PGA.getPbChoosenTrack:
-                return {
-                  ...state,
-                  pbChoosenTrackDetails: action.payload,
-                };
-                case PGA.getStudentGrade:
-                  return {
-                    ...state,
-                    studentGradeList: action.payload,
-                  };
-                  case PGA.getAllSpecialization:
-                                    return {
-                                        ...state,
-                                        allSpecialization:action.payload
-                                    }
+
     default:
       return state;
   }
