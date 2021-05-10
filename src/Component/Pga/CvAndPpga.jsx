@@ -229,7 +229,7 @@ if(
   {
     let ppgaArr = []
       
-      for(let i = 0; i<=14; i++){
+      for(let i = 0; i<=13; i++){
         // console.log(this.state.["notesbefore".concat(i)])
         ppgaArr.push({
           "notes_before": this.state.["notesbefore".concat(i+1)],
@@ -237,9 +237,9 @@ if(
           "ppgaQuestion": {
             "id": this.state.["ppgaQuestion".concat(i+1)]
         },
-        "student": {
-            "id": this.props.id
-        }
+        // "student": {
+        //     "id": this.props.id
+        // }
         })
       }
 
@@ -254,9 +254,9 @@ if(
         "cvFactors": {
             "id": this.state.["cvQuestion".concat(i+1)]
         },
-        "student": {
-            "id": this.props.id
-        }
+        // "student": {
+        //     "id": this.props.id
+        // }
        })
     }
     let obj1={
@@ -268,7 +268,7 @@ if(
 else{
   let ppgaupdateArr=[]
   let ppgaid = this.props.getcvandppgaResponse.ppga.map(ppga=>ppga.id)
-  for(let i = 0; i<=14; i++){
+  for(let i = 0; i<=13; i++){
     ppgaupdateArr.push({
       "id":ppgaid[i],
       "notes_before": this.state.["notesbefore".concat(i+1)],
@@ -276,12 +276,13 @@ else{
       "ppgaQuestion": {
         "id": this.state.["ppgaQuestion".concat(i+1)]
     },
-    "student": {
-        "id": this.props.id
-    }
+    // "student": {
+    //     "id": this.props.id
+    // }
     })
   }
   let cvupdateArr=[]
+  console.log(this.props.getcvandppgaResponses)
   let cvid = this.props.getcvandppgaResponse.cvDetails.map(cv=>cv.id)
 
   for(let i=0; i<=13 ; i++){
@@ -293,9 +294,9 @@ else{
      "cvFactors": {
          "id": this.state.["cvQuestion".concat(i+1)]
      },
-     "student": {
-         "id": this.props.id
-     }
+    //  "student": {
+    //      "id": this.props.id
+    //  }
     })
  }
 console.log(ppgaupdateArr)

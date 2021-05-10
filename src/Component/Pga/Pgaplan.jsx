@@ -5,8 +5,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { TransferWithinAStationOutlined, TurnedInSharp } from '@material-ui/icons';
 import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
 import { connect } from 'react-redux';
-import {response} from "./PgaResponse"
-import {getQuarterPlanByType, getAllStarterPack,getAllSpecialization,getAllQuarterPlan} from "../../Actions/PgaAction" 
+import {response, testResponse} from "./PgaResponse"
+import {getQuarterPlanByType, getAllStarterPack,getAllSpecialization,getAllQuarterPlan,getStudentGrade} from "../../Actions/PgaAction" 
 class Pgaplan extends Component {
   constructor(props){
     super(props);
@@ -29,7 +29,7 @@ class Pgaplan extends Component {
       balancedCount: 1,
       exploCount: 1,
       index: "",
-      response : response,
+      response : testResponse,
       commonFocusFist : null,
       commonFocusSecond : null,
       ambpack1: [
@@ -143,6 +143,8 @@ class Pgaplan extends Component {
         "Balanced",
         "Exploratory",
       ],
+      studentType : null,
+      choosenTrack : null,
       
     };
   }
@@ -150,13 +152,15 @@ class Pgaplan extends Component {
  componentDidUpdate(prevProps,prevState){
     if(this.props.byTypeDetails !== prevProps.byTypeDetails){
       this.props.byTypeDetails.map((eachData,index)=>{
+        console.log("Compare...........",this.state.["focus".concat(eachData.focusNo).concat(eachData.enrollmentPeriod.name)])
         this.setState({
-          ["focus".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.courseName,
-          ["uniqueId".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.id,
-          ["startingQuarter".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.startingQuarter,
-          ["enrolmentPeriod".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.enrollmentPeriod,
-          ["grade".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.grade,
-          ["focusNo".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)]  : eachData.focusNo
+          ["focus".concat(eachData.focusNo).concat(eachData.enrollmentPeriod.name)] : eachData.course.name === "null" ? null : eachData.course.name,
+         ["focusNo".concat(eachData.focusNo).concat(eachData.enrollmentPeriod.name)] : eachData.focusNo
+          // ["uniqueId".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.id,
+          // ["startingQuarter".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.startingQuarter,
+          // ["enrolmentPeriod".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.enrollmentPeriod,
+          // ["grade".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)] : eachData.grade,
+          // ["focusNo".concat(eachData.focusNo).concat(eachData.enrollmentPeriod)]  : eachData.focusNo
         })
       })
     }
@@ -166,12 +170,8 @@ class Pgaplan extends Component {
   this.props.getAllStarterPack()
   this.props.getAllQuarterPlan()
   this.props.getAllSpecialization();
-  this.state.response.map((eachElement,index)=>{
-    console.log(index,eachElement)
-    this.setState({
-      ["focus".concat(eachElement.focusNo).concat(eachElement.enrollmentPeriod)] : eachElement.courseName,
-    })
-  })
+  this.props.getStudentGrade()
+ 
 
  }
  
@@ -181,16 +181,16 @@ class Pgaplan extends Component {
      {title:"Below Average", value : "Below Average"},
    ]
 
-  //  handleChange=(e,value)=>{
+   handleChange=(e,value)=>{
      
-  //     this.setState({
-  //       [e.target.name]:e.target.value
-  //     })
+      this.setState({
+        [e.target.name]:e.target.value
+      })
     
-  //   }
+    }
 
   
-    handleChange = (e, i, careerTrackIndex, specializationIndex, item) => {
+    handleChangeEdsin = (e, i, careerTrackIndex, specializationIndex, item) => {
     
       let obj = {
         index: i,
@@ -290,16 +290,29 @@ class Pgaplan extends Component {
       this.setState({selectedSpecializationItem:removeExistCareerTrackArr});
     };
 
+
    handleTypeChange = (e,newValue) =>{
+     console.log(newValue)
+     this.setState({
+       studentType : newValue
+     })
     if(newValue !== null){
-      this.props.getQuarterPlanByType(this.props.id,newValue.value)
+      this.props.getQuarterPlanByType(this.props.id,newValue.id)
     }
    }
 
+   obj = {
+    description: "Consider doing an online course for additional skill building in the area of your interest. Check the links below for domain name-related courses. Consider completing at least one of the courses, getting a certification and working on a capstone project based on it.",
+    id: "6f4728ab-6364-41a1-803d-3c04b8ee85e9",
+    name: "In-Plant Training",
+   }
+
    renderBeforeFocus = () =>{
+    
     let focusArr = []
-    let periodArr = ["May 2020 - Jul 2020","Aug 2020 - Oct 2020","Nov 2020 - Jan 2021","Feb 2021 - Apr 2021"]
+    let periodArr = ["May - Jul","Aug - Oct","Nov - Jan","Feb - Apr"]
     for(let i=1; i<=4; i++){
+      console.log("compare......",this.state.["focus".concat(i).concat(periodArr[0])])
       focusArr.push({
         focusNo : <h6>{"Focus ".concat(i)}</h6>,
         focusSelectControl1 :   <FormControl size="small" fullWidth variant="outlined">
@@ -309,13 +322,18 @@ class Pgaplan extends Component {
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           label="Select Option"
-          value={this.state.["focus".concat(i).concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[0])] : null}
+          value={
+            // this.obj
+            this.state.["focus".concat(i).concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i).concat(periodArr[0])] : null
+          }
           name={"focus".concat(i).concat(periodArr[0])}
           onChange={this.handleChange}
         >
           {this.props.allQuarterPlan.map(eachPlan=>{
             return(
-              <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+              <MenuItem 
+              value={eachPlan.name}
+              >{eachPlan.name}</MenuItem>
             )
           })}
         </Select>
@@ -333,7 +351,9 @@ class Pgaplan extends Component {
       >
         {this.props.allQuarterPlan.map(eachPlan=>{
           return(
-            <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+            <MenuItem 
+            value={eachPlan.name}
+            >{eachPlan.name}</MenuItem>
           )
         })}
       </Select>
@@ -395,7 +415,7 @@ class Pgaplan extends Component {
 
    renderAfterFocus = () =>{
     let focusArr = []
-    let periodArr = ["May 2021 - Jul 2021","Aug 2021 - Oct 2021","Nov 2021 - Jan 2022","Feb 2022 - Apr 2022"]
+    let periodArr = ["May - Jul-1","Aug - Oct-1","Nov - Jan-1","Feb - Apr-1"]
     for(let i=1; i<=4; i++){
       focusArr.push({
         focusNo : <h6>{"Focus ".concat(i)}</h6>,
@@ -493,6 +513,12 @@ class Pgaplan extends Component {
 
     let postArr = []
 
+    for(let i = 1; i<=32 ; i++){
+      postArr.push({
+      
+      })
+    }
+
    }   
 
    renderSpecialization = () => {
@@ -540,7 +566,7 @@ class Pgaplan extends Component {
                                     id="demo-simple-select-outlined"
                                     label="Specialization"
                                     onChange={(e) =>
-                                      this.handleChange(
+                                      this.handleChangeEdsin(
                                         e,
                                         careerTrackIndex,
                                         careerTrackIndex,
@@ -689,9 +715,9 @@ class Pgaplan extends Component {
   };
 
     render() {
-    console.log(this.props.byTypeDetails)
+    console.log(this.props.allQuarterPlan)
       console.log(this.state)
-      console.log(this.state.response)
+      console.log(this.state.['focus1May - Jul'])
         return (
             <div>
                 <h5 style={{padding :"1%"}}>Starter Pack Course</h5>
@@ -702,9 +728,8 @@ class Pgaplan extends Component {
                 <Grid style={{padding:"1%"}}>
                 <Autocomplete
                            id="combo-box-demo"
-                        options={this.type}
-                        getOptionLabel={(option) => option.title}
-                        // value={}
+                        options={this.props.studentGradeList}
+                        getOptionLabel={(option) => option.name}
                         onChange={this.handleTypeChange}
                         fullWidth
                         size="small"
@@ -815,8 +840,10 @@ const mapStateToProps = (state) =>{
     starterPackDetails : state.PgaReducer.starterPackDetails,
     allQuarterPlan : state.PgaReducer.allQuarterPlan,
     byTypeDetails : state.PgaReducer.byTypeDetails,
-    allSpecialization : state.PgaReducer.allSpecialization
+    allSpecialization : state.PgaReducer.allSpecialization,
+    studentGradeList : state.PgaReducer.studentGradeList
+
   }
 }
 
-export default connect(mapStateToProps, {getQuarterPlanByType, getAllStarterPack,getAllSpecialization,getAllQuarterPlan})(Pgaplan)
+export default connect(mapStateToProps, {getQuarterPlanByType, getAllStarterPack,getAllSpecialization,getAllQuarterPlan,getStudentGrade})(Pgaplan)

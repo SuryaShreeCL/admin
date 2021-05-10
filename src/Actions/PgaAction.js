@@ -90,7 +90,7 @@ export const getAllEnrollmentPerid = () =>{
 
 export const getQuarterPlanByType = (id,type) =>{
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan?studentType="+type)
+        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan?grade="+type)
         .then(result=>{
             dispatch({type : PGA.getQuarterPlanByType, payload : result.data})
         })
