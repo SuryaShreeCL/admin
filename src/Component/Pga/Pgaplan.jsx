@@ -536,7 +536,7 @@ class Pgaplan extends Component {
         let period = key.substring(key.indexOf("-")+1,key.length)
         let obj = {
           focusNo : focusNo,
-          period : period,
+          enrollmentPeriod : period,
           grade : this.state.studentType.name,
           chosenTrack: this.props.byTypeDetails[0].chosenTrack.name,
           courseName : value
