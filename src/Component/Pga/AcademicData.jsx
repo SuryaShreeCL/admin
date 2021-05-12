@@ -56,7 +56,7 @@ class AcademicData extends Component {
           clearedBacklogs : parseInt(this.state.["sem".concat(i).concat("clearedBacklog")]) ,
           scoreScale : this.state.["scoreScaleSem".concat(i)],
           clearedBacklogSubjects : this.state.["sem".concat(i).concat("clearedSub")],
-          score : parseInt(this.state.["sem".concat(i).concat("score")]) 
+          score : parseFloat(this.state.["sem".concat(i).concat("score")]) 
         })
       }
   
@@ -66,13 +66,13 @@ class AcademicData extends Component {
           schoolName:this.state.tenthSclName,
           examBoardName:this.state.tenthBoardName,
           scoreScale:this.state.tenthScoreScale.value,
-          score: parseInt(this.state.tenthScore),
+          score: parseFloat(this.state.tenthScore),
       },
       studentHsc:{
           schoolName:this.state.twelthSclName,
           examBoardName:this.state.twelthBoardName,
           scoreScale:this.state.twelthScoreScale.value,
-          score: parseInt(this.state.twelthScore) 
+          score: parseFloat(this.state.twelthScore) 
       },
       studentUg: arr
     }
@@ -92,7 +92,7 @@ class AcademicData extends Component {
           clearedBacklogs : parseInt(this.state.["sem".concat(i).concat("clearedBacklog")]) ,
           scoreScale : this.state.["scoreScaleSem".concat(i)],
           clearedBacklogSubjects : this.state.["sem".concat(i).concat("clearedSub")],
-          score : parseInt(this.state.["sem".concat(i).concat("score")]) 
+          score : parseFloat(this.state.["sem".concat(i).concat("score")]) 
         })
       }
       let Anobj = {
@@ -101,13 +101,13 @@ class AcademicData extends Component {
             schoolName:this.state.tenthSclName,
             examBoardName:this.state.tenthBoardName,
             scoreScale:this.state.tenthScoreScale.value,
-            score: parseInt(this.state.tenthScore),
+            score: parseFloat(this.state.tenthScore),
         },
         studentHsc:{
             schoolName:this.state.twelthSclName,
             examBoardName:this.state.twelthBoardName,
             scoreScale:this.state.twelthScoreScale.value,
-            score: parseInt(this.state.twelthScore) 
+            score: parseFloat(this.state.twelthScore) 
         },
         studentUg: arr
       }
