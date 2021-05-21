@@ -12,7 +12,7 @@ import MuiAlert from "@material-ui/lab/Alert";
   import Autocomplete from "@material-ui/lab/Autocomplete";
   import {getAllBranch,getAllDegree,getAllSpecialization, viewCountryForSelect} from "../../Actions/Aspiration"
 
-import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails, getAllEnrollmentPerid, getPackageByStudentId} from "../../Actions/PgaAction"
+import {getPgaScores, getCareerInterest,getChoosenTrackById, postGenralDetails, getAllEnrollmentPerid, getPackageByStudentId, getPbChoosenTrack} from "../../Actions/PgaAction"
 import {getStudentsById} from "../../Actions/Student"
 class GeneralDetails extends Component {
     constructor(props){
@@ -88,6 +88,7 @@ class GeneralDetails extends Component {
         this.props.getChoosenTrackById(this.props.id)
         this.props.getAllEnrollmentPerid()
         this.props.getPackageByStudentId(this.props.id)
+        this.props.getPbChoosenTrack()
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -104,7 +105,7 @@ class GeneralDetails extends Component {
                   firstName: this.props.StudentDetails.firstName,
                   lastName: this.props.StudentDetails.lastName,
                   eMail: this.props.StudentDetails.emailId,
-                  choosentrack : this.props.StudentDetails.chosenTrack !== null ? {title : this.props.StudentDetails.chosenTrack, value : this.props.StudentDetails.chosenTrack} : null,
+                  choosentrack : this.props.StudentDetails.chosenTrack !== null ? this.props.StudentDetails.chosenTrack : null,
                   phoneNumber: this.props.StudentDetails.phoneNumber,
                   enrollmentPeriod : this.props.StudentDetails.enrollmentPeriod !== null ? this.props.StudentDetails.enrollmentPeriod : null,
                   expectedYear: {
@@ -350,8 +351,8 @@ handleSaved=()=>{
             "phoneNumber": this.state.phoneNumber,
             "expectedYrOfGrad": this.state.expectedYear.value,
             "currentSem": this.state.sem.value,
-            "chosenTrack" : this.state.choosentrack !== null ? this.state.choosentrack.value : null,
-            "enrollmentPeriod": this.state.enrollmentPeriod !== null ?  {id : this.state.enrollmentPeriod.id} : null,
+            "chosenTrack" : this.state.choosentrack !== null ? this.state.choosentrack : null,
+            "enrollmentPeriod": this.state.enrollmentPeriod !== null ?  this.state.enrollmentPeriod : null,
             "UGGPAScale": parseFloat(
               this.state.uggpaScale.title === "%"
                 ? 100
@@ -396,7 +397,8 @@ choosenTrackOption = [
   {title : "PB - Placements", value : "PB - Placements"},
 ]
       render() {
-        console.log(this.props.studentPackage)
+        console.log(this.props.enrollmentPeriod)
+        
       
     return (
       <div>
@@ -822,9 +824,9 @@ choosenTrackOption = [
                   id="combo-box-demo"
                   value={this.state.choosentrack}
                   name={"choosetrack"}
-                  options={this.choosenTrackOption}
+                  options={this.props.pbChoosenTrackDetails}
                   onChange={(e, newValue) => this.setState({choosentrack : newValue})}
-                  getOptionLabel={(option) => option.value}
+                  getOptionLabel={(option) => option.name}
                   size="small"
                   renderInput={(params) =>
                   <TextField
@@ -845,7 +847,7 @@ choosenTrackOption = [
               <Grid item md={4}>
                 <Autocomplete
                    id="combo-box-demo"
-                   options={this.props.enrollmentPeriod}
+                   options={this.props.enrollmentPeriod.filter(value=>value.name.lastIndexOf("1")===-1 )}
                    getOptionLabel={(option) => option.name}
                    size="small"
                    value={this.state.enrollmentPeriod}
@@ -921,7 +923,8 @@ const mapStateToProps = (state) => {
       choosenTrackForStudent : state.PgaReducer.choosenTrackForStudent,
       postGeneralDetailsResponse : state.PgaReducer.postGeneralDetailsResponse,
       enrollmentPeriod : state.PgaReducer.enrollmentPeriod,
-      studentPackage : state.PgaReducer.studentPackage
+      studentPackage : state.PgaReducer.studentPackage,
+      pbChoosenTrackDetails : state.PgaReducer.pbChoosenTrackDetails
     };
   };
 
@@ -940,4 +943,5 @@ export default connect(mapStateToProps,{
     postGenralDetails,
     getAllEnrollmentPerid,
     getPackageByStudentId,
+    getPbChoosenTrack,
     getBranches,})(GeneralDetails)

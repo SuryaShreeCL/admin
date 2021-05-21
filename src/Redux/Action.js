@@ -213,7 +213,17 @@ export const PGA = {
   getQuarterPlan : "getQuarterPlan",
   getAllStarterPack : "getAllStarterPack",
   getPackageByStudentId : "getPackageByStudentId",
-  getQuarterPlan : "getQuarterPlan"
+  getAllQuarterPlan : "getAllQuarterPlan",
+  postCommentsAndPoints : "postCommentsAndPoints",
+  getAdditionalPoints : "getAdditionalPoints",
+  postAditionalPoints : "postAditionalPoints",
+  getQuarterPlanByType : "getQuarterPlanByType",
+  getPbChoosenTrack : "getPbChoosenTrack",
+  getStudentGrade : "getStudentGrade",
+  getAllSpecialization : "getAllSpecialization",
+  postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
+  postQuarterPgaPlan : "postQuarterPgaPlan"
+
 }
 
 

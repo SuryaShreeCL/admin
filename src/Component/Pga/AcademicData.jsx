@@ -56,7 +56,7 @@ class AcademicData extends Component {
           clearedBacklogs : parseInt(this.state.["sem".concat(i).concat("clearedBacklog")]) ,
           scoreScale : this.state.["scoreScaleSem".concat(i)],
           clearedBacklogSubjects : this.state.["sem".concat(i).concat("clearedSub")],
-          score : parseInt(this.state.["sem".concat(i).concat("score")]) 
+          score : parseFloat(this.state.["sem".concat(i).concat("score")]) 
         })
       }
   
@@ -66,13 +66,13 @@ class AcademicData extends Component {
           schoolName:this.state.tenthSclName,
           examBoardName:this.state.tenthBoardName,
           scoreScale:this.state.tenthScoreScale.value,
-          score: parseInt(this.state.tenthScore),
+          score: parseFloat(this.state.tenthScore),
       },
       studentHsc:{
           schoolName:this.state.twelthSclName,
           examBoardName:this.state.twelthBoardName,
           scoreScale:this.state.twelthScoreScale.value,
-          score: parseInt(this.state.twelthScore) 
+          score: parseFloat(this.state.twelthScore) 
       },
       studentUg: arr
     }
@@ -92,7 +92,7 @@ class AcademicData extends Component {
           clearedBacklogs : parseInt(this.state.["sem".concat(i).concat("clearedBacklog")]) ,
           scoreScale : this.state.["scoreScaleSem".concat(i)],
           clearedBacklogSubjects : this.state.["sem".concat(i).concat("clearedSub")],
-          score : parseInt(this.state.["sem".concat(i).concat("score")]) 
+          score : parseFloat(this.state.["sem".concat(i).concat("score")]) 
         })
       }
       let Anobj = {
@@ -101,13 +101,13 @@ class AcademicData extends Component {
             schoolName:this.state.tenthSclName,
             examBoardName:this.state.tenthBoardName,
             scoreScale:this.state.tenthScoreScale.value,
-            score: parseInt(this.state.tenthScore),
+            score: parseFloat(this.state.tenthScore),
         },
         studentHsc:{
             schoolName:this.state.twelthSclName,
             examBoardName:this.state.twelthBoardName,
             scoreScale:this.state.twelthScoreScale.value,
-            score: parseInt(this.state.twelthScore) 
+            score: parseFloat(this.state.twelthScore) 
         },
         studentUg: arr
       }
@@ -139,6 +139,7 @@ class AcademicData extends Component {
         twelthScoreScale : {title : this.props.pgaAcademicDetails.studentHsc.scoreScale === "100" ? "%" : this.props.pgaAcademicDetails.studentHsc.scoreScale, value : parseInt(this.props.pgaAcademicDetails.studentHsc.scoreScale) } ,
       })
       this.props.pgaAcademicDetails.studentUg.map((eachData,index)=>{
+        console.log(eachData)
         this.setState({
           ["sem"+eachData.semester] : eachData.semester,
           ["scoreScaleSem"+eachData.semester] : parseInt(eachData.scoreScale),
@@ -466,7 +467,7 @@ class AcademicData extends Component {
   ]
 
   render() {
-    console.log(this.state)
+    console.log("state.................",this.state)
     console.log(this.props.pgaAcademicDetails)
     return (
       <div>
@@ -562,97 +563,9 @@ class AcademicData extends Component {
         <hr />
         <h5 style={{ padding: "1%" }}>UnderGraduate Degree Details</h5>
         <Grid container spacing={2} style={{padding : "1%"}}>
+         
           {this.renderUgDegreeDetails()}
-          {/* {this.semesterResponse.map((eachResponse,index)=>{
-            return (
-              <>
-                <Grid item md={1}>
-                <TextField 
-                variant={"outlined"}
-                value={eachResponse.semNo}
-                size={"small"}
-                label={"Semester ".concat(index+1)}
-                />
-                </Grid>
-                <Grid item md={1}>
-                <FormControl size="small" fullWidth variant="outlined">
-        <InputLabel shrink={true} id="demo-simple-select-outlined-label">Score Scale</InputLabel>
-        <Select
-        fullWidth
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Score Scale"
-          name={"scoreScaleSem".concat(index+1)}
-
-        >
-          {this.choice.map(eachChoice=>{
-            return(
-              <MenuItem value={eachResponse.scoreScale}>{eachChoice.title}</MenuItem>
-            )
-          })}
-        </Select>
-      </FormControl>
-                </Grid>
-                <Grid item md={1}>
-                <TextField value={eachResponse.score} InputLabelProps={{shrink: true}} variant={"outlined"} name={"sem".concat(index+1).concat("score")}  label={"Score"} size={"small"} />
-
-                </Grid>
-                <Grid item md={2}>
-                <TextField
-            variant={"outlined"}
-            InputLabelProps={{shrink: true}}
-            name={"sem".concat(index+1).concat("top3")}
-            label={"Top 3 Subjects"}
-            value={eachResponse.top3}
-            size={"small"}
-          />
-                </Grid>
-                <Grid item md={1}>
-                <TextField
-            variant={"outlined"}
-            InputLabelProps={{shrink: true}}
-            value={eachResponse.activeBack}
-            name={"sem".concat(index+1).concat("activeBacklog")}
-            label={"#Active Backlog"}
-            size={"small"}
-          />
-                </Grid>
-                <Grid item md={2}>
-                <TextField
-            variant={"outlined"}
-            InputLabelProps={{shrink: true}}
-            name={"sem".concat(index+1).concat("backlogSub")}
-            label={"Backlog Subject"}
-            value={eachResponse.backLogSub}
-            size={"small"}
-          />
-                </Grid>
-                <Grid item md={1}>
-                <TextField
-            variant={"outlined"}
-            InputLabelProps={{shrink: true}}
-            value={eachResponse.clearBack}
-            name={"sem".concat(index+1).concat("clearedBacklog")}
-            label={"#Cleared Backlog"}
-            size={"small"}
-          />
-                </Grid>
-                <Grid item md={2}>
-                <TextField
-            variant={"outlined"}
-            InputLabelProps={{shrink: true}}
-            name={"sem".concat(index+1).concat("clearedSub")}
-            label={"#Cleared Backlog Subject"}
-            value={eachResponse.clearSub}
-            size={"small"}
-          />
-                </Grid>
-                <Grid item md={1}>
-
-                </Grid>
-              </>
-            );
-          })} */}
+         
         </Grid>
         <Grid style={{ padding: "1%" }}>
           <Button

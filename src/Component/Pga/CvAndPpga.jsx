@@ -282,6 +282,7 @@ else{
     })
   }
   let cvupdateArr=[]
+  console.log(this.props.getcvandppgaResponses)
   let cvid = this.props.getcvandppgaResponse.cvDetails.map(cv=>cv.id)
 
   for(let i=0; i<=13 ; i++){
