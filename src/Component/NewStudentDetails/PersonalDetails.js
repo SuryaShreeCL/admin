@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { updateStudentPersonal, updateVerificationStatus } from "../../Actions/AdminAction";
-import { getStudentsById } from "../../Actions/Student";
+import { getStudentsById, verifyNewPersonalData } from "../../Actions/Student";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
@@ -33,6 +33,8 @@ export class PersonalDetails extends Component {
       firstName: null,
       fNameHelperTxt: "",
       lastName: null,
+      tempEmail : null,
+      tempMobile : null,
       lNameHelperTxt: "",
       fullName: null,
       fullNameHelperTxt: "",
@@ -43,9 +45,11 @@ export class PersonalDetails extends Component {
       snackOpen: false,
       snackMessage: null,
       snackVariant: null,
+      isTempData : false,
     };
   }
   componentDidMount() {
+
     this.props.getStudentsById(this.props.id);
     
   }
@@ -89,12 +93,29 @@ export class PersonalDetails extends Component {
       this.setState({
         StudentDetails: this.props.StudentDetails,
         studentId: this.props.StudentDetails.studentID,
-        firstName: this.props.StudentDetails.firstName,
-        lastName: this.props.StudentDetails.lastName,
+        // firstName: this.props.StudentDetails.firstName ,
+        // lastName:  this.props.StudentDetails.lastName,
         fullName: this.props.StudentDetails.fullName,
-        eMail: this.props.StudentDetails.emailId,
-        phoneNumber: this.props.StudentDetails.phoneNumber,
+        // eMail: this.props.StudentDetails.emailId,
+        // phoneNumber: this.props.StudentDetails.phoneNumber,
       });
+    }
+    if(this.props.tempData !== prevProps.tempData){
+      console.log(this.props.tempData)
+      if(this.props.tempData.studentTemp !== null){
+         this.setState({
+           isTempData : true,
+          firstName : this.props.tempData.studentTemp.firstName,
+          lastName : this.props.tempData.studentTemp.lastName,
+          tempEmail : this.props.tempData.studentTemp.emailId,
+          tempMobile : this.props.tempData.studentTemp.phoneNumber
+        })
+      }else{
+        this.setState({
+          firstName: this.props.StudentDetails.firstName ,
+        lastName:  this.props.StudentDetails.lastName,
+        })
+      }
     }
     if (
       this.props.updatePersonalResponse !== prevProps.updatePersonalResponse
@@ -109,6 +130,13 @@ export class PersonalDetails extends Component {
       this.setState({
         snackVariant: "success",
         snackMessage: "Status Updated Successfully",
+        snackOpen: true,
+      });
+    }
+    if(this.props.updateNewPersonalResponse !== prevProps.updateNewPersonalResponse){
+      this.setState({
+        snackVariant: "success",
+        snackMessage: "Data Verified Successfully",
         snackOpen: true,
       });
     }
@@ -198,10 +226,67 @@ export class PersonalDetails extends Component {
       misMatchDetails : null,
     })
     }
+    if(this.props.tempData.studentTemp !== null){
+      let updateObj = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        emailId: this.state.tempEmail,
+        phoneNumber: this.state.tempMobile,
+        status: this.state.status.value,
+        altPhoneNumber: this.props.tempData.studentTemp.altPhoneNumber,
+        altEmailId: this.props.tempData.studentTemp.emailId,
+      };
+
+      this.props.verifyNewPersonalData(this.props.id,updateObj)
+    }
+   
    
   }
-  render() {
-   
+
+  renderOptional = () =>{
+    const { divStyle, textStyle, divContainer } = style;
+    if(this.props.tempData.studentTemp !== null){
+      return (
+        <>
+  <Grid item md={6} style={divStyle} justify="space-between">
+                <Typography
+                  color="primary"
+                  style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"E-Mail ID:"}
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={this.state.letEdit === false ? true : false}
+                  label="E-Mail"
+                  value={this.state.tempEmail || ""}
+                />
+              </Grid>
+              <Grid item md={6} style={divStyle} justify="space-between">
+                <Typography
+                  color="primary"
+                  style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Phone Number:"}
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={this.state.letEdit === false ? true : false}
+                  label="Phone Number"
+                  value={this.state.tempMobile || ""}
+                />
+              </Grid>
+        </>
+      )
+    }
+  }
+
+  render() {  
+    // console.log(this.props.tempData)
     const { divStyle, textStyle, divContainer } = style;
     return (
       <div>
@@ -260,7 +345,9 @@ export class PersonalDetails extends Component {
 
               <Grid item md={1} style={divStyle} alignItems="center">
               <Tooltip arrow title="Edit" aria-label="Edit">
-                  <IconButton onClick={() => this.setState({ letEdit: true })}>
+                  <IconButton 
+                  disabled={this.state.isTempData}
+                  onClick={() => this.setState({ letEdit: true })}>
                     <EditRoundedIcon />
                   </IconButton>
                 </Tooltip>
@@ -304,7 +391,7 @@ export class PersonalDetails extends Component {
                   name={"firstName"}
                   disabled={this.state.letEdit === false ? true : false}
                   label="First Name"
-                  value={this.state.firstName}
+                  value={this.state.firstName || ""}
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify="space-between">
@@ -324,7 +411,7 @@ export class PersonalDetails extends Component {
                   name={"lastName"}
                   label="Last Name"
                   disabled={this.state.letEdit === false ? true : false}
-                  value={this.state.lastName}
+                  value={this.state.lastName || ""}
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify="space-between">
@@ -349,6 +436,7 @@ export class PersonalDetails extends Component {
                   value={this.state.fullName}
                 />
               </Grid>
+              {this.renderOptional()}
               <Grid item md={12} style={divStyle} justify="flex-end">
                 <Button
                   variant="outlined"
@@ -411,7 +499,8 @@ const mapStateToProps = (state) => {
     StudentDetails: state.StudentReducer.StudentList,
     updatePersonalResponse: state.AdminReducer.updatePersonalResponse,
     updateVerificationResponse :state.AdminReducer.updateVerificationResponse,
-    studentStatusResponse : state.AdminReducer.studentStatusResponse
+    studentStatusResponse : state.AdminReducer.studentStatusResponse,
+    updateNewPersonalResponse : state.StudentReducer.updateNewPersonalResponse
 
   };
 };
@@ -419,5 +508,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getStudentsById,
   updateStudentPersonal,
-  updateVerificationStatus
+  updateVerificationStatus,
+  verifyNewPersonalData
 })(PersonalDetails);

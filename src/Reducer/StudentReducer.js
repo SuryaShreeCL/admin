@@ -18,6 +18,8 @@ const initialState = {
   signUpError: [],
   cityList: [],
   aspirationDetails: [],
+  tempPersonalData : [],
+  updateNewPersonalResponse : []
 };
 
 export default (state = initialState, action) => {
@@ -137,6 +139,16 @@ export default (state = initialState, action) => {
         ...state,
         editDocumentResponse: action.editDocumentResponse,
       };
+      case STUDENT.getTempPersonalData:
+      return {
+        ...state,
+        tempPersonalData: action.payload,
+      };
+      case STUDENT.verifyNewPersonalData:
+        return {
+          ...state,
+          updateNewPersonalResponse: action.payload,
+        };
 
     default:
       break;

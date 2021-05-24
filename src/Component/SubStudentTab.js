@@ -12,7 +12,7 @@ import PersonalDetails from './NewStudentDetails/PersonalDetails';
 import ContactDetails from './NewStudentDetails/ContactDetails';
 import EducationalDetails from './NewStudentDetails/EducationalDetails';
 import AccountStatus from './NewStudentDetails/AccountStatus';
-import {getAspirationByStudentId,} from "../Actions/Student"
+import {getAspirationByStudentId,getTempPersonalData} from "../Actions/Student"
 import {viewStudentStatus} from "../Actions/AdminAction"
 import AspirationDetails from './NewStudentDetails/AspirationDetails';
 function TabPanel(props) {
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
    React.useEffect(()=>{
     props.getAspirationByStudentId(props.id)
     props.viewStudentStatus(props.id)
-  
+    props.getTempPersonalData(props.id)
    },[props.updateVerificationResponse])
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -94,10 +94,10 @@ console.log(props.studentStatusResponse)
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <PersonalDetails id={props.id} />
+        <PersonalDetails tempData={props.tempPersonalData} id={props.id} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ContactDetails id={props.id} />
+        <ContactDetails tempData={props.tempPersonalData} id={props.id} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <EducationalDetails id={props.id} />
@@ -117,7 +117,7 @@ const mapStateToProps = (state) =>{
     aspirationDetails : state.StudentReducer.aspirationDetails,
     studentStatusResponse : state.AdminReducer.studentStatusResponse,
     updateVerificationResponse : state.AdminReducer.updateVerificationResponse,
-
+    tempPersonalData : state.StudentReducer.tempPersonalData
   }
 }
-export default connect(mapStateToProps,{getAspirationByStudentId, viewStudentStatus})(SubStudentTab)
+export default connect(mapStateToProps,{getAspirationByStudentId, viewStudentStatus, getTempPersonalData})(SubStudentTab)
