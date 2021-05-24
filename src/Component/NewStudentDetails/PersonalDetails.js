@@ -66,12 +66,12 @@ export class PersonalDetails extends Component {
   }
 
     var findObj = this.props.studentStatusResponse.find(
-      (res) => res.section.name === "personaldetails"
+      (res) => res.section.name === "Personal Details"
     );
     console.log(findObj);
 
     if(findObj !== undefined){
-      if(findObj.section.name === "personaldetails"){
+      if(findObj.section.name === "Personal Details"){
         if(this.flag === false && findObj.status === "verified"){
           this.setState({status : this.status[0]}) 
           this.flag = true
@@ -214,7 +214,7 @@ export class PersonalDetails extends Component {
           id: this.props.id,
         },
         section: {
-          name: "personaldetails",
+          name: "Personal Details",
         },
         remark: this.state.misMatchDetails,
         status: this.state.status.value,
