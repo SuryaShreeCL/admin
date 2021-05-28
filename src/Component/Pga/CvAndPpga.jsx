@@ -1,6 +1,11 @@
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, Button } from "@material-ui/core";
 import React, { Component } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
+import {getPgaCvAndPpga, getppgaques} from "../../Actions/PgaAction";
+import { connect } from "react-redux";
+
 
 class CvAndPpga extends Component {
   constructor() {
@@ -8,6 +13,11 @@ class CvAndPpga extends Component {
     this.state = {
       cvCount: 4,
       ppgaCount: 4,
+      snackColor : null,
+      snackMsg : null,
+      snackOpen : false,
+      cvfactor : "",
+      questions:null,
     };
   }
   cvfactor = [
@@ -53,7 +63,9 @@ class CvAndPpga extends Component {
     { title: "Relevant work experience. " },
     { title: "Relevant Extracurricular activities" },
   ];
-
+  handleChange = (e) =>{
+    this.setState({[e.target.name] : e.target.value})
+}
   renderCvForm = () => {
     let cvArr = [];
     for (let i = 1; i <= this.state.cvCount; i++) {
@@ -64,6 +76,7 @@ class CvAndPpga extends Component {
           fullWidth
           size="small"
           label="Factor From CV"
+         
         />
          
         ),
@@ -103,7 +116,6 @@ class CvAndPpga extends Component {
       );
     });
   };
-
   renderPpgaForm = () => {
     let ppgaArr = [];
     for (let i = 1; i <= this.state.ppgaCount; i++) {
@@ -114,6 +126,8 @@ class CvAndPpga extends Component {
           fullWidth
           size="small"
           label="Question From Database"
+          onChange={(e) => this.handleChange(e)}
+          // value={this.props.}
         />
         ),
         notesBefore: (
@@ -150,10 +164,15 @@ class CvAndPpga extends Component {
     });
   };
 
-
+  componentDidMount() {
+    this.props.getPgaCvAndPpga(this.props.id)
+    this.props.getppgaques(this.props.id)
+  }
 
   render() {
+    console.log(this.props.pgaCvAndPpga)
     return (
+
       <div>
         <h5 style={{ padding: "1%" }}>CV Details</h5>
         <Grid container spacing={2} style={{ padding: "2%" }}>
@@ -164,9 +183,41 @@ class CvAndPpga extends Component {
         <Grid container style={{ padding: "2%" }} spacing={2}>
           {this.renderPpgaForm()}
         </Grid>
+        <Grid style={{ padding: "1%" }}>
+         <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleSaved}
+          >
+            Save
+          </Button>
+        </Grid>
+        <Snackbar
+          open={this.state.snackOpen}
+          variant="filled"
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackOpen: false })}
+        >
+          <Alert
+            onClose={() => this.setState({ snackOpen: false })}
+            severity={this.state.snackColor}
+          >
+            {this.state.snackMsg}
+          </Alert>
+        </Snackbar>
       </div>
     );
   }
 }
+export const mapStateToProps = (state) =>{
+ 
+  return {
+    pgaCvAndPpga : state.PgaReducer.pgaCvAndPpga,
+    getppgaques : state.PgaReducer.getppgaques
 
-export default CvAndPpga;
+
+  }
+}
+
+export default connect(mapStateToProps,{getPgaCvAndPpga,getppgaques})(CvAndPpga)
+

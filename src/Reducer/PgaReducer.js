@@ -42,6 +42,17 @@ export default (state = initialState, action) =>{
                             ...state,
                             postGeneralDetailsResponse : action.payload
                         }
+                        case PGA.getPgaCvAndPpga:
+                        return {
+                            ...state,
+                            PgaCvAndPpga : action.payload
+                        }
+                        case PGA.getppgaques:
+                            return {
+                                ...state,
+                                getppgaques : action.payload
+                             }
+                       
         default:
             return state
     }

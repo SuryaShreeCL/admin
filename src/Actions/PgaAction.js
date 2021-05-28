@@ -75,3 +75,39 @@ export const postGenralDetails = (id,data) =>{
         })
     }
 }
+export const getPgaCvAndPpga = (id) =>{
+    return dispatch =>{
+        // axios.get(URL+"/api/v1/students/get/cvandppga/"+id)
+        axios.get(URL+"/api/v1/ppgaQuestions")
+
+        .then(result=>{
+            dispatch({type : PGA.getPgaCvAndPpga, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const getppgaques = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/get/cvandppga/"+id)
+        .then(result=>{
+            dispatch({type : PGA.getppgaques, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+// export const postPgaCvAndPpga = (id,data) =>{
+//     return dispatch=>{
+//         axios.post(URL+"api/v1/students/"+id+"/save/cvandppga", data)
+//         .then(result=>{
+//             dispatch({type : PGA.postPgaCvAndPpga, payload : result.data})
+//         })
+//         .catch(error=>{
+//             console.log(error)
+//         })
+//     }
+// }
+
