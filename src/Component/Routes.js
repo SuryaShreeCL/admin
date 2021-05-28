@@ -61,7 +61,7 @@ import QuestionSet from './Question/QuestionSet';
 import Question from './Question/Question';
 import Choice from './Question/Choice';
 import Video from './Video/Video';
-import Product from './Product/Product';
+import Product from './Product/ProductLanding';
 import TestimonialDashboard from './Testimonials/TestimonialDashboard';
 import Webinar from './Webinar/Webinar';
 import CareerTrack from './CareerTrack/Index';

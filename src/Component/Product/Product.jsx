@@ -29,12 +29,16 @@ import {
  import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
  import TableComponent from "../TableComponent/TableComponent";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import ProductLanding from "./ProductLanding"
+
 export class Product extends Component {
     constructor(props) {
         super(props)
         this.state = {
              id : "",
              name : "",
+            //  CodeName:"",
+            //  ShortName:"",
              show : false,
              update : null,
         }
@@ -123,6 +127,8 @@ export class Product extends Component {
     col = [
         {title: "id", fieldName: "id"},
         { title: "Name", fieldName: "name" },
+        // {title:"ShortName", fieldName:"ShortName"},
+        // {title:"CodeName",fileName:"CodeName"}
       ];
       rowClick = (data) => {
         // this.props.history.push(choicePath+data.id)
@@ -256,6 +262,24 @@ export class Product extends Component {
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
+                />
+                <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="ShortName"
+                  fullWidth
+                  // value={this.state.name}
+                  // onChange={(e) => this.setState({ name: e.target.value })}
+                  // multiline
+                />
+                <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="CodeName"
+                  fullWidth
+                  // value={this.state.name}
+                  // onChange={(e) => this.setState({ name: e.target.value })}
+                  // multiline
                 />
             
               </DialogContent>
