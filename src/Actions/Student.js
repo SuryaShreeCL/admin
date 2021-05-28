@@ -371,3 +371,28 @@ export const getAspirationByStudentId = (id) =>{
         })
     }
 }
+
+
+export const getTempPersonalData = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/"+id+"/viewPersonalDetails")
+        .then(result=>{
+            dispatch({type:STUDENT.getTempPersonalData,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const verifyNewPersonalData = (id,data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/student/"+id+"/personalDetails",data)
+        .then(result=>{
+            dispatch({type:STUDENT.verifyNewPersonalData, payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

@@ -59,7 +59,9 @@ export const STUDENT = {
   getManualUser: 'getManualUser',
   catchSignUpError: 'catchSignUpError',
   viewAllCity : 'viewAllCity',
-  getAspirationById : 'getAspirationById'
+  getAspirationById : 'getAspirationById',
+  getTempPersonalData : "getTempPersonalData",
+  verifyNewPersonalData : "verifyNewPersonalData"
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
