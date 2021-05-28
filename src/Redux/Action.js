@@ -59,7 +59,9 @@ export const STUDENT = {
   getManualUser: 'getManualUser',
   catchSignUpError: 'catchSignUpError',
   viewAllCity : 'viewAllCity',
-  getAspirationById : 'getAspirationById'
+  getAspirationById : 'getAspirationById',
+  getTempPersonalData : "getTempPersonalData",
+  verifyNewPersonalData : "verifyNewPersonalData"
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -208,6 +210,25 @@ export const PGA = {
   getPgaCvAndPpga : "getPgaCvAndPpga",
   postPgaCvAndPpga : "postPgaCvAndPpga",
   getppgaques : "getppgaques",
+  postcvandppga :"postcvandppga",
+  getcvandppga : "getcvandppga",
+  getppgaques : "getppgaques",
+  getcvques : "getcvques",
+  getAllEnrollmentPeriod : "getAllEnrollmentPeriod",
+  getQuarterPlan : "getQuarterPlan",
+  getAllStarterPack : "getAllStarterPack",
+  getPackageByStudentId : "getPackageByStudentId",
+  getAllQuarterPlan : "getAllQuarterPlan",
+  postCommentsAndPoints : "postCommentsAndPoints",
+  getAdditionalPoints : "getAdditionalPoints",
+  postAditionalPoints : "postAditionalPoints",
+  getQuarterPlanByType : "getQuarterPlanByType",
+  getPbChoosenTrack : "getPbChoosenTrack",
+  getStudentGrade : "getStudentGrade",
+  getAllSpecialization : "getAllSpecialization",
+  postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
+  postQuarterPgaPlan : "postQuarterPgaPlan"
+
 }
 
 
