@@ -57,11 +57,11 @@ export const deleteProduct=(id)=>{
 
 export const addProductToStudent=(data)=>{
     return dispatch => {
-        axios.post(URL+"/api/v1/product",data,{
+        axios.post(URL+"/api/v1/student/product/create",data,{
             crossDomain: true
         })
             .then(result => {                
-                dispatch({type: PRODUCT.addProductToStudent,addProductToStudent:result.data})
+                dispatch({type: PRODUCT.addProductToStudent,payload:result.data})
             })
             .catch(error => {
                 console.log(error);
@@ -72,9 +72,33 @@ export const addProductToStudent=(data)=>{
 
 export const viewProductToStudent = (id) =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/product/get/"+id)
+        axios.get(URL+"/api/v1/get/student/product/"+id)
         .then(result=>{
-            dispatch({type:PRODUCT.viewProductToStudent,viewProductToStudentList:result.data});
+            dispatch({type:PRODUCT.viewProductToStudent,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getAllProductFamily = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/productFamily")
+        .then(result=>{
+            dispatch({type:PRODUCT.getAllProductFamily,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getProductByFamilyId = (familyId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/product/productFamily/"+familyId)
+        .then(result=>{
+            dispatch({type:PRODUCT.getProductByFamilyId,payload:result.data});
         })
         .catch(error=>{
             console.log(error);

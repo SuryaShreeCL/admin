@@ -140,6 +140,8 @@ export const PRODUCT = {
   deleteProduct: 'deleteProduct',
   viewProductToStudent: 'viewProductToStudent',
   addProductToStudent: 'addProductToStudent',
+  getAllProductFamily : "getAllProductFamily",
+  getProductByFamilyId : "getProductByFamilyId"
 };
 
 export const ADMIN = {

@@ -7,6 +7,7 @@ function MySnackBar(props) {
         <Snackbar
         open={props.snackOpen}
         autoHideDuration={3000}
+        onClose={props.onClose}
       >
         <Alert
           variant="filled"
