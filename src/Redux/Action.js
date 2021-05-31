@@ -141,7 +141,8 @@ export const PRODUCT = {
   viewProductToStudent: 'viewProductToStudent',
   addProductToStudent: 'addProductToStudent',
   getAllProductFamily : "getAllProductFamily",
-  getProductByFamilyId : "getProductByFamilyId"
+  getProductByFamilyId : "getProductByFamilyId",
+  postproductfamily:"postproductfamily"
 };
 
 export const ADMIN = {
@@ -227,7 +228,6 @@ export const PGA = {
   getAllSpecialization : "getAllSpecialization",
   postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
   postQuarterPgaPlan : "postQuarterPgaPlan"
-
 }
 
 

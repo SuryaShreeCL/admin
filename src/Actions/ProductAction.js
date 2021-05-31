@@ -105,3 +105,14 @@ export const getProductByFamilyId = (familyId) =>{
         })
     }
 }
+export const postproductfamily = (data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/create/product/family",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.postproductfamily,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

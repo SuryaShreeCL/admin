@@ -7,7 +7,8 @@ const initialState = {
   addProductToStudentResponse: [],
   studentProductList: [],
   productFamilyList: [],
-  productVariantList : []
+  productVariantList : [],
+  postproductfamily:[]
 };
 
 export default (state = initialState, action) => {
@@ -52,6 +53,11 @@ export default (state = initialState, action) => {
             ...state,
             productVariantList: action.payload,
           };
+          case PRODUCT.postproductfamily:
+            return {
+              ...state,
+              postproductfamily: action.payload,
+            };
     default:
       break;
   }
