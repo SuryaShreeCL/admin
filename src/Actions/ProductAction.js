@@ -105,3 +105,25 @@ export const getProductByFamilyId = (familyId) =>{
         })
     }
 }
+export const getProductVarient = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/productvarient")
+        .then(result=>{
+            dispatch({type:PRODUCT.getProductVarient,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+export const postProductVarient = (data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/create/product/varient",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.postProductVarient,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

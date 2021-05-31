@@ -18,11 +18,14 @@ import {
     Grid
   } from "@material-ui/core";
   import AddIcon from "@material-ui/icons/Add";
+  import RemoveIcon from '@material-ui/icons/Remove';
   import EditIcon from '@material-ui/icons/Edit';
   import DeleteIcon from '@material-ui/icons/Delete';
   import CloseIcon from "@material-ui/icons/Close";
   import { withStyles,createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
   import { isEmptyString } from "../Validation";
+  import {getProductVarient, postProductVarient} from "../../Actions/ProductAction"
+  import { connect } from "react-redux";
 
 export class ProductVarient extends Component {
     constructor(props) {
@@ -31,8 +34,8 @@ export class ProductVarient extends Component {
         this.state = {
             open: false,
             show: false,
-            id : "",
-            name : "",
+            name: "",
+            nameErr: "",
             shortName:"",
             shortNameErr:"",
             codeName:"",
@@ -42,16 +45,27 @@ export class ProductVarient extends Component {
             description:"",
             descriptionErr:"",
             images:"",
+            imagesErr:"",
             videos:"",
+            videosErr:"",
             tnc:"",
             tncErr:"",
             question:"",
-            questionErr:""
+            questionErr:"",
+            answer:"",
+            answerErr:"",
+            productImageArray: [1],
+            productVideoArray: [1]
 
         }
     }
-    addTermDialogHandler = (event) => {
-      
+    componentDidMount(){
+      this.props.getProductVarient()
+  }
+
+    handleSave = (event) => {
+      console.log(this.state)
+
       let hlpTxt = "Please Fill The Required Feild"
 
       isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
@@ -60,6 +74,11 @@ export class ProductVarient extends Component {
       isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlpTxt }) : this.setState({ descriptionErr : "" })
       isEmptyString(this.state.question) ? this.setState({ questionErr : hlpTxt }) : this.setState({ questionErr : "" })
       isEmptyString(this.state.tnc) ? this.setState({ tncErr : hlpTxt }) : this.setState({ tncErr : "" })
+      isEmptyString(this.state.answer) ? this.setState({ answerErr : hlpTxt }) : this.setState({ answerErr : "" })
+      isEmptyString(this.state.answer) ? this.setState({ answerErr : hlpTxt }) : this.setState({ answerErr : "" })
+      isEmptyString(this.state.images) ? this.setState({ imagesErr : hlpTxt }) : this.setState({ imagesErr: "" })
+      isEmptyString(this.state.videos) ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
+      isEmptyString(this.state.name) ? this.setState({ nameErr : hlpTxt }) : this.setState({ nameErr : "" })
 
       if(
         !isEmptyString(this.state.shortName) &&
@@ -67,11 +86,42 @@ export class ProductVarient extends Component {
         !isEmptyString(this.state.oneliner) &&
         !isEmptyString(this.state.description) &&
         !isEmptyString(this.state.tnc) &&
+        !isEmptyString(this.state.answer) &&
+        !isEmptyString(this.state.images) &&
+        !isEmptyString(this.state.videos) &&
+        !isEmptyString(this.state.name) &&
         !isEmptyString(this.state.question)
        
-      ){}
-     
-      this.setState({ show: false});
+      ){
+        let obj = {
+          "name":this.state.name,
+          "codeName":this.state.codeName,
+          "shortName":this.state.shortName,
+          "validity":"365",
+          "productTnc":this.state.tnc,
+          "productDescription":this.state.description,
+          "productOneliner": this.state.oneliner,
+          "productVideos": [],
+          "productImages": [],
+          "productFamily":{
+              "id":"1"
+          },
+          "productQuestionAnswers":[{
+              "id":"1"
+          },
+          {
+              "id":"2"
+          },
+          {
+              "id":"3"
+          },
+          {
+              "id":"4"
+          }]
+      }
+      this.props.postProductVarient(obj)
+      }
+      // this.setState({ show: false});
 
       };
       handleChange = (e, name) => {
@@ -82,6 +132,7 @@ export class ProductVarient extends Component {
       handleClickOpen = (e) => {
         this.setState({ 
           show: true,
+          name:"",
           shortName:"",
           codeName:"",
           oneliner:"",
@@ -90,12 +141,14 @@ export class ProductVarient extends Component {
           videos:"",
           tnc:"",
           question:"",
+          answer:"",
         });
         
       };
       handleEdit = (data) => {
         this.setState({
           show : true,
+          name : data.name,
           shortName: data.shortName,
           codeName: data.codeName,
           oneliner: data.oneliner,
@@ -104,11 +157,68 @@ export class ProductVarient extends Component {
           videos: data.videos,
           tnc: data.tnc,
           question: data.question,
+          answer: data.answer
 
         })
     };
-
-
+    handleAddVdo = () => {
+      let arr = this.state.productVideoArray
+      arr.push(arr.length +1)
+      this.setState({productVideoArray : arr})
+    }
+    renderProductVdo =  () =>{
+      return this.state.productVideoArray.map((product)=>{
+        return <>
+        <TextField 
+        style={{margin:"2%",width:"70%"}}
+        variant="outlined"
+        color="primary"
+        name="videos"
+        label="Product videos"        
+        error={this.state.videosErr.length > 0}
+        helperText={this.state.videosErr}
+        onChange={this.handleChange}       
+        />
+        <Button startIcon={<RemoveIcon/>} variant="contained" color="primary" 
+                 size="medium"
+                 style={{marginTop:25}} onClick={()=>{this.removeProduct()}}  ></Button>
+        </>
+      } )
+    }
+   renderProductImg =  () =>{
+     return this.state.productImageArray.map((product)=>{
+       return <>
+       <TextField 
+       style={{margin:"2%",width:"70%"}}
+       variant="outlined"
+       color="primary"
+       name="images"
+       label="Product images"
+       error={this.state.imagesErr.length > 0}
+        helperText={this.state.imagesErr}
+       onChange={this.handleChange}       
+       />
+       <Button startIcon={<RemoveIcon/>} variant="contained" color="primary" 
+                size="medium"
+                style={{marginTop:25}} onClick={()=>{this.removeImg()}}  ></Button>
+       </>
+     } )
+   }
+   handleAddImg = () => {
+     let arr = this.state.productImageArray
+     arr.push(arr.length +1)
+     this.setState({productImageArray : arr})
+   }
+   removeVdo = (index) => {
+    let arr = this.state.productVideoArray
+    arr.pop(arr.length -1)
+    this.setState({productVideoArray : arr})
+   }
+   removeImg = (index) => {
+    let arr = this.state.productImageArray
+    arr.pop(arr.length -1)
+    this.setState({productImageArray : arr})
+   }
     render() {
         return (
             <div>
@@ -129,6 +239,7 @@ export class ProductVarient extends Component {
             <Table>
               <TableHead >
                 <TableRow>
+                <TableCell style={{fontWeight:"bold"}}>Varient Name</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Varient short Name</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Code Name</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product Oneliner</TableCell>
@@ -142,6 +253,9 @@ export class ProductVarient extends Component {
               </TableHead>
               <TableBody>
                   <TableRow>
+                    <TableCell>
+                      Profile Builder
+                    </TableCell>
                       <TableCell> 
                        Profile Builder for Placements
                       </TableCell>
@@ -176,8 +290,7 @@ export class ProductVarient extends Component {
               </TableBody>
             </Table>
           </TableContainer>
-          <Dialog 
-            // TransitionComponent={Transition}
+          <Dialog fullScreen
               open={this.state.show}
               onClose={(e) => this.setState({ show: false })}
               aria-labelledby="customized-dialog-title"
@@ -189,7 +302,7 @@ export class ProductVarient extends Component {
                     ? "Edit Product"
                     : "Add Product Varient"}
                     <IconButton
-                    style={{left:"152px"}}
+                    style={{left:"452px"}}
                     aria-label="close"
                     onClick={(e) => this.setState({ show: false })}
                   >
@@ -201,85 +314,148 @@ export class ProductVarient extends Component {
                 </div>
               </DialogTitle>
               <DialogContent>
-              <Grid>
-                <Grid item md={12}>
+              <Grid container>
+              <Grid item md={4}>
+                   
+                   <TextField
+                      style={{margin:"2%",width:"80%"}}
+                      variant="outlined"
+                      color="primary"
+                      label="Varient Name"
+                      value={this.state.name}
+                      onChange={this.handleChange}
+                      name="name"
+                      error={this.state.nameErr.length > 0}
+                      helperText={this.state.nameErr}
+                    />
+                    </Grid>
+                <Grid item md={4}>
                    
                <TextField
-                  style={{margin:"1%"}}
+                  style={{margin:"2%",width:"80%"}}
                   variant="outlined"
                   color="primary"
                   label="Short Name"
-                  fullWidth
-                  value={this.state.name}
-                  onChange={(e) => this.setState({ name: e.target.value })}
-                  name="short name"
+                  value={this.state.shortName}
+                  onChange={this.handleChange}
+                  name="shortName"
                   error={this.state.shortNameErr.length > 0}
                   helperText={this.state.shortNameErr}
-                  multiline
                 />
+                </Grid>
+                <Grid item md={4}>
                 <TextField
-                  style={{margin:"1%"}}
+                  style={{margin:"2%",width:"80%"}}
                   variant="outlined"
                   color="primary"
                   label="Code Name"
-                  name="code name"
+                  name="codeName"
+                  onChange={this.handleChange}
+                  value={this.state.codeName}
                   error={this.state.codeNameErr.length > 0}
                   helperText={this.state.codeNameErr}
-                  fullWidth
+                  
                 />
+                </Grid>
+
+                <Grid item md={6}>
                 <TextField
-                  style={{margin:"1%"}}
+                  style={{margin:"2%",width:"80%"}}
                   variant="outlined"
                   color="primary"
                   label="Product Oneliner"
-                  name="product onliner"
+                  name="oneliner"
+                  value={this.state.oneliner}
+                  onChange={this.handleChange}
                   error={this.state.onelinerErr.length > 0}
                   helperText={this.state.onelinerErr}
                   fullWidth
+                  multiline
                 />
+                </Grid>
+                <Grid item md={6}>
                  <TextField
-                  style={{margin:"1%"}}
+                  style={{margin:"2%",width:"80%"}}
                   variant="outlined"
                   color="primary"
                   label="Product description"
-                  name="product description"
+                  name="description"
+                  value={this.state.description}
+                  onChange={this.handleChange}
                   error={this.state.descriptionErr.length > 0}
                   helperText={this.state.descriptionErr}
                   fullWidth
+                  multiline
                 />
+                </Grid>
+                <Grid item md={6}>
+                 {this.renderProductImg()}
+                <Button startIcon={<AddIcon/>} 
+                variant="contained"
+                color="primary" 
+                size="medium"
+                onClick={this.handleAddImg}
+                style={{marginTop:25, marginLeft:7}}></Button>
+
+                </Grid>
+
+                <Grid item md={6}>
+                 {this.renderProductVdo()}
+                 <Button startIcon={<AddIcon/>} 
+                variant="contained"
+                color="primary" 
+                size="medium"
+                onClick={this.handleAddVdo}
+                style={{marginTop:25,marginLeft:7}}></Button>
+
+                </Grid>
+
+                <Grid item md={12}>
                  <TextField
-                  style={{margin:"1%"}}
-                  variant="outlined"
-                  color="primary"
-                  label="Product Images"
-                  fullWidth
-                />
-                 <TextField
-                  style={{margin:"1%"}}
-                  variant="outlined"
-                  color="primary"
-                  label="Product Videos"
-                  fullWidth
-                />
-                 <TextField
-                  style={{margin:"1%"}}
+                  style={{margin:"1%", width:'95%'}}
                   variant="outlined"
                   color="primary"question
                   label="Product Tnc"
-                  name="product Tnc"
+                  name="tnc"
+                  onChange={this.handleChange}
+                  value={this.state.tnc}
                   error={this.state.tncErr.length > 0}
                   helperText={this.state.tncErr}
-                  fullWidth
+                  multiline
                 />
+                </Grid>
+                <Grid item md={12}>
                  <TextField
-                  style={{margin:"1%"}}
+                  style={{margin:"1%",width:'85%'}}
                   variant="outlined"
                   color="primary"
-                  label="Product Q&A"
-                  name="product Q&A"
+                  label="Product Question"
+                  name="question"
+                  onChange={this.handleChange}
+                  value={this.state.question}
                   error={this.state.questionErr.length > 0}
                   helperText={this.state.questionErr}
-                  fullWidth
+                 
+                />
+                 <Button startIcon={<AddIcon/>} 
+                variant="contained"
+                color="primary" 
+                size="medium"
+                style={{marginTop:25,marginLeft:7}}></Button>
+
+                </Grid>
+                <Grid item md={12}>
+                 <TextField
+                  style={{margin:"1%",width:'85%'}}
+                  variant="outlined"
+                  color="primary"
+                  label="Product Answer"
+                  name="answer"
+                  onChange={this.handleChange}
+                  value={this.state.answer}
+                  error={this.state.answerErr.length > 0}
+                  helperText={this.state.answerErr}
+                  
                 />
                 </Grid>
               </Grid>
@@ -293,7 +469,7 @@ export class ProductVarient extends Component {
                   // }
                   variant="contained"
                   color="primary"
-                  onClick={this.addTermDialogHandler}
+                  onClick={this.handleSave}
                   startIcon={<AddIcon/>}
                 >
                   {this.state.shortName.length !== 0 ? "Update" : "Add"}
@@ -304,5 +480,10 @@ export class ProductVarient extends Component {
         )
     }
 }
-
-export default ProductVarient
+const mapStateToProps=(state)=>{
+  return {
+    getProductVarientList: state.ProductReducer.getProductVarient,
+    postProductVarientList:  state.ProductReducer.postProductVarient
+  }
+}
+export default connect(mapStateToProps,{getProductVarient,postProductVarient})(ProductVarient)
