@@ -142,6 +142,7 @@ export const PRODUCT = {
   addProductToStudent: 'addProductToStudent',
   getAllProductFamily : "getAllProductFamily",
   getProductByFamilyId : "getProductByFamilyId",
+  postproductfamily:"postproductfamily",
   getProductVarient : "getProductVarient",
   postProductVarient : "postProductVarient",
   updateProductVarient : "updateProductVarient"
