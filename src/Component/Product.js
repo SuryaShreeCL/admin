@@ -87,8 +87,11 @@ function Product(props) {
 
       const productFamilyChangeHandler = (value) =>{
         console.log(value)
-        props.getProductByFamilyId(value.id)
-        setProductFamily(value)
+        if(value !== null){
+            props.getProductByFamilyId(value.id)
+            setProductFamily(value)
+        }
+       
       }
       console.log(props.studentProductList)
 
