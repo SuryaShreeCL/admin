@@ -141,7 +141,14 @@ export const PRODUCT = {
   viewProductToStudent: 'viewProductToStudent',
   addProductToStudent: 'addProductToStudent',
   getAllProductFamily : "getAllProductFamily",
-  getProductByFamilyId : "getProductByFamilyId"
+  getProductByFamilyId : "getProductBgetAllProductQuesAnsyFamilyId",
+  postproductfamily:"postproductfamily",
+  getProductVarient : "getProductVarient",
+  postProductVarient : "postProductVarient",
+  updateProductVarient : "updateProductVarient",
+  getAllProductImages : "getAllProductImages",
+  getAllProductVideos : "getAllProductVideos",
+  getAllProductQuesAns : "getAllProductQuesAns"
 };
 
 export const ADMIN = {
@@ -209,6 +216,9 @@ export const PGA = {
   getPgaAcademicData : "getPgaAcademicData",
   getChoosenTrack : "getChoosenTrack",
   postGenralDetails : "postGenralDetails",
+  getPgaCvAndPpga : "getPgaCvAndPpga",
+  postPgaCvAndPpga : "postPgaCvAndPpga",
+  getppgaques : "getppgaques",
   postcvandppga :"postcvandppga",
   getcvandppga : "getcvandppga",
   getppgaques : "getppgaques",
@@ -226,7 +236,8 @@ export const PGA = {
   getStudentGrade : "getStudentGrade",
   getAllSpecialization : "getAllSpecialization",
   postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
-  postQuarterPgaPlan : "postQuarterPgaPlan"
+  postQuarterPgaPlan : "postQuarterPgaPlan",
+  
 
 }
 

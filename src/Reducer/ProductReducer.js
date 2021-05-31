@@ -7,7 +7,14 @@ const initialState = {
   addProductToStudentResponse: [],
   studentProductList: [],
   productFamilyList: [],
-  productVariantList : []
+  productVariantList : [],
+  postproductfamily:[],
+  getProductVarient : [],
+  postProductVarient : [],
+  updateProductVarient : [],
+  allProductImages : [],
+  allProductVideos : [],
+  allProductQuesAns : []
 };
 
 export default (state = initialState, action) => {
@@ -52,6 +59,41 @@ export default (state = initialState, action) => {
             ...state,
             productVariantList: action.payload,
           };
+          case PRODUCT.postproductfamily:
+            return {
+              ...state,
+              postproductfamily: action.payload,
+            };
+          case PRODUCT.getProductVarient:
+          return {
+            ...state,
+            getProductVarient: action.payload,
+          };
+          case PRODUCT.postProductVarient:
+          return {
+            ...state,
+            postProductVarient : action.payload,
+          };
+          case PRODUCT.updateProductVarient:
+            return {
+              ...state,
+              updateProductVarient : action.payload,
+            };
+            case PRODUCT.getAllProductImages:
+              return {
+                ...state,
+                allProductImages : action.payload,
+              };
+              case PRODUCT.getAllProductVideos:
+                return {
+                  ...state,
+                  allProductVideos : action.payload,
+                };
+                case PRODUCT.getAllProductQuesAns:
+                  return {
+                    ...state,
+                    allProductQuesAns : action.payload,
+                  };
     default:
       break;
   }

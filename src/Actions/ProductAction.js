@@ -105,3 +105,85 @@ export const getProductByFamilyId = (familyId) =>{
         })
     }
 }
+export const postproductfamily = (data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/create/product/family",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.postproductfamily,payload:result.data});
+        })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+    }
+export const getProductVarient = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/productvarient")
+        .then(result=>{
+            dispatch({type:PRODUCT.getProductVarient,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+export const postProductVarient = (data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/create/product/varient",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.postProductVarient,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+export const updateProductVarient=(data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/update/product/varient",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:PRODUCT.updateProductVarient,updateProductVarient:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const getAllProductImages = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/product/images")
+        .then(result=>{
+            dispatch({type:PRODUCT.getAllProductImages,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getAllProductVideos = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/product/videos")
+        .then(result=>{
+            dispatch({type:PRODUCT.getAllProductVideos,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const getAllProductQuesAns = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/product/questionAnswer")
+        .then(result=>{
+            dispatch({type:PRODUCT.getAllProductQuesAns,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

@@ -1,0 +1,438 @@
+import React, { Component } from 'react'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Button,
+    Dialog,
+    DialogTitle,
+    IconButton,
+    DialogContent,
+    TextField,
+    DialogActions,
+    Slide,
+    Typography,
+    Grid
+  } from "@material-ui/core";
+  import AddIcon from "@material-ui/icons/Add";
+  import RemoveIcon from '@material-ui/icons/Remove';
+  import EditIcon from '@material-ui/icons/Edit';
+  import DeleteIcon from '@material-ui/icons/Delete';
+  import CloseIcon from "@material-ui/icons/Close";
+  import { isEmptyString } from "../Validation";
+  import {getProductVarient, postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily} from "../../Actions/ProductAction"
+  import { connect } from "react-redux";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+export class ProductVarient extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            open: false,
+            show: false,
+            id : "",
+            name: "",
+            nameErr: "",
+            shortName:"",
+            shortNameErr:"",
+            codeName:"",
+            codeNameErr:"",
+            oneliner:"",
+            onelinerErr:"",
+            description:"",
+            descriptionErr:"",
+            images: [],
+            imagesErr:"",
+            videos: [],
+            videosErr:"",
+            productFamily : null,
+            productFamilyErr : "",
+            tnc:"",
+            tncErr:"",
+            question: [],
+            questionErr:"",
+            answer:"",
+            answerErr:"",
+            productImageArray: [1],
+            productVideoArray: [1]
+
+        }
+    }
+    componentDidMount(){
+      this.props.getProductVarient()
+      this.props.getAllProductImages()
+      this.props.getAllProductVideos()
+      this.props.getAllProductQuesAns()
+      this.props.getAllProductFamily()
+  }
+
+    handleSave = (event) => {
+      console.log(this.state)
+
+      let hlpTxt = "Please Fill The Required Feild"
+
+      isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
+      isEmptyString(this.state.codeName) ? this.setState({ codeNameErr : hlpTxt }) : this.setState({ codeNameErr : "" })
+      isEmptyString(this.state.oneliner) ? this.setState({ onelinerErr : hlpTxt }) : this.setState({ onelinerErr : "" })
+      isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlpTxt }) : this.setState({ descriptionErr : "" })
+      this.state.question.length === 0 ? this.setState({ questionErr : hlpTxt }) : this.setState({ questionErr : "" })
+      isEmptyString(this.state.tnc) ? this.setState({ tncErr : hlpTxt }) : this.setState({ tncErr : "" })
+      isEmptyString(this.state.answer) ? this.setState({ answerErr : hlpTxt }) : this.setState({ answerErr : "" })
+      this.state.images.length === 0 ? this.setState({ imagesErr : hlpTxt }) : this.setState({ imagesErr: "" })
+      this.state.videos.length === 0 ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
+      isEmptyString(this.state.name) ? this.setState({ nameErr : hlpTxt }) : this.setState({ nameErr : "" })
+
+      if(
+        !isEmptyString(this.state.shortName) &&
+        !isEmptyString(this.state.codeName) &&
+        !isEmptyString(this.state.oneliner) &&
+        !isEmptyString(this.state.description) &&
+        !isEmptyString(this.state.tnc) &&
+        this.state.images.length !== 0 &&
+        this.state.videos.length !== 0 &&
+        !isEmptyString(this.state.name) &&
+        this.state.question.length !== 0
+       
+      ){
+        let obj = {
+          "name":this.state.name,
+          "codeName":this.state.codeName,
+          "shortName":this.state.shortName,
+          "validity":"365",
+          "productTnc":this.state.tnc,
+          "productDescription":this.state.description,
+          "productOneliner": this.state.oneliner,
+          "productVideos": this.state.videos,
+          "productImages": this.state.images,
+          "productFamily":{
+              id : this.state.productFamily.id
+          },
+          "productQuestionAnswers": this.state.question
+      }
+      console.log(obj)
+      this.props.postProductVarient(obj)
+      }
+      this.setState({ show: false});
+
+      };
+      handleChange = (e, name) => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        });
+      };
+      handleClickOpen = (e) => {
+        this.setState({ 
+          show: true,
+          name:"",
+          shortName:"",
+          codeName:"",
+          oneliner:"",
+          description:"",
+          images:[],
+          videos:[],
+          tnc:"",
+          question:[],
+          productFamily : null,
+          answer:"",
+        });
+        
+      };
+      handleEdit = (data) => {
+        this.setState({
+          show : true,
+          id : data.id,
+          name : data.name,
+          shortName: data.shortName,
+          codeName: data.codeName,
+          oneliner: data.oneliner,
+          description: data.description,
+          images: data.images,
+          videos: data.videos,
+          tnc: data.tnc,
+          question: data.question,
+          answer: data.answer
+
+        })
+    };
+  
+   
+   
+    render() {
+      console.log(this.state)
+        return (
+            <div>
+                <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
+                <h4>Product Varient</h4>
+                <Button 
+                startIcon={<AddIcon/>} 
+                variant="contained"
+                color="primary" 
+                size="medium"
+                onClick={this.handleClickOpen}
+                >
+                  Add
+                  </Button>
+                </div>
+
+               <TableContainer >
+            <Table>
+              <TableHead >
+                <TableRow>
+                <TableCell style={{fontWeight:"bold"}}>Varient Name</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Varient short Name</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Code Name</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product Oneliner</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product description</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product Images</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product Videos</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product Tnc</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product Q&A</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      Profile Builder
+                    </TableCell>
+                      <TableCell> 
+                       Profile Builder for Placements
+                      </TableCell>
+                      <TableCell> 
+                        PBP
+                      </TableCell>
+                      <TableCell> 
+                       Profile Builder
+                      </TableCell>
+                      <TableCell> 
+                      Description of Profile builder
+                      </TableCell>
+                      <TableCell> 
+                       Profile Builder Images
+                      </TableCell>
+                      <TableCell> 
+                      Profile Builder Videos
+                      </TableCell>
+                      <TableCell> 
+                      Profile Builder Terms and conditions
+                      </TableCell>
+                      <TableCell> 
+                      Profile builder Q and Ans
+                      </TableCell>
+                      <TableCell > 
+                        <div style={{display:'flex', flexDirection:"row"}}>
+                      <Button size="small" variant="contained" color="primary" style={{margin:"5px"}} startIcon={<EditIcon/>} onClick={this.handleClickOpen}>Edit</Button>
+                      <Button size="small" variant="contained" color="secondary" style={{margin:"5px"}} startIcon={<DeleteIcon/>}>Delete</Button>
+                        </div>
+                      </TableCell>
+                  </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Dialog fullScreen
+              open={this.state.show}
+              onClose={(e) => this.setState({ show: false })}
+              aria-labelledby="customized-dialog-title"
+              maxWidth="sm"
+            >
+              <DialogTitle id="customized-dialog-title">
+                <div className="flex-1 text-center">
+                  {this.state.id.length !== 0
+                    ? "Edit Product"
+                    : "Add Product Varient"}
+                    <IconButton
+                    style={{left:"452px"}}
+                    aria-label="close"
+                    onClick={(e) => this.setState({ show: false })}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+                <div style={{display:'flex', justifyContent:'flex-end'}}>
+                  
+                </div>
+              </DialogTitle>
+              <DialogContent>
+              <Grid container spacing={2}>
+                <Grid item md={3}>
+                <Autocomplete
+            
+                value={this.state.productFamily}
+                  onChange={(e,newValue)=>this.setState({productFamily : newValue})}
+                  id="combo-box-demo"
+                  options={this.props.productFamilyList}
+                  getOptionLabel={(option) => option.productName}
+                    fullWidth
+                  renderInput={(params) => <TextField {...params} label="Product Video" variant="outlined" />}
+                />
+                </Grid>
+              <Grid item md={3}>
+                   
+                   <TextField
+                      variant="outlined"
+                      fullWidth
+                      color="primary"
+                      label="Varient Name"
+                      value={this.state.name}
+                      onChange={this.handleChange}
+                      name="name"
+                      error={this.state.nameErr.length > 0}
+                      helperText={this.state.nameErr}
+                    />
+                    </Grid>
+                <Grid item md={3}>
+                   
+               <TextField
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  label="Short Name"
+                  value={this.state.shortName}
+                  onChange={this.handleChange}
+                  name="shortName"
+                  error={this.state.shortNameErr.length > 0}
+                  helperText={this.state.shortNameErr}
+                />
+                </Grid>
+                <Grid item md={3}>
+                <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Code Name"
+                  fullWidth
+                  name="codeName"
+                  onChange={this.handleChange}
+                  value={this.state.codeName}
+                  error={this.state.codeNameErr.length > 0}
+                  helperText={this.state.codeNameErr}
+                  
+                />
+                </Grid>
+
+                <Grid item md={6}>
+                <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Product Oneliner"
+                  name="oneliner"
+                  value={this.state.oneliner}
+                  onChange={this.handleChange}
+                  error={this.state.onelinerErr.length > 0}
+                  helperText={this.state.onelinerErr}
+                  fullWidth
+                  multiline
+                />
+                </Grid>
+                <Grid item md={6}>
+                 <TextField
+                  variant="outlined"
+                  color="primary"
+                  rows={4}
+                  label="Product description"
+                  name="description"
+                  value={this.state.description}
+                  onChange={this.handleChange}
+                  error={this.state.descriptionErr.length > 0}
+                  helperText={this.state.descriptionErr}
+                  fullWidth
+                  multiline
+                />
+                </Grid>
+                <Grid item md={6}>
+                <Autocomplete
+                  id="combo-box-demo"
+                  multiple
+                  filterSelectedOptions
+                  value={this.state.images}
+                  onChange={(e,newValue)=>this.setState({images : newValue})}
+                  options={this.props.allProductImages}
+                  getOptionLabel={(option) => option.imagesUrl}
+                    fullWidth
+                  renderInput={(params) => <TextField {...params} label="Product Image" variant="outlined" />}
+                />
+                </Grid>
+
+                <Grid item md={6}>
+                <Autocomplete
+                multiple
+                filterSelectedOptions
+                value={this.state.videos}
+                  onChange={(e,newValue)=>this.setState({videos : newValue})}
+                  id="combo-box-demo"
+                  options={this.props.allProductVideos}
+                  getOptionLabel={(option) => option.videoUrl}
+                    fullWidth
+                  renderInput={(params) => <TextField {...params} label="Product Video" variant="outlined" />}
+                />
+
+                </Grid>
+
+                <Grid item md={12}>
+                 <TextField
+                  variant="outlined"
+                  color="primary"question
+                  label="Product Tnc"
+                  name="tnc"
+                  fullWidth
+                  rows={4}
+                  onChange={this.handleChange}
+                  value={this.state.tnc}
+                  error={this.state.tncErr.length > 0}
+                  helperText={this.state.tncErr}
+                  multiline
+                />
+                </Grid>
+                <Grid item md={12}>
+                <Autocomplete
+                  id="combo-box-demo"
+                  multiple
+                  value={this.state.question}
+                  onChange={(e,newValue)=>this.setState({question : newValue})}
+                  filterSelectedOptions
+                  options={this.props.allProductQuesAns}
+                  getOptionLabel={(option) => option.question}
+                    fullWidth
+                  renderInput={(params) => <TextField {...params} label="Product Question" variant="outlined" />}
+                />
+
+                </Grid>
+
+              </Grid>
+              </DialogContent>
+              <DialogActions style={{alignSelf:"center"}}>
+                <Button
+                  // onClick={
+                  //   this.state.id.length===0
+                  //     ? this.addProduct.bind(this)
+                  //     : this.updateProduct.bind(this)
+                  // }
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleSave}
+                  startIcon={<AddIcon/>}
+                >
+                  {this.state.id.length !== 0 ? "Update" : "Add"}
+                </Button>
+              </DialogActions>
+            </Dialog>
+            </div>
+        )
+    }
+}
+const mapStateToProps=(state)=>{
+  return {
+    getProductVarientList: state.ProductReducer.getProductVarient,
+    postProductVarientList:  state.ProductReducer.postProductVarient,
+    updateProductVarientList: state.ProductReducer.updateProductVarient,
+    allProductImages : state.ProductReducer.allProductImages,
+    allProductVideos : state.ProductReducer.allProductVideos,
+    allProductQuesAns : state.ProductReducer.allProductQuesAns,
+    productFamilyList : state.ProductReducer.productFamilyList
+    
+  }
+}
+export default connect(mapStateToProps,{getProductVarient,postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily})(ProductVarient)
