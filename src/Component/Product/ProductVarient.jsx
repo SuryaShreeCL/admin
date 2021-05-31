@@ -22,6 +22,7 @@ import {
   import DeleteIcon from '@material-ui/icons/Delete';
   import CloseIcon from "@material-ui/icons/Close";
   import { withStyles,createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+  import { isEmptyString } from "../Validation";
 
 export class ProductVarient extends Component {
     constructor(props) {
@@ -33,33 +34,77 @@ export class ProductVarient extends Component {
             id : "",
             name : "",
             shortName:"",
+            shortNameErr:"",
             codeName:"",
+            codeNameErr:"",
             oneliner:"",
+            onelinerErr:"",
             description:"",
+            descriptionErr:"",
             images:"",
             videos:"",
             tnc:"",
+            tncErr:"",
             question:"",
+            questionErr:""
 
         }
     }
     addTermDialogHandler = (event) => {
+      
+      let hlpTxt = "Please Fill The Required Feild"
+
+      isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
+      isEmptyString(this.state.codeName) ? this.setState({ codeNameErr : hlpTxt }) : this.setState({ codeNameErr : "" })
+      isEmptyString(this.state.oneliner) ? this.setState({ onelinerErr : hlpTxt }) : this.setState({ onelinerErr : "" })
+      isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlpTxt }) : this.setState({ descriptionErr : "" })
+      isEmptyString(this.state.question) ? this.setState({ questionErr : hlpTxt }) : this.setState({ questionErr : "" })
+      isEmptyString(this.state.tnc) ? this.setState({ tncErr : hlpTxt }) : this.setState({ tncErr : "" })
+
+      if(
+        !isEmptyString(this.state.shortName) &&
+        !isEmptyString(this.state.codeName) &&
+        !isEmptyString(this.state.oneliner) &&
+        !isEmptyString(this.state.description) &&
+        !isEmptyString(this.state.tnc) &&
+        !isEmptyString(this.state.question)
+       
+      ){}
+     
+      this.setState({ show: false});
+
+      };
+      handleChange = (e, name) => {
         this.setState({
-          open : true,
+          [e.target.name]: e.target.value,
         });
       };
       handleClickOpen = (e) => {
         this.setState({ 
           show: true,
-          id : "",
-          name : "",
+          shortName:"",
+          codeName:"",
+          oneliner:"",
+          description:"",
+          images:"",
+          videos:"",
+          tnc:"",
+          question:"",
         });
+        
       };
       handleEdit = (data) => {
         this.setState({
-          id : data.id,
-          name : data.name,
           show : true,
+          shortName: data.shortName,
+          codeName: data.codeName,
+          oneliner: data.oneliner,
+          description: data.description,
+          images: data.images,
+          videos: data.videos,
+          tnc: data.tnc,
+          question: data.question,
+
         })
     };
 
@@ -140,7 +185,7 @@ export class ProductVarient extends Component {
             >
               <DialogTitle id="customized-dialog-title">
                 <div className="flex-1 text-center">
-                  {this.state.id.length !== 0
+                  {this.state.shortName.length !== 0
                     ? "Edit Product"
                     : "Add Product Varient"}
                     <IconButton
@@ -166,8 +211,10 @@ export class ProductVarient extends Component {
                   label="Short Name"
                   fullWidth
                   value={this.state.name}
-                  error={this.state.name.length < 0 ? true: false}
                   onChange={(e) => this.setState({ name: e.target.value })}
+                  name="short name"
+                  error={this.state.shortNameErr.length > 0}
+                  helperText={this.state.shortNameErr}
                   multiline
                 />
                 <TextField
@@ -175,6 +222,9 @@ export class ProductVarient extends Component {
                   variant="outlined"
                   color="primary"
                   label="Code Name"
+                  name="code name"
+                  error={this.state.codeNameErr.length > 0}
+                  helperText={this.state.codeNameErr}
                   fullWidth
                 />
                 <TextField
@@ -182,6 +232,9 @@ export class ProductVarient extends Component {
                   variant="outlined"
                   color="primary"
                   label="Product Oneliner"
+                  name="product onliner"
+                  error={this.state.onelinerErr.length > 0}
+                  helperText={this.state.onelinerErr}
                   fullWidth
                 />
                  <TextField
@@ -189,6 +242,9 @@ export class ProductVarient extends Component {
                   variant="outlined"
                   color="primary"
                   label="Product description"
+                  name="product description"
+                  error={this.state.descriptionErr.length > 0}
+                  helperText={this.state.descriptionErr}
                   fullWidth
                 />
                  <TextField
@@ -208,8 +264,11 @@ export class ProductVarient extends Component {
                  <TextField
                   style={{margin:"1%"}}
                   variant="outlined"
-                  color="primary"
+                  color="primary"question
                   label="Product Tnc"
+                  name="product Tnc"
+                  error={this.state.tncErr.length > 0}
+                  helperText={this.state.tncErr}
                   fullWidth
                 />
                  <TextField
@@ -217,6 +276,9 @@ export class ProductVarient extends Component {
                   variant="outlined"
                   color="primary"
                   label="Product Q&A"
+                  name="product Q&A"
+                  error={this.state.questionErr.length > 0}
+                  helperText={this.state.questionErr}
                   fullWidth
                 />
                 </Grid>
@@ -231,9 +293,10 @@ export class ProductVarient extends Component {
                   // }
                   variant="contained"
                   color="primary"
+                  onClick={this.addTermDialogHandler}
                   startIcon={<AddIcon/>}
                 >
-                  {this.state.id.length !== 0 ? "Update" : "Add"}
+                  {this.state.shortName.length !== 0 ? "Update" : "Add"}
                 </Button>
               </DialogActions>
             </Dialog>
