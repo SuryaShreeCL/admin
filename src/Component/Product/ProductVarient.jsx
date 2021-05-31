@@ -24,7 +24,7 @@ import {
   import CloseIcon from "@material-ui/icons/Close";
   import { withStyles,createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
   import { isEmptyString } from "../Validation";
-  import {getProductVarient, postProductVarient} from "../../Actions/ProductAction"
+  import {getProductVarient, postProductVarient, updateProductVarient} from "../../Actions/ProductAction"
   import { connect } from "react-redux";
 
 export class ProductVarient extends Component {
@@ -179,14 +179,12 @@ export class ProductVarient extends Component {
         helperText={this.state.videosErr}
         onChange={this.handleChange}       
         />
-        <Button startIcon={<RemoveIcon/>} variant="contained" color="primary" 
-                 size="medium"
-                 style={{marginTop:25}} onClick={()=>{this.removeProduct()}}  ></Button>
+       
         </>
       } )
     }
    renderProductImg =  () =>{
-     return this.state.productImageArray.map((product)=>{
+     return this.state.productImageArray.map((product,index)=>{
        return <>
        <TextField 
        style={{margin:"2%",width:"70%"}}
@@ -198,9 +196,6 @@ export class ProductVarient extends Component {
         helperText={this.state.imagesErr}
        onChange={this.handleChange}       
        />
-       <Button startIcon={<RemoveIcon/>} variant="contained" color="primary" 
-                size="medium"
-                style={{marginTop:25}} onClick={()=>{this.removeImg()}}  ></Button>
        </>
      } )
    }
@@ -211,15 +206,21 @@ export class ProductVarient extends Component {
    }
    removeVdo = (index) => {
     let arr = this.state.productVideoArray
-    arr.pop(arr.length -1)
-    this.setState({productVideoArray : arr})
+    if(arr.length >1){
+      arr.pop()
+      }   
+     this.setState({productVideoArray : arr})
    }
-   removeImg = (index) => {
+   removeImg = () => {
     let arr = this.state.productImageArray
-    arr.pop(arr.length -1)
+    if(arr.length >1){
+    arr.pop()
+    }
     this.setState({productImageArray : arr})
    }
+   
     render() {
+      console.log(this.state.productImageArray)
         return (
             <div>
                 <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
@@ -390,6 +391,10 @@ export class ProductVarient extends Component {
                 </Grid>
                 <Grid item md={6}>
                  {this.renderProductImg()}
+                 <Button startIcon={<RemoveIcon/>} variant="contained" color="primary" 
+                size="medium"
+                disabled={this.state.productImageArray.length === 1}
+                style={{marginTop:25}} onClick={()=>{this.removeImg()}}  ></Button>
                 <Button startIcon={<AddIcon/>} 
                 variant="contained"
                 color="primary" 
@@ -401,6 +406,10 @@ export class ProductVarient extends Component {
 
                 <Grid item md={6}>
                  {this.renderProductVdo()}
+                 <Button startIcon={<RemoveIcon/>} variant="contained" color="primary" 
+                 size="medium"
+                 disabled={this.state.productVideoArray.length === 1}
+                 style={{marginTop:25}} onClick={()=>{this.removeVdo()}}  ></Button>
                  <Button startIcon={<AddIcon/>} 
                 variant="contained"
                 color="primary" 
@@ -483,7 +492,8 @@ export class ProductVarient extends Component {
 const mapStateToProps=(state)=>{
   return {
     getProductVarientList: state.ProductReducer.getProductVarient,
-    postProductVarientList:  state.ProductReducer.postProductVarient
+    postProductVarientList:  state.ProductReducer.postProductVarient,
+    updateProductVarientList: state.ProductReducer.updateProductVarient,
   }
 }
-export default connect(mapStateToProps,{getProductVarient,postProductVarient})(ProductVarient)
+export default connect(mapStateToProps,{getProductVarient,postProductVarient, updateProductVarient})(ProductVarient)

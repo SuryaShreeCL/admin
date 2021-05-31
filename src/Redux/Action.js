@@ -143,7 +143,8 @@ export const PRODUCT = {
   getAllProductFamily : "getAllProductFamily",
   getProductByFamilyId : "getProductByFamilyId",
   getProductVarient : "getProductVarient",
-  postProductVarient : "postProductVarient"
+  postProductVarient : "postProductVarient",
+  updateProductVarient : "updateProductVarient"
 };
 
 export const ADMIN = {

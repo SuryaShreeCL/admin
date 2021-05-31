@@ -127,3 +127,16 @@ export const postProductVarient = (data) =>{
         })
     }
 }
+export const updateProductVarient=(data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/update/product/varient",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:PRODUCT.updateProductVarient,updateProductVarient:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
