@@ -26,6 +26,8 @@ import {
   import {getProductVarient, postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily} from "../../Actions/ProductAction"
   import { connect } from "react-redux";
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from '@material-ui/lab/Alert';
 
 export class ProductVarient extends Component {
     constructor(props) {
@@ -58,7 +60,10 @@ export class ProductVarient extends Component {
             answer:"",
             answerErr:"",
             productImageArray: [1],
-            productVideoArray: [1]
+            productVideoArray: [1],
+            snackOpen: false,
+            snackMessage: null,
+            snackVariant: null,
 
         }
     }
@@ -116,7 +121,12 @@ export class ProductVarient extends Component {
       console.log(obj)
       this.props.postProductVarient(obj)
       }
-      this.setState({ show: false});
+      // this.setState({ show: false});
+      this.setState({
+        snackMessage : "Data Saved Successfully",
+        snackVariant : "success",
+        snackOpen : true
+      })
 
       };
       handleChange = (e, name) => {
@@ -138,6 +148,7 @@ export class ProductVarient extends Component {
           question:[],
           productFamily : null,
           answer:"",
+          
         });
         
       };
@@ -419,6 +430,19 @@ export class ProductVarient extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
+            <Snackbar
+          open={this.state.snackOpen}
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackOpen: false })}
+        >
+          <Alert
+            variant="filled"
+            onClose={() => this.setState({ snackOpen: false })}
+            severity={this.state.snackVariant}
+          >
+            {this.state.snackMessage}
+          </Alert>
+        </Snackbar>
             </div>
         )
     }
