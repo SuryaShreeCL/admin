@@ -164,6 +164,7 @@ export const getAllProductImages = () =>{
     }
 }
 
+
 export const getAllProductVideos = () =>{
     return dispatch =>{
         axios.get(URL+"/api/v1/get/product/videos")
