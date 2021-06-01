@@ -26,6 +26,7 @@ import {
 import { connect } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { isEmptyString } from "../../Component/Validation";
+import MySnackBar from "../MySnackBar";
 class Product extends Component {
   constructor() {
     super();
@@ -88,6 +89,11 @@ console.log(data)
         shortName: this.state.shortName,
       };
       this.props.postproductfamily(obj);
+      this.setState({
+        snackMsg:"Added Successfully",
+        snackOpen:true,
+        snackVariant:"success"
+      })
     }
   };
   updatehandleSaved = () => {
@@ -119,6 +125,11 @@ console.log(data)
         shortName: this.state.shortName,
       };
        this.props.updateproductfamily(obj1)
+       this.setState({
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success"
+      })
     }
   };
 
@@ -286,6 +297,12 @@ console.log(data)
             </Button>
           </DialogActions>
         </Dialog>
+        <MySnackBar
+              snackMsg={this.state.snackMsg}
+              snackVariant={this.state.snackVariant}
+              snackOpen={this.state.snackOpen}
+              onClose={() => this.setState({ snackOpen: false })}
+            />
       </div>
     );
   }
