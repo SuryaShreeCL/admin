@@ -77,7 +77,7 @@ export class ProductVarient extends Component {
 
     handleSave = (event) => {
       console.log(this.state)
-
+     
       let hlpTxt = "Please Fill The Required Feild"
 
       isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
@@ -103,6 +103,16 @@ export class ProductVarient extends Component {
         this.state.question.length !== 0
        
       ){
+        let postVideoArr = this.state.videos.map((eachVideo)=>{
+          return {id : eachVideo.id}
+        })
+        let postImageArr = this.state.videos.map((eachImage)=>{
+          return {id : eachImage.id}
+        })
+        let postQuesArr = this.state.videos.map((eachQues)=>{
+          return {id : eachQues.id}
+        })
+        
         let obj = {
           "name":this.state.name,
           "codeName":this.state.codeName,
@@ -111,12 +121,12 @@ export class ProductVarient extends Component {
           "productTnc":this.state.tnc,
           "productDescription":this.state.description,
           "productOneliner": this.state.oneliner,
-          "productVideos": this.state.videos,
-          "productImages": this.state.images,
+          "productVideos": postVideoArr,
+          "productImages": postImageArr,
           "productFamily":{
               id : this.state.productFamily.id
           },
-          "productQuestionAnswers": this.state.question
+          "productQuestionAnswers": postQuesArr
       }
       console.log(obj)
       this.props.postProductVarient(obj)
@@ -137,6 +147,7 @@ export class ProductVarient extends Component {
       handleClickOpen = (e) => {
         this.setState({ 
           show: true,
+          id : "",
           name:"",
           shortName:"",
           codeName:"",
@@ -147,29 +158,90 @@ export class ProductVarient extends Component {
           tnc:"",
           question:[],
           productFamily : null,
-          answer:"",
-          
+
         });
         
       };
       handleEdit = (data) => {
+        console.log(data)
         this.setState({
           show : true,
           id : data.id,
           name : data.name,
           shortName: data.shortName,
           codeName: data.codeName,
-          oneliner: data.oneliner,
-          description: data.description,
-          images: data.images,
-          videos: data.videos,
-          tnc: data.tnc,
-          question: data.question,
-          answer: data.answer
-
+          oneliner: data.productOneliner,
+          description: data.productDescription,
+          images: data.productImages,
+          videos: data.productVideos,
+          tnc: data.productTnc,
+          question: data.productQuestionAnswers,
+          productFamily : data.productFamily
         })
     };
   
+    handleUpdate = () =>{
+      let hlpTxt = "Please Fill The Required Feild"
+
+      isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
+      isEmptyString(this.state.codeName) ? this.setState({ codeNameErr : hlpTxt }) : this.setState({ codeNameErr : "" })
+      isEmptyString(this.state.oneliner) ? this.setState({ onelinerErr : hlpTxt }) : this.setState({ onelinerErr : "" })
+      isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlpTxt }) : this.setState({ descriptionErr : "" })
+      this.state.question.length === 0 ? this.setState({ questionErr : hlpTxt }) : this.setState({ questionErr : "" })
+      isEmptyString(this.state.tnc) ? this.setState({ tncErr : hlpTxt }) : this.setState({ tncErr : "" })
+      isEmptyString(this.state.answer) ? this.setState({ answerErr : hlpTxt }) : this.setState({ answerErr : "" })
+      this.state.images.length === 0 ? this.setState({ imagesErr : hlpTxt }) : this.setState({ imagesErr: "" })
+      this.state.videos.length === 0 ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
+      isEmptyString(this.state.name) ? this.setState({ nameErr : hlpTxt }) : this.setState({ nameErr : "" })
+
+      if(
+        !isEmptyString(this.state.shortName) &&
+        !isEmptyString(this.state.codeName) &&
+        !isEmptyString(this.state.oneliner) &&
+        !isEmptyString(this.state.description) &&
+        !isEmptyString(this.state.tnc) &&
+        this.state.images.length !== 0 &&
+        this.state.videos.length !== 0 &&
+        !isEmptyString(this.state.name) &&
+        this.state.question.length !== 0
+       
+      ){
+        let postVideoArr = this.state.videos.map((eachVideo)=>{
+          return {id : eachVideo.id}
+        })
+        let postImageArr = this.state.videos.map((eachImage)=>{
+          return {id : eachImage.id}
+        })
+        let postQuesArr = this.state.videos.map((eachQues)=>{
+          return {id : eachQues.id}
+        })
+        
+        let obj = {
+          "id" : this.state.id,
+          "name":this.state.name,
+          "codeName":this.state.codeName,
+          "shortName":this.state.shortName,
+          "validity":"365",
+          "productTnc":this.state.tnc,
+          "productDescription":this.state.description,
+          "productOneliner": this.state.oneliner,
+          "productVideos": postVideoArr,
+          "productImages": postImageArr,
+          "productFamily":{
+              id : this.state.productFamily.id
+          },
+          "productQuestionAnswers": postQuesArr
+      }
+      console.log(obj)
+      this.props.updateProductVarient(obj)
+      }
+      // this.setState({ show: false});
+      this.setState({
+        snackMessage : "Data Updated Successfully",
+        snackVariant : "success",
+        snackOpen : true
+      })
+    }
    
    
     render() {
@@ -198,49 +270,46 @@ export class ProductVarient extends Component {
                 <TableCell style={{fontWeight:"bold"}}>Code Name</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product Oneliner</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product description</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product Images</TableCell>
+                {/* <TableCell style={{fontWeight:"bold"}}>Product Images</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product Videos</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product Tnc</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product Q&A</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Action</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product Q&A</TableCell> */}
+                <TableCell ali style={{fontWeight:"bold"}}>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      Profile Builder
-                    </TableCell>
-                      <TableCell> 
-                       Profile Builder for Placements
+                {this.props.getProductVarientList.map((eachVariant)=>{
+                  return (
+                    <TableRow>
+                      <TableCell>
+                        {eachVariant.name}
                       </TableCell>
-                      <TableCell> 
-                        PBP
+                      <TableCell>
+                        {eachVariant.shortName}
                       </TableCell>
-                      <TableCell> 
-                       Profile Builder
+                      <TableCell>
+                        {eachVariant.codeName}
                       </TableCell>
-                      <TableCell> 
-                      Description of Profile builder
+                      <TableCell>
+                        {eachVariant.productOneliner}
                       </TableCell>
-                      <TableCell> 
-                       Profile Builder Images
+                      <TableCell>
+                        {eachVariant.productDescription}
                       </TableCell>
-                      <TableCell> 
-                      Profile Builder Videos
-                      </TableCell>
-                      <TableCell> 
-                      Profile Builder Terms and conditions
-                      </TableCell>
-                      <TableCell> 
-                      Profile builder Q and Ans
+                      <TableCell>
+                        {eachVariant.productDescription}
                       </TableCell>
                       <TableCell > 
                         <div style={{display:'flex', flexDirection:"row"}}>
-                      <Button size="small" variant="contained" color="primary" style={{margin:"5px"}} startIcon={<EditIcon/>} onClick={this.handleClickOpen}>Edit</Button>
+                      <Button size="small" variant="contained" color="primary" style={{margin:"5px"}} startIcon={<EditIcon/>} onClick={()=>this.handleEdit(eachVariant)}>Edit</Button>
                       <Button size="small" variant="contained" color="secondary" style={{margin:"5px"}} startIcon={<DeleteIcon/>}>Delete</Button>
                         </div>
                       </TableCell>
-                  </TableRow>
+                    </TableRow>
+
+                  )
+                })}
+                
               </TableBody>
             </Table>
           </TableContainer>
@@ -271,14 +340,13 @@ export class ProductVarient extends Component {
               <Grid container spacing={2}>
                 <Grid item md={3}>
                 <Autocomplete
-            
                 value={this.state.productFamily}
                   onChange={(e,newValue)=>this.setState({productFamily : newValue})}
                   id="combo-box-demo"
                   options={this.props.productFamilyList}
                   getOptionLabel={(option) => option.productName}
                     fullWidth
-                  renderInput={(params) => <TextField {...params} label="Product Video" variant="outlined" />}
+                  renderInput={(params) => <TextField {...params} label="Product Family" variant="outlined" />}
                 />
                 </Grid>
               <Grid item md={3}>
@@ -423,7 +491,7 @@ export class ProductVarient extends Component {
                   // }
                   variant="contained"
                   color="primary"
-                  onClick={this.handleSave}
+                  onClick={this.state.id.length === 0 ? this.handleSave : this.handleUpdate}
                   startIcon={<AddIcon/>}
                 >
                   {this.state.id.length !== 0 ? "Update" : "Add"}
