@@ -209,10 +209,10 @@ export class ProductVarient extends Component {
         let postVideoArr = this.state.videos.map((eachVideo)=>{
           return {id : eachVideo.id}
         })
-        let postImageArr = this.state.videos.map((eachImage)=>{
+        let postImageArr = this.state.images.map((eachImage)=>{
           return {id : eachImage.id}
         })
-        let postQuesArr = this.state.videos.map((eachQues)=>{
+        let postQuesArr = this.state.question.map((eachQues)=>{
           return {id : eachQues.id}
         })
         
