@@ -148,7 +148,8 @@ export const PRODUCT = {
   updateProductVarient : "updateProductVarient",
   getAllProductImages : "getAllProductImages",
   getAllProductVideos : "getAllProductVideos",
-  getAllProductQuesAns : "getAllProductQuesAns"
+  getAllProductQuesAns : "getAllProductQuesAns",
+  updateproductfamily : "updateproductfamily"
 };
 
 export const ADMIN = {

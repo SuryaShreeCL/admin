@@ -187,3 +187,15 @@ export const getAllProductQuesAns = () =>{
         })
     }
 }
+
+export const updateproductfamily = (data) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/update/product/family",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.updateproductfamily,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
