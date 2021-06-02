@@ -64,6 +64,7 @@ function Product(props) {
                 snackMsg : "Product alocated successfully",
                 snackOpen : true
             })
+            props.viewProductToStudent(props.id)
           }
         
       },[props.addProductToStudentResponse])
