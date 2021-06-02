@@ -18,6 +18,9 @@ const initialState = {
   updateproductfamily:[],
   postProductVideos : [],
   updateProductVideos : [],
+  getvarientimage:[],
+  postvarientimage:[],
+  updatevarientimage:[]
 };
 
 export default (state = initialState, action) => {
@@ -112,6 +115,18 @@ export default (state = initialState, action) => {
                     ...state,
                     updateProductVideos : action.payload,
                   };
+                  case PRODUCT.postvarientimage:
+                  return {
+                    ...state,
+                    postvarientimage : action.payload,
+                  };
+                  case PRODUCT.updatevarientimage:
+                    return {
+                      ...state,
+                      updatevarientimage : action.payload,
+                    };
+
+                  
     default:
       break;
   }
