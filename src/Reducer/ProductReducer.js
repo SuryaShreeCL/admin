@@ -16,6 +16,8 @@ const initialState = {
   allProductVideos : [],
   allProductQuesAns : [],
   updateproductfamily:[],
+  postProductVideos : [],
+  updateProductVideos : [],
   getvarientimage:[],
   postvarientimage:[],
   updatevarientimage:[]
@@ -102,6 +104,16 @@ export default (state = initialState, action) => {
                   return {
                     ...state,
                     updateproductfamily : action.payload,
+                  };
+                  case PRODUCT.postProductVideos:
+                  return {
+                    ...state,
+                    postProductVideos : action.payload,
+                  };
+                  case PRODUCT.updateProductVideos:
+                  return {
+                    ...state,
+                    updateProductVideos : action.payload,
                   };
                   case PRODUCT.postvarientimage:
                   return {

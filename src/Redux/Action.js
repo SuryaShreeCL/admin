@@ -150,6 +150,8 @@ export const PRODUCT = {
   getAllProductVideos : "getAllProductVideos",
   getAllProductQuesAns : "getAllProductQuesAns",
   updateproductfamily : "updateproductfamily",
+  postProductVideos : "postProductVideos",
+  updateProductVideos : "updateProductVideos",
   postvarientimage : "postvarientimage",
   updatevarientimage : "updatevarientimage"
 };

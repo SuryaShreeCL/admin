@@ -200,6 +200,17 @@ export const updateproductfamily = (data) =>{
         })
     }
 }
+export const postProductVideos = (data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/create/product/videos",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.postProductVideos,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
 
 export const postvarientimage = (data) =>{
     return dispatch =>{
@@ -212,6 +223,19 @@ export const postvarientimage = (data) =>{
         })
     }
 }
+export const updateProductVideos=(data)=>{
+    return dispatch => {
+        axios.put(URL+"/api/v1/update/product/videos",data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:PRODUCT.updateProductVideos,updateProductVarient:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    }
 
 export const updatevarientimage = (data) =>{
     return dispatch =>{
