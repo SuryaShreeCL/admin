@@ -15,7 +15,9 @@ const initialState = {
   allProductImages : [],
   allProductVideos : [],
   allProductQuesAns : [],
-  updateproductfamily:[]
+  updateproductfamily:[],
+  postProductVideos : [],
+  updateProductVideos : [],
 };
 
 export default (state = initialState, action) => {
@@ -100,7 +102,16 @@ export default (state = initialState, action) => {
                     ...state,
                     updateproductfamily : action.payload,
                   };
-                  
+                  case PRODUCT.postProductVideos:
+                  return {
+                    ...state,
+                    postProductVideos : action.payload,
+                  };
+                  case PRODUCT.updateProductVideos:
+                  return {
+                    ...state,
+                    updateProductVideos : action.payload,
+                  };
     default:
       break;
   }
