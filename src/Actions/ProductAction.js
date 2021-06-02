@@ -200,3 +200,27 @@ export const updateproductfamily = (data) =>{
         })
     }
 }
+
+export const postvarientimage = (data) =>{
+    return dispatch =>{
+        axios.post(URL+"/api/v1/create/product/images",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.postvarientimage,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
+export const updatevarientimage = (data) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/update/product/images",data)
+        .then(result=>{
+            dispatch({type:PRODUCT.updatevarientimage,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

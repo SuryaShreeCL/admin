@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ProductFamily from './Product'
 import ProductVarient from './ProductVarient'
+import ProductImages from './ProductImages';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -63,6 +64,7 @@ export default function SimpleTabs() {
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Product Families" {...a11yProps(0)} />
           <Tab label="Product Varient" {...a11yProps(1)} />
+          <Tab label="Product Images" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -70,6 +72,9 @@ export default function SimpleTabs() {
       </TabPanel>
       <TabPanel value={value} index={1}>
        <ProductVarient/>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+       <ProductImages/>
       </TabPanel>
      
     </div>

@@ -149,7 +149,9 @@ export const PRODUCT = {
   getAllProductImages : "getAllProductImages",
   getAllProductVideos : "getAllProductVideos",
   getAllProductQuesAns : "getAllProductQuesAns",
-  updateproductfamily : "updateproductfamily"
+  updateproductfamily : "updateproductfamily",
+  postvarientimage : "postvarientimage",
+  updatevarientimage : "updatevarientimage"
 };
 
 export const ADMIN = {
