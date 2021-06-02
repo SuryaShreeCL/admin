@@ -173,6 +173,7 @@ handleUpdate = () => {
                     ? "Edit Product video"
                     : "Add Product Video"}
                     <IconButton
+                    style={{position:"absolute", right:'10px', top :5}}
                     aria-label="close"
                     onClick={(e) => this.setState({ show: false })}
                   >
@@ -184,6 +185,24 @@ handleUpdate = () => {
                 </div>
               </DialogTitle>
               <DialogContent>
+              <Grid container>
+              { !isEmptyString(this.state.id) ? 
+                     <Grid item sm={12}>
+                     <TextField
+                       label="ID"
+                       variant="outlined"
+                       color="primary"
+                       fullWidth
+                       name="id"
+                       disabled
+                       value={this.state.id}
+                       style={{margin:"1%"}}
+                     />
+                   </Grid> 
+                   :
+                   null
+                }
+                <Grid item sm={12}>
                 <TextField
                 variant="outlined"
                 color="primary"
@@ -194,7 +213,10 @@ handleUpdate = () => {
                 name="videos"
                 error={this.state.videosErr.length > 0}
                 helperText={this.state.videosErr}
+                style={{margin:"1%"}}
                 /> 
+                </Grid>
+                </Grid> 
               </DialogContent>
               <DialogActions style={{alignSelf:"center"}}>
                 <Button
