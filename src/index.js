@@ -47,10 +47,10 @@ function App(props) {
   return( 
    <BrowserRouter history={history} >
   <Switch>    
-    <Route  exact path='/' component={Login} ></Route>
     <Route  exact path={rootLoginPath} component={Login} ></Route>
-    {/* <Redirect exact from='/' to={rootLoginPath}></Redirect> */}
-    <PrivateRoute path={rootPath} component={RootContainer} />
+    <Route  path={rootPath} component={RootContainer} ></Route>
+    <Redirect  from='/' to={rootLoginPath}></Redirect>
+    {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
   </Switch>
    </BrowserRouter>     
   )

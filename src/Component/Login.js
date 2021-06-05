@@ -14,12 +14,15 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import {adminLogin} from "../Actions/AdminAction"
+import { isEmptyString } from "./Validation";
 export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: null,
+      userNameErr : "",
       password: null,
+      passwordErr : "",
       error: "",
     };
   }
@@ -27,36 +30,32 @@ export class Login extends Component {
     // sessionStorage.setItem('token','false');
   }
   handleLogin = (e) => {
-    if(this.state.username !== null && this.state.password !== null){
+    let hlpTxt = "Please fill the required feild"
+    isEmptyString(this.state.username) ? this.setState({userNameErr : hlpTxt}) : this.setState({userNameErr : ""})
+    isEmptyString(this.state.password) ? this.setState({passwordErr : hlpTxt}) : this.setState({passwordErr : ""})
+    if(!isEmptyString(this.state.username) && !isEmptyString(this.state.password)){
       let loginObj = {
         userName: this.state.username,
         password: this.state.password,
       };
       this.props.adminLogin(loginObj)
     }
-    // if (
-    //   this.state.username === "admin" &&
-    //   this.state.password === "423uK6LmxG9f2w"
-    // ) {
-    //   sessionStorage.setItem("token", "true");
-    //   this.props.history.push(rootPath + "/");
-    // } else {
-    //   sessionStorage.setItem("token", "false");
-    //   this.setState({ error: "Invalid Username or Password" });
-    // }
   };
   componentDidUpdate(prevProps){
     if(prevProps.adminLoginDetails !== this.props.adminLoginDetails){
-      if(this.props.adminLoginDetails.message !== "Invalid Credential"){
+      if(this.props.adminLoginDetails.status === 500){
+        this.setState({ error: "Invalid Username or Password" });
+        console.log("fail........",this.props.adminLoginDetails)
+      }else{
         window.sessionStorage.setItem("token", "true");
         window.sessionStorage.setItem("accessToken",this.props.adminLoginDetails.accessToken);
         window.sessionStorage.setItem("refreshToken",this.props.adminLoginDetails.refreshToken);
         window.sessionStorage.setItem("role", this.props.adminLoginDetails.role);
          window.sessionStorage.setItem("mentor",JSON.stringify(this.props.adminLoginDetails.Mentor))
-        this.props.history.push(rootPath + "/"); 
-      }else{
-         this.setState({ error: "Invalid Username or Password" });
+        this.props.history.push(studentPath); 
+        console.log("success.......",this.props.adminLoginDetails)
       }
+        
     }
   }
   render() {
@@ -81,13 +80,15 @@ export class Login extends Component {
                 </div>
                 <div className="login__body">
                   <div className="error">
-                    {this.state.error !== "" ? this.state.error : null}{" "}
+                    {this.state.error.length !== 0 ? this.state.error : null}
                   </div>
                   <div className="login__text__box">
                     <TextField
                       id="Username"
-                      label="Email"
+                      label="Username"
                       variant="outlined"
+                      helperText={this.state.userNameErr}
+                      error={this.state.userNameErr.length > 0}
                       fullWidth
                       size="medium"
                       value={this.state.username}
@@ -97,7 +98,7 @@ export class Login extends Component {
                     />
                   </div>
                   <div className="login__text__box">                   
-                     <FormControl variant="outlined" fullWidth>
+                     <FormControl error={this.state.passwordErr.length > 0}  variant="outlined" fullWidth>
                       <InputLabel htmlFor="outlined-adornment-password">
                         Password
                       </InputLabel>
@@ -136,6 +137,7 @@ export class Login extends Component {
                         }
                         labelWidth={70}
                       />
+                      <FormHelperText>{this.state.passwordErr}</FormHelperText>
                     </FormControl>
                   </div>
                 </div>

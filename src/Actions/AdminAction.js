@@ -12,7 +12,7 @@ export const adminLogin=(data)=>{
                 dispatch({type:ADMIN.adminLogin,adminLoginDetails:result.data})
             })
             .catch(error => {
-                console.log(error);
+                dispatch({type:ADMIN.adminLogin,adminLoginDetails:error.response.data})
             });
     }
     

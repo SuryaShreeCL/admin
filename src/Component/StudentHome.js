@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StudentHome() {
+export default function StudentHome(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -71,19 +71,19 @@ export default function StudentHome() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Student />
+        <Student {...props} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ActiveStudents />
+        <ActiveStudents {...props} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <BlackListedStudents />
+        <BlackListedStudents {...props} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <MernUsers />
+        <MernUsers {...props} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <ManualUsers />
+        <ManualUsers {...props} />
       </TabPanel>
     </div>
   );

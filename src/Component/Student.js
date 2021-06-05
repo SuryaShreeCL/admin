@@ -161,11 +161,7 @@ export class Student extends Component {
     } 
   }
   rowClick = (rowData) => {
-    history.push(studentIdPath + rowData.id);
-  };
-
-  rowClick = (rowData) => {
-    history.push(studentIdPath + rowData.id);
+    this.props.history.push(studentIdPath +"/"+ rowData.id);
   };
 
   getmuitheme = () =>
@@ -293,7 +289,7 @@ export class Student extends Component {
   }
   render() {  
     console.log("State............",this.state)
-    console.log("Edit Student response.................",this.props.StudentFilterList)
+    console.log("Edit Student response.................",this.props)
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>

@@ -25,7 +25,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import Content from './Content';
 import history from './History';
-import { rootPath, rootLoginPath } from './RoutePaths';
+import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, testimonialsPath, reportsPath } from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -41,25 +41,26 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 import CallIcon from '@material-ui/icons/Call';
+import Routes from './Routes';
 
 
 const drawerWidth = 240;
 const NavbarList = [
-      {id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
-      {id: 'students', icon: <PeopleIcon />, title: 'Students' },
-      {id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
-      {id: 'college', icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
-      {id: 'university', icon:<SchoolRoundedIcon />, title:'University'},
-      {id: 'city', icon:<LocationCityRoundedIcon />, title:'City'},
-      {id: 'aspiration', icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
-      {id: 'questionSet', icon:<HelpRoundedIcon />, title:'Question Set'},
-      {id: 'video', icon:<VideocamRoundedIcon />, title:'Video'},
-      {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
-      {id: 'webinar', icon:<SupervisorAccountIcon />, title:'Webinar'},
-      {id: 'career-track', icon:<TrendingUpRoundedIcon />, title:'Career Track'},
-      {id: 'notification', icon:<NotificationsIcon /> , title:'Notification'},
-       { id: 'testimonials', icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
-      {id: 'reports', icon:<AssessmentRoundedIcon />, title:'Reports'},
+      {id: coursePath, icon: <MenuBookRoundedIcon />, title: 'Courses' },
+      {id: studentPath, icon: <PeopleIcon />, title: 'Students' },
+      {id: departmentPath, icon: <DnsRoundedIcon />, title: 'Departments' },    
+      {id: collegePath, icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
+      {id: universityPath, icon:<SchoolRoundedIcon />, title:'University'},
+      {id: cityPath, icon:<LocationCityRoundedIcon />, title:'City'},
+      {id: aspirationPath, icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
+      {id: questionSetPath, icon:<HelpRoundedIcon />, title:'Question Set'},
+      {id: videoPath, icon:<VideocamRoundedIcon />, title:'Video'},
+      {id: productPath, icon:<AddShoppingCartRoundedIcon />, title:'Product'},
+      {id: webinarPath, icon:<SupervisorAccountIcon />, title:'Webinar'},
+      {id: careerTrackPath, icon:<TrendingUpRoundedIcon />, title:'Career Track'},
+      {id: notificationPath, icon:<NotificationsIcon /> , title:'Notification'},
+       { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
+      {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
       {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'}
       
     ];
@@ -306,7 +307,7 @@ export default function RootContainer(props) {
                 key={Item.id}
                 onClick={() => {
                   setSelectedMenu(index)
-                  history.push(rootPath.concat('/', Item.id));
+                  props.history.push(Item.id);
                 }}
               >
                 <ListItemIcon  className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
@@ -321,7 +322,7 @@ export default function RootContainer(props) {
             [classes.contentShift]: open,
           })}
         >
-          <Content />
+          <Routes {...props} />
         </main>
         <footer className={classes.footer}>
           <Copyright />
