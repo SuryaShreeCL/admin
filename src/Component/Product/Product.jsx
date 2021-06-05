@@ -68,7 +68,7 @@ console.log(data)
   newhandleSaved = () => {
     console.log(this.state);
     let helpertxt = "Please fill the required field";
-    isEmptyString(this.state.productName)
+    isEmptyString(this.state.codeName)
       ? this.setState({ codeNameErr: helpertxt })
       : this.setState({ codeNameErr: "" });
     isEmptyString(this.state.shortName)

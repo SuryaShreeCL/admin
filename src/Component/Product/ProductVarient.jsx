@@ -74,6 +74,12 @@ export class ProductVarient extends Component {
       this.props.getAllProductQuesAns()
       this.props.getAllProductFamily()
   }
+  componentDidUpdate(prevProps,prevState){
+    if(prevProps.postProductVarientList !== this.props.postProductVarientList || prevProps.updateProductVarientList !== this.props.updateProductVarientList){
+      this.props.getProductVarient()
+      this.props.getAllProductFamily()
+    }
+  }
 
     handleSave = (event) => {
       console.log(this.state)
@@ -106,10 +112,10 @@ export class ProductVarient extends Component {
         let postVideoArr = this.state.videos.map((eachVideo)=>{
           return {id : eachVideo.id}
         })
-        let postImageArr = this.state.videos.map((eachImage)=>{
+        let postImageArr = this.state.images.map((eachImage)=>{
           return {id : eachImage.id}
         })
-        let postQuesArr = this.state.videos.map((eachQues)=>{
+        let postQuesArr = this.state.question.map((eachQues)=>{
           return {id : eachQues.id}
         })
         
@@ -130,13 +136,15 @@ export class ProductVarient extends Component {
       }
       console.log(obj)
       this.props.postProductVarient(obj)
-      }
-      // this.setState({ show: false});
       this.setState({
         snackMessage : "Data Saved Successfully",
         snackVariant : "success",
         snackOpen : true
       })
+      this.setState({ show: false});
+      }
+      
+     
 
       };
       handleChange = (e, name) => {
@@ -234,13 +242,15 @@ export class ProductVarient extends Component {
       }
       console.log(obj)
       this.props.updateProductVarient(obj)
-      }
-      // this.setState({ show: false});
       this.setState({
         snackMessage : "Data Updated Successfully",
         snackVariant : "success",
         snackOpen : true
       })
+      this.setState({ show: false});
+      }
+     
+      
     }
    
    
@@ -292,9 +302,6 @@ export class ProductVarient extends Component {
                       </TableCell>
                       <TableCell>
                         {eachVariant.productOneliner}
-                      </TableCell>
-                      <TableCell>
-                        {eachVariant.productDescription}
                       </TableCell>
                       <TableCell>
                         {eachVariant.productDescription}
@@ -375,6 +382,7 @@ export class ProductVarient extends Component {
                   name="shortName"
                   error={this.state.shortNameErr.length > 0}
                   helperText={this.state.shortNameErr}
+                  
                 />
                 </Grid>
                 <Grid item md={3}>
