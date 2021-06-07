@@ -23,7 +23,10 @@ import IconButton from "@material-ui/core/IconButton";
   import EditIcon from "@material-ui/icons/Edit";
   import DeleteIcon from "@material-ui/icons/Delete";
   import {connect} from 'react-redux';
+  import MySnackBar from '../MySnackBar';
   import {viewCountry, addCountry, updateCountry, deleteCountry} from "../../Actions/Aspiration"
+  import { isEmptyString } from '../Validation';
+
 export class AspirationCountry extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +34,11 @@ export class AspirationCountry extends Component {
             show : false,
             id : '',
             name : '',
+            nameErr:"",
             update : false,
+            snackMsg: "",
+            snackVariant: "",
+            snackOpen: false,
         }
     }
     // Component Theme
@@ -161,6 +168,9 @@ export class AspirationCountry extends Component {
           this.setState({
             id: "",
             name: "",
+            snackMsg:"Added Successfully",
+            snackOpen:true,
+            snackVariant:"success",
           });
         }
         this.props.viewCountry(0, 20, null);
@@ -178,6 +188,9 @@ export class AspirationCountry extends Component {
         id: "",
         name: "",
         update: true,
+        snackMsg:"Updated Successfully",
+            snackOpen:true,
+            snackVariant:"success",
       });      
     }
     this.props.viewCountry(0, 20, null);
@@ -278,6 +291,12 @@ export class AspirationCountry extends Component {
             </Dialog>
           </ThemeProvider>
                 </ThemeProvider>
+                <MySnackBar 
+                snackMsg={this.state.snackMsg}
+                snackVariant={this.state.snackVariant}
+                snackOpen={this.state.snackOpen}
+                onClose={() => this.setState({ snackOpen: false })}
+                />
             </div>
         )
     }

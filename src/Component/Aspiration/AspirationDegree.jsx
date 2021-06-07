@@ -24,6 +24,9 @@ import IconButton from "@material-ui/core/IconButton";
   import EditIcon from "@material-ui/icons/Edit";
   import DeleteIcon from "@material-ui/icons/Delete";
   import {connect} from 'react-redux';
+  import MySnackBar from '../MySnackBar';
+  import { isEmptyString } from '../Validation';
+
 export class AspirationDegree extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +34,11 @@ export class AspirationDegree extends Component {
             show : false,
             id : "",
             name : "",
+            nameErr:"",
             update : false,
+            snackMsg: "",
+            snackVariant: "",
+            snackOpen: false,
         }
     }
     // Component Theme
@@ -145,9 +152,16 @@ export class AspirationDegree extends Component {
     componentDidMount(){
         this.props.viewDegree(0, 20, null);
         }
+        componentDidUpdate(prevProps,prevState){
+          if(this.props.updateDegreeList !== prevProps.updateDegreeList || this.props.addDegreeList !== prevProps.addDegreeList){
+            this.props.viewDegree(0, 20, null);
+          }
+        }
     // Add term
     addDegree(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "please fill the required field"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
         let newDegreeObj = {
           name: this.state.name,
         };
@@ -156,6 +170,9 @@ export class AspirationDegree extends Component {
           this.setState({
             id: "",
             name: "",
+            snackMsg:"Added Successfully",
+            snackOpen:true,
+            snackVariant:"success",
           });
         }
         this.props.viewDegree(0, 20, null);
@@ -166,7 +183,9 @@ export class AspirationDegree extends Component {
     }
     // Update Term
     updateDegree(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "please fill the required field"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
     let newDegreeObj = {
       id : this.state.id,
       name: this.state.name,
@@ -177,6 +196,9 @@ export class AspirationDegree extends Component {
         id: "",
         name: "",
         update: true,
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success",
       });      
     }
     this.props.viewDegree(0, 20, null);
@@ -252,6 +274,8 @@ export class AspirationDegree extends Component {
                   variant="outlined"
                   color="primary"
                   label="Enter Degree"
+                  error={this.state.nameErr.length > 0 }
+                  helperText={this.state.nameErr}
                   fullWidth
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
@@ -276,6 +300,12 @@ export class AspirationDegree extends Component {
             </Dialog>
           </ThemeProvider>
                 </ThemeProvider>
+                <MySnackBar 
+                snackMsg={this.state.snackMsg}
+                snackVariant={this.state.snackVariant}
+                snackOpen={this.state.snackOpen}
+                onClose={() => this.setState({ snackOpen: false })}
+                />
             </div>
         )
     }
@@ -286,6 +316,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
   return {
     viewDegreeList: state.AspirationReducer.viewDegreeList,
+    addDegreeList : state.AspirationReducer.addDegreeList,
+    updateDegreeList : state.AspirationReducer.updateDegreeList
 
   }
 }

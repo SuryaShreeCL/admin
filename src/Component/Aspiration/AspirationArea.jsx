@@ -23,6 +23,8 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { connect } from "react-redux";
+import MySnackBar from '../MySnackBar';
+import { isEmptyString } from '../Validation';
 import {viewSpecialization, addSpecialization, updateSpecialization, deleteSpecialization} from "../../Actions/Aspiration"
 
 export class AspirationArea extends Component {
@@ -33,6 +35,10 @@ export class AspirationArea extends Component {
       id: "",
       name: "",
       update: false,
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
+      nameErr:""
     };
   }
   // Component Theme
@@ -139,6 +145,11 @@ export class AspirationArea extends Component {
   componentDidMount() {
     this.props.viewSpecialization(0, 20, null);
   }
+  componentDidUpdate(prevProps,prevState){
+    if(prevProps.updateSpecializationList !== this.props.updateSpecializationList || this.props.addSpecializationList !== prevProps.addSpecializationList){
+      this.props.viewSpecialization(0, 20, null);
+    }
+  }
   // Handle Edit
   handleEdit = (data) => {
     this.setState({
@@ -153,7 +164,9 @@ export class AspirationArea extends Component {
   }
   // Add term
   addArea() {
-    this.setState({ show: false });
+    // this.setState({ show: false });
+    let hlptxt = "please fill the required field"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
     let newAreaObj = {
       name: this.state.name,
     };
@@ -162,13 +175,18 @@ export class AspirationArea extends Component {
       this.setState({
         id: "",
         name: "",
+        snackMsg:"Added Successfully",
+        snackOpen:true,
+        snackVariant:"success",
       });
     }
     this.props.viewSpecialization(0, 20, null);
   }
   // Update Term
   updateArea() {
-    this.setState({ show: false });
+    // this.setState({ show: false });
+    let hlptxt = "please fill the required field"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
     let newAreaObj = {
       id : this.state.id,
       name: this.state.name,
@@ -179,6 +197,9 @@ export class AspirationArea extends Component {
         id: "",
         name: "",
         update: true,
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success",
       });
     }
     this.props.viewSpecialization(0, 20, null);
@@ -263,6 +284,8 @@ export class AspirationArea extends Component {
                   color="primary"
                   label="Enter Area Of Specialization Name"
                   fullWidth
+                  error={this.state.nameErr.length > 0}
+                  helperText={this.state.nameErr}
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
@@ -286,6 +309,12 @@ export class AspirationArea extends Component {
           </ThemeProvider>
        
         </ThemeProvider>
+        <MySnackBar 
+          snackMsg={this.state.snackMsg}
+          snackVariant={this.state.snackVariant}
+          snackOpen={this.state.snackOpen}
+          onClose={() => this.setState({ snackOpen: false })}
+          />
       </div>
     );
   }
@@ -296,6 +325,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
     return {
       viewSpecializationList: state.AspirationReducer.viewSpecializationList,
+      addSpecializationList : state.AspirationReducer.addSpecializationList,
+      updateSpecializationList : state.AspirationReducer.updateSpecializationList
     }
 }
 export default connect(mapStateToProps,{viewSpecialization, addSpecialization, updateSpecialization, deleteSpecialization})(AspirationArea)

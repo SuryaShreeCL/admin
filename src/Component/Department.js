@@ -40,6 +40,7 @@ import {
 Slide
 } from "@material-ui/core"
 import { isEmptyString } from "./Validation";
+import MySnackBar from "./MySnackBar";
 
 export class Department extends Component {
   constructor(props) {
@@ -218,7 +219,10 @@ export class Department extends Component {
         id: "",
         name: "",    
         description : "",
-        snack : true,              
+        snack : true,     
+        snackMsg:"Added Successfully",
+        snackOpen:true,
+        snackVariant:"success",         
       });
     }
     this.props.getPaginateDegree(0, 20, null);
@@ -244,6 +248,9 @@ if (this.state.name.length !== 0 &&
     name: "",
     description: "",        
     update: true,
+    snackMsg:"Added Successfully",
+    snackOpen:true,
+    snackVariant:"success",
   });      
 }
 this.props.getPaginateDegree(0, 20, null);
@@ -357,6 +364,12 @@ this.props.getPaginateDegree(0, 20, null);
               </DialogActions>
             </Dialog>
           </ThemeProvider>
+          <MySnackBar 
+           snackMsg={this.state.snackMsg}
+           snackVariant={this.state.snackVariant}
+           snackOpen={this.state.snackOpen}
+           onClose={() => this.setState({ snackOpen: false })}
+          />
       </ThemeProvider>
     );
   }
