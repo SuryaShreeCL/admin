@@ -32,6 +32,7 @@ export const careerTrackPath = rootPath.concat('/career-track');
 export const careerTrackVideoSetPath = '/videoset';
 export const careerTrackVideoPath = '/video';
 export const callSchedulePath = rootPath.concat('/schedule');
+export const productBasedPath = rootPath.concat("/based")
 // Rengine another version path
 
 export const loginPath = rootPath.concat('/Mlogin');

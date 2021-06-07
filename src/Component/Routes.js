@@ -49,7 +49,8 @@ import {
   documentDetailsPath,
   notificationPath,
   reportsPath,
-  callSchedulePath
+  callSchedulePath,
+  productBasedPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -73,6 +74,7 @@ import Notification from "./Notification";
 import Report from "./ReportHome"
 import ReportHome from './ReportHome';
 import Callschedule from "./Callschedule"
+import ProductBasedRoot from './ProductBased/ProductBasedRoot';
 export default function Routes(props) {
   return (
     
@@ -105,6 +107,7 @@ export default function Routes(props) {
             <Route exact path={reportsPath} render={(props)=> <ReportHome {...props} />} />
             <Route exact path={webinarPath} render={(props)=> <Webinar {...props} />} />
             <Route exact path={careerTrackPath} render={(props)=> <CareerTrack {...props} />} />
+            <Route exact path={productBasedPath} render={(props)=> <ProductBasedRoot {...props} />} />
             <Route
               exact
               path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}

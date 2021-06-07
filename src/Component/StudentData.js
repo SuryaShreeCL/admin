@@ -26,6 +26,7 @@ import AllocateMentor from "./AllocateMentor"
 import ScoreDetails from "./ScoreDetails";
 import {viewStudentStatus} from "../Actions/AdminAction"
 import PgaTab from "./Pga/PgaTab";
+import StarterPackTable from "./ProductBased/StarterPackTable";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -83,11 +84,7 @@ export function Student_data(props) {
   console.log(props.studentStatusResponse)
   return (
     <div className={classes.root}>
-      <>
-        <div>
-         
-          {/* <ProfileInfo id={props.match.params.id} /> */}
-        </div>
+ 
         <AppBar position="sticky" color="default">
           <Tabs
             value={value}
@@ -108,6 +105,7 @@ export function Student_data(props) {
             <Tab label="ScoreDetails" {...a11yProps(7)} />
             <Tab label="Mentor Allocation" {...a11yProps(8)} />
             <Tab label="PGA" {...a11yProps(9)} />
+            <Tab label="Starter Pack" {...a11yProps(10)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -138,8 +136,10 @@ export function Student_data(props) {
         <TabPanel value={value} index={8}>
           <PgaTab id={props.match.params.id} />
         </TabPanel>
+        <TabPanel value={value} index={9}>
+          <StarterPackTable id={props.match.params.id} />
+        </TabPanel>
 
-      </>
     </div>
   );
 }
