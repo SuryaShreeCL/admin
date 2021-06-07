@@ -39,6 +39,7 @@ import {
   CircularProgress,
 Slide
 } from "@material-ui/core"
+import { isEmptyString } from "./Validation";
 
 export class Department extends Component {
   constructor(props) {
@@ -48,9 +49,11 @@ export class Department extends Component {
       id : "",
       description : "",
       show : false,
-      name : null,
+      name : "",
       update : false,
       snack : false,
+      nameErr : "",
+      descErr : ""
     };
   }
 
@@ -198,12 +201,18 @@ export class Department extends Component {
   }
   // Add And Edit For Department
   newDepartment = ()=>{
-    this.setState({ show: false });
+    // this.setState({ show: false });
+    let hlptxt = "Please fill the Required Field"
+    isEmptyString(this.state.description) ? this.setState ({ descErr : hlptxt }) : this.setState ({ descErr : "" }) 
+    isEmptyString(this.state.name) ? this.setState ({ nameErr : hlptxt }) : this.setState ({ nameErr : ""})
     let newDeptObj = {
       name: this.state.name, 
       description : this.state.description       
     };
-    if (this.state.name.length !== 0) {
+    if (this.state.name.length !== 0 &&
+        !isEmptyString(this.state.description) &&
+        !isEmptyString(this.state.name)
+      ) {
       this.props.addDepartment(newDeptObj);
       this.setState({
         id: "",
@@ -217,12 +226,18 @@ export class Department extends Component {
 }
 
 updateDepartment = () =>{
-    this.setState({ show: false });
+    // this.setState({ show: false });
+    let hlptxt = "Please fill the Required Field"
+    isEmptyString(this.state.description) ? this.setState ({ descErr : hlptxt }) : this.setState ({ descErr : "" }) 
+    isEmptyString(this.state.name) ? this.setState ({ nameErr : hlptxt }) : this.setState ({ nameErr : ""})
 let newDeptObj = {
   name: this.state.name,
   description: this.state.description,      
 };
-if (this.state.name.length !== 0) {
+if (this.state.name.length !== 0 &&
+  !isEmptyString(this.state.description) &&
+  !isEmptyString(this.state.name)
+  ) {
   this.props.updateNewDepartment(this.state.id, newDeptObj);
   this.setState({
     id: "",
@@ -304,6 +319,8 @@ this.props.getPaginateDegree(0, 20, null);
                   color="primary"
                   label="Enter Department Name"
                   fullWidth
+                  error={this.state.nameErr.length > 0 }
+                  helperText={this.state.nameErr}
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
@@ -315,6 +332,8 @@ this.props.getPaginateDegree(0, 20, null);
                   rowsMin={3}
                   multiline
                   fullWidth
+                  error={this.state.descErr.length > 0}
+                  helperText= {this.state.descErr}
                   value={this.state.description}
                   onChange={(e) =>
                     this.setState({ description: e.target.value })

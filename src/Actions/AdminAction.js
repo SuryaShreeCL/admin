@@ -12,7 +12,8 @@ export const adminLogin=(data)=>{
                 dispatch({type:ADMIN.adminLogin,adminLoginDetails:result.data})
             })
             .catch(error => {
-                dispatch({type:ADMIN.adminLogin,adminLoginDetails:error.response.data})
+                // dispatch({type:ADMIN.adminLogin,adminLoginDetails:error.response.data})
+                console.log(error);
             });
     }
     
