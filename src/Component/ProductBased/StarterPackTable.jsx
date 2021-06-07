@@ -1,15 +1,22 @@
-import { Grid, Table, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core'
+import { Grid, Table, TableCell, TableContainer, TableHead, TableRow, TextField, Dialog, DialogContent, createMuiTheme } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PrimaryButton from '../../Utils/PrimaryButton'
-
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 class StarterPackTable extends Component {
     constructor(props){
         super(props);
         this.state = {
-
+            dialogOpen : false,
+            enrollmentDate : new Date(),
+            expiryDate : new Date()
         }
     }
+
     render(props) {
         const data = [
             {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
@@ -21,6 +28,7 @@ class StarterPackTable extends Component {
             {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
         ]
         return (
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container>
                 <Grid item md={12} align={"right"}>
                     <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >New Enroll</PrimaryButton>
@@ -73,7 +81,7 @@ class StarterPackTable extends Component {
                                         {eachData.cert}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <PrimaryButton color={"primary"} size={"small"} variant={"contained"}>Manage</PrimaryButton>
+                                        <PrimaryButton onClick={()=>this.setState({dialogOpen : true})} color={"primary"} size={"small"} variant={"contained"}>Manage</PrimaryButton>
                                     </TableCell>
                                 </TableRow>
                                 )
@@ -82,7 +90,70 @@ class StarterPackTable extends Component {
                         </Table>
                     </TableContainer>
                 </Grid>
+                <Dialog maxWidth={"md"} onClose={()=>this.setState({dialogOpen : false})} aria-labelledby="simple-dialog-title" open={this.state.dialogOpen}>
+                       <DialogContent>
+                       <Grid container spacing={2}>
+                            <Grid item md>
+                                <TextField
+                                label={"CLS ID (Order ID / Student ID)"}
+                                />
+                            </Grid>
+                            <Grid item md>
+                                <TextField
+                                label={"Enrolled By"}
+                                />
+                            </Grid>
+                            <Grid item md>
+                            <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker-inline"
+                            label="Enrollment Date"
+                            value={this.state.enrollmentDate}
+                            onChange={(value)=>this.setState({enrollmentDate : value})}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                            />
+                            </Grid>
+                            <Grid item md>
+                            <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker-inline"
+                            label="Expiry Date"
+                            value={this.state.expiryDate}
+                            onChange={(value)=>this.setState({expiryDate : value})}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                            />
+                            </Grid>
+                            <Grid item md>
+                                <TextField
+                                label={"Days for Expiry"}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2} style={{margin : "30px 0px 10px 0px"}}>
+                        <Grid item md={3}>
+                            <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >Unenroll User</PrimaryButton>
+                            </Grid>
+                            <Grid item md={3}>
+                            <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >Suspend Course</PrimaryButton>
+                            </Grid>
+                            <Grid item md={3}>
+                            <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >Send expiry email</PrimaryButton>
+                            </Grid>
+                        </Grid>
+                       </DialogContent>
+                </Dialog>
             </Grid>
+            </MuiPickersUtilsProvider>
         )
     }
 }

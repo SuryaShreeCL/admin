@@ -162,6 +162,12 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiFormControl : {
+      marginNormal : {
+        marginTop : 0,
+        marginBottom : 0,
+      },
+    },
     MuiListItem : {
       root : {
         "&$selected" : {
