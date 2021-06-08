@@ -96,7 +96,7 @@ openCreateModel = () => {
   };
 
 handleRowClick=(rowData)=>{
-    history.push(`${careerTrackPath}${careerTrackVideoSetPath}/${rowData.id}${careerTrackVideoPath}`)
+    this.props.history.push(careerTrackVideoPath+rowData.id)
 }
 
   renderCreateModel = () => {

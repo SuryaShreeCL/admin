@@ -110,12 +110,14 @@ export default function Routes(props) {
             <Route exact path={productBasedPath} render={(props)=> <ProductBasedRoot {...props} />} />
             <Route
               exact
-              path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
+              // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
+              path={careerTrackVideoSetPath.concat(":id")}
               render={(props)=> <CareerTrackVideoSet {...props} />}
             />
             <Route
               exact
-              path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
+              // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
+              path={careerTrackVideoPath.concat(":id")}
               render={(props)=> <CareerTrackVideo {...props} />}
             />
             <Route exact path={documentDetailsPath} render={(props)=> <StudentDocuments {...props} />} />
