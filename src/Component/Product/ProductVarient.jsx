@@ -17,6 +17,12 @@ import {
     Typography,
     Grid
   } from "@material-ui/core";
+  import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+
   import AddIcon from "@material-ui/icons/Add";
   import RemoveIcon from '@material-ui/icons/Remove';
   import EditIcon from '@material-ui/icons/Edit';
@@ -64,6 +70,11 @@ export class ProductVarient extends Component {
             snackOpen: false,
             snackMessage: null,
             snackVariant: null,
+            endOfServiceDate : new Date(),
+            endOfEnrollmentDate : new Date(),
+            intake : null,
+            year : null,
+            pricing : null,
 
         }
     }
@@ -257,6 +268,7 @@ export class ProductVarient extends Component {
     render() {
       console.log(this.state)
         return (
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div>
                 <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
                 <h4>Product Varient</h4>
@@ -489,6 +501,64 @@ export class ProductVarient extends Component {
                 </Grid>
 
               </Grid>
+              <Grid container spacing={2}>
+                    <Grid item md>
+                    <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="End Of Service Date"
+                    value={this.state.endOfServiceDate}
+                    onChange={(value)=>this.setState({endOfServiceDate : value})}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                    </Grid>
+                    <Grid item md>
+                    <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="End Of Enrollment Date"
+                    value={this.state.endOfEnrollmentDate}
+                    onChange={(value)=>this.setState({endOfEnrollmentDate : value})}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                    </Grid>
+                    <Grid item md>
+                  <TextField
+                  label={"Intake"}
+                  value={this.state.intake}
+                  name={"intake"}
+                  onChange={this.handleChange}
+                  />
+                    </Grid>
+                    <Grid item md>
+                  <TextField
+                  label={"Year"}
+                  value={this.state.year}
+                  name={"year"}
+                  onChange={this.handleChange}
+                  />
+                    </Grid>
+                    <Grid item md>
+                  <TextField
+                  label={"Pricing"}
+                  value={this.state.pricing}
+                  name={"pricing"}
+                 InputProps={{startAdornment : "₹"}}
+                  onChange={this.handleChange}
+                  />
+                    </Grid>
+                    
+              </Grid>
               </DialogContent>
               <DialogActions style={{alignSelf:"center"}}>
                 <Button
@@ -520,6 +590,7 @@ export class ProductVarient extends Component {
           </Alert>
         </Snackbar>
             </div>
+            </MuiPickersUtilsProvider>
         )
     }
 }
