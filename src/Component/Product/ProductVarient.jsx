@@ -117,7 +117,6 @@ export class ProductVarient extends Component {
         this.state.images.length !== 0 &&
         this.state.videos.length !== 0 &&
         !isEmptyString(this.state.name) 
-        
         // && this.state.question.length !== 0
        
       ){
