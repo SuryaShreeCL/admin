@@ -8,7 +8,8 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import {Autocomplete} from "@material-ui/lab"
-
+import { getStudentsById, getStudents } from "../../Actions/Student"
+import { getAllStarterPack, getAllSpecialization } from "../../Actions/PgaAction"
 class StarterPackTable extends Component {
     constructor(props){
         super(props);
@@ -40,7 +41,17 @@ class StarterPackTable extends Component {
         {title:"Course 4"},
         {title:"Course 5"},
     ]
+
+    componentDidMount() {
+        this.props.getAllStarterPack()
+        this.props.getAllSpecialization()
+        // this.props.getStudentsById(this.props.id)
+        this.props.getStudents()
+    }
+    
+
     render(props) {
+        console.log(this.props.studentDetail)
         const data = [
             {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
             {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
@@ -257,8 +268,11 @@ class StarterPackTable extends Component {
 
 const mapStateToProps = (state) =>{
     return {
-
+        starterPackDetails : state.PgaReducer.starterPackDetails,
+        allSpecialization : state.PgaReducer.allSpecialization,
+        studentDetail : state.StudentReducer.StudentList,
+        StudentList : state.StudentReducer.StudentList
     }
 }
 
-export default connect(mapStateToProps, {})(StarterPackTable)
+export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization, getStudentsById, getStudents})(StarterPackTable)
