@@ -116,8 +116,8 @@ export class ProductVarient extends Component {
         !isEmptyString(this.state.tnc) &&
         this.state.images.length !== 0 &&
         this.state.videos.length !== 0 &&
-        !isEmptyString(this.state.name) &&
-        this.state.question.length !== 0
+        !isEmptyString(this.state.name) 
+        // && this.state.question.length !== 0
        
       ){
         let postVideoArr = this.state.videos.map((eachVideo)=>{
@@ -130,21 +130,41 @@ export class ProductVarient extends Component {
           return {id : eachQues.id}
         })
         
-        let obj = {
-          "name":this.state.name,
-          "codeName":this.state.codeName,
-          "shortName":this.state.shortName,
-          "validity":"365",
-          "productTnc":this.state.tnc,
-          "productDescription":this.state.description,
-          "productOneliner": this.state.oneliner,
-          "productVideos": postVideoArr,
-          "productImages": postImageArr,
-          "productFamily":{
-              id : this.state.productFamily.id
-          },
-          "productQuestionAnswers": postQuesArr
-      }
+      //   let obj = {
+      //     "name":this.state.name,
+      //     "codeName":this.state.codeName,
+      //     "shortName":this.state.shortName,
+      //     "validity":"365",
+      //     "productTnc":this.state.tnc,
+      //     "productDescription":this.state.description,
+      //     "productOneliner": this.state.oneliner,
+      //     "productVideos": postVideoArr,
+      //     "productImages": postImageArr,
+      //     "productFamily":{
+      //         id : this.state.productFamily.id
+      //     },
+      //     "productQuestionAnswers": postQuesArr
+      // }
+      let obj = {
+        "name": this.state.name,
+        "codeName": this.state.codeName,
+        "shortName": this.state.shortName,
+        "validity": "365",
+        "productTnc": this.state.tnc,
+        "productDescription": this.state.description,
+        "productOneliner": this.state.oneliner,
+        "productVideos": postVideoArr,
+        "productImages": postImageArr,
+        "endOfServiceDate":this.state.endOfServiceDate,
+        "endOfEnrollmentDate":this.state.endOfEnrollmentDate,
+        "year":this.state.year,
+        "pricing":this.state.pricing,
+        "intake":this.state.intake,
+        "productFamily": {
+            "id": this.state.productFamily.id
+        },
+        "productQuestionAnswers": postQuesArr
+    }
       console.log(obj)
       this.props.postProductVarient(obj)
       this.setState({
