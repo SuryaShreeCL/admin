@@ -11,6 +11,7 @@ import {Autocomplete} from "@material-ui/lab"
 import { getStudentsById, getStudents } from "../../Actions/Student"
 import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll } from "../../Actions/PgaAction"
 import { getCourses } from '../../Actions/Course'
+import {isEmptyString} from '../Validation'
 class StarterPackTable extends Component {
     constructor(props){
         super(props);
@@ -21,7 +22,21 @@ class StarterPackTable extends Component {
             open:false,
             studentId : "",
             clsId : "",
-            courseid:""
+            courseid:"",
+            studentidErr : "",
+            clsidErr : "",
+            courseidErr : "",
+            enrollmentDateErr : "",
+            expiryDateErr: "",
+            expirydayErr : "",
+            trackErr : "",
+            specializationErr : "",
+            enrolledbyErr:"",
+            enrolledby : "",
+            track : "",
+            specialization :"",
+            expiryday : ""
+            
         }
     }
 
@@ -48,17 +63,40 @@ class StarterPackTable extends Component {
     ]
 
     handleEnroll =()=>{
-        console.log("hello")
-        
-        let obj = {
-            "studentId":this.state.studentId,
-            "courseId":this.state.courseid,
-            "startDate":this.state.enrollmentDate,
-            "endDate":this.state.expiryDate
+        console.log(this.state)
+        let hlptxt = "Please fill the Required Field"
+        isEmptyString(this.state.studentId) ? this.setState({ studentidErr : hlptxt }) : this.setState({ studentidErr : ""})
+        isEmptyString(this.state.courseid) ? this.setState ({ courseidErr : hlptxt }) : this.setState ({ courseidErr : ""})
+        isEmptyString(this.state.enrollmentDate) ? this.setState({ enrollmentDateErr : hlptxt}) : this.setState ({ enrollmentDateErr : ""})
+        isEmptyString(this.state.expiryDate) ? this.setState({ expiryDateErr : hlptxt}) : this.setState({ expiryDateErr : ""})
+        isEmptyString(this.state.track) ? this.setState({ trackErr : hlptxt}) : this.setState({ trackErr : ""})
+        isEmptyString(this.state.specialization) ? this.setState({ specializationErr : hlptxt}) : this.setState({ specializationErr : ""})
+        this.state.enrolledby !== undefined && isEmptyString(this.state.enrolledby) ? this.setState({ enrolledbyErr : hlptxt}) : this.setState({ enrolledbyErr : ""})
+        isEmptyString(this.state.clsId) ? this.setState({ clsidErr : hlptxt}) : this.setState({ clsidErr : ""})
+        this.state.expiryday !== undefined && isEmptyString(this.state.expiryday) ? this.setState({expirydayErr : hlptxt}) : this.setState({expirydayErr : ""})
+        if(
+            !isEmptyString(this.state.studentId) &&
+            !isEmptyString(this.state.courseid) &&
+            !isEmptyString(this.state.enrollmentDate) &&
+            !isEmptyString(this.state.expiryDate) &&
+            !isEmptyString(this.state.track) &&
+            !isEmptyString(this.state.specialization) &&
+            !isEmptyString(this.state.enrolledby) &&
+            !isEmptyString(this.state.clsId) &&
+            !isEmptyString(this.state.expiryday)
+        ){
+            let obj = {
+                "studentId":this.state.studentId,
+                "courseId":this.state.courseid,
+                "startDate":this.state.enrollmentDate,
+                "endDate":this.state.expiryDate
+            }
+            
+            this.props.newenroll(obj)
+            this.setState({open:false})
         }
         
-        this.props.newenroll(obj)
-        this.setState({open:false})
+       
     }
 
     componentDidMount() {
@@ -226,6 +264,8 @@ class StarterPackTable extends Component {
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Student ID"
+                                error={this.state.studentidErr.length > 0}
+                                helperText={this.state.studentidErr}
                                 variant="standard" />}
                                 />
                             </Grid>
@@ -239,6 +279,8 @@ class StarterPackTable extends Component {
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Search of course"
+                                error={this.state.courseidErr.length > 0}
+                                helperText={this.state.courseidErr}
                                 variant="standard" />}
                                 />
                             </Grid>
@@ -247,11 +289,23 @@ class StarterPackTable extends Component {
                                 label="CLS Id"
                                 value={this.state.clsId}
                                 disabled
+                                error={this.state.clsidErr.length > 0}
+                                helperText={this.state.clsidErr}
+                                InputLabelProps={{
+                                    shrink: true,
+                                  }}
                                  />
                             </Grid>
                             <Grid item md={2} sm={6} lg={3}>
                                 <TextField 
                                 label="Enrolled By"
+                                value={this.state.enrolledby}
+                                error={this.state.enrolledbyErr.length > 0}
+                                helperText={this.state.enrolledbyErr}
+                                onChange={(e,newValue)=>this.setState({ enrolledby : newValue})}
+                                InputLabelProps={{
+                                    shrink: true,
+                                  }}
                                 />
                             </Grid>
                             <Grid item md={2} sm={6}lg={2}>
@@ -261,6 +315,8 @@ class StarterPackTable extends Component {
                             variant="inline"
                             format="MM/dd/yyyy"
                             margin="normal"
+                            error={this.state.enrollmentDateErr.length > 0}
+                            helperText={this.state.enrollmentDateErr}
                             id="date-picker-dialog"
                             label="Enrollment Date"
                             value={this.state.enrollmentDate}
@@ -278,6 +334,8 @@ class StarterPackTable extends Component {
                             format="MM/dd/yyyy"
                             margin="normal"
                             id="date-picker-inline"
+                            error={this.state.expiryDateErr.length > 0}
+                            helperText={this.state.expiryDateErr}
                             label="Expiry Date"
                             value={this.state.expiryDate}
                             onChange={(value)=>this.setState({expiryDate : value})}
@@ -290,6 +348,13 @@ class StarterPackTable extends Component {
                                 <TextField
                                 type="number"
                                 label="Days for Expiry"
+                                value={this.state.expiryday}
+                                error={this.state.expirydayErr.length > 0}
+                                helperText={this.state.expirydayErr}
+                                onChange={(e,newValue)=>this.setState({expiryday:newValue}) }
+                                InputLabelProps={{
+                                    shrink: true,
+                                  }}
                                 />
                             </Grid>
                             <Grid item md={2} sm={6} lg={3}>
@@ -299,9 +364,12 @@ class StarterPackTable extends Component {
                                 options={this.props.starterPackDetails}
                                 getOptionLabel={(option) => option.name}
                                 // style={{ width: 300 }}
+                                onChange={(e,newValue)=>this.setState({track : newValue})}
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Track"
+                                error={this.state.trackErr.length > 0}
+                                helperText={this.state.trackErr}
                                 variant="standard" />}
                                 />
                             </Grid>
@@ -310,10 +378,13 @@ class StarterPackTable extends Component {
                                 id="combo-box-demo"
                                 options={this.props.allSpecialization}
                                 getOptionLabel={(option) => option.name}
+                                onChange={(e,newValue)=>this.setState({specialization : newValue})}
                                 // style={{ width: 300 }}
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Specialization"
+                                error={this.state.specializationErr.length > 0 }
+                                helperText={this.state.specializationErr}
                                 variant="standard" />}
                                 />
                             </Grid>

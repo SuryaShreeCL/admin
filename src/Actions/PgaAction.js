@@ -305,7 +305,7 @@ export const getallcourse = () =>{
 
 export const newenroll = (data) =>{
     return dispatch=>{
-        axios.post(URL+"/api/v1/get/enrolledcourse",data)
+        axios.post(URL+"/api/v1/create/enrolledcourse",data)
         .then(result=>{
             dispatch({type : PGA.newenroll, payload : result.data})
         })
