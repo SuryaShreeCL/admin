@@ -242,7 +242,8 @@ export const PGA = {
   getAllSpecialization : "getAllSpecialization",
   postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
   postQuarterPgaPlan : "postQuarterPgaPlan",
-  
+  getallcourse : "getallcourse",
+  newenroll:"newenroll"
 
 }
 

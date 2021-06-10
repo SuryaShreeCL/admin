@@ -9,7 +9,8 @@ import {
 } from '@material-ui/pickers';
 import {Autocomplete} from "@material-ui/lab"
 import { getStudentsById, getStudents } from "../../Actions/Student"
-import { getAllStarterPack, getAllSpecialization } from "../../Actions/PgaAction"
+import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll } from "../../Actions/PgaAction"
+import { getCourses } from '../../Actions/Course'
 class StarterPackTable extends Component {
     constructor(props){
         super(props);
@@ -18,6 +19,9 @@ class StarterPackTable extends Component {
             enrollmentDate : new Date(),
             expiryDate : new Date(),
             open:false,
+            studentId : "",
+            clsId : "",
+            courseid:""
         }
     }
 
@@ -32,6 +36,7 @@ class StarterPackTable extends Component {
         {title:"Student 2"},
         {title:"Student 3"},
         {title:"Student 4"},
+
         {title:"Student 5"},
     ]
     course = [
@@ -42,16 +47,32 @@ class StarterPackTable extends Component {
         {title:"Course 5"},
     ]
 
+    handleEnroll =()=>{
+        console.log("hello")
+        
+        let obj = {
+            "studentId":this.state.studentId,
+            "courseId":this.state.courseid,
+            "startDate":this.state.enrollmentDate,
+            "endDate":this.state.expiryDate
+        }
+        
+        this.props.newenroll(obj)
+        this.setState({open:false})
+    }
+
     componentDidMount() {
         this.props.getAllStarterPack()
         this.props.getAllSpecialization()
         // this.props.getStudentsById(this.props.id)
         this.props.getStudents()
+        // this.props.getallcourse()
+        this.props.getCourses()
     }
     
 
     render(props) {
-        console.log(this.props.studentDetail)
+        console.log(this.props.getStudentsList)
         const data = [
             {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
             {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
@@ -138,12 +159,13 @@ class StarterPackTable extends Component {
                                 />
                             </Grid>
                             <Grid item md>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardDatePicker
                             disableToolbar
                             variant="inline"
                             format="MM/dd/yyyy"
                             margin="normal"
-                            id="date-picker-inline"
+                            id="date-picker-dialog"
                             label="Enrollment Date"
                             value={this.state.enrollmentDate}
                             onChange={(value)=>this.setState({enrollmentDate : value})}
@@ -151,6 +173,7 @@ class StarterPackTable extends Component {
                                 'aria-label': 'change date',
                             }}
                             />
+                                </MuiPickersUtilsProvider>
                             </Grid>
                             <Grid item md>
                             <KeyboardDatePicker
@@ -196,9 +219,10 @@ class StarterPackTable extends Component {
                             <Grid item md={6} sm={6} lg={6}>
                             <Autocomplete
                                 id="combo-box-demo"
-                                options={this.studentdata}
-                                getOptionLabel={(option) => option.title}
+                                options={this.props.getStudentsList}
+                                getOptionLabel={(option) => option.id}
                                 // style={{ width: 300 }}
+                                onChange={(e,newValue)=> this.setState({ studentId : newValue.id,clsId : newValue.studentID})}
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Student ID"
@@ -208,9 +232,10 @@ class StarterPackTable extends Component {
                             <Grid item md={6} sm={6} lg={6}>
                                 <Autocomplete
                                 id="combo-box-demo"
-                                options={this.course}
-                                getOptionLabel={(option) => option.title}
+                                options={this.props.getCoursesList}
+                                getOptionLabel={(option) => option.name}
                                 // style={{ width: 300 }}
+                               onChange={(e,newValue)=>this.setState({ courseid : newValue.id})}
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Search of course"
@@ -220,6 +245,8 @@ class StarterPackTable extends Component {
                             <Grid item md={2} sm={6} lg={3}>
                                 <TextField 
                                 label="CLS Id"
+                                value={this.state.clsId}
+                                disabled
                                  />
                             </Grid>
                             <Grid item md={2} sm={6} lg={3}>
@@ -228,38 +255,76 @@ class StarterPackTable extends Component {
                                 />
                             </Grid>
                             <Grid item md={2} sm={6}lg={2}>
-                                <TextField 
-                                label="Enrollment Date"
-                                />
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker-dialog"
+                            label="Enrollment Date"
+                            value={this.state.enrollmentDate}
+                            onChange={(value)=>this.setState({enrollmentDate : value})}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                            />
+                                </MuiPickersUtilsProvider>
                             </Grid>
                             <Grid item md={2} sm={6} lg={2}>
-                                <TextField 
-                                label="Expiry Date"
-                                />
+                            <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker-inline"
+                            label="Expiry Date"
+                            value={this.state.expiryDate}
+                            onChange={(value)=>this.setState({expiryDate : value})}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                            />
                             </Grid>
                             <Grid item md={2} sm={6} lg={2}>
                                 <TextField
+                                type="number"
                                 label="Days for Expiry"
                                 />
                             </Grid>
                             <Grid item md={2} sm={6} lg={3}>
-                                <TextField
+                                
+                                 <Autocomplete
+                                id="combo-box-demo"
+                                options={this.props.starterPackDetails}
+                                getOptionLabel={(option) => option.name}
+                                // style={{ width: 300 }}
+                                renderInput={(params) => 
+                                <TextField {...params} 
                                 label="Track"
+                                variant="standard" />}
                                 />
                             </Grid>
                             <Grid item md={2} sm={6} lg={3}>
-                                <TextField
+                                 <Autocomplete
+                                id="combo-box-demo"
+                                options={this.props.allSpecialization}
+                                getOptionLabel={(option) => option.name}
+                                // style={{ width: 300 }}
+                                renderInput={(params) => 
+                                <TextField {...params} 
                                 label="Specialization"
+                                variant="standard" />}
                                 />
                             </Grid>
                         </Grid>
                     </DialogContent>
                     <DialogActions>
                         <Grid item md={12} align="center">
-                        <PrimaryButton onClick={()=>this.setState({open:false})} color={"primary"} size={"small"} variant={"contained"}>Enroll</PrimaryButton>
+                        <PrimaryButton onClick={()=>this.handleEnroll()} color={"primary"} size={"small"} variant={"contained"}>Enroll</PrimaryButton>
                         </Grid>
                     </DialogActions>
-                                </Dialog> 
+                 </Dialog> 
             </MuiPickersUtilsProvider>
            
         )
@@ -271,8 +336,12 @@ const mapStateToProps = (state) =>{
         starterPackDetails : state.PgaReducer.starterPackDetails,
         allSpecialization : state.PgaReducer.allSpecialization,
         studentDetail : state.StudentReducer.StudentList,
-        StudentList : state.StudentReducer.StudentList
+        StudentList : state.StudentReducer.StudentList,
+        // getallcourseList : state.PgaReducer.getallcourse,
+        newenrollList : state.PgaReducer.newenroll,
+        getCoursesList : state.CourseReducer.CourseList,
+        getStudentsList : state.StudentReducer.StudentsList
     }
 }
 
-export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization, getStudentsById, getStudents})(StarterPackTable)
+export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization, getStudentsById, getStudents,getallcourse,newenroll,getCourses})(StarterPackTable)

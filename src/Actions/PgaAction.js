@@ -290,3 +290,27 @@ export const postPGaQuarter = (id,data) =>{
         })
     }
 }
+
+export const getallcourse = () =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/get/allcourses")
+        .then(result=>{
+            dispatch({type : PGA.getallcourse, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const newenroll = (data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/get/enrolledcourse",data)
+        .then(result=>{
+            dispatch({type : PGA.newenroll, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

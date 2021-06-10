@@ -25,7 +25,9 @@ const initialState = {
   studentGradeList: [],
   allSpecialization: [],
   postPGaPlanCareerTrack: [],
-  postPgaQuarterResponse : []
+  postPgaQuarterResponse : [],
+  getallcourse : [],
+  newenroll : []
 };
 
 export default (state = initialState, action) => {
@@ -155,6 +157,17 @@ export default (state = initialState, action) => {
           ...state,
           postPgaQuarterResponse: action.payload,
         };
+        case PGA.getallcourse:
+          return {
+            ...state,
+            getallcourse : action.payload
+          }
+          case PGA.newenroll:
+            return {
+              ...state,
+              newenroll : action.payload
+            }
+
 
     default:
       return state;
