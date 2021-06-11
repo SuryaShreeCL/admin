@@ -112,6 +112,7 @@ class StarterPackTable extends Component {
         this.setState({
             clsId : data.["CLS id"],
             enrollmentDate : data.enrolldate,
+            courseid : data.courseid,
             dialogOpen : true
         })
     }
