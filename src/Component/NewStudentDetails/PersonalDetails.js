@@ -101,14 +101,15 @@ export class PersonalDetails extends Component {
       });
     }
     if(this.props.tempData !== prevProps.tempData){
-      console.log(this.props.tempData)
-      if(this.props.tempData.studentTemp !== null){
+      console.log("temp............", this.props.tempData.length)
+      if(this.props.tempData.length !== 0){
+        console.log("...........",this.props.tempData)
          this.setState({
            isTempData : true,
-          firstName : this.props.tempData.studentTemp.firstName,
-          lastName : this.props.tempData.studentTemp.lastName,
-          tempEmail : this.props.tempData.studentTemp.emailId,
-          tempMobile : this.props.tempData.studentTemp.phoneNumber
+          firstName : this.props.tempData.firstName,
+          lastName : this.props.tempData.lastName,
+          tempEmail : this.props.tempData.emailId,
+          tempMobile : this.props.tempData.phoneNumber
         })
       }else{
         this.setState({
