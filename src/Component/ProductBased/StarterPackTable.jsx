@@ -8,9 +8,10 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import {Autocomplete} from "@material-ui/lab"
-import { getStudentsById, getStudents } from "../../Actions/Student"
-import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll } from "../../Actions/PgaAction"
+import { getStudents } from "../../Actions/Student"
+import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll,getenroll,unenroll } from "../../Actions/PgaAction"
 import { getCourses } from '../../Actions/Course'
+import {isEmptyString} from '../Validation'
 class StarterPackTable extends Component {
     constructor(props){
         super(props);
@@ -21,7 +22,21 @@ class StarterPackTable extends Component {
             open:false,
             studentId : "",
             clsId : "",
-            courseid:""
+            courseid:"",
+            studentidErr : "",
+            clsidErr : "",
+            courseidErr : "",
+            enrollmentDateErr : "",
+            expiryDateErr: "",
+            expirydayErr : "",
+            trackErr : "",
+            specializationErr : "",
+            enrolledbyErr:"",
+            enrolledby : "",
+            track : "",
+            specialization :null,
+            expiryday : ""
+            
         }
     }
 
@@ -48,28 +63,67 @@ class StarterPackTable extends Component {
     ]
 
     handleEnroll =()=>{
-        console.log("hello")
-        
-        let obj = {
-            "studentId":this.state.studentId,
-            "courseId":this.state.courseid,
-            "startDate":this.state.enrollmentDate,
-            "endDate":this.state.expiryDate
+        console.log(this.state)
+        let hlptxt = "Please fill the Required Field"
+        isEmptyString(this.state.studentId) ? this.setState({ studentidErr : hlptxt }) : this.setState({ studentidErr : ""})
+        isEmptyString(this.state.courseid) ? this.setState ({ courseidErr : hlptxt }) : this.setState ({ courseidErr : ""})
+        isEmptyString(this.state.enrollmentDate) ? this.setState({ enrollmentDateErr : hlptxt}) : this.setState ({ enrollmentDateErr : ""})
+        isEmptyString(this.state.expiryDate) ? this.setState({ expiryDateErr : hlptxt}) : this.setState({ expiryDateErr : ""})
+        isEmptyString(this.state.track) ? this.setState({ trackErr : hlptxt}) : this.setState({ trackErr : ""})
+        isEmptyString(this.state.specialization) ? this.setState({ specializationErr : hlptxt}) : this.setState({ specializationErr : ""})
+        this.state.enrolledby !== undefined && isEmptyString(this.state.enrolledby) ? this.setState({ enrolledbyErr : hlptxt}) : this.setState({ enrolledbyErr : ""})
+        isEmptyString(this.state.clsId) ? this.setState({ clsidErr : hlptxt}) : this.setState({ clsidErr : ""})
+        this.state.expiryday !== undefined && isEmptyString(this.state.expiryday) ? this.setState({expirydayErr : hlptxt}) : this.setState({expirydayErr : ""})
+        if(
+            !isEmptyString(this.state.studentId) &&
+            !isEmptyString(this.state.courseid) &&
+            this.state.enrollmentDate !== null &&
+            this.state.expiryDate !== null &&
+            !isEmptyString(this.state.track) &&
+            this.state.specialization !== null &&
+            !isEmptyString(this.state.enrolledby) &&
+            !isEmptyString(this.state.clsId) &&
+            !isEmptyString(this.state.expiryday)
+        ){
+            let obj = {
+                "studentId":this.state.studentId,
+                "courseId":this.state.courseid,
+                "startDate":this.state.enrollmentDate,
+                "endDate":this.state.expiryDate
+            }
+            
+            this.props.newenroll(obj)
+            this.setState({open:false})
         }
         
-        this.props.newenroll(obj)
-        this.setState({open:false})
+       
     }
 
     componentDidMount() {
         this.props.getAllStarterPack()
         this.props.getAllSpecialization()
-        // this.props.getStudentsById(this.props.id)
         this.props.getStudents()
+        this.props.getenroll(this.props.id)
         // this.props.getallcourse()
         this.props.getCourses()
     }
-    
+    handleEdit = (data) => {
+        console.log(data)
+        this.setState({
+            clsId : data.["CLS id"],
+            enrollmentDate : data.enrolldate,
+            courseid : data.courseId,
+            studentId : data.studentId,
+            dialogOpen : true
+        })
+    }
+    handleUnenroll= () => {
+        let obj={
+            "studentId":this.state.studentId,
+            "courseId": this.state.courseid
+        }
+          this.props.unenroll(obj)
+    }
 
     render(props) {
         console.log(this.props.getStudentsList)
@@ -95,48 +149,53 @@ class StarterPackTable extends Component {
                                 <TableRow>
                                 <TableCell align="center">CLS ID</TableCell>
                                 <TableCell align="center">Client Name</TableCell>
-                                <TableCell align="center">Track</TableCell>
+                                {/* <TableCell align="center">Track</TableCell>
                                 <TableCell align="center">Specialization</TableCell>
-                                <TableCell align="center">SP Code</TableCell>
+                                <TableCell align="center">SP Code</TableCell> */}
                                 <TableCell align="center">Enroll Date</TableCell>
                                 <TableCell align="center">SP Name</TableCell>
                                 <TableCell align="center">Status</TableCell>
-                                <TableCell align="center">Cert</TableCell>
+                                {/* <TableCell align="center">Cert</TableCell> */}
                                 <TableCell align="center">Actions</TableCell>
                                 </TableRow>
                             </TableHead>
-                            {data.map((eachData,index)=>{
+                            {this.props.getenrollList.length !== 0 && this.props.getenrollList.map((eachData,index)=>{
+                                let date = new Date(eachData.enrolldate)
+                                let finaldate = date.getDate()
+                                let finalmonth = date.getMonth()
+                                let finalyear = date.getFullYear()
+                                let Enrolldate = finaldate+"/"+finalmonth+"/"+finalyear
                                 return(
                                     <TableRow>
                                     <TableCell align="center">
-                                        {eachData.clsId}
+                                        {eachData.["CLS id"]}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {eachData.clientName}
+                                        {eachData.name}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    {/* <TableCell align="center">
                                         {eachData.track}
                                     </TableCell>
                                     <TableCell align="center">
                                         {eachData.specialization}
-                                    </TableCell>
-                                    <TableCell align="center">
+                                    </TableCell> */}
+                                    {/* <TableCell align="center">
                                         {eachData.spCode}
+                                    </TableCell> */}
+                                    <TableCell align="center">
+                                        {Enrolldate}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {eachData.enrollDate}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {eachData.spName}
+                                        {eachData.SPCourse}
                                     </TableCell>
                                     <TableCell align="center">
                                         {eachData.status}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    {/* <TableCell align="center">
                                         {eachData.cert}
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell align="center">
-                                        <PrimaryButton onClick={()=>this.setState({dialogOpen : true})} color={"primary"} size={"small"} variant={"contained"}>Manage</PrimaryButton>
+                                        <PrimaryButton onClick={()=>this.handleEdit(eachData)} color={"primary"} size={"small"} variant={"contained"}>Manage</PrimaryButton>
                                     </TableCell>
                                 </TableRow>
                                 )
@@ -151,6 +210,7 @@ class StarterPackTable extends Component {
                             <Grid item md>
                                 <TextField
                                 label={"CLS ID (Order ID / Student ID)"}
+                                value={this.state.clsId}
                                 />
                             </Grid>
                             <Grid item md>
@@ -198,7 +258,7 @@ class StarterPackTable extends Component {
                         </Grid>
                         <Grid container spacing={2} style={{margin : "30px 0px 10px 0px"}}>
                         <Grid item md={3}>
-                            <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >Unenroll User</PrimaryButton>
+                            <PrimaryButton color={"primary"} size={"small"} variant={"contained"} onClick={this.handleUnenroll} >Unenroll User</PrimaryButton>
                             </Grid>
                             <Grid item md={3}>
                             <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >Suspend Course</PrimaryButton>
@@ -210,7 +270,7 @@ class StarterPackTable extends Component {
                        </DialogContent>
                 </Dialog>
             </Grid>
-             <Dialog open={this.state.open} maxWidth="lg" >
+             <Dialog open={this.state.open} onClose={()=>this.setState({open : false})} maxWidth="lg" >
                     {/* <DialogTitle>
                         Add New
                     </DialogTitle> */}
@@ -226,6 +286,8 @@ class StarterPackTable extends Component {
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Student ID"
+                                error={this.state.studentidErr.length > 0}
+                                helperText={this.state.studentidErr}
                                 variant="standard" />}
                                 />
                             </Grid>
@@ -239,6 +301,8 @@ class StarterPackTable extends Component {
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Search of course"
+                                error={this.state.courseidErr.length > 0}
+                                helperText={this.state.courseidErr}
                                 variant="standard" />}
                                 />
                             </Grid>
@@ -247,11 +311,23 @@ class StarterPackTable extends Component {
                                 label="CLS Id"
                                 value={this.state.clsId}
                                 disabled
+                                error={this.state.clsidErr.length > 0}
+                                helperText={this.state.clsidErr}
+                                InputLabelProps={{
+                                    shrink: true,
+                                  }}
                                  />
                             </Grid>
                             <Grid item md={2} sm={6} lg={3}>
                                 <TextField 
                                 label="Enrolled By"
+                                value={this.state.enrolledby}
+                                error={this.state.enrolledbyErr.length > 0}
+                                helperText={this.state.enrolledbyErr}
+                                onChange={(e)=>this.setState({ enrolledby : e.target.value})}
+                                InputLabelProps={{
+                                    shrink: true,
+                                  }}
                                 />
                             </Grid>
                             <Grid item md={2} sm={6}lg={2}>
@@ -261,6 +337,8 @@ class StarterPackTable extends Component {
                             variant="inline"
                             format="MM/dd/yyyy"
                             margin="normal"
+                            error={this.state.enrollmentDateErr.length > 0}
+                            helperText={this.state.enrollmentDateErr}
                             id="date-picker-dialog"
                             label="Enrollment Date"
                             value={this.state.enrollmentDate}
@@ -278,6 +356,8 @@ class StarterPackTable extends Component {
                             format="MM/dd/yyyy"
                             margin="normal"
                             id="date-picker-inline"
+                            error={this.state.expiryDateErr.length > 0}
+                            helperText={this.state.expiryDateErr}
                             label="Expiry Date"
                             value={this.state.expiryDate}
                             onChange={(value)=>this.setState({expiryDate : value})}
@@ -290,6 +370,13 @@ class StarterPackTable extends Component {
                                 <TextField
                                 type="number"
                                 label="Days for Expiry"
+                                value={this.state.expiryday}
+                                error={this.state.expirydayErr.length > 0}
+                                helperText={this.state.expirydayErr}
+                                onChange={(e,newValue)=>this.setState({expiryday:e.target.value}) }
+                                InputLabelProps={{
+                                    shrink: true,
+                                  }}
                                 />
                             </Grid>
                             <Grid item md={2} sm={6} lg={3}>
@@ -299,9 +386,12 @@ class StarterPackTable extends Component {
                                 options={this.props.starterPackDetails}
                                 getOptionLabel={(option) => option.name}
                                 // style={{ width: 300 }}
+                                onChange={(e,newValue)=>this.setState({track : newValue})}
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Track"
+                                error={this.state.trackErr.length > 0}
+                                helperText={this.state.trackErr}
                                 variant="standard" />}
                                 />
                             </Grid>
@@ -310,10 +400,13 @@ class StarterPackTable extends Component {
                                 id="combo-box-demo"
                                 options={this.props.allSpecialization}
                                 getOptionLabel={(option) => option.name}
+                                onChange={(e,newValue)=>this.setState({specialization : newValue})}
                                 // style={{ width: 300 }}
                                 renderInput={(params) => 
                                 <TextField {...params} 
                                 label="Specialization"
+                                error={this.state.specializationErr.length > 0 }
+                                helperText={this.state.specializationErr}
                                 variant="standard" />}
                                 />
                             </Grid>
@@ -335,13 +428,15 @@ const mapStateToProps = (state) =>{
     return {
         starterPackDetails : state.PgaReducer.starterPackDetails,
         allSpecialization : state.PgaReducer.allSpecialization,
-        studentDetail : state.StudentReducer.StudentList,
-        StudentList : state.StudentReducer.StudentList,
+        // studentDetail : state.StudentReducer.StudentList,
+        // StudentList : state.StudentReducer.StudentList,
         // getallcourseList : state.PgaReducer.getallcourse,
         newenrollList : state.PgaReducer.newenroll,
         getCoursesList : state.CourseReducer.CourseList,
-        getStudentsList : state.StudentReducer.StudentsList
+        getStudentsList : state.StudentReducer.StudentsList,
+        getenrollList :  state.PgaReducer.getenroll,
+        unenrollList : state.PgaReducer.unenroll
     }
 }
 
-export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization, getStudentsById, getStudents,getallcourse,newenroll,getCourses})(StarterPackTable)
+export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization,unenroll, getStudents,getallcourse,newenroll,getCourses,getenroll})(StarterPackTable)

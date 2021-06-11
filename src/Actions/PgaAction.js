@@ -305,7 +305,7 @@ export const getallcourse = () =>{
 
 export const newenroll = (data) =>{
     return dispatch=>{
-        axios.post(URL+"/api/v1/get/enrolledcourse",data)
+        axios.post(URL+"/api/v1/create/enrolledcourse",data)
         .then(result=>{
             dispatch({type : PGA.newenroll, payload : result.data})
         })
@@ -314,3 +314,31 @@ export const newenroll = (data) =>{
         })
     }
 }
+
+// http://localhost:8080/api/v1/get/enrolled/course/6ef44156-fd06-4e22-9e9b-9b122bbccc6a
+
+export const getenroll = (id) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/get/enrolled/course/"+id)
+        .then(result=>{
+            dispatch({type : PGA.getenroll, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const unenroll = (data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/create/unenrolledcourse",data)
+        .then(result=>{
+            dispatch({type : PGA.unenroll, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+
