@@ -8,8 +8,8 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import {Autocomplete} from "@material-ui/lab"
-import { getStudentsById, getStudents } from "../../Actions/Student"
-import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll } from "../../Actions/PgaAction"
+import { getStudents } from "../../Actions/Student"
+import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll,getenroll,unenroll } from "../../Actions/PgaAction"
 import { getCourses } from '../../Actions/Course'
 import {isEmptyString} from '../Validation'
 class StarterPackTable extends Component {
@@ -34,7 +34,7 @@ class StarterPackTable extends Component {
             enrolledbyErr:"",
             enrolledby : "",
             track : "",
-            specialization :"",
+            specialization :null,
             expiryday : ""
             
         }
@@ -77,10 +77,10 @@ class StarterPackTable extends Component {
         if(
             !isEmptyString(this.state.studentId) &&
             !isEmptyString(this.state.courseid) &&
-            !isEmptyString(this.state.enrollmentDate) &&
-            !isEmptyString(this.state.expiryDate) &&
+            this.state.enrollmentDate !== null &&
+            this.state.expiryDate !== null &&
             !isEmptyString(this.state.track) &&
-            !isEmptyString(this.state.specialization) &&
+            this.state.specialization !== null &&
             !isEmptyString(this.state.enrolledby) &&
             !isEmptyString(this.state.clsId) &&
             !isEmptyString(this.state.expiryday)
@@ -102,12 +102,26 @@ class StarterPackTable extends Component {
     componentDidMount() {
         this.props.getAllStarterPack()
         this.props.getAllSpecialization()
-        // this.props.getStudentsById(this.props.id)
         this.props.getStudents()
+        this.props.getenroll(this.props.id)
         // this.props.getallcourse()
         this.props.getCourses()
     }
-    
+    handleEdit = (data) => {
+        console.log(this.state)
+        this.setState({
+            clsId : data.["CLS id"],
+            enrollmentDate : data.enrolldate,
+            dialogOpen : true
+        })
+    }
+    handleUnenroll= () => {
+        let obj={
+            "studentId":this.state.studentId,
+            "courseId": this.state.courseid
+        }
+          this.props.unenroll(obj)
+    }
 
     render(props) {
         console.log(this.props.getStudentsList)
@@ -133,48 +147,53 @@ class StarterPackTable extends Component {
                                 <TableRow>
                                 <TableCell align="center">CLS ID</TableCell>
                                 <TableCell align="center">Client Name</TableCell>
-                                <TableCell align="center">Track</TableCell>
+                                {/* <TableCell align="center">Track</TableCell>
                                 <TableCell align="center">Specialization</TableCell>
-                                <TableCell align="center">SP Code</TableCell>
+                                <TableCell align="center">SP Code</TableCell> */}
                                 <TableCell align="center">Enroll Date</TableCell>
                                 <TableCell align="center">SP Name</TableCell>
                                 <TableCell align="center">Status</TableCell>
-                                <TableCell align="center">Cert</TableCell>
+                                {/* <TableCell align="center">Cert</TableCell> */}
                                 <TableCell align="center">Actions</TableCell>
                                 </TableRow>
                             </TableHead>
-                            {data.map((eachData,index)=>{
+                            {this.props.getenrollList.map((eachData,index)=>{
+                                let date = new Date(eachData.enrolldate)
+                                let finaldate = date.getDate()
+                                let finalmonth = date.getMonth()
+                                let finalyear = date.getFullYear()
+                                let Enrolldate = finaldate+"/"+finalmonth+"/"+finalyear
                                 return(
                                     <TableRow>
                                     <TableCell align="center">
-                                        {eachData.clsId}
+                                        {eachData.["CLS id"]}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {eachData.clientName}
+                                        {eachData.name}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    {/* <TableCell align="center">
                                         {eachData.track}
                                     </TableCell>
                                     <TableCell align="center">
                                         {eachData.specialization}
-                                    </TableCell>
-                                    <TableCell align="center">
+                                    </TableCell> */}
+                                    {/* <TableCell align="center">
                                         {eachData.spCode}
+                                    </TableCell> */}
+                                    <TableCell align="center">
+                                        {Enrolldate}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {eachData.enrollDate}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {eachData.spName}
+                                        {eachData.SPCourse}
                                     </TableCell>
                                     <TableCell align="center">
                                         {eachData.status}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    {/* <TableCell align="center">
                                         {eachData.cert}
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell align="center">
-                                        <PrimaryButton onClick={()=>this.setState({dialogOpen : true})} color={"primary"} size={"small"} variant={"contained"}>Manage</PrimaryButton>
+                                        <PrimaryButton onClick={()=>this.handleEdit(eachData)} color={"primary"} size={"small"} variant={"contained"}>Manage</PrimaryButton>
                                     </TableCell>
                                 </TableRow>
                                 )
@@ -189,6 +208,7 @@ class StarterPackTable extends Component {
                             <Grid item md>
                                 <TextField
                                 label={"CLS ID (Order ID / Student ID)"}
+                                value={this.state.clsId}
                                 />
                             </Grid>
                             <Grid item md>
@@ -236,7 +256,7 @@ class StarterPackTable extends Component {
                         </Grid>
                         <Grid container spacing={2} style={{margin : "30px 0px 10px 0px"}}>
                         <Grid item md={3}>
-                            <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >Unenroll User</PrimaryButton>
+                            <PrimaryButton color={"primary"} size={"small"} variant={"contained"} onClick={this.handleUnenroll} >Unenroll User</PrimaryButton>
                             </Grid>
                             <Grid item md={3}>
                             <PrimaryButton color={"primary"} size={"small"} variant={"contained"} >Suspend Course</PrimaryButton>
@@ -248,7 +268,7 @@ class StarterPackTable extends Component {
                        </DialogContent>
                 </Dialog>
             </Grid>
-             <Dialog open={this.state.open} maxWidth="lg" >
+             <Dialog open={this.state.open} onClose={()=>this.setState({open : false})} maxWidth="lg" >
                     {/* <DialogTitle>
                         Add New
                     </DialogTitle> */}
@@ -302,7 +322,7 @@ class StarterPackTable extends Component {
                                 value={this.state.enrolledby}
                                 error={this.state.enrolledbyErr.length > 0}
                                 helperText={this.state.enrolledbyErr}
-                                onChange={(e,newValue)=>this.setState({ enrolledby : newValue})}
+                                onChange={(e)=>this.setState({ enrolledby : e.target.value})}
                                 InputLabelProps={{
                                     shrink: true,
                                   }}
@@ -351,7 +371,7 @@ class StarterPackTable extends Component {
                                 value={this.state.expiryday}
                                 error={this.state.expirydayErr.length > 0}
                                 helperText={this.state.expirydayErr}
-                                onChange={(e,newValue)=>this.setState({expiryday:newValue}) }
+                                onChange={(e,newValue)=>this.setState({expiryday:e.target.value}) }
                                 InputLabelProps={{
                                     shrink: true,
                                   }}
@@ -406,13 +426,15 @@ const mapStateToProps = (state) =>{
     return {
         starterPackDetails : state.PgaReducer.starterPackDetails,
         allSpecialization : state.PgaReducer.allSpecialization,
-        studentDetail : state.StudentReducer.StudentList,
-        StudentList : state.StudentReducer.StudentList,
+        // studentDetail : state.StudentReducer.StudentList,
+        // StudentList : state.StudentReducer.StudentList,
         // getallcourseList : state.PgaReducer.getallcourse,
         newenrollList : state.PgaReducer.newenroll,
         getCoursesList : state.CourseReducer.CourseList,
-        getStudentsList : state.StudentReducer.StudentsList
+        getStudentsList : state.StudentReducer.StudentsList,
+        getenrollList :  state.PgaReducer.getenroll,
+        unenrollList : state.PgaReducer.unenroll
     }
 }
 
-export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization, getStudentsById, getStudents,getallcourse,newenroll,getCourses})(StarterPackTable)
+export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization,unenroll, getStudents,getallcourse,newenroll,getCourses,getenroll})(StarterPackTable)

@@ -243,7 +243,9 @@ export const PGA = {
   postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
   postQuarterPgaPlan : "postQuarterPgaPlan",
   getallcourse : "getallcourse",
-  newenroll:"newenroll"
+  newenroll:"newenroll",
+  getenroll : "getenroll",
+  unenroll : "unenroll"
 
 }
 
