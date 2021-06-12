@@ -108,11 +108,12 @@ class StarterPackTable extends Component {
         this.props.getCourses()
     }
     handleEdit = (data) => {
-        console.log(this.state)
+        console.log(data)
         this.setState({
             clsId : data.["CLS id"],
             enrollmentDate : data.enrolldate,
-            courseid : data.courseid,
+            courseid : data.courseId,
+            studentId : data.studentId,
             dialogOpen : true
         })
     }
@@ -158,7 +159,7 @@ class StarterPackTable extends Component {
                                 <TableCell align="center">Actions</TableCell>
                                 </TableRow>
                             </TableHead>
-                            {this.props.getenrollList.map((eachData,index)=>{
+                            {this.props.getenrollList.length !== 0 && this.props.getenrollList.map((eachData,index)=>{
                                 let date = new Date(eachData.enrolldate)
                                 let finaldate = date.getDate()
                                 let finalmonth = date.getMonth()
