@@ -169,7 +169,8 @@ export const ADMIN = {
   viewStudentStatus : 'viewStudentStatus',
   updateVerificationStatus : 'updateVerificationStatus',
   getAllMentor : "getAllMentor",
-  alocateMentor : "alocateMentor"
+  alocateMentor : "alocateMentor",
+  updateLmsAccess : "updateLmsAccess"
 };
 
 export const MENTORSCHEDULELIST={
