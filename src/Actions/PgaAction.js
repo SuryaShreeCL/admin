@@ -317,9 +317,9 @@ export const newenroll = (data) =>{
 
 // http://localhost:8080/api/v1/get/enrolled/course/6ef44156-fd06-4e22-9e9b-9b122bbccc6a
 
-export const getenroll = (id) =>{
+export const getenroll = () =>{
     return dispatch=>{
-        axios.get(URL+"/api/v1/get/enrolled/course/"+id)
+        axios.get(URL+"/api/v1/get/all/enrolled/course")
         .then(result=>{
             dispatch({type : PGA.getenroll, payload : result.data})
         })

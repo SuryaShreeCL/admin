@@ -5,7 +5,7 @@ import axios from 'axios'
 export const getStudents=()=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch => {
-        axios.get(URL+"/api/v1/students", {
+        axios.get(URL+"/api/v1/get/all/students", {
             crossDomain: true,
             headers : {
                 "admin" : "yes",

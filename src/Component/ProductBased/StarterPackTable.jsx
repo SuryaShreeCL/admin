@@ -110,10 +110,10 @@ class StarterPackTable extends Component {
     handleEdit = (data) => {
         console.log(data)
         this.setState({
-            clsId : data.["CLS id"],
-            enrollmentDate : data.enrolldate,
-            courseid : data.courseId,
-            studentId : data.studentId,
+            clsId : data.student.studentID,
+            enrollmentDate : data.createdAt,
+            courseid : data.id,
+            studentId : data.student.id,
             dialogOpen : true
         })
     }
@@ -153,14 +153,14 @@ class StarterPackTable extends Component {
                                 <TableCell align="center">Specialization</TableCell>
                                 <TableCell align="center">SP Code</TableCell> */}
                                 <TableCell align="center">Enroll Date</TableCell>
-                                <TableCell align="center">SP Name</TableCell>
+                                {/* <TableCell align="center">SP Name</TableCell> */}
                                 <TableCell align="center">Status</TableCell>
                                 {/* <TableCell align="center">Cert</TableCell> */}
                                 <TableCell align="center">Actions</TableCell>
                                 </TableRow>
                             </TableHead>
                             {this.props.getenrollList.length !== 0 && this.props.getenrollList.map((eachData,index)=>{
-                                let date = new Date(eachData.enrolldate)
+                                let date = new Date(eachData.createdAt)
                                 let finaldate = date.getDate()
                                 let finalmonth = date.getMonth()
                                 let finalyear = date.getFullYear()
@@ -168,10 +168,10 @@ class StarterPackTable extends Component {
                                 return(
                                     <TableRow>
                                     <TableCell align="center">
-                                        {eachData.["CLS id"]}
+                                        {eachData.student.studentID}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {eachData.name}
+                                        {eachData.student.fullName}
                                     </TableCell>
                                     {/* <TableCell align="center">
                                         {eachData.track}
@@ -185,11 +185,11 @@ class StarterPackTable extends Component {
                                     <TableCell align="center">
                                         {Enrolldate}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    {/* <TableCell align="center">
                                         {eachData.SPCourse}
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell align="center">
-                                        {eachData.status}
+                                        {eachData.progress}
                                     </TableCell>
                                     {/* <TableCell align="center">
                                         {eachData.cert}
