@@ -12,6 +12,7 @@ import { getStudents } from "../../Actions/Student"
 import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll,getenroll,unenroll } from "../../Actions/PgaAction"
 import { getCourses } from '../../Actions/Course'
 import {isEmptyString} from '../Validation'
+import MySnackBar from "../MySnackBar"
 class StarterPackTable extends Component {
     constructor(props){
         super(props);
@@ -35,8 +36,10 @@ class StarterPackTable extends Component {
             enrolledby : "",
             track : "",
             specialization :null,
-            expiryday : ""
-            
+            expiryday : "",
+            snackOpen : false,
+            snackMsg : "",
+            snackColor : ""
         }
     }
 
@@ -103,17 +106,38 @@ class StarterPackTable extends Component {
         this.props.getAllStarterPack()
         this.props.getAllSpecialization()
         this.props.getStudents()
-        this.props.getenroll(this.props.id)
+        this.props.getenroll()
         // this.props.getallcourse()
         this.props.getCourses()
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.newenrollList !== prevProps.newenrollList){
+            this.props.getenroll()
+            this.setState({
+                snackColor : "success",
+                snackMsg : "Course enrolled successfully",
+                snackOpen : true
+            })
+        }
+        if(this.props.unenrollList !== prevProps.unenrollList){
+            this.props.getenroll()
+            this.setState({
+                snackColor : "success",
+                snackMsg : "Course Unenrolled successfully",
+                snackOpen : true
+            })
+        }
+    }
+    
+
     handleEdit = (data) => {
         console.log(data)
         this.setState({
-            clsId : data.student.studentID,
-            enrollmentDate : data.createdAt,
-            courseid : data.id,
-            studentId : data.student.id,
+            clsId : data.studentClsId,
+            enrollmentDate : data.enrollDate,
+            courseid : data.courseId,
+            studentId : data.studentId,
             dialogOpen : true
         })
     }
@@ -127,15 +151,7 @@ class StarterPackTable extends Component {
 
     render(props) {
         console.log(this.props.getStudentsList)
-        const data = [
-            {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
-            {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
-            {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
-            {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
-            {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
-            {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
-            {clsId : "1", clientName : "Selva", track : "Track One", specialization : "Spec One", spCode : "DDU769", enrollDate : "21/7/2000", spName : "Machine learning", status : "20%", cert  : "yes"},
-        ]
+    
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container>
@@ -160,7 +176,7 @@ class StarterPackTable extends Component {
                                 </TableRow>
                             </TableHead>
                             {this.props.getenrollList.length !== 0 && this.props.getenrollList.map((eachData,index)=>{
-                                let date = new Date(eachData.createdAt)
+                                let date = new Date(eachData.enrollDate)
                                 let finaldate = date.getDate()
                                 let finalmonth = date.getMonth()
                                 let finalyear = date.getFullYear()
@@ -168,10 +184,10 @@ class StarterPackTable extends Component {
                                 return(
                                     <TableRow>
                                     <TableCell align="center">
-                                        {eachData.student.studentID}
+                                        {eachData.studentClsId}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {eachData.student.fullName}
+                                        {eachData.name}
                                     </TableCell>
                                     {/* <TableCell align="center">
                                         {eachData.track}
@@ -185,11 +201,11 @@ class StarterPackTable extends Component {
                                     <TableCell align="center">
                                         {Enrolldate}
                                     </TableCell>
-                                    {/* <TableCell align="center">
-                                        {eachData.SPCourse}
-                                    </TableCell> */}
                                     <TableCell align="center">
-                                        {eachData.progress}
+                                        {eachData.courseName}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {eachData.status}
                                     </TableCell>
                                     {/* <TableCell align="center">
                                         {eachData.cert}
@@ -418,6 +434,12 @@ class StarterPackTable extends Component {
                         </Grid>
                     </DialogActions>
                  </Dialog> 
+                 <MySnackBar
+                 snackOpen={this.state.snackOpen}
+                 onClose={()=>this.setState({snackOpen : false})}
+                 snackVariant={this.state.snackColor}
+                 snackMsg={this.state.snackMsg}
+                 />
             </MuiPickersUtilsProvider>
            
         )
