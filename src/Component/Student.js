@@ -73,6 +73,7 @@ export class Student extends Component {
       phoneHelperText : null,
       studentIdHelperText : null,
       internAccess : false,
+      lmsAccess : false,
     };
   }
 
@@ -219,6 +220,7 @@ export class Student extends Component {
         isActive: this.state.isActive,
         studentId: this.state.studentId,
         internshipAccess : this.state.internAccess === false ? "no" : "yes",
+        isLMSUser : this.state.lmsAccess === false ? "no" : "yes",
         origin : "ADMIN Portal"
       };
       this.props.mernStudentSignUp(studentObj)
@@ -235,7 +237,8 @@ export class Student extends Component {
         toogleButton : false,
         provider : "",
         internAccess : false,
-        studentId : null
+        studentId : null,
+        lmsAccess : false
       })
    }
    
@@ -266,6 +269,7 @@ export class Student extends Component {
       avatar: "",
       studentId: this.state.studentId,
       internshipAccess : this.state.internAccess === false ? "no" : "yes",
+      lmsAccess : this.state.lmsAccess === false ? "no" : "yes",
       provider: this.state.toogleButton === true ? "Google" : "Local",
       password: this.state.password,
     };
@@ -282,6 +286,7 @@ export class Student extends Component {
       isActive : false,
       toogleButton : false,
       internshipAccess : false,
+      lmsAccess : false,
       provider : "",
       studentId : null
     })
@@ -334,6 +339,7 @@ export class Student extends Component {
                 toogleButton : false,
                 studentId : null,
                 isActive : false,
+                lmsAccess : false
 
               })}
               action={true}
@@ -350,6 +356,7 @@ export class Student extends Component {
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
                   internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
+                  lmsAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   provider : rowdata.provider,
                   toogleButton : rowdata.provider === "Google" ? true : false,
                   studentId : rowdata.studentID,
@@ -482,7 +489,7 @@ export class Student extends Component {
                />
                   </Grid>
 
-                  <Grid item md={4} align="center">
+                  <Grid item md={3} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -497,7 +504,7 @@ export class Student extends Component {
                   />
                 
                   </Grid>
-                  <Grid item md={4} align="center">
+                  <Grid item md={3} align="center">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -510,7 +517,7 @@ export class Student extends Component {
                     label="Is Active"
                   />
                   </Grid>
-                  <Grid item md={4}>
+                  <Grid item md={3}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -521,6 +528,19 @@ export class Student extends Component {
                       />
                     }
                     label="Internship Access"
+                  />
+                  </Grid>
+                  <Grid item md={3}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.lmsAccess}
+                        onChange={(e)=>this.setState({lmsAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="LMS Access"
                   />
                   </Grid>
                   <Grid item md={12}>

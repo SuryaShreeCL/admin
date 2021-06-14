@@ -23,6 +23,12 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import Loader from "../Testimonials/components/controls/Loader";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 export class PersonalDetails extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +52,8 @@ export class PersonalDetails extends Component {
       snackMessage: null,
       snackVariant: null,
       isTempData : false,
+      dateofbirth : null,
+      dateofbirthHelperTxt : ""
     };
   }
   componentDidMount() {
@@ -188,6 +196,11 @@ export class PersonalDetails extends Component {
     
       ? this.setState({ fullNameHelperTxt: helpMsg })
       : this.setState({ fullNameHelperTxt: "" });
+      this.state.dateofbirth === null ||
+      this.state.dateofbirth.length === 0 
+    
+      ? this.setState({ dateofbirthHelperTxt: helpMsg })
+      : this.setState({ dateofbirthHelperTxt: "" });
 
     if (
       this.state.studentId !== null &&
@@ -197,13 +210,16 @@ export class PersonalDetails extends Component {
       this.state.lastName.length !== 0 &&
       this.state.lastName !== null &&
       this.state.fullName.length !== 0 &&
-      this.state.fullName !== null
+      this.state.fullName !== null &&
+      this.state.dateofbirth.length !== 0 &&
+      this.state.dateofbirth !== null 
     ) {
       let obj = {
         studentID: this.state.studentId,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         fullName: this.state.fullName,
+        Dob: this.state.dateofbirth
       };
       this.props.updateStudentPersonal(this.props.id, obj);
     }
@@ -437,6 +453,41 @@ export class PersonalDetails extends Component {
                   value={this.state.fullName}
                 />
               </Grid>
+              <Grid item md={6} style={divStyle} justify="space-between">
+                <Typography
+                  color="primary"
+                  style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Date of Birth:"}
+                </Typography>
+                {/* <TextField
+                  variant="outlined"
+                  size="small"
+                  error={
+                    this.state.dateofbirthHelperTxt.length !== 0 ? true : false
+                  }
+                  helperText={this.state.dateofbirthHelperTxt}
+                  onChange={(e) => this.handleChange(e)}
+                  name={"dateofbirth"}
+                  disabled={this.state.letEdit === false ? true : false}
+                  label="Date of Birth"
+                  value={this.state.dateofbirth}
+                /> */}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Date of Birth"
+                    format="MM/dd/yyyy"
+                    value={this.state.dateofbirth}
+                    onChange={(e,newValue)=>this.setState({ dateofbirth : newValue})}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                  </MuiPickersUtilsProvider>
+              </Grid>
               {this.renderOptional()}
               <Grid item md={12} style={divStyle} justify="flex-end">
                 <Button
@@ -486,6 +537,7 @@ function Alert(props) {
 const style = {
   divStyle: {
     display: "flex",
+    padding: "1%"
   },
   divContainer : {
     padding : "1% 2%"

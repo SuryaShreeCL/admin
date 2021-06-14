@@ -58,7 +58,7 @@ export const postStudentAccess=(data)=>{
 
 export const updateStudentPersonal=(id,data)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/student/"+id+"/personaldetails",data,{
+        axios.put(URL+"/api/v1/student/"+id+"/personalDetails",data,{
             crossDomain: true
         })
             .then(result => {
@@ -90,7 +90,7 @@ export const updateStudentEducation=(id,data)=>{
 
 export const updateStudentContact=(id,data)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/student/"+id+"/contactdetails",data,{
+        axios.put(URL+"/api/v1/student/"+id+"/contactDetails",data,{
             crossDomain: true
         })
             .then(result => {
@@ -138,7 +138,27 @@ export const updateInternAccess = (id,data) =>{
             });
     } 
 }
- 
+
+export const updateLmsAccess = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+    return dispatch =>{
+        axios.put(URL+"/api/v1/student/"+id+"/accountstatus",data,{
+            // headers : {
+            //     "admin" : "yes",
+            //     "Authorization" : `Bearer ${accessToken}`
+            // }
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ADMIN.updateLmsAccess,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } 
+}
+
+
 export const updateAspirationData=(id,data)=>{
     return dispatch => {
         axios.put(URL+"/aspiration/update/"+id,data,{
