@@ -280,7 +280,7 @@ export class PersonalDetails extends Component {
                   size="small"
                   disabled={this.state.letEdit === false ? true : false}
                   label="E-Mail"
-                  value={this.state.eMail || ""}
+                  value={this.state.tempEmail || ""}
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify="space-between">
@@ -296,7 +296,7 @@ export class PersonalDetails extends Component {
                   size="small"
                   disabled={this.state.letEdit === false ? true : false}
                   label="Phone Number"
-                  value={this.state.phoneNumber || ""}
+                  value={this.state.tempMobile || ""}
                 />
               </Grid>
         </>
