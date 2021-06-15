@@ -108,6 +108,7 @@ export class PersonalDetails extends Component {
         fullName: this.props.StudentDetails.fullName,
         eMail: this.props.StudentDetails.emailId,
         phoneNumber: this.props.StudentDetails.phoneNumber,
+        dateofbirth : this.props.StudentDetails.dob
       });
     }
     if(this.props.tempData !== prevProps.tempData){
@@ -119,7 +120,7 @@ export class PersonalDetails extends Component {
           firstName : this.props.tempData.firstName,
           lastName : this.props.tempData.lastName,
           tempEmail : this.props.tempData.emailId,
-          tempMobile : this.props.tempData.phoneNumber
+          tempMobile : this.props.tempData.phoneNumber,
         })
       }else{
         this.setState({
