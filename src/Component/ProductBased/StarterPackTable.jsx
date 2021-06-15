@@ -169,7 +169,7 @@ class StarterPackTable extends Component {
                                 <TableCell align="center">Specialization</TableCell>
                                 <TableCell align="center">SP Code</TableCell> */}
                                 <TableCell align="center">Enroll Date</TableCell>
-                                {/* <TableCell align="center">SP Name</TableCell> */}
+                                <TableCell align="center">SP Name</TableCell>
                                 <TableCell align="center">Status</TableCell>
                                 {/* <TableCell align="center">Cert</TableCell> */}
                                 <TableCell align="center">Actions</TableCell>
