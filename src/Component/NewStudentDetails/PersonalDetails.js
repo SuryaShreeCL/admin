@@ -53,7 +53,9 @@ export class PersonalDetails extends Component {
       snackVariant: null,
       isTempData : false,
       dateofbirth : null,
-      dateofbirthHelperTxt : ""
+      dateofbirthHelperTxt : "",
+      eMail:"",
+      phoneNumber:""
     };
   }
   componentDidMount() {
@@ -101,11 +103,11 @@ export class PersonalDetails extends Component {
       this.setState({
         StudentDetails: this.props.StudentDetails,
         studentId: this.props.StudentDetails.studentID,
-        // firstName: this.props.StudentDetails.firstName ,
-        // lastName:  this.props.StudentDetails.lastName,
+        firstName: this.props.StudentDetails.firstName ,
+        lastName:  this.props.StudentDetails.lastName,
         fullName: this.props.StudentDetails.fullName,
-        // eMail: this.props.StudentDetails.emailId,
-        // phoneNumber: this.props.StudentDetails.phoneNumber,
+        eMail: this.props.StudentDetails.emailId,
+        phoneNumber: this.props.StudentDetails.phoneNumber,
       });
     }
     if(this.props.tempData !== prevProps.tempData){
@@ -278,7 +280,7 @@ export class PersonalDetails extends Component {
                   size="small"
                   disabled={this.state.letEdit === false ? true : false}
                   label="E-Mail"
-                  value={this.state.tempEmail || ""}
+                  value={this.state.eMail || ""}
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify="space-between">
@@ -294,7 +296,7 @@ export class PersonalDetails extends Component {
                   size="small"
                   disabled={this.state.letEdit === false ? true : false}
                   label="Phone Number"
-                  value={this.state.tempMobile || ""}
+                  value={this.state.phoneNumber || ""}
                 />
               </Grid>
         </>
@@ -488,7 +490,7 @@ export class PersonalDetails extends Component {
                   />
                   </MuiPickersUtilsProvider>
               </Grid>
-              {this.renderOptional()}
+              {/* {this.renderOptional()} */}
               <Grid item md={12} style={divStyle} justify="flex-end">
                 <Button
                   variant="outlined"
