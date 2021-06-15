@@ -3,9 +3,14 @@ import axios from "axios"
 import {URL} from "../Actions/URL"
 
 export const adminLogin=(data)=>{
+    // let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch => {
         axios.put(URL+"/api/v1/students/validateAdmin",data,{
-            crossDomain: true
+            crossDomain: true,
+            // headers : {
+            //     "admin" : "yes",
+            //     "Authorization" : `Bearer ${accessToken}`
+            // }
         })
             .then(result => {
                 console.log(result)
@@ -57,9 +62,14 @@ export const postStudentAccess=(data)=>{
 }
 
 export const updateStudentPersonal=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch => {
         axios.put(URL+"/api/v1/student/"+id+"/personalDetails",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -89,9 +99,14 @@ export const updateStudentEducation=(id,data)=>{
 }
 
 export const updateStudentContact=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch => {
         axios.put(URL+"/api/v1/student/"+id+"/contactDetails",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -143,10 +158,10 @@ export const updateLmsAccess = (id,data) =>{
     let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch =>{
         axios.put(URL+"/api/v1/student/"+id+"/accountstatus",data,{
-            // headers : {
-            //     "admin" : "yes",
-            //     "Authorization" : `Bearer ${accessToken}`
-            // }
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)

@@ -23,7 +23,8 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import { getStudents, getStudentPaginate, postStudents, mernStudentSignUp, mernStudentEdit } from "../Actions/Student";
-import {getAllColleges,getBranches} from "../Actions/College"
+import {getAllColleges,getBranches} from "../Actions/College";
+import {updateLmsAccess} from '../Actions/AdminAction';
 import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
 import { studentIdPath } from "./RoutePaths";
@@ -135,6 +136,12 @@ export class Student extends Component {
   componentDidUpdate(prevProps,prevState){
     if(this.props.signUpResponse !== prevProps.signUpResponse){
       if(this.props.signUpResponse.auth === true){
+        let lmsobj = {
+          isActive: this.state.isActive,
+          provider: this.state.toogleButton === true ? "Google" : "Local",
+          isLMSUser : this.state.lmsAccess === false ? "false" : "true",
+        }
+        this.props.updateLmsAccess(this.props.signUpResponse.studentInfo.id,lmsobj)
         this.setState({
           snackMessage : "Student Registered Successfully",
           snackColor : "success",
@@ -220,7 +227,6 @@ export class Student extends Component {
         isActive: this.state.isActive,
         studentId: this.state.studentId,
         internshipAccess : this.state.internAccess === false ? "no" : "yes",
-        isLMSUser : this.state.lmsAccess === false ? "no" : "yes",
         origin : "ADMIN Portal"
       };
       this.props.mernStudentSignUp(studentObj)
@@ -269,7 +275,7 @@ export class Student extends Component {
       avatar: "",
       studentId: this.state.studentId,
       internshipAccess : this.state.internAccess === false ? "no" : "yes",
-      lmsAccess : this.state.lmsAccess === false ? "no" : "yes",
+      lmsAccess : this.state.lmsAccess === false ? "false" : "true",
       provider: this.state.toogleButton === true ? "Google" : "Local",
       password: this.state.password,
     };
@@ -584,9 +590,10 @@ const mapStateToProps = (state) => {
     BranchList : state.CollegeReducer.BranchList,
     signUpResponse : state.StudentReducer.signUpResponse,
     signUpError : state.StudentReducer.signUpError,
-    editStudentResponse : state.StudentReducer.editStudentResponse
+    editStudentResponse : state.StudentReducer.editStudentResponse,
+    updateLmsAccessList : state.AdminReducer.updateLmsAccess
   };
 };
-export default connect(mapStateToProps, { getStudents, getStudentPaginate, postStudents, getAllColleges, getBranches, mernStudentSignUp, mernStudentEdit })(
+export default connect(mapStateToProps, { getStudents, updateLmsAccess, getStudentPaginate, postStudents, getAllColleges, getBranches, mernStudentSignUp, mernStudentEdit })(
   Student
 );

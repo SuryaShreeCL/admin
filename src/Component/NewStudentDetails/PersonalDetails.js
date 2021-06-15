@@ -363,8 +363,8 @@ export class PersonalDetails extends Component {
               <Grid item md={1} style={divStyle} alignItems="center">
               <Tooltip arrow title="Edit" aria-label="Edit">
                   <IconButton 
-                  disabled={this.state.isTempData}
-                  onClick={() => this.setState({ letEdit: true })}>
+                  // disabled={this.state.isTempData}
+                  onClick={() => this.setState({ letEdit: true }) }>
                     <EditRoundedIcon />
                   </IconButton>
                 </Tooltip>
