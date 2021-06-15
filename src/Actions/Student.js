@@ -226,10 +226,15 @@ export const editDocumentsByStudentId=(studentId,data)=>{
 
 
 export const mernStudentSignUp=(data)=>{    
-    
+    // let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch=>{                
         console.log(data)
-        axios.post(AUTH_URL+"/api/v1/auth/signup",data,{crossDomain:true})                
+        axios.post(AUTH_URL+"/api/v1/auth/signup",data,{crossDomain:true,
+            // headers : {
+            //     "admin" : "yes",
+            //     "Authorization" : `Bearer ${accessToken}`
+            // }
+        })                
         .then(result => {                                                               
             dispatch({type:STUDENT.mernStudentSignUp,signUpResponse:result.data})
         })
