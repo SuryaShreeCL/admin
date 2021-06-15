@@ -73,7 +73,7 @@ export class AccountStatus extends Component {
                isActive : this.props.StudentDetails.isactive,
                provider : this.props.StudentDetails.provider !== null ? {title : this.props.StudentDetails.provider, value : this.props.StudentDetails.provider} : null,
                internAccess : this.props.StudentDetails.oldUser === "yes" ? true : false,
-               lmsAccess : this.props.StudentDetails.oldUser === "yes" ? true : false
+               lmsAccess : this.props.StudentDetails.isLMSUser === "yes" ? true : false
 
              })
          }

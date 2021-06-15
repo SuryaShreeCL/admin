@@ -53,7 +53,9 @@ export class PersonalDetails extends Component {
       snackVariant: null,
       isTempData : false,
       dateofbirth : null,
-      dateofbirthHelperTxt : ""
+      dateofbirthHelperTxt : "",
+      eMail:"",
+      phoneNumber:""
     };
   }
   componentDidMount() {
@@ -101,11 +103,12 @@ export class PersonalDetails extends Component {
       this.setState({
         StudentDetails: this.props.StudentDetails,
         studentId: this.props.StudentDetails.studentID,
-        // firstName: this.props.StudentDetails.firstName ,
-        // lastName:  this.props.StudentDetails.lastName,
+        firstName: this.props.StudentDetails.firstName ,
+        lastName:  this.props.StudentDetails.lastName,
         fullName: this.props.StudentDetails.fullName,
-        // eMail: this.props.StudentDetails.emailId,
-        // phoneNumber: this.props.StudentDetails.phoneNumber,
+        eMail: this.props.StudentDetails.emailId,
+        phoneNumber: this.props.StudentDetails.phoneNumber,
+        dateofbirth : this.props.StudentDetails.dob
       });
     }
     if(this.props.tempData !== prevProps.tempData){
@@ -117,7 +120,7 @@ export class PersonalDetails extends Component {
           firstName : this.props.tempData.firstName,
           lastName : this.props.tempData.lastName,
           tempEmail : this.props.tempData.emailId,
-          tempMobile : this.props.tempData.phoneNumber
+          tempMobile : this.props.tempData.phoneNumber,
         })
       }else{
         this.setState({
@@ -488,7 +491,7 @@ export class PersonalDetails extends Component {
                   />
                   </MuiPickersUtilsProvider>
               </Grid>
-              {this.renderOptional()}
+              {/* {this.renderOptional()} */}
               <Grid item md={12} style={divStyle} justify="flex-end">
                 <Button
                   variant="outlined"

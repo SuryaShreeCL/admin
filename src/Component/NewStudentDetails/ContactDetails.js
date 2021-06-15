@@ -105,6 +105,9 @@ export class ContactDetails extends Component {
         phoneNumber: this.props.StudentDetails.phoneNumber,
         linkedInProfile: this.props.StudentDetails.linkedInProfile,
         city: this.props.StudentDetails.city,
+        facebookProfile:this.props.StudentDetails.faceBookUrl,
+        twitterProfile:this.props.StudentDetails.twitterUrl,
+        address:this.props.StudentDetails.address
       });
     }
     if (this.props.contactDataResponse !== prevProps.contactDataResponse) {
