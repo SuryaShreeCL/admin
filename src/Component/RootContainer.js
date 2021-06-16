@@ -62,7 +62,7 @@ const NavbarList = [
        { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
       {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
       {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
-      {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
+      // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
       // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
       
     ];

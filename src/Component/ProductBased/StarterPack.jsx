@@ -39,7 +39,8 @@ class StarterPack extends Component {
             expiryday : "",
             snackOpen : false,
             snackMsg : "",
-            snackColor : ""
+            snackColor : "",
+            testData : []
         }
     }
 
@@ -107,7 +108,7 @@ class StarterPack extends Component {
         this.props.getAllSpecialization()
         this.props.getStudents()
         this.props.getAllEnroll()
-        // this.props.getallcourse()
+        this.props.getallcourse()
         this.props.getCourses()
     }
 
@@ -128,7 +129,13 @@ class StarterPack extends Component {
                 snackOpen : true
             })
         }
+        if(this.props.allEnrollCourseList !== prevProps.allEnrollCourseList){
+            let tempArr = []
+            tempArr = this.props.allEnrollCourseList.splice(0, 10)
+            this.setState({testData : tempArr})
+        }
     }
+
     
 
     handleEdit = (data) => {
@@ -150,8 +157,8 @@ class StarterPack extends Component {
     }
 
     render(props) {
-        console.log(this.props.getStudentsList)
-    
+        console.log(this.props.allEnrollCourseList)
+        console.log(this.state.testData)
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container>
@@ -175,7 +182,8 @@ class StarterPack extends Component {
                                 <TableCell align="center">Actions</TableCell>
                                 </TableRow>
                             </TableHead>
-                            {this.props.allEnrollCourseList.length !== 0 && this.props.allEnrollCourseList.map((eachData,index)=>{
+                           {/*  */}
+                           {this.state.testData.map((eachData,index)=>{
                                 let date = new Date(eachData.enrollDate)
                                 let finaldate = date.getDate()
                                 let finalmonth = date.getMonth()
@@ -450,9 +458,6 @@ const mapStateToProps = (state) =>{
     return {
         starterPackDetails : state.PgaReducer.starterPackDetails,
         allSpecialization : state.PgaReducer.allSpecialization,
-        // studentDetail : state.StudentReducer.StudentList,
-        // StudentList : state.StudentReducer.StudentList,
-        // getallcourseList : state.PgaReducer.getallcourse,
         newenrollList : state.PgaReducer.newenroll,
         getCoursesList : state.CourseReducer.CourseList,
         getStudentsList : state.StudentReducer.StudentsList,
