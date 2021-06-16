@@ -75,6 +75,11 @@ export class ProductVarient extends Component {
             intake : null,
             year : null,
             pricing : null,
+            endOfEnrollmentDateErr : "",
+            endOfServiceDateErr:"",
+            intakeErr : "",
+            yearErr:"",
+            pricingErr:""
 
         }
     }
@@ -107,7 +112,12 @@ export class ProductVarient extends Component {
       this.state.images.length === 0 ? this.setState({ imagesErr : hlpTxt }) : this.setState({ imagesErr: "" })
       this.state.videos.length === 0 ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
       isEmptyString(this.state.name) ? this.setState({ nameErr : hlpTxt }) : this.setState({ nameErr : "" })
-
+      this.state.year === null ? this.setState({yearErr : hlpTxt}) : this.setState({yearErr : ""})
+      this.state.intake === null ? this.setState({intakeErr : hlpTxt}) : this.setState({intakeErr : ""})
+      this.state.pricing === null ? this.setState ({pricingErr : hlpTxt }) : this.setState({pricingErr : ""})
+      this.state.endOfEnrollmentDate === null ? this.setState ({endOfEnrollmentDateErr : hlpTxt }) : this.setState ({endOfEnrollmentDateErr : ""})
+      this.state.endOfServiceDate === null ? this.setState ({ endOfServiceDateErr : hlpTxt}) : this.setState({ endOfServiceDateErr : ""})
+      
       if(
         !isEmptyString(this.state.shortName) &&
         !isEmptyString(this.state.codeName) &&
@@ -116,7 +126,12 @@ export class ProductVarient extends Component {
         !isEmptyString(this.state.tnc) &&
         this.state.images.length !== 0 &&
         this.state.videos.length !== 0 &&
-        !isEmptyString(this.state.name) 
+        !isEmptyString(this.state.name) &&
+        this.state.endOfServiceDate !== null &&
+        this.state.endOfEnrollmentDate !== null &&
+        this.state.intake !== null &&
+        this.state.year !== null &&
+        this.state.pricing !== null
         // && this.state.question.length !== 0
        
       ){
@@ -232,7 +247,11 @@ export class ProductVarient extends Component {
       this.state.images.length === 0 ? this.setState({ imagesErr : hlpTxt }) : this.setState({ imagesErr: "" })
       this.state.videos.length === 0 ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
       isEmptyString(this.state.name) ? this.setState({ nameErr : hlpTxt }) : this.setState({ nameErr : "" })
-
+      this.state.year === null ? this.setState({yearErr : hlpTxt}) : this.setState({yearErr : ""})
+      this.state.intake === null ? this.setState({intakeErr : hlpTxt}) : this.setState({intakeErr : ""})
+      this.state.pricing === null ? this.setState ({pricingErr : hlpTxt }) : this.setState({pricingErr : ""})
+      this.state.endOfEnrollmentDate === null ? this.setState ({endOfEnrollmentDateErr : hlpTxt }) : this.setState ({endOfEnrollmentDateErr : ""})
+      this.state.endOfServiceDate === null ? this.setState ({ endOfServiceDateErr : hlpTxt}) : this.setState({ endOfServiceDateErr : ""})
       if(
         !isEmptyString(this.state.shortName) &&
         !isEmptyString(this.state.codeName) &&
@@ -242,7 +261,12 @@ export class ProductVarient extends Component {
         this.state.images.length !== 0 &&
         this.state.videos.length !== 0 &&
         !isEmptyString(this.state.name) &&
-        this.state.question.length !== 0
+        this.state.question.length !== 0 &&
+        this.state.endOfServiceDate !== null &&
+        this.state.endOfEnrollmentDate !== null &&
+        this.state.intake !== null &&
+        this.state.year !== null &&
+        this.state.pricing !== null
        
       ){
         let postVideoArr = this.state.videos.map((eachVideo)=>{
@@ -528,6 +552,8 @@ export class ProductVarient extends Component {
                     variant="inline"
                     format="MM/dd/yyyy"
                     margin="normal"
+                    error={this.state.endOfServiceDateErr.length > 0 }
+                    helperText={this.state.endOfServiceDateErr}
                     id="date-picker-inline"
                     label="End Of Service Date"
                     value={this.state.endOfServiceDate}
@@ -542,6 +568,8 @@ export class ProductVarient extends Component {
                     disableToolbar
                     variant="inline"
                     format="MM/dd/yyyy"
+                    error={this.state.endOfEnrollmentDateErr.length > 0 }
+                    helperText={this.state.endOfEnrollmentDateErr}
                     margin="normal"
                     id="date-picker-inline"
                     label="End Of Enrollment Date"
@@ -555,6 +583,8 @@ export class ProductVarient extends Component {
                     <Grid item md>
                   <TextField
                   label={"Intake"}
+                  error={this.state.intakeErr.length > 0}
+                  helperText={this.state.intakeErr}
                   value={this.state.intake}
                   name={"intake"}
                   onChange={this.handleChange}
@@ -564,7 +594,10 @@ export class ProductVarient extends Component {
                   <TextField
                   label={"Year"}
                   value={this.state.year}
+                  error={this.state.yearErr.length > 0}
+                  helperText={this.state.yearErr}
                   name={"year"}
+                  type="number"
                   onChange={this.handleChange}
                   />
                     </Grid>
@@ -573,6 +606,9 @@ export class ProductVarient extends Component {
                   label={"Pricing"}
                   value={this.state.pricing}
                   name={"pricing"}
+                  type="number"
+                  error={this.state.pricingErr.length > 0}
+                  helperText={this.state.pricingErr}
                  InputProps={{startAdornment : "₹"}}
                   onChange={this.handleChange}
                   />
