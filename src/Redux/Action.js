@@ -246,8 +246,8 @@ export const PGA = {
   getallcourse : "getallcourse",
   newenroll:"newenroll",
   getenroll : "getenroll",
-  unenroll : "unenroll"
-
+  unenroll : "unenroll",
+  getAllEnroll : "getAllEnroll"
 }
 
 

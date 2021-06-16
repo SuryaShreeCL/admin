@@ -29,7 +29,8 @@ const initialState = {
   getallcourse : [],
   newenroll : [],
   getenroll : [],
-  unenroll:[]
+  unenroll:[],
+  allEnrollCourseList : []
 };
 
 export default (state = initialState, action) => {
@@ -179,6 +180,11 @@ export default (state = initialState, action) => {
               ...state,
               unenroll : action.payload
             }
+            case PGA.getAllEnroll:
+              return {
+                ...state,
+                allEnrollCourseList : action.payload
+              }
 
 
     default:
