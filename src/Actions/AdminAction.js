@@ -120,9 +120,14 @@ export const updateStudentContact=(id,data)=>{
 }
 
 export const updateAccountStatus=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch => {
         axios.put(URL+"/api/v1/student/"+id+"/accountstatus",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
