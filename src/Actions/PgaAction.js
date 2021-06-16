@@ -341,6 +341,31 @@ export const getAllEnroll = () =>{
     }
 }
 
+export const getFilteredCourseEnroll = (id) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/get/courses/"+id)
+        .then(result=>{
+            dispatch({type : PGA.getFilteredCourseForEnroll, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const clearNewEnroll = () =>{
+    return dispatch=>{
+        dispatch({type : PGA.clearNewEnroll})
+    }
+}
+
+export const clearUnEnroll = () =>{
+    return dispatch=>{
+        dispatch({type : PGA.clearUnEnroll})
+    }
+}
+
+
 export const unenroll = (data) =>{
     return dispatch=>{
         axios.post(URL+"/api/v1/create/unenrolledcourse",data)

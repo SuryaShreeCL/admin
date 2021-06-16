@@ -9,7 +9,7 @@ import {
 } from '@material-ui/pickers';
 import {Autocomplete} from "@material-ui/lab"
 import { getStudents, getStudentsById } from "../../Actions/Student"
-import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll,getenroll,unenroll } from "../../Actions/PgaAction"
+import { getAllStarterPack, getAllSpecialization,getallcourse,newenroll,getenroll,unenroll, getFilteredCourseEnroll , clearNewEnroll, clearUnEnroll} from "../../Actions/PgaAction"
 import { getCourses } from '../../Actions/Course'
 import {isEmptyString} from '../Validation'
 import MySnackBar from "../MySnackBar"
@@ -39,7 +39,8 @@ class StarterPackTable extends Component {
             expiryday : "",
             snackOpen : false,
             snackMsg : "",
-            snackColor : ""
+            snackColor : "",
+            dataChanged : false
         }
     }
 
@@ -77,6 +78,7 @@ class StarterPackTable extends Component {
         this.state.enrolledby !== undefined && isEmptyString(this.state.enrolledby) ? this.setState({ enrolledbyErr : hlptxt}) : this.setState({ enrolledbyErr : ""})
         // isEmptyString(this.state.clsId) ? this.setState({ clsidErr : hlptxt}) : this.setState({ clsidErr : ""})
         this.state.expiryday !== undefined && isEmptyString(this.state.expiryday) ? this.setState({expirydayErr : hlptxt}) : this.setState({expirydayErr : ""})
+        this.state.expiryDate.getTime() <= this.state.enrollmentDate.getTime() ? this.setState({expiryDateErr : "Expiry date must be greater than enrollment date"}) : this.setState({expiryDateErr : ""})
         if(
             // !isEmptyString(this.state.studentId) &&
             !isEmptyString(this.state.courseid) &&
@@ -84,6 +86,7 @@ class StarterPackTable extends Component {
             this.state.expiryDate !== null &&
             !isEmptyString(this.state.track) &&
             this.state.specialization !== null &&
+            !this.state.expiryDate.getTime() <= this.state.enrollmentDate.getTime() &&
             !isEmptyString(this.state.enrolledby) &&
             // !isEmptyString(this.state.clsId) &&
             !isEmptyString(this.state.expiryday)
@@ -96,7 +99,13 @@ class StarterPackTable extends Component {
             }
             
             this.props.newenroll(obj)
-            this.setState({open:false})
+            this.setState({
+                open:false,
+                enrollmentDate : new Date(),
+                expiryDate : new Date(),
+                expiryday : "",
+                enrolledby : ""
+            })
         }
         
        
@@ -110,28 +119,51 @@ class StarterPackTable extends Component {
         this.props.getenroll(this.props.id)
         // this.props.getallcourse()
         this.props.getCourses()
+        this.props.getFilteredCourseEnroll(this.props.id)
 
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.newenrollList !== prevProps.newenrollList){
-            this.props.getenroll(this.props.id)
-            this.setState({
-                snackColor : "success",
-                snackMsg : "Course enrolled successfully",
-                snackOpen : true
-            })
-        }
-        if(this.props.unenrollList !== prevProps.unenrollList){
-            this.props.getenroll(this.props.id)
-            this.setState({
-                snackColor : "success",
-                snackMsg : "Course Unenrolled successfully",
-                snackOpen : true
-            })
-        }
-    }
+    flag = false
+
     
+    componentDidUpdate(prevProps, prevState) {
+
+        if(this.props.newenrollList !== prevProps.newenrollList){
+            if(this.props.newenrollList === "Suceess"){
+                this.props.getenroll(this.props.id)
+                this.setState({
+                    snackColor : "success",
+                    snackMsg : "Course enrolled successfully",
+                    snackOpen : true
+                })
+                this.props.clearNewEnroll()
+            }else if(this.props.newenrollList === "Already EnrolledCourses"){
+                this.setState({
+                    snackColor : "error",
+                    snackMsg : "Course Already Enrolled",
+                    snackOpen : true
+                })  
+                this.props.clearNewEnroll()
+            }
+        }
+     
+            
+           
+        if(this.props.unenrollList !== prevProps.unenrollList){
+            if(this.props.unenrollList === "success"){
+                this.props.getenroll(this.props.id)
+                this.setState({
+                    snackColor : "success",
+                    snackMsg : "Course Unenrolled successfully",
+                    snackOpen : true
+                })
+                this.props.clearUnEnroll()
+            }
+           
+        }
+    }
+
+  
 
     handleEdit = (data) => {
         console.log(data)
@@ -149,10 +181,14 @@ class StarterPackTable extends Component {
             "courseId": this.state.courseid
         }
           this.props.unenroll(obj)
+          this.setState({
+              dialogOpen : false
+          })
     }
 
     render(props) {
-        console.log(this.props.studentData)
+        console.log(this.props)
+        console.log(this.state)
     
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -460,8 +496,9 @@ const mapStateToProps = (state) =>{
         getStudentsList : state.StudentReducer.StudentsList,
         getenrollList :  state.PgaReducer.getenroll,
         unenrollList : state.PgaReducer.unenroll,
-        studentData : state.StudentReducer.StudentList
+        studentData : state.StudentReducer.StudentList,
+        filteredCourseList : state.PgaReducer.filteredCourseList
     }
 }
 
-export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization,unenroll, getStudents,getallcourse,newenroll,getCourses,getenroll, getStudentsById})(StarterPackTable)
+export default connect(mapStateToProps, {getAllStarterPack, getAllSpecialization,unenroll, getStudents,getallcourse,newenroll,getCourses,getenroll, getStudentsById, getFilteredCourseEnroll, clearNewEnroll, clearUnEnroll})(StarterPackTable)

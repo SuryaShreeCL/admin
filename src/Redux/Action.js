@@ -247,7 +247,10 @@ export const PGA = {
   newenroll:"newenroll",
   getenroll : "getenroll",
   unenroll : "unenroll",
-  getAllEnroll : "getAllEnroll"
+  getAllEnroll : "getAllEnroll",
+  getFilteredCourseForEnroll : "getFilteredCourseForEnroll",
+  clearNewEnroll : "clearNewEnroll",
+  clearUnEnroll : "clearUnEnroll"
 }
 
 
