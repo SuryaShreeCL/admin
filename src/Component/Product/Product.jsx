@@ -21,12 +21,20 @@ import AddIcon from "@material-ui/icons/Add";
 import {
   getAllProductFamily,
   postproductfamily,
-  updateproductfamily
+  updateproductfamily,
+  updatefamily
 } from "../../Actions/ProductAction";
 import { connect } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { isEmptyString } from "../../Component/Validation";
 import MySnackBar from "../MySnackBar";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import { ArrowUpward } from "@material-ui/icons";
 class Product extends Component {
   constructor() {
     super();
@@ -43,6 +51,14 @@ class Product extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
+      createdby : "",
+      createdbyErr:"",
+      createdon : null ,
+      craetedonErr : "",
+      updatedby : "",
+      updatdebyErr : "",
+      updatedon : null,
+      updatedonErr : ""
     };
   }
   componentDidMount() {
@@ -64,7 +80,20 @@ console.log(data)
       productName:data.productName
     });
   };
-
+handleSort = () => {
+      let sortdata = this.props.getAllProductFamilyList.map(eg =>eg.shortName)
+     console.log(sortdata.sort()) 
+}
+// handleDescSort = () => {
+//   let productdata = this.props.getAllProductFamilyList.map(eg =>eg.productName)
+//   let shortNamedata = this.props.getAllProductFamilyList.map(eg =>eg.shortName)
+//   let codedata = this.props.getAllProductFamilyList.map(eg =>eg.codeName)
+//      console.log(productdata.sort()) 
+// }
+// handleAsecSort = () =>{
+//   let sortdata = this.props.getAllProductFamilyList.map(eg =>eg.shortName)
+//   console.log(sortdata.sort()) 
+// }
   newhandleSaved = () => {
     console.log(this.state);
     let helpertxt = "Please fill the required field";
@@ -124,7 +153,14 @@ console.log(data)
         codeName: this.state.codeName,
         shortName: this.state.shortName,
       };
+      let obj2={
+        codeName:this.state.codeName,
+        productName:this.state.productName,
+        updatedBy:this.state.updatedby,
+        dateOfUpdate:this.state.updatedon
+    }
        this.props.updateproductfamily(obj1)
+       this.props.updatefamily(obj2)
        this.setState({
         snackMsg:"Updated Successfully",
         snackOpen:true,
@@ -165,9 +201,22 @@ console.log(data)
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell>ProductName</TableCell>
+              <TableCell>Product_SKU</TableCell>
+              <TableCell>
+                <div style={{display:"flex",flexDirection:"row"}}>
+                <Typography>Product_Name</Typography>
+                {/* <IconButton onClick={this.handleDescSort}>
+                  <ArrowUpward />
+                </IconButton> */}
+                </div>
+              </TableCell>
               <TableCell>CodeName</TableCell>
               <TableCell>ShortName</TableCell>
+              <TableCell>Varient</TableCell>
+              <TableCell>Created_by</TableCell>
+              <TableCell>Created_on</TableCell>
+              <TableCell>Updated_by</TableCell>
+              <TableCell>Updated_on</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -176,9 +225,15 @@ console.log(data)
               ? this.props.getAllProductFamilyList.map((eg) => (
                   <TableRow>
                     <TableCell>{eg.id}</TableCell>
+                    <TableCell>Product_SKU</TableCell>
                     <TableCell>{eg.productName}</TableCell>
                     <TableCell>{eg.codeName}</TableCell>
                     <TableCell>{eg.shortName}</TableCell>
+                    <TableCell>5</TableCell>
+                    <TableCell>Created_by</TableCell>
+                    <TableCell>Created_on</TableCell>
+                    <TableCell>Updated_by</TableCell>
+                    <TableCell>Updated_on</TableCell>
                     <TableCell>
                       <div style={{ display: "flex", flexDirection: "row" }}>
                         <Button
@@ -220,7 +275,7 @@ console.log(data)
             </div>
           </DialogTitle>
           <DialogContent>
-            <Grid container>
+            <Grid container spacing={2}>
               { !isEmptyString(this.state.id) ? 
                <Grid item sm={12}>
               <TextField
@@ -228,7 +283,7 @@ console.log(data)
                   color="primary"
                   disabled
                   label="ID"
-                  style={{ marginTop: "2%" }}
+                  // style={{ marginTop: "2%" }}
                   fullWidth
                   value={this.state.id}
                 />
@@ -239,7 +294,7 @@ console.log(data)
                   variant="outlined"
                   color="primary"
                   label="ProductName"
-                  style={{ marginTop: "2%" }}
+                  // style={{ marginTop: "2%" }}
                   fullWidth
                   value={this.state.productName}
                   error={this.state.productNameErr.length > 0}
@@ -257,7 +312,7 @@ console.log(data)
                   label="ShortName"
                   name="ShortName"
                   fullWidth
-                  style={{ marginTop: "2%" }}
+                  // style={{ marginTop: "2%" }}
                   value={this.state.shortName}
                   error={this.state.shortNameErr.length > 0}
                   helperText={this.state.shortNameErr}
@@ -271,7 +326,7 @@ console.log(data)
                   color="primary"
                   label="CodeName"
                   name="CodeName"
-                  style={{ marginTop: "2%" }}
+                  // style={{ marginTop: "2%" }}
                   fullWidth
                   value={this.state.codeName}
                   error={this.state.codeNameErr.length > 0}
@@ -280,6 +335,75 @@ console.log(data)
                   multiline
                 />
               </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  variant="outlined"
+                  color="primary"
+                  disabled={!isEmptyString(this.state.createdby)}
+                  label="Created By"
+                  name="Createdby"
+                  // style={{ marginTop: "2%" }}
+                  fullWidth
+                  value={this.state.createdby}
+                  error={this.state.createdbyErr.length > 0}
+                  helperText={this.state.createdbyErr}
+                  onChange={(e) => this.setState({ createdby: e.target.value })}
+                  multiline
+                />
+              </Grid>
+              <Grid item sm={6}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    disabled={this.state.createdon !== null }
+                    label="Created On"
+                    variant = "dialog"
+                    format="MM/dd/yyyy"
+                    value={this.state.createdon}
+                    onChange={(e,newValue)=>this.setState({ createdon : newValue})}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                  </MuiPickersUtilsProvider>
+              </Grid>
+              {!isEmptyString(this.state.id) ?
+              <>
+              <Grid item sm={6}>
+                <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Updated By"
+                  name="updatedby"
+                  style={{ marginTop: "2%" }}
+                  fullWidth
+                  value={this.state.updatedby}
+                  error={this.state.updatdebyErr.length > 0}
+                  helperText={this.state.updatdebyErr}
+                  onChange={(e) => this.setState({ updatedby: e.target.value })}
+                  multiline
+                />
+              </Grid>
+               <Grid item sm={6}>
+               <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                 <KeyboardDatePicker
+                     margin="normal"
+                     id="date-picker-dialog"
+                     label="Updated On"
+                     variant = "dialog"
+                     format="yyyy-MM-dd"
+                     value={this.state.updatedon}
+                     onChange={(e,newValue)=>this.setState({ updatedon : newValue})}
+                     KeyboardButtonProps={{
+                       'aria-label': 'change date',
+                     }}
+                   />
+                   </MuiPickersUtilsProvider>
+               </Grid>
+               </>
+               : null
+               }
             </Grid>
           </DialogContent>
           <DialogActions>
@@ -312,12 +436,14 @@ const mapStateToprops = (state) => {
   return {
     getAllProductFamilyList: state.ProductReducer.productFamilyList,
     postproductfamilyList: state.ProductReducer.postproductfamily,
-    updateproductfamilyList:state.ProductReducer.updateproductfamily
+    updateproductfamilyList:state.ProductReducer.updateproductfamily,
+    updatefamilyList : state.ProductReducer.updatefamily
   };
 };
 
 export default connect(mapStateToprops, {
   getAllProductFamily,
   postproductfamily,
-  updateproductfamily
+  updateproductfamily,
+  updatefamily
 })(Product);

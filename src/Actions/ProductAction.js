@@ -248,3 +248,21 @@ export const updatevarientimage = (data) =>{
         })
     }
 }
+export const updatefamily = (data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+    return dispatch =>{
+        axios.put(URL+"/api/v1/update/productfamily",data ,{
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:PRODUCT.updatefamily,payload:result.data});
+        })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+    }

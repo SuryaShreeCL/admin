@@ -331,22 +331,29 @@ export class ProductVarient extends Component {
             <Table>
               <TableHead >
                 <TableRow>
+                <TableCell style={{fontWeight:"bold"}}>SKU</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Varient Name</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Varient short Name</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Code Name</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product Oneliner</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product description</TableCell>
+                {/* <TableCell style={{fontWeight:"bold"}}>Product Oneliner</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Product description</TableCell> */}
+                <TableCell style={{fontWeight:"bold"}}>Standalone</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Pricing</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>Year</TableCell>
+                <TableCell style={{fontWeight:"bold"}}>EOS</TableCell>
                 {/* <TableCell style={{fontWeight:"bold"}}>Product Images</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product Videos</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product Tnc</TableCell>
                 <TableCell style={{fontWeight:"bold"}}>Product Q&A</TableCell> */}
                 <TableCell ali style={{fontWeight:"bold"}}>Action</TableCell>
+
                 </TableRow>
               </TableHead>
               <TableBody>
                 {this.props.getProductVarientList.map((eachVariant)=>{
                   return (
                     <TableRow>
+                      <TableCell>SKU</TableCell>
                       <TableCell>
                         {eachVariant.name}
                       </TableCell>
@@ -356,12 +363,16 @@ export class ProductVarient extends Component {
                       <TableCell>
                         {eachVariant.codeName}
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         {eachVariant.productOneliner}
                       </TableCell>
                       <TableCell>
                         {eachVariant.productDescription}
-                      </TableCell>
+                      </TableCell> */}
+                      <TableCell>Yes</TableCell>
+                      <TableCell>$50000</TableCell>
+                      <TableCell>365 Days</TableCell>
+                      <TableCell>DD/MM/YYYY</TableCell>
                       <TableCell > 
                         <div style={{display:'flex', flexDirection:"row"}}>
                       <Button size="small" variant="contained" color="primary" style={{margin:"5px"}} startIcon={<EditIcon/>} onClick={()=>this.handleEdit(eachVariant)}>Edit</Button>
