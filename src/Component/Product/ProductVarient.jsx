@@ -34,6 +34,7 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from '@material-ui/lab/Alert';
+import { productVariantPath } from '../RoutePaths';
 
 export class ProductVarient extends Component {
     constructor(props) {
@@ -321,7 +322,10 @@ export class ProductVarient extends Component {
                 variant="contained"
                 color="primary" 
                 size="medium"
-                onClick={this.handleClickOpen}
+                onClick={
+                  // this.handleClickOpen
+                  ()=>this.props.history.push(productVariantPath)
+                }
                 >
                   Add
                   </Button>

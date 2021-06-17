@@ -6,6 +6,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Product from './Product';
 import ProductVariant from "./ProductVarient"
+import VariantGeneralData from './VariantGeneralData';
+import VariantDescription from './VariantDescription';
+import VariantImgVidLanding from './VariantImgVidLanding';
+import variantTnc from './variantTnc';
+import VarriantQna from './VarriantQna';
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -54,7 +59,7 @@ const AntTabs = withStyles({
   }))((props) => <Tab disableRipple {...props} />);
 
 
- class ProductLanding extends Component {
+ class ProductVariantRoot extends Component {
    constructor(props) {
      super(props);
      this.state = {
@@ -66,13 +71,25 @@ const AntTabs = withStyles({
      try {
        if (value === 0) {
          return (
-           <Product {...this.props} />
+           <VariantGeneralData {...this.props} />
          );
        } else if (value === 1) {
          return (
-           <ProductVariant  {...this.props} />
+           <VariantDescription  {...this.props} />
          );
-       }
+       }else if (value === 2) {
+        return (
+          <VariantImgVidLanding  {...this.props} />
+        );
+      }else if (value === 3) {
+        return (
+          <variantTnc  {...this.props} />
+        );
+      }else if (value === 4) {
+        return (
+          <VarriantQna  {...this.props} />
+        );
+      }
      } catch (error) {
        console.log(error);
      }
@@ -94,9 +111,11 @@ const AntTabs = withStyles({
              onChange={(e, value) => this.setState({ tabCount: value })}
              aria-label="ant example"
            >
-             <AntTab label="Product Family" />
-             <AntTab label="Product Variant" />
-             <AntTab label="Product Combo" />
+             <AntTab label="General Data" />
+             <AntTab label="Product Description" />
+             <AntTab label="Product Images/Videos" />
+             <AntTab label="Product TnC" />
+             <AntTab label="Product QnA" />
            </AntTabs>
          </Grid>
          <Grid item md={12}>
@@ -113,4 +132,4 @@ const mapStateToProps = (state) =>{
 }
 
 
-export default connect(mapStateToProps, {})(ProductLanding)
+export default connect(mapStateToProps, {})(ProductVariantRoot)

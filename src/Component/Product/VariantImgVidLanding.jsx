@@ -6,6 +6,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Product from './Product';
 import ProductVariant from "./ProductVarient"
+import ProductImages from "./ProductImages"
+import ProductVideos from "./ProductVideos"
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -54,7 +56,7 @@ const AntTabs = withStyles({
   }))((props) => <Tab disableRipple {...props} />);
 
 
- class ProductLanding extends Component {
+ class VariantImgVidLanding extends Component {
    constructor(props) {
      super(props);
      this.state = {
@@ -66,11 +68,11 @@ const AntTabs = withStyles({
      try {
        if (value === 0) {
          return (
-           <Product {...this.props} />
+           <ProductImages {...this.props} />
          );
        } else if (value === 1) {
          return (
-           <ProductVariant  {...this.props} />
+           <ProductVideos  {...this.props} />
          );
        }
      } catch (error) {
@@ -94,9 +96,9 @@ const AntTabs = withStyles({
              onChange={(e, value) => this.setState({ tabCount: value })}
              aria-label="ant example"
            >
-             <AntTab label="Product Family" />
-             <AntTab label="Product Variant" />
-             <AntTab label="Product Combo" />
+             <AntTab label="Images" />
+             <AntTab label="Videos" />
+        
            </AntTabs>
          </Grid>
          <Grid item md={12}>
@@ -113,4 +115,4 @@ const mapStateToProps = (state) =>{
 }
 
 
-export default connect(mapStateToProps, {})(ProductLanding)
+export default connect(mapStateToProps, {})(VariantImgVidLanding)
