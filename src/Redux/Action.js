@@ -153,7 +153,8 @@ export const PRODUCT = {
   postProductVideos : "postProductVideos",
   updateProductVideos : "updateProductVideos",
   postvarientimage : "postvarientimage",
-  updatevarientimage : "updatevarientimage"
+  updatevarientimage : "updatevarientimage",
+  updatefamily : "updatefamily"
 };
 
 export const ADMIN = {
