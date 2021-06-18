@@ -21,7 +21,8 @@ const initialState = {
   getvarientimage:[],
   postvarientimage:[],
   updatevarientimage:[],
-  updatefamily:[]
+  updatefamily:[],
+  deletefamily:[]
 };
 
 export default (state = initialState, action) => {
@@ -130,6 +131,11 @@ export default (state = initialState, action) => {
                       return {
                         ...state,
                         updatefamily : action.payload,
+                      };
+                      case PRODUCT.deletefamily:
+                      return {
+                        ...state,
+                        deletefamily : action.payload,
                       };
                     
 
