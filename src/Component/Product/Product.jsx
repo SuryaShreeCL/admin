@@ -116,6 +116,10 @@ handleSort = () => {
         productName: this.state.productName,
         codeName: this.state.codeName,
         shortName: this.state.shortName,
+        createdBy:this.state.createdby,
+        updatedBy:this.state.updatedby,
+        dateOfCreation:this.state.createdon,
+        dateOfUpdate:this.state.updatedon
       };
       this.props.postproductfamily(obj);
       this.setState({
@@ -185,7 +189,7 @@ handleSort = () => {
             justifyContent: "space-between",
           }}
         >
-          <Typography style={{ marginLeft: "20px" }}>Product Family</Typography>
+          <Typography style={{ marginLeft: "20px" }}></Typography>
           <Button
             style={{ margin: "1%" }}
             onClick={this.handleClick}
@@ -229,11 +233,11 @@ handleSort = () => {
                     <TableCell>{eg.productName}</TableCell>
                     <TableCell>{eg.codeName}</TableCell>
                     <TableCell>{eg.shortName}</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>Created_by</TableCell>
-                    <TableCell>Created_on</TableCell>
-                    <TableCell>Updated_by</TableCell>
-                    <TableCell>Updated_on</TableCell>
+                    <TableCell>{eg.varientCount}</TableCell>
+                    <TableCell>{eg.createdBy}</TableCell>
+                    <TableCell>{eg.dateOfCreation}</TableCell>
+                    <TableCell>{eg.updatedBy}</TableCell>
+                    <TableCell>{eg.dateOfUpdate}</TableCell>
                     <TableCell>
                       <div style={{ display: "flex", flexDirection: "row" }}>
                         <Button
@@ -339,7 +343,7 @@ handleSort = () => {
                 <TextField
                   variant="outlined"
                   color="primary"
-                  disabled={!isEmptyString(this.state.createdby)}
+                  // disabled={!isEmptyString(this.state.createdby)}
                   label="Created By"
                   name="Createdby"
                   // style={{ marginTop: "2%" }}
@@ -356,10 +360,10 @@ handleSort = () => {
                 <KeyboardDatePicker
                     margin="normal"
                     id="date-picker-dialog"
-                    disabled={this.state.createdon !== null }
+                    // disabled={this.state.createdon !== null }
                     label="Created On"
                     variant = "dialog"
-                    format="MM/dd/yyyy"
+                    format="yyyy-MM-dd"
                     value={this.state.createdon}
                     onChange={(e,newValue)=>this.setState({ createdon : newValue})}
                     KeyboardButtonProps={{
@@ -368,8 +372,8 @@ handleSort = () => {
                   />
                   </MuiPickersUtilsProvider>
               </Grid>
-              {!isEmptyString(this.state.id) ?
-              <>
+              {/* {!isEmptyString(this.state.id) ? */}
+              {/* <> */}
               <Grid item sm={6}>
                 <TextField
                   variant="outlined"
@@ -401,9 +405,9 @@ handleSort = () => {
                    />
                    </MuiPickersUtilsProvider>
                </Grid>
-               </>
-               : null
-               }
+               {/* </> */}
+               {/* : null */}
+               {/* } */}
             </Grid>
           </DialogContent>
           <DialogActions>
