@@ -36,9 +36,13 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import ReactExport from "react-export-excel";
 import { ArrowUpward } from "@material-ui/icons";
 import DataGridTable from "../Utils/DataGridTable";
 import { Autocomplete } from "@material-ui/lab";
+const ExcelFile = ReactExport.ExcelFile;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 class Product extends Component {
   constructor() {
     super();
@@ -63,11 +67,23 @@ class Product extends Component {
       updatdebyErr : "",
       updatedon : null,
       updatedonErr : "",
+      newFamilynameErr:"",
       tableColumns : [
         {field : "id", hide : true},
         {field : "productName", headerName : "Product Name", width : 300},
         {field : "shortName", headerName : "Short Name", width : 150},
-        {field : "codeName", headerName : "Code Name", width : 150}
+        {field : "codeName", headerName : "Code Name", width : 150},
+        {field : "action", headerName : "Action",  width : 300, renderCell: () => (
+            <PrimaryButton
+              // onClick={()=>this.handleClick()}
+              variant={"contained"}
+              color={"primary"}
+              size={"small"}
+              style={{ marginLeft: 16 }}
+            >
+              Manage
+            </PrimaryButton>
+        ),}
       ],
       deletedialog :false,
       newFamilyname : ""
@@ -116,10 +132,18 @@ console.log(data)
     isEmptyString(this.state.productName)
       ? this.setState({ productNameErr: helpertxt })
       : this.setState({ productNameErr: "" });
+      isEmptyString(this.state.createdby)
+      ? this.setState({ createdbyErr: helpertxt })
+      : this.setState({ createdbyErr: "" });
+      this.state.createdon === null 
+      ? this.setState({ craetedonErr: helpertxt })
+      : this.setState({ craetedonErr: "" });
     if (
       !isEmptyString(this.state.productName) &&
       !isEmptyString(this.state.shortName) &&
-      !isEmptyString(this.state.codeName)
+      !isEmptyString(this.state.codeName) &&
+      !isEmptyString(this.state.createdby) &&
+      this.state.createdon !== null
     ) {
       //  console.log("validate Success")
       let obj = {
@@ -141,8 +165,12 @@ console.log(data)
   };
   handleDatadelete = () => {
     console.log(this.state.id)
-    console.log(this.state.newFamilyname)
-    // this.props.deletefamily(this.state.id,this.state.newFamilyname)
+    console.log(this.state.newFamilyname.id)
+    let helperText = "Please fill the Required Field"
+    this.state.newFamilyname.id === null ? this.setState({ newFamilynameErr : helperText }) : this.setState({ newFamilynameErr : ""})
+    if(this.state.newFamilyname !== null){
+      this.props.deletefamily(this.state.id,this.state.newFamilyname.id)
+    }
   }
   updatehandleSaved = () => {
     console.log(this.state)
@@ -156,6 +184,13 @@ console.log(data)
     isEmptyString(this.state.productName)
       ? this.setState({ productNameErr: helpertxt })
       : this.setState({ productNameErr: "" });
+      this.state.updatedby === ""
+      ? this.setState({ updatdebyErr: helpertxt })
+      : this.setState({ updatdebyErr: "" });
+      this.state.updatedon === null
+      ? this.setState({ updatedonErr: helpertxt })
+      : this.setState({ updatedonErr: "" });
+
       // isEmptyString(this.state.id)
       // ? this.setState({ idErr: helpertxt })
       // : this.setState({ idErr: "" });
@@ -164,7 +199,9 @@ console.log(data)
       !isEmptyString(this.state.productName) &&
       !isEmptyString(this.state.shortName) &&
       !isEmptyString(this.state.codeName) &&
-      !isEmptyString(this.state.id)
+      !isEmptyString(this.state.id) &&
+      !isEmptyString(this.state.updatedby) &&
+      this.state.updatedon !== null
     ) {
       //  console.log("validate Success")
       // let obj1 = {
@@ -178,7 +215,8 @@ console.log(data)
         codeName:this.state.codeName,
         productName:this.state.productName,
         updatedBy:this.state.updatedby,
-        dateOfUpdate:this.state.updatedon
+        dateOfUpdate:this.state.updatedon,
+        shortName : this.state.shortName
     }
       //  this.props.updateproductfamily(obj1)
        this.props.updatefamily(obj2)
@@ -188,6 +226,7 @@ console.log(data)
         snackVariant:"success"
       })
     }
+    console.log(this.state)
   };
 
   handleClose = () => {
@@ -197,6 +236,7 @@ console.log(data)
   };
   render() {
     console.log(this.props);
+    console.log(this.props.getAllProductFamilyList)
     return (
       <div>
         <div
@@ -207,6 +247,10 @@ console.log(data)
           }}
         >
           <Typography style={{ marginLeft: "20px" }}></Typography>
+          <div style={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
           <Button
             style={{ margin: "1%" }}
             onClick={this.handleClick}
@@ -215,13 +259,33 @@ console.log(data)
             startIcon={<AddIcon />}
             variant="contained"
           >
-            Create Family
+            Create_Family
           </Button>
+          <ExcelFile 
+          filename={"Product Family"}
+          element={
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+            >
+              Export Excel
+            </Button>
+          }
+        >
+               <ExcelSheet data={this.props.getAllProductFamilyList} name="Product Family">
+                   <ExcelColumn label="Product Name" value="productName"/>
+                   <ExcelColumn label="Product Shortname" value="shortName"/>
+                   <ExcelColumn label="Product CodeName" value="codeName"/>
+               </ExcelSheet>
+           </ExcelFile>
+          </div>
+         
         </div>
 
       {/*  */}
       <Grid container>
-          <Grid item md={12} style={{height : "400px"}}>
+          <Grid item md={12} style={{height : "500px"}}>
           <DataGridTable
       columns = {this.state.tableColumns}
       rows = {this.props.getAllProductFamilyList} 
@@ -229,7 +293,7 @@ console.log(data)
         [
           { columnField: 'productName', operatorValue: 'contains' },
           { columnField: 'shortName', operatorValue: 'contains' },
-          { columnField: 'codeName', operatorValue: 'contains' }
+          { columnField: 'codeName', operatorValue: 'contains' },
         ]
       }
       />
@@ -325,7 +389,7 @@ console.log(data)
                   name="ShortName"
                   fullWidth
                   style={{ width: "50%" }}
-                  disabled={!isEmptyString(this.state.id)}
+                  // disabled={!isEmptyString(this.state.id)}
                   value={this.state.shortName}
                   error={this.state.shortNameErr.length > 0}
                   helperText={this.state.shortNameErr}
@@ -358,6 +422,8 @@ console.log(data)
                     variant="dialog"
                     format="yyyy-MM-dd"
                     value={this.state.createdon}
+                    error={this.state.craetedonErr.length > 0}
+                    helperText={this.state.craetedonErr}
                     onChange={(e, newValue) =>
                       this.setState({ createdon: newValue })
                     }
@@ -375,7 +441,6 @@ console.log(data)
                       color="primary"
                       label="Updated By"
                       name="updatedby"
-                      style={{ marginTop: "2%" }}
                       fullWidth
                       value={this.state.updatedby}
                       error={this.state.updatdebyErr.length > 0}
@@ -396,6 +461,8 @@ console.log(data)
                         format="yyyy-MM-dd"
                         value={this.state.updatedon}
                         onChange={(e,newValue)=>this.setState({ updatedon : newValue})}
+                        error={this.state.updatedonErr.length > 0}
+                        helperText={this.state.updatedonErr}
                         KeyboardButtonProps={{
                           "aria-label": "change date",
                         }}
@@ -464,6 +531,8 @@ console.log(data)
                       {...params}
                       label="Product Family"
                       variant="standard"
+                      error={this.state.newFamilynameErr.length > 0}
+                      helperText={this.state.newFamilynameErr}
                     />
                   )}
                 />
