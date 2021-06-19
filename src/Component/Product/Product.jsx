@@ -35,6 +35,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { ArrowUpward } from "@material-ui/icons";
+import DataGridTable from "../Utils/DataGridTable";
 class Product extends Component {
   constructor() {
     super();
@@ -58,7 +59,13 @@ class Product extends Component {
       updatedby : "",
       updatdebyErr : "",
       updatedon : null,
-      updatedonErr : ""
+      updatedonErr : "",
+      tableColumns : [
+        {field : "id", hide : true},
+        {field : "productName", headerName : "Product Name", width : 300},
+        {field : "shortName", headerName : "Short Name", width : 150},
+        {field : "codeName", headerName : "Code Name", width : 150}
+      ]
     };
   }
   componentDidMount() {
@@ -69,6 +76,7 @@ class Product extends Component {
       this.props.getAllProductFamily();
     }
   }
+  
 
   handleClick = (data) => {
 console.log(data)
@@ -179,7 +187,7 @@ handleSort = () => {
     });
   };
   render() {
-    console.log(this.state);
+    console.log(this.props);
     return (
       <div>
         <div
@@ -201,71 +209,25 @@ handleSort = () => {
             Add
           </Button>
         </div>
-        <TableContainer>
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell>Product_SKU</TableCell>
-              <TableCell>
-                <div style={{display:"flex",flexDirection:"row"}}>
-                <Typography>Product_Name</Typography>
-                {/* <IconButton onClick={this.handleDescSort}>
-                  <ArrowUpward />
-                </IconButton> */}
-                </div>
-              </TableCell>
-              <TableCell>CodeName</TableCell>
-              <TableCell>ShortName</TableCell>
-              <TableCell>Varient</TableCell>
-              <TableCell>Created_by</TableCell>
-              <TableCell>Created_on</TableCell>
-              <TableCell>Updated_by</TableCell>
-              <TableCell>Updated_on</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.props.getAllProductFamily !== undefined
-              ? this.props.getAllProductFamilyList.map((eg) => (
-                  <TableRow>
-                    <TableCell>{eg.id}</TableCell>
-                    <TableCell>Product_SKU</TableCell>
-                    <TableCell>{eg.productName}</TableCell>
-                    <TableCell>{eg.codeName}</TableCell>
-                    <TableCell>{eg.shortName}</TableCell>
-                    <TableCell>{eg.varientCount}</TableCell>
-                    <TableCell>{eg.createdBy}</TableCell>
-                    <TableCell>{eg.dateOfCreation}</TableCell>
-                    <TableCell>{eg.updatedBy}</TableCell>
-                    <TableCell>{eg.dateOfUpdate}</TableCell>
-                    <TableCell>
-                      <div style={{ display: "flex", flexDirection: "row" }}>
-                        <Button
-                          color="primary"
-                          size="small"
-                          variant="contained"
-                          onClick={()=>this.handleClick(eg)}
-                          startIcon={<EditIcon />}
-                          style={{ margin: "3%" }}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          color="secondary"
-                          size="small"
-                          variant="contained"
-                          startIcon={<DeleteIcon />}
-                          style={{ margin: "3%" }}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : null}
-          </TableBody>
-        </TableContainer>
+
+      {/*  */}
+      <Grid container>
+          <Grid item md={12} style={{height : "400px"}}>
+          <DataGridTable
+      columns = {this.state.tableColumns}
+      rows = {this.props.getAllProductFamilyList} 
+      filterItems = {
+        [
+          { columnField: 'productName', operatorValue: 'contains' },
+          { columnField: 'shortName', operatorValue: 'contains' },
+          { columnField: 'codeName', operatorValue: 'contains' }
+        ]
+      }
+      />
+          </Grid>
+      </Grid>
+     
+     
         <Dialog open={this.state.show}>
           <DialogTitle>
             <div style={{ display: "flex", justifyContent: "center" }}>
