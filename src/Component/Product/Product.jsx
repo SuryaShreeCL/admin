@@ -37,7 +37,11 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { ArrowUpward } from "@material-ui/icons";
+<<<<<<< HEAD
+import DataGridTable from "../Utils/DataGridTable";
+=======
 import { Autocomplete } from "@material-ui/lab";
+>>>>>>> bb088e11c4bede26f2e82081828851d580662e5f
 class Product extends Component {
   constructor() {
     super();
@@ -62,8 +66,17 @@ class Product extends Component {
       updatdebyErr : "",
       updatedon : null,
       updatedonErr : "",
+<<<<<<< HEAD
+      tableColumns : [
+        {field : "id", hide : true},
+        {field : "productName", headerName : "Product Name", width : 300},
+        {field : "shortName", headerName : "Short Name", width : 150},
+        {field : "codeName", headerName : "Code Name", width : 150}
+      ]
+=======
       deletedialog :false,
       newFamilyname : ""
+>>>>>>> bb088e11c4bede26f2e82081828851d580662e5f
     };
   }
   componentDidMount() {
@@ -74,12 +87,17 @@ class Product extends Component {
       this.props.getAllProductFamily();
     }
   }
+<<<<<<< HEAD
+  
+
+=======
 handleDelete=()=>{
   this.setState({
     deletedialog:true,
     show :false
   })
 }
+>>>>>>> bb088e11c4bede26f2e82081828851d580662e5f
   handleClick = (data) => {
 console.log(data)
     this.setState({
@@ -206,7 +224,7 @@ console.log(data)
     });
   };
   render() {
-    console.log(this.state);
+    console.log(this.props);
     return (
       <div>
         <div
@@ -228,70 +246,26 @@ console.log(data)
             Create Family
           </Button>
         </div>
-        <TableContainer>
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell>Product_SKU</TableCell>
-              <TableCell>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <Typography>Product_Name</Typography>
-                  {/* <IconButton onClick={this.handleDescSort}>
-                  <ArrowUpward />
-                </IconButton> */}
-                </div>
-              </TableCell>
-              <TableCell>CodeName</TableCell>
-              <TableCell>ShortName</TableCell>
-              <TableCell>Varient</TableCell>
-              <TableCell>Created_by</TableCell>
-              <TableCell>Created_on</TableCell>
-              <TableCell>Updated_by</TableCell>
-              <TableCell>Updated_on</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.props.getAllProductFamily !== undefined
-              ? this.props.getAllProductFamilyList.map((eg) => (
-                  <TableRow>
-                    <TableCell>{eg.id}</TableCell>
-                    <TableCell>Product_SKU</TableCell>
-                    <TableCell>{eg.productName}</TableCell>
-                    <TableCell>{eg.codeName}</TableCell>
-                    <TableCell>{eg.shortName}</TableCell>
-                    <TableCell>{eg.varientCount}</TableCell>
-                    <TableCell>{eg.createdBy}</TableCell>
-                    <TableCell>{eg.dateOfCreation}</TableCell>
-                    <TableCell>{eg.updatedBy}</TableCell>
-                    <TableCell>{eg.dateOfUpdate}</TableCell>
-                    <TableCell>
-                      <div style={{ display: "flex", flexDirection: "row" }}>
-                        <PrimaryButton
-                          color={"primary"}
-                          size={"small"}
-                          variant={"contained"}
-                          onClick={() => this.handleClick(eg)}
-                        >
-                          Manage
-                        </PrimaryButton>
-                        {/* <Button
-                          color="secondary"
-                          size="small"
-                          variant="contained"
-                          startIcon={<DeleteIcon />}
-                          style={{ margin: "3%" }}
-                        >
-                          Delete
-                        </Button> */}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : null}
-          </TableBody>
-        </TableContainer>
-        <Dialog open={this.state.show} maxWidth="md">
+
+      {/*  */}
+      <Grid container>
+          <Grid item md={12} style={{height : "400px"}}>
+          <DataGridTable
+      columns = {this.state.tableColumns}
+      rows = {this.props.getAllProductFamilyList} 
+      filterItems = {
+        [
+          { columnField: 'productName', operatorValue: 'contains' },
+          { columnField: 'shortName', operatorValue: 'contains' },
+          { columnField: 'codeName', operatorValue: 'contains' }
+        ]
+      }
+      />
+          </Grid>
+      </Grid>
+     
+     
+        <Dialog open={this.state.show}>
           <DialogTitle>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               {isEmptyString(this.state.id)
