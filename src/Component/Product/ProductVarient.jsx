@@ -35,6 +35,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from '@material-ui/lab/Alert';
 import { productVariantPath } from '../RoutePaths';
+import ReactExport from "react-export-excel";
 
 export class ProductVarient extends Component {
     constructor(props) {
@@ -665,6 +666,11 @@ export class ProductVarient extends Component {
         )
     }
 }
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 const mapStateToProps=(state)=>{
   return {
     getProductVarientList: state.ProductReducer.getProductVarient,

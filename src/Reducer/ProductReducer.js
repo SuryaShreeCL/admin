@@ -6,7 +6,8 @@ const initialState = {
   deleteProduct: [],
   addProductToStudentResponse: [],
   studentProductList: [],
-  productFamilyList: [],
+  // productFamilyList: [],
+  getAllProductFamily : [],
   productVariantList : [],
   postproductfamily:[],
   getProductVarient : [],
@@ -60,7 +61,7 @@ export default (state = initialState, action) => {
       case PRODUCT.getAllProductFamily:
         return {
           ...state,
-          productFamilyList: action.payload,
+          getAllProductFamily: action.payload,
         };
         case PRODUCT.getProductByFamilyId:
           return {
