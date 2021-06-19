@@ -31,8 +31,8 @@ function DataGridTable(props) {
         rows={rows}
         columns={columns}
         pagination
-        pageSize={5}
-        rowCount={100}
+        // pageSize={5}
+        // rowCount={100}
         paginationMode="server"
         filterModel={{
             items: filterItems,
