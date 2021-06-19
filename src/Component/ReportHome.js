@@ -17,7 +17,6 @@ import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetail
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
-import ExcelExporter from "./Table/StudentDetail/Utils/ExcelExporter";
 import Loader from "./Testimonials/components/controls/Loader";
 const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;

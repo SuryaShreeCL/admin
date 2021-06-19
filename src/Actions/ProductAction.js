@@ -250,7 +250,7 @@ export const updatevarientimage = (data) =>{
 }
 export const deletefamily = (oldId,newId) =>{
     return dispatch =>{
-        axios.delete(URL+"api/v1/delete/product/family/"+oldId+"/"+newId)
+        axios.delete(URL+"/api/v1/delete/product/family/"+oldId+"/"+newId)
         .then(result=>{
             dispatch({type:PRODUCT.deletefamily,payload:result.data});
         })

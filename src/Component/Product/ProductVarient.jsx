@@ -36,7 +36,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from '@material-ui/lab/Alert';
 import { productVariantPath } from '../RoutePaths';
 import ReactExport from "react-export-excel";
-
 export class ProductVarient extends Component {
     constructor(props) {
         super(props)
