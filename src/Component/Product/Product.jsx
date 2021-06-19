@@ -37,6 +37,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { ArrowUpward } from "@material-ui/icons";
+import DataGridTable from "../Utils/DataGridTable";
 import { Autocomplete } from "@material-ui/lab";
 class Product extends Component {
   constructor() {
@@ -62,6 +63,12 @@ class Product extends Component {
       updatdebyErr : "",
       updatedon : null,
       updatedonErr : "",
+      tableColumns : [
+        {field : "id", hide : true},
+        {field : "productName", headerName : "Product Name", width : 300},
+        {field : "shortName", headerName : "Short Name", width : 150},
+        {field : "codeName", headerName : "Code Name", width : 150}
+      ],
       deletedialog :false,
       newFamilyname : ""
     };
@@ -74,6 +81,8 @@ class Product extends Component {
       this.props.getAllProductFamily();
     }
   }
+  
+
 handleDelete=()=>{
   this.setState({
     deletedialog:true,
