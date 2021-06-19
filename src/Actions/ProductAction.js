@@ -248,6 +248,18 @@ export const updatevarientimage = (data) =>{
         })
     }
 }
+export const deletefamily = (oldId,newId) =>{
+    return dispatch =>{
+        axios.delete(URL+"api/v1/delete/product/family/"+oldId+"/"+newId)
+        .then(result=>{
+            dispatch({type:PRODUCT.deletefamily,payload:result.data});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}
+
 export const updatefamily = (data) =>{
     let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch =>{

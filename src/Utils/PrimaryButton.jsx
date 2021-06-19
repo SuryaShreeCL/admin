@@ -12,6 +12,22 @@ function PrimaryButton(props) {
                         backgroundColor : "#1093FF",
                     }
                 },
+                containedSecondary : {
+                    backgroundColor : "#FF0000",
+                    width : "146px",
+                    borderRadius : "30px",
+                    "&:hover" : {
+                        backgroundColor : "#FF0000",
+                    }
+                },
+                outlinedSecondary : {
+                    border : "1px solid #FF0000",
+                    width : "146px",
+                    color : "#FF0000",
+                    borderRadius : "30px",
+                    "&:hover" : {
+                        border : "1px solid FF0000",                }    
+                },
                outlinedPrimary : {
                    border : "1px solid #1093FF",
                    width : "146px",
