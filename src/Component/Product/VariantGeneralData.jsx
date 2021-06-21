@@ -3,6 +3,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Autocomplete} from '@material-ui/lab'
 import {postgeneraldetails} from '../../Actions/ProductAction'
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
  class VariantGeneralData extends Component {
     constructor(){
@@ -98,9 +104,9 @@ import {postgeneraldetails} from '../../Actions/ProductAction'
                     <Grid item md={2}>
                        <TextField label="Created On" />
                     </Grid>
-                    <Grid item md={12}>
+                    {/* <Grid item md={12}>
                         <Button color="primary" variant="contained" onClick={this.handlesaved}>Create New Varient</Button>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
         )

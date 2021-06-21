@@ -11,6 +11,7 @@ import VariantDescription from './VariantDescription';
 import VariantImgVidLanding from './VariantImgVidLanding';
 import VariantTnc from './VariantTnc';
 import VarriantQna from './VarriantQna';
+import PrimaryButton from '../../Utils/PrimaryButton';
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -120,6 +121,12 @@ const AntTabs = withStyles({
          </Grid>
          <Grid item md={12}>
            {this.renderContent(this.state.tabCount)}
+         </Grid>
+         <Grid item md={12} align="center">
+            <PrimaryButton
+            color={"primary"}
+            variant={"contained"}
+            >Publish Variant</PrimaryButton>
          </Grid>
        </Grid>
      );

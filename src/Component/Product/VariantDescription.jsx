@@ -87,11 +87,11 @@ class VariantDescription extends Component {
             </div>
             <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#686868" }}></Grid> <br />
           </Grid>
-          <Grid style={{margin: '0 auto'}}>
+          {/* <Grid style={{margin: '0 auto'}}>
           <Button variant="contained" className={classes.varientBtn} color="primary">
            Create Varient
           </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     )
