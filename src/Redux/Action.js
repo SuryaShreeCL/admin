@@ -156,7 +156,8 @@ export const PRODUCT = {
   updatevarientimage : "updatevarientimage",
   updatefamily : "updatefamily",
   deletefamily : "deletefamily",
-  postgeneraldetails : "postgeneraldetails"
+  postgeneraldetails : "postgeneraldetails",
+  deleteproductvarient : "deleteproductvarient"
 };
 
 export const ADMIN = {

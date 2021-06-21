@@ -51,7 +51,7 @@ class VariantGeneralData extends Component {
   handlesaved = () => {
    //  console.log("hello");
    let hlptxt = "Please Fill the Required Field"
-   // this.state.productName.length === 0 ? this.setState({productnameErr : hlptxt}) : this.setState({productnameErr : ""})
+   this.state.productName === "" ? this.setState({productnameErr : hlptxt}) : this.setState({productnameErr : ""})
    isEmptyString(this.state.variantfamilysku) ? this.setState({variantfamilyskuErr : hlptxt}) : this.setState({variantfamilyskuErr : ""})
    isEmptyString(this.state.variantsku) ? this.setState({varientErr : hlptxt}) : this.setState({varientErr : ""})
    this.state.endOfEnrollmentDate === null ? this.setState({endOfEnrollmentDateErr : hlptxt}) : this.setState({endOfEnrollmentDateErr:""})
@@ -60,7 +60,7 @@ class VariantGeneralData extends Component {
    this.state.endOfServiceDate === null ? this.setState({endOfServiceDateErr : hlptxt}):this.setState({endOfServiceDateErr : ""})
    this.state.createdOn === null ? this.setState({ createdOnErr : hlptxt}) : this.setState({ createdOnErr : ""})
    isEmptyString(this.state.createdBy) ? this.setState({ createdByErr : hlptxt}) : this.setState({createdByErr : ""})
-   // this.state.standaloneSellable.title === "" ? this.setState({ standaloneSellableErr : hlptxt}) : this.setState({ standaloneSellableErr : ""})
+   this.state.standaloneSellable === "" ? this.setState({ standaloneSellableErr : hlptxt}) : this.setState({ standaloneSellableErr : ""})
    if(
       !isEmptyString(this.state.variantfamilysku) &&
       !isEmptyString(this.state.variantsku) &&
@@ -69,7 +69,9 @@ class VariantGeneralData extends Component {
       !isEmptyString(this.state.createdBy) &&
       this.state.endOfServiceDate !== null &&
       this.state.createdOn !== null &&
-      this.state.endOfEnrollmentDate !== null 
+      this.state.endOfEnrollmentDate !== null &&
+      this.state.productName !== "" &&
+      this.state.standaloneSellable !== ""
    ){
       let obj = {
          name: this.state.variantfamilysku,
@@ -113,6 +115,8 @@ class VariantGeneralData extends Component {
                 <TextField
                   {...params}
                   label="Product Family"
+                  error={this.state.productnameErr.length > 0}
+                  helperText={this.state.productnameErr}
                   variant="standard"
                 />
               )}
@@ -208,6 +212,7 @@ class VariantGeneralData extends Component {
                 margin="normal"
                 id="date-picker-dialog"
                 label="End of Enrollment"
+                disableFuture
                 error={this.state.endOfEnrollmentDateErr.length > 0}
                 helperText={this.state.endOfEnrollmentDateErr}
                 format="yyyy-MM-dd"

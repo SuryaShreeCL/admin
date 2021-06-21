@@ -29,7 +29,7 @@ import {
   import DeleteIcon from '@material-ui/icons/Delete';
   import CloseIcon from "@material-ui/icons/Close";
   import { isEmptyString } from "../Validation";
-  import {getProductVarient, postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily} from "../../Actions/ProductAction"
+  import {getProductVarient, postProductVarient,deleteproductvarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily} from "../../Actions/ProductAction"
   import { connect } from "react-redux";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Snackbar from "@material-ui/core/Snackbar";
@@ -124,6 +124,30 @@ export class ProductVarient extends Component {
                   );
                   // alert(JSON.stringify(thisRow, null, 4));
                 };
+<<<<<<< HEAD
+=======
+                const handleDelete = () => {
+                  const api: GridApi = params.api;
+                  const fields = api
+                    .getAllColumns()
+                    .map((c) => c.field)
+                    .filter((c) => c !== "__check__" && !!c);
+                  const thisRow: Record<string, GridCellValue> = {};
+    
+                  fields.forEach((f) => {
+                    thisRow[f] = params.getValue(f);
+                  });
+    
+                  return (
+                    // console.log(thisRow)
+                    // <VariantGeneralData {...props} />
+                    this.setState({
+                      show: true,
+                    })
+                  );
+                  // alert(JSON.stringify(thisRow, null, 4));
+                };
+>>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
                 return (
                   <>
                     <PrimaryButton
@@ -136,7 +160,11 @@ export class ProductVarient extends Component {
                       Manage
                     </PrimaryButton>
                     <PrimaryButton
+<<<<<<< HEAD
                     // onClick={()=>this.handleDelete()}
+=======
+                    onClick={handleDelete}
+>>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
                     variant={"contained"}
                     color={"secondary"}
                     size={"small"}
@@ -284,6 +312,10 @@ export class ProductVarient extends Component {
         });
         
       };
+      handleDataDelete=()=>{
+        console.log("hello")
+        // this.props.deleteproductvarient()
+      }
       handleEdit = (data) => {
         console.log(data)
         this.setState({
@@ -378,13 +410,16 @@ export class ProductVarient extends Component {
    
    
     render() {
+      
       console.log(this.state)
         return (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div>
                 <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
                 <h4>Product Varient</h4>
+                <div style={{display:'flex', flexDirection: "row",justifyContent:"space-around"}}>
                 <Button 
+                style={{marginRight:"2%"}}
                 startIcon={<AddIcon/>} 
                 variant="contained"
                 color="primary" 
@@ -396,6 +431,30 @@ export class ProductVarient extends Component {
                 >
                   Add
                   </Button>
+                  <ExcelFile
+              // filename={"Product Family"}
+              element={
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                >
+                  Export Excel
+            </Button>
+              }
+            >
+              <ExcelSheet data={this.props.getProductVarientList} name="Product Family">
+                <ExcelColumn label="SKU" value="variantsku" />
+                <ExcelColumn label="Varient Name" value="name" />
+                <ExcelColumn label="Varient ShortName" value="shortName" />
+                <ExcelColumn label="code Name" value="codeName" />
+                <ExcelColumn label="Standalone" value="standaloneSellable" />
+                <ExcelColumn label="Pricing" value="pricing" />
+                <ExcelColumn label="Year" value="year" />
+                <ExcelColumn label="EOS" value="endOfEnrollmentDate" />
+              </ExcelSheet>
+            </ExcelFile>
+                </div>
                 </div>
 
             {/*  */}
@@ -408,8 +467,8 @@ export class ProductVarient extends Component {
              />
              </Grid>
              </Grid>
-          <Dialog fullScreen
-              open={this.state.show}
+          {/* <Dialog fullScreen
+              // open={this.state.show}
               onClose={(e) => this.setState({ show: false })}
               aria-labelledby="customized-dialog-title"
               maxWidth="sm"
@@ -663,7 +722,7 @@ export class ProductVarient extends Component {
                   {this.state.id.length !== 0 ? "Update" : "Add"}
                 </Button>
               </DialogActions>
-            </Dialog>
+            </Dialog> */}
             <Snackbar
           open={this.state.snackOpen}
           autoHideDuration={3000}
@@ -677,6 +736,12 @@ export class ProductVarient extends Component {
             {this.state.snackMessage}
           </Alert>
         </Snackbar>
+        <Dialog open={this.state.show} onClose={()=>this.setState({show:false})}>
+          <DialogContent>
+             {/* <h1>Hello</h1> */}
+             <PrimaryButton color={"secondary"} variant={"contained"} onClick={()=>this.handleDataDelete()}>Delete</PrimaryButton>
+          </DialogContent>
+        </Dialog>
             </div>
             </MuiPickersUtilsProvider>
         )
@@ -695,8 +760,9 @@ const mapStateToProps=(state)=>{
     allProductImages : state.ProductReducer.allProductImages,
     allProductVideos : state.ProductReducer.allProductVideos,
     allProductQuesAns : state.ProductReducer.allProductQuesAns,
-    productFamilyList : state.ProductReducer.productFamilyList
+    productFamilyList : state.ProductReducer.productFamilyList,
+    deleteproductvarientList : state.ProductReducer.deleteproductvarient
     
   }
 }
-export default connect(mapStateToProps,{getProductVarient,postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily})(ProductVarient)
+export default connect(mapStateToProps,{getProductVarient,deleteproductvarient,postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily})(ProductVarient)
