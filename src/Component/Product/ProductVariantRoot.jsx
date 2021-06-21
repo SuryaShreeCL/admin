@@ -9,7 +9,7 @@ import ProductVariant from "./ProductVarient"
 import VariantGeneralData from './VariantGeneralData';
 import VariantDescription from './VariantDescription';
 import VariantImgVidLanding from './VariantImgVidLanding';
-import variantTnc from './variantTnc';
+import VariantTnc from './VariantTnc';
 import VarriantQna from './VarriantQna';
 const AntTabs = withStyles({
     root: {
@@ -83,7 +83,7 @@ const AntTabs = withStyles({
         );
       }else if (value === 3) {
         return (
-          <variantTnc  {...this.props} />
+          <VariantTnc  {...this.props} />
         );
       }else if (value === 4) {
         return (
