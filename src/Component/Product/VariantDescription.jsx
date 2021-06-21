@@ -26,7 +26,7 @@ class VariantDescription extends Component {
                     data=""
                     onReady={ editors => {
                         // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editors );
+                        console.log(editors );
                     } }
                     onChange={ ( event, editors ) => {
                         const data = editors.getData();
@@ -47,7 +47,7 @@ class VariantDescription extends Component {
                     data=""
                     onReady={ editors => {
                         // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editors );
+                        console.log(  editors );
                     } }
                     onChange={ ( event, editors ) => {
                         const data = editors.getData();
@@ -68,7 +68,7 @@ class VariantDescription extends Component {
                     data=""
                     onReady={ editors => {
                         // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editors );
+                        console.log(  editors );
                     } }
                     onChange={ ( event, editors ) => {
                         const data = editors.getData();

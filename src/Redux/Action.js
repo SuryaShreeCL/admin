@@ -155,7 +155,8 @@ export const PRODUCT = {
   postvarientimage : "postvarientimage",
   updatevarientimage : "updatevarientimage",
   updatefamily : "updatefamily",
-  deletefamily : "deletefamily"
+  deletefamily : "deletefamily",
+  postgeneraldetails : "postgeneraldetails"
 };
 
 export const ADMIN = {

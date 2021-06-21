@@ -16,7 +16,7 @@ class VariantTnc extends Component {
                             data=""
                             onReady={editor => {
                                 // You can store the "editor" and use when it is needed.
-                                console.log('Editor is ready to use!', editor);
+                               console.log( editor);
                             }}
                             onChange={(event, editor) => {
                                 const data = editor.getData();
@@ -38,7 +38,7 @@ class VariantTnc extends Component {
                             data=""
                             onReady={editors => {
                                 // You can store the "editor" and use when it is needed.
-                                console.log('Editor is ready to use!', editors);
+                                console.log( editors);
                             }}
                             onChange={(event, editors) => {
                                 const data = editors.getData();
