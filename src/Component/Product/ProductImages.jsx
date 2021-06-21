@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Grid, Dialog, DialogTitle, DialogContent, TextField, Typography, IconButton, Icon, DialogActions} from '@material-ui/core';
+import { TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Grid, Dialog, DialogTitle, DialogContent, TextField, Typography, IconButton, Icon, DialogActions, withStyles} from '@material-ui/core';
 import React, { Component } from 'react'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -8,14 +8,22 @@ import {connect} from 'react-redux'
 import {getAllProductImages,postvarientimage,updatevarientimage} from '../../Actions/ProductAction'
 import { isEmptyString } from '../Validation';
 import MySnackBar from "../MySnackBar";
-
+import Divider from '@material-ui/core/Divider';
+import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import PrimaryButton from '../../Utils/PrimaryButton';
 class ProductImages extends Component {
     constructor(){
         super();
         this.state={
             id:"",
-            images:"",
-            imagesErr:"",
+            imgUrl:"",
+            imgUrlErr:"",
+            altTxt : "",
+            altTxtErr : "",
+            order : "",
+            orderErr : "",
             show:false,
             snackMsg: "",
             snackVariant: "",
@@ -26,7 +34,7 @@ class ProductImages extends Component {
         this.setState({
             show:true,
             id:data.id,
-            images:data.imagesUrl
+            imgUrl:data.imagesUrl
         })
     }
    componentDidMount(){
@@ -34,12 +42,12 @@ class ProductImages extends Component {
    }
    newhandelsaved=()=>{
        let helpertxt = "Please fill the Required Field"
-       isEmptyString(this.state.images) ? this.setState({ imagesErr : helpertxt }) : this.setState({ imagesErr : ""})
-       if( !isEmptyString(this.state.images) ){
+       isEmptyString(this.state.imgUrl) ? this.setState({ imgUrlErr : helpertxt }) : this.setState({ imgUrlErr : ""})
+       if( !isEmptyString(this.state.imgUrl) ){
         console.log('Validate SuccessFully')
           let obj=
           {
-            "imagesUrl": this.state.images
+            "imagesUrl": this.state.imgUrl
           }
         this.props.postvarientimage(obj)
         this.setState({
@@ -57,13 +65,13 @@ class ProductImages extends Component {
 
    updatehandle=()=>{
     let helpertxt = "Please fill the Required Field"
-    isEmptyString (this.state.images) ? this.setState({ imagesErr : helpertxt }) : this.setState({ imagesErr : ""})
-    if( !isEmptyString(this.state.images) ){
+    isEmptyString (this.state.imgUrl) ? this.setState({ imgUrlErr : helpertxt }) : this.setState({ imgUrlErr : ""})
+    if( !isEmptyString(this.state.imgUrl) ){
      console.log('Validate SuccessFully')
        let obj=
        {
            "id" : this.state.id,
-         "imagesUrl": this.state.images
+         "imagesUrl": this.state.imgUrl
        }
      this.props.updatevarientimage(obj)
      this.setState({
@@ -74,141 +82,98 @@ class ProductImages extends Component {
     }
     else{
         this.setState({
-            imagesErr:""
+            imgUrlErr:""
         })
     }
    }
-    render() {
-        return (
-          <div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: "1%",
-              }}
-            >
-              <h5>Product Images</h5>
-              <Button
-                size="small"
-                variant="contained"
-                startIcon={<AddIcon />}
-                color="primary"
-                onClick={this.handleClick}
-              >
-                Add
-              </Button>
-            </div>
-            <TableContainer>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Id</TableCell>
-                  <TableCell>Images</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-              {this.props.getAllProductImagesList.map((eg)=>
-                     <TableRow>
-                     <TableCell>{eg.id}</TableCell>
-                 <TableCell>{eg.imagesUrl}</TableCell>
-                 <TableCell>
-                     <div style={{display:"flex",flexDirection:"row"}}>
-                     <Button
-                     style={{margin:"1%"}}
-                     size="small"
-                     variant="contained"
-                     color="primary"
-                     startIcon={<EditIcon />}
-                     onClick={()=>this.handleClick(eg)}
-                   >
-                     Edit
-                   </Button>
-                   <Button
-                     style={{margin:"1%"}}
-                     size="small"
-                     variant="contained"
-                     color="secondary"
-                     startIcon={<DeleteIcon />}
-                   >
-                     Delete
-                   </Button>
-                     </div>
-                 </TableCell>
-                     </TableRow>
-                )}
-                </TableBody>
 
-             
-            </TableContainer>
-            <Dialog
-              open={this.state.show}
-              onClose={() => this.setState({ show: false })}
-            >
-              <DialogTitle>
-                <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-                {isEmptyString(this.state.id) ? <Typography>Add Images</Typography> : <Typography>Edit Images</Typography> }
-                  <IconButton onClick={() => this.setState({ show: false })}>
-                    <Icon>
-                      <CloseIcon />
-                    </Icon>
+    render() {
+      const { classes } = this.props
+      console.log(classes)
+        return (
+         
+          <Grid container spacing={2}>
+            <Grid item md={6}>
+            <Grid container spacing={2}>
+            <Grid item md={12}>
+            <TextField
+            variant={"standard"}
+            multiline
+            fullWidth
+            label={"URL"}
+            value={this.state.imgUrl}
+            onChange={(e)=>this.setState({imgUrl : e.target.valu})}
+            helperText={this.state.imgUrlErr}
+            error={this.state.imgUrlErr.length > 0}
+            rows={4}
+            />
+            </Grid>
+            <Grid item md={12}>
+            <TextField
+            variant={"standard"}
+            multiline
+            fullWidth
+            label={"ALT"}
+            value={this.state.altTxt}
+            onChange={(e)=>this.setState({altTxt : e.target.valu})}
+            helperText={this.state.altTxtErr}
+            error={this.state.altTxtErr.length > 0}
+            rows={5}
+            />
+            </Grid>
+            <Grid item md={2}>
+            <TextField
+            variant={"standard"}
+            label={"Order"}
+            value={this.state.order}
+            onChange={(e)=>this.setState({order : e.target.valu})}
+            helperText={this.state.orderErr}
+            error={this.state.orderErr.length > 0}
+            />
+            </Grid>
+            <Grid item md={8}></Grid>
+            <Grid item md={12} align="center">
+            <PrimaryButton color="primary" variant={"contained"} >
+              Add New Image
+              </PrimaryButton>
+            </Grid>
+            </Grid>
+            </Grid>
+            {/* <Divider orientation="vertical" flexItem /> */}
+            <Grid item md={6}>
+            <Grid container spacing={2}>
+              <Grid item md={4}>
+                <div className={classes.cardContainer}>
+                  <img className={classes.preview} src={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg"}></img>
+                  <div className={classes.bottomContainer}>
+                  <IconButton size="small">
+                    <VisibilityRoundedIcon fontSize={"small"} />
                   </IconButton>
+                  <IconButton size="small">
+                    <EditRoundedIcon fontSize={"small"} />
+                  </IconButton>
+                  <IconButton size="small">
+                    <DeleteRoundedIcon fontSize={"small"} />
+                  </IconButton>
+                  </div>
                 </div>
-              </DialogTitle>
-              <DialogContent>
-                <Grid container>
-                    { !isEmptyString(this.state.id) ? 
-                     <Grid item sm={12}>
-                     <TextField
-                       label="ID"
-                       variant="outlined"
-                       color="primary"
-                       fullWidth
-                       name="id"
-                       disabled
-                       value={this.state.id}
-                       style={{margin:"1%"}}
-                     />
-                   </Grid> 
-                   :
-                   null
-                }
-                  <Grid item sm={12}>
-                    <TextField
-                      label="Images"
-                      variant="outlined"
-                      color="primary"
-                      fullWidth
-                      name="images"
-                      error={this.state.imagesErr.length > 0 }
-                      helperText={this.state.imagesErr}
-                      style={{margin:"1%"}}
-                      value={this.state.images}
-                      onChange={(e, newValue) =>
-                        this.setState({ images: e.target.value })
-                      }
-                    />
-                  </Grid>
-                </Grid>
-              </DialogContent>
-              <DialogActions>
-                  { isEmptyString(this.state.id) ? 
-                    <Button size="small" variant="contained" color="primary" startIcon={<AddIcon/>} onClick={this.newhandelsaved}>Add</Button> :
-                    <Button size="small" variant="contained" color="primary" startIcon={<AddIcon/>} onClick={this.updatehandle}>Update</Button>
-                }
-              </DialogActions>
-            </Dialog>
-            <MySnackBar
+              </Grid>
+            </Grid>
+            </Grid>
+              <MySnackBar
               snackMsg={this.state.snackMsg}
               snackVariant={this.state.snackVariant}
               snackOpen={this.state.snackOpen}
               onClose={() => this.setState({ snackOpen: false })}
             />
-          </div>
+          </Grid>
+         
         );
     }
 }
+
+
+
 const mapStateToProps=(state)=>{
     return {
         getAllProductImagesList : state.ProductReducer.allProductImages,
@@ -216,4 +181,24 @@ const mapStateToProps=(state)=>{
         updatevarientimageList : state.ProductReducer.updatevarientimage
     }
   }
-  export default connect(mapStateToProps,{getAllProductImages,postvarientimage,updatevarientimage})(ProductImages)
+
+  const useStyles = () =>({
+    cardContainer : {
+      display : "flex",
+      flexDirection : "column",
+
+    },
+    bottomContainer : {
+      display : "flex",
+      justifyContent : "space-between",
+      backgroundColor : "#fff",
+      paddingTop : "5px"
+    },
+    preview : {
+      maxHeight : "21vh"
+    }
+  })
+    
+
+
+  export default connect(mapStateToProps,{getAllProductImages,postvarientimage,updatevarientimage})(withStyles(useStyles)(ProductImages))
