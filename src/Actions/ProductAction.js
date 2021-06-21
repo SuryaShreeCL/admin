@@ -278,3 +278,14 @@ export const updatefamily = (data) =>{
             })
         }
     }
+    export const postgeneraldetails = (data) =>{
+        return dispatch =>{
+            axios.post(URL+"/api/v1/create/product/varient",data)
+            .then(result=>{
+                dispatch({type:PRODUCT.postgeneraldetails,payload:result.data});
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+    }
