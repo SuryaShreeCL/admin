@@ -215,6 +215,12 @@ class Product extends Component {
       : this.setState({ newFamilynameErr: "" });
     if (this.state.newFamilyname !== "") {
       this.props.deletefamily(this.state.id, this.state.newFamilyname.id);
+      this.setState({
+        snackMsg: "Deleted Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+        deletedialog:false
+      })
     }
   };
   updatehandleSaved = () => {

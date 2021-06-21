@@ -29,7 +29,7 @@ import {
   import DeleteIcon from '@material-ui/icons/Delete';
   import CloseIcon from "@material-ui/icons/Close";
   import { isEmptyString } from "../Validation";
-  import {getProductVarient, postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily} from "../../Actions/ProductAction"
+  import {getProductVarient, postProductVarient,deleteproductvarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily} from "../../Actions/ProductAction"
   import { connect } from "react-redux";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Snackbar from "@material-ui/core/Snackbar";
@@ -124,6 +124,27 @@ export class ProductVarient extends Component {
                   );
                   // alert(JSON.stringify(thisRow, null, 4));
                 };
+                const handleDelete = () => {
+                  const api: GridApi = params.api;
+                  const fields = api
+                    .getAllColumns()
+                    .map((c) => c.field)
+                    .filter((c) => c !== "__check__" && !!c);
+                  const thisRow: Record<string, GridCellValue> = {};
+    
+                  fields.forEach((f) => {
+                    thisRow[f] = params.getValue(f);
+                  });
+    
+                  return (
+                    // console.log(thisRow)
+                    // <VariantGeneralData {...props} />
+                    this.setState({
+                      show: true,
+                    })
+                  );
+                  // alert(JSON.stringify(thisRow, null, 4));
+                };
                 return (
                   <>
                     <PrimaryButton
@@ -136,7 +157,7 @@ export class ProductVarient extends Component {
                       Manage
                     </PrimaryButton>
                     <PrimaryButton
-                    // onClick={()=>this.handleDelete()}
+                    onClick={handleDelete}
                     variant={"contained"}
                     color={"secondary"}
                     size={"small"}
@@ -284,6 +305,10 @@ export class ProductVarient extends Component {
         });
         
       };
+      handleDataDelete=()=>{
+        console.log("hello")
+        // this.props.deleteproductvarient()
+      }
       handleEdit = (data) => {
         console.log(data)
         this.setState({
@@ -408,8 +433,8 @@ export class ProductVarient extends Component {
              />
              </Grid>
              </Grid>
-          <Dialog fullScreen
-              open={this.state.show}
+          {/* <Dialog fullScreen
+              // open={this.state.show}
               onClose={(e) => this.setState({ show: false })}
               aria-labelledby="customized-dialog-title"
               maxWidth="sm"
@@ -663,7 +688,7 @@ export class ProductVarient extends Component {
                   {this.state.id.length !== 0 ? "Update" : "Add"}
                 </Button>
               </DialogActions>
-            </Dialog>
+            </Dialog> */}
             <Snackbar
           open={this.state.snackOpen}
           autoHideDuration={3000}
@@ -677,6 +702,12 @@ export class ProductVarient extends Component {
             {this.state.snackMessage}
           </Alert>
         </Snackbar>
+        <Dialog open={this.state.show} onClose={()=>this.setState({show:false})}>
+          <DialogContent>
+             {/* <h1>Hello</h1> */}
+             <PrimaryButton color={"secondary"} variant={"contained"} onClick={()=>this.handleDataDelete()}>Delete</PrimaryButton>
+          </DialogContent>
+        </Dialog>
             </div>
             </MuiPickersUtilsProvider>
         )
@@ -695,8 +726,9 @@ const mapStateToProps=(state)=>{
     allProductImages : state.ProductReducer.allProductImages,
     allProductVideos : state.ProductReducer.allProductVideos,
     allProductQuesAns : state.ProductReducer.allProductQuesAns,
-    productFamilyList : state.ProductReducer.productFamilyList
+    productFamilyList : state.ProductReducer.productFamilyList,
+    deleteproductvarientList : state.ProductReducer.deleteproductvarient
     
   }
 }
-export default connect(mapStateToProps,{getProductVarient,postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily})(ProductVarient)
+export default connect(mapStateToProps,{getProductVarient,deleteproductvarient,postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily})(ProductVarient)

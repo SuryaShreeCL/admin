@@ -289,3 +289,14 @@ export const updatefamily = (data) =>{
             })
         }
     }
+    export const deleteproductvarient = (oldId,newId) =>{
+        return dispatch =>{
+            axios.delete(URL+"/api/v1/delete/product/variant/"+oldId+"/"+newId)
+            .then(result=>{
+                dispatch({type:PRODUCT.deleteproductvarient,payload:result.data});
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+    }
