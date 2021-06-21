@@ -59,13 +59,13 @@ class Product extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
-      createdby: "",
+      createdby: window.sessionStorage.getItem("role"),
       createdbyErr: "",
-      createdon: null,
+      createdon: new Date(),
       craetedonErr: "",
-      updatedby: "",
+      updatedby: window.sessionStorage.getItem("role"),
       updatdebyErr: "",
-      updatedon: null,
+      updatedon: new Date(),
       updatedonErr: "",
       newFamilynameErr: "",
       tableColumns: [
@@ -450,7 +450,7 @@ class Product extends Component {
                 <TextField
                   variant="standard"
                   color="primary"
-                  disabled={!isEmptyString(this.state.id)}
+                  disabled
                   label="Created By"
                   name="Createdby"
                   fullWidth
@@ -466,7 +466,7 @@ class Product extends Component {
                   <KeyboardDatePicker
                     margin="normal"
                     id="date-picker-dialog"
-                    disabled={!isEmptyString(this.state.id)}
+                    disabled
                     label="Created On"
                     variant="dialog"
                     format="yyyy-MM-dd"
@@ -489,6 +489,7 @@ class Product extends Component {
                       variant="standard"
                       color="primary"
                       label="Updated By"
+                      disabled
                       name="updatedby"
                       fullWidth
                       value={this.state.updatedby}
@@ -506,6 +507,7 @@ class Product extends Component {
                         margin="normal"
                         id="date-picker-dialog"
                         label="Updated On"
+                        disabled
                         variant="dialog"
                         format="yyyy-MM-dd"
                         value={this.state.updatedon}

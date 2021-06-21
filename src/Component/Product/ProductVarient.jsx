@@ -38,6 +38,7 @@ import { productVariantPath } from '../RoutePaths';
 import ReactExport from "react-export-excel";
 import DataGridTable from "../Utils/DataGridTable";
 import PrimaryButton from '../../Utils/PrimaryButton'
+import VariantGeneralData from './VariantGeneralData';
 
 export class ProductVarient extends Component {
     constructor(props) {
@@ -93,17 +94,59 @@ export class ProductVarient extends Component {
               {field : "sellingPrice", headerName : "Pricing", width : 150},
               {field : "validity", headerName : "Validity", width : 150},
               {field : "endOfServiceDate", headerName : "EOS", width : 150},
-              {field : "action", headerName : "Action",  width : 300, renderCell: () => (
-                  <PrimaryButton
-                    // onClick={()=>this.handleClick()}
+              {field : "action", headerName : "Action",  width : 300, renderCell: (params) => { 
+                const onClick = () => {
+                  const api: GridApi = params.api;
+                  const fields = api
+                    .getAllColumns()
+                    .map((c) => c.field)
+                    .filter((c) => c !== "__check__" && !!c);
+                  const thisRow: Record<string, GridCellValue> = {};
+    
+                  fields.forEach((f) => {
+                    thisRow[f] = params.getValue(f);
+                  });
+    
+                  return (
+                    this.props.history.push(productVariantPath+"/"+thisRow.id)
+                    // <VariantGeneralData {...props} />
+                    // this.setState({
+                    //   show: true,
+                    //   id: thisRow.id,
+                    //   codeName: thisRow.codeName,
+                    //   // shortName:thisRow.shortName,
+                    //   productName: thisRow.productName,
+                    //   createdby: thisRow.createdBy,
+                    //   createdon: thisRow.dateOfCreation,
+                    //   updatedby: thisRow.updatedBy,
+                    //   updatedon: thisRow.dateOfUpdate,
+                    // })
+                  );
+                  // alert(JSON.stringify(thisRow, null, 4));
+                };
+                return (
+                  <>
+                    <PrimaryButton
+                      onClick={onClick}
+                      variant={"contained"}
+                      color={"primary"}
+                      size={"small"}
+                      style={{ marginLeft: 16 }}
+                    >
+                      Manage
+                    </PrimaryButton>
+                    <PrimaryButton
+                    // onClick={()=>this.handleDelete()}
                     variant={"contained"}
-                    color={"primary"}
+                    color={"secondary"}
                     size={"small"}
                     style={{ marginLeft: 16 }}
                   >
-                    Manage
+                    Delete
                   </PrimaryButton>
-              ),}
+                  </>
+                )
+                },}
             ],
 
         }

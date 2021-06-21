@@ -114,6 +114,7 @@ export default function Routes(props) {
             <Route exact path={productBasedPath} render={(props)=> <ProductBasedRoot {...props} />} />
             <Route exact path={starterPackPath} render={(props)=> <StarterPack {...props} />} />
             <Route exact path={productVariantPath} render={(props)=> <ProductVariantRoot {...props} />} />
+            <Route exact path={productVariantPath+"/:id"} render={(props)=> <ProductVariantRoot {...props} />} />
             <Route
               exact
               // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
