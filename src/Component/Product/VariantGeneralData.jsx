@@ -30,13 +30,13 @@ class VariantGeneralData extends Component {
       costPriceErr : "",
       sellingPrice: "",
       sellingPriceErr:"",
-      createdBy: "",
+      createdBy: window.sessionStorage.getItem("role"),
       createdByErr:"",
       createdOn: new Date(),
       createdOnErr:"",
       standaloneSellable: "",
       standaloneSellableErr:"",
-      updatedBy: "",
+      updatedBy: window.sessionStorage.getItem("role"),
       UpdatedOn: new Date(),
     };
   }
@@ -51,7 +51,7 @@ class VariantGeneralData extends Component {
   handlesaved = () => {
    //  console.log("hello");
    let hlptxt = "Please Fill the Required Field"
-   isEmptyString(this.state.productName.productName) ? this.setState({productNameErr : hlptxt}) : this.setState({productnameErr : ""})
+   this.state.productName === "" ? this.setState({productnameErr : hlptxt}) : this.setState({productnameErr : ""})
    isEmptyString(this.state.variantfamilysku) ? this.setState({variantfamilyskuErr : hlptxt}) : this.setState({variantfamilyskuErr : ""})
    isEmptyString(this.state.variantsku) ? this.setState({varientErr : hlptxt}) : this.setState({varientErr : ""})
    this.state.endOfEnrollmentDate === null ? this.setState({endOfEnrollmentDateErr : hlptxt}) : this.setState({endOfEnrollmentDateErr:""})
@@ -60,20 +60,19 @@ class VariantGeneralData extends Component {
    this.state.endOfServiceDate === null ? this.setState({endOfServiceDateErr : hlptxt}):this.setState({endOfServiceDateErr : ""})
    this.state.createdOn === null ? this.setState({ createdOnErr : hlptxt}) : this.setState({ createdOnErr : ""})
    isEmptyString(this.state.createdBy) ? this.setState({ createdByErr : hlptxt}) : this.setState({createdByErr : ""})
-   this.state.standaloneSellable.title === null ? this.setState({ standaloneSellableErr : hlptxt}) : this.setState({ standaloneSellableErr : ""})
-   // if(
-   //    // !isEmptyString(this.state.productName.productName) &&
-   //    !isEmptyString(this.state.variantfamilysku) &&
-   //    !isEmptyString(this.state.variantsku) &&
-   //    !isEmptyString(this.state.costPrice) &&
-   //    !isEmptyString(this.state.sellingPrice) &&
-   //    !isEmptyString(this.state.createdBy) &&
-   //    this.state.endOfServiceDate !== null &&
-   //    this.state.createdOn !== null &&
-   //    this.state.endOfEnrollmentDate !== null 
-   //    // this.state.standaloneSellable.title !== null 
-
-   // ){
+   this.state.standaloneSellable === "" ? this.setState({ standaloneSellableErr : hlptxt}) : this.setState({ standaloneSellableErr : ""})
+   if(
+      !isEmptyString(this.state.variantfamilysku) &&
+      !isEmptyString(this.state.variantsku) &&
+      !isEmptyString(this.state.costPrice) &&
+      !isEmptyString(this.state.sellingPrice) &&
+      !isEmptyString(this.state.createdBy) &&
+      this.state.endOfServiceDate !== null &&
+      this.state.createdOn !== null &&
+      this.state.endOfEnrollmentDate !== null &&
+      this.state.productName !== "" &&
+      this.state.standaloneSellable !== ""
+   ){
       let obj = {
          name: this.state.variantfamilysku,
          variant_SKU: this.state.variantsku,
@@ -83,7 +82,7 @@ class VariantGeneralData extends Component {
          endOfEnrollmentDate: this.state.endOfEnrollmentDate,
          costPrice: this.state.costPrice,
          sellingPrice: this.state.sellingPrice,
-         createdBy: window.sessionStorage.getItem("role"),
+         createdBy: this.state.createdBy,
          dateOfCreation: this.state.createdOn,
          standaloneSellable: this.state.standaloneSellable.title,
          productFamily: {
@@ -93,7 +92,8 @@ class VariantGeneralData extends Component {
          updatedBy:window.sessionStorage.getItem("role")
        };
        this.props.postgeneraldetails(obj);
-   // }
+   }
+   console.log(this.state)
   };
   render() {
     return (
@@ -114,6 +114,8 @@ class VariantGeneralData extends Component {
                 <TextField
                   {...params}
                   label="Product Family"
+                  error={this.state.productnameErr.length > 0}
+                  helperText={this.state.productnameErr}
                   variant="standard"
                 />
               )}
@@ -209,6 +211,7 @@ class VariantGeneralData extends Component {
                 margin="normal"
                 id="date-picker-dialog"
                 label="End of Enrollment"
+                disableFuture
                 error={this.state.endOfEnrollmentDateErr.length > 0}
                 helperText={this.state.endOfEnrollmentDateErr}
                 format="yyyy-MM-dd"
@@ -227,7 +230,7 @@ class VariantGeneralData extends Component {
             <TextField
               label="Created By"
               disabled
-              value={window.sessionStorage.getItem("role")}
+              value={this.state.createdBy}
             //   error={this.state.createdByErr.length > 0}
             //   helperText={this.state.createdByErr}
               onChange={(e) => this.setState({ createdBy: e.target.value })}
@@ -240,6 +243,7 @@ class VariantGeneralData extends Component {
                 id="date-picker-dialog"
                 label="Created On"
                 format="yyyy-MM-dd"
+                disabled
                 value={this.state.createdOn}
                 error={this.state.createdOnErr.length > 0}
                 helperText={this.state.createdOnErr}
