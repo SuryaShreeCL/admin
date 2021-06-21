@@ -2,8 +2,25 @@ import { TextField ,Grid,Button } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Autocomplete} from '@material-ui/lab'
+import {postgeneraldetails} from '../../Actions/ProductAction'
 
  class VariantGeneralData extends Component {
+    constructor(){
+       super();
+       this.state={
+          productName : "",
+          variantsku : "",
+          variantfamilysku :"",
+          shortName : "",
+          endOfServiceDate:"",
+          endOfEnrollmentDate:"",
+          costPrice :"",
+          sellingPrice:"",
+          createdBy:"",
+          dateOfCreation:"",
+          standaloneSellable:"",
+       }
+    }
     family=[
             {title:"Profile Builder"},
             {title:"Profile Builder"},
@@ -11,6 +28,26 @@ import {Autocomplete} from '@material-ui/lab'
             {title:"Profile Builder"},
             {title:"Profile Builder"}
          ]
+         handlesaved = ()=>{
+           console.log("hello")
+          let obj = {
+            "name": "acfekl",
+            "variant_SKU": this.state.variantsku,
+            "variant_family_SKU":this.state.variantfamilysku,
+            "shortName": this.state.shortName,
+            "endOfServiceDate":this.state.endOfServiceDate,
+            "endOfEnrollmentDate":this.state.endOfEnrollmentDate,
+            "costPrice":this.state.costPrice,
+            "sellingPrice":this.state.sellingPrice,
+            "createdBy":this.state.createdBy,
+            "dateOfCreation":this.state.dateOfCreation,
+            "standaloneSellable":this.state.standaloneSellable,
+            "productFamily": {
+                "id": "1"
+            }
+        }
+        this.props.postgeneraldetails(obj)
+         }
     render() {
         return (
             <div>
@@ -41,7 +78,13 @@ import {Autocomplete} from '@material-ui/lab'
                        <TextField label="Product Selling Price" />
                     </Grid>
                     <Grid item md={2}>
-                       <TextField label="Product Service End" />
+                       <TextField label="Product End of Service" />
+                    </Grid>
+                    <Grid item md={2}>
+                       <TextField label="Product End of Enrollment" />
+                    </Grid>
+                    <Grid item md={6}>
+
                     </Grid>
                     <Grid item md={2}>
                        <TextField label="Updated By" />
@@ -56,7 +99,7 @@ import {Autocomplete} from '@material-ui/lab'
                        <TextField label="Created On" />
                     </Grid>
                     <Grid item md={12}>
-                        <Button color="primary" variant="contained">Create New Varient</Button>
+                        <Button color="primary" variant="contained" onClick={this.handlesaved}>Create New Varient</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -66,8 +109,8 @@ import {Autocomplete} from '@material-ui/lab'
 
 const mapStateToProps = (state) =>{
     return {
-
+      postgeneraldetailsList : state.ProductReducer.postgeneraldetails
     }
 }
 
-export default connect(mapStateToProps, {})(VariantGeneralData)
+export default connect(mapStateToProps, {postgeneraldetails})(VariantGeneralData)

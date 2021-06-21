@@ -23,7 +23,8 @@ const initialState = {
   postvarientimage:[],
   updatevarientimage:[],
   updatefamily:[],
-  deletefamily:[]
+  deletefamily:[],
+  postgeneraldetails:[]
 };
 
 export default (state = initialState, action) => {
@@ -137,6 +138,11 @@ export default (state = initialState, action) => {
                       return {
                         ...state,
                         deletefamily : action.payload,
+                      };
+                      case PRODUCT.postgeneraldetails:
+                      return {
+                        ...state,
+                        postgeneraldetails : action.payload,
                       };
                     
 

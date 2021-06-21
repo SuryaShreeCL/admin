@@ -86,7 +86,7 @@ export const getAllProductFamily = () =>{
     return dispatch =>{
         axios.get(URL+"/api/v1/get/productFamily")
         .then(result=>{
-            // dispatch({type:PRODUCT.getAllProductFamily,payload:result.data});
+            dispatch({type:PRODUCT.getAllProductFamily,payload:result.data});
         })
         .catch(error=>{
             console.log(error);
@@ -273,6 +273,17 @@ export const updatefamily = (data) =>{
         .then(result=>{
             dispatch({type:PRODUCT.updatefamily,payload:result.data});
         })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+    }
+    export const postgeneraldetails = (data) =>{
+        return dispatch =>{
+            axios.post(URL+"/api/v1/create/product/varient",data)
+            .then(result=>{
+                dispatch({type:PRODUCT.postgeneraldetails,payload:result.data});
+            })
             .catch(error=>{
                 console.log(error);
             })
