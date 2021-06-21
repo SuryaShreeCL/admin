@@ -59,31 +59,71 @@ class Product extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
-      createdby : "",
-      createdbyErr:"",
-      createdon : null ,
-      craetedonErr : "",
-      updatedby : "",
-      updatdebyErr : "",
-      updatedon : null,
-      updatedonErr : "",
-      newFamilynameErr:"",
-      tableColumns : [
-        {field : "id", hide : true},
-        {field : "productName", headerName : "Product Name", width : 300},
-        {field : "shortName", headerName : "Short Name", width : 150},
-        {field : "codeName", headerName : "Code Name", width : 150},
-        {field : "action", headerName : "Action",  width : 300, renderCell: () => (
-            <PrimaryButton
-              // onClick={()=>this.handleClick()}
-              variant={"contained"}
-              color={"primary"}
-              size={"small"}
-              style={{ marginLeft: 16 }}
-            >
-              Manage
-            </PrimaryButton>
-        ),}
+      createdby: window.sessionStorage.getItem("role"),
+      createdbyErr: "",
+      createdon: new Date(),
+      craetedonErr: "",
+      updatedby: window.sessionStorage.getItem("role"),
+      updatdebyErr: "",
+      updatedon: new Date(),
+      updatedonErr: "",
+      newFamilynameErr: "",
+      tableColumns: [
+        { field: "id", hide: true },
+        { field: "codeName", headerName: "Product SKU", width: 140 },
+        { field: "productName", headerName: "Product Family Name", width: 150 },
+        { field: "varientCount", headerName: "Variant", width: 120 },
+        { field: "createdBy", headerName: "Created By", width: 140 },
+        { field: "dateOfCreation", headerName: "Created On", width: 140 },
+        { field: "updatedBy", headerName: "Updated By", width: 135 },
+        { field: "dateOfUpdate", headerName: "Updated On", width: 120 },
+        {
+          field: "action",
+          headerName: "Action",
+          sortable: false,
+          width: 100,
+          renderCell: (params) => {
+            const onClick = () => {
+              const api: GridApi = params.api;
+              const fields = api
+                .getAllColumns()
+                .map((c) => c.field)
+                .filter((c) => c !== "__check__" && !!c);
+              const thisRow: Record<string, GridCellValue> = {};
+
+              fields.forEach((f) => {
+                thisRow[f] = params.getValue(f);
+              });
+
+              return (
+                // console.log(thisRow)
+                this.setState({
+                  show: true,
+                  id: thisRow.id,
+                  codeName: thisRow.codeName,
+                  // shortName:thisRow.shortName,
+                  productName: thisRow.productName,
+                  createdby: thisRow.createdBy,
+                  createdon: thisRow.dateOfCreation,
+                  updatedby: thisRow.updatedBy,
+                  updatedon: thisRow.dateOfUpdate,
+                })
+              );
+              // alert(JSON.stringify(thisRow, null, 4));
+            };
+            return (
+              <PrimaryButton
+                onClick={onClick}
+                variant={"contained"}
+                color={"primary"}
+                size={"small"}
+                style={{ marginLeft: 16 }}
+              >
+                Manage
+              </PrimaryButton>
+            );
+          },
+        },
       ],
       deletedialog :false,
       newFamilyname : ""
@@ -401,7 +441,7 @@ console.log(data)
                 <TextField
                   variant="standard"
                   color="primary"
-                  disabled={!isEmptyString(this.state.id)}
+                  disabled
                   label="Created By"
                   name="Createdby"
                   fullWidth
@@ -417,7 +457,7 @@ console.log(data)
                   <KeyboardDatePicker
                     margin="normal"
                     id="date-picker-dialog"
-                    disabled={!isEmptyString(this.state.id)}
+                    disabled
                     label="Created On"
                     variant="dialog"
                     format="yyyy-MM-dd"
@@ -440,6 +480,7 @@ console.log(data)
                       variant="standard"
                       color="primary"
                       label="Updated By"
+                      disabled
                       name="updatedby"
                       fullWidth
                       value={this.state.updatedby}
@@ -457,6 +498,7 @@ console.log(data)
                         margin="normal"
                         id="date-picker-dialog"
                         label="Updated On"
+                        disabled
                         variant="dialog"
                         format="yyyy-MM-dd"
                         value={this.state.updatedon}
