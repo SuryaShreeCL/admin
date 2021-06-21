@@ -86,7 +86,7 @@ export const getAllProductFamily = () =>{
     return dispatch =>{
         axios.get(URL+"/api/v1/get/productFamily")
         .then(result=>{
-            // dispatch({type:PRODUCT.getAllProductFamily,payload:result.data});
+            dispatch({type:PRODUCT.getAllProductFamily,payload:result.data});
         })
         .catch(error=>{
             console.log(error);

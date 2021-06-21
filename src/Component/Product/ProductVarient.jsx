@@ -36,6 +36,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from '@material-ui/lab/Alert';
 import { productVariantPath } from '../RoutePaths';
 import ReactExport from "react-export-excel";
+import DataGridTable from "../Utils/DataGridTable";
+import PrimaryButton from '../../Utils/PrimaryButton'
+
 export class ProductVarient extends Component {
     constructor(props) {
         super(props)
@@ -80,7 +83,28 @@ export class ProductVarient extends Component {
             endOfServiceDateErr:"",
             intakeErr : "",
             yearErr:"",
-            pricingErr:""
+            pricingErr:"",
+            tableColumns : [
+              {field : "id", hide : true},
+              {field : "codeName", headerName : "SKU", width : 150},
+              {field : "name", headerName : "Product Family", width : 150},
+              {field : "name", headerName : "Variant Name", width : 150},
+              {field : "standaloneSellable", headerName : "Standalone", width : 150},
+              {field : "sellingPrice", headerName : "Pricing", width : 150},
+              {field : "validity", headerName : "Validity", width : 150},
+              {field : "endOfServiceDate", headerName : "EOS", width : 150},
+              {field : "action", headerName : "Action",  width : 300, renderCell: () => (
+                  <PrimaryButton
+                    // onClick={()=>this.handleClick()}
+                    variant={"contained"}
+                    color={"primary"}
+                    size={"small"}
+                    style={{ marginLeft: 16 }}
+                  >
+                    Manage
+                  </PrimaryButton>
+              ),}
+            ],
 
         }
     }
@@ -331,66 +355,16 @@ export class ProductVarient extends Component {
                   </Button>
                 </div>
 
-               <TableContainer >
-            <Table>
-              <TableHead >
-                <TableRow>
-                <TableCell style={{fontWeight:"bold"}}>SKU</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Varient Name</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Varient short Name</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Code Name</TableCell>
-                {/* <TableCell style={{fontWeight:"bold"}}>Product Oneliner</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product description</TableCell> */}
-                <TableCell style={{fontWeight:"bold"}}>Standalone</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Pricing</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Year</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>EOS</TableCell>
-                {/* <TableCell style={{fontWeight:"bold"}}>Product Images</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product Videos</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product Tnc</TableCell>
-                <TableCell style={{fontWeight:"bold"}}>Product Q&A</TableCell> */}
-                <TableCell ali style={{fontWeight:"bold"}}>Action</TableCell>
-
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.props.getProductVarientList.map((eachVariant)=>{
-                  return (
-                    <TableRow>
-                      <TableCell>SKU</TableCell>
-                      <TableCell>
-                        {eachVariant.name}
-                      </TableCell>
-                      <TableCell>
-                        {eachVariant.shortName}
-                      </TableCell>
-                      <TableCell>
-                        {eachVariant.codeName}
-                      </TableCell>
-                      {/* <TableCell>
-                        {eachVariant.productOneliner}
-                      </TableCell>
-                      <TableCell>
-                        {eachVariant.productDescription}
-                      </TableCell> */}
-                      <TableCell>Yes</TableCell>
-                      <TableCell>$50000</TableCell>
-                      <TableCell>365 Days</TableCell>
-                      <TableCell>DD/MM/YYYY</TableCell>
-                      <TableCell > 
-                        <div style={{display:'flex', flexDirection:"row"}}>
-                      <Button size="small" variant="contained" color="primary" style={{margin:"5px"}} startIcon={<EditIcon/>} onClick={()=>this.handleEdit(eachVariant)}>Edit</Button>
-                      <Button size="small" variant="contained" color="secondary" style={{margin:"5px"}} startIcon={<DeleteIcon/>}>Delete</Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-
-                  )
-                })}
-                
-              </TableBody>
-            </Table>
-          </TableContainer>
+            {/*  */}
+            <Grid container>
+          <Grid item md={12} style={{height : "500px"}}>
+            <DataGridTable
+            columns={this.state.tableColumns}
+            rows={this.props.getProductVarientList}
+            filterItems={[]}
+             />
+             </Grid>
+             </Grid>
           <Dialog fullScreen
               open={this.state.show}
               onClose={(e) => this.setState({ show: false })}

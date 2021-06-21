@@ -2,7 +2,8 @@ import { Grid, TextField , Button, Table, TableContainer, TableRow, TableHead, T
     DialogTitle,
     IconButton,
     DialogContent,
-    DialogActions,} from '@material-ui/core'
+    DialogActions,
+    withStyles,} from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import React, { Component } from 'react'
 import AddIcon from "@material-ui/icons/Add";
@@ -13,9 +14,13 @@ import CloseIcon from "@material-ui/icons/Close";
 import { isEmptyString } from "../Validation";
 import { connect } from "react-redux";
 import {getAllProductVideos,postProductVideos, updateProductVideos} from "../../Actions/ProductAction"
-import Alert from '@material-ui/lab/Alert';
-import Snackbar from "@material-ui/core/Snackbar";
-
+import MySnackBar from "../MySnackBar";
+import Divider from '@material-ui/core/Divider';
+import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import PrimaryButton from '../../Utils/PrimaryButton';
+import ReactPlayer from "react-player";
 
 export class ProductVideos extends Component {
     constructor(props) {
@@ -23,8 +28,12 @@ export class ProductVideos extends Component {
     
         this.state = {
             show:false,
-            videos:"",
-            videosErr: "",
+            video:"",
+            videoAlt : "",
+            videoAltErr : "",
+            videoErr : "",
+            videoOrder : "",
+            videoOrderErr : "",
             id:"",
             productFamily : null,
             snackOpen: false,
@@ -53,7 +62,9 @@ handleClickOpen = (e) => {
     this.setState({ 
       show: true,
       id : "",
-      videos:[],
+      video:"",
+      videoAlt : "",
+      videoOrder : "",
     });
  }
 handleEdit = (data) => {
@@ -61,19 +72,19 @@ handleEdit = (data) => {
      this.setState({
         show : true,
         id : data.id,
-        videos: data.videoUrl,
+        video: data.videoUrl,
         });
 }
 handleSave = (event) => {
     console.log(this.state)
 
     let hlpTxt = "Please Fill The Required Feild"
-    isEmptyString(this.state.videos) ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
+    isEmptyString(this.state.video) ? this.setState({ videoErr : hlpTxt }) : this.setState({ videoErr : "" })
     if(
-        !isEmptyString(this.state.videos) 
+        !isEmptyString(this.state.video) 
         ){
      let obj = {
-        "videoUrl": this.state.videos
+        "videoUrl": this.state.video
      }
      console.log(obj)
      this.props.postProductVideos(obj)
@@ -92,13 +103,13 @@ handleUpdate = () => {
     console.log(this.state)
 
     let hlpTxt = "Please Fill The Required Feild"
-    isEmptyString(this.state.videos) ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
+    isEmptyString(this.state.video) ? this.setState({ videoErr : hlpTxt }) : this.setState({ videoErr : "" })
     if(
-        !isEmptyString(this.state.videos) 
+        !isEmptyString(this.state.video) 
      ){
      let obj = {
         "id":this.state.id,
-        "videoUrl": this.state.videos
+        "videoUrl": this.state.video
      }
      console.log(obj)
      this.props.updateProductVideos(obj)
@@ -114,137 +125,90 @@ handleUpdate = () => {
 
 }
     render() {
+
+      const { classes } = this.props
+
         return (
-           <div>
-             <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
-             <h5>Product Videos</h5>
-                <Button 
-                startIcon={<AddIcon/>} 
-                variant="contained"
-                color="primary" 
-                size="medium"
-                onClick={this.handleClickOpen}
-                >
-                  Add
-                  </Button>
+          <Grid container spacing={2}>
+          <Grid item md={6}>
+          <Grid container spacing={2}>
+          <Grid item md={12}>
+          <TextField
+          variant={"standard"}
+          multiline
+          fullWidth
+          label={"URL"}
+          value={this.state.video}
+          onChange={(e)=>this.setState({video : e.target.valu})}
+          helperText={this.state.videoErr}
+          error={this.state.videoErr.length > 0}
+          rows={4}
+          />
+          </Grid>
+          <Grid item md={12}>
+          <TextField
+          variant={"standard"}
+          multiline
+          fullWidth
+          label={"ALT"}
+          value={this.state.videoAlt}
+          onChange={(e)=>this.setState({videoAlt : e.target.valu})}
+          helperText={this.state.videoAltErr}
+          error={this.state.videoAltErr.length > 0}
+          rows={5}
+          />
+          </Grid>
+          <Grid item md={2}>
+          <TextField
+          variant={"standard"}
+          label={"Order"}
+          value={this.state.videoOrder}
+          onChange={(e)=>this.setState({videoOrder : e.target.valu})}
+          helperText={this.state.videoOrderErr}
+          error={this.state.videoOrderErr.length > 0}
+          />
+          </Grid>
+          <Grid item md={8}></Grid>
+          <Grid item md={12} align="center">
+          <PrimaryButton color="primary" variant={"contained"} >
+            Add New Video
+            </PrimaryButton>
+          </Grid>
+          </Grid>
+          </Grid>
+          {/* <Divider orientation="vertical" flexItem /> */}
+          <Grid item md={6}>
+          <Grid container spacing={2}>
+            <Grid item md={4}>
+              <div className={classes.cardContainer}>
+              <ReactPlayer
+              controls
+              url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+              height="140px"
+              width="100%"
+            />
+                <div className={classes.bottomContainer}>
+                <IconButton size="small">
+                  <VisibilityRoundedIcon fontSize={"small"} />
+                </IconButton>
+                <IconButton size="small">
+                  <EditRoundedIcon fontSize={"small"} />
+                </IconButton>
+                <IconButton size="small">
+                  <DeleteRoundedIcon fontSize={"small"} />
+                </IconButton>
                 </div>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                        <TableRow>
-
-                    <TableCell style={{fontWeight:"bold"}}>ID</TableCell>
-                    <TableCell style={{fontWeight:"bold"}}>Product Videos</TableCell>
-                    <TableCell ali style={{fontWeight:"bold"}}>Action</TableCell>
-                     </TableRow>
-                     </TableHead>
-                     <TableBody>
-                     {this.props.allProductVideosList.map((eachVideo)=>{
-                  return (
-                    <TableRow>
-                        <TableCell>
-                        {eachVideo.id}
-                      </TableCell>
-                      <TableCell>
-                        {eachVideo.videoUrl}
-                      </TableCell>
-                      <TableCell>
-                      <div style={{display:'flex', flexDirection:"row"}}>
-                      <Button size="small" variant="contained" color="primary" style={{margin:"5px"}} startIcon={<EditIcon/>} onClick={()=>this.handleEdit(eachVideo)}>Edit</Button>
-                      <Button size="small" variant="contained" color="secondary" style={{margin:"5px"}} startIcon={<DeleteIcon/>}>Delete</Button>
-                        </div>
-
-                      </TableCell>
-                      </TableRow>
-                  )
-                     })}
-                    </TableBody>
-                    </Table>   
-                </TableContainer>  
-                <Dialog 
-              open={this.state.show}
-              onClose={(e) => this.setState({ show: false })}
-              aria-labelledby="customized-dialog-title"
-              maxWidth="sm"
-            >
-              <DialogTitle id="customized-dialog-title">
-                <div className="flex-1 text-center">
-                  {this.state.id.length !== 0
-                    ? "Edit Product video"
-                    : "Add Product Video"}
-                    <IconButton
-                    style={{position:"absolute", right:'10px', top :5}}
-                    aria-label="close"
-                    onClick={(e) => this.setState({ show: false })}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </div>
-                <div style={{display:'flex', justifyContent:'flex-end'}}>
-                  
-                </div>
-              </DialogTitle>
-              <DialogContent>
-              <Grid container>
-              { !isEmptyString(this.state.id) ? 
-                     <Grid item sm={12}>
-                     <TextField
-                       label="ID"
-                       variant="outlined"
-                       color="primary"
-                       fullWidth
-                       name="id"
-                       disabled
-                       value={this.state.id}
-                       style={{margin:"1%"}}
-                     />
-                   </Grid> 
-                   :
-                   null
-                }
-                <Grid item sm={12}>
-                <TextField
-                variant="outlined"
-                color="primary"
-                label="Product Video"
-                value={this.state.videos}
-                onChange={this.handleChange}
-                fullWidth
-                name="videos"
-                error={this.state.videosErr.length > 0}
-                helperText={this.state.videosErr}
-                style={{margin:"1%"}}
-                /> 
-                </Grid>
-                </Grid> 
-              </DialogContent>
-              <DialogActions style={{alignSelf:"center"}}>
-                <Button
-
-                  variant="contained"
-                  color="primary"
-                  onClick={this.state.id.length === 0 ? this.handleSave : this.handleUpdate}
-                  startIcon={<AddIcon/>}
-                >
-                  {this.state.id.length !== 0 ? "Update" : "Add"}
-                </Button>
-              </DialogActions>
-              </Dialog>
-              <Snackbar
-          open={this.state.snackOpen}
-          autoHideDuration={3000}
-          onClose={() => this.setState({ snackOpen: false })}
-        >
-          <Alert
-            variant="filled"
+              </div>
+            </Grid>
+          </Grid>
+          </Grid>
+            <MySnackBar
+            snackMsg={this.state.snackMessage}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
             onClose={() => this.setState({ snackOpen: false })}
-            severity={this.state.snackVariant}
-          >
-            {this.state.snackMessage}
-          </Alert>
-        </Snackbar>
-
-            </div>
+          />
+        </Grid>
         )
     }
 }
@@ -256,4 +220,23 @@ const mapStateToProps=(state)=>{
       updateProductVideosList : state.ProductReducer.updateProductVideos,
     }
   }
-  export default connect(mapStateToProps,{getAllProductVideos,postProductVideos,updateProductVideos})(ProductVideos)
+
+
+  const useStyles = () =>({
+    cardContainer : {
+      display : "flex",
+      flexDirection : "column",
+
+    },
+    bottomContainer : {
+      display : "flex",
+      justifyContent : "space-between",
+      backgroundColor : "#fff",
+      paddingTop : "5px"
+    },
+    preview : {
+      maxHeight : "21vh"
+    }
+  })
+
+  export default connect(mapStateToProps,{getAllProductVideos,postProductVideos,updateProductVideos})(withStyles(useStyles)(ProductVideos))
