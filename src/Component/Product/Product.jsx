@@ -563,10 +563,10 @@ console.log(data)
 const mapStateToprops = (state) => {
   console.log(state);
   return {
-    getAllProductFamilyList: state.ProductReducer.productFamilyList,
+    getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
     postproductfamilyList: state.ProductReducer.postproductfamily,
     updateproductfamilyList:state.ProductReducer.updateproductfamily,
-    updatefamilyList : state.ProductReducer.updatefamily
+    updatefamilyList : state.ProductReducer.updatefamily,
   };
 };
 
