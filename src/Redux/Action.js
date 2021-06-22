@@ -141,7 +141,7 @@ export const PRODUCT = {
   viewProductToStudent: 'viewProductToStudent',
   addProductToStudent: 'addProductToStudent',
   getAllProductFamily : "getAllProductFamily",
-  getProductByFamilyId : "getProductBgetAllProductQuesAnsyFamilyId",
+  getProductByFamilyId : "getProductByFamilyId",
   postproductfamily:"postproductfamily",
   getProductVarient : "getProductVarient",
   postProductVarient : "postProductVarient",
@@ -157,7 +157,8 @@ export const PRODUCT = {
   updatefamily : "updatefamily",
   deletefamily : "deletefamily",
   postgeneraldetails : "postgeneraldetails",
-  deleteproductvarient : "deleteproductvarient"
+  deleteproductvarient : "deleteproductvarient",
+  getvarientByid : "getvarientByid",
 };
 
 export const ADMIN = {

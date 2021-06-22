@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Product from './Product';
 import ProductVariant from "./ProductVarient"
+import ProductCombo from './ProductCombo';
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -72,7 +73,11 @@ const AntTabs = withStyles({
          return (
            <ProductVariant  {...this.props} />
          );
-       }
+       } else if (value === 2) {
+        return (
+          <ProductCombo  {...this.props} />
+        );
+      }
      } catch (error) {
        console.log(error);
      }
