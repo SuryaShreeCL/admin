@@ -114,27 +114,7 @@ export class ProductVarient extends Component {
                   );
                   // alert(JSON.stringify(thisRow, null, 4));
                 };
-                // const handleDelete = () => {
-                //   const api: GridApi = params.api;
-                //   const fields = api
-                //     .getAllColumns()
-                //     .map((c) => c.field)
-                //     .filter((c) => c !== "__check__" && !!c);
-                //   const thisRow: Record<string, GridCellValue> = {};
     
-                //   fields.forEach((f) => {
-                //     thisRow[f] = params.getValue(f);
-                //   });
-    
-                //   return (
-                //     // console.log(thisRow)
-                //     // <VariantGeneralData {...props} />
-                //     this.setState({
-                //       show: true,
-                //     })
-                //   );
-                //   // alert(JSON.stringify(thisRow, null, 4));
-                // };
                 return (
                   <>
                     <PrimaryButton
@@ -147,6 +127,8 @@ export class ProductVarient extends Component {
                       Manage
                     </PrimaryButton>
                     {/* <PrimaryButton
+                    <PrimaryButton
+                    // onClick={()=>this.handleDelete()}
                     onClick={handleDelete}
                     variant={"contained"}
                     color={"secondary"}
@@ -398,13 +380,16 @@ export class ProductVarient extends Component {
    
    
     render() {
+      
       console.log(this.state)
         return (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div>
                 <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
                 <h4>Product Varient</h4>
+                <div style={{display:'flex', flexDirection: "row",justifyContent:"space-around"}}>
                 <Button 
+                style={{marginRight:"2%"}}
                 startIcon={<AddIcon/>} 
                 variant="contained"
                 color="primary" 
@@ -416,6 +401,30 @@ export class ProductVarient extends Component {
                 >
                   Add
                   </Button>
+                  <ExcelFile
+              // filename={"Product Family"}
+              element={
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                >
+                  Export Excel
+            </Button>
+              }
+            >
+              <ExcelSheet data={this.props.getProductVarientList} name="Product Family">
+                <ExcelColumn label="SKU" value="variantsku" />
+                <ExcelColumn label="Varient Name" value="name" />
+                <ExcelColumn label="Varient ShortName" value="shortName" />
+                <ExcelColumn label="code Name" value="codeName" />
+                <ExcelColumn label="Standalone" value="standaloneSellable" />
+                <ExcelColumn label="Pricing" value="pricing" />
+                <ExcelColumn label="Year" value="year" />
+                <ExcelColumn label="EOS" value="endOfEnrollmentDate" />
+              </ExcelSheet>
+            </ExcelFile>
+                </div>
                 </div>
 
             {/*  */}

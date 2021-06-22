@@ -114,6 +114,7 @@ class VariantGeneralData extends Component {
   };
   render() {
     console.log(this.state)
+    console.log(this.props)
     return (
       <div>
         <Grid container spacing={2}>
@@ -274,7 +275,7 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item md={12}>
+          {/* <Grid item md={12}>
             <Button
               color="primary"
               variant="contained"
@@ -282,7 +283,7 @@ class VariantGeneralData extends Component {
               onClick={this.handlesaved}
             >Create New Varient
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     );

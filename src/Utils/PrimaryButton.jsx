@@ -4,6 +4,9 @@ function PrimaryButton(props) {
     const buttonTheme = createMuiTheme({
         overrides : {
             MuiButton : {
+                label : {
+                    whiteSpace : "nowrap"
+                },
                 containedPrimary : {
                     backgroundColor : "#1093FF",
                     width : "146px",

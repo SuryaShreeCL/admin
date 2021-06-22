@@ -23,33 +23,33 @@ import {
   postproductfamily,
   updateproductfamily,
   updatefamily,
-  deletefamily,
+  deletefamily
 } from "../../Actions/ProductAction";
 import { connect } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { isEmptyString } from "../../Component/Validation";
 import MySnackBar from "../MySnackBar";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import DateFnsUtils from "@date-io/date-fns";
+import PrimaryButton from '../../Utils/PrimaryButton'
+import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
-} from "@material-ui/pickers";
+} from '@material-ui/pickers';
 import ReactExport from "react-export-excel";
 import { ArrowUpward } from "@material-ui/icons";
 import DataGridTable from "../Utils/DataGridTable";
 import { Autocomplete } from "@material-ui/lab";
 const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 class Product extends Component {
   constructor() {
     super();
     this.state = {
       show: false,
       id: "",
-      idErr: "",
+      idErr:"",
       productName: "",
       shortName: "",
       codeName: "",
@@ -125,41 +125,38 @@ class Product extends Component {
           },
         },
       ],
-      deletedialog: false,
-      newFamilyname: "",
+      deletedialog :false,
+      newFamilyname : ""
     };
   }
   componentDidMount() {
     this.props.getAllProductFamily();
   }
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.postproductfamilyList !== this.props.postproductfamilyList ||
-      prevProps.updateproductfamilyList !== this.props.updateproductfamilyList
-    ) {
+    if (prevProps.postproductfamilyList !== this.props.postproductfamilyList || prevProps.updateproductfamilyList !== this.props.updateproductfamilyList) {
       this.props.getAllProductFamily();
     }
   }
+  
 
-  handleDelete = () => {
-    this.setState({
-      deletedialog: true,
-      show: false,
-    });
-  };
-  handleClick = () => {
-    console.log("hello");
-    // console.log(data)
+handleDelete=()=>{
+  this.setState({
+    deletedialog:true,
+    show :false
+  })
+}
+  handleClick = (data) => {
+console.log(data)
     this.setState({
       show: true,
-      // id:data.id,
-      // codeName:data.codeName,
-      // shortName:data.shortName,
-      // productName:data.productName,
-      // createdby:data.createdBy,
-      // createdon:data.dateOfCreation,
-      // updatedby : data.updatedBy,
-      // updatedon:data.dateOfUpdate
+      id:data.id,
+      codeName:data.codeName,
+      shortName:data.shortName,
+      productName:data.productName,
+      createdby:data.createdBy,
+      createdon:data.dateOfCreation,
+      updatedby : data.updatedBy,
+      updatedon:data.dateOfUpdate
     });
   };
 
@@ -175,10 +172,10 @@ class Product extends Component {
     isEmptyString(this.state.productName)
       ? this.setState({ productNameErr: helpertxt })
       : this.setState({ productNameErr: "" });
-    isEmptyString(this.state.createdby)
+      isEmptyString(this.state.createdby)
       ? this.setState({ createdbyErr: helpertxt })
       : this.setState({ createdbyErr: "" });
-    this.state.createdon === null
+      this.state.createdon === null 
       ? this.setState({ craetedonErr: helpertxt })
       : this.setState({ craetedonErr: "" });
     if (
@@ -193,20 +190,28 @@ class Product extends Component {
         productName: this.state.productName,
         codeName: this.state.codeName,
         shortName: this.state.shortName,
-        createdBy: this.state.createdby,
-        updatedBy: this.state.updatedby,
-        dateOfCreation: this.state.createdon,
-        dateOfUpdate: this.state.updatedon,
+        createdBy:this.state.createdby,
+        updatedBy:this.state.updatedby,
+        dateOfCreation:this.state.createdon,
+        dateOfUpdate:this.state.updatedon
       };
       this.props.postproductfamily(obj);
       this.setState({
-        snackMsg: "Added Successfully",
-        snackOpen: true,
-        snackVariant: "success",
-      });
+        snackMsg:"Added Successfully",
+        snackOpen:true,
+        snackVariant:"success"
+      })
     }
   };
   handleDatadelete = () => {
+<<<<<<< HEAD
+    console.log(this.state.id)
+    console.log(this.state.newFamilyname.id)
+    let helperText = "Please fill the Required Field"
+    this.state.newFamilyname.id === null ? this.setState({ newFamilynameErr : helperText }) : this.setState({ newFamilynameErr : ""})
+    if(this.state.newFamilyname !== null){
+      this.props.deletefamily(this.state.id,this.state.newFamilyname.id)
+=======
     console.log(this.state.id);
     console.log(this.state.newFamilyname.id);
     let helperText = "Please fill the Required Field";
@@ -221,10 +226,11 @@ class Product extends Component {
         snackVariant: "success",
         deletedialog:false
       })
+>>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
     }
-  };
+  }
   updatehandleSaved = () => {
-    console.log(this.state);
+    console.log(this.state)
     let helpertxt = "Please fill the required field";
     isEmptyString(this.state.codeName)
       ? this.setState({ codeNameErr: helpertxt })
@@ -235,16 +241,16 @@ class Product extends Component {
     isEmptyString(this.state.productName)
       ? this.setState({ productNameErr: helpertxt })
       : this.setState({ productNameErr: "" });
-    this.state.updatedby === ""
+      this.state.updatedby === ""
       ? this.setState({ updatdebyErr: helpertxt })
       : this.setState({ updatdebyErr: "" });
-    this.state.updatedon === null
+      this.state.updatedon === null
       ? this.setState({ updatedonErr: helpertxt })
       : this.setState({ updatedonErr: "" });
 
-    // isEmptyString(this.state.id)
-    // ? this.setState({ idErr: helpertxt })
-    // : this.setState({ idErr: "" });
+      // isEmptyString(this.state.id)
+      // ? this.setState({ idErr: helpertxt })
+      // : this.setState({ idErr: "" });
 
     if (
       !isEmptyString(this.state.productName) &&
@@ -261,23 +267,23 @@ class Product extends Component {
       //   codeName: this.state.codeName,
       //   shortName: this.state.shortName,
       // };
-      let obj2 = {
+      let obj2={
         id: this.state.id,
-        codeName: this.state.codeName,
-        productName: this.state.productName,
-        updatedBy: this.state.updatedby,
-        dateOfUpdate: this.state.updatedon,
-        shortName: this.state.shortName,
-      };
-      //  this.props.updateproductfamily(obj1)
-      this.props.updatefamily(obj2);
-      this.setState({
-        snackMsg: "Updated Successfully",
-        snackOpen: true,
-        snackVariant: "success",
-      });
+        codeName:this.state.codeName,
+        productName:this.state.productName,
+        updatedBy:this.state.updatedby,
+        dateOfUpdate:this.state.updatedon,
+        shortName : this.state.shortName
     }
-    console.log(this.state);
+      //  this.props.updateproductfamily(obj1)
+       this.props.updatefamily(obj2)
+       this.setState({
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success"
+      })
+    }
+    console.log(this.state)
   };
 
   handleClose = () => {
@@ -287,7 +293,7 @@ class Product extends Component {
   };
   render() {
     console.log(this.props);
-    console.log(this.props.getAllProductFamilyList);
+    console.log(this.props.getAllProductFamilyList)
     return (
       <div>
         <div
@@ -298,64 +304,60 @@ class Product extends Component {
           }}
         >
           <Typography style={{ marginLeft: "20px" }}></Typography>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-            }}
+          <div style={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Button
+            style={{ margin: "1%" }}
+            onClick={this.handleClick}
+            color="primary"
+            size="small"
+            startIcon={<AddIcon />}
+            variant="contained"
           >
+            Create_Family
+          </Button>
+          <ExcelFile 
+          filename={"Product Family"}
+          element={
             <Button
-              style={{ margin: "1%" }}
-              onClick={this.handleClick}
-              color="primary"
-              size="small"
-              startIcon={<AddIcon />}
               variant="contained"
+              size="small"
+              color="primary"
             >
-              Create_Family
+              Export Excel
             </Button>
-            <ExcelFile
-              filename={"Product Family"}
-              element={
-                <Button variant="contained" size="small" color="primary">
-                  Export Excel
-                </Button>
-              }
-            >
-              <ExcelSheet
-                data={this.props.getAllProductFamilyList}
-                name="Product Family"
-              >
-                <ExcelColumn label="Product Name" value="productName" />
-                <ExcelColumn label="Product SKU" value="codeName" />
-                <ExcelColumn label="Variant" value="varientCount" />
-                <ExcelColumn label="Created By" value="createdBy" />
-                <ExcelColumn label="Created On" value="dateOfCreation" />
-                <ExcelColumn label="Updated By" value="updatedBy" />
-                <ExcelColumn label="Updated On" value="dateOfUpdate" />
-              </ExcelSheet>
-            </ExcelFile>
+          }
+        >
+               <ExcelSheet data={this.props.getAllProductFamilyList} name="Product Family">
+                   <ExcelColumn label="Product Name" value="productName"/>
+                   <ExcelColumn label="Product Shortname" value="shortName"/>
+                   <ExcelColumn label="Product CodeName" value="codeName"/>
+               </ExcelSheet>
+           </ExcelFile>
           </div>
+         
         </div>
 
-        {/*  */}
-        <Grid container>
-          <Grid item md={12} style={{ height: "500px" }}>
-            <DataGridTable
-              columns={this.state.tableColumns}
-              rows={this.props.getAllProductFamilyList}
-              filterItems={[
-                { columnField: "codeName", operatorValue: "contains" },
-                { columnField: "productName", operatorValue: "contains" },
-                // { columnField: 'varientCount', operatorValue: 'contains' },
-                { columnField: "createdBy", operatorValue: "contains" },
-                { columnField: "dateOfCreation", operatorValue: "contains" },
-                { columnField: "updatedBy", operatorValue: "contains" },
-                { columnField: "dateOfUpdate", operatorValue: "contains" },
-              ]}
-            />
+      {/*  */}
+      <Grid container>
+          <Grid item md={12} style={{height : "500px"}}>
+          <DataGridTable
+      columns = {this.state.tableColumns}
+      rows = {this.props.getAllProductFamilyList} 
+      filterItems = {
+        [
+          { columnField: 'productName', operatorValue: 'contains' },
+          { columnField: 'shortName', operatorValue: 'contains' },
+          { columnField: 'codeName', operatorValue: 'contains' },
+        ]
+      }
+      />
           </Grid>
-        </Grid>
+      </Grid>
+     
+     
         <Dialog open={this.state.show}>
           <DialogTitle>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -406,19 +408,19 @@ class Product extends Component {
                     )}
                   />
                 ) : ( */}
-                <TextField
-                  variant="standard"
-                  color="primary"
-                  label="Product Family"
-                  fullWidth
-                  value={this.state.productName}
-                  error={this.state.productNameErr.length > 0}
-                  helperText={this.state.productNameErr}
-                  onChange={(e) =>
-                    this.setState({ productName: e.target.value })
-                  }
-                  multiline
-                />
+                  <TextField
+                    variant="standard"
+                    color="primary"
+                    label="Product Family"
+                    fullWidth
+                    value={this.state.productName}
+                    error={this.state.productNameErr.length > 0}
+                    helperText={this.state.productNameErr}
+                    onChange={(e) =>
+                      this.setState({ productName: e.target.value })
+                    }
+                    multiline
+                  />
                 {/* )} */}
               </Grid>
               <Grid item sm={6}>
@@ -517,9 +519,7 @@ class Product extends Component {
                         variant="dialog"
                         format="yyyy-MM-dd"
                         value={this.state.updatedon}
-                        onChange={(e, newValue) =>
-                          this.setState({ updatedon: newValue })
-                        }
+                        onChange={(e,newValue)=>this.setState({ updatedon : newValue})}
                         error={this.state.updatedonErr.length > 0}
                         helperText={this.state.updatedonErr}
                         KeyboardButtonProps={{
@@ -528,7 +528,7 @@ class Product extends Component {
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>
-                  <Grid item md={6} align="center">
+                  <Grid item md={6} align = "center">
                     <PrimaryButton
                       onClick={this.updatehandleSaved}
                       color={"primary"}
@@ -539,19 +539,19 @@ class Product extends Component {
                     </PrimaryButton>
                   </Grid>
                   <Grid item sm={6} align="center">
-                    <PrimaryButton
-                      onClick={this.handleDelete}
-                      color={"secondary"}
-                      size={"small"}
-                      variant={"contained"}
-                    >
-                      Delete Family
-                    </PrimaryButton>
-                  </Grid>
+                  <PrimaryButton
+                    onClick={this.handleDelete}
+                    color={"secondary"}
+                    size={"small"}
+                    variant={"contained"}
+                  >
+                    Delete Family
+                  </PrimaryButton>
+              </Grid>
                 </>
               ) : null}
               {isEmptyString(this.state.id) ? (
-                <Grid item sm={12} align="center">
+                <Grid item sm={12} align = "center">
                   <PrimaryButton
                     onClick={this.newhandleSaved}
                     color={"primary"}
@@ -562,6 +562,7 @@ class Product extends Component {
                   </PrimaryButton>
                 </Grid>
               ) : null}
+              
             </Grid>
           </DialogContent>
         </Dialog>
@@ -583,9 +584,7 @@ class Product extends Component {
                   id="combo-box-demo"
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
-                  onChange={(e, newValue) =>
-                    this.setState({ newFamilyname: newValue })
-                  }
+                  onChange={(e,newValue)=>this.setState({newFamilyname : newValue})}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -602,7 +601,7 @@ class Product extends Component {
                   color={"secondary"}
                   size={"small"}
                   variant={"contained"}
-                  onClick={() => this.handleDatadelete()}
+                  onClick={()=>this.handleDatadelete()}
                 >
                   Delete
                 </PrimaryButton>
@@ -625,8 +624,8 @@ const mapStateToprops = (state) => {
   return {
     getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
     postproductfamilyList: state.ProductReducer.postproductfamily,
-    updateproductfamilyList: state.ProductReducer.updateproductfamily,
-    updatefamilyList: state.ProductReducer.updatefamily,
+    updateproductfamilyList:state.ProductReducer.updateproductfamily,
+    updatefamilyList : state.ProductReducer.updatefamily,
   };
 };
 
@@ -635,5 +634,5 @@ export default connect(mapStateToprops, {
   postproductfamily,
   updateproductfamily,
   updatefamily,
-  deletefamily,
+  deletefamily
 })(Product);
