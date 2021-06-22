@@ -2,7 +2,7 @@ import { TextField, Grid, Button } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
-import { postgeneraldetails,getAllProductFamily,getProductVarient } from "../../Actions/ProductAction";
+import { postgeneraldetails,getAllProductFamily,getProductVarient,getvarientByid } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import PrimaryButton from '../../Utils/PrimaryButton'
 import {
@@ -43,6 +43,23 @@ class VariantGeneralData extends Component {
   componentDidMount(){
      this.props.getAllProductFamily()
      this.props.getProductVarient()
+     this.props.getvarientByid(this.props.match.params.id)
+  }
+  componentDidUpdate(prevProps,prevState){
+    if(this.props.getvarientByidList !== prevProps.getvarientByidList) {
+      this.setState({
+        productName:this.props.getvarientByidList.productFamily,
+        variantsku : this.props.getvarientByidList.name,
+        variantfamilysku : this.props.getvarientByidList.shortName,
+        costPrice:this.props.getvarientByidList.costPrice,
+        sellingPrice:this.props.getvarientByidList.sellingPrice,
+        standaloneSellable:{title:this.props.getvarientByidList.standaloneSellable},
+        endOfServiceDate:this.props.getvarientByidList.endOfServiceDate,
+        endOfEnrollmentDate:this.props.getvarientByidList.endOfEnrollmentDate,
+        createdBy:this.props.getvarientByidList.createdBy,
+        createdOn:this.props.getvarientByidList.dateOfCreation
+      })
+    }
   }
   data=[
      {title : "Yes"},
@@ -96,6 +113,7 @@ class VariantGeneralData extends Component {
    console.log(this.state)
   };
   render() {
+    console.log(this.state)
     console.log(this.props)
     return (
       <div>
@@ -263,8 +281,7 @@ class VariantGeneralData extends Component {
               variant="contained"
               style={{ borderRadius: "30px" }}
               onClick={this.handlesaved}
-            >
-              Create New Varient
+            >Create New Varient
             </Button>
           </Grid> */}
         </Grid>
@@ -277,10 +294,11 @@ const mapStateToProps = (state) => {
   return {
     postgeneraldetailsList: state.ProductReducer.postgeneraldetails,
     getAllProductFamilyList : state.ProductReducer.getAllProductFamily,
-    getProductVarientList : state.ProductReducer.getProductVarient
+    getProductVarientList : state.ProductReducer.getProductVarient,
+    getvarientByidList : state.ProductReducer.getvarientByid
   };
 };
 
-export default connect(mapStateToProps, { postgeneraldetails,getAllProductFamily,getProductVarient })(
+export default connect(mapStateToProps, { postgeneraldetails,getvarientByid,getAllProductFamily,getProductVarient })(
   VariantGeneralData
 );

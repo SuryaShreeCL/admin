@@ -76,12 +76,12 @@ class Product extends Component {
         { field: "createdBy", headerName: "Created By", width: 140 },
         { field: "dateOfCreation", headerName: "Created On", width: 140 },
         { field: "updatedBy", headerName: "Updated By", width: 135 },
-        { field: "dateOfUpdate", headerName: "Updated On", width: 120 },
+        { field: "dateOfUpdate", headerName: "Updated On", width: 140 },
         {
           field: "action",
           headerName: "Action",
           sortable: false,
-          width: 100,
+          width: 200,
           renderCell: (params) => {
             const onClick = () => {
               const api: GridApi = params.api;
