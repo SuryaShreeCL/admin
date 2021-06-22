@@ -53,11 +53,8 @@ import {
   productBasedPath,
   starterPackPath,
   productVariantPath,
-<<<<<<< HEAD
-  productPunchingPath
-=======
+  productPunchingPath,
   productcomboPath
->>>>>>> cab4d60e0d6d7300f092f31aa09b8da45cdb6b92
 } from './RoutePaths';
 import College from './College';
 import University from './University';
