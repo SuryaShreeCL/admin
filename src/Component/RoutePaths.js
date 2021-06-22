@@ -35,6 +35,9 @@ export const callSchedulePath = rootPath.concat('/schedule');
 export const productBasedPath = rootPath.concat("/based")
 export const starterPackPath = rootPath.concat("/starterPack")
 export const productVariantPath = rootPath.concat("/product/variant")
+export const productcomboPath = rootPath.concat("/productcombo")
+
+
 // Rengine another version path
 
 export const loginPath = rootPath.concat('/Mlogin');

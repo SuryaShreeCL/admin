@@ -300,3 +300,39 @@ export const updatefamily = (data) =>{
             })
         }
     }
+    export const getvarientByid = (id) =>{
+        let accessToken = window.sessionStorage.getItem("accessToken")  
+        return dispatch =>{
+            axios.get(URL+"/api/v1/get/product/varient/"+id,{
+                crossDomain: true,
+                headers : {
+                    "admin" : "yes",
+                    "Authorization" : `Bearer ${accessToken}`
+                }
+            })
+            .then(result=>{
+                dispatch({type:PRODUCT.getvarientByid,payload:result.data});
+            })
+                .catch(error=>{
+                    console.log(error);
+                })
+            }
+        }
+        // export const getproductbyid = (id) =>{
+        //     let accessToken = window.sessionStorage.getItem("accessToken")  
+        //     return dispatch =>{
+        //         axios.get(URL+"/api/v1//get/product/productFamily/"+id,{
+        //             crossDomain: true,
+        //             headers : {
+        //                 "admin" : "yes",
+        //                 "Authorization" : `Bearer ${accessToken}`
+        //             }
+        //         })
+        //         .then(result=>{
+        //             dispatch({type:PRODUCT.getfamilybyid,payload:result.data});
+        //         })
+        //             .catch(error=>{
+        //                 console.log(error);
+        //             })
+        //         }
+        //     }

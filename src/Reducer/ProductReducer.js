@@ -8,7 +8,7 @@ const initialState = {
   studentProductList: [],
   // productFamilyList: [],
   getAllProductFamily: [],
-  productVariantList: [],
+  getProductByFamilyId: [],
   postproductfamily: [],
   getProductVarient: [],
   postProductVarient: [],
@@ -26,6 +26,7 @@ const initialState = {
   deletefamily: [],
   postgeneraldetails: [],
   deleteproductvarient: [],
+  getvarientByid:[],
 };
 
 export default (state = initialState, action) => {
@@ -68,7 +69,7 @@ export default (state = initialState, action) => {
     case PRODUCT.getProductByFamilyId:
       return {
         ...state,
-        productVariantList: action.payload,
+        getProductByFamilyId: action.payload,
       };
     case PRODUCT.postproductfamily:
       return {
@@ -149,6 +150,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         deleteproductvarient: action.payload,
+      };
+      case PRODUCT.getvarientByid:
+      return {
+        ...state,
+        getvarientByid: action.payload,
       };
     default:
       break;

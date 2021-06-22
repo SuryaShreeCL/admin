@@ -52,7 +52,8 @@ import {
   callSchedulePath,
   productBasedPath,
   starterPackPath,
-  productVariantPath
+  productVariantPath,
+  productcomboPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -79,6 +80,7 @@ import Callschedule from "./Callschedule"
 import ProductBasedRoot from './ProductBased/ProductBasedRoot';
 import ProductVariantRoot from './Product/ProductVariantRoot';
 import StarterPack from './ProductBased/StarterPack';
+import ProductComboForm from './Product/ProductComboForm';
 export default function Routes(props) {
   return (
     
@@ -114,6 +116,9 @@ export default function Routes(props) {
             <Route exact path={productBasedPath} render={(props)=> <ProductBasedRoot {...props} />} />
             <Route exact path={starterPackPath} render={(props)=> <StarterPack {...props} />} />
             <Route exact path={productVariantPath} render={(props)=> <ProductVariantRoot {...props} />} />
+            <Route exact path={productVariantPath+"/:id"} render={(props)=> <ProductVariantRoot {...props} />} />
+            <Route exact path={productcomboPath} render={(props)=> <ProductComboForm {...props} />} />
+
             <Route
               exact
               // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
