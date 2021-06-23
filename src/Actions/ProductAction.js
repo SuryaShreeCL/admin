@@ -362,3 +362,22 @@ export const updatefamily = (data) =>{
                     })
                 }
             }
+
+            export const updateProductTnC = (data) =>{
+                let accessToken = window.sessionStorage.getItem("accessToken")  
+                return dispatch =>{
+                    axios.put(URL+"/api/v1/update/product/tnc",data,{
+                        crossDomain: true,
+                        headers : {
+                            "admin" : "yes",
+                            "Authorization" : `Bearer ${accessToken}`
+                        }
+                    })
+                    .then(result=>{
+                        dispatch({type:PRODUCT.updateTnc,payload:result.data});
+                    })
+                        .catch(error=>{
+                            console.log(error);
+                        })
+                    }
+                }

@@ -3,7 +3,37 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { updateProductTnC, getvarientByid } from "../../Actions/ProductAction"
 class VariantTnc extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            tnc : "",
+        }
+    }
+
+    componentDidMount() {
+        this.props.getvarientByid(this.props.match.params.id)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.getvarientByidList !== prevProps.getvarientByidList){
+            this.setState({
+           tnc : this.props.getvarientByidList.productTnc === null ? "" : this.props.getvarientByidList.productTnc,
+         })
+         }
+    }
+    
+    componentWillUnmount() {
+        let obj = {
+          id: this.props.match.params.id,
+          productTnc: this.state.tnc,
+        };
+        this.props.updateProductTnC(obj)
+    }
+    
+    
+   
     render() {
         const { classes } = this.props;
         return (
@@ -13,25 +43,26 @@ class VariantTnc extends Component {
                         <Typography className={classes.heading}>Product Terms and Conditions</Typography> <br />
                         <CKEditor
                             editor={ClassicEditor}
-                            data=""
-                            onReady={editor => {
-                                // You can store the "editor" and use when it is needed.
-                               console.log( editor);
-                            }}
+                            data={this.state.tnc}
                             onChange={(event, editor) => {
                                 const data = editor.getData();
-                                console.log({ event, editor, data });
+                                // console.log({ event, editor, data });
+                                this.setState({tnc : data})
                             }}
-                            onBlur={(event, editor) => {
-                                console.log('Blur.', editor);
-                            }}
-                            onFocus={(event, editor) => {
-                                console.log('Focus.', editor);
-                            }}
+                            // onReady={editor => {
+                            //     // You can store the "editor" and use when it is needed.
+                            //    console.log( editor);
+                            // }}
+                          
+                            // onBlur={(event, editor) => {
+                            //     console.log('Blur.', editor);
+                            // }}
+                            // onFocus={(event, editor) => {
+                            //     console.log('Focus.', editor);
+                            // }}
                         /><br />
                     </Grid>
-                    <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#000000", opacity: "0.2" }}></Grid> <br />
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <Typography className={classes.heading}>Product Service Agreement   </Typography><br />
                         <CKEditor
                             editor={ClassicEditor}
@@ -51,13 +82,8 @@ class VariantTnc extends Component {
                                 console.log('Focus.', editors);
                             }}
                         /><br />
-                    </Grid>
-                    <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#000000", opacity: "0.2" }}></Grid> <br />
-                    <Grid style={{ margin: '0 auto' }}>
-                        <Button variant="contained" className={classes.varientBtn} color="primary">
-                            Create Varient
-                         </Button>
-                    </Grid>
+                    </Grid> */}
+                  
                 </Grid>
             </div>
         )
@@ -72,19 +98,15 @@ const useStyles = (theme = createMuiTheme()) => ({
         lineHeight: '15px',
         color: "#686868"
     },
-    varientBtn: {
-        backgroundColor: "#1093FF",
-        borderRadius: '30px',
-        color: "#fff",
-        // width : "189px",
-        // height : "33px"
-    }
+   
 
 })
 const mapStateToProps = (state) => {
     return {
+        updateTncResponse : state.ProductReducer.updateTncResponse,
+        getvarientByidList : state.ProductReducer.getvarientByid,
 
     }
 }
 
-export default connect(mapStateToProps, {})(withStyles(useStyles)(VariantTnc))
+export default connect(mapStateToProps, {updateProductTnC, getvarientByid})(withStyles(useStyles)(VariantTnc))

@@ -160,7 +160,8 @@ export const PRODUCT = {
   deleteproductvarient : "deleteproductvarient",
   getvarientByid : "getvarientByid",
   isVariantCreated : "isVariantCreated",
-  updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc"
+  updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc",
+  updateTnc : "updateTnc",
 };
 
 export const ADMIN = {

@@ -26,17 +26,14 @@ class VariantDescription extends Component {
   componentDidMount(){
     console.log(this.props.getvarientByidList)
     this.props.getvarientByid(this.props.match.params.id)
-    // this.setState({
-    //   productOneliner : this.props.getvarientByidList.productOneliner,
-    //   productDescription : this.props.getvarientByidList.productDescription
-    // })
+  
   }
 
   componentDidUpdate(prevProps, prevState) {
     if(this.props.getvarientByidList !== prevProps.getvarientByidList){
        this.setState({
-      productOneliner : this.props.getvarientByidList.productOneliner,
-      productDescription : this.props.getvarientByidList.productDescription
+      productOneliner : this.props.getvarientByidList.productOneliner === null ? "" : this.props.getvarientByidList.productOneliner,
+      productDescription : this.props.getvarientByidList.productDescription === null ? "" : this.props.getvarientByidList.productDescription
     })
     }
   }

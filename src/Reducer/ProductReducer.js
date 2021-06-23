@@ -28,7 +28,8 @@ const initialState = {
   deleteproductvarient: [],
   getvarientByid:[],
   isVariantCreated : false,
-  updateOneLineAndDesResponse : []
+  updateOneLineAndDesResponse : [],
+  updateTncResponse : []
 };
 
 export default (state = initialState, action) => {
@@ -168,6 +169,11 @@ export default (state = initialState, action) => {
             ...state,
             updateOneLineAndDesResponse: action.payload,
           };
+          case PRODUCT.updateTnc:
+            return {
+              ...state,
+              updateTncResponse: action.payload,
+            };
     default:
       break;
   }
