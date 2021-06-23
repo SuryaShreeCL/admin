@@ -112,6 +112,29 @@ class VariantGeneralData extends Component {
    }
    console.log(this.state)
   };
+  handleUpdate=()=>{
+    let obj=
+      {
+        id:"8df3b9d4-e392-49e2-8353-9a8a7206d7f6",
+        name:"acs",
+        codeName:"acs",
+        shortName:"acs",
+        productDescription:"acs",
+        productOneliner:"acs",
+        productTnc:"acs",
+        validity:"365",
+        costPrice:this.state.costPrice,
+        sellingPrice:this.state.sellingPrice,
+        updatedBy:this.state.updatedBy,
+        productQuestionAnswers:[{
+          id:"3"
+        }],
+        productFamily:{
+          id:"4"
+        }
+    }
+    this.props.updategeneraldata(obj)
+  }
   render() {
     console.log(this.state)
     console.log(this.props)

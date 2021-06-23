@@ -27,6 +27,7 @@ const initialState = {
   postgeneraldetails: [],
   deleteproductvarient: [],
   getvarientByid:[],
+  addproductcombo:[]
 };
 
 export default (state = initialState, action) => {
@@ -156,6 +157,16 @@ export default (state = initialState, action) => {
         ...state,
         getvarientByid: action.payload,
       };
+      case PRODUCT.addproductcombo:
+        return {
+          ...state,
+          addproductcombo: action.payload,
+        };
+        case PRODUCT.getproductcombo:
+        return {
+          ...state,
+          getproductcombo: action.payload,
+        };
     default:
       break;
   }
