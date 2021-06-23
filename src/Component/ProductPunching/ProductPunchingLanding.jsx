@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core'
+import { Card, Grid } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ProductPunching from './ProductPunching';
 import UserData from './UserData';
+import "./ProductPunching.css"
 
 const AntTabs = withStyles({
     root: {
@@ -86,8 +87,9 @@ const AntTabs = withStyles({
    render() {
     
      return (
-       <Grid container spacing={2}>
        
+       <Grid container spacing={2} >
+       <Card style={{padding : "0px 30px",height: "70%", width: "100%"}}>
          <Grid item md={12}>
            <AntTabs
              value={this.state.tabCount}
@@ -95,15 +97,19 @@ const AntTabs = withStyles({
              onChange={(e, value) => this.setState({ tabCount: value })}
              aria-label="ant example"
            >
-             <AntTab label="User Data" />
-             <AntTab label="Product Punching" />
+             <AntTab className="landing_heading"
+             label="User Data" />
+             <AntTab className="landing_heading"
+             label="Product Punching" />
              
            </AntTabs>
          </Grid>
          <Grid item md={12}>
            {this.renderContent(this.state.tabCount)}
          </Grid>
+         </Card>
        </Grid>
+       
      );
    }
  }

@@ -27,6 +27,9 @@ const initialState = {
   postgeneraldetails: [],
   deleteproductvarient: [],
   getvarientByid:[],
+  // getProductFamily :[],
+  // getProductVarientByFamily :[]
+ 
 };
 
 export default (state = initialState, action) => {
@@ -156,6 +159,17 @@ export default (state = initialState, action) => {
         ...state,
         getvarientByid: action.payload,
       };
+      // case PRODUCT.getProductFamily:
+      // return {
+      //   ...state,
+      //   getProductFamily: action.payload,
+      // };
+      // case PRODUCT.getProductVarientByFamily:
+      // return {
+      //   ...state,
+      //   getProductVarientByFamily: action.payload,
+      // };
+      
     default:
       break;
   }
