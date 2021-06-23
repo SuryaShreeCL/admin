@@ -25,7 +25,7 @@ class VariantDescription extends Component {
                     editor={ ClassicEditor }
                     data=""
                     onReady={ editors => {
-                        // You can store the "editor" and use when it is needed.
+                       
                         console.log(editors );
                     } }
                     onChange={ ( event, editors ) => {
@@ -83,11 +83,11 @@ class VariantDescription extends Component {
                 /><br/>
             <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#686868",opacity:"0.2" }}></Grid> <br />
           </Grid>
-          <Grid style={{margin: '0 auto'}}>
+          {/* <Grid style={{margin: '0 auto'}}>
           <Button variant="contained" className={classes.varientBtn} color="primary">
            Create Varient
           </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     )
