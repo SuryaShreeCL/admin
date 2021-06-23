@@ -124,8 +124,6 @@ export class ProductVarient extends Component {
                   );
                   // alert(JSON.stringify(thisRow, null, 4));
                 };
-<<<<<<< HEAD
-=======
                 const handleDelete = () => {
                   const api: GridApi = params.api;
                   const fields = api
@@ -147,7 +145,6 @@ export class ProductVarient extends Component {
                   );
                   // alert(JSON.stringify(thisRow, null, 4));
                 };
->>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
                 return (
                   <>
                     <PrimaryButton
@@ -160,11 +157,7 @@ export class ProductVarient extends Component {
                       Manage
                     </PrimaryButton>
                     <PrimaryButton
-<<<<<<< HEAD
-                    // onClick={()=>this.handleDelete()}
-=======
                     onClick={handleDelete}
->>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
                     variant={"contained"}
                     color={"secondary"}
                     size={"small"}
@@ -444,7 +437,7 @@ export class ProductVarient extends Component {
               }
             >
               <ExcelSheet data={this.props.getProductVarientList} name="Product Family">
-                <ExcelColumn label="SKU" value="variantsku" />
+                <ExcelColumn label="SKU" value="variant_SKU" />
                 <ExcelColumn label="Varient Name" value="name" />
                 <ExcelColumn label="Varient ShortName" value="shortName" />
                 <ExcelColumn label="code Name" value="codeName" />
