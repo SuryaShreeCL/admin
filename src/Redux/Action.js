@@ -159,13 +159,10 @@ export const PRODUCT = {
   postgeneraldetails : "postgeneraldetails",
   deleteproductvarient : "deleteproductvarient",
   getvarientByid : "getvarientByid",
-<<<<<<< HEAD
   addproductcombo : "addproductcombo",
-  getproductcombo : "getproductcombo"
-=======
+  getproductcombo : "getproductcombo",
   isVariantCreated : "isVariantCreated",
   updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc"
->>>>>>> 271c3e1dd70f6aa558b11cd46ee5adf6fcf43fa4
 };
 
 export const ADMIN = {
