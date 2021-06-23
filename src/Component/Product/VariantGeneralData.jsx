@@ -2,7 +2,7 @@ import { TextField, Grid, Button } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
-import { postgeneraldetails,getAllProductFamily,getProductVarient,getvarientByid } from "../../Actions/ProductAction";
+import { postgeneraldetails,getAllProductFamily,getProductVarient,getvarientByid, isVariantCreated } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import PrimaryButton from '../../Utils/PrimaryButton'
 import {
@@ -60,6 +60,9 @@ class VariantGeneralData extends Component {
         createdOn:this.props.getvarientByidList.dateOfCreation
       })
     }
+    if(this.props.postgeneraldetailsList !== prevProps.postgeneraldetailsList){
+      this.props.history.push(this.props.postgeneraldetailsList.id)
+    }
   }
   data=[
      {title : "Yes"},
@@ -109,6 +112,7 @@ class VariantGeneralData extends Component {
          updatedBy:window.sessionStorage.getItem("role")
        };
        this.props.postgeneraldetails(obj);
+       
    }
    console.log(this.state)
   };
@@ -275,7 +279,8 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          {/* <Grid item md={12}>
+          {this.props.match.params.id === undefined &&
+          <Grid item md={12}>
             <Button
               color="primary"
               variant="contained"
@@ -283,7 +288,8 @@ class VariantGeneralData extends Component {
               onClick={this.handlesaved}
             >Create New Varient
             </Button>
-          </Grid> */}
+          </Grid>
+  }
         </Grid>
       </div>
     );
@@ -295,10 +301,11 @@ const mapStateToProps = (state) => {
     postgeneraldetailsList: state.ProductReducer.postgeneraldetails,
     getAllProductFamilyList : state.ProductReducer.getAllProductFamily,
     getProductVarientList : state.ProductReducer.getProductVarient,
-    getvarientByidList : state.ProductReducer.getvarientByid
+    getvarientByidList : state.ProductReducer.getvarientByid,
+    isVariantCreated : state.ProductReducer.isVariantCreated
   };
 };
 
-export default connect(mapStateToProps, { postgeneraldetails,getvarientByid,getAllProductFamily,getProductVarient })(
+export default connect(mapStateToProps, { postgeneraldetails,getvarientByid,getAllProductFamily,getProductVarient, isVariantCreated })(
   VariantGeneralData
 );

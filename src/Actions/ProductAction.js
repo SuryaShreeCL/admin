@@ -336,3 +336,29 @@ export const updatefamily = (data) =>{
         //             })
         //         }
         //     }
+
+        export const isVariantCreated = (data) =>{
+            return dispatch =>{
+                dispatch({type:PRODUCT.isVariantCreated,payload: data})
+            }
+        }
+
+
+        export const updateProductOnelinerAndDesc = (data) =>{
+            let accessToken = window.sessionStorage.getItem("accessToken")  
+            return dispatch =>{
+                axios.put(URL+"/api/v1/update/product/description",data,{
+                    crossDomain: true,
+                    headers : {
+                        "admin" : "yes",
+                        "Authorization" : `Bearer ${accessToken}`
+                    }
+                })
+                .then(result=>{
+                    dispatch({type:PRODUCT.updateProductOnelinerAndDesc,payload:result.data});
+                })
+                    .catch(error=>{
+                        console.log(error);
+                    })
+                }
+            }

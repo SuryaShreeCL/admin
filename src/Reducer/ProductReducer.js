@@ -27,6 +27,8 @@ const initialState = {
   postgeneraldetails: [],
   deleteproductvarient: [],
   getvarientByid:[],
+  isVariantCreated : false,
+  updateOneLineAndDesResponse : []
 };
 
 export default (state = initialState, action) => {
@@ -156,6 +158,16 @@ export default (state = initialState, action) => {
         ...state,
         getvarientByid: action.payload,
       };
+      case PRODUCT.isVariantCreated:
+        return {
+          ...state,
+          isVariantCreated: action.payload,
+        };
+        case PRODUCT.updateProductOnelinerAndDesc:
+          return {
+            ...state,
+            updateOneLineAndDesResponse: action.payload,
+          };
     default:
       break;
   }
