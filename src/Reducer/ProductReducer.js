@@ -30,6 +30,10 @@ const initialState = {
   // getProductFamily :[],
   // getProductVarientByFamily :[]
  
+  addproductcombo:[],
+  isVariantCreated : false,
+  updateOneLineAndDesResponse : [],
+  updateTncResponse : []
 };
 
 export default (state = initialState, action) => {
@@ -170,6 +174,31 @@ export default (state = initialState, action) => {
       //   getProductVarientByFamily: action.payload,
       // };
       
+      case PRODUCT.addproductcombo:
+        return {
+          ...state,
+          addproductcombo: action.payload,
+        };
+        case PRODUCT.getproductcombo:
+        return {
+          ...state,
+          getproductcombo: action.payload,
+        };
+      case PRODUCT.isVariantCreated:
+        return {
+          ...state,
+          isVariantCreated: action.payload,
+        };
+        case PRODUCT.updateProductOnelinerAndDesc:
+          return {
+            ...state,
+            updateOneLineAndDesResponse: action.payload,
+          };
+          case PRODUCT.updateTnc:
+            return {
+              ...state,
+              updateTncResponse: action.payload,
+            };
     default:
       break;
   }

@@ -327,25 +327,25 @@ export const deleteproductvarient = (oldId, newId) => {
       });
   };
 };
-export const getvarientByid = (id) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
-  return (dispatch) => {
-    axios
-      .get(URL + "/api/v1/get/product/varient/" + id, {
-        crossDomain: true,
-        headers: {
-          admin: "yes",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((result) => {
-        dispatch({ type: PRODUCT.getvarientByid, payload: result.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-};
+// export const getvarientByid = (id) => {
+//   let accessToken = window.sessionStorage.getItem("accessToken");
+//   return (dispatch) => {
+//     axios
+//       .get(URL + "/api/v1/get/product/varient/" + id, {
+//         crossDomain: true,
+//         headers: {
+//           admin: "yes",
+//           Authorization: `Bearer ${accessToken}`,
+//         },
+//       })
+//       .then((result) => {
+//         dispatch({ type: PRODUCT.getvarientByid, payload: result.data });
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   };
+// };
 // export const getproductbyid = (id) =>{
 //     let accessToken = window.sessionStorage.getItem("accessToken")
 //     return dispatch =>{
@@ -393,3 +393,178 @@ export const getvarientByid = (id) => {
 //       });
 //   };
 // };
+// export const updatefamily = (data) =>{
+//     let accessToken = window.sessionStorage.getItem("accessToken")  
+//     return dispatch =>{
+//         axios.put(URL+"/api/v1/update/productfamily",data ,{
+//             crossDomain: true,
+//             headers : {
+//                 "admin" : "yes",
+//                 "Authorization" : `Bearer ${accessToken}`
+//             }
+//         })
+//         .then(result=>{
+//             dispatch({type:PRODUCT.updatefamily,payload:result.data});
+//         })
+//             .catch(error=>{
+//                 console.log(error);
+//             })
+//         }
+//     }
+    // export const postgeneraldetails = (data) =>{
+    //     return dispatch =>{
+    //         axios.post(URL+"/api/v1/create/product/varient",data)
+    //         .then(result=>{
+    //             dispatch({type:PRODUCT.postgeneraldetails,payload:result.data});
+    //         })
+    //         .catch(error=>{
+    //             console.log(error);
+    //         })
+    //     }
+    // }
+    // export const deleteproductvarient = (oldId,newId) =>{
+    //     return dispatch =>{
+    //         axios.delete(URL+"/api/v1/delete/product/variant/"+oldId+"/"+newId)
+    //         .then(result=>{
+    //             dispatch({type:PRODUCT.deleteproductvarient,payload:result.data});
+    //         })
+    //         .catch(error=>{
+    //             console.log(error);
+    //         })
+    //     }
+    // }
+    export const getvarientByid = (id) =>{
+        let accessToken = window.sessionStorage.getItem("accessToken")  
+        return dispatch =>{
+            axios.get(URL+"/api/v1/get/product/varient/"+id,{
+                crossDomain: true,
+                headers : {
+                    "admin" : "yes",
+                    "Authorization" : `Bearer ${accessToken}`
+                }
+            })
+            .then(result=>{
+                dispatch({type:PRODUCT.getvarientByid,payload:result.data});
+            })
+                .catch(error=>{
+                    console.log(error);
+                })
+            }
+        }
+        // export const getproductbyid = (id) =>{
+        //     let accessToken = window.sessionStorage.getItem("accessToken")  
+        //     return dispatch =>{
+        //         axios.get(URL+"/api/v1//get/product/productFamily/"+id,{
+        //             crossDomain: true,
+        //             headers : {
+        //                 "admin" : "yes",
+        //                 "Authorization" : `Bearer ${accessToken}`
+        //             }
+        //         })
+        //         .then(result=>{
+        //             dispatch({type:PRODUCT.getfamilybyid,payload:result.data});
+        //         })
+        //             .catch(error=>{
+        //                 console.log(error);
+        //             })
+        //         }
+        //     }
+
+export const updategeneraldata = (data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+    return dispatch =>{
+        axios.put(URL+"/api/v1/update/productfamily",data ,{
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        .then(result=>{
+            dispatch({type:PRODUCT.updategeneraldata,payload:result.data});
+        })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+    }
+    export const addproductcombo = (data) =>{
+        let accessToken = window.sessionStorage.getItem("accessToken")  
+        return dispatch =>{
+            axios.post(URL+"/api/v1/create/product/combo",data ,{
+                crossDomain: true,
+                headers : {
+                    "admin" : "yes",
+                    "Authorization" : `Bearer ${accessToken}`
+                }
+            })
+            .then(result=>{
+                dispatch({type:PRODUCT.addproductcombo,payload:result.data});
+            })
+                .catch(error=>{
+                    console.log(error);
+                })
+            }
+        }
+        export const getproductcombo = () =>{
+            let accessToken = window.sessionStorage.getItem("accessToken")  
+            return dispatch =>{
+                axios.get(URL+"/api/v1/get/product/combo" ,{
+                    crossDomain: true,
+                headers : {
+                    "admin" : "yes",
+                    "Authorization" : `Bearer ${accessToken}`
+                }
+            })
+            .then(result=>{
+                dispatch({type:PRODUCT.addproductcombo,payload:result.data});
+            })
+                .catch(error=>{
+                    console.log(error);
+                })
+            }
+        }
+        export const isVariantCreated = (data) =>{
+            return dispatch =>{
+                dispatch({type:PRODUCT.isVariantCreated,payload: data})
+            }
+        }
+
+
+        export const updateProductOnelinerAndDesc = (data) =>{
+            let accessToken = window.sessionStorage.getItem("accessToken")  
+            return dispatch =>{
+                axios.put(URL+"/api/v1/update/product/description",data,{
+                    crossDomain: true,
+                    headers : {
+                        "admin" : "yes",
+                        "Authorization" : `Bearer ${accessToken}`
+                    }
+                })
+                .then(result=>{
+                    dispatch({type:PRODUCT.updateProductOnelinerAndDesc,payload:result.data});
+                })
+                    .catch(error=>{
+                        console.log(error);
+                    })
+                }
+            }
+
+            export const updateProductTnC = (data) =>{
+                let accessToken = window.sessionStorage.getItem("accessToken")  
+                return dispatch =>{
+                    axios.put(URL+"/api/v1/update/product/tnc",data,{
+                        crossDomain: true,
+                        headers : {
+                            "admin" : "yes",
+                            "Authorization" : `Bearer ${accessToken}`
+                        }
+                    })
+                    .then(result=>{
+                        dispatch({type:PRODUCT.updateTnc,payload:result.data});
+                    })
+                        .catch(error=>{
+                            console.log(error);
+                        })
+                    }
+                }

@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import {connect} from 'react-redux'
-import {getAllProductImages,postvarientimage,updatevarientimage} from '../../Actions/ProductAction'
+import {getAllProductImages,postvarientimage,updatevarientimage, getvarientByid} from '../../Actions/ProductAction'
 import { isEmptyString } from '../Validation';
 import MySnackBar from "../MySnackBar";
 import Divider from '@material-ui/core/Divider';
@@ -27,57 +27,90 @@ class ProductImages extends Component {
             show:false,
             snackMsg: "",
             snackVariant: "",
+            showImgUrl : "",
+            showAltTxt : "",
             snackOpen: false,
+            dialogOpen : false,
         }
     }
     handleClick=(data)=>{
         this.setState({
-            show:true,
             id:data.id,
-            imgUrl:data.imagesUrl
+            imgUrl:data.imagesUrl,
+            altTxt : data.altText,
+            order : data.orderOfImage
         })
     }
    componentDidMount(){
-       this.props.getAllProductImages()
+      //  this.props.getAllProductImages()
    }
    newhandelsaved=()=>{
        let helpertxt = "Please fill the Required Field"
        isEmptyString(this.state.imgUrl) ? this.setState({ imgUrlErr : helpertxt }) : this.setState({ imgUrlErr : ""})
-       if( !isEmptyString(this.state.imgUrl) ){
+       isEmptyString(this.state.altTxt) ? this.setState({ altTxtErr : helpertxt }) : this.setState({ altTxtErr : ""})
+       isEmptyString(this.state.order) ? this.setState({ orderErr : helpertxt }) : this.setState({ orderErr : ""})
+       if( 
+         !isEmptyString(this.state.imgUrl) &&
+         !isEmptyString(this.state.altTxt) &&
+         !isEmptyString(this.state.order)
+         ){
         console.log('Validate SuccessFully')
-          let obj=
-          {
-            "imagesUrl": this.state.imgUrl
-          }
+          let obj = {
+            imagesUrl: this.state.imgUrl,
+            altText: this.state.altTxt,
+            orderOfImage: parseInt(this.state.order),
+            products: {
+              id: this.props.match.params.id,
+            },
+          };
         this.props.postvarientimage(obj)
         this.setState({
             snackMsg:"Added Successfully",
             snackOpen:true,
             snackVariant:"success",
+            imgUrl : "",
+            altTxt : "",
+            order : ""
           })
        }
    }
   componentDidUpdate(prevProps,prevState){
     if(this.props.postvarientimageList !== prevProps.postvarientimageList || this.props.updatevarientimageList !== prevProps.updatevarientimageList){
-        this.props.getAllProductImages()
+        // this.props.getAllProductImages()
+        this.props.getvarientByid(this.props.match.params.id)
     }
   }
 
    updatehandle=()=>{
     let helpertxt = "Please fill the Required Field"
     isEmptyString (this.state.imgUrl) ? this.setState({ imgUrlErr : helpertxt }) : this.setState({ imgUrlErr : ""})
-    if( !isEmptyString(this.state.imgUrl) ){
+    isEmptyString(this.state.altTxt) ? this.setState({ altTxtErr : helpertxt }) : this.setState({ altTxtErr : ""})
+       isEmptyString(this.state.order) ? this.setState({ orderErr : helpertxt }) : this.setState({ orderErr : ""})
+    if( 
+      !isEmptyString(this.state.imgUrl) &&
+      !isEmptyString(this.state.altTxt) &&
+      !isEmptyString(this.state.order)
+       ){
      console.log('Validate SuccessFully')
-       let obj=
-       {
-           "id" : this.state.id,
-         "imagesUrl": this.state.imgUrl
-       }
+       let obj = {
+         id: this.state.id,
+         products: {
+           id: this.props.match.params.id,
+         },
+         imagesUrl: this.state.imgUrl,
+         altText: this.state.altTxt,
+         orderOfImage: this.state.order,
+       };
+    
      this.props.updatevarientimage(obj)
      this.setState({
          snackMsg:"Updated Successfully",
          snackOpen:true,
-         snackVariant:"success"
+         snackVariant:"success",
+         id : "",
+         imgUrl : "",
+         altTxt : "",
+         order : "",
        })
     }
     else{
@@ -89,7 +122,8 @@ class ProductImages extends Component {
 
     render() {
       const { classes } = this.props
-      console.log(classes)
+      console.log(this.props.getvarientByidList)
+      console.log(this.state)
         return (
          
           <Grid container spacing={2}>
@@ -101,8 +135,8 @@ class ProductImages extends Component {
             multiline
             fullWidth
             label={"URL"}
-            value={this.state.imgUrl}
-            onChange={(e)=>this.setState({imgUrl : e.target.valu})}
+            value={this.state.imgUrl || ""}
+            onChange={(e)=>this.setState({imgUrl : e.target.value})}
             helperText={this.state.imgUrlErr}
             error={this.state.imgUrlErr.length > 0}
             rows={4}
@@ -114,8 +148,8 @@ class ProductImages extends Component {
             multiline
             fullWidth
             label={"ALT"}
-            value={this.state.altTxt}
-            onChange={(e)=>this.setState({altTxt : e.target.valu})}
+            value={this.state.altTxt || ""}
+            onChange={(e)=>this.setState({altTxt : e.target.value})}
             helperText={this.state.altTxtErr}
             error={this.state.altTxtErr.length > 0}
             rows={5}
@@ -125,16 +159,17 @@ class ProductImages extends Component {
             <TextField
             variant={"standard"}
             label={"Order"}
-            value={this.state.order}
-            onChange={(e)=>this.setState({order : e.target.valu})}
+            type={"number"}
+            value={this.state.order || ""}
+            onChange={(e)=>this.setState({order : e.target.value})}
             helperText={this.state.orderErr}
             error={this.state.orderErr.length > 0}
             />
             </Grid>
             <Grid item md={8}></Grid>
             <Grid item md={12} align="center">
-            <PrimaryButton color="primary" variant={"contained"} >
-              Add New Image
+            <PrimaryButton onClick={this.state.id.length === 0 ? this.newhandelsaved : this.updatehandle} color="primary" variant={"contained"} >
+              {this.state.id.length === 0 ?  "Add New Image" : "Save"}
               </PrimaryButton>
             </Grid>
             </Grid>
@@ -142,24 +177,37 @@ class ProductImages extends Component {
             {/* <Divider orientation="vertical" flexItem /> */}
             <Grid item md={6}>
             <Grid container spacing={2}>
-              <Grid item md={4}>
-                <div className={classes.cardContainer}>
-                  <img className={classes.preview} src={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg"}></img>
-                  <div className={classes.bottomContainer}>
-                  <IconButton size="small">
-                    <VisibilityRoundedIcon fontSize={"small"} />
-                  </IconButton>
-                  <IconButton size="small">
-                    <EditRoundedIcon fontSize={"small"} />
-                  </IconButton>
-                  <IconButton size="small">
-                    <DeleteRoundedIcon fontSize={"small"} />
-                  </IconButton>
+              {this.props.getvarientByidList.productImages.map((eachImage, index)=>{
+                return (
+                  <Grid item md={4}>
+                  <div className={classes.cardContainer}>
+                    <img alt={eachImage.altText} className={classes.preview} src={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg"}></img>
+                    <div className={classes.bottomContainer}>
+                    <IconButton onClick={()=>this.setState({
+                      showImgUrl : eachImage.imagesUrl,
+                      showAltTxt : eachImage.altText,
+                      dialogOpen : true,
+                      
+                    })} size="small">
+                      <VisibilityRoundedIcon fontSize={"small"} />
+                    </IconButton>
+                    <IconButton onClick={()=>this.handleClick(eachImage)} size="small">
+                      <EditRoundedIcon fontSize={"small"} />
+                    </IconButton>
+                    <IconButton size="small">
+                      <DeleteRoundedIcon fontSize={"small"} />
+                    </IconButton>
+                    </div>
                   </div>
-                </div>
-              </Grid>
+                </Grid>
+                )
+              })}
+             
             </Grid>
             </Grid>
+              <Dialog open={this.state.dialogOpen} maxWidth={"lg"} onClose={()=>this.setState({dialogOpen : false})}> 
+                <img src={this.state.showImgUrl}></img>
+              </Dialog>
               <MySnackBar
               snackMsg={this.state.snackMsg}
               snackVariant={this.state.snackVariant}
@@ -178,7 +226,8 @@ const mapStateToProps=(state)=>{
     return {
         getAllProductImagesList : state.ProductReducer.allProductImages,
         postvarientimageList : state.ProductReducer.postvarientimage,
-        updatevarientimageList : state.ProductReducer.updatevarientimage
+        updatevarientimageList : state.ProductReducer.updatevarientimage,
+        getvarientByidList : state.ProductReducer.getvarientByid,
     }
   }
 
@@ -201,4 +250,4 @@ const mapStateToProps=(state)=>{
     
 
 
-  export default connect(mapStateToProps,{getAllProductImages,postvarientimage,updatevarientimage})(withStyles(useStyles)(ProductImages))
+  export default connect(mapStateToProps,{getAllProductImages,postvarientimage,updatevarientimage, getvarientByid})(withStyles(useStyles)(ProductImages))

@@ -11,21 +11,27 @@ class ProductPunching extends Component {
   constructor(props) {
     super(props)
   
-    this.state = { };
+    this.state = { 
+      family: null,
+      varient: null,
+    };
   }
   
 
   componentDidMount() {
     this.props.getAllProductFamily();
-    this.props.getProductByFamilyId();
+    
   }
-  
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.family !== prevState.family) {
+      this.props.getProductByFamilyId(this.state.family.id);
+    }
+  }
 
 
 
   render() {
-    console.log(this.state.family);
-    console.log(this.props.getProductByFamilyIdList)
+   
     return (
       <div>
         <Grid container style={{}} spacing={4}>
@@ -51,8 +57,8 @@ class ProductPunching extends Component {
             <Autocomplete
               id="combo-box-demo"
               options={this.props.getProductByFamilyIdList}
-              getOptionLabel={(option) => option.title}
-              // onChange={(e, newValue) => this.setState({ productVarient: newValue })}
+              getOptionLabel={(option) => option.name}
+              onChange={(e, newValue) => this.setState({ varient: newValue })}
               renderInput={(params) => (
                 <TextField
                   {...params}

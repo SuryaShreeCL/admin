@@ -162,6 +162,10 @@ export const PRODUCT = {
   // getProductFamily: "getProductFamily",
   // getProductVarientByFamily : "getProductVarientByFamily"
   
+  addproductcombo : "addproductcombo",
+  getproductcombo : "getproductcombo",
+  isVariantCreated : "isVariantCreated",
+  updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc"
 };
 
 export const ADMIN = {

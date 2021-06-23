@@ -109,7 +109,6 @@ export class ProductVarient extends Component {
                     thisRow[f] = params.getValue(f);
                   });
                   return (
-                    // console.log(thisRow)
                     this.props.history.push(productVariantPath+"/"+thisRow.id) 
                   );
                   // alert(JSON.stringify(thisRow, null, 4));
