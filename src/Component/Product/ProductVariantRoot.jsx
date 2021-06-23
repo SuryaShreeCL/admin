@@ -64,7 +64,7 @@ const AntTabs = withStyles({
    constructor(props) {
      super(props);
      this.state = {
-      tabCount : 0
+      tabCount : 0,
      };
    }
 
@@ -101,7 +101,7 @@ const AntTabs = withStyles({
 
 
    render() {
-    
+    console.log(this.props.match.params.id)
      return (
        <Grid container spacing={2}>
        
@@ -113,10 +113,10 @@ const AntTabs = withStyles({
              aria-label="ant example"
            >
              <AntTab label="General Data" />
-             <AntTab label="Product Description" />
-             <AntTab label="Product Images/Videos" />
-             <AntTab label="Product TnC" />
-             <AntTab label="Product QnA" />
+             <AntTab disabled={this.props.match.params.id === undefined} label="Product Description" />
+             <AntTab disabled={this.props.match.params.id === undefined} label="Product Images/Videos" />
+             <AntTab disabled={this.props.match.params.id === undefined} label="Product TnC" />
+             <AntTab disabled={this.props.match.params.id === undefined} label="Product QnA" />
            </AntTabs>
          </Grid>
          <Grid item md={12}>
@@ -125,6 +125,7 @@ const AntTabs = withStyles({
          <Grid item md={12} align="center">
             <PrimaryButton
             color={"primary"}
+            disabled={this.props.match.params.id === undefined}
             variant={"contained"}
             >Publish Variant</PrimaryButton>
          </Grid>

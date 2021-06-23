@@ -378,13 +378,38 @@ export const updategeneraldata = (data) =>{
             return dispatch =>{
                 axios.get(URL+"/api/v1/get/product/combo" ,{
                     crossDomain: true,
+                headers : {
+                    "admin" : "yes",
+                    "Authorization" : `Bearer ${accessToken}`
+                }
+            })
+            .then(result=>{
+                dispatch({type:PRODUCT.addproductcombo,payload:result.data});
+            })
+                .catch(error=>{
+                    console.log(error);
+                })
+            }
+        }
+        export const isVariantCreated = (data) =>{
+            return dispatch =>{
+                dispatch({type:PRODUCT.isVariantCreated,payload: data})
+            }
+        }
+
+
+        export const updateProductOnelinerAndDesc = (data) =>{
+            let accessToken = window.sessionStorage.getItem("accessToken")  
+            return dispatch =>{
+                axios.put(URL+"/api/v1/update/product/description",data,{
+                    crossDomain: true,
                     headers : {
                         "admin" : "yes",
                         "Authorization" : `Bearer ${accessToken}`
                     }
                 })
                 .then(result=>{
-                    dispatch({type:PRODUCT.getproductcombo,payload:result.data});
+                    dispatch({type:PRODUCT.updateProductOnelinerAndDesc,payload:result.data});
                 })
                     .catch(error=>{
                         console.log(error);
