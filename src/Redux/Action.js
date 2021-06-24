@@ -157,7 +157,10 @@ export const PRODUCT = {
   updatefamily : "updatefamily",
   deletefamily : "deletefamily",
   postgeneraldetails : "postgeneraldetails",
-  deleteproductvarient : "deleteproductvarient"
+  deleteproductvarient : "deleteproductvarient",
+  getFaq : 'getFaq',
+  updateFaq : 'updateFaq',
+  postFaq : 'postFaq'
 };
 
 export const ADMIN = {
