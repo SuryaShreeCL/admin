@@ -32,7 +32,7 @@ const initialState = {
   getvarientByid:[],
   // getProductFamily :[],
   // getProductVarientByFamily :[]
- 
+   getproductcombo:[],
   addproductcombo:[],
   isVariantCreated : false,
   updateOneLineAndDesResponse : [],

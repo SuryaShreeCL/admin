@@ -44,6 +44,7 @@ class ProductCombo extends Component {
   ];
 
   render() {
+    console.log(this.props.getproductcomboList)
     return (
       <div>
         <Grid container spacing={2}>
@@ -81,10 +82,19 @@ class ProductCombo extends Component {
           <Grid item md={4}>
             <AddNewCard />
           </Grid>
+          {this.props.getproductcomboList !== null ? this.props.getproductcomboList.map(item =>
             <Grid item md={4}>
-              <ComboCard/>
+            <ComboCard
+              comboname = {item.comboName}
+              combosku = {item.comboSKU}
+              pricing = {item.comboCostPrice}
+              validity={item.validity}
+              createdat={item.dateOfCreation}
+              createdby={item.createdBy}
+              product={item.products.length !== 0 ? item.products : [] }
+            />
             </Grid>
-          
+             ) : null } 
         </Grid>
       </div>
     );

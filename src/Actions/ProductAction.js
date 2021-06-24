@@ -473,7 +473,7 @@ export const deleteproductvarient = (oldId, newId) => {
 export const updategeneraldata = (data) =>{
     let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch =>{
-        axios.put(URL+"/api/v1/update/productfamily",data ,{
+        axios.put(URL+"/api/v1/update/product/varient",data ,{
             crossDomain: true,
             headers : {
                 "admin" : "yes",
@@ -517,7 +517,7 @@ export const updategeneraldata = (data) =>{
                 }
             })
             .then(result=>{
-                dispatch({type:PRODUCT.addproductcombo,payload:result.data});
+                dispatch({type:PRODUCT.getproductcombo,payload:result.data});
             })
                 .catch(error=>{
                     console.log(error);
