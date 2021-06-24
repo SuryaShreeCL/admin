@@ -159,13 +159,12 @@ export const PRODUCT = {
   postgeneraldetails : "postgeneraldetails",
   deleteproductvarient : "deleteproductvarient",
   getvarientByid : "getvarientByid",
-  // getProductFamily: "getProductFamily",
-  // getProductVarientByFamily : "getProductVarientByFamily"
-  
+  updateProductPunching : "updateProductPunching",
   addproductcombo : "addproductcombo",
   getproductcombo : "getproductcombo",
   isVariantCreated : "isVariantCreated",
-  updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc"
+  updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc",
+  addProductPunching : "addProductPunching"
 };
 
 export const ADMIN = {

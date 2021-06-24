@@ -27,13 +27,12 @@ const initialState = {
   postgeneraldetails: [],
   deleteproductvarient: [],
   getvarientByid:[],
-  // getProductFamily :[],
-  // getProductVarientByFamily :[]
- 
   addproductcombo:[],
   isVariantCreated : false,
   updateOneLineAndDesResponse : [],
-  updateTncResponse : []
+  updateTncResponse : [],
+  updateProductPunching : [],
+  addProductPunching : []
 };
 
 export default (state = initialState, action) => {
@@ -163,16 +162,12 @@ export default (state = initialState, action) => {
         ...state,
         getvarientByid: action.payload,
       };
-      // case PRODUCT.getProductFamily:
-      // return {
-      //   ...state,
-      //   getProductFamily: action.payload,
-      // };
-      // case PRODUCT.getProductVarientByFamily:
-      // return {
-      //   ...state,
-      //   getProductVarientByFamily: action.payload,
-      // };
+      case PRODUCT.updateProductPunching:
+      return {
+        ...state,
+        updateProductPunching: action.payload,
+      };
+     
       
       case PRODUCT.addproductcombo:
         return {
@@ -198,6 +193,11 @@ export default (state = initialState, action) => {
             return {
               ...state,
               updateTncResponse: action.payload,
+            };
+            case PRODUCT.addProductPunching:
+            return {
+              ...state,
+              addProductPunching: action.payload,
             };
     default:
       break;
