@@ -64,13 +64,16 @@ class ProductCombo extends Component {
               >
                 <ExcelColumn label="Combo Name" value="comboName" />
                 <ExcelColumn label="Combo SKU" value="comboSKU" />
+                <ExcelColumn label="Combo Short Code" value="comboShortCode" />
                 <ExcelColumn label="Product_1" value="name" />
                 <ExcelColumn label="product_2" value="name" />
-                <ExcelColumn label="pricing" value="comboCostPrice" />
+                <ExcelColumn label="Combo Cost Price" value="comboCostPrice" />
+                <ExcelColumn label="Combo Sell Price" value="comboSellingPrice" />
                 <ExcelColumn label="validity" value="validity" />
-                <ExcelColumn label="createdby" value="createdBy" />
-                <ExcelColumn label="createdat" value="dateOfCreation" />
-                <ExcelColumn label="combomonth" value="month" />
+                <ExcelColumn label="Created By" value="createdBy" />
+                <ExcelColumn label="Created At" value="dateOfCreation" />
+                <ExcelColumn label="Updated By" value="updatedBy" />
+                <ExcelColumn label="Updated At" value="dateOfUpdate" />
               </ExcelSheet>
             </ExcelFile>
           </Grid>

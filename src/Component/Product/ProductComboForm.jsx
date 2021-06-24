@@ -8,6 +8,7 @@ import {
   addproductcombo,
 } from "../../Actions/ProductAction";
 import DateFnsUtils from '@date-io/date-fns';
+import MySnackBar from "../MySnackBar";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -34,7 +35,10 @@ class ProductComboForm extends Component {
       costPriceErr: "",
       combosellprice : "",
       combosellpriceErr:"",
-      comboshortcodeErr : ""
+      comboshortcodeErr : "",
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
 
     };
   }
@@ -56,8 +60,6 @@ class ProductComboForm extends Component {
         varientsku: this.state.varient.variantSKU,
         standalone: this.state.varient.standaloneSellable,
         costprice: this.state.varient.costPrice,
-        //  comboprice : this.state.varient.,
-        //  combosku : this.state.varient.,
         validity: this.state.varient.validity,
         endofservice: this.state.varient.endOfServiceDate,
         endofenrollment: this.state.varient.endOfEnrollmentDate,
@@ -92,11 +94,11 @@ class ProductComboForm extends Component {
       this.state.combocostprice !== "" &&
       this.state.combosellprice !== "" &&
       this.state.comboshortcode !== "" 
-    ) {
-      console.log("Validate success");
-    }
-    let id1 = this.state.combo.map((item) => item.id);
-    console.log(id1);
+    )
+     {
+    let productid = this.state.combo.map((item) => {
+      return { id: item.id};
+    });;
     let obj = {
       comboName: this.state.comboname,
       comboShortCode: this.state.comboshortcode,
@@ -109,18 +111,16 @@ class ProductComboForm extends Component {
       createdBy: window.sessionStorage.getItem("role"),
       updatedBy: window.sessionStorage.getItem("role"),
       dateOfUpdate: new Date(),
-      products: [
-        {
-          id: "1",
-        },
-        {
-          id: "2",
-        },
-      ],
+      products: productid,
     };
     this.props.addproductcombo(obj);
+    this.setState({
+      snackMsg:"Added Successfully",
+      snackOpen:true,
+      snackVariant:"success"
+    })
   };
-
+  }
   render() {
     // console.log(this.state.family);
     console.log(this.state.varient);
@@ -295,6 +295,7 @@ class ProductComboForm extends Component {
                 margin="normal"
                 id="date-picker-dialog"
                 label="Combo Sell Validity"
+                disableFuture
                 format="yyyy-MM-dd"
                 value={this.state.validity}
                 onChange={(e,newValue)=>this.setState({validity : newValue})}
@@ -351,6 +352,12 @@ class ProductComboForm extends Component {
             </PrimaryButton>
           </Grid>
         </Grid>
+        <MySnackBar
+          snackMsg={this.state.snackMsg}
+          snackVariant={this.state.snackVariant}
+          snackOpen={this.state.snackOpen}
+          onClose={() => this.setState({ snackOpen: false })}
+        />
       </div>
     );
   }
