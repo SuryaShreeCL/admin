@@ -5,7 +5,8 @@ import { productcomboPath } from "../RoutePaths";
 import ReactExport from "react-export-excel";
 import {getproductcombo} from '../../Actions/ProductAction'
 import { connect } from "react-redux";
-
+import ComboCard from "../Utils/ComboCard"
+import AddNewCard from "../Utils/AddNewCard"
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -78,52 +79,12 @@ class ProductCombo extends Component {
             </ExcelFile>
           </Grid>
           <Grid item md={4}>
-            <Card style={{ height: "180px", width: "300px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  padding: "40px",
-                }}
-              >
-                <IconButton onClick={()=>this.props.history.push(productcomboPath)}>
-                    <AddCircle fontSize="large" color="primary"/>
-                </IconButton>
-                <Typography style={{color:"#1093FF"}}>Create a New Product combo</Typography>
-              </div>
-            </Card>
+            <AddNewCard />
           </Grid>
-
-          {this.data.map((eg) => (
             <Grid item md={4}>
-              <Card style={{ height: "180px", width: "340px",padding:"10px" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "10px",
-                  }}
-                >
-                  <Typography>ComboName : {eg.comboname}</Typography>
-                  <Typography>Combo_SKU : {eg.combo_sku}</Typography>
-                  <div style={{ display: "flex",justifyContent:"space-between" }}>
-                    <Typography>Product : {eg.product_1},{eg.product_2}</Typography>
-                    {/* <Typography>{eg.product_2}</Typography> */}
-                  </div>
-                  <div style={{ display: "flex" ,justifyContent:"space-between" }}>
-                    <Typography>Pricing:{eg.pricing}</Typography>
-                    <Typography>Validity:{eg.validity}</Typography>
-                  </div>
-                  <div style={{ display: "flex",justifyContent:"space-between"  }}>
-                    <Typography>Createdat:{eg.createdat}</Typography>
-                    <Typography>Createdby:{eg.createdby}</Typography>
-                  </div>
-                  <Typography>Combo Month:{eg.combomonth}</Typography>
-                </div>
-              </Card>
+              <ComboCard/>
             </Grid>
-          ))}
+          
         </Grid>
       </div>
     );
