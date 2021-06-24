@@ -8,7 +8,7 @@ const initialState = {
   studentProductList: [],
   // productFamilyList: [],
   getAllProductFamily: [],
-  productVariantList: [],
+  getProductByFamilyId: [],
   postproductfamily: [],
   getProductVarient: [],
   postProductVarient: [],
@@ -29,6 +29,14 @@ const initialState = {
   getFaq: [],
   updateFaq: [],
   postFaq: [],
+  getvarientByid:[],
+  // getProductFamily :[],
+  // getProductVarientByFamily :[]
+ 
+  addproductcombo:[],
+  isVariantCreated : false,
+  updateOneLineAndDesResponse : [],
+  updateTncResponse : []
 };
 
 export default (state = initialState, action) => {
@@ -71,7 +79,7 @@ export default (state = initialState, action) => {
     case PRODUCT.getProductByFamilyId:
       return {
         ...state,
-        productVariantList: action.payload,
+        getProductByFamilyId: action.payload,
       };
     case PRODUCT.postproductfamily:
       return {
@@ -168,6 +176,47 @@ export default (state = initialState, action) => {
         ...state,
         postFaq: action.payload,
       };
+      case PRODUCT.getvarientByid:
+      return {
+        ...state,
+        getvarientByid: action.payload,
+      };
+      // case PRODUCT.getProductFamily:
+      // return {
+      //   ...state,
+      //   getProductFamily: action.payload,
+      // };
+      // case PRODUCT.getProductVarientByFamily:
+      // return {
+      //   ...state,
+      //   getProductVarientByFamily: action.payload,
+      // };
+      
+      case PRODUCT.addproductcombo:
+        return {
+          ...state,
+          addproductcombo: action.payload,
+        };
+        case PRODUCT.getproductcombo:
+        return {
+          ...state,
+          getproductcombo: action.payload,
+        };
+      case PRODUCT.isVariantCreated:
+        return {
+          ...state,
+          isVariantCreated: action.payload,
+        };
+        case PRODUCT.updateProductOnelinerAndDesc:
+          return {
+            ...state,
+            updateOneLineAndDesResponse: action.payload,
+          };
+          case PRODUCT.updateTnc:
+            return {
+              ...state,
+              updateTncResponse: action.payload,
+            };
     default:
       break;
   }

@@ -1,12 +1,13 @@
-import { Grid } from '@material-ui/core'
+import { Card, Grid } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Product from './Product';
-import ProductVariant from "./ProductVarient"
-import ProductCombo from './ProductCombo';
+import ProductPunching from './ProductPunching';
+import UserData from './UserData';
+import "./ProductPunching.css"
+
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -55,7 +56,7 @@ const AntTabs = withStyles({
   }))((props) => <Tab disableRipple {...props} />);
 
 
- class ProductLanding extends Component {
+ class ProductPunchingLanding extends Component {
    constructor(props) {
      super(props);
      this.state = {
@@ -67,17 +68,13 @@ const AntTabs = withStyles({
      try {
        if (value === 0) {
          return (
-           <Product {...this.props} />
+           <UserData {...this.props} />
          );
        } else if (value === 1) {
          return (
-           <ProductVariant  {...this.props} />
+           <ProductPunching  {...this.props} />
          );
-       } else if (value === 2) {
-        return (
-          <ProductCombo  {...this.props} />
-        );
-      }
+       }
      } catch (error) {
        console.log(error);
      }
@@ -90,8 +87,9 @@ const AntTabs = withStyles({
    render() {
     
      return (
-       <Grid container spacing={2}>
        
+       <Grid container spacing={2} >
+       <Card style={{padding : "0px 30px",height: "70%", width: "100%"}}>
          <Grid item md={12}>
            <AntTabs
              value={this.state.tabCount}
@@ -99,15 +97,19 @@ const AntTabs = withStyles({
              onChange={(e, value) => this.setState({ tabCount: value })}
              aria-label="ant example"
            >
-             <AntTab label="Product Family" />
-             <AntTab label="Product Variant" />
-             <AntTab label="Product Combo" />
+             <AntTab className="landing_heading"
+             label="User Data" />
+             <AntTab className="landing_heading"
+             label="Product Punching" />
+             
            </AntTabs>
          </Grid>
          <Grid item md={12}>
            {this.renderContent(this.state.tabCount)}
          </Grid>
+         </Card>
        </Grid>
+       
      );
    }
  }
@@ -118,4 +120,16 @@ const mapStateToProps = (state) =>{
 }
 
 
-export default connect(mapStateToProps, {})(ProductLanding)
+export default connect(mapStateToProps, {})(ProductPunchingLanding)
+
+// import React, { Component } from 'react'
+
+// export default class ProductPunchingLanding extends Component {
+//     render() {
+//         return (
+//             <div>
+                
+//             </div>
+//         )
+//     }
+// }

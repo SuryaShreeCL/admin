@@ -85,6 +85,8 @@ export class ProductVarient extends Component {
             intakeErr : "",
             yearErr:"",
             pricingErr:"",
+            newvarient : "",
+            newVarientErr : "",
             tableColumns : [
               {field : "id", hide : true},
               {field : "codeName", headerName : "SKU", width : 150},
@@ -106,48 +108,12 @@ export class ProductVarient extends Component {
                   fields.forEach((f) => {
                     thisRow[f] = params.getValue(f);
                   });
-    
                   return (
-                    this.props.history.push(productVariantPath+"/"+thisRow.id)
-                    // <VariantGeneralData {...props} />
-                    // this.setState({
-                    //   show: true,
-                    //   id: thisRow.id,
-                    //   codeName: thisRow.codeName,
-                    //   // shortName:thisRow.shortName,
-                    //   productName: thisRow.productName,
-                    //   createdby: thisRow.createdBy,
-                    //   createdon: thisRow.dateOfCreation,
-                    //   updatedby: thisRow.updatedBy,
-                    //   updatedon: thisRow.dateOfUpdate,
-                    // })
+                    this.props.history.push(productVariantPath+"/"+thisRow.id) 
                   );
                   // alert(JSON.stringify(thisRow, null, 4));
                 };
-<<<<<<< HEAD
-=======
-                const handleDelete = () => {
-                  const api: GridApi = params.api;
-                  const fields = api
-                    .getAllColumns()
-                    .map((c) => c.field)
-                    .filter((c) => c !== "__check__" && !!c);
-                  const thisRow: Record<string, GridCellValue> = {};
     
-                  fields.forEach((f) => {
-                    thisRow[f] = params.getValue(f);
-                  });
-    
-                  return (
-                    // console.log(thisRow)
-                    // <VariantGeneralData {...props} />
-                    this.setState({
-                      show: true,
-                    })
-                  );
-                  // alert(JSON.stringify(thisRow, null, 4));
-                };
->>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
                 return (
                   <>
                     <PrimaryButton
@@ -159,19 +125,17 @@ export class ProductVarient extends Component {
                     >
                       Manage
                     </PrimaryButton>
+                    {/* <PrimaryButton
                     <PrimaryButton
-<<<<<<< HEAD
                     // onClick={()=>this.handleDelete()}
-=======
                     onClick={handleDelete}
->>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
                     variant={"contained"}
                     color={"secondary"}
                     size={"small"}
                     style={{ marginLeft: 16 }}
                   >
                     Delete
-                  </PrimaryButton>
+                  </PrimaryButton> */}
                   </>
                 )
                 },}
@@ -314,7 +278,12 @@ export class ProductVarient extends Component {
       };
       handleDataDelete=()=>{
         console.log("hello")
-        // this.props.deleteproductvarient()
+        let hlptxt = "PLease Fill the Required Field"
+        this.state.newVarient === "" ? this.setState({ newVarientErr : hlptxt }) : this.setState({ newVarientErr : ""})
+        if(this.state.newvarient !== "" ){
+          console.log("validate success")
+          // this.props.deleteproductvarient()
+        }
       }
       handleEdit = (data) => {
         console.log(data)
@@ -444,7 +413,7 @@ export class ProductVarient extends Component {
               }
             >
               <ExcelSheet data={this.props.getProductVarientList} name="Product Family">
-                <ExcelColumn label="SKU" value="variantsku" />
+                <ExcelColumn label="SKU" value="variant_SKU" />
                 <ExcelColumn label="Varient Name" value="name" />
                 <ExcelColumn label="Varient ShortName" value="shortName" />
                 <ExcelColumn label="code Name" value="codeName" />
@@ -736,9 +705,27 @@ export class ProductVarient extends Component {
             {this.state.snackMessage}
           </Alert>
         </Snackbar>
-        <Dialog open={this.state.show} onClose={()=>this.setState({show:false})}>
+        <Dialog maxWidth={"md"} open={this.state.show} onClose={()=>this.setState({show:false})}>
           <DialogContent>
-             {/* <h1>Hello</h1> */}
+             <h5>Choose the Another Product Varient</h5>
+             <Autocomplete
+                    id="combo-box-demo"
+                    options={this.props.getProductVarientList}
+                    getOptionLabel={(options) => options.name}
+                    value={this.state.newvarient}
+                    onChange={(e, newValue) =>
+                      this.setState({ newvarient: newValue })
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Product Varient"
+                        variant="standard"
+                        error={this.state.newVarientErr.length > 0}
+                        helperText={this.state.newVarientErr}
+                      />
+                    )}
+                  />
              <PrimaryButton color={"secondary"} variant={"contained"} onClick={()=>this.handleDataDelete()}>Delete</PrimaryButton>
           </DialogContent>
         </Dialog>

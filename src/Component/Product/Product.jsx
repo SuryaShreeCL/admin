@@ -76,12 +76,12 @@ class Product extends Component {
         { field: "createdBy", headerName: "Created By", width: 140 },
         { field: "dateOfCreation", headerName: "Created On", width: 140 },
         { field: "updatedBy", headerName: "Updated By", width: 135 },
-        { field: "dateOfUpdate", headerName: "Updated On", width: 120 },
+        { field: "dateOfUpdate", headerName: "Updated On", width: 140 },
         {
           field: "action",
           headerName: "Action",
           sortable: false,
-          width: 100,
+          width: 200,
           renderCell: (params) => {
             const onClick = () => {
               const api: GridApi = params.api;
@@ -204,14 +204,6 @@ console.log(data)
     }
   };
   handleDatadelete = () => {
-<<<<<<< HEAD
-    console.log(this.state.id)
-    console.log(this.state.newFamilyname.id)
-    let helperText = "Please fill the Required Field"
-    this.state.newFamilyname.id === null ? this.setState({ newFamilynameErr : helperText }) : this.setState({ newFamilynameErr : ""})
-    if(this.state.newFamilyname !== null){
-      this.props.deletefamily(this.state.id,this.state.newFamilyname.id)
-=======
     console.log(this.state.id);
     console.log(this.state.newFamilyname.id);
     let helperText = "Please fill the Required Field";
@@ -226,7 +218,6 @@ console.log(data)
         snackVariant: "success",
         deletedialog:false
       })
->>>>>>> 0921cb3b15c7b7e1c148e09d78fc2760205f11b3
     }
   }
   updatehandleSaved = () => {

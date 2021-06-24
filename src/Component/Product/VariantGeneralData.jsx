@@ -2,7 +2,7 @@ import { TextField, Grid, Button } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
-import { postgeneraldetails,getAllProductFamily,getProductVarient } from "../../Actions/ProductAction";
+import { postgeneraldetails,getAllProductFamily,getProductVarient,getvarientByid, isVariantCreated } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import PrimaryButton from '../../Utils/PrimaryButton'
 import {
@@ -43,6 +43,26 @@ class VariantGeneralData extends Component {
   componentDidMount(){
      this.props.getAllProductFamily()
      this.props.getProductVarient()
+     this.props.getvarientByid(this.props.match.params.id)
+  }
+  componentDidUpdate(prevProps,prevState){
+    if(this.props.getvarientByidList !== prevProps.getvarientByidList) {
+      this.setState({
+        productName:this.props.getvarientByidList.productFamily,
+        variantsku : this.props.getvarientByidList.name,
+        variantfamilysku : this.props.getvarientByidList.shortName,
+        costPrice:this.props.getvarientByidList.costPrice,
+        sellingPrice:this.props.getvarientByidList.sellingPrice,
+        standaloneSellable:{title:this.props.getvarientByidList.standaloneSellable},
+        endOfServiceDate:this.props.getvarientByidList.endOfServiceDate,
+        endOfEnrollmentDate:this.props.getvarientByidList.endOfEnrollmentDate,
+        createdBy:this.props.getvarientByidList.createdBy,
+        createdOn:this.props.getvarientByidList.dateOfCreation
+      })
+    }
+    if(this.props.postgeneraldetailsList !== prevProps.postgeneraldetailsList){
+      this.props.history.push(this.props.postgeneraldetailsList.id)
+    }
   }
   data=[
      {title : "Yes"},
@@ -92,10 +112,35 @@ class VariantGeneralData extends Component {
          updatedBy:window.sessionStorage.getItem("role")
        };
        this.props.postgeneraldetails(obj);
+       
    }
    console.log(this.state)
   };
+  handleUpdate=()=>{
+    let obj=
+      {
+        id:"8df3b9d4-e392-49e2-8353-9a8a7206d7f6",
+        name:"acs",
+        codeName:"acs",
+        shortName:"acs",
+        productDescription:"acs",
+        productOneliner:"acs",
+        productTnc:"acs",
+        validity:"365",
+        costPrice:this.state.costPrice,
+        sellingPrice:this.state.sellingPrice,
+        updatedBy:this.state.updatedBy,
+        productQuestionAnswers:[{
+          id:"3"
+        }],
+        productFamily:{
+          id:"4"
+        }
+    }
+    this.props.updategeneraldata(obj)
+  }
   render() {
+    console.log(this.state)
     console.log(this.props)
     return (
       <div>
@@ -257,16 +302,17 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          {/* <Grid item md={12}>
+          {this.props.match.params.id === undefined &&
+          <Grid item md={12}>
             <Button
               color="primary"
               variant="contained"
               style={{ borderRadius: "30px" }}
               onClick={this.handlesaved}
-            >
-              Create New Varient
+            >Create New Varient
             </Button>
-          </Grid> */}
+          </Grid>
+  }
         </Grid>
       </div>
     );
@@ -277,10 +323,12 @@ const mapStateToProps = (state) => {
   return {
     postgeneraldetailsList: state.ProductReducer.postgeneraldetails,
     getAllProductFamilyList : state.ProductReducer.getAllProductFamily,
-    getProductVarientList : state.ProductReducer.getProductVarient
+    getProductVarientList : state.ProductReducer.getProductVarient,
+    getvarientByidList : state.ProductReducer.getvarientByid,
+    isVariantCreated : state.ProductReducer.isVariantCreated
   };
 };
 
-export default connect(mapStateToProps, { postgeneraldetails,getAllProductFamily,getProductVarient })(
+export default connect(mapStateToProps, { postgeneraldetails,getvarientByid,getAllProductFamily,getProductVarient, isVariantCreated })(
   VariantGeneralData
 );
