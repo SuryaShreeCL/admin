@@ -12,7 +12,7 @@ class AddNewCard extends Component {
     render() {
         return (
             <div>
-                <Card style={{ height: "200px", maxWidth: "330px",width:"100%",boxShadow:" 0px 0px 7px rgba(183, 222, 255, 0.5)",borderRadius:8 }}>
+                <Card style={{ height: "200px", maxWidth: "330px",width:"100%",boxShadow:" 0px 8px 7px rgba(183, 222, 255, 0.5)",borderRadius:8 }}>
               <div
                 style={{
                   display: "flex",

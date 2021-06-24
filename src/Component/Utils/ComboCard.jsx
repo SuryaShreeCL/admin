@@ -35,7 +35,7 @@ class ComboCard extends Component {
                 <Grid container>
                     {this.data.map((eg) => (
                         <Grid item md={4}>
-                            <Card style={{ height: "auto", width: "330px", padding: "10px", boxShadow:" 0px 0px 7px rgba(183, 222, 255, 0.5)",borderRadius:8}}>
+                            <Card style={{ height: "auto", width: "330px", padding: "10px", boxShadow:" 0px 8px 7px rgba(183, 222, 255, 0.5)",borderRadius:8}}>
                                 <div
                                     style={{
                                         display: "flex",

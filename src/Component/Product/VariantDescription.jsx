@@ -4,16 +4,43 @@ import { render } from 'react-dom';
 import { connect } from 'react-redux'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
+import { updateProductOnelinerAndDesc, getvarientByid } from "../../Actions/ProductAction"
 class VariantDescription extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     
+     productOneliner : "",
+     productDescription : "",
     };
   }
  
+  componentWillUnmount(){
+    let obj = {
+      id: this.props.match.params.id,
+      productOneliner: this.state.productOneliner,
+      productDescription: this.state.productDescription,
+    };
+    this.props.updateProductOnelinerAndDesc(obj)
+  }
+
+  componentDidMount(){
+    console.log(this.props.getvarientByidList)
+    this.props.getvarientByid(this.props.match.params.id)
+  
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.getvarientByidList !== prevProps.getvarientByidList){
+       this.setState({
+      productOneliner : this.props.getvarientByidList.productOneliner === null ? "" : this.props.getvarientByidList.productOneliner,
+      productDescription : this.props.getvarientByidList.productDescription === null ? "" : this.props.getvarientByidList.productDescription
+    })
+    }
+  }
+  
+
   render() {
+    console.log(this.state)
     const { classes } = this.props;
     return (
       <div>
@@ -23,23 +50,25 @@ class VariantDescription extends Component {
             <br />
             <CKEditor
                     editor={ ClassicEditor }
-                    data=""
-                    onReady={ editors => {
-                       
-                        console.log(editors );
-                    } }
+                    data={this.state.productOneliner}
                     onChange={ ( event, editors ) => {
-                        const data = editors.getData();
-                        console.log( { event, editors, data } );
-                    } }
-                    onBlur={ ( event, editors ) => {
-                        console.log( 'Blur.', editors );
-                    } }
-                    onFocus={ ( event, editors ) => {
-                        console.log( 'Focus.', editors );
-                    } }
+                      const data = editors.getData();
+                      // console.log( { event, editors, data } );
+                      this.setState({productOneliner : data})
+                  } }
+                    // onReady={ editors => {
+                    //     // You can store the "editor" and use when it is needed.
+                    //     console.log(editors );
+                    // } }
+                  
+                    // onBlur={ ( event, editors ) => {
+                    //     console.log( 'Blur.', editors );
+                    // } }
+                    // onFocus={ ( event, editors ) => {
+                    //     console.log( 'Focus.', editors );
+                    // } }
                 /><br/>
-            <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#000000",opacity:"0.2" }}></Grid> <br />
+            {/* <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#000000",opacity:"0.2" }}></Grid> <br />
             <Typography className={classes.heading}>Product Short Description</Typography>
             <br />
             <CKEditor
@@ -59,27 +88,27 @@ class VariantDescription extends Component {
                     onFocus={ ( event, editors ) => {
                         console.log( 'Focus.', editors );
                     } }
-                /><br/>
+                /><br/> */}
             <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#000000",opacity:"0.2" }}></Grid> <br />
             <Typography className={classes.heading}>Product Description</Typography>
             <br />
             <CKEditor
                     editor={ ClassicEditor }
-                    data=""
-                    onReady={ editors => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log(  editors );
-                    } }
+                    data={this.state.productDescription}
+                    // onReady={ editors => {
+                    //     // You can store the "editor" and use when it is needed.
+                    //     console.log(  editors );
+                    // } }
+                    // onBlur={ ( event, editors ) => {
+                    //     console.log( 'Blur.', editors );
+                    // } }
+                    // onFocus={ ( event, editors ) => {
+                    //     console.log( 'Focus.', editors );
+                    // } }
                     onChange={ ( event, editors ) => {
-                        const data = editors.getData();
-                        console.log( { event, editors, data } );
-                    } }
-                    onBlur={ ( event, editors ) => {
-                        console.log( 'Blur.', editors );
-                    } }
-                    onFocus={ ( event, editors ) => {
-                        console.log( 'Focus.', editors );
-                    } }
+                      const data = editors.getData();
+                      this.setState({productDescription : data})
+                  } }
                 /><br/>
             <Grid xs={12} style={{ width: "100%", height: "1px", backgroundColor: "#686868",opacity:"0.2" }}></Grid> <br />
           </Grid>
@@ -113,8 +142,10 @@ const useStyles = (theme = createMuiTheme()) => ({
 })
 const mapStateToProps = (state) => {
   return {
+    updateOneLineAndDesResponse : state.ProductReducer.updateOneLineAndDesResponse,
+    getvarientByidList : state.ProductReducer.getvarientByid,
 
   }
 }
 
-export default connect(mapStateToProps, {})(withStyles(useStyles)(VariantDescription)) 
+export default connect(mapStateToProps, {updateProductOnelinerAndDesc, getvarientByid})(withStyles(useStyles)(VariantDescription)) 
