@@ -26,7 +26,13 @@ const initialState = {
   deletefamily: [],
   postgeneraldetails: [],
   deleteproductvarient: [],
+  getFaq: [],
+  updateFaq: [],
+  postFaq: [],
   getvarientByid:[],
+  // getProductFamily :[],
+  // getProductVarientByFamily :[]
+   getproductcombo:[],
   addproductcombo:[],
   isVariantCreated : false,
   updateOneLineAndDesResponse : [],
@@ -156,6 +162,21 @@ export default (state = initialState, action) => {
       return {
         ...state,
         deleteproductvarient: action.payload,
+      };
+      case PRODUCT.getFaq:
+      return {
+        ...state,
+        getFaq: action.payload,
+      };
+      case PRODUCT.updateFaq:
+      return {
+        ...state,
+        updateFaq: action.payload,
+      };
+      case PRODUCT.postFaq:
+      return {
+        ...state,
+        postFaq: action.payload,
       };
       case PRODUCT.getvarientByid:
       return {

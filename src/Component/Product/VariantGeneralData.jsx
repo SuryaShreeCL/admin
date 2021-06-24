@@ -2,86 +2,151 @@ import { TextField, Grid, Button } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
-import { postgeneraldetails,getAllProductFamily,getProductVarient,getvarientByid, isVariantCreated } from "../../Actions/ProductAction";
+import {
+  postgeneraldetails,
+  getAllProductFamily,
+  getProductVarient,
+  getvarientByid,
+  updategeneraldata,
+  isVariantCreated,
+} from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
-import PrimaryButton from '../../Utils/PrimaryButton'
+import PrimaryButton from "../../Utils/PrimaryButton";
+import { productVariantPath } from "../RoutePaths";
+import MySnackBar from "../MySnackBar";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import {isEmptyString} from '../Validation'
+import { isEmptyString } from "../Validation";
 class VariantGeneralData extends Component {
   constructor() {
     super();
     this.state = {
       productName: "",
-      productnameErr:"",
+      productnameErr: "",
       variantsku: "",
-      varientErr:"",
+      varientErr: "",
       variantfamilysku: "",
-      variantfamilyskuErr:"",
+      variantfamilyskuErr: "",
       shortName: "",
       endOfServiceDate: new Date(),
-      endOfServiceDateErr:"",
+      endOfServiceDateErr: "",
       endOfEnrollmentDate: new Date(),
-      endOfEnrollmentDateErr:"",
+      endOfEnrollmentDateErr: "",
       costPrice: "",
-      costPriceErr : "",
+      costPriceErr: "",
       sellingPrice: "",
-      sellingPriceErr:"",
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
+      sellingPriceErr: "",
       createdBy: window.sessionStorage.getItem("role"),
-      createdByErr:"",
+      createdByErr: "",
       createdOn: new Date(),
-      createdOnErr:"",
+      createdOnErr: "",
       standaloneSellable: "",
-      standaloneSellableErr:"",
+      standaloneSellableErr: "",
       updatedBy: window.sessionStorage.getItem("role"),
       UpdatedOn: new Date(),
     };
   }
-  componentDidMount(){
-     this.props.getAllProductFamily()
-     this.props.getProductVarient()
-     this.props.getvarientByid(this.props.match.params.id)
+  componentDidMount() {
+    this.props.getAllProductFamily();
+    this.props.getProductVarient();
+    this.props.getvarientByid(this.props.match.params.id);
   }
-  componentDidUpdate(prevProps,prevState){
-    if(this.props.getvarientByidList !== prevProps.getvarientByidList) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.getvarientByidList !== prevProps.getvarientByidList) {
       this.setState({
-        productName:this.props.getvarientByidList.productFamily,
-        variantsku : this.props.getvarientByidList.name,
-        variantfamilysku : this.props.getvarientByidList.shortName,
-        costPrice:this.props.getvarientByidList.costPrice,
-        sellingPrice:this.props.getvarientByidList.sellingPrice,
-        standaloneSellable:{title:this.props.getvarientByidList.standaloneSellable},
-        endOfServiceDate:this.props.getvarientByidList.endOfServiceDate,
-        endOfEnrollmentDate:this.props.getvarientByidList.endOfEnrollmentDate,
-        createdBy:this.props.getvarientByidList.createdBy,
-        createdOn:this.props.getvarientByidList.dateOfCreation
-      })
+        productName: this.props.getvarientByidList.productFamily,
+        variantsku: this.props.getvarientByidList.name,
+        variantfamilysku: this.props.getvarientByidList.shortName,
+        costPrice: this.props.getvarientByidList.costPrice,
+        sellingPrice: this.props.getvarientByidList.sellingPrice,
+        standaloneSellable: {
+          title: this.props.getvarientByidList.standaloneSellable,
+        },
+        endOfServiceDate: this.props.getvarientByidList.endOfServiceDate,
+        endOfEnrollmentDate: this.props.getvarientByidList.endOfEnrollmentDate,
+        createdBy: this.props.getvarientByidList.createdBy,
+        createdOn: this.props.getvarientByidList.dateOfCreation,
+      });
     }
-    if(this.props.postgeneraldetailsList !== prevProps.postgeneraldetailsList){
-      this.props.history.push(this.props.postgeneraldetailsList.id)
+    if (
+      this.props.postgeneraldetailsList !== prevProps.postgeneraldetailsList
+    ) {
+      this.props.history.push(
+        productVariantPath + "/" + this.props.postgeneraldetailsList.id
+      );
     }
   }
-  data=[
-     {title : "Yes"},
-     {title : "No"}
-  ]
+  componentWillUnmount(params) {
+    console.log("next component");
+    let faqid = this.props.getvarientByidList.productQuestionAnswers.map(
+      (faq) => {
+        return { id: faq.id };
+      }
+    );
+    console.log(this.props.getvarientByidList);
+    let obj = {
+      id: this.props.match.params.id,
+      name: this.state.variantfamilysku,
+      codeName: this.props.getvarientByidList.codeName,
+      shortName: this.props.getvarientByidList.shortName,
+      productDescription: this.props.getvarientByidList.productDescription,
+      productOneliner: this.props.getvarientByidList.productOneliner,
+      productTnc: this.props.getvarientByidList.productTnc,
+      validity: "365",
+      costPrice: this.state.costPrice,
+      sellingPrice: this.state.sellingPrice,
+      updatedBy: window.sessionStorage.getItem("role"),
+      productQuestionAnswers: faqid,
+      productFamily: { id: this.props.getvarientByidList.productFamily.id },
+    };
+    this.props.updategeneraldata(obj);
+    this.setState({
+      snackMsg: "Updated Successfully",
+      snackOpen: true,
+      snackVariant: "success",
+    });
+  }
+  data = [{ title: "Yes" }, { title: "No" }];
   handlesaved = () => {
-   //  console.log("hello");
-   let hlptxt = "Please Fill the Required Field"
-   this.state.productName === "" ? this.setState({productnameErr : hlptxt}) : this.setState({productnameErr : ""})
-   isEmptyString(this.state.variantfamilysku) ? this.setState({variantfamilyskuErr : hlptxt}) : this.setState({variantfamilyskuErr : ""})
-   isEmptyString(this.state.variantsku) ? this.setState({varientErr : hlptxt}) : this.setState({varientErr : ""})
-   this.state.endOfEnrollmentDate === null ? this.setState({endOfEnrollmentDateErr : hlptxt}) : this.setState({endOfEnrollmentDateErr:""})
-   isEmptyString(this.state.costPrice) ? this.setState({costPriceErr : hlptxt}) : this.setState({ costPriceErr :""})
-   isEmptyString(this.state.sellingPrice) ? this.setState({ sellingPriceErr :hlptxt}) : this.setState({ sellingPriceErr : ""})
-   this.state.endOfServiceDate === null ? this.setState({endOfServiceDateErr : hlptxt}):this.setState({endOfServiceDateErr : ""})
-   this.state.createdOn === null ? this.setState({ createdOnErr : hlptxt}) : this.setState({ createdOnErr : ""})
-   isEmptyString(this.state.createdBy) ? this.setState({ createdByErr : hlptxt}) : this.setState({createdByErr : ""})
-   this.state.standaloneSellable === "" ? this.setState({ standaloneSellableErr : hlptxt}) : this.setState({ standaloneSellableErr : ""})
-   if(
+    //  console.log("hello");
+    let hlptxt = "Please Fill the Required Field";
+    this.state.productName === ""
+      ? this.setState({ productnameErr: hlptxt })
+      : this.setState({ productnameErr: "" });
+    isEmptyString(this.state.variantfamilysku)
+      ? this.setState({ variantfamilyskuErr: hlptxt })
+      : this.setState({ variantfamilyskuErr: "" });
+    isEmptyString(this.state.variantsku)
+      ? this.setState({ varientErr: hlptxt })
+      : this.setState({ varientErr: "" });
+    this.state.endOfEnrollmentDate === null
+      ? this.setState({ endOfEnrollmentDateErr: hlptxt })
+      : this.setState({ endOfEnrollmentDateErr: "" });
+    isEmptyString(this.state.costPrice)
+      ? this.setState({ costPriceErr: hlptxt })
+      : this.setState({ costPriceErr: "" });
+    isEmptyString(this.state.sellingPrice)
+      ? this.setState({ sellingPriceErr: hlptxt })
+      : this.setState({ sellingPriceErr: "" });
+    this.state.endOfServiceDate === null
+      ? this.setState({ endOfServiceDateErr: hlptxt })
+      : this.setState({ endOfServiceDateErr: "" });
+    this.state.createdOn === null
+      ? this.setState({ createdOnErr: hlptxt })
+      : this.setState({ createdOnErr: "" });
+    isEmptyString(this.state.createdBy)
+      ? this.setState({ createdByErr: hlptxt })
+      : this.setState({ createdByErr: "" });
+    this.state.standaloneSellable === ""
+      ? this.setState({ standaloneSellableErr: hlptxt })
+      : this.setState({ standaloneSellableErr: "" });
+    if (
       !isEmptyString(this.state.variantfamilysku) &&
       !isEmptyString(this.state.variantsku) &&
       !isEmptyString(this.state.costPrice) &&
@@ -92,56 +157,61 @@ class VariantGeneralData extends Component {
       this.state.endOfEnrollmentDate !== null &&
       this.state.productName !== "" &&
       this.state.standaloneSellable !== ""
-   ){
+    ) {
       let obj = {
-         name: this.state.variantfamilysku,
-         variant_SKU: this.state.variantsku,
-         variant_family_SKU: null ,
-         shortName: this.state.productName.shortName,
-         endOfServiceDate: this.state.endOfServiceDate,
-         endOfEnrollmentDate: this.state.endOfEnrollmentDate,
-         costPrice: this.state.costPrice,
-         sellingPrice: this.state.sellingPrice,
-         createdBy: this.state.createdBy,
-         dateOfCreation: this.state.createdOn,
-         standaloneSellable: this.state.standaloneSellable.title,
-         productFamily: {
-           id: this.state.productName.id,
-         },
-         dateOfUpdate:new Date(),
-         updatedBy:window.sessionStorage.getItem("role")
-       };
-       this.props.postgeneraldetails(obj);
-       
-   }
-   console.log(this.state)
-  };
-  handleUpdate=()=>{
-    let obj=
-      {
-        id:"8df3b9d4-e392-49e2-8353-9a8a7206d7f6",
-        name:"acs",
-        codeName:"acs",
-        shortName:"acs",
-        productDescription:"acs",
-        productOneliner:"acs",
-        productTnc:"acs",
-        validity:"365",
-        costPrice:this.state.costPrice,
-        sellingPrice:this.state.sellingPrice,
-        updatedBy:this.state.updatedBy,
-        productQuestionAnswers:[{
-          id:"3"
-        }],
-        productFamily:{
-          id:"4"
-        }
+        name: this.state.variantfamilysku,
+        variantSKU: this.state.variantsku,
+        variant_family_SKU: null,
+        shortName: this.state.productName.shortName,
+        endOfServiceDate: this.state.endOfServiceDate,
+        endOfEnrollmentDate: this.state.endOfEnrollmentDate,
+        costPrice: this.state.costPrice,
+        sellingPrice: this.state.sellingPrice,
+        createdBy: this.state.createdBy,
+        dateOfCreation: this.state.createdOn,
+        standaloneSellable: this.state.standaloneSellable.title,
+        productFamily: {
+          id: this.state.productName.id,
+        },
+        dateOfUpdate: new Date(),
+        updatedBy: window.sessionStorage.getItem("role"),
+      };
+      this.props.postgeneraldetails(obj);
+      this.setState({
+        snackMsg: "Added Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+      });
     }
-    this.props.updategeneraldata(obj)
-  }
+    console.log(this.state);
+  };
+  handleUpdate = () => {
+    let obj = {
+      id: "8df3b9d4-e392-49e2-8353-9a8a7206d7f6",
+      name: "acs",
+      codeName: "acs",
+      shortName: "acs",
+      productDescription: "acs",
+      productOneliner: "acs",
+      productTnc: "acs",
+      validity: "365",
+      costPrice: this.state.costPrice,
+      sellingPrice: this.state.sellingPrice,
+      updatedBy: this.state.updatedBy,
+      productQuestionAnswers: [
+        {
+          id: "3",
+        },
+      ],
+      productFamily: {
+        id: "4",
+      },
+    };
+    this.props.updategeneraldata(obj);
+  };
   render() {
-    console.log(this.state)
-    console.log(this.props)
+    console.log(this.state);
+    console.log(this.props);
     return (
       <div>
         <Grid container spacing={2}>
@@ -257,7 +327,7 @@ class VariantGeneralData extends Component {
                 margin="normal"
                 id="date-picker-dialog"
                 label="End of Enrollment"
-                disableFuture
+                // disableFuture
                 error={this.state.endOfEnrollmentDateErr.length > 0}
                 helperText={this.state.endOfEnrollmentDateErr}
                 format="yyyy-MM-dd"
@@ -277,8 +347,8 @@ class VariantGeneralData extends Component {
               label="Created By"
               disabled
               value={this.state.createdBy}
-            //   error={this.state.createdByErr.length > 0}
-            //   helperText={this.state.createdByErr}
+              //   error={this.state.createdByErr.length > 0}
+              //   helperText={this.state.createdByErr}
               onChange={(e) => this.setState({ createdBy: e.target.value })}
             />
           </Grid>
@@ -302,18 +372,25 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          {this.props.match.params.id === undefined &&
-          <Grid item md={12}>
-            <Button
-              color="primary"
-              variant="contained"
-              style={{ borderRadius: "30px" }}
-              onClick={this.handlesaved}
-            >Create New Varient
-            </Button>
-          </Grid>
-  }
+          {this.props.match.params.id === undefined && (
+            <Grid item md={12}>
+              <Button
+                color="primary"
+                variant="contained"
+                style={{ borderRadius: "30px" }}
+                onClick={this.handlesaved}
+              >
+                Create New Varient
+              </Button>
+            </Grid>
+          )}
         </Grid>
+        <MySnackBar
+          snackMsg={this.state.snackMsg}
+          snackVariant={this.state.snackVariant}
+          snackOpen={this.state.snackOpen}
+          onClose={() => this.setState({ snackOpen: false })}
+        />
       </div>
     );
   }
@@ -322,13 +399,18 @@ class VariantGeneralData extends Component {
 const mapStateToProps = (state) => {
   return {
     postgeneraldetailsList: state.ProductReducer.postgeneraldetails,
-    getAllProductFamilyList : state.ProductReducer.getAllProductFamily,
-    getProductVarientList : state.ProductReducer.getProductVarient,
-    getvarientByidList : state.ProductReducer.getvarientByid,
-    isVariantCreated : state.ProductReducer.isVariantCreated
+    getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
+    getProductVarientList: state.ProductReducer.getProductVarient,
+    getvarientByidList: state.ProductReducer.getvarientByid,
+    isVariantCreated: state.ProductReducer.isVariantCreated,
   };
 };
 
-export default connect(mapStateToProps, { postgeneraldetails,getvarientByid,getAllProductFamily,getProductVarient, isVariantCreated })(
-  VariantGeneralData
-);
+export default connect(mapStateToProps, {
+  postgeneraldetails,
+  getvarientByid,
+  getAllProductFamily,
+  getProductVarient,
+  updategeneraldata,
+  isVariantCreated,
+})(VariantGeneralData);

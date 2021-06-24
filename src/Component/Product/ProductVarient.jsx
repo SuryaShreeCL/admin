@@ -413,7 +413,7 @@ export class ProductVarient extends Component {
               }
             >
               <ExcelSheet data={this.props.getProductVarientList} name="Product Family">
-                <ExcelColumn label="SKU" value="variantsku" />
+                <ExcelColumn label="SKU" value="variant_SKU" />
                 <ExcelColumn label="Varient Name" value="name" />
                 <ExcelColumn label="Varient ShortName" value="shortName" />
                 <ExcelColumn label="code Name" value="codeName" />
