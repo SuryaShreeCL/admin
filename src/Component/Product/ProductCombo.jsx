@@ -3,7 +3,7 @@ import { AddCircle } from "@material-ui/icons";
 import React, { Component } from "react";
 import { productcomboPath } from "../RoutePaths";
 import ReactExport from "react-export-excel";
-import {getproductcombo} from '../../Actions/ProductAction'
+import {getproductcombo,comboexcel} from '../../Actions/ProductAction'
 import { connect } from "react-redux";
 import ComboCard from "../Utils/ComboCard"
 import AddNewCard from "../Utils/AddNewCard"
@@ -17,6 +17,7 @@ class ProductCombo extends Component {
   }
   componentDidMount() {
     this.props.getproductcombo()
+    this.props.comboexcel()
   }
   data = [
     {
@@ -61,7 +62,7 @@ class ProductCombo extends Component {
               }
             >
               <ExcelSheet
-                data={this.props.getproductcomboList}
+                data={this.props.comboexcelList}
                 name="Product Combo"
               >
                 <ExcelColumn label="Combo Name" value="comboName" />
@@ -91,7 +92,7 @@ class ProductCombo extends Component {
               validity={item.validity}
               createdat={item.dateOfCreation}
               createdby={item.createdBy}
-              product={item.productName}
+              product={item.products.map(item1=>item1.name.concat(","))}
             />
             </Grid>
              ) : null } 
@@ -102,10 +103,12 @@ class ProductCombo extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    getproductcomboList :  state.ProductReducer.getproductcombo
+    getproductcomboList :  state.ProductReducer.getproductcombo,
+    comboexcelList : state.ProductReducer.comboexcel
   };
 };
 
 export default connect(mapStateToProps, {
-  getproductcombo
+  getproductcombo,
+  comboexcel
 })(ProductCombo);

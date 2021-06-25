@@ -128,9 +128,21 @@ export const postproductfamily = (data) => {
 export const getProductVarient = () => {
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/productvarient")
+      .get(URL + "/api/v1/get/product/varient")
       .then((result) => {
         dispatch({ type: PRODUCT.getProductVarient, payload: result.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+export const varientexcel = () => {
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/get/productvarient/excel")
+      .then((result) => {
+        dispatch({ type: PRODUCT.varientexcel, payload: result.data });
       })
       .catch((error) => {
         console.log(error);
@@ -530,6 +542,26 @@ export const getproductcombo = () => {
       });
   };
 };
+export const comboexcel = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/get/product/combo/excel", {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({ type: PRODUCT.comboexcel, payload: result.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
 export const isVariantCreated = (data) => {
   return (dispatch) => {
     dispatch({ type: PRODUCT.isVariantCreated, payload: data });
@@ -627,6 +659,18 @@ export const isVariantCreated = (data) => {
             })
         }
     }
+    export const publishvarient = (data) =>{
+      return dispatch =>{
+          axios.post(URL+"/api/v1/check/productVariant/status",data)
+          .then(result=>{
+              dispatch({type:PRODUCT.publishvarient,payload:result.data});
+          })
+          .catch(error=>{
+              console.log(error);
+          })
+      }
+  }
+
 
 export const updateProductOnelinerAndDesc = (data) => {
   let accessToken = window.sessionStorage.getItem("accessToken");

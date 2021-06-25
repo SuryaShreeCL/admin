@@ -167,7 +167,10 @@ export const PRODUCT = {
   getproductcombo : "getproductcombo",
   isVariantCreated : "isVariantCreated",
   updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc",
-  addProductPunching : "addProductPunching"
+  addProductPunching : "addProductPunching",
+  publishvarient : "publishvarient",
+  comboexcel:"comboexcel",
+  varientexcel:"varientexcel"
 };
 
 export const ADMIN = {

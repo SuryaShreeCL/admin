@@ -172,18 +172,10 @@ console.log(data)
     isEmptyString(this.state.productName)
       ? this.setState({ productNameErr: helpertxt })
       : this.setState({ productNameErr: "" });
-      isEmptyString(this.state.createdby)
-      ? this.setState({ createdbyErr: helpertxt })
-      : this.setState({ createdbyErr: "" });
-      this.state.createdon === null 
-      ? this.setState({ craetedonErr: helpertxt })
-      : this.setState({ craetedonErr: "" });
     if (
       !isEmptyString(this.state.productName) &&
       !isEmptyString(this.state.shortName) &&
-      !isEmptyString(this.state.codeName) &&
-      !isEmptyString(this.state.createdby) &&
-      this.state.createdon !== null
+      !isEmptyString(this.state.codeName)      
     ) {
       //  console.log("validate Success")
       let obj = {
@@ -232,12 +224,12 @@ console.log(data)
     isEmptyString(this.state.productName)
       ? this.setState({ productNameErr: helpertxt })
       : this.setState({ productNameErr: "" });
-      this.state.updatedby === ""
-      ? this.setState({ updatdebyErr: helpertxt })
-      : this.setState({ updatdebyErr: "" });
-      this.state.updatedon === null
-      ? this.setState({ updatedonErr: helpertxt })
-      : this.setState({ updatedonErr: "" });
+      // this.state.updatedby === ""
+      // ? this.setState({ updatdebyErr: helpertxt })
+      // : this.setState({ updatdebyErr: "" });
+      // this.state.updatedon === null
+      // ? this.setState({ updatedonErr: helpertxt })
+      // : this.setState({ updatedonErr: "" });
 
       // isEmptyString(this.state.id)
       // ? this.setState({ idErr: helpertxt })
@@ -247,9 +239,9 @@ console.log(data)
       !isEmptyString(this.state.productName) &&
       !isEmptyString(this.state.shortName) &&
       !isEmptyString(this.state.codeName) &&
-      !isEmptyString(this.state.id) &&
-      !isEmptyString(this.state.updatedby) &&
-      this.state.updatedon !== null
+      !isEmptyString(this.state.id) 
+      // !isEmptyString(this.state.updatedby) &&
+      // this.state.updatedon !== null
     ) {
       //  console.log("validate Success")
       // let obj1 = {

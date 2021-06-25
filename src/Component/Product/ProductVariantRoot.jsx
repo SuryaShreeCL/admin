@@ -12,6 +12,7 @@ import VariantImgVidLanding from './VariantImgVidLanding';
 import VariantTnc from './VariantTnc';
 import VarriantQna from './VarriantQna';
 import PrimaryButton from '../../Utils/PrimaryButton';
+import {publishvarient} from '../../Actions/ProductAction'
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -67,7 +68,14 @@ const AntTabs = withStyles({
       tabCount : 0,
      };
    }
-
+    handlepublish=()=>{
+      console.log("Hello")
+      let obj={
+        id:this.props.match.params.id,
+        wkStatus:"Live"
+      }
+      this.props.publishvarient(obj)
+    }
    renderContent = (value) => {
      try {
        if (value === 0) {
@@ -124,6 +132,7 @@ const AntTabs = withStyles({
          </Grid>
          <Grid item md={12} align="center">
             <PrimaryButton
+            onClick={()=>this.handlepublish()}
             color={"primary"}
             disabled={this.props.match.params.id === undefined}
             variant={"contained"}
@@ -136,8 +145,9 @@ const AntTabs = withStyles({
 
 const mapStateToProps = (state) =>{
     return {
+      publishvarientList : state.ProductReducer.publishvarient
     }
 }
 
 
-export default connect(mapStateToProps, {})(ProductVariantRoot)
+export default connect(mapStateToProps, {publishvarient})(ProductVariantRoot)

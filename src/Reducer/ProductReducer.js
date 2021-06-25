@@ -38,7 +38,10 @@ const initialState = {
   updateOneLineAndDesResponse : [],
   updateTncResponse : [],
   updateProductPunching : [],
-  addProductPunching : []
+  addProductPunching : [],
+  publishvarient:[],
+  comboexcel:[],
+  varientexcel:[]
 };
 
 export default (state = initialState, action) => {
@@ -220,6 +223,21 @@ export default (state = initialState, action) => {
               ...state,
               addProductPunching: action.payload,
             };
+            case PRODUCT.publishvarient:
+              return {
+                ...state,
+                publishvarient: action.payload,
+              };
+              case PRODUCT.comboexcel:
+              return {
+                ...state,
+                comboexcel: action.payload,
+              };
+              case PRODUCT.varientexcel:
+                return {
+                  ...state,
+                  varientexcel: action.payload,
+                };
     default:
       break;
   }

@@ -29,7 +29,7 @@ import {
   import DeleteIcon from '@material-ui/icons/Delete';
   import CloseIcon from "@material-ui/icons/Close";
   import { isEmptyString } from "../Validation";
-  import {getProductVarient, postProductVarient,deleteproductvarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily} from "../../Actions/ProductAction"
+  import {getProductVarient, postProductVarient,deleteproductvarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily,comboexcel,varientexcel} from "../../Actions/ProductAction"
   import { connect } from "react-redux";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Snackbar from "@material-ui/core/Snackbar";
@@ -90,12 +90,12 @@ export class ProductVarient extends Component {
             tableColumns : [
               {field : "id", hide : true},
               {field : "codeName", headerName : "SKU", width : 150},
-              {field : "name", headerName : "Product Family", width : 150},
+              {field : "productFamilyName", headerName : "Product Family", width : 150},
               {field : "name", headerName : "Variant Name", width : 150},
               {field : "standaloneSellable", headerName : "Standalone", width : 150},
               {field : "sellingPrice", headerName : "Pricing", width : 150},
               {field : "validity", headerName : "Validity", width : 150},
-              {field : "endOfServiceDate", headerName : "EOS", width : 150},
+              {field : "endOfServiceDate", headerName : "End of Service", width : 150},
               {field : "action", headerName : "Action",  width : 300, renderCell: (params) => { 
                 const onClick = () => {
                   const api: GridApi = params.api;
@@ -149,6 +149,7 @@ export class ProductVarient extends Component {
       this.props.getAllProductVideos()
       this.props.getAllProductQuesAns()
       this.props.getAllProductFamily()
+      this.props.varientexcel()
   }
   componentDidUpdate(prevProps,prevState){
     if(prevProps.postProductVarientList !== this.props.postProductVarientList || prevProps.updateProductVarientList !== this.props.updateProductVarientList){
@@ -412,7 +413,7 @@ export class ProductVarient extends Component {
             </Button>
               }
             >
-              <ExcelSheet data={this.props.getProductVarientList} name="Product Family">
+              <ExcelSheet data={this.props.varientexcelList} name="Product Family">
                 <ExcelColumn label="SKU" value="variant_SKU" />
                 <ExcelColumn label="Varient Name" value="name" />
                 <ExcelColumn label="Varient ShortName" value="shortName" />
@@ -754,8 +755,10 @@ const mapStateToProps=(state)=>{
     allProductVideos : state.ProductReducer.allProductVideos,
     allProductQuesAns : state.ProductReducer.allProductQuesAns,
     productFamilyList : state.ProductReducer.productFamilyList,
-    deleteproductvarientList : state.ProductReducer.deleteproductvarient
+    deleteproductvarientList : state.ProductReducer.deleteproductvarient,
+    comboexcelList : state.ProductReducer.comboexcel,
+    varientexcelList : state.ProductReducer.varientexcel
     
   }
 }
-export default connect(mapStateToProps,{getProductVarient,deleteproductvarient,postProductVarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily})(ProductVarient)
+export default connect(mapStateToProps,{getProductVarient,deleteproductvarient,postProductVarient, updateProductVarient, getAllProductImages,varientexcel, getAllProductVideos, getAllProductQuesAns, getAllProductFamily,comboexcel})(ProductVarient)
