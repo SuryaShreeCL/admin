@@ -67,8 +67,6 @@ class ProductCombo extends Component {
                 <ExcelColumn label="Combo Name" value="comboName" />
                 <ExcelColumn label="Combo SKU" value="comboSKU" />
                 <ExcelColumn label="Combo Short Code" value="comboShortCode" />
-                <ExcelColumn label="Product_1" value="name" />
-                <ExcelColumn label="product_2" value="name" />
                 <ExcelColumn label="Combo Cost Price" value="comboCostPrice" />
                 <ExcelColumn label="Combo Sell Price" value="comboSellingPrice" />
                 <ExcelColumn label="validity" value="validity" />
@@ -76,6 +74,8 @@ class ProductCombo extends Component {
                 <ExcelColumn label="Created At" value="dateOfCreation" />
                 <ExcelColumn label="Updated By" value="updatedBy" />
                 <ExcelColumn label="Updated At" value="dateOfUpdate" />
+                <ExcelColumn label="End of Enrollment" value="endOfEnrollment" />
+                <ExcelColumn label="ProductName" value="productName" />
               </ExcelSheet>
             </ExcelFile>
           </Grid>
@@ -91,7 +91,7 @@ class ProductCombo extends Component {
               validity={item.validity}
               createdat={item.dateOfCreation}
               createdby={item.createdBy}
-              product={item.products.length !== 0 ? item.products : [] }
+              product={item.productName}
             />
             </Grid>
              ) : null } 

@@ -325,6 +325,11 @@ console.log(data)
                    <ExcelColumn label="Product Name" value="productName"/>
                    <ExcelColumn label="Product Shortname" value="shortName"/>
                    <ExcelColumn label="Product CodeName" value="codeName"/>
+                   <ExcelColumn label="Created By " value="createdBy"/>
+                   <ExcelColumn label="Created At" value="dateOfCreation"/>
+                   <ExcelColumn label="Updated By" value="updatedBy"/>
+                   <ExcelColumn label="Updated At" value="dateOfUpdate"/>
+                   <ExcelColumn label="Varient Count" value="varientCount"/>
                </ExcelSheet>
            </ExcelFile>
           </div>

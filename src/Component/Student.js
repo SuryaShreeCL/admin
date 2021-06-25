@@ -27,7 +27,7 @@ import {getAllColleges,getBranches} from "../Actions/College";
 import {updateLmsAccess} from '../Actions/AdminAction';
 import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
-import { studentIdPath } from "./RoutePaths";
+import { studentIdPath,productuserPunchingPath } from "./RoutePaths";
 import TableComponent from "./TableComponent/TableComponent";
 import {CircularProgress,
   Dialog,
@@ -93,8 +93,10 @@ export class Student extends Component {
     // { title: 'Last Name', field: 'lastName' },
     { title: "Full Name", fieldName: "fullName" },
     { title: "Email Id", fieldName: "emailId" },
-    { title: "Phone", fieldName: "phoneNumber" },
+    { title: "College", fieldName: "college.name" },
     { title: "Department", fieldName: "department.name" },
+    { title: "Phone", fieldName: "phoneNumber" },
+    { title: "Degree", fieldName: "ugDegree.name" },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
@@ -169,7 +171,9 @@ export class Student extends Component {
     } 
   }
   rowClick = (rowData) => {
-    this.props.history.push(studentIdPath +"/"+ rowData.id);
+    console.log(rowData)
+    this.props.match.path !== "/admin/productpunching" ?
+    this.props.history.push(studentIdPath +"/"+ rowData.id) : this.props.history.push(productuserPunchingPath+rowData.id)
   };
 
   getmuitheme = () =>
@@ -301,6 +305,7 @@ export class Student extends Component {
   render() {  
     console.log("State............",this.state)
     console.log("Edit Student response.................",this.props)
+    console.log(this.props.match.path)
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
@@ -328,7 +333,7 @@ export class Student extends Component {
                   ? this.props.StudentFilterList.content
                   : null
               }
-              add={true}
+              add={ this.props.match.path === "/admin/productpunching" ? false : true}
               onAddClick={(e)=>this.setState({
                 dialogOpen : true,
                 id : null,
@@ -348,7 +353,7 @@ export class Student extends Component {
                 lmsAccess : false
 
               })}
-              action={true}
+              action={this.props.match.path === "/admin/productpunching" ? false : true}
               onEdit={true}
               onEditClick={(rowdata)=>{
                 console.log(rowdata)
@@ -370,7 +375,7 @@ export class Student extends Component {
                 })
               }}
               cols={this.stu_header}
-              onRowClick={this.rowClick}
+              onRowClick={(rowData)=>this.rowClick(rowData)}
               onSearch={this.paginate}
               paginate={this.paginate}
               totalCount={this.props.StudentFilterList.totalElements}

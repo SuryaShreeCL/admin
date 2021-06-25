@@ -26,7 +26,9 @@ class ComboCard extends Component {
                                     <Grid style={{ padding: 5 }}>ComboName : {this.props.comboname}</Grid>
                                     <Grid style={{ padding: 5 }}>Combo_SKU : {this.props.combosku}</Grid>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <Grid style={{ padding: 5 }}>Product : { this.props.product.map( data =>{return( data.name !== null && data.name+",")})}</Grid>
+                                        {/* <Grid style={{ padding: 5 }}>Product : { this.props.product.map( data =>{return( data.name !== null && data.name+",")})}</Grid> */}
+                                        <Grid style={{ padding: 5 }}>Product : { this.props.product}</Grid>
+
                                         {/* <Grid>{eg.product_2}</Grid> */}
                                     </div>
                                     <Grid container>

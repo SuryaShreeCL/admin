@@ -523,7 +523,7 @@ export const getproductcombo = () => {
         },
       })
       .then((result) => {
-        dispatch({ type: PRODUCT.addproductcombo, payload: result.data });
+        dispatch({ type: PRODUCT.getproductcombo, payload: result.data });
       })
       .catch((error) => {
         console.log(error);

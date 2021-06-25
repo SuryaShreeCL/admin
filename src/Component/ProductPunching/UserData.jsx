@@ -142,6 +142,7 @@ handleUpdate = () =>{
 
 
   render() {
+    console.log(this.props.match.params.id)
     return (
       <div>
         <Grid container style={{}} spacing={1}>

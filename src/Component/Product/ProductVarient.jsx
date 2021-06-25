@@ -418,9 +418,15 @@ export class ProductVarient extends Component {
                 <ExcelColumn label="Varient ShortName" value="shortName" />
                 <ExcelColumn label="code Name" value="codeName" />
                 <ExcelColumn label="Standalone" value="standaloneSellable" />
-                <ExcelColumn label="Pricing" value="pricing" />
-                <ExcelColumn label="Year" value="year" />
-                <ExcelColumn label="EOS" value="endOfEnrollmentDate" />
+                <ExcelColumn label="Cost Pricing" value="costPrice" />
+                <ExcelColumn label="Sell Pricing" value="sellingPrice" />
+                <ExcelColumn label="Created At" value="dateOfCreation" />
+                <ExcelColumn label="Created By" value="createdBy" />
+                <ExcelColumn label="Updated At" value="dateOfUpdate" />
+                <ExcelColumn label="Updated By" value="updatedBy" />
+                <ExcelColumn label="EOS" value="endOfServiceDate" />
+                <ExcelColumn label="Validity" value="validity" />
+                <ExcelColumn label="End of Enrollment" value="endOfEnrollmentDate" />       
               </ExcelSheet>
             </ExcelFile>
                 </div>
