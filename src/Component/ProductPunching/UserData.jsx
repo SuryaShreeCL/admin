@@ -154,21 +154,21 @@ class UserData extends Component {
         altEmailId: this.state.altEmail,
         altPhoneNumber: this.state.AltNumber,
         address: {
-          id: "1",
+          id: this.props.StudentDetails.address,
         },
         department: {
-          id: "140f9e5c-5255-446c-aac8-85bcf08edec8",
+          id: this.props.StudentDetails.department.id,
         },
         ugDegree: {
-          id: "0793ca74-7185-43da-af58-266670d4c0ef",
+          id: this.props.StudentDetails.ugDegree,
         },
         college: {
-          id: "4b425004-07af-4a9b-a6ea-8d705691b519",
+          id: this.props.StudentDetails.college.id,
         },
         university: {
-          id: "9f4ce37e-3781-4f0f-a00c-0c8cd287fc91",
+          id: this.props.StudentDetails.university,
         },
-        UGGPA: "8.0",
+        UGGPA: this.props.StudentDetails.uggpa,
       };
       this.props.updateUserData(obj)
     // }
@@ -179,6 +179,7 @@ class UserData extends Component {
     console.log(this.props.StudentDetails);
     return (
       <div>
+        {/* {this.props.StudentDetails !== null ? this.props.StudentDetails.map(item => ( */}
         <Grid container style={{}} spacing={1}>
           <Grid item md={12}>
             <Box pt={2}>
@@ -190,7 +191,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Client First Name"
-              value={this.state.clientFirstName}
+              value={this.props.StudentDetails.firstName || ''}
               size={"small"}
               name="clientFirstName"
               error={this.state.clientFirstNameErr !== "" ? true : false}
@@ -200,17 +201,12 @@ class UserData extends Component {
               }}
               helperText={this.state.clientFirstNameErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <TextField
               label="Client Last Name"
-              value={this.state.clientLastName}
+              value={this.props.StudentDetails.lastName || ''}
               size={"small"}
               name="clientLastName"
               error={this.state.clientFirstNameErr !== "" ? true : false}
@@ -220,17 +216,12 @@ class UserData extends Component {
               }}
               helperText={this.state.clientLastNameErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <TextField
               label="Full Name"
-              value={this.state.fullName}
+              value={this.props.StudentDetails.fullName || ''}
               size={"small"}
               name="fullName"
               error={this.state.fullNameErr !== "" ? true : false}
@@ -240,11 +231,6 @@ class UserData extends Component {
               }}
               helperText={this.state.fullNameErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
 
@@ -252,7 +238,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Contact Number"
-              value={this.state.number}
+              value={this.props.StudentDetails.phoneNumber || ''}
               size={"small"}
               name="number"
               error={this.state.numberErr !== "" ? true : false}
@@ -262,17 +248,12 @@ class UserData extends Component {
               }}
               helperText={this.state.numberErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <TextField
               label="Alternate Contatct Number"
-              value={this.state.AltNumber}
+              value={this.props.StudentDetails.altPhoneNumber || ''}
               size={"small"}
               name="AltNumber"
               error={this.state.AltNumberErr !== "" ? true : false}
@@ -282,17 +263,12 @@ class UserData extends Component {
               }}
               helperText={this.state.AltNumberErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <TextField
               label="Email Address"
-              value={this.state.email}
+              value={this.props.StudentDetails.emailId || ''}
               size={"small"}
               name="email"
               error={this.state.emailErr !== "" ? true : false}
@@ -302,17 +278,12 @@ class UserData extends Component {
               }}
               helperText={this.state.emailErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <TextField
               label="Alternate Email Address"
-              value={this.state.altEmail}
+              value={this.props.StudentDetails.altEmailId || ''}
               size={"small"}
               name="altEmail"
               error={this.state.altEmailErr !== "" ? true : false}
@@ -322,11 +293,6 @@ class UserData extends Component {
               }}
               helperText={this.state.altEmailErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid md={12} style={{ display: "flex", flexDirection: "row" }}>
@@ -357,11 +323,6 @@ class UserData extends Component {
               }}
               helperText={this.state.apartmentNameErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={8}>
@@ -377,11 +338,6 @@ class UserData extends Component {
               }}
               helperText={this.state.address1Err}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={8}>
@@ -397,11 +353,6 @@ class UserData extends Component {
               }}
               helperText={this.state.address2Err}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={4}>
@@ -417,11 +368,6 @@ class UserData extends Component {
               }}
               helperText={this.state.landmarkErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
@@ -437,11 +383,6 @@ class UserData extends Component {
               }}
               helperText={this.state.pincodeErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
@@ -457,11 +398,6 @@ class UserData extends Component {
               }}
               helperText={this.state.stateErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
@@ -477,11 +413,6 @@ class UserData extends Component {
               }}
               helperText={this.state.cityErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item xs={12} md={3}>
@@ -497,11 +428,6 @@ class UserData extends Component {
               }}
               helperText={this.state.countryErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item md={12}>
@@ -551,18 +477,8 @@ class UserData extends Component {
           <Grid item xs={12} md={2} sm={2} lg={2} xl={2}>
             <TextField
               label="Present Semester"
-              //   value={this.state.firstName}
               size={"small"}
-              //   name="firstName"
-              //   error={this.state.fnameErr !== "" ? true : false}
-              //   onChange={this.handleTextChange}
-              //   helperText={this.state.fnameErr}
               fullWidth
-              //   onKeyPress={(evt) => {
-              //     if (isAlpha(evt)) {
-              //       evt.preventDefault();
-              //     }
-              //   }}
             />
           </Grid>
           <Grid item md={2}>
@@ -588,6 +504,7 @@ class UserData extends Component {
             </Box>
           </Grid>
         </Grid>
+        {/* )) : null } */}
       </div>
     );
   }
