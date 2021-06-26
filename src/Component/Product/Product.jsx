@@ -275,7 +275,7 @@ console.log(data)
     });
   };
   render() {
-    console.log(this.props);
+    console.log(window.sessionStorage.getItem("role"));
     console.log(this.props.getAllProductFamilyList)
     return (
       <div>
@@ -450,7 +450,7 @@ console.log(data)
                   label="Created By"
                   name="Createdby"
                   fullWidth
-                  value={this.state.createdby}
+                  value={window.sessionStorage.getItem("role")}
                   error={this.state.createdbyErr.length > 0}
                   helperText={this.state.createdbyErr}
                   onChange={(e) => this.setState({ createdby: e.target.value })}
@@ -488,7 +488,7 @@ console.log(data)
                       disabled
                       name="updatedby"
                       fullWidth
-                      value={this.state.updatedby}
+                      value={window.sessionStorage.getItem("role")}
                       error={this.state.updatdebyErr.length > 0}
                       helperText={this.state.updatdebyErr}
                       onChange={(e) =>
@@ -506,7 +506,7 @@ console.log(data)
                         disabled
                         variant="dialog"
                         format="yyyy-MM-dd"
-                        value={this.state.updatedon}
+                        value={new Date()}
                         onChange={(e,newValue)=>this.setState({ updatedon : newValue})}
                         error={this.state.updatedonErr.length > 0}
                         helperText={this.state.updatedonErr}

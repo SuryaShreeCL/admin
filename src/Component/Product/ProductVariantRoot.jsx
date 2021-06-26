@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core'
+import { Breadcrumbs, Grid, Typography } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -13,6 +13,8 @@ import VariantTnc from './VariantTnc';
 import VarriantQna from './VarriantQna';
 import PrimaryButton from '../../Utils/PrimaryButton';
 import {publishvarient} from '../../Actions/ProductAction'
+import { productVariantPath } from '../RoutePaths';
+import Link from '@material-ui/core/Link';
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -112,7 +114,14 @@ const AntTabs = withStyles({
     console.log(this.props.match.params.id)
      return (
        <Grid container spacing={2}>
-       
+           <Grid item md={12}>
+             <Breadcrumbs separator="›">
+              <Link color="primary" onClick={() => this.props.history.goBack()}>
+              Product Varient
+            </Link>
+            <Typography color="textPrimary">General Data</Typography>
+             </Breadcrumbs>
+           </Grid>
          <Grid item md={12}>
            <AntTabs
              value={this.state.tabCount}

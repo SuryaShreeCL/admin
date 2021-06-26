@@ -89,8 +89,9 @@ export class ProductVarient extends Component {
             newVarientErr : "",
             tableColumns : [
               {field : "id", hide : true},
-              {field : "codeName", headerName : "SKU", width : 150},
+              {field : "shortName", headerName : "SKU", width : 150},
               {field : "productFamilyName", headerName : "Product Family", width : 150},
+              // console.log(params.row.productFamily !== null ? params.row.productFamily.productName : null)},
               {field : "name", headerName : "Variant Name", width : 150},
               {field : "standaloneSellable", headerName : "Standalone", width : 150},
               {field : "sellingPrice", headerName : "Pricing", width : 150},
@@ -138,7 +139,8 @@ export class ProductVarient extends Component {
                   </PrimaryButton> */}
                   </>
                 )
-                },}
+                },
+              },
             ],
 
         }
@@ -305,7 +307,7 @@ export class ProductVarient extends Component {
     };
   
     handleUpdate = () =>{
-      let hlpTxt = "Please Fill The Required Feild"
+      let hlpTxt = "Please Fill The Required Field"
 
       isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
       isEmptyString(this.state.codeName) ? this.setState({ codeNameErr : hlpTxt }) : this.setState({ codeNameErr : "" })
@@ -378,9 +380,13 @@ export class ProductVarient extends Component {
       
     }
    
-   
     render() {
-      
+      console.log(this.props.varientexcelList)
+      // if(this.props.getProductVarientList.length !== 0 ){
+      //   let prodname = this.props.getProductVarientList.map(item => item.productFamily !== null ? item.productFamily.productName : "null")
+      //   console.log(prodname)
+      // }
+      // console.log(name)
       console.log(this.state)
         return (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -438,7 +444,7 @@ export class ProductVarient extends Component {
           <Grid item md={12} style={{height : "500px"}}>
             <DataGridTable
             columns={this.state.tableColumns}
-            rows={this.props.getProductVarientList}
+            rows={this.props.varientexcelList}
             filterItems={[]}
              />
              </Grid>

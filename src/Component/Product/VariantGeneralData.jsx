@@ -84,12 +84,13 @@ class VariantGeneralData extends Component {
   }
   componentWillUnmount(params) {
     console.log("next component");
-    let faqid = this.props.getvarientByidList.productQuestionAnswers.map(
-      (faq) => {
-        return { id: faq.id };
-      }
-    );
-    console.log(this.props.getvarientByidList);
+    if(this.props.match.params.id !== undefined){
+      let faqid = this.props.getvarientByidList.productQuestionAnswers.map(
+        (faq) => {
+          return { id: faq.id };
+        }
+      );
+      console.log(this.props.getvarientByidList);
     let obj = {
       id: this.props.match.params.id,
       name: this.state.variantfamilysku,
@@ -111,6 +112,9 @@ class VariantGeneralData extends Component {
       snackOpen: true,
       snackVariant: "success",
     });
+    }
+    
+    
   }
   data = [{ title: "Yes" }, { title: "No" }];
   handlesaved = () => {
