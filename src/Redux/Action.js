@@ -61,7 +61,8 @@ export const STUDENT = {
   viewAllCity : 'viewAllCity',
   getAspirationById : 'getAspirationById',
   getTempPersonalData : "getTempPersonalData",
-  verifyNewPersonalData : "verifyNewPersonalData"
+  verifyNewPersonalData : "verifyNewPersonalData",
+  updateUserData : "updateUserData"
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -170,7 +171,8 @@ export const PRODUCT = {
   addProductPunching : "addProductPunching",
   publishvarient : "publishvarient",
   comboexcel:"comboexcel",
-  varientexcel:"varientexcel"
+  varientexcel:"varientexcel",
+  getUserDataAcademicInfo: 'getUserDataAcademicInfo'
 };
 
 export const ADMIN = {

@@ -401,3 +401,28 @@ export const verifyNewPersonalData = (id,data) =>{
         })
     }
 }
+
+export const getUserDataAcademicInfo = (id,type) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/student/educationDetails/"+id+"/type?type=ug")
+        .then(result=>{
+            dispatch({type:STUDENT.getUserDataAcademicInfo,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const updateUserData=(data)=>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/update/userData/ug",data, {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:STUDENT.updateUserData,QustionList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
