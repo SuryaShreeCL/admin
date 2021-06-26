@@ -51,28 +51,64 @@ class ProductPunching extends Component {
   };
 
   handleUpdate = () => {
+    let arr=[]
     for (const [key, value] of Object.entries(this.state)) {
-      console.log(`${key}: ${value}`);
-      if(key.startsWith("payment")){
-       console.log(key)
+      if(key.startsWith("pay")){
+        let provider = key.substring(key.indexOf("_")+2,key.indexOf("_"))
+        // let period = key.substring(key.indexOf("-")+1,key.length)
+        // console.log(key.substring(key.indexOf("_")+1,key.indexOf("_")))
+        if(key.substring(key.indexOf("_")+2,key.indexOf("_")) === "_i"){
+         let id = this.state.punching.map(item => item.id)
+         console.log(id)
+        //  let obj = {
+        //   id : id,
+        //   paymentProvider : value,
+        //   paymentId : value,
+        //          }
+        }
+        
+        arr.push({key : key,value:value})
+        console.log(provider)
+        // console.log(obj)
+        console.log(key,value)
+      }
+    }
+    console.log(arr)
+      console.log(this.state)
        let obj ={
-         
+        "studentId":this.props.match.params.id,
+        "productPaymentModels": [
+            {
+                "productId": this.state.varient,
+                "paymentProvider": "RazorPay",
+                "paymentId": "54"
+            },
+             {
+                "productId": "2",
+                "paymentProvider": "RazorPay",
+                "paymentId": "44"
+            },
+             {
+                "productId": "3",
+                "paymentProvider": "RazorPay",
+                "paymentId": "44"
+            }
+        ]
        }
        
-      } 
+      // } 
+      console.log("updated");
     }
     
-    console.log("updated");
-  };
+  
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
-    console.log(this.state);
-    console.log(this.state.varient);
-    console.log(this.state.punching);
-
+    console.log(this.props.match.params.id);
+    console.log(this.state)
+    
     return (
       <div>
         <Grid container spacing={2}>
@@ -202,7 +238,9 @@ class ProductPunching extends Component {
                   // disabled
                   label="Payment Provider"
                   name={"payment_provider_" + data.id}
-                  onChange={(e) => this.handleChange(e)}
+                  // name="payment_provider_"
+                  // value={this.state.payment_provider_}
+                  onChange={(e) =>this.handleChange(e)}
                 />
               </Grid>
               <Grid item md={4}>
@@ -210,7 +248,9 @@ class ProductPunching extends Component {
                   // disabled
                   label="Payment ID"
                   name={"payment_id_" + data.id}
-                  onChange={(e) => this.handleChange(e)}
+                  // name="payment_id"
+                  // value={this.state.payment_id}
+                  onChange={(e)=>this.handleChange(e)}
                 />
               </Grid>
               <Grid item md={2}></Grid>
