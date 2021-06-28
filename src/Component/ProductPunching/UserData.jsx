@@ -8,6 +8,12 @@ import {
   getStudentsById,
   updateUserData,
 } from "../../Actions/Student";
+import {
+  getAllColleges,
+  getUniversity,
+  getDegree,
+  getBranches,
+} from "../../Actions/College";
 import { connect } from "react-redux";
 
 class UserData extends Component {
@@ -55,12 +61,123 @@ class UserData extends Component {
       presentSemErr: "",
       sgpa: "",
       sgpaErr: "",
+      university: "",
     };
   }
 
   componentDidMount() {
     this.props.getUserDataAcademicInfo(this.props.match.params.id);
     this.props.getStudentsById(this.props.match.params.id);
+    this.props.getAllColleges();
+    this.props.getUniversity();
+    this.props.getDegree();
+    this.props.getBranches();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.StudentDetails !== prevProps.StudentDetails) {
+      this.setState({
+        StudentDetails: this.props.StudentDetails,
+        degree:
+          this.props.StudentDetails.ugDegree !== null
+            ? this.props.StudentDetails.ugDegree
+            : {},
+        collegeName:
+          this.props.StudentDetails.college &&
+          this.props.StudentDetails.college !== null
+            ? this.props.StudentDetails.college
+            : {},
+        department:
+          this.props.StudentDetails.department &&
+          this.props.StudentDetails.department !== null
+            ? this.props.StudentDetails.department
+            : {},
+        university:
+          this.props.StudentDetails.university &&
+          this.props.StudentDetails.university !== null
+            ? this.props.StudentDetails.university
+            : {},
+        clientFirstName:
+          this.props.StudentDetails.firstName &&
+          this.props.StudentDetails.firstName !== null
+            ? this.props.StudentDetails.firstName
+            : null,
+        clientLastName:
+          this.props.StudentDetails.lastName &&
+          this.props.StudentDetails.lastName !== null
+            ? this.props.StudentDetails.lastName
+            : null,
+        fullName:
+          this.props.StudentDetails.fullName &&
+          this.props.StudentDetails.fullName !== null
+            ? this.props.StudentDetails.fullName
+            : null,
+        number:
+          this.props.StudentDetails.phoneNumber &&
+          this.props.StudentDetails.phoneNumber !== null
+            ? this.props.StudentDetails.phoneNumber
+            : null,
+        AltNumber:
+          this.props.StudentDetails.altPhoneNumber &&
+          this.props.StudentDetails.altPhoneNumber !== null
+            ? this.props.StudentDetails.altPhoneNumber
+            : null,
+        email:
+          this.props.StudentDetails.emailId &&
+          this.props.StudentDetails.emailId !== null
+            ? this.props.StudentDetails.emailId
+            : null,
+        altEmail:
+          this.props.StudentDetails.altEmailId &&
+          this.props.StudentDetails.altEmailId !== null
+            ? this.props.StudentDetails.altEmailId
+            : null,
+        apartmentName:
+          this.props.StudentDetails.address.suitNoAnaApartmentName &&
+          this.props.StudentDetails.address.suitNoAnaApartmentName !== null
+            ? this.props.StudentDetails.address.suitNoAnaApartmentName
+            : null,
+        address1:
+          this.props.StudentDetails.address.streetAddress1 &&
+          this.props.StudentDetails.address.streetAddress1 !== null
+            ? this.props.StudentDetails.address.streetAddress1
+            : null,
+        address2:
+          this.props.StudentDetails.address.streetAddress2 &&
+          this.props.StudentDetails.address.streetAddress2 !== null
+            ? this.props.StudentDetails.address.streetAddress2
+            : null,
+        landmark:
+          this.props.StudentDetails.address.landMark &&
+          this.props.StudentDetails.address.landMark !== null
+            ? this.props.StudentDetails.address.landMark
+            : null,
+        pincode:
+          this.props.StudentDetails.address.pinCode &&
+          this.props.StudentDetails.address.pinCode !== null
+            ? this.props.StudentDetails.address.pinCode
+            : null,
+        state:
+          this.props.StudentDetails.address.state &&
+          this.props.StudentDetails.address.state !== null
+            ? this.props.StudentDetails.address.state
+            : null,
+        city:
+          this.props.StudentDetails.address.city &&
+          this.props.StudentDetails.address.city !== null
+            ? this.props.StudentDetails.address.city
+            : null,
+        country:
+          this.props.StudentDetails.address.country &&
+          this.props.StudentDetails.address.country !== null
+            ? this.props.StudentDetails.address.country
+            : null,
+        sgpa:
+          this.props.StudentDetails.uggpa &&
+          this.props.StudentDetails.uggpa !== null
+            ? this.props.StudentDetails.uggpa
+            : null,
+      });
+    }
   }
 
   handleUpdate = () => {
@@ -146,37 +263,50 @@ class UserData extends Component {
     //   this.state.presentSem !== "" &&
     //   this.state.sgpa !== ""
     // ) {
-      let obj = {
-        id: this.props.match.params.id,
-        firstName: this.state.clientFirstName,
-        lastName: this.state.clientLastName,
-        fullName: this.state.fullName,
-        altEmailId: this.state.altEmail,
-        altPhoneNumber: this.state.AltNumber,
-        address: {
-          id: this.props.StudentDetails.address,
-        },
-        department: {
-          id: this.props.StudentDetails.department.id,
-        },
-        ugDegree: {
-          id: this.props.StudentDetails.ugDegree,
-        },
-        college: {
-          id: this.props.StudentDetails.college.id,
-        },
-        university: {
-          id: this.props.StudentDetails.university,
-        },
-        UGGPA: this.props.StudentDetails.uggpa,
-      };
-      this.props.updateUserData(obj)
+    let obj = {
+      id: this.props.match.params.id,
+      firstName: this.state.clientFirstName,
+      lastName: this.state.clientLastName,
+      fullName: this.state.fullName,
+      altEmailId: this.state.altEmail,
+      altPhoneNumber: this.state.AltNumber,
+      address: {
+        city: this.state.city,
+        country: this.state.country,
+        landMark: this.state.landmark,
+        pinCode: this.state.pincode,
+        state: this.state.state,
+        streetAddress1: this.state.address1,
+        streetAddress2: this.state.address2,
+        suitNoAnaApartmentName: this.state.apartmentName,
+      },
+      department: {
+        id: this.state.department.id,
+      },
+      ugDegree: {
+        id: this.state.degree.id,
+      },
+      college: {
+        id: this.state.collegeName.id,
+      },
+      university: {
+        id: this.state.university.id,
+      },
+      UGGPA: this.props.StudentDetails.uggpa,
+    };
+    this.props.updateUserData(obj);
+    this.props.getStudentsById(this.props.match.params.id);
+    this.props.getAllColleges();
+    this.props.getDegree();
+    this.props.getBranches();
     // }
   };
 
   render() {
-    console.log(this.props);
-    console.log(this.props.StudentDetails);
+    console.log(this.props.allCollegeList);
+    console.log(this.props.branchList);
+    console.log(this.props.degreeList);
+    console.log(this.state);
     return (
       <div>
         {/* {this.props.StudentDetails !== null ? this.props.StudentDetails.map(item => ( */}
@@ -191,7 +321,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Client First Name"
-              value={this.props.StudentDetails.firstName || ''}
+              value={this.state.clientFirstName || ""}
               size={"small"}
               name="clientFirstName"
               error={this.state.clientFirstNameErr !== "" ? true : false}
@@ -206,7 +336,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Client Last Name"
-              value={this.props.StudentDetails.lastName || ''}
+              value={this.state.clientLastName || ""}
               size={"small"}
               name="clientLastName"
               error={this.state.clientFirstNameErr !== "" ? true : false}
@@ -221,7 +351,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Full Name"
-              value={this.props.StudentDetails.fullName || ''}
+              value={this.state.fullName || ""}
               size={"small"}
               name="fullName"
               error={this.state.fullNameErr !== "" ? true : false}
@@ -238,7 +368,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Contact Number"
-              value={this.props.StudentDetails.phoneNumber || ''}
+              value={this.state.number || ""}
               size={"small"}
               name="number"
               error={this.state.numberErr !== "" ? true : false}
@@ -253,7 +383,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Alternate Contatct Number"
-              value={this.props.StudentDetails.altPhoneNumber || ''}
+              value={this.state.AltNumber || ""}
               size={"small"}
               name="AltNumber"
               error={this.state.AltNumberErr !== "" ? true : false}
@@ -268,7 +398,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Email Address"
-              value={this.props.StudentDetails.emailId || ''}
+              value={this.state.email || ""}
               size={"small"}
               name="email"
               error={this.state.emailErr !== "" ? true : false}
@@ -283,7 +413,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Alternate Email Address"
-              value={this.props.StudentDetails.altEmailId || ''}
+              value={this.state.altEmail || ""}
               size={"small"}
               name="altEmail"
               error={this.state.altEmailErr !== "" ? true : false}
@@ -313,7 +443,7 @@ class UserData extends Component {
           <Grid item xs={12} md={4}>
             <TextField
               label="Suit No, Apartment Name"
-              value={this.state.apartmentName}
+              value={this.state.apartmentName || ""}
               size={"small"}
               name="apartmentName"
               error={this.state.apartmentNameErr !== "" ? true : false}
@@ -328,7 +458,7 @@ class UserData extends Component {
           <Grid item xs={12} md={8}>
             <TextField
               label="Street Address 1"
-              value={this.state.address1}
+              value={this.state.address1 || ""}
               size={"small"}
               name="address1"
               error={this.state.address1Err !== "" ? true : false}
@@ -343,7 +473,7 @@ class UserData extends Component {
           <Grid item xs={12} md={8}>
             <TextField
               label="Street Address 2"
-              value={this.state.address2}
+              value={this.state.address2 || ""}
               size={"small"}
               name="address2"
               error={this.state.address2Err !== "" ? true : false}
@@ -358,7 +488,7 @@ class UserData extends Component {
           <Grid item xs={12} md={4}>
             <TextField
               label="Land Mark"
-              value={this.state.landmark}
+              value={this.state.landmark || ""}
               size={"small"}
               name="landmark"
               error={this.state.landmarkErr !== "" ? true : false}
@@ -373,7 +503,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Pincode"
-              value={this.state.pincode}
+              value={this.state.pincode || ""}
               size={"small"}
               name="pincode"
               error={this.state.pincodeErr !== "" ? true : false}
@@ -388,7 +518,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="State"
-              value={this.state.state}
+              value={this.state.state || ""}
               size={"small"}
               name="state"
               error={this.state.stateErr !== "" ? true : false}
@@ -403,7 +533,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Current City"
-              value={this.state.city}
+              value={this.state.city || ""}
               size={"small"}
               name="city"
               error={this.state.cityErr !== "" ? true : false}
@@ -418,7 +548,7 @@ class UserData extends Component {
           <Grid item xs={12} md={3}>
             <TextField
               label="Country"
-              value={this.state.country}
+              value={this.state.country || ""}
               size={"small"}
               name="country"
               error={this.state.countryErr !== "" ? true : false}
@@ -440,9 +570,11 @@ class UserData extends Component {
           <Grid item md={2}>
             <Autocomplete
               id="combo-box-demo"
-              // options={this.props.getAllProductFamilyList}
-              // getOptionLabel={(option) => option.productName}
-              // onChange={(e, newValue) => this.setState({ family: newValue })}
+              options={this.props.degreeList}
+              value={this.state.degree}
+              name="ugDegree"
+              onChange={(e, newValue) => this.setState({ degree: newValue })}
+              getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField {...params} label="UG Degree" variant="standard" />
               )}
@@ -451,9 +583,17 @@ class UserData extends Component {
           <Grid item md={2}>
             <Autocomplete
               id="combo-box-demo"
-              // options={this.props.getAllProductFamilyList}
-              // getOptionLabel={(option) => option.productName}
-              // onChange={(e, newValue) => this.setState({ family: newValue })}
+              value={this.state.collegeName}
+              name="college"
+              onChange={(e, newValue) =>
+                this.setState({ collegeName: newValue })
+              }
+              options={
+                this.props.allCollegeList.length !== 0
+                  ? this.props.allCollegeList
+                  : []
+              }
+              getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -466,23 +606,23 @@ class UserData extends Component {
           <Grid item md={2}>
             <Autocomplete
               id="combo-box-demo"
-              // options={this.props.getAllProductFamilyList}
-              // getOptionLabel={(option) => option.productName}
-              // onChange={(e, newValue) => this.setState({ family: newValue })}
+              options={this.props.branchList}
+              value={this.state.department}
+              name="department"
+              onChange={(e, newValue) =>
+                this.setState({ department: newValue })
+              }
+              getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField {...params} label="Department" variant="standard" />
               )}
             />
           </Grid>
           <Grid item xs={12} md={2} sm={2} lg={2} xl={2}>
-            <TextField
-              label="Present Semester"
-              size={"small"}
-              fullWidth
-            />
+            <TextField label="Present Semester" size={"small"} fullWidth />
           </Grid>
           <Grid item md={2}>
-            <Autocomplete
+            {/* <Autocomplete
               id="combo-box-demo"
               // options={this.props.getAllProductFamilyList}
               // getOptionLabel={(option) => option.productName}
@@ -490,6 +630,19 @@ class UserData extends Component {
               renderInput={(params) => (
                 <TextField {...params} label="SGPA" variant="standard" />
               )}
+            /> */}
+            <TextField
+              label="SGPA"
+              value={this.state.sgpa || ""}
+              size={"small"}
+              name="uggpa"
+              error={this.state.sgpaErr !== "" ? true : false}
+              onChange={(e) => {
+                this.setState({ hlpTxt: "", sgpaErr: "" });
+                this.setState({ sgpa: e.target.value });
+              }}
+              helperText={this.state.sgpaErr}
+              fullWidth
             />
           </Grid>
           <Grid item md={12} align="center">
@@ -515,10 +668,18 @@ const mapStateToProps = (state) => {
       state.StudentReducer.getUserDataAcademicInfo,
     StudentDetails: state.StudentReducer.StudentList,
     updateUserDataList: state.StudentReducer.updateUserData,
+    allCollegeList: state.CollegeReducer.allCollegeList,
+    universityList: state.CollegeReducer.University,
+    degreeList: state.CollegeReducer.Degree,
+    branchList: state.CollegeReducer.BranchList,
   };
 };
 export default connect(mapStateToProps, {
   getUserDataAcademicInfo,
   getStudentsById,
   updateUserData,
+  getAllColleges,
+  getUniversity,
+  getDegree,
+  getBranches,
 })(UserData);
