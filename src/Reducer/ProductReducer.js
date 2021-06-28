@@ -41,7 +41,9 @@ const initialState = {
   addProductPunching : [],
   publishvarient:[],
   comboexcel:[],
-  varientexcel:[]
+  varientexcel:[],
+  getpunchingdata:[],
+  postpunchingdata:[]
 };
 
 export default (state = initialState, action) => {
@@ -238,6 +240,16 @@ export default (state = initialState, action) => {
                   ...state,
                   varientexcel: action.payload,
                 };
+                case PRODUCT.getpunchingdata:
+                  return {
+                    ...state,
+                    getpunchingdata: action.payload,
+                  };
+                  case PRODUCT.postpunchingdata:
+                    return {
+                      ...state,
+                      postpunchingdata: action.payload,
+                    };
     default:
       break;
   }

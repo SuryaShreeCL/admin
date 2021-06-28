@@ -172,6 +172,8 @@ export const PRODUCT = {
   publishvarient : "publishvarient",
   comboexcel:"comboexcel",
   varientexcel:"varientexcel",
+  getpunchingdata:"getpunchingdata",
+  postpunchingdata:"postpunchingdata",
   getUserDataAcademicInfo: 'getUserDataAcademicInfo'
 };
 
