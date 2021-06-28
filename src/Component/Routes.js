@@ -24,6 +24,7 @@ import {
   studentIdPath,
   studentPath,
   coursePath,
+  wallPath,
   addCoursePath,
   testimonialsPath,
   editCoursePath,
@@ -70,6 +71,7 @@ import Video from './Video/Video';
 import Product from './Product/ProductLanding';
 import TestimonialDashboard from './Testimonials/TestimonialDashboard';
 import Webinar from './Webinar/Webinar';
+import WallLanding from './Wall/WallLanding'
 import CareerTrack from './CareerTrack/Index';
 import CareerTrackVideoSet from './CareerTrack/CareerTrackVideoSet';
 import CareerTrackVideo from './CareerTrack/CareerTrackVideo';
@@ -87,7 +89,7 @@ import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 export default function Routes(props) {
   return (
-    
+
         <Switch>
             {/* <Route restricted={false} exact path="/" component={Login} /> */}
             <Route exact path={studentPath} render={(props)=> <StudentHome {...props} />} />
@@ -99,6 +101,7 @@ export default function Routes(props) {
             <Route exact path={universityPath} render={(props)=> <University {...props} />} />
             <Route exact path={studentIdPath+'/:id'} render={(props)=> <Student_data {...props} />} />
             <Route exact path={loginPath} render={(props)=> <MLogin {...props} />} />
+            <Route exact path={wallPath} render={(props)=> <WallLanding {...props} />} />
             <Route exact path={personelInfoPath} render={(props)=> <Personal_information {...props} />} />
             <Route exact path={curatedPath} render={(props)=> <Curated_Course {...props} />} />
             <Route exact path={questionBankPath} render={(props)=> <QuestionBank {...props} />} />
