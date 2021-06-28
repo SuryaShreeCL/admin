@@ -132,9 +132,9 @@ class UserData extends Component {
             ? this.props.StudentDetails.altEmailId
             : null,
         apartmentName:
-          this.props.StudentDetails.address.suitNoAnaApartmentName &&
-          this.props.StudentDetails.address.suitNoAnaApartmentName !== null
-            ? this.props.StudentDetails.address.suitNoAnaApartmentName
+          this.props.StudentDetails.address.suitNoAndApartmentName &&
+          this.props.StudentDetails.address.suitNoAndApartmentName !== null
+            ? this.props.StudentDetails.address.suitNoAndApartmentName
             : null,
         address1:
           this.props.StudentDetails.address.streetAddress1 &&
@@ -278,7 +278,7 @@ class UserData extends Component {
         state: this.state.state,
         streetAddress1: this.state.address1,
         streetAddress2: this.state.address2,
-        suitNoAnaApartmentName: this.state.apartmentName,
+        suitNoAndApartmentName: this.state.apartmentName,
       },
       department: {
         id: this.state.department.id,
