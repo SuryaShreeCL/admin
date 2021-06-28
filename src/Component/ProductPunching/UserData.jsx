@@ -274,11 +274,11 @@ class UserData extends Component {
         city: this.state.city,
         country: this.state.country,
         landMark: this.state.landmark,
-        pinCode: this.state.pincode,
+        pincode: this.state.pincode,
         state: this.state.state,
-        streetAddress1: this.state.address1,
-        streetAddress2: this.state.address2,
-        suitNoAndApartmentName: this.state.apartmentName,
+        streetAddressOne: this.state.address1,
+        streetAddressTwo: this.state.address2,
+        suitNoApartmentNo: this.state.apartmentName,
       },
       department: {
         id: this.state.department.id,
@@ -294,6 +294,7 @@ class UserData extends Component {
       },
       UGGPA: this.props.StudentDetails.uggpa,
     };
+
     this.props.updateUserData(obj);
     this.props.getStudentsById(this.props.match.params.id);
     this.props.getAllColleges();
@@ -307,6 +308,7 @@ class UserData extends Component {
     console.log(this.props.branchList);
     console.log(this.props.degreeList);
     console.log(this.state);
+    console.log(this.props.match.params.id)
     return (
       <div>
         {/* {this.props.StudentDetails !== null ? this.props.StudentDetails.map(item => ( */}
