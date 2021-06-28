@@ -25,7 +25,29 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import Content from './Content';
 import history from './History';
-import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath } from './RoutePaths';
+import {
+  rootPath,
+  rootLoginPath,
+  coursePath,
+  studentPath,
+  departmentPath,
+  collegePath,
+  universityPath,
+  cityPath,
+  aspirationPath,
+  questionSetPath,
+  videoPath,
+  wallPath,
+  productPath,
+  webinarPath,
+  careerTrackPath,
+  notificationPath,
+  testimonialsPath,
+  reportsPath,
+  productBasedPath,
+  starterPackPath,
+  productPunchingPath,
+} from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -39,35 +61,34 @@ import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded';
 import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
+import InstagramIcon from '@material-ui/icons/Instagram';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 import CallIcon from '@material-ui/icons/Call';
 import Routes from './Routes';
 
-
 const drawerWidth = 240;
 const NavbarList = [
-      {id: coursePath, icon: <MenuBookRoundedIcon />, title: 'Courses' },
-      {id: studentPath, icon: <PeopleIcon />, title: 'Students' },
-      {id: departmentPath, icon: <DnsRoundedIcon />, title: 'Departments' },    
-      {id: collegePath, icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
-      {id: universityPath, icon:<SchoolRoundedIcon />, title:'University'},
-      {id: cityPath, icon:<LocationCityRoundedIcon />, title:'City'},
-      {id: aspirationPath, icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
-      {id: questionSetPath, icon:<HelpRoundedIcon />, title:'Question Set'},
-      {id: videoPath, icon:<VideocamRoundedIcon />, title:'Video'},
-      {id: productPath, icon:<AddShoppingCartRoundedIcon />, title:'Product'},
-      {id: webinarPath, icon:<SupervisorAccountIcon />, title:'Webinar'},
-      {id: careerTrackPath, icon:<TrendingUpRoundedIcon />, title:'Career Track'},
-      {id: notificationPath, icon:<NotificationsIcon /> , title:'Notification'},
-       { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
-      {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
-      {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
-      {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
-      // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
-      // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
-      
-    ];
-
+  { id: coursePath, icon: <MenuBookRoundedIcon />, title: 'Courses' },
+  { id: studentPath, icon: <PeopleIcon />, title: 'Students' },
+  { id: departmentPath, icon: <DnsRoundedIcon />, title: 'Departments' },
+  { id: collegePath, icon: <AccountBalanceRoundedIcon />, title: 'Colleges' },
+  { id: universityPath, icon: <SchoolRoundedIcon />, title: 'University' },
+  { id: cityPath, icon: <LocationCityRoundedIcon />, title: 'City' },
+  { id: aspirationPath, icon: <SportsHandballRoundedIcon />, title: 'Aspiration' },
+  { id: questionSetPath, icon: <HelpRoundedIcon />, title: 'Question Set' },
+  { id: wallPath, icon: <InstagramIcon />, title: 'Wall' },
+  { id: videoPath, icon: <VideocamRoundedIcon />, title: 'Video' },
+  { id: productPath, icon: <AddShoppingCartRoundedIcon />, title: 'Product' },
+  { id: webinarPath, icon: <SupervisorAccountIcon />, title: 'Webinar' },
+  { id: careerTrackPath, icon: <TrendingUpRoundedIcon />, title: 'Career Track' },
+  { id: notificationPath, icon: <NotificationsIcon />, title: 'Notification' },
+  { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
+  { id: reportsPath, icon: <AssessmentRoundedIcon />, title: 'Reports' },
+  { id: 'schedule', icon: <CallIcon />, title: 'Call Schedule' },
+  { id: productPunchingPath, icon: <SupervisorAccountIcon />, title: 'Product Punching' },
+  // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
+  // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
+];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -164,16 +185,16 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
-    MuiFormControl : {
-      marginNormal : {
-        marginTop : 0,
-        marginBottom : 0,
+    MuiFormControl: {
+      marginNormal: {
+        marginTop: 0,
+        marginBottom: 0,
       },
     },
-    MuiListItem : {
-      root : {
-        "&$selected" : {
-          backgroundColor : '#009be5'
+    MuiListItem: {
+      root: {
+        '&$selected': {
+          backgroundColor: '#009be5',
         },
       },
     },
@@ -235,7 +256,7 @@ export default function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [selectedMenu, setSelectedMenu] = React.useState(null)
+  const [selectedMenu, setSelectedMenu] = React.useState(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -250,7 +271,7 @@ export default function RootContainer(props) {
     props.history.push(rootLoginPath);
   };
 
-  console.log("........",history)
+  console.log('........', history);
 
   return (
     <ThemeProvider theme={theme}>
@@ -309,17 +330,17 @@ export default function RootContainer(props) {
           </div>
           <Divider />
           <List>
-            {NavbarList.map((Item,index) => (
+            {NavbarList.map((Item, index) => (
               <ListItem
-              selected={selectedMenu === index}
+                selected={selectedMenu === index}
                 button
                 key={Item.id}
                 onClick={() => {
-                  setSelectedMenu(index)
+                  setSelectedMenu(index);
                   props.history.push(Item.id);
                 }}
               >
-                <ListItemIcon  className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
+                <ListItemIcon className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
                 <ListItemText primary={Item.title} />
               </ListItem>
             ))}

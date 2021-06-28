@@ -4,7 +4,7 @@ export const port = 'http://localhost:8080';
 export const rootPath = '/admin';
 export const rootLoginPath = rootPath.concat('/login');
 export const studentPath = rootPath.concat('/students');
-export const studentIdPath = studentPath
+export const studentIdPath = studentPath;
 export const departmentPath = rootPath.concat('/departments');
 export const collegePath = rootPath.concat('/college');
 export const coursePath = rootPath.concat('/courses');
@@ -32,18 +32,16 @@ export const careerTrackPath = rootPath.concat('/career-track');
 export const careerTrackVideoSetPath = rootPath.concat('/career-track/videoset/');
 export const careerTrackVideoPath = rootPath.concat('/career-track/videoset/video/');
 export const callSchedulePath = rootPath.concat('/schedule');
-export const productBasedPath = rootPath.concat("/based")
-export const starterPackPath = rootPath.concat("/starterPack")
-export const productVariantPath = rootPath.concat("/product/variant")
+export const productBasedPath = rootPath.concat('/based');
+export const wallPath = rootPath.concat('/wall');
+export const starterPackPath = rootPath.concat('/starterPack');
+export const productVariantPath = rootPath.concat('/product/variant');
 export const productPunchingPath = rootPath.concat('/productpunching');
-export const productcomboPath = rootPath.concat("/productcombo")
+export const productcomboPath = rootPath.concat('/productcombo');
 export const productuserPunchingPath = rootPath.concat('/productpunching/');
-
-
 
 // Rengine another version path
 
 export const loginPath = rootPath.concat('/Mlogin');
 export const curatedPath = rootPath.concat('/curatedCourse');
 export const personelInfoPath = rootPath.concat('/personalInfo');
-
