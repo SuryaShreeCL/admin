@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import Employees from './pages/Testimonials';
+import Testimonials from './Testimonials';
 
 const theme = createMuiTheme({
   palette: {
@@ -26,7 +26,7 @@ const theme = createMuiTheme({
 function TestimonialDashboard() {
   return (
     <ThemeProvider theme={theme}>
-      <Employees />
+      <Testimonials />
     </ThemeProvider>
   );
 }

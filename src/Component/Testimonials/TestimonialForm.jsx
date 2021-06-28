@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import Controls from '../components/controls/Controls';
+import Controls from '../Utils/controls/Controls';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import LabelledOutline from '../components/controls/LabelledOutline';
+import LabelledOutline from '../Utils/controls/LabelledOutline';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { makeStyles } from '@material-ui/styles';
 import { Formik, FieldArray, Field, Form } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { getBranches, getAllColleges } from '../../../Actions/College';
-import { viewCollege } from '../../../Actions/Aspiration';
+import { getBranches, getAllColleges } from '../../Actions/College';
+import { viewCollege } from '../../Actions/Aspiration';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';

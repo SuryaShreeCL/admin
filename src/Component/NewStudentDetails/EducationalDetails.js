@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import Loader from "../Testimonials/components/controls/Loader";
+import Loader from '../Utils/controls/Loader';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   getAllColleges,
