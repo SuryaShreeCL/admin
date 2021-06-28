@@ -752,3 +752,39 @@ export const addProductPunching = (data) => {
       });
   };
 };
+export const getpunchingdata = (id) => {
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/get/allocate/student/product/"+id, {
+        crossDomain: true,
+      })
+      .then((result) => {
+        dispatch({
+          type: PRODUCT.getpunchingdata,
+          getpunchingdata: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+export const postpunchingdata = (data) => {
+  return (dispatch) => {
+    axios
+      .post(URL + "/api/v1/save/student/product",data, {
+        crossDomain: true,
+      })
+      .then((result) => {
+        dispatch({
+          type: PRODUCT.postpunchingdata,
+          postpunchingdata: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};

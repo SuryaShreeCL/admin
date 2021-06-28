@@ -6,8 +6,11 @@ import {
   getAllProductFamily,
   getProductByFamilyId,
   updateProductPunching,
+  getpunchingdata,
+  postpunchingdata,
 } from "../../Actions/ProductAction";
 import { connect } from "react-redux";
+import MySnackBar from "../MySnackBar";
 
 class ProductPunching extends Component {
   constructor(props) {
@@ -16,20 +19,43 @@ class ProductPunching extends Component {
     this.state = {
       family: null,
       varient: null,
+      familyErr: "",
+      varientErr: "",
       id: "",
       punching: [],
+      idarr: [],
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
     };
   }
 
   componentDidMount() {
     this.props.getAllProductFamily();
+    this.props.getpunchingdata(this.props.match.params.id);
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
       this.props.getProductByFamilyId(this.state.family.id);
     }
+    if (
+      this.props.updateProductPunchingList !==
+      prevProps.updateProductPunchingList
+    ) {
+      this.props.getpunchingdata(this.props.match.params.id);
+    }
+    if (this.props.postpunchingdataList !== prevProps.postpunchingdataList) {
+      this.props.getpunchingdata(this.props.match.params.id);
+    }
   }
   handleAdd = () => {
+    let hlptxt = " Please fill the required field";
+    this.state.varient === null
+      ? this.setState({ varientErr: hlptxt })
+      : this.setState({ varientErr: "" });
+    this.state.family === null
+      ? this.setState({ familyErr: hlptxt })
+      : this.setState({ familyErr: "" });
     if (this.state.varient !== null) {
       let arr = this.state.punching;
       arr.push({
@@ -51,67 +77,74 @@ class ProductPunching extends Component {
   };
 
   handleUpdate = () => {
-    let arr=[]
+    let arr = [];
+    let req = [];
     for (const [key, value] of Object.entries(this.state)) {
-      if(key.startsWith("pay")){
-        let provider = key.substring(key.indexOf("_")+2,key.indexOf("_"))
-        // let period = key.substring(key.indexOf("-")+1,key.length)
-        // console.log(key.substring(key.indexOf("_")+1,key.indexOf("_")))
-        if(key.substring(key.indexOf("_")+2,key.indexOf("_")) === "_i"){
-         let id = this.state.punching.map(item => item.id)
-         console.log(id)
-        //  let obj = {
-        //   id : id,
-        //   paymentProvider : value,
-        //   paymentId : value,
-        //          }
+      if (key.startsWith("pay")) {
+        // let provider = key.substring(key.lastIndexOf("_"),key.indexOf("_"))
+        let a = key.substring(key.lastIndexOf("_") + 1, key.length);
+        console.log(a, "hello");
+        let obj = {
+          [key.substring(0, key.lastIndexOf("_"))]: value,
+          productId: a,
+        };
+        let payarr = arr.findIndex((item) => item.productId === obj.productId);
+        console.log(payarr);
+        if (payarr !== -1) {
+          arr[payarr] = {
+            ...arr[payarr],
+            ...obj,
+          };
+        } else {
+          arr.push(obj);
         }
-        
-        arr.push({key : key,value:value})
-        console.log(provider)
-        // console.log(obj)
-        console.log(key,value)
+        console.log(obj);
+        // if(key.substring(key.indexOf("_")+2,key.indexOf("_")) === "_i"){
+        //  let idarray = this.state.punching.map(item =>  {
+        //   return { id: item.id};
+        // })
       }
     }
-    console.log(arr)
-      console.log(this.state)
-       let obj ={
-        "studentId":this.props.match.params.id,
-        "productPaymentModels": [
-            {
-                "productId": this.state.varient,
-                "paymentProvider": "RazorPay",
-                "paymentId": "54"
-            },
-             {
-                "productId": "2",
-                "paymentProvider": "RazorPay",
-                "paymentId": "44"
-            },
-             {
-                "productId": "3",
-                "paymentProvider": "RazorPay",
-                "paymentId": "44"
-            }
-        ]
-       }
-       
-      // } 
-      console.log("updated");
+    console.log(arr);
+    arr.map((data) =>
+      req.push({
+        paymentProvider: data.payment_provider,
+        paymentId: data.payment_id,
+        productId: data.productId,
+      })
+    );
+    console.log(req);
+    if(req.length !== 0){
+      let obj = {
+        studentId: this.props.match.params.id,
+        productPaymentModels: req,
+      };
+      this.props.updateProductPunching(obj);
+      let postdata = {
+        studentId: this.props.match.params.id,
+        productPaymentModels: req,
+      };
+      this.props.postpunchingdata(postdata);
+      this.setState({
+        snackMsg: "Updated Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+      });
     }
     
-  
+  };
+
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
     console.log(this.props.match.params.id);
-    console.log(this.state)
-    
+    console.log(this.state);
+
     return (
-      <div>
-        <Grid container spacing={2}>
+      <div> 
+         <Grid container spacing={2}>
           <Grid item md={4}>
             <Autocomplete
               id="combo-box-demo"
@@ -123,6 +156,8 @@ class ProductPunching extends Component {
                   {...params}
                   label="Select Product Family"
                   variant="standard"
+                  error={this.state.familyErr.length > 0}
+                  helperText={this.state.familyErr}
                 />
               )}
             />
@@ -138,6 +173,8 @@ class ProductPunching extends Component {
                   {...params}
                   label="Select Product Varient"
                   variant="standard"
+                  error={this.state.varientErr.length > 0}
+                  helperText={this.state.varientErr}
                 />
               )}
             />
@@ -240,7 +277,7 @@ class ProductPunching extends Component {
                   name={"payment_provider_" + data.id}
                   // name="payment_provider_"
                   // value={this.state.payment_provider_}
-                  onChange={(e) =>this.handleChange(e)}
+                  onChange={(e) => this.handleChange(e)}
                 />
               </Grid>
               <Grid item md={4}>
@@ -248,9 +285,9 @@ class ProductPunching extends Component {
                   // disabled
                   label="Payment ID"
                   name={"payment_id_" + data.id}
-                  // name="payment_id"
+                  type="number"
                   // value={this.state.payment_id}
-                  onChange={(e)=>this.handleChange(e)}
+                  onChange={(e) => this.handleChange(e)}
                 />
               </Grid>
               <Grid item md={2}></Grid>
@@ -276,6 +313,12 @@ class ProductPunching extends Component {
             </PrimaryButton>
           </Box>
         </Grid>
+        <MySnackBar
+          snackMsg={this.state.snackMsg}
+          snackVariant={this.state.snackVariant}
+          snackOpen={this.state.snackOpen}
+          onClose={() => this.setState({ snackOpen: false })}
+        />
       </div>
     );
   }
@@ -287,6 +330,8 @@ const mapStateToprops = (state) => {
     getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
     getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
     updateProductPunchingList: state.ProductReducer.updateProductPunching,
+    getpunchingdataList: state.ProductReducer.getpunchingdata,
+    postpunchingdataList: state.ProductReducer.postpunchingdata,
   };
 };
 
@@ -294,4 +339,6 @@ export default connect(mapStateToprops, {
   getAllProductFamily,
   getProductByFamilyId,
   updateProductPunching,
+  getpunchingdata,
+  postpunchingdata,
 })(ProductPunching);
