@@ -55,7 +55,8 @@ import {
   productVariantPath,
   productPunchingPath,
   productcomboPath,
-  productuserPunchingPath
+  productuserPunchingPath,
+  productstructurePath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -85,6 +86,7 @@ import StarterPack from './ProductBased/StarterPack';
 import ProductPunching from './ProductPunching/ProductPunchingLanding'
 import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
+import ProductStages from './Product/ProductStages';
 export default function Routes(props) {
   return (
     
@@ -124,6 +126,7 @@ export default function Routes(props) {
             <Route exact path={productPunchingPath} render={(props)=> <Student {...props} />} />
             <Route exact path={productcomboPath} render={(props)=> <ProductComboForm {...props} />} />
             <Route exact path={productuserPunchingPath.concat(':id')} render={(props)=> <ProductPunchingLanding {...props} />} />
+            <Route exact path={productstructurePath.concat(':id')} render={(props)=> <ProductStages {...props} />} />
 
             <Route
               exact
