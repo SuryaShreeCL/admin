@@ -27,6 +27,8 @@ export const Post = styled.div`
   .Poster {
     img {
       max-width: 100%;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
   }
   .CaptionContainer {
