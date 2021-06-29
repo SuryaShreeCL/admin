@@ -17,6 +17,7 @@ import {
   getproductstructure,
   postproductstructure,
   putproductstructure,
+  getProductVarient
 } from "../../Actions/ProductAction";
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -57,8 +58,9 @@ class ProductStructure extends Component {
   }
   componentDidMount() {
     this.props.getproductstructure();
+    this.props.getProductVarient();
   }
- handleClick=()=>{
+ handleClick=(data)=>{
      this.setState({
          open:true
      })
@@ -91,6 +93,7 @@ handelAdd=()=>{
         // this.props.postproductstructure(obj)
 }
   render() {
+      console.log(this.props.getProductVarientList)
     return (
       <div>
         <div
@@ -131,7 +134,7 @@ handelAdd=()=>{
                 <PrimaryButton
                   color={"primary"}
                   variant={"contained"}
-                  onClick={() => this.handleClick()}
+                  onClick={(e) => this.handleClick(e)}
                 >
                   Manage
                 </PrimaryButton>
@@ -149,6 +152,7 @@ handelAdd=()=>{
               <Grid item md={6}>
                 <TextField
                   name="stepname"
+                  fullWidth
                   value={this.state.stepname}
                   label="Step Name"
                   error={this.state.stepnameErr.length > 0}
@@ -159,6 +163,7 @@ handelAdd=()=>{
               <Grid item md={6}>
                 <TextField
                   name="description"
+                  fullWidth
                   value={this.state.description}
                   label="Description"
                   error={this.state.descriptionErr.length > 0}
@@ -185,6 +190,7 @@ handelAdd=()=>{
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     margin="normal"
+                    fullWidth
                     id="date-picker-dialog"
                     label="Date picker dialog"
                     format="MM"
@@ -203,6 +209,7 @@ handelAdd=()=>{
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     margin="normal"
+                    fullWidth
                     id="date-picker-dialog"
                     label="Date picker dialog"
                     format="MM"
@@ -220,6 +227,7 @@ handelAdd=()=>{
               <Grid item md={6}>
                 <TextField
                   name="href"
+                  fullWidth
                   value={this.state.href}
                   label="Image"
                   error={this.state.hrefErr.length > 0}
@@ -230,6 +238,7 @@ handelAdd=()=>{
               <Grid item md={6}>
                 <TextField
                   name="image"
+                  fullWidth
                   value={this.state.image}
                   label="Image"
                   error={this.state.imageErr.length > 0}
@@ -240,6 +249,7 @@ handelAdd=()=>{
               <Grid item md={6}>
                 <TextField
                   name="lockimage"
+                  fullWidth
                   value={this.state.lockimage}
                   label="Lockimage"
                   error={this.state.lockimageErr.length > 0}
@@ -252,6 +262,7 @@ handelAdd=()=>{
                   name="maxtat"
                   value={this.state.maxtat}
                   label="Maxtat"
+                  fullWidth
                   error={this.state.maxtatErr.length > 0}
                   helperText={this.state.maxtatErr}
                   onChange={(e) => this.setState({ maxtat: e.target.value })}
@@ -262,6 +273,7 @@ handelAdd=()=>{
                   name="mintat"
                   value={this.state.mintat}
                   label="Mintat"
+                  fullWidth
                   error={this.state.mintatErr.length > 0}
                   helperText={this.state.mintatErr}
                   onChange={(e) => this.setState({ mintat: e.target.value })}
@@ -272,6 +284,7 @@ handelAdd=()=>{
                   name="rank"
                   value={this.state.rank}
                   label="Rank"
+                  fullWidth
                   error={this.state.rankErr.length > 0}
                   helperText={this.state.rankErr}
                   onChange={(e) => this.setState({ rank: e.target.value })}
@@ -280,10 +293,15 @@ handelAdd=()=>{
               <Grid item md={6}>
               <Autocomplete
                 id="combo-box-demo"
-                // options={top100Films}
-                // getOptionLabel={(option) => option.title}
-                // style={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="Product" variant="standard" />}
+                fullWidth
+                options={this.props.getProductVarientList}
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) =>
+                <TextField {...params} 
+                 label="Product"
+                 variant="standard"
+                />
+                 }
                 />
               </Grid>
               <Grid item md={12} align="center">
@@ -307,6 +325,7 @@ const mapStateToProps = (state) => {
     getproductstructureList: state.ProductReducer.getproductstructure,
     postproductstructureList: state.ProductReducer.postproductstructure,
     putproductstructureList: state.ProductReducer.putproductstructure,
+    getProductVarientList : state.ProductReducer.getProductVarient
   };
 };
 
@@ -314,4 +333,5 @@ export default connect(mapStateToProps, {
   getproductstructure,
   postproductstructure,
   putproductstructure,
+  getProductVarient
 })(ProductStructure);
