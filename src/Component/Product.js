@@ -152,8 +152,8 @@ function Product(props) {
                             <Grid item md={12} sm={12} xs={12}>
                             <Autocomplete
                         id="tags-outlined"
-                        options={props.productFamilyList !== undefined ? props.productFamilyList : ""}
-                        getOptionLabel={(option) => option.productName}
+                        options={props.productFamilyList !== undefined ? props.productFamilyList : []}
+                        getOptionLabel={(option) => option.productName === null ? "" : option.productName}
                         filterSelectedOptions
                         onChange={(event,newValue)=>productFamilyChangeHandler(newValue)}
                         renderInput={(params) => (
@@ -201,11 +201,12 @@ function Product(props) {
     )
 }
 const mapStateToProps=(state)=>{
+    console.log(state.ProductReducer)
     return {
         viewProductList: state.ProductReducer.viewProductList,
         studentProductList : state.ProductReducer.studentProductList,
         productFamilyList : state.ProductReducer.getAllProductFamily,
-        productVariantList : state.ProductReducer.productVariantList,
+        productVariantList : state.ProductReducer.getProductByFamilyId,
         addProductToStudentResponse : state.ProductReducer.addProductToStudentResponse
     }
 }
