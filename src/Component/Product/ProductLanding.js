@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Product from './Product';
 import ProductVariant from "./ProductVarient"
 import ProductCombo from './ProductCombo';
+import ProductStructure from './ProductStructure';
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -77,6 +78,10 @@ const AntTabs = withStyles({
         return (
           <ProductCombo  {...this.props} />
         );
+      }else if (value === 3) {
+        return (
+          <ProductStructure  {...this.props} />
+        );
       }
      } catch (error) {
        console.log(error);
@@ -102,6 +107,7 @@ const AntTabs = withStyles({
              <AntTab label="Product Family" />
              <AntTab label="Product Variant" />
              <AntTab label="Product Combo" />
+             <AntTab label="Product Structure" />
            </AntTabs>
          </Grid>
          <Grid item md={12}>

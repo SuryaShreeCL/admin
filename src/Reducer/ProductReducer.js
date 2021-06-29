@@ -43,7 +43,10 @@ const initialState = {
   comboexcel:[],
   varientexcel:[],
   getpunchingdata:[],
-  postpunchingdata:[]
+  postpunchingdata:[],
+  getproductstructure:[],
+  postproductstructure:[],
+  putproductstructure:[]
 };
 
 export default (state = initialState, action) => {
@@ -250,6 +253,21 @@ export default (state = initialState, action) => {
                       ...state,
                       postpunchingdata: action.payload,
                     };
+                    case PRODUCT.getproductstructure:
+                      return {
+                        ...state,
+                        getproductstructure: action.payload,
+                      };
+                      case PRODUCT.postproductstructure:
+                        return {
+                          ...state,
+                          postproductstructure: action.payload,
+                        };
+                        case PRODUCT.putproductstructure:
+                          return {
+                            ...state,
+                            putproductstructure: action.payload,
+                          };
     default:
       break;
   }

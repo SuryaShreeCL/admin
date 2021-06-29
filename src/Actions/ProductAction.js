@@ -716,10 +716,15 @@ export const updateProductTnC = (data) => {
 };
 
 export const updateProductPunching = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .put(URL + "/api/v1/update/student/product", data, {
         crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then((result) => {
         dispatch({
@@ -735,10 +740,15 @@ export const updateProductPunching = (data) => {
 };
 
 export const addProductPunching = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .put(URL + "/api/v1/save/student/product", data, {
         crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then((result) => {
         dispatch({
@@ -753,10 +763,15 @@ export const addProductPunching = (data) => {
   };
 };
 export const getpunchingdata = (id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .get(URL + "/api/v1/get/allocate/student/product/"+id, {
         crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then((result) => {
         dispatch({
@@ -771,10 +786,15 @@ export const getpunchingdata = (id) => {
   };
 };
 export const postpunchingdata = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .post(URL + "/api/v1/save/student/product",data, {
         crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then((result) => {
         dispatch({
@@ -788,3 +808,74 @@ export const postpunchingdata = (data) => {
       });
   };
 };
+export const getproductstructure = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/get/all/steps", {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: PRODUCT.getproductstructure,
+          payload: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+export const postproductstructure = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .post(URL + "/api/v1/create/productVarient/steps",data, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: PRODUCT.postproductstructure,
+          payload: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+export const putproductstructure = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .put(URL + "/api/v1/update/productVarient/steps",data, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: PRODUCT.putproductstructure,
+          payload: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+

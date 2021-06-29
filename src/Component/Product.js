@@ -95,6 +95,8 @@ function Product(props) {
        
       }
       console.log(props.studentProductList)
+      console.log(props.productFamilyList)
+      console.log(props.productVariantList)
 
     return (
         <div>
@@ -150,7 +152,7 @@ function Product(props) {
                             <Grid item md={12} sm={12} xs={12}>
                             <Autocomplete
                         id="tags-outlined"
-                        options={props.productFamilyList}
+                        options={props.productFamilyList !== undefined ? props.productFamilyList : ""}
                         getOptionLabel={(option) => option.productName}
                         filterSelectedOptions
                         onChange={(event,newValue)=>productFamilyChangeHandler(newValue)}
@@ -164,7 +166,7 @@ function Product(props) {
                         )}
                     />
                             </Grid>
-                            {props.productVariantList.map((eachProduct,index)=>{
+                            {props.productVariantList !== undefined && props.productVariantList.map((eachProduct,index)=>{
                                 return (
                                     <>
                             <Grid item md={8} sm={8} xs={8}>
@@ -202,7 +204,7 @@ const mapStateToProps=(state)=>{
     return {
         viewProductList: state.ProductReducer.viewProductList,
         studentProductList : state.ProductReducer.studentProductList,
-        productFamilyList : state.ProductReducer.productFamilyList,
+        productFamilyList : state.ProductReducer.getAllProductFamily,
         productVariantList : state.ProductReducer.productVariantList,
         addProductToStudentResponse : state.ProductReducer.addProductToStudentResponse
     }

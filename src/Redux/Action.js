@@ -174,6 +174,9 @@ export const PRODUCT = {
   varientexcel:"varientexcel",
   getpunchingdata:"getpunchingdata",
   postpunchingdata:"postpunchingdata",
+  putproductstructure : "putproductstructure",
+  getproductstructure : "getproductstructure",
+  postproductstructure : "postproductstructure",
   getUserDataAcademicInfo: 'getUserDataAcademicInfo'
 };
 

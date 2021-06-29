@@ -92,7 +92,7 @@ class ProductCombo extends Component {
               validity={item.validity}
               createdat={item.dateOfCreation}
               createdby={item.createdBy}
-              product={item.products.map(item1=>item1.name.concat(","))}
+              product={item.products.map(item1=>item1.name+",")}
             />
             </Grid>
              ) : null } 
