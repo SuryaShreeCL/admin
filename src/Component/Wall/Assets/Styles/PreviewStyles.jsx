@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const PreviewContainer = styled.section`
-  background: #fff;
   padding: 3rem 2rem;
+  max-width: 500px;
 `;
 
 export const Frame = styled.div`

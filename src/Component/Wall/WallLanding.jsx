@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
-import { connect } from 'react-redux';
 import LivePost from './Pages/LivePost';
 import DraftPost from './Pages/DraftPost';
 import ScheduledPost from './Pages/ScheduledPost';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 
-const WallLanding = (props) => {
+const WallLanding = () => {
   const [tabCount, setTabCount] = useState(0);
 
   const renderContent = (value) => {
     try {
       if (value === 0) {
-        return <LivePost {...props} />;
+        return <LivePost />;
       } else if (value === 1) {
-        return <DraftPost {...props} />;
+        return <DraftPost />;
       } else if (value === 2) {
-        return <ScheduledPost {...props} />;
+        return <ScheduledPost />;
       }
     } catch (error) {
       console.log(error);

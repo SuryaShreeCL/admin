@@ -55,4 +55,8 @@ export const Container = styled.section`
   padding: 2rem;
   box-shadow: 0px 3px 20px rgba(0, 65, 130, 0.15);
   border-radius: 12px;
+
+  .MuiPaper-elevation1 {
+    box-shadow: none;
+  }
 `;

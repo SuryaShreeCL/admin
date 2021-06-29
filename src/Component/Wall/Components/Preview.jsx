@@ -1,5 +1,5 @@
 import React from 'react';
-import iPhoneFrame from '../Assets/Images/iphone-x.png';
+import iPhoneFrame from '../Assets/Images/iphone-frame.png';
 import { PreviewContainer, Frame, Post } from '../Assets/Styles/PreviewStyles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';

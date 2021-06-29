@@ -35,6 +35,7 @@ import {
   questionBankPath,
   rootPath,
   collegePath,
+  createPath,
   universityPath,
   aspirationPath,
   cityPath,
@@ -87,6 +88,7 @@ import StarterPack from './ProductBased/StarterPack';
 import ProductPunching from './ProductPunching/ProductPunchingLanding'
 import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
+import CreatePost from './Wall/Pages/CreatePost';
 export default function Routes(props) {
   return (
 
@@ -102,6 +104,7 @@ export default function Routes(props) {
             <Route exact path={studentIdPath+'/:id'} render={(props)=> <Student_data {...props} />} />
             <Route exact path={loginPath} render={(props)=> <MLogin {...props} />} />
             <Route exact path={wallPath} render={(props)=> <WallLanding {...props} />} />
+            <Route exact path={createPath} render={(props)=> <CreatePost {...props} />} />
             <Route exact path={personelInfoPath} render={(props)=> <Personal_information {...props} />} />
             <Route exact path={curatedPath} render={(props)=> <Curated_Course {...props} />} />
             <Route exact path={questionBankPath} render={(props)=> <QuestionBank {...props} />} />
