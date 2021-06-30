@@ -258,7 +258,7 @@ handleClick=(data)=>{
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.props.getproductstepsList.length !== 0 && this.props.getproductstepsList.steps.map(eachdata=>
+                  {this.props.getproductstepsList.length !== 0 && this.props.getproductstepsList.steps.map(eachdata =>
                     <TableRow>
                      <TableCell onClick={() => this.props.history.push( productstructurePath.concat(eachdata.id))}>{eachdata.id}</TableCell>
                       <TableCell>{eachdata.stepName}</TableCell>
@@ -266,8 +266,8 @@ handleClick=(data)=>{
                       <TableCell>
                         {eachdata.disabled === true ? "true" : "false"}
                       </TableCell>
-                      <TableCell>{eachdata.startMonth}</TableCell>
-                      <TableCell>{eachdata.endMonth}</TableCell>
+                      <TableCell>{new Date(eachdata.startMonth).getMonth()}</TableCell>
+                      <TableCell>{new Date(eachdata.endMonth).getMonth()}</TableCell>
                       <TableCell>{eachdata.href}</TableCell>
                       <TableCell>{eachdata.image}</TableCell>
                       <TableCell>{eachdata.lockImg}</TableCell>
