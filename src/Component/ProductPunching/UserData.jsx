@@ -132,41 +132,49 @@ class UserData extends Component {
             ? this.props.StudentDetails.altEmailId
             : null,
         apartmentName:
+          this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.suitNoAndApartmentName &&
           this.props.StudentDetails.address.suitNoAndApartmentName !== null
             ? this.props.StudentDetails.address.suitNoAndApartmentName
             : null,
         address1:
+        this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.streetAddress1 &&
           this.props.StudentDetails.address.streetAddress1 !== null
             ? this.props.StudentDetails.address.streetAddress1
             : null,
         address2:
+        this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.streetAddress2 &&
           this.props.StudentDetails.address.streetAddress2 !== null
             ? this.props.StudentDetails.address.streetAddress2
             : null,
         landmark:
+        this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.landMark &&
           this.props.StudentDetails.address.landMark !== null
             ? this.props.StudentDetails.address.landMark
             : null,
         pincode:
+        this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.pinCode &&
           this.props.StudentDetails.address.pinCode !== null
             ? this.props.StudentDetails.address.pinCode
             : null,
         state:
+        this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.state &&
           this.props.StudentDetails.address.state !== null
             ? this.props.StudentDetails.address.state
             : null,
         city:
+        this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.city &&
           this.props.StudentDetails.address.city !== null
             ? this.props.StudentDetails.address.city
             : null,
         country:
+        this.props.StudentDetails.address !== null &&
           this.props.StudentDetails.address.country &&
           this.props.StudentDetails.address.country !== null
             ? this.props.StudentDetails.address.country
