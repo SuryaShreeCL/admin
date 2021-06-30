@@ -302,7 +302,7 @@ export const updatefamily = (data) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/update/productfamily", data, {
+      .put(URL + "/api/v1/update/product/family", data, {
         crossDomain: true,
         headers: {
           admin: "yes",
@@ -489,7 +489,7 @@ export const updategeneraldata = (data) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/update/productfamily", data, {
+      .put(URL + "/api/v1/update/product/varient", data, {
         crossDomain: true,
         headers: {
           admin: "yes",
@@ -628,7 +628,7 @@ export const isVariantCreated = (data) => {
         // }
     export const getFaq = () =>{
         return dispatch =>{
-            axios.get(URL+"/api/v1/get/productvarient")
+            axios.get(URL+"/api/v1/get/product/varient")
             .then(result=>{
                 dispatch({type:PRODUCT.getFaq,payload:result.data});
             })
@@ -877,5 +877,27 @@ export const putproductstructure = (data) => {
       });
   };
 };
-
+export const getproductsteps = (id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/get/steps/"+id, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: PRODUCT.getproductsteps,
+          payload: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
 

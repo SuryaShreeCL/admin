@@ -13,7 +13,7 @@ import {
   } from "@material-ui/core";
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { getproductstructure} from "../../Actions/ProductAction";
+import { postproductstructure,putproductstructure,getproductsteps} from "../../Actions/ProductAction";
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -26,6 +26,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { isEmptyString } from "../Validation";
 import MySnackBar from "../MySnackBar";
+import { productstructurePath } from "../RoutePaths";
+
 class ProductStages extends Component {
     constructor() {
         super();
@@ -64,9 +66,18 @@ class ProductStages extends Component {
         };
       }
       componentDidMount() {
-        this.props.getproductstructure();
-        // this.props.getProductVarient();
-        // this.props.getAllProductFamily();
+       this.props.getproductsteps(this.props.match.params.id)
+      }
+      componentDidUpdate(prevProps,prevState){
+        if(this.props.postproductstructureList !== prevProps.postproductstructureList){
+          this.props.getproductsteps(this.props.match.params.id);
+      }
+      if(this.props.putproductstructureList !== prevProps.putproductstructureList){
+          this.props.getproductsteps(this.props.match.params.id);
+      }
+      if(this.props.match.params.id !== prevProps.match.params.id){
+        this.props.getproductsteps(this.props.match.params.id);
+    }
       }
       handleOpen=()=>{
            this.setState({
@@ -124,7 +135,7 @@ class ProductStages extends Component {
             "min_tat":this.state.mintat,
             "rank":this.state.rank,
             "parent": {
-                "id": this.props.march.params.id
+                "id": this.props.match.params.id
             },
             "product":null
         }
@@ -166,8 +177,8 @@ handleUpdate=()=>{
             "stepName":this.state.stepname,
             "description":this.state.description,
             "disabled":this.state.checkedB,
-            "endMonth":this.state.endMonth,
-            "startMonth":this.state.startMonth,
+            "endMonth":new Date(this.state.endMonth).getMonth(),
+            "startMonth":new Date(this.state.startMonth).getMonth(),
             "href":this.state.href,
             "image":this.state.image,
             "lockImg":this.state.lockimage,
@@ -175,7 +186,7 @@ handleUpdate=()=>{
             "min_tat":this.state.mintat,
             "rank":this.state.rank,
             "parent": {
-                "id": this.props.march.params.id
+                "id": this.props.match.params.id
             },
             "product":null
         }
@@ -193,23 +204,24 @@ handleClick=(data)=>{
     console.log(data)
    this.setState({
        open:true,
-    //    stepname : data.stepName,
-    //    description : data.description,
-    //    disabled : data.disabled,
-    //    href:data.href,
-    //    startMonth:data.startMonth,
-    //    endMonth:data.endMonth,
-    //    rank:data.rank,
-    //    image:data.image,
-    //    lockimage:data.lockImg,
-    //    mintat:data.min_tat,
-    //    maxtat:data.max_tat,
-    //    drop : false,
-    //    id:data.id
+       stepname : data.stepName,
+       description : data.description,
+       disabled : data.disabled,
+       href:data.href,
+       startMonth:data.startMonth,
+       endMonth:data.endMonth,
+       rank:data.rank,
+       image:data.image,
+       lockimage:data.lockImg,
+       mintat:data.min_tat,
+       maxtat:data.max_tat,
+       drop : false,
+       id:data.id
    })
 }
     render() {
         console.log(this.props.match.params.id)
+        console.log(this.props.getproductstepsList)
         return (
           <div>
             <div style={{
@@ -246,31 +258,34 @@ handleClick=(data)=>{
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>id</TableCell>
-                    <TableCell>stepName</TableCell>
-                    <TableCell>description</TableCell>
-                    <TableCell>
-                      {/* {eachdata.disabled === true ? "true" : "false"} */}
-                    </TableCell>
-                    <TableCell>startMonth</TableCell>
-                    <TableCell>endMonth</TableCell>
-                    <TableCell>href</TableCell>
-                    <TableCell>image</TableCell>
-                    <TableCell>lockImg</TableCell>
-                    <TableCell>max_tat</TableCell>
-                    <TableCell>min_tat</TableCell>
-                    <TableCell>rank</TableCell>
+                  {this.props.getproductstepsList.length !== 0 && this.props.getproductstepsList.steps.map(eachdata=>
+                    <TableRow>
+                     <TableCell onClick={() => this.props.history.push( productstructurePath.concat(eachdata.id))}>{eachdata.id}</TableCell>
+                      <TableCell>{eachdata.stepName}</TableCell>
+                      <TableCell>{eachdata.description}</TableCell>
+                      <TableCell>
+                        {eachdata.disabled === true ? "true" : "false"}
+                      </TableCell>
+                      <TableCell>{eachdata.startMonth}</TableCell>
+                      <TableCell>{eachdata.endMonth}</TableCell>
+                      <TableCell>{eachdata.href}</TableCell>
+                      <TableCell>{eachdata.image}</TableCell>
+                      <TableCell>{eachdata.lockImg}</TableCell>
+                      <TableCell>{eachdata.max_tat}</TableCell>
+                      <TableCell>{eachdata.min_tat}</TableCell>
+                      <TableCell>{eachdata.rank}</TableCell>
                     <TableCell>
                       <PrimaryButton
                         color={"primary"}
                         variant={"contained"}
-                          onClick={(e) => this.handleClick()}
+                          onClick={(e) => this.handleClick(eachdata)}
                       >
                         Manage
                       </PrimaryButton>
                     </TableCell>
-                  </TableRow>
+                  </TableRow>    
+                    )}
+                                  
                 </TableBody>
               </Table>
             </TableContainer>
@@ -470,10 +485,12 @@ handleClick=(data)=>{
 }
 const mapStateToProps = (state) => {
     return {
-
+     postproductstructureList : state.ProductReducer.postproductstructure,
+     putproductstructureList : state.ProductReducer.putproductstructure,
+     getproductstepsList : state.ProductReducer.getproductsteps
     };
   };
   
   export default connect(mapStateToProps, {
-    
+    postproductstructure,putproductstructure,getproductsteps
   })(ProductStages);

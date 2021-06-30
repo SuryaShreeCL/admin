@@ -166,7 +166,7 @@ class VariantQna extends Component {
             Create new FAQ
           </PrimaryButton>
         </Grid>
-        {this.props.getFaqList !== null ? this.props.getFaqList.map(item => item.productQuestionAnswer.map(item1 => (
+        {this.props.getFaqList.length !== 0 && this.props.getFaqList.map(item => item.productQuestionAnswers.map(item1 => (
             <div style={{ marginTop: 20 }}>
               <Accordion
                 square
@@ -230,7 +230,7 @@ class VariantQna extends Component {
                 </div>
               </Accordion>
             </div>
-))) : '' }
+))) }
         <Dialog
           onClose={this.handleClose}
           aria-labelledby="customized-dialog-title"

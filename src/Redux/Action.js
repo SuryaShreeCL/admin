@@ -177,7 +177,8 @@ export const PRODUCT = {
   putproductstructure : "putproductstructure",
   getproductstructure : "getproductstructure",
   postproductstructure : "postproductstructure",
-  getUserDataAcademicInfo: 'getUserDataAcademicInfo'
+  getUserDataAcademicInfo: 'getUserDataAcademicInfo',
+  getproductsteps:"getproductsteps"
 };
 
 export const ADMIN = {

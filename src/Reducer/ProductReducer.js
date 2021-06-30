@@ -46,7 +46,8 @@ const initialState = {
   postpunchingdata:[],
   getproductstructure:[],
   postproductstructure:[],
-  putproductstructure:[]
+  putproductstructure:[],
+  getproductsteps:[]
 };
 
 export default (state = initialState, action) => {
@@ -268,6 +269,11 @@ export default (state = initialState, action) => {
                             ...state,
                             putproductstructure: action.payload,
                           };
+                          case PRODUCT.getproductsteps:
+                            return {
+                              ...state,
+                              getproductsteps: action.payload,
+                            }
     default:
       break;
   }

@@ -324,9 +324,9 @@ handelAdd=()=>{
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.props.getproductstructureList.map((eachdata) => (
-                    <TableRow onClick={() => this.props.history.push( productstructurePath.concat(eachdata.id))}>
-                      <TableCell>{eachdata.id}</TableCell>
+                  {this.props.getproductstructureList.length !== 0 && this.props.getproductstructureList.map((eachdata) => (
+                    <TableRow>
+                      <TableCell onClick={() => this.props.history.push( productstructurePath.concat(eachdata.id))}>{eachdata.id}</TableCell>
                       <TableCell>{eachdata.stepName}</TableCell>
                       <TableCell>{eachdata.description}</TableCell>
                       <TableCell>
