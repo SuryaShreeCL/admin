@@ -230,6 +230,9 @@ export const mernStudentSignUp=(data)=>{
     return dispatch=>{                
         console.log(data)
         axios.post(AUTH_URL+"/api/v1/auth/signup",data,{crossDomain:true,
+            headers : {
+                "Access-Control-Allow-Origin": "*"
+            }
             // headers : {
             //     "admin" : "yes",
             //     "Authorization" : `Bearer ${accessToken}`
