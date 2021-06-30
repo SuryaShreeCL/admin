@@ -63,9 +63,9 @@ class Product extends Component {
       createdbyErr: "",
       createdon: new Date(),
       craetedonErr: "",
-      updatedby: window.sessionStorage.getItem("role"),
+      updatedby: "",
       updatdebyErr: "",
-      updatedon: new Date(),
+      updatedon: "",
       updatedonErr: "",
       newFamilynameErr: "",
       tableColumns: [
@@ -133,7 +133,10 @@ class Product extends Component {
     this.props.getAllProductFamily();
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.postproductfamilyList !== this.props.postproductfamilyList || prevProps.updateproductfamilyList !== this.props.updateproductfamilyList) {
+    if (prevProps.postproductfamilyList !== this.props.postproductfamilyList) {
+      this.props.getAllProductFamily();
+    }
+    if(prevProps.updateproductfamilyList.productName !== this.props.updateproductfamilyList.productName){
       this.props.getAllProductFamily();
     }
   }
@@ -182,16 +185,18 @@ console.log(data)
         productName: this.state.productName,
         codeName: this.state.codeName,
         shortName: this.state.shortName,
-        createdBy:this.state.createdby,
-        updatedBy:this.state.updatedby,
-        dateOfCreation:this.state.createdon,
-        dateOfUpdate:this.state.updatedon
+        createdBy:window.sessionStorage.getItem("role"),
+        updatedBy:window.sessionStorage.getItem("role"),
+        dateOfCreation:new Date(),
+        dateOfUpdate:new Date()
       };
+      // console.log(obj)
       this.props.postproductfamily(obj);
       this.setState({
         snackMsg:"Added Successfully",
         snackOpen:true,
-        snackVariant:"success"
+        snackVariant:"success",
+        show:false
       })
     }
   };
@@ -254,8 +259,8 @@ console.log(data)
         id: this.state.id,
         codeName:this.state.codeName,
         productName:this.state.productName,
-        updatedBy:this.state.updatedby,
-        dateOfUpdate:this.state.updatedon,
+        updatedBy:window.sessionStorage.getItem("role"),
+        dateOfUpdate:new Date(),
         shortName : this.state.shortName
     }
       //  this.props.updateproductfamily(obj1)
@@ -263,7 +268,8 @@ console.log(data)
        this.setState({
         snackMsg:"Updated Successfully",
         snackOpen:true,
-        snackVariant:"success"
+        snackVariant:"success",
+        show:false
       })
     }
     console.log(this.state)
@@ -488,7 +494,7 @@ console.log(data)
                       disabled
                       name="updatedby"
                       fullWidth
-                      value={window.sessionStorage.getItem("role")}
+                      value={this.state.updatedby}
                       error={this.state.updatdebyErr.length > 0}
                       helperText={this.state.updatdebyErr}
                       onChange={(e) =>
@@ -506,7 +512,7 @@ console.log(data)
                         disabled
                         variant="dialog"
                         format="yyyy-MM-dd"
-                        value={new Date()}
+                        value={this.state.updatedon}
                         onChange={(e,newValue)=>this.setState({ updatedon : newValue})}
                         error={this.state.updatedonErr.length > 0}
                         helperText={this.state.updatedonErr}

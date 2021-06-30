@@ -61,8 +61,8 @@ class VariantGeneralData extends Component {
     if (this.props.getvarientByidList !== prevProps.getvarientByidList) {
       this.setState({
         productName: this.props.getvarientByidList.productFamily,
-        variantsku: this.props.getvarientByidList.name,
-        variantfamilysku: this.props.getvarientByidList.shortName,
+        variantsku: this.props.getvarientByidList.shortName,
+        variantfamilysku: this.props.getvarientByidList.name,
         costPrice: this.props.getvarientByidList.costPrice,
         sellingPrice: this.props.getvarientByidList.sellingPrice,
         standaloneSellable: {
@@ -85,11 +85,11 @@ class VariantGeneralData extends Component {
   componentWillUnmount(params) {
     console.log("next component");
     if(this.props.match.params.id !== undefined){
-      let faqid = this.props.getvarientByidList.productQuestionAnswers.map(
+      let faqid = this.props.getvarientByidList.productQuestionAnswers.length !== 0 ? this.props.getvarientByidList.productQuestionAnswers.map(
         (faq) => {
           return { id: faq.id };
         }
-      );
+      ) : [];
       console.log(this.props.getvarientByidList);
     let obj = {
       id: this.props.match.params.id,
@@ -216,6 +216,7 @@ class VariantGeneralData extends Component {
   render() {
     console.log(this.state);
     console.log(this.props);
+    console.log(this.props.getvarientByidList)
     return (
       <div>
         <Grid container spacing={2}>
@@ -295,7 +296,7 @@ class VariantGeneralData extends Component {
               onChange={(e) => this.setState({ costPrice: e.target.value })}
             />
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
             <TextField
               label="Product Selling Price"
               type="number"
@@ -306,7 +307,7 @@ class VariantGeneralData extends Component {
               onChange={(e) => this.setState({ sellingPrice: e.target.value })}
             />
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="normal"
@@ -325,7 +326,7 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="normal"
@@ -345,7 +346,7 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item md={6}></Grid>
+          <Grid item md={3}></Grid>
           <Grid item md={2}>
             <TextField
               label="Created By"

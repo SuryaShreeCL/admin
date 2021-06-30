@@ -44,6 +44,14 @@ class VariantQna extends Component {
     this.props.getFaq();
     
   }
+  componentDidUpdate(prevProps,prevState){
+    if(prevProps.postFaq !== this.props.postFaq){
+      this.props.getFaq();
+    }
+    if(prevProps.updateFaq !== this.props.updateFaq){
+      this.props.getFaq();
+    }
+  }
 
   handleChange = (panel) => (event, newExpanded) => {
     this.setState({ expanded: newExpanded ? panel : false });

@@ -39,6 +39,8 @@ class ProductComboForm extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
+      familyErr : "",
+      varientErr : ""
 
     };
   }
@@ -143,6 +145,8 @@ class ProductComboForm extends Component {
                   {...params}
                   label="Select Product Family"
                   variant="standard"
+                  error={this.state.familyErr.length > 0}
+                  helperText={this.state.familyErr}
                 />
               )}
             />
