@@ -181,7 +181,7 @@ class ProductImages extends Component {
                 return (
                   <Grid item md={4}>
                   <div className={classes.cardContainer}>
-                    <img alt={eachImage.altText} className={classes.preview} src={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg"}></img>
+                    <img alt={eachImage.altText} className={classes.preview} src={eachImage.imagesUrl}></img>
                     <div className={classes.bottomContainer}>
                     <IconButton onClick={()=>this.setState({
                       showImgUrl : eachImage.imagesUrl,
