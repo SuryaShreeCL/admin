@@ -67,7 +67,8 @@ export const CreatePostContainer = styled.section`
   box-shadow: 0px 5px 20px rgba(0, 65, 130, 0.15);
   border-radius: 4px;
   display: flex;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: space-around;
 
   .CreatePost {
     display: flex;
@@ -82,7 +83,7 @@ export const CreatePostContainer = styled.section`
 
     .select-category {
       font-size: 1rem;
-      max-width: 300px;
+      max-width: 70%;
     }
   }
 `;
