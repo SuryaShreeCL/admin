@@ -74,15 +74,15 @@ export const CreatePostContainer = styled.section`
     flex-direction: column;
     width: 100%;
 
+    h5 {
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
     .select-category {
       font-size: 1rem;
-      max-width: 420px;
-
-      /* &::before {
-        content: 'Select Category';
-        color: #052a4e;
-        font-size: 1.1rem;
-      } */
+      max-width: 300px;
     }
   }
 `;
