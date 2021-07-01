@@ -164,7 +164,7 @@ const CreatePost = () => {
             />
           </ButtonsContainer>
         </div>
-        <Preview />
+        <Preview state={state} />
       </CreatePostContainer>
     </>
   );

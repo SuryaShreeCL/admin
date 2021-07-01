@@ -20,7 +20,8 @@ const posters = [
   },
 ];
 
-const Preview = ({ category, caption, likes, comments }) => {
+const Preview = ({ state }) => {
+  const { category, caption, likes, comments } = state;
   return (
     <PreviewContainer>
       <Frame>
@@ -52,7 +53,7 @@ const Preview = ({ category, caption, likes, comments }) => {
             )}
           </div>
           <div className='CaptionContainer'>
-            <h6 style={{marginTop:'7px'}} >#{category || 'Category Name'}</h6>
+            <h6 style={{ marginTop: '7px' }}>#{category || 'Category Name'}</h6>
             <p>
               {caption ||
                 ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
