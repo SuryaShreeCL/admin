@@ -96,7 +96,7 @@ export class ProductVarient extends Component {
               {field : "standaloneSellable", headerName : "Standalone", width : 150},
               {field : "sellingPrice", headerName : "Pricing", width : 150},
               {field : "validity", headerName : "Validity", width : 150},
-              {field : "endOfServiceDate", headerName : "End of Service", width : 150},
+              {field : "endOfServiceDate", type: 'date', headerName : "End of Service", width : 150},
               {field : "action", headerName : "Action",  width : 300, renderCell: (params) => { 
                 const onClick = () => {
                   const api: GridApi = params.api;

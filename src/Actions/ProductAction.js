@@ -776,7 +776,7 @@ export const getpunchingdata = (id) => {
       .then((result) => {
         dispatch({
           type: PRODUCT.getpunchingdata,
-          getpunchingdata: result.data,
+          payload: result.data,
         });
         console.log(result);
       })

@@ -141,7 +141,7 @@ class ProductPunching extends Component {
   render() {
     console.log(this.props.match.params.id);
     console.log(this.state);
-
+    console.log(this.props.getpunchingdataList)
     return (
       <div> 
          <Grid container spacing={2}>
@@ -189,6 +189,49 @@ class ProductPunching extends Component {
             </PrimaryButton>
           </Grid>
         </Grid>
+        {this.props.getpunchingdataList.length !== 0 && this.props.getpunchingdataList.map(data=>
+          <Grid container spacing={2}>
+            <Grid item md={12}>
+              <Typography style={{fontWeight:"bold"}}>Product</Typography>
+            </Grid>
+            <Grid item md={6}>
+            <TextField
+                  disabled
+                  label="Student ID"
+                  value={data.studentId}
+                  fullWidth
+                />
+            </Grid>
+            <Grid item md={6}>
+            <TextField
+                  disabled
+                  fullWidth
+                  label="Product ID"
+                  value={data.productId}
+                />
+            </Grid>
+            <Grid item md={6}>
+            <TextField
+                  disabled
+                  fullWidth
+                  label="Payment ID"
+                  // name={"payment_id_" + data.id}
+                  onChange={(e) => this.handleChange(e)}
+                  value={data.paymentId}
+                />
+            </Grid>
+            <Grid item md={6}>
+            <TextField
+                  disabled
+                  fullWidth
+                  label="Payment Provider"
+                  // name={"payment_provider_" + data.id}
+                  onChange={(e) => this.handleChange(e)}
+                  value={data.paymentProvider}
+                />
+            </Grid>
+          </Grid>
+          )}
         {this.state.punching.map((data) => {
           let servicedate = new Date(data.endofservice).getDate();
           let servicemonth = new Date(data.endofservice).getMonth();
