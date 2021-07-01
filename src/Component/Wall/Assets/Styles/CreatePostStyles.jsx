@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const CreatePostContainer = styled.section`
   background: #fff;
-  padding: 2rem;
+  padding: 2.2rem 3rem;
   box-shadow: 0px 5px 20px rgba(0, 65, 130, 0.15);
   border-radius: 4px;
   display: flex;
@@ -36,8 +36,19 @@ export const BackHandlerContainer = styled.section`
     margin-left: 0.6rem;
   }
 `;
+
 export const ButtonsContainer = styled.section`
   display: flex;
   justify-content: space-between;
   max-width: 80%;
+`;
+
+export const ButtonsContainerTwo = styled(ButtonsContainer)`
+  max-width: 100%;
+  margin-top: 1.5rem;
+  justify-content: space-around;
+
+  span {
+    cursor: pointer;
+  }
 `;

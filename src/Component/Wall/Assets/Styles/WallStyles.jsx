@@ -60,3 +60,11 @@ export const Container = styled.section`
     box-shadow: none;
   }
 `;
+export const DrawerContainer = styled.section`
+  background: #fff;
+  padding: 1rem 3rem;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+`;

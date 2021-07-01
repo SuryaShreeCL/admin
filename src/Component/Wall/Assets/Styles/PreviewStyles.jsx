@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
-export const PreviewContainer = styled.section`
-  max-width: 500px;
-`;
+export const PreviewContainer = styled.section``;
 
 export const Frame = styled.div`
   position: relative;
   height: 770px;
-  width: 400px;
 
   img {
     max-height: 100%;
