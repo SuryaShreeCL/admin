@@ -1,5 +1,5 @@
 import React from 'react';
-import iPhoneFrame from '../Assets/Images/iphone-frame.png';
+import iPhoneFrame from '../Assets/Images/iphone-12s.png';
 import { PreviewContainer, Frame, Post } from '../Assets/Styles/PreviewStyles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
@@ -52,7 +52,7 @@ const Preview = ({ category, caption, likes, comments }) => {
             )}
           </div>
           <div className='CaptionContainer'>
-            <h5>#{category || 'Category Name'}</h5>
+            <h6 style={{marginTop:'7px'}} >#{category || 'Category Name'}</h6>
             <p>
               {caption ||
                 ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}

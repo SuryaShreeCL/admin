@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const PreviewContainer = styled.section`
-  padding: 3rem 2rem;
   max-width: 500px;
 `;
 
@@ -17,7 +16,7 @@ export const Frame = styled.div`
 
 export const Post = styled.div`
   position: absolute;
-  top: 120px;
+  top: 70px;
   left: 40px;
   max-width: 300px;
   background: #ffffff;

@@ -60,3 +60,39 @@ export const Container = styled.section`
     box-shadow: none;
   }
 `;
+
+export const CreatePostContainer = styled.section`
+  background: #fff;
+  padding: 2rem;
+  box-shadow: 0px 5px 20px rgba(0, 65, 130, 0.15);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+
+  .CreatePost {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .select-category {
+      font-size: 1rem;
+      max-width: 420px;
+
+      /* &::before {
+        content: 'Select Category';
+        color: #052a4e;
+        font-size: 1.1rem;
+      } */
+    }
+  }
+`;
+
+export const BackHandlerContainer = styled.section`
+  display: flex;
+  padding: 1rem 0;
+  margin-top: -2rem;
+
+  h5 {
+    margin-left: 0.6rem;
+  }
+`;
