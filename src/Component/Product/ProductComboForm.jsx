@@ -53,6 +53,13 @@ class ProductComboForm extends Component {
     }
   }
   handleAdd = () => {
+    let hlptxt = "Please fill the required field";
+    this.state.varient === null
+    ? this.setState({ varientErr: hlptxt })
+    : this.setState({ varientErr: "" });
+    this.state.family === null
+    ? this.setState({ familyErr: hlptxt })
+    : this.setState({ familyErr: "" });
     if (this.state.varient !== null) {
       let arr = this.state.combo;
       arr.push({
@@ -89,13 +96,21 @@ class ProductComboForm extends Component {
       this.state.comboshortcode === ""
       ? this.setState({ comboshortcodeErr: hlptxt })
       : this.setState({ comboshortcodeErr: "" });
+      this.state.varient === null
+      ? this.setState({ varientErr: hlptxt })
+      : this.setState({ varientErr: "" });
+      this.state.family === null
+      ? this.setState({ familyErr: hlptxt })
+      : this.setState({ familyErr: "" });
     if (
       this.state.comboname !== "" &&
       this.state.validity !== "" &&
       this.state.combosku !== "" &&
       this.state.combocostprice !== "" &&
       this.state.combosellprice !== "" &&
-      this.state.comboshortcode !== "" 
+      this.state.comboshortcode !== "" &&
+      this.state.validity !== null &&
+      this.state.family !== null
     )
      {
     let productid = this.state.combo.map((item) => {
@@ -162,6 +177,8 @@ class ProductComboForm extends Component {
                   {...params}
                   label="Select Product Varient"
                   variant="standard"
+                  error={this.state.varientErr.length > 0}
+                  helperText={this.state.varientErr}
                 />
               )}
             />
@@ -299,7 +316,6 @@ class ProductComboForm extends Component {
                 margin="normal"
                 id="date-picker-dialog"
                 label="Combo Sell Validity"
-                disableFuture
                 format="yyyy-MM-dd"
                 value={this.state.validity}
                 onChange={(e,newValue)=>this.setState({validity : newValue})}
