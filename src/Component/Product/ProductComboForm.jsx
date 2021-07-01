@@ -136,6 +136,7 @@ class ProductComboForm extends Component {
       snackOpen:true,
       snackVariant:"success"
     })
+    this.props.history.goBack()
   };
   }
   render() {

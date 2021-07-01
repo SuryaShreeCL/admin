@@ -89,7 +89,7 @@ export class ProductVarient extends Component {
             newVarientErr : "",
             tableColumns : [
               {field : "id", hide : true},
-              {field : "shortName", headerName : "SKU", width : 150},
+              {field : "variant_SKU", headerName : "SKU", width : 150},
               {field : "productFamilyName", headerName : "Product Family", width : 150},
               // console.log(params.row.productFamily !== null ? params.row.productFamily.productName : null)},
               {field : "name", headerName : "Variant Name", width : 150},
