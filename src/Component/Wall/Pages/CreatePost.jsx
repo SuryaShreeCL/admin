@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { CreatePostContainer } from '../Assets/Styles/WallStyles';
+import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
-import Select from 'react-select';
 import MUIRichTextEditor from 'mui-rte';
 import Switch from '@material-ui/core/Switch';
 import Radio from '@material-ui/core/Radio';
@@ -13,9 +12,9 @@ import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EventIcon from '@material-ui/icons/Event';
-
-// pick a date util library
 import MomentUtils from '@date-io/moment';
+import Controls from '../../Utils/controls/Controls';
+import { Button } from '@material-ui/core';
 
 const defaultTheme = createMuiTheme();
 
@@ -25,8 +24,7 @@ Object.assign(defaultTheme, {
       root: {
         marginTop: 30,
         marginBottom: 30,
-        width: '100%',
-        maxWidth: '70%',
+        maxWidth: '80%',
         border: '1px solid lightgrey',
         height: '250px',
         padding: '5px',
@@ -35,14 +33,6 @@ Object.assign(defaultTheme, {
     },
   },
 });
-
-const Categories = [
-  { value: '', label: 'Select Category' },
-  { value: 'Science', label: 'Science' },
-  { value: 'Arts', label: 'Arts' },
-  { value: 'Commerce', label: 'Commerce' },
-  { value: 'Mechanical', label: 'Mechanical' },
-];
 
 const CreatePost = () => {
   const [state, setState] = useState({
@@ -53,6 +43,13 @@ const CreatePost = () => {
     selectedDate: new Date(),
     isScheduled: false,
   });
+
+  const Categories = [
+    { id: '1', title: 'Science' },
+    { id: '2', title: 'Arts' },
+    { id: '3', title: 'Commerce' },
+    { id: '4', title: 'Machine Learning' },
+  ];
 
   const handlePostTypeChange = (event) => {
     setState((s) => ({ ...s, postType: event.target.value }));
@@ -93,12 +90,13 @@ const CreatePost = () => {
           </RadioGroup>
 
           {/* <h5>Select Category</h5> */}
-          <Select
+          <Controls.Select
+            label='Select Category'
+            name='state.category'
+            size='80%'
+            value={state.category}
+            onChange={(category) => setState((s) => ({ ...s, category: category.id }))}
             options={Categories}
-            className='select-category'
-            isSearchable={false}
-            defaultValue={Categories[0]}
-            onChange={(category) => setState((s) => ({ ...s, category: category.value }))}
           />
           {/* <h5>Caption</h5> */}
           <MuiThemeProvider theme={defaultTheme}>
@@ -109,7 +107,7 @@ const CreatePost = () => {
             />
           </MuiThemeProvider>
           <span style={{ fontSize: '1rem' }}>
-            Schedule Post Later
+            Schedule Post for Later
             <Switch
               checked={state.isScheduled}
               onChange={handleScheduled}
@@ -128,7 +126,7 @@ const CreatePost = () => {
                   ),
                 }}
                 value={state.selectedDate}
-                style={{ maxWidth: '70%', margin: '10px 0px' }}
+                style={{ maxWidth: '80%', margin: '10px 0px' }}
                 disablePast
                 inputVariant='outlined'
                 onChange={handleDateChange}
@@ -148,6 +146,23 @@ const CreatePost = () => {
           </span>
 
           <pre>{JSON.stringify({ state }, null, 4)}</pre>
+
+          <ButtonsContainer>
+            <Controls.Button
+              text='Preview'
+              variant='contained'
+              color='primary'
+              style={{ borderRadius: '26px' }}
+            />
+            <Button color='primary'>Discard Post</Button>
+            <Button color='primary'>Save as Draft</Button>
+            <Controls.Button
+              text='Post'
+              variant='contained'
+              color='primary'
+              style={{ borderRadius: '26px' }}
+            />
+          </ButtonsContainer>
         </div>
         <Preview />
       </CreatePostContainer>
