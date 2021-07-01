@@ -302,7 +302,7 @@ export const updatefamily = (data) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/update/product/family", data, {
+      .put(URL + "/api/v1/update/productfamily", data, {
         crossDomain: true,
         headers: {
           admin: "yes",

@@ -117,7 +117,7 @@ const AntTabs = withStyles({
            <Grid item md={12}>
              <Breadcrumbs separator="›">
               <Link color="primary" onClick={() => this.props.history.goBack()}>
-              Product Varient
+              Product Family
             </Link>
             <Typography color="textPrimary">General Data</Typography>
              </Breadcrumbs>

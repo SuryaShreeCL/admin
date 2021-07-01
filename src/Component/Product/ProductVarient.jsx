@@ -154,7 +154,11 @@ export class ProductVarient extends Component {
       this.props.varientexcel()
   }
   componentDidUpdate(prevProps,prevState){
-    if(prevProps.postProductVarientList !== this.props.postProductVarientList || prevProps.updateProductVarientList !== this.props.updateProductVarientList){
+    if(prevProps.postProductVarientList !== this.props.postProductVarientList){
+      this.props.getProductVarient()
+      this.props.getAllProductFamily()
+    }
+    if(prevProps.updateProductVarientList !== this.props.updateProductVarientList){
       this.props.getProductVarient()
       this.props.getAllProductFamily()
     }
