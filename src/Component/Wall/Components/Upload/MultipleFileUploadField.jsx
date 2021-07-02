@@ -72,7 +72,9 @@ export function MultipleFileUploadField({ name, type }) {
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
           <input {...getInputProps()} />
-          <p>{`Drag & drop some ${name} here, or click to select ${name}`}</p>
+          <p
+            style={{ marginBottom: '-2px' }}
+          >{`Drag & drop some ${name} here, or click to select ${name}`}</p>
         </div>
         {name === 'images' && (
           <p {...getRootProps({ className: classes.info })}>
