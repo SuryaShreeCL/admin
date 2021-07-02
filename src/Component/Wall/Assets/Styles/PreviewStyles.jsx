@@ -17,8 +17,8 @@ export const Post = styled.div`
   left: 40px;
   max-width: 300px;
   background: #ffffff;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
 
   .Poster {
     img {

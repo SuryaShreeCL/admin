@@ -255,8 +255,8 @@ export default function LivePost() {
                 <TableRow key={item.id}>
                   <TableCell>{item.id}</TableCell>
                   <TableCell>{item.category}</TableCell>
-                  <TableCell>{item.likes}</TableCell>
                   <TableCell>{item.caption}</TableCell>
+                  <TableCell>{item.likes}</TableCell>
                   <TableCell>{item.comments}</TableCell>
                   <TableCell>{item?.posters.length}</TableCell>
                   <TableCell>

@@ -2,33 +2,22 @@ import React from 'react';
 import iPhoneFrame from '../Assets/Images/iphone-12s.png';
 import { PreviewContainer, Frame, Post } from '../Assets/Styles/PreviewStyles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import CommentIcon from '@material-ui/icons/Comment';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-
-const posters = [
-  {
-    src:
-      'https://previews.123rf.com/images/kho/kho1406/kho140600092/29092622-beautiful-girl-reading-book-in-the-summer-park-image-toned-.jpg',
-  },
-  {
-    src: 'https://image.freepik.com/free-photo/cute-young-lady-reading-book_23-2148204301.jpg',
-  },
-  {
-    src: 'https://media.istockphoto.com/photos/beautiful-lady-reading-a-book-picture-id183825490',
-  },
-];
+import Empty from '../Assets/Images/empty.png';
+import sample from '../Assets/Audio/iphone.mp3';
+import ReactAudioPlayer from 'react-audio-player';
+import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
-  const { category, caption, likes, comments } = state;
+  const { category, caption, likes, posters, audio, video, postType } = state;
   return (
     <PreviewContainer>
       <Frame>
         <img src={iPhoneFrame} alt='iPhone 8 Frame' />
         <Post>
           <div className='Poster'>
-            {posters.length > 1 && (
+            {postType === 'Image' && posters.length > 1 && (
               <Carousel showArrows={true} infiniteLoop={true} autoPlay={true} showThumbs={false}>
                 {posters.map((image) => {
                   return (
@@ -43,12 +32,24 @@ const Preview = ({ state }) => {
                 })}
               </Carousel>
             )}
-            {posters.length === 0 && (
-              <img
-                style={{ maxHeight: '250px', width: '100%' }}
-                src={
-                  'https://media.istockphoto.com/photos/beautiful-lady-reading-a-book-picture-id183825490'
-                }
+            {/* If No Image Found */}
+            {postType === 'Image' && posters.length === 0 && (
+              <img style={{ maxHeight: '250px', width: '100%' }} src={Empty} />
+            )}
+            {/* If No Audio Found */}
+            {postType === 'Audio' && (
+              <ReactAudioPlayer
+                style={{ backgroundColor: '#f0f3f4' }}
+                src={audio || sample}
+                controls
+              />
+            )}
+            {/* If No Video Found */}
+            {postType === 'Video' && (
+              <ReactPlayer
+                width={300}
+                height={200}
+                url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
               />
             )}
           </div>
@@ -64,13 +65,13 @@ const Preview = ({ state }) => {
               <FavoriteIcon style={{ color: 'red' }} />
               <span className='digits'>{likes || '000'} </span>
             </span>
-            <span className='commentIcon'>
+            {/* <span className='commentIcon'>
               <CommentIcon />
               <span className='digits'>{comments || '000'} </span>
             </span>
             <span className='shareIcon'>
               <ShareIcon />{' '}
-            </span>
+            </span> */}
           </div>
         </Post>
       </Frame>
