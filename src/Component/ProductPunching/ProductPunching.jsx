@@ -207,7 +207,7 @@ class ProductPunching extends Component {
                   disabled
                   fullWidth
                   label="Product ID"
-                  value={data.productId}
+                  value={data.products.id}
                 />
             </Grid>
             <Grid item md={6}>
