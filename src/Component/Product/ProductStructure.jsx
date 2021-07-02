@@ -78,7 +78,7 @@ class ProductStructure extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
-      this.props.getProductByFamilyId(this.state.family.id);
+      this.props.getProductByFamilyId(this.state.family !== null ? this.state.family.id : null);
     }
     if(this.props.postproductstructureList !== prevProps.postproductstructureList){
         this.props.getproductstructure();
@@ -213,7 +213,7 @@ handelAdd=()=>{
         {
             "stepName":this.state.stepname,
             "description":this.state.description,
-            "disabled":this.state.checkedB === true ? "true" : "false",
+            "disabled":this.state.checkedB === true ? true : false,
             "endMonth":this.state.endMonth,
             "startMonth":this.state.startMonth,
             "href":this.state.href,
