@@ -10,16 +10,16 @@ import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
-  const { category, caption, likes, posters, audio, video, postType } = state;
+  const { category, caption, likes, images, audio, video, postType } = state;
   return (
     <PreviewContainer>
       <Frame>
         <img src={iPhoneFrame} alt='iPhone 8 Frame' />
         <Post>
           <div className='Poster'>
-            {postType === 'Image' && posters.length > 1 && (
+            {postType === 'images' && images.length > 1 && (
               <Carousel showArrows={true} infiniteLoop={true} autoPlay={true} showThumbs={false}>
-                {posters.map((image) => {
+                {images.map((image) => {
                   return (
                     <img
                       style={{ maxHeight: '250px' }}
@@ -33,11 +33,11 @@ const Preview = ({ state }) => {
               </Carousel>
             )}
             {/* If No Image Found */}
-            {postType === 'Image' && posters.length === 0 && (
+            {postType === 'images' && images.length === 0 && (
               <img style={{ maxHeight: '250px', width: '100%' }} src={Empty} />
             )}
             {/* If No Audio Found */}
-            {postType === 'Audio' && (
+            {postType === 'audio' && (
               <ReactAudioPlayer
                 style={{ backgroundColor: '#f0f3f4' }}
                 src={audio || sample}
@@ -45,7 +45,7 @@ const Preview = ({ state }) => {
               />
             )}
             {/* If No Video Found */}
-            {postType === 'Video' && (
+            {postType === 'video' && (
               <ReactPlayer
                 width={300}
                 height={200}

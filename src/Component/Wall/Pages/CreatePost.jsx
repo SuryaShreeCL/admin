@@ -16,7 +16,9 @@ import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { Button } from '@material-ui/core';
+import { array, object, string } from 'yup';
 import { Grid } from '@material-ui/core';
+import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 
 const defaultTheme = createMuiTheme();
 
@@ -40,10 +42,10 @@ const CreatePost = () => {
   const [state, setState] = useState({
     category: '',
     caption: '',
-    postType: 'Image',
-    posters: [],
-    video: '',
-    audio: '',
+    postType: 'images',
+    images: [],
+    video: [],
+    audio: [],
     comments: false,
     selectedDate: new Date(),
     isScheduled: false,
@@ -78,13 +80,22 @@ const CreatePost = () => {
       <CreatePostContainer>
         <Formik
           initialValues={state}
+          validationSchema={object({
+            state: array(
+              object({
+                url: string().required(),
+              })
+            ),
+          })}
           onSubmit={(values, { resetForm }) => {
             // addOrEdit(values, resetForm);
             resetForm();
+            console.log('values', values);
+            return new Promise((res) => setTimeout(res, 2000));
           }}
           enableReinitialize
         >
-          {({ handleChange, handleSubmit, resetForm, setFieldValue, values }) => (
+          {({ handleSubmit, resetForm, errors, isValid, isSubmitting, values }) => (
             <div className='CreatePost'>
               <Form onSubmit={handleSubmit}>
                 <h6>Post Type</h6>
@@ -96,23 +107,22 @@ const CreatePost = () => {
                   onChange={handlePostTypeChange}
                 >
                   <FormControlLabel
-                    value='Video'
+                    value='video'
                     control={<Radio color='primary' />}
                     label='Video'
                   />
                   <FormControlLabel
-                    value='Image'
+                    value='images'
                     control={<Radio color='primary' />}
                     label='Image'
                   />
                   <FormControlLabel value='Text' control={<Radio color='primary' />} label='Text' />
                   <FormControlLabel
-                    value='Audio'
+                    value='audio'
                     control={<Radio color='primary' />}
                     label='Audio'
                   />
                 </RadioGroup>
-                {/* <h5>Select Category</h5> */}
                 <Controls.Select
                   label='Select Category'
                   name='category'
@@ -123,7 +133,6 @@ const CreatePost = () => {
                   }}
                   options={Categories}
                 />
-                {/* <h5>Caption</h5> */}
                 <Grid item>
                   <TextareaAutosize
                     style={{
@@ -142,8 +151,13 @@ const CreatePost = () => {
                     name='caption'
                   />
                 </Grid>
+                <Grid container direction='column' style={{ width: '80%' }}>
+                  {values.postType === 'images' && <MultipleFileUploadField name='images' />}
+                  {values.postType === 'video' && <MultipleFileUploadField name='video' />}
+                  {values.postType === 'audio' && <MultipleFileUploadField name='audio' />}
+                </Grid>
                 <Grid container direction='column'>
-                  <Grid item>
+                  <Grid item style={{ marginTop: '1rem' }}>
                     <span style={{ fontSize: '1rem' }}>
                       Schedule Post for Later
                       <Switch
@@ -178,7 +192,6 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-
                   <Grid item>
                     <span style={{ fontSize: '1rem' }}>
                       Disable Comments
@@ -192,7 +205,8 @@ const CreatePost = () => {
                     </span>
                   </Grid>
                 </Grid>
-                <pre>{JSON.stringify({ state }, null, 4)}</pre>
+
+                <pre>{JSON.stringify({ values }, null, 4)}</pre>
 
                 <ButtonsContainer>
                   <Controls.Button
@@ -208,13 +222,14 @@ const CreatePost = () => {
                     variant='contained'
                     color='primary'
                     style={{ borderRadius: '26px' }}
+                    disabled={!isValid || isSubmitting}
+                    type='submit'
                   />
                 </ButtonsContainer>
               </Form>
             </div>
           )}
         </Formik>
-
         <Preview state={state} />
       </CreatePostContainer>
     </>
