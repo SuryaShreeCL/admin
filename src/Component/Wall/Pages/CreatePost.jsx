@@ -152,12 +152,18 @@ const CreatePost = () => {
                   />
                 </Grid>
                 <Grid container direction='column' style={{ width: '80%' }}>
-                  {values.postType === 'images' && <MultipleFileUploadField name='images' />}
-                  {values.postType === 'video' && <MultipleFileUploadField name='video' />}
-                  {values.postType === 'audio' && <MultipleFileUploadField name='audio' />}
+                  {values.postType === 'images' && (
+                    <MultipleFileUploadField name='images' type='image/*' />
+                  )}
+                  {values.postType === 'video' && (
+                    <MultipleFileUploadField name='video' type='video/*' />
+                  )}
+                  {values.postType === 'audio' && (
+                    <MultipleFileUploadField name='audio' type='audio/*' />
+                  )}
                 </Grid>
                 <Grid container direction='column'>
-                  <Grid item style={{ marginTop: '1rem' }}>
+                  <Grid item>
                     <span style={{ fontSize: '1rem' }}>
                       Schedule Post for Later
                       <Switch

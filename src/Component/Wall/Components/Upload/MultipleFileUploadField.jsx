@@ -19,13 +19,19 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 5,
     background: theme.palette.background.default,
     height: theme.spacing(10),
     outline: 'none',
   },
+  info: {
+    color: 'grey',
+    marginTop: 5,
+    marginBottom: 10,
+  },
 }));
 
-export function MultipleFileUploadField({ name }) {
+export function MultipleFileUploadField({ name, type }) {
   const [_, __, helpers] = useField(name);
   const classes = useStyles();
 
@@ -57,7 +63,7 @@ export function MultipleFileUploadField({ name }) {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: ['image/*', 'video/*', 'audio/*'],
+    accept: [type],
     maxSize: 300 * 1024, // 300KB
   });
 
@@ -68,6 +74,17 @@ export function MultipleFileUploadField({ name }) {
           <input {...getInputProps()} />
           <p>{`Drag & drop some ${name} here, or click to select ${name}`}</p>
         </div>
+        {name === 'images' && (
+          <p {...getRootProps({ className: classes.info })}>
+            (Supported format: jpeg , PNG only, max 2MB)
+          </p>
+        )}
+        {name === 'video' && (
+          <p {...getRootProps({ className: classes.info })}>(Supported format: mp4, max 10MB)</p>
+        )}
+        {name === 'audio' && (
+          <p {...getRootProps({ className: classes.info })}>(Supported format: mp3, max 1MB)</p>
+        )}
       </Grid>
       {files.map((fileWrapper) => (
         <Grid item key={fileWrapper.id}>

@@ -3,10 +3,16 @@ import React from 'react';
 
 export function FileHeader({ file, onDelete }) {
   return (
-    <Grid container justify='space-between' alignItems='center'>
+    <Grid
+      container
+      justify='space-between'
+      direction='row'
+      alignItems='center'
+      style={{ marginTop: 10 }}
+    >
       <Grid item>{file.name}</Grid>
-      <Grid item>
-        <Button size='small' onClick={() => onDelete(file)}>
+      <Grid item spacing={2}>
+        <Button size='small' color='secondary' onClick={() => onDelete(file)}>
           Delete
         </Button>
       </Grid>
