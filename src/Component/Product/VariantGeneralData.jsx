@@ -61,7 +61,7 @@ class VariantGeneralData extends Component {
     if (this.props.getvarientByidList !== prevProps.getvarientByidList) {
       this.setState({
         productName: this.props.getvarientByidList.productFamily,
-        variantsku: this.props.getvarientByidList.shortName,
+        variantsku: this.props.getvarientByidList.variantSKU,
         variantfamilysku: this.props.getvarientByidList.name,
         costPrice: this.props.getvarientByidList.costPrice,
         sellingPrice: this.props.getvarientByidList.sellingPrice,
@@ -100,6 +100,7 @@ class VariantGeneralData extends Component {
       productOneliner: this.props.getvarientByidList.productOneliner,
       productTnc: this.props.getvarientByidList.productTnc,
       validity: "365",
+      variantSKU: this.state.variantsku,
       costPrice: this.state.costPrice,
       sellingPrice: this.state.sellingPrice,
       updatedBy: window.sessionStorage.getItem("role"),

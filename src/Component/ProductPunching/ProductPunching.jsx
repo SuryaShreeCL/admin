@@ -328,7 +328,7 @@ class ProductPunching extends Component {
                   // disabled
                   label="Payment ID"
                   name={"payment_id_" + data.id}
-                  type="number"
+                  // type="number"
                   // value={this.state.payment_id}
                   onChange={(e) => this.handleChange(e)}
                 />
