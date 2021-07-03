@@ -43,6 +43,7 @@ export const ButtonsContainer = styled.section`
   display: flex;
   justify-content: space-between;
   max-width: 80%;
+  margin-top: 1rem;
 `;
 
 export const ButtonsContainerTwo = styled(ButtonsContainer)`

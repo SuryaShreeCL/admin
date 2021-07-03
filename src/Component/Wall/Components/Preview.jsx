@@ -10,25 +10,17 @@ import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
-  const { category, caption, likes, images, audio, video, postType } = state;
+  const { category, caption, likes, images, audio = null, video, postType } = state;
   return (
     <PreviewContainer>
       <Frame>
-        <img src={iPhoneFrame} alt='iPhone 8 Frame' />
+        <img src={iPhoneFrame} alt='iPhone 12 Frame' />
         <Post>
           <div className='Poster'>
             {postType === 'images' && images.length > 1 && (
               <Carousel showArrows={true} infiniteLoop={true} autoPlay={true} showThumbs={false}>
                 {images.map((image) => {
-                  return (
-                    <img
-                      style={{ maxHeight: '250px' }}
-                      src={
-                        image.src ||
-                        'https://media.istockphoto.com/photos/beautiful-lady-reading-a-book-picture-id183825490'
-                      }
-                    />
-                  );
+                  return <img style={{ maxHeight: '250px' }} src={image.src} />;
                 })}
               </Carousel>
             )}
@@ -40,7 +32,7 @@ const Preview = ({ state }) => {
             {postType === 'audio' && (
               <ReactAudioPlayer
                 style={{ backgroundColor: '#f0f3f4' }}
-                src={audio || sample}
+                src={audio.file ?? sample}
                 controls
               />
             )}
