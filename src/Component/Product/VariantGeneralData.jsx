@@ -85,7 +85,7 @@ class VariantGeneralData extends Component {
   componentWillUnmount(params) {
     console.log("next component");
     if(this.props.match.params.id !== undefined){
-      let faqid = this.props.getvarientByidList.productQuestionAnswers.length !== 0 ? this.props.getvarientByidList.productQuestionAnswers.map(
+      let faqid = this.props.getvarientByidList.productQuestionAnswers !== null && this.props.getvarientByidList.productQuestionAnswers.length !== 0 ? this.props.getvarientByidList.productQuestionAnswers.map(
         (faq) => {
           return { id: faq.id };
         }

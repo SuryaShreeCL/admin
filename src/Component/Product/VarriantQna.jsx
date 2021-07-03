@@ -23,7 +23,7 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import { getFaq, updateFaq, postFaq } from "../../Actions/ProductAction";
+import { getFaq, updateFaq, postFaq, getvarientByid } from "../../Actions/ProductAction";
 
 class VariantQna extends Component {
   constructor(props) {
@@ -42,18 +42,20 @@ class VariantQna extends Component {
 
   componentDidMount() {
     this.props.getFaq();
+    this.props.getvarientByid(this.props.match.params.id)
     
   }
   componentDidUpdate(prevProps,prevState){
-    if(prevProps.postFaq !== this.props.postFaq){
-      this.props.getFaq();
+    if(prevProps.postFaqList !== this.props.postFaqList){
+      this.props.getvarientByid(this.props.match.params.id)
     }
-    if(prevProps.updateFaq !== this.props.updateFaq){
-      this.props.getFaq();
+    if(prevProps.updateFaqList !== this.props.updateFaqList){
+      this.props.getvarientByid(this.props.match.params.id)
     }
   }
 
   handleChange = (panel) => (event, newExpanded) => {
+    console.log(panel, newExpanded)
     this.setState({ expanded: newExpanded ? panel : false });
   };
 
@@ -160,8 +162,8 @@ class VariantQna extends Component {
 
   render() {
    
-    console.log(this.props.getFaqList)
-    console.log(this.state.faq);
+    console.log(this.props.getvarientByidList.productQuestionAnswers)
+    console.log(this.state);
     const { classes } = this.props;
     return (
       <div>
@@ -174,12 +176,12 @@ class VariantQna extends Component {
             Create new FAQ
           </PrimaryButton>
         </Grid>
-        {this.props.getFaqList.length !== 0 && this.props.getFaqList.map(item => item.productQuestionAnswers.map(item1 => (
+        {this.props.getvarientByidList.productQuestionAnswers.length !== 0 && this.props.getvarientByidList.productQuestionAnswers.map((item,index) => (
             <div style={{ marginTop: 20 }}>
               <Accordion
                 square
-                expanded={this.state.expanded === "panel2"}
-                onChange={this.handleChange("panel2")}
+                expanded={this.state.["expanded"] === "panel"+index}
+                onChange={this.handleChange("panel"+index)}
               >
                 <AccordionSummary
                   aria-controls="panel2d-content"
@@ -193,10 +195,10 @@ class VariantQna extends Component {
                     }}
                   >
                     <Grid container direction="row" justify="flex-start">
-                      <p className={classes.title}>{item1.question}</p>
+                      <p className={classes.title}>{item.question}</p>
                     </Grid>
                     <Grid container direction="row" justify="flex-end">
-                      <Button onClick={() => this.handleClickOpen(item1)}>
+                      <Button onClick={() => this.handleClickOpen(item)}>
                         <EditRoundedIcon />
                       </Button>
                       <Button>
@@ -212,14 +214,14 @@ class VariantQna extends Component {
                 <AccordionDetails>
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <p className={classes.ans}>Answer</p>
-                    <p className={classes.secondary}>{item1.answer}</p>
+                    <p className={classes.secondary}>{item.answer}</p>
                   </div>
                 </AccordionDetails>
                 <Divider
                   style={{ backgroundColor: "#686868" }}
                   variant="middle"
                 />
-                <div
+                {/* <div
                   style={{
                     alignSelf: "center",
                     padding: 19,
@@ -235,10 +237,10 @@ class VariantQna extends Component {
                   >
                     SAVE FAQ
                   </PrimaryButton>
-                </div>
+                </div> */}
               </Accordion>
             </div>
-))) }
+)) }
         <Dialog
           onClose={this.handleClose}
           aria-labelledby="customized-dialog-title"
@@ -355,9 +357,11 @@ const mapStateToProps = (state) => {
     getFaqList: state.ProductReducer.getFaq,
     updateFaqList: state.ProductReducer.updateFaq,
     postFaqList: state.ProductReducer.postFaq,
+    getvarientByidList: state.ProductReducer.getvarientByid,
+
   };
 };
 
-export default connect(mapStateToProps, { getFaq, updateFaq, postFaq })(
+export default connect(mapStateToProps, { getFaq, updateFaq, postFaq, getvarientByid })(
   withStyles(useStyles)(VariantQna)
 );
