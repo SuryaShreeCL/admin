@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
-import { createMuiTheme } from '@material-ui/core/styles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
 import Switch from '@material-ui/core/Switch';
@@ -19,24 +18,6 @@ import { Button } from '@material-ui/core';
 import { array, object, string } from 'yup';
 import { Grid } from '@material-ui/core';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
-
-const defaultTheme = createMuiTheme();
-
-Object.assign(defaultTheme, {
-  overrides: {
-    MUIRichTextEditor: {
-      root: {
-        marginTop: 30,
-        marginBottom: 30,
-        maxWidth: '80%',
-        border: '1px solid lightgrey',
-        height: '250px',
-        padding: '5px',
-        borderRadius: '4px',
-      },
-    },
-  },
-});
 
 const CreatePost = () => {
   const [state, setState] = useState({
@@ -96,45 +77,50 @@ const CreatePost = () => {
           enableReinitialize
         >
           {({ handleSubmit, resetForm, errors, isValid, isSubmitting, values }) => (
-            <div className='CreatePost'>
-              <Form onSubmit={handleSubmit}>
-                <h6>Post Type</h6>
-                <RadioGroup
-                  style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
-                  aria-label='type'
-                  name='postType'
-                  value={values.postType}
-                  onChange={handlePostTypeChange}
-                >
-                  <FormControlLabel
-                    value='video'
-                    control={<Radio color='primary' />}
-                    label='Video'
+            <>
+              <div className='CreatePost'>
+                <Form onSubmit={handleSubmit}>
+                  <h6>Post Type</h6>
+                  <RadioGroup
+                    style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
+                    aria-label='type'
+                    name='postType'
+                    value={values.postType}
+                    onChange={handlePostTypeChange}
+                  >
+                    <FormControlLabel
+                      value='video'
+                      control={<Radio color='primary' />}
+                      label='Video'
+                    />
+                    <FormControlLabel
+                      value='images'
+                      control={<Radio color='primary' />}
+                      label='Image'
+                    />
+                    <FormControlLabel
+                      value='Text'
+                      control={<Radio color='primary' />}
+                      label='Text'
+                    />
+                    <FormControlLabel
+                      value='audio'
+                      control={<Radio color='primary' />}
+                      label='Audio'
+                    />
+                  </RadioGroup>
+                  <Controls.Select
+                    label='Select Category'
+                    name='category'
+                    size='80%'
+                    value={values.category}
+                    onChange={(event) => {
+                      setState((s) => ({ ...s, category: event.target.value }));
+                    }}
+                    options={Categories}
                   />
-                  <FormControlLabel
-                    value='images'
-                    control={<Radio color='primary' />}
-                    label='Image'
-                  />
-                  <FormControlLabel value='Text' control={<Radio color='primary' />} label='Text' />
-                  <FormControlLabel
-                    value='audio'
-                    control={<Radio color='primary' />}
-                    label='Audio'
-                  />
-                </RadioGroup>
-                <Controls.Select
-                  label='Select Category'
-                  name='category'
-                  size='80%'
-                  value={values.category}
-                  onChange={(event) => {
-                    setState((s) => ({ ...s, category: event.target.value }));
-                  }}
-                  options={Categories}
-                />
-                <Grid item>
-                  <TextareaAutosize
+                  <Grid item>
+                    {/* <TextareaAutosize
                     style={{
                       width: '80%',
                       marginTop: 20,
@@ -149,94 +135,111 @@ const CreatePost = () => {
                     }}
                     placeholder='Type caption here..'
                     name='caption'
-                  />
-                </Grid>
-                <Grid container direction='column' style={{ width: '80%' }}>
-                  {values.postType === 'images' && (
-                    <MultipleFileUploadField name='images' type='image/*' />
-                  )}
-                  {values.postType === 'video' && (
-                    <MultipleFileUploadField name='video' type='video/*' />
-                  )}
-                  {values.postType === 'audio' && (
-                    <MultipleFileUploadField name='audio' type='audio/*' />
-                  )}
-                </Grid>
-                <Grid container direction='column'>
-                  <Grid item>
-                    <span style={{ fontSize: '1rem' }}>
-                      Schedule Post for Later
-                      <Switch
-                        checked={state.isScheduled}
-                        onChange={handleScheduled}
-                        color='primary'
-                        value={values.isScheduled}
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                      />
-                    </span>
+                  /> */}
+                    <Controls.Input
+                      label='Type caption here..'
+                      name='caption'
+                      value={values.caption}
+                      onChange={(event) => {
+                        setState((s) => ({ ...s, caption: event.target.value }));
+                      }}
+                      value={values.caption}
+                      multiline
+                      style={{
+                        width: '80%',
+                        marginTop: 20,
+                        marginBottom: 20,
+                      }}
+                      rows={6}
+                    />
                   </Grid>
-                  <Grid item>
-                    {state.isScheduled && (
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DateTimePicker
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <EventIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={values.selectedDate}
-                          style={{ width: '80%', margin: '10px 0px' }}
-                          disablePast
-                          name='selectedDate'
-                          inputVariant='outlined'
-                          onChange={handleDateChange}
-                          label='Schedule Data & Time'
-                          showTodayButton
-                        />
-                      </MuiPickersUtilsProvider>
+                  <Grid container direction='column' style={{ width: '80%' }}>
+                    {values.postType === 'images' && (
+                      <MultipleFileUploadField name='images' type='image/*' />
+                    )}
+                    {values.postType === 'video' && (
+                      <MultipleFileUploadField name='video' type='video/*' />
+                    )}
+                    {values.postType === 'audio' && (
+                      <MultipleFileUploadField name='audio' type='audio/*' />
                     )}
                   </Grid>
-                  <Grid item>
-                    <span style={{ fontSize: '1rem' }}>
-                      Disable Comments
-                      <Switch
-                        checked={state.comments}
-                        onChange={handleComments}
-                        name={values.comments}
-                        color='primary'
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                      />
-                    </span>
+                  <Grid container direction='column'>
+                    <Grid item>
+                      <span style={{ fontSize: '1rem' }}>
+                        Schedule Post for Later
+                        <Switch
+                          checked={state.isScheduled}
+                          onChange={handleScheduled}
+                          color='primary'
+                          value={values.isScheduled}
+                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+                      </span>
+                    </Grid>
+                    <Grid item>
+                      {state.isScheduled && (
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position='start'>
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.selectedDate}
+                            style={{ width: '80%', margin: '10px 0px' }}
+                            disablePast
+                            name='selectedDate'
+                            inputVariant='outlined'
+                            onChange={handleDateChange}
+                            label='Schedule Data & Time'
+                            showTodayButton
+                          />
+                        </MuiPickersUtilsProvider>
+                      )}
+                    </Grid>
+                    <Grid item>
+                      <span style={{ fontSize: '1rem' }}>
+                        Disable Comments
+                        <Switch
+                          checked={state.comments}
+                          onChange={handleComments}
+                          name={values.comments}
+                          color='primary'
+                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+                      </span>
+                    </Grid>
                   </Grid>
-                </Grid>
 
-                {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
 
-                <ButtonsContainer>
-                  <Controls.Button
-                    text='Preview'
-                    variant='contained'
-                    color='primary'
-                    style={{ borderRadius: '26px' }}
-                  />
-                  <Button color='primary'>Discard Post</Button>
-                  <Button color='primary'>Save as Draft</Button>
-                  <Controls.Button
-                    text='Post'
-                    variant='contained'
-                    color='primary'
-                    style={{ borderRadius: '26px' }}
-                    disabled={!isValid || isSubmitting}
-                    type='submit'
-                  />
-                </ButtonsContainer>
-              </Form>
-            </div>
+                  <ButtonsContainer>
+                    <Controls.Button
+                      text='Preview'
+                      variant='contained'
+                      color='primary'
+                      style={{ borderRadius: '26px' }}
+                    />
+                    <Button color='primary'>Discard Post</Button>
+                    <Button color='primary'>Save as Draft</Button>
+                    <Controls.Button
+                      text='Post'
+                      variant='contained'
+                      color='primary'
+                      style={{ borderRadius: '26px' }}
+                      disabled={!isValid || isSubmitting}
+                      type='submit'
+                    />
+                  </ButtonsContainer>
+                </Form>
+              </div>
+              <Preview state={values} />
+            </>
           )}
         </Formik>
-        <Preview state={state} />
       </CreatePostContainer>
     </>
   );
