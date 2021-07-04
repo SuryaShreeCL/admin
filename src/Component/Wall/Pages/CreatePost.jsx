@@ -164,7 +164,7 @@ const CreatePost = () => {
                       <MultipleFileUploadField name='audio' type='audio/*' />
                     )}
                   </Grid>
-                  <Grid container direction='column'>
+                  <Grid container direction='column' style={{ marginTop: '10px' }}>
                     <Grid item>
                       <span style={{ fontSize: '1rem' }}>
                         Schedule Post for Later

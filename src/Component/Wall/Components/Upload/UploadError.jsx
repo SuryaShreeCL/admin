@@ -13,7 +13,7 @@ const ErrorLinearProgress = withStyles((theme) =>
 export function UploadError({ file, onDelete, errors }) {
   return (
     <React.Fragment>
-      <FileHeader file={file} onDelete={onDelete} />
+      <FileHeader file={file} onDelete={onDelete} errors />
       <ErrorLinearProgress variant='determinate' value={100} />
       {errors.map((error) => (
         <div key={error.code}>
