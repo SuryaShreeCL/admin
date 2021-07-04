@@ -18,7 +18,7 @@ const Preview = ({ state }) => {
         <Post>
           <div className='Poster'>
             {postType === 'images' && images.length > 0 && (
-              <Carousel showArrows={true} infiniteLoop={true} autoPlay={true} showThumbs={false}>
+              <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
                 {images.map((image) => {
                   return <img style={{ maxHeight: '250px' }} src={image.url} />;
                 })}

@@ -97,6 +97,7 @@ export function MultipleFileUploadField({ name, type }) {
               onDelete={onDelete}
               onUpload={onUpload}
               file={fileWrapper.file}
+              url={fileWrapper.url}
             />
           )}
         </Grid>

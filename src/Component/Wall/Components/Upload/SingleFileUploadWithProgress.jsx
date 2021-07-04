@@ -1,8 +1,8 @@
-import { Grid, LinearProgress } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FileHeader } from './FileHeader';
 
-export function SingleFileUploadWithProgress({ file, onDelete, onUpload }) {
+export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -16,8 +16,7 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload }) {
 
   return (
     <Grid item>
-      <FileHeader file={file} onDelete={onDelete} />
-      <LinearProgress variant='determinate' value={progress} />
+      <FileHeader file={file} url={url} onDelete={onDelete} progress={progress} />
     </Grid>
   );
 }
