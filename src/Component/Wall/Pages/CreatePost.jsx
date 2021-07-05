@@ -156,13 +156,13 @@ const CreatePost = () => {
                   </Grid>
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.postType === 'images' && (
-                      <MultipleFileUploadField name='images' type='image/*' uploadType='image' />
+                      <MultipleFileUploadField name='images' type='image/*' />
                     )}
                     {values.postType === 'video' && (
-                      <MultipleFileUploadField name='video' type='video/*' uploadType='video' />
+                      <MultipleFileUploadField name='video' type='video/*' />
                     )}
                     {values.postType === 'audio' && (
-                      <MultipleFileUploadField name='audio' type='audio/*' uploadType='video' />
+                      <MultipleFileUploadField name='audio' type='audio/*' />
                     )}
                   </Grid>
                   <Grid container direction='column' style={{ marginTop: '10px' }}>

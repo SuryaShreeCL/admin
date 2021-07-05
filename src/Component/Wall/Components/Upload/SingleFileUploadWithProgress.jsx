@@ -2,12 +2,12 @@ import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FileProgress } from './FileProgress';
 
-export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, uploadType }) {
+export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async function upload() {
-      const url = await uploadFile(file, setProgress, uploadType);
+      const url = await uploadFile(file, setProgress);
       onUpload(file, url);
     }
 
@@ -21,8 +21,8 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, up
   );
 }
 
-function uploadFile(file, onProgress, uploadType) {
-  const url = `https://api.cloudinary.com/v1_1/demo/${uploadType}/upload`;
+function uploadFile(file, onProgress) {
+  const url = `https://api.cloudinary.com/v1_1/demo/auto/upload`;
   const key = 'docs_upload_example_us_preset';
 
   return new Promise((res, rej) => {
