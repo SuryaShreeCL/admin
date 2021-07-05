@@ -64,7 +64,7 @@ export function MultipleFileUploadField({ name, type }) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: [type],
-    maxSize: 300 * 1024, // 300KB
+    maxSize: 500 * 1024, // 500KB
   });
 
   return (
@@ -91,7 +91,12 @@ export function MultipleFileUploadField({ name, type }) {
       {files.map((fileWrapper) => (
         <Grid item key={fileWrapper.id}>
           {fileWrapper.errors.length ? (
-            <UploadError file={fileWrapper.file} errors={fileWrapper.errors} onDelete={onDelete} />
+            <UploadError
+              file={fileWrapper.file}
+              errors={fileWrapper.errors}
+              onDelete={onDelete}
+              url={fileWrapper.url}
+            />
           ) : (
             <SingleFileUploadWithProgress
               onDelete={onDelete}

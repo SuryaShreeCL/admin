@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { FileHeader } from './FileHeader';
+import { FileProgress } from './FileProgress';
 
 export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url }) {
   const [progress, setProgress] = useState(0);
@@ -16,7 +16,7 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url }) 
 
   return (
     <Grid item>
-      <FileHeader file={file} url={url} onDelete={onDelete} progress={progress} />
+      <FileProgress file={file} url={url} onDelete={onDelete} progress={progress} />
     </Grid>
   );
 }

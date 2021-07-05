@@ -20,7 +20,7 @@ const Preview = ({ state }) => {
             {postType === 'images' && images.length > 0 && (
               <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
                 {images.map((image) => {
-                  return <img style={{ maxHeight: '250px' }} src={image.url} />;
+                  return image.url && <img style={{ maxHeight: '250px' }} src={image.url} />;
                 })}
               </Carousel>
             )}

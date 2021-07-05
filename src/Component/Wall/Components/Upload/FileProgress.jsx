@@ -3,6 +3,8 @@ import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
+import Spinner from '../../Assets/Images/Blue-spin.gif';
+import { bytesToSize } from '../../../Utils/Helpers';
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -19,25 +21,11 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-function bytesToSize(bytes) {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return 'n/a';
-  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
-  if (i === 0) return `${bytes} ${sizes[i]})`;
-  return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
-}
-
-export function FileHeader({ file, onDelete, url, progress }) {
+export function FileProgress({ file, onDelete, url, progress }) {
   return (
     <FileHeaderContainer>
       <div className='img-container'>
-        <img
-          src={
-            url ?? 'https://i1.wp.com/bigtechquestion.com/wp-content/uploads/2020/09/Blue-spin.gif'
-          }
-          alt='upload-img'
-          width='100px'
-        />
+        <img src={url ?? Spinner} alt='upload-img' width='60px' />
       </div>
       <div className='img-details'>
         <Typography variant='caption' color='textSecondary'>
@@ -50,9 +38,11 @@ export function FileHeader({ file, onDelete, url, progress }) {
           <Typography variant='caption' color='textSecondary'>
             {bytesToSize(file.size)}
           </Typography>
-          <Typography variant='caption' color='textSecondary'>{`${Math.round(
-            progress
-          )}%`}</Typography>
+          {!isNaN(Math.round(progress)) && (
+            <Typography variant='caption' color='textSecondary'>{`${Math.round(
+              progress
+            )}%`}</Typography>
+          )}
         </div>
       </div>
       <Controls.ActionButton onClick={() => onDelete(file)}>
