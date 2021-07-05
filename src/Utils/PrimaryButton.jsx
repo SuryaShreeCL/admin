@@ -9,7 +9,7 @@ function PrimaryButton(props) {
                 },
                 containedPrimary : {
                     backgroundColor : "#1093FF",
-                    width : "146px",
+                    width : "170px",
                     borderRadius : "30px",
                     "&:hover" : {
                         backgroundColor : "#1093FF",
@@ -17,7 +17,7 @@ function PrimaryButton(props) {
                 },
                 containedSecondary : {
                     backgroundColor : "#FF0000",
-                    width : "146px",
+                    width : "170px",
                     borderRadius : "30px",
                     "&:hover" : {
                         backgroundColor : "#FF0000",

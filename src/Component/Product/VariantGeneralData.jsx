@@ -50,6 +50,8 @@ class VariantGeneralData extends Component {
       standaloneSellableErr: "",
       updatedBy: window.sessionStorage.getItem("role"),
       UpdatedOn: new Date(),
+      banner : null,
+      bannerErr : "",
     };
   }
   componentDidMount() {
@@ -95,6 +97,7 @@ class VariantGeneralData extends Component {
       id: this.props.match.params.id,
       name: this.state.variantfamilysku,
       codeName: this.props.getvarientByidList.codeName,
+      banner : this.state.banner,
       shortName: this.props.getvarientByidList.shortName,
       productDescription: this.props.getvarientByidList.productDescription,
       productOneliner: this.props.getvarientByidList.productOneliner,
@@ -151,12 +154,14 @@ class VariantGeneralData extends Component {
     this.state.standaloneSellable === ""
       ? this.setState({ standaloneSellableErr: hlptxt })
       : this.setState({ standaloneSellableErr: "" });
+      isEmptyString(this.state.banner) ? this.setState({bannerErr : hlptxt}) : this.setState({bannerErr : ""})
     if (
       !isEmptyString(this.state.variantfamilysku) &&
       !isEmptyString(this.state.variantsku) &&
       !isEmptyString(this.state.costPrice) &&
       !isEmptyString(this.state.sellingPrice) &&
       !isEmptyString(this.state.createdBy) &&
+      !isEmptyString(this.state.banner) &&
       this.state.endOfServiceDate !== null &&
       this.state.createdOn !== null &&
       this.state.endOfEnrollmentDate !== null &&
@@ -171,6 +176,7 @@ class VariantGeneralData extends Component {
         endOfServiceDate: this.state.endOfServiceDate,
         endOfEnrollmentDate: this.state.endOfEnrollmentDate,
         costPrice: this.state.costPrice,
+        banner : this.state.banner,
         sellingPrice: this.state.sellingPrice,
         createdBy: this.state.createdBy,
         dateOfCreation: this.state.createdOn,
@@ -377,6 +383,17 @@ class VariantGeneralData extends Component {
                 }}
               />
             </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item md={7}>
+          <TextField
+              label="Banner Link"
+              size="small"
+              multiline
+              value={this.state.banner}
+              error={this.state.bannerErr.length > 0}
+              helperText={this.state.bannerErr}
+              onChange={(e) => this.setState({ banner: e.target.value })}
+            />
           </Grid>
           {this.props.match.params.id === undefined && (
             <Grid item md={12}>
