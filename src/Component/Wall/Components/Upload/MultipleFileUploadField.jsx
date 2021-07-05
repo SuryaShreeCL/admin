@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function MultipleFileUploadField({ name, type }) {
+export function MultipleFileUploadField({ name, type, uploadType }) {
   const [_, __, helpers] = useField(name);
   const classes = useStyles();
 
@@ -103,6 +103,7 @@ export function MultipleFileUploadField({ name, type }) {
               onUpload={onUpload}
               file={fileWrapper.file}
               url={fileWrapper.url}
+              uploadType={uploadType}
             />
           )}
         </Grid>

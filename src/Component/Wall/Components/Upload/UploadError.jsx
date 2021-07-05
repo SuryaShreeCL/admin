@@ -1,9 +1,9 @@
-import {  LinearProgress, Typography, Button, withStyles } from '@material-ui/core';
+import { LinearProgress, Typography, Button, withStyles } from '@material-ui/core';
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
-import Spinner from '../../Assets/Images/Blue-spin.gif'
+import Spinner from '../../Assets/Images/Blue-spin.gif';
 import { bytesToSize } from '../../../Utils/Helpers';
 
 const ErrorLinearProgress = withStyles((theme) => ({
@@ -21,12 +21,12 @@ const ErrorLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-export function UploadError({ file, onDelete, errors, url }) {
+export function UploadError({ file, onDelete, errors }) {
   return (
     <FileHeaderContainer>
       <div className='img-container'>
         <img
-          src='http://cdn.shopify.com/s/files/1/0797/7791/files/erroe_large.png?v=1498579730'
+          src='https://image.flaticon.com/icons/png/512/2621/2621165.png'
           alt='upload-img'
           width='60px'
         />

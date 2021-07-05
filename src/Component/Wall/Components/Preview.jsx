@@ -10,7 +10,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
-  const { category, caption, likes, images, audio, video, postType } = state;
+  const { category, caption, likes, images, audio, video, postType, videoLink } = state;
   return (
     <PreviewContainer>
       <Frame>
@@ -32,7 +32,7 @@ const Preview = ({ state }) => {
             {postType === 'audio' && (
               <ReactAudioPlayer
                 style={{ backgroundColor: '#f0f3f4' }}
-                src={audio.file ?? sample}
+                src={audio[0]?.url ?? sample}
                 controls
               />
             )}
@@ -41,7 +41,8 @@ const Preview = ({ state }) => {
               <ReactPlayer
                 width={300}
                 height={200}
-                url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
+                controls={true}
+                url={video[0]?.url || videoLink || 'https://www.youtube.com/watch?v=ysz5S6PUM-U'}
               />
             )}
           </div>

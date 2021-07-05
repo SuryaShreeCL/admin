@@ -4,6 +4,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
 import Spinner from '../../Assets/Images/Blue-spin.gif';
+import Media from '../../Assets/Images/media.png';
 import { bytesToSize } from '../../../Utils/Helpers';
 
 const BorderLinearProgress = withStyles((theme) => ({
@@ -25,7 +26,11 @@ export function FileProgress({ file, onDelete, url, progress }) {
   return (
     <FileHeaderContainer>
       <div className='img-container'>
-        <img src={url ?? Spinner} alt='upload-img' width='60px' />
+        <img
+          src={((url?.includes('.mp4') || url?.includes('.mp3')) && Media) || url || Spinner}
+          alt='upload-img'
+          width='60px'
+        />
       </div>
       <div className='img-details'>
         <Typography variant='caption' color='textSecondary'>

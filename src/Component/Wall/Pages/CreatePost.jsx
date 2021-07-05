@@ -26,6 +26,7 @@ const CreatePost = () => {
     postType: 'images',
     images: [],
     video: [],
+    videoLink: null,
     audio: [],
     comments: false,
     selectedDate: new Date(),
@@ -155,13 +156,13 @@ const CreatePost = () => {
                   </Grid>
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.postType === 'images' && (
-                      <MultipleFileUploadField name='images' type='image/*' />
+                      <MultipleFileUploadField name='images' type='image/*' uploadType='image' />
                     )}
                     {values.postType === 'video' && (
-                      <MultipleFileUploadField name='video' type='video/*' />
+                      <MultipleFileUploadField name='video' type='video/*' uploadType='video' />
                     )}
                     {values.postType === 'audio' && (
-                      <MultipleFileUploadField name='audio' type='audio/*' />
+                      <MultipleFileUploadField name='audio' type='audio/*' uploadType='video' />
                     )}
                   </Grid>
                   <Grid container direction='column' style={{ marginTop: '10px' }}>
