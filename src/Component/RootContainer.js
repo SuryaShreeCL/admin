@@ -25,7 +25,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import Content from './Content';
 import history from './History';
-import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath } from './RoutePaths';
+import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, clientDetailsPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath } from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -63,6 +63,7 @@ const NavbarList = [
       {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
       {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
       {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
+      {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
       // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
       // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
       

@@ -19,7 +19,7 @@ export const getColleges=(name)=>{
 
 export const getAllColleges=()=>{
     return dispatch => {
-        axios.get(URL+"/api/v1/colleges/",{
+        axios.get(URL+"/api/v1/colleges",{
             crossDomain: true
         })
             .then(result => {
