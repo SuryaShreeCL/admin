@@ -27,6 +27,7 @@ const CreatePost = () => {
     images: [],
     video: [],
     videoLink: null,
+    videoURLEnabled: false,
     audio: [],
     comments: false,
     selectedDate: new Date(),
@@ -42,6 +43,10 @@ const CreatePost = () => {
 
   const handlePostTypeChange = (event) => {
     setState((s) => ({ ...s, postType: event.target.value }));
+  };
+
+  const handleVideoURL = () => {
+    setState((s) => ({ ...s, videoURLEnabled: !state.videoURLEnabled }));
   };
 
   const handleScheduled = () => {
@@ -121,22 +126,6 @@ const CreatePost = () => {
                     options={Categories}
                   />
                   <Grid item>
-                    {/* <TextareaAutosize
-                    style={{
-                      width: '80%',
-                      marginTop: 20,
-                      marginBottom: 10,
-                      border: '1px solid lightgrey',
-                      borderRadius: '4px',
-                    }}
-                    rowsMin={6}
-                    value={values.caption}
-                    onChange={(event) => {
-                      setState((s) => ({ ...s, caption: event.target.value }));
-                    }}
-                    placeholder='Type caption here..'
-                    name='caption'
-                  /> */}
                     <Controls.Input
                       label='Type caption here..'
                       name='caption'
@@ -149,17 +138,47 @@ const CreatePost = () => {
                       style={{
                         width: '80%',
                         marginTop: 20,
-                        marginBottom: 20,
+                        marginBottom: 15,
                       }}
                       rows={6}
                     />
                   </Grid>
+                  {values.postType === 'video' && (
+                    <Grid item>
+                      <span style={{ fontSize: '1rem' }}>
+                        Video URL Available
+                        <Switch
+                          checked={state.videoURLEnabled}
+                          onChange={handleVideoURL}
+                          color='primary'
+                          value={values.videoURLEnabled}
+                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+                      </span>
+                    </Grid>
+                  )}
+                  {state.videoURLEnabled && values.postType === 'video' && (
+                    <Grid item>
+                      <Controls.Input
+                        label='Paste Video URL'
+                        name='videoLink'
+                        style={{ width: '80%', marginTop: '10px' }}
+                        value={values.videoLink}
+                        onChange={(event) => {
+                          setState((s) => ({ ...s, videoLink: event.target.value }));
+                        }}
+                      />
+                    </Grid>
+                  )}
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.postType === 'images' && (
                       <MultipleFileUploadField name='images' type='image/*' />
                     )}
-                    {values.postType === 'video' && (
+                    {values.postType === 'video' && !state.videoURLEnabled && (
                       <MultipleFileUploadField name='video' type='video/*' />
+                    )}
+                    {values.postType === 'video' && !state.videoURLEnabled && (
+                      <MultipleFileUploadField name='thumbnail' type='image/*' />
                     )}
                     {values.postType === 'audio' && (
                       <MultipleFileUploadField name='audio' type='audio/*' />
@@ -218,14 +237,7 @@ const CreatePost = () => {
                   <pre>{JSON.stringify({ values }, null, 4)}</pre>
 
                   <ButtonsContainer>
-                    <Controls.Button
-                      text='Preview'
-                      variant='contained'
-                      color='primary'
-                      style={{ borderRadius: '26px' }}
-                    />
                     <Button color='primary'>Discard Post</Button>
-                    <Button color='primary'>Save as Draft</Button>
                     <Controls.Button
                       text='Post'
                       variant='contained'
@@ -234,6 +246,7 @@ const CreatePost = () => {
                       disabled={!isValid || isSubmitting}
                       type='submit'
                     />
+                    <Button color='primary'>Save as Draft</Button>
                   </ButtonsContainer>
                 </Form>
               </div>

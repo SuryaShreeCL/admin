@@ -84,6 +84,9 @@ export function MultipleFileUploadField({ name, type }) {
         {name === 'video' && (
           <p {...getRootProps({ className: classes.info })}>(Supported format: mp4, max 10MB)</p>
         )}
+        {name === 'thumbnail' && (
+          <p {...getRootProps({ className: classes.info })}>(Supported format: jpeg, max 1MB)</p>
+        )}
         {name === 'audio' && (
           <p {...getRootProps({ className: classes.info })}>(Supported format: mp3, max 1MB)</p>
         )}
