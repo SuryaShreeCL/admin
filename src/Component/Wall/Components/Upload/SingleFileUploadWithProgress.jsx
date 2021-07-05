@@ -2,12 +2,12 @@ import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FileProgress } from './FileProgress';
 
-export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url }) {
+export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, folderName }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async function upload() {
-      const url = await uploadFile(file, setProgress);
+      const url = await uploadFile(file, setProgress, folderName);
       onUpload(file, url);
     }
 
@@ -21,9 +21,9 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url }) 
   );
 }
 
-function uploadFile(file, onProgress) {
-  const url = `https://api.cloudinary.com/v1_1/demo/auto/upload`;
-  const key = 'docs_upload_example_us_preset';
+function uploadFile(file, onProgress, folderName) {
+  const url = `https://api.cloudinary.com/v1_1/careerlabsbucket/auto/upload`;
+  const key = 'ewipmhvz';
 
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();
@@ -44,6 +44,7 @@ function uploadFile(file, onProgress) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', key);
+    formData.append('folder', folderName);
 
     xhr.send(formData);
   });

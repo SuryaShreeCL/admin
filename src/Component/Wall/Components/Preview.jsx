@@ -42,7 +42,7 @@ const Preview = ({ state }) => {
                 width={300}
                 height={200}
                 controls={true}
-                url={video[0]?.url || videoLink || 'https://www.youtube.com/watch?v=ysz5S6PUM-U'}
+                url={video[0]?.url || videoLink || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'}
               />
             )}
           </div>

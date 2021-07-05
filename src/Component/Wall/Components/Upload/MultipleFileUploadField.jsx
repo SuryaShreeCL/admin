@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function MultipleFileUploadField({ name, type }) {
+export function MultipleFileUploadField({ name, type, folderName }) {
   const [_, __, helpers] = useField(name);
   const classes = useStyles();
 
@@ -84,9 +84,6 @@ export function MultipleFileUploadField({ name, type }) {
         {name === 'video' && (
           <p {...getRootProps({ className: classes.info })}>(Supported format: mp4, max 10MB)</p>
         )}
-        {name === 'thumbnail' && (
-          <p {...getRootProps({ className: classes.info })}>(Supported format: jpeg, max 1MB)</p>
-        )}
         {name === 'audio' && (
           <p {...getRootProps({ className: classes.info })}>(Supported format: mp3, max 1MB)</p>
         )}
@@ -106,6 +103,7 @@ export function MultipleFileUploadField({ name, type }) {
               onUpload={onUpload}
               file={fileWrapper.file}
               url={fileWrapper.url}
+              folderName={folderName}
             />
           )}
         </Grid>

@@ -9,7 +9,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
@@ -27,6 +26,7 @@ const CreatePost = () => {
     images: [],
     video: [],
     videoLink: null,
+    redirection: { link: '', buttonText: '' },
     videoURLEnabled: false,
     audio: [],
     comments: false,
@@ -82,7 +82,7 @@ const CreatePost = () => {
           }}
           enableReinitialize
         >
-          {({ handleSubmit, resetForm, errors, isValid, isSubmitting, values }) => (
+          {({ handleSubmit, resetForm, errors, handleChange, isValid, isSubmitting, values }) => (
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit}>
@@ -170,23 +170,51 @@ const CreatePost = () => {
                       />
                     </Grid>
                   )}
+                  <Grid item>
+                    <Controls.Input
+                      label='Paste the Redirection Link'
+                      name='redirection.link'
+                      style={{ width: '80%', marginTop: '10px' }}
+                      value={values.redirection.link}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Controls.Input
+                      label='Enter Button Text Here'
+                      name='redirection.buttonText'
+                      style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
+                      value={values.redirection.buttonText}
+                      onChange={handleChange}
+                    />
+                  </Grid>
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.postType === 'images' && (
-                      <MultipleFileUploadField name='images' type='image/*' />
+                      <MultipleFileUploadField
+                        name='images'
+                        type='image/*'
+                        folderName='app-images'
+                      />
                     )}
                     {values.postType === 'video' && !state.videoURLEnabled && (
-                      <MultipleFileUploadField name='video' type='video/*' />
-                    )}
-                    {values.postType === 'video' && !state.videoURLEnabled && (
-                      <MultipleFileUploadField name='thumbnail' type='image/*' />
+                      <MultipleFileUploadField
+                        name='video'
+                        type='video/*'
+                        folderName='app-videos'
+                      />
                     )}
                     {values.postType === 'audio' && (
-                      <MultipleFileUploadField name='audio' type='audio/*' />
+                      <MultipleFileUploadField name='audio' type='audio/*' folderName='app-audio' />
                     )}
                   </Grid>
-                  <Grid container direction='column' style={{ marginTop: '10px' }}>
+                  <Grid
+                    container
+                    direction='row'
+                    justify='space-between'
+                    style={{ marginTop: '10px', width: '80%' }}
+                  >
                     <Grid item>
-                      <span style={{ fontSize: '1rem' }}>
+                      <h6 style={{ fontSize: '1rem' }}>
                         Schedule Post for Later
                         <Switch
                           checked={state.isScheduled}
@@ -195,33 +223,10 @@ const CreatePost = () => {
                           value={values.isScheduled}
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
-                      </span>
+                      </h6>
                     </Grid>
                     <Grid item>
-                      {state.isScheduled && (
-                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                          <DateTimePicker
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position='start'>
-                                  <EventIcon />
-                                </InputAdornment>
-                              ),
-                            }}
-                            value={values.selectedDate}
-                            style={{ width: '80%', margin: '10px 0px' }}
-                            disablePast
-                            name='selectedDate'
-                            inputVariant='outlined'
-                            onChange={handleDateChange}
-                            label='Schedule Data & Time'
-                            showTodayButton
-                          />
-                        </MuiPickersUtilsProvider>
-                      )}
-                    </Grid>
-                    <Grid item>
-                      <span style={{ fontSize: '1rem' }}>
+                      <h6 style={{ fontSize: '1rem' }}>
                         Disable Comments
                         <Switch
                           checked={state.comments}
@@ -230,10 +235,32 @@ const CreatePost = () => {
                           color='primary'
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
-                      </span>
+                      </h6>
                     </Grid>
                   </Grid>
-
+                  <Grid item>
+                    {state.isScheduled && (
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DateTimePicker
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <EventIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={values.selectedDate}
+                          style={{ width: '80%', margin: '10px 0px' }}
+                          disablePast
+                          name='selectedDate'
+                          inputVariant='outlined'
+                          onChange={handleDateChange}
+                          label='Schedule Data & Time'
+                          showTodayButton
+                        />
+                      </MuiPickersUtilsProvider>
+                    )}
+                  </Grid>
                   <pre>{JSON.stringify({ values }, null, 4)}</pre>
 
                   <ButtonsContainer>
