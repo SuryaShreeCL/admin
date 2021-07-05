@@ -50,5 +50,13 @@ export const Post = styled.div`
       position: absolute;
       left: 80px;
     }
+
+    .redirectionBtn {
+      text-decoration: none;
+      background: linear-gradient(89.33deg, #067fdc 30.67%, #5cd3dc 96.74%);
+      border-radius: 26px;
+      padding: 6px 20px;
+      color: #ffff;
+    }
   }
 `;

@@ -6,11 +6,22 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 import Empty from '../Assets/Images/empty.png';
 import sample from '../Assets/Audio/iphone.mp3';
+import Controls from '../../Utils/controls/Controls';
 import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
-  const { category, caption, likes, images, audio, video, postType, videoLink } = state;
+  const {
+    category,
+    caption,
+    likes,
+    images,
+    audio,
+    video,
+    postType,
+    videoLink,
+    redirection,
+  } = state;
   return (
     <PreviewContainer>
       <Frame>
@@ -65,6 +76,12 @@ const Preview = ({ state }) => {
             <span className='shareIcon'>
               <ShareIcon />{' '}
             </span> */}
+
+            {redirection.link.length > 1 && redirection.buttonText.length > 1 && (
+              <a href={redirection.link} className='redirectionBtn'>
+                {redirection.buttonText || 'Text'}
+              </a>
+            )}
           </div>
         </Post>
       </Frame>
