@@ -18,8 +18,8 @@ export const Post = styled.div`
   max-width: 300px;
   min-width: 300px;
   background: #ffffff;
-  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.25);
-  border-radius: 14px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
 
   .Poster {
     img {
@@ -29,18 +29,31 @@ export const Post = styled.div`
     }
   }
   .CaptionContainer {
-    padding: 0.5rem;
+    padding: 0.5rem 0.7rem;
     max-height: 200px;
     overflow: hidden;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .TopBar {
+    display: flex;
+    padding: 0.5rem 0.7rem;
+    margin-top: 10px;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .BottomBar {
     display: flex;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.7rem;
     position: relative;
     align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid lightgrey;
+    justify-content: flex-end;
+    /* border-bottom: 1px solid lightgrey; */
 
     .digits {
       margin-left: 5px;

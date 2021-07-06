@@ -7,6 +7,7 @@ import { Carousel } from 'react-responsive-carousel';
 import Empty from '../Assets/Images/empty.png';
 import sample from '../Assets/Audio/iphone.mp3';
 import Controls from '../../Utils/controls/Controls';
+import ShareIcon from '@material-ui/icons/Share';
 import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
@@ -57,14 +58,7 @@ const Preview = ({ state }) => {
               />
             )}
           </div>
-          <div className='CaptionContainer'>
-            <h6 style={{ marginTop: '7px' }}>#{category || 'Category Name'}</h6>
-            <p>
-              {caption ||
-                ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
-            </p>
-          </div>
-          <div className='BottomBar'>
+          <div className='TopBar'>
             <span className='favIcon'>
               <FavoriteIcon style={{ color: 'red' }} />
               <span className='digits'>{likes || '000'} </span>
@@ -72,11 +66,19 @@ const Preview = ({ state }) => {
             {/* <span className='commentIcon'>
               <CommentIcon />
               <span className='digits'>{comments || '000'} </span>
-            </span>
-            <span className='shareIcon'>
+            </span> */}
+            {/* <span className='shareIcon'>
               <ShareIcon />{' '}
             </span> */}
-
+          </div>
+          <div className='CaptionContainer'>
+            {/* <h6 style={{ marginTop: '7px' }}>#{category || 'Category Name'}</h6> */}
+            <p>
+              {caption ||
+                ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
+            </p>
+          </div>
+          <div className='BottomBar'>
             {redirection.link.length > 1 && redirection.buttonText.length > 1 && (
               <a href={redirection.link} className='redirectionBtn'>
                 {redirection.buttonText || 'Text'}

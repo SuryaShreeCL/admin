@@ -66,24 +66,24 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
   studentName: '',
   avatar: '',
-  scores: { gre: 0, gmat: 0, ielts:"0" },
+  scores: { gre: 0, gmat: 0, ielts: '0' },
   mixedTag: '',
   yearOfPassing: '',
   testimonialOrigin: '',
   graduatingCollege: { name: '', logo: '' },
-  company: { name: '',work_exp:0, workExperience: '0', logo: '' },
+  company: { name: '', work_exp: 0, workExperience: '0', logo: '' },
   program: { name: '', acronym: '' },
   textTestimonial: { tagLine: '', fullTestimonial: '' },
   videoTestimonial: { tagLine: '', videoLink: '', fullTestimonial: '' },
   gender: '',
   type: '',
-  sector:'',
+  sector: '',
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
   companyCalls: [{ name: '', logo: '' }],
   productList: [''],
-  domains: [{ name: ''}],
-  otherAdmits: [{ name: '', logo:''}],
+  domains: [{ name: '' }],
+  otherAdmits: [{ name: '', logo: '' }],
   products: '',
   department: '',
   testimonialDate: new Date(),
@@ -229,7 +229,7 @@ export default function TestimonialForm(props) {
                   value={values.company?.workExperience}
                   onChange={handleChange}
                 />
-                
+
                 <Controls.Input
                   label='Sector'
                   name='sector'
@@ -258,7 +258,7 @@ export default function TestimonialForm(props) {
                   name='scores.gre'
                   label='GRE Score'
                   type='number'
-                  style={{ width: '120px' }}
+                  style={{ width: '120px', margin: '5px' }}
                   value={values.scores?.gre}
                   onChange={handleChange}
                 />
@@ -266,7 +266,7 @@ export default function TestimonialForm(props) {
                   name='scores.gmat'
                   label='GMAT Score'
                   type='number'
-                  style={{ width: '120px' }}
+                  style={{ width: '120px', margin: '5px' }}
                   value={values.scores?.gmat}
                   onChange={handleChange}
                 />
@@ -302,7 +302,7 @@ export default function TestimonialForm(props) {
                 />  */}
                 <Controls.Input
                   label='Admit College'
-                  style={{ width: '250px' }}
+                  style={{ width: '250px', margin: '5px', padding: '5px' }}
                   name='admitCollege.name'
                   value={values.admitCollege.name}
                   onChange={handleChange}
@@ -316,7 +316,7 @@ export default function TestimonialForm(props) {
                 <Controls.Input
                   label='Admit College Country'
                   name='admitCollege.country'
-                  style={{ width: '120px' }}
+                  style={{ width: '120px', margin: '5px', padding: '5px' }}
                   value={values.admitCollege?.country}
                   onChange={handleChange}
                 />
@@ -324,14 +324,14 @@ export default function TestimonialForm(props) {
                   label='Fall intake'
                   name='admitCollege.intake'
                   type='number'
-                  style={{ width: '120px' }}
+                  style={{ width: '120px', margin: '5px', padding: '5px' }}
                   value={values.admitCollege?.intake}
                   onChange={handleChange}
                 />
                 <Controls.Select
                   label='Tagging'
                   name='mixedTag'
-                  style={{ width: '150px' }}
+                  style={{ width: '150px', margin: '5px', padding: '5px' }}
                   value={values.mixedTag}
                   onChange={handleChange}
                   options={Tags()}
@@ -357,89 +357,87 @@ export default function TestimonialForm(props) {
                   options={getProducts()}
                 /> */}
                 <Grid item xs={5}>
-              <LabelledOutline id='PRD' label='Products'>
-                <FieldArray
-                  name='productList'
-                  render={(arrayHelpers) => (
-                    <div className={classes.root}>
-                      {values.productList.map((product, index) => (
-                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                          <Autocomplete
-                          value={values.productList[index]}
-                            onChange={(e, value) => {
-                              setFieldValue(
-                                `productList.${index}`,
-                                value !== null
-                                  ? value
-                                  : initialValues.productList[0]
-                              );
-                            }}
-                            id='productList'
-                            getOptionSelected={(option, value) => option.name === value.name}
-                            options={getProducts()?.map((prd) => prd.title) ?? []}
-                            style={{ width: 200 }}
-                            renderInput={(params) => (
-                              <TextField
-                              style={{ marginTop: '4%'} }
-                                {...params}
-                                label='Product'
-                                name={`productList.${index}`}
-                                variant='outlined'
+                  <LabelledOutline id='PRD' label='Products'>
+                    <FieldArray
+                      name='productList'
+                      render={(arrayHelpers) => (
+                        <div className={classes.root}>
+                          {values.productList.map((product, index) => (
+                            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                              <Autocomplete
+                                value={values.productList[index]}
+                                onChange={(e, value) => {
+                                  setFieldValue(
+                                    `productList.${index}`,
+                                    value !== null ? value : initialValues.productList[0]
+                                  );
+                                }}
+                                id='productList'
+                                getOptionSelected={(option, value) => option.name === value.name}
+                                options={getProducts()?.map((prd) => prd.title) ?? []}
+                                style={{ width: 200 }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    style={{ marginTop: '4%' }}
+                                    {...params}
+                                    label='Product'
+                                    name={`productList.${index}`}
+                                    variant='outlined'
+                                  />
+                                )}
                               />
-                            )}
-                          />
+                              <Controls.ActionButton
+                                color='secondary'
+                                onClick={() => arrayHelpers.remove(index)}
+                              >
+                                <RemoveCircleIcon fontSize='large' />
+                              </Controls.ActionButton>
+                            </div>
+                          ))}
                           <Controls.ActionButton
-                            color='secondary'
-                            onClick={() => arrayHelpers.remove(index)}
+                            color='primary'
+                            onClick={() => arrayHelpers.push('')}
                           >
-                            <RemoveCircleIcon fontSize='large' />
+                            <AddBoxIcon fontSize='large' />
                           </Controls.ActionButton>
                         </div>
-                      ))}
-                      <Controls.ActionButton
-                        color='primary'
-                        onClick={() => arrayHelpers.push('')}
-                      >
-                        <AddBoxIcon fontSize='large' />
-                      </Controls.ActionButton>
-                    </div>
-                  )}
-                />
-              </LabelledOutline>
-            </Grid>
-            <Grid item xs={5}>
-              <LabelledOutline id='DOM' label='Domain of Interest'>
-                <FieldArray
-                  name='domains'
-                  render={(arrayHelpers) => (
-                    <div className={classes.root}>
-                      {values.domains.map((domain, index) => (
-                        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                          <Field
-                            className={classes.spacer}
-                            placeholder='Domain'
-                            name={`domains.${index}.name`}
-                          />
+                      )}
+                    />
+                  </LabelledOutline>
+                </Grid>
+                <Grid item xs={5}>
+                  <LabelledOutline id='DOM' label='Domain of Interest'>
+                    <FieldArray
+                      name='domains'
+                      render={(arrayHelpers) => (
+                        <div className={classes.root}>
+                          {values.domains.map((domain, index) => (
+                            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                              <Field
+                                className={classes.spacer}
+                                placeholder='Domain'
+                                name={`domains.${index}.name`}
+                              />
+                              <Controls.ActionButton
+                                color='secondary'
+                                onClick={() => arrayHelpers.remove(index)}
+                              >
+                                <RemoveCircleIcon fontSize='large' />
+                              </Controls.ActionButton>
+                            </div>
+                          ))}
                           <Controls.ActionButton
-                            color='secondary'
-                            onClick={() => arrayHelpers.remove(index)}
+                            color='primary'
+                            onClick={() => arrayHelpers.push({ name: '' })}
                           >
-                            <RemoveCircleIcon fontSize='large' />
+                            <AddBoxIcon fontSize='large' />
                           </Controls.ActionButton>
                         </div>
-                      ))}
-                      <Controls.ActionButton
-                        color='primary'
-                        onClick={() => arrayHelpers.push({ name: '' })}
-                      >
-                        <AddBoxIcon fontSize='large' />
-                      </Controls.ActionButton>
-                    </div>
-                  )}
-                />
-              </LabelledOutline>
-            </Grid>
-            {/* <Grid item xs={6}>
+                      )}
+                    />
+                  </LabelledOutline>
+                </Grid>
+                {/* <Grid item xs={6}>
               <LabelledOutline id='OA' label='Other Admit Colleges'>
                 <FieldArray
                   name='otherAdmits'

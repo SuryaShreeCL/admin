@@ -85,7 +85,7 @@ const CreatePost = () => {
           {({ handleSubmit, resetForm, errors, handleChange, isValid, isSubmitting, values }) => (
             <>
               <div className='CreatePost'>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} noValidate autoComplete='off'>
                   <h6>Post Type</h6>
                   <RadioGroup
                     style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
@@ -141,6 +141,7 @@ const CreatePost = () => {
                         marginBottom: 15,
                       }}
                       rows={6}
+                      required
                     />
                   </Grid>
                   {values.postType === 'video' && (
