@@ -57,7 +57,8 @@ import {
   productcomboPath,
   productuserPunchingPath,
   productstructurePath,
-  clientDetailsPath
+  clientDetailsPath,
+  ratingPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -89,6 +90,7 @@ import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import ProductStages from './Product/ProductStages';
 import ClientDetails from './ObCallSummary/ClientDetails';
+import Rating from './ObCallSummary/Rating';
 export default function Routes(props) {
   return (
     
@@ -144,6 +146,8 @@ export default function Routes(props) {
               render={(props)=> <CareerTrackVideo {...props} />}
             />
             <Route exact path={documentDetailsPath} render={(props)=> <StudentDocuments {...props} />} />
+            <Route exact path={ratingPath} render={(props)=> <Rating {...props} />} />
+
         </Switch>
      
   );

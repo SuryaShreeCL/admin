@@ -66,6 +66,7 @@ class VariantGeneralData extends Component {
         variantsku: this.props.getvarientByidList.variantSKU,
         variantfamilysku: this.props.getvarientByidList.name,
         costPrice: this.props.getvarientByidList.costPrice,
+        banner : this.props.getvarientByidList.banner,
         sellingPrice: this.props.getvarientByidList.sellingPrice,
         standaloneSellable: {
           title: this.props.getvarientByidList.standaloneSellable,
