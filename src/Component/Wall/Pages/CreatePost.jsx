@@ -13,14 +13,19 @@ import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
-import { Button } from '@material-ui/core';
+import { Button, Checkbox, ListItemText } from '@material-ui/core';
 import { array, object, string } from 'yup';
 import { Grid } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 
 const CreatePost = () => {
   const [state, setState] = useState({
-    category: '',
+    category: [],
     caption: '',
     postType: 'images',
     images: [],
@@ -34,12 +39,22 @@ const CreatePost = () => {
     isScheduled: false,
   });
 
-  const Categories = [
-    { id: '1', title: 'Science' },
-    { id: '2', title: 'Arts' },
-    { id: '3', title: 'Commerce' },
-    { id: '4', title: 'Machine Learning' },
-  ];
+  const ITEM_HEIGHT = 58;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  const Categories = ['All', '3rd Year', '4th Year', 'Profile Builder'];
+
+  const handleCategory = (event) => {
+    setState((s) => ({ ...s, category: event.target.value }));
+  };
 
   const handlePostTypeChange = (event) => {
     setState((s) => ({ ...s, postType: event.target.value }));
@@ -115,16 +130,27 @@ const CreatePost = () => {
                       label='Audio'
                     />
                   </RadioGroup>
-                  <Controls.Select
-                    label='Select Category'
-                    name='category'
-                    size='80%'
-                    value={values.category}
-                    onChange={(event) => {
-                      setState((s) => ({ ...s, category: event.target.value }));
-                    }}
-                    options={Categories}
-                  />
+                  <FormControl style={{ width: '80%' }}>
+                    <InputLabel id='mutiple-name-label'>Select Category</InputLabel>
+                    <Select
+                      labelId='mutiple-name-label'
+                      id='mutiple-name'
+                      multiple
+                      name='category'
+                      value={state.category}
+                      onChange={handleCategory}
+                      input={<Input />}
+                      renderValue={(selected) => selected.join(', ')}
+                      MenuProps={MenuProps}
+                    >
+                      {Categories.map((category) => (
+                        <MenuItem key={category} value={category}>
+                          <Checkbox checked={state.category.indexOf(category) > -1} />
+                          <ListItemText primary={category} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   <Grid item>
                     <Controls.Input
                       label='Type caption here..'
