@@ -87,14 +87,15 @@ class VariantGeneralData extends Component {
   }
   componentWillUnmount(params) {
     console.log("next component");
-    if(this.props.match.params.id !== undefined){
+    console.log(this.props.getvarientByidList)
+    if(this.props.match.params.id !== undefined && this.props.getvarientByidList.length !== 0){
       let faqid = this.props.getvarientByidList.productQuestionAnswers !== null && this.props.getvarientByidList.productQuestionAnswers.length !== 0 ? this.props.getvarientByidList.productQuestionAnswers.map(
         (faq) => {
           return { id: faq.id };
         }
       ) : [];
       console.log(this.props.getvarientByidList);
-    let obj = {
+      let obj = {
       id: this.props.match.params.id,
       name: this.state.variantfamilysku,
       codeName: this.props.getvarientByidList.codeName,
@@ -225,6 +226,7 @@ class VariantGeneralData extends Component {
     console.log(this.state);
     console.log(this.props);
     console.log(this.props.getvarientByidList)
+    console.log(this.props.match.params.id)
     return (
       <div>
         <Grid container spacing={2}>
