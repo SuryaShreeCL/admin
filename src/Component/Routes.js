@@ -57,7 +57,8 @@ import {
   productcomboPath,
   productuserPunchingPath,
   productstructurePath,
-  ratingPath
+  ratingPath,
+  OnboardingPersonalInfoPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -88,7 +89,9 @@ import ProductPunching from './ProductPunching/ProductPunchingLanding'
 import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import ProductStages from './Product/ProductStages';
-import Rating from './ObCallSummary/Rating';
+import Rating from './ObOnboarding/Onboarding';
+import PersonaInfo from './ObOnboarding/personalInfo'
+import AcademicInfo from './ObOnboarding/academicInfo'
 export default function Routes(props) {
   return (
     
@@ -144,7 +147,7 @@ export default function Routes(props) {
             />
             <Route exact path={documentDetailsPath} render={(props)=> <StudentDocuments {...props} />} />
             <Route exact path={ratingPath} render={(props)=> <Rating {...props} />} />
-
+            <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} />
         </Switch>
      
   );
