@@ -58,7 +58,9 @@ import {
   productuserPunchingPath,
   productstructurePath,
   ratingPath,
-  OnboardingPersonalInfoPath
+  OnboardingPersonalInfoPath,
+  clientDetailsPath,
+  ratingPathCallSummary
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -89,9 +91,11 @@ import ProductPunching from './ProductPunching/ProductPunchingLanding'
 import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import ProductStages from './Product/ProductStages';
-import Rating from './ObOnboarding/Onboarding';
+// import Rating from './ObOnboarding/Onboarding';
 import PersonaInfo from './ObOnboarding/personalInfo'
 import AcademicInfo from './ObOnboarding/academicInfo'
+import ClientDetails from './ObCallSummary/ClientDetails';
+import Rating from './ObCallSummary/Rating';
 export default function Routes(props) {
   return (
     
@@ -132,6 +136,7 @@ export default function Routes(props) {
             <Route exact path={productcomboPath} render={(props)=> <ProductComboForm {...props} />} />
             <Route exact path={productuserPunchingPath.concat(':id')} render={(props)=> <ProductPunchingLanding {...props} />} />
             <Route exact path={productstructurePath.concat(':id')} render={(props)=> <ProductStages {...props} />} />
+            <Route exact path={clientDetailsPath} render={(props)=> <ClientDetails {...props} />} />
 
             <Route
               exact

@@ -49,7 +49,7 @@ class ProductComboForm extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
-      this.props.getProductByFamilyId(this.state.family.id);
+      this.props.getProductByFamilyId(this.state.family !== null ? this.state.family.id : "");
     }
   }
   handleAdd = () => {
