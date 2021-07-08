@@ -11,19 +11,24 @@ import VideoReducer from '../Reducer/VideoReducer';
 import ProductReducer from '../Reducer/ProductReducer';
 import AdminReducer from '../Reducer/AdminReducer';
 import CareerTrackReducer from '../Reducer/CareerTrackReducer';
-import NotificationReducer from "../Reducer/NotificationReducer";
-import ReportReducer from "../Reducer/ReportReducer"
+import NotificationReducer from '../Reducer/NotificationReducer';
+import ReportReducer from '../Reducer/ReportReducer';
 import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
   testimonialUpdateReducer,
   testimonialListReducer,
 } from '../Reducer/TestimonialReducer';
-import StudentMarkDetailReducer from "../Reducer/MarkReducer";
-import ScoreDetailsReducer from "../Reducer/ScoreReducer"
+import {
+  wallPostCreateReducer,
+  wallPostDeleteReducer,
+  wallPostUpdateReducer,
+  wallPostListReducer,
+} from '../Reducer/WallReducer';
+import StudentMarkDetailReducer from '../Reducer/MarkReducer';
+import ScoreDetailsReducer from '../Reducer/ScoreReducer';
 import MentorReducer from '../Reducer/MentorReducer';
-import PgaReducer from "../Reducer/PgaReducer"
-
+import PgaReducer from '../Reducer/PgaReducer';
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -37,15 +42,19 @@ export default combineReducers({
   VideoReducer: VideoReducer,
   ProductReducer: ProductReducer,
   AdminReducer: AdminReducer,
-  ReportReducer : ReportReducer,
+  ReportReducer: ReportReducer,
   CareerTrackReducer: CareerTrackReducer,
-  NotificationReducer : NotificationReducer,
-  StudentMarkDetailReducer:StudentMarkDetailReducer,
-  ScoreDetailsReducer :ScoreDetailsReducer,
-  MentorReducer :MentorReducer,
-  PgaReducer : PgaReducer,
+  NotificationReducer: NotificationReducer,
+  StudentMarkDetailReducer: StudentMarkDetailReducer,
+  ScoreDetailsReducer: ScoreDetailsReducer,
+  MentorReducer: MentorReducer,
+  PgaReducer: PgaReducer,
   testimonialCreateReducer: testimonialCreateReducer,
   testimonialDeleteReducer: testimonialDeleteReducer,
   testimonialUpdateReducer: testimonialUpdateReducer,
   testimonialListReducer: testimonialListReducer,
+  wallPostCreateReducer: wallPostCreateReducer,
+  wallPostDeleteReducer: wallPostDeleteReducer,
+  wallPostUpdateReducer: wallPostUpdateReducer,
+  wallPostListReducer: wallPostListReducer,
 });
