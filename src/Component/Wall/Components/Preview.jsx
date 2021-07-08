@@ -76,9 +76,9 @@ const Preview = ({ state }) => {
             </p>
           </div>
           <div className='BottomBar'>
-            {redirection.link.length > 1 && redirection.buttonText.length > 1 && (
-              <a href={redirection.link} className='redirectionBtn'>
-                {redirection.buttonText || 'Text'}
+            {redirection?.link.length > 1 && redirection?.buttonText.length > 1 && (
+              <a href={redirection?.link} className='redirectionBtn'>
+                {redirection?.buttonText || 'Text'}
               </a>
             )}
           </div>

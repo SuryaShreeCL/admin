@@ -31,15 +31,20 @@ const useStyles = makeStyles({
       borderRadius: '4px',
       padding: '1rem',
     },
-    '&:hover': {
-      border: 'none',
-    },
+  },
+  captionStyle: {
+    width: '80%',
+    marginTop: 20,
+    marginBottom: 15,
+  },
+  spacer: {
+    width: '80%',
+    marginTop: '10px',
   },
 });
 
 const CreatePost = () => {
   const classes = useStyles();
-
   const [state, setState] = useState({
     category: [],
     caption: '',
@@ -59,15 +64,6 @@ const CreatePost = () => {
     isVideoLink: false,
   });
 
-  const validate = (values) => {
-    if (values.videoURLEnabled && values.videoLink.length < 1) {
-      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
-      return false;
-    }
-
-    return true;
-  };
-
   const ITEM_HEIGHT = 60;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -80,6 +76,15 @@ const CreatePost = () => {
   };
 
   const Categories = ['All', '3rd Year', '4th Year', 'Placements', 'Higher Studies'];
+
+  const validate = (values) => {
+    if (values.videoURLEnabled && values.videoLink.length < 1) {
+      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
+      return false;
+    }
+
+    return true;
+  };
 
   const handleCategory = (event) => {
     setState((s) => ({ ...s, category: event.target.value }));
@@ -193,11 +198,7 @@ const CreatePost = () => {
                       }}
                       error={touched.caption && Boolean(errors.caption)}
                       multiline
-                      style={{
-                        width: '80%',
-                        marginTop: 20,
-                        marginBottom: 15,
-                      }}
+                      className={classes.captionStyle}
                       rows={6}
                     />
                   </Grid>
@@ -220,7 +221,7 @@ const CreatePost = () => {
                       <Controls.Input
                         label='Paste Video URL'
                         name='videoLink'
-                        style={{ width: '80%', marginTop: '10px' }}
+                        className={classes.spacer}
                         value={values.videoLink}
                         error={errorSchema.isVideoLink}
                         onChange={(event) => {
@@ -233,7 +234,7 @@ const CreatePost = () => {
                     <Controls.Input
                       label='Paste the Redirection Link'
                       name='redirection.link'
-                      style={{ width: '80%', marginTop: '10px' }}
+                      className={classes.spacer}
                       value={values.redirection.link}
                       onChange={handleChange}
                     />
@@ -275,7 +276,7 @@ const CreatePost = () => {
                     container
                     direction='row'
                     justify='space-between'
-                    style={{ marginTop: '10px', width: '80%' }}
+                    className={classes.spacer}
                   >
                     <Grid item>
                       <h6 style={{ fontSize: '1rem' }}>
@@ -325,7 +326,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button color='primary'>Discard Post</Button>
                     <Controls.Button
