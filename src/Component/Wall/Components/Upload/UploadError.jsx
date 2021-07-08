@@ -3,7 +3,6 @@ import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
-import Spinner from '../../Assets/Images/Blue-spin.gif';
 import { bytesToSize } from '../../../Utils/Helpers';
 
 const ErrorLinearProgress = withStyles((theme) => ({

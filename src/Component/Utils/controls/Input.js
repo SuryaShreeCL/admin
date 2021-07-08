@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 
 export default function Input(props) {
   const classes = useStyles();
-  const { name, label, value, error = null, onChange, ...other } = props;
+  const { name, label, value, onChange, ...other } = props;
   return (
     <TextField
       className={classes.root}
@@ -24,7 +24,6 @@ export default function Input(props) {
       value={value}
       onChange={onChange}
       {...other}
-      {...(error && { error: true, helperText: error })}
     />
   );
 }

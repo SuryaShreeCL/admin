@@ -13,8 +13,9 @@ import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
+import { makeStyles } from '@material-ui/core/styles';
 import { Button, Checkbox, ListItemText } from '@material-ui/core';
-import { array, object, string } from 'yup';
+import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
@@ -23,14 +24,29 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 
+const useStyles = makeStyles({
+  root: {
+    '& .MuiSelect-root': {
+      border: '1px solid rgba(0, 0, 0, 0.12)',
+      borderRadius: '4px',
+      padding: '1rem',
+    },
+    '&:hover': {
+      border: 'none',
+    },
+  },
+});
+
 const CreatePost = () => {
+  const classes = useStyles();
+
   const [state, setState] = useState({
     category: [],
     caption: '',
     postType: 'images',
     images: [],
     video: [],
-    videoLink: null,
+    videoLink: '',
     redirection: { link: '', buttonText: '' },
     videoURLEnabled: false,
     audio: [],
@@ -38,6 +54,27 @@ const CreatePost = () => {
     selectedDate: new Date(),
     isScheduled: false,
   });
+
+  const [errorSchema, setErrorSchema] = useState({
+    images: [],
+    video: [],
+    videoLink: '',
+    redirection: { link: '', buttonText: '' },
+    isVideoLink: false,
+    audio: [],
+    comments: false,
+    selectedDate: new Date(),
+    isScheduled: false,
+  });
+
+  const validate = (values) => {
+    if (values.videoURLEnabled && values.videoLink.length < 1) {
+      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
+      return false;
+    }
+
+    return true;
+  };
 
   const ITEM_HEIGHT = 58;
   const ITEM_PADDING_TOP = 8;
@@ -76,31 +113,31 @@ const CreatePost = () => {
     setState((s) => ({ ...s, comments: !state.comments }));
   };
 
+  const validationSchema = yup.object({
+    caption: yup.string().required('caption is required'),
+  });
+
   return (
     <>
       <BackHandler title='Create New Post' />
       <CreatePostContainer>
         <Formik
           initialValues={state}
-          validationSchema={object({
-            state: array(
-              object({
-                url: string().required(),
-              })
-            ),
-          })}
+          validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             // addOrEdit(values, resetForm);
-            resetForm();
-            console.log('values', values);
-            return new Promise((res) => setTimeout(res, 2000));
+            if (validate(values)) {
+              resetForm();
+              console.log('values', values);
+              return new Promise((res) => setTimeout(res, 2000));
+            }
           }}
           enableReinitialize
         >
-          {({ handleSubmit, resetForm, errors, handleChange, isValid, isSubmitting, values }) => (
+          {({ handleSubmit, errors, handleChange, values, touched }) => (
             <>
               <div className='CreatePost'>
-                <Form onSubmit={handleSubmit} noValidate autoComplete='off'>
+                <Form onSubmit={handleSubmit} autoComplete='off'>
                   <h6>Post Type</h6>
                   <RadioGroup
                     style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
@@ -108,6 +145,7 @@ const CreatePost = () => {
                     name='postType'
                     value={values.postType}
                     onChange={handlePostTypeChange}
+                    required
                   >
                     <FormControlLabel
                       value='video'
@@ -130,15 +168,18 @@ const CreatePost = () => {
                       label='Audio'
                     />
                   </RadioGroup>
-                  <FormControl style={{ width: '80%' }}>
-                    <InputLabel id='mutiple-name-label'>Select Category</InputLabel>
+                  <FormControl className={classes.root} style={{ width: '80%' }}>
+                    <InputLabel style={{ left: '10px', top: '10px' }} id='mutiple-name-label'>
+                      Select Category
+                    </InputLabel>
                     <Select
                       labelId='mutiple-name-label'
                       id='mutiple-name'
                       multiple
                       name='category'
-                      value={state.category}
+                      value={values.category}
                       onChange={handleCategory}
+                      required
                       input={<Input />}
                       renderValue={(selected) => selected.join(', ')}
                       MenuProps={MenuProps}
@@ -154,12 +195,11 @@ const CreatePost = () => {
                   <Grid item>
                     <Controls.Input
                       label='Type caption here..'
-                      name='caption'
                       value={values.caption}
                       onChange={(event) => {
                         setState((s) => ({ ...s, caption: event.target.value }));
                       }}
-                      value={values.caption}
+                      error={touched.caption && Boolean(errors.caption)}
                       multiline
                       style={{
                         width: '80%',
@@ -167,7 +207,6 @@ const CreatePost = () => {
                         marginBottom: 15,
                       }}
                       rows={6}
-                      required
                     />
                   </Grid>
                   {values.postType === 'video' && (
@@ -191,6 +230,7 @@ const CreatePost = () => {
                         name='videoLink'
                         style={{ width: '80%', marginTop: '10px' }}
                         value={values.videoLink}
+                        error={errorSchema.isVideoLink}
                         onChange={(event) => {
                           setState((s) => ({ ...s, videoLink: event.target.value }));
                         }}
@@ -210,6 +250,11 @@ const CreatePost = () => {
                     <Controls.Input
                       label='Enter Button Text Here'
                       name='redirection.buttonText'
+                      error={
+                        values.redirection.link.length > 1 &&
+                        values.redirection.buttonText.length < 1 &&
+                        Boolean(true)
+                      }
                       style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
                       value={values.redirection.buttonText}
                       onChange={handleChange}
@@ -289,7 +334,6 @@ const CreatePost = () => {
                     )}
                   </Grid>
                   <pre>{JSON.stringify({ values }, null, 4)}</pre>
-
                   <ButtonsContainer>
                     <Button color='primary'>Discard Post</Button>
                     <Controls.Button
@@ -297,7 +341,6 @@ const CreatePost = () => {
                       variant='contained'
                       color='primary'
                       style={{ borderRadius: '26px' }}
-                      disabled={!isValid || isSubmitting}
                       type='submit'
                     />
                     <Button color='primary'>Save as Draft</Button>

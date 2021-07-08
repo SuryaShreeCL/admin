@@ -6,14 +6,11 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 import Empty from '../Assets/Images/empty.png';
 import sample from '../Assets/Audio/iphone.mp3';
-import Controls from '../../Utils/controls/Controls';
-import ShareIcon from '@material-ui/icons/Share';
 import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
   const {
-    category,
     caption,
     likes,
     images,
