@@ -56,15 +56,7 @@ const CreatePost = () => {
   });
 
   const [errorSchema, setErrorSchema] = useState({
-    images: [],
-    video: [],
-    videoLink: '',
-    redirection: { link: '', buttonText: '' },
     isVideoLink: false,
-    audio: [],
-    comments: false,
-    selectedDate: new Date(),
-    isScheduled: false,
   });
 
   const validate = (values) => {
@@ -76,7 +68,7 @@ const CreatePost = () => {
     return true;
   };
 
-  const ITEM_HEIGHT = 58;
+  const ITEM_HEIGHT = 60;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
     PaperProps: {
@@ -87,7 +79,7 @@ const CreatePost = () => {
     },
   };
 
-  const Categories = ['All', '3rd Year', '4th Year', 'Profile Builder'];
+  const Categories = ['All', '3rd Year', '4th Year', 'Placements', 'Higher Studies'];
 
   const handleCategory = (event) => {
     setState((s) => ({ ...s, category: event.target.value }));
