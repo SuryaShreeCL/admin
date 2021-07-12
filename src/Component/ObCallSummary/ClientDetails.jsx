@@ -6,6 +6,7 @@ import { getBranches, getDegree, getAllColleges } from "../../Actions/College";
 import {getAllProductFamily,getProductByFamilyId} from '../../Actions/ProductAction'
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDateTimePicker} from '@material-ui/pickers'
+import { ExpandMore} from "@material-ui/icons";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -44,6 +45,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+              popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
@@ -55,6 +57,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+              popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getCollegesList}
               getOptionLabel={(option) => option.name}
@@ -70,6 +73,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+              popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getBranchesList}
               getOptionLabel={(option) => option.name}
@@ -94,6 +98,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
               getOptionLabel={(option) => option.productName}
@@ -216,6 +221,7 @@ class ClientDetails extends Component {
           <Grid item md={3}>
             {/* <TextField label="Applying Degree" /> */}
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
               getOptionLabel={(option) => option.productName}
@@ -228,6 +234,7 @@ class ClientDetails extends Component {
           <Grid item md={3}>
             {/* <TextField type="number" label="Intake Year" /> */}
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
               getOptionLabel={(option) => option.productName}
@@ -240,6 +247,7 @@ class ClientDetails extends Component {
           <Grid item md={3}>
             {/* <TextField label="Intake Term" /> */}
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
               getOptionLabel={(option) => option.productName}
@@ -252,6 +260,7 @@ class ClientDetails extends Component {
           <Grid item md={3}>
             {/* <TextField label="Order Type" /> */}
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
               getOptionLabel={(option) => option.productName}
@@ -264,6 +273,7 @@ class ClientDetails extends Component {
           <Grid item md={6}>
             {/* <TextField fullWidth label="Preferred Countries" /> */}
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
               getOptionLabel={(option) => option.productName}
@@ -281,6 +291,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
@@ -292,6 +303,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getCollegesList}
               getOptionLabel={(option) => option.name}
@@ -303,6 +315,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+            popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
               id="combo-box-demo"
               options={this.props.getBranchesList}
               getOptionLabel={(option) => option.name}
