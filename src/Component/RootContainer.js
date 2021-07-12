@@ -64,7 +64,7 @@ const NavbarList = [
       {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
       {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
       {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
-      {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
+      // {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
       {id: callSummaryLayoutPath, icon:<CallIcon />, title:'Call Summary'},
 
       // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},

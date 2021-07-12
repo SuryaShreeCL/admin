@@ -153,8 +153,8 @@ export default function Routes(props) {
               render={(props)=> <CareerTrackVideo {...props} />}
             />
             <Route exact path={documentDetailsPath} render={(props)=> <StudentDocuments {...props} />} />
-            <Route exact path={ratingPath} render={(props)=> <Rating {...props} />} />
-            <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} />
+            {/* <Route exact path={ratingPath} render={(props)=> <Rating {...props} />} /> */}
+            {/* <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} /> */}
         </Switch>
      
   );
