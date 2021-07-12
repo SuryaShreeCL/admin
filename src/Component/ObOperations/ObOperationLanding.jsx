@@ -5,7 +5,7 @@ import TodayDocument from './TodayDocument';
 import TodayWorkCompletion from './TodayWorkCompletion';
 import add from "../../Asset/Images/add.svg"
 import pbResource from "../../Asset/Images/PB resource icon.svg"
-import { listUsersProdBasedPath } from '../RoutePaths';
+import { listUsersProdBasedPath, productActivationPath } from '../RoutePaths';
 class ObOperationLanding extends Component {
     constructor(props){
         super(props);
@@ -58,7 +58,7 @@ class ObOperationLanding extends Component {
                 <img src={pbResource}></img>
                 <Typography variant="caption" style={{fontWeight : 600}}>Manage Students</Typography>
                 </div>
-                <div className={classes.items}>
+                <div className={classes.items} onClick={()=>this.props.history.push(productActivationPath)}>
                 <img src={pbResource}></img>
                 <Typography variant="caption" style={{fontWeight : 600}}>Product Activate</Typography>
                 </div>
