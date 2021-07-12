@@ -10,6 +10,8 @@ import Unhappy from "../../Asset/Images/unhappy.svg";
 import Apathy from "../../Asset/Images/apathy.svg";
 import Happy from "../../Asset/Images/happy.svg";
 import Love from "../../Asset/Images/love.svg";
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "styled-components";
 
 const rate = [
   {
@@ -241,7 +243,7 @@ const customIcons = {
           textAlign: "center",
         }}
       >
-        <img src={Poor} style={{ height: "50px", width: "50px" }} />{" "}
+        <img src={Poor} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />{" "}
         <p
           style={{
             fontFamily: "Montserrat",
@@ -266,7 +268,7 @@ const customIcons = {
           textAlign: "center",
         }}
       >
-        <img src={Unhappy} style={{ height: "50px", width: "50px" }} />
+        <img src={Unhappy} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -291,7 +293,7 @@ const customIcons = {
           textAlign: "center",
         }}
       >
-        <img src={Apathy} style={{ height: "50px", width: "50px" }} />
+        <img src={Apathy} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -316,7 +318,7 @@ const customIcons = {
           textAlign: "center",
         }}
       >
-        <img src={Happy} style={{ height: "50px", width: "50px" }} />
+        <img src={Happy} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -341,7 +343,7 @@ const customIcons = {
           textAlign: "center",
         }}
       >
-        <img src={Love} style={{ height: "50px", width: "50px" }} />
+        <img src={Love} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -358,7 +360,15 @@ const customIcons = {
     label: "Love",
   },
 };
-
+const theme = createMuiTheme({
+  overrides: {
+    MuiRating: {
+      iconHover : {
+       color : "grayscale(0%)"
+      }  
+    }
+  },
+});
 export class rating extends Component {
   constructor(props) {
     super(props);
@@ -449,6 +459,7 @@ export class rating extends Component {
                 marginLeft: -30,
               }}
             >
+              {/* <ThemeProvider theme={theme}> */}
               <Rating
                 style={{
                   display: "flex",
@@ -463,6 +474,7 @@ export class rating extends Component {
                   this.setState({ hover: newHover });
                 }}
               />
+              {/* </ThemeProvider> */}
             </div>
           </Grid>
         </Grid>
