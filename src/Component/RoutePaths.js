@@ -40,7 +40,7 @@ export const productcomboPath = rootPath.concat("/productcombo")
 export const productuserPunchingPath = rootPath.concat('/productpunching/');
 export const productstructurePath = rootPath.concat('/productstructure/');
 export const clientDetailsPath = rootPath.concat('/clientdetails/');
-
+export const callSummaryLayoutPath = rootPath.concat("/callSummary")
 
 
 // Rengine another version path

@@ -60,7 +60,8 @@ import {
   ratingPath,
   OnboardingPersonalInfoPath,
   clientDetailsPath,
-  ratingPathCallSummary
+  ratingPathCallSummary,
+  callSummaryLayoutPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -96,6 +97,7 @@ import PersonaInfo from './ObOnboarding/personalInfo'
 import AcademicInfo from './ObOnboarding/academicInfo'
 import ClientDetails from './ObCallSummary/ClientDetails';
 import Rating from './ObCallSummary/Rating';
+import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
 export default function Routes(props) {
   return (
     
@@ -137,7 +139,7 @@ export default function Routes(props) {
             <Route exact path={productuserPunchingPath.concat(':id')} render={(props)=> <ProductPunchingLanding {...props} />} />
             <Route exact path={productstructurePath.concat(':id')} render={(props)=> <ProductStages {...props} />} />
             <Route exact path={clientDetailsPath} render={(props)=> <ClientDetails {...props} />} />
-
+            <Route exact path={callSummaryLayoutPath} render={(props)=> <CallSummaryLayout {...props} />} />
             <Route
               exact
               // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
