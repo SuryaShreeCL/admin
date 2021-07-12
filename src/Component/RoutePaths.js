@@ -41,7 +41,7 @@ export const productuserPunchingPath = rootPath.concat('/productpunching/');
 export const productstructurePath = rootPath.concat('/productstructure/');
 export const clientDetailsPath = rootPath.concat('/clientdetails/');
 export const callSummaryLayoutPath = rootPath.concat("/callSummary")
-
+export const obOperationPath = rootPath.concat("/obOperation")
 
 // Rengine another version path
 
