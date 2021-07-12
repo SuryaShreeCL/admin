@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../Utils/PrimaryButton';
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents"
+import ClientDetails from './ClientDetails';
 class CallSummaryLayout extends Component {
     constructor(props){
         super(props);
@@ -14,7 +15,11 @@ class CallSummaryLayout extends Component {
 
     renderLeftContent = (value) =>{
         try {
+           if(value === 0){
+            return <ClientDetails {...this.props} />
+           } else if(value === 1){
             
+           }
         } catch (error) {
             console.log(error)
         }
