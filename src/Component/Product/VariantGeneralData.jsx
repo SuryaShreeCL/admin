@@ -50,6 +50,8 @@ class VariantGeneralData extends Component {
       standaloneSellableErr: "",
       updatedBy: window.sessionStorage.getItem("role"),
       UpdatedOn: new Date(),
+      banner : null,
+      bannerErr : "",
     };
   }
   componentDidMount() {
@@ -64,6 +66,7 @@ class VariantGeneralData extends Component {
         variantsku: this.props.getvarientByidList.variantSKU,
         variantfamilysku: this.props.getvarientByidList.name,
         costPrice: this.props.getvarientByidList.costPrice,
+        banner : this.props.getvarientByidList.banner,
         sellingPrice: this.props.getvarientByidList.sellingPrice,
         standaloneSellable: {
           title: this.props.getvarientByidList.standaloneSellable,
@@ -84,17 +87,19 @@ class VariantGeneralData extends Component {
   }
   componentWillUnmount(params) {
     console.log("next component");
-    if(this.props.match.params.id !== undefined){
+    console.log(this.props.getvarientByidList)
+    if(this.props.match.params.id !== undefined && this.props.getvarientByidList.length !== 0){
       let faqid = this.props.getvarientByidList.productQuestionAnswers !== null && this.props.getvarientByidList.productQuestionAnswers.length !== 0 ? this.props.getvarientByidList.productQuestionAnswers.map(
         (faq) => {
           return { id: faq.id };
         }
       ) : [];
       console.log(this.props.getvarientByidList);
-    let obj = {
+      let obj = {
       id: this.props.match.params.id,
       name: this.state.variantfamilysku,
       codeName: this.props.getvarientByidList.codeName,
+      banner : this.state.banner,
       shortName: this.props.getvarientByidList.shortName,
       productDescription: this.props.getvarientByidList.productDescription,
       productOneliner: this.props.getvarientByidList.productOneliner,
@@ -151,12 +156,14 @@ class VariantGeneralData extends Component {
     this.state.standaloneSellable === ""
       ? this.setState({ standaloneSellableErr: hlptxt })
       : this.setState({ standaloneSellableErr: "" });
+      isEmptyString(this.state.banner) ? this.setState({bannerErr : hlptxt}) : this.setState({bannerErr : ""})
     if (
       !isEmptyString(this.state.variantfamilysku) &&
       !isEmptyString(this.state.variantsku) &&
       !isEmptyString(this.state.costPrice) &&
       !isEmptyString(this.state.sellingPrice) &&
       !isEmptyString(this.state.createdBy) &&
+      !isEmptyString(this.state.banner) &&
       this.state.endOfServiceDate !== null &&
       this.state.createdOn !== null &&
       this.state.endOfEnrollmentDate !== null &&
@@ -171,6 +178,7 @@ class VariantGeneralData extends Component {
         endOfServiceDate: this.state.endOfServiceDate,
         endOfEnrollmentDate: this.state.endOfEnrollmentDate,
         costPrice: this.state.costPrice,
+        banner : this.state.banner,
         sellingPrice: this.state.sellingPrice,
         createdBy: this.state.createdBy,
         dateOfCreation: this.state.createdOn,
@@ -218,6 +226,7 @@ class VariantGeneralData extends Component {
     console.log(this.state);
     console.log(this.props);
     console.log(this.props.getvarientByidList)
+    console.log(this.props.match.params.id)
     return (
       <div>
         <Grid container spacing={2}>
@@ -377,6 +386,17 @@ class VariantGeneralData extends Component {
                 }}
               />
             </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item md={7}>
+          <TextField
+              label="Banner Link"
+              size="small"
+              multiline
+              value={this.state.banner}
+              error={this.state.bannerErr.length > 0}
+              helperText={this.state.bannerErr}
+              onChange={(e) => this.setState({ banner: e.target.value })}
+            />
           </Grid>
           {this.props.match.params.id === undefined && (
             <Grid item md={12}>

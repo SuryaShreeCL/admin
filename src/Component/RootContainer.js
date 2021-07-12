@@ -25,7 +25,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import Content from './Content';
 import history from './History';
-import { rootPath, rootLoginPath, coursePath, studentPath,academicInfo,workExperience,productActivation, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath,graduateTestResult, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath, productPunchingPath, textEditorPath, testEngineResult,admissionServices,aspirationDetails } from './RoutePaths';
+import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, clientDetailsPath, ratingPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath } from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -42,33 +42,35 @@ import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 import CallIcon from '@material-ui/icons/Call';
 import Routes from './Routes';
+import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
 
 
 const drawerWidth = 240;
 const NavbarList = [
-  { id: coursePath, icon: <MenuBookRoundedIcon />, title: 'Courses' },
-  { id: studentPath, icon: <PeopleIcon />, title: 'Students' },
-  { id: departmentPath, icon: <DnsRoundedIcon />, title: 'Departments' },
-  { id: collegePath, icon: <AccountBalanceRoundedIcon />, title: 'Colleges' },
-  { id: universityPath, icon: <SchoolRoundedIcon />, title: 'University' },
-  { id: cityPath, icon: <LocationCityRoundedIcon />, title: 'City' },
-  { id: aspirationPath, icon: <SportsHandballRoundedIcon />, title: 'Aspiration' },
-  { id: questionSetPath, icon: <HelpRoundedIcon />, title: 'Question Set' },
-  { id: videoPath, icon: <VideocamRoundedIcon />, title: 'Video' },
-  { id: productPath, icon: <AddShoppingCartRoundedIcon />, title: 'Product' },
-  { id: webinarPath, icon: <SupervisorAccountIcon />, title: 'Webinar' },
-  { id: careerTrackPath, icon: <TrendingUpRoundedIcon />, title: 'Career Track' },
-  { id: notificationPath, icon: <NotificationsIcon />, title: 'Notification' },
-  { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
-  { id: reportsPath, icon: <AssessmentRoundedIcon />, title: 'Reports' },
-  { id: 'schedule', icon: <CallIcon />, title: 'Call Schedule' },
-  { id: productPunchingPath, icon: <SupervisorAccountIcon />, title: 'Product Punching' },
-  
-  
-  // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
-  // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
+      {id: coursePath, icon: <MenuBookRoundedIcon />, title: 'Courses' },
+      {id: studentPath, icon: <PeopleIcon />, title: 'Students' },
+      {id: departmentPath, icon: <DnsRoundedIcon />, title: 'Departments' },    
+      {id: collegePath, icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
+      {id: universityPath, icon:<SchoolRoundedIcon />, title:'University'},
+      {id: cityPath, icon:<LocationCityRoundedIcon />, title:'City'},
+      {id: aspirationPath, icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
+      {id: questionSetPath, icon:<HelpRoundedIcon />, title:'Question Set'},
+      {id: videoPath, icon:<VideocamRoundedIcon />, title:'Video'},
+      {id: productPath, icon:<AddShoppingCartRoundedIcon />, title:'Product'},
+      {id: webinarPath, icon:<SupervisorAccountIcon />, title:'Webinar'},
+      {id: careerTrackPath, icon:<TrendingUpRoundedIcon />, title:'Career Track'},
+      {id: notificationPath, icon:<NotificationsIcon /> , title:'Notification'},
+       { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
+      {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
+      {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
+      {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
+      {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
+      {id: ratingPath, icon:<SupervisorAccountIcon />, title:'Rating'},
 
-];
+      // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
+      // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
+      
+    ];
 
 
 const useStyles = makeStyles((theme) => ({
@@ -334,6 +336,7 @@ export default function RootContainer(props) {
           })}
         >
           <Routes {...props} />
+          {/* <CallSummaryLayout {...props} /> */}
         </main>
         <footer className={classes.footer}>
           <Copyright />
