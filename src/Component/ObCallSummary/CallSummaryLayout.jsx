@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PrimaryButton from '../../Utils/PrimaryButton';
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents"
 import ClientDetails from './ClientDetails';
+import Rating from './Rating';
 class CallSummaryLayout extends Component {
     constructor(props){
         super(props);
@@ -19,6 +20,9 @@ class CallSummaryLayout extends Component {
             return <ClientDetails {...this.props} />
            } else if(value === 1){
             
+           }
+           else if(value === 2){
+            return <Rating {...this.props} />
            }
         } catch (error) {
             console.log(error)

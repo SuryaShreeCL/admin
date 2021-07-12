@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Card, Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -393,7 +393,8 @@ export class rating extends Component {
   render() {
     const { root, HeadStyle, textStyle, secondaryHeadStyle } = style;
     return (
-      <div>
+      <div style={{padding:5}}>
+        {/* <Card style={{padding:25}}> */}
         <Grid container style={{ marginLeft: 0 }}>
           <Grid item md={12}>
             <p style={HeadStyle}>Call and Client Rating</p>
@@ -465,6 +466,7 @@ export class rating extends Component {
             </div>
           </Grid>
         </Grid>
+        {/* </Card> */}
       </div>
     );
   }
@@ -475,21 +477,21 @@ const style = {
   },
   HeadStyle: {
     fontStyle: "Montserrat",
-    fontWeight: "600",
+    // fontWeight: "600",
     fontStyle: "normal",
     fontSize: "18px",
     color: "#407BFF",
   },
   secondaryHeadStyle: {
     fontStyle: "Montserrat",
-    fontWeight: "500",
+    // fontWeight: "500",
     fontStyle: "normal",
     fontSize: "20px",
     color: "#052A4E",
   },
   textStyle: {
     fontStyle: "Montserrat",
-    fontWeight: "500",
+    // fontWeight: "500",
     fontStyle: "normal",
     fontSize: "12px",
     color: "#052A4E",
@@ -499,12 +501,12 @@ const style = {
 const PrettoSlider = withStyles({
   root: {
     color: "#1093FF",
-    height: 5,
-    width: "330px",
+    height: 10,
+    width: "314px",
   },
   thumb: {
-    height: 20,
-    width: 20,
+    height: 18,
+    width: 18,
     backgroundColor: "#1093FF",
     border: "3px solid #fff",
     marginTop: -8,
@@ -525,6 +527,12 @@ const PrettoSlider = withStyles({
     height: 8,
     borderRadius: 2,
   },
+  rail: {
+    height: 4,
+  },
+  track: {
+    height:4
+  }
 })(Slider);
 
 export default rating;

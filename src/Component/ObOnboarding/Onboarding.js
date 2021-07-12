@@ -16,6 +16,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { OnboardingPersonalInfoPath } from "../RoutePaths";
 import DataGridTable from "../Utils/DataGridTable";
+import Call from "../../Asset/Images/callImg.png"
 
 
 export class Onboarding extends Component {
@@ -91,6 +92,7 @@ export class Onboarding extends Component {
             <TableContainer component={Paper}>
               <div style={HeadDisplay}>
             <p style={HeadStyle}> List of Users in On Boarding Stage </p>
+            {/* <div> */}
             <TextField 
             label='Search by Email ID / Mobile / Full Name / CLS ID'
             variant="outlined"
@@ -101,8 +103,17 @@ export class Onboarding extends Component {
                 </InputAdornment>
               ),
             }}
-            style={{width:'40%'}}
+            style={{width:'50%', marginLeft:50}}
              />
+              <PrimaryButton
+                        style={{height:30, width:107, marginRight:70, marginTop:10, textTransform: "none"}}
+                        variant={"contained"}
+                        color={"primary"}
+                        size={"small"}
+                      >
+                       Filter
+                      </PrimaryButton>
+                      {/* </div> */}
             </div>
           {/* <Grid item md={12} style={{height : "500px"}}>
           <DataGridTable
@@ -124,26 +135,32 @@ export class Onboarding extends Component {
                     <TableCell align="left">Client Name</TableCell>
                     <TableCell align="left">Email Address</TableCell>
                     <TableCell align="left">Phone Number</TableCell>
+                    <TableCell align="left">OB Call Status</TableCell>
                     <TableCell align="left">Completion %</TableCell>
                     <TableCell align="left">Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>hfdiuhdi</TableCell>
-                    <TableCell>jhdcuihicud</TableCell>
-                    <TableCell>jhdcuihicud</TableCell>
-                    <TableCell>jhdcuihicud</TableCell>
-                    <TableCell>jhdcuihicud</TableCell>
+                    <TableCell>CLS200051</TableCell>
+                    <TableCell>Atharva Unde</TableCell>
+                    <TableCell>atharva@thecareerlabs.com</TableCell>
+                    <TableCell>+919561027164</TableCell>
+                    <TableCell>Completed</TableCell>
+                    <TableCell>90%</TableCell>
                     <TableCell>
+                      <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                    <img src={Call} style={{height:30, width:30, marginRight:10}} />
                       <PrimaryButton
-                        onClick={this.props.history.push(OnboardingPersonalInfoPath) }
+                        // onClick={this.props.history.push(OnboardingPersonalInfoPath)}
                         variant={"contained"}
                         color={"primary"}
                         size={"small"}
+                        style={{ textTransform: "none" }}
                       >
                         Manage Client
                       </PrimaryButton>
+                      </div>
                     </TableCell>
                   </TableRow>
                 </TableBody>
