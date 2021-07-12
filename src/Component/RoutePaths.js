@@ -50,3 +50,4 @@ export const curatedPath = rootPath.concat('/curatedCourse');
 export const personelInfoPath = rootPath.concat('/personalInfo');
 
 
+

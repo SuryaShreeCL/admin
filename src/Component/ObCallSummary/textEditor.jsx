@@ -14,10 +14,10 @@ const ColoredLine = ({ color }) => (
     />
 );
 
-class textEditor extends Component {
+class Question extends Component {
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
 
                 <div style={{ color: '#407BFF', fontSize: 18 }}>
                     Client Service Details
@@ -165,4 +165,4 @@ class textEditor extends Component {
     }
 }
 
-export default textEditor;
+export default Question;

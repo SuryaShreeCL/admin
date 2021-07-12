@@ -28,6 +28,7 @@ import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import PrimaryButton from '../../Utils/PrimaryButton';
 
 const AntTabs = withStyles({
     root: {
@@ -78,7 +79,7 @@ const AntTab = withStyles((theme) => ({
 }))((props) => <Tab disableRipple {...props} />);
 
 
-class productActivation extends Component {
+class ProductActivation extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -93,7 +94,7 @@ class productActivation extends Component {
 
     render() {
         return (
-            <div style={{ backgroundColor: 'white', padding: 10 }}>
+            <div style={{  padding: 10 }}>
                 <AntTabs
                     value={this.state.tabCount}
                     textColor={"inherit"}
@@ -322,14 +323,9 @@ class productActivation extends Component {
                         {/* </DialogContent> */}
                         {/* <DialogActions> */}
                         <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
-                            <Button
-                                // style={{ width: '40%' }}
-                                variant="contained"
-                                color="primary"
-                            // startIcon={<AddIcon />}
-                            >
-                                Activate
-                            </Button>
+                        <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
                         </div>
                         {/* </DialogActions> */}
                     </Dialog>
@@ -339,4 +335,4 @@ class productActivation extends Component {
     }
 }
 
-export default productActivation;
+export default ProductActivation;

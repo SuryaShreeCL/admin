@@ -20,8 +20,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import PrimaryButton from '../../Utils/PrimaryButton';
 
-class graduateTestResult extends Component {
+class GraduateTestResult extends Component {
     constructor() {
         super()
         this.state = {
@@ -34,7 +35,7 @@ class graduateTestResult extends Component {
     }
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
                     <IconButton onClick={this.handleClick.bind(this)}>
                         <CreateOutlinedIcon />
@@ -274,19 +275,13 @@ class graduateTestResult extends Component {
                 </TableContainer>
 
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                                Save Changes
-                            </Button>
+                <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
                         </div>
             </div>
         );
     }
 }
 
-export default graduateTestResult;
+export default GraduateTestResult;

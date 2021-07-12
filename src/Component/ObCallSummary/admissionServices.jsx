@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PrimaryButton from '../../Utils/PrimaryButton';
 import {
     Table,
     TableBody,
@@ -44,7 +45,7 @@ class admissionServices extends Component {
     }
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
 
                 <div style={{ color: '#407BFF', fontSize: 18, }}>
                     CareerLabs - Student Mapping
@@ -220,15 +221,9 @@ class admissionServices extends Component {
                                 <Typography>Allocating the mentor will push the user to PGA Stage and Enable access for Call Scheduling tool.</Typography>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                                Allocate
-                            </Button>
+                            <PrimaryButton variant={"contained"} color={"primary"} >
+                        Allocate
+                    </PrimaryButton>
                             </div>
                         </DialogContent>
                     </Dialog>

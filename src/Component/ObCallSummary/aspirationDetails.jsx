@@ -4,6 +4,7 @@ import RoomIcon from '@material-ui/icons/Room';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import PrimaryButton from '../../Utils/PrimaryButton';
 import {
     CircularProgress,
     Dialog,
@@ -25,7 +26,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import WarningIcon from '@material-ui/icons/Warning';
 
-class aspirationDetails extends Component {
+class AspirationDetails extends Component {
     constructor() {
         super()
         this.state = {
@@ -51,7 +52,7 @@ class aspirationDetails extends Component {
     
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
                     <IconButton onClick={this.handleClick.bind(this)}>
                         <CreateOutlinedIcon />
@@ -181,19 +182,13 @@ class aspirationDetails extends Component {
 
                 </Grid>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                             Save Changes
-                            </Button>
+                <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
                         </div>
             </div>
         );
     }
 }
 
-export default aspirationDetails;
+export default AspirationDetails;

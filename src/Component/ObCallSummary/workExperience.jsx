@@ -22,11 +22,11 @@ import {
 } from "@material-ui/core";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import WarningIcon from '@material-ui/icons/Warning';
-
+import PrimaryButton from '../../Utils/PrimaryButton';
 class workExperience extends Component {
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div style={{ color: '#407BFF', fontSize: 18, }}>
                         Work Experience
@@ -89,15 +89,9 @@ class workExperience extends Component {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                               Save Changes
-                            </Button>
+                <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
                         </div>
             </div >
         );

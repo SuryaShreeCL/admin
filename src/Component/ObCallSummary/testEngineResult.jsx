@@ -22,6 +22,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PrimaryButton from '../../Utils/PrimaryButton';
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -47,7 +48,7 @@ class testEngineResult extends Component {
     }
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
                     <IconButton onClick={this.handleClick.bind(this)}>
                         <CreateOutlinedIcon />
@@ -130,15 +131,9 @@ class testEngineResult extends Component {
                     </DialogContent>
                 </Dialog>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                             Save Changes
-                            </Button>
+                <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
                         </div>
             </div>
         );

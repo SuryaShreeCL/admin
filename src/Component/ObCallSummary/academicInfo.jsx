@@ -5,6 +5,7 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import { ExpandMore } from '@material-ui/icons';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import PrimaryButton from '../../Utils/PrimaryButton';
 import {
     CircularProgress,
     Dialog,
@@ -26,10 +27,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
-class academicInfo extends Component {
+class AcademicInfo extends Component {
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div style={{ color: '#407BFF', fontSize: 18, }}>
                         Academic Information
@@ -107,7 +108,7 @@ class academicInfo extends Component {
                                     </Select>
                                 </Grid>
 
-                                <Grid item xs={1.2}>
+                                <Grid item xs={1}>
                                     <TextField
                                         id="standard-multiline-static"
                                         label="Current Semester"
@@ -115,14 +116,14 @@ class academicInfo extends Component {
                                     />
                                 </Grid>
 
-                                <Grid item xs={1.2}>
+                                <Grid item xs={1}>
                                     <TextField
                                         id="standard-multiline-static"
                                         label="Graduation Year "
 
                                     />
                                 </Grid>
-                                <Grid item xs={1.2}>
+                                <Grid item xs={1}>
                                     <TextField
                                         id="standard-multiline-static"
                                         label="CGPA"
@@ -130,7 +131,7 @@ class academicInfo extends Component {
                                     />
                                 </Grid>
 
-                                <Grid item xs={1}>
+                                <Grid item xs={2}>
 
                                 </Grid>
 
@@ -586,15 +587,9 @@ class academicInfo extends Component {
                     </Accordion>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                                Save Changes
-                            </Button>
+                <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
                         </div>
 
             </div >
@@ -602,4 +597,4 @@ class academicInfo extends Component {
     }
 }
 
-export default academicInfo;
+export default AcademicInfo;
