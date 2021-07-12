@@ -66,6 +66,7 @@ const NavbarList = [
       {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
       {id: OnboardingAcademicInfoPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
       {id: OnboardingPath , icon:<SupervisorAccountIcon />, title:'personal Details'},
+      // {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
       {id: callSummaryLayoutPath, icon:<CallIcon />, title:'Call Summary'},
 
       // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},

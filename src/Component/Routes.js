@@ -160,6 +160,8 @@ export default function Routes(props) {
             <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} />
             <Route exact path={OnboardingPath} render={(props)=> <Onboarding {...props} />} />
 
+            {/* <Route exact path={ratingPath} render={(props)=> <Rating {...props} />} /> */}
+            {/* <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} /> */}
         </Switch>
      
   );

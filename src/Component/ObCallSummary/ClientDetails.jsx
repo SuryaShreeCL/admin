@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getBranches, getDegree, getAllColleges } from "../../Actions/College";
 import {getAllProductFamily,getProductByFamilyId} from '../../Actions/ProductAction'
 import DateFnsUtils from '@date-io/date-fns';
+import {KeyboardDateTimePicker} from '@material-ui/pickers'
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -27,7 +28,7 @@ class ClientDetails extends Component {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container spacing={2}>
           <Grid item md={12}>
-            <Typography>Students Details</Typography>
+            <Typography style={{fontWeight : "600" , color : "#407BFF"}}>Students Details</Typography>
           </Grid>
           <Grid item md={3}>
             <TextField label="Client Name" />
@@ -89,7 +90,7 @@ class ClientDetails extends Component {
           </Grid>
           <Grid item md={6}></Grid>
           <Grid item md={12}>
-            <Typography> Product Details</Typography>
+            <Typography style={{fontWeight : "600" , color : "#407BFF"}}> Product Details</Typography>
           </Grid>
           <Grid item md={3}>
             <Autocomplete
@@ -131,7 +132,7 @@ class ClientDetails extends Component {
             <TextField type="number" label="Price" />
           </Grid>
           <Grid item md={12}>
-            <Typography>Call Details</Typography>
+            <Typography style={{fontWeight : "600" , color : "#407BFF"}}>Call Details</Typography>
           </Grid>
           <Grid item md={3}>
             <TextField label="Ameyo ID" />
@@ -164,36 +165,33 @@ class ClientDetails extends Component {
           <Grid item md={3}>
             <TextField label="Onboarding Agent" />
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={3} lg={3}>
             <TextField label="Call Status" />
           </Grid>
-          <Grid item md={3}>
-            {/* <TextField label="Call Back Time" /> */}
-            <form noValidate>
-      <TextField
-        id="datetime-local"
+          <Grid item md={4} lg={3}>
+     <KeyboardDateTimePicker
+        variant="inline"
+        ampm={false}
         label="Call Back Time"
-        type="datetime-local"
-        defaultValue={new Date()}
-        // className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
+        // value={selectedDate}
+        // onChange={handleDateChange}
+        onError={console.log}
+        // disablePast
+        format="yyyy/MM/dd HH:mm"
       />
-    </form>
           </Grid>
-          <Grid item md={3}>
-            <TextField label="Week Days" />
+          <Grid item md={5} lg={3}>
+            <TextField label="Specific Days to be contacted ?" />
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={5} lg={3}>
             <TextField label="Special Time to be Contacted ?" />
           </Grid>
           <Grid item md={12}>
-            <Typography>Client Service Details</Typography>
+            <Typography style={{fontWeight : "600" , color : "#407BFF"}}>Client Service Details</Typography>
           </Grid>
           <Grid item md={3}>
             {/* <TextField label="Enrollment Date" /> */}
-            <KeyboardTimePicker
+            {/* <KeyboardDatePicker
           margin="normal"
           id="time-picker"
           label="Enrollment Date"
@@ -202,28 +200,84 @@ class ClientDetails extends Component {
           KeyboardButtonProps={{
             'aria-label': 'change time',
           }}
-        />
+        /> */}
+        <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Enrollment Date"
+          format="MM/dd/yyyy"
+        //   value={}
+        //   onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+          />
           </Grid>
           <Grid item md={3}>
-            <TextField label="Applying Degree" />
+            {/* <TextField label="Applying Degree" /> */}
+            <Autocomplete
+              id="combo-box-demo"
+              options={this.props.getAllProductFamilyList}
+              getOptionLabel={(option) => option.productName}
+              //   style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Applying Degree" variant="standard" />
+              )}
+            />
           </Grid>
           <Grid item md={3}>
-            <TextField type="number" label="Intake Year" />
+            {/* <TextField type="number" label="Intake Year" /> */}
+            <Autocomplete
+              id="combo-box-demo"
+              options={this.props.getAllProductFamilyList}
+              getOptionLabel={(option) => option.productName}
+              //   style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Intake Year" variant="standard" />
+              )}
+            />
           </Grid>
           <Grid item md={3}>
-            <TextField label="Intake Term" />
+            {/* <TextField label="Intake Term" /> */}
+            <Autocomplete
+              id="combo-box-demo"
+              options={this.props.getAllProductFamilyList}
+              getOptionLabel={(option) => option.productName}
+              //   style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Intake Term" variant="standard" />
+              )}
+            />
           </Grid>
           <Grid item md={3}>
-            <TextField label="Order Type" />
+            {/* <TextField label="Order Type" /> */}
+            <Autocomplete
+              id="combo-box-demo"
+              options={this.props.getAllProductFamilyList}
+              getOptionLabel={(option) => option.productName}
+              //   style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Order Type" variant="standard" />
+              )}
+            />
           </Grid>
           <Grid item md={6}>
-            <TextField fullWidth label="Preferred Countries" />
+            {/* <TextField fullWidth label="Preferred Countries" /> */}
+            <Autocomplete
+              id="combo-box-demo"
+              options={this.props.getAllProductFamilyList}
+              getOptionLabel={(option) => option.productName}
+              //   style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Preferred Countries" variant="standard" />
+              )}
+            />
           </Grid>
           <Grid item md={3}>
             <TextField label="Package" />
           </Grid>
           <Grid item md={12}>
-            <Typography>Client's Educational Details</Typography>
+            <Typography style={{fontWeight : "600" , color : "#407BFF"}}>Client's Educational Details</Typography>
           </Grid>
           <Grid item md={3}>
             <Autocomplete
@@ -268,18 +322,18 @@ class ClientDetails extends Component {
             <TextField label="Backlogs" />
           </Grid>
           <Grid item md={12}>
-            <Typography>Client's Work Experience Background</Typography>
+            <Typography style={{fontWeight : "600" , color : "#407BFF"}}>Client's Work Experience Background</Typography>
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3}>
             <TextField label="Any Work Exps ?" />
           </Grid>
           <Grid item md={5}>
             <TextField fullWidth label="If yes, then type of Experience?" />
           </Grid>
-          <Grid item md={5}>
+          <Grid item md={4}>
             <TextField fullWidth label="Field of Expertise" />
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={4}>
             <TextField label="Work Experience(in Months)" />
           </Grid>
         </Grid>
