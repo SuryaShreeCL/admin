@@ -58,10 +58,19 @@ import {
   productuserPunchingPath,
   productstructurePath,
   ratingPath,
+<<<<<<< HEAD
   clientDetailsPath,
   ratingPathCallSummary,
   callSummaryLayoutPath,
   obOperationPath
+=======
+  OnboardingAcademicInfoPath,
+  OnboardingPersonalInfoPath,
+  clientDetailsPath,
+  ratingPathCallSummary,
+  callSummaryLayoutPath,
+  OnboardingPath
+>>>>>>> 9614b220078558d6eaec685e7056bf55d38ae0fc
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -96,9 +105,13 @@ import ProductStages from './Product/ProductStages';
 import PersonaInfo from './ObOnboarding/personalInfo'
 import AcademicInfo from './ObOnboarding/academicInfo'
 import ClientDetails from './ObCallSummary/ClientDetails';
-import Rating from './ObCallSummary/Rating';
+// import Onboarding from './ObCallSummary/Rating';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
+<<<<<<< HEAD
 import ObOperationLanding from './ObOperations/ObOperationLanding';
+=======
+import Onboarding from './ObOnboarding/Onboarding';
+>>>>>>> 9614b220078558d6eaec685e7056bf55d38ae0fc
 export default function Routes(props) {
   return (
     
@@ -155,6 +168,12 @@ export default function Routes(props) {
               render={(props)=> <CareerTrackVideo {...props} />}
             />
             <Route exact path={documentDetailsPath} render={(props)=> <StudentDocuments {...props} />} />
+            <Route exact path={OnboardingAcademicInfoPath} render={(props)=> <AcademicInfo {...props} />} />
+            <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} />
+            <Route exact path={OnboardingPath} render={(props)=> <Onboarding {...props} />} />
+
+            {/* <Route exact path={ratingPath} render={(props)=> <Rating {...props} />} /> */}
+            {/* <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} /> */}
         </Switch>
      
   );

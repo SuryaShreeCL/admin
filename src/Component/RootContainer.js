@@ -28,7 +28,7 @@ import Content from './Content';
 import history from './History';
 import MenuIcon from "../Asset/Images/menu.svg"
 import BackButton from "../Asset/Images/BackButton.svg"
-import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, clientDetailsPath, ratingPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath, callSummaryLayoutPath, obOperationPath } from './RoutePaths';
+import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, clientDetailsPath, ratingPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath, callSummaryLayoutPath, OnboardingAcademicInfoPath, OnboardingPersonalInfoPath, OnboardingPath, obOperationPath } from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -68,7 +68,9 @@ const NavbarList = [
       {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
       {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
       {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
-      {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
+      {id: OnboardingAcademicInfoPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
+      {id: OnboardingPath , icon:<SupervisorAccountIcon />, title:'personal Details'},
+      // {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
       {id: callSummaryLayoutPath, icon:<CallIcon />, title:'Call Summary'},
       {id: obOperationPath , icon:<SupervisorAccountIcon />, title:'OB Operation'},
       // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
