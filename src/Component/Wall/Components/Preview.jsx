@@ -17,26 +17,31 @@ const Preview = ({ state }) => {
         <img src={iPhoneFrame} alt='iPhone 12 Frame' />
         <Post>
           <div className='Poster'>
-            {supportingMedia === 'images' && wallFiles?.length > 0 && (
+            {supportingMedia === 'image' && wallFiles?.length > 0 && (
               <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
                 {wallFiles.map((image) => {
                   return (
-                    image.type === 'image/*' && (
-                      <img style={{ maxHeight: '250px' }} src={image.url} />
-                    )
+                    <img
+                      style={{ maxHeight: '250px' }}
+                      src={`${process.env.REACT_APP_API_WALL_URL}/api/v1/wallfile?fileName=${image.url}&type=image`}
+                    />
                   );
                 })}
               </Carousel>
             )}
             {/* If No Image Found */}
-            {supportingMedia === 'images' && wallFiles?.url?.length === 0 && (
+            {supportingMedia === 'image' && wallFiles.length === 0 && (
               <img style={{ maxHeight: '250px', width: '100%' }} src={Empty} />
             )}
             {/* If No Audio Found */}
             {supportingMedia === 'audio' && (
               <ReactAudioPlayer
                 style={{ backgroundColor: '#f0f3f4' }}
-                src={wallFiles[0]?.url ?? sample}
+                src={
+                  wallFiles[0]?.isUploaded === true
+                    ? `${process.env.REACT_APP_API_WALL_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
+                    : sample
+                }
                 controls
               />
             )}
@@ -46,7 +51,11 @@ const Preview = ({ state }) => {
                 width={300}
                 height={200}
                 controls={true}
-                url={wallFiles[0]?.url || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'}
+                url={
+                  wallFiles[0]?.isUploaded === true
+                    ? `${process.env.REACT_APP_API_WALL_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
+                    : wallFiles[0]?.url || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'
+                }
               />
             )}
           </div>
@@ -67,7 +76,7 @@ const Preview = ({ state }) => {
             {/* <h6 style={{ marginTop: '7px' }}>#{category || 'Category Name'}</h6> */}
             <p>
               {caption ||
-                ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
             </p>
           </div>
           <div className='BottomBar'>

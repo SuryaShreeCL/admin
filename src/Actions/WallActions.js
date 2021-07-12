@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const listWallPosts = (status) => async (dispatch) => {
   try {
-    dispatch({ type: WALL.LIST_REQUESTED });
+    dispatch({ type: WALL.LIST_REQUEST });
 
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_WALL_URL}/api/v1/wallpost?activeStatus=${status}`,
@@ -14,12 +14,12 @@ export const listWallPosts = (status) => async (dispatch) => {
     console.log(data.content);
 
     dispatch({
-      type: WALL.LIST_SUCCESSFUL,
+      type: WALL.LIST_SUCCESS,
       payload: data.content,
     });
   } catch (error) {
     dispatch({
-      type: WALL.LIST_FAILED,
+      type: WALL.LIST_FAIL,
       payload:
         error.response && error.response.content.message
           ? error.response.data.message

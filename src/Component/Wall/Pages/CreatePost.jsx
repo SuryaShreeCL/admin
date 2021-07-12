@@ -52,7 +52,7 @@ const CreatePost = (props) => {
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
-    supportingMedia: 'images',
+    supportingMedia: 'image',
     wallFiles: [],
     canComment: false,
     totalViews: 0,
@@ -163,7 +163,7 @@ const CreatePost = (props) => {
                       label='Video'
                     />
                     <FormControlLabel
-                      value='images'
+                      value='image'
                       control={<Radio color='primary' />}
                       label='Image'
                     />
@@ -265,24 +265,24 @@ const CreatePost = (props) => {
                     />
                   </Grid>
                   <Grid container direction='column' style={{ width: '80%' }}>
-                    {values.supportingMedia === 'images' && (
+                    {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField
                         name='wallFiles'
-                        type='image/*'
+                        type='image'
                         folderName='app-images'
                       />
                     )}
                     {values.supportingMedia === 'video' && !state.videoURLEnabled && (
                       <MultipleFileUploadField
                         name='wallFiles'
-                        type='video/*'
+                        type='video'
                         folderName='app-videos'
                       />
                     )}
                     {values.supportingMedia === 'audio' && (
                       <MultipleFileUploadField
                         name='wallFiles'
-                        type='audio/*'
+                        type='audio'
                         folderName='app-audio'
                       />
                     )}

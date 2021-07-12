@@ -61,7 +61,7 @@ const headCells = [
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
-  { id: 'posters', label: 'Posters' },
+  { id: 'Media', label: 'Media' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -70,7 +70,6 @@ export default function LivePost() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [data, setData] = useState([]);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
@@ -79,14 +78,9 @@ export default function LivePost() {
     },
   });
 
-  const toggleDrawer = () => (item) => {
-    console.log('object', item);
-    setData(item);
-  };
-
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
 
-  const [openPopup, setOpenPopup] = useState(false);
+  const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -131,15 +125,16 @@ export default function LivePost() {
   };
 
   const openInPopup = (item) => {
-    setRecordForEdit(item);
+    setViewData(item);
+    console.log(item);
     setOpenDrawer(!openDrawer);
   };
 
   const openInPage = (item) => {
-   history.push({
-     pathname: createPath,
-     state: item,
-   });
+    history.push({
+      pathname: createPath,
+      state: item,
+    });
     setRecordForEdit(item);
     setOpenDrawer(false);
   };
@@ -187,10 +182,6 @@ export default function LivePost() {
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-            onClick={() => {
-              // setOpenPopup(true);
-              // setRecordForEdit(null);
-            }}
           />
           <Controls.Button
             text='Create New Post'
@@ -199,7 +190,6 @@ export default function LivePost() {
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              // setOpenPopup(true);
               history.push(createPath);
             }}
           />
@@ -211,7 +201,7 @@ export default function LivePost() {
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.wallCategories?.map((category) => category.name)}</TableCell>
-                  <TableCell>{item.caption}</TableCell>
+                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
                   <TableCell>{item.totalViews}</TableCell>
                   <TableCell>{item?.wallFiles?.length}</TableCell>
@@ -249,7 +239,7 @@ export default function LivePost() {
       </Popup> */}
       <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <DrawerContainer>
-          <Preview state={recordForEdit} />
+          <Preview state={viewData} />
           <ButtonsContainerTwo>
             <span style={{ fontSize: '1rem' }}>
               <IconButton aria-label='edit'>
