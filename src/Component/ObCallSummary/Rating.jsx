@@ -393,8 +393,8 @@ export class rating extends Component {
   render() {
     const { root, HeadStyle, textStyle, secondaryHeadStyle } = style;
     return (
-      <div>
-        <Card style={{padding:25}}>
+      <div style={{padding:5}}>
+        {/* <Card style={{padding:25}}> */}
         <Grid container style={{ marginLeft: 0 }}>
           <Grid item md={12}>
             <p style={HeadStyle}>Call and Client Rating</p>
@@ -466,7 +466,7 @@ export class rating extends Component {
             </div>
           </Grid>
         </Grid>
-        </Card>
+        {/* </Card> */}
       </div>
     );
   }

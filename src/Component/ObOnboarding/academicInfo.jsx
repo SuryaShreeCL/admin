@@ -134,7 +134,7 @@ export class academicInfo extends Component {
                     }}
                   >
                     <Grid container direction="row" justify="flex-start">
-                      <p style={title}>Postgraduated Degree</p>
+                      <p style={title}>Postgraduate Degree</p>
                     </Grid>
                   </div>
                 </AccordionSummary>
@@ -197,20 +197,20 @@ export class academicInfo extends Component {
                       />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Current semester" />
+                      <TextField id="standard-basic" label="Current Semester" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Graduation year" />
+                      <TextField id="standard-basic" label="Graduation Year" />
                     </Grid>
                     <Grid item md={2}>
                       <TextField id="standard-basic" label="CGPA" />
                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start date" />
+                      <TextField id="standard-basic" label="Start Date" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="End date" />
+                      <TextField id="standard-basic" label="End Date" />
                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={12}></Grid>
@@ -235,7 +235,7 @@ export class academicInfo extends Component {
                     }}
                   >
                     <Grid container direction="row" justify="flex-start">
-                      <p style={title}>Undergrdauate Degree</p>
+                      <p style={title}>Undergradauate Degree</p>
                     </Grid>
                   </div>
                 </AccordionSummary>
@@ -298,20 +298,20 @@ export class academicInfo extends Component {
                       />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Current semester" />
+                      <TextField id="standard-basic" label="Current Semester" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Graduation year" />
+                      <TextField id="standard-basic" label="Graduation Year" />
                     </Grid>
                     <Grid item md={2}>
                       <TextField id="standard-basic" label="CGPA" />
                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start date" />
+                      <TextField id="standard-basic" label="Start Date" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="End date" />
+                      <TextField id="standard-basic" label="End Date" />
                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={12}></Grid>
@@ -337,7 +337,7 @@ export class academicInfo extends Component {
                     }}
                   >
                     <Grid container direction="row" justify="flex-start">
-                      <p style={title}>Diplomo</p>
+                      <p style={title}>Diploma</p>
                     </Grid>
                   </div>
                 </AccordionSummary>
@@ -379,7 +379,7 @@ export class academicInfo extends Component {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Diplomo Type"
+                            label="Diploma Type"
                             margin="normal"
                           />
                         )}
@@ -387,10 +387,10 @@ export class academicInfo extends Component {
                     </Grid>
                     {/* <Grid item md={3}></Grid> */}
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Current semester" />
+                      <TextField id="standard-basic" label="Current Semester" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Graduation year" />
+                      <TextField id="standard-basic" label="Graduation Year" />
                     </Grid>
                     <Grid item md={2}>
                       <TextField id="standard-basic" label="CGPA" />
@@ -398,10 +398,10 @@ export class academicInfo extends Component {
                     <Grid item md={1}></Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start date" />
+                      <TextField id="standard-basic" label="Start Date" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="End date" />
+                      <TextField id="standard-basic" label="End Date" />
                     </Grid>
                     <Grid item md={12}></Grid>
                   </Grid>
@@ -485,10 +485,10 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={2}></Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start date" />
+                      <TextField id="standard-basic" label="Start Date" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="End date" />
+                      <TextField id="standard-basic" label="End Date" />
                     </Grid>
                     {/* <Grid item md={1}></Grid> */}
                     <Grid item md={12}></Grid>
@@ -573,10 +573,10 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={2}></Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start date" />
+                      <TextField id="standard-basic" label="Start Date" />
                     </Grid>
                     <Grid item md={2}>
-                      <TextField id="standard-basic" label="End date" />
+                      <TextField id="standard-basic" label="End Date" />
                     </Grid>
                     {/* <Grid item md={1}></Grid> */}
                     <Grid item md={12}></Grid>

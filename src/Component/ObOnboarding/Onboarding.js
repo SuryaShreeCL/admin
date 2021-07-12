@@ -106,7 +106,7 @@ export class Onboarding extends Component {
             style={{width:'50%', marginLeft:50}}
              />
               <PrimaryButton
-                        style={{height:30, width:107, marginRight:70, marginTop:10}}
+                        style={{height:30, width:107, marginRight:70, marginTop:10, textTransform: "none"}}
                         variant={"contained"}
                         color={"primary"}
                         size={"small"}
@@ -156,6 +156,7 @@ export class Onboarding extends Component {
                         variant={"contained"}
                         color={"primary"}
                         size={"small"}
+                        style={{ textTransform: "none" }}
                       >
                         Manage Client
                       </PrimaryButton>

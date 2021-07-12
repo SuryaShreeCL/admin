@@ -139,7 +139,7 @@ export class personalInfo extends Component {
           </Grid> */}
           <Grid item md={12} style={{alignSelf:'center', alignItems:'center', width:'100%', display:'flex', justifyContent:'center'}}>
                      <PrimaryButton
-                    //  style={{width:270}}
+                        style={{ textTransform: "none" }}
                         variant={"contained"}
                         color={"primary"}
                         size={"small"}
