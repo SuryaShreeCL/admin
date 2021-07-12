@@ -17,15 +17,15 @@ const rate = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
-          fontWeight: "500",
-          fontStyle: "normal",
+          fontFamily: "Montserrat",
+          // fontWeight: "500",
+          // fontStyle: "normal",
           fontSize: "12px",
           color: "#052A4E",
           marginLeft: 50,
         }}
       >
-        Very low
+        Very Low
       </p>
     ),
   },
@@ -34,7 +34,7 @@ const rate = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -50,7 +50,7 @@ const rate = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -66,7 +66,7 @@ const rate = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -82,14 +82,14 @@ const rate = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
           color: "#052A4E",
         }}
       >
-        Very high
+        Very High
       </p>
     ),
   },
@@ -100,7 +100,7 @@ const Understands = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -117,7 +117,7 @@ const Understands = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -134,7 +134,7 @@ const Understands = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -152,7 +152,7 @@ const marks = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -169,7 +169,7 @@ const marks = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -186,7 +186,7 @@ const marks = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -202,7 +202,7 @@ const marks = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -218,7 +218,7 @@ const marks = [
     label: (
       <p
         style={{
-          fontStyle: "Montserrat",
+          fontFamily: "Montserrat",
           fontWeight: "500",
           fontStyle: "normal",
           fontSize: "12px",
@@ -480,7 +480,7 @@ const style = {
     // fontWeight: "600",
     fontStyle: "normal",
     fontSize: "18px",
-    color: "#407BFF",
+    color: "#009be5",
   },
   secondaryHeadStyle: {
     fontStyle: "Montserrat",
@@ -490,8 +490,8 @@ const style = {
     color: "#052A4E",
   },
   textStyle: {
-    fontStyle: "Montserrat",
-    // fontWeight: "500",
+    fontFamily: "Montserrat",
+    fontWeight: "500",
     fontStyle: "normal",
     fontSize: "12px",
     color: "#052A4E",

@@ -137,7 +137,7 @@ export class Onboarding extends Component {
                     <TableCell align="left">Phone Number</TableCell>
                     <TableCell align="left">OB Call Status</TableCell>
                     <TableCell align="left">Completion %</TableCell>
-                    <TableCell align="left">Action</TableCell>
+                    <TableCell align='center'>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -146,10 +146,10 @@ export class Onboarding extends Component {
                     <TableCell>Atharva Unde</TableCell>
                     <TableCell>atharva@thecareerlabs.com</TableCell>
                     <TableCell>+919561027164</TableCell>
-                    <TableCell>Completed</TableCell>
-                    <TableCell>90%</TableCell>
+                    <TableCell >Completed</TableCell>
+                    <TableCell align="center">90%</TableCell>
                     <TableCell>
-                      <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                      <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
                     <img src={Call} style={{height:30, width:30, marginRight:10}} />
                       <PrimaryButton
                         // onClick={this.props.history.push(OnboardingPersonalInfoPath)}

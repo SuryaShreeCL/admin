@@ -15,7 +15,7 @@ import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import { ExpandMore } from "@material-ui/icons";
+import { ExpandMore, KeyboardArrowDown} from "@material-ui/icons";
 import Warning from "../../Asset/Images/warningImg.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -143,6 +143,7 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                         // {...defaultProps}
+                        popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         id="debug"
                         debug
                         renderInput={(params) => (
@@ -156,6 +157,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={3}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -170,6 +172,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={3}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -184,6 +187,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={3}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -243,6 +247,7 @@ export class academicInfo extends Component {
                 <Grid container spacing={3}>
                     <Grid item md={3}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -257,6 +262,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={3}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -271,6 +277,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={3}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -285,6 +292,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={3}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -345,6 +353,7 @@ export class academicInfo extends Component {
                 <Grid container spacing={3}>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -359,6 +368,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -373,6 +383,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -433,6 +444,7 @@ export class academicInfo extends Component {
                 <Grid container spacing={3}>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -447,6 +459,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -461,6 +474,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -521,6 +535,7 @@ export class academicInfo extends Component {
                 <Grid container spacing={3}>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -535,6 +550,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
@@ -549,6 +565,7 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={4}>
                       <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         // {...defaultProps}
                         id="debug"
                         debug
