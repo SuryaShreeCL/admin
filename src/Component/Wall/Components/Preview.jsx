@@ -10,55 +10,50 @@ import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
-  const {
-    caption,
-    likes,
-    images,
-    audio,
-    video,
-    postType,
-    videoLink,
-    redirection,
-  } = state;
+  const { caption, totalLikes, buttonText, wallFiles, supportingMedia, redirectionUrl } = state;
   return (
     <PreviewContainer>
       <Frame>
         <img src={iPhoneFrame} alt='iPhone 12 Frame' />
         <Post>
           <div className='Poster'>
-            {postType === 'images' && images.length > 0 && (
+            {supportingMedia === 'images' && wallFiles?.length > 0 && (
               <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
-                {images.map((image) => {
-                  return image.url && <img style={{ maxHeight: '250px' }} src={image.url} />;
+                {wallFiles.map((image) => {
+                  return (
+                    image.type === 'image/*' && (
+                      <img style={{ maxHeight: '250px' }} src={image.url} />
+                    )
+                  );
                 })}
               </Carousel>
             )}
             {/* If No Image Found */}
-            {postType === 'images' && images.length === 0 && (
+            {supportingMedia === 'images' && wallFiles?.url?.length === 0 && (
               <img style={{ maxHeight: '250px', width: '100%' }} src={Empty} />
             )}
             {/* If No Audio Found */}
-            {postType === 'audio' && (
+            {supportingMedia === 'audio' && (
               <ReactAudioPlayer
                 style={{ backgroundColor: '#f0f3f4' }}
-                src={audio[0]?.url ?? sample}
+                src={wallFiles[0]?.url ?? sample}
                 controls
               />
             )}
             {/* If No Video Found */}
-            {postType === 'video' && (
+            {supportingMedia === 'video' && (
               <ReactPlayer
                 width={300}
                 height={200}
                 controls={true}
-                url={video[0]?.url || videoLink || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'}
+                url={wallFiles[0]?.url || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'}
               />
             )}
           </div>
           <div className='TopBar'>
             <span className='favIcon'>
               <FavoriteIcon style={{ color: 'red' }} />
-              <span className='digits'>{likes || '000'} </span>
+              <span className='digits'>{totalLikes || '000'} </span>
             </span>
             {/* <span className='commentIcon'>
               <CommentIcon />
@@ -76,9 +71,9 @@ const Preview = ({ state }) => {
             </p>
           </div>
           <div className='BottomBar'>
-            {redirection?.link.length > 1 && redirection?.buttonText.length > 1 && (
-              <a href={redirection?.link} className='redirectionBtn'>
-                {redirection?.buttonText || 'Text'}
+            {redirectionUrl.length > 1 && buttonText.length > 1 && (
+              <a href={redirectionUrl} className='redirectionBtn'>
+                {buttonText || 'Text'}
               </a>
             )}
           </div>

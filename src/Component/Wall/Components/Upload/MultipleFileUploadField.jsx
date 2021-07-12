@@ -37,7 +37,7 @@ export function MultipleFileUploadField({ name, type, folderName }) {
 
   const [files, setFiles] = useState([]);
   const onDrop = useCallback((accFiles, rejFiles) => {
-    const mappedAcc = accFiles.map((file) => ({ file, errors: [], id: getNewId() }));
+    const mappedAcc = accFiles.map((file) => ({ file, type, errors: [], id: getNewId() }));
     const mappedRej = rejFiles.map((r) => ({ ...r, id: getNewId() }));
     setFiles((curr) => [...curr, ...mappedAcc, ...mappedRej]);
   }, []);
