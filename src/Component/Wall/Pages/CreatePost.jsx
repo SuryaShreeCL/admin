@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
@@ -43,8 +44,11 @@ const useStyles = makeStyles({
   },
 });
 
-const CreatePost = () => {
+const CreatePost = (props) => {
   const classes = useStyles();
+  let location = useLocation();
+  const { addOrEdit, recordForEdit } = props;
+  const [records, setRecords] = useState(location.state);
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
@@ -77,6 +81,14 @@ const CreatePost = () => {
   };
 
   const Categories = ['All', '3rd Year', '4th Year', 'Placements', 'Higher Studies'];
+
+  useEffect(() => {
+    //SETTING PRE POPULATED RECORD
+    if (records != null)
+      setRecords({
+        ...recordForEdit,
+      });
+  }, [recordForEdit]);
 
   const validate = (values) => {
     if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
@@ -120,7 +132,7 @@ const CreatePost = () => {
       <BackHandler title='Create New Post' />
       <CreatePostContainer>
         <Formik
-          initialValues={state}
+          initialValues={records || state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             // addOrEdit(values, resetForm);
@@ -166,7 +178,7 @@ const CreatePost = () => {
                       label='Audio'
                     />
                   </RadioGroup>
-                  <FormControl className={classes.root} style={{ width: '80%' }}>
+                  {/* <FormControl className={classes.root} style={{ width: '80%' }}>
                     <InputLabel style={{ left: '10px', top: '10px' }} id='mutiple-name-label'>
                       Select Category
                     </InputLabel>
@@ -189,7 +201,7 @@ const CreatePost = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
                   <Grid item>
                     <Controls.Input
                       label='Type caption here..'
@@ -223,7 +235,7 @@ const CreatePost = () => {
                         label='Paste Video URL'
                         name='wallFiles.url'
                         className={classes.spacer}
-                        value={values.wallFiles.url}
+                        value={values.wallFiles?.url}
                         error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />
@@ -243,8 +255,8 @@ const CreatePost = () => {
                       label='Enter Button Text Here'
                       name='buttonText'
                       error={
-                        values.redirectionUrl.length > 1 &&
-                        values.buttonText.length < 1 &&
+                        values.redirectionUrl?.length > 1 &&
+                        values.buttonText?.length < 1 &&
                         Boolean(true)
                       }
                       style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}

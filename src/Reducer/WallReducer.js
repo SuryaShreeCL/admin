@@ -2,14 +2,14 @@ import { WALL } from '../Redux/Action';
 
 export const wallPostListReducer = (state = { posts: [] }, action) => {
   switch (action.type) {
-    case WALL.LIST_REQUEST:
+    case WALL.LIST_REQUESTED:
       return { loading: true, posts: [] };
-    case WALL.LIST_SUCCESS:
+    case WALL.LIST_SUCCESSFUL:
       return {
         loading: false,
         posts: action.payload,
       };
-    case WALL.LIST_FAIL:
+    case WALL.LIST_FAILED:
       return { loading: false, error: action.payload };
     default:
       return state;

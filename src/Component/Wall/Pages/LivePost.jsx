@@ -32,51 +32,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
+import { listWallPosts } from '../../../Actions/WallActions';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
-
-const content = [
-  {
-    id: '1',
-    category: 'Science',
-    likes: 21,
-    posters: [
-      {
-        link:
-          'https://previews.123rf.com/images/kho/kho1406/kho140600092/29092622-beautiful-girl-reading-book-in-the-summer-park-image-toned-.jpg',
-      },
-      {
-        link: 'https://image.freepik.com/free-photo/cute-young-lady-reading-book_23-2148204301.jpg',
-      },
-      {
-        link:
-          'https://media.istockphoto.com/photos/beautiful-lady-reading-a-book-picture-id183825490',
-      },
-    ],
-    caption: 'lorem21',
-    comments: 44,
-  },
-  {
-    id: '2',
-    category: 'Machine Learning',
-    likes: 21,
-    posters: [
-      {
-        link:
-          'https://previews.123rf.com/images/kho/kho1406/kho140600092/29092622-beautiful-girl-reading-book-in-the-summer-park-image-toned-.jpg',
-      },
-      {
-        link: 'https://image.freepik.com/free-photo/cute-young-lady-reading-book_23-2148204301.jpg',
-      },
-      {
-        link:
-          'https://media.istockphoto.com/photos/beautiful-lady-reading-a-book-picture-id183825490',
-      },
-    ],
-    caption: 'lorem31',
-    comments: 44,
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -99,11 +57,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'id', label: '#' },
   { id: 'category', label: 'Category' },
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
-  { id: 'comments', label: 'Comments' },
+  { id: 'totalViews', label: 'Views' },
   { id: 'posters', label: 'Posters' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -122,20 +79,12 @@ export default function LivePost() {
     },
   });
 
-  // const [state, setState] = React.useState({
-  //   top: false,
-  //   left: false,
-  //   bottom: false,
-  //   right: false,
-  // });
-
   const toggleDrawer = () => (item) => {
     console.log('object', item);
     setData(item);
-    setOpenDrawer(!openDrawer);
   };
 
-  // const { loading, error, testimonials } = useSelector((state) => state.testimonialListReducer);
+  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
 
   const [openPopup, setOpenPopup] = useState(false);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -146,7 +95,7 @@ export default function LivePost() {
   });
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    content,
+    posts,
     headCells,
     filterFn
   );
@@ -167,10 +116,9 @@ export default function LivePost() {
     // });
   };
 
-  const addOrEdit = (testimonial) => {
-    history.push(createPath);
-    // if (!testimonial.id) dispatch(createTestimonial(testimonial));
-    // else dispatch(updateTestimonial(testimonial));
+  const addOrEdit = (post) => {
+    // if (!post.id) dispatch(createTestimonial(post));
+    // else dispatch(updateTestimonial(post));
     // setOpenPopup(false);
     // setTimeout(() => {
     //   dispatch(listTestimonials());
@@ -184,7 +132,16 @@ export default function LivePost() {
 
   const openInPopup = (item) => {
     setRecordForEdit(item);
-    setOpenPopup(true);
+    setOpenDrawer(!openDrawer);
+  };
+
+  const openInPage = (item) => {
+   history.push({
+     pathname: createPath,
+     state: item,
+   });
+    setRecordForEdit(item);
+    setOpenDrawer(false);
   };
 
   const onDelete = (id) => {
@@ -204,13 +161,13 @@ export default function LivePost() {
   };
 
   useEffect(() => {
-    // dispatch(listTestimonials());
+    dispatch(listWallPosts('Live'));
   }, [dispatch]);
 
   return (
     <>
-      {/* {loading && <Loader />} */}
-      {/* {error && <Alert severity='error'>{error}</Alert>} */}
+      {loading && <Loader />}
+      {error && <Alert severity='error'>{error}</Alert>}
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.RoundedInput
@@ -249,25 +206,20 @@ export default function LivePost() {
         </Toolbar>
         <TblContainer>
           <TblHead />
-          {content && (
+          {posts && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.category}</TableCell>
+                  <TableCell>{item.wallCategories?.map((category) => category.name)}</TableCell>
                   <TableCell>{item.caption}</TableCell>
-                  <TableCell>{item.likes}</TableCell>
-                  <TableCell>{item.comments}</TableCell>
-                  <TableCell>{item?.posters.length}</TableCell>
+                  <TableCell>{item.totalLikes}</TableCell>
+                  <TableCell>{item.totalViews}</TableCell>
+                  <TableCell>{item?.wallFiles?.length}</TableCell>
                   <TableCell>
-                    <Controls.ActionButton onClick={toggleDrawer(item)}>
+                    <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton
-                      onClick={() => {
-                        openInPopup(item);
-                      }}
-                    >
+                    <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                     <Controls.ActionButton
@@ -295,9 +247,9 @@ export default function LivePost() {
       {/* <Popup title='Add or Edit Testimonial' openPopup={openPopup} setOpenPopup={setOpenPopup}>
         <CreatePost recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
       </Popup> */}
-      <Drawer anchor='right' open={openDrawer} onClose={toggleDrawer()}>
+      <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <DrawerContainer>
-          <Preview state={[]} />
+          <Preview state={recordForEdit} />
           <ButtonsContainerTwo>
             <span style={{ fontSize: '1rem' }}>
               <IconButton aria-label='edit'>
