@@ -168,16 +168,16 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
-    MuiFormControl : {
-      marginNormal : {
-        marginTop : 0,
-        marginBottom : 0,
+    MuiFormControl: {
+      marginNormal: {
+        marginTop: 0,
+        marginBottom: 0,
       },
     },
-    MuiListItem : {
-      root : {
-        "&$selected" : {
-          backgroundColor : '#009be5'
+    MuiListItem: {
+      root: {
+        "&$selected": {
+          backgroundColor: '#009be5'
         },
       },
     },
@@ -254,7 +254,7 @@ export default function RootContainer(props) {
     props.history.push(rootLoginPath);
   };
 
-  console.log("........",history)
+  console.log("........", history)
 
   return (
     <ThemeProvider theme={theme}>
@@ -313,9 +313,9 @@ export default function RootContainer(props) {
           </div>
           <Divider />
           <List>
-            {NavbarList.map((Item,index) => (
+            {NavbarList.map((Item, index) => (
               <ListItem
-              selected={selectedMenu === index}
+                selected={selectedMenu === index}
                 button
                 key={Item.id}
                 onClick={() => {
@@ -323,7 +323,7 @@ export default function RootContainer(props) {
                   props.history.push(Item.id);
                 }}
               >
-                <ListItemIcon  className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
+                <ListItemIcon className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
                 <ListItemText primary={Item.title} />
               </ListItem>
             ))}

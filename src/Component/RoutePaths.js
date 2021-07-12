@@ -48,6 +48,5 @@ export const callSummaryLayoutPath = rootPath.concat("/callSummary")
 export const loginPath = rootPath.concat('/Mlogin');
 export const curatedPath = rootPath.concat('/curatedCourse');
 export const personelInfoPath = rootPath.concat('/personalInfo');
-export const ratingPath = rootPath.concat('/rating');
-export const OnboardingPersonalInfoPath = rootPath.concat('/OnboardingPersonalInfo');
+
 
