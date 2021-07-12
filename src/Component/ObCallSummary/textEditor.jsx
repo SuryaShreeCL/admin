@@ -17,26 +17,25 @@ const ColoredLine = ({ color }) => (
 class Question extends Component {
     render() {
         return (
-            <div style={{padding:10}}>
+            <div style={{ padding: 10 }}>
 
-                <div style={{ color: '#407BFF', fontSize: 18 }}>
-                    Client Service Details
+                <div style={{ color: '#407BFF', fontSize: 18,paddingLeft:20 }}>
+                    Client Questions
                 </div>
+                <Grid container spacing={4} style={{padding: 10,}}>
 
-                <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6} >
+                    <Grid item xs={12} sm={6}  >
                         <div style={{ color: '#686868', fontSize: 12 }}>
                             Questions (Factual, Doubts)
                         </div>
-
+                        
                         <CKEditor
-
                             editor={ClassicEditor}
                             data="welcome"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
-                                }
+                                }, 
                             }}
                             disabled={false}
                             onInit={editor => {
@@ -55,7 +54,7 @@ class Question extends Component {
                             }}
                         />
                         <ColoredLine color="gray" />
-                        
+                           
 
                     </Grid>
 
@@ -125,7 +124,7 @@ class Question extends Component {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <div style={{ color: '#686868', fontSize: 12 }}>
-                        Observations
+                            Observations
                         </div>
 
                         <CKEditor
@@ -153,10 +152,12 @@ class Question extends Component {
                                 console.log("Focus.", editor);
                             }}
                         />
+
+
                         <ColoredLine color="gray" />
                     </Grid>
-                </Grid>
 
+                </Grid>
 
             </div>
 

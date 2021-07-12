@@ -41,13 +41,15 @@ export const productuserPunchingPath = rootPath.concat('/productpunching/');
 export const productstructurePath = rootPath.concat('/productstructure/');
 export const clientDetailsPath = rootPath.concat('/clientdetails/');
 export const callSummaryLayoutPath = rootPath.concat("/callSummary")
-
+export const obOperationPath = rootPath.concat("/obOperation")
 
 // Rengine another version path
 
 export const loginPath = rootPath.concat('/Mlogin');
 export const curatedPath = rootPath.concat('/curatedCourse');
 export const personelInfoPath = rootPath.concat('/personalInfo');
-
+export const OnboardingPersonalInfoPath = rootPath.concat('/Onboarding/personalInfo');
+export const OnboardingAcademicInfoPath = rootPath.concat('/Onboarding/academicInfo');
+export const OnboardingPath = rootPath.concat('/onboarding')
 
 

@@ -9,7 +9,8 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
@@ -21,11 +22,13 @@ import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Avatar from '@material-ui/core/Avatar';
+import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import Content from './Content';
 import history from './History';
-import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, clientDetailsPath, ratingPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath, callSummaryLayoutPath } from './RoutePaths';
+import MenuIcon from "../Asset/Images/menu.svg"
+import BackButton from "../Asset/Images/BackButton.svg"
+import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, clientDetailsPath, ratingPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath, callSummaryLayoutPath, OnboardingAcademicInfoPath, OnboardingPersonalInfoPath, OnboardingPath, obOperationPath } from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -43,7 +46,8 @@ import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 import CallIcon from '@material-ui/icons/Call';
 import Routes from './Routes';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
-
+import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOutlined';
+import { Badge, Breadcrumbs } from '@material-ui/core';
 
 const drawerWidth = 240;
 const NavbarList = [
@@ -64,9 +68,11 @@ const NavbarList = [
       {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
       {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
       {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
-      {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
+      {id: OnboardingAcademicInfoPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
+      {id: OnboardingPath , icon:<SupervisorAccountIcon />, title:'personal Details'},
+      // {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
       {id: callSummaryLayoutPath, icon:<CallIcon />, title:'Call Summary'},
-
+      {id: obOperationPath , icon:<SupervisorAccountIcon />, title:'OB Operation'},
       // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
       // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
       
@@ -135,9 +141,9 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
     marginTop: 55,
-    background: '#eaeff1',
+    background: '#fff',
     flex: 1,
-    padding: theme.spacing(6, 4),
+    padding: theme.spacing(4, 4),
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -168,6 +174,11 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiBadge : {
+      colorPrimary : {
+        backgroundColor : "#FDBF44"
+      }
+    },
     MuiFormControl: {
       marginNormal: {
         marginTop: 0,
@@ -262,6 +273,7 @@ export default function RootContainer(props) {
         <CssBaseline />
         <AppBar
           position='fixed'
+          color="default"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
@@ -274,19 +286,29 @@ export default function RootContainer(props) {
               edge='start'
               className={clsx(classes.menuButton, open && classes.hide)}
             >
-              <MenuIcon />
+              {/* <MenuIcon /> */}
+              <img src={MenuIcon}></img>
             </IconButton>
-            <img
+            {/* <img
               className={classes.homelogo}
               src='https://mernlmsassets.s3.ap-south-1.amazonaws.com/img/Careerlabs.png'
               alt='CareerLabs'
-            />
+            /> */}
             <div className={classes.spacer}></div>
-            <IconButton color='inherit'>
-              <NotificationsIcon />
+            <IconButton color='primary' style={{marginRight : "10px"}}>
+              <Badge variant="dot" color="primary">
+              <NotificationsNoneOutlinedIcon />
+              </Badge>
             </IconButton>
+            <Divider style={{ height : "30px", backgroundColor : "#cacaca"}} orientation="vertical" />
             {/* <GoogleBtn {...props} />       */}
-            <IconButton color='inherit' onClick={logout}>
+            <IconButton color="primary" style={{marginRight : "10px"}}>
+            <Badge variant="dot" color="primary">
+            <InsertInvitationOutlinedIcon />
+            </Badge>
+            </IconButton>
+            <Divider style={{ height : "30px", backgroundColor : "#cacaca"}} orientation="vertical" />
+            <IconButton color='primary' onClick={logout}>
               <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
@@ -335,6 +357,15 @@ export default function RootContainer(props) {
             [classes.contentShift]: open,
           })}
         >
+          <div style={{display : "flex", alignItems : "center", marginBottom : "20px"}}>
+          <img src={BackButton} style={{marginRight : "20px", cursor : "pointer"}}></img>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" color="primary" />} aria-label="breadcrumb">
+       
+       <Typography style={{cursor : "pointer"}}>Home</Typography>
+       <Typography style={{cursor : "pointer"}}>Product</Typography>
+     </Breadcrumbs>
+          </div>
+          
           <Routes {...props} />
           {/* <CallSummaryLayout {...props} /> */}
         </main>
