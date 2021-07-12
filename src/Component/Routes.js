@@ -58,19 +58,13 @@ import {
   productuserPunchingPath,
   productstructurePath,
   ratingPath,
-<<<<<<< HEAD
-  clientDetailsPath,
-  ratingPathCallSummary,
-  callSummaryLayoutPath,
-  obOperationPath
-=======
   OnboardingAcademicInfoPath,
   OnboardingPersonalInfoPath,
   clientDetailsPath,
   ratingPathCallSummary,
   callSummaryLayoutPath,
-  OnboardingPath
->>>>>>> 9614b220078558d6eaec685e7056bf55d38ae0fc
+  OnboardingPath,
+  obOperationPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -107,11 +101,8 @@ import AcademicInfo from './ObOnboarding/academicInfo'
 import ClientDetails from './ObCallSummary/ClientDetails';
 // import Onboarding from './ObCallSummary/Rating';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
-<<<<<<< HEAD
 import ObOperationLanding from './ObOperations/ObOperationLanding';
-=======
 import Onboarding from './ObOnboarding/Onboarding';
->>>>>>> 9614b220078558d6eaec685e7056bf55d38ae0fc
 export default function Routes(props) {
   return (
     

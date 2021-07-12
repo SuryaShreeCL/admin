@@ -44,7 +44,7 @@ class ObOperationLanding extends Component {
                 </ThemeProvider>
             </Grid>
             <Grid item md={7}>
-            <div style={{width : "100%", height : "100px", display : "flex", alignItems : "center", justifyContent : "center"}}>
+            <div style={{width : "100%", height : "50vh", display : "flex", alignItems : "center", justifyContent : "center", borderRadius : "8px", boxShadow : "0px 0px 8px 1px rgba(72, 166, 227, 0.1)", cursor : "pointer"}}>
                 <img src={add}></img>
                 <Typography color="primary">Add new widget</Typography>
             </div>
