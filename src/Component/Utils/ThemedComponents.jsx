@@ -4,7 +4,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import React from 'react';
 export const ThemedTabs = withStyles({
     root: {
-      borderBottom: '2px solid #A2D3FC',
+      borderBottom: '2px solid #E5E5E5',
     },
     indicator: {
       backgroundColor: '#1890ff',
