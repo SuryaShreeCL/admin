@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Divider, Grid, Typography } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../Utils/PrimaryButton';
@@ -41,12 +41,15 @@ class CallSummaryLayout extends Component {
         return (
             <Grid container spacing={2}>
                 <Grid item md={12} container justify={"space-between"} alignItems={"center"}>
-                    <Typography>
+                    <Typography variant="h6">
                         OnBoarding Call Summary  
                     </Typography>
                     <PrimaryButton variant={"contained"} color={"primary"} >
                         Save Call Summary
                     </PrimaryButton>
+                </Grid>
+                <Grid item md={12}>
+                    <Divider style={{backgroundColor : "#cacaca"}} />
                 </Grid>
             <Grid item md={8}>
             <Grid container>

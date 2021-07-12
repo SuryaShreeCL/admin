@@ -38,7 +38,7 @@ export class personalInfo extends Component {
         return (
             <div>
               <Card style={{padding:25}}>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item md={12}>
           <div style = {{display:"flex", flexDirection:'row', justifyContent:'space-between', width:'100%'}}>
             <div style = {{display:"flex", flexDirection:'row', justifyContent:'space-between', width:'22%'}}>
@@ -65,7 +65,7 @@ export class personalInfo extends Component {
           <Grid item md={2}>
           <TextField id="standard-basic" label="Contact Number" disabled={true} value={'+919561027164'}/>
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={2}>
           <TextField id="standard-basic" label="Email Address" disabled={true} value={'me@atharvaunde.me'}/>
           </Grid>
 
