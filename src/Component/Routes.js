@@ -64,7 +64,9 @@ import {
   ratingPathCallSummary,
   callSummaryLayoutPath,
   OnboardingPath,
-  obOperationPath
+  obOperationPath,
+  listUsersProdBasedPath,
+  stagedTabsPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -103,6 +105,8 @@ import ClientDetails from './ObCallSummary/ClientDetails';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
 import ObOperationLanding from './ObOperations/ObOperationLanding';
 import Onboarding from './ObOnboarding/Onboarding';
+import ProductBasedUsers from './ObOperations/ProductBasedUsers';
+import StageBasedLayout from './ObOperations/StageBasedLayout';
 export default function Routes(props) {
   return (
     
@@ -146,6 +150,8 @@ export default function Routes(props) {
             <Route exact path={clientDetailsPath} render={(props)=> <ClientDetails {...props} />} />
             <Route exact path={callSummaryLayoutPath} render={(props)=> <CallSummaryLayout {...props} />} />
             <Route exact path={obOperationPath} render={(props)=> <ObOperationLanding {...props} />} />
+            <Route exact path={listUsersProdBasedPath} render={(props)=> <ProductBasedUsers {...props} />} />
+            <Route exact path={stagedTabsPath} render={(props)=> <StageBasedLayout {...props} />} />
             <Route
               exact
               // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
@@ -158,13 +164,8 @@ export default function Routes(props) {
               path={careerTrackVideoPath.concat(":id")}
               render={(props)=> <CareerTrackVideo {...props} />}
             />
-            <Route exact path={documentDetailsPath} render={(props)=> <StudentDocuments {...props} />} />
-            <Route exact path={OnboardingAcademicInfoPath} render={(props)=> <AcademicInfo {...props} />} />
-            <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} />
-            <Route exact path={OnboardingPath} render={(props)=> <Onboarding {...props} />} />
-
-            {/* <Route exact path={ratingPath} render={(props)=> <Rating {...props} />} /> */}
-            {/* <Route exact path={OnboardingPersonalInfoPath} render={(props)=> <PersonaInfo {...props} />} /> */}
+           
+         
         </Switch>
      
   );

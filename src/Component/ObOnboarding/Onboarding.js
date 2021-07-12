@@ -14,7 +14,7 @@ import React, { Component } from "react";
 import PrimaryButton from '../../Utils/PrimaryButton'
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { OnboardingPersonalInfoPath } from "../RoutePaths";
+import { OnboardingPersonalInfoPath, stagedTabsPath } from "../RoutePaths";
 import DataGridTable from "../Utils/DataGridTable";
 import Call from "../../Asset/Images/callImg.png"
 
@@ -24,61 +24,7 @@ export class Onboarding extends Component {
     super(props)
   
     this.state = {
-    //   tableColumns: [
-    //     { field: "id", hide: true },
-    //     { field: "codeName", headerName: "CLS ID", width: 140 },
-    //     { field: "productName", headerName: "Client Name", width: 150 },
-    //     { field: "varientCount", headerName: "Email Address", width: 120 },
-    //     { field: "createdBy", headerName: "Phone Number", width: 140 },
-    //     { field: "dateOfCreation", headerName: "Completion %", width: 140 },
-    //     {
-    //       field: "action",
-    //       headerName: "Action",
-    //       sortable: false,
-    //       width: 200,
-    //       renderCell: (params) => {
-    //         const onClick = () => {
-    //           const api: GridApi = params.api;
-    //           const fields = api
-    //             .getAllColumns()
-    //             .map((c) => c.field)
-    //             .filter((c) => c !== "__check__" && !!c);
-    //           const thisRow: Record<string, GridCellValue> = {};
 
-    //           fields.forEach((f) => {
-    //             thisRow[f] = params.getValue(f);
-    //           });
-
-    //           return (
-    //             // console.log(thisRow)
-    //             this.setState({
-    //               show: true,
-    //               id: thisRow.id,
-    //               codeName: thisRow.codeName,
-    //               // shortName:thisRow.shortName,
-    //               productName: thisRow.productName,
-    //               createdby: thisRow.createdBy,
-    //               createdon: thisRow.dateOfCreation,
-    //               updatedby: thisRow.updatedBy,
-    //               updatedon: thisRow.dateOfUpdate,
-    //             })
-    //           );
-    //           // alert(JSON.stringify(thisRow, null, 4));
-    //         };
-    //         return (
-    //           <PrimaryButton
-    //             onClick={onClick}
-    //             variant={"contained"}
-    //             color={"primary"}
-    //             size={"small"}
-    //             style={{ marginLeft: 16 }}
-    //           >
-    //             Manage
-    //           </PrimaryButton>
-    //         );
-    //       },
-    //     },
-    //   ],
     }
   }
  
@@ -152,7 +98,7 @@ export class Onboarding extends Component {
                       <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
                     <img src={Call} style={{height:30, width:30, marginRight:10}} />
                       <PrimaryButton
-                        // onClick={this.props.history.push(OnboardingPersonalInfoPath)}
+                        onClick={()=>this.props.history.push(stagedTabsPath)}
                         variant={"contained"}
                         color={"primary"}
                         size={"small"}

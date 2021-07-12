@@ -48,6 +48,8 @@ import Routes from './Routes';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
 import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOutlined';
 import { Badge, Breadcrumbs } from '@material-ui/core';
+import StageBasedLayout from './ObOperations/StageBasedLayout';
+import ProductBasedUsers from './ObOperations/ProductBasedUsers';
 
 const drawerWidth = 240;
 const NavbarList = [
@@ -72,7 +74,7 @@ const NavbarList = [
       // {id: OnboardingPath , icon:<SupervisorAccountIcon />, title:'personal Details'},
       // {id: clientDetailsPath , icon:<SupervisorAccountIcon />, title:'Client Details'},
       {id: callSummaryLayoutPath, icon:<CallIcon />, title:'Call Summary'},
-      // {id: obOperationPath , icon:<SupervisorAccountIcon />, title:'OB Operation'},
+      {id: obOperationPath , icon:<SupervisorAccountIcon />, title:'OB Operation'},
       // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
       // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
       
@@ -367,7 +369,7 @@ export default function RootContainer(props) {
           </div>
           
           <Routes {...props} />
-          {/* <CallSummaryLayout {...props} /> */}
+          {/* <ProductBasedUsers {...props} /> */}
         </main>
         <footer className={classes.footer}>
           <Copyright />
