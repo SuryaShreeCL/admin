@@ -15,21 +15,28 @@ import {
 } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { ExpandMore} from "@material-ui/icons";
+import { ExpandMore } from "@material-ui/icons";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { isEmptyString } from "../Validation";
+
 const theme = createMuiTheme({
   overrides: {
-    MuiSvgIcon: {
+    MuiInputLabel: {
       root: {
-        260: {
-          color: "#1093FF",
-        },
+          whiteSpace : "nowrap",
+          fontSize: "inherit",
       },
     },
+    MuiFormControl : {
+      marginNormal : {
+          marginTop : "0px",
+          marginBottom : "0px"
+      }
+    }
   },
 });
 class ClientDetails extends Component {
@@ -37,39 +44,72 @@ class ClientDetails extends Component {
     super();
     this.state = {
       name: "",
+      nameErr: "",
       number: "",
+      numberErr: "",
       email: "",
+      emailErr: "",
       clsid: "",
       ugdegree: "",
+      ugdegreeErr: "",
       collegename: "",
+      collegeErr: "",
       department: "",
+      departmentErr: "",
       sem: "",
+      semErr: "",
       activebacklogs: "",
+      activebacklogsErr: "",
       cgpa: "",
+      cgpaErr: "",
       family: "",
+      familyErr: "",
       varient: "",
+      varientErr: "",
       intake: "",
+      intakeErr: "",
       year: "",
+      yearErr: "",
       validity: "",
+      validityErr: "",
       endofservice: null,
+      endofserviceErr: "",
       pricing: "",
+      pricingErr: "",
       ameyoid: "",
+      ameyoidErr: "",
       calldate: null,
+      calldateErr: "",
       calltime: null,
+      calltimeErr: "",
       agent: "",
+      agentErr: "",
       callstatus: "",
+      callstatusErr: "",
       callbacktime: null,
+      callbacktimeErr: "",
       spedays: "",
+      speDaysErr: "",
       spetime: "",
+      speErr: "",
       enrolldate: null,
+      enrolldateErr: "",
       appdegree: "",
+      appdegreeErr: "",
       order: "",
+      orderErr: "",
       countries: "",
+      countriesErr: "",
       package: "",
+      packageErr: "",
       workexp: "",
+      workexpErr: "",
       exptype: "",
+      exptypeErr: "",
       expfield: "",
+      expfieldErr: "",
       expmonth: "",
+      expmonthErr: "",
     };
   }
   componentDidMount() {
@@ -85,15 +125,132 @@ class ClientDetails extends Component {
       );
     }
   }
+   theme = createMuiTheme({
+
+   })
+  handleSaved = () => {
+    let hlptxt = "Please Fill the Required Field";
+    isEmptyString(this.state.name)
+      ? this.setState({ nameErr: hlptxt })
+      : this.setState({ nameErr: "" });
+    isEmptyString(this.state.number)
+      ? this.setState({ numberErr: hlptxt })
+      : this.setState({ numberErr: "" });
+    isEmptyString(this.state.email)
+      ? this.setState({ emailErr: hlptxt })
+      : this.setState({ emailErr: "" });
+    isEmptyString(this.state.ugdegree)
+      ? this.setState({ ugdegreeErr: hlptxt })
+      : this.setState({ ugdegreeErr: "" });
+    isEmptyString(this.state.department)
+      ? this.setState({ departmentErr: hlptxt })
+      : this.setState({ departmentErr: "" });
+    isEmptyString(this.state.collegename)
+      ? this.setState({ collegeErr: hlptxt })
+      : this.setState({ collegeErr: "" });
+    isEmptyString(this.state.sem)
+      ? this.setState({ semErr: hlptxt })
+      : this.setState({ semErr: "" });
+    isEmptyString(this.state.activebacklogs)
+      ? this.setState({ activebacklogsErr: hlptxt })
+      : this.setState({ activebacklogsErr: "" });
+    isEmptyString(this.state.cgpa)
+      ? this.setState({ cgpaErr: hlptxt })
+      : this.setState({ cgpaErr: "" });
+    isEmptyString(this.state.family)
+      ? this.setState({ familyErr: hlptxt })
+      : this.setState({ familyErr: "" });
+    isEmptyString(this.state.varient)
+      ? this.setState({ varientErr: hlptxt })
+      : this.setState({ varientErr: "" });
+    isEmptyString(this.state.intake)
+      ? this.setState({ intakeErr: hlptxt })
+      : this.setState({ intakeErr: "" });
+    isEmptyString(this.state.year)
+      ? this.setState({ yearErr: hlptxt })
+      : this.setState({ yearErr: "" });
+    isEmptyString(this.state.validity)
+      ? this.setState({ validityErr: hlptxt })
+      : this.setState({ validityErr: "" });
+    this.state.endofservice === null
+      ? this.setState({ endofserviceErr: hlptxt })
+      : this.setState({ endofserviceErr: "" });
+    isEmptyString(this.state.pricing)
+      ? this.setState({ pricingErr: hlptxt })
+      : this.setState({ pricingErr: "" });
+    isEmptyString(this.state.ameyoid)
+      ? this.setState({ ameyoidErr: hlptxt })
+      : this.setState({ ameyoidErr: "" });
+    this.state.calldate === null
+      ? this.setState({ calldateErr: hlptxt })
+      : this.setState({ calldateErr: "" });
+    this.state.calltime === null
+      ? this.setState({ calltimeErr: hlptxt })
+      : this.setState({ calltimeErr: "" });
+    isEmptyString(this.state.agent)
+      ? this.setState({ agentErr: hlptxt })
+      : this.setState({ agentErr: "" });
+    isEmptyString(this.state.callstatus)
+      ? this.setState({ callstatusErr: hlptxt })
+      : this.setState({ callstatusErr: "" });
+    this.state.callbacktime === null
+      ? this.setState({ callbacktimeErr: hlptxt })
+      : this.setState({ callbacktimeErr: "" });
+    isEmptyString(this.state.spedays)
+      ? this.setState({ speDaysErr: hlptxt })
+      : this.setState({ speDaysErr: "" });
+    isEmptyString(this.state.spetime)
+      ? this.setState({ speErr: hlptxt })
+      : this.setState({ speErr: "" });
+    this.state.enrolldate === null
+      ? this.setState({ enrolldateErr: hlptxt })
+      : this.setState({ enrolldateErr: "" });
+    isEmptyString(this.state.appdegree)
+      ? this.setState({ appdegreeErr: hlptxt })
+      : this.setState({ appdegreeErr: "" });
+    isEmptyString(this.state.order)
+      ? this.setState({ orderErr: hlptxt })
+      : this.setState({ orderErr: "" });
+    isEmptyString(this.state.countries)
+      ? this.setState({ countriesErr: hlptxt })
+      : this.setState({ countriesErr: "" });
+    isEmptyString(this.state.package)
+      ? this.setState({ packageErr: hlptxt })
+      : this.setState({ packageErr: "" });
+    isEmptyString(this.state.workexp)
+      ? this.setState({ workexpErr: hlptxt })
+      : this.setState({ workexpErr: "" });
+    isEmptyString(this.state.exptype)
+      ? this.setState({ exptypeErr: hlptxt })
+      : this.setState({ exptypeErr: "" });
+    isEmptyString(this.state.expfield)
+      ? this.setState({ expfieldErr: hlptxt })
+      : this.setState({ expfieldErr: "" });
+    isEmptyString(this.state.expmonth)
+      ? this.setState({ expmonthErr: hlptxt })
+      : this.setState({ expmonthErr: "" });
+  };
+
   render() {
     console.log(this.state);
     return (
       <div>
-        <ThemeProvider theme={this.theme}>
+        <ThemeProvider theme={theme}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} style={{ marginTop: "10px" }}>
               <Grid item md={12}>
-                <Typography style={{ fontWeight: "600", color: "#407BFF" }}>
+                <Typography
+                  style={{
+                    fontWeight: "600",
+                    color: "#407BFF",
+                    // fontFamily: "Montserrat",
+                    // fontSize: "18px",
+                    // fontStyle: "normal",
+                    // lineHeight: "22px",
+                    // letter-spacing: 0em;
+                    // text-align: left
+                  }}
+                >
                   Students Details
                 </Typography>
               </Grid>
@@ -106,6 +263,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField
+                  // disabled
                   label="Contact Number"
                   value={this.state.number}
                   onChange={(e) => this.setState({ number: e.target.value })}
@@ -113,6 +271,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField
+                // disabled
                   label="Email Address"
                   value={this.state.email}
                   onChange={(e) => this.setState({ email: e.target.value })}
@@ -120,7 +279,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField
-                  disabled
+                  // disabled
                   label="CLS ID"
                   value={this.state.clsid}
                   onChange={(e) => this.setState({ clsid: e.target.value })}
@@ -128,7 +287,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getDegreeList}
                   getOptionLabel={(option) => option.name}
@@ -144,7 +303,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getCollegesList}
                   getOptionLabel={(option) => option.name}
@@ -164,7 +323,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getBranchesList}
                   getOptionLabel={(option) => option.name}
@@ -207,14 +366,23 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={6}></Grid>
               <Grid item md={12}>
-                <Typography style={{ fontWeight: "600", color: "#407BFF" }}>
+                <Typography
+                  style={{
+                    fontWeight: "600",
+                    color: "#407BFF",
+                    // fontFamily: "Montserrat",
+                    // fontSize: "18px",
+                    // fontStyle: "normal",
+                    // lineHeight: "22px",
+                  }}
+                >
                   {" "}
                   Product Details
                 </Typography>
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
@@ -234,7 +402,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getProductByFamilyIdList}
                   getOptionLabel={(option) => option.name}
@@ -298,7 +466,16 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={12}>
-                <Typography style={{ fontWeight: "600", color: "#407BFF" }}>
+                <Typography
+                  style={{
+                    fontWeight: "600",
+                    color: "#407BFF",
+                    // fontFamily: "Montserrat",
+                    // fontSize: "18px",
+                    // fontStyle: "normal",
+                    // lineHeight: "22px",
+                  }}
+                >
                   Call Details
                 </Typography>
               </Grid>
@@ -341,7 +518,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ agent: e.target.value })}
                 />
               </Grid>
-              <Grid item md={2}>
+              <Grid item md={4}>
                 <TextField
                   label="Call Status"
                   value={this.state.callstatus}
@@ -366,20 +543,29 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={4}>
                 <TextField
-                  label="Specific Days to be contacted ?"
+                  label="Specific Days to be contacted?"
                   value={this.state.spedays}
                   onChange={(e) => this.setState({ spedays: e.target.value })}
                 />
               </Grid>
               <Grid item md={4}>
                 <TextField
-                  label="Special Time to be Contacted ?"
+                  label="Specific Time to be Contacted?"
                   value={this.state.spetime}
                   onChange={(e) => this.setState({ spetime: e.target.value })}
                 />
               </Grid>
               <Grid item md={12}>
-                <Typography style={{ fontWeight: "600", color: "#407BFF" }}>
+                <Typography
+                  style={{
+                    fontWeight: "600",
+                    color: "#407BFF",
+                    fontFamily: "Montserrat",
+                    fontSize: "18px",
+                    fontStyle: "normal",
+                    lineHeight: "22px",
+                  }}
+                >
                   Client Service Details
                 </Typography>
               </Grid>
@@ -401,7 +587,7 @@ class ClientDetails extends Component {
               <Grid item md={3}>
                 {/* <TextField label="Applying Degree" /> */}
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
@@ -421,7 +607,7 @@ class ClientDetails extends Component {
               <Grid item md={3}>
                 {/* <TextField type="number" label="Intake Year" /> */}
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
@@ -438,7 +624,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
@@ -455,7 +641,7 @@ class ClientDetails extends Component {
               <Grid item md={3}>
                 {/* <TextField label="Order Type" /> */}
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
@@ -472,7 +658,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
@@ -497,13 +683,22 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={12}>
-                <Typography style={{ fontWeight: "600", color: "#407BFF" }}>
-                  Client's Educational Details
+                <Typography
+                  style={{
+                    fontWeight: "600",
+                    color: "#407BFF",
+                    fontFamily: "Montserrat",
+                    fontSize: "18px",
+                    fontStyle: "normal",
+                    lineHeight: "22px",
+                  }}
+                >
+                  Client's Educational Background
                 </Typography>
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getDegreeList}
                   getOptionLabel={(option) => option.name}
@@ -520,7 +715,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getCollegesList}
                   getOptionLabel={(option) => option.name}
@@ -536,7 +731,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
-                 popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getBranchesList}
                   getOptionLabel={(option) => option.name}
@@ -560,14 +755,23 @@ class ClientDetails extends Component {
                 <TextField label="Backlogs" />
               </Grid>
               <Grid item md={12}>
-                <Typography style={{ fontWeight: "600", color: "#407BFF" }}>
+                <Typography
+                  style={{
+                    fontWeight: "600",
+                    color: "#407BFF",
+                    fontFamily: "Montserrat",
+                    fontSize: "18px",
+                    fontStyle: "normal",
+                    lineHeight: "22px",
+                  }}
+                >
                   Client's Work Experience Background
                 </Typography>
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
                   id="combo-box-demo"
-                  popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
                   value={this.state.workexp}
@@ -587,7 +791,7 @@ class ClientDetails extends Component {
                 {/* <TextField fullWidth label="If yes, then type of Experience?" /> */}
                 <Autocomplete
                   id="combo-box-demo"
-                  popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   options={this.props.getAllProductFamilyList}
                   getOptionLabel={(option) => option.productName}
                   value={this.state.exptype}
