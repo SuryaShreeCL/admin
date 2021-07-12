@@ -56,7 +56,15 @@ import {
   productPunchingPath,
   productcomboPath,
   productuserPunchingPath,
-  productstructurePath
+  productstructurePath,
+  textEditorPath,
+  testEngineResult,
+  admissionServices,
+  aspirationDetails,
+  graduateTestResult,
+  academicInfo,
+  workExperience,
+  productActivation
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -87,61 +95,71 @@ import ProductPunching from './ProductPunching/ProductPunchingLanding'
 import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import ProductStages from './Product/ProductStages';
+import TextEditor from './ObCallSummary/textEditor';
+import TestEngineResult from './ObCallSummary/testEngineResult';
+import  AdmissionServices  from './ObCallSummary/admissionServices';
+import AspirationDetails from './ObCallSummary/aspirationDetails';
+import GraduateResult from './ObCallSummary/graduateTestResult';
+import AcademicInfo from './ObCallSummary/academicInfo';
+import WorkExperience from './ObCallSummary/workExperience';
+import ProductActivation from './ObCallSummary/productActivation';
 export default function Routes(props) {
   return (
-    
-        <Switch>
-            {/* <Route restricted={false} exact path="/" component={Login} /> */}
-            <Route exact path={studentPath} render={(props)=> <StudentHome {...props} />} />
-            <Route exact path={coursePath} render={(props)=> <Courses {...props} />} />
-            <Route exact path={editCoursePath.concat(':id')} render={(props)=> <TabPanel {...props} />} />
-            <Route exact path={addCoursePath} render={(props)=> <TabPanel {...props} />} />
-            <Route exact path={departmentPath} render={(props)=> <Department {...props} />} />
-            <Route exact path={collegePath} render={(props)=> <College {...props} />} />
-            <Route exact path={universityPath} render={(props)=> <University {...props} />} />
-            <Route exact path={studentIdPath+'/:id'} render={(props)=> <Student_data {...props} />} />
-            <Route exact path={loginPath} render={(props)=> <MLogin {...props} />} />
-            <Route exact path={personelInfoPath} render={(props)=> <Personal_information {...props} />} />
-            <Route exact path={curatedPath} render={(props)=> <Curated_Course {...props} />} />
-            <Route exact path={questionBankPath} render={(props)=> <QuestionBank {...props} />} />
-            <Route exact path={'/admin/table'} render={(props)=> <TableComponent {...props} />} />
-            <Route exact path={callSchedulePath} render={(props)=> <Callschedule {...props} />} />
-            {/* Selva */}
-            <Route exact path={cityPath} render={(props)=> <City {...props} />} />
-            <Route exact path={aspirationPath} render={(props)=> <AspirationTab {...props} />} />
-            <Route exact path={questionSetPath} render={(props)=> <QuestionSet {...props} />} />
-            <Route exact path={questionsPath.concat(':id')} render={(props)=> <Question {...props} />} />
-            <Route exact path={choicePath.concat(':id')} render={(props)=> <Choice {...props} />} />
-            <Route exact path={videoPath} render={(props)=> <Video {...props} />} />
-            <Route exact path={productPath} render={(props)=> <Product {...props} />} />
-            <Route exact path={testimonialsPath} render={(props)=> <TestimonialDashboard {...props} />} />
-            <Route exact path={notificationPath} render={(props)=> <Notification {...props} />} />
-            <Route exact path={reportsPath} render={(props)=> <ReportHome {...props} />} />
-            <Route exact path={webinarPath} render={(props)=> <Webinar {...props} />} />
-            <Route exact path={careerTrackPath} render={(props)=> <CareerTrack {...props} />} />
-            <Route exact path={productBasedPath} render={(props)=> <ProductBasedRoot {...props} />} />
-            <Route exact path={starterPackPath} render={(props)=> <StarterPack {...props} />} />
-            <Route exact path={productVariantPath} render={(props)=> <ProductVariantRoot {...props} />} />
-            <Route exact path={productVariantPath+"/:id"} render={(props)=> <ProductVariantRoot {...props} />} />
-            <Route exact path={productPunchingPath} render={(props)=> <Student {...props} />} />
-            <Route exact path={productcomboPath} render={(props)=> <ProductComboForm {...props} />} />
-            <Route exact path={productuserPunchingPath.concat(':id')} render={(props)=> <ProductPunchingLanding {...props} />} />
-            <Route exact path={productstructurePath.concat(':id')} render={(props)=> <ProductStages {...props} />} />
 
-            <Route
-              exact
-              // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
-              path={careerTrackVideoSetPath.concat(":id")}
-              render={(props)=> <CareerTrackVideoSet {...props} />}
-            />
-            <Route
-              exact
-              // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
-              path={careerTrackVideoPath.concat(":id")}
-              render={(props)=> <CareerTrackVideo {...props} />}
-            />
-            <Route exact path={documentDetailsPath} render={(props)=> <StudentDocuments {...props} />} />
-        </Switch>
-     
+    <Switch>
+      {/* <Route restricted={false} exact path="/" component={Login} /> */}
+      <Route exact path={studentPath} render={(props) => <StudentHome {...props} />} />
+      <Route exact path={coursePath} render={(props) => <Courses {...props} />} />
+      <Route exact path={editCoursePath.concat(':id')} render={(props) => <TabPanel {...props} />} />
+      <Route exact path={addCoursePath} render={(props) => <TabPanel {...props} />} />
+      <Route exact path={departmentPath} render={(props) => <Department {...props} />} />
+      <Route exact path={collegePath} render={(props) => <College {...props} />} />
+      <Route exact path={universityPath} render={(props) => <University {...props} />} />
+      <Route exact path={studentIdPath + '/:id'} render={(props) => <Student_data {...props} />} />
+      <Route exact path={loginPath} render={(props) => <MLogin {...props} />} />
+      <Route exact path={personelInfoPath} render={(props) => <Personal_information {...props} />} />
+      <Route exact path={curatedPath} render={(props) => <Curated_Course {...props} />} />
+      <Route exact path={questionBankPath} render={(props) => <QuestionBank {...props} />} />
+      <Route exact path={'/admin/table'} render={(props) => <TableComponent {...props} />} />
+      <Route exact path={callSchedulePath} render={(props) => <Callschedule {...props} />} />
+      {/* Selva */}
+      <Route exact path={cityPath} render={(props) => <City {...props} />} />
+      <Route exact path={aspirationPath} render={(props) => <AspirationTab {...props} />} />
+      <Route exact path={questionSetPath} render={(props) => <QuestionSet {...props} />} />
+      <Route exact path={questionsPath.concat(':id')} render={(props) => <Question {...props} />} />
+      <Route exact path={choicePath.concat(':id')} render={(props) => <Choice {...props} />} />
+      <Route exact path={videoPath} render={(props) => <Video {...props} />} />
+      <Route exact path={productPath} render={(props) => <Product {...props} />} />
+      <Route exact path={testimonialsPath} render={(props) => <TestimonialDashboard {...props} />} />
+      <Route exact path={notificationPath} render={(props) => <Notification {...props} />} />
+      <Route exact path={reportsPath} render={(props) => <ReportHome {...props} />} />
+      <Route exact path={webinarPath} render={(props) => <Webinar {...props} />} />
+      <Route exact path={careerTrackPath} render={(props) => <CareerTrack {...props} />} />
+      <Route exact path={productBasedPath} render={(props) => <ProductBasedRoot {...props} />} />
+      <Route exact path={starterPackPath} render={(props) => <StarterPack {...props} />} />
+      <Route exact path={productVariantPath} render={(props) => <ProductVariantRoot {...props} />} />
+      <Route exact path={productVariantPath + "/:id"} render={(props) => <ProductVariantRoot {...props} />} />
+      <Route exact path={productPunchingPath} render={(props) => <Student {...props} />} />
+      <Route exact path={productcomboPath} render={(props) => <ProductComboForm {...props} />} />
+      <Route exact path={productuserPunchingPath.concat(':id')} render={(props) => <ProductPunchingLanding {...props} />} />
+      <Route exact path={productstructurePath.concat(':id')} render={(props) => <ProductStages {...props} />} />
+
+
+      <Route
+        exact
+        // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
+        path={careerTrackVideoSetPath.concat(":id")}
+        render={(props) => <CareerTrackVideoSet {...props} />}
+      />
+      <Route
+        exact
+        // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
+        path={careerTrackVideoPath.concat(":id")}
+        render={(props) => <CareerTrackVideo {...props} />}
+      />
+      <Route exact path={documentDetailsPath} render={(props) => <StudentDocuments {...props} />} />
+      
+    </Switch>
+
   );
 }
