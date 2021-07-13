@@ -330,14 +330,14 @@ export class academicInfo extends Component {
       this.state.twelthCgpaScale === ""
       ? this.setState({ twelthCgpaScaleErr: hlptxt })
       : this.setState({ twelthCgpaScaleErr: "" });
-
-      // if (
-      //   this.state.pgCollege !== "" 
-       
-      // ){}
       console.log(this.state)
   }
-
+  gpascale = [
+    { title: '10', value: 10 },
+    { title: '7', value: 7 },
+    { title: '4', value: 4 },
+    { title: '%', value: 100 },
+  ];
   render() {
     const { HeadStyle, title, ans, secondary } = style;
     return (
@@ -485,8 +485,8 @@ export class academicInfo extends Component {
                     <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         id="debug"
-                        options={this.props.getDegreeList}
-                       getOptionLabel={(option) => option.name}
+                        options={this.gpascale}
+                       getOptionLabel={(option) => option.title}
                        value={this.state.pgCgpaScale}
                        onChange={(e, newValue) => this.setState({ pgCgpaScale: newValue, pgCgpaScaleErr: "" })}
                         renderInput={(params) => (
@@ -731,7 +731,8 @@ export class academicInfo extends Component {
                             helperText={this.state.diplomaCollegeErr}
                             label="College Name"
                             margin="normal"
-                         
+                            value={this.state.diplomaCollege}
+                            onChange={(e)=>this.setState({diplomaCollege : e.target.value})}
                       />
                     </Grid>
                     <Grid item md={3}>
@@ -740,6 +741,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getUniversityList}
                         getOptionLabel={(option) => option.name}
+                        value={this.state.diplomoUniversity}
+                        onChange={(e,newValue)=>this.setState({diplomoUniversity : newValue})}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -757,6 +760,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getBranchesList}
                         getOptionLabel={(option) => option.name}
+                         value={this.state.diplomoDepartment}
+                        onChange={(e,newValue)=>this.setState({ diplomoDepartment: newValue})}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -772,8 +777,10 @@ export class academicInfo extends Component {
                     <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         id="debug"
-                        options={this.props.getUniversityList}
-                        getOptionLabel={(option) => option.name}
+                        options={this.gpascale}
+                        getOptionLabel={(option) => option.title}
+                        value={this.state.diplomoCgpaScale}
+                        onChange={(e,newValue)=>this.setState({ diplomoCgpaScale: newValue})}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -785,16 +792,49 @@ export class academicInfo extends Component {
                       />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField id="standard-basic" label="CGPA" error={this.state.diplomoCgpaErr.length > 0}
+                      <TextField id="standard-basic"  value={this.state.diplomoCgpa}
+                        onChange={(e,newValue)=>this.setState({ diplomoCgpa: e.target.value})} label="CGPA" error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr} />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField inputMode="numeric" id="standard-basic" label="Start Date" error={this.state.diplomoBlacklogClearedErr.length > 0}
-                            helperText={this.state.diplomoBlacklogClearedErr}/>
+                      {/* <TextField inputMode="numeric" id="standard-basic" value={this.state.diplomoBlacklogCleared}
+                        onChange={(e,newValue)=>this.setState({ diplomoBlacklogCleared: e.target.value})} label="Start Date" error={this.state.diplomoBlacklogClearedErr.length > 0}
+                            helperText={this.state.diplomoBlacklogClearedErr}/> */}
+                              <KeyboardDatePicker
+                                id="date-picker-dialog"
+                                value={this.state.diplomoBlacklogCleared}
+                                onChange={(e,newValue)=>this.setState({ diplomoBlacklogCleared: newValue})}
+                                label="Start Date"
+                                  error={this.state.diplomoBlacklogClearedErr.length > 0}
+                                    helperText={this.state.diplomoBlacklogClearedErr}
+                                format="MM/dd/yyyy"
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField inputMode="numeric" id="standard-basic" label="End Date" error={this.state.diplomoBlacklogActiveErr.length > 0}
-                            helperText={this.state.diplomoBlacklogActiveErr} />
+                      {/* <TextField inputMode="numeric" id="standard-basic" label="End Date"  value={this.state.diplomoBlacklogActive}
+                        onChange={(e,newValue)=>this.setState({ diplomoBlacklogActive: e.target.value})} error={this.state.diplomoBlacklogActiveErr.length > 0}
+                            helperText={this.state.diplomoBlacklogActiveErr} /> */}
+                            <KeyboardDatePicker
+                              id="date-picker-dialog"
+                              label="End Date"  
+                              value={this.state.diplomoBlacklogActive}
+                              onChange={(e,newValue)=>this.setState({ diplomoBlacklogActive: newValue})} 
+                              error={this.state.diplomoBlacklogActiveErr.length > 0}
+                                  helperText={this.state.diplomoBlacklogActiveErr}
+                              format="MM/dd/yyyy"
+                              KeyboardButtonProps={{
+                                "aria-label": "change date",
+                              }}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                />
                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={12}></Grid>
@@ -963,6 +1003,7 @@ export class academicInfo extends Component {
                             helperText={this.state.tenthSchoolErr}
                             label="School Name"
                             margin="normal"
+                            value={this.state.tenthSchool}
                             onChange={(e) =>
                               this.setState({ tenthSchool: e.target.value, tenthSchoolErr: "" })}
                           />
@@ -972,6 +1013,9 @@ export class academicInfo extends Component {
                        popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                        options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
+                       value={this.state.tenthExamBoard}
+                       onChange={(e,newValue) =>
+                        this.setState({ tenthExamBoard: newValue, tenthExamBoardErr: "" })}
                         renderInput={(params) => (
                           <TextField
                           {...params}
@@ -979,8 +1023,7 @@ export class academicInfo extends Component {
                             helperText={this.state.tenthExamBoardErr}
                             label="Board Name"
                             margin="normal"
-                            onChange={(e) =>
-                              this.setState({ tenthExamBoard: e.target.value, tenthExamBoardErr: "" })}
+                           
                           />
                           )}
                           />
@@ -989,34 +1032,69 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                     <Autocomplete
                        popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                       options={this.props.getCollegesList}
-                       getOptionLabel={(option) => option.name}
+                       options={this.gpascale}
+                       getOptionLabel={(option) => option.title}
+                       value={this.state.tenthCgpaScale}
+                       onChange={(e,newValue) =>
+                        this.setState({ tenthCgpaScale: newValue, tenthCgpaScaleErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
                             error={this.state.tenthCgpaScaleErr.length > 0}
                             helperText={this.state.tenthCgpaScaleErr}
                             label="CGPA Scale"
-                            onChange={(e) =>
-                              this.setState({ tenthCgpaScale: e.target.value, tenthCgpaScaleErr: "" })}
+                           
                           />
                         )}
                       />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField id="standard-basic" label="CGPA"  error={this.state.tenthCgpaErr.length > 0}
+                      <TextField id="standard-basic" type="number" label="CGPA"  error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr} onChange={(e) =>
                               this.setState({ tenthCgpa: e.target.value, tenthCgpaErr: "" })
-                            } />
+                            }
+                            value={this.state.tenthCgpa}
+                            />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField id="standard-basic" label="Start Date" error={this.state.tenthStartDateErr.length > 0}
-                            helperText={this.state.tenthStartDateErr} />
+                      {/* <TextField id="standard-basic" label="Start Date" value={this.state.tenthStartDate} onChange={(e)=>this.setState({ tenthStartDate : e.target.value})} error={this.state.tenthStartDateErr.length > 0}
+                            helperText={this.state.tenthStartDateErr} /> */}
+                              <KeyboardDatePicker
+                                id="date-picker-dialog"
+                                label="Start Date" 
+                                value={this.state.tenthStartDate} 
+                                onChange={(e,newValue)=>this.setState({ tenthStartDate : newValue})} 
+                                error={this.state.tenthStartDateErr.length > 0}
+                                helperText={this.state.tenthStartDateErr}
+                                format="MM/dd/yyyy"
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                              />
                     </Grid>
                     <Grid item md={3}>
                     
-                      <TextField id="standard-basic" label="End Date" error={this.state.tenthEndDateErr.length > 0}
-                            helperText={this.state.tenthEndDateErr}/>
+                      {/* <TextField id="standard-basic" value={this.state.tenthEndDate} onChange={(e)=>this.setState({ tenthEndDate : e.target.value})} label="End Date" error={this.state.tenthEndDateErr.length > 0}
+                            helperText={this.state.tenthEndDateErr}/> */}
+                             <KeyboardDatePicker
+                                id="date-picker-dialog"
+                                label="Start Date" 
+                                value={this.state.tenthEndDate} 
+                                onChange={(e,newValue)=>this.setState({ tenthEndDate : newValue})} 
+                                label="End Date" 
+                                error={this.state.tenthEndDateErr.length > 0}
+                                helperText={this.state.tenthEndDateErr}
+                                format="MM/dd/yyyy"
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                              />
                     </Grid>
                     <Grid item md={12}></Grid>
                   </Grid>
