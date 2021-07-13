@@ -92,6 +92,18 @@ class ProductActivation extends Component {
             tabCount: 0,
             show: false,
             id: "",
+            clientName : null,
+            contactNumber : null,
+            email : null,
+            clsId : null,
+            productFamily : null,
+            productVariant : null,
+            intake : null,
+            year : null,
+            validity : null,
+            endServiceDate : null,
+            amountPaid : null,
+            bdaName : null
         };
     }
     handleClose = (e) => {
@@ -102,7 +114,8 @@ class ProductActivation extends Component {
         this.props.getAwaitingUsersByAdminId();
     }
 
-    handleShowPopUp = () => {
+    handleShowPopUp = (data) => {
+      console.log(data)
         this.setState({
             show: true
         })
@@ -175,7 +188,7 @@ class ProductActivation extends Component {
                                                 <TableCell align="center">{eachData.stage}</TableCell>
                                                 <TableCell align="center">
                                                     <IconButton
-                                                        onClick={this.handleShowPopUp}
+                                                        onClick={()=>this.handleShowPopUp(eachData)}
                                                     >
                                                         <AddCircleRoundedIcon
                                                             style={{ color: "#1093FF" }}
