@@ -15,74 +15,102 @@ import {
     ThemeProvider,
     createMuiTheme,
 } from "@material-ui/core";
+import { getAllProductFamily, getProductByFamilyId } from "../../Actions/ProductAction"
 import { ExpandMore } from '@material-ui/icons';
 import AddIcon from "@material-ui/icons/Add";
 import {
-    getAwaitingUsersByAdminId,
-    activateStudentProduct,
+  getAwaitingUsersByAdminId,
+  activateStudentProduct,
 } from "../../Actions/AdminAction";
 // import button from './button';
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
-import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import { Autocomplete } from "@material-ui/lab";
-import { connect } from "react-redux";
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import PrimaryButton from '../../Utils/PrimaryButton';
+import { Autocomplete } from '@material-ui/lab';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { connect } from "react-redux";
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 const AntTabs = withStyles({
     root: {
-        borderBottom: "2px solid #A2D3FC",
+        borderBottom: '2px solid #A2D3FC',
     },
     indicator: {
-        backgroundColor: "#1890ff",
+        backgroundColor: '#1890ff',
         height: "5px",
-        borderRadius: "6px 6px 0px 0px",
+        borderRadius: "6px 6px 0px 0px"
     },
+
+
 })(Tabs);
 
-const AntTab = withStyles((theme) => ({
-    root: {
-        textTransform: "none",
-        minWidth: 72,
-        fontWeight: theme.typography.fontWeightRegular,
-        marginRight: theme.spacing(4),
-        fontFamily: [
-            "-apple-system",
-            "BlinkMacSystemFont",
-            '"Segoe UI"',
-            "Roboto",
-            '"Helvetica Neue"',
-            "Arial",
-            "sans-serif",
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(","),
-        "&:hover": {
-            color: "#40a9ff",
-            opacity: 1,
+const theme = createMuiTheme({
+    overrides: {
+        MuiInputLabel: {
+            root: {
+                whiteSpace: "nowrap",
+                fontSize: "inherit",
+            },
         },
-        "&$selected": {
-            color: "#000",
-            fontWeight: theme.typography.fontWeightBold,
+        MuiFormControl: {
+            marginNormal: {
+                marginTop: "0px",
+                marginBottom: "0px"
+            }
         },
-        "&:focus": {
-            color: "#000",
-        },
+        MuiPaper:{
+        rounded: {
+            borderRadius: '20px'
+        }}
     },
-    selected: {},
+});
+const AntTab = withStyles((theme) => ({
+  root: {
+    textTransform: "none",
+    minWidth: 72,
+    fontWeight: theme.typography.fontWeightRegular,
+    marginRight: theme.spacing(4),
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+    "&:hover": {
+      color: "#40a9ff",
+      opacity: 1,
+    },
+    "&$selected": {
+      color: "#000",
+      fontWeight: theme.typography.fontWeightBold,
+    },
+    "&:focus": {
+      color: "#000",
+    },
+  },
+  selected: {},
 }))((props) => <Tab disableRipple {...props} />);
 
 class ProductActivation extends Component {
@@ -112,28 +140,39 @@ class ProductActivation extends Component {
 
     componentDidMount() {
         this.props.getAwaitingUsersByAdminId();
+        this.props.getAllProductFamily()
     }
 
     handleShowPopUp = (data) => {
       console.log(data)
         this.setState({
-            show: true
+            show: true,
+            clientName : data.fullName,
+            contactNumber : null,
         })
     }
 
+    componentDidUpdate(prevProps, prevState) {
+    
+    }
+    
+
     render() {
-        console.log(this.props);
         return (
             <div style={{ padding: 10 }}>
-                <AntTabs
-                    value={this.state.tabCount}
-                    textColor={"inherit"}
-                    // onChange={(e, value) => this.setState({ tabCount: value })}
-                    aria-label="ant example"
-                >
-                    <AntTab label="Awaiting Allocation" />
-                </AntTabs>
-                <TextField
+                <ThemeProvider theme={theme}>
+                    {/* <div style={{ display: 'flex', flexDirection: 'row', }}> */}
+
+                        <AntTabs
+                            value={this.state.tabCount}
+                            textColor={"inherit"}
+                            // onChange={(e, value) => this.setState({ tabCount: value })}
+                            aria-label="ant example"
+                        
+                        >
+                            <AntTab label="Awaiting Allocation"/>
+                        </AntTabs>
+                        <TextField
                             label='Search by Email ID / Mobile / Full Name / CLS ID'
                             variant="outlined"
                             InputProps={{
@@ -145,23 +184,26 @@ class ProductActivation extends Component {
                             }}
                             style={{ width: '50%', marginLeft: '50%',bottom:65}}
                         />
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center">CLS ID</TableCell>
-                                <TableCell align="center">Client Name</TableCell>
-                                <TableCell align="center">College</TableCell>
-                                <TableCell align="center">Dept</TableCell>
-                                <TableCell align="center">Degree</TableCell>
-                                <TableCell align="center">Product Varient</TableCell>
-                                <TableCell align="center">Order Punch Date</TableCell>
-                                <TableCell align="center">Amount Paid</TableCell>
-                                <TableCell align="center">Activated</TableCell>
-                                <TableCell align="center"></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
+                    {/* </div> */}
+
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align='center'>CLS ID</TableCell>
+                                    <TableCell align='center'>Client Name</TableCell>
+                                    <TableCell align='center'>College</TableCell>
+                                    <TableCell align='center'>Dept</TableCell>
+                                    <TableCell align='center'>Degree</TableCell>
+                                    <TableCell align='center'>Product Varient</TableCell>
+                                    <TableCell align='center'>Order Punch Date</TableCell>
+                                    <TableCell align='center'>Amount Paid</TableCell>
+                                    <TableCell align='center'>Activated</TableCell>
+                                    <TableCell align='center'></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+
                             {this.props.awaitingUsersForActivationList.length !== 0 &&
                                 this.props.awaitingUsersForActivationList.map(
                                     (eachData, index) => {
@@ -199,189 +241,216 @@ class ProductActivation extends Component {
                                         );
                                     }
                                 )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <div style={{ borderRadius: 10 }}>
-                    <Dialog
-                        maxWidth="lg"
-                        fullWidth={true}
-                        open={this.state.show}
-                        onClose={this.handleClose}
-                        aria-labelledby="customized-dialog-title"
-                    >
-                        <DialogTitle id="customized-dialog-title">
-                            <div className="flex-1 text-center"></div>
-                            <div
-                                className="model-close-button"
-                                style={{ display: "flex", justifyContent: "flex-end" }}
-                            >
-                                <IconButton aria-label="close" onClick={this.handleClose}>
-                                    <CloseIcon
-                                        style={{
-                                            background: "#ADD8E6",
-                                            borderRadius: 20,
-                                            color: "#1093FF",
-                                            backgroundSize: 20,
-                                        }}
-                                    />
-                                </IconButton>
-                            </div>
-                        </DialogTitle>
-                        {/* <DialogContent> */}
-                        <Grid
-                            container
-                            spacing={4}
-                            style={{ width: "85%", paddingLeft: "20%" }}
-                        >
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Client Name"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Contact Number"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Email Address"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="CLS ID"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Autocomplete
-                                    popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                                    id="combo-box-demo"
-                                    options={this.props.getDegreeList}
-                                    getOptionLabel={(option) => option.name}
-                                    //   style={{ width: 300 }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Select Mentor From Dropdown"
-                                            variant="standard"
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Product Family"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Intake"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Year"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Product Validity"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="End Of Service Date"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="Amount Paid"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    color="primary"
-                                    label="BDA Name(person Who Punches Order)"
-                                    fullWidth
-                                // value={this.state.name}
-                                // onChange={(e) => this.setState({ name: e.target.value })}
-                                />
-                            </Grid>
-                        </Grid>
 
-                        {/* </DialogContent> */}
-                        {/* <DialogActions> */}
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                paddingTop: "10%",
-                                paddingBottom: "5%",
-                            }}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <div style={{ borderRadius: 10 }}>
+                        <Dialog
+                            maxWidth="md"
+                            fullWidth={true}
+                            open={this.state.show}
+                            onClose={this.handleClose}
+                            aria-labelledby="customized-dialog-title"
                         >
-                            <PrimaryButton variant={"contained"} color={"primary"}>
-                                Save Changes
-                            </PrimaryButton>
-                        </div>
-                        {/* </DialogActions> */}
-                    </Dialog>
-                </div>
+                            <DialogTitle id="customized-dialog-title" >
+                                <div className="flex-1 text-center">
+                                </div>
+                                <div className="model-close-button" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <IconButton aria-label="close" onClick={this.handleClose}>
+                                        <CloseIcon style={{ background: '#ADD8E6', borderRadius: 20, color: '#1093FF', backgroundSize: 20 }} />
+                                    </IconButton>
+                                </div>
+                            </DialogTitle>
+                            {/* <DialogContent> */}
+                            <Grid container spacing={4} style={{ width: '90%', paddingLeft: 50 }}>
+                                <Grid item xs={6} sm={3} >
+                                    <TextField
+
+                                        color="primary"
+                                        label="Client Name"
+                                        fullWidth
+                                        disabled
+                                        value={this.state.clientName}
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={6} sm={3}>
+                                    <TextField
+
+                                        color="primary"
+                                        label="Contact Number"
+                                        fullWidth
+                                        disabled
+                                        value={this.state.contactNumber}
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={6} sm={3}>
+                                    <TextField
+
+                                        color="primary"
+                                        label="Email Address"
+                                        fullWidth
+                                        disabled
+                                        value={this.state.email}
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={6} sm={3}>
+                                    <TextField
+                                         disabled
+                                         value={this.state.clsId}
+                                        color="primary"
+                                        label="CLS ID"
+                                        fullWidth
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Autocomplete
+                                        popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                                        id="combo-box-demo"
+                                        disabled
+                                        value={this.state.productFamily}
+                                        options={this.props.getAllProductFamilyList}
+                                        getOptionLabel={(option) => option.name}
+                                        //   style={{ width: 300 }}
+                                        onChange={(e,value)=>this.setState({ productFamily : value })}
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="Product Family" variant="standard" />
+                                        )}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Autocomplete
+                                        popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                                        id="combo-box-demo"
+                                        disabled
+                                        value={this.state.productVariant}
+                                        options={this.props.getProductByFamilyIdList}
+                                        getOptionLabel={(option) => option.name}
+                                        onChange={(e,value)=>this.setState({ productVariant : value })}
+                                        //   style={{ width: 300 }}
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="Product Variant" variant="standard" />
+                                        )}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                        disabled
+                                        value={this.state.intake}
+                                        color="primary"
+                                        label="Intake"
+                                        fullWidth
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                           disabled
+                                           value={this.state.year}
+                                        color="primary"
+                                        label="Year"
+                                        fullWidth
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                           disabled
+                                           value={this.state.validity}
+                                        color="primary"
+                                        label="Product Validity"
+                                        fullWidth
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                           disabled
+                                           value={this.state.endServiceDate}
+                                        color="primary"
+                                        label="End Of Service Date"
+                                        fullWidth
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                           disabled
+                                           value={this.state.amountPaid}
+                                        color="primary"
+                                        label="Amount Paid"
+                                        fullWidth
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <TextField
+                                       disabled
+                                       value={this.state.bdaName}
+                                        color="primary"
+                                        label="BDA Name"
+                                        fullWidth
+                                    // value={this.state.name}
+                                    // onChange={(e) => this.setState({ name: e.target.value })}
+
+                                    />
+                                </Grid>
+
+                            </Grid>
+
+                            {/* </DialogContent> */}
+                            {/* <DialogActions> */}
+                            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
+                                <PrimaryButton variant={"contained"} color={"primary"} >
+                                    Save Changes
+                                </PrimaryButton>
+                            </div>
+                            {/* </DialogActions> */}
+                        </Dialog>
+                    </div>
+                </ThemeProvider>
             </div>
-        );
-    }
+            
+    );
+  }
 }
 
 export const mapStateToProps = (state) => {
-    return {
-        awaitingUsersForActivationList:
-            state.AdminReducer.awaitingUsersForActivationList,
-        productActivationResponse: state.AdminReducer.productActivationResponse
-    };
+  return {
+    awaitingUsersForActivationList:
+      state.AdminReducer.awaitingUsersForActivationList,
+      productActivationResponse : state.AdminReducer.productActivationResponse,
+      getAllProductFamilyList : state.ProductReducer.getAllProductFamily,
+      getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId
+
+  };
 };
 
 export default connect(mapStateToProps, {
-    getAwaitingUsersByAdminId,
-    activateStudentProduct,
+  getAwaitingUsersByAdminId,
+  activateStudentProduct,
+  getProductByFamilyId,
+  getAllProductFamily,
 })(ProductActivation);
