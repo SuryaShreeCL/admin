@@ -42,7 +42,9 @@ export const productstructurePath = rootPath.concat('/productstructure/');
 export const clientDetailsPath = rootPath.concat('/clientdetails/');
 export const callSummaryLayoutPath = rootPath.concat("/callSummary")
 export const obOperationPath = rootPath.concat("/obOperation")
-
+export const listUsersProdBasedPath = rootPath.concat("/listUsers")
+export const stagedTabsPath = rootPath.concat("/stageTabs")
+export const productActivationPath = rootPath.concat("/productActivation")
 // Rengine another version path
 
 export const loginPath = rootPath.concat('/Mlogin');
