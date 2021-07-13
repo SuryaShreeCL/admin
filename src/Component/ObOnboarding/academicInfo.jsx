@@ -20,6 +20,11 @@ import { ExpandMore} from "@material-ui/icons";
 import Warning from "../../Asset/Images/warningImg.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import { getBranches, getDegree, getAllColleges, getUniversity } from "../../Actions/College";
 
 const theme = createMuiTheme({
@@ -43,12 +48,15 @@ export class academicInfo extends Component {
       ugDegreeErr:'',
       ugSemester:'',
       ugSemesterErr:'',
-      ugYear:'',
-      ugYearErr:'',
-      ugStartDate:'',
-      ugStartDateErr:'',
-      ugEndDate:'',
-      ugEndDateErr:'',
+      ugCgpaScale:'',
+      ugCgpaScaleErr:'',
+      ugBacklogCleared:'',
+      ugBacklogClearedErr:'',
+      ugBacklogActive:'',
+      ugBacklogActiveErr:'',
+      ugCgpaErr:'',
+      ugCgpa:'',
+
       pgCollege:'',
       pgCollegeErr:'',
       pgUniversity:'',
@@ -61,33 +69,34 @@ export class academicInfo extends Component {
       pgSemesterErr:'',
       pgYear:'',
       pgYearErr:'',
-      pgStartDate:'',
+      pgStartDate:null,
       pgStartDateErr:'',
-      pgEndDate:'',
+      pgEndDate:null,
       pgEndDateErr:'',
       pgCgpa:'',
       pgCgpaErr:'',
-      ugCgpa:'',
-      ugCgpaErr:'',
+      pgCgpaScale:'',
+      pgCgpaScaleErr:'',
+
       diplomaCollege:'',
       diplomaCollegeErr:'',
-      diplomoExamBoard:'',
-      diplomoExamBoardErr:'',
-      diplomoType:'',
-      diplomoTypeErr:'',
-      diplomoSemester:'',
-      diplomoSemesterErr:'',
-      diplomoYear:'',
-      diplomoYearErr:'',
-      diplomoStartDate:'',
-      diplomoStartDateErr:'',
-      diplomoEndDate:'',
-      diplomoEndDateErr:'',
+      diplomoUniversity:'',
+      diplomoUniversityErr:'',
+      diplomoDepartment:'',
+      diplomoDepartmentErr:'',
+      diplomoDegree:'',
+      diplomoDegreeErr:'',
+      diplomoBlacklogActive:'',
+      diplomoBlacklogActiveErr:'',
+      diplomoBlacklogCleared:'',
+      diplomoBlacklogClearedErr:'',
+      diplomoCgpaScale:'',
+      diplomoCgpaScaleErr:'',
       diplomoCgpa:'',
       diplomoCgpaErr:'',
 
-      tenthCollege:'',
-      tenthCollegeErr:'',
+      tenthSchool:'',
+      tenthSchoolErr:'',
       tenthExamBoard:'',
       tenthExamBoardErr:'',
       tenthType:'',
@@ -98,9 +107,11 @@ export class academicInfo extends Component {
       tenthEndDateErr:'',
       tenthCgpa:'',
       tenthCgpaErr:'',
+      tenthCgpaScaleErr:'',
+      tenthCgpaScale:'',
 
-      twelthCollege:'',
-      twelthCollegeErr:'',
+      twelthSchool:'',
+      twelthSchoolErr:'',
       twelthExamBoard:'',
       twelthExamBoardErr:'',
       twelthType:'',
@@ -111,6 +122,8 @@ export class academicInfo extends Component {
       twelthEndDateErr:'',
       twelthCgpa:'',
       twelthCgpaErr:'',
+      twelthCgpaScaleErr:'',
+      twelthCgpaScale:'',
     };
   }
 
@@ -170,157 +183,165 @@ export class academicInfo extends Component {
   }))(MuiAccordionDetails);
 
   handleSave = () => {
-    // let hlptxt = "Please fill the required field";
-    //   this.state.pgCollege === ""
-    //   ? this.setState({ pgCollegeErr: hlptxt })
-    //   : this.setState({ pgCollegeErr: "" });
-    //   this.state.ugCollege === ""
-    //   ? this.setState({ ugCollegeErr: hlptxt })
-    //   : this.setState({ ugCollegeErr: "" });
-    //   this.state.pgUniversity === ""
-    //   ? this.setState({ pgUniversityErr: hlptxt })
-    //   : this.setState({ pgUniversityErr: "" });
-    //   this.state.ugUniversity === ""
-    //   ? this.setState({ ugUniversityErr: hlptxt })
-    //   : this.setState({ ugUniversityErr: "" });
-    //   this.state.ugDepartment === ""
-    //   ? this.setState({ ugDepartmentErr: hlptxt })
-    //   : this.setState({ ugDepartmentErr: "" });
-    //   this.state.pgDepartment === ""
-    //   ? this.setState({ pgDepartmentErr: hlptxt })
-    //   : this.setState({ pgDepartmentErr: "" });
-    //   this.state.ugDegree === ""
-    //   ? this.setState({ ugDegreeErr: hlptxt })
-    //   : this.setState({ ugDegreeErr: "" });
-    //   this.state.pgDegree === ""
-    //   ? this.setState({ pgDegreeErr: hlptxt })
-    //   : this.setState({ pgDegreeErr: "" });
-    //   this.state.pgSemester === ""
-    //   ? this.setState({ pgSemesterErr: hlptxt })
-    //   : this.setState({ pgSemesterErr: "" });
-    //   this.state.pgYear === ""
-    //   ? this.setState({ pgYearErr: hlptxt })
-    //   : this.setState({ pgYearErr: "" });
-    //   this.state.pgCgpa === ""
-    //   ? this.setState({ pgCgpaErr: hlptxt })
-    //   : this.setState({ pgCgpaErr: "" });
-    //   this.state.pgStartDate === ""
-    //   ? this.setState({ pgStartDateErr: hlptxt })
-    //   : this.setState({ pgStartDateErr: "" });
-    //   this.state.pgEndDate === ""
-    //   ? this.setState({ pgEndDateErr: hlptxt })
-    //   : this.setState({ pgEndDateErr: "" });
-    //   this.state.ugSemester === ""
-    //   ? this.setState({ ugSemesterErr: hlptxt })
-    //   : this.setState({ ugSemesterErr: "" });
-    //   this.state.ugYear === ""
-    //   ? this.setState({ ugYearErr: hlptxt })
-    //   : this.setState({ ugYearErr: "" });
-    //   this.state.ugCgpa === ""
-    //   ? this.setState({ ugCgpaErr: hlptxt })
-    //   : this.setState({ ugCgpaErr: "" });
-    //   this.state.ugStartDate === ""
-    //   ? this.setState({ ugStartDateErr: hlptxt })
-    //   : this.setState({ ugStartDateErr: "" });
-    //   this.state.ugEndDate === ""
-    //   ? this.setState({ ugEndDateErr: hlptxt })
-    //   : this.setState({ ugEndDateErr: "" });
+    console.log(this.state)
+    let hlptxt = "Please fill the required field";
+      this.state.pgCollege === ""
+      ? this.setState({ pgCollegeErr: hlptxt })
+      : this.setState({ pgCollegeErr: "" });
+      this.state.ugCollege === ""
+      ? this.setState({ ugCollegeErr: hlptxt })
+      : this.setState({ ugCollegeErr: "" });
+      this.state.pgUniversity === ""
+      ? this.setState({ pgUniversityErr: hlptxt })
+      : this.setState({ pgUniversityErr: "" });
+      this.state.ugUniversity === ""
+      ? this.setState({ ugUniversityErr: hlptxt })
+      : this.setState({ ugUniversityErr: "" });
+      this.state.ugDepartment === ""
+      ? this.setState({ ugDepartmentErr: hlptxt })
+      : this.setState({ ugDepartmentErr: "" });
+      this.state.pgDepartment === ""
+      ? this.setState({ pgDepartmentErr: hlptxt })
+      : this.setState({ pgDepartmentErr: "" });
+      this.state.ugDegree === ""
+      ? this.setState({ ugDegreeErr: hlptxt })
+      : this.setState({ ugDegreeErr: "" });
+      this.state.pgDegree === ""
+      ? this.setState({ pgDegreeErr: hlptxt })
+      : this.setState({ pgDegreeErr: "" });
+      this.state.pgSemester === ""
+      ? this.setState({ pgSemesterErr: hlptxt })
+      : this.setState({ pgSemesterErr: "" });
+      this.state.pgYear === ""
+      ? this.setState({ pgYearErr: hlptxt })
+      : this.setState({ pgYearErr: "" });
+      this.state.pgCgpa === ""
+      ? this.setState({ pgCgpaErr: hlptxt })
+      : this.setState({ pgCgpaErr: "" });
+      this.state.pgStartDate === ""
+      ? this.setState({ pgStartDateErr: hlptxt })
+      : this.setState({ pgStartDateErr: "" });
+      this.state.pgEndDate === ""
+      ? this.setState({ pgEndDateErr: hlptxt })
+      : this.setState({ pgEndDateErr: "" });
+      this.state.ugSemester === ""
+      ? this.setState({ ugSemesterErr: hlptxt })
+      : this.setState({ ugSemesterErr: "" });
+      this.state.ugCgpaScale === ""
+      ? this.setState({ ugCgpaScaleErr: hlptxt })
+      : this.setState({ ugCgpaScaleErr: "" });
+      this.state.ugCgpa === ""
+      ? this.setState({ ugCgpaErr: hlptxt })
+      : this.setState({ ugCgpaErr: "" });
+      this.state.ugBacklogCleared === ""
+      ? this.setState({ ugBacklogClearedErr: hlptxt })
+      : this.setState({ ugBacklogClearedErr: "" });
+      this.state.ugBacklogActive === ""
+      ? this.setState({ ugBacklogActiveErr: hlptxt })
+      : this.setState({ ugBacklogActiveErr: "" });
 
-    //   this.state.diplomaCollege === ""
-    //   ? this.setState({ diplomaCollegeErr: hlptxt })
-    //   : this.setState({ diplomaCollegeErr: "" });
-    //   this.state.diplomoExamBoard === ""
-    //   ? this.setState({ diplomoExamBoardErr: hlptxt })
-    //   : this.setState({ diplomoExamBoardErr: "" });
-    //   this.state.diplomoType === ""
-    //   ? this.setState({ diplomoTypeErr: hlptxt })
-    //   : this.setState({ diplomoTypeErr: "" });
-    //   this.state.diplomoSemester === ""
-    //   ? this.setState({ diplomoSemesterErr: hlptxt })
-    //   : this.setState({ diplomoSemesterErr: "" });
-    //   this.state.diplomoStartDate === ""
-    //   ? this.setState({ diplomoStartDateErr: hlptxt })
-    //   : this.setState({ diplomoStartDateErr: "" });
-    //   this.state.diplomoEndDate === ""
-    //   ? this.setState({ diplomoEndDateErr: hlptxt })
-    //   : this.setState({ diplomoEndDateErr: "" });
-    //   this.state.diplomoCgpa === ""
-    //   ? this.setState({ diplomoCgpaErr: hlptxt })
-    //   : this.setState({ diplomoCgpaErr: "" });
-    //   this.state.diplomoYear === ""
-    //   ? this.setState({ diplomoYearErr: hlptxt })
-    //   : this.setState({ diplomoYearErr: "" });
+      this.state.diplomaCollege === ""
+      ? this.setState({ diplomaCollegeErr: hlptxt })
+      : this.setState({ diplomaCollegeErr: "" });
+      this.state.diplomoUniversity === ""
+      ? this.setState({ diplomoUniversityErr: hlptxt })
+      : this.setState({ diplomoUniversityErr: "" });
+      this.state.diplomoDepartment === ""
+      ? this.setState({ diplomoDepartmentErr: hlptxt })
+      : this.setState({ diplomoDepartmentErr: "" });
+      this.state.diplomoDegree === ""
+      ? this.setState({ diplomoDegreeErr: hlptxt })
+      : this.setState({ diplomoDegreeErr: "" });
+      this.state.diplomoBlacklogCleared === ""
+      ? this.setState({ diplomoBlacklogClearedErr: hlptxt })
+      : this.setState({ diplomoBlacklogClearedErr: "" });
+      this.state.diplomoCgpaScale === ""
+      ? this.setState({ diplomoCgpaScaleErr: hlptxt })
+      : this.setState({ diplomoCgpaScaleErr: "" });
+      this.state.diplomoCgpa === ""
+      ? this.setState({ diplomoCgpaErr: hlptxt })
+      : this.setState({ diplomoCgpaErr: "" });
+      this.state.diplomoBlacklogActive === ""
+      ? this.setState({ diplomoBlacklogActiveErr: hlptxt })
+      : this.setState({ diplomoBlacklogActiveErr: "" });
 
-    //   this.state.tenthCollege === ""
-    //   ? this.setState({ tenthCollegeErr: hlptxt })
-    //   : this.setState({ tenthCollegeErr: "" });
-    //   this.state.tenthExamBoard === ""
-    //   ? this.setState({ tenthExamBoardErr: hlptxt })
-    //   : this.setState({ tenthExamBoardErr: "" });
-    //   this.state.tenthType === ""
-    //   ? this.setState({ tenthTypeErr: hlptxt })
-    //   : this.setState({ tenthTypeErr: "" });
-    //   this.state.tenthCgpa === ""
-    //   ? this.setState({ tenthCgpaErr: hlptxt })
-    //   : this.setState({ tenthCgpaErr: "" });
-    //   this.state.tenthStartDate === ""
-    //   ? this.setState({ tenthStartDateErr: hlptxt })
-    //   : this.setState({ tenthStartDateErr: "" });
-    //   this.state.tenthEndDate === ""
-    //   ? this.setState({ tenthEndDateErr: hlptxt })
-    //   : this.setState({ tenthEndDateErr: "" });
+      this.state.tenthSchool === ""
+      ? this.setState({ tenthSchoolErr: hlptxt })
+      : this.setState({ tenthSchoolErr: "" });
+      this.state.tenthExamBoard === ""
+      ? this.setState({ tenthExamBoardErr: hlptxt })
+      : this.setState({ tenthExamBoardErr: "" });
+      this.state.tenthType === ""
+      ? this.setState({ tenthTypeErr: hlptxt })
+      : this.setState({ tenthTypeErr: "" });
+      this.state.tenthCgpa === ""
+      ? this.setState({ tenthCgpaErr: hlptxt })
+      : this.setState({ tenthCgpaErr: "" });
+      this.state.tenthStartDate === ""
+      ? this.setState({ tenthStartDateErr: hlptxt })
+      : this.setState({ tenthStartDateErr: "" });
+      this.state.tenthEndDate === ""
+      ? this.setState({ tenthEndDateErr: hlptxt })
+      : this.setState({ tenthEndDateErr: "" });
 
-    //   this.state.tenthCollege === ""
-    //   ? this.setState({ tenthCollegeErr: hlptxt })
-    //   : this.setState({ tenthCollegeErr: "" });
-    //   this.state.tenthExamBoard === ""
-    //   ? this.setState({ tenthExamBoardErr: hlptxt })
-    //   : this.setState({ tenthExamBoardErr: "" });
-    //   this.state.tenthType === ""
-    //   ? this.setState({ tenthTypeErr: hlptxt })
-    //   : this.setState({ tenthTypeErr: "" });
-    //   this.state.tenthCgpa === ""
-    //   ? this.setState({ tenthCgpaErr: hlptxt })
-    //   : this.setState({ tenthCgpaErr: "" });
-    //   this.state.tenthStartDate === ""
-    //   ? this.setState({ tenthStartDateErr: hlptxt })
-    //   : this.setState({ tenthStartDateErr: "" });
-    //   this.state.tenthEndDate === ""
-    //   ? this.setState({ tenthEndDateErr: hlptxt })
-    //   : this.setState({ tenthEndDateErr: "" });
+      this.state.tenthSchool === ""
+      ? this.setState({ tenthSchoolErr: hlptxt })
+      : this.setState({ tenthSchoolErr: "" });
+      this.state.tenthExamBoard === ""
+      ? this.setState({ tenthExamBoardErr: hlptxt })
+      : this.setState({ tenthExamBoardErr: "" });
+      this.state.tenthType === ""
+      ? this.setState({ tenthTypeErr: hlptxt })
+      : this.setState({ tenthTypeErr: "" });
+      this.state.tenthCgpa === ""
+      ? this.setState({ tenthCgpaErr: hlptxt })
+      : this.setState({ tenthCgpaErr: "" });
+      this.state.tenthStartDate === ""
+      ? this.setState({ tenthStartDateErr: hlptxt })
+      : this.setState({ tenthStartDateErr: "" });
+      this.state.tenthEndDate === ""
+      ? this.setState({ tenthEndDateErr: hlptxt })
+      : this.setState({ tenthEndDateErr: "" });
+      this.state.tenthCgpaScale === ""
+      ? this.setState({ tenthCgpaScaleErr: hlptxt })
+      : this.setState({ tenthCgpaScaleErr: "" });
 
-    //   this.state.twelthCollege === ""
-    //   ? this.setState({ twelthCollegeErr: hlptxt })
-    //   : this.setState({ twelthCollegeErr: "" });
-    //   this.state.twelthExamBoard === ""
-    //   ? this.setState({ twelthExamBoardErr: hlptxt })
-    //   : this.setState({ twelthExamBoardErr: "" });
-    //   this.state.twelthType === ""
-    //   ? this.setState({ twelthTypeErr: hlptxt })
-    //   : this.setState({ twelthTypeErr: "" });
-    //   this.state.tenthCgpa === ""
-    //   ? this.setState({ twelthCgpaErr: hlptxt })
-    //   : this.setState({ twelthCgpaErr: "" });
-    //   this.state.tenthStartDate === ""
-    //   ? this.setState({ twelthStartDateErr: hlptxt })
-    //   : this.setState({ twelthStartDateErr: "" });
-    //   this.state.tenthEndDate === ""
-    //   ? this.setState({ twelthEndDateErr: hlptxt })
-    //   : this.setState({ twelthEndDateErr: "" });
+      this.state.twelthSchool === ""
+      ? this.setState({ twelthSchoolErr: hlptxt })
+      : this.setState({ twelthSchoolErr: "" });
+      this.state.twelthExamBoard === ""
+      ? this.setState({ twelthExamBoardErr: hlptxt })
+      : this.setState({ twelthExamBoardErr: "" });
+      this.state.twelthType === ""
+      ? this.setState({ twelthTypeErr: hlptxt })
+      : this.setState({ twelthTypeErr: "" });
+      this.state.tenthCgpa === ""
+      ? this.setState({ twelthCgpaErr: hlptxt })
+      : this.setState({ twelthCgpaErr: "" });
+      this.state.tenthStartDate === ""
+      ? this.setState({ twelthStartDateErr: hlptxt })
+      : this.setState({ twelthStartDateErr: "" });
+      this.state.tenthEndDate === ""
+      ? this.setState({ twelthEndDateErr: hlptxt })
+      : this.setState({ twelthEndDateErr: "" });
+      this.state.twelthCgpaScale === ""
+      ? this.setState({ twelthCgpaScaleErr: hlptxt })
+      : this.setState({ twelthCgpaScaleErr: "" });
 
       // if (
       //   this.state.pgCollege !== "" 
        
       // ){}
-      console.log('huhuo')
+      console.log(this.state)
   }
 
   render() {
-    // console.log(this.props.getUniversityList)
     const { HeadStyle, title, ans, secondary } = style;
     return (
       <div>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Card style={{ padding: 50 }}>
+          
           <Grid container>
             <Grid item md={12}>
               <div
@@ -377,11 +398,12 @@ export class academicInfo extends Component {
                   <Grid container spacing={3}>
                     <Grid item md={3}>
                       <Autocomplete
-                        // {...defaultProps}
                         popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                         id="debug"
+                        onChange={(e, newValue) => this.setState({ pgCollege: newValue, pgCollegeErr: "" })}
                         options={this.props.getCollegesList}
                         getOptionLabel={(option) => option.name}
+                        value={this.state.pgCollege}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -396,10 +418,11 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getUniversityList}
                         getOptionLabel={(option) => option.name}
+                        value={this.state.pgUniversity}
+                        onChange={(e, newValue) => this.setState({ pgUniversity: newValue, pgUniversityErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -407,6 +430,7 @@ export class academicInfo extends Component {
                             helperText={this.state.pgUniversityErr}
                             label="University Name"
                             margin="normal"
+                            
                           />
                         )}
                       />
@@ -414,17 +438,20 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getBranchesList}
                         getOptionpgCollegeLabel={(option) => option.name}
+                        value={this.state.pgDepartment}
+                        onChange={(e, newValue) => this.setState({ pgDepartment: newValue, pgDepartmentErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
+                            // onChange={(e) => this.setState({ pgDepartment: e.target.value, pgDepartmentErr: "" })}
                             error={this.state.pgDepartmentErr.length > 0}
                             helperText={this.state.pgDepartmentErr}
                             label="Department"
                             margin="normal"
+                            // value={this.state.pgDepartment}
                           />
                         )}
                       />
@@ -432,42 +459,80 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getDegreeList}
                        getOptionLabel={(option) => option.name}
+                       value={this.state.pgDegreeErr}
+                       onChange={(e, newValue) => this.setState({ pgDegree: newValue, pgDegreeErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
+                            // onChange={(e) => this.setState({ pgDegree: e.target.value, pgDegreeErr: "" })}
+                            value={this.state.pgDegree}
                             error={this.state.pgDegreeErr.length > 0}
-                            helperText={this.state.pgDegreeErr}
+                            // helperText={this.state.pgDegreeErr}
                             label="Degree"
                             margin="normal"
                           />
                         )}
                       />
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Current Semester" error={this.state.pgSemesterErr.length > 0}
-                            helperText={this.state.pgSemesterErr} />
+                   
+                    <Grid item md={3}>
+                    <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                        id="debug"
+                        options={this.props.getDegreeList}
+                       getOptionLabel={(option) => option.name}
+                       value={this.state.pgCgpaScale}
+                       onChange={(e, newValue) => this.setState({ pgCgpaScale: newValue, pgCgpaScaleErr: "" })}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            // onChange={(e) => this.setState({ pgCgpaScale: e.target.value, pgCgpaScaleErr: "" })}
+                            error={this.state.pgCgpaScaleErr.length > 0}
+                            helperText={this.state.pgCgpaScaleErr}
+                            // value={this.state.pgCgpaScale}
+                            label="CGPA Scale"
+                          />
+                        )}
+                      />
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Graduation Year" error={this.state.pgYearErr.length > 0}
-                            helperText={this.state.pgYearErr} />
-                    </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="CGPA" error={this.state.pgCgpaErr.length > 0}
+                    <Grid item md={3}>
+                      <TextField id="standard-basic" label="CGPA" 
+                         onChange={(e) => this.setState({ pgCgpa: e.target.value, pgCgpaErr: "" })}
+                         value={this.state.pgCgpa}
+                          error={this.state.pgCgpaErr.length > 0}
                             helperText={this.state.pgCgpaErr}  />
                     </Grid>
-                    <Grid item md={1}></Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start Date" error={this.state.pgStartDateErr.length > 0}
-                            helperText={this.state.pgStartDateErr} />
+                    <Grid item md={3}>
+                    <KeyboardDatePicker
+                         id="date-picker-dialog"
+                         label="Start Date"
+                        format="MM/dd/yyyy"
+                          value={this.state.pgStartDate}
+                          onChange={(e, newValue) => this.setState({ pgStartDate: newValue, pgStartDateErr: "" })}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                          error={this.state.pgStartDateErr.length > 0}
+                          helperText={this.state.pgStartDateErr}
+                        />
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="End Date" error={this.state.pgEndDateErr.length > 0}
-                            helperText={this.state.pgEndDateErr}/>
-                    </Grid>
+                    <Grid item md={3}>
+                    <KeyboardDatePicker
+                         id="date-picker-dialog"
+                         label="End Date"
+                        format="MM/dd/yyyy"
+                          value={this.state.pgEndDate}
+                          onChange={(e, newValue) => this.setState({ pgEndDate: newValue, pgEndDateErr: "" })}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                          error={this.state.pgEndDateErr.length > 0}
+                          helperText={this.state.pgEndDateErr}
+                        />
+                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={12}></Grid>
                   </Grid>
@@ -491,7 +556,7 @@ export class academicInfo extends Component {
                     }}
                   >
                     <Grid container direction="row" justify="flex-start">
-                      <p style={title}>Undergradauate Degree</p>
+                      <p style={title}>Undergraduate Degree</p>
                     </Grid>
                   </div>
                 </AccordionSummary>
@@ -500,7 +565,6 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getCollegesList}
                         getOptionLabel={(option) => option.name}
@@ -518,7 +582,6 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getUniversityList}
                         getOptionLabel={(option) => option.name}
@@ -536,7 +599,6 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getBranchesList}
                         getOptionLabel={(option) => option.name}
@@ -554,7 +616,6 @@ export class academicInfo extends Component {
                     <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getDegreeList}
                        getOptionLabel={(option) => option.name}
@@ -569,26 +630,34 @@ export class academicInfo extends Component {
                         )}
                       />
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Current Semester"  error={this.state.ugSemesterErr.length > 0}
-                            helperText={this.state.ugSemesterErr} />
+                   
+                    <Grid item md={3}>
+                    <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                        id="debug"
+                        options={this.props.getUniversityList}
+                        getOptionLabel={(option) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            error={this.state.ugCgpaScaleErr.length > 0}
+                            helperText={this.state.ugCgpaScaleErr}
+                            label="CGPA Scale"
+                          />
+                        )}
+                      />
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Graduation Year" error={this.state.ugYearErr.length > 0}
-                            helperText={this.state.ugYearErr} />
-                    </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                       <TextField id="standard-basic" label="CGPA" error={this.state.ugCgpaErr.length > 0}
                             helperText={this.state.ugCgpaErr} />
                     </Grid>
-                    <Grid item md={1}></Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start Date" error={this.state.ugStartDateErr.length > 0}
-                            helperText={this.state.ugStartDateErr}/>
+                    <Grid item md={3}>
+                      <TextField inputMode="numeric" id="standard-basic" label="Start Date" error={this.state.ugBacklogClearedErr.length > 0}
+                            helperText={this.state.ugBacklogClearedErr}/>
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="End Date" error={this.state.ugEndDateErr.length > 0}
-                            helperText={this.state.ugEndDateErr} />
+                    <Grid item md={3}>
+                      <TextField inputMode="numeric" id="standard-basic" label="End Date" error={this.state.ugBacklogActiveErr.length > 0}
+                            helperText={this.state.ugBacklogActiveErr} />
                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={12}></Grid>
@@ -620,83 +689,78 @@ export class academicInfo extends Component {
                 </AccordionSummary>
                 <AccordionDetails>
                 <Grid container spacing={3}>
-                    <Grid item md={4}>
-                      <Autocomplete
-                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
-                        id="debug"
-                        options={this.props.getCollegesList}
-                       getOptionLabel={(option) => option.name}
-                         renderInput={(params) => (
+                    <Grid item md={3}>
                           <TextField
-                          error={this.state.diplomaCollegeErr.length > 0}
+                            error={this.state.diplomaCollegeErr.length > 0}
                             helperText={this.state.diplomaCollegeErr}
-                            {...params}
                             label="College Name"
                             margin="normal"
-                          />
-                        )}
+                         
                       />
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
-                        options={this.props.getCollegesList}
-                       getOptionLabel={(option) => option.name}
+                        options={this.props.getUniversityList}
+                        getOptionLabel={(option) => option.name}
                         renderInput={(params) => (
                           <TextField
-                          error={this.state.diplomoExamBoardErr.length > 0}
-                            helperText={this.state.diplomoExamBoardErr}
                             {...params}
-                            label="Exam Board"
+                            error={this.state.diplomoUniversityErr.length > 0}
+                            helperText={this.state.diplomoUniversityErr}
+                            label="Board Name"
                             margin="normal"
                           />
                         )}
                       />
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item md={3}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
-                        options={this.props.getCollegesList}
-                       getOptionLabel={(option) => option.name}
+                        options={this.props.getBranchesList}
+                        getOptionLabel={(option) => option.name}
                         renderInput={(params) => (
                           <TextField
-                          error={this.state.diplomoTypeErr.length > 0}
-                            helperText={this.state.diplomoTypeErr}
                             {...params}
+                            error={this.state.diplomoDepartmentErr.length > 0}
+                            helperText={this.state.diplomoDepartmentErr}
                             label="Diploma Type"
                             margin="normal"
                           />
                         )}
                       />
                     </Grid>
-                    {/* <Grid item md={3}></Grid> */}
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Current Semester"   error={this.state.diplomoSemesterErr.length > 0}
-                            helperText={this.state.diplomoSemesterErr}/>
+                    <Grid item md={3}>
+                    <Autocomplete
+                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                        id="debug"
+                        options={this.props.getUniversityList}
+                        getOptionLabel={(option) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            error={this.state.diplomoCgpaScaleErr.length > 0}
+                            helperText={this.state.diplomoCgpaScaleErr}
+                            label="CGPA Scale"
+                          />
+                        )}
+                      />
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Graduation Year" error={this.state.diplomoYearErr.length > 0}
-                            helperText={this.state.diplomoYearErr} />
-                    </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                       <TextField id="standard-basic" label="CGPA" error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr} />
                     </Grid>
-                    <Grid item md={1}></Grid>
-                    <Grid item md={1}></Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="Start Date"  error={this.state.diplomoStartDateErr.length > 0}
-                            helperText={this.state.diplomoStartDateErr}/>
+                    <Grid item md={3}>
+                      <TextField inputMode="numeric" id="standard-basic" label="Start Date" error={this.state.diplomoBlacklogClearedErr.length > 0}
+                            helperText={this.state.diplomoBlacklogClearedErr}/>
                     </Grid>
-                    <Grid item md={2}>
-                      <TextField id="standard-basic" label="End Date" error={this.state.diplomoEndDateErr.length > 0}
-                            helperText={this.state.diplomoEndDateErr} />
+                    <Grid item md={3}>
+                      <TextField inputMode="numeric" id="standard-basic" label="End Date" error={this.state.diplomoBlacklogActiveErr.length > 0}
+                            helperText={this.state.diplomoBlacklogActiveErr} />
                     </Grid>
+                    <Grid item md={1}></Grid>
                     <Grid item md={12}></Grid>
                   </Grid>
                 </AccordionDetails>
@@ -726,45 +790,36 @@ export class academicInfo extends Component {
                 <AccordionDetails>
                 <Grid container spacing={3}>
                     <Grid item md={4}>
-                      <Autocomplete
-                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
-                        id="debug"
-                        options={this.props.getCollegesList}
-                       getOptionLabel={(option) => option.name}
-                        renderInput={(params) => (
                           <TextField
-                          error={this.state.twelthCollegeErr.length > 0}
-                            helperText={this.state.twelthCollegeErr}
-                            {...params}
-                            label="College Name"
+                          error={this.state.twelthSchoolErr.length > 0}
+                            helperText={this.state.twelthSchoolErr}
+                            label="School Name"
                             margin="normal"
+                            onChange={(e) =>
+                              this.setState({ twelthSchool: e.target.value, twelthSchoolErr: "" })}
                           />
-                        )}
-                      />
                     </Grid>
                     <Grid item md={4}>
-                      <Autocomplete
-                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
-                        id="debug"
-                        options={this.props.getCollegesList}
+                    <Autocomplete
+                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                       options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
                         renderInput={(params) => (
                           <TextField
-                            {...params}
+                          {...params}
                             error={this.state.twelthExamBoardErr.length > 0}
                             helperText={this.state.twelthExamBoardErr}
-                            label="Exam Board"
+                            label="Board Name"
                             margin="normal"
+                            onChange={(e) =>
+                              this.setState({ twelthExamBoard : e.target.value, twelthExamBoardErr: "" })}
                           />
                         )}
-                      />
+                            />
                     </Grid>
                     <Grid item md={4}>
                       <Autocomplete
                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
                         id="debug"
                         options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
@@ -773,30 +828,44 @@ export class academicInfo extends Component {
                             {...params}
                             error={this.state.twelthTypeErr.length > 0}
                             helperText={this.state.twelthTypeErr}
-                            label="Diplomo Type"
+                            label="Stream"
                             margin="normal"
+                            onChange={(e) => this.setState({ twelthType: e.target.value, twelthTypeErr: "" })}
                           />
                         )}
                       />
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
+                    <Autocomplete
+                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                       options={this.props.getCollegesList}
+                       getOptionLabel={(option) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            error={this.state.twelthCgpaScaleErr.length > 0}
+                            helperText={this.state.twelthCgpaScaleErr}
+                            label="CGPA Scale"
+                            onChange={(e) =>
+                              this.setState({ twelthCgpaScale: e.target.value, twelthCgpaScaleErr: "" })}
+                          />
+                        )}
+                      />
                     </Grid>
-                    <Grid item md={2}>
-                    </Grid>
-                    <Grid item md={2}>
+                    
+                    <Grid item md={3}>
                       <TextField id="standard-basic" label="CGPA" error={this.state.twelthCgpaErr.length > 0}
-                            helperText={this.state.twelthCgpaErr} />
+                            helperText={this.state.twelthCgpaErr} onChange={(e) =>
+                              this.setState({ twelthCgpa : e.target.value, twelthCgpaErr: "" })} />
                     </Grid>
-                    <Grid item md={2}></Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                       <TextField id="standard-basic" label="Start Date" error={this.state.twelthStartDateErr.length > 0}
                             helperText={this.state.twelthStartDateErr}/>
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                       <TextField id="standard-basic" label="End Date"  error={this.state.twelthEndDateErr.length > 0}
                             helperText={this.state.twelthEndDateErr}/>
                     </Grid>
-                    {/* <Grid item md={1}></Grid> */}
                     <Grid item md={12}></Grid>
                   </Grid>
                 </AccordionDetails>
@@ -825,78 +894,67 @@ export class academicInfo extends Component {
                 </AccordionSummary>
                 <AccordionDetails>
                 <Grid container spacing={3}>
-                    <Grid item md={4}>
-                      <Autocomplete
-                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
-                        id="debug"
-                        options={this.props.getCollegesList}
-                        getOptionLabel={(option) => option.name}
-                        renderInput={(params) => (
+                    <Grid item md={6}>
                           <TextField
-                          error={this.state.tenthCollegeErr.length > 0}
-                            helperText={this.state.tenthCollegeErr}
-                            {...params}
-                            label="College Name"
+                          error={this.state.tenthSchoolErr.length > 0}
+                            helperText={this.state.tenthSchoolErr}
+                            label="School Name"
                             margin="normal"
+                            onChange={(e) =>
+                              this.setState({ tenthSchool: e.target.value, tenthSchoolErr: "" })}
                           />
-                        )}
-                      />
                     </Grid>
-                    <Grid item md={4}>
-                      <Autocomplete
-                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
-                        id="debug"
-                        options={this.props.getCollegesList}
+                    <Grid item md={6}>
+                    <Autocomplete
+                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                       options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
                         renderInput={(params) => (
                           <TextField
-                            {...params}
+                          {...params}
                             error={this.state.tenthExamBoardErr.length > 0}
                             helperText={this.state.tenthExamBoardErr}
-                            label="Exam Board"
+                            label="Board Name"
                             margin="normal"
+                            onChange={(e) =>
+                              this.setState({ tenthExamBoard: e.target.value, tenthExamBoardErr: "" })}
                           />
-                        )}
-                      />
+                          )}
+                          />
                     </Grid>
-                    <Grid item md={4}>
-                      <Autocomplete
-                      popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
-                        // {...defaultProps}
-                        id="debug"
-                        options={this.props.getCollegesList}
+                    
+                    <Grid item md={3}>
+                    <Autocomplete
+                       popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
+                       options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            error={this.state.tenthTypeErr.length > 0}
-                            helperText={this.state.tenthTypeErr}
-                            label="Diplomo Type"
-                            margin="normal"
+                            error={this.state.tenthCgpaScaleErr.length > 0}
+                            helperText={this.state.tenthCgpaScaleErr}
+                            label="CGPA Scale"
+                            onChange={(e) =>
+                              this.setState({ tenthCgpaScale: e.target.value, tenthCgpaScaleErr: "" })}
                           />
                         )}
                       />
                     </Grid>
-                    <Grid item md={2}>
-                    </Grid>
-                    <Grid item md={2}>
-                    </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                       <TextField id="standard-basic" label="CGPA"  error={this.state.tenthCgpaErr.length > 0}
-                            helperText={this.state.tenthCgpaErr} />
+                            helperText={this.state.tenthCgpaErr} onChange={(e) =>
+                              this.setState({ tenthCgpa: e.target.value, tenthCgpaErr: "" })
+                            } />
                     </Grid>
-                    <Grid item md={2}></Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                       <TextField id="standard-basic" label="Start Date" error={this.state.tenthStartDateErr.length > 0}
                             helperText={this.state.tenthStartDateErr} />
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
+                    
                       <TextField id="standard-basic" label="End Date" error={this.state.tenthEndDateErr.length > 0}
                             helperText={this.state.tenthEndDateErr}/>
                     </Grid>
-                    {/* <Grid item md={1}></Grid> */}
                     <Grid item md={12}></Grid>
                   </Grid>
                 </AccordionDetails>
@@ -926,6 +984,7 @@ export class academicInfo extends Component {
             </div>
           </ThemeProvider>
         </Card>
+        </MuiPickersUtilsProvider>
       </div>
     );
   }
@@ -938,7 +997,6 @@ const style = {
     fontStyle: "normal",
     fontSize: "18px",
     color: "#0081FF",
-    // padding:15
   },
   HeadDisplay: {
     display: "flex",
@@ -976,7 +1034,6 @@ const mapStateToProps = (state) => {
     getCollegesList: state.CollegeReducer.allCollegeList,
     getDegreeList: state.CollegeReducer.Degree,
     getUniversityList: state.CollegeReducer.University
-    // getAllProductFamilyList : state.ProductReducer.getAllProductFamily
   };
 };
 
@@ -985,6 +1042,5 @@ export default connect(mapStateToProps, {
   getDegree,
   getAllColleges,
   getUniversity,
-  // getAllProductFamily
 })(academicInfo);
 

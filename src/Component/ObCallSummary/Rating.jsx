@@ -13,6 +13,16 @@ import Love from "../../Asset/Images/love.svg";
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "styled-components";
 
+
+const StyledRating = withStyles({
+  iconFilled: {
+    color: 'red',
+  },
+  iconHover: {
+    color: 'black',
+  },
+})(Rating);
+
 const rate = [
   {
     value: 0,
@@ -241,9 +251,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
+          margin :10
         }}
       >
-        <img src={Poor} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />{" "}
+        <img src={Poor} style={{ height: "50px", width: "50px"}} />{" "}
         <p
           style={{
             fontFamily: "Montserrat",
@@ -266,9 +277,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
+          margin :10
         }}
       >
-        <img src={Unhappy} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
+        <img src={Unhappy} style={{ height: "50px", width: "50px"}} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -291,9 +303,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
+          margin :10
         }}
       >
-        <img src={Apathy} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
+        <img src={Apathy} style={{ height: "50px", width: "50px",}} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -316,9 +329,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
+          margin :10
         }}
       >
-        <img src={Happy} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
+        <img src={Happy} style={{ height: "50px", width: "50px",}} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -341,9 +355,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
+          margin :10
         }}
       >
-        <img src={Love} style={{ height: "50px", width: "50px",filter:"grayscale(100%)" }} />
+        <img src={Love} style={{ height: "50px", width: "50px",}} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -460,18 +475,21 @@ export class rating extends Component {
               }}
             >
               {/* <ThemeProvider theme={theme}> */}
-              <Rating
+              <StyledRating
                 style={{
                   display: "flex",
                   width: "600px",
-                  justifyContent: "space-evenly",
+                  // justifyContent: "space-evenly",
                 }}
                 name="customized-icons"
-                defaultValue={2}
+                defaultValue={0}
                 getLabelText={(value) => customIcons[value].label}
                 IconContainerComponent={this.IconContainer}
+                itemStyle={{height:20, width:20}}
+                itemIconStyle={{height:20, width:20}}
                 onChangeActive={(event, newHover) => {
                   this.setState({ hover: newHover });
+                  console.log(newHover)
                 }}
               />
               {/* </ThemeProvider> */}
