@@ -560,10 +560,10 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    fontFamily: "Montserrat",
-                    fontSize: "18px",
-                    fontStyle: "normal",
-                    lineHeight: "22px",
+                    // fontFamily: "Montserrat",
+                    // fontSize: "18px",
+                    // fontStyle: "normal",
+                    // lineHeight: "22px",
                   }}
                 >
                   Client Service Details
@@ -687,10 +687,10 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    fontFamily: "Montserrat",
-                    fontSize: "18px",
-                    fontStyle: "normal",
-                    lineHeight: "22px",
+                    // fontFamily: "Montserrat",
+                    // fontSize: "18px",
+                    // fontStyle: "normal",
+                    // lineHeight: "22px",
                   }}
                 >
                   Client's Educational Background
@@ -747,6 +747,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField label="Present Semester" />
+                
               </Grid>
               <Grid item md={3}>
                 <TextField label="CGPA" />
@@ -759,10 +760,10 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    fontFamily: "Montserrat",
-                    fontSize: "18px",
-                    fontStyle: "normal",
-                    lineHeight: "22px",
+                    // fontFamily: "Montserrat",
+                    // fontSize: "18px",
+                    // fontStyle: "normal",
+                    // lineHeight: "22px",
                   }}
                 >
                   Client's Work Experience Background
