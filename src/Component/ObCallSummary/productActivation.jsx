@@ -239,7 +239,7 @@ class ProductActivation extends Component {
                             )}
                         />
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={3}> 
                                     <TextField 
 
                                         color="primary"
