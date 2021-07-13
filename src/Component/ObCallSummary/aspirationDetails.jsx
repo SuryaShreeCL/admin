@@ -56,7 +56,7 @@ class AspirationDetails extends Component {
 
     render() {
         return (
-            <div style={{ padding: 10 }}>
+            <div style={{ padding: 50 }}>
                 <div
                     style={{
                         display: "flex",
