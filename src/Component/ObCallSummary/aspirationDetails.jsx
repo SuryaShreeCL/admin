@@ -55,21 +55,22 @@ class AspirationDetails extends Component {
     }
 
     render() {
+        console.log(new Date())
         return (
-            <div style={{ padding: 10 }}>
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                    }}
-                >
+            <div style={{ padding: 25 }}>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                }}
+            >
                     <div
                         style={{
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            width: "22%",
+                            width: "15%",
                         }}
                     >
                         <p style={{
@@ -78,6 +79,7 @@ class AspirationDetails extends Component {
                             fontStyle: "normal",
                             fontSize: "18px",
                             color: "#0081FF",
+                            paddingLeft:10
                         }}>Aspiration Details</p>
                         < img
                             src={Warning}
@@ -125,6 +127,7 @@ class AspirationDetails extends Component {
                         <Autocomplete
                             popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                             id="combo-box-demo"
+                            disabled={this.state.disable}
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
                             //   style={{ width: 300 }}
@@ -138,6 +141,7 @@ class AspirationDetails extends Component {
                         <Autocomplete
                             popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                             id="combo-box-demo"
+                            disabled={this.state.disable}
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
                             //   style={{ width: 300 }}
@@ -154,6 +158,7 @@ class AspirationDetails extends Component {
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
                             //   style={{ width: 300 }}
+                            disabled={this.state.disable}
                             renderInput={(params) => (
                                 <TextField {...params} label="Area of Specialization" variant="standard" />
                             )}
@@ -167,6 +172,7 @@ class AspirationDetails extends Component {
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
                             //   style={{ width: 300 }}
+                            disabled={this.state.disable}
                             renderInput={(params) => (
                                 <TextField {...params} label="Country Of Dream College" variant="standard" />
                             )}
@@ -180,6 +186,7 @@ class AspirationDetails extends Component {
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
                             //   style={{ width: 300 }}
+                            disabled={this.state.disable}
                             renderInput={(params) => (
                                 <TextField {...params} label="List Of Dream Colleges" variant="standard" />
                             )}

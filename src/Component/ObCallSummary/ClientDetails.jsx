@@ -38,7 +38,8 @@ const theme = createMuiTheme({
           marginTop : "0px",
           marginBottom : "0px"
       }
-    }
+    },
+    
   },
 });
 class ClientDetails extends Component {

@@ -13,7 +13,9 @@ const initialState = {
   mentorList :[],
   mentorAllocationResponse : [],
   internAccessResponse : [],
-  updateLmsAccess : []
+  updateLmsAccess : [],
+  awaitingUsersForActivationList : [],
+  productActivationResponse : []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -87,6 +89,17 @@ export default (state = initialState, action) => {
         ...state,
         updateLmsAccess : action.payload
       }
+      case ADMIN.getAwaitingUsersByAdminId : 
+      return {
+        ...state,
+        awaitingUsersForActivationList : action.payload
+      }
+      case ADMIN.activateStudentProduct : 
+      return {
+        ...state,
+        productActivationResponse : action.payload
+      }
+
 
     default:
       break;

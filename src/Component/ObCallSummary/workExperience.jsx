@@ -26,101 +26,148 @@ import WarningIcon from '@material-ui/icons/Warning';
 import PrimaryButton from '../../Utils/PrimaryButton';
 import Warning from "../../Asset/Images/warningImg.png";
 import Pencil from "../../Asset/Images/pencil.png";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 class workExperience extends Component {
+    constructor() {
+        super()
+        this.state = {
+            disable: true,
+            startDate: null,
+            endDate: null,
+        }
+    }
+    handleClick(e) {
+
+        this.setState({ disable: !this.state.disable })
+    }
     render() {
         return (
-            <div style={{ padding: 10 }}>
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                    }}
-                >
+            <div style={{ padding: 25 }}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <div
                         style={{
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            width: "22%",
                         }}
                     >
-                        <p style={{
-                            fontStyle: "Poppins",
-                            fontWeight: "600",
-                            fontStyle: "normal",
-                            fontSize: "18px",
-                            color: "#0081FF",}}>Work Experience</p>
-                        < img
-                            src={Warning}
-                            height={17}
-                            width={17}
-                            style={{ position: "realative", top: 5 }}
-                        />
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                width: "13%",
+                            }}
+                        >
+                            <p style={{
+                                fontStyle: "Poppins",
+                                fontWeight: "600",
+                                fontStyle: "normal",
+                                fontSize: "18px",
+                                color: "#0081FF",
+                            }}>Work Experience</p>
+                            < img
+                                src={Warning}
+                                height={17}
+                                width={17}
+                                style={{ position: "realative", top: 5 }}
+                            />
+                        </div>
+                        <IconButton onClick={this.handleClick.bind(this)}>
+                            <img src={Pencil} height={17} width={17} />
+                        </IconButton>
                     </div>
-                    <IconButton>
-                        <img src={Pencil} height={17} width={17} />
-                    </IconButton>
-                </div>
-                <div style={{ paddingTop: 10 }}>
-                    <Accordion>
+                    <div style={{ paddingTop: 10 }}>
+                        <Accordion>
 
-                        <AccordionSummary expandIcon={<ExpandMore />}>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                Job Role / Designation ,<div style={{ fontSize: 10, paddingTop: '2%' }}>  Company Name</div>
-                            </div>
+                            <AccordionSummary expandIcon={<ExpandMore />}>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    Job Role / Designation ,<div style={{ fontSize: 10, paddingTop: '2%' }}>  Company Name</div>
+                                </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'row', paddingLeft: '50%' }}> 3month(January 2020- April 2020)</div>
+                                <div style={{ display: 'flex', flexDirection: 'row', paddingLeft: '50%' }}> 3month({this.state.startDate}-{this.state.endDate})</div>
 
-                        </AccordionSummary>
+                            </AccordionSummary>
 
-                        <AccordionDetails>
-                            <Grid container spacing={2}>
-                                <Grid item md={2}>
-                                    <TextField id="standard-basic" label="Job Type" />
+                            <AccordionDetails>
+                                <Grid container spacing={2}>
+                                    <Grid item md={2}>
+                                        <TextField id="standard-basic" label="Job Type" disabled={this.state.disable} />
+                                    </Grid>
+                                    <Grid item md={2}>
+                                        <TextField style={{ width: 300 }} disabled={this.state.disable} id="standard-basic" label="Organisation" />
+                                    </Grid>
+                                    <Grid item md={2}>
+                                        {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
+                                    </Grid>
+                                    <Grid item md={1}>
+                                        {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
+                                    </Grid>
+
+                                    <Grid item md={2}>
+                                        <KeyboardDatePicker
+                                            margin="normal"
+                                            disabled={this.state.disable}
+                                            id="date-picker-dialog"
+                                            label="Start Date"
+                                            format="MM/YYYY"
+                                            views={["year", "month"]}
+                                            value={this.state.startDate}
+                                            onChange={(e, newValue) =>
+                                                this.setState({ startDate: newValue })
+                                            }
+                                            KeyboardButtonProps={{
+                                                'aria-label': 'change date',
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item md={2}>
+                                        <KeyboardDatePicker
+                                            margin="normal"
+                                            id="date-picker-dialog"
+                                            label="End Date"
+                                            format="MM/yyyy"
+                                            views={["year", "month"]}
+                                            disabled={this.state.disable}
+                                            value={this.state.endDate}
+                                            onChange={(e, newValue) =>
+                                                this.setState({ endDate: newValue })
+                                            }
+                                            KeyboardButtonProps={{
+                                                'aria-label': 'change date',
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            id="standard-multiline-static"
+                                            label="Job Description"
+                                            multiline
+                                            // rows={4}
+                                            disabled={this.state.disable}
+
+                                            defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+                                            // fullWidth
+                                            style={{ width: '91%', paddingBottom: 20, paddingTop: 10, fontFamily: 'Montserrat', color: '#052A4E', }}
+                                        />
+                                    </Grid>
                                 </Grid>
-                                <Grid item md={2}>
-                                    <TextField style={{ width: 300 }} id="standard-basic" label="Organisation" />
-                                </Grid>
-                                <Grid item md={2}>
-                                    {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
-                                </Grid>
-                                <Grid item md={1}>
-                                    {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
-                                </Grid>
+                            </AccordionDetails>
 
-                                <Grid item md={2}>
-                                    <TextField id="standard-basic" label="Start Date" />
-                                </Grid>
-                                <Grid item md={2}>
-                                    <TextField id="standard-basic" label="End Date" />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        id="standard-multiline-static"
-                                        label="Job Description"
-                                        multiline
-                                        // rows={4}
+                        </Accordion>
+                    </div>
 
-                                        defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-                                        // fullWidth
-                                        style={{ width: '91%', paddingBottom: 20, paddingTop: 10, fontFamily: 'Montserrat', color: '#052A4E', }}
-                                    />
-                                </Grid>
-
-
-
-                            </Grid>
-                        </AccordionDetails>
-
-                    </Accordion>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
-                    <PrimaryButton variant={"contained"} color={"primary"} >
-                        Save Changes
-                    </PrimaryButton>
-                </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
+                        <PrimaryButton variant={"contained"} color={"primary"} >
+                            Save Changes
+                        </PrimaryButton>
+                    </div>
+                </MuiPickersUtilsProvider>
             </div >
         );
     }

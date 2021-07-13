@@ -196,7 +196,9 @@ export const ADMIN = {
   updateVerificationStatus : 'updateVerificationStatus',
   getAllMentor : "getAllMentor",
   alocateMentor : "alocateMentor",
-  updateLmsAccess : "updateLmsAccess"
+  updateLmsAccess : "updateLmsAccess",
+  getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
+  activateStudentProduct : "activateStudentProduct"
 };
 
 export const MENTORSCHEDULELIST={
