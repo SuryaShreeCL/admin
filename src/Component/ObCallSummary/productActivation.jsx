@@ -130,15 +130,16 @@ class ProductActivation extends Component {
         return (
             <div style={{ padding: 10 }}>
                 <ThemeProvider theme={theme}>
-                    <div style={{ display: 'flex', flexDirection: 'row', borderColor: 'red' }}>
+                    {/* <div style={{ display: 'flex', flexDirection: 'row', }}> */}
 
                         <AntTabs
                             value={this.state.tabCount}
                             textColor={"inherit"}
                             // onChange={(e, value) => this.setState({ tabCount: value })}
                             aria-label="ant example"
+                        
                         >
-                            <AntTab label="Awaiting Allocation" />
+                            <AntTab label="Awaiting Allocation"/>
                         </AntTabs>
                         <TextField
                             label='Search by Email ID / Mobile / Full Name / CLS ID'
@@ -150,9 +151,9 @@ class ProductActivation extends Component {
                                     </InputAdornment>
                                 ),
                             }}
-                            style={{ width: '50%', marginLeft: '40%', bottom: 20 }}
+                            style={{ width: '50%', marginLeft: '50%',bottom:65}}
                         />
-                    </div>
+                    {/* </div> */}
 
                     <TableContainer>
                         <Table>
