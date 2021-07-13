@@ -52,7 +52,8 @@ export class Login extends Component {
         window.sessionStorage.setItem("refreshToken",this.props.adminLoginDetails.refreshToken);
         window.sessionStorage.setItem("role", this.props.adminLoginDetails.role);
          window.sessionStorage.setItem("mentor",JSON.stringify(this.props.adminLoginDetails.Mentor))
-        this.props.history.push(studentPath); 
+        window.sessionStorage.setItem("adminUserId",this.props.adminLoginDetails.AdminUsers)
+         this.props.history.push(studentPath); 
         console.log("success.......",this.props.adminLoginDetails)
       }
         
