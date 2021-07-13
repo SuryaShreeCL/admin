@@ -35,6 +35,7 @@ export const callSchedulePath = rootPath.concat('/schedule');
 export const productBasedPath = rootPath.concat('/based');
 export const wallPath = rootPath.concat('/wall');
 export const createPath = rootPath.concat('/wall/create');
+export const editPath = rootPath.concat('/wall/edit');
 export const starterPackPath = rootPath.concat('/starterPack');
 export const productVariantPath = rootPath.concat('/product/variant');
 export const productPunchingPath = rootPath.concat('/productpunching');

@@ -43,6 +43,7 @@ import {
   questionsPath,
   choicePath,
   videoPath,
+  editPath,
   productPath,
   webinarPath,
   careerTrackPath,
@@ -89,6 +90,7 @@ import ProductPunching from './ProductPunching/ProductPunchingLanding'
 import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import CreatePost from './Wall/Pages/CreatePost';
+import EditPost from './Wall/Pages/EditPost';
 export default function Routes(props) {
   return (
 
@@ -105,6 +107,7 @@ export default function Routes(props) {
             <Route exact path={loginPath} render={(props)=> <MLogin {...props} />} />
             <Route exact path={wallPath} render={(props)=> <WallLanding {...props} />} />
             <Route exact path={createPath} render={(props)=> <CreatePost {...props} />} />
+            <Route exact path={editPath} render={(props)=> <EditPost {...props} />} />
             <Route exact path={personelInfoPath} render={(props)=> <Personal_information {...props} />} />
             <Route exact path={curatedPath} render={(props)=> <Curated_Course {...props} />} />
             <Route exact path={questionBankPath} render={(props)=> <QuestionBank {...props} />} />

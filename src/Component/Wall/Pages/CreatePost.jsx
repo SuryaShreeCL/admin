@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
@@ -44,16 +43,14 @@ const useStyles = makeStyles({
   },
 });
 
-const CreatePost = (props) => {
+const CreatePost = () => {
   const classes = useStyles();
-  let location = useLocation();
-  const { addOrEdit, recordForEdit } = props;
-  const [records, setRecords] = useState(location.state);
+
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
     supportingMedia: 'image',
-    wallFiles: [],
+    wallFiles: [{ id: '', url: '', type: '' }],
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
@@ -62,6 +59,7 @@ const CreatePost = (props) => {
     selectedDate: new Date(),
     isScheduled: false,
     videoURLEnabled: false,
+    videoLink: '',
     activeStatus: 'Live',
   });
 
@@ -82,14 +80,6 @@ const CreatePost = (props) => {
 
   const Categories = ['All', '3rd Year', '4th Year', 'Placements', 'Higher Studies'];
 
-  useEffect(() => {
-    //SETTING PRE POPULATED RECORD
-    if (records != null)
-      setRecords({
-        ...recordForEdit,
-      });
-  }, [recordForEdit]);
-
   const validate = (values) => {
     if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
       setErrorSchema((s) => ({ ...s, isVideoLink: true }));
@@ -101,14 +91,6 @@ const CreatePost = (props) => {
 
   const handleCategory = (event) => {
     setState((s) => ({ ...s, wallCategories: event.target.value }));
-  };
-
-  const handlePostTypeChange = (event) => {
-    setState((s) => ({ ...s, supportingMedia: event.target.value }));
-  };
-
-  const handleVideoURL = () => {
-    setState((s) => ({ ...s, videoURLEnabled: !state.videoURLEnabled }));
   };
 
   const handleScheduled = () => {
@@ -132,7 +114,7 @@ const CreatePost = (props) => {
       <BackHandler title='Create New Post' />
       <CreatePostContainer>
         <Formik
-          initialValues={records || state}
+          initialValues={state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             // addOrEdit(values, resetForm);
@@ -154,7 +136,7 @@ const CreatePost = (props) => {
                     aria-label='type'
                     name='supportingMedia'
                     value={values.supportingMedia}
-                    onChange={handlePostTypeChange}
+                    onChange={handleChange}
                     required
                   >
                     <FormControlLabel
@@ -206,10 +188,9 @@ const CreatePost = (props) => {
                     <Controls.Input
                       label='Type caption here..'
                       value={values.caption}
-                      onChange={(event) => {
-                        setState((s) => ({ ...s, caption: event.target.value }));
-                      }}
-                      error={touched.caption && Boolean(errors.caption)}
+                      name='caption'
+                      onChange={handleChange}
+                      // error={touched.caption && Boolean(errors.caption)}
                       multiline
                       className={classes.captionStyle}
                       rows={6}
@@ -220,9 +201,10 @@ const CreatePost = (props) => {
                       <span style={{ fontSize: '1rem' }}>
                         Video URL Available
                         <Switch
-                          checked={state.videoURLEnabled}
-                          onChange={handleVideoURL}
+                          checked={values.videoURLEnabled}
+                          onChange={handleChange}
                           color='primary'
+                          name='videoURLEnabled'
                           value={values.videoURLEnabled}
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
@@ -233,9 +215,9 @@ const CreatePost = (props) => {
                     <Grid item>
                       <Controls.Input
                         label='Paste Video URL'
-                        name='wallFiles.url'
+                        name='videoLink'
                         className={classes.spacer}
-                        value={values.wallFiles?.url}
+                        value={values.videLink}
                         error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />
@@ -272,7 +254,7 @@ const CreatePost = (props) => {
                         folderName='app-images'
                       />
                     )}
-                    {values.supportingMedia === 'video' && !state.videoURLEnabled && (
+                    {values.supportingMedia === 'video' && !values.videoURLEnabled && (
                       <MultipleFileUploadField
                         name='wallFiles'
                         type='video'

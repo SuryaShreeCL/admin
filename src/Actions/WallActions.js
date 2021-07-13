@@ -1,17 +1,22 @@
 import { WALL } from '../Redux/Action';
 import axios from 'axios';
 
+let accessToken = window.sessionStorage.getItem('accessToken');
+
 export const listWallPosts = (status) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_WALL_URL}/api/v1/wallpost?activeStatus=${status}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?activeStatus=${status}`,
       {
         crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
       }
     );
-    console.log(data.content);
 
     dispatch({
       type: WALL.LIST_SUCCESS,
@@ -21,9 +26,7 @@ export const listWallPosts = (status) => async (dispatch) => {
     dispatch({
       type: WALL.LIST_FAIL,
       payload:
-        error.response && error.response.content.message
-          ? error.response.data.message
-          : error.message,
+        error.response && error.response.message ? error.response.data.message : error.message,
     });
   }
 };
@@ -34,8 +37,12 @@ export const deleteWallPost = (id) => async (dispatch) => {
       type: WALL.DELETE_REQUEST,
     });
 
-    await axios.delete(`${process.env.REACT_APP_API_WALL_URL}/services/WALLs/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/services/WALLs/${id}`, {
       crossDomain: true,
+      headers: {
+        admin: 'yes',
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
     dispatch({
       type: WALL.DELETE_SUCCESS,
@@ -57,13 +64,9 @@ export const createWallPost = (WALL) => async (dispatch) => {
     dispatch({
       type: WALL.CREATE_REQUEST,
     });
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_API_WALL_URL}/services/WALLs/`,
-      WALL,
-      {
-        crossDomain: true,
-      }
-    );
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/services/WALLs/`, WALL, {
+      crossDomain: true,
+    });
 
     dispatch({
       type: WALL.CREATE_SUCCESS,
@@ -87,7 +90,7 @@ export const updateWallPost = (WALL) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `${process.env.REACT_APP_API_WALL_URL}/services/WALLs/${WALL.id}`,
+      `${process.env.REACT_APP_API_URL}/services/WALLs/${WALL.id}`,
       WALL,
       {
         crossDomain: true,

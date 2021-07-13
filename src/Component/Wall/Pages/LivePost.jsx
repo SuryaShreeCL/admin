@@ -20,7 +20,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
-import { createPath } from '../../RoutePaths';
+import { editPath, createPath } from '../../RoutePaths';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -132,8 +132,8 @@ export default function LivePost() {
 
   const openInPage = (item) => {
     history.push({
-      pathname: createPath,
-      state: item,
+      pathname: editPath,
+      recordForEdit: item,
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
@@ -161,8 +161,6 @@ export default function LivePost() {
 
   return (
     <>
-      {loading && <Loader />}
-      {error && <Alert severity='error'>{error}</Alert>}
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.RoundedInput
@@ -194,6 +192,7 @@ export default function LivePost() {
             }}
           />
         </Toolbar>
+
         <TblContainer>
           <TblHead />
           {posts && (
@@ -232,6 +231,10 @@ export default function LivePost() {
             </TableBody>
           )}
         </TblContainer>
+        <div style={{ margin: '2rem auto', width: '60%' }}>
+          {loading && <Loader />}
+          {error && <Alert severity='error'>{error}</Alert>}
+        </div>
         <TblPagination />
       </Paper>
       {/* <Popup title='Add or Edit Testimonial' openPopup={openPopup} setOpenPopup={setOpenPopup}>

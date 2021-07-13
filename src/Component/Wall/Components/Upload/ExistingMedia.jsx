@@ -22,7 +22,7 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-export function FileProgress({ file, onDelete, url, progress }) {
+export function ExistingMedia({ url, type }, progress = 100) {
   return (
     <FileHeaderContainer>
       <div className='img-container'>
@@ -34,14 +34,14 @@ export function FileProgress({ file, onDelete, url, progress }) {
       </div>
       <div className='img-details'>
         <Typography variant='caption' color='textSecondary'>
-          {file.name}
+          {url}
         </Typography>
         <div className='img-progress'>
-          <BorderLinearProgress variant='determinate' value={progress} />
+          <BorderLinearProgress variant='determinate' value={100} />
         </div>
         <div className='img-info'>
           <Typography variant='caption' color='textSecondary'>
-            {bytesToSize(file.size)}
+            {type}
           </Typography>
           {!isNaN(Math.round(progress)) && (
             <Typography variant='caption' color='textSecondary'>{`${Math.round(
@@ -50,7 +50,7 @@ export function FileProgress({ file, onDelete, url, progress }) {
           )}
         </div>
       </div>
-      <Controls.ActionButton onClick={() => onDelete(file)}>
+      <Controls.ActionButton>
         <CloseIcon fontSize='small' color='secondary' />
       </Controls.ActionButton>
     </FileHeaderContainer>

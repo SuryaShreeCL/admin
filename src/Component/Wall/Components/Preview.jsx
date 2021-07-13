@@ -23,7 +23,7 @@ const Preview = ({ state }) => {
                   return (
                     <img
                       style={{ maxHeight: '250px' }}
-                      src={`${process.env.REACT_APP_API_WALL_URL}/api/v1/wallfile?fileName=${image.url}&type=image`}
+                      src={`${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${image.url}&type=image`}
                     />
                   );
                 })}
@@ -39,7 +39,7 @@ const Preview = ({ state }) => {
                 style={{ backgroundColor: '#f0f3f4' }}
                 src={
                   wallFiles[0]?.isUploaded === true
-                    ? `${process.env.REACT_APP_API_WALL_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
+                    ? `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
                     : sample
                 }
                 controls
@@ -53,7 +53,7 @@ const Preview = ({ state }) => {
                 controls={true}
                 url={
                   wallFiles[0]?.isUploaded === true
-                    ? `${process.env.REACT_APP_API_WALL_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
+                    ? `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
                     : wallFiles[0]?.url || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'
                 }
               />
