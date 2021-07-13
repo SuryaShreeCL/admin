@@ -393,7 +393,7 @@ export class rating extends Component {
   render() {
     const { root, HeadStyle, textStyle, secondaryHeadStyle } = style;
     return (
-      <div style={{padding:5}}>
+      <div style={{padding:15}}>
         {/* <Card style={{padding:25}}> */}
         <Grid container style={{ marginLeft: 0 }}>
           <Grid item md={12}>
@@ -480,7 +480,7 @@ const style = {
     // fontWeight: "600",
     fontStyle: "normal",
     fontSize: "18px",
-    color: "#009be5",
+    color: "#407BFF",
   },
   secondaryHeadStyle: {
     fontStyle: "Montserrat",
