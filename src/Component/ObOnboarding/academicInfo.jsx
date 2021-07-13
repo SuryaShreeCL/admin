@@ -50,10 +50,10 @@ export class academicInfo extends Component {
       ugSemesterErr:'',
       ugCgpaScale:'',
       ugCgpaScaleErr:'',
-      ugBacklogCleared:'',
-      ugBacklogClearedErr:'',
-      ugBacklogActive:'',
-      ugBacklogActiveErr:'',
+      ugStartDate:null,
+      ugStartDateErr:'',
+      ugEndDate:null,
+      ugEndDateErr:'',
       ugCgpaErr:'',
       ugCgpa:'',
 
@@ -116,9 +116,9 @@ export class academicInfo extends Component {
       twelthExamBoardErr:'',
       twelthType:'',
       twelthTypeErr:'',
-      twelthStartDate:'',
+      twelthStartDate:null,
       twelthStartDateErr:'',
-      twelthEndDate:'',
+      twelthEndDate:null,
       twelthEndDateErr:'',
       twelthCgpa:'',
       twelthCgpaErr:'',
@@ -218,10 +218,13 @@ export class academicInfo extends Component {
       this.state.pgCgpa === ""
       ? this.setState({ pgCgpaErr: hlptxt })
       : this.setState({ pgCgpaErr: "" });
-      this.state.pgStartDate === ""
+      this.state.pgCgpaScale === ""
+      ? this.setState({ pgCgpaScaleErr: hlptxt })
+      : this.setState({ pgCgpaScaleErr: "" });
+      this.state.pgStartDate === null
       ? this.setState({ pgStartDateErr: hlptxt })
       : this.setState({ pgStartDateErr: "" });
-      this.state.pgEndDate === ""
+      this.state.pgEndDate === null
       ? this.setState({ pgEndDateErr: hlptxt })
       : this.setState({ pgEndDateErr: "" });
       this.state.ugSemester === ""
@@ -233,12 +236,12 @@ export class academicInfo extends Component {
       this.state.ugCgpa === ""
       ? this.setState({ ugCgpaErr: hlptxt })
       : this.setState({ ugCgpaErr: "" });
-      this.state.ugBacklogCleared === ""
-      ? this.setState({ ugBacklogClearedErr: hlptxt })
-      : this.setState({ ugBacklogClearedErr: "" });
-      this.state.ugBacklogActive === ""
-      ? this.setState({ ugBacklogActiveErr: hlptxt })
-      : this.setState({ ugBacklogActiveErr: "" });
+      this.state.ugStartDate === null
+      ? this.setState({ ugStartDateErr: hlptxt })
+      : this.setState({ ugStartDateErr: "" });
+      this.state.ugEndDate === null
+      ? this.setState({ ugEndDateErr: hlptxt })
+      : this.setState({ ugEndDateErr: "" });
 
       this.state.diplomaCollege === ""
       ? this.setState({ diplomaCollegeErr: hlptxt })
@@ -315,13 +318,13 @@ export class academicInfo extends Component {
       this.state.twelthType === ""
       ? this.setState({ twelthTypeErr: hlptxt })
       : this.setState({ twelthTypeErr: "" });
-      this.state.tenthCgpa === ""
+      this.state.twelthCgpa === ""
       ? this.setState({ twelthCgpaErr: hlptxt })
       : this.setState({ twelthCgpaErr: "" });
-      this.state.tenthStartDate === ""
+      this.state.tenthStartDate === null
       ? this.setState({ twelthStartDateErr: hlptxt })
       : this.setState({ twelthStartDateErr: "" });
-      this.state.tenthEndDate === ""
+      this.state.tenthEndDate === null
       ? this.setState({ twelthEndDateErr: hlptxt })
       : this.setState({ twelthEndDateErr: "" });
       this.state.twelthCgpaScale === ""
@@ -521,9 +524,9 @@ export class academicInfo extends Component {
                     </Grid>
                     <Grid item md={3}>
                     <KeyboardDatePicker
-                         id="date-picker-dialog"
-                         label="End Date"
-                        format="MM/dd/yyyy"
+                          id="date-picker-dialog"
+                          label="End Date"
+                          format="MM/dd/yyyy"
                           value={this.state.pgEndDate}
                           onChange={(e, newValue) => this.setState({ pgEndDate: newValue, pgEndDateErr: "" })}
                           KeyboardButtonProps={{
@@ -568,6 +571,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getCollegesList}
                         getOptionLabel={(option) => option.name}
+                        value={this.state.ugCollege}
+                        onChange={(e, newValue) => this.setState({ ugCollege: newValue, ugCollegeErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -585,6 +590,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getUniversityList}
                         getOptionLabel={(option) => option.name}
+                        value={this.state.ugUniversity}
+                        onChange={(e, newValue) => this.setState({ ugUniversity: newValue, ugUniversityErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -602,6 +609,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getBranchesList}
                         getOptionLabel={(option) => option.name}
+                        value={this.state.ugDepartment}
+                        onChange={(e, newValue) => this.setState({ ugDepartment: newValue, ugDepartmentErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -619,6 +628,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getDegreeList}
                        getOptionLabel={(option) => option.name}
+                        value={this.state.ugDegree}
+                        onChange={(e, newValue) => this.setState({ ugDegree: newValue, ugDegreeErr: "" })}
                         renderInput={(params) => (
                           <TextField
                           error={this.state.ugDegreeErr.length > 0}
@@ -637,6 +648,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getUniversityList}
                         getOptionLabel={(option) => option.name}
+                        value={this.state.ugCgpaScale}
+                        onChange={(e, newValue) => this.setState({ ugCgpaScale: newValue, ugCgpaScaleErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -648,16 +661,39 @@ export class academicInfo extends Component {
                       />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField id="standard-basic" label="CGPA" error={this.state.ugCgpaErr.length > 0}
+                      <TextField id="standard-basic" label="CGPA"
+                      value={this.state.ugCgpa}
+                      onChange={(e, newValue) => this.setState({ ugCgpa: newValue, ugCgpaErr: "" })}
+                      error={this.state.ugCgpaErr.length > 0}
                             helperText={this.state.ugCgpaErr} />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField inputMode="numeric" id="standard-basic" label="Start Date" error={this.state.ugBacklogClearedErr.length > 0}
-                            helperText={this.state.ugBacklogClearedErr}/>
+                    <KeyboardDatePicker
+                          id="date-picker-dialog"
+                          label="Start Date"
+                          format="MM/dd/yyyy"
+                          value={this.state.ugStartDate}
+                          onChange={(e, newValue) => this.setState({ ugStartDate: newValue, ugStartDateErr: "" })}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                          error={this.state.ugStartDateErr.length > 0}
+                          helperText={this.state.ugStartDateErr}
+                        />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField inputMode="numeric" id="standard-basic" label="End Date" error={this.state.ugBacklogActiveErr.length > 0}
-                            helperText={this.state.ugBacklogActiveErr} />
+                    <KeyboardDatePicker
+                          id="date-picker-dialog"
+                          label="End Date"
+                          format="MM/dd/yyyy"
+                          value={this.state.ugEndDate}
+                          onChange={(e, newValue) => this.setState({ ugEndDate: newValue, ugEndDateErr: "" })}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                          error={this.state.ugEndDateErr.length > 0}
+                          helperText={this.state.ugEndDateErr}
+                        />
                     </Grid>
                     <Grid item md={1}></Grid>
                     <Grid item md={12}></Grid>
@@ -791,7 +827,7 @@ export class academicInfo extends Component {
                 <Grid container spacing={3}>
                     <Grid item md={4}>
                           <TextField
-                          error={this.state.twelthSchoolErr.length > 0}
+                           error={this.state.twelthSchoolErr.length > 0}
                             helperText={this.state.twelthSchoolErr}
                             label="School Name"
                             margin="normal"
@@ -804,6 +840,8 @@ export class academicInfo extends Component {
                        popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                        options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
+                       value={this.state.twelthExamBoard}
+                       onChange={(e, newValue) => this.setState({ twelthExamBoard: newValue, twelthExamBoardErr: "" })}
                         renderInput={(params) => (
                           <TextField
                           {...params}
@@ -811,8 +849,6 @@ export class academicInfo extends Component {
                             helperText={this.state.twelthExamBoardErr}
                             label="Board Name"
                             margin="normal"
-                            onChange={(e) =>
-                              this.setState({ twelthExamBoard : e.target.value, twelthExamBoardErr: "" })}
                           />
                         )}
                             />
@@ -823,6 +859,8 @@ export class academicInfo extends Component {
                         id="debug"
                         options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
+                       value={this.state.twelthType}
+                       onChange={(e, newValue) => this.setState({ twelthType: newValue, twelthTypeErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -830,7 +868,7 @@ export class academicInfo extends Component {
                             helperText={this.state.twelthTypeErr}
                             label="Stream"
                             margin="normal"
-                            onChange={(e) => this.setState({ twelthType: e.target.value, twelthTypeErr: "" })}
+                            // onChange={(e) => this.setState({ twelthType: e.target.value, twelthTypeErr: "" })}
                           />
                         )}
                       />
@@ -840,14 +878,16 @@ export class academicInfo extends Component {
                        popupIcon={<ExpandMore style= {{color:"#1093FF"}}/>}
                        options={this.props.getCollegesList}
                        getOptionLabel={(option) => option.name}
+                       value={this.state.twelthCgpaScale}
+                       onChange={(e, newValue) => this.setState({ twelthCgpaScale: newValue, twelthCgpaScaleErr: "" })}
                         renderInput={(params) => (
                           <TextField
                             {...params}
                             error={this.state.twelthCgpaScaleErr.length > 0}
                             helperText={this.state.twelthCgpaScaleErr}
                             label="CGPA Scale"
-                            onChange={(e) =>
-                              this.setState({ twelthCgpaScale: e.target.value, twelthCgpaScaleErr: "" })}
+                            // onChange={(e) =>
+                            //   this.setState({ twelthCgpaScale: e.target.value, twelthCgpaScaleErr: "" })}
                           />
                         )}
                       />
@@ -855,16 +895,39 @@ export class academicInfo extends Component {
                     
                     <Grid item md={3}>
                       <TextField id="standard-basic" label="CGPA" error={this.state.twelthCgpaErr.length > 0}
-                            helperText={this.state.twelthCgpaErr} onChange={(e) =>
-                              this.setState({ twelthCgpa : e.target.value, twelthCgpaErr: "" })} />
+                            helperText={this.state.twelthCgpaErr} 
+                            value={this.state.twelthCgpa}
+                       onChange={(e, newValue) => this.setState({ twelthCgpa: newValue, twelthCgpaErr: "" })}
+                            // onChange={(e, newValue) => this.setState({ twelthStartDate: newValue, twelthStartDateErr: "" })}
+                            />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField id="standard-basic" label="Start Date" error={this.state.twelthStartDateErr.length > 0}
-                            helperText={this.state.twelthStartDateErr}/>
+                    <KeyboardDatePicker
+                          id="date-picker-dialog"
+                          label="Start Date"
+                          format="MM/dd/yyyy"
+                          value={this.state.twelthStartDate || ''}
+                          onChange={(e, newValue) => this.setState({ twelthStartDate: newValue, twelthStartDateErr: "" })}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                          error={this.state.twelthStartDateErr.length > 0}
+                          helperText={this.state.twelthStartDateErr}
+                        />
                     </Grid>
                     <Grid item md={3}>
-                      <TextField id="standard-basic" label="End Date"  error={this.state.twelthEndDateErr.length > 0}
-                            helperText={this.state.twelthEndDateErr}/>
+                    <KeyboardDatePicker
+                          id="date-picker-dialog"
+                          label="End Date"
+                          format="MM/dd/yyyy"
+                          value={this.state.twelthEndDate || ''}
+                          onChange={(e, newValue) => this.setState({ twelthEndDate: newValue, twelthEndDateErr: "" })}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                          error={this.state.twelthEndDateErr.length > 0}
+                          helperText={this.state.twelthEndDateErr}
+                        />
                     </Grid>
                     <Grid item md={12}></Grid>
                   </Grid>
