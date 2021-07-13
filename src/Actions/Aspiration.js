@@ -516,3 +516,17 @@ export const deleteCity=(id)=>{
             });
     }   
 }
+export const getallcountry=()=>{
+    return dispatch => {
+        axios.get(URL+"/api/v1/aspiration/country",{
+            crossDomain: true
+        })
+            .then(result => {
+                console.log(result)
+                dispatch({type:ASPIRATION.getallcountry,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }   
+}

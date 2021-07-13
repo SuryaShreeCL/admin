@@ -110,6 +110,7 @@ export const ASPIRATION = {
   addCity: 'addCity',
   updateCity: 'updateCity',
   deleteCity: 'deleteCity',
+  getallcountry:"getallcountry"
 };
 
 export const QUESTIONSET = {
@@ -195,7 +196,9 @@ export const ADMIN = {
   updateVerificationStatus : 'updateVerificationStatus',
   getAllMentor : "getAllMentor",
   alocateMentor : "alocateMentor",
-  updateLmsAccess : "updateLmsAccess"
+  updateLmsAccess : "updateLmsAccess",
+  getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
+  activateStudentProduct : "activateStudentProduct"
 };
 
 export const MENTORSCHEDULELIST={

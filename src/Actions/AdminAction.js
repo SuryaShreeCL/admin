@@ -260,3 +260,32 @@ export const allocateMentor = (mentorId,studentId) =>{
     }
 }
 
+// For Getting List of users based on admin user Id
+
+export const getAwaitingUsersByAdminId = () =>{
+    let id = window.sessionStorage.getItem("adminUserId")
+    return dispatch =>{
+        axios.get(URL+"/api/v1/product/notActivate/"+id)
+        .then(result=>{
+            dispatch({type : ADMIN.getAwaitingUsersByAdminId, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+} 
+
+// TO Activate Student Product
+
+export const activateStudentProduct = (data) =>{
+    let id = window.sessionStorage.getItem("adminUserId")
+    return dispatch =>{
+        axios.put(URL+"/api/v1/product/activate/"+id,data)
+        .then(result=>{
+            dispatch({type : ADMIN.activateStudentProduct, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
