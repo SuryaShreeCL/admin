@@ -34,6 +34,7 @@ const initialState = {
   allBranchList : [],
   allSpeciaizationList : [],
   allTermList : [],
+  getallcountry:[]
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -207,6 +208,11 @@ export default (state = initialState, action) => {
                   ...state,
                   allTermList: action.payload,
                 };
+                case ASPIRATION.getallcountry:
+                  return {
+                    ...state,
+                    getallcountry: action.payload,
+                  };
 
     default:
       break;

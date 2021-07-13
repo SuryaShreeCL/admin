@@ -110,6 +110,7 @@ export const ASPIRATION = {
   addCity: 'addCity',
   updateCity: 'updateCity',
   deleteCity: 'deleteCity',
+  getallcountry:"getallcountry"
 };
 
 export const QUESTIONSET = {
