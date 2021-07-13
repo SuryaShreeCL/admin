@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { withStyles } from '@material-ui/core/styles';
+import MySnackBar from '../MySnackBar';
 import {
     Table,
     TableBody,
@@ -15,6 +16,7 @@ import {
     ThemeProvider,
     createMuiTheme,
 } from "@material-ui/core";
+import { getAllProductFamily, getProductByFamilyId, getProductVarient } from "../../Actions/ProductAction"
 import { ExpandMore } from '@material-ui/icons';
 import AddIcon from "@material-ui/icons/Add";
 import {
@@ -120,16 +122,82 @@ class ProductActivation extends Component {
             tabCount: 0,
             show: false,
             id: "",
-            search: ''
+            clientName: null,
+            contactNumber: null,
+            email: null,
+            clsId: null,
+            productFamily: null,
+            productVariant: null,
+            intake: null,
+            year: null,
+            validity: null,
+            endServiceDate: null,
+            amountPaid: null,
+            bdaName: null,
+            studentId: null,
+            snackOpen: false,
+            snackColor: null,
+            snackMsg: null,
         };
+
     }
     handleClose = (e) => {
         this.setState({ show: false });
     };
-    theme = createMuiTheme({
 
-    })
+    componentDidMount() {
+        this.props.getAwaitingUsersByAdminId();
+        this.props.getAllProductFamily()
+        this.props.getProductVarient()
+    }
+
+    handleShowPopUp = (data) => {
+        console.log(data)
+        this.setState({
+            show: true,
+            clientName: data.fullName === null ? data.firstName + data.lastName : data.fullName,
+            contactNumber: data.phoneNumber,
+            email: data.emailId,
+            clsId: data.clsId,
+            productFamily: data.products.productFamily,
+            productVariant: data.products,
+            intake: data.products.intake,
+            year: data.year,
+            validity: data.products.validity,
+            endServiceDate: data.products.endOfServiceDate,
+            amountPaid: data.products.sellingPrice,
+            bdaName: data.punchedBy,
+            studentId: data.studentId
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.productActivationResponse !== prevProps.productActivationResponse) {
+            this.setState({
+                snackOpen: true,
+                snackColor: "success",
+                snackMsg: "Product activated successfully"
+            })
+        }
+    }
+
+    handleActivate = () => {
+        let obj = {
+            studentId: this.state.studentId,
+            productPaymentModels: [
+                {
+                    productId: this.state.productVariant.id,
+                    stage: "Activated",
+                    activatedBy: window.sessionStorage.getItem("adminUserId"),
+                },
+            ],
+        };
+        this.props.activateStudentProduct(obj)
+    }
+
+
     render() {
+        console.log(this.state)
         return (
             <div style={{ padding: 10 }}>
                 <ThemeProvider theme={theme}>
@@ -176,43 +244,43 @@ class ProductActivation extends Component {
                             </TableHead>
                             <TableBody>
 
-                                <TableRow>
-                                    <TableCell align='center' >
-                                        {/* <TextField disabled={this.state.disable}/>           */}
-                                        CLS070000
-                                    </TableCell>
-                                    <TableCell align='center' >
-
-                                        Atharva Unde
-                                    </TableCell>
-
-                                    <TableCell align='center' >
-                                        BITS,Pillani
-                                    </TableCell>
-                                    <TableCell align='center' >
-                                        Computer Eng
-                                    </TableCell>
-                                    <TableCell align='center' >
-                                        B.E/B.Tech
-                                    </TableCell>
-                                    <TableCell align='center' >
-                                        PB: placements
-                                    </TableCell>
-                                    <TableCell align='center' >
-                                        24/7/21
-                                    </TableCell>
-                                    <TableCell align='center' >
-                                        40,000
-                                    </TableCell><TableCell align='center' >
-
-                                        no
-
-                                    </TableCell>
-                                    <TableCell align='center' ><IconButton onClick={() => this.setState({ show: true })}>
-                                        <AddCircleRoundedIcon style={{ color: '#1093FF' }} />
-                                    </IconButton>
-                                    </TableCell>
-                                </TableRow>
+                                {this.props.awaitingUsersForActivationList.length !== 0 &&
+                                    this.props.awaitingUsersForActivationList.map(
+                                        (eachData, index) => {
+                                            return (
+                                                <TableRow>
+                                                    <TableCell align="center">{eachData.clsId}</TableCell>
+                                                    <TableCell align="center">
+                                                        {eachData.fullName}
+                                                    </TableCell>
+                                                    <TableCell align="center">{eachData.college}</TableCell>
+                                                    <TableCell align="center">
+                                                        {eachData.department}
+                                                    </TableCell>
+                                                    <TableCell align="center">{eachData.degree}</TableCell>
+                                                    <TableCell align="center">
+                                                        {eachData.products.name}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {eachData.orderDate}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {eachData.paymentProvider}
+                                                    </TableCell>
+                                                    <TableCell align="center">{eachData.stage}</TableCell>
+                                                    <TableCell align="center">
+                                                        <IconButton
+                                                            onClick={() => this.handleShowPopUp(eachData)}
+                                                        >
+                                                            <AddCircleRoundedIcon
+                                                                style={{ color: "#1093FF" }}
+                                                            />
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        }
+                                    )}
 
                             </TableBody>
                         </Table>
@@ -223,28 +291,28 @@ class ProductActivation extends Component {
                             fullWidth={true}
                             open={this.state.show}
                             onClose={this.handleClose}
-                        // maxHeight='lg'
+                            // maxHeight='lg'
                             aria-labelledby="customized-dialog-title"
                         >
                             {/* <Dialog id="customized-dialog-title" > */}
-                                <div className="flex-1 text-center">
-                                </div>
-                                <div className="model-close-button" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <IconButton aria-label="close" onClick={this.handleClose}>
-                                        <CloseIcon style={{ background: '#ADD8E6', borderRadius: 20, color: '#1093FF', backgroundSize: 20 }} />
-                                    </IconButton>
-                                </div>
-                            {/* </DialogT> */}
-                            <DialogContent style={{height:'300px'}}>
-                                <Grid container spacing={4}
-                                //  style={{ width: '90%', padding:'20px' }}
-                                >
+                            <div className="flex-1 text-center">
+                            </div>
+                            <div className="model-close-button" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <IconButton aria-label="close" onClick={this.handleClose}>
+                                    <CloseIcon style={{ background: '#ADD8E6', borderRadius: 20, color: '#1093FF', backgroundSize: 20 }} />
+                                </IconButton>
+                            </div>
+                            {/* </DialogTitle> */}
+                            <DialogContent style={{ height: '300px' }}>
+                                <Grid container spacing={4} style={{ width: '90%', paddingLeft: 50 }}>
                                     <Grid item xs={6} sm={3} >
                                         <TextField
 
                                             color="primary"
                                             label="Client Name"
                                             fullWidth
+                                            disabled
+                                            value={this.state.clientName}
                                         // value={this.state.name}
                                         // onChange={(e) => this.setState({ name: e.target.value })}
 
@@ -256,6 +324,8 @@ class ProductActivation extends Component {
                                             color="primary"
                                             label="Contact Number"
                                             fullWidth
+                                            disabled
+                                            value={this.state.contactNumber}
                                         // value={this.state.name}
                                         // onChange={(e) => this.setState({ name: e.target.value })}
 
@@ -267,6 +337,8 @@ class ProductActivation extends Component {
                                             color="primary"
                                             label="Email Address"
                                             fullWidth
+                                            disabled
+                                            value={this.state.email}
                                         // value={this.state.name}
                                         // onChange={(e) => this.setState({ name: e.target.value })}
 
@@ -274,7 +346,8 @@ class ProductActivation extends Component {
                                     </Grid>
                                     <Grid item xs={6} sm={3}>
                                         <TextField
-
+                                            disabled
+                                            value={this.state.clsId}
                                             color="primary"
                                             label="CLS ID"
                                             fullWidth
@@ -287,9 +360,12 @@ class ProductActivation extends Component {
                                         <Autocomplete
                                             popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                                             id="combo-box-demo"
-                                            options={this.props.getDegreeList}
-                                            getOptionLabel={(option) => option.name}
+                                            disabled
+                                            value={this.state.productFamily}
+                                            options={this.props.getAllProductFamilyList}
+                                            getOptionLabel={(option) => option.productName}
                                             //   style={{ width: 300 }}
+                                            onChange={(e, value) => this.setState({ productFamily: value })}
                                             renderInput={(params) => (
                                                 <TextField {...params} label="Product Family" variant="standard" />
                                             )}
@@ -299,8 +375,11 @@ class ProductActivation extends Component {
                                         <Autocomplete
                                             popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                                             id="combo-box-demo"
-                                            options={this.props.getDegreeList}
+                                            disabled
+                                            value={this.state.productVariant}
+                                            options={this.props.getProductVarientList}
                                             getOptionLabel={(option) => option.name}
+                                            onChange={(e, value) => this.setState({ productVariant: value })}
                                             //   style={{ width: 300 }}
                                             renderInput={(params) => (
                                                 <TextField {...params} label="Product Variant" variant="standard" />
@@ -309,7 +388,8 @@ class ProductActivation extends Component {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <TextField
-
+                                            disabled
+                                            value={this.state.intake}
                                             color="primary"
                                             label="Intake"
                                             fullWidth
@@ -320,7 +400,8 @@ class ProductActivation extends Component {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <TextField
-
+                                            disabled
+                                            value={this.state.year}
                                             color="primary"
                                             label="Year"
                                             fullWidth
@@ -331,7 +412,8 @@ class ProductActivation extends Component {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <TextField
-
+                                            disabled
+                                            value={this.state.validity}
                                             color="primary"
                                             label="Product Validity"
                                             fullWidth
@@ -342,7 +424,8 @@ class ProductActivation extends Component {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <TextField
-
+                                            disabled
+                                            value={this.state.endServiceDate}
                                             color="primary"
                                             label="End Of Service Date"
                                             fullWidth
@@ -353,7 +436,8 @@ class ProductActivation extends Component {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <TextField
-
+                                            disabled
+                                            value={this.state.amountPaid}
                                             color="primary"
                                             label="Amount Paid"
                                             fullWidth
@@ -364,6 +448,8 @@ class ProductActivation extends Component {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <TextField
+                                            disabled
+                                            value={this.state.bdaName}
                                             color="primary"
                                             label="BDA Name"
                                             fullWidth
@@ -372,21 +458,27 @@ class ProductActivation extends Component {
 
                                         />
                                     </Grid>
-                                    <Grid item xs={12} align='center'>
 
-                                        <PrimaryButton variant={"contained"} color={"primary"} >
-                                            Save Changes
-                                        </PrimaryButton>
-
-                                    </Grid>
                                 </Grid>
 
                             </DialogContent>
                             {/* <DialogActions> */}
+                            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
+                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} >
+                                    Activate
+                                </PrimaryButton>
+                            </div>
                             {/* </DialogActions> */}
                         </Dialog>
                     </div>
                 </ThemeProvider>
+                <MySnackBar
+                    onClose={() => this.setState({ snackOpen: false })}
+                    snackOpen={this.state.snackOpen}
+                    snackVariant={this.state.snackColor}
+                    snackMsg={this.state.snackMsg}
+                />
+
             </div>
 
         );
@@ -397,11 +489,18 @@ export const mapStateToProps = (state) => {
     return {
         awaitingUsersForActivationList:
             state.AdminReducer.awaitingUsersForActivationList,
-        productActivationResponse: state.AdminReducer.productActivationResponse
+        productActivationResponse: state.AdminReducer.productActivationResponse,
+        getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
+        getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
+        getProductVarientList: state.ProductReducer.getProductVarient,
+
     };
 };
 
 export default connect(mapStateToProps, {
     getAwaitingUsersByAdminId,
     activateStudentProduct,
+    getProductByFamilyId,
+    getAllProductFamily,
+    getProductVarient,
 })(ProductActivation);
