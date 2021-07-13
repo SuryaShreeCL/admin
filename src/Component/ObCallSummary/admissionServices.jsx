@@ -188,7 +188,7 @@ class AdmissionServices extends Component {
                     <Dialog
                         // TransitionComponent={Transition}
                         open={this.state.show}
-                        onClose={this.handleClose}
+                        onClose={()=>this.setState({show : false})}
                         aria-labelledby="customized-dialog-title"
                     >
                         <DialogTitle id="customized-dialog-title">

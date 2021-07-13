@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { withStyles } from '@material-ui/core/styles';
+<<<<<<< HEAD
 import { ExpandMore } from "@material-ui/icons";
+=======
+import { ExpandMore } from '@material-ui/icons';
+>>>>>>> 49932ab0b35f7be19754e7fa2b45b9d5b9a7ca6b
 import {
     Table,
     TableBody,
