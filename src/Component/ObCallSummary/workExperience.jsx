@@ -17,88 +17,110 @@ import {
     TextField,
     FormControlLabel,
     Checkbox,
-    Accordion, AccordionSummary, AccordionDetails
+    Accordion, AccordionSummary, AccordionDetails,
+    IconButton
 
 } from "@material-ui/core";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import WarningIcon from '@material-ui/icons/Warning';
-
+import PrimaryButton from '../../Utils/PrimaryButton';
+import Warning from "../../Asset/Images/warningImg.png";
+import Pencil from "../../Asset/Images/pencil.png";
 class workExperience extends Component {
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <div style={{ color: '#407BFF', fontSize: 18, }}>
-                        Work Experience
+            <div style={{ padding: 10 }}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "22%",
+                        }}
+                    >
+                        <p style={{
+                            fontStyle: "Poppins",
+                            fontWeight: "600",
+                            fontStyle: "normal",
+                            fontSize: "18px",
+                            color: "#0081FF",}}>Work Experience</p>
+                        < img
+                            src={Warning}
+                            height={17}
+                            width={17}
+                            style={{ position: "realative", top: 5 }}
+                        />
                     </div>
-                    <div style={{ paddingLeft: 40 }}>
-                        <WarningIcon style={{ color: 'yellow' }} />
-                    </div>
+                    <IconButton>
+                        <img src={Pencil} height={17} width={17} />
+                    </IconButton>
                 </div>
-                <div style={{paddingTop:10}}>
-                <Accordion>
+                <div style={{ paddingTop: 10 }}>
+                    <Accordion>
 
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            Job Role / Designation ,<div style={{ fontSize: 10,paddingTop:'2%'}}>  Company Name</div>
-                        </div>
+                        <AccordionSummary expandIcon={<ExpandMore />}>
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                Job Role / Designation ,<div style={{ fontSize: 10, paddingTop: '2%' }}>  Company Name</div>
+                            </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'row',paddingLeft:'50%' }}> 3month(January 2020- April 2020)</div>
+                            <div style={{ display: 'flex', flexDirection: 'row', paddingLeft: '50%' }}> 3month(January 2020- April 2020)</div>
 
-                    </AccordionSummary>
+                        </AccordionSummary>
 
-                    <AccordionDetails>
-                        <Grid container spacing={2}>
-                            <Grid item md={2}>
-                                <TextField id="standard-basic" label="Job Type" />
+                        <AccordionDetails>
+                            <Grid container spacing={2}>
+                                <Grid item md={2}>
+                                    <TextField id="standard-basic" label="Job Type" />
+                                </Grid>
+                                <Grid item md={2}>
+                                    <TextField style={{ width: 300 }} id="standard-basic" label="Organisation" />
+                                </Grid>
+                                <Grid item md={2}>
+                                    {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
+                                </Grid>
+                                <Grid item md={1}>
+                                    {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
+                                </Grid>
+
+                                <Grid item md={2}>
+                                    <TextField id="standard-basic" label="Start Date" />
+                                </Grid>
+                                <Grid item md={2}>
+                                    <TextField id="standard-basic" label="End Date" />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id="standard-multiline-static"
+                                        label="Job Description"
+                                        multiline
+                                        // rows={4}
+
+                                        defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+                                        // fullWidth
+                                        style={{ width: '91%', paddingBottom: 20, paddingTop: 10, fontFamily: 'Montserrat', color: '#052A4E', }}
+                                    />
+                                </Grid>
+
+
+
                             </Grid>
-                            <Grid item md={2}>
-                                <TextField style={{ width: 300 }} id="standard-basic" label="Organisation" />
-                            </Grid>
-                            <Grid item md={2}>
-                                {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
-                            </Grid>
-                            <Grid item md={1}>
-                                {/* <TextField id="standard-basic" label="No Of Schools Targeted?" /> */}
-                            </Grid>
+                        </AccordionDetails>
 
-                            <Grid item md={2}>
-                                <TextField id="standard-basic" label="Start Date" />
-                            </Grid>
-                            <Grid item md={2}>
-                                <TextField id="standard-basic" label="End Date" />
-                            </Grid>
-                            <Grid item xs={12}>
-                            <TextField
-                                id="standard-multiline-static"
-                                label="Job Description"
-                                multiline
-                                // rows={4}
-                                defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-                                // fullWidth
-                                style={{width:'91%',paddingBottom:20,paddingTop:10 }}
-                            />
-                            </Grid>
-
-
-
-                        </Grid>
-                    </AccordionDetails>
-
-                </Accordion>
+                    </Accordion>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                               Save Changes
-                            </Button>
-                        </div>
+                    <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
+                </div>
             </div >
         );
     }

@@ -7,17 +7,17 @@ import add from "../../Asset/Images/add.svg"
 import pbResource from "../../Asset/Images/PB resource icon.svg"
 import { listUsersProdBasedPath, productActivationPath } from '../RoutePaths';
 class ObOperationLanding extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
 
         }
     }
     theme = createMuiTheme({
-        overrides : {
-            MuiDivider : {
-                root : {
-                    margin : "revert"
+        overrides: {
+            MuiDivider: {
+                root: {
+                    margin: "revert"
                 }
             }
         }
@@ -25,20 +25,20 @@ class ObOperationLanding extends Component {
     render() {
         const { classes } = this.props
         return (
-          <Grid container>
-              <Grid item md={4}>
-                 <Grid container spacing={2}>
-                    <Grid item md={12} sm={12}>
-                    <TodayWorkCompletion
-                {...this.props}
-                />
+            <Grid container>
+                <Grid item md={4}>
+                    <Grid container spacing={2}>
+                        <Grid item md={12} sm={12}>
+                            <TodayWorkCompletion
+                                {...this.props}
+                            />
+                        </Grid>
+                        <Grid item md={12} sm={12}>
+                            <TodayDocument
+                                {...this.props}
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item md={12} sm={12}>
-                    <TodayDocument
-                {...this.props}
-                />
-                    </Grid>
-                 </Grid>
 
               </Grid>
               <Grid item md={1}>
@@ -66,34 +66,34 @@ class ObOperationLanding extends Component {
             </div>
             </Grid>
 
-          </Grid>
+            </Grid>
         );
     }
 }
 
- const mapStateToProps = (state) =>({
-    
+const mapStateToProps = (state) => ({
+
 })
 
-const useStyles = () =>({
-    quickAccess : {
-        display : "flex",
-        flexDirection : "column",
-        width : "100%",
-        marginTop : "100px"
+const useStyles = () => ({
+    quickAccess: {
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        marginTop: "100px"
     },
-    rowContainer : {
-        display : "flex",
+    rowContainer: {
+        display: "flex",
     },
-    items : {
-        marginRight : "25px",
-        cursor : "pointer",
-        display : "flex",
-        flexDirection : "column",
-        alignItems : "center",
-        justifyContent : "center",
-        padding : "20px",
-        boxShadow : "0px 0px 8px 1px rgba(72, 166, 227, 0.1)"
+    items: {
+        marginRight: "25px",
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px",
+        boxShadow: "0px 0px 8px 1px rgba(72, 166, 227, 0.1)"
     }
 })
 

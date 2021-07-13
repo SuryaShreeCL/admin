@@ -50,7 +50,8 @@ export const productActivationPath = rootPath.concat("/productActivation")
 export const loginPath = rootPath.concat('/Mlogin');
 export const curatedPath = rootPath.concat('/curatedCourse');
 export const personelInfoPath = rootPath.concat('/personalInfo');
-export const OnboardingPersonalInfoPath = rootPath.concat('/Onboarding/personalInfo');
-export const OnboardingAcademicInfoPath = rootPath.concat('/Onboarding/academicInfo');
+// export const OnboardingPersonalInfoPath = rootPath.concat('/Onboarding/personalInfo');
+// export const OnboardingAcademicInfoPath = rootPath.concat('/Onboarding/academicInfo');
 export const OnboardingPath = rootPath.concat('/onboarding')
+
 

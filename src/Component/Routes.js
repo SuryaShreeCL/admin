@@ -100,7 +100,6 @@ import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import ProductStages from './Product/ProductStages';
 // import Rating from './ObOnboarding/Onboarding';
 import PersonaInfo from './ObOnboarding/personalInfo'
-import AcademicInfo from './ObOnboarding/academicInfo'
 import ClientDetails from './ObCallSummary/ClientDetails';
 // import Onboarding from './ObCallSummary/Rating';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
