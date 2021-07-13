@@ -746,8 +746,25 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-                <TextField label="Present Semester" />
-                
+                {/* <TextField label="Present Semester" /> */}
+                <Autocomplete
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                  id="combo-box-demo"
+                  options={this.props.getProductByFamilyIdList}
+                  getOptionLabel={(option) => option.name}
+                  //   style={{ width: 300 }}
+                  value={this.state.family}
+                  onChange={(e, newValue) =>
+                    this.setState({ varient: newValue })
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Present Semester"
+                      variant="standard"
+                    />
+                  )}
+                />
               </Grid>
               <Grid item md={3}>
                 <TextField label="CGPA" />
