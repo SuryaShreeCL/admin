@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { withStyles } from '@material-ui/core/styles';
+import MySnackBar from '../MySnackBar';
 import {
     Table,
     TableBody,
@@ -15,7 +16,7 @@ import {
     ThemeProvider,
     createMuiTheme,
 } from "@material-ui/core";
-import { getAllProductFamily, getProductByFamilyId } from "../../Actions/ProductAction"
+import { getAllProductFamily, getProductByFamilyId, getProductVarient } from "../../Actions/ProductAction"
 import { ExpandMore } from '@material-ui/icons';
 import AddIcon from "@material-ui/icons/Add";
 import {
@@ -131,8 +132,13 @@ class ProductActivation extends Component {
             validity : null,
             endServiceDate : null,
             amountPaid : null,
-            bdaName : null
+            bdaName : null,
+            studentId : null,
+            snackOpen : false,
+            snackColor : null,
+            snackMsg : null,
         };
+
     }
     handleClose = (e) => {
         this.setState({ show: false });
@@ -141,23 +147,56 @@ class ProductActivation extends Component {
     componentDidMount() {
         this.props.getAwaitingUsersByAdminId();
         this.props.getAllProductFamily()
+        this.props.getProductVarient()
     }
 
     handleShowPopUp = (data) => {
       console.log(data)
         this.setState({
             show: true,
-            clientName : data.fullName,
-            contactNumber : null,
+            clientName : data.fullName === null ? data.firstName + data.lastName : data.fullName,
+            contactNumber : data.phoneNumber,
+            email : data.emailId,
+            clsId : data.clsId,
+            productFamily : data.products.productFamily,
+            productVariant : data.products,
+            intake : data.products.intake,
+            year : data.year,
+            validity : data.products.validity,
+            endServiceDate : data.products.endOfServiceDate,
+            amountPaid : data.products.sellingPrice,
+            bdaName : data.punchedBy,
+            studentId : data.studentId
         })
     }
 
     componentDidUpdate(prevProps, prevState) {
-    
+        if(this.props.productActivationResponse !== prevProps.productActivationResponse){
+            this.setState({
+                snackOpen : true,
+                snackColor : "success",
+                snackMsg : "Product activated successfully"
+            })
+        }
+    }
+
+    handleActivate = () =>{
+        let obj = {
+          studentId: this.state.studentId,
+          productPaymentModels: [
+            {
+              productId: this.state.productVariant.id,
+              stage: "Activated",
+              activatedBy: window.sessionStorage.getItem("adminUserId"),
+            },
+            ],
+        };
+        this.props.activateStudentProduct(obj)
     }
     
 
     render() {
+        console.log(this.state)
         return (
             <div style={{ padding: 10 }}>
                 <ThemeProvider theme={theme}>
@@ -322,7 +361,7 @@ class ProductActivation extends Component {
                                         disabled
                                         value={this.state.productFamily}
                                         options={this.props.getAllProductFamilyList}
-                                        getOptionLabel={(option) => option.name}
+                                        getOptionLabel={(option) => option.productName}
                                         //   style={{ width: 300 }}
                                         onChange={(e,value)=>this.setState({ productFamily : value })}
                                         renderInput={(params) => (
@@ -336,7 +375,7 @@ class ProductActivation extends Component {
                                         id="combo-box-demo"
                                         disabled
                                         value={this.state.productVariant}
-                                        options={this.props.getProductByFamilyIdList}
+                                        options={this.props.getProductVarientList}
                                         getOptionLabel={(option) => option.name}
                                         onChange={(e,value)=>this.setState({ productVariant : value })}
                                         //   style={{ width: 300 }}
@@ -423,14 +462,21 @@ class ProductActivation extends Component {
                             {/* </DialogContent> */}
                             {/* <DialogActions> */}
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
-                                <PrimaryButton variant={"contained"} color={"primary"} >
-                                    Save Changes
+                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} >
+                                    Activate
                                 </PrimaryButton>
                             </div>
                             {/* </DialogActions> */}
                         </Dialog>
                     </div>
                 </ThemeProvider>
+                <MySnackBar
+                onClose={()=>this.setState({snackOpen : false})}
+                snackOpen={this.state.snackOpen}
+                snackVariant={this.state.snackColor}
+                snackMsg={this.state.snackMsg}
+                />
+
             </div>
             
     );
@@ -443,7 +489,8 @@ export const mapStateToProps = (state) => {
       state.AdminReducer.awaitingUsersForActivationList,
       productActivationResponse : state.AdminReducer.productActivationResponse,
       getAllProductFamilyList : state.ProductReducer.getAllProductFamily,
-      getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId
+      getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId,
+      getProductVarientList : state.ProductReducer.getProductVarient,
 
   };
 };
@@ -453,4 +500,5 @@ export default connect(mapStateToProps, {
   activateStudentProduct,
   getProductByFamilyId,
   getAllProductFamily,
+  getProductVarient,
 })(ProductActivation);
