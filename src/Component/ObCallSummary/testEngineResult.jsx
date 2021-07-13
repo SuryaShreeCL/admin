@@ -23,7 +23,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PrimaryButton from '../../Utils/PrimaryButton';
-
+import Delete from '../../Asset/Images/delete.png';
+import Eye from '../../Asset/Images/eye.png';
+import Pencil from "../../Asset/Images/pencil.png";
 const ColoredLine = ({ color }) => (
     <hr
         style={{
@@ -49,57 +51,81 @@ class testEngineResult extends Component {
     render() {
         return (
             <div style={{padding:10}}>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "22%",
+                        }}
+                    >
+                        <p style={{
+                            fontStyle: "Poppins",
+                            fontWeight: "600",
+                            fontStyle: "normal",
+                            fontSize: "18px",
+                            color: "#0081FF",
+                        }}>Test Engine Results</p>
+                    </div>
                     <IconButton onClick={this.handleClick.bind(this)}>
-                        <CreateOutlinedIcon />
-
+                        <img src={Pencil} height={17} width={17} />
                     </IconButton>
-                </div>
-                <div style={{ color: '#407BFF', fontSize: 18, }}>
-                    Test Engine Results
                 </div>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>No</TableCell>
-                                <TableCell align='center'>Exam Date</TableCell>
-                                <TableCell align='center'>TestSetName</TableCell>
-                                <TableCell align='center'>Questions Attempted</TableCell>
-                                <TableCell align='center'>Test Score</TableCell>
-                                <TableCell align='center'>Actions</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >No</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Exam Date</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >TestSetName</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Questions Attempted</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Test Score</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
 
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     computer Eng Technical Test
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     20/20
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     161/170
                                 </TableCell>
                                 <TableCell align='center' >
 
-                                    <VisibilityOutlinedIcon style={{ marginRight: 20 }} />
+                                < img
+                            src={Eye}
+                            height={17}
+                            width={20}
+                            style={{  top: 5 }}
+                        />
+
                                     <IconButton onClick={() => this.setState({ show: true })}>
-                                        <DeleteOutlineOutlinedIcon />
+                                    <img src={Delete} height={17} width={20} />
 
                                     </IconButton>
                                 </TableCell>

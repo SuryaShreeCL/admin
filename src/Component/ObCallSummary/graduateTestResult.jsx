@@ -16,11 +16,13 @@ import {
     TextField,
     Button
 } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import PrimaryButton from '../../Utils/PrimaryButton';
+import Warning from "../../Asset/Images/warningImg.png";
 
 class GraduateTestResult extends Component {
     constructor() {
@@ -35,60 +37,74 @@ class GraduateTestResult extends Component {
     }
     render() {
         return (
-            <div style={{padding:10}}>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
-                    <IconButton onClick={this.handleClick.bind(this)}>
-                        <CreateOutlinedIcon />
-
-                    </IconButton>
-                </div>
-                <div style={{ color: '#407BFF', fontSize: 18, }}>
-                    Graduate Test Details
-                </div>
-                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15,paddingTop:10 }}>
+            <div style={{ padding: 10 }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "22%",
+                        }}
+                    >
+                        <p style={{
+                            fontStyle: "Poppins",
+                            fontWeight: "600",
+                            fontStyle: "normal",
+                            fontSize: "18px",
+                            color: "#0081FF",
+                        }}>Graduate Test Details</p>
+                        < img
+                            src={Warning}
+                            height={17}
+                            width={17}
+                            style={{ position: "realative", top: 5 }}
+                        />
+                    </div>
+                    
+                    <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     GRE
                 </div>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>Attempt #</TableCell>
-                                <TableCell align='center'>Exam Date</TableCell>
-                                <TableCell align='center'>Verbal Reasoning</TableCell>
-                                <TableCell align='center'>Analytical Writing</TableCell>
-                                <TableCell align='center'>Quantitative Reasoning</TableCell>
-                                <TableCell align='center'>Total</TableCell>
-                                <TableCell align='center'>Score Card Link</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Attempt #</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Exam Date</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Verbal Reasoning</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Analytical Writing</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Quantitative Reasoning</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Total</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Score Card Link</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable}  >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, }} onclick={console.log('hello')}>
                                         Access Here
@@ -99,170 +115,169 @@ class GraduateTestResult extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15,paddingTop:10 }}>
+                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     GMAT
                 </div>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>Attempt #</TableCell>
-                                <TableCell align='center'>Exam Date</TableCell>
-                                <TableCell align='center'>Quantitative and Verbal</TableCell>
-                                <TableCell align='center'>Analytical Writing Assessment</TableCell>
-                                <TableCell align='center'>Completed Certificate</TableCell>
-                                <TableCell align='center'>Integrated Reasoning</TableCell>
-                                <TableCell align='center'>Total</TableCell>
-                                <TableCell align='center'>Transcripts</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Attempt #</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Exam Date</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Quantitative and Verbal</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Analytical Writing Assessment</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Completed Certificate</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Integrated Reasoning</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Total</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Transcripts</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, }} onclick={console.log('hello')}>
                                         Access Here
                                     </div>
                                 </TableCell>
                             </TableRow>
-
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop:10}}>
-                   TOEFL
+                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
+                    TOEFL
                 </div>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>Attempt #</TableCell>
-                                <TableCell align='center'>Exam Date</TableCell>
-                                <TableCell align='center'>Reading</TableCell>
-                                <TableCell align='center'>Writing</TableCell>
-                                <TableCell align='center'>Speaking </TableCell>
-                                <TableCell align='center'>Listening</TableCell>
-                                <TableCell align='center'>Total</TableCell>
-                                <TableCell align='center'>Transcripts</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Attempt #</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Exam Date</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Reading</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Writing</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}  >Speaking </TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Listening</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Total</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Transcripts</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable}  >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, }} onclick={console.log('hello')}>
                                         Access Here
                                     </div>
                                 </TableCell>
-                            </TableRow> 
+                            </TableRow>
 
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15,paddingTop:10 }}>
+                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     IELTS
                 </div>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                            <TableCell align='center'>Attempt #</TableCell>
-                                <TableCell align='center'>Exam Date</TableCell>
-                                <TableCell align='center'>Reading</TableCell>
-                                <TableCell align='center'>Writing</TableCell>
-                                <TableCell align='center'>Speaking </TableCell>
-                                <TableCell align='center'>Listening</TableCell>
-                                <TableCell align='center'>Total</TableCell>
-                                <TableCell align='center'>Transcripts</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Attempt #</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Exam Date</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Reading</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Writing</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Speaking </TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>Listening</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>Total</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>Transcripts</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, }} onclick={console.log('hello')}>
                                         Access Here
@@ -275,10 +290,10 @@ class GraduateTestResult extends Component {
                 </TableContainer>
 
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                <PrimaryButton variant={"contained"} color={"primary"} >
+                    <PrimaryButton variant={"contained"} color={"primary"} >
                         Save Changes
                     </PrimaryButton>
-                        </div>
+                </div>
             </div>
         );
     }

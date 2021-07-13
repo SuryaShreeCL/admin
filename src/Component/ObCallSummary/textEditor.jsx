@@ -31,12 +31,13 @@ class Question extends Component {
                         
                         <CKEditor
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
                                 }, 
                             }}
+                            
                             disabled={false}
                             onInit={editor => {
                                 // You can store the "editor" and use when it is needed.
@@ -66,7 +67,7 @@ class Question extends Component {
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
@@ -98,7 +99,7 @@ class Question extends Component {
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is  dummy text of the printing industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
@@ -130,7 +131,7 @@ class Question extends Component {
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,

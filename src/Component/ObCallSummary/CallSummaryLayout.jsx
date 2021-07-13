@@ -5,7 +5,6 @@ import PrimaryButton from '../../Utils/PrimaryButton';
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents"
 import ClientDetails from './ClientDetails';
 import Question from './textEditor';
-import AcademicInfo from './academicInfo';
 import Rating from './Rating';
 class CallSummaryLayout extends Component {
     constructor(props) {

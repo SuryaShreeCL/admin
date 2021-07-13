@@ -29,6 +29,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import PrimaryButton from '../../Utils/PrimaryButton';
+import { Autocomplete } from '@material-ui/lab';
 
 const AntTabs = withStyles({
     root: {
@@ -227,21 +228,19 @@ class ProductActivation extends Component {
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <InputLabel id="demo-simple-select-label">Select Mentor From Dropdown</InputLabel>
-                                    <Select
-                                        style={{ width: '95%' }}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                    // value={age}
-
-                                    >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
+                                <Autocomplete
+                            popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                            id="combo-box-demo"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            //   style={{ width: 300 }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Select Mentor From Dropdown" variant="standard" />
+                            )}
+                        />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <TextField
+                                    <TextField 
 
                                         color="primary"
                                         label="Product Family"
