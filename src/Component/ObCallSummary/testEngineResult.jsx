@@ -51,28 +51,39 @@ class testEngineResult extends Component {
     }
     render() {
         return (
-            <div style={{ padding: 50 }}>
+            <div style={{ padding: 25 }}>
                 <div
                     style={{
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        width: "22%",
                     }}
                 >
-                    <p style={{
-                        fontStyle: "Poppins",
-                        fontWeight: "600",
-                        fontStyle: "normal",
-                        fontSize: "18px",
-                        color: "#0081FF",
-                    }}>Test Engine Results</p>
-                    < img
-                        src={Warning}
-                        height={17}
-                        width={17}
-                        style={{ position: "realative", top: 5 }}
-                    />
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "22%",
+                        }}
+                    >
+                        <p style={{
+                            fontStyle: "Poppins",
+                            fontWeight: "600",
+                            fontStyle: "normal",
+                            fontSize: "18px",
+                            color: "#0081FF",
+                        }}>Test Engine Results </p>
+                        < img
+                            src={Warning}
+                            height={17}
+                            width={17}
+                            style={{ position: "realative", top: 5 }}
+                        />
+                    </div>
+                    <IconButton onClick={this.handleClick.bind(this)}>
+                        <img src={Pencil} height={17} width={17} />
+                    </IconButton>
                 </div>
                 <TableContainer>
                     <Table>
@@ -115,13 +126,13 @@ class testEngineResult extends Component {
 
                                     < img
                                         src={Eye}
-                                        height={17}
+                                        height={20}
                                         width={20}
                                         style={{ top: 5 }}
                                     />
 
                                     <IconButton onClick={() => this.setState({ show: true })}>
-                                        <img src={Delete} height={17} width={20} />
+                                        <img src={Delete} height={20} width={20} />
 
                                     </IconButton>
                                 </TableCell>
