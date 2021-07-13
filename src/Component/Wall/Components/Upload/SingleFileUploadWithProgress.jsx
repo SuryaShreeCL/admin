@@ -2,13 +2,15 @@ import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FileProgress } from './FileProgress';
 
-export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, folderName }) {
+let accessToken = window.sessionStorage.getItem('accessToken');
+
+export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, type }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async function upload() {
-      const url = await uploadFile(file, setProgress, folderName);
-      onUpload(file, url);
+      const data = await uploadFile(file, setProgress, type);
+      onUpload(file, data);
     }
 
     upload();
@@ -21,17 +23,19 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, fo
   );
 }
 
-function uploadFile(file, onProgress, folderName) {
-  const url = `https://api.cloudinary.com/v1_1/careerlabsbucket/auto/upload`;
-  const key = 'ewipmhvz';
+function uploadFile(file, onProgress, type) {
+  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/wallfile/type/${type}`;
 
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', url);
+    xhr.open('POST', awsUrl);
+    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+    xhr.setRequestHeader('admin', 'yes');
 
     xhr.onload = () => {
       const resp = JSON.parse(xhr.responseText);
-      res(resp.secure_url);
+      console.log(resp);
+      res(resp);
     };
     xhr.onerror = (evt) => rej(evt);
     xhr.upload.onprogress = (event) => {
@@ -43,8 +47,8 @@ function uploadFile(file, onProgress, folderName) {
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', key);
-    formData.append('folder', folderName);
+    // formData.append('upload_preset', key);
+    // formData.append('folder', folderName);
 
     xhr.send(formData);
   });

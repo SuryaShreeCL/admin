@@ -14,15 +14,13 @@ import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Checkbox, ListItemText } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-import Input from '@material-ui/core/Input';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles({
   root: {
@@ -67,18 +65,13 @@ const CreatePost = () => {
     isVideoLink: false,
   });
 
-  const ITEM_HEIGHT = 60;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
-  const Categories = ['All', '3rd Year', '4th Year', 'Placements', 'Higher Studies'];
+  const categories = [
+    { name: 'All' },
+    { name: '3rd Year' },
+    { name: '4th Year' },
+    { name: 'Placements' },
+    { name: 'Higher Studies' },
+  ];
 
   const validate = (values) => {
     if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
@@ -89,8 +82,8 @@ const CreatePost = () => {
     return true;
   };
 
-  const handleCategory = (event) => {
-    setState((s) => ({ ...s, wallCategories: event.target.value }));
+  const handleCategory = (e, values) => {
+    setState((s) => ({ ...s, wallCategories: values }));
   };
 
   const handleScheduled = () => {
@@ -103,13 +96,6 @@ const CreatePost = () => {
 
   const handleComment = () => {
     setState((s) => ({ ...s, cancComment: !state.canComment }));
-  };
-
-  const handleState = (e) => {
-    setState((s) => ({
-      ...s,
-      wallFiles: [{ url: e.target.value, type: 'image', isUploaded: false }],
-    }));
   };
 
   const validationSchema = yup.object({
@@ -125,11 +111,11 @@ const CreatePost = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             // addOrEdit(values, resetForm);
-            // if (validate(values)) {
-            resetForm();
-            console.log('schema', values);
-            return new Promise((res) => setTimeout(res, 2000));
-            // }
+            if (validate(values)) {
+              resetForm();
+              console.log('schema', values);
+              return new Promise((res) => setTimeout(res, 2000));
+            }
           }}
           enableReinitialize
         >
@@ -168,28 +154,21 @@ const CreatePost = () => {
                     />
                   </RadioGroup>
                   <FormControl className={classes.root} style={{ width: '80%' }}>
-                    <InputLabel style={{ left: '10px', top: '10px' }} id='mutiple-name-label'>
-                      Select Category
-                    </InputLabel>
-                    <Select
-                      labelId='mutiple-name-label'
-                      id='mutiple-name'
+                    <Autocomplete
                       multiple
-                      name='wallCategories'
-                      value={values.wallCategories}
+                      options={categories}
+                      getOptionLabel={(option) => option.name}
                       onChange={handleCategory}
                       required
-                      input={<Input />}
-                      renderValue={(selected) => selected.join(', ')}
-                      MenuProps={MenuProps}
-                    >
-                      {Categories.map((category) => (
-                        <MenuItem key={category} value={category}>
-                          <Checkbox checked={values.wallCategories.indexOf(category) > -1} />
-                          <ListItemText primary={category} />
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant='outlined'
+                          label='Select Category'
+                          name='wallCategories'
+                        />
+                      )}
+                    />
                   </FormControl>
                   <Grid item>
                     <Controls.Input
@@ -197,7 +176,7 @@ const CreatePost = () => {
                       value={values.caption}
                       name='caption'
                       onChange={handleChange}
-                      // error={touched.caption && Boolean(errors.caption)}
+                      error={touched.caption && Boolean(errors.caption)}
                       multiline
                       className={classes.captionStyle}
                       rows={6}
@@ -329,7 +308,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button color='primary'>Discard Post</Button>
                     <Controls.Button

@@ -22,12 +22,17 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-export function ExistingMedia({ url, type }, progress = 100) {
+export function ExistingMedia(props, progress = 100) {
+  const { url, type } = props.media;
   return (
     <FileHeaderContainer>
       <div className='img-container'>
         <img
-          src={url?.includes('.mp4') || url?.includes('.mp3') || url || Spinner}
+          src={
+            ((url?.includes('.mp4') || url?.includes('.mp3')) && Media) ||
+            `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${url}&type=image` ||
+            Spinner
+          }
           alt='upload-img'
           width='60px'
         />

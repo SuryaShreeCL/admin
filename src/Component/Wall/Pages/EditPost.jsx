@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
-import { useLocation } from 'react-router-dom';
 import Switch from '@material-ui/core/Switch';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -15,16 +14,15 @@ import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Checkbox, ListItemText } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import * as yup from 'yup';
+import { useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-import Input from '@material-ui/core/Input';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import { ExistingMedia } from '../Components/Upload/ExistingMedia';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles({
   root: {
@@ -45,7 +43,7 @@ const useStyles = makeStyles({
   },
 });
 
-const CreatePost = () => {
+const EditPost = () => {
   const classes = useStyles();
   let location = useLocation();
   const { recordForEdit } = location;
@@ -55,6 +53,7 @@ const CreatePost = () => {
     wallCategories: [],
     caption: '',
     supportingMedia: 'image',
+    wallFiles: [],
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
@@ -71,18 +70,21 @@ const CreatePost = () => {
     isVideoLink: false,
   });
 
-  const ITEM_HEIGHT = 60;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
+  const categories = [
+    { name: 'All' },
+    { name: '3rd Year' },
+    { name: '4th Year' },
+    { name: 'Placements' },
+    { name: 'Higher Studies' },
+  ];
 
-  const Categories = ['All', '3rd Year', '4th Year', 'Placements', 'Higher Studies'];
+  useEffect(() => {
+    //SETTING PRE POPULATED RECORD
+    if (records != null)
+      setRecords({
+        ...recordForEdit,
+      });
+  }, [recordForEdit]);
 
   const validate = (values) => {
     if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
@@ -93,17 +95,8 @@ const CreatePost = () => {
     return true;
   };
 
-  useEffect(() => {
-    //SETTING PRE POPULATED RECORD
-    if (records != null)
-      setRecords({
-        ...recordForEdit,
-      });
-    console.log(recordForEdit);
-  }, [recordForEdit]);
-
-  const handleCategory = (event) => {
-    setState((s) => ({ ...s, wallCategories: event.target.value }));
+  const handleCategory = (e, values) => {
+    setState((s) => ({ ...s, wallCategories: values }));
   };
 
   const handleScheduled = () => {
@@ -131,11 +124,11 @@ const CreatePost = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             // addOrEdit(values, resetForm);
-            // if (validate(values)) {
-            resetForm();
-            console.log('schema', values);
-            return new Promise((res) => setTimeout(res, 2000));
-            // }
+            if (validate(values)) {
+              resetForm();
+              console.log('schema', values);
+              return new Promise((res) => setTimeout(res, 2000));
+            }
           }}
           enableReinitialize
         >
@@ -173,37 +166,25 @@ const CreatePost = () => {
                       label='Audio'
                     />
                   </RadioGroup>
-                  {/* <FormControl className={classes.root} style={{ width: '80%' }}>
-                    <InputLabel style={{ left: '10px', top: '10px' }} id='mutiple-name-label'>
-                      Select Category
-                    </InputLabel>
-                    <Select
-                      labelId='mutiple-name-label'
-                      id='mutiple-name'
+                  <FormControl className={classes.root} style={{ width: '80%' }}>
+                    <Autocomplete
                       multiple
-                      name='wallCategories'
-                      value={values.wallCategories}
+                      options={values.wallCategories}
+                      getOptionLabel={(option) => option.name}
                       onChange={handleCategory}
                       required
-                      input={<Input />}
-                      renderValue={(selected) => selected.join(', ')}
-                      MenuProps={MenuProps}
-                    >
-                      {Categories.map((category) => (
-                        <MenuItem key={category} value={category}>
-                          <Checkbox checked={values.wallCategories.indexOf(category) > -1} />
-                          <ListItemText primary={category} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl> */}
+                      renderInput={(params) => (
+                        <TextField {...params} variant='outlined' label='Select Category' />
+                      )}
+                    />
+                  </FormControl>
                   <Grid item>
                     <Controls.Input
                       label='Type caption here..'
                       value={values.caption}
                       name='caption'
                       onChange={handleChange}
-                      // error={touched.caption && Boolean(errors.caption)}
+                      error={touched.caption && Boolean(errors.caption)}
                       multiline
                       className={classes.captionStyle}
                       rows={6}
@@ -258,6 +239,29 @@ const CreatePost = () => {
                       onChange={handleChange}
                     />
                   </Grid>
+                  {/* <Grid container direction='column' style={{ width: '80%' }}>
+                    {values.supportingMedia === 'image' && (
+                      <MultipleFileUploadField
+                        name='wallFiles'
+                        type='image'
+                        folderName='app-images'
+                      />
+                    )}
+                    {values.supportingMedia === 'video' && !values.videoURLEnabled && (
+                      <MultipleFileUploadField
+                        name='wallFiles'
+                        type='video'
+                        folderName='app-videos'
+                      />
+                    )}
+                    {values.supportingMedia === 'audio' && (
+                      <MultipleFileUploadField
+                        name='wallFiles'
+                        type='audio'
+                        folderName='app-audio'
+                      />
+                    )}
+                  </Grid> */}
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {/* {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField
@@ -349,4 +353,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

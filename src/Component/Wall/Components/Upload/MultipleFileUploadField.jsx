@@ -1,5 +1,6 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import { useField } from 'formik';
+import { getType } from 'mime';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { SingleFileUploadWithProgress } from './SingleFileUploadWithProgress';
@@ -31,14 +32,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function MultipleFileUploadField({ name, type, folderName }) {
+export function MultipleFileUploadField({ name, type }) {
   const [_, __, helpers] = useField(name);
   const classes = useStyles();
 
   const [files, setFiles] = useState([]);
   const onDrop = useCallback((accFiles, rejFiles) => {
-    const mappedAcc = accFiles.map((file) => ({ file, type, errors: [], id: getNewId() }));
-    const mappedRej = rejFiles.map((r) => ({ ...r, id: getNewId() }));
+    console.log(accFiles);
+    const mappedAcc = accFiles.map((file) => ({ file, errors: [] }));
+    const mappedRej = rejFiles.map((r) => ({ ...r }));
     setFiles((curr) => [...curr, ...mappedAcc, ...mappedRej]);
   }, []);
 
@@ -46,11 +48,12 @@ export function MultipleFileUploadField({ name, type, folderName }) {
     helpers.setValue(files);
   }, [files]);
 
-  function onUpload(file, url) {
+  function onUpload(file, data) {
+    const { url, isUploaded } = data;
     setFiles((curr) =>
       curr.map((fw) => {
         if (fw.file === file) {
-          return { ...fw, url };
+          return { ...fw, url, isUploaded };
         }
         return fw;
       })
@@ -74,7 +77,7 @@ export function MultipleFileUploadField({ name, type, folderName }) {
           <input {...getInputProps()} />
           <p
             style={{ marginBottom: '-2px' }}
-          >{`Drag & drop some ${name} here, or click to select ${name}`}</p>
+          >{`Drag & drop some ${type} here, or click to select ${type}`}</p>
         </div>
         {type === 'image' && (
           <p {...getRootProps({ className: classes.info })}>
@@ -103,7 +106,7 @@ export function MultipleFileUploadField({ name, type, folderName }) {
               onUpload={onUpload}
               file={fileWrapper.file}
               url={fileWrapper.url}
-              folderName={folderName}
+              type={type}
             />
           )}
         </Grid>

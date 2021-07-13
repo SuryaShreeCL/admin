@@ -27,7 +27,11 @@ export function FileProgress({ file, onDelete, url, progress }) {
     <FileHeaderContainer>
       <div className='img-container'>
         <img
-          src={url?.includes('.mp4') || url?.includes('.mp3') || url || Spinner}
+          src={
+            ((url?.includes('.mp4') || url?.includes('.mp3')) && Media) ||
+            `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${url}&type=image` ||
+            Spinner
+          }
           alt='upload-img'
           width='60px'
         />
