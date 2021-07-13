@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PrimaryButton from '../../Utils/PrimaryButton';
 import {
     Table,
     TableBody,
@@ -29,7 +30,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
 
-class admissionServices extends Component {
+class AdmissionServices extends Component {
     constructor() {
         super()
         this.state = {
@@ -44,30 +45,31 @@ class admissionServices extends Component {
     }
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{padding:10}}>
 
-                <div style={{ color: '#407BFF', fontSize: 18, }}>
+                <div style={{ color: '#0081FF', fontSize: 18,fontWeight:600, fontFamily:'Poppins' }}>
                     CareerLabs - Student Mapping
-                </div>   <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
+                </div> 
+                  {/* <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
                     <IconButton onClick={() => { this.setState({ disable2: !this.state.disable2 }) }}>
                         <CreateOutlinedIcon />
 
                     </IconButton>
-                </div>
+                </div> */}
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center' >No</TableCell>
-                                <TableCell align='center' >WorkFlow</TableCell>
-                                <TableCell align='center' >Employee Name</TableCell>
-                                <TableCell align='center' >Allocated By</TableCell>
-                                <TableCell align='center' >Allocated At</TableCell>
-                                <TableCell align='center' ></TableCell>
-                                <TableCell align='center' ></TableCell>
-                                <TableCell align='center' ></TableCell>
-                                <TableCell align='center' ></TableCell>
-                                <TableCell align='center' > <Button
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >No</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >WorkFlow</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Employee Name</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Allocated By</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Allocated At</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} ></TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} ></TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} ></TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} ></TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}}  > <Button
                                     style={{ width: 300, borderRadius: 20 }}
                                     variant="contained"
                                     color="primary"
@@ -81,25 +83,25 @@ class admissionServices extends Component {
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable2}>
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
 
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable2}>
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     BDA
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable2}>
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     Mayur Dhade
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable2}>
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     Mayur Dhade
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable2}>
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     DD/MM/YYYY HH:MM
                                 </TableCell>
@@ -109,63 +111,63 @@ class admissionServices extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
                     <IconButton onClick={this.handleClick.bind(this)}>
                         <CreateOutlinedIcon />
 
                     </IconButton>
-                </div>
-                <div style={{ color: '#407BFF', fontSize: 18, }}>
+                </div> */}
+                <div style={{ color: '#0081FF', fontSize: 18,fontWeight:600, fontFamily:'Poppins' }}>
                     Product Details
                 </div>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>No</TableCell>
-                                <TableCell align='center'>Order ID</TableCell>
-                                <TableCell align='center'>Product Family</TableCell>
-                                <TableCell align='center'>Product Variant</TableCell>
-                                <TableCell align='center'>Enrollment Date</TableCell>
-                                <TableCell align='center'>Expiry Date</TableCell>
-                                <TableCell align='center'>End of Service</TableCell>
-                                <TableCell align='center'>BDA Name</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >No</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Order ID</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Product Family</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Product Variant</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Enrollment Date</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >Expiry Date</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >End of Service</TableCell>
+                                <TableCell align='center' style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >BDA Name</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
 
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     CLS51338
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     Profile Builder
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     Pb:placements 2022
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     01/05/2021
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     01/05/2021
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
 
                                     01/05/2021
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
                                     Mayur Dhade
                                 </TableCell>
                             </TableRow>
@@ -220,15 +222,9 @@ class admissionServices extends Component {
                                 <Typography>Allocating the mentor will push the user to PGA Stage and Enable access for Call Scheduling tool.</Typography>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                                Allocate
-                            </Button>
+                            <PrimaryButton variant={"contained"} color={"primary"} >
+                        Allocate
+                    </PrimaryButton>
                             </div>
                         </DialogContent>
                     </Dialog>
@@ -241,4 +237,4 @@ class admissionServices extends Component {
     }
 }
 
-export default admissionServices;
+export default AdmissionServices;

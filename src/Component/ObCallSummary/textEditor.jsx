@@ -14,30 +14,30 @@ const ColoredLine = ({ color }) => (
     />
 );
 
-class textEditor extends Component {
+class Question extends Component {
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
+            <div style={{ padding: 10 }}>
 
-                <div style={{ color: '#407BFF', fontSize: 18 }}>
-                    Client Service Details
+                <div style={{ color: '#407BFF', fontSize: 18,paddingLeft:20 }}>
+                    Client Questions
                 </div>
+                <Grid container spacing={4} style={{padding: 10,}}>
 
-                <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6} >
+                    <Grid item xs={12} sm={6}  >
                         <div style={{ color: '#686868', fontSize: 12 }}>
                             Questions (Factual, Doubts)
                         </div>
-
+                        
                         <CKEditor
-
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
-                                }
+                                }, 
                             }}
+                            
                             disabled={false}
                             onInit={editor => {
                                 // You can store the "editor" and use when it is needed.
@@ -55,7 +55,7 @@ class textEditor extends Component {
                             }}
                         />
                         <ColoredLine color="gray" />
-                        
+                           
 
                     </Grid>
 
@@ -67,7 +67,7 @@ class textEditor extends Component {
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
@@ -99,7 +99,7 @@ class textEditor extends Component {
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is  dummy text of the printing industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
@@ -125,13 +125,13 @@ class textEditor extends Component {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <div style={{ color: '#686868', fontSize: 12 }}>
-                        Observations
+                            Observations
                         </div>
 
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="welcome"
+                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
@@ -153,10 +153,12 @@ class textEditor extends Component {
                                 console.log("Focus.", editor);
                             }}
                         />
+
+
                         <ColoredLine color="gray" />
                     </Grid>
-                </Grid>
 
+                </Grid>
 
             </div>
 
@@ -165,4 +167,4 @@ class textEditor extends Component {
     }
 }
 
-export default textEditor;
+export default Question;

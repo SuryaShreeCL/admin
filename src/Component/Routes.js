@@ -66,7 +66,8 @@ import {
   OnboardingPath,
   obOperationPath,
   listUsersProdBasedPath,
-  stagedTabsPath
+  stagedTabsPath,
+  productActivationPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -99,7 +100,6 @@ import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import ProductStages from './Product/ProductStages';
 // import Rating from './ObOnboarding/Onboarding';
 import PersonaInfo from './ObOnboarding/personalInfo'
-import AcademicInfo from './ObOnboarding/academicInfo'
 import ClientDetails from './ObCallSummary/ClientDetails';
 // import Onboarding from './ObCallSummary/Rating';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
@@ -107,6 +107,7 @@ import ObOperationLanding from './ObOperations/ObOperationLanding';
 import Onboarding from './ObOnboarding/Onboarding';
 import ProductBasedUsers from './ObOperations/ProductBasedUsers';
 import StageBasedLayout from './ObOperations/StageBasedLayout';
+import ProductActivation from './ObCallSummary/productActivation';
 export default function Routes(props) {
   return (
     
@@ -152,6 +153,7 @@ export default function Routes(props) {
             <Route exact path={obOperationPath} render={(props)=> <ObOperationLanding {...props} />} />
             <Route exact path={listUsersProdBasedPath} render={(props)=> <ProductBasedUsers {...props} />} />
             <Route exact path={stagedTabsPath} render={(props)=> <StageBasedLayout {...props} />} />
+            <Route exact path={productActivationPath} render={(props)=> <ProductActivation {...props} />} />
             <Route
               exact
               // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}

@@ -4,6 +4,7 @@ import RoomIcon from '@material-ui/icons/Room';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import PrimaryButton from '../../Utils/PrimaryButton';
 import {
     CircularProgress,
     Dialog,
@@ -18,14 +19,18 @@ import {
     Checkbox,
 
 } from "@material-ui/core";
+import { Autocomplete } from '@material-ui/lab';
+import { ExpandMore } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import WarningIcon from '@material-ui/icons/Warning';
+import Warning from "../../Asset/Images/warningImg.png";
+import Pencil from "../../Asset/Images/pencil.png";
 
-class aspirationDetails extends Component {
+class AspirationDetails extends Component {
     constructor() {
         super()
         this.state = {
@@ -48,24 +53,42 @@ class aspirationDetails extends Component {
 
         this.setState({ disable: !this.state.disable })
     }
-    
+
     render() {
         return (
-            <div style={{backgroundColor:'white',padding:10}}>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
-                    <IconButton onClick={this.handleClick.bind(this)}>
-                        <CreateOutlinedIcon />
-
-                    </IconButton>
-                </div>
-                <div style={{display:'flex', flexDirection:'row'}}>
-                <div style={{ color: '#407BFF', fontSize: 18,fontWeight:'bold',fontFamily:'poppins' }}>
-                    Aspiration Details
-                    
-                </div>
-                <div style={{ paddingLeft: 40 }}>
-                        <WarningIcon style={{ color: 'yellow' }} />
+            <div style={{ padding: 10 }}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "22%",
+                        }}
+                    >
+                        <p style={{
+                            fontStyle: "Poppins",
+                            fontWeight: "600",
+                            fontStyle: "normal",
+                            fontSize: "18px",
+                            color: "#0081FF",
+                        }}>Aspiration Details</p>
+                        < img
+                            src={Warning}
+                            height={17}
+                            width={17}
+                            style={{ position: "realative", top: 5 }}
+                        />
                     </div>
+                    <IconButton onClick={this.handleClick.bind(this)}>
+                        <img src={Pencil} height={17} width={17} />
+                    </IconButton>
                 </div>
                 <Grid container spacing={2}>
                     {/* <Grid item xs={4}>
@@ -73,127 +96,108 @@ class aspirationDetails extends Component {
                         Are You Planning To Pursue Higher Education?
                     </Grid> */}
                     <Grid item xs={8} >
-                        <div style={{ display: 'flex', flexDirection: 'row', }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', fontSize: 18, fontWeight: 400 }}>
                             What Kind Of Degree You Want To Persue?
-                            <div style={{ color: 'green', paddingLeft: 10, fontWeight:'bold' }}>Technical and Techno Managerial</div>
+                            <div style={{ color: '#2C8853', paddingLeft: 10, fontWeight: 'bold' }}>Technical and Techno Managerial</div>
 
                         </div>
                     </Grid>
                     <Grid item xs={12}>
-                        <div style={{ display: 'flex', flexDirection: 'row', }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', fontSize: 18, fontWeight: 400 }}>
                             Which Of The Following Tests Have you Taken Or Intend To Take?
-                            <div style={{ color: 'green', paddingLeft: 10,fontWeight:'bold' }}>GRE,TOEFL,IELTS</div>
+                            <div style={{ color: '#2C8853', paddingLeft: 10, fontWeight: 'bold' }}>GRE,TOEFL,IELTS</div>
                         </div>
                     </Grid>
                     <Grid item xs={12}>
-                        <div style={{ display: 'flex', flexDirection: 'row', }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', fontSize: 18, fontWeight: 400 }}>
                             How Do You Propose To Finance Your Studies?
-                            <div style={{ color: 'green', paddingLeft: 10,fontWeight:'bold' }}>Loan</div>
+                            <div style={{ color: '#2C8853', paddingLeft: 10, fontWeight: 'bold' }}>Loan</div>
                         </div>
                     </Grid>
                     {/* <Grid item md={2}>
                         <TextField id="standard-basic" label="Targeted Year?" disabled={this.state.disable} value={this.state.targetYear}  onChange={(e) => {this.setState({targetYear:e.target.value })} }/>
                     </Grid> */}
-                    <Grid item md={3}>
-                        <TextField id="standard-basic" label="No Of Schools?" disabled={this.state.disable} value={this.state.schoolTargeted}  onChange={(e) => {this.setState({schoolTargeted:e.target.value })} }/>
+                    <Grid item md={2} >
+                        <TextField style={{ width: '100%' }} id="standard-basic" label="No Of Schools?" disabled={this.state.disable} value={this.state.schoolTargeted} onChange={(e) => { this.setState({ schoolTargeted: e.target.value }) }} />
                     </Grid>
                     <Grid item md={3}>
-                    {/* <div style={{paddingBottom:'5%'}}> */}
-                            <InputLabel id="demo-simple-select-label">Intake </InputLabel>
-                            <Select
-                            style={{width:'95%'}}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={age}
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                            {/* </div> */}
+                        {/* <div style={{paddingBottom:'5%'}}> */}
+                        <Autocomplete
+                            popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                            id="combo-box-demo"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            //   style={{ width: 300 }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Intake" variant="standard" />
+                            )}
+                        />
+                        {/* </div> */}
                     </Grid>
-                    <Grid item md={3}>
-                    {/* <div style={{paddingBottom:'5%'}}> */}
-                            <InputLabel id="demo-simple-select-label">Targeted Degree</InputLabel>
-                            <Select
-                            style={{width:'95%'}}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={age}
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                            {/* </div> */}
+                    <Grid item md={2}>
+                        <Autocomplete
+                            popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                            id="combo-box-demo"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            //   style={{ width: 300 }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Targeted Degree" variant="standard" />
+                            )}
+                        />
+                    </Grid>
+
+                    <Grid item md={5}>
+                        <Autocomplete
+                            popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                            id="combo-box-demo"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            //   style={{ width: 300 }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Area of Specialization" variant="standard" />
+                            )}
+                        />
                     </Grid>
 
                     <Grid item md={3}>
-                    {/* <div style={{paddingBottom:'5%'}}> */}
-                            <InputLabel id="demo-simple-select-label">Area of Specialization</InputLabel>
-                            <Select
-                            style={{width:'95%'}}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={age}
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                            {/* </div> */}
+                        <Autocomplete
+                            popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                            id="combo-box-demo"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            //   style={{ width: 300 }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Country Of Dream College" variant="standard" />
+                            )}
+                        />
                     </Grid>
 
                     <Grid item md={3}>
-                    {/* <div style={{paddingBottom:'5%'}}> */}
-                            <InputLabel id="demo-simple-select-label">Country of Dream Colleges</InputLabel>
-                            <Select
-                            style={{width:'95%'}}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={age}
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                            {/* </div> */}
+                        <Autocomplete
+                            popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                            id="combo-box-demo"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            //   style={{ width: 300 }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="List Of Dream Colleges" variant="standard" />
+                            )}
+                        />
                     </Grid>
 
-                    <Grid item md={3}>
-                    {/* <div style={{paddingBottom:'5%'}}> */}
-                            <InputLabel id="demo-simple-select-label">List of Dream Graduate Colleges</InputLabel>
-                            <Select
-                            style={{width:'95%'}}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={age}
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                            {/* </div> */}
-                    </Grid>
-                      
 
 
 
                 </Grid>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                            <Button
-                                style={{ width: 150, borderRadius: 20 }}
-                                variant="contained"
-                                color="primary"
-                                // startIcon={<AddIcon />}
-                                onClick={() => this.setState({ show: false })}
-                            >
-                             Save Changes
-                            </Button>
-                        </div>
+                    <PrimaryButton variant={"contained"} color={"primary"} >
+                        Save Changes
+                    </PrimaryButton>
+                </div>
             </div>
         );
     }
 }
 
-export default aspirationDetails;
+export default AspirationDetails;

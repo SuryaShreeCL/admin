@@ -6,7 +6,7 @@
     "@ckeditor/ckeditor5-build-classic": "^28.0.0",
     "@ckeditor/ckeditor5-react": "^3.0.2",
     "@date-io/date-fns": "^1.1.0",
-    "@material-ui/core": "^4.11.0",
+    "@material-ui/core": "^4.11.4",
     "@material-ui/data-grid": "^4.0.0-alpha.23",
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
@@ -59,7 +59,7 @@
     "prettier": "1.19.1"
   },
   "scripts": {
-    "start": "PORT=8000 react-scripts start",
+    "start": "set PORT=8000 && react-scripts start",
     "build": "env-cmd -f .env.production react-scripts build",
     "build:development": "env-cmd -f .env.development react-scripts build",
     "build:staging": "env-cmd -f .env.staging react-scripts build",
