@@ -50,7 +50,7 @@ const CreatePost = () => {
     wallCategories: [],
     caption: '',
     supportingMedia: 'image',
-    wallFiles: [{ id: '', url: '', type: '' }],
+    wallFiles: [],
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
@@ -105,6 +105,13 @@ const CreatePost = () => {
     setState((s) => ({ ...s, cancComment: !state.canComment }));
   };
 
+  const handleState = (e) => {
+    setState((s) => ({
+      ...s,
+      wallFiles: [{ url: e.target.value, type: 'image', isUploaded: false }],
+    }));
+  };
+
   const validationSchema = yup.object({
     caption: yup.string().required('caption is required'),
   });
@@ -114,7 +121,7 @@ const CreatePost = () => {
       <BackHandler title='Create New Post' />
       <CreatePostContainer>
         <Formik
-          initialValues={state}
+          initialValues={state || []}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             // addOrEdit(values, resetForm);
@@ -160,7 +167,7 @@ const CreatePost = () => {
                       label='Audio'
                     />
                   </RadioGroup>
-                  {/* <FormControl className={classes.root} style={{ width: '80%' }}>
+                  <FormControl className={classes.root} style={{ width: '80%' }}>
                     <InputLabel style={{ left: '10px', top: '10px' }} id='mutiple-name-label'>
                       Select Category
                     </InputLabel>
@@ -183,7 +190,7 @@ const CreatePost = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl> */}
+                  </FormControl>
                   <Grid item>
                     <Controls.Input
                       label='Type caption here..'
@@ -202,22 +209,21 @@ const CreatePost = () => {
                         Video URL Available
                         <Switch
                           checked={values.videoURLEnabled}
+                          name='videoURLEnabled'
                           onChange={handleChange}
                           color='primary'
-                          name='videoURLEnabled'
-                          value={values.videoURLEnabled}
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
                       </span>
                     </Grid>
                   )}
-                  {state.videoURLEnabled && values.supportingMedia === 'video' && (
+                  {values.supportingMedia === 'video' && values.videoURLEnabled && (
                     <Grid item>
                       <Controls.Input
                         label='Paste Video URL'
                         name='videoLink'
                         className={classes.spacer}
-                        value={values.videLink}
+                        value={values.videoLink}
                         error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />

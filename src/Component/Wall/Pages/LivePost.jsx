@@ -32,7 +32,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import { listWallPosts } from '../../../Actions/WallActions';
+import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -95,19 +95,13 @@ export default function LivePost() {
   );
 
   const handleSearch = (e) => {
-    // let target = e.target;
-    // setFilterFn({
-    //   fn: (items) => {
-    //     if (target.value == '') return items;
-    //     else
-    //       return items.filter(
-    //         (x) =>
-    //           x.studentName.toLowerCase().includes(target.value) ||
-    //           x.mixedTag.toLowerCase().includes(target.value) ||
-    //           x.products.toLowerCase().includes(target.value)
-    //       );
-    //   },
-    // });
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == '') return items;
+        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+      },
+    });
   };
 
   const addOrEdit = (post) => {
@@ -140,19 +134,19 @@ export default function LivePost() {
   };
 
   const onDelete = (id) => {
-    // setConfirmDialog({
-    //   ...confirmDialog,
-    //   isOpen: false,
-    // });
-    // dispatch(deleteTestimonial(id));
-    // setTimeout(() => {
-    //   dispatch(listTestimonials());
-    // }, 1200);
-    // setNotify({
-    //   isOpen: true,
-    //   message: 'Deleted Successfully',
-    //   type: 'error',
-    // });
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    dispatch(deleteWallPost(id));
+    setTimeout(() => {
+      dispatch(listWallPosts('Live'));
+    }, 1200);
+    setNotify({
+      isOpen: true,
+      message: 'Deleted Successfully',
+      type: 'error',
+    });
   };
 
   useEffect(() => {
@@ -215,7 +209,7 @@ export default function LivePost() {
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
-                          title: 'Are you sure to delete this record?',
+                          title: 'Are you sure to delete this post?',
                           subTitle: "You can't undo this operation",
                           onConfirm: () => {
                             onDelete(item.id);
@@ -244,13 +238,26 @@ export default function LivePost() {
         <DrawerContainer>
           <Preview state={viewData} />
           <ButtonsContainerTwo>
-            <span style={{ fontSize: '1rem' }}>
+            <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
               <IconButton aria-label='edit'>
                 <EditIcon color='primary' size='large' />
               </IconButton>
               Edit
             </span>
-            <span style={{ fontSize: '1rem' }}>
+            <span
+              style={{ fontSize: '1rem' }}
+              onClick={() => {
+                setOpenDrawer(false);
+                setConfirmDialog({
+                  isOpen: true,
+                  title: 'Are you sure to delete this post?',
+                  subTitle: "You can't undo this operation",
+                  onConfirm: () => {
+                    onDelete(viewData.id);
+                  },
+                });
+              }}
+            >
               <IconButton aria-label='remove'>
                 <DeleteIcon color='secondary' size='large' />
               </IconButton>

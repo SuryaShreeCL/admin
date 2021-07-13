@@ -37,7 +37,7 @@ export const deleteWallPost = (id) => async (dispatch) => {
       type: WALL.DELETE_REQUEST,
     });
 
-    await axios.delete(`${process.env.REACT_APP_API_URL}/services/WALLs/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallpost/${id}`, {
       crossDomain: true,
       headers: {
         admin: 'yes',

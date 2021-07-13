@@ -63,8 +63,8 @@ export function MultipleFileUploadField({ name, type, folderName }) {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: [type],
-    maxSize: 500 * 1024, // 500KB
+    accept: [`${type}/*`],
+    maxSize: 2000 * 1024, // 2Mb
   });
 
   return (
@@ -76,15 +76,15 @@ export function MultipleFileUploadField({ name, type, folderName }) {
             style={{ marginBottom: '-2px' }}
           >{`Drag & drop some ${name} here, or click to select ${name}`}</p>
         </div>
-        {name === 'images' && (
+        {type === 'image' && (
           <p {...getRootProps({ className: classes.info })}>
             (Supported format: jpeg , PNG only, max 2MB)
           </p>
         )}
-        {name === 'video' && (
+        {type === 'video' && (
           <p {...getRootProps({ className: classes.info })}>(Supported format: mp4, max 10MB)</p>
         )}
-        {name === 'audio' && (
+        {type === 'audio' && (
           <p {...getRootProps({ className: classes.info })}>(Supported format: mp3, max 1MB)</p>
         )}
       </Grid>

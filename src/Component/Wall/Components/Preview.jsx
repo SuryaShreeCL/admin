@@ -10,7 +10,15 @@ import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player/lazy';
 
 const Preview = ({ state }) => {
-  const { caption, totalLikes, buttonText, wallFiles, supportingMedia, redirectionUrl } = state;
+  const {
+    caption,
+    totalLikes,
+    buttonText,
+    wallFiles,
+    supportingMedia,
+    redirectionUrl,
+    videoLink,
+  } = state;
   return (
     <PreviewContainer>
       <Frame>
@@ -54,7 +62,7 @@ const Preview = ({ state }) => {
                 url={
                   wallFiles[0]?.isUploaded === true
                     ? `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
-                    : wallFiles[0]?.url || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'
+                    : videoLink || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'
                 }
               />
             )}

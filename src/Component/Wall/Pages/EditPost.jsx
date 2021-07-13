@@ -215,22 +215,21 @@ const CreatePost = () => {
                         Video URL Available
                         <Switch
                           checked={values.videoURLEnabled}
+                          name='videoURLEnabled'
                           onChange={handleChange}
                           color='primary'
-                          name='videoURLEnabled'
-                          value={values.videoURLEnabled}
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
                       </span>
                     </Grid>
                   )}
-                  {state.videoURLEnabled && values.supportingMedia === 'video' && (
+                  {values.supportingMedia === 'video' && values.videoURLEnabled && (
                     <Grid item>
                       <Controls.Input
                         label='Paste Video URL'
                         name='videoLink'
                         className={classes.spacer}
-                        value={values.videLink}
+                        value={values.videoLink}
                         error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />
