@@ -45,7 +45,7 @@ class AdmissionServices extends Component {
     }
     render() {
         return (
-            <div style={{padding:10}}>
+            <div style={{padding:50}}>
 
                 <div style={{ color: '#0081FF', fontSize: 18,fontWeight:600, fontFamily:'Poppins' }}>
                     CareerLabs - Student Mapping
@@ -83,25 +83,25 @@ class AdmissionServices extends Component {
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
 
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     BDA
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     Mayur Dhade
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     Mayur Dhade
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable2} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     DD/MM/YYYY HH:MM
                                 </TableCell>
@@ -137,37 +137,37 @@ class AdmissionServices extends Component {
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
 
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     CLS51338
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     Profile Builder
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     Pb:placements 2022
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     01/05/2021
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     01/05/2021
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
 
                                     01/05/2021
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat'}} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{color:'#000000', fontWeight:400,fontSize:16,fontFamily:'Montserrat',borderBottom: "none"}} >
                                     Mayur Dhade
                                 </TableCell>
                             </TableRow>

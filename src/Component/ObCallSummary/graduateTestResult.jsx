@@ -37,31 +37,31 @@ class GraduateTestResult extends Component {
     }
     render() {
         return (
-            <div style={{ padding: 10 }}>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            width: "22%",
-                        }}
-                    >
-                        <p style={{
-                            fontStyle: "Poppins",
-                            fontWeight: "600",
-                            fontStyle: "normal",
-                            fontSize: "18px",
-                            color: "#0081FF",
-                        }}>Graduate Test Details</p>
-                        < img
-                            src={Warning}
-                            height={17}
-                            width={17}
-                            style={{ position: "realative", top: 5 }}
-                        />
-                    </div>
-                    
-                    <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
+            <div style={{ padding: 50 }}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        width: "22%",
+                    }}
+                >
+                    <p style={{
+                        fontStyle: "Poppins",
+                        fontWeight: "600",
+                        fontStyle: "normal",
+                        fontSize: "18px",
+                        color: "#0081FF",
+                    }}>Graduate Test Details</p>
+                    < img
+                        src={Warning}
+                        height={17}
+                        width={17}
+                        style={{ position: "realative", top: 5 }}
+                    />
+                </div>
+
+                <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     GRE
                 </div>
                 <TableContainer>
@@ -80,28 +80,28 @@ class GraduateTestResult extends Component {
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     161/170
                                 </TableCell>
                                 <TableCell align='center' contentEditable={this.state.disable}  >
@@ -135,31 +135,31 @@ class GraduateTestResult extends Component {
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' ,borderBottom: "none"}} >
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' ,borderBottom: "none"}} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     161/170
                                 </TableCell>
                                 <TableCell align='center' contentEditable={this.state.disable} >
@@ -192,31 +192,31 @@ class GraduateTestResult extends Component {
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' ,borderBottom: "none"}} >
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }} >
                                     161/170
                                 </TableCell>
                                 <TableCell align='center' contentEditable={this.state.disable}  >
@@ -250,31 +250,31 @@ class GraduateTestResult extends Component {
                         <TableBody>
 
                             <TableRow>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }}>
                                     {/* <TextField disabled={this.state.disable}/>           */}
                                     1
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }}>
 
                                     DD/MM/YYYY
                                 </TableCell>
 
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }}>
 
                                     161/170
 
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }}>
 
                                     4.5/6
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' ,borderBottom: "none"}}>
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }}>
                                     161/170
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}>
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',borderBottom: "none" }}>
                                     161/170
                                 </TableCell>
                                 <TableCell align='center' contentEditable={this.state.disable} >

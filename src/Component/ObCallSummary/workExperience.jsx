@@ -29,7 +29,7 @@ import Pencil from "../../Asset/Images/pencil.png";
 class workExperience extends Component {
     render() {
         return (
-            <div style={{ padding: 10 }}>
+            <div style={{ padding: 50 }}>
                 <div
                     style={{
                         display: "flex",
