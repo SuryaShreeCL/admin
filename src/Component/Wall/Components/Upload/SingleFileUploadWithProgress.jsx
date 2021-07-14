@@ -4,12 +4,12 @@ import { FileProgress } from './FileProgress';
 
 let accessToken = window.sessionStorage.getItem('accessToken');
 
-export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, type }) {
+export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, fileType }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async function upload() {
-      const data = await uploadFile(file, setProgress, type);
+      const data = await uploadFile(file, setProgress, fileType);
       onUpload(file, data);
     }
 
@@ -23,8 +23,8 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, ty
   );
 }
 
-function uploadFile(file, onProgress, type) {
-  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/wallfile/type/${type}`;
+function uploadFile(file, onProgress, fileType) {
+  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/wallfile/type/${fileType}`;
 
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();
@@ -34,7 +34,6 @@ function uploadFile(file, onProgress, type) {
 
     xhr.onload = () => {
       const resp = JSON.parse(xhr.responseText);
-      console.log(resp);
       res(resp);
     };
     xhr.onerror = (evt) => rej(evt);
@@ -47,8 +46,6 @@ function uploadFile(file, onProgress, type) {
 
     const formData = new FormData();
     formData.append('file', file);
-    // formData.append('upload_preset', key);
-    // formData.append('folder', folderName);
 
     xhr.send(formData);
   });

@@ -255,21 +255,21 @@ const CreatePost = () => {
                     {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField
                         name='wallFiles'
-                        type='image'
+                        fileType='image'
                         folderName='app-images'
                       />
                     )}
                     {values.supportingMedia === 'video' && !values.videoURLEnabled && (
                       <MultipleFileUploadField
                         name='wallFiles'
-                        type='video'
+                        fileType='video'
                         folderName='app-videos'
                       />
                     )}
                     {values.supportingMedia === 'audio' && (
                       <MultipleFileUploadField
                         name='wallFiles'
-                        type='audio'
+                        fileType='audio'
                         folderName='app-audio'
                       />
                     )}
