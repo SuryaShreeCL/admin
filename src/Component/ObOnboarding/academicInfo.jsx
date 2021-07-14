@@ -953,6 +953,7 @@ export class academicInfo extends Component {
                               error={this.state.diplomoCgpaScaleErr.length > 0}
                               helperText={this.state.diplomoCgpaScaleErr}
                               label="CGPA Scale"
+                              margin="normal"
                             />
                           )}
                         />
