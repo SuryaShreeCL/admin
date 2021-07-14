@@ -24,6 +24,7 @@ import {
   wallPostDeleteReducer,
   wallPostUpdateReducer,
   wallPostListReducer,
+  getWallCategoriesReducer,
 } from '../Reducer/WallReducer';
 import StudentMarkDetailReducer from '../Reducer/MarkReducer';
 import ScoreDetailsReducer from '../Reducer/ScoreReducer';
@@ -57,4 +58,5 @@ export default combineReducers({
   wallPostDeleteReducer: wallPostDeleteReducer,
   wallPostUpdateReducer: wallPostUpdateReducer,
   wallPostListReducer: wallPostListReducer,
+  getWallCategoriesReducer: getWallCategoriesReducer,
 });

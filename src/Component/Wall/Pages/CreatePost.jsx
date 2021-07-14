@@ -13,6 +13,7 @@ import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import * as yup from 'yup';
@@ -21,6 +22,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import { getWallCategories } from '../../../Actions/WallActions';
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +45,7 @@ const useStyles = makeStyles({
 
 const CreatePost = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [state, setState] = useState({
     wallCategories: [],
@@ -65,13 +68,11 @@ const CreatePost = () => {
     isVideoLink: false,
   });
 
-  const categories = [
-    { name: 'All' },
-    { name: '3rd Year' },
-    { name: '4th Year' },
-    { name: 'Placements' },
-    { name: 'Higher Studies' },
-  ];
+  useEffect(() => {
+    dispatch(getWallCategories('Live'));
+  }, [dispatch]);
+
+  const { loading, error, categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   const validate = (values) => {
     if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
@@ -119,7 +120,7 @@ const CreatePost = () => {
           }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched }) => (
+          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
@@ -154,10 +155,10 @@ const CreatePost = () => {
                     />
                   </RadioGroup>
                   <FormControl className={classes.root} style={{ width: '80%' }}>
-                    <Autocomplete
+                    {/* <Autocomplete
                       multiple
-                      options={categories}
-                      getOptionLabel={(option) => option.name}
+                      options={categories || []}
+                      getOptionLabel={(option) => option?.name}
                       onChange={handleCategory}
                       required
                       renderInput={(params) => (
@@ -166,6 +167,25 @@ const CreatePost = () => {
                           variant='outlined'
                           label='Select Category'
                           name='wallCategories'
+                        />
+                      )}
+                    /> */}
+                    <Autocomplete
+                      multiple
+                      id='wallCategories'
+                      name='wallCategories'
+                      getOptionLabel={(option) => option?.name}
+                      options={categories ?? []}
+                      onChange={(e, value) => {
+                        setFieldValue('wallCategories', value !== null ? value : categories);
+                      }}
+                      value={values.wallCategories}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label='Select Category'
+                          name='wallCategories'
+                          variant='outlined'
                         />
                       )}
                     />
@@ -308,7 +328,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
                     <Button color='primary'>Discard Post</Button>
                     <Controls.Button

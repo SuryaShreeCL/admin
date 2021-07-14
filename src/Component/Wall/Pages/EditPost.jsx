@@ -19,8 +19,10 @@ import * as yup from 'yup';
 import { useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
+import { useSelector, useDispatch } from 'react-redux';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import { ExistingMedia } from '../Components/Upload/ExistingMedia';
+import { getWallCategories } from '../../../Actions/WallActions';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
@@ -46,6 +48,8 @@ const useStyles = makeStyles({
 const EditPost = () => {
   const classes = useStyles();
   let location = useLocation();
+  const dispatch = useDispatch();
+
   const { recordForEdit } = location;
   const [records, setRecords] = useState(recordForEdit);
 
@@ -70,21 +74,16 @@ const EditPost = () => {
     isVideoLink: false,
   });
 
-  const categories = [
-    { name: 'All' },
-    { name: '3rd Year' },
-    { name: '4th Year' },
-    { name: 'Placements' },
-    { name: 'Higher Studies' },
-  ];
+  const { loading, error, categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   useEffect(() => {
+    dispatch(getWallCategories('Live'));
     //SETTING PRE POPULATED RECORD
     if (records != null)
       setRecords({
         ...recordForEdit,
       });
-  }, [recordForEdit]);
+  }, [recordForEdit, dispatch]);
 
   const validate = (values) => {
     if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
@@ -132,7 +131,7 @@ const EditPost = () => {
           }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched }) => (
+          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
@@ -167,14 +166,38 @@ const EditPost = () => {
                     />
                   </RadioGroup>
                   <FormControl className={classes.root} style={{ width: '80%' }}>
-                    <Autocomplete
+                    {/* <Autocomplete
                       multiple
-                      options={values.wallCategories}
-                      getOptionLabel={(option) => option.name}
+                      options={categories || []}
+                      getOptionLabel={(option) => option?.name}
                       onChange={handleCategory}
                       required
                       renderInput={(params) => (
-                        <TextField {...params} variant='outlined' label='Select Category' />
+                        <TextField
+                          {...params}
+                          variant='outlined'
+                          label='Select Category'
+                          name='wallCategories'
+                        />
+                      )}
+                    /> */}
+                    <Autocomplete
+                      multiple
+                      id='wallCategories'
+                      name='wallCategories'
+                      getOptionLabel={(option) => option?.name}
+                      options={categories ?? []}
+                      onChange={(e, value) => {
+                        setFieldValue('wallCategories', value !== null ? value : categories);
+                      }}
+                      value={values.wallCategories}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label='Select Category'
+                          name='wallCategories'
+                          variant='outlined'
+                        />
                       )}
                     />
                   </FormControl>

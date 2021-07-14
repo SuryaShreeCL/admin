@@ -31,6 +31,34 @@ export const listWallPosts = (status) => async (dispatch) => {
   }
 };
 
+export const getWallCategories = (status) => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.WALL_CATEGORIES_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/wallcategory?activeStatus=${status}`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: WALL.WALL_CATEGORIES_SUCCESS,
+      payload: data.content,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.WALL_CATEGORIES_FAIL,
+      payload:
+        error.response && error.response.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
 export const deleteWallPost = (id) => async (dispatch) => {
   try {
     dispatch({
