@@ -22,7 +22,7 @@ const Preview = ({ state }) => {
     wallFilesUpdate = [],
   } = state;
 
-  let uploadedImages = [...wallFiles, ...wallFilesUpdate];
+  let uploadedMedia = [...wallFiles, ...wallFilesUpdate];
 
   return (
     <PreviewContainer>
@@ -30,9 +30,9 @@ const Preview = ({ state }) => {
         <img src={iPhoneFrame} alt='iPhone 12 Frame' />
         <Post>
           <div className='Poster'>
-            {supportingMedia === 'image' && uploadedImages?.length > 0 && (
+            {supportingMedia === 'image' && uploadedMedia?.length > 0 && (
               <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
-                {uploadedImages.map((image) => {
+                {uploadedMedia.map((image) => {
                   return (
                     <img
                       style={{ maxHeight: '250px' }}
