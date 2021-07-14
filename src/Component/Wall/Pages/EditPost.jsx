@@ -151,7 +151,7 @@ const EditPost = () => {
       <BackHandler title='Edit Post' />
       <CreatePostContainer>
         <Formik
-          initialValues={records || []}
+          initialValues={records || state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
@@ -196,21 +196,6 @@ const EditPost = () => {
                     />
                   </RadioGroup>
                   <FormControl className={classes.root} style={{ width: '80%' }}>
-                    {/* <Autocomplete
-                      multiple
-                      options={categories || []}
-                      getOptionLabel={(option) => option?.name}
-                      onChange={handleCategory}
-                      required
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant='outlined'
-                          label='Select Category'
-                          name='wallCategories'
-                        />
-                      )}
-                    /> */}
                     <Autocomplete
                       multiple
                       id='wallCategories'
@@ -292,40 +277,10 @@ const EditPost = () => {
                       onChange={handleChange}
                     />
                   </Grid>
-                  {/* <Grid container direction='column' style={{ width: '80%' }}>
-                    {values.supportingMedia === 'image' && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        type='image'
-                        folderName='app-images'
-                      />
-                    )}
-                    {values.supportingMedia === 'video' && !values.videoURLEnabled && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        type='video'
-                        folderName='app-videos'
-                      />
-                    )}
-                    {values.supportingMedia === 'audio' && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        type='audio'
-                        folderName='app-audio'
-                      />
-                    )}
-                  </Grid> */}
                   <Grid container direction='column' style={{ width: '80%' }}>
-                    {/* {values.supportingMedia === 'image' && (
-                      <MultipleFileUploadField
-                        file='wallFiles'
-                        type='image'
-                        folderName='app-images'
-                      />
-                    )} */}
                     <Grid item>
                       {values.wallFiles?.map((media) => (
-                        <ExistingMedia media={media} />
+                        <ExistingMedia media={media} wallFiles={values.wallFiles} />
                       ))}
                     </Grid>
                   </Grid>

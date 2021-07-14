@@ -1,5 +1,5 @@
 import { LinearProgress, Typography, Button, withStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
@@ -24,18 +24,34 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-const deletePost = async (id) => {
-  const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallfile/${id}`, {
-    crossDomain: true,
-    headers: {
-      admin: 'yes',
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  console.log(data);
-};
+const ErrorLinearProgress = withStyles((theme) => ({
+  root: {
+    height: 10,
+    borderRadius: 5,
+    width: '100%',
+  },
+  colorPrimary: {
+    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.error.main,
+  },
+}))(LinearProgress);
 
 export function ExistingMedia(props, progress = 100) {
+  const [deleted, setDeleted] = useState(false);
+  const deletePost = async (id) => {
+    const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallfile/${id}`, {
+      crossDomain: true,
+      headers: {
+        admin: 'yes',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    setDeleted(true);
+  };
+
   const { url, type, id } = props.media;
   return (
     <FileHeaderContainer>
@@ -55,11 +71,15 @@ export function ExistingMedia(props, progress = 100) {
           {url}
         </Typography>
         <div className='img-progress'>
-          <BorderLinearProgress variant='determinate' value={100} />
+          {deleted ? (
+            <ErrorLinearProgress variant='determinate' value={100} style={{ width: '100%' }} />
+          ) : (
+            <BorderLinearProgress variant='determinate' value={100} />
+          )}
         </div>
         <div className='img-info'>
           <Typography variant='caption' color='textSecondary'>
-            {type}
+            {deleted ? 'Deleted' : type}
           </Typography>
           {!isNaN(Math.round(progress)) && (
             <Typography variant='caption' color='textSecondary'>{`${Math.round(

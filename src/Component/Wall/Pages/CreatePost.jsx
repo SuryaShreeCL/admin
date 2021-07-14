@@ -188,21 +188,6 @@ const CreatePost = () => {
                     />
                   </RadioGroup>
                   <FormControl className={classes.root} style={{ width: '80%' }}>
-                    {/* <Autocomplete
-                      multiple
-                      options={categories || []}
-                      getOptionLabel={(option) => option?.name}
-                      onChange={handleCategory}
-                      required
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant='outlined'
-                          label='Select Category'
-                          name='wallCategories'
-                        />
-                      )}
-                    /> */}
                     <Autocomplete
                       multiple
                       id='wallCategories'
