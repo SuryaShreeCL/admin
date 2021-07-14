@@ -29,6 +29,11 @@ import Select from '@material-ui/core/Select';
 import WarningIcon from '@material-ui/icons/Warning';
 import Warning from "../../Asset/Images/warningImg.png";
 import Pencil from "../../Asset/Images/pencil.png";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 class AspirationDetails extends Component {
     constructor() {
@@ -58,13 +63,13 @@ class AspirationDetails extends Component {
         console.log(new Date())
         return (
             <div style={{ padding: 25 }}>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                }}
-            >
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}
+                >
                     <div
                         style={{
                             display: "flex",
@@ -79,7 +84,7 @@ class AspirationDetails extends Component {
                             fontStyle: "normal",
                             fontSize: "18px",
                             color: "#0081FF",
-                            paddingLeft:10
+                            paddingLeft: 10
                         }}>Aspiration Details</p>
                         < img
                             src={Warning}
@@ -113,7 +118,16 @@ class AspirationDetails extends Component {
                     <Grid item xs={12}>
                         <div style={{ display: 'flex', flexDirection: 'row', fontSize: 18, fontWeight: 400 }}>
                             How Do You Propose To Finance Your Studies?
-                            <div style={{ color: '#2C8853', paddingLeft: 10, fontWeight: 'bold' }}>Loan</div>
+                            <div style={{ color: '#2C8853', paddingLeft: 10, fontWeight: 'bold',display:'flex', flexDirection:'row' }}>Loan
+                                {/* <FormControl component="fieldset"> */}
+                                {/* <RadioGroup aria-label="gender" name="gender1"  style={{display:'flex', flexDirection:'row'}}>
+                                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                    <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                    
+                                </RadioGroup> */}
+                            {/* </FormControl> */}
+                            </div>
                         </div>
                     </Grid>
                     {/* <Grid item md={2}>
@@ -174,7 +188,7 @@ class AspirationDetails extends Component {
                             //   style={{ width: 300 }}
                             disabled={this.state.disable}
                             renderInput={(params) => (
-                                <TextField {...params} label="Country Of Dream College" variant="standard" />
+                                <TextField {...params} label="Country of Dream Colleges" variant="standard" />
                             )}
                         />
                     </Grid>
@@ -188,7 +202,7 @@ class AspirationDetails extends Component {
                             //   style={{ width: 300 }}
                             disabled={this.state.disable}
                             renderInput={(params) => (
-                                <TextField {...params} label="List Of Dream Colleges" variant="standard" />
+                                <TextField {...params} label="List of Dream Graduate Colleges" variant="standard" />
                             )}
                         />
                     </Grid>
@@ -198,7 +212,13 @@ class AspirationDetails extends Component {
 
                 </Grid>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                    <PrimaryButton variant={"contained"} color={"primary"} >
+                    <PrimaryButton
+                        // onClick={() => this.handleSave()}
+                        style={{ textTransform: "none" }}
+                        variant={"contained"}
+                        color={"primary"}
+                        size={"small"}
+                    >
                         Save Changes
                     </PrimaryButton>
                 </div>

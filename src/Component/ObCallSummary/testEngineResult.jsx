@@ -64,7 +64,7 @@ class testEngineResult extends Component {
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            width: "22%",
+                            width: "17%",
                         }}
                     >
                         <p style={{
@@ -166,9 +166,15 @@ class testEngineResult extends Component {
                     </DialogContent>
                 </Dialog>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                    <PrimaryButton variant={"contained"} color={"primary"} >
-                        Save Changes
-                    </PrimaryButton>
+                <PrimaryButton
+                            // onClick={() => this.handleSave()}
+                            style={{ textTransform: "none" }}
+                            variant={"contained"}
+                            color={"primary"}
+                            size={"small"}
+                        >
+                            Save Changes
+                        </PrimaryButton>
                 </div>
             </div>
         );

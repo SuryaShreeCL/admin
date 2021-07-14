@@ -31,7 +31,9 @@ import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
     KeyboardDatePicker,
+    DatePicker,
 } from '@material-ui/pickers';
+
 class workExperience extends Component {
     constructor() {
         super()
@@ -41,11 +43,23 @@ class workExperience extends Component {
             endDate: null,
         }
     }
+
+    // monthDiff(startDate, EndDate) {
+    //     return startDate.getMonth() - EndDate.getMonth() +
+    //         (12 * (startDate.getFullYear() - EndDate.getFullYear()))
+    // }
+
     handleClick(e) {
 
         this.setState({ disable: !this.state.disable })
     }
+    handleSave = () => {
+        console.log('huhuo')
+
+    }
+
     render() {
+        console.log(this.monthDiff)
         return (
             <div style={{ padding: 25 }}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -112,12 +126,14 @@ class workExperience extends Component {
                                     <Grid item md={2}>
                                         <KeyboardDatePicker
                                             margin="normal"
-                                            disabled={this.state.disable}
                                             id="date-picker-dialog"
                                             label="Start Date"
-                                            format="MM/YYYY"
+                                            // format="yyyy MM"
+                                            // openTo="year"
                                             views={["year", "month"]}
+                                            disabled={this.state.disable}
                                             value={this.state.startDate}
+
                                             onChange={(e, newValue) =>
                                                 this.setState({ startDate: newValue })
                                             }
@@ -131,8 +147,8 @@ class workExperience extends Component {
                                             margin="normal"
                                             id="date-picker-dialog"
                                             label="End Date"
-                                            format="MM/yyyy"
-                                            views={["year", "month"]}
+                                            format="yyyy MM"
+                                            // views={["year", "month"]}
                                             disabled={this.state.disable}
                                             value={this.state.endDate}
                                             onChange={(e, newValue) =>
@@ -163,7 +179,13 @@ class workExperience extends Component {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
-                        <PrimaryButton variant={"contained"} color={"primary"} >
+                        <PrimaryButton
+                            // onClick={() => this.handleSave()}
+                            style={{ textTransform: "capitalize" }}
+                            variant={"contained"}
+                            color={"primary"}
+                            size={"small"}
+                        >
                             Save Changes
                         </PrimaryButton>
                     </div>

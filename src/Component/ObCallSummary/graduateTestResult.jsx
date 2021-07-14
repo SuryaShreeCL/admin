@@ -29,11 +29,11 @@ class GraduateTestResult extends Component {
     constructor() {
         super()
         var today = new Date(),
-        date= today.getFullYear() + '/' + (today.getMonth() + 1)+ '/' + (today.getDate());
+            date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + (today.getDate());
 
         this.state = {
             disable: false,
-            date:date
+            date: date
         }
     }
     handleClick(e) {
@@ -111,7 +111,7 @@ class GraduateTestResult extends Component {
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
                                     220
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ borderBottom: "none" ,cursor:'pointer'}} onClick={() => console.log('hello')} >
+                                <TableCell align='center' contentEditable={this.state.disable} style={{ borderBottom: "none", cursor: 'pointer' }} onClick={() => console.log('hello')} >
                                     <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
                                         <Link >Access Here</Link>
                                     </div>
@@ -136,12 +136,14 @@ class GraduateTestResult extends Component {
                             <TableRow>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Attempt #</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Exam Date</TableCell>
-                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Quantitative and Verbal</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat',width:20 }} >Quantitative and Verbal</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Analytical Writing Assessment</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Completed Certificate</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Integrated Reasoning</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Total</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Transcripts</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} ></TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} ></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -153,7 +155,7 @@ class GraduateTestResult extends Component {
                                 </TableCell>
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
 
-                                {this.state.date}
+                                    {this.state.date}
                                 </TableCell>
 
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
@@ -174,13 +176,19 @@ class GraduateTestResult extends Component {
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
                                     240
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ borderBottom: "none" }} >
+                                <TableCell align='center' contentEditable={this.state.disable} onClick={() => console.log('hello')} style={{ borderBottom: "none", }} >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, }} >
                                         <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
-                                            <p >Access Here</p>
+                                            <Link >Access Here</Link>
                                         </div>
                                     </div>
+                                    <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
+
+                                    </TableCell>
+                                    <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
+
+                                    </TableCell>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -211,7 +219,7 @@ class GraduateTestResult extends Component {
                                     1
                                 </TableCell>
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
-                                {this.state.date}
+                                    {this.state.date}
                                 </TableCell>
 
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
@@ -232,11 +240,11 @@ class GraduateTestResult extends Component {
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }} >
                                     220
                                 </TableCell>
-                                <TableCell align='center' contentEditable={this.state.disable} style={{ borderBottom: "none" }}  >
+                                <TableCell align='center' onClick={() => console.log('hello')} contentEditable={this.state.disable} style={{ borderBottom: "none" }}  >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
                                         <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
-                                            <p >Access Here</p>
+                                            <Link >Access Here</Link>
                                         </div>
                                     </div>
                                 </TableCell>
@@ -271,7 +279,7 @@ class GraduateTestResult extends Component {
                                 </TableCell>
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }}>
 
-                                {this.state.date}
+                                    {this.state.date}
                                 </TableCell>
 
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }}>
@@ -292,10 +300,10 @@ class GraduateTestResult extends Component {
                                 <TableCell align='center' contentEditable={this.state.disable} style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat', borderBottom: "none" }}>
                                     220
                                 </TableCell>
-                                <TableCell align='center' style={{ borderBottom: "none" }} >
+                                <TableCell align='center' onClick={() => console.log('hello')} style={{ borderBottom: "none" }} >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
-                                        <p >Access Here</p>
+                                        <Link >Access Here</Link>
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -305,7 +313,13 @@ class GraduateTestResult extends Component {
                 </TableContainer>
 
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                    <PrimaryButton variant={"contained"} color={"primary"} >
+                    <PrimaryButton
+                        // onClick={() => this.handleSave()}
+                        style={{ textTransform: "none" }}
+                        variant={"contained"}
+                        color={"primary"}
+                        size={"small"}
+                    >
                         Save Changes
                     </PrimaryButton>
                 </div>
