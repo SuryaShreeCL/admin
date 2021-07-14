@@ -168,6 +168,18 @@ export class academicInfo extends Component {
       "&$expanded": {
         margin: "auto",
       },
+      MuiInputLabel: {
+        root: {
+            whiteSpace : "nowrap",
+            fontSize: "inherit",
+        },
+      },
+      MuiFormControl : {
+        marginNormal : {
+            marginTop : "0px",
+            marginBottom : "0px"
+        }
+      },
     },
     expanded: {},
   })(MuiAccordion);
