@@ -1095,7 +1095,7 @@ export class academicInfo extends Component {
                               {...params}
                               error={this.state.twelthExamBoardErr.length > 0}
                               helperText={this.state.twelthExamBoardErr}
-                              label="Board Name"
+                              label="Exam Board"
                               margin="normal"
                             />
                           )}
@@ -1276,7 +1276,7 @@ export class academicInfo extends Component {
                               {...params}
                               error={this.state.tenthExamBoardErr.length > 0}
                               helperText={this.state.tenthExamBoardErr}
-                              label="Board Name"
+                              label="Exam Board"
                               margin="normal"
                             />
                           )}
@@ -1349,7 +1349,6 @@ export class academicInfo extends Component {
                       <Grid item md={3}>
                         <KeyboardDatePicker
                           id="date-picker-dialog"
-                          label="Start Date"
                           inputProps={{ readOnly: true }}
                           disabled={this.state.tenthStartDate === null}
                           minDate={this.state.tenthStartDate}
