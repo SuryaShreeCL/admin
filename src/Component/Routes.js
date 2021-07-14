@@ -149,7 +149,7 @@ export default function Routes(props) {
             <Route exact path={productuserPunchingPath.concat(':id')} render={(props)=> <ProductPunchingLanding {...props} />} />
             <Route exact path={productstructurePath.concat(':id')} render={(props)=> <ProductStages {...props} />} />
             <Route exact path={clientDetailsPath} render={(props)=> <ClientDetails {...props} />} />
-            <Route exact path={callSummaryLayoutPath} render={(props)=> <CallSummaryLayout {...props} />} />
+            <Route exact path={callSummaryLayoutPath.concat(':studentId/product/:productId')} render={(props)=> <CallSummaryLayout {...props} />} />
             <Route exact path={obOperationPath} render={(props)=> <ObOperationLanding {...props} />} />
             <Route exact path={listUsersProdBasedPath} render={(props)=> <ProductBasedUsers {...props} />} />
             <Route exact path={stagedTabsPath} render={(props)=> <StageBasedLayout {...props} />} />

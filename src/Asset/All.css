@@ -364,5 +364,12 @@ input[type=checkbox]:checked + label {
   }
 
 
+  .MuiRating-icon{
+    filter: grayscale(1);
+}
+
+.MuiRating-iconActive{    
+    filter: grayscale(0) !important;
+}  
 /* Rengine Version Two */
 
