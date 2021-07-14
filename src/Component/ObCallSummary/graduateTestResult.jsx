@@ -178,7 +178,7 @@ class GraduateTestResult extends Component {
 
                                     <div style={{ color: '#407BFF', fontSize: 18, }} >
                                         <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
-                                            <p >Access Here</p>
+                                            <Link>Access Here</Link>
                                         </div>
                                     </div>
                                 </TableCell>
@@ -236,7 +236,7 @@ class GraduateTestResult extends Component {
 
                                     <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
                                         <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
-                                            <p >Access Here</p>
+                                            <Link >Access Here</Link>
                                         </div>
                                     </div>
                                 </TableCell>
@@ -295,7 +295,7 @@ class GraduateTestResult extends Component {
                                 <TableCell align='center' style={{ borderBottom: "none" }} >
 
                                     <div style={{ color: '#407BFF', fontSize: 18, fontStyle: 'italic' }} >
-                                        <p >Access Here</p>
+                                        <Link >Access Here</Link>
                                     </div>
                                 </TableCell>
                             </TableRow>

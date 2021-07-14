@@ -45,8 +45,8 @@ class CallSummaryLayout extends Component {
                     <Typography variant="h6">
                         OnBoarding Call Summary
                     </Typography>
-                    <PrimaryButton variant={"contained"} color={"primary"} >
-                        Save Call Summary
+                    <PrimaryButton variant={"contained"} color={"primary"} style={{textTransform: "none"}}>
+                        Complete Call Summary
                     </PrimaryButton>
                 </Grid>
                 <Grid item md={12}>

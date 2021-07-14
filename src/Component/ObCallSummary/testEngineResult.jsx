@@ -50,6 +50,7 @@ class testEngineResult extends Component {
         this.setState({ disable: !this.state.disable })
     }
     render() {
+        console.log(this.state)
         return (
             <div style={{ padding: 25 }}>
                 <div

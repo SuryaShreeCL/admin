@@ -24,6 +24,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { isEmptyString } from "../Validation";
+import PrimaryButton from "../../Utils/PrimaryButton";
 
 const theme = createMuiTheme({
   overrides: {
@@ -651,7 +652,7 @@ class ClientDetails extends Component {
                 </Typography>
               </Grid>
               <Grid item md={3}>
-                <TextField label="Ameyo ID"
+                <TextField label="AMEYO ID"
                  value={this.state.ameyoid}
                  onChange={(e)=>this.setState({ameyoid : e.target.value})}
                  error={this.state.ameyoidErr.length > 0}
@@ -677,21 +678,22 @@ class ClientDetails extends Component {
               <Grid item md={3}>
                 <KeyboardDateTimePicker
                  ampm={false}
-                variant="dialog"
+                 variant="dialog"
                   margin="normal"
-                  id="time-picker"
+                  // id="time-picker"
                   label="OB Call Time"
                   value={this.state.calltime}
                   error={this.state.calltimeErr.length > 0}
                   helperText={this.state.calltimeErr} 
                   onChange={(e, newValue) =>{
                     this.setState({ calltime: newValue });
-                    console.log(this.state.calltime)
+                    // console.log(newValue)
                   }
                   }
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
+                  format="yyyy/MM/dd HH:mm"
                 />
               </Grid>
               <Grid item md={3}>
@@ -794,7 +796,7 @@ class ClientDetails extends Component {
                   margin="normal"
                   disableFuture
                   id="date-picker-dialog"
-                  label="Enrolment Date"
+                  label="Enrollment Date"
                   format="MM/dd/yyyy"
                   value={this.state.enrolldate}
                   error={this.state.enrolldateErr.length > 0}
@@ -1087,8 +1089,8 @@ class ClientDetails extends Component {
                   helperText={this.state.expmonthErr} 
                 />
               </Grid>
-              <Grid item md={12}>
-                {/* <Button onClick={()=>this.handleSaved()}>Save</Button> */}
+              <Grid item md={12} align="center">
+                <PrimaryButton style={{width : "130px"}} color={"primary"} variant={"contained"} onClick={()=>this.handleSaved()}>Save</PrimaryButton>
               </Grid>
             </Grid>
           </MuiPickersUtilsProvider>
