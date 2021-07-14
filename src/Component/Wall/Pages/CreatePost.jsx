@@ -177,7 +177,7 @@ const CreatePost = () => {
                       label='Image'
                     />
                     <FormControlLabel
-                      value='Text'
+                      value='text'
                       control={<Radio color='primary' />}
                       label='Text'
                     />

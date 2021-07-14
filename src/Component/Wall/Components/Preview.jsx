@@ -14,20 +14,25 @@ const Preview = ({ state }) => {
     caption,
     totalLikes,
     buttonText,
-    wallFiles,
+    wallFiles = [],
     supportingMedia,
     redirectionUrl,
     videoLink,
+    isVideoUrlEnabled,
+    wallFilesUpdate = [],
   } = state;
+
+  let uploadedImages = [...wallFiles, ...wallFilesUpdate];
+
   return (
     <PreviewContainer>
       <Frame>
         <img src={iPhoneFrame} alt='iPhone 12 Frame' />
         <Post>
           <div className='Poster'>
-            {supportingMedia === 'image' && wallFiles?.length > 0 && (
+            {supportingMedia === 'image' && uploadedImages?.length > 0 && (
               <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
-                {wallFiles.map((image) => {
+                {uploadedImages.map((image) => {
                   return (
                     <img
                       style={{ maxHeight: '250px' }}

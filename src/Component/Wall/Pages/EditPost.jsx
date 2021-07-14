@@ -157,8 +157,8 @@ const EditPost = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
-              //   updatePost({ ...values, wallFiles: [...values.wallFilesUpdate] });
-              updatePost(values);
+              updatePost({ ...values, wallFiles: [...values.wallFilesUpdate] });
+              //   updatePost(values);
               resetForm();
             }
           }}
@@ -188,7 +188,7 @@ const EditPost = () => {
                       label='Image'
                     />
                     <FormControlLabel
-                      value='Text'
+                      value='text'
                       control={<Radio color='primary' />}
                       label='Text'
                     />
@@ -281,7 +281,7 @@ const EditPost = () => {
                     />
                   </Grid>
                   <Grid container direction='column' style={{ width: '80%' }}>
-                    {/* {values.supportingMedia === 'image' && (
+                    {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField name='wallFilesUpdate' fileType='image' />
                     )}
                     {values.supportingMedia === 'video' && !values.videoURLEnabled && (
@@ -289,7 +289,7 @@ const EditPost = () => {
                     )}
                     {values.supportingMedia === 'audio' && (
                       <MultipleFileUploadField name='wallFilesUpdate' fileType='audio' />
-                    )} */}
+                    )}
                     <Grid item>
                       {values.wallFiles?.map((media) => (
                         <ExistingMedia media={media} wallFiles={values.wallFiles} />
