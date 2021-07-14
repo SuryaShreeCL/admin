@@ -1088,7 +1088,7 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={12}>
-                <Button onClick={()=>this.handleSaved()}>Save</Button>
+                {/* <Button onClick={()=>this.handleSaved()}>Save</Button> */}
               </Grid>
             </Grid>
           </MuiPickersUtilsProvider>
