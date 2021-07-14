@@ -1,11 +1,13 @@
-import { Grid, LinearProgress, Typography, Button, withStyles } from '@material-ui/core';
+import { LinearProgress, Typography, Button, withStyles } from '@material-ui/core';
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
 import Spinner from '../../Assets/Images/Blue-spin.gif';
+import axios from 'axios';
 import Media from '../../Assets/Images/media.png';
-import { bytesToSize } from '../../../Utils/Helpers';
+
+let accessToken = window.sessionStorage.getItem('accessToken');
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -22,8 +24,19 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
+const deletePost = async (id) => {
+  const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallfile/${id}`, {
+    crossDomain: true,
+    headers: {
+      admin: 'yes',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  console.log(data);
+};
+
 export function ExistingMedia(props, progress = 100) {
-  const { url, type } = props.media;
+  const { url, type, id } = props.media;
   return (
     <FileHeaderContainer>
       <div className='img-container'>
@@ -56,7 +69,7 @@ export function ExistingMedia(props, progress = 100) {
         </div>
       </div>
       <Controls.ActionButton>
-        <CloseIcon fontSize='small' color='secondary' />
+        <CloseIcon fontSize='small' color='secondary' onClick={() => deletePost(id)} />
       </Controls.ActionButton>
     </FileHeaderContainer>
   );

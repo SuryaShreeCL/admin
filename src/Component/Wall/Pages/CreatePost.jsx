@@ -22,7 +22,11 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories } from '../../../Actions/WallActions';
+import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
+import Notification from '../../Utils/Notification';
+import { useHistory } from 'react-router-dom';
+import { wallPath } from '../../RoutePaths';
+import ConfirmDialog from '../../Utils/ConfirmDialog';
 
 const useStyles = makeStyles({
   root: {
@@ -46,6 +50,7 @@ const useStyles = makeStyles({
 const CreatePost = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [state, setState] = useState({
     wallCategories: [],
@@ -68,11 +73,18 @@ const CreatePost = () => {
     isVideoLink: false,
   });
 
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+  });
+
   useEffect(() => {
     dispatch(getWallCategories('Live'));
   }, [dispatch]);
 
-  const { loading, error, categories } = useSelector((state) => state.getWallCategoriesReducer);
+  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   const validate = (values) => {
     if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
@@ -81,10 +93,6 @@ const CreatePost = () => {
     }
 
     return true;
-  };
-
-  const handleCategory = (e, values) => {
-    setState((s) => ({ ...s, wallCategories: values }));
   };
 
   const handleScheduled = () => {
@@ -103,6 +111,33 @@ const CreatePost = () => {
     caption: yup.string().required('caption is required'),
   });
 
+  const createPost = (post, activeStatus) => {
+    if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
+    setNotify({
+      isOpen: true,
+      message: 'Post Created Successfully',
+      type: 'success',
+    });
+    setTimeout(() => {
+      history.push(wallPath);
+    }, 1200);
+  };
+
+  const onDiscard = () => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    setTimeout(() => {
+      history.push(wallPath);
+    }, 1200);
+    setNotify({
+      isOpen: true,
+      message: 'Post Discarded',
+      type: 'warning',
+    });
+  };
+
   return (
     <>
       <BackHandler title='Create New Post' />
@@ -111,11 +146,9 @@ const CreatePost = () => {
           initialValues={state || []}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            // addOrEdit(values, resetForm);
             if (validate(values)) {
+              createPost(values, 'Live');
               resetForm();
-              console.log('schema', values);
-              return new Promise((res) => setTimeout(res, 2000));
             }
           }}
           enableReinitialize
@@ -330,7 +363,21 @@ const CreatePost = () => {
                   </Grid>
                   <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
-                    <Button color='primary'>Discard Post</Button>
+                    <Button
+                      color='primary'
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: 'Are you sure to discard this post?',
+                          subTitle: "You can't undo this operation",
+                          onConfirm: () => {
+                            onDiscard();
+                          },
+                        });
+                      }}
+                    >
+                      Discard Post
+                    </Button>
                     <Controls.Button
                       text='Post'
                       variant='contained'
@@ -338,7 +385,9 @@ const CreatePost = () => {
                       style={{ borderRadius: '26px' }}
                       type='submit'
                     />
-                    <Button color='primary'>Save as Draft</Button>
+                    <Button color='primary' onClick={() => createPost(values, 'Draft')}>
+                      Save as Draft
+                    </Button>
                   </ButtonsContainer>
                 </Form>
               </div>
@@ -347,6 +396,8 @@ const CreatePost = () => {
           )}
         </Formik>
       </CreatePostContainer>
+      <Notification notify={notify} setNotify={setNotify} />
+      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </>
   );
 };

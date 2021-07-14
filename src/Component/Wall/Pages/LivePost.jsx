@@ -14,13 +14,13 @@ import useTable from '../../Utils/useTable';
 import Controls from '../../Utils/controls/Controls';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
-import Popup from '../../Utils/Popup';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
+import moment from 'moment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -58,10 +58,11 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'category', label: 'Category' },
+  { id: 'date', label: 'Date' },
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
-  { id: 'Media', label: 'Media' },
+  { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -104,23 +105,8 @@ export default function LivePost() {
     });
   };
 
-  const addOrEdit = (post) => {
-    // if (!post.id) dispatch(createTestimonial(post));
-    // else dispatch(updateTestimonial(post));
-    // setOpenPopup(false);
-    // setTimeout(() => {
-    //   dispatch(listTestimonials());
-    // }, 1200);
-    // setNotify({
-    //   isOpen: true,
-    //   message: 'Submitted Successfully',
-    //   type: 'success',
-    // });
-  };
-
   const openInPopup = (item) => {
     setViewData(item);
-    console.log(item);
     setOpenDrawer(!openDrawer);
   };
 
@@ -193,11 +179,14 @@ export default function LivePost() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.wallCategories?.map((category) => category.name)}</TableCell>
+                  <TableCell>
+                    {item.wallCategories?.map((category) => `${category.name}, `)}
+                  </TableCell>
+                  <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
                   <TableCell>{item.totalViews}</TableCell>
-                  <TableCell>{item?.wallFiles?.length}</TableCell>
+                  <TableCell>{item?.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
@@ -231,9 +220,7 @@ export default function LivePost() {
         </div>
         <TblPagination />
       </Paper>
-      {/* <Popup title='Add or Edit Testimonial' openPopup={openPopup} setOpenPopup={setOpenPopup}>
-        <CreatePost recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
-      </Popup> */}
+
       <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <DrawerContainer>
           <Preview state={viewData} />

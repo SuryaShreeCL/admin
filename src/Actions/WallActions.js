@@ -87,13 +87,17 @@ export const deleteWallPost = (id) => async (dispatch) => {
   }
 };
 
-export const createWallPost = (WALL) => async (dispatch) => {
+export const createWallPost = (post) => async (dispatch) => {
   try {
     dispatch({
       type: WALL.CREATE_REQUEST,
     });
-    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/services/WALLs/`, WALL, {
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/wallpost`, post, {
       crossDomain: true,
+      headers: {
+        admin: 'yes',
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     dispatch({
@@ -111,25 +115,26 @@ export const createWallPost = (WALL) => async (dispatch) => {
   }
 };
 
-export const updateWallPost = (WALL) => async (dispatch) => {
+export const updateWallPost = (post) => async (dispatch) => {
   try {
     dispatch({
       type: WALL.UPDATE_REQUEST,
     });
-
     const { data } = await axios.put(
-      `${process.env.REACT_APP_API_URL}/services/WALLs/${WALL.id}`,
-      WALL,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
+      post,
       {
         crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
       }
     );
-
     dispatch({
       type: WALL.UPDATE_SUCCESS,
       payload: data,
     });
-    dispatch({ type: WALL.DETAILS_SUCCESS, payload: data });
   } catch (error) {
     const message =
       error.response && error.response.data.message ? error.response.data.message : error.message;

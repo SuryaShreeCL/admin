@@ -20,11 +20,14 @@ import { useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import { useSelector, useDispatch } from 'react-redux';
-import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
+import { useHistory } from 'react-router-dom';
 import { ExistingMedia } from '../Components/Upload/ExistingMedia';
-import { getWallCategories } from '../../../Actions/WallActions';
+import { createWallPost, getWallCategories, updateWallPost } from '../../../Actions/WallActions';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import { wallPath } from '../../RoutePaths';
+import Notification from '../../Utils/Notification';
+import ConfirmDialog from '../../Utils/ConfirmDialog';
 
 const useStyles = makeStyles({
   root: {
@@ -48,6 +51,7 @@ const useStyles = makeStyles({
 const EditPost = () => {
   const classes = useStyles();
   let location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const { recordForEdit } = location;
@@ -74,7 +78,14 @@ const EditPost = () => {
     isVideoLink: false,
   });
 
-  const { loading, error, categories } = useSelector((state) => state.getWallCategoriesReducer);
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+  });
+
+  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
@@ -94,8 +105,29 @@ const EditPost = () => {
     return true;
   };
 
-  const handleCategory = (e, values) => {
-    setState((s) => ({ ...s, wallCategories: values }));
+  const onEditDraft = (post, activeStatus) => {
+    if (!post.id) dispatch(createWallPost(post));
+    else dispatch(updateWallPost({ ...post, activeStatus }));
+    setNotify({
+      isOpen: true,
+      message: 'Post Drafted Successfully',
+      type: 'success',
+    });
+    setTimeout(() => {
+      history.push(wallPath);
+    }, 1200);
+  };
+
+  const updatePost = (post) => {
+    dispatch(updateWallPost(post));
+    setNotify({
+      isOpen: true,
+      message: 'Post Updated Successfully',
+      type: 'success',
+    });
+    setTimeout(() => {
+      history.push(wallPath);
+    }, 1200);
   };
 
   const handleScheduled = () => {
@@ -122,11 +154,9 @@ const EditPost = () => {
           initialValues={records || []}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            // addOrEdit(values, resetForm);
             if (validate(values)) {
+              updatePost(values);
               resetForm();
-              console.log('schema', values);
-              return new Promise((res) => setTimeout(res, 2000));
             }
           }}
           enableReinitialize
@@ -355,7 +385,21 @@ const EditPost = () => {
                   </Grid>
                   <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
-                    <Button color='primary'>Discard Post</Button>
+                    <Button
+                      color='primary'
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: 'Are you sure to discard this post?',
+                          subTitle: "You can't undo this operation",
+                          onConfirm: () => {
+                            history.push(wallPath);
+                          },
+                        });
+                      }}
+                    >
+                      Discard Post
+                    </Button>
                     <Controls.Button
                       text='Post'
                       variant='contained'
@@ -363,7 +407,9 @@ const EditPost = () => {
                       style={{ borderRadius: '26px' }}
                       type='submit'
                     />
-                    <Button color='primary'>Save as Draft</Button>
+                    <Button color='primary' onClick={() => onEditDraft(values, 'Draft')}>
+                      Save as Draft
+                    </Button>
                   </ButtonsContainer>
                 </Form>
               </div>
@@ -372,6 +418,8 @@ const EditPost = () => {
           )}
         </Formik>
       </CreatePostContainer>
+      <Notification notify={notify} setNotify={setNotify} />
+      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </>
   );
 };
