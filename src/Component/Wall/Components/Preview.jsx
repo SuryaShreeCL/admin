@@ -18,7 +18,6 @@ const Preview = ({ state }) => {
     supportingMedia,
     redirectionUrl,
     videoLink,
-    isVideoUrlEnabled,
     wallFilesUpdate = [],
   } = state;
 
@@ -30,6 +29,7 @@ const Preview = ({ state }) => {
         <img src={iPhoneFrame} alt='iPhone 12 Frame' />
         <Post>
           <div className='Poster'>
+            {/* Multiple Images Carousel */}
             {supportingMedia === 'image' && uploadedMedia?.length > 0 && (
               <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
                 {uploadedMedia.map((image) => {
@@ -46,7 +46,7 @@ const Preview = ({ state }) => {
             {supportingMedia === 'image' && wallFiles.length === 0 && (
               <img style={{ maxHeight: '250px', width: '100%' }} src={Empty} />
             )}
-            {/* If No Audio Found */}
+            {/* Audio Container */}
             {supportingMedia === 'audio' && (
               <ReactAudioPlayer
                 style={{ backgroundColor: '#f0f3f4' }}
@@ -58,7 +58,7 @@ const Preview = ({ state }) => {
                 controls
               />
             )}
-            {/* If No Video Found */}
+            {/* Video Container */}
             {supportingMedia === 'video' && (
               <ReactPlayer
                 width={300}

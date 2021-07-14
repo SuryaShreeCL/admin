@@ -40,7 +40,9 @@ const ErrorLinearProgress = withStyles((theme) => ({
 }))(LinearProgress);
 
 export function ExistingMedia(props, progress = 100) {
-  const [deleted, setDeleted] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+  
+  //Removing the file from aws based on id
   const deletePost = async (id) => {
     const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallfile/${id}`, {
       crossDomain: true,
@@ -49,7 +51,7 @@ export function ExistingMedia(props, progress = 100) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    setDeleted(true);
+    setIsDeleted(true);
   };
 
   const { url, type, id } = props.media;
@@ -71,7 +73,7 @@ export function ExistingMedia(props, progress = 100) {
           {url}
         </Typography>
         <div className='img-progress'>
-          {deleted ? (
+          {isDeleted ? (
             <ErrorLinearProgress variant='determinate' value={100} style={{ width: '100%' }} />
           ) : (
             <BorderLinearProgress variant='determinate' value={100} />
@@ -79,7 +81,7 @@ export function ExistingMedia(props, progress = 100) {
         </div>
         <div className='img-info'>
           <Typography variant='caption' color='textSecondary'>
-            {deleted ? 'Deleted' : type}
+            {isDeleted ? 'Deleted' : type}
           </Typography>
           {!isNaN(Math.round(progress)) && (
             <Typography variant='caption' color='textSecondary'>{`${Math.round(
