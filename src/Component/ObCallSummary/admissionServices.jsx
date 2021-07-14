@@ -31,6 +31,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { Autocomplete } from '@material-ui/lab';
 import { ExpandMore } from '@material-ui/icons';
+import { isEmptyString } from "../Validation";
 
 
 class AdmissionServices extends Component {
@@ -39,13 +40,26 @@ class AdmissionServices extends Component {
         this.state = {
             disable: false,
             disable2: false,
-            show: false
+            show: false,
+            mentorErr: '',
+            mentor: ''
         }
     }
     handleClick(e) {
 
         this.setState({ disable: !this.state.disable, })
     }
+
+    allocate = () => {
+        isEmptyString(this.state.mentor) ?
+            this.setState({ mentorErr: 'Field Required' }) : this.setState({ mentorErr: '',show:false })
+    }
+    top100Films = [
+        { title: 'The Shawshank Redemption', year: 1994 },
+        { title: 'The Godfather', year: 1972 },
+        { title: 'The Godfather: Part II', year: 1974 },
+        { title: 'The Dark Knight', year: 2008 },
+    ];
     render() {
         return (
             <div style={{ padding: 25 }}>
@@ -64,7 +78,7 @@ class AdmissionServices extends Component {
                         <TableHead>
                             <TableRow>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >No</TableCell>
-                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >WorkFlow</TableCell>
+                                <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Role</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Employee Name</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Allocated By</TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} >Allocated At</TableCell>
@@ -180,14 +194,15 @@ class AdmissionServices extends Component {
                 </TableContainer>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%' }}>
 
-                    <Button
-                        style={{ width: 300, borderRadius: 20 }}
-                        variant="contained"
-                        color="primary"
-                    // startIcon={<AddIcon />}
+                    <PrimaryButton
+                        // onClick={() => this.handleSave()}
+                        style={{ textTransform: "none" }}
+                        variant={"contained"}
+                        color={"primary"}
+                        size={"small"}
                     >
-                        Save Changes
-                    </Button>
+                        Save changes
+                    </PrimaryButton>
                     <Dialog
                         maxWidth="xs"
                         fullWidth={true}
@@ -213,20 +228,26 @@ class AdmissionServices extends Component {
                                 <Autocomplete
                                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                                     id="combo-box-demo"
-                                    // options={this.props.getDegreeList}
-                                    // getOptionLabel={(option) => option.name}
+                                    value={this.state.mentor}
+                                    onChange={(e, newValue) => { this.setState({ mentor: newValue }) }}
+                                    options={this.top100Films}
+                                    getOptionLabel={(option) => option.title}
                                     //   style={{ width: 300 }}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Select Mentor From Dropdown" variant="standard" />
+                                        <TextField {...params} label="Select Mentor From Dropdown"
+                                            variant="standard"
+                                            error={this.state.mentorErr.length > 0}
+                                            helperText={this.state.mentorErr}
+                                        />
                                     )}
                                 />
                             </div>
-                            <div style={{  fontFamily: 'Montserrat', fontSize: 14, fontStyle:'italic'}}>
+                            <div style={{ fontFamily: 'Montserrat', fontSize: 14, fontStyle: 'italic' }}>
                                 <b>Note:</b>
                                 Allocating the mentor will push the user to PGA Stage and Enable access for Call Scheduling tool.
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%', paddingBottom: '10%' }}>
-                                <PrimaryButton variant={"contained"} color={"primary"} >
+                                <PrimaryButton variant={"contained"} color={"primary"} onClick={() => this.allocate()}>
                                     Allocate
                                 </PrimaryButton>
                             </div>

@@ -138,6 +138,7 @@ class ProductActivation extends Component {
             snackOpen: false,
             snackColor: null,
             snackMsg: null,
+            shrink:false,
         };
 
     }
@@ -149,6 +150,9 @@ class ProductActivation extends Component {
         this.props.getAwaitingUsersByAdminId();
         this.props.getAllProductFamily()
         this.props.getProductVarient()
+    }
+    shrink(){
+        this.setState({ shrink: true });
     }
 
     handleShowPopUp = (data) => {
@@ -215,8 +219,16 @@ class ProductActivation extends Component {
                     <TextField
                         label='Search by Email ID / Mobile / Full Name / CLS ID'
                         variant="outlined"
+                        InputLabelProps={{
+                            shrink: this.state.shrink
+                        }}
+                        // label=""
+                        onFocus={()=> this.shrink()}
+                        type="search"
                         InputProps={{
+
                             startAdornment: (
+                                
                                 <InputAdornment position="start">
                                     <SearchIcon />
                                 </InputAdornment>

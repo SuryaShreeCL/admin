@@ -10,11 +10,15 @@ import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getBranches, getDegree, getAllColleges } from "../../Actions/College";
+import {viewProductToStudent} from '../../Actions/ProductAction'
 import {
   getAllProductFamily,
-  getProductByFamilyId,
+  getvarientByid,
+  getProductByFamilyId
 } from "../../Actions/ProductAction";
+import {getStudentsById} from '../../Actions/Student'
 import {getAllDegree,getAllTerms,viewCountry,getallcountry} from '../../Actions/Aspiration'
+import {updateclientdetails} from '../../Actions/Calldetails'
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, KeyboardDateTimePicker } from "@material-ui/pickers";
 import { ExpandMore } from "@material-ui/icons";
@@ -24,6 +28,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { isEmptyString } from "../Validation";
+import PrimaryButton from "../../Utils/PrimaryButton";
 
 const theme = createMuiTheme({
   overrides: {
@@ -127,7 +132,8 @@ class ClientDetails extends Component {
     this.props.getAllDegree();
     this.props.getAllTerms();
     this.props.getallcountry();
-    // this.props.viewCountry();
+    this.props.getStudentsById(this.props.match.params.studentId);
+    this.props.getvarientByid(this.props.match.params.productId)
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
@@ -135,111 +141,34 @@ class ClientDetails extends Component {
         this.state.family !== null ? this.state.family.id : ""
       );
     }
+    if(this.props.getStudentsByIdList !== prevProps.getStudentsByIdList){
+      this.setState({
+        name : this.props.getStudentsByIdList.firstName + this.props.getStudentsByIdList.lastName ,
+        number : this.props.getStudentsByIdList.phoneNumber,
+        email : this.props.getStudentsByIdList.emailId,
+        sem : this.props.getStudentsByIdList.currentSem,
+        department : this.props.getStudentsByIdList.department,
+        collegename : this.props.getStudentsByIdList.college,
+        ugdegree : this.props.getStudentsByIdList.ugDegree,
+        cgpa : this.props.getStudentsByIdList.uggpa,
+        activebacklogs : this.props.getStudentsByIdList.noOfBacklogs,
+        clsid:this.props.getStudentsByIdList.studentID,
+        
+      })
+    }
+    if(this.props.getvarientByidList !== prevProps.getvarientByidList){
+      this.setState({
+        intake : this.props.getvarientByidList.intake,
+        year : this.props.getvarientByidList.year,
+        validity : this.props.getvarientByidList.validity,
+        family:this.props.getvarientByidList.productFamily,
+        endofservice:this.props.getvarientByidList.endOfServiceDate,
+        pricing:this.props.getvarientByidList.sellingPrice,
+        varient : this.props.getvarientByidList
+      })
+    }
   }
-  // componentWillUnmount(){
-  //   console.log(this.state)
-  //   let hlptxt = "Please Fill the Required Field";
-  //   isEmptyString(this.state.name)
-  //     ? this.setState({ nameErr: hlptxt })
-  //     : this.setState({ nameErr: "" });
-  //   isEmptyString(this.state.number)
-  //     ? this.setState({ numberErr: hlptxt })
-  //     : this.setState({ numberErr: "" });
-  //   isEmptyString(this.state.email)
-  //     ? this.setState({ emailErr: hlptxt })
-  //     : this.setState({ emailErr: "" });
-  //   isEmptyString(this.state.ugdegree)
-  //     ? this.setState({ ugdegreeErr: hlptxt })
-  //     : this.setState({ ugdegreeErr: "" });
-  //   isEmptyString(this.state.department)
-  //     ? this.setState({ departmentErr: hlptxt })
-  //     : this.setState({ departmentErr: "" });
-  //   isEmptyString(this.state.collegename)
-  //     ? this.setState({ collegeErr: hlptxt })
-  //     : this.setState({ collegeErr: "" });
-  //   isEmptyString(this.state.sem)
-  //     ? this.setState({ semErr: hlptxt })
-  //     : this.setState({ semErr: "" });
-  //   isEmptyString(this.state.activebacklogs)
-  //     ? this.setState({ activebacklogsErr: hlptxt })
-  //     : this.setState({ activebacklogsErr: "" });
-  //   isEmptyString(this.state.cgpa)
-  //     ? this.setState({ cgpaErr: hlptxt })
-  //     : this.setState({ cgpaErr: "" });
-  //   isEmptyString(this.state.family)
-  //     ? this.setState({ familyErr: hlptxt })
-  //     : this.setState({ familyErr: "" });
-  //   isEmptyString(this.state.varient)
-  //     ? this.setState({ varientErr: hlptxt })
-  //     : this.setState({ varientErr: "" });
-  //   isEmptyString(this.state.intake)
-  //     ? this.setState({ intakeErr: hlptxt })
-  //     : this.setState({ intakeErr: "" });
-  //   isEmptyString(this.state.year)
-  //     ? this.setState({ yearErr: hlptxt })
-  //     : this.setState({ yearErr: "" });
-  //   isEmptyString(this.state.validity)
-  //     ? this.setState({ validityErr: hlptxt })
-  //     : this.setState({ validityErr: "" });
-  //   this.state.endofservice === null
-  //     ? this.setState({ endofserviceErr: hlptxt })
-  //     : this.setState({ endofserviceErr: "" });
-  //   isEmptyString(this.state.pricing)
-  //     ? this.setState({ pricingErr: hlptxt })
-  //     : this.setState({ pricingErr: "" });
-  //   isEmptyString(this.state.ameyoid)
-  //     ? this.setState({ ameyoidErr: hlptxt })
-  //     : this.setState({ ameyoidErr: "" });
-  //   this.state.calldate === null
-  //     ? this.setState({ calldateErr: hlptxt })
-  //     : this.setState({ calldateErr: "" });
-  //   this.state.calltime === null
-  //     ? this.setState({ calltimeErr: hlptxt })
-  //     : this.setState({ calltimeErr: "" });
-  //   isEmptyString(this.state.agent)
-  //     ? this.setState({ agentErr: hlptxt })
-  //     : this.setState({ agentErr: "" });
-  //   isEmptyString(this.state.callstatus)
-  //     ? this.setState({ callstatusErr: hlptxt })
-  //     : this.setState({ callstatusErr: "" });
-  //   this.state.callbacktime === null
-  //     ? this.setState({ callbacktimeErr: hlptxt })
-  //     : this.setState({ callbacktimeErr: "" });
-  //   isEmptyString(this.state.spedays)
-  //     ? this.setState({ speDaysErr: hlptxt })
-  //     : this.setState({ speDaysErr: "" });
-  //   isEmptyString(this.state.spetime)
-  //     ? this.setState({ speErr: hlptxt })
-  //     : this.setState({ speErr: "" });
-  //   this.state.enrolldate === null
-  //     ? this.setState({ enrolldateErr: hlptxt })
-  //     : this.setState({ enrolldateErr: "" });
-  //   isEmptyString(this.state.appdegree)
-  //     ? this.setState({ appdegreeErr: hlptxt })
-  //     : this.setState({ appdegreeErr: "" });
-  //   isEmptyString(this.state.order)
-  //     ? this.setState({ orderErr: hlptxt })
-  //     : this.setState({ orderErr: "" });
-  //   isEmptyString(this.state.countries)
-  //     ? this.setState({ countriesErr: hlptxt })
-  //     : this.setState({ countriesErr: "" });
-  //   isEmptyString(this.state.package)
-  //     ? this.setState({ packageErr: hlptxt })
-  //     : this.setState({ packageErr: "" });
-  //   isEmptyString(this.state.workexp)
-  //     ? this.setState({ workexpErr: hlptxt })
-  //     : this.setState({ workexpErr: "" });
-  //   isEmptyString(this.state.exptype)
-  //     ? this.setState({ exptypeErr: hlptxt })
-  //     : this.setState({ exptypeErr: "" });
-  //   isEmptyString(this.state.expfield)
-  //     ? this.setState({ expfieldErr: hlptxt })
-  //     : this.setState({ expfieldErr: "" });
-  //   isEmptyString(this.state.expmonth)
-  //     ? this.setState({ expmonthErr: hlptxt })
-  //     : this.setState({ expmonthErr: "" });
-  //     console.log(this.state)
-  // }
+  
   CallStatus = [
     {title : "Completed"},
     {title : "Pending"},
@@ -379,12 +308,98 @@ class ClientDetails extends Component {
       isEmptyString(this.state.intakeyear)
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
-      console.log(this.state)
-  };
-
+      // console.log(this.state)
+      if(
+        !isEmptyString(this.state.name) &&
+        !isEmptyString(this.state.number) &&
+        !isEmptyString(this.state.email)&&     
+        !isEmptyString(this.state.ugdegree)&&      
+        !isEmptyString(this.state.department)&&      
+        !isEmptyString(this.state.collegename)&&     
+        !isEmptyString(this.state.sem)&&     
+        !isEmptyString(this.state.activebacklogs)&&      
+        !isEmptyString(this.state.cgpa)&&      
+        !isEmptyString(this.state.family)&&     
+        !isEmptyString(this.state.varient)&&     
+        !isEmptyString(this.state.intake)&&      
+        !isEmptyString(this.state.year)&&     
+        !isEmptyString(this.state.validity)&&      
+        !this.state.endofservice === null&&     
+        !isEmptyString(this.state.pricing)&&     
+        !isEmptyString(this.state.ameyoid)&&    
+        this.state.calldate !== null&&     
+        this.state.calltime !== null&&      
+        !isEmptyString(this.state.agent)&&     
+        !isEmptyString(this.state.callstatus)&&    
+        !this.state.callbacktime === null&&      
+        !isEmptyString(this.state.spedays)&&    
+        !isEmptyString(this.state.spetime)&&    
+        this.state.enrolldate !== null&&   
+        !isEmptyString(this.state.appdegree)&&   
+        !isEmptyString(this.state.order)&&      
+        !isEmptyString(this.state.countries)&&      
+        !isEmptyString(this.state.package)&&     
+        !isEmptyString(this.state.workexp)&&    
+        !isEmptyString(this.state.exptype)&&     
+        !isEmptyString(this.state.expfield)&&     
+        !isEmptyString(this.state.expmonth)  
+      ){
+       let obj={
+        "ugDegree":{
+            "id":"ea0d2f9a-95b3-4d2f-a4b1-2e2b341e1686"
+        },
+        "studentCollege":{
+            "id":"b470690b-23e9-4761-a968-777e0cf885cf"
+        },
+        "studentDepartment":{
+            "id":"e108b892-e869-4953-90da-0ed0164d896b"
+        },
+        "studentCurrentSem":"1",
+        "studentCgpa":this.state.cgpa,
+        "ameyoId":this.state.ameyoid,
+        "oBCallDate":this.state.calldate,
+        "oBCallTime":this.state.calltime,
+        "onBoardingAgent":this.state.agent,
+        "callStatus":this.state.callstatus,
+        "callBackTime":this.state.callbacktime,
+        "weekDays":this.state.spedays,
+        "specificTime":this.state.spetime,
+        "aspirationDegrees":[{
+            "id":null
+        }],
+        "aspirationCountries":[{
+            "id":null
+        }],
+        "aspirationTerms":[{
+            "id":null
+        }],
+        "enrollmentDate":"",
+        "orderType":this.state.order,
+        "intakeYear":this.state.intakeyear,
+        "packages":this.state.package,
+        "workExperience":this.state.workexp.title,
+        "typeOfExperience":this.state.exptype,
+        "fieldOfExpertise":this.state.expfield,
+        "experienceMonths":this.state.expmonth,
+        "degree":{
+            "id":"ea0d2f9a-95b3-4d2f-a4b1-2e2b341e1686"
+        },
+        "department":{
+            "id":"e108b892-e869-4953-90da-0ed0164d896b"
+        },
+        "college":{
+            "id":"b470690b-23e9-4761-a968-777e0cf885cf"
+        },
+        "presentSem":this.state.sem,
+        "activeBacklogs":this.state.activebacklogs,
+        "cgpa":this.state.cgpa
+    }
+  }
+  }
+    // this.props.updateclientdetails(this.props.match.params.studentId,this.props.match.params.productId,obj)
   render() {
     console.log(this.state);
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -651,7 +666,7 @@ class ClientDetails extends Component {
                 </Typography>
               </Grid>
               <Grid item md={3}>
-                <TextField label="Ameyo ID"
+                <TextField label="AMEYO ID"
                  value={this.state.ameyoid}
                  onChange={(e)=>this.setState({ameyoid : e.target.value})}
                  error={this.state.ameyoidErr.length > 0}
@@ -677,21 +692,22 @@ class ClientDetails extends Component {
               <Grid item md={3}>
                 <KeyboardDateTimePicker
                  ampm={false}
-                variant="dialog"
+                 variant="dialog"
                   margin="normal"
-                  id="time-picker"
+                  // id="time-picker"
                   label="OB Call Time"
                   value={this.state.calltime}
                   error={this.state.calltimeErr.length > 0}
                   helperText={this.state.calltimeErr} 
                   onChange={(e, newValue) =>{
                     this.setState({ calltime: newValue });
-                    console.log(this.state.calltime)
+                    // console.log(newValue)
                   }
                   }
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
+                  format="yyyy/MM/dd HH:mm"
                 />
               </Grid>
               <Grid item md={3}>
@@ -794,7 +810,7 @@ class ClientDetails extends Component {
                   margin="normal"
                   disableFuture
                   id="date-picker-dialog"
-                  label="Enrolment Date"
+                  label="Enrollment Date"
                   format="MM/dd/yyyy"
                   value={this.state.enrolldate}
                   error={this.state.enrolldateErr.length > 0}
@@ -1039,7 +1055,7 @@ class ClientDetails extends Component {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Any Work Exps ?"
+                      label="Any Work Exp?"
                       variant="standard"
                       error={this.state.workexpErr.length > 0}
                       helperText={this.state.workexpErr} 
@@ -1087,8 +1103,8 @@ class ClientDetails extends Component {
                   helperText={this.state.expmonthErr} 
                 />
               </Grid>
-              <Grid item md={12}>
-                <Button onClick={()=>this.handleSaved()}>Save</Button>
+              <Grid item md={12} align="center">
+                <PrimaryButton style={{width : "130px"}} color={"primary"} variant={"contained"} onClick={()=>this.handleSaved()}>Save</PrimaryButton>
               </Grid>
             </Grid>
           </MuiPickersUtilsProvider>
@@ -1107,7 +1123,10 @@ const mapStateToProps = (state) => {
     getAspDegreeList : state.AspirationReducer.allDegreeList,
     getAspTermsList :state.AspirationReducer.allTermList,
     getcountrylist : state.AspirationReducer.viewCountryList,
-    getallcountryList : state.AspirationReducer.getallcountry
+    getallcountryList : state.AspirationReducer.getallcountry,
+    getStudentsByIdList : state.StudentReducer.StudentList,
+   getvarientByidList : state.ProductReducer.getvarientByid,
+   updateclientdetailsList : state.ProductReducer.updateclientdetails
   };
 };
 
@@ -1120,5 +1139,8 @@ export default connect(mapStateToProps, {
   getAllDegree,
   getAllTerms,
   viewCountry,
-  getallcountry
+  getallcountry,
+  getStudentsById,
+  getvarientByid,
+  updateclientdetails
 })(ClientDetails);

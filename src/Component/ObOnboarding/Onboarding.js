@@ -14,7 +14,7 @@ import React, { Component } from "react";
 import PrimaryButton from '../../Utils/PrimaryButton'
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { OnboardingPersonalInfoPath, stagedTabsPath } from "../RoutePaths";
+import { OnboardingPersonalInfoPath, stagedTabsPath,callSummaryLayoutPath } from "../RoutePaths";
 import DataGridTable from "../Utils/DataGridTable";
 import Call from "../../Asset/Images/callImg.png"
 
@@ -96,7 +96,7 @@ export class Onboarding extends Component {
                     <TableCell align="center">90%</TableCell>
                     <TableCell>
                       <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
-                    <img src={Call} style={{height:30, width:30, marginRight:10}} />
+                    <img onClick={()=>this.props.history.push(callSummaryLayoutPath+"02c1c610-3f86-45ff-88e3-9642d8ee092e"+"/product/"+"fecd061a-cffa-4a01-9e3d-8226ff20186a")} src={Call} style={{height:30, width:30, marginRight:10}} />
                       <PrimaryButton
                         onClick={()=>this.props.history.push(stagedTabsPath)}
                         variant={"contained"}
