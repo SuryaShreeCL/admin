@@ -28,6 +28,7 @@ import TextField from '@material-ui/core/TextField';
 import { wallPath } from '../../RoutePaths';
 import Notification from '../../Utils/Notification';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
+import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 
 const useStyles = makeStyles({
   root: {
@@ -64,6 +65,7 @@ const EditPost = () => {
     wallFiles: [],
     canComment: false,
     totalViews: 0,
+    wallFilesUpdate: [],
     totalLikes: 0,
     redirectionUrl: '',
     buttonText: '',
@@ -155,6 +157,7 @@ const EditPost = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
+              //   updatePost({ ...values, wallFiles: [...values.wallFilesUpdate] });
               updatePost(values);
               resetForm();
             }
@@ -278,6 +281,15 @@ const EditPost = () => {
                     />
                   </Grid>
                   <Grid container direction='column' style={{ width: '80%' }}>
+                    {/* {values.supportingMedia === 'image' && (
+                      <MultipleFileUploadField name='wallFilesUpdate' fileType='image' />
+                    )}
+                    {values.supportingMedia === 'video' && !values.videoURLEnabled && (
+                      <MultipleFileUploadField name='wallFilesUpdate' fileType='video' />
+                    )}
+                    {values.supportingMedia === 'audio' && (
+                      <MultipleFileUploadField name='wallFilesUpdate' fileType='audio' />
+                    )} */}
                     <Grid item>
                       {values.wallFiles?.map((media) => (
                         <ExistingMedia media={media} wallFiles={values.wallFiles} />

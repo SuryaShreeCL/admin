@@ -271,25 +271,13 @@ const CreatePost = () => {
                   </Grid>
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.supportingMedia === 'image' && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        fileType='image'
-                        folderName='app-images'
-                      />
+                      <MultipleFileUploadField name='wallFiles' fileType='image' />
                     )}
                     {values.supportingMedia === 'video' && !values.videoURLEnabled && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        fileType='video'
-                        folderName='app-videos'
-                      />
+                      <MultipleFileUploadField name='wallFiles' fileType='video' />
                     )}
                     {values.supportingMedia === 'audio' && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        fileType='audio'
-                        folderName='app-audio'
-                      />
+                      <MultipleFileUploadField name='wallFiles' fileType='audio' />
                     )}
                   </Grid>
                   <Grid
