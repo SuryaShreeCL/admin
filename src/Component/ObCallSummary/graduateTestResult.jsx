@@ -6,6 +6,12 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+  } from "@material-ui/pickers";
+  import DateFnsUtils from "@date-io/date-fns";
+import {
     Table,
     TableBody,
     TableCell,
@@ -14,7 +20,10 @@ import {
     TableRow,
     Slide,
     TextField,
-    Button
+    Button,
+    Dialog,
+    DialogContent,
+    Typography
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import IconButton from '@material-ui/core/IconButton';
@@ -24,6 +33,8 @@ import Select from '@material-ui/core/Select';
 import PrimaryButton from '../../Utils/PrimaryButton';
 import Warning from "../../Asset/Images/warningImg.png";
 import { Link } from 'react-router-dom';
+import Pencil from "../../Asset/Images/pencil.png";
+
 
 class GraduateTestResult extends Component {
     constructor() {
@@ -33,16 +44,20 @@ class GraduateTestResult extends Component {
 
         this.state = {
             disable: false,
-            date:date
+            date:date,
+            show:false,
         }
     }
     handleClick(e) {
-
-        this.setState({ disable: !this.state.disable })
+        // this.setState({ disable: !this.state.disable })
+       this.setState({
+           show:true
+       })
     }
     render() {
         return (
             <div style={{ padding: 25 }}>
+                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <div
                     style={{
                         display: "flex",
@@ -65,9 +80,15 @@ class GraduateTestResult extends Component {
                         style={{ position: "realative", top: 5 }}
                     />
                 </div>
-
+                <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
                 <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     GRE
+                </div>
+                <div>
+                <IconButton onClick={()=>this.handleClick("GRE")}>
+                        <img src={Pencil} height={17} width={17} />
+                    </IconButton>
+                </div>
                 </div>
                 <TableContainer>
                     <Table>
@@ -127,9 +148,17 @@ class GraduateTestResult extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
                 <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     GMAT
                 </div>
+                <div>
+                <IconButton onClick={()=>this.handleClick()}>
+                        <img src={Pencil} height={17} width={17} />
+                    </IconButton>
+                </div>
+                </div>
+              
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -186,8 +215,15 @@ class GraduateTestResult extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
                 <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     TOEFL
+                </div>
+                <div>
+                <IconButton onClick={()=>this.handleClick()}>
+                        <img src={Pencil} height={17} width={17} />
+                    </IconButton>
+                </div>
                 </div>
                 <TableContainer>
                     <Table>
@@ -245,8 +281,15 @@ class GraduateTestResult extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
                 <div style={{ fontSize: 18, fontWeight: 'bold', paddingLeft: 15, paddingTop: 10 }}>
                     IELTS
+                </div>
+                <div>
+                <IconButton onClick={()=>this.handleClick()}>
+                        <img src={Pencil} height={17} width={17} />
+                    </IconButton>
+                </div>
                 </div>
                 <TableContainer>
                     <Table>
@@ -309,6 +352,63 @@ class GraduateTestResult extends Component {
                         Save Changes
                     </PrimaryButton>
                 </div>
+                <Dialog open={this.state.show} onClose={()=>this.setState({show:false})}>
+                    <DialogContent>
+                       <Grid container spacing={2}>
+                           <Grid item md={12}>
+                               <Typography>GRE</Typography>
+                           </Grid>
+                           <Grid item md={6}>
+                               <TextField
+                                label="Attempt"
+                               />
+                           </Grid>
+                           <Grid item md={6}>
+                           <KeyboardDatePicker
+                                margin="normal"
+                                id="date-picker-dialog"
+                                label="Exam Date"
+                                format="MM/dd/yyyy"
+                                // value={this.state.endofservice}
+                                disabled
+                                // onChange={(e, newValue) =>
+                                //     this.setState({ endofservice: newValue })
+                                // }
+                                KeyboardButtonProps={{
+                                    "aria-label": "change date",
+                                }}
+                                />
+                           </Grid>
+                           <Grid item md={6}>
+                               <TextField
+                                label="Quantative Reasoning"
+                               />
+                           </Grid>
+                           <Grid item md={6}>
+                               <TextField
+                                label="Verbal Reasoning "
+                               />
+                           </Grid>
+                           <Grid item md={6}>
+                               <TextField
+                                label="GRE Marks"
+                               />
+                           </Grid>
+                           <Grid item md={6}>
+                               <TextField
+                                label="Analytical Writing"
+                               />
+                           </Grid>
+                           <Grid item md={12}>
+
+                           </Grid>
+                           <Grid item md={6}>
+                               <PrimaryButton color={"primary"} variant={"contained"} style={{width:"130px"}}>Save</PrimaryButton>
+                           </Grid>
+                       </Grid>
+                    </DialogContent>
+                </Dialog>
+                </MuiPickersUtilsProvider>
             </div>
         );
     }
