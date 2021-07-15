@@ -429,15 +429,17 @@ class GraduateTestResult extends Component {
                                         fullWidth
                                     />
                                 </Grid>
-                                <Grid item md={12}>
-
-                                </Grid>
-                                <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}>
+                                <Grid item md={3}>
+                                {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
                                     <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px" }}>Save</PrimaryButton>
-                                </div>
-                                <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}>
+                                {/* </div> */}
+                                </Grid>
+                                <Grid item md={2}>
+                                {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
                                     <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px" }}>Cancel</PrimaryButton>
-                                </div>
+                                {/* </div> */}
+                                </Grid>
+                               
                             </Grid>
 
                         </DialogContent>
