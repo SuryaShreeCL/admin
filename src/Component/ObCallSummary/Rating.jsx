@@ -12,6 +12,10 @@ import Happy from "../../Asset/Images/happy.svg";
 import Love from "../../Asset/Images/love.svg";
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "styled-components";
+// import {updateRating } from '../../Actions/Calldetails';
+import { connect } from "react-redux";
+import { updateRating } from '../../Actions/Calldetails';
+import PrimaryButton from "../../Utils/PrimaryButton";
 
 
 const StyledRating = withStyles({
@@ -384,6 +388,7 @@ const theme = createMuiTheme({
     }
   },
 });
+
 export class rating extends Component {
   constructor(props) {
     super(props);
@@ -392,6 +397,18 @@ export class rating extends Component {
       hover: -1,
     };
   }
+
+  handleSaved = () => {
+    // console.log(this.state,'state')
+    let obj = {
+      // ratingOfExpectation:,
+      // ratingOfUnderstanding:,
+      // ratingOfInteraction:
+        
+    }
+    console.log(obj, 'sa')
+    // this.props.updateRating(obj)
+}
 
   valuetext(value) {
     return `${value}`;
@@ -497,6 +514,7 @@ export class rating extends Component {
           </Grid>
         </Grid>
         {/* </Card> */}
+        <PrimaryButton style={{ width: "130px" }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
       </div>
     );
   }
@@ -565,4 +583,12 @@ const PrettoSlider = withStyles({
   }
 })(Slider);
 
-export default rating;
+const mapStateToProps = (state) => {
+  return {
+    updateRatingList: state.CallReducer.updateRating
+  };
+};
+
+export default connect(mapStateToProps, {
+// updateRating
+})(rating);

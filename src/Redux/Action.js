@@ -205,7 +205,9 @@ export const MENTORSCHEDULELIST={
   viewSchedule : "viewSchedule"
 }
 export const CALL_DETAILS={
-  updateclientdetails : "updateclientdetails"
+  updateclientdetails : "updateclientdetails",
+  updateQuestions : "updateQuestions",
+  updateRating : "updateRating"
 }
 
 export const CAREER_TRACK = {

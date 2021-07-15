@@ -22,7 +22,8 @@ import {
 import StudentMarkDetailReducer from "../Reducer/MarkReducer";
 import ScoreDetailsReducer from "../Reducer/ScoreReducer"
 import MentorReducer from '../Reducer/MentorReducer';
-import PgaReducer from "../Reducer/PgaReducer"
+import PgaReducer from "../Reducer/PgaReducer";
+import CallReducer from '../Reducer/CallReducer';
 
 
 export default combineReducers({
@@ -48,4 +49,5 @@ export default combineReducers({
   testimonialDeleteReducer: testimonialDeleteReducer,
   testimonialUpdateReducer: testimonialUpdateReducer,
   testimonialListReducer: testimonialListReducer,
+  CallReducer: CallReducer,
 });

@@ -5,7 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { IconButton } from '@material-ui/core';
 import Pencil from "../../Asset/Images/pencil.png";
-
+import { connect } from "react-redux";
+import { updateQuestions } from '../../Actions/Calldetails'
+import { ControlCameraOutlined } from '@material-ui/icons';
+import PrimaryButton from '../../Utils/PrimaryButton';
 const ColoredLine = ({ color }) => (
     <hr
         style={{
@@ -21,6 +24,10 @@ class Question extends Component {
         super()
         this.state = {
             disable: true,
+            questions: '',
+            expectations: '',
+            concerns: '',
+            feedback: '',
 
         }
     }
@@ -28,9 +35,36 @@ class Question extends Component {
     handleClick(e) {
 
         this.setState({ disable: !this.state.disable })
-    }
+    };
 
+    // componentDidMount() {
+    //     this.props.updateQuestions()
+    //     console.log(this.props.updateQuestions())
+    // };
+    handleSaved = () => {
+        // console.log(this.state,'state')
+        let obj = {
+            question: this.state.questions,
+            expectations: this.state.expectations,
+            concerns: this.state.concerns,
+            feedback: this.state.feedback,
+            
+        }
+        console.log(obj, "hello")
+        this.props.updateQuestions(obj)
+    }
+    // if() {
+    //     let obj = {
+        //         questions: this.state.questions,
+        //         expectations: this.state.expectations,
+        //         concerns: this.state.concerns,
+        //         feedback: this.state.feedback,
+    //     }
+    // }
+
+    
     render() {
+        // console.log(this.state)
         return (
             <div >
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -51,7 +85,7 @@ class Question extends Component {
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+                            data={this.state.questions}
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
@@ -62,20 +96,13 @@ class Question extends Component {
                             }}
 
                             disabled={this.state.disable}
-                            onInit={editor => {
-                                // You can store the "editor" and use when it is needed.
-                                console.log("Editor is ready to use!", editor);
+                    
+                            onChange={(event, editors) => {
+                                const data = editors.getData();
+                                // console.log( { event, editors, data } );
+                                this.setState({ questions: data })
                             }}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                console.log(data);
-                            }}
-                            onBlur={editor => {
-                                console.log("Blur.", editor);
-                            }}
-                            onFocus={editor => {
-                                console.log("Focus.", editor);
-                            }}
+
                         />
                         <ColoredLine color="gray" />
 
@@ -90,8 +117,7 @@ class Question extends Component {
                         <CKEditor
 
                             editor={ClassicEditor}
-                            data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-
+                            data={this.state.expectations}
                             config={
 
                                 {
@@ -103,33 +129,24 @@ class Question extends Component {
                                     }
                                 }}
                             disabled={this.state.disable}
-                            onInit={editor => {
-                                // You can store the "editor" and use when it is needed.
-                                console.log("Editor is ready to use!", editor);
-                            }}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                console.log(data);
-                            }}
-                            onBlur={editor => {
-                                console.log("Blur.", editor);
-                            }}
-                            onFocus={editor => {
-                                console.log("Focus.", editor);
+                            onChange={(event, editors) => {
+                                const data = editors.getData();
+                                // console.log( { event, editors, data } );
+                                this.setState({ expectations: data })
                             }}
                         />
                         <ColoredLine color="gray" />
                     </Grid>
 
-                    <Grid item xs={12} sm={6}  style={{marginTop:'-20px'}}>
-                        <div style={{ color: '#686868', fontSize: 12}}>
+                    <Grid item xs={12} sm={6} style={{ marginTop: '-20px' }}>
+                        <div style={{ color: '#686868', fontSize: 12 }}>
                             Concerns / Issues / Complaints (Testimonials, Trust Issues, Pricey, No Proven Track Record)
                         </div>
 
                         <CKEditor
                             editor={ClassicEditor}
                             disabled={this.state.disable}
-                            data="Lorem Ipsum is  dummy text of the printing industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+                            data={this.state.concerns}
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
@@ -138,25 +155,15 @@ class Question extends Component {
                                     readOnly: true
                                 }
                             }}
-
-                            onInit={editor => {
-                                // You can store the "editor" and use when it is needed.
-                                console.log("Editor is ready to use!", editor);
-                            }}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                console.log(data);
-                            }}
-                            onBlur={editor => {
-                                console.log("Blur.", editor);
-                            }}
-                            onFocus={editor => {
-                                console.log("Focus.", editor);
+                            onChange={(event, editors) => {
+                                const data = editors.getData();
+                                // console.log( { event, editors, data } );
+                                this.setState({ concerns: data })
                             }}
                         />
                         <ColoredLine color="gray" />
                     </Grid>
-                    <Grid item xs={12} sm={6} style={{marginTop:'-20px'}}>
+                    <Grid item xs={12} sm={6} style={{ marginTop: '-20px' }}>
                         <div style={{ color: '#686868', fontSize: 12, }}>
                             Observations
                         </div>
@@ -164,27 +171,17 @@ class Question extends Component {
                         <CKEditor
                             editor={ClassicEditor}
                             disabled={this.state.disable}
-                            data="Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+                            data={this.state.feedback}
                             config={{
                                 mediaEmbed: {
                                     previewsInData: true,
                                 },
 
                             }}
-
-                            onInit={editor => {
-                                // You can store the "editor" and use when it is needed.
-                                console.log("Editor is ready to use!", editor);
-                            }}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                console.log(data);
-                            }}
-                            onBlur={editor => {
-                                console.log("Blur.", editor);
-                            }}
-                            onFocus={editor => {
-                                console.log("Focus.", editor);
+                            onChange={(event, editors) => {
+                                const data = editors.getData();
+                                // console.log( { event, editors, data } );
+                                this.setState({ feedback: data })
                             }}
                         />
 
@@ -193,12 +190,21 @@ class Question extends Component {
                     </Grid>
 
                 </Grid>
-
+                <PrimaryButton style={{ width: "130px" }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
             </div>
 
 
         );
     }
 }
+const mapStateToProps = (state) => {
+    // console.log(state)
+    return {
+        updateQuestionsList: state.CallReducer.updateQuestions 
+    };
+};
 
-export default Question;
+export default connect(mapStateToProps, {
+    updateQuestions 
+})(Question);
+

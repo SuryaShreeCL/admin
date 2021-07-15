@@ -223,6 +223,7 @@ class ProductActivation extends Component {
                             shrink: this.state.shrink
                         }}
                         // label=""
+                    
                         onFocus={()=> this.shrink()}
                         type="search"
                         InputProps={{

@@ -478,7 +478,7 @@ class GraduateTestResult extends Component {
                                 </Grid>
                                 <Grid item md={6} sm={6} xs={6}>
                                 </Grid>
-                                <Grid item md={2}>
+                                <Grid item md={2}  >
                                     {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
                                     <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px" }}>Save</PrimaryButton>
                                     {/* </div> */}
@@ -488,6 +488,10 @@ class GraduateTestResult extends Component {
                                     <PrimaryButton color={"primary"} variant={"outlined"} style={{ width: "130px" }}>Cancel</PrimaryButton>
                                     {/* </div> */}
                                 </Grid>
+                                <Grid item md={8}>
+                                    </Grid>
+                                    <Grid item md={8}>
+                                    </Grid>
 
                             </Grid>
 
