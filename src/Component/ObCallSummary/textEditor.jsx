@@ -51,7 +51,7 @@ class Question extends Component {
             
         }
         console.log(obj, "hello")
-        this.props.updateQuestions(obj)
+        this.props.updateQuestions(this.props.match.params.studentId,this.props.match.params.productId,obj)
     }
     // if() {
     //     let obj = {
@@ -165,7 +165,7 @@ class Question extends Component {
                     </Grid>
                     <Grid item xs={12} sm={6} style={{ marginTop: '-20px' }}>
                         <div style={{ color: '#686868', fontSize: 12, }}>
-                            Observations
+                        Feedback &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
                         </div>
 
                         <CKEditor
