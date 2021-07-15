@@ -203,6 +203,7 @@ const marks = [
           fontStyle: "normal",
           fontSize: "12px",
           color: "#052A4E",
+          marginLeft: 20,
         }}
       >
         Neutral
