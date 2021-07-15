@@ -27,6 +27,8 @@ import {
 } from "@material-ui/core";
 import { Autocomplete } from '@material-ui/lab';
 import { ExpandMore } from '@material-ui/icons';
+import Dropzone from 'react-dropzone';
+import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -56,6 +58,7 @@ class GraduateTestResult extends Component {
             disable: false,
             date: date,
             show: false,
+            files: [],
         }
     }
     handleClick(e) {
@@ -384,7 +387,7 @@ class GraduateTestResult extends Component {
                                         format="MM/dd/yyyy"
                                         fullWidth
                                         // value={this.state.endofservice}
-                                        disabled
+                                        // disabled
                                         // onChange={(e, newValue) =>
                                         //     this.setState({ endofservice: newValue })
                                         // }
@@ -429,17 +432,63 @@ class GraduateTestResult extends Component {
                                         fullWidth
                                     />
                                 </Grid>
-                                <Grid item md={3}>
-                                {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
-                                    <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px" }}>Save</PrimaryButton>
-                                {/* </div> */}
+                                <Grid item md={6} sm={6} xs={6}>
+                                    <Dropzone onDrop={this.onDrop}>
+                                        {({ getRootProps, getInputProps }) => (
+                                            <section >
+                                                 <p
+                                                        style={{
+                                                            color: '#686868',
+                                                            fontFamily: 'Montserrat',
+                                                            fontSize:'12px'
+                                                        }}
+                                                    >
+                                                        Upload Completed certificate
+                                                    </p>
+                                                <div
+                                                    style={{
+                                                        height: '100px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        cursor: 'pointer',
+                                                        border: '1px dashed #1093FF',
+                                                    }}
+                                                    {...getRootProps({ className: 'dropzone' })}
+                                                >
+                                                    <input {...getInputProps()} />
+                                                    <PublishRoundedIcon color="primary" />
+                                                </div>
+                                                
+                                                <aside>
+                                                    <p
+                                                        style={{
+                                                            color: '#686868',
+                                                            fontFamily: 'Montserrat',
+                                                        }}
+                                                    >
+                                                        File size: less than 1MB | Format: PDF
+                                                    </p>
+
+                                                    {/* <ul>{this.state.finalFile !== null ? files : null}</ul> */}
+                                                </aside>
+                                            </section>
+                                        )}
+                                    </Dropzone>
+                                </Grid>
+                                <Grid item md={6} sm={6} xs={6}>
                                 </Grid>
                                 <Grid item md={2}>
-                                {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
-                                    <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px" }}>Cancel</PrimaryButton>
-                                {/* </div> */}
+                                    {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
+                                    <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px" }}>Save</PrimaryButton>
+                                    {/* </div> */}
                                 </Grid>
-                               
+                                <Grid item md={2}>
+                                    {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
+                                    <PrimaryButton color={"primary"} variant={"outlined"} style={{ width: "130px" }}>Cancel</PrimaryButton>
+                                    {/* </div> */}
+                                </Grid>
+
                             </Grid>
 
                         </DialogContent>
