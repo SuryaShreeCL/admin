@@ -17,7 +17,7 @@ const Preview = ({ state }) => {
     wallFiles = [],
     supportingMedia,
     redirectionUrl,
-    videoLink,
+    videoUrl,
     wallFilesUpdate = [],
   } = state;
 
@@ -67,12 +67,19 @@ const Preview = ({ state }) => {
                 url={
                   wallFiles[0]?.isUploaded === true
                     ? `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${wallFiles[0]?.url}&type=video`
-                    : videoLink || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'
+                    : videoUrl || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'
                 }
               />
             )}
           </div>
-          <div className='TopBar'>
+          <div className='CaptionContainer'>
+            {/* <h6 style={{ marginTop: '7px' }}>#{category || 'Category Name'}</h6> */}
+            <p>
+              {caption ||
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
+            </p>
+          </div>
+          <div className='BottomBar'>
             <span className='favIcon'>
               <FavoriteIcon style={{ color: 'red' }} />
               <span className='digits'>{totalLikes || '000'} </span>
@@ -84,15 +91,6 @@ const Preview = ({ state }) => {
             {/* <span className='shareIcon'>
               <ShareIcon />{' '}
             </span> */}
-          </div>
-          <div className='CaptionContainer'>
-            {/* <h6 style={{ marginTop: '7px' }}>#{category || 'Category Name'}</h6> */}
-            <p>
-              {caption ||
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
-            </p>
-          </div>
-          <div className='BottomBar'>
             {redirectionUrl?.length > 1 && buttonText?.length > 1 && (
               <a href={redirectionUrl} className='redirectionBtn'>
                 {buttonText || 'Text'}

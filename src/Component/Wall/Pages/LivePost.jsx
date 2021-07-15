@@ -206,7 +206,7 @@ export default function LivePost() {
                         });
                       }}
                     >
-                      <CloseIcon fontSize='small' color='secondary' />
+                      <DeleteIcon fontSize='small' color='secondary' />
                     </Controls.ActionButton>
                   </TableCell>
                 </TableRow>

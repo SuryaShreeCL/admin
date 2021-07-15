@@ -71,8 +71,8 @@ const EditPost = () => {
     buttonText: '',
     selectedDate: new Date(),
     isScheduled: false,
-    videoURLEnabled: false,
-    videoLink: '',
+    isVideoUrlEnabled: false,
+    videoUrl: '',
     activeStatus: 'Live',
   });
 
@@ -99,7 +99,7 @@ const EditPost = () => {
   }, [recordForEdit, dispatch]);
 
   const validate = (values) => {
-    if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
+    if (values.isVideoUrlEnabled && values.wallFiles.url.length < 1) {
       setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
     }
@@ -156,11 +156,11 @@ const EditPost = () => {
           initialValues={records || state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            if (validate(values)) {
-              updatePost({ ...values, wallFiles: [...values.wallFilesUpdate] });
-              //   updatePost(values);
-              resetForm();
-            }
+            // if (validate(values)) {
+            updatePost({ ...values, wallFiles: [...values.wallFilesUpdate] });
+            //   updatePost(values);
+            resetForm();
+            // }
           }}
           enableReinitialize
         >
@@ -236,8 +236,8 @@ const EditPost = () => {
                       <span style={{ fontSize: '1rem' }}>
                         Video URL Available
                         <Switch
-                          checked={values.videoURLEnabled}
-                          name='videoURLEnabled'
+                          checked={values.isVideoUrlEnabled}
+                          name='isVideoUrlEnabled'
                           onChange={handleChange}
                           color='primary'
                           inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -245,13 +245,13 @@ const EditPost = () => {
                       </span>
                     </Grid>
                   )}
-                  {values.supportingMedia === 'video' && values.videoURLEnabled && (
+                  {values.supportingMedia === 'video' && values.isVideoUrlEnabled && (
                     <Grid item>
                       <Controls.Input
                         label='Paste Video URL'
-                        name='videoLink'
+                        name='videoUrl'
                         className={classes.spacer}
-                        value={values.videoLink}
+                        value={values.videoUrl}
                         error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />
@@ -284,7 +284,7 @@ const EditPost = () => {
                     {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField name='wallFilesUpdate' fileType='image' />
                     )}
-                    {values.supportingMedia === 'video' && !values.videoURLEnabled && (
+                    {values.supportingMedia === 'video' && !values.isVideoUrlEnabled && (
                       <MultipleFileUploadField name='wallFilesUpdate' fileType='video' />
                     )}
                     {values.supportingMedia === 'audio' && (

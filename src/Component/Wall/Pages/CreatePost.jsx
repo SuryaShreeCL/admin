@@ -64,8 +64,8 @@ const CreatePost = () => {
     buttonText: '',
     selectedDate: new Date(),
     isScheduled: false,
-    videoURLEnabled: false,
-    videoLink: '',
+    isVideoUrlEnabled: false,
+    videoUrl: '',
     activeStatus: 'Live',
   });
 
@@ -87,7 +87,7 @@ const CreatePost = () => {
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   const validate = (values) => {
-    if (values.videoURLEnabled && values.wallFiles.url.length < 1) {
+    if (values.isVideoUrlEnabled && values.wallFiles.url.length < 1) {
       setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
     }
@@ -146,10 +146,10 @@ const CreatePost = () => {
           initialValues={state || []}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            if (validate(values)) {
-              createPost(values, 'Live');
-              resetForm();
-            }
+            // if (validate(values)) {
+            createPost(values, 'Live');
+            resetForm();
+            // }
           }}
           enableReinitialize
         >
@@ -225,8 +225,8 @@ const CreatePost = () => {
                       <span style={{ fontSize: '1rem' }}>
                         Video URL Available
                         <Switch
-                          checked={values.videoURLEnabled}
-                          name='videoURLEnabled'
+                          checked={values.isVideoUrlEnabled}
+                          name='isVideoUrlEnabled'
                           onChange={handleChange}
                           color='primary'
                           inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -234,13 +234,13 @@ const CreatePost = () => {
                       </span>
                     </Grid>
                   )}
-                  {values.supportingMedia === 'video' && values.videoURLEnabled && (
+                  {values.supportingMedia === 'video' && values.isVideoUrlEnabled && (
                     <Grid item>
                       <Controls.Input
                         label='Paste Video URL'
-                        name='videoLink'
+                        name='videoUrl'
                         className={classes.spacer}
-                        value={values.videoLink}
+                        value={values.videoUrl}
                         error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />
@@ -273,7 +273,7 @@ const CreatePost = () => {
                     {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField name='wallFiles' fileType='image' />
                     )}
-                    {values.supportingMedia === 'video' && !values.videoURLEnabled && (
+                    {values.supportingMedia === 'video' && !values.isVideoUrlEnabled && (
                       <MultipleFileUploadField name='wallFiles' fileType='video' />
                     )}
                     {values.supportingMedia === 'audio' && (

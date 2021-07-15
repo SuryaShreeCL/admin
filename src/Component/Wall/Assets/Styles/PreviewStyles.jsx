@@ -52,8 +52,7 @@ export const Post = styled.div`
     padding: 0.5rem 0.7rem;
     position: relative;
     align-items: center;
-    justify-content: flex-end;
-    /* border-bottom: 1px solid lightgrey; */
+    justify-content: space-between;
 
     .digits {
       margin-left: 5px;
