@@ -155,7 +155,7 @@ class testEngineResult extends Component {
                 >
                     <DialogContent>
                         <Typography style={{ color: '#052A4E', fontSize: 24, fontWeight: 'bold' }}>Reset Test Name ? </Typography>
-                        <Typography style={{ color: '#052A4E', fontSize: 16, }}>Resetting this test will give option to CLIENT NAME to retake test name</Typography>
+                        <Typography style={{ color: '#052A4E', fontSize: 20, fontWeight: 400, paddingTop: 25 }}>Resetting this test will give option to CLIENT NAME to retake test name</Typography>
                         <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '25%', paddingBottom: 20 }}>
                             <Button
                                 style={{ width: 150, borderRadius: 20 }}
@@ -170,7 +170,7 @@ class testEngineResult extends Component {
                     </DialogContent>
                 </Dialog>
                 <Dialog
-                    maxWidth="lg"
+                    maxWidth="md"
                     fullWidth={true}
                     // TransitionComponent={Transition}
                     open={this.state.showEye}
@@ -186,36 +186,100 @@ class testEngineResult extends Component {
                         <div style={{ display: 'flex', justifyContent: 'center', }}>
                             <Typography style={{ color: '#052A4E', fontSize: 24, fontWeight: 'bold', display: 'flex', justifyContent: 'center' }}>Test Name </Typography>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '20px', paddingTop: '10px', }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '20px', paddingTop: '10px' }}>
                             <Typography style={{ color: '#052A4E', fontSize: 12, }}>Test completion Date</Typography>
                         </div>
                         <div style={{ paddingTop: '10px' }}>
 
-                            <Typography style={{ color: '#052A4E', fontSize: 14, }}>1.Question Comes Here</Typography>
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
                         </div>
                         <div style={{ paddingTop: 10 }}>
-                            <Typography style={{ color: '#686868', fontSize: 14, }}>Answer for Question Comes Here</Typography>
-                        </div>
-                        <div style={{ paddingTop: 10 }}>
-                            <Typography style={{ color: '#052A4E', fontSize: 14, }}>1.Question Comes Here</Typography>
-                        </div>
-                        <div style={{ paddingTop: 10 }}>
-                            <Typography style={{ color: '#686868', fontSize: 14, }}>Answer for Question Comes Here</Typography>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
                         </div>
                         <div style={{ paddingTop: '10px' }}>
 
-                            <Typography style={{ color: '#052A4E', fontSize: 14, }}>1.Question Comes Here</Typography>
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
                         </div>
                         <div style={{ paddingTop: 10 }}>
-                            <Typography style={{ color: '#686868', fontSize: 14, }}>Answer for Question Comes Here</Typography>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
                         </div>
                         <div style={{ paddingTop: '10px' }}>
 
-                            <Typography style={{ color: '#052A4E', fontSize: 14, }}>1.Question Comes Here</Typography>
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
                         </div>
                         <div style={{ paddingTop: 10 }}>
-                            <Typography style={{ color: '#686868', fontSize: 14, }}>Answer for Question Comes Here</Typography>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
                         </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div><div style={{ paddingTop: '10px' }}>
+
+                            <Typography style={{ color: '#052A4E', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>1.Question Comes Here</Typography>
+                        </div>
+                        <div style={{ paddingTop: 10 }}>
+                            <Typography style={{ color: '#686868', fontSize: 14, paddingLeft: 15, fontFamily: 'Montserrat', fontWeight: 400 }}>Answer for Question Comes Here</Typography>
+                        </div>
+
                     </DialogContent>
                 </Dialog>
                 <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
