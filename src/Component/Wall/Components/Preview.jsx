@@ -44,7 +44,7 @@ const Preview = ({ state }) => {
               </Carousel>
             )}
             {/* If No Image Found */}
-            {supportingMedia === 'image' && wallFiles.length === 0 && (
+            {supportingMedia === 'image' && uploadedMedia.length === 0 && (
               <img style={{ maxHeight: '250px', width: '100%' }} src={Empty} />
             )}
             {/* Audio Container */}

@@ -87,7 +87,36 @@ const CreatePost = () => {
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   const validate = (values) => {
-    if (values.isVideoUrlEnabled && values.wallFiles.url.length < 1) {
+    if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
+      setNotify({
+        isOpen: true,
+        message: 'Please upload image(s)',
+        type: 'error',
+      });
+      return false;
+    }
+    if (
+      !values.isVideoUrlEnabled &&
+      values.supportingMedia === 'video' &&
+      values.wallFiles.length === 0
+    ) {
+      setNotify({
+        isOpen: true,
+        message: 'Please upload a video',
+        type: 'error',
+      });
+      return false;
+    }
+    if (values.supportingMedia === 'audio' && values.wallFiles.length === 0) {
+      setNotify({
+        isOpen: true,
+        message: 'Please upload an audio',
+        type: 'error',
+      });
+      return false;
+    }
+
+    if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
       setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
     }
@@ -146,10 +175,11 @@ const CreatePost = () => {
           initialValues={state || []}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            // if (validate(values)) {
-            createPost(values, 'Live');
-            resetForm();
-            // }
+            if (validate(values)) {
+              console.log('inn');
+              createPost(values, 'Live');
+              resetForm();
+            }
           }}
           enableReinitialize
         >
@@ -164,7 +194,6 @@ const CreatePost = () => {
                     name='supportingMedia'
                     value={values.supportingMedia}
                     onChange={handleChange}
-                    required
                   >
                     <FormControlLabel
                       value='video'
@@ -204,6 +233,9 @@ const CreatePost = () => {
                           label='Select Category'
                           name='wallCategories'
                           variant='outlined'
+                          error={
+                            touched.wallCategories && Boolean(values.wallCategories.length === 0)
+                          }
                         />
                       )}
                     />
@@ -358,7 +390,12 @@ const CreatePost = () => {
                       style={{ borderRadius: '26px' }}
                       type='submit'
                     />
-                    <Button color='primary' onClick={() => createPost(values, 'Draft')}>
+                    <Button
+                      color='primary'
+                      onClick={() => {
+                        if (validate(values)) createPost(values, 'Draft');
+                      }}
+                    >
                       Save as Draft
                     </Button>
                   </ButtonsContainer>

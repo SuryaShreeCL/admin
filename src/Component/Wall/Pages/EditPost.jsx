@@ -76,10 +76,6 @@ const EditPost = () => {
     activeStatus: 'Live',
   });
 
-  const [errorSchema, setErrorSchema] = useState({
-    isVideoLink: false,
-  });
-
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -97,15 +93,6 @@ const EditPost = () => {
         ...recordForEdit,
       });
   }, [recordForEdit, dispatch]);
-
-  const validate = (values) => {
-    if (values.isVideoUrlEnabled && values.wallFiles.url.length < 1) {
-      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
-      return false;
-    }
-
-    return true;
-  };
 
   const onEditDraft = (post, activeStatus) => {
     if (!post.id) dispatch(createWallPost(post));
@@ -156,11 +143,8 @@ const EditPost = () => {
           initialValues={records || state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            // if (validate(values)) {
             updatePost({ ...values, wallFiles: [...values.wallFilesUpdate] });
-            //   updatePost(values);
             resetForm();
-            // }
           }}
           enableReinitialize
         >
@@ -175,7 +159,6 @@ const EditPost = () => {
                     name='supportingMedia'
                     value={values.supportingMedia}
                     onChange={handleChange}
-                    required
                   >
                     <FormControlLabel
                       value='video'
@@ -215,6 +198,9 @@ const EditPost = () => {
                           label='Select Category'
                           name='wallCategories'
                           variant='outlined'
+                          error={
+                            touched.wallCategories && Boolean(values.wallCategories.length === 0)
+                          }
                         />
                       )}
                     />
@@ -252,7 +238,6 @@ const EditPost = () => {
                         name='videoUrl'
                         className={classes.spacer}
                         value={values.videoUrl}
-                        error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />
                     </Grid>
