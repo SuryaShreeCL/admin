@@ -21,6 +21,7 @@ const Preview = ({ state }) => {
     wallFilesUpdate = [],
   } = state;
 
+  // Upload merge where wallFilesUpdate will be merged with wallFiles into uploadedMedia 
   let uploadedMedia = [...wallFiles, ...wallFilesUpdate];
 
   return (

@@ -4,7 +4,8 @@ import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    top: theme.spacing(8),
+    top: theme.spacing(15),
+    right: theme.spacing(8)
   },
 }));
 
