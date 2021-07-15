@@ -32,17 +32,17 @@ export const updateQuestions = (studentId, productId, data) => {
 
 }
 
-// export const updateRating = (studentId, productId, data) => {
-//     return dispatch => {
-//         axios.put(URL + "/api/v1/student/onboardingcallRating/" + studentId + "/" + productId, data, {
-//             crossDomain: true
-//         })
-//             .then(result => {
-//                 dispatch({ type: CALL_DETAILS.updateRating, payload: result.data })
-//             })
-//             .catch(error => {
-//                 console.log(error);
-//             });
-//     }
+export const updateRating = (studentId, productId, data) => {
+    return dispatch => {
+        axios.put(URL + "/api/v1/student/onboardingcallRating/" + studentId + "/" + productId, data, {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({ type: CALL_DETAILS.updateRating, payload: result.data })
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
-// }
+}

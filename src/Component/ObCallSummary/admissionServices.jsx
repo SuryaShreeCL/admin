@@ -87,7 +87,7 @@ class AdmissionServices extends Component {
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} ></TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }} ></TableCell>
                                 <TableCell align='center' style={{ color: '#000000', fontWeight: 400, fontSize: 14, fontFamily: 'Montserrat' }}  > <Button
-                                    style={{ width: 300, borderRadius: 20 }}
+                                    style={{ width: 300, borderRadius: 20,textTransform:'none' }}
                                     variant="contained"
                                     color="primary"
                                     // startIcon={<AddIcon />}

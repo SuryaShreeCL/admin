@@ -48,21 +48,21 @@ class Question extends Component {
             expectations: this.state.expectations,
             concerns: this.state.concerns,
             feedback: this.state.feedback,
-            
+
         }
         console.log(obj, "hello")
-        this.props.updateQuestions(this.props.match.params.studentId,this.props.match.params.productId,obj)
+        this.props.updateQuestions(this.props.match.params.studentId, this.props.match.params.productId, obj)
     }
     // if() {
     //     let obj = {
-        //         questions: this.state.questions,
-        //         expectations: this.state.expectations,
-        //         concerns: this.state.concerns,
-        //         feedback: this.state.feedback,
+    //         questions: this.state.questions,
+    //         expectations: this.state.expectations,
+    //         concerns: this.state.concerns,
+    //         feedback: this.state.feedback,
     //     }
     // }
 
-    
+
     render() {
         // console.log(this.state)
         return (
@@ -96,7 +96,7 @@ class Question extends Component {
                             }}
 
                             disabled={this.state.disable}
-                    
+
                             onChange={(event, editors) => {
                                 const data = editors.getData();
                                 // console.log( { event, editors, data } );
@@ -164,8 +164,8 @@ class Question extends Component {
                         <ColoredLine color="gray" />
                     </Grid>
                     <Grid item xs={12} sm={6} style={{ marginTop: '-20px' }}>
-                        <div style={{ color: '#686868', fontSize: 12, }}>
-                        Feedback &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+                        <div style={{ color: '#686868', fontSize: 12, paddingBottom:15 }}>
+                            Feedback
                         </div>
 
                         <CKEditor
@@ -200,11 +200,11 @@ class Question extends Component {
 const mapStateToProps = (state) => {
     // console.log(state)
     return {
-        updateQuestionsList: state.CallReducer.updateQuestions 
+        updateQuestionsList: state.CallReducer.updateQuestions
     };
 };
 
 export default connect(mapStateToProps, {
-    updateQuestions 
+    updateQuestions
 })(Question);
 

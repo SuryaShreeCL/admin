@@ -361,7 +361,7 @@ class GraduateTestResult extends Component {
                     </TableContainer>
 
                     <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '5%' }}>
-                        <PrimaryButton variant={"contained"} color={"primary"} >
+                        <PrimaryButton variant={"contained"} color={"primary"} style={{textTransform: "none" }}>
                             Save Changes
                         </PrimaryButton>
                     </div>
@@ -480,18 +480,19 @@ class GraduateTestResult extends Component {
                                 </Grid>
                                 <Grid item md={2}  >
                                     {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
-                                    <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px" }}>Save</PrimaryButton>
+                                    <PrimaryButton color={"primary"} variant={"contained"} style={{ width: "130px",textTransform: "none"  }}>Save</PrimaryButton>
                                     {/* </div> */}
                                 </Grid>
                                 <Grid item md={2}>
                                     {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
-                                    <PrimaryButton color={"primary"} variant={"outlined"} style={{ width: "130px" }}>Cancel</PrimaryButton>
+                                    <PrimaryButton color={"primary"} variant={"outlined"}  style={{ width: "130px",textTransform: "none" }}>Cancel</PrimaryButton>
                                     {/* </div> */}
                                 </Grid>
                                 <Grid item md={8}>
                                     </Grid>
                                     <Grid item md={8}>
                                     </Grid>
+                                    
 
                             </Grid>
 
