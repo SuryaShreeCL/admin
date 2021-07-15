@@ -114,7 +114,7 @@ componentDidUpdate(prevProps, prevState) {
                </ThemedTabs>
                </Grid>
                <Grid item md={12}>
-                   {Page !== undefined && <Page {...this.props} />  }             
+                   {Page !== undefined && this.state.tabCount === 0 && <Page {...this.props} />  }             
                </Grid>
          </Grid>
         );
