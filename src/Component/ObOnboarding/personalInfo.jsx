@@ -1,9 +1,43 @@
 import React, { Component } from "react";
-import { Grid, TextField, Card, IconButton } from "@material-ui/core";
+import { Grid, TextField, Card, IconButton, ThemeProvider,
+  withStyles,createMuiTheme, } from "@material-ui/core";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { isEmptyString } from "../../Component/Validation";
+
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiInputBase:{
+      input:{
+        // color:'#052A4E'
+      }
+    },
+    MuiIconButton: {
+      root: {
+        color: "#1093FF",
+      },
+    },
+    MuiFormHelperText: {
+      root: {
+        color:"red"
+      }
+    },
+    MuiInputLabel: {
+      root: {
+          whiteSpace : "nowrap",
+          fontSize: "inherit",
+      },
+    },
+    MuiFormControl : {
+      marginNormal : {
+          marginTop : "0px",
+          marginBottom : "0px"
+      }
+    },
+  },
+});
 
 export class personalInfo extends Component {
   constructor(props) {
@@ -45,6 +79,8 @@ export class personalInfo extends Component {
       twitterErr:''
     };
   }
+
+
 
   handlePersonalClick(e) {
     this.setState({ personalDisable: !this.state.personalDisable });
@@ -117,6 +153,7 @@ export class personalInfo extends Component {
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
+        <ThemeProvider theme={theme}>
         <Card style={{ padding: 25 }}>
           <Grid container spacing={2}>
             <Grid item md={12}>
@@ -162,6 +199,9 @@ export class personalInfo extends Component {
             </Grid>
             <Grid item md={2}>
               <TextField
+              style={{color:'red', fontStyle: "Montserrat", fontWeight:"700",
+              fontStyle: "normal",
+              fontSize: "18px"}}
                 id="standard-basic"
                 label="Client First Name"
                 disabled={this.state.personalDisable}
@@ -466,6 +506,7 @@ export class personalInfo extends Component {
             </Grid>
           </Grid>
         </Card>
+        </ThemeProvider>
       </div>
     );
   }

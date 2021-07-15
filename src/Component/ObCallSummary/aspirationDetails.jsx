@@ -21,18 +21,20 @@ class AspirationDetails extends Component {
     this.state = {
       disable: true,
       val: "",
-      targetIntake: null,
+      targetIntake: [],
       targetIntakeErr: "",
       schoolTargeted: "",
       schoolTargetedErr: "",
-      targetDegree: null,
+      targetDegree: [],
       targetDegreeErr: "",
-      areaOfSpecalization: null,
+      areaOfSpecalization: [],
       areaOfSpecalizationErr: "",
       countryCollege: [],
       countryCollegeErr: "",
-      listOfDreamCollege: null,
+      listOfDreamCollege: [],
       listOfDreamCollegeErr: "",
+      FieldStudy:[],
+      FieldStudyErr:'',
     };
   }
   componentDidMount() {
@@ -53,22 +55,25 @@ class AspirationDetails extends Component {
     this.state.schoolTargeted === ""
       ? this.setState({ schoolTargetedErr: hlptxt })
       : this.setState({ schoolTargetedErr: "" });
-    this.state.targetDegree === null
+    this.state.targetDegree.length === 0
       ? this.setState({ targetDegreeErr: hlptxt })
       : this.setState({ targetDegreeErr: "" });
-    this.state.areaOfSpecalization === null
+    this.state.areaOfSpecalization.length === 0
       ? this.setState({ areaOfSpecalizationErr: hlptxt })
       : this.setState({ areaOfSpecalizationErr: "" });
-    this.state.countryCollege === null
+    this.state.countryCollege.length === 0
       ? this.setState({ countryCollegeErr: hlptxt })
       : this.setState({ countryCollegeErr: "" });
-    this.state.listOfDreamCollege === null
+    this.state.listOfDreamCollege.length === 0
       ? this.setState({ listOfDreamCollegeErr: hlptxt })
       : this.setState({ listOfDreamCollegeErr: "" });
-    this.state.targetIntake === null
+    this.state.targetIntake.length === 0
       ? this.setState({ targetIntakeErr: hlptxt })
       : this.setState({ targetIntakeErr: "" });
-    console.log("hhh");
+      this.state.FieldStudy.length === 0
+      ? this.setState({ FieldStudyErr: hlptxt })
+      : this.setState({ FieldStudyErr: "" });
+      console.log(this.state);
   }
   render() {
     console.log(new Date());
@@ -195,6 +200,7 @@ class AspirationDetails extends Component {
           </Grid>
           <Grid item md={3}>
             <Autocomplete
+            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
               error={this.state.targetIntakeErr.length > 0}
@@ -218,6 +224,7 @@ class AspirationDetails extends Component {
           </Grid>
           <Grid item md={2}>
             <Autocomplete
+            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
               value={this.state.targetDegree}
@@ -241,6 +248,7 @@ class AspirationDetails extends Component {
 
           <Grid item md={5}>
             <Autocomplete
+            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
               options={this.props.getBranchesList}
@@ -293,6 +301,7 @@ class AspirationDetails extends Component {
 
           <Grid item md={3}>
             <Autocomplete
+            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
               value={this.state.listOfDreamCollege}
@@ -311,6 +320,31 @@ class AspirationDetails extends Component {
                   variant="standard"
                   error={this.state.listOfDreamCollegeErr.length > 0}
                   helperText={this.state.listOfDreamCollegeErr}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md={3}>
+            <Autocomplete
+            multiple
+              popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+              id="combo-box-demo"
+              value={this.state.FieldStudy}
+              onChange={(e, newValue) =>
+                this.setState({
+                  FieldStudy: newValue,
+                  FieldStudyErr: "",
+                })
+              }
+              options={this.props.getUniversityList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Field of study"
+                  variant="standard"
+                  error={this.state.FieldStudyErr.length > 0}
+                  helperText={this.state.FieldStudyErr}
                 />
               )}
             />
