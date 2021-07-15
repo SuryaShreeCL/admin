@@ -1,17 +1,30 @@
-import {CALL_DETAILS} from '../Redux/Action'
+import { CALL_DETAILS } from '../Redux/Action'
 const initialState = {
-    updateclientdetails:[]
+    updateclientdetails: [],
+    updateQuestions:[],
+    updateRating:[]
 }
 
 export default (state = initialState, action) => {
-	switch (action.type) {
-           case CALL_DETAILS.updateclientdetails:
-               return{
-                   ...state,
-                   updateclientdetails:action.payload
-               }
-		default:
-			break
-	}
-	return state
+    switch (action.type) {
+        case CALL_DETAILS.updateclientdetails:
+            return {
+                ...state,
+                updateclientdetails: action.payload
+            }
+            case CALL_DETAILS.updateQuestions:
+            return {
+                ...state,
+                updateQuestions: action.payload
+            }
+            case CALL_DETAILS.updateRating:
+            return {
+                ...state,
+                updateRating: action.payload
+            }
+        default:
+            break
+    }
+    return state
 }
+

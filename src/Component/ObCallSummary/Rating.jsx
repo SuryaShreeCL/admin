@@ -12,6 +12,10 @@ import Happy from "../../Asset/Images/happy.svg";
 import Love from "../../Asset/Images/love.svg";
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "styled-components";
+// import {updateRating } from '../../Actions/Calldetails';
+import { connect } from "react-redux";
+import { updateRating } from '../../Actions/Calldetails';
+import PrimaryButton from "../../Utils/PrimaryButton";
 
 
 const StyledRating = withStyles({
@@ -39,7 +43,8 @@ const rate = [
       >
         Very Low
       </p>
-    ),
+
+    )
   },
   {
     value: 25,
@@ -252,10 +257,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
-          margin :10
+          margin: 10
         }}
       >
-        <img src={Poor} style={{ height: "50px", width: "50px"}} />{" "}
+        <img src={Poor} style={{ height: "50px", width: "50px" }} />{" "}
         <p
           style={{
             fontFamily: "Montserrat",
@@ -278,10 +283,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
-          margin :10
+          margin: 10
         }}
       >
-        <img src={Unhappy} style={{ height: "50px", width: "50px"}} />
+        <img src={Unhappy} style={{ height: "50px", width: "50px" }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -304,10 +309,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
-          margin :10
+          margin: 10
         }}
       >
-        <img src={Apathy} style={{ height: "50px", width: "50px",}} />
+        <img src={Apathy} style={{ height: "50px", width: "50px", }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -330,10 +335,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
-          margin :10
+          margin: 10
         }}
       >
-        <img src={Happy} style={{ height: "50px", width: "50px",}} />
+        <img src={Happy} style={{ height: "50px", width: "50px", }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -356,10 +361,10 @@ const customIcons = {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
-          margin :10
+          margin: 10
         }}
       >
-        <img src={Love} style={{ height: "50px", width: "50px",}} />
+        <img src={Love} style={{ height: "50px", width: "50px", }} />
         <p
           style={{
             fontFamily: "Montserrat",
@@ -379,19 +384,38 @@ const customIcons = {
 const theme = createMuiTheme({
   overrides: {
     MuiRating: {
-      iconHover : {
-       color : "grayscale(0%)"
-      }  
+      iconHover: {
+        color: "grayscale(0%)"
+      }
     }
   },
 });
+
 export class rating extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       hover: -1,
+      ratingOfExpectation: '',
+      expRate: '',
+      ratingOfUnderstanding: '',
+      underRate: '',
+      ratingOfInteraction: '',
+      interaction: '',
     };
+  }
+
+  handleSaved = () => {
+    // console.log(this.state,'state')
+    let obj = {
+      ratingOfExpectation: this.state.ratingOfExpectation,
+      ratingOfUnderstanding: this.state.ratingOfUnderstanding,
+      ratingOfInteraction: this.state.ratingOfInteraction,
+
+    }
+    console.log(obj, 'sa')
+    this.props.updateRating(this.props.match.params.studentId, this.props.match.params.productId, obj)
   }
 
   valuetext(value) {
@@ -417,9 +441,10 @@ export class rating extends Component {
   }
 
   render() {
+    console.log(this.state)
     const { root, HeadStyle, textStyle, secondaryHeadStyle } = style;
     return (
-      <div style={{padding:15}}>
+      <div style={{ padding: 15 }}>
         {/* <Card style={{padding:25}}> */}
         <Grid container style={{ marginLeft: 0 }}>
           <Grid item md={12}>
@@ -435,6 +460,32 @@ export class rating extends Component {
                 marks={rate}
                 defaultValue={100}
                 step={null}
+                value={this.state.expRate}
+                // onChange={}
+                onChange={(event, value) => {
+                  if (value === 0) {
+                    this.setState({ ratingOfExpectation: 'Very Low' })
+
+
+                  } else if (value === 25) {
+                    this.setState({ ratingOfExpectation: 'Low' })
+
+                  } else if (value === 50) {
+                    this.setState({ ratingOfExpectation: 'Medium' })
+
+                  } else if (value === 75) {
+                    this.setState({ ratingOfExpectation: 'High' })
+
+                  } else if (value === 100) {
+                    this.setState({ ratingOfExpectation: 'Very High' })
+
+                  }
+                  return (
+                    // console.log(this.state.ratingOfExpectation)
+                    this.setState({ expRate: value })
+                  )
+
+                }}
               />
             </div>
           </Grid>
@@ -448,6 +499,28 @@ export class rating extends Component {
                 marks={Understands}
                 defaultValue={100}
                 step={null}
+                value={this.state.underRate}
+                // onChange={}
+                onChange={(event, value) => {
+                  if (value === 0) {
+                    this.setState({ ratingOfUnderstanding: 'Understands Most' })
+
+
+                  } else if (value === 50) {
+                    this.setState({ ratingOfUnderstanding: 'Understands All' })
+
+                  } else if (value === 100) {
+                    this.setState({ ratingOfUnderstanding: 'Understands Nothing' })
+
+                  }
+                  return (
+                    // console.log(this.state.ratingOfExpectation)
+                    this.setState({ underRate: value })
+                  )
+
+
+
+                }}
               />
             </div>
           </Grid>
@@ -461,6 +534,31 @@ export class rating extends Component {
                 marks={marks}
                 defaultValue={100}
                 step={null}
+                value={this.state.interaction}
+                onChange={(event, value) => {
+                  if (value === 0) {
+                    this.setState({ ratingOfInteraction: 'V Pleasant' })
+
+
+                  } else if (value === 25) {
+                    this.setState({ ratingOfInteraction: 'Pleasant' })
+
+                  } else if (value === 50) {
+                    this.setState({ ratingOfInteraction: 'Neutral' })
+
+                  } else if (value === 75) {
+                    this.setState({ ratingOfInteraction: 'UnPleasant' })
+
+                  } else if (value === 100) {
+                    this.setState({ ratingOfInteraction: 'V UnPleasant' })
+
+                  }
+                  return (
+                    // console.log(this.state.ratingOfExpectation)
+                    this.setState({ interaction: value })
+                  )
+
+                }}
               />
             </div>
           </Grid>
@@ -486,18 +584,20 @@ export class rating extends Component {
                 defaultValue={0}
                 getLabelText={(value) => customIcons[value].label}
                 IconContainerComponent={this.IconContainer}
-                itemStyle={{height:20, width:20}}
-                itemIconStyle={{height:20, width:20}}
+                itemStyle={{ height: 20, width: 20 }}
+                itemIconStyle={{ height: 20, width: 20 }}
                 onChangeActive={(event, newHover) => {
                   this.setState({ hover: newHover });
                   console.log(newHover)
                 }}
+
               />
               {/* </ThemeProvider> */}
             </div>
           </Grid>
         </Grid>
         {/* </Card> */}
+        <PrimaryButton style={{ width: "130px" }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
       </div>
     );
   }
@@ -562,8 +662,16 @@ const PrettoSlider = withStyles({
     height: 4,
   },
   track: {
-    height:4
+    height: 4
   }
 })(Slider);
 
-export default rating;
+const mapStateToProps = (state) => {
+  return {
+    updateRatingList: state.CallReducer.updateRating
+  };
+};
+
+export default connect(mapStateToProps, {
+  updateRating
+})(rating);
