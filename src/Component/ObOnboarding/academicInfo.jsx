@@ -323,12 +323,12 @@ export class academicInfo extends Component {
     this.state.tenthCgpa === ""
       ? this.setState({ tenthCgpaErr: hlptxt })
       : this.setState({ tenthCgpaErr: "" });
-    this.state.tenthStartDate === ""
-      ? this.setState({ tenthStartDateErr: hlptxt })
-      : this.setState({ tenthStartDateErr: "" });
-    this.state.tenthEndDate === ""
-      ? this.setState({ tenthEndDateErr: hlptxt })
-      : this.setState({ tenthEndDateErr: "" });
+    // this.state.tenthStartDate === ""
+    //   ? this.setState({ tenthStartDateErr: hlptxt })
+    //   : this.setState({ tenthStartDateErr: "" });
+    // this.state.tenthEndDate === ""
+    //   ? this.setState({ tenthEndDateErr: hlptxt })
+    //   : this.setState({ tenthEndDateErr: "" });
     this.state.tenthCgpaScale === ""
       ? this.setState({ tenthCgpaScaleErr: hlptxt })
       : this.setState({ tenthCgpaScaleErr: "" });
