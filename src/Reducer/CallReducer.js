@@ -2,7 +2,8 @@ import { CALL_DETAILS } from '../Redux/Action'
 const initialState = {
     updateclientdetails: [],
     updateQuestions:[],
-    updateRating:[]
+    updateRating:[],
+    academicdetails:[]
 }
 
 export default (state = initialState, action) => {
@@ -22,6 +23,12 @@ export default (state = initialState, action) => {
                 ...state,
                 updateRating: action.payload
             }
+            case CALL_DETAILS.academicdetails:
+            return {
+                ...state,
+                academicdetails: action.payload
+            }
+
         default:
             break
     }

@@ -67,16 +67,6 @@ const theme = createMuiTheme({
             marginTop:"0px"
         }
        }
-    //    MuiFormLabel:{
-    //        root:{
-    //            fontSize:"1px"
-    //        }
-    //    },
-    // MuiFormControlLabel:{
-    //     root:{
-    //         fontSize:"1px"
-    //     }
-    // }
     }
 })
 
@@ -99,6 +89,10 @@ class GraduateTestResult extends Component {
       gmatshow: false,
       toeflshow: false,
       ieltsshow: false,
+      gredate : null,
+      gmatdate : null,
+      toefldate : null,
+      ieltsdate : null,
     };
   }
   handleClick(e) {
@@ -107,7 +101,20 @@ class GraduateTestResult extends Component {
       show: true,
     });
   }
+  attempt = [
+      {title : "1"},
+      {title : "2"},
+      {title : "3"},
+      {title : "4"},
+      {title : "5"},
+      {title : "6"},
+      {title : "7"},
+      {title : "8"},
+      {title : "9"},
+      {title : "10"}
+  ]
   render() {
+      console.log(this.state)
     return (
     <ThemeProvider theme={theme}>
       <div style={{ padding: 25 }}>
@@ -1111,10 +1118,8 @@ class GraduateTestResult extends Component {
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                     id="combo-box-demo"
                     fullWidth
-                    // disabled={this.state.disable}
-                    // options={this.props.getDegreeList}
-                    // getOptionLabel={(option) => option.name}
-                    //   style={{ width: 300 }}
+                    options={this.attempt}
+                    getOptionLabel={(option) => option.title}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -1127,35 +1132,31 @@ class GraduateTestResult extends Component {
                 <Grid item xs={12} md={6}>
                   <KeyboardDatePicker
                     margin="normal"
+                    disableFuture
                     id="date-picker-dialog"
                     label="Exam Date"
                     format="MM/dd/yyyy"
                     fullWidth
-                    // value={this.state.endofservice}
-                    // disabled
-                    // onChange={(e, newValue) =>
-                    //     this.setState({ endofservice: newValue })
-                    // }
+                    value={this.state.gredate}
+                    onChange={(e, newValue) =>
+                        this.setState({ gredate: newValue })
+                    }
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  {/* <TextField
-                                        label="Quantative Reasoning"
-                                        fullWidth
-                                    /> */}
-                  <TextField label="Quantative Reasoning" fullWidth />
+                  <TextField type="number" label="Quantative Reasoning" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Verbal Reasoning " fullWidth />
+                  <TextField type="number" label="Verbal Reasoning " fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Total" fullWidth />
+                  <TextField type="number" label="Total" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Analytical Writing" fullWidth />
+                  <TextField type="number" label="Analytical Writing" fullWidth />
                 </Grid>
                 <Grid item md={6} sm={5} xs={5}>
                   <Dropzone onDrop={this.onDrop}>
@@ -1203,7 +1204,6 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={6} sm={6} xs={6}></Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"contained"}
@@ -1211,10 +1211,8 @@ class GraduateTestResult extends Component {
                   >
                     Save
                   </PrimaryButton>
-                  {/* </div> */}
                 </Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"outlined"}
@@ -1251,10 +1249,8 @@ class GraduateTestResult extends Component {
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                     id="combo-box-demo"
                     fullWidth
-                    // disabled={this.state.disable}
-                    // options={this.props.getDegreeList}
-                    // getOptionLabel={(option) => option.name}
-                    //   style={{ width: 300 }}
+                    options={this.attempt}
+                    getOptionLabel={(option) => option.title}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -1267,38 +1263,35 @@ class GraduateTestResult extends Component {
                 <Grid item xs={12} md={6}>
                   <KeyboardDatePicker
                     margin="normal"
+                    disableFuture
                     id="date-picker-dialog"
                     label="Exam Date"
                     format="MM/dd/yyyy"
                     fullWidth
-                    // value={this.state.endofservice}
+                    value={this.state.gmatdate}
                     // disabled
-                    // onChange={(e, newValue) =>
-                    //     this.setState({ endofservice: newValue })
-                    // }
+                    onChange={(e, newValue) =>
+                        this.setState({ gmatdate: newValue })
+                    }
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  {/* <TextField
-                                        label="Quantative Reasoning"
-                                        fullWidth
-                                    /> */}
-                  <TextField label="Quantative Verbal Reasoning" fullWidth />
+                  <TextField type="number" label="Quantative Verbal Reasoning" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Analytical Writing Assessment" fullWidth />
+                  <TextField type="number" label="Analytical Writing Assessment" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Integrated Reasoning" fullWidth />
+                  <TextField type="number" label="Integrated Reasoning" fullWidth />
                 </Grid>
                 <Grid item md={3}>
-                  <TextField label="Verbal Reasoning" fullWidth />
+                  <TextField type="number" label="Verbal Reasoning" fullWidth />
                 </Grid>
                 <Grid item md={3}>
-                  <TextField label="Total" fullWidth />
+                  <TextField type="number" label="Total" fullWidth />
                 </Grid>
                 <Grid item md={6} sm={5} xs={5}>
                   <Dropzone onDrop={this.onDrop}>
@@ -1346,7 +1339,6 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={6} sm={6} xs={6}></Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"contained"}
@@ -1354,10 +1346,8 @@ class GraduateTestResult extends Component {
                   >
                     Save
                   </PrimaryButton>
-                  {/* </div> */}
                 </Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"outlined"}
@@ -1365,7 +1355,6 @@ class GraduateTestResult extends Component {
                   >
                     Cancel
                   </PrimaryButton>
-                  {/* </div> */}
                 </Grid>
               </Grid>
             </DialogContent>
@@ -1395,9 +1384,8 @@ class GraduateTestResult extends Component {
                     id="combo-box-demo"
                     fullWidth
                     // disabled={this.state.disable}
-                    // options={this.props.getDegreeList}
-                    // getOptionLabel={(option) => option.name}
-                    //   style={{ width: 300 }}
+                    options={this.attempt}
+                    getOptionLabel={(option) => option.title}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -1412,36 +1400,33 @@ class GraduateTestResult extends Component {
                     margin="normal"
                     id="date-picker-dialog"
                     label="Exam Date"
+                    disableFuture
                     format="MM/dd/yyyy"
                     fullWidth
-                    // value={this.state.endofservice}
+                    value={this.state.toefldate}
                     // disabled
-                    // onChange={(e, newValue) =>
-                    //     this.setState({ endofservice: newValue })
-                    // }
+                    onChange={(e, newValue) =>
+                        this.setState({ toefldate: newValue })
+                    }
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  {/* <TextField
-                                        label="Quantative Reasoning"
-                                        fullWidth
-                                    /> */}
-                  <TextField label="Reading" fullWidth />
+                  <TextField type="number" label="Reading" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Writing" fullWidth />
+                  <TextField type="number" label="Writing" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Speaking" fullWidth />
+                  <TextField type="number" label="Speaking" fullWidth />
                 </Grid>
                 <Grid item md={3}>
-                  <TextField label="Listening" fullWidth />
+                  <TextField type="number" label="Listening" fullWidth />
                 </Grid>
                 <Grid item md={3}>
-                  <TextField label="Total" fullWidth />
+                  <TextField type="number" label="Total" fullWidth />
                 </Grid>
                 <Grid item md={6} sm={5} xs={5}>
                   <Dropzone onDrop={this.onDrop}>
@@ -1489,7 +1474,6 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={6} sm={6} xs={6}></Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"contained"}
@@ -1497,10 +1481,8 @@ class GraduateTestResult extends Component {
                   >
                     Save
                   </PrimaryButton>
-                  {/* </div> */}
                 </Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"outlined"}
@@ -1508,7 +1490,6 @@ class GraduateTestResult extends Component {
                   >
                     Cancel
                   </PrimaryButton>
-                  {/* </div> */}
                 </Grid>
               </Grid>
             </DialogContent>
@@ -1537,10 +1518,8 @@ class GraduateTestResult extends Component {
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                     id="combo-box-demo"
                     fullWidth
-                    // disabled={this.state.disable}
-                    // options={this.props.getDegreeList}
-                    // getOptionLabel={(option) => option.name}
-                    //   style={{ width: 300 }}
+                    options={this.attempt}
+                    getOptionLabel={(option) => option.title}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -1552,39 +1531,35 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <KeyboardDatePicker
+                  disableFuture
                     margin="normal"
                     id="date-picker-dialog"
                     label="Exam Date"
                     format="MM/dd/yyyy"
                     fullWidth
-                    // value={this.state.endofservice}
-                    // disabled
-                    // onChange={(e, newValue) =>
-                    //     this.setState({ endofservice: newValue })
-                    // }
+                    value={this.state.ieltsdate}
+                    onChange={(e, newValue) =>
+                        this.setState({ ieltsdate: newValue })
+                    }
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  {/* <TextField
-                                        label="Quantative Reasoning"
-                                        fullWidth
-                                    /> */}
-                  <TextField label="Reading" fullWidth />
+                  <TextField type="number" label="Reading" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Writing" fullWidth />
+                  <TextField type="number"label="Writing" fullWidth />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField label="Speaking" fullWidth />
+                  <TextField type="number" label="Speaking" fullWidth />
                 </Grid>
                 <Grid item md={3}>
-                  <TextField label="Listening" fullWidth />
+                  <TextField type="number" label="Listening" fullWidth />
                 </Grid>
                 <Grid item md={3}>
-                  <TextField label="Total" fullWidth />
+                  <TextField type="number" label="Total" fullWidth />
                 </Grid>
                 <Grid item md={6} sm={5} xs={5}>
                   <Dropzone onDrop={this.onDrop}>
@@ -1632,7 +1607,6 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={6} sm={6} xs={6}></Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"contained"}
@@ -1640,10 +1614,8 @@ class GraduateTestResult extends Component {
                   >
                     Save
                   </PrimaryButton>
-                  {/* </div> */}
                 </Grid>
                 <Grid item md={3}>
-                  {/* <div style={{ display: 'flex', paddingTop: '10%', paddingBottom: '5% ', paddingLeft: '5%' }}> */}
                   <PrimaryButton
                     color={"primary"}
                     variant={"outlined"}
@@ -1651,7 +1623,6 @@ class GraduateTestResult extends Component {
                   >
                     Cancel
                   </PrimaryButton>
-                  {/* </div> */}
                 </Grid>
               </Grid>
             </DialogContent>
