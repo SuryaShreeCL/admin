@@ -49,6 +49,11 @@ const theme = createMuiTheme({
         marginBottom: "0px",
       },
     },
+    MuiIconButton : {
+      root : {
+          color : "#1093FF"
+      }
+  },
   },
 });
 class ClientDetails extends Component {
@@ -372,14 +377,14 @@ class ClientDetails extends Component {
         studentDepartment: {
           id: this.state.department.id,
         },
-        studentCurrentSem: this.state.sem,
-        studentCgpa: this.state.cgpa,
+        studentCurrentSem: this.state.sem.toString(),
+        studentCgpa: this.state.cgpa.toString(),
         ameyoId: this.state.ameyoid,
-        oBCallDate: this.state.calldate,
-        oBCallTime: this.state.calltime,
+        obCallDate: new Date(this.state.calldate),
+        obCallTime: new Date(this.state.calltime),
         onBoardingAgent: this.state.agent,
         callStatus: this.state.callstatus.title,
-        callBackTime: this.state.callbacktime,
+        callBackTime: new Date(this.state.callbacktime),
         weekDays: this.state.spedays.title,
         specificTime: this.state.spetime,
         clientName: this.state.name,
@@ -387,7 +392,6 @@ class ClientDetails extends Component {
         aspirationDegrees: [
           {
             id: this.state.appdegree.id,
-            // id:'1'
           },
         ],
         aspirationCountries: [
@@ -400,7 +404,7 @@ class ClientDetails extends Component {
             id: this.state.term.id,
           },
         ],
-        enrollmentDate: this.state.enrolldate,
+        enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear.title,
         packages: this.state.package,
@@ -409,30 +413,31 @@ class ClientDetails extends Component {
         fieldOfExpertise: this.state.expfield,
         experienceMonths: this.state.expmonth,
         degree: {
-          id: this.state.collegename.id,
+          id: this.state.ugdegree.id,
         },
         department: {
           id: this.state.department.id,
         },
         college: {
-          id: this.state.ugdegree.id,
+          id: this.state.collegename.id,
         },
-        presentSem: this.state.sem,
-        backlogs: this.state.activebacklogs,
-        activeBacklogs: this.state.activebacklogs,
-        cgpa: this.state.cgpa,
+        presentSem: this.state.sem.toString(),
+        backlogs: this.state.activebacklogs.toString(),
+        activeBacklogs: this.state.activebacklogs.toString(),
+        cgpa: this.state.cgpa.toString(),
       };
-      // this.props.updateclientdetails(
-      //   this.props.match.params.studentId,
-      //   this.props.match.params.productId,
-      //   obj
-      // );
+      this.props.updateclientdetails(
+        this.props.match.params.studentId,
+        this.props.match.params.productId,
+        obj
+      );
     }
   };
   render() {
     console.log(this.state);
     console.log(this.props);
-    console.log(this.props.getStudentsByIdList)
+    console.log(this.props.getStudentsByIdList);
+    console.log(["Completed","Pending"].indexOf(this.state.callstatus) > -1,this.state.callstatus)
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -704,7 +709,7 @@ class ClientDetails extends Component {
                   margin="normal"
                   id="date-picker-dialog"
                   label="OB Call Date"
-                  format="MM/dd/yyyy"
+                  format="yyyy-MM-dd"
                   value={this.state.calldate}
                   error={this.state.calldateErr.length > 0}
                   helperText={this.state.calldateErr}
@@ -733,7 +738,7 @@ class ClientDetails extends Component {
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
-                  format="yyyy/MM/dd HH:mm"
+                  format="yyyy-MM-dd HH:mm"
                 />
               </Grid>
               <Grid item md={3}>
@@ -772,6 +777,7 @@ class ClientDetails extends Component {
                   variant="inline"
                   ampm={false}
                   label="Call Back Time"
+                  disabled={["Completed","Pending"].indexOf(this.state.callstatus.title) > -1}
                   value={this.state.callbacktime}
                   error={this.state.callbacktimeErr.length > 0}
                   helperText={this.state.callbacktimeErr}
@@ -780,7 +786,7 @@ class ClientDetails extends Component {
                   }
                   onError={console.log}
                   // disablePast
-                  format="yyyy/MM/dd HH:mm"
+                  format="yyyy-MM-dd HH:mm"
                 />
               </Grid>
               <Grid item md={4}>

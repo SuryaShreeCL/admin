@@ -56,6 +56,7 @@ const rate = [
           fontStyle: "normal",
           fontSize: "12px",
           color: "#052A4E",
+          marginLeft: 20,
         }}
       >
         Low
@@ -639,13 +640,24 @@ const PrettoSlider = withStyles({
     height: 18,
     width: 18,
     backgroundColor: "#1093FF",
-    border: "3px solid #fff",
+    border: "2px solid #fff",
     marginTop: -8,
     marginLeft: -12,
     "&:focus, &:hover, &$active": {
       boxShadow: "inherit",
     },
+    "&:after": {
+        top: -5,
+        left: -5,
+        right: -5,
+        bottom: -5,
+        content: "",
+        position: "absolute",
+        borderRadius: "50%",
+        border:"2px solid #1093FF"
+    }
   },
+
   active: {},
   valueLabel: {
     left: "calc(-50% + 4px)",
@@ -658,9 +670,9 @@ const PrettoSlider = withStyles({
     height: 8,
     borderRadius: 2,
   },
-  rail: {
-    height: 4,
-  },
+  // rail: {
+  //   height: 4,
+  // },
   track: {
     height: 4
   }

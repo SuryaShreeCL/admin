@@ -19,7 +19,8 @@ export const ThemedTabs = withStyles({
     root: {
       textTransform: 'none',
       minWidth: 72,
-      fontWeight: theme.typography.fontWeightRegular,
+      fontWeight: 'bold',
+      color:"black",
       marginRight: theme.spacing(4),
       fontFamily: [
         '-apple-system',
@@ -44,6 +45,11 @@ export const ThemedTabs = withStyles({
       '&:focus': {
         color: '#000',
       },
+    },
+    wrapper :{
+      fontWeight:'bold',
+       color:'#000 !important'  ,
+       opacity: 1,
     },
     selected: {
        
