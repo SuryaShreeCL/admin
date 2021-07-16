@@ -1,6 +1,6 @@
 import { LinearProgress, Typography, Button, withStyles } from '@material-ui/core';
 import React, { useState } from 'react';
-import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
 import Spinner from '../../Assets/Images/Blue-spin.gif';
@@ -91,7 +91,7 @@ export function ExistingMedia(props, progress = 100) {
         </div>
       </div>
       <Controls.ActionButton>
-        <CloseIcon fontSize='small' color='secondary' onClick={() => deletePost(id)} />
+        <DeleteIcon fontSize='small' color='secondary' onClick={() => deletePost(id)} />
       </Controls.ActionButton>
     </FileHeaderContainer>
   );

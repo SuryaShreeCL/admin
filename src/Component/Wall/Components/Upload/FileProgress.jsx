@@ -1,6 +1,6 @@
 import { Grid, LinearProgress, Typography, Button, withStyles } from '@material-ui/core';
 import React from 'react';
-import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import Controls from '../../../Utils/controls/Controls';
 import Spinner from '../../Assets/Images/Blue-spin.gif';
@@ -56,7 +56,7 @@ export function FileProgress({ file, onDelete, url, progress }) {
         </div>
       </div>
       <Controls.ActionButton onClick={() => onDelete(file)}>
-        <CloseIcon fontSize='small' color='secondary' />
+        <DeleteIcon fontSize='small' color='secondary' />
       </Controls.ActionButton>
     </FileHeaderContainer>
   );
