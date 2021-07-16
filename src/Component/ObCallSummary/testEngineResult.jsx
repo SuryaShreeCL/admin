@@ -304,13 +304,13 @@ class testEngineResult extends Component {
                 Test Name{" "}
               </Typography>
             </div>
-            </DialogTitle>
-          <DialogContent style={{ height: "800px", width: "700px" }}>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", justifyContent: "flex-end",marginTop:"-6%" }}>
               <IconButton onClick={() => this.setState({ showEye: false })}>
                 <img src={x} height={17} width={17} />
               </IconButton>
             </div>
+            </DialogTitle>
+          <DialogContent style={{ height: "800px", width: "700px" }}>
             <div
               style={{
                 display: "flex",
