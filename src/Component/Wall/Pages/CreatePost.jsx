@@ -285,6 +285,14 @@ const CreatePost = () => {
                       className={classes.spacer}
                       value={values.redirectionUrl}
                       onChange={handleChange}
+                      error={
+                        values.redirectionUrl.length > 5 && !values.redirectionUrl.includes('http')
+                      }
+                      helperText={
+                        values.redirectionUrl.length > 5 &&
+                        !values.redirectionUrl.includes('http') &&
+                        'Enter Full link Ex:https://www.example.com/'
+                      }
                     />
                   </Grid>
                   <Grid item>
@@ -366,7 +374,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button
                       color='primary'

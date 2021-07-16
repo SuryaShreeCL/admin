@@ -335,7 +335,7 @@ const EditPost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button
                       color='primary'
