@@ -370,13 +370,21 @@ class GraduateTestResult extends Component {
                         <DialogContent>
                             <Grid container spacing={2}>
                                 <Grid item md={12}>
-                                    <Typography >GRE</Typography>
-                                    <ColoredLine color="gray" />
+                                    <Typography style={{fontFamily:'Montserrat', fontSize:18,color:'#052A4E',fontWeight:600}} >GRE Score</Typography>
+                                    <ColoredLine color="gray"  />
                                 </Grid>
-                                <Grid item xs={12} md={5}>
-                                    <TextField
-                                        label="Attempt"
+                                <Grid item xs={12} md={5} >
+                                <Autocomplete
+                                        popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                                        id="combo-box-demo"
                                         fullWidth
+                                        // disabled={this.state.disable}
+                                        // options={this.props.getDegreeList}
+                                        // getOptionLabel={(option) => option.name}
+                                        //   style={{ width: 300 }}
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="Attempt" variant="standard" />
+                                        )}
                                     />
                                 </Grid>
                                 <Grid item xs={12} md={5}>
@@ -401,18 +409,11 @@ class GraduateTestResult extends Component {
                                         label="Quantative Reasoning"
                                         fullWidth
                                     /> */}
-                                    <Autocomplete
-                                        popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                                        id="combo-box-demo"
+                                    <TextField 
+                                        label="Quantative Reasoning"
                                         fullWidth
-                                        // disabled={this.state.disable}
-                                        // options={this.props.getDegreeList}
-                                        // getOptionLabel={(option) => option.name}
-                                        //   style={{ width: 300 }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} label="Quantative Reasoning" variant="standard" />
-                                        )}
                                     />
+                                    
                                 </Grid>
                                 <Grid item md={5}>
                                     <TextField
@@ -432,7 +433,7 @@ class GraduateTestResult extends Component {
                                         fullWidth
                                     />
                                 </Grid>
-                                <Grid item md={6} sm={6} xs={6}>
+                                <Grid item md={5} sm={5} xs={5}>
                                     <Dropzone onDrop={this.onDrop}>
                                         {({ getRootProps, getInputProps }) => (
                                             <section >

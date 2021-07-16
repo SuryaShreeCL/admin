@@ -247,7 +247,7 @@ class AdmissionServices extends Component {
                                 Allocating the mentor will push the user to PGA Stage and Enable access for Call Scheduling tool.
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15%', paddingBottom: '10%' }}>
-                                <PrimaryButton variant={"contained"} color={"primary"} onClick={() => this.allocate()}>
+                                <PrimaryButton style={{ textTransform: "none" }} variant={"contained"} color={"primary"} onClick={() => this.allocate()}>
                                     Allocate
                                 </PrimaryButton>
                             </div>

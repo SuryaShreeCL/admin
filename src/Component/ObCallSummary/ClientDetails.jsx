@@ -4,21 +4,26 @@ import {
   Typography,
   ThemeProvider,
   createMuiTheme,
-  Button
+  Button,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getBranches, getDegree, getAllColleges } from "../../Actions/College";
-import { viewProductToStudent } from '../../Actions/ProductAction'
+import { viewProductToStudent } from "../../Actions/ProductAction";
 import {
   getAllProductFamily,
   getvarientByid,
-  getProductByFamilyId
+  getProductByFamilyId,
 } from "../../Actions/ProductAction";
-import { getStudentsById } from '../../Actions/Student'
-import { getAllDegree, getAllTerms, viewCountry, getallcountry } from '../../Actions/Aspiration'
-import { updateclientdetails } from '../../Actions/Calldetails'
+import { getStudentsById } from "../../Actions/Student";
+import {
+  getAllDegree,
+  getAllTerms,
+  viewCountry,
+  getallcountry,
+} from "../../Actions/Aspiration";
+import { updateclientdetails } from "../../Actions/Calldetails";
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, KeyboardDateTimePicker } from "@material-ui/pickers";
 import { ExpandMore } from "@material-ui/icons";
@@ -41,10 +46,9 @@ const theme = createMuiTheme({
     MuiFormControl: {
       marginNormal: {
         marginTop: "0px",
-        marginBottom: "0px"
-      }
+        marginBottom: "0px",
+      },
     },
-
   },
 });
 class ClientDetails extends Component {
@@ -121,7 +125,7 @@ class ClientDetails extends Component {
       term: "",
       termErr: "",
       intakeyear: "",
-      intakeyearErr: ""
+      intakeyearErr: "",
     };
   }
   componentDidMount() {
@@ -133,7 +137,7 @@ class ClientDetails extends Component {
     this.props.getAllTerms();
     this.props.getallcountry();
     this.props.getStudentsById(this.props.match.params.studentId);
-    this.props.getvarientByid(this.props.match.params.productId)
+    this.props.getvarientByid(this.props.match.params.productId);
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
@@ -143,7 +147,9 @@ class ClientDetails extends Component {
     }
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
       this.setState({
-        name: this.props.getStudentsByIdList.firstName + this.props.getStudentsByIdList.lastName,
+        name:
+          this.props.getStudentsByIdList.firstName +
+          this.props.getStudentsByIdList.lastName,
         number: this.props.getStudentsByIdList.phoneNumber,
         email: this.props.getStudentsByIdList.emailId,
         sem: this.props.getStudentsByIdList.currentSem,
@@ -153,8 +159,7 @@ class ClientDetails extends Component {
         cgpa: this.props.getStudentsByIdList.uggpa,
         activebacklogs: this.props.getStudentsByIdList.noOfBacklogs,
         clsid: this.props.getStudentsByIdList.studentID,
-
-      })
+      });
     }
     if (this.props.getvarientByidList !== prevProps.getvarientByidList) {
       this.setState({
@@ -164,8 +169,8 @@ class ClientDetails extends Component {
         family: this.props.getvarientByidList.productFamily,
         endofservice: this.props.getvarientByidList.endOfServiceDate,
         pricing: this.props.getvarientByidList.sellingPrice,
-        varient: this.props.getvarientByidList
-      })
+        varient: this.props.getvarientByidList,
+      });
     }
   }
 
@@ -173,8 +178,8 @@ class ClientDetails extends Component {
     { title: "Completed" },
     { title: "Pending" },
     { title: "DNP" },
-    { title: "Reschedule" }
-  ]
+    { title: "Reschedule" },
+  ];
   Days = [
     { title: "Monday" },
     { title: "Tuesday" },
@@ -182,26 +187,38 @@ class ClientDetails extends Component {
     { title: "Thursday" },
     { title: "Friday" },
     { title: "Saturday" },
-    { title: "Sunday" }
-  ]
+    { title: "Sunday" },
+  ];
   Order = [
     { title: "Technical" },
     { title: "Managerial" },
     { title: "Techno-Managerial" },
     { title: "Custom" },
-  ]
-  Workexp = [
-    { title: "Yes" },
-    { title: "No" },
-  ]
+  ];
+
+  Workexp = [{ title: "Yes" }, { title: "No" }];
+
+  intakeYear = [
+    { title: "2021" },
+    { title: "2022" },
+    { title: "2023" },
+    { title: "2024" },
+    { title: "2025" },
+    { title: "2026" },
+    { title: "2027" },
+    { title: "2028" },
+    { title: "2029" },
+    { title: "2030" },
+  ];
+
   ExpType = [
     { title: "Internship" },
     { title: "Fulltime" },
     { title: "Parttime" },
     { title: "Freelance" },
-  ]
+  ];
   handleSaved = () => {
-    console.log(this.state)
+    console.log(this.state);
     let hlptxt = "Please Fill the Required Field";
     isEmptyString(this.state.name)
       ? this.setState({ nameErr: hlptxt })
@@ -230,21 +247,21 @@ class ClientDetails extends Component {
     isEmptyString(this.state.cgpa)
       ? this.setState({ cgpaErr: hlptxt })
       : this.setState({ cgpaErr: "" });
-    isEmptyString(this.state.family)
-      ? this.setState({ familyErr: hlptxt })
-      : this.setState({ familyErr: "" });
-    isEmptyString(this.state.varient)
-      ? this.setState({ varientErr: hlptxt })
-      : this.setState({ varientErr: "" });
-    isEmptyString(this.state.intake)
-      ? this.setState({ intakeErr: hlptxt })
-      : this.setState({ intakeErr: "" });
-    isEmptyString(this.state.year)
-      ? this.setState({ yearErr: hlptxt })
-      : this.setState({ yearErr: "" });
-    isEmptyString(this.state.validity)
-      ? this.setState({ validityErr: hlptxt })
-      : this.setState({ validityErr: "" });
+    // isEmptyString(this.state.family)
+    //   ? this.setState({ familyErr: hlptxt })
+    //   : this.setState({ familyErr: "" });
+    // isEmptyString(this.state.varient)
+    //   ? this.setState({ varientErr: hlptxt })
+    //   : this.setState({ varientErr: "" });
+    // isEmptyString(this.state.intake)
+    //   ? this.setState({ intakeErr: hlptxt })
+    //   : this.setState({ intakeErr: "" });
+    // isEmptyString(this.state.year)
+    //   ? this.setState({ yearErr: hlptxt })
+    //   : this.setState({ yearErr: "" });
+    // isEmptyString(this.state.validity)
+    //   ? this.setState({ validityErr: hlptxt })
+    //   : this.setState({ validityErr: "" });
     this.state.endofservice === null
       ? this.setState({ endofserviceErr: hlptxt })
       : this.setState({ endofserviceErr: "" });
@@ -309,97 +326,113 @@ class ClientDetails extends Component {
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
     // console.log(this.state)
-    if (
-      !isEmptyString(this.state.name) &&
-      !isEmptyString(this.state.number) &&
-      !isEmptyString(this.state.email) &&
-      !isEmptyString(this.state.ugdegree) &&
-      !isEmptyString(this.state.department) &&
-      !isEmptyString(this.state.collegename) &&
-      !isEmptyString(this.state.sem) &&
-      !isEmptyString(this.state.activebacklogs) &&
-      !isEmptyString(this.state.cgpa) &&
-      !isEmptyString(this.state.family) &&
-      !isEmptyString(this.state.varient) &&
-      !isEmptyString(this.state.intake) &&
-      !isEmptyString(this.state.year) &&
-      !isEmptyString(this.state.validity) &&
-      !this.state.endofservice === null &&
-      !isEmptyString(this.state.pricing) &&
-      !isEmptyString(this.state.ameyoid) &&
-      this.state.calldate !== null &&
-      this.state.calltime !== null &&
-      !isEmptyString(this.state.agent) &&
-      !isEmptyString(this.state.callstatus) &&
-      !this.state.callbacktime === null &&
-      !isEmptyString(this.state.spedays) &&
-      !isEmptyString(this.state.spetime) &&
-      this.state.enrolldate !== null &&
-      !isEmptyString(this.state.appdegree) &&
-      !isEmptyString(this.state.order) &&
-      !isEmptyString(this.state.countries) &&
-      !isEmptyString(this.state.package) &&
-      !isEmptyString(this.state.workexp) &&
-      !isEmptyString(this.state.exptype) &&
-      !isEmptyString(this.state.expfield) &&
-      !isEmptyString(this.state.expmonth)
-    ) {
+    // if (
+    //   !isEmptyString(this.state.name) &&
+    //   !isEmptyString(this.state.number) &&
+    //   !isEmptyString(this.state.email) &&
+    //   !isEmptyString(this.state.ugdegree) &&
+    //   !isEmptyString(this.state.department) &&
+    //   !isEmptyString(this.state.collegename) &&
+    //   !isEmptyString(this.state.sem) &&
+    //   !isEmptyString(this.state.activebacklogs) &&
+    //   !isEmptyString(this.state.cgpa) &&
+    //   // !isEmptyString(this.state.family)&&
+    //   // !isEmptyString(this.state.varient)&&
+    //   // !isEmptyString(this.state.intake)&&
+    //   // !isEmptyString(this.state.year)&&
+    //   // !isEmptyString(this.state.validity)&&
+    //   // !this.state.endofservice === null&&
+    //   // !isEmptyString(this.state.pricing)&&
+    //   !isEmptyString(this.state.ameyoid) &&
+    //   this.state.calldate !== null &&
+    //   this.state.calltime !== null &&
+    //   !isEmptyString(this.state.agent) &&
+    //   !isEmptyString(this.state.callstatus) &&
+    //   !this.state.callbacktime === null &&
+    //   !isEmptyString(this.state.spedays) &&
+    //   !isEmptyString(this.state.spetime) &&
+    //   this.state.enrolldate !== null &&
+    //   !isEmptyString(this.state.appdegree) &&
+    //   !isEmptyString(this.state.order) &&
+    //   !isEmptyString(this.state.countries) &&
+    //   !isEmptyString(this.state.package) &&
+    //   !isEmptyString(this.state.workexp) &&
+    //   !isEmptyString(this.state.exptype) &&
+    //   !isEmptyString(this.state.expfield) &&
+    //   !isEmptyString(this.state.expmonth)
+    // )
+     {
       let obj = {
-        "ugDegree": {
-          "id": "ea0d2f9a-95b3-4d2f-a4b1-2e2b341e1686"
+        ugDegree: {
+          id: this.state.ugdegree.id,
         },
-        "studentCollege": {
-          "id": "b470690b-23e9-4761-a968-777e0cf885cf"
+        studentCollege: {
+          id: this.state.collegename.id,
         },
-        "studentDepartment": {
-          "id": "e108b892-e869-4953-90da-0ed0164d896b"
+        studentDepartment: {
+          id: this.state.department.id,
         },
-        "studentCurrentSem": "1",
-        "studentCgpa": this.state.cgpa,
-        "ameyoId": this.state.ameyoid,
-        "oBCallDate": this.state.calldate,
-        "oBCallTime": this.state.calltime,
-        "onBoardingAgent": this.state.agent,
-        "callStatus": this.state.callstatus,
-        "callBackTime": this.state.callbacktime,
-        "weekDays": this.state.spedays,
-        "specificTime": this.state.spetime,
-        "aspirationDegrees": [{
-          "id": null
-        }],
-        "aspirationCountries": [{
-          "id": null
-        }],
-        "aspirationTerms": [{
-          "id": null
-        }],
-        "enrollmentDate": "",
-        "orderType": this.state.order,
-        "intakeYear": this.state.intakeyear,
-        "packages": this.state.package,
-        "workExperience": this.state.workexp.title,
-        "typeOfExperience": this.state.exptype,
-        "fieldOfExpertise": this.state.expfield,
-        "experienceMonths": this.state.expmonth,
-        "degree": {
-          "id": "ea0d2f9a-95b3-4d2f-a4b1-2e2b341e1686"
+        studentCurrentSem: this.state.sem,
+        studentCgpa: this.state.cgpa,
+        ameyoId: this.state.ameyoid,
+        oBCallDate: this.state.calldate,
+        oBCallTime: this.state.calltime,
+        onBoardingAgent: this.state.agent,
+        callStatus: this.state.callstatus.title,
+        callBackTime: this.state.callbacktime,
+        weekDays: this.state.spedays.title,
+        specificTime: this.state.spetime,
+        clientName: this.state.name,
+
+        aspirationDegrees: [
+          {
+            id: this.state.appdegree.id,
+            // id:'1'
+          },
+        ],
+        aspirationCountries: [
+          {
+            id: this.state.countries.id,
+          },
+        ],
+        aspirationTerms: [
+          {
+            id: this.state.term.id,
+          },
+        ],
+        enrollmentDate: this.state.enrolldate,
+        orderType: this.state.order.title,
+        intakeYear: this.state.intakeyear.title,
+        packages: this.state.package,
+        workExperience: this.state.workexp.title,
+        typeOfExperience: this.state.exptype.title,
+        fieldOfExpertise: this.state.expfield,
+        experienceMonths: this.state.expmonth,
+        degree: {
+          id: this.state.collegename.id,
         },
-        "department": {
-          "id": "e108b892-e869-4953-90da-0ed0164d896b"
+        department: {
+          id: this.state.department.id,
         },
-        "college": {
-          "id": "b470690b-23e9-4761-a968-777e0cf885cf"
+        college: {
+          id: this.state.ugdegree.id,
         },
-        "presentSem": this.state.sem,
-        "activeBacklogs": this.state.activebacklogs,
-        "cgpa": this.state.cgpa
-      }
+        presentSem: this.state.sem,
+        backlogs: this.state.activebacklogs,
+        activeBacklogs: this.state.activebacklogs,
+        cgpa: this.state.cgpa,
+      };
+      // this.props.updateclientdetails(
+      //   this.props.match.params.studentId,
+      //   this.props.match.params.productId,
+      //   obj
+      // );
     }
-  }
-  // this.props.updateclientdetails(this.props.match.params.studentId,this.props.match.params.productId,obj)
+  };
   render() {
     console.log(this.state);
     console.log(this.props);
+    console.log(this.props.getStudentsByIdList)
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -410,12 +443,6 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    // fontFamily: "Montserrat",
-                    // fontSize: "18px",
-                    // fontStyle: "normal",
-                    // lineHeight: "22px",
-                    // letter-spacing: 0em;
-                    // text-align: left
                   }}
                 >
                   Students Details
@@ -460,6 +487,8 @@ class ClientDetails extends Component {
                   id="combo-box-demo"
                   options={this.props.getDegreeList}
                   getOptionLabel={(option) => option.name}
+                  value={this.state.ugdegree}
+                  onChange={(e, newValue) => this.setState({ ugdegree: newValue })}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -662,11 +691,13 @@ class ClientDetails extends Component {
                 </Typography>
               </Grid>
               <Grid item md={3}>
-                <TextField label="AMEYO ID"
+                <TextField
+                  label="AMEYO ID"
                   value={this.state.ameyoid}
                   onChange={(e) => this.setState({ ameyoid: e.target.value })}
                   error={this.state.ameyoidErr.length > 0}
-                  helperText={this.state.ameyoidErr} />
+                  helperText={this.state.ameyoidErr}
+                />
               </Grid>
               <Grid item md={3}>
                 <KeyboardDatePicker
@@ -698,8 +729,7 @@ class ClientDetails extends Component {
                   onChange={(e, newValue) => {
                     this.setState({ calltime: newValue });
                     // console.log(newValue)
-                  }
-                  }
+                  }}
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
@@ -766,7 +796,9 @@ class ClientDetails extends Component {
                   getOptionLabel={(option) => option.title}
                   //   style={{ width: 300 }}
                   value={this.state.spedays}
-                  onChange={(e, newValue) => this.setState({ spedays: newValue })}
+                  onChange={(e, newValue) =>
+                    this.setState({ spedays: newValue })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -807,7 +839,7 @@ class ClientDetails extends Component {
                   disableFuture
                   id="date-picker-dialog"
                   label="Enrollment Date"
-                  format="MM/dd/yyyy"
+                  format="yyyy-MM-dd"
                   value={this.state.enrolldate}
                   error={this.state.enrolldateErr.length > 0}
                   helperText={this.state.enrolldateErr}
@@ -823,6 +855,8 @@ class ClientDetails extends Component {
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
+                  // options={this.props.getDegreeList}
+                  // getOptionLabel={(option) => option.name}
                   options={this.props.getAspDegreeList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.appdegree}
@@ -844,10 +878,12 @@ class ClientDetails extends Component {
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
-                  options={this.props.getAllProductFamilyList}
-                  getOptionLabel={(option) => option.productName}
+                  options={this.intakeYear}
+                  getOptionLabel={(option) => option.title}
                   value={this.state.intakeyear}
-                  onChange={(e, newValue) => this.setState({ intakeyear: newValue })}
+                  onChange={(e, newValue) =>
+                    this.setState({ intakeyear: newValue })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -948,7 +984,9 @@ class ClientDetails extends Component {
                   options={this.props.getDegreeList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.ugdegree}
-                  onChange={(e, newValue) => this.setState({ ugdegree: newValue })}
+                  onChange={(e, newValue) =>
+                    this.setState({ ugdegree: newValue })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -967,7 +1005,9 @@ class ClientDetails extends Component {
                   options={this.props.getCollegesList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.collegename}
-                  onChange={(e, newValue) => this.setState({ collegename: newValue })}
+                  onChange={(e, newValue) =>
+                    this.setState({ collegename: newValue })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -986,7 +1026,9 @@ class ClientDetails extends Component {
                   options={this.props.getBranchesList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.department}
-                  onChange={(e, newValue) => this.setState({ department: newValue })}
+                  onChange={(e, newValue) =>
+                    this.setState({ department: newValue })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -1009,20 +1051,26 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-                <TextField label="CGPA"
+                <TextField
+                  label="CGPA"
                   type="number"
                   value={this.state.cgpa}
                   onChange={(e) => this.setState({ cgpa: e.target.value })}
                   error={this.state.cgpaErr.length > 0}
-                  helperText={this.state.cgpaErr} />
+                  helperText={this.state.cgpaErr}
+                />
               </Grid>
               <Grid item md={3}>
-                <TextField label="Backlogs"
+                <TextField
+                  label="Backlogs"
                   type="number"
                   value={this.state.activebacklogs}
-                  onChange={(e) => this.setState({ activebacklogs: e.target.value })}
+                  onChange={(e) =>
+                    this.setState({ activebacklogs: e.target.value })
+                  }
                   error={this.state.activebacklogsErr.length > 0}
-                  helperText={this.state.activebacklogsErr} />
+                  helperText={this.state.activebacklogsErr}
+                />
               </Grid>
               <Grid item md={12}>
                 <Typography
@@ -1100,7 +1148,14 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={12} align="center">
-                <PrimaryButton style={{ width: "130px" }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
+                <PrimaryButton
+                  style={{ width: "130px" }}
+                  color={"primary"}
+                  variant={"contained"}
+                  onClick={() => this.handleSaved()}
+                >
+                  Save
+                </PrimaryButton>
               </Grid>
             </Grid>
           </MuiPickersUtilsProvider>
@@ -1122,7 +1177,7 @@ const mapStateToProps = (state) => {
     getallcountryList: state.AspirationReducer.getallcountry,
     getStudentsByIdList: state.StudentReducer.StudentList,
     getvarientByidList: state.ProductReducer.getvarientByid,
-    updateclientdetailsList: state.ProductReducer.updateclientdetails
+    updateclientdetailsList: state.ProductReducer.updateclientdetails,
   };
 };
 
@@ -1138,5 +1193,5 @@ export default connect(mapStateToProps, {
   getallcountry,
   getStudentsById,
   getvarientByid,
-  updateclientdetails
+  updateclientdetails,
 })(ClientDetails);

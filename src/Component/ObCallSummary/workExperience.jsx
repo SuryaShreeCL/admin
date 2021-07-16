@@ -149,7 +149,7 @@ class workExperience extends Component {
                   }}
                 >
                   {" "}
-                  3month({this.state.startDate}-{this.state.endDate})
+                  3months({this.state.startDate}-{this.state.endDate})
                 </div>
               </AccordionSummary>
 
@@ -168,7 +168,7 @@ class workExperience extends Component {
                               }
                             getOptionLabel={(option) => option.title}
                             renderInput={(params) => (
-                                <TextField {...params} label="Employee Type" variant="standard" error={this.state.jobTypeErr.length > 0}
+                                <TextField {...params} label="Employment Type" variant="standard" error={this.state.jobTypeErr.length > 0}
                                 helperText={this.state.jobTypeErr}/>
                             )}
                         />
@@ -256,7 +256,7 @@ class workExperience extends Component {
                   <Grid item md={8}>
                     <TextField
                       id="standard-multiline-static"
-                      label="Job organization"
+                      label="Job Description"
                       multiline
                       value={this.state.jobDescp}
                       onChange={(e, newValue) =>

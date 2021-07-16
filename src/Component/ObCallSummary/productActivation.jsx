@@ -217,7 +217,7 @@ class ProductActivation extends Component {
                         <AntTab label="Awaiting Allocation" />
                     </AntTabs>
                     <TextField
-                        label='Search by Email ID / Mobile / Full Name / CLS ID'
+                        label= '&nbsp; &nbsp;&nbsp;&nbsp;   Search by Email ID / Mobile / Full Name / CLS ID'
                         variant="outlined"
                         InputLabelProps={{
                             shrink: this.state.shrink
