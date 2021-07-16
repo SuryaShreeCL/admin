@@ -24,7 +24,8 @@ import {
   Dialog,
   DialogContent,
   Typography,
-  createMuiTheme
+  createMuiTheme,
+  ThemeProvider
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { ExpandMore } from "@material-ui/icons";
@@ -38,7 +39,6 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import Warning from "../../Asset/Images/warningImg.png";
 import { Link } from "react-router-dom";
 import Pencil from "../../Asset/Images/pencil.png";
-import { ThemeProvider } from "styled-components";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -51,11 +51,32 @@ const ColoredLine = ({ color }) => (
 );
 const theme = createMuiTheme({
     overrides : {
-        MuiSvgIcon : {
+        MuiIconButton : {
             root : {
                 color : "#1093FF"
             }
+        },
+       MuiInputLabel:{
+           root : {
+               fontSize : "14px",
+               whiteSpace:"nowrap"
+           }
+       },
+       MuiFormControl : {
+        marginNormal:{
+            marginTop:"0px"
         }
+       }
+    //    MuiFormLabel:{
+    //        root:{
+    //            fontSize:"1px"
+    //        }
+    //    },
+    // MuiFormControlLabel:{
+    //     root:{
+    //         fontSize:"1px"
+    //     }
+    // }
     }
 })
 
@@ -88,8 +109,8 @@ class GraduateTestResult extends Component {
   }
   render() {
     return (
+    <ThemeProvider theme={theme}>
       <div style={{ padding: 25 }}>
-          <ThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <div
             style={{
@@ -1083,6 +1104,7 @@ class GraduateTestResult extends Component {
                   >
                     GRE Score
                   </Typography>
+                  <hr/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Autocomplete
@@ -1222,6 +1244,7 @@ class GraduateTestResult extends Component {
                   >
                     GMAT Score
                   </Typography>
+                  <hr/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Autocomplete
@@ -1364,6 +1387,7 @@ class GraduateTestResult extends Component {
                   >
                     TOEFL Score
                   </Typography>
+                  <hr/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Autocomplete
@@ -1506,6 +1530,7 @@ class GraduateTestResult extends Component {
                   >
                     IELTS Score
                   </Typography>
+                  <hr/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Autocomplete
@@ -1632,8 +1657,8 @@ class GraduateTestResult extends Component {
             </DialogContent>
           </Dialog>
         </MuiPickersUtilsProvider>
-        </ThemeProvider>
       </div>
+      </ThemeProvider>
     );
   }
 }
