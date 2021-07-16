@@ -14,7 +14,6 @@ export const updateclientdetails = (studentId, productId, data) => {
                 console.log(error);
             });
     }
-
 }
 
 export const updateQuestions = (studentId, productId, data) => {
