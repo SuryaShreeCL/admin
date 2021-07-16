@@ -4,7 +4,8 @@ const initialState = {
     updateQuestions:[],
     updateRating:[],
     getPersonalInfo:[],
-    updatePersonalInfo: []
+    updatePersonalInfo: [],
+    academicdetails:[]
 }
 
 export default (state = initialState, action) => {
@@ -24,6 +25,7 @@ export default (state = initialState, action) => {
                 ...state,
                 updateRating: action.payload
             }
+<<<<<<< HEAD
             case CALL_DETAILS.getPersonalInfo:
             return {
                 ...state,
@@ -34,6 +36,14 @@ export default (state = initialState, action) => {
                 ...state,
                 updatePersonalInfo: action.payload
             }
+=======
+            case CALL_DETAILS.academicdetails:
+            return {
+                ...state,
+                academicdetails: action.payload
+            }
+
+>>>>>>> 95a5ce2336e87df8cd2982152c282946844b9e14
         default:
             break
     }

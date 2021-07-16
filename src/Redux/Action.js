@@ -209,7 +209,8 @@ export const CALL_DETAILS={
   updateQuestions : "updateQuestions",
   updateRating : "updateRating",
   getPersonalInfo: "getPersonalInfo",
-  updatePersonalInfo: "updatePersonalInfo"
+  updatePersonalInfo: "updatePersonalInfo",
+  academicdetails : "academicdetails"
 }
 
 export const CAREER_TRACK = {
