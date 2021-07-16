@@ -1,19 +1,52 @@
-import { Grid, TextField } from "@material-ui/core";
+import { Checkbox, FormControlLabel, Grid, TextField, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
 import IconButton from "@material-ui/core/IconButton";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import { ExpandMore } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import {
-  getallcountry,
-  getAllTerms,
-  viewCountry,
-} from "../../Actions/Aspiration";
-import { getBranches, getDegree, getUniversity } from "../../Actions/College";
-import { getAllProductFamily } from "../../Actions/ProductAction";
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
+
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiRadio: {
+            colorSecondary: {
+                '&$checked': {
+                    color: '#1093FF'
+                  }
+            },
+          },
+        MuiCheckbox:{
+            colorSecondary: {
+                '&$checked': {
+                    color: '#1093FF'
+                  }
+            },
+        },
+        MuiIconButton : {
+            root : {
+                color : "#1093FF"
+            }
+        },
+        MuiInputLabel: {
+            root: {
+              whiteSpace: "nowrap",
+              fontSize: "12px",
+            },
+          },
+          MuiFormControl: {
+            marginNormal: {
+              marginTop: "0px",
+              marginBottom: "0px",
+            },
+          },
+    },
+  });
 
 class AspirationDetails extends Component {
   constructor() {
@@ -21,64 +54,26 @@ class AspirationDetails extends Component {
     this.state = {
       disable: true,
       val: "",
-      targetIntake: [],
-      targetIntakeErr: "",
-      schoolTargeted: "",
-      schoolTargetedErr: "",
-      targetDegree: [],
-      targetDegreeErr: "",
-      areaOfSpecalization: [],
-      areaOfSpecalizationErr: "",
-      countryCollege: [],
-      countryCollegeErr: "",
-      listOfDreamCollege: [],
-      listOfDreamCollegeErr: "",
-      FieldStudy:[],
-      FieldStudyErr:'',
+      targetYear: "2022,2023",
+      targetIntake: "Fall,Winter",
+      schoolTargeted: "3",
+      targetDegree: "MS",
+      areaOfSpecalization: "AREA OF SPECALIZATION1",
+      countryCollege: "INDIA, USA",
+      listOfDreamCollege: "College1",
+      listOfDreamBusinessCollege: "College1",
     };
   }
-  componentDidMount() {
-    this.props.getAllProductFamily();
-    this.props.getAllTerms();
-    this.props.getallcountry();
-    this.props.getBranches();
-    this.props.getUniversity();
-    this.props.getDegree();
-  }
-
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
   }
-  handleSave() {
-    console.log(this.state);
-    let hlptxt = "Please fill the required field";
-    this.state.schoolTargeted === ""
-      ? this.setState({ schoolTargetedErr: hlptxt })
-      : this.setState({ schoolTargetedErr: "" });
-    this.state.targetDegree.length === 0
-      ? this.setState({ targetDegreeErr: hlptxt })
-      : this.setState({ targetDegreeErr: "" });
-    this.state.areaOfSpecalization.length === 0
-      ? this.setState({ areaOfSpecalizationErr: hlptxt })
-      : this.setState({ areaOfSpecalizationErr: "" });
-    this.state.countryCollege.length === 0
-      ? this.setState({ countryCollegeErr: hlptxt })
-      : this.setState({ countryCollegeErr: "" });
-    this.state.listOfDreamCollege.length === 0
-      ? this.setState({ listOfDreamCollegeErr: hlptxt })
-      : this.setState({ listOfDreamCollegeErr: "" });
-    this.state.targetIntake.length === 0
-      ? this.setState({ targetIntakeErr: hlptxt })
-      : this.setState({ targetIntakeErr: "" });
-      this.state.FieldStudy.length === 0
-      ? this.setState({ FieldStudyErr: hlptxt })
-      : this.setState({ FieldStudyErr: "" });
-      console.log(this.state);
-  }
+
   render() {
     console.log(new Date());
+    const { choiceStyle } = style;
     return (
       <div style={{ padding: 25 }}>
+          <ThemeProvider theme={theme}>
         <div
           style={{
             display: "flex",
@@ -118,129 +113,155 @@ class AspirationDetails extends Component {
           </IconButton>
         </div>
         <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                fontSize: 18,
-                fontWeight: 400,
-              }}
-            >
-              What Kind Of Degree You Want To Persue?
-              <div
-                style={{
-                  color: "#2C8853",
-                  paddingLeft: 10,
-                  fontWeight: "bold",
-                }}
-              >
-                Technical and Techno Managerial
-              </div>
-            </div>
+          <Grid
+            item
+            xs={8}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              fontSize: 18,
+              fontWeight: 400,
+            }}
+          >
+            What Kind Of Degree You Want To Persue?
           </Grid>
-          <Grid item xs={12}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                fontSize: 18,
-                fontWeight: 400,
-              }}
-            >
-              Which Of The Following Tests Have you Taken Or Intend To Take?
-              <div
-                style={{
-                  color: "#2C8853",
-                  paddingLeft: 10,
-                  fontWeight: "bold",
-                }}
+          <Grid item md={12}>
+            <FormControl component="fieldset">
+              <RadioGroup
+                aria-label="gender"
+                name="gender1"
+                style={{ display: "flex", flexDirection: "row" }}
               >
-                GRE,TOEFL,IELTS
-              </div>
-            </div>
+                <FormControlLabel style={choiceStyle}
+                  value="Not yet Decided"
+                  control={<Radio />}
+                  label="Not yet Decided"
+                />
+                <FormControlLabel style={choiceStyle}
+                  value="Technical (Eg: MS in CS)"
+                  control={<Radio />}
+                  label="Technical (Eg: MS in CS)"
+                />
+                <FormControlLabel style={choiceStyle}
+                  value="Management (Eg: MiM/MSBA)"
+                  control={<Radio />}
+                  label="Management (Eg: MiM/MSBA)"
+                />
+                <FormControlLabel style={choiceStyle}
+                  value="Techno-Managerial (Eg: MEM)"
+                  control={<Radio />}
+                  label="Techno-Managerial (Eg: MEM)"
+                />
+              </RadioGroup>
+            </FormControl>
           </Grid>
-          <Grid item xs={12}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                fontSize: 18,
-                fontWeight: 400,
-              }}
-            >
-              How Do You Propose To Finance Your Studies?
-              <div
-                style={{
-                  color: "#2C8853",
-                  paddingLeft: 10,
-                  fontWeight: "bold",
-                }}
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              fontSize: 18,
+              fontWeight: 400,
+            }}
+          >
+            Which Of The Following Tests Have you Taken Or Intend To Take?
+          </Grid>
+          <Grid item md={12}>
+            <FormGroup row>
+              <FormControlLabel style={choiceStyle}
+               labelStyle={{color: 'white'}}
+               iconStyle={{fill: 'white'}}
+                control={<Checkbox name="checkedA" />}
+                label="GRE"
+              />
+              <FormControlLabel style={choiceStyle}
+                control={<Checkbox name="checkedB" />}
+                label="GMAT"
+              />
+              <FormControlLabel style={choiceStyle}
+                control={<Checkbox name="checkedC" />}
+                label="TOEFL"
+              />
+              <FormControlLabel style={choiceStyle}
+                control={<Checkbox name="checkedD" />}
+                label="IELTS"
+              />
+            </FormGroup>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              fontSize: 18,
+              fontWeight: 400,
+            }}
+          >
+            How Do You Propose To Finance Your Studies?
+          </Grid>
+          <Grid item md={12}>
+            <FormControl component="fieldset">
+              <RadioGroup
+                aria-label="gender"
+                name="gender1"
+                style={{ display: "flex", flexDirection: "row" }}
               >
-                Loan
-              </div>
-            </div>
+                <FormControlLabel style={choiceStyle}
+                  value="Self"
+                  control={<Radio />}
+                  label="Self"
+                />
+                <FormControlLabel style={choiceStyle}
+                  value="Loan"
+                  control={<Radio />}
+                  label="Loan"
+                />
+                <FormControlLabel style={choiceStyle}
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </RadioGroup>
+            </FormControl>
           </Grid>
           <Grid item md={2}>
             <TextField
-              style={{ width: "100%" }}
+            //   style={{ width: "100%" }}
               id="standard-basic"
               label="No Of Schools?"
-              error={this.state.schoolTargetedErr.length > 0}
-              helperText={this.state.schoolTargetedErr}
-              type="number"
+              disabled={this.state.disable}
               value={this.state.schoolTargeted}
               onChange={(e) => {
-                this.setState({
-                  schoolTargeted: e.target.value,
-                  schoolTargetedErr: "",
-                });
+                this.setState({ schoolTargeted: e.target.value });
               }}
             />
           </Grid>
           <Grid item md={3}>
             <Autocomplete
-            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
-              error={this.state.targetIntakeErr.length > 0}
-              helperText={this.state.targetIntakeErr}
-              value={this.state.targetIntake}
-              options={this.props.getAspTermsList}
+              disabled={this.state.disable}
+              options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
-              onChange={(e, newValue) =>
-                this.setState({ targetIntake: newValue, targetIntakeErr: "" })
-              }
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Intake"
-                  variant="standard"
-                  error={this.state.targetIntakeErr.length > 0}
-                  helperText={this.state.targetIntakeErr}
-                />
+                <TextField {...params} label="Intake" variant="standard" />
               )}
             />
           </Grid>
           <Grid item md={2}>
             <Autocomplete
-            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
-              value={this.state.targetDegree}
-              onChange={(e, newValue) =>
-                this.setState({ targetDegree: newValue, targetDegreeErr: "" })
-              }
+              disabled={this.state.disable}
               options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
-              value={this.state.pgDepartment}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   label="Targeted Degree"
                   variant="standard"
-                  error={this.state.targetDegreeErr.length > 0}
-                  helperText={this.state.targetDegreeErr}
                 />
               )}
             />
@@ -248,25 +269,16 @@ class AspirationDetails extends Component {
 
           <Grid item md={5}>
             <Autocomplete
-            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
-              options={this.props.getBranchesList}
-              value={this.state.areaOfSpecalization}
-              onChange={(e, newValue) =>
-                this.setState({
-                  areaOfSpecalization: newValue,
-                  areaOfSpecalizationErr: "",
-                })
-              }
+              options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
+              disabled={this.state.disable}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   label="Area of Specialization"
                   variant="standard"
-                  error={this.state.areaOfSpecalizationErr.length > 0}
-                  helperText={this.state.areaOfSpecalizationErr}
                 />
               )}
             />
@@ -274,26 +286,16 @@ class AspirationDetails extends Component {
 
           <Grid item md={3}>
             <Autocomplete
-               multiple
-               limitTags={2}
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id="multiple-limit-tags"
-              value={this.state.countryCollege}
-              onChange={(e, newValue) =>
-                this.setState({
-                  countryCollege: newValue,
-                  countryCollegeErr: "",
-                })
-              }
-              options={this.props.getallcountryList ? this.props.getallcountryList : []}
+              id="combo-box-demo"
+              options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
+              disabled={this.state.disable}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Country Of Dream College"
+                  label="Country of Dream Colleges"
                   variant="standard"
-                  error={this.state.countryCollegeErr.length > 0}
-                  helperText={this.state.countryCollegeErr}
                 />
               )}
             />
@@ -301,55 +303,38 @@ class AspirationDetails extends Component {
 
           <Grid item md={3}>
             <Autocomplete
-            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
-              value={this.state.listOfDreamCollege}
-              onChange={(e, newValue) =>
-                this.setState({
-                  listOfDreamCollege: newValue,
-                  listOfDreamCollegeErr: "",
-                })
-              }
-              options={this.props.getUniversityList}
+              options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
+              disabled={this.state.disable}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="List Of Dream Colleges"
+                  label="List of Dream Graduate Colleges"
                   variant="standard"
-                  error={this.state.listOfDreamCollegeErr.length > 0}
-                  helperText={this.state.listOfDreamCollegeErr}
                 />
               )}
             />
           </Grid>
           <Grid item md={3}>
             <Autocomplete
-            multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               id="combo-box-demo"
-              value={this.state.FieldStudy}
-              onChange={(e, newValue) =>
-                this.setState({
-                  FieldStudy: newValue,
-                  FieldStudyErr: "",
-                })
-              }
-              options={this.props.getUniversityList}
+              options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
+              disabled={this.state.disable}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Field of study"
+                  label="Field Of Study"
                   variant="standard"
-                  error={this.state.FieldStudyErr.length > 0}
-                  helperText={this.state.FieldStudyErr}
                 />
               )}
             />
           </Grid>
         </Grid>
+        
         <div
           style={{
             display: "flex",
@@ -358,36 +343,28 @@ class AspirationDetails extends Component {
           }}
         >
           <PrimaryButton
-            onClick={() => this.handleSave()}
+            style={{ textTransform: "none" }}
             variant={"contained"}
             color={"primary"}
-            style={{ textTransform: "none" }}
+            size={"small"}
           >
             Save Changes
           </PrimaryButton>
         </div>
+        </ThemeProvider>
       </div>
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
-    getAspTermsList: state.AspirationReducer.allTermList,
-    getcountrylist: state.AspirationReducer.viewCountryList,
-    getallcountryList: state.AspirationReducer.getallcountry,
-    getUniversityList: state.CollegeReducer.University,
-    getBranchesList: state.CollegeReducer.BranchList,
-    getDegreeList: state.CollegeReducer.Degree,
-  };
-};
+const style = {
+    choiceStyle:{
+        fontFamily: "Montserrat",
+            fontStyle: "normal",
+            fontWeight: "normal",
+            fontSize: "16px",
+            color: "#05252C"
+    }
+            
+}
 
-export default connect(mapStateToProps, {
-  getAllProductFamily,
-  getAllTerms,
-  viewCountry,
-  getallcountry,
-  getUniversity,
-  getBranches,
-  getDegree,
-})(AspirationDetails);
+export default AspirationDetails;

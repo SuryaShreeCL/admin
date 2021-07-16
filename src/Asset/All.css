@@ -373,3 +373,6 @@ input[type=checkbox]:checked + label {
 }  
 /* Rengine Version Two */
 
+.Mui-checked {
+    color: #1093FF;
+}

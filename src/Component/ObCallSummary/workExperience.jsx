@@ -19,6 +19,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   IconButton,
+  createMuiTheme, ThemeProvider 
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import WarningIcon from "@material-ui/icons/Warning";
@@ -32,6 +33,24 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        whiteSpace: "nowrap",
+        fontSize: "12px",
+      },
+    },
+    MuiFormControl: {
+      marginNormal: {
+        marginTop: "0px",
+        marginBottom: "0px",
+      },
+    },
+  }
+})
 class workExperience extends Component {
   constructor() {
     super();
@@ -92,6 +111,7 @@ class workExperience extends Component {
     console.log(new Date(this.state.startDate).setMonth(new Date(this.state.startDate).getMonth()+3))
     return (
       <div style={{ padding: 25 }}>
+        <ThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <div
             style={{
@@ -149,7 +169,7 @@ class workExperience extends Component {
                   }}
                 >
                   {" "}
-                  3month({this.state.startDate}-{this.state.endDate})
+                  3months({this.state.startDate}-{this.state.endDate})
                 </div>
               </AccordionSummary>
 
@@ -168,7 +188,7 @@ class workExperience extends Component {
                               }
                             getOptionLabel={(option) => option.title}
                             renderInput={(params) => (
-                                <TextField {...params} label="Employee Type" variant="standard" error={this.state.jobTypeErr.length > 0}
+                                <TextField {...params} label="Employment Type" variant="standard" error={this.state.jobTypeErr.length > 0}
                                 helperText={this.state.jobTypeErr}/>
                             )}
                         />
@@ -256,7 +276,7 @@ class workExperience extends Component {
                   <Grid item md={8}>
                     <TextField
                       id="standard-multiline-static"
-                      label="Job organization"
+                      label="Job Description"
                       multiline
                       value={this.state.jobDescp}
                       onChange={(e, newValue) =>
@@ -293,6 +313,7 @@ class workExperience extends Component {
             </PrimaryButton>
           </div>
         </MuiPickersUtilsProvider>
+        </ThemeProvider>
       </div>
     );
   }
