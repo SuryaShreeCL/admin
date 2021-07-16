@@ -198,7 +198,8 @@ export const ADMIN = {
   alocateMentor : "alocateMentor",
   updateLmsAccess : "updateLmsAccess",
   getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
-  activateStudentProduct : "activateStudentProduct"
+  activateStudentProduct : "activateStudentProduct",
+  getAdminLinkedProduct : "getAdminLinkedProduct", 
 };
 
 export const MENTORSCHEDULELIST={

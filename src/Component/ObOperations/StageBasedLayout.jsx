@@ -4,8 +4,15 @@ import { connect } from 'react-redux';
 import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
 import SubLayoutTab from './SubLayoutTab';
 import { getvarientByid } from "../../Actions/ProductAction"
+import { getAdminLinkedProduct } from "../../Actions/AdminAction"
 import ProdDetails from "./ProdDetails.json"
 import { Typography } from '@material-ui/core';
+import PersonalInfo from "../ObOnboarding/personalInfo"
+import AcademicInfo from "../ObOnboarding/academicInfo"
+import WorkExperience from "../ObCallSummary/workExperience"
+import AspirationDetails from "../ObCallSummary/aspirationDetails"
+import GraduateTestResult from "../ObCallSummary/graduateTestResult"
+import TestAndSurvey from "../ObCallSummary/testEngineResult"
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -50,33 +57,53 @@ class StageBasedLayout extends Component {
 
   
 componentDidMount() {
-    // this.props.getvarientByid("1")
-    this.setState({
-        selectedItem : ProdDetails.steps[0].steps[0]
-    })
+    // this.props.getvarientByid("fd08541f-d7e8-4497-8fbc-ae5128e16315")
+    this.props.getAdminLinkedProduct()
+    // this.setState({
+    //     selectedItem : ProdDetails.steps[0].steps[0]
+    // })
 }
 
 componentDidUpdate(prevProps, prevState) {
-   
-}
+    
+    if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
+        var sortedArr = this.props.adminLinkedProductDetails.products[0].steps.sort((a,b) => a.rank-b.rank)
+        console.log(sortedArr)
+        sortedArr.map((it,ix)=>{
+            it.steps.sort((c,d)=>c.rank - d.rank)
+        })
+        console.log(sortedArr)
+        this.setState({
+            productDetails : sortedArr,
+        })
+    }
+
+}   
 
 
 
     render() {
         var componentList = {
-            "Personal Information" : "PGA",
-            "Educational Details" : "APPLICATION_STAGE",
-            "Professional experience" : "SubLayoutTab"
+            "Personal Information" : "PersonalInfo",
+            "Academic Information" : "AcademicInfo",
+            "Work Experience" : "WorkExperience",
+            "Aspiration Details" : "AspirationDetails",
+            "Graduate Application Tests" : "GraduateTestResult",
+            "Tests and Surveys" : "TestAndSurvey"
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
         var obj = {
-            SubLayoutTab : SubLayoutTab,
-            PGA : PGA,
-            APPLICATION_STAGE : APPLICATION_STAGE,
+            PersonalInfo : PersonalInfo,
+            AcademicInfo : AcademicInfo,
+            WorkExperience : WorkExperience,
+            AspirationDetails : AspirationDetails,
+            GraduateTestResult : GraduateTestResult,
+            TestAndSurvey : TestAndSurvey
         }
         var selectedComponent = this.state.selectedItem !== null && componentList.[this.state.selectedItem.stepName]
         var Page = obj[selectedComponent];
-        console.log(this.state)
+        console.log("state...........",this.state)
+        console.log("props..................",this.props)
         return (
          <Grid container>
             <Grid item md={12}>
@@ -87,7 +114,7 @@ componentDidUpdate(prevProps, prevState) {
              aria-label="ant example"
            >
             
-               {ProdDetails.steps.map((item,index)=>{
+               {this.state.productDetails !== null && this.state.productDetails.map((item,index)=>{
                    return (
                     <ThemedTab label={item.stepName} />
                    )    
@@ -98,19 +125,19 @@ componentDidUpdate(prevProps, prevState) {
                <Grid item md={12}>
                <ThemedTabs
              value={this.state.selectedItem}
+             variant="scrollable"
              textColor={"inherit"}
              onChange={(e, value) => this.setState({ selectedItem : value })}
              aria-label="ant example"
            >
-               {ProdDetails.steps.filter((it,ix)=> ix === this.state.tabCount).map((item,index)=>{
-                   console.log("item",item)
+               {this.state.productDetails !== null && this.state.productDetails.filter((it,ix)=> ix === this.state.tabCount).map((item,index)=>{
                    return item.steps.map((stepItem,stepIndex)=>{
-                    console.log("stepItem",stepItem)
                        return (
                         <ThemedTab value={stepItem} label={stepItem.stepName} />
                        )
                    })
                })}
+               <ThemedTab value={{stepItem : "Others"}} label={"Others"} />
                </ThemedTabs>
                </Grid>
                <Grid item md={12}>
@@ -131,11 +158,12 @@ const APPLICATION_STAGE = () =>{
 
 
 const mapStateToProps = (state) =>({
-    getvarientByidData : state.ProductReducer.getvarientByid
+    getvarientByidData : state.ProductReducer.getvarientByid,
+    adminLinkedProductDetails : state.AdminReducer.adminLinkedProductDetails
 })
 
 const useStyles = () =>({
 
 })
 
-export default connect(mapStateToProps,{ getvarientByid })(withStyles(useStyles)(StageBasedLayout))
+export default connect(mapStateToProps,{ getvarientByid, getAdminLinkedProduct })(withStyles(useStyles)(StageBasedLayout))
