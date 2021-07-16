@@ -46,3 +46,18 @@ export const updateRating = (studentId, productId, data) => {
     }
 
 }
+
+export const updatePersonalInfo = (studentId, data) => {
+    return dispatch => {
+        axios.put(URL + "/api/v1/student/personalDetails/" + studentId + "/" , data, {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({ type: CALL_DETAILS.updatePersonalInfo, payload: result.data })
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+}
