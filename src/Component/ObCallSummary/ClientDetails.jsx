@@ -974,10 +974,6 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    // fontFamily: "Montserrat",
-                    // fontSize: "18px",
-                    // fontStyle: "normal",
-                    // lineHeight: "22px",
                   }}
                 >
                   Client's Educational Background
