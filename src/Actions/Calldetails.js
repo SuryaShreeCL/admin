@@ -112,3 +112,27 @@ export const getPersonalInfo = (studentId,productId) =>{
         })
     }
 }
+
+export const getPincodeDetails = (pincode, callback) =>{
+    return dispatch =>{
+        axios.get("https://api.postalpincode.in/pincode/"+ pincode)
+        .then(result=>{
+          callback(result.data)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const getAspirationDetails = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"api/v1/students/"+studentId+"/testExecutions?questionSetName=RecEenginePersonalityBasedSurvey")
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getAspirationDetails,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

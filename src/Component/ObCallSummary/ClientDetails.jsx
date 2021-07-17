@@ -49,11 +49,11 @@ const theme = createMuiTheme({
         marginBottom: "0px",
       },
     },
-    MuiIconButton : {
-      root : {
-          color : "#1093FF"
-      }
-  },
+    MuiIconButton: {
+      root: {
+        color: "#1093FF",
+      },
+    },
   },
 });
 class ClientDetails extends Component {
@@ -143,7 +143,10 @@ class ClientDetails extends Component {
     this.props.getallcountry();
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.getvarientByid(this.props.match.params.productId);
-    this.props.getClientInfo(this.props.match.params.studentId,this.props.match.params.productId)
+    this.props.getClientInfo(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
@@ -177,9 +180,68 @@ class ClientDetails extends Component {
         pricing: this.props.getvarientByidList.sellingPrice,
         varient: this.props.getvarientByidList,
       });
+     
+      }
+      if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
+        console.log('huhoihoijijo')
+        const {
+          collegeId,
+          degreeId,
+          departmentId,
+          clientName,
+          presentSem,
+          backlogs,
+          cgpa,
+          ameyoId,
+          callBackTime,
+          obCallDate,
+          obCallTime,
+          agent,
+          callStatus,
+          specificDays,
+          specificTime,
+          enrolmentDate,
+          aspirationDegrees,
+          aspirationCountries,
+          aspirationTerms,
+          year,
+          orderType,
+          packages,
+          experience,
+          typeOfExperience,
+          fieldOfExperience,
+          months,
+        } = this.props.getClientInfoList;
+        this.setState({
+          name: clientName,
+          ugdegree: degreeId,
+          collegename: collegeId,
+          department: departmentId,
+          sem: presentSem,
+          activebacklogs: backlogs,
+          cgpa: cgpa,
+          ameyoid: ameyoId,
+          calldate: obCallDate,
+          calltime: obCallTime,
+          agent: agent,
+          callstatus: {title:callStatus},
+          callbacktime: new Date(callBackTime),
+          spedays: {title:specificDays},
+          spetime: specificTime,
+          enrolldate: new Date(enrolmentDate),
+          appdegree: aspirationDegrees && aspirationDegrees.length !== 0 ? {...aspirationDegrees[0]} : null,
+          order: {title:orderType},
+          countries: aspirationCountries && aspirationCountries.length !== 0 ? {...aspirationCountries[0]} : null,
+          package: packages,
+          workexp: {title:experience},
+          exptype: {title:typeOfExperience},
+          expfield:fieldOfExperience,
+          expmonth: months,
+          term: aspirationTerms && aspirationTerms.length !== 0 ? {...aspirationTerms[0]} : null,
+          intakeyear: {title:year},
+        })
+      }
     }
-  }
-
   CallStatus = [
     { title: "Completed" },
     { title: "Pending" },
@@ -367,7 +429,7 @@ class ClientDetails extends Component {
     //   !isEmptyString(this.state.expfield) &&
     //   !isEmptyString(this.state.expmonth)
     // )
-     {
+    {
       let obj = {
         ugDegree: {
           id: this.state.ugdegree.id,
@@ -436,7 +498,7 @@ class ClientDetails extends Component {
   };
   render() {
     console.log(this.props.match.params.studentId);
-    console.log(this.props.match.params.productId);
+    console.log(this.state);
     console.log(this.props);
     return (
       <div>
@@ -493,7 +555,9 @@ class ClientDetails extends Component {
                   options={this.props.getDegreeList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.ugdegree}
-                  onChange={(e, newValue) => this.setState({ ugdegree: newValue })}
+                  onChange={(e, newValue) =>
+                    this.setState({ ugdegree: newValue })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -686,10 +750,6 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    // fontFamily: "Montserrat",
-                    // fontSize: "18px",
-                    // fontStyle: "normal",
-                    // lineHeight: "22px",
                   }}
                 >
                   Call Details
@@ -777,7 +837,11 @@ class ClientDetails extends Component {
                   variant="inline"
                   ampm={false}
                   label="Call Back Time"
-                  disabled={["Completed","Pending"].indexOf(this.state.callstatus.title) > -1}
+                  disabled={
+                    ["Completed", "Pending"].indexOf(
+                      this.state.callstatus.title
+                    ) > -1
+                  }
                   value={this.state.callbacktime}
                   error={this.state.callbacktimeErr.length > 0}
                   helperText={this.state.callbacktimeErr}
@@ -866,8 +930,10 @@ class ClientDetails extends Component {
                   options={this.props.getAspDegreeList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.appdegree}
-                  onChange={(e, newValue) =>
+                  onChange={(e, newValue) =>{
+                    console.log(newValue)
                     this.setState({ appdegree: newValue })
+                }
                   }
                   renderInput={(params) => (
                     <TextField
@@ -1167,7 +1233,7 @@ class ClientDetails extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log(state)
+  console.log(state);
   return {
     getBranchesList: state.CollegeReducer.BranchList,
     getCollegesList: state.CollegeReducer.allCollegeList,
@@ -1198,5 +1264,5 @@ export default connect(mapStateToProps, {
   getStudentsById,
   getvarientByid,
   updateclientdetails,
-  getClientInfo
+  getClientInfo,
 })(ClientDetails);

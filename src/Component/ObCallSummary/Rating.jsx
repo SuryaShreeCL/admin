@@ -14,8 +14,9 @@ import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "styled-components";
 // import {updateRating } from '../../Actions/Calldetails';
 import { connect } from "react-redux";
-import { updateRating } from '../../Actions/Calldetails';
+import { updateRating , getClientInfo} from '../../Actions/Calldetails';
 import PrimaryButton from "../../Utils/PrimaryButton";
+
 
 
 const StyledRating = withStyles({
@@ -406,7 +407,22 @@ export class rating extends Component {
       interaction: '',
     };
   }
+   componentDidMount() {
+    this.props.getClientInfo(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
+   }
+   componentDidUpdate(prevProps, prevState){
+     if(this.props.getClientInfoList !== prevProps.getClientInfoList){
+       this.setState({
+        underRate: this.props.getClientInfoList.rateOfUnderstand === "Understands Most" ? 0 : this.props.getClientInfoList.rateOfUnderstand === "Understands All" ? 50 : this.props.getClientInfoList.rateOfUnderstand === "Understands Nothing" ? 100 : null,
+        interaction: this.props.getClientInfoList.rateOfInteraction === "V Pleasant" ? 0 : this.props.getClientInfoList.rateOfInteraction === "Pleasant" ? 25 : this.props.getClientInfoList.rateOfInteraction === 'Neutral' ? 50 : this.props.getClientInfoList.rateOfInteraction === 'UnPleasant' ? 75 : this.props.getClientInfoList.rateOfInteraction === 'V UnPleasant' ? 100 : null,
+        expRate:this.props.getClientInfoList.rateOfExpectations === "Very Low" ? 0 : this.props.getClientInfoList.rateOfExpectations === "Low" ? 25 : this.props.getClientInfoList.rateOfExpectations === 'Medium' ? 50 : this.props.getClientInfoList.rateOfExpectations === 'High' ? 75 : this.props.getClientInfoList.rateOfExpectations === 'Very High' ? 100 : null
 
+       })
+     }
+   }
   handleSaved = () => {
     // console.log(this.state,'state')
     let obj = {
@@ -459,7 +475,7 @@ export class rating extends Component {
               <PrettoSlider
                 aria-label="pretto slider"
                 marks={rate}
-                defaultValue={100}
+                // defaultValue={100}
                 step={null}
                 value={this.state.expRate}
                 // onChange={}
@@ -670,9 +686,6 @@ const PrettoSlider = withStyles({
     height: 8,
     borderRadius: 2,
   },
-  // rail: {
-  //   height: 4,
-  // },
   track: {
     height: 4
   }
@@ -680,10 +693,12 @@ const PrettoSlider = withStyles({
 
 const mapStateToProps = (state) => {
   return {
-    updateRatingList: state.CallReducer.updateRating
+    updateRatingList: state.CallReducer.updateRating,
+    getClientInfoList: state.CallReducer.getClientInfo,
   };
 };
 
 export default connect(mapStateToProps, {
-  updateRating
+  updateRating,
+  getClientInfo
 })(rating);
