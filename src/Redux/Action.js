@@ -209,11 +209,13 @@ export const CALL_DETAILS={
   updateclientdetails : "updateclientdetails",
   updateQuestions : "updateQuestions",
   updateRating : "updateRating",
+  academicdetails : "academicdetails",
   getPersonalInfo: "getPersonalInfo",
   updatePersonalInfo: "updatePersonalInfo",
   academicdetails : "academicdetails",
   updateworkexp : "updateworkexp",
-  getworkexp : "getworkexp"
+  getworkexp : "getworkexp",
+  getClientInfo : "getClientInfo"
 }
 
 export const CAREER_TRACK = {

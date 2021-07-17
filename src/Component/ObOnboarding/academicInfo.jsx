@@ -783,6 +783,7 @@ export class academicInfo extends Component {
                               error={this.state.ugCgpaScaleErr.length > 0}
                               helperText={this.state.ugCgpaScaleErr}
                               label="CGPA Scale"
+                              InputLabelProps={{ shrink: true }} 
                             />
                           )}
                         />
@@ -980,6 +981,7 @@ export class academicInfo extends Component {
                               diplomoCgpaErr: "",
                             })
                           }
+                          InputLabelProps={{ shrink: true }} 
                           label="CGPA"
                           error={this.state.diplomoCgpaErr.length > 0}
                           helperText={this.state.diplomoCgpaErr}
@@ -1158,13 +1160,14 @@ export class academicInfo extends Component {
                           label="CGPA"
                           error={this.state.twelthCgpaErr.length > 0}
                           helperText={this.state.twelthCgpaErr}
-                          value={this.state.twelthCgpa}
+                          value={this.state.twelthCgpa }
                           onChange={(e, newValue) =>
                             this.setState({
                               twelthCgpa: newValue,
                               twelthCgpaErr: "",
                             })
                           }
+                          InputLabelProps={{ shrink: true }} 
                         />
                       </Grid>
                       <Grid item md={3}>

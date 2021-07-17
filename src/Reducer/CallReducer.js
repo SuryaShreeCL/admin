@@ -7,7 +7,8 @@ const initialState = {
     updatePersonalInfo: [],
     academicdetails:[],
     getworkexp : [],
-    updateworkexp : []
+    updateworkexp : [],
+    getClientInfo:[],
 }
 
 export default (state = initialState, action) => {
@@ -51,6 +52,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 getworkexp: action.payload
+            }
+            case CALL_DETAILS.getClientInfo:
+            return {
+                ...state,
+                getClientInfo: action.payload
             }
 
         default:

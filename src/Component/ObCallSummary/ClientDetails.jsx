@@ -23,7 +23,7 @@ import {
   viewCountry,
   getallcountry,
 } from "../../Actions/Aspiration";
-import { updateclientdetails } from "../../Actions/Calldetails";
+import { updateclientdetails, getClientInfo } from "../../Actions/Calldetails";
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, KeyboardDateTimePicker } from "@material-ui/pickers";
 import { ExpandMore } from "@material-ui/icons";
@@ -143,6 +143,7 @@ class ClientDetails extends Component {
     this.props.getallcountry();
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.getvarientByid(this.props.match.params.productId);
+    this.props.getClientInfo(this.props.match.params.studentId,this.props.match.params.productId)
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
@@ -434,10 +435,9 @@ class ClientDetails extends Component {
     }
   };
   render() {
-    console.log(this.state);
+    console.log(this.props.match.params.studentId);
+    console.log(this.props.match.params.productId);
     console.log(this.props);
-    console.log(this.props.getStudentsByIdList);
-    console.log(["Completed","Pending"].indexOf(this.state.callstatus) > -1,this.state.callstatus)
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -1171,6 +1171,7 @@ class ClientDetails extends Component {
   }
 }
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     getBranchesList: state.CollegeReducer.BranchList,
     getCollegesList: state.CollegeReducer.allCollegeList,
@@ -1184,6 +1185,7 @@ const mapStateToProps = (state) => {
     getStudentsByIdList: state.StudentReducer.StudentList,
     getvarientByidList: state.ProductReducer.getvarientByid,
     updateclientdetailsList: state.ProductReducer.updateclientdetails,
+    getClientInfoList: state.CallReducer.getClientInfo,
   };
 };
 
@@ -1200,4 +1202,5 @@ export default connect(mapStateToProps, {
   getStudentsById,
   getvarientByid,
   updateclientdetails,
+  getClientInfo
 })(ClientDetails);

@@ -277,7 +277,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Area of Specialization"
+                  label="Field Of Study"
                   variant="standard"
                 />
               )}
@@ -327,7 +327,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Field Of Study"
+                  label="Area of Specialization"
                   variant="standard"
                 />
               )}

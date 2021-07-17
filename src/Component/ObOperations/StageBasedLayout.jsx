@@ -13,6 +13,7 @@ import WorkExperience from "../ObCallSummary/workExperience"
 import AspirationDetails from "../ObCallSummary/aspirationDetails"
 import GraduateTestResult from "../ObCallSummary/graduateTestResult"
 import TestAndSurvey from "../ObCallSummary/testEngineResult"
+import AdmissionServices from '../ObCallSummary/admissionServices';
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -89,7 +90,8 @@ componentDidUpdate(prevProps, prevState) {
             "Work Experience" : "WorkExperience",
             "Aspiration Details" : "AspirationDetails",
             "Graduate Application Tests" : "GraduateTestResult",
-            "Tests and Surveys" : "TestAndSurvey"
+            "Tests and Surveys" : "TestAndSurvey",
+            "Others" : "AdmissionServices"
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
         var obj = {
@@ -98,7 +100,8 @@ componentDidUpdate(prevProps, prevState) {
             WorkExperience : WorkExperience,
             AspirationDetails : AspirationDetails,
             GraduateTestResult : GraduateTestResult,
-            TestAndSurvey : TestAndSurvey
+            TestAndSurvey : TestAndSurvey,
+            AdmissionServices : AdmissionServices
         }
         var selectedComponent = this.state.selectedItem !== null && componentList.[this.state.selectedItem.stepName]
         var Page = obj[selectedComponent];
