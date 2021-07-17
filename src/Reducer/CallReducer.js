@@ -5,7 +5,8 @@ const initialState = {
     updateRating:[],
     getPersonalInfo:[],
     updatePersonalInfo: [],
-    academicdetails:[]
+    academicdetails:[],
+    getClientInfo:[],
 }
 
 export default (state = initialState, action) => {
@@ -39,6 +40,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 academicdetails: action.payload
+            }
+            case CALL_DETAILS.getClientInfo:
+            return {
+                ...state,
+                getClientInfo: action.payload
             }
 
         default:

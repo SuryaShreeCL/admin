@@ -16,6 +16,19 @@ export const updateclientdetails = (studentId, productId, data) => {
     }
 }
 
+export const getClientInfo = (studentId,productId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId,)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getClientInfo,payload:result.data})
+            console.log(result)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
 export const updateQuestions = (studentId, productId, data) => {
     return dispatch => {
         axios.put(URL + "/api/v1/student/onboardingcallQuestions/" + studentId + "/" + productId, data, {
@@ -59,4 +72,16 @@ export const updatePersonalInfo = (studentId, data) => {
             });
     }
 
+}
+
+export const getPersonalInfo = (studentId,productId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId,)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getPersonalInfo,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
 }
