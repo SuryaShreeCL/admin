@@ -209,6 +209,8 @@ export class personalInfo extends Component {
 
   render() {
     console.log(this.props.getStudentsByIdList)
+    console.log(this.props)
+
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>

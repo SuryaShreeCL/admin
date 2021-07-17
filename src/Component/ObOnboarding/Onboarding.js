@@ -98,7 +98,7 @@ export class Onboarding extends Component {
                       <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
                     <img onClick={()=>this.props.history.push(callSummaryLayoutPath+"02c1c610-3f86-45ff-88e3-9642d8ee092e"+"/product/"+"fecd061a-cffa-4a01-9e3d-8226ff20186a")} src={Call} style={{height:30, width:30, marginRight:10}} />
                       <PrimaryButton
-                        onClick={()=>this.props.history.push(stagedTabsPath)}
+                        onClick={()=>this.props.history.push(stagedTabsPath+"02c1c610-3f86-45ff-88e3-9642d8ee092e")}
                         variant={"contained"}
                         color={"primary"}
                         size={"small"}
