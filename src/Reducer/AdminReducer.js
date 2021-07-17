@@ -15,7 +15,8 @@ const initialState = {
   internAccessResponse : [],
   updateLmsAccess : [],
   awaitingUsersForActivationList : [],
-  productActivationResponse : []
+  productActivationResponse : [],
+  adminLinkedProductDetails : []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -99,7 +100,11 @@ export default (state = initialState, action) => {
         ...state,
         productActivationResponse : action.payload
       }
-
+      case ADMIN.getAdminLinkedProduct : 
+      return {
+        ...state,
+        adminLinkedProductDetails : action.payload
+      }
 
     default:
       break;

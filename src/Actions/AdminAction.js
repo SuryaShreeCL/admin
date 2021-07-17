@@ -289,3 +289,18 @@ export const activateStudentProduct = (data) =>{
         })
     }
 }
+
+// To get admin linked product
+
+export const getAdminLinkedProduct = () =>{
+    let id = window.sessionStorage.getItem("adminUserId")
+    return dispatch =>{
+        axios.get(URL+"/api/v1/adminusers/"+id)
+        .then(result=>{
+            dispatch({type : ADMIN.getAdminLinkedProduct, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+} 
