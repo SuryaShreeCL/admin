@@ -215,7 +215,8 @@ export const CALL_DETAILS={
   academicdetails : "academicdetails",
   updateworkexp : "updateworkexp",
   getworkexp : "getworkexp",
-  getClientInfo : "getClientInfo"
+  getClientInfo : "getClientInfo",
+  getAspirationDetails: "getAspirationDetails",
 }
 
 export const CAREER_TRACK = {

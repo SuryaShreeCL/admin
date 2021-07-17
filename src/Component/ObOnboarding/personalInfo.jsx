@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { getStudentsById } from "../../Actions/Student";
 import { connect } from "react-redux";
-import { getPersonalInfo, updatePersonalInfo } from "../../Actions/Calldetails";
+import { getPersonalInfo, updatePersonalInfo, getPincodeDetails } from "../../Actions/Calldetails";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -87,15 +87,22 @@ export class personalInfo extends Component {
       facebookErr: "",
       twitter: "",
       twitterErr: "",
+      pincodeDetails:[]
     };
   }
   componentDidMount(){
     this.props.getStudentsById(this.props.match.params.studentId);
-  }number
+  }
   
   componentDidUpdate(prevProps, prevState) {
-
+     
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
+      this.props.getPincodeDetails(this.props.getStudentsByIdList.address.pincode , (data) => {
+        this.setState({
+          state: data[0].PostOffice[0].State,
+          city: data[0].PostOffice[0].District,
+        })
+      })
       this.setState({
         firstName: this.props.getStudentsByIdList.firstName,
         lastName:this.props.getStudentsByIdList.lastName,
@@ -103,15 +110,18 @@ export class personalInfo extends Component {
         number: this.props.getStudentsByIdList.phoneNumber,
         email: this.props.getStudentsByIdList.emailId,
         clsid: this.props.getStudentsByIdList.studentID,
-        altPhone: this.props.getStudentsByIdList.studentID,
-        altEmail: this.props.getStudentsByIdList.altPhoneNumber,
-        apartmentName: this.props.getStudentsByIdList.suitNoApartmentNo,
-        address1: this.props.getStudentsByIdList.streetAddressOne,
-        address2: this.props.getStudentsByIdList.streetAddressTwo,
-        landmark: this.props.getStudentsByIdList.landMark,
-        pincode: this.props.getStudentsByIdList.pincode,
-        state: this.props.getStudentsByIdList.state,
-        city: this.props.getStudentsByIdList.city,
+        altPhone: this.props.getStudentsByIdList.altPhoneNumber,
+        altEmail: this.props.getStudentsByIdList.altEmailId,
+        apartmentName: this.props.getStudentsByIdList.address.suitNoApartmentNo,
+        address1: this.props.getStudentsByIdList.address.streetAddressOne,
+        address2: this.props.getStudentsByIdList.address.streetAddressTwo,
+        landmark: this.props.getStudentsByIdList.address.landMark,
+        pincode: this.props.getStudentsByIdList.address.pincode,
+        // state: this.props.getStudentsByIdList.address.state,
+        // city: this.props.getStudentsByIdList.address.city,
+        twitter: this.props.getStudentsByIdList.twitterUrl,
+        facebook:this.props.getStudentsByIdList.faceBookUrl,
+        linkedIn: this.props.getStudentsByIdList.linkedInProfile
       });
     }
   }
@@ -189,8 +199,10 @@ export class personalInfo extends Component {
       fullName: this.state.fullName,
       studentID: this.state.clsid,
       twitterUrl: this.state.twitter,
-      facebookUrl: this.state.facebook,
+      faceBookUrl: this.state.facebook,
       linkedInProfile: this.state.linkedIn,
+      altPhoneNumber: this.state.altPhone,
+      altEmailId: this.state.altEmail,
       address: {
         city: this.state.city,
         state: this.state.state,
@@ -255,7 +267,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="CLS ID (Order ID / Student ID)"
                   disabled={true}
-                  value={"CL569"}
+                  value={this.state.clsid}
                 />
               </Grid>
               <Grid item md={2}>
@@ -313,7 +325,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="Contact Number"
                   disabled={true}
-                  value={"+919561027164"}
+                  value={this.state.number}
                 />
               </Grid>
               <Grid item md={2}>
@@ -321,7 +333,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="Email Address"
                   disabled={true}
-                  value={"me@atharvaunde.me"}
+                  value={this.state.email}
                 />
               </Grid>
 
@@ -619,5 +631,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getPersonalInfo, updatePersonalInfo,
   getStudentsById,
+  getPincodeDetails
 })(personalInfo);
 

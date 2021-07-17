@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { IconButton } from '@material-ui/core';
 import Pencil from "../../Asset/Images/pencil.png";
 import { connect } from "react-redux";
-import { updateQuestions } from '../../Actions/Calldetails'
+import { updateQuestions, getClientInfo } from '../../Actions/Calldetails'
 import { ControlCameraOutlined } from '@material-ui/icons';
 import PrimaryButton from '../../Utils/PrimaryButton';
 const ColoredLine = ({ color }) => (
@@ -31,6 +31,23 @@ class Question extends Component {
 
         }
     }
+
+    componentDidMount() {
+        this.props.getClientInfo(
+          this.props.match.params.studentId,
+          this.props.match.params.productId
+        );
+       }
+       componentDidUpdate(prevProps, prevState){
+        if(this.props.getClientInfoList !== prevProps.getClientInfoList){
+          this.setState({
+            questions: this.props.getClientInfoList.questions,
+            expectations: this.props.getClientInfoList.expectations,
+            concerns: this.props.getClientInfoList.concerns,
+            feedback: this.props.getClientInfoList.feedback,
+          })
+        }
+      }
 
     handleClick(e) {
 
@@ -83,7 +100,7 @@ class Question extends Component {
                         </div>
 
                         <CKEditor
-
+                            value={this.state.questions}
                             editor={ClassicEditor}
                             data={this.state.questions}
                             config={{
@@ -96,7 +113,6 @@ class Question extends Component {
                             }}
 
                             disabled={this.state.disable}
-
                             onChange={(event, editors) => {
                                 const data = editors.getData();
                                 // console.log( { event, editors, data } );
@@ -115,7 +131,8 @@ class Question extends Component {
                         </div>
 
                         <CKEditor
-
+                            
+                            value={this.state.expectations}
                             editor={ClassicEditor}
                             data={this.state.expectations}
                             config={
@@ -145,6 +162,7 @@ class Question extends Component {
 
                         <CKEditor
                             editor={ClassicEditor}
+                            value={this.state.concerns}
                             disabled={this.state.disable}
                             data={this.state.concerns}
                             config={{
@@ -169,6 +187,7 @@ class Question extends Component {
                         </div>
 
                         <CKEditor
+                            value={this.state.feedback}
                             editor={ClassicEditor}
                             disabled={this.state.disable}
                             data={this.state.feedback}
@@ -200,11 +219,13 @@ class Question extends Component {
 const mapStateToProps = (state) => {
     // console.log(state)
     return {
-        updateQuestionsList: state.CallReducer.updateQuestions
+        updateQuestionsList: state.CallReducer.updateQuestions,
+        getClientInfoList: state.CallReducer.getClientInfo,
     };
 };
 
 export default connect(mapStateToProps, {
-    updateQuestions
+    updateQuestions,
+    getClientInfo
 })(Question);
 
