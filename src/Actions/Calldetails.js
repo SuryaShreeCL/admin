@@ -73,6 +73,33 @@ export const updatePersonalInfo = (studentId, data) => {
     }
 
 }
+export const updateworkexp = (studentId, data) => {
+    return dispatch => {
+        axios.put(URL + "/api/v1/students/"+studentId+"/experience" , data, {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({ type: CALL_DETAILS.updateworkexp, payload: result.data })
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+}
+export const getworkexp = (studentId) => {
+    return dispatch => {
+        axios.get(URL + "/api/v1/get/student/"+studentId+"/experience" , {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({ type: CALL_DETAILS.getworkexp, payload: result.data })
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
 
 export const getPersonalInfo = (studentId,productId) =>{
     return dispatch =>{

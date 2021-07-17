@@ -212,6 +212,9 @@ export const CALL_DETAILS={
   academicdetails : "academicdetails",
   getPersonalInfo: "getPersonalInfo",
   updatePersonalInfo: "updatePersonalInfo",
+  academicdetails : "academicdetails",
+  updateworkexp : "updateworkexp",
+  getworkexp : "getworkexp",
   getClientInfo : "getClientInfo"
 }
 

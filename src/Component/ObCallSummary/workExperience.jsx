@@ -33,7 +33,8 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-
+import {getworkexp} from '../../Actions/Calldetails'
+import {connect} from 'react-redux'
 
 const theme = createMuiTheme({
   overrides: {
@@ -69,6 +70,9 @@ class workExperience extends Component {
       designation:'',
       designationErr:''
     };
+  }
+  componentDidMount(){
+    this.props.getworkexp(this.props.match.params.id)
   }
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
@@ -318,5 +322,12 @@ class workExperience extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    getworkexpList : state.CallReducer.getworkexp
+  };
+};
 
-export default workExperience;
+export default connect(mapStateToProps, {
+ getworkexp
+})(workExperience);
