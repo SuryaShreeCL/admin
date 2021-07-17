@@ -155,7 +155,6 @@ class workExperience extends Component {
           });
         }
       }
-     
     }
     console.log(error)
     // if(error === false){
@@ -167,8 +166,6 @@ class workExperience extends Component {
          })
          console.log(tempArr)
         //  this.props.updateworkexp(tempArr);
-
-        
     // console.log(this.state);
     // let hlptxt = "Please fill the required field";
     // this.state.startDate === null
