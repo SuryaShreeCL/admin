@@ -304,3 +304,20 @@ export const getAdminLinkedProduct = () =>{
         })
     }
 } 
+
+export const checkTokenStatus = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    return dispatch =>{
+        axios.get(URL+"/api/v1/token/status",{
+            headers : {
+                jwt : accessToken
+            }
+        })
+        .then(result=>{
+            dispatch({type : ADMIN.checkTokenStatus, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+} 

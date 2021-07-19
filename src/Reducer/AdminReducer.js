@@ -16,7 +16,8 @@ const initialState = {
   updateLmsAccess : [],
   awaitingUsersForActivationList : [],
   productActivationResponse : [],
-  adminLinkedProductDetails : []
+  adminLinkedProductDetails : [],
+  tokenStatus : null
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -104,6 +105,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         adminLinkedProductDetails : action.payload
+      }
+      case ADMIN.checkTokenStatus : 
+      return {
+        ...state,
+        tokenStatus : action.payload
       }
 
     default:
