@@ -23,7 +23,7 @@ import {updateAspirationData, updateVerificationStatus} from "../../Actions/Admi
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import Loader from "../Testimonials/components/controls/Loader";
+import Loader from '../Utils/controls/Loader';
 import { DatePicker } from "@material-ui/pickers";
 export class AspirationDetails extends Component {
   constructor(props) {
