@@ -4,6 +4,7 @@ import LivePost from './Pages/LivePost';
 import DraftPost from './Pages/DraftPost';
 import ScheduledPost from './Pages/ScheduledPost';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
+import Events from './Pages/Events';
 
 const WallLanding = () => {
   const [tabCount, setTabCount] = useState(0);
@@ -16,6 +17,8 @@ const WallLanding = () => {
         return <DraftPost />;
       } else if (value === 2) {
         return <ScheduledPost />;
+      } else if (value === 3) {
+        return <Events />;
       }
     } catch (error) {
       console.log(error);
@@ -35,6 +38,7 @@ const WallLanding = () => {
             <TopTab label='Live Posts' />
             <TopTab label='Draft Posts' />
             <TopTab label='Scheduled Posts' />
+            <TopTab label='Events' />
           </TopTabs>
         </Grid>
         <Grid item md={12}>

@@ -45,6 +45,10 @@ const useStyles = makeStyles({
     width: '80%',
     marginTop: '10px',
   },
+  typeSpace: {
+    marginTop: '8px',
+    paddingRight: '1rem',
+  },
 });
 
 const CreatePost = () => {
@@ -55,6 +59,7 @@ const CreatePost = () => {
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
+    isEvent: false,
     supportingMedia: 'image',
     wallFiles: [],
     canComment: false,
@@ -187,7 +192,20 @@ const CreatePost = () => {
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
-                  <h6>Post Type</h6>
+                  <Grid component='label' container alignItems='center' spacing={1}>
+                    <h6 className={classes.typeSpace}>Post Type</h6>
+                    <Grid item>Wall Post</Grid>
+                    <Grid item>
+                      <Switch
+                        checked={state.canComments}
+                        onChange={handleComment}
+                        name={values.canComment}
+                        color='secondary'
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                      />
+                    </Grid>
+                    <Grid item>Event</Grid>
+                  </Grid>
                   <RadioGroup
                     style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
                     aria-label='type'
