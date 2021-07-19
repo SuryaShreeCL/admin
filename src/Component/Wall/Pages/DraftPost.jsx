@@ -15,11 +15,10 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../Utils/Notification';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useHistory } from 'react-router-dom';
-import { editPath, createPath, wallPath } from '../../RoutePaths';
+import { editPath, createPath } from '../../RoutePaths';
 import moment from 'moment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
@@ -35,7 +34,6 @@ import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
 import {
   listWallPosts,
   deleteWallPost,
-  createWallPost,
   updateWallPost,
 } from '../../../Actions/WallActions';
 
@@ -75,7 +73,6 @@ export default function DraftPost() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
@@ -132,7 +129,6 @@ export default function DraftPost() {
       pathname: editPath,
       recordForEdit: item,
     });
-    setRecordForEdit(item);
     setOpenDrawer(false);
   };
 

@@ -16,7 +16,6 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
@@ -57,9 +56,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
+  { id: 'eventTitle', label: 'Event Title' },
   { id: 'date', label: 'Date' },
-  { id: 'caption', label: 'Caption' },
+  { id: 'caption', label: 'Description' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
   { id: 'status', label: 'Status' },
@@ -70,7 +69,6 @@ export default function Events() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
@@ -115,7 +113,6 @@ export default function Events() {
       pathname: editPath,
       recordForEdit: item,
     });
-    setRecordForEdit(item);
     setOpenDrawer(false);
   };
 

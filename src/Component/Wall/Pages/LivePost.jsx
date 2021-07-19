@@ -7,7 +7,6 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
-  Button,
   IconButton,
 } from '@material-ui/core';
 import useTable from '../../Utils/useTable';

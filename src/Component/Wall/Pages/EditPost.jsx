@@ -65,6 +65,7 @@ const EditPost = () => {
     wallFiles: [],
     canComment: false,
     totalViews: 0,
+    isEvent: false,
     wallFilesUpdate: [],
     totalLikes: 0,
     redirectionUrl: '',
@@ -153,6 +154,19 @@ const EditPost = () => {
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <h6>Post Type</h6>
+                  <Grid component='label' container alignItems='center' spacing={1}>
+                    <Grid item>Wall Post</Grid>
+                    <Grid item>
+                      <Switch
+                        checked={values.isEvent}
+                        name={values.isEvent}
+                        disabled
+                        color='primary'
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                      />
+                    </Grid>
+                    <Grid item>Event</Grid>
+                  </Grid>
                   <RadioGroup
                     style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
                     aria-label='type'
