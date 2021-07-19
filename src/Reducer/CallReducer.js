@@ -10,6 +10,10 @@ const initialState = {
     updateworkexp : [],
     getClientInfo:[],
     getAspirationDetails:[],
+    getgmatscore : [],
+    getgrescore : [],
+    getieltsscore : [],
+    gettoeflscore : []
 }
 
 export default (state = initialState, action) => {
@@ -64,7 +68,26 @@ export default (state = initialState, action) => {
                 ...state,
                 getAspirationDetails: action.payload
             }
-
+            case CALL_DETAILS.getgrescore:
+            return {
+                ...state,
+                getgrescore: action.payload
+            }
+            case CALL_DETAILS.getgmatscore:
+            return {
+                ...state,
+                getgmatscore: action.payload
+            }
+            case CALL_DETAILS.getieltsscore:
+            return {
+                ...state,
+                getieltsscore: action.payload
+            }
+            case CALL_DETAILS.gettoeflscore:
+            return {
+                ...state,
+                gettoeflscore: action.payload
+            }
         default:
             break
     }

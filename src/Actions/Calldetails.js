@@ -136,3 +136,47 @@ export const getAspirationDetails = (studentId) =>{
         })
     }
 }
+export const getgrescore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/greInfo/"+studentId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getgrescore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const getgmatscore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/gmatInfo/"+studentId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getgmatscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const gettoeflscore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/tofelInfo/"+studentId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.gettoeflscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const getieltsscore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/ieltsInfo/"+studentId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getieltsscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

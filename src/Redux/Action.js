@@ -217,6 +217,10 @@ export const CALL_DETAILS={
   getworkexp : "getworkexp",
   getClientInfo : "getClientInfo",
   getAspirationDetails: "getAspirationDetails",
+  getgrescore : "getgrescore",
+  getgmatscore : "getgmatscore",
+  gettoeflscore : "gettoeflscore",
+  getieltsscore : "getieltsscore",
 }
 
 export const CAREER_TRACK = {

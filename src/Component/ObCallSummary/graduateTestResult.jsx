@@ -39,7 +39,8 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import Warning from "../../Asset/Images/warningImg.png";
 import { Link } from "react-router-dom";
 import Pencil from "../../Asset/Images/pencil.png";
-
+import {getgrescore,getgmatscore,gettoeflscore,getieltsscore} from '../../Actions/Calldetails'
+import {connect} from 'react-redux'
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -95,11 +96,20 @@ class GraduateTestResult extends Component {
       ieltsdate : null,
     };
   }
+  componentDidMount(){
+     this.props.getgrescore(this.props.match.params.studentId);
+     this.props.getgmatscore(this.props.match.params.studentId);
+     this.props.getieltsscore(this.props.match.params.studentId);
+     this.props.gettoeflscore(this.props.match.params.studentId);
+  }
   handleClick(e) {
     // this.setState({ disable: !this.state.disable })
     this.setState({
       show: true,
     });
+  }
+  handleSave=(data)=>{
+    console.log(data)
   }
   attempt = [
       {title : "1"},
@@ -115,6 +125,7 @@ class GraduateTestResult extends Component {
   ]
   render() {
       console.log(this.state)
+      console.log(this.props)
     return (
     <ThemeProvider theme={theme}>
       <div style={{ padding: 25 }}>
@@ -1208,6 +1219,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"contained"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.handleSave("GRE")}
                   >
                     Save
                   </PrimaryButton>
@@ -1217,6 +1229,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"outlined"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.setState({ show : false})}
                   >
                     Cancel
                   </PrimaryButton>
@@ -1343,6 +1356,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"contained"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.handleSave("Gmat")}
                   >
                     Save
                   </PrimaryButton>
@@ -1352,6 +1366,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"outlined"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.setState({gmatshow : false})}
                   >
                     Cancel
                   </PrimaryButton>
@@ -1478,6 +1493,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"contained"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.handleSave("Toefl")}
                   >
                     Save
                   </PrimaryButton>
@@ -1487,6 +1503,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"outlined"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.setState({toeflshow : false})}
                   >
                     Cancel
                   </PrimaryButton>
@@ -1611,6 +1628,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"contained"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.handleSave("Ielts")}
                   >
                     Save
                   </PrimaryButton>
@@ -1620,6 +1638,7 @@ class GraduateTestResult extends Component {
                     color={"primary"}
                     variant={"outlined"}
                     style={{ width: "130px", textTransform: "none" }}
+                    onClick={()=>this.setState({ ieltsshow : false })}
                   >
                     Cancel
                   </PrimaryButton>
@@ -1633,5 +1652,15 @@ class GraduateTestResult extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+   getgrescoreList : state.CallReducer.getgrescore,
+   getieltsscoreList : state.CallReducer.getieltsscore,
+   gettoeflscoreList : state.CallReducer.gettoeflscore,
+   getgmatscoreList : state.CallReducer.getgmatscore
+  };
+};
 
-export default GraduateTestResult;
+export default connect(mapStateToProps, {
+  getgrescore,getgmatscore,gettoeflscore,getieltsscore
+})(GraduateTestResult);
