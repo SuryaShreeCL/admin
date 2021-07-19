@@ -28,6 +28,11 @@ import {
   getDegree,
   getUniversity,
 } from "../../Actions/College";
+import {
+  getAcademicInfo,
+  updateAcademicInfo,
+  getStudentsById,
+} from "../../Actions/Student";
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -41,8 +46,8 @@ const theme = createMuiTheme({
     },
     MuiFormHelperText: {
       root: {
-        color:"red"
-      }
+        color: "red",
+      },
     },
   },
 });
@@ -101,10 +106,10 @@ export class academicInfo extends Component {
       diplomoDepartmentErr: "",
       diplomoDegree: "",
       diplomoDegreeErr: "",
-      diplomoBlacklogActive: null,
-      diplomoBlacklogActiveErr: "",
-      diplomoBlacklogCleared: null,
-      diplomoBlacklogClearedErr: "",
+      diplomoEndDate: null,
+      diplomoEndDateErr: "",
+      diplomostartDate: null,
+      diplomostartDateErr: "",
       diplomoCgpaScale: "",
       diplomoCgpaScaleErr: "",
       diplomoCgpa: "",
@@ -147,6 +152,12 @@ export class academicInfo extends Component {
     this.props.getDegree();
     this.props.getAllColleges();
     this.props.getUniversity();
+    // this.props.getAcademicInfo(this.props.match.params.studentId);
+    this.props.getStudentsById(this.props.match.params.studentId);
+  }
+
+  componentDidUpdate() {
+     
   }
 
   handleChange = (panel) => (event, newExpanded) => {
@@ -170,15 +181,15 @@ export class academicInfo extends Component {
       },
       MuiInputLabel: {
         root: {
-            whiteSpace : "nowrap",
-            fontSize: "inherit",
+          whiteSpace: "nowrap",
+          fontSize: "inherit",
         },
       },
-      MuiFormControl : {
-        marginNormal : {
-            marginTop : "0px",
-            marginBottom : "0px"
-        }
+      MuiFormControl: {
+        marginNormal: {
+          marginTop: "0px",
+          marginBottom: "0px",
+        },
       },
     },
     expanded: {},
@@ -281,18 +292,18 @@ export class academicInfo extends Component {
     this.state.diplomoDegree === ""
       ? this.setState({ diplomoDegreeErr: hlptxt })
       : this.setState({ diplomoDegreeErr: "" });
-    this.state.diplomoBlacklogCleared === null
-      ? this.setState({ diplomoBlacklogClearedErr: hlptxt })
-      : this.setState({ diplomoBlacklogClearedErr: "" });
+    this.state.diplomostartDate === null
+      ? this.setState({ diplomostartDateErr: hlptxt })
+      : this.setState({ diplomostartDateErr: "" });
     this.state.diplomoCgpaScale === ""
       ? this.setState({ diplomoCgpaScaleErr: hlptxt })
       : this.setState({ diplomoCgpaScaleErr: "" });
     this.state.diplomoCgpa === ""
       ? this.setState({ diplomoCgpaErr: hlptxt })
       : this.setState({ diplomoCgpaErr: "" });
-    this.state.diplomoBlacklogActive === null
-      ? this.setState({ diplomoBlacklogActiveErr: hlptxt })
-      : this.setState({ diplomoBlacklogActiveErr: "" });
+    this.state.diplomoEndDate === null
+      ? this.setState({ diplomoEndDateErr: hlptxt })
+      : this.setState({ diplomoEndDateErr: "" });
     this.state.tenthSchool === ""
       ? this.setState({ tenthSchoolErr: hlptxt })
       : this.setState({ tenthSchoolErr: "" });
@@ -353,8 +364,87 @@ export class academicInfo extends Component {
     this.state.twelthCgpaScale === ""
       ? this.setState({ twelthCgpaScaleErr: hlptxt })
       : this.setState({ twelthCgpaScaleErr: "" });
-    console.log(this.state);
+    {
+    let obj = [
+        {
+          examBoard: {
+            id: this.state.tenthExamBoard.id,
+          },
+          schoolName: this.state.tenthSchool,
+          score: this.state.tenthCgpa,
+          scoreScale: this.state.tenthCgpaScale.title,
+          startDate: new Date (this.state.tenthStartDate),
+          endDate: new Date (this.state.tenthEndDate),
+          type: "ssc",
+        },
+        {
+          examBoard: {
+            id:this.state.twelthExamBoard.id,
+          },
+          schoolName: this.state.twelthSchool,
+          score: this.state.twelthCgpa,
+          scoreScale: this.state.twelthCgpaScale.title,
+          startDate: new Date(this.state.twelthStartDate),
+          endDate: new Date(this.state.twelthEndDate),
+          type: "hsc",
+        },
+        {
+          college: {
+            id: this.state.ugCollege.id,
+          },
+          department: {
+            id: this.state.ugDepartment.id,
+          },
+          university: {
+            id: this.state.ugUniversity.id,
+          },
+          degree: {
+            id: this.state.ugDegree.id,
+          },
+          startDate: new Date(this.state.ugStartDate),
+          endDate: new Date(this.state.ugEndDate),
+          score: this.state.ugCgpa,
+          scoreScale: this.state.ugCgpaScale.title,
+          type: "ug",
+        },
+        {
+          college: {
+            id: this.state.pgCollege.id,
+          },
+          department: {
+            id: this.state.pgDepartment.id,
+          },
+          university: {
+            id: this.state.pgUniversity.id,
+          },
+          degree: {
+            id: this.state.pgDegree.id,
+          },
+          startDate: new Date(this.state.pgStartDate),
+          endDate: new Date(this.state.pgEndDate),
+          score: this.state.pgCgpa,
+          scoreScale: this.state.pgCgpaScale.title,
+          type: "pg",
+        },
+        {
+          college: {
+            id: this.state.diplomaCollege.id,
+          },
+          university: {
+            id: this.state.diplomoUniversity.id,
+          },
+          startDate: new Date(this.state.diplomostartDate),
+          endDate: new Date(this.state.diplomoEndDate),
+          score: this.state.diplomoCgpa,
+          scoreScale: this.state.diplomoCgpaScale.title,
+          diplomaType: this.state.diplomoDepartment.title,
+          type: "diploma",
+        },
+      ];
+      this.props.updateAcademicInfo(this.props.match.params.studentId, obj)
+    }
   };
+
   gpascale = [
     { title: "10", value: 10 },
     { title: "7", value: 7 },
@@ -372,1037 +462,1074 @@ export class academicInfo extends Component {
   ];
 
   diplomaType = [
-    {title : "Diploma", value : "Diploma"},
-    {title : "Post Graduate Diploma", value : "Post Graduate Diploma"}
-  ]
+    { title: "Diploma", value: "Diploma" },
+    { title: "Post Graduate Diploma", value: "Post Graduate Diploma" },
+  ];
 
   render() {
+    console.log(this.props.match.params.studentId);
     const { HeadStyle, title, ans, secondary } = style;
     return (
       <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <ThemeProvider theme={theme}>
-          <Card style={{ padding: 50 }}>
-            <Grid container>
-              <Grid item md={12}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
+          <ThemeProvider theme={theme}>
+            <Card style={{ padding: 50 }}>
+              <Grid container>
+                <Grid item md={12}>
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
-                      width: "22%",
                     }}
                   >
-                    <p style={HeadStyle}>Academic Information</p>
-                    <img
-                      src={Warning}
-                      height={17}
-                      width={17}
-                      style={{ position: "realative", top: 5 }}
-                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        width: "22%",
+                      }}
+                    >
+                      <p style={HeadStyle}>Academic Information</p>
+                      <img
+                        src={Warning}
+                        height={17}
+                        width={17}
+                        style={{ position: "realative", top: 5 }}
+                      />
+                    </div>
+                    <IconButton>
+                      <img src={Pencil} height={17} width={17} />
+                    </IconButton>
                   </div>
-                  <IconButton>
-                    <img src={Pencil} height={17} width={17} />
-                  </IconButton>
-                </div>
-              </Grid>
-            </Grid>
-            <ThemeProvider theme={theme}>
-              <div style={{ marginTop: 5 }}>
-                <Accordion style={{ borderRadius: 15 }}>
-                  <AccordionSummary
-                    style={{ height: 49 }}
-                    expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    aria-controls="panel2d-content"
-                    id="panel2d-header"
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        display: "flex",
-                        width: "100%",
-                      }}
-                    >
-                      <Grid container direction="row" justify="flex-start">
-                        <p style={title}>Postgraduate Degree</p>
-                      </Grid>
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid container spacing={3}>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              pgCollege: newValue,
-                              pgCollegeErr: "",
-                            })
-                          }
-                          options={this.props.getCollegesList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.pgCollege}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.pgCollegeErr.length > 0}
-                              helperText={this.state.pgCollegeErr}
-                              label="College Name"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getUniversityList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.pgUniversity}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              pgUniversity: newValue,
-                              pgUniversityErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.pgUniversityErr.length > 0}
-                              helperText={this.state.pgUniversityErr}
-                              label="University Name"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getBranchesList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.pgDepartment}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              pgDepartment: newValue,
-                              pgDepartmentErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.pgDepartmentErr.length > 0}
-                              helperText={this.state.pgDepartmentErr}
-                              label="Department"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getDegreeList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.pgDegreeErr}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              pgDegree: newValue,
-                              pgDegreeErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              value={this.state.pgDegree}
-                              error={this.state.pgDegreeErr.length > 0}
-                              label="Degree"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.gpascale}
-                          getOptionLabel={(option) => option.title}
-                          value={this.state.pgCgpaScale}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              pgCgpaScale: newValue,
-                              pgCgpaScaleErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.pgCgpaScaleErr.length > 0}
-                              helperText={this.state.pgCgpaScaleErr}
-                              label="CGPA Scale"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <TextField
-                          id="standard-basic"
-                          label="CGPA"
-                          onChange={(e) =>
-                            this.setState({
-                              pgCgpa: e.target.value,
-                              pgCgpaErr: "",
-                            })
-                          }
-                          value={this.state.pgCgpa}
-                          error={this.state.pgCgpaErr.length > 0}
-                          helperText={this.state.pgCgpaErr}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="Start Date"
-                          format="MM/dd/yyyy"
-                          inputProps={{ readOnly: true }}
-                          value={this.state.pgStartDate}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              pgStartDate: newValue,
-                              pgStartDateErr: "",
-                            })
-                          }
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          error={this.state.pgStartDateErr.length > 0}
-                          helperText={this.state.pgStartDateErr}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="End Date"
-                          format="MM/dd/yyyy"
-                          inputProps={{ readOnly: true }}
-                          disabled={this.state.pgStartDate === null}
-                          minDate={this.state.pgStartDate}
-                          value={this.state.pgEndDate}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              pgEndDate: newValue,
-                              pgEndDateErr: "",
-                            })
-                          }
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          error={this.state.pgEndDateErr.length > 0}
-                          helperText={this.state.pgEndDateErr}
-                        />
-                      </Grid>
-                      <Grid item md={1}></Grid>
-                      <Grid item md={12}></Grid>
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-
-                <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
-                  <AccordionSummary
-                    style={{ height: 49 }}
-                    expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    aria-controls="panel2d-content"
-                    id="panel2d-header"
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        display: "flex",
-                        width: "100%",
-                      }}
-                    >
-                      <Grid container direction="row" justify="flex-start">
-                        <p style={title}>Undergraduate Degree</p>
-                      </Grid>
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid container spacing={3}>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getCollegesList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.ugCollege}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              ugCollege: newValue,
-                              ugCollegeErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.ugCollegeErr.length > 0}
-                              helperText={this.state.ugCollegeErr}
-                              label="College Name"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getUniversityList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.ugUniversity}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              ugUniversity: newValue,
-                              ugUniversityErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.ugUniversityErr.length > 0}
-                              helperText={this.state.ugUniversityErr}
-                              label="University Name"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getBranchesList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.ugDepartment}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              ugDepartment: newValue,
-                              ugDepartmentErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.ugDepartmentErr.length > 0}
-                              helperText={this.state.ugDepartmentErr}
-                              label="Department"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getDegreeList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.ugDegree}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              ugDegree: newValue,
-                              ugDegreeErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              error={this.state.ugDegreeErr.length > 0}
-                              helperText={this.state.ugDegreeErr}
-                              {...params}
-                              label="Degree"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.gpascale}
-                          getOptionLabel={(option) => option.title}
-                          value={this.state.ugCgpaScale}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              ugCgpaScale: newValue,
-                              ugCgpaScaleErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.ugCgpaScaleErr.length > 0}
-                              helperText={this.state.ugCgpaScaleErr}
-                              label="CGPA Scale"
-                              InputLabelProps={{ shrink: true }} 
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <TextField
-                          id="standard-basic"
-                          label="CGPA"
-                          value={this.state.ugCgpa}
-                          onChange={(e, newValue) =>
-                            this.setState({ ugCgpa: newValue, ugCgpaErr: "" })
-                          }
-                          error={this.state.ugCgpaErr.length > 0}
-                          helperText={this.state.ugCgpaErr}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="Start Date"
-                          format="MM/dd/yyyy"
-                          value={this.state.ugStartDate}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              ugStartDate: newValue,
-                              ugStartDateErr: "",
-                            })
-                          }
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          inputProps={{ readOnly: true }}
-                          error={this.state.ugStartDateErr.length > 0}
-                          helperText={this.state.ugStartDateErr}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="End Date"
-                          format="MM/dd/yyyy"
-                          inputProps={{ readOnly: true }}
-                          disabled={this.state.ugStartDate === null}
-                          minDate={this.state.ugStartDate}
-                          value={this.state.ugEndDate}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              ugEndDate: newValue,
-                              ugEndDateErr: "",
-                            })
-                          }
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          error={this.state.ugEndDateErr.length > 0}
-                          helperText={this.state.ugEndDateErr}
-                        />
-                      </Grid>
-                      <Grid item md={1}></Grid>
-                      <Grid item md={12}></Grid>
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-
-                <Accordion
-                  style={{ borderRadius: 15, marginTop: 15 }}
-                  expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                >
-                  <AccordionSummary
-                    style={{ height: 49 }}
-                    expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    aria-controls="panel2d-content"
-                    id="panel2d-header"
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        display: "flex",
-                        width: "100%",
-                      }}
-                    >
-                      <Grid container direction="row" justify="flex-start">
-                        <p style={title}>Diploma</p>
-                      </Grid>
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid container spacing={3}>
-                      <Grid item md={3}>
-                        <TextField
-                          error={this.state.diplomaCollegeErr.length > 0}
-                          helperText={this.state.diplomaCollegeErr}
-                          label="College Name"
-                          margin="normal"
-                          value={this.state.diplomaCollege}
-                          onChange={(e) =>
-                            this.setState({
-                              diplomaCollege: e.target.value,
-                              diplomaCollegeErr: "",
-                            })
-                          }
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.props.getUniversityList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.diplomoUniversity}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              diplomoUniversity: newValue,
-                              diplomoUniversityErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.diplomoUniversityErr.length > 0}
-                              helperText={this.state.diplomoUniversityErr}
-                              label="ExamBoard Name"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.diplomaType}
-                          getOptionLabel={(option) => option.title}
-                          value={this.state.diplomoDepartment}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              diplomoDepartment: newValue,
-                              diplomoDepartmentErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.diplomoDepartmentErr.length > 0}
-                              helperText={this.state.diplomoDepartmentErr}
-                              label="Diploma Type"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.gpascale}
-                          getOptionLabel={(option) => option.title}
-                          value={this.state.diplomoCgpaScale}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              diplomoCgpaScale: newValue,
-                              diplomoCgpaScaleErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.diplomoCgpaScaleErr.length > 0}
-                              helperText={this.state.diplomoCgpaScaleErr}
-                              label="CGPA Scale"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <TextField
-                          id="standard-basic"
-                          value={this.state.diplomoCgpa}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              diplomoCgpa: newValue,
-                              diplomoCgpaErr: "",
-                            })
-                          }
-                          InputLabelProps={{ shrink: true }} 
-                          label="CGPA"
-                          error={this.state.diplomoCgpaErr.length > 0}
-                          helperText={this.state.diplomoCgpaErr}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          value={this.state.diplomoBlacklogCleared}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              diplomoBlacklogCleared: newValue,
-                              diplomoBlacklogClearedErr: "",
-                            })
-                          }
-                          label="Start Date"
-                          error={
-                            this.state.diplomoBlacklogClearedErr.length > 0
-                          }
-                          helperText={this.state.diplomoBlacklogClearedErr}
-                          format="MM/dd/yyyy"
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          inputProps={{ readOnly: true }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="End Date"
-                          inputProps={{ readOnly: true }}
-                          disabled={this.state.diplomoBlacklogCleared === null}
-                          minDate={this.state.diplomoBlacklogCleared}
-                          value={this.state.diplomoBlacklogActive}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              diplomoBlacklogActive: newValue,
-                              diplomoBlacklogActiveErr: "",
-                            })
-                          }
-                          error={this.state.diplomoBlacklogActiveErr.length > 0}
-                          helperText={this.state.diplomoBlacklogActiveErr}
-                          format="MM/dd/yyyy"
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item md={1}></Grid>
-                      <Grid item md={12}></Grid>
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-
-                <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
-                  <AccordionSummary
-                    style={{ height: 49 }}
-                    expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    aria-controls="panel2d-content"
-                    id="panel2d-header"
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        display: "flex",
-                        width: "100%",
-                      }}
-                    >
-                      <Grid container direction="row" justify="flex-start">
-                        <p style={title}>XII Grade</p>
-                      </Grid>
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid container spacing={3}>
-                      <Grid item md={4}>
-                        <TextField
-                          error={this.state.twelthSchoolErr.length > 0}
-                          helperText={this.state.twelthSchoolErr}
-                          label="School Name"
-                          margin="normal"
-                          onChange={(e) =>
-                            this.setState({
-                              twelthSchool: e.target.value,
-                              twelthSchoolErr: "",
-                            })
-                          }
-                        />
-                      </Grid>
-                      <Grid item md={4}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          options={this.props.getCollegesList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.twelthExamBoard}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              twelthExamBoard: newValue,
-                              twelthExamBoardErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.twelthExamBoardErr.length > 0}
-                              helperText={this.state.twelthExamBoardErr}
-                              label="Exam Board"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={4}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          id="debug"
-                          options={this.stream}
-                          getOptionLabel={(option) => option.title}
-                          value={this.state.twelthType}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              twelthType: newValue,
-                              twelthTypeErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.twelthTypeErr.length > 0}
-                              helperText={this.state.twelthTypeErr}
-                              label="Stream"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          options={this.gpascale}
-                          getOptionLabel={(option) => option.title}
-                          value={this.state.twelthCgpaScale}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              twelthCgpaScale: newValue,
-                              twelthCgpaScaleErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.twelthCgpaScaleErr.length > 0}
-                              helperText={this.state.twelthCgpaScaleErr}
-                              label="CGPA Scale"
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item md={3}>
-                        <TextField
-                          id="standard-basic"
-                          label="CGPA"
-                          error={this.state.twelthCgpaErr.length > 0}
-                          helperText={this.state.twelthCgpaErr}
-                          value={this.state.twelthCgpa }
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              twelthCgpa: newValue,
-                              twelthCgpaErr: "",
-                            })
-                          }
-                          InputLabelProps={{ shrink: true }} 
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="Start Date"
-                          format="MM/dd/yyyy"
-                          value={this.state.twelthStartDate || ""}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              twelthStartDate: newValue,
-                              twelthStartDateErr: "",
-                            })
-                          }
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          inputProps={{ readOnly: true }}
-                          error={this.state.twelthStartDateErr.length > 0}
-                          helperText={this.state.twelthStartDateErr}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="End Date"
-                          format="MM/dd/yyyy"
-                          label="End Date"
-                          inputProps={{ readOnly: true }}
-                          disabled={this.state.twelthStartDate === null}
-                          minDate={this.state.twelthStartDate}
-                          value={this.state.twelthEndDate || ""}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              twelthEndDate: newValue,
-                              twelthEndDateErr: "",
-                            })
-                          }
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          error={this.state.twelthEndDateErr.length > 0}
-                          helperText={this.state.twelthEndDateErr}
-                        />
-                      </Grid>
-                      <Grid item md={12}></Grid>
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-
-                <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
-                  <AccordionSummary
-                    style={{ height: 49 }}
-                    expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    aria-controls="panel2d-content"
-                    id="panel2d-header"
-                  >
-                    <div
-                      style={{
-                        flexDirection: "row",
-                        display: "flex",
-                        width: "100%",
-                      }}
-                    >
-                      <Grid container direction="row" justify="flex-start">
-                        <p style={title}>X Grade</p>
-                      </Grid>
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid container spacing={3}>
-                      <Grid item md={6}>
-                        <TextField
-                          error={this.state.tenthSchoolErr.length > 0}
-                          helperText={this.state.tenthSchoolErr}
-                          label="School Name"
-                          margin="normal"
-                          value={this.state.tenthSchool}
-                          onChange={(e) =>
-                            this.setState({
-                              tenthSchool: e.target.value,
-                              tenthSchoolErr: "",
-                            })
-                          }
-                        />
-                      </Grid>
-                      <Grid item md={6}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          options={this.props.getCollegesList}
-                          getOptionLabel={(option) => option.name}
-                          value={this.state.tenthExamBoard}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              tenthExamBoard: newValue,
-                              tenthExamBoardErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.tenthExamBoardErr.length > 0}
-                              helperText={this.state.tenthExamBoardErr}
-                              label="Exam Board"
-                              margin="normal"
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item md={3}>
-                        <Autocomplete
-                          popupIcon={
-                            <ExpandMore style={{ color: "#1093FF" }} />
-                          }
-                          options={this.gpascale}
-                          getOptionLabel={(option) => option.title}
-                          value={this.state.tenthCgpaScale}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              tenthCgpaScale: newValue,
-                              tenthCgpaScaleErr: "",
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={this.state.tenthCgpaScaleErr.length > 0}
-                              helperText={this.state.tenthCgpaScaleErr}
-                              label="CGPA Scale"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <TextField
-                          id="standard-basic"
-                          type="number"
-                          label="CGPA"
-                          error={this.state.tenthCgpaErr.length > 0}
-                          helperText={this.state.tenthCgpaErr}
-                          onChange={(e) =>
-                            this.setState({
-                              tenthCgpa: e.target.value,
-                              tenthCgpaErr: "",
-                            })
-                          }
-                          value={this.state.tenthCgpa}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          label="Start Date"
-                          value={this.state.tenthStartDate}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              tenthStartDate: newValue,
-                              tenthStartDateErr: "",
-                            })
-                          }
-                          error={this.state.tenthStartDateErr.length > 0}
-                          helperText={this.state.tenthStartDateErr}
-                          format="MM/dd/yyyy"
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          inputProps={{ readOnly: true }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <KeyboardDatePicker
-                          id="date-picker-dialog"
-                          inputProps={{ readOnly: true }}
-                          disabled={this.state.tenthStartDate === null}
-                          minDate={this.state.tenthStartDate}
-                          value={this.state.tenthEndDate}
-                          onChange={(e, newValue) =>
-                            this.setState({
-                              tenthEndDate: newValue,
-                              tenthEndDateErr: "",
-                            })
-                          }
-                          label="End Date"
-                          error={this.state.tenthEndDateErr.length > 0}
-                          helperText={this.state.tenthEndDateErr}
-                          format="MM/dd/yyyy"
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item md={12}></Grid>
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-                <Grid
-                  item
-                  md={12}
-                  style={{
-                    alignSelf: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: 50,
-                  }}
-                >
-                  <PrimaryButton
-                    onClick={() => this.handleSave()}
-                    style={{ textTransform: "none" }}
-                    variant={"contained"}
-                    color={"primary"}
-                    size={"small"}
-                  >
-                    Save Changes
-                  </PrimaryButton>
                 </Grid>
-              </div>
-            </ThemeProvider>
-          </Card>
+              </Grid>
+              <ThemeProvider theme={theme}>
+                <div style={{ marginTop: 5 }}>
+                  <Accordion style={{ borderRadius: 15 }}>
+                    <AccordionSummary
+                      style={{ height: 49 }}
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
+                    >
+                      <div
+                        style={{
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <Grid container direction="row" justify="flex-start">
+                          <p style={title}>Postgraduate Degree</p>
+                        </Grid>
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={3}>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                pgCollege: newValue,
+                                pgCollegeErr: "",
+                              })
+                            }
+                            options={this.props.getCollegesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.pgCollege}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.pgCollegeErr.length > 0}
+                                helperText={this.state.pgCollegeErr}
+                                label="College Name"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getUniversityList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.pgUniversity}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                pgUniversity: newValue,
+                                pgUniversityErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.pgUniversityErr.length > 0}
+                                helperText={this.state.pgUniversityErr}
+                                label="University Name"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getBranchesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.pgDepartment}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                pgDepartment: newValue,
+                                pgDepartmentErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.pgDepartmentErr.length > 0}
+                                helperText={this.state.pgDepartmentErr}
+                                label="Department"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.pgDegreeErr}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                pgDegree: newValue,
+                                pgDegreeErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                value={this.state.pgDegree}
+                                error={this.state.pgDegreeErr.length > 0}
+                                label="Degree"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.gpascale}
+                            getOptionLabel={(option) => option.title}
+                            value={this.state.pgCgpaScale}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                pgCgpaScale: newValue,
+                                pgCgpaScaleErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.pgCgpaScaleErr.length > 0}
+                                helperText={this.state.pgCgpaScaleErr}
+                                label="CGPA Scale"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <TextField
+                            id="standard-basic"
+                            label="CGPA"
+                            onChange={(e) =>
+                              this.setState({
+                                pgCgpa: e.target.value,
+                                pgCgpaErr: "",
+                              })
+                            }
+                            value={this.state.pgCgpa}
+                            error={this.state.pgCgpaErr.length > 0}
+                            helperText={this.state.pgCgpaErr}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="Start Date"
+                            format="MM-dd-yyyy"
+                            inputProps={{ readOnly: true }}
+                            value={this.state.pgStartDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                pgStartDate: newValue,
+                                pgStartDateErr: "",
+                              })
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            error={this.state.pgStartDateErr.length > 0}
+                            helperText={this.state.pgStartDateErr}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="End Date"
+                            format="MM/dd/yyyy"
+                            inputProps={{ readOnly: true }}
+                            disabled={this.state.pgStartDate === null}
+                            minDate={this.state.pgStartDate}
+                            value={this.state.pgEndDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                pgEndDate: newValue,
+                                pgEndDateErr: "",
+                              })
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            error={this.state.pgEndDateErr.length > 0}
+                            helperText={this.state.pgEndDateErr}
+                          />
+                        </Grid>
+                        <Grid item md={1}></Grid>
+                        <Grid item md={12}></Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+
+                  <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
+                    <AccordionSummary
+                      style={{ height: 49 }}
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
+                    >
+                      <div
+                        style={{
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <Grid container direction="row" justify="flex-start">
+                          <p style={title}>Undergraduate Degree</p>
+                        </Grid>
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={3}>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getCollegesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.ugCollege}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                ugCollege: newValue,
+                                ugCollegeErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.ugCollegeErr.length > 0}
+                                helperText={this.state.ugCollegeErr}
+                                label="College Name"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getUniversityList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.ugUniversity}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                ugUniversity: newValue,
+                                ugUniversityErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.ugUniversityErr.length > 0}
+                                helperText={this.state.ugUniversityErr}
+                                label="University Name"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getBranchesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.ugDepartment}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                ugDepartment: newValue,
+                                ugDepartmentErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.ugDepartmentErr.length > 0}
+                                helperText={this.state.ugDepartmentErr}
+                                label="Department"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getDegreeList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.ugDegree}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                ugDegree: newValue,
+                                ugDegreeErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                error={this.state.ugDegreeErr.length > 0}
+                                helperText={this.state.ugDegreeErr}
+                                {...params}
+                                label="Degree"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.gpascale}
+                            getOptionLabel={(option) => option.title}
+                            value={this.state.ugCgpaScale}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                ugCgpaScale: newValue,
+                                ugCgpaScaleErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.ugCgpaScaleErr.length > 0}
+                                helperText={this.state.ugCgpaScaleErr}
+                                label="CGPA Scale"
+                                InputLabelProps={{ shrink: true }}
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <TextField
+                            id="standard-basic"
+                            label="CGPA"
+                            value={this.state.ugCgpa}
+                            onChange={(e, newValue) =>
+                              this.setState({ ugCgpa: newValue, ugCgpaErr: "" })
+                            }
+                            error={this.state.ugCgpaErr.length > 0}
+                            helperText={this.state.ugCgpaErr}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="Start Date"
+                            format="MM/dd/yyyy"
+                            value={this.state.ugStartDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                ugStartDate: newValue,
+                                ugStartDateErr: "",
+                              })
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            inputProps={{ readOnly: true }}
+                            error={this.state.ugStartDateErr.length > 0}
+                            helperText={this.state.ugStartDateErr}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="End Date"
+                            format="MM/dd/yyyy"
+                            inputProps={{ readOnly: true }}
+                            disabled={this.state.ugStartDate === null}
+                            minDate={this.state.ugStartDate}
+                            value={this.state.ugEndDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                ugEndDate: newValue,
+                                ugEndDateErr: "",
+                              })
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            error={this.state.ugEndDateErr.length > 0}
+                            helperText={this.state.ugEndDateErr}
+                          />
+                        </Grid>
+                        <Grid item md={1}></Grid>
+                        <Grid item md={12}></Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+
+                  <Accordion
+                    style={{ borderRadius: 15, marginTop: 15 }}
+                    expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                  >
+                    <AccordionSummary
+                      style={{ height: 49 }}
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
+                    >
+                      <div
+                        style={{
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <Grid container direction="row" justify="flex-start">
+                          <p style={title}>Diploma</p>
+                        </Grid>
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={3}>
+                        <Grid item md={3}>
+                        <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getCollegesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.diplomaCollege}
+                            onChange={(e) =>
+                              this.setState({
+                                diplomaCollege: e.target.value,
+                                diplomaCollegeErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.diplomaCollegeErr.length > 0}
+                                helperText={this.state.diplomaCollegeErr}
+                                label="College Name"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                          {/* <TextField
+                           options={this.props.getCollegesList}
+                           getOptionLabel={(option) => option.name}
+                            error={this.state.diplomaCollegeErr.length > 0}
+                            helperText={this.state.diplomaCollegeErr}
+                            label="College Name"
+                            margin="normal"
+                            value={this.state.diplomaCollege}
+                            onChange={(e) =>
+                              this.setState({
+                                diplomaCollege: e.target.value,
+                                diplomaCollegeErr: "",
+                              })
+                            }
+                          /> */}
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.props.getUniversityList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.diplomoUniversity}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                diplomoUniversity: newValue,
+                                diplomoUniversityErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={
+                                  this.state.diplomoUniversityErr.length > 0
+                                }
+                                helperText={this.state.diplomoUniversityErr}
+                                label="ExamBoard Name"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.diplomaType}
+                            getOptionLabel={(option) => option.title}
+                            value={this.state.diplomoDepartment}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                diplomoDepartment: newValue,
+                                diplomoDepartmentErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={
+                                  this.state.diplomoDepartmentErr.length > 0
+                                }
+                                helperText={this.state.diplomoDepartmentErr}
+                                label="Diploma Type"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.gpascale}
+                            getOptionLabel={(option) => option.title}
+                            value={this.state.diplomoCgpaScale}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                diplomoCgpaScale: newValue,
+                                diplomoCgpaScaleErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={
+                                  this.state.diplomoCgpaScaleErr.length > 0
+                                }
+                                helperText={this.state.diplomoCgpaScaleErr}
+                                label="CGPA Scale"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <TextField
+                            id="standard-basic"
+                            value={this.state.diplomoCgpa}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                diplomoCgpa: newValue,
+                                diplomoCgpaErr: "",
+                              })
+                            }
+                            InputLabelProps={{ shrink: true }}
+                            label="CGPA"
+                            error={this.state.diplomoCgpaErr.length > 0}
+                            helperText={this.state.diplomoCgpaErr}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            value={this.state.diplomostartDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                diplomostartDate: newValue,
+                                diplomostartDateErr: "",
+                              })
+                            }
+                            label="Start Date"
+                            error={
+                              this.state.diplomostartDateErr.length > 0
+                            }
+                            helperText={this.state.diplomostartDateErr}
+                            format="MM/dd/yyyy"
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            inputProps={{ readOnly: true }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="End Date"
+                            inputProps={{ readOnly: true }}
+                            disabled={
+                              this.state.diplomostartDate === null
+                            }
+                            minDate={this.state.diplomostartDate}
+                            value={this.state.diplomoEndDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                diplomoEndDate: newValue,
+                                diplomoEndDateErr: "",
+                              })
+                            }
+                            error={
+                              this.state.diplomoEndDateErr.length > 0
+                            }
+                            helperText={this.state.diplomoEndDateErr}
+                            format="MM/dd/yyyy"
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        </Grid>
+                        <Grid item md={1}></Grid>
+                        <Grid item md={12}></Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+
+                  <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
+                    <AccordionSummary
+                      style={{ height: 49 }}
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
+                    >
+                      <div
+                        style={{
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <Grid container direction="row" justify="flex-start">
+                          <p style={title}>XII Grade</p>
+                        </Grid>
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={3}>
+                        <Grid item md={4}>
+                          <TextField
+                            error={this.state.twelthSchoolErr.length > 0}
+                            helperText={this.state.twelthSchoolErr}
+                            label="School Name"
+                            margin="normal"
+                            onChange={(e) =>
+                              this.setState({
+                                twelthSchool: e.target.value,
+                                twelthSchoolErr: "",
+                              })
+                            }
+                          />
+                        </Grid>
+                        <Grid item md={4}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            options={this.props.getCollegesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.twelthExamBoard}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                twelthExamBoard: newValue,
+                                twelthExamBoardErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.twelthExamBoardErr.length > 0}
+                                helperText={this.state.twelthExamBoardErr}
+                                label="Exam Board"
+                                // margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        {/* <Grid item md={4}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            id="debug"
+                            options={this.stream}
+                            getOptionLabel={(option) => option.title}
+                            value={this.state.twelthType}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                twelthType: newValue,
+                                twelthTypeErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.twelthTypeErr.length > 0}
+                                helperText={this.state.twelthTypeErr}
+                                label="Stream"
+                                margin="normal"
+                              />
+                            )}
+                          /> */}
+                        {/* </Grid> */}
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            options={this.gpascale}
+                            getOptionLabel={(option) => option.title}
+                            value={this.state.twelthCgpaScale}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                twelthCgpaScale: newValue,
+                                twelthCgpaScaleErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.twelthCgpaScaleErr.length > 0}
+                                helperText={this.state.twelthCgpaScaleErr}
+                                label="CGPA Scale"
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item md={3}>
+                          <TextField
+                            id="standard-basic"
+                            label="CGPA"
+                            error={this.state.twelthCgpaErr.length > 0}
+                            helperText={this.state.twelthCgpaErr}
+                            value={this.state.twelthCgpa}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                twelthCgpa: newValue,
+                                twelthCgpaErr: "",
+                              })
+                            }
+                            InputLabelProps={{ shrink: true }}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="Start Date"
+                            format="MM/dd/yyyy"
+                            value={this.state.twelthStartDate || ""}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                twelthStartDate: newValue,
+                                twelthStartDateErr: "",
+                              })
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            inputProps={{ readOnly: true }}
+                            error={this.state.twelthStartDateErr.length > 0}
+                            helperText={this.state.twelthStartDateErr}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="End Date"
+                            format="MM/dd/yyyy"
+                            label="End Date"
+                            inputProps={{ readOnly: true }}
+                            disabled={this.state.twelthStartDate === null}
+                            minDate={this.state.twelthStartDate}
+                            value={this.state.twelthEndDate || ""}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                twelthEndDate: newValue,
+                                twelthEndDateErr: "",
+                              })
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            error={this.state.twelthEndDateErr.length > 0}
+                            helperText={this.state.twelthEndDateErr}
+                          />
+                        </Grid>
+                        <Grid item md={12}></Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+
+                  <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
+                    <AccordionSummary
+                      style={{ height: 49 }}
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
+                    >
+                      <div
+                        style={{
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <Grid container direction="row" justify="flex-start">
+                          <p style={title}>X Grade</p>
+                        </Grid>
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={3}>
+                        <Grid item md={6}>
+                          <TextField
+                            error={this.state.tenthSchoolErr.length > 0}
+                            helperText={this.state.tenthSchoolErr}
+                            label="School Name"
+                            margin="normal"
+                            value={this.state.tenthSchool}
+                            onChange={(e) =>
+                              this.setState({
+                                tenthSchool: e.target.value,
+                                tenthSchoolErr: "",
+                              })
+                            }
+                          />
+                        </Grid>
+                        <Grid item md={6}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            options={this.props.getCollegesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.tenthExamBoard}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                tenthExamBoard: newValue,
+                                tenthExamBoardErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.tenthExamBoardErr.length > 0}
+                                helperText={this.state.tenthExamBoardErr}
+                                label="Exam Board"
+                                margin="normal"
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item md={3}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "#1093FF" }} />
+                            }
+                            options={this.gpascale}
+                            getOptionLabel={(option) => option.title}
+                            value={this.state.tenthCgpaScale}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                tenthCgpaScale: newValue,
+                                tenthCgpaScaleErr: "",
+                              })
+                            }
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={this.state.tenthCgpaScaleErr.length > 0}
+                                helperText={this.state.tenthCgpaScaleErr}
+                                label="CGPA Scale"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <TextField
+                            id="standard-basic"
+                            type="number"
+                            label="CGPA"
+                            error={this.state.tenthCgpaErr.length > 0}
+                            helperText={this.state.tenthCgpaErr}
+                            onChange={(e) =>
+                              this.setState({
+                                tenthCgpa: e.target.value,
+                                tenthCgpaErr: "",
+                              })
+                            }
+                            value={this.state.tenthCgpa}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="Start Date"
+                            value={this.state.tenthStartDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                tenthStartDate: newValue,
+                                tenthStartDateErr: "",
+                              })
+                            }
+                            error={this.state.tenthStartDateErr.length > 0}
+                            helperText={this.state.tenthStartDateErr}
+                            format="MM/dd/yyyy"
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            inputProps={{ readOnly: true }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        </Grid>
+                        <Grid item md={3}>
+                          <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            inputProps={{ readOnly: true }}
+                            disabled={this.state.tenthStartDate === null}
+                            minDate={this.state.tenthStartDate}
+                            value={this.state.tenthEndDate}
+                            onChange={(e, newValue) =>
+                              this.setState({
+                                tenthEndDate: newValue,
+                                tenthEndDateErr: "",
+                              })
+                            }
+                            label="End Date"
+                            error={this.state.tenthEndDateErr.length > 0}
+                            helperText={this.state.tenthEndDateErr}
+                            format="MM/dd/yyyy"
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        </Grid>
+                        <Grid item md={12}></Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Grid
+                    item
+                    md={12}
+                    style={{
+                      alignSelf: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: 50,
+                    }}
+                  >
+                    <PrimaryButton
+                      onClick={() => this.handleSave()}
+                      style={{ textTransform: "none" }}
+                      variant={"contained"}
+                      color={"primary"}
+                      size={"small"}
+                    >
+                      Save Changes
+                    </PrimaryButton>
+                  </Grid>
+                </div>
+              </ThemeProvider>
+            </Card>
           </ThemeProvider>
         </MuiPickersUtilsProvider>
       </div>
@@ -1454,6 +1581,9 @@ const mapStateToProps = (state) => {
     getCollegesList: state.CollegeReducer.allCollegeList,
     getDegreeList: state.CollegeReducer.Degree,
     getUniversityList: state.CollegeReducer.University,
+    getStudentsByIdList: state.StudentReducer.StudentList,
+    getAcademicInfoList: state.StudentReducer.getAcademicInfo,
+    updateAcademicInfoList: state.StudentReducer.updateAcademicInfo,
   };
 };
 
@@ -1462,4 +1592,7 @@ export default connect(mapStateToProps, {
   getDegree,
   getAllColleges,
   getUniversity,
+  getStudentsById,
+  getAcademicInfo,
+  updateAcademicInfo,
 })(academicInfo);

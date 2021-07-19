@@ -22,6 +22,8 @@ const initialState = {
   updateNewPersonalResponse : [],
   getUserDataAcademicInfo: [],
   updateUserData : [],
+  getAcademicInfo: [],
+  updateAcademicInfo:[],
 
 };
 
@@ -162,6 +164,17 @@ export default (state = initialState, action) => {
             ...state,
             updateUserData: action.payload,
           };
+          case STUDENT.getAcademicInfo:
+        return {
+          ...state,
+          getAcademicInfo: action.payload,
+        };
+        case STUDENT.updateAcademicInfo:
+          return {
+            ...state,
+            updateAcademicInfo: action.payload,
+          };
+
 
     default:
       break;

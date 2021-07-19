@@ -63,6 +63,8 @@ export const STUDENT = {
   getTempPersonalData: 'getTempPersonalData',
   verifyNewPersonalData: 'verifyNewPersonalData',
   updateUserData: 'updateUserData',
+  getAcademicInfo: 'getAcademicInfo',
+  updateAcademicInfo: 'updateAcademicInfo'
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
