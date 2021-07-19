@@ -61,6 +61,7 @@ const CreatePost = () => {
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
+    eventTitle: '',
     redirectionUrl: '',
     buttonText: '',
     eventDate: new Date(),
@@ -202,7 +203,7 @@ const CreatePost = () => {
                         checked={state.isEvent}
                         onChange={handlePostType}
                         name={values.isEvent}
-                        color='secondary'
+                        color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                       />
                     </Grid>
@@ -260,6 +261,17 @@ const CreatePost = () => {
                       )}
                     />
                   </FormControl>
+                  {values.isEvent && (
+                    <Grid item>
+                      <Controls.Input
+                        label='Enter Event Title'
+                        name='eventTitle'
+                        style={{ width: '80%', marginTop: '18px' }}
+                        value={values.eventTitle}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                  )}
                   <Grid item>
                     <Controls.Input
                       label='Type caption here..'
@@ -291,7 +303,7 @@ const CreatePost = () => {
                       <Controls.Input
                         label='Paste Video URL'
                         name='videoUrl'
-                        className={classes.spacer}
+                        style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
                         value={values.videoUrl}
                         error={errorSchema.isVideoLink}
                         onChange={handleChange}
@@ -327,7 +339,7 @@ const CreatePost = () => {
                             values.buttonText?.length < 1 &&
                             Boolean(true)
                           }
-                          style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
+                          style={{ width: '80%', marginTop: '18px', marginBottom: '14px' }}
                           value={values.buttonText}
                           onChange={handleChange}
                         />
