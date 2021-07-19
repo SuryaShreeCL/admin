@@ -35,6 +35,7 @@ import {
 } from "@material-ui/pickers";
 import {getworkexp,updateworkexp} from '../../Actions/Calldetails'
 import {connect} from 'react-redux'
+import Mysnack from '../MySnackBar'
 
 const theme = createMuiTheme({
   overrides: {
@@ -48,6 +49,11 @@ const theme = createMuiTheme({
       marginNormal: {
         marginTop: "0px",
         marginBottom: "0px",
+      },
+    },
+    MuiIconButton: {
+      root: {
+        color: "#1093FF",
       },
     },
   }
@@ -74,14 +80,17 @@ class workExperience extends Component {
       professional : [
         {
           id: null,
-          employmentType: null,
+          employmentType: {},
           organization: null,
           role: null,
           description: null,
           startDate: null,
           endDate: null,
         }
-      ]
+      ],
+      snackmsg : "",
+      snackvariant : "",
+      snackopen : false,
     };
   }
   componentDidMount(){
@@ -111,31 +120,37 @@ class workExperience extends Component {
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
   }
-  // onChange(event, index) {    
-  //   let items = this.state.professional;
-  //   var item = {
-  //     ...items[index],
-  //     [event.target.name]: event.target.value,
-  //   };
-  //   items[index] = item;
-  //   this.setState({
-  //     professional: items,
-  //     [event.target.name.concat(`Err${index}`)]: "",
-  //   });
-  // }
+  onChange(event, index) {    
+    let items = this.state.professional;
+    var item = {
+      ...items[index],
+      [event.target.name]: event.target.value,
+    };
+    items[index] = item;
+    this.setState({
+      professional: items,
+      [event.target.name.concat(`Err${index}`)]: "",
+    });
+  }
 
-  // onDropDownValue = (name, value, index, id) => {
-  //   if (value !== null) {
-  //     let items = this.state.professional;
-  //     let item = {
-  //       ...items[index],
-  //       id: id,
-  //       [name]: value.value,
-  //     };
-  //     items[index] = item;
-  //     this.setState({ professional: items, [name.concat(`Err${index}`)]: "" });
-  //   }
-  // };
+  onDropDownValue = (name, value, index, id) => {
+    console.log(name,value)
+    if (value !== null) {
+      let items = this.state.professional;
+      console.log(items)
+      let item = {
+        ...items[index],
+        id: id,
+        [name]: value.title,
+      };
+      console.log(item)
+      items[index] = item;
+      console.log(items)
+      this.setState({ professional: items, [name.concat(`Err${index}`)]: "" });
+      console.log(this.state.professional)
+    }
+    console.log(this.state.professional)
+  };
   handleSave() {
     
     console.log(this.state)
@@ -152,62 +167,38 @@ class workExperience extends Component {
           error = true;
           this.setState({
             [key.concat(`Err${i}`)]: `Please fill the required field`,
-          });
+          }); 
         }
+        console.log(key.concat(`Err${i}`),value,error)
       }
-     
     }
     console.log(error)
-    // if(error === false){
-        console.log(this.state)
-        console.log(this.state.professional)
+    if(error === false){
          var tempArr = this.state.professional
-         this.props.getworkexpList.length !== 0 && this.props.getworkexpList.map((eachData,index)=>{
-           tempArr.push(eachData)
-         })
          console.log(tempArr)
-        //  this.props.updateworkexp(tempArr);
-
-        
-    // console.log(this.state);
-    // let hlptxt = "Please fill the required field";
-    // this.state.startDate === null
-    //   ? this.setState({ startDateErr: hlptxt })
-    //   : this.setState({ startDateErr: "" });
-    // this.state.endDate === null
-    //   ? this.setState({ endDateErr: hlptxt })
-    //   : this.setState({ endDateErr: "" });
-    // this.state.jobType === ""
-    //   ? this.setState({ jobTypeErr: hlptxt })
-    //   : this.setState({ jobTypeErr: "" });
-    // this.state.jobDescp === ""
-    //   ? this.setState({ jobDescpErr: hlptxt })
-    //   : this.setState({ jobDescpErr: "" });
-    // this.state.organization === ""
-    //   ? this.setState({ organizationErr: hlptxt })
-    //   : this.setState({ organizationErr: "" });
-    //   this.state.designation === ""
-    //   ? this.setState({ designationErr: hlptxt })
-    //   : this.setState({ designationErr: "" });
-    //   if(
-    //     this.state.startDate !== null &&
-    //     this.state.endDate !== null &&
-    //     this.state.jobType !== "" &&
-    //     this.state.jobDescp !== "" &&
-    //     this.state.organization !== "" &&
-    //     this.state.designation !== ""
-    //   ){
-        let obj= this.state.professional
-        this.props.updateworkexp(this.props.match.params.studentId,obj)
+        this.props.updateworkexp(this.props.match.params.studentId,tempArr)
+        this.setState({
+              snackmsg : "Updated Sucessfully",
+              snackopen : true,
+              snackvariant : "success"
+            })
       }
+      // else{
+      //   this.setState({
+      //     snackmsg : "Please Fill the required Field",
+      //     snackopen : true,
+      //     snackvariant : "error"
+      //   })
+      // }
+    }
 
   employeeType = [
-    {title : "FULL_TIME", value : "Full-time"},
-    {title : "PART_TIME", value : "Part-time"},
-    {title : "SELF_EMPLOYED", value : "Self-employed"},
-    {title : "FREELANCE", value : "freelance"},
-    {title : "INTERNSHIP", value : "Internship"},
-    {title : "TRAINEE", value : "Trainee"},
+    {title : "FULL_TIME", value : "FULL_TIME"},
+    {title : "PART_TIME", value : "PART_TIME"},
+    {title : "SELF_EMPLOYED", value : "SELF_EMPLOYED"},
+    {title : "FREELANCE", value : "FREELANCE"},
+    {title : "INTERNSHIP", value : "INTERNSHIP"},
+    {title : "TRAINEE", value : "TRAINEE"},
   ]
 
   render() {
@@ -289,17 +280,21 @@ class workExperience extends Component {
                     <Autocomplete
                               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                               id="combo-box-demo"
-                              value={item.employmentType}
+                              value={{title : item.employmentType,value : item.employmentType} || ''}
                               options={this.employeeType}
-                              onChange={(e,newValue)=>this.setState({ employmentType : newValue})}
-                              getOptionLabel={(option) => option.title}
+                              onChange={(e, newValue) => this.onDropDownValue("employmentType",newValue,index,item.id)}                            
+                              getOptionLabel={(option) =>{ 
+                                console.log(option)
+                                return option.title;
+                              } }
                               renderInput={(params) => (
                                   <TextField {...params}
                                    label="Employment Type"
-                                   variant="standard"  
+                                   variant="standard" 
+                                   contentEditable={this.state.disable === false } 
                                   //  value={item.employmentType || ''}
-                                  // error={ this.state.[`employmentTypeErr${index}`] ? this.state.[`employmentTypeErr${index}`].length > 0 :false}
-                                  // helperText={this.state.[`employmentTypeErr${index}`]}
+                                  error={this.state.[`employmentTypeErr${index}`] !== undefined && this.state.[`employmentTypeErr${index}`] !== "" ? true :false}
+                                  helperText={this.state.[`employmentTypeErr${index}`]}
                                   />
                               )}
                           />
@@ -308,18 +303,13 @@ class workExperience extends Component {
                       <TextField
                         id="standard-basic"
                         label="Organisation"
-                        value={item.organization}
-                        onChange={(e, newValue) => 
-                          this.setState({
-                             
-                          })
-                        }
+                        value={item.organization || ""}
                         error={this.state.organizationErr.length > 0}
                         helperText={this.state.organizationErr}
-                        // error={this.state.[`organizationErr${index}`] ? this.state.[`organizationErr${index}`].length > 0 :false}
-                        // onChange={(e) =>this.onChange(e,index)}
-                        // helperText={this.state.[`organizationErr${index}`]}
-                        // value={item.organization || ""}
+                        contentEditable={this.state.disable}
+                        error={this.state.[`organizationErr${index}`] !== undefined && this.state.[`organizationErr${index}`] !== "" ? true :false}
+                        onChange={(e) => this.state.disable === false && this.onChange({target:{name:"organization",value:e.target.value}},index)} 
+                        helperText={this.state.[`organizationErr${index}`]}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -334,18 +324,18 @@ class workExperience extends Component {
                         label="Start Date"
                         format="yyyy-MM"
                         views={["year", "month"]}
+                        contentEditable={this.state.disable}
                         inputProps={{ readOnly: true }}
                         error={this.state.startDateErr.length > 0}
                         helperText={this.state.startDateErr}
-                        value={this.state.startDate}
-                        onChange={(e, newValue) =>
-                          this.setState({ startDate: newValue, startDateErr:'' })
-                        }
-                        // error={this.state.[`startDateErr${index}`] ? this.state.[`startDateErr${index}`].length > 0 :false}
-                        // helperText={this.state.[`startDateErr${index}`]}
-                        // onChange={(date) =>this.onChange({target:{name:"startDate",value:date}},index)}
-                        // value={item.startDate || ""}
-                       InputLabelProps={{
+                        value={item.startDate || ""}
+                        // onChange={(e, newValue) =>
+                        //   this.setState({ startDate: newValue, startDateErr:'' })
+                        // }
+                        error={this.state.[`startDateErr${index}`] !== undefined && this.state.[`startDateErr${index}`] !== null ? true : false}
+                        helperText={this.state.[`startDateErr${index}`]}
+                        onChange={(date) => this.state.disable === false && this.onChange({target:{name:"startDate",value:date}},index)}
+                        InputLabelProps={{
                           shrink: true,
                         }}
                         KeyboardButtonProps={{
@@ -360,19 +350,12 @@ class workExperience extends Component {
                         label="End Date"
                         format="yyyy-MM"
                         views={["year", "month"]}
-                        // disabled={this.state.startDate === null}
+                        contentEditable={this.state.disable}
                         minDate={this.state.startDate}
-                        error={this.state.endDateErr.length > 0}
-                        helperText={this.state.endDateErr}
-                        // inputProps={{ readOnly: true }}
-                        value={item.endDate}
-                        onChange={(e, newValue) =>
-                          this.setState({ endDate: newValue , endDateErr:'' })
-                        }
-                        // error={this.state.[`endDateErr${index}`] ? this.state.[`endDateErr${index}`].length > 0 :false}
-                        // helperText={this.state.[`endDateErr${index}`]}
-                        // onChange={(date) =>this.onChange({target:{name:"endDate",value:date}},index)}
-                        // value={item.endDate || ""}
+                        error={this.state.[`endDateErr${index}`] !== undefined && this.state.[`endDateErr${index}`] !== null ? true : false}
+                        helperText={this.state.[`endDateErr${index}`]}
+                        value={item.endDate || ""}
+                        onChange={(date) => this.state.disable === false && this.onChange({target:{name:"endDate",value:date}},index)}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -385,18 +368,13 @@ class workExperience extends Component {
                       <TextField
                         id="standard-multiline-static"
                         label="Designation"
-                        value={item.role}
-                        onChange={(e, newValue) =>
-                          this.setState({
-                              role: e.target.value,
-                              roleErr: "",
-                          })
-                        }
+                        value={item.role || ""}
+                        onChange={(e) =>this.state.disable === false && this.onChange({target:{name:"role",value:e.target.value}},index)} 
                         error={this.state.roleErr.length > 0}
                         helperText={this.state.roleErr}
-                        // error={this.state.[`roleErr${index}`] ? this.state.[`roleErr${index}`].length > 0 :false}                        
+                        error={this.state.[`roleErr${index}`] !== undefined && this.state.[`roleErr${index}`] !== "" ? true :false}                        
                         // onChange={(e) =>this.onChange(e,index)}
-                        // helperText={this.state.[`roleErr${index}`]}
+                        helperText={this.state.[`roleErr${index}`]}
                         // value={item.role || ""}
                         InputLabelProps={{
                           shrink: true,
@@ -408,19 +386,13 @@ class workExperience extends Component {
                         id="standard-multiline-static"
                         label="Job Description"
                         multiline
-                        value={item.description}
-                        onChange={(e, newValue) =>
-                          this.setState({
-                            description: e.target.value,
-                            descriptionErr: "",
-                          })
-                        }
+                        value={item.description || ""}
+                        contentEditable={this.state.disable}
+                        onChange={(e) =>this.onChange({target:{name:"description",value:e.target.value}},index)} 
                         error={this.state.descriptionErr.length > 0}
                         helperText={this.state.descriptionErr}
-                        // error={this.state.[`descriptionErr${index}`] ? this.state.[`descriptionErr${index}`].length > 0 :false}
-                        // helperText={this.state.[`descriptionErr${index}`]}
-                        // onChange={(e) =>this.onChange(e,index)}
-                        // value={item.description || ""}
+                        error={this.state.[`descriptionErr${index}`] !== undefined && this.state.[`descriptionErr${index}`] !== "" ? true :false}
+                        helperText={this.state.[`descriptionErr${index}`]}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -452,6 +424,12 @@ class workExperience extends Component {
             </PrimaryButton>
           </div>
         </MuiPickersUtilsProvider>
+        <Mysnack
+           snackMsg={this.state.snackmsg}
+           snackVariant={this.state.snackvariant}
+           snackOpen={this.state.snackopen}
+           onClose={() => this.setState({ snackopen: false })}
+        /> 
         </ThemeProvider>
       </div>
     );

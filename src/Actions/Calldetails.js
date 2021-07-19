@@ -136,3 +136,91 @@ export const getAspirationDetails = (studentId) =>{
         })
     }
 }
+export const getgrescore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/gre/"+studentId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getgrescore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const getgmatscore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/gmat/"+studentId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getgmatscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const gettoeflscore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/tofel/"+studentId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.gettoeflscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const getieltsscore = (studentId) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/"+studentId+"/graduate/ielts")
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.getieltsscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const updategrescore = (greid,data) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/gre/"+greid,data)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.updategrescore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const updategmatscore = (gmatid,data) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/gmat/update/"+gmatid,data)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.updategmatscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const updatetoeflscore = (toeflid,data) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/tofel/"+toeflid,data)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.updatetoeflscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const updateieltsscore = (ieltsid,data) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/students/"+ieltsid+"/graduate/ielts",data)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.updateieltsscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

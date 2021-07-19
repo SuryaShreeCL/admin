@@ -202,6 +202,7 @@ export const ADMIN = {
   getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
   activateStudentProduct : "activateStudentProduct",
   getAdminLinkedProduct : "getAdminLinkedProduct", 
+  checkTokenStatus : "checkTokenStatus"
 };
 
 export const MENTORSCHEDULELIST={
@@ -219,6 +220,14 @@ export const CALL_DETAILS={
   getworkexp : "getworkexp",
   getClientInfo : "getClientInfo",
   getAspirationDetails: "getAspirationDetails",
+  getgrescore : "getgrescore",
+  getgmatscore : "getgmatscore",
+  gettoeflscore : "gettoeflscore",
+  getieltsscore : "getieltsscore",
+  updategrescore : "updategrescore",
+  updategmatscore : "updategmatscore",
+  updatetoeflscore : "updatetoeflscore",
+  updateieltsscore : "updateieltsscore"
 }
 
 export const CAREER_TRACK = {
