@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -23,7 +23,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';import Avatar from '@material-ui/core/Avatar';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Content from './Content';
 import MenuIcon from "../Asset/Images/menu.svg"
 import BackButton from "../Asset/Images/BackButton.svg"
@@ -74,7 +74,9 @@ import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOut
 import { Badge, Breadcrumbs } from '@material-ui/core';
 import StageBasedLayout from './ObOperations/StageBasedLayout';
 import ProductBasedUsers from './ObOperations/ProductBasedUsers';
-
+import { checkTokenStatus } from "../Actions/AdminAction"
+import { connect } from 'react-redux';
+import { TextRotateUp } from '@material-ui/icons';
 const drawerWidth = 240;
 const NavbarList = [
       {id: coursePath, icon: <MenuBookRoundedIcon />, title: 'Courses' },
@@ -270,7 +272,7 @@ const theme = createMuiTheme({
   },
 });
 
-export default function RootContainer(props) {
+ function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -289,7 +291,39 @@ export default function RootContainer(props) {
     props.history.push(rootLoginPath);
   };
 
-  console.log("........", history)
+
+  useEffect(()=>{
+   
+   
+
+    
+
+  },[])
+
+  const mounted = useRef();
+  useEffect(() => {
+    if (!mounted.current) {
+      // do componentDidMount logic
+      mounted.current = true;
+      let accessToken = window.sessionStorage.getItem("accessToken")
+      if(accessToken === null){
+        console.log("access token no need to come here......",accessToken)
+       window.sessionStorage.clear()
+        props.history.push(rootLoginPath)
+      }else{
+        props.checkTokenStatus()
+      }
+    } else {
+      // do componentDidUpdate logic
+      if(props.tokenStatus !== null && props.tokenStatus.expired){
+        console.log("Token status checked.........",props.tokenStatus)
+        window.sessionStorage.clear()
+       props.history.push(rootLoginPath)
+      }
+    }
+  });
+
+  console.log("........props", props)
 
   return (
     <ThemeProvider theme={theme}>
@@ -411,3 +445,11 @@ function Copyright() {
     </Typography>
   );
 }
+
+const mapStateToProps = (state) =>{
+  return {
+    tokenStatus : state.AdminReducer.tokenStatus
+  }
+}
+
+export default connect(mapStateToProps,{ checkTokenStatus })(RootContainer)
