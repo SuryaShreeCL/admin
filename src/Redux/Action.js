@@ -221,6 +221,10 @@ export const CALL_DETAILS={
   getgmatscore : "getgmatscore",
   gettoeflscore : "gettoeflscore",
   getieltsscore : "getieltsscore",
+  updategrescore : "updategrescore",
+  updategmatscore : "updategmatscore",
+  updatetoeflscore : "updatetoeflscore",
+  updateieltsscore : "updateieltsscore"
 }
 
 export const CAREER_TRACK = {
