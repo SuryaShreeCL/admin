@@ -45,10 +45,6 @@ const useStyles = makeStyles({
     width: '80%',
     marginTop: '10px',
   },
-  typeSpace: {
-    marginTop: '8px',
-    paddingRight: '1rem',
-  },
 });
 
 const CreatePost = () => {
@@ -67,6 +63,8 @@ const CreatePost = () => {
     totalLikes: 0,
     redirectionUrl: '',
     buttonText: '',
+    eventDate: new Date(),
+    eventEndDate: new Date(),
     selectedDate: new Date(),
     isScheduled: false,
     isVideoUrlEnabled: false,
@@ -138,7 +136,11 @@ const CreatePost = () => {
   };
 
   const handleComment = () => {
-    setState((s) => ({ ...s, cancComment: !state.canComment }));
+    setState((s) => ({ ...s, canComment: !state.canComment }));
+  };
+
+  const handlePostType = () => {
+    setState((s) => ({ ...s, isEvent: !state.isEvent }));
   };
 
   const validationSchema = yup.object({
@@ -192,14 +194,14 @@ const CreatePost = () => {
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
+                  <h6>Post Type</h6>
                   <Grid component='label' container alignItems='center' spacing={1}>
-                    <h6 className={classes.typeSpace}>Post Type</h6>
                     <Grid item>Wall Post</Grid>
                     <Grid item>
                       <Switch
-                        checked={state.canComments}
-                        onChange={handleComment}
-                        name={values.canComment}
+                        checked={state.isEvent}
+                        onChange={handlePostType}
+                        name={values.isEvent}
                         color='secondary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                       />
@@ -296,37 +298,42 @@ const CreatePost = () => {
                       />
                     </Grid>
                   )}
-                  <Grid item>
-                    <Controls.Input
-                      label='Paste the Redirection Link'
-                      name='redirectionUrl'
-                      className={classes.spacer}
-                      value={values.redirectionUrl}
-                      onChange={handleChange}
-                      error={
-                        values.redirectionUrl.length > 5 && !values.redirectionUrl.includes('http')
-                      }
-                      helperText={
-                        values.redirectionUrl.length > 5 &&
-                        !values.redirectionUrl.includes('http') &&
-                        'Enter Full link Ex:https://www.example.com/'
-                      }
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Controls.Input
-                      label='Enter Button Text Here'
-                      name='buttonText'
-                      error={
-                        values.redirectionUrl?.length > 1 &&
-                        values.buttonText?.length < 1 &&
-                        Boolean(true)
-                      }
-                      style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
-                      value={values.buttonText}
-                      onChange={handleChange}
-                    />
-                  </Grid>
+                  {!values.isEvent && (
+                    <>
+                      <Grid item>
+                        <Controls.Input
+                          label='Paste the Redirection Link'
+                          name='redirectionUrl'
+                          className={classes.spacer}
+                          value={values.redirectionUrl}
+                          onChange={handleChange}
+                          error={
+                            values.redirectionUrl.length > 5 &&
+                            !values.redirectionUrl.includes('http')
+                          }
+                          helperText={
+                            values.redirectionUrl.length > 5 &&
+                            !values.redirectionUrl.includes('http') &&
+                            'Enter Full link Ex:https://www.example.com/'
+                          }
+                        />
+                      </Grid>
+                      <Grid item>
+                        <Controls.Input
+                          label='Enter Button Text Here'
+                          name='buttonText'
+                          error={
+                            values.redirectionUrl?.length > 1 &&
+                            values.buttonText?.length < 1 &&
+                            Boolean(true)
+                          }
+                          style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
+                          value={values.buttonText}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                    </>
+                  )}
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField name='wallFiles' fileType='image' />
@@ -338,37 +345,90 @@ const CreatePost = () => {
                       <MultipleFileUploadField name='wallFiles' fileType='audio' />
                     )}
                   </Grid>
-                  <Grid
-                    container
-                    direction='row'
-                    justify='space-between'
-                    className={classes.spacer}
-                  >
-                    <Grid item>
-                      <h6 style={{ fontSize: '1rem' }}>
-                        Schedule Post for Later
-                        <Switch
-                          checked={state.isScheduled}
-                          onChange={handleScheduled}
-                          color='primary'
-                          value={values.isScheduled}
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                        />
-                      </h6>
+                  {!values.isEvent && (
+                    <Grid
+                      container
+                      direction='row'
+                      justify='space-between'
+                      className={classes.spacer}
+                    >
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>
+                          Schedule Post for Later
+                          <Switch
+                            checked={state.isScheduled}
+                            onChange={handleScheduled}
+                            color='primary'
+                            value={values.isScheduled}
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                          />
+                        </h6>
+                      </Grid>
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>
+                          Disable Comments
+                          <Switch
+                            checked={state.canComments}
+                            onChange={handleComment}
+                            name={values.canComment}
+                            color='primary'
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                          />
+                        </h6>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <h6 style={{ fontSize: '1rem' }}>
-                        Disable Comments
-                        <Switch
-                          checked={state.canComments}
-                          onChange={handleComment}
-                          name={values.canComment}
-                          color='primary'
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                        />
-                      </h6>
+                  )}
+                  {values.isEvent && (
+                    <Grid
+                      container
+                      direction='row'
+                      justify='space-between'
+                      className={classes.spacer}
+                    >
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>Event Start Date </h6>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position='start'>
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.eventDate}
+                            style={{ width: '100%', margin: '10px 0px' }}
+                            disablePast
+                            name='eventDate'
+                            inputVariant='outlined'
+                            onChange={handleDateChange}
+                            showTodayButton
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>Event End Date </h6>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position='start'>
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.eventEndDate}
+                            style={{ width: '100%', margin: '10px 0px' }}
+                            disablePast
+                            name='eventEndDate'
+                            inputVariant='outlined'
+                            onChange={handleDateChange}
+                            showTodayButton
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  )}
                   <Grid item>
                     {state.isScheduled && (
                       <MuiPickersUtilsProvider utils={MomentUtils}>
