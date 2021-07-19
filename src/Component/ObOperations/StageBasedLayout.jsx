@@ -68,9 +68,9 @@ componentDidMount() {
 componentDidUpdate(prevProps, prevState) {
     
     if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
-        var sortedArr = this.props.adminLinkedProductDetails.products[0].steps.sort((a,b) => a.rank-b.rank)
+        var sortedArr =  this.props.adminLinkedProductDetails.products.length > 0 && this.props.adminLinkedProductDetails.products[0].steps.sort((a,b) => a.rank-b.rank)
         console.log(sortedArr)
-        sortedArr.map((it,ix)=>{
+        sortedArr !== false && sortedArr.map((it,ix)=>{
             it.steps.sort((c,d)=>c.rank - d.rank)
         })
         console.log(sortedArr)
@@ -84,6 +84,7 @@ componentDidUpdate(prevProps, prevState) {
 
 
     render() {
+        console.log(this.props.adminLinkedProductDetails)
         var componentList = {
             "Personal Information" : "PersonalInfo",
             "Academic Information" : "AcademicInfo",
