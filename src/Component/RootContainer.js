@@ -37,6 +37,7 @@ import {
   collegePath,
   universityPath,
   cityPath,
+  obOperationPath,
   aspirationPath,
   questionSetPath,
   videoPath,
