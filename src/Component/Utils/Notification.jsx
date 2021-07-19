@@ -4,7 +4,7 @@ import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    top: theme.spacing(8),
+    bottom: theme.spacing(10),
   },
 }));
 
@@ -13,9 +13,9 @@ export default function Notification(props) {
   const classes = useStyles();
 
   const handleClose = (event, reason) => {
-    // if (reason === 'clickaway') {
-    //   return;
-    // }
+    if (reason === 'clickaway') {
+      return;
+    }
     setNotify({
       ...notify,
       isOpen: false,
@@ -26,8 +26,7 @@ export default function Notification(props) {
     <Snackbar
       className={classes.root}
       open={notify.isOpen}
-      autoHideDuration={3000}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      autoHideDuration={2000}
       onClose={handleClose}
     >
       <Alert severity={notify.type} onClose={handleClose}>

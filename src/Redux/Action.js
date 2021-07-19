@@ -48,9 +48,9 @@ export const STUDENT = {
   getAnswer: 'getAnswer',
   getStudentPaginate: 'getStudentPaginate',
   viewDocumet: 'viewDocumet',
-  editDocument : 'editDocument',
+  editDocument: 'editDocument',
   downloadDocument: 'downloadDocument',
-  deleteDocument : 'deleteDocument',
+  deleteDocument: 'deleteDocument',
   mernStudentSignUp: 'mernStudentSignUp',
   mernStudentEdit: 'mernStudentEdit',
   getBlackListedUser: 'getBlackListedUser',
@@ -58,11 +58,11 @@ export const STUDENT = {
   getMernUser: 'getMernUser',
   getManualUser: 'getManualUser',
   catchSignUpError: 'catchSignUpError',
-  viewAllCity : 'viewAllCity',
-  getAspirationById : 'getAspirationById',
-  getTempPersonalData : "getTempPersonalData",
-  verifyNewPersonalData : "verifyNewPersonalData",
-  updateUserData : "updateUserData"
+  viewAllCity: 'viewAllCity',
+  getAspirationById: 'getAspirationById',
+  getTempPersonalData: 'getTempPersonalData',
+  verifyNewPersonalData: 'verifyNewPersonalData',
+  updateUserData: 'updateUserData',
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -76,11 +76,11 @@ export const DEPARTMENT = {
 
 // Selva
 export const ASPIRATION = {
-  getAllSpecialization : 'getAllSpecialization',
-  getAllDegree : 'getAllDegree',
-  getAllBranch : 'getAllBranch',
-  getAllUniversity : 'getAllUniversity',
-  getAllTerms : 'getAllTerms',
+  getAllSpecialization: 'getAllSpecialization',
+  getAllDegree: 'getAllDegree',
+  getAllBranch: 'getAllBranch',
+  getAllUniversity: 'getAllUniversity',
+  getAllTerms: 'getAllTerms',
   viewSpecialization: 'viewSpecialization',
   addSpecialization: 'addSpecialization',
   updateSpecialization: 'updateSpecialization',
@@ -227,73 +227,71 @@ export const CAREER_TRACK = {
 };
 
 export const NOTIFICATION = {
-	viewNotification : "viewNotification",
-	addNotification : "addNotification",
-	updateNotification : "updateNotification",
-	deleteNotification : "deleteNotification"
-}
+  viewNotification: 'viewNotification',
+  addNotification: 'addNotification',
+  updateNotification: 'updateNotification',
+  deleteNotification: 'deleteNotification',
+};
 
 export const REPORTS = {
-	viewTermsAndConReport : "viewTermsAndConReport",
-	viewCvReport : "viewCvReport",
-	viewMarksheetReport : "viewMarksheetReport",
-	viewMyDetailsReport : "viewMyDetailsReport",
-  viewTechTestMechReport : "viewTechTestMechReport",
-  viewTechTestCseReport:"viewTechTestCseReport",
-  viewTestRating : "viewTestRating",
-  viewTechTestElectronics : "viewTechTestElectronics",
-  viewDiagTestReport : 'viewDiagTestReport',
-  viewCareerExpoTest : 'viewCareerExpoTest'
-}
+  viewTermsAndConReport: 'viewTermsAndConReport',
+  viewCvReport: 'viewCvReport',
+  viewMarksheetReport: 'viewMarksheetReport',
+  viewMyDetailsReport: 'viewMyDetailsReport',
+  viewTechTestMechReport: 'viewTechTestMechReport',
+  viewTechTestCseReport: 'viewTechTestCseReport',
+  viewTestRating: 'viewTestRating',
+  viewTechTestElectronics: 'viewTechTestElectronics',
+  viewDiagTestReport: 'viewDiagTestReport',
+  viewCareerExpoTest: 'viewCareerExpoTest',
+};
 
-export const STUDENTMARKDETAILS={
-  viewStudentMarkDetails :"viewStudentMarkDetails",
-  viewResetTest :"viewResetTest",
-  viewAnswers :"viewAnswers"
-}
-export const SCOREDETAILS={
-  viewScoreDetails :"viewScoreDetails"
-}
+export const STUDENTMARKDETAILS = {
+  viewStudentMarkDetails: 'viewStudentMarkDetails',
+  viewResetTest: 'viewResetTest',
+  viewAnswers: 'viewAnswers',
+};
+export const SCOREDETAILS = {
+  viewScoreDetails: 'viewScoreDetails',
+};
 
 export const PGA = {
-  getScoreDetails : "getScoreDetails",
-  getCareerInterest : "getCareerInterest",
-  postAcademicData : "postAcademicData",
-  getPgaAcademicData : "getPgaAcademicData",
-  getChoosenTrack : "getChoosenTrack",
-  postGenralDetails : "postGenralDetails",
-  getPgaCvAndPpga : "getPgaCvAndPpga",
-  postPgaCvAndPpga : "postPgaCvAndPpga",
-  getppgaques : "getppgaques",
-  postcvandppga :"postcvandppga",
-  getcvandppga : "getcvandppga",
-  getppgaques : "getppgaques",
-  getcvques : "getcvques",
-  getAllEnrollmentPeriod : "getAllEnrollmentPeriod",
-  getQuarterPlan : "getQuarterPlan",
-  getAllStarterPack : "getAllStarterPack",
-  getPackageByStudentId : "getPackageByStudentId",
-  getAllQuarterPlan : "getAllQuarterPlan",
-  postCommentsAndPoints : "postCommentsAndPoints",
-  getAdditionalPoints : "getAdditionalPoints",
-  postAditionalPoints : "postAditionalPoints",
-  getQuarterPlanByType : "getQuarterPlanByType",
-  getPbChoosenTrack : "getPbChoosenTrack",
-  getStudentGrade : "getStudentGrade",
-  getAllSpecialization : "getAllSpecialization",
-  postPgaPlanCareerTrack : "postPgaPlanCareerTrack",
-  postQuarterPgaPlan : "postQuarterPgaPlan",
-  getallcourse : "getallcourse",
-  newenroll:"newenroll",
-  getenroll : "getenroll",
-  unenroll : "unenroll",
-  getAllEnroll : "getAllEnroll",
-  getFilteredCourseForEnroll : "getFilteredCourseForEnroll",
-  clearNewEnroll : "clearNewEnroll",
-  clearUnEnroll : "clearUnEnroll"
-}
-
-
+  getScoreDetails: 'getScoreDetails',
+  getCareerInterest: 'getCareerInterest',
+  postAcademicData: 'postAcademicData',
+  getPgaAcademicData: 'getPgaAcademicData',
+  getChoosenTrack: 'getChoosenTrack',
+  postGenralDetails: 'postGenralDetails',
+  getPgaCvAndPpga: 'getPgaCvAndPpga',
+  postPgaCvAndPpga: 'postPgaCvAndPpga',
+  getppgaques: 'getppgaques',
+  postcvandppga: 'postcvandppga',
+  getcvandppga: 'getcvandppga',
+  getppgaques: 'getppgaques',
+  getcvques: 'getcvques',
+  getAllEnrollmentPeriod: 'getAllEnrollmentPeriod',
+  getQuarterPlan: 'getQuarterPlan',
+  getAllStarterPack: 'getAllStarterPack',
+  getPackageByStudentId: 'getPackageByStudentId',
+  getAllQuarterPlan: 'getAllQuarterPlan',
+  postCommentsAndPoints: 'postCommentsAndPoints',
+  getAdditionalPoints: 'getAdditionalPoints',
+  postAditionalPoints: 'postAditionalPoints',
+  getQuarterPlanByType: 'getQuarterPlanByType',
+  getPbChoosenTrack: 'getPbChoosenTrack',
+  getStudentGrade: 'getStudentGrade',
+  getAllSpecialization: 'getAllSpecialization',
+  postPgaPlanCareerTrack: 'postPgaPlanCareerTrack',
+  postQuarterPgaPlan: 'postQuarterPgaPlan',
+  getallcourse: 'getallcourse',
+  newenroll: 'newenroll',
+  getenroll: 'getenroll',
+  unenroll: 'unenroll',
+  getAllEnroll: 'getAllEnroll',
+  getFilteredCourseForEnroll: 'getFilteredCourseForEnroll',
+  clearNewEnroll: 'clearNewEnroll',
+  clearUnEnroll: 'clearUnEnroll',
+};
 
 //MOHAMMED
 export const TESTIMONIAL = {
@@ -318,4 +316,32 @@ export const TESTIMONIAL = {
   UPDATE_SUCCESS: 'UPDATE_SUCCESS',
   UPDATE_FAIL: 'UPDATE_FAIL',
   UPDATE_RESET: 'UPDATE_RESET',
+};
+
+export const WALL = {
+  LIST_REQUEST: 'WALL_LIST_REQUESTED',
+  LIST_SUCCESS: 'WALL_LIST_SUCCESSFUL',
+  LIST_FAIL: 'WALL_LIST_FAILED',
+
+  DETAILS_REQUEST: 'WALL_DETAILS_REQUEST',
+  DETAILS_SUCCESS: 'WALL_DETAILS_SUCCESS',
+  DETAILS_FAIL: 'WALL_DETAILS_FAIL',
+
+  WALL_CATEGORIES_REQUEST: 'WALL_CATEGORIES_REQUEST',
+  WALL_CATEGORIES_SUCCESS: 'WALL_CATEGORIES_SUCCESS',
+  WALL_CATEGORIES_FAIL: 'WALL_CATEGORIES_FAIL',
+
+  DELETE_REQUEST: 'WALL_DELETE_REQUEST',
+  DELETE_SUCCESS: 'WALL_DELETE_SUCCESS',
+  DELETE_FAIL: 'WALL_DELETE_FAIL',
+
+  CREATE_REQUEST: 'WALL_CREATE_REQUEST',
+  CREATE_SUCCESS: 'WALL_CREATE_SUCCESS',
+  CREATE_FAIL: 'WALL_CREATE_FAIL',
+  CREATE_RESET: 'WALL_CREATE_RESET',
+
+  UPDATE_REQUEST: 'WALL_UPDATE_REQUEST',
+  UPDATE_SUCCESS: 'WALL_UPDATE_SUCCESS',
+  UPDATE_FAIL: 'WALL_UPDATE_FAIL',
+  UPDATE_RESET: 'WALL_UPDATE_RESET',
 };

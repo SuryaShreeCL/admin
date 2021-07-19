@@ -17,7 +17,7 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import Loader from "../Testimonials/components/controls/Loader";
+import Loader from '../Utils/controls/Loader';
 import {
   updateStudentContact,
   updateVerificationStatus,

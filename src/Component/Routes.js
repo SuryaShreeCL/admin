@@ -24,6 +24,7 @@ import {
   studentIdPath,
   studentPath,
   coursePath,
+  wallPath,
   addCoursePath,
   testimonialsPath,
   editCoursePath,
@@ -34,6 +35,7 @@ import {
   questionBankPath,
   rootPath,
   collegePath,
+  createPath,
   universityPath,
   aspirationPath,
   cityPath,
@@ -41,6 +43,7 @@ import {
   questionsPath,
   choicePath,
   videoPath,
+  editPath,
   productPath,
   webinarPath,
   careerTrackPath,
@@ -82,6 +85,7 @@ import Video from './Video/Video';
 import Product from './Product/ProductLanding';
 import TestimonialDashboard from './Testimonials/TestimonialDashboard';
 import Webinar from './Webinar/Webinar';
+import WallLanding from './Wall/WallLanding'
 import CareerTrack from './CareerTrack/Index';
 import CareerTrackVideoSet from './CareerTrack/CareerTrackVideoSet';
 import CareerTrackVideo from './CareerTrack/CareerTrackVideo';
@@ -108,9 +112,11 @@ import Onboarding from './ObOnboarding/Onboarding';
 import ProductBasedUsers from './ObOperations/ProductBasedUsers';
 import StageBasedLayout from './ObOperations/StageBasedLayout';
 import ProductActivation from './ObCallSummary/productActivation';
+import CreatePost from './Wall/Pages/CreatePost';
+import EditPost from './Wall/Pages/EditPost';
 export default function Routes(props) {
   return (
-    
+
         <Switch>
             {/* <Route restricted={false} exact path="/" component={Login} /> */}
             <Route exact path={studentPath} render={(props)=> <StudentHome {...props} />} />
@@ -122,6 +128,9 @@ export default function Routes(props) {
             <Route exact path={universityPath} render={(props)=> <University {...props} />} />
             <Route exact path={studentIdPath+'/:id'} render={(props)=> <Student_data {...props} />} />
             <Route exact path={loginPath} render={(props)=> <MLogin {...props} />} />
+            <Route exact path={wallPath} render={(props)=> <WallLanding {...props} />} />
+            <Route exact path={createPath} render={(props)=> <CreatePost {...props} />} />
+            <Route exact path={editPath} render={(props)=> <EditPost {...props} />} />
             <Route exact path={personelInfoPath} render={(props)=> <Personal_information {...props} />} />
             <Route exact path={curatedPath} render={(props)=> <Curated_Course {...props} />} />
             <Route exact path={questionBankPath} render={(props)=> <QuestionBank {...props} />} />

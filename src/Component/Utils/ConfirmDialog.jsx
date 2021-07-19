@@ -9,7 +9,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import Controls from './controls/Controls';
-import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -27,14 +27,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   titleIcon: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary,
     color: theme.palette.secondary.main,
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.light,
-      cursor: 'default',
-    },
     '& .MuiSvgIcon-root': {
-      fontSize: '8rem',
+      fontSize: '7rem',
     },
   },
 }));
@@ -47,7 +43,7 @@ export default function ConfirmDialog(props) {
     <Dialog open={confirmDialog.isOpen} classes={{ paper: classes.dialog }}>
       <DialogTitle className={classes.dialogTitle}>
         <IconButton disableRipple className={classes.titleIcon}>
-          <NotListedLocationIcon />
+          <WarningIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent className={classes.dialogContent}>
