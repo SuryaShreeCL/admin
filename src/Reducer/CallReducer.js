@@ -18,6 +18,7 @@ const initialState = {
   updategmatscore: [],
   updatetoeflscore: [],
   updateieltsscore: [],
+  downloadGAT : []
 };
 
 export default (state = initialState, action) => {
@@ -112,6 +113,11 @@ export default (state = initialState, action) => {
         ...state,
         updateieltsscore: action.payload,
       };
+      case CALL_DETAILS.downloadGAT:
+        return {
+          ...state,
+          downloadGAT: action.payload,
+        };
     default:
       break;
   }

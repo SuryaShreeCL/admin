@@ -48,6 +48,7 @@ import {
   updategrescore,
   updategmatscore,
   updatetoeflscore,
+  downloadGAT
 } from "../../Actions/Calldetails";
 import {proofUplaod,getStudentsById} from '../../Actions/Student'
 import { connect } from "react-redux";
@@ -153,6 +154,10 @@ class GraduateTestResult extends Component {
       ieltsfiles: [],
       ieltsfileErr: false,
       ieltsfinalFile: null,
+      grefilename : "",
+      gmatfilename : "",
+      ieltsfilename : "",
+      toeflfilename : ""
     };
   }
   componentDidMount() {
@@ -182,7 +187,7 @@ class GraduateTestResult extends Component {
         console.log(name)
       var file = this.state.files[0];
       console.log(file)
-
+      this.setState({ grefilename : file.name })
       var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
@@ -212,7 +217,7 @@ class GraduateTestResult extends Component {
         console.log(name)
       var file = this.state.gmatfiles[0];
       console.log(file)
-
+      this.setState({ gmatfilename : file.name })
       var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
@@ -242,7 +247,7 @@ class GraduateTestResult extends Component {
         console.log(name)
       var file = this.state.toeflfiles[0];
       console.log(file)
-
+      this.setState({ toeflfilename : file.name })
       var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
@@ -272,7 +277,7 @@ class GraduateTestResult extends Component {
         console.log(name)
       var file = this.state.ieltsfiles[0];
       console.log(file)
-
+      this.setState({ ieltsfilename : file.name })
       var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
@@ -351,6 +356,21 @@ class GraduateTestResult extends Component {
       ieltsid : data.id
     });
   };
+  handledownload = (data) => {
+    console.log(data)
+    if(data === "GRE" && this.state.files.length > 0){
+     this.props.downloadGAT(this.props.match.params.studentId,this.state.grefilename)
+    }
+    if( data ===  "GMAT" && this.state.gmatfiles.length > 0 ){
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.gmatfilename)
+    }
+    if(data === "TOEFL" && this.state.toeflfiles.length > 0){
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.toeflfilename)
+    }
+    if(data === "IELTS" && this.state.ieltsfiles.length > 0){
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.ieltsfilename)
+    }
+  }
   Drop = () => {
     let files = this.state.files.map((file) => (
       <li key={file.name}>
@@ -763,7 +783,7 @@ class GraduateTestResult extends Component {
                                 fontStyle: "italic",
                               }}
                             >
-                              <Link>Access Here</Link>
+                              <Link onClick={()=>this.handledownload("GRE")}>Access Here</Link>
                             </div>
                           </TableCell>
                           <TableCell style={{ borderBottom: "none" }}>
@@ -1017,7 +1037,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("GMAT")}>Access Here</Link>
                               </div>
                             </div>
                           </TableCell>
@@ -1052,9 +1072,6 @@ class GraduateTestResult extends Component {
                 {this.props.gettoeflscoreList.length !== 0 ? "TOEFL" : null}
               </div>
               <div>
-                {/* <IconButton onClick={() => this.setState({ toeflshow: true })}>
-                <img src={Pencil} height={17} width={17} />
-              </IconButton> */}
               </div>
             </div>
             <TableContainer>
@@ -1278,7 +1295,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("TOEFL")}>Access Here</Link>
                               </div>
                             </div>
                           </TableCell>
@@ -1531,7 +1548,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("IELTS")}>Access Here</Link>
                               </div>
                             </TableCell>
                             <TableCell>
@@ -1883,7 +1900,7 @@ class GraduateTestResult extends Component {
                       <Typography
                         style={{
                           paddingTop: '5px',
-                          display: this.state.fileErr ? 'block' : 'none',
+                          display: this.state.gmatfileErr ? 'block' : 'none',
                         }}
                         variant={'body2'}
                         color={'secondary'}
@@ -2068,7 +2085,7 @@ class GraduateTestResult extends Component {
                       <Typography
                         style={{
                           paddingTop: '5px',
-                          display: this.state.fileErr ? 'block' : 'none',
+                          display: this.state.toeflfileErr ? 'block' : 'none',
                         }}
                         variant={'body2'}
                         color={'secondary'}
@@ -2258,7 +2275,7 @@ class GraduateTestResult extends Component {
                       <Typography
                         style={{
                           paddingTop: '5px',
-                          display: this.state.fileErr ? 'block' : 'none',
+                          display: this.state.ieltsfileErr ? 'block' : 'none',
                         }}
                         variant={'body2'}
                         color={'secondary'}
@@ -2328,7 +2345,8 @@ const mapStateToProps = (state) => {
     updategrescoreList: state.CallReducer.updategrescore,
     updatetoeflscoreList: state.CallReducer.updatetoeflscore,
     proofUplaodlist : state.StudentReducer.proofUplaod,
-    getStudentsByIdList : state.StudentReducer.StudentList
+    getStudentsByIdList : state.StudentReducer.StudentList,
+    downloadGATList : state.CallReducer.downloadGAT
   };
 };
 
@@ -2342,5 +2360,6 @@ export default connect(mapStateToProps, {
   updategmatscore,
   updatetoeflscore,
   proofUplaod,
-  getStudentsById
+  getStudentsById,
+  downloadGAT
 })(GraduateTestResult);
