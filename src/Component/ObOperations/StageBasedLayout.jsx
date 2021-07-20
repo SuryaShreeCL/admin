@@ -65,8 +65,7 @@ componentDidMount() {
     // })
 }
 
-componentDidUpdate(prevProps, prevState) {
-    
+componentDidUpdate(prevProps, prevState) {    
     if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
         var sortedArr = this.props.adminLinkedProductDetails.products[0].steps.sort((a,b) => a.rank-b.rank)
         console.log(sortedArr)
@@ -78,7 +77,6 @@ componentDidUpdate(prevProps, prevState) {
             productDetails : sortedArr,
         })
     }
-
 }   
 
 

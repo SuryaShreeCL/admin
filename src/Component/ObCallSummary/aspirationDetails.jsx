@@ -26,6 +26,7 @@ import {
   getAllUniversity,
   getallcountry,
   updateAspiration,
+  getAspiration,
 } from "../../Actions/Aspiration";
 
 const theme = createMuiTheme({
@@ -108,15 +109,42 @@ class AspirationDetails extends Component {
     this.props.getAllTerms();
     this.props.getAllUniversity();
     this.props.getallcountry();
+    this.props.getAspiration((response) => {
+      this.setState({
+        ...response,
+      });
+    });
   }
 
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
   }
 
-  updateAspiration = () => {};
+  updateAspiration = () => {
+    const {
+      noOfSchool,
+      intake,
+      aspirationAreaOfSpecializations,
+      aspirationBranches,
+      aspirationCountries,
+      aspirationDegrees,
+      aspirationUniversities,
+      testQuestionModels,
+    } = this.state;
+    let obj = {
+      noOfSchool: noOfSchool,
+      intake: intake ?intake.name : "",
+      aspirationCountries: aspirationCountries,
+      aspirationDegrees: aspirationDegrees,
+      aspirationBranches: aspirationBranches,
+      aspirationAreaOfSpecializations: aspirationAreaOfSpecializations,
+      aspirationUniversities: aspirationUniversities,
+      testQuestionModels:[]
+    };
+    this.props.updateAspiration(obj,response=>console.log(response))    
+  };
 
-  render() {    
+  render() {
     const { choiceStyle } = style;
     return (
       <div style={{ padding: 25 }}>
@@ -290,9 +318,9 @@ class AspirationDetails extends Component {
                 id="standard-basic"
                 label="No Of Schools?"
                 disabled={this.state.disable}
-                value={this.state.schoolTargeted}
+                value={this.state.noOfSchool}
                 onChange={(e) => {
-                  this.setState({ schoolTargeted: e.target.value });
+                  this.setState({ noOfSchool: e.target.value });
                 }}
               />
             </Grid>
@@ -301,20 +329,18 @@ class AspirationDetails extends Component {
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 disabled={this.state.disable}
-                options={[
-                  { name: "2011" },
-                  { name: "2012" },
-                ]}
-                getOptionLabel={(option) => option.name}
+                options={[{ name: "2011" }, { name: "2012" }]}
+                getOptionLabel={(option) => option.name}                
                 renderInput={(params) => (
                   <TextField {...params} label="Intake" variant="standard" />
                 )}
-                onChange={(e,value)=>this.setState({intake:value})}
+                onChange={(e, value) => this.setState({ intake: value })}
                 value={this.state.intake}
               />
             </Grid>
             <Grid item md={2}>
               <Autocomplete
+              multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 disabled={this.state.disable}
@@ -326,14 +352,17 @@ class AspirationDetails extends Component {
                     label="Targeted Degree"
                     variant="standard"
                   />
-                )}            
-                onChange={(e,value)=>this.setState({aspirationDegrees:value})}
-                value={this.state.aspirationDegrees}    
+                )}
+                onChange={(e, value) =>
+                  this.setState({ aspirationDegrees: value })
+                }
+                value={this.state.aspirationDegrees || []}
               />
             </Grid>
 
             <Grid item md={5}>
               <Autocomplete
+              multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allBranchList}
@@ -346,13 +375,16 @@ class AspirationDetails extends Component {
                     variant="standard"
                   />
                 )}
-                onChange={(e,value)=>this.setState({aspirationBranches:value})}
-                value={this.state.aspirationBranches}
+                onChange={(e, value) =>
+                  this.setState({ aspirationBranches: value })
+                }
+                value={this.state.aspirationBranches || []}
               />
             </Grid>
 
             <Grid item md={3}>
               <Autocomplete
+              multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allCountry}
@@ -365,13 +397,16 @@ class AspirationDetails extends Component {
                     variant="standard"
                   />
                 )}
-                onChange={(e,value)=>this.setState({aspirationCountries:value})}
-                value={this.state.aspirationCountries}
+                onChange={(e, value) =>
+                  this.setState({ aspirationCountries: value })
+                }
+                value={this.state.aspirationCountries || []}
               />
             </Grid>
 
             <Grid item md={3}>
               <Autocomplete
+              multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allUniversityList}
@@ -384,12 +419,15 @@ class AspirationDetails extends Component {
                     variant="standard"
                   />
                 )}
-                onChange={(e,value)=>this.setState({aspirationUniversities:value})}
-                value={this.state.aspirationUniversities}
+                onChange={(e, value) =>
+                  this.setState({ aspirationUniversities: value })
+                }
+                value={this.state.aspirationUniversities || []}
               />
             </Grid>
             <Grid item md={3}>
               <Autocomplete
+              multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allSpeciaizationList}
@@ -402,8 +440,10 @@ class AspirationDetails extends Component {
                     variant="standard"
                   />
                 )}
-                onChange={(e,value)=>this.setState({aspirationAreaOfSpecializations:value})}
-                value={this.state.aspirationAreaOfSpecializations}
+                onChange={(e, value) =>
+                  this.setState({ aspirationAreaOfSpecializations: value })
+                }
+                value={this.state.aspirationAreaOfSpecializations || []}
               />
             </Grid>
           </Grid>
@@ -454,4 +494,5 @@ export default connect(mapStateToProps, {
   getAllUniversity,
   getallcountry,
   updateAspiration,
+  getAspiration,
 })(AspirationDetails);
