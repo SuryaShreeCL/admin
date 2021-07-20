@@ -111,6 +111,7 @@ class ProductPunching extends Component {
         paymentProvider: data.payment_provider,
         paymentId: data.payment_id,
         productId: data.productId,
+        mentor : window.sessionStorage.getItem("adminUserId"),
         stage : "NotActivated",
         punchedBy : window.sessionStorage.getItem("adminUserId")
       })
