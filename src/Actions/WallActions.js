@@ -10,7 +10,6 @@ export const listWallPosts = (status) => async (dispatch) => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/v1/wallpost?activeStatus=${status}`,
       {
-        crossDomain: true,
         headers: {
           admin: 'yes',
           Authorization: `Bearer ${accessToken}`,

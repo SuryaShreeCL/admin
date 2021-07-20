@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import LivePost from './Pages/LivePost';
 import DraftPost from './Pages/DraftPost';
 import ScheduledPost from './Pages/ScheduledPost';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import Events from './Pages/Events';
+import Restricted from './Components/Restricted';
 
 const WallLanding = () => {
   const [tabCount, setTabCount] = useState(0);
+  let isDepartment = window.sessionStorage.getItem('department');
+  const hasPermission = isDepartment === 'elev8';
 
   const renderContent = (value) => {
     try {
@@ -42,7 +45,7 @@ const WallLanding = () => {
           </TopTabs>
         </Grid>
         <Grid item md={12}>
-          {renderContent(tabCount)}
+          {hasPermission ? renderContent(tabCount) : <Restricted />}
         </Grid>
       </Grid>
     </Container>
