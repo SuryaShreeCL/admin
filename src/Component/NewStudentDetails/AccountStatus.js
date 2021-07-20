@@ -4,7 +4,7 @@ import {
     Grid, Paper,Dialog, DialogTitle , Typography, Checkbox, FormControlLabel, CircularProgress ,TextField, IconButton, createMuiTheme, ThemeProvider, Tooltip, Button, DialogContent, DialogActions
 } from "@material-ui/core"
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Loader from '../Testimonials/components/controls/Loader';
+import Loader from '../Utils/controls/Loader';
 import {getStudentsById} from "../../Actions/Student"
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";

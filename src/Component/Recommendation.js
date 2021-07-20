@@ -8,7 +8,7 @@ import {
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
-import Loader from "./Testimonials/components/controls/Loader";
+import Loader from './Utils/controls/Loader';
 
 export class Recommendation extends Component {
   constructor(props) {

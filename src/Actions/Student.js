@@ -429,3 +429,29 @@ export const updateUserData=(data)=>{
             });
     }
 }
+
+export const getAcademicInfo = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/student/educationDetails/"+id)
+        .then(result=>{
+            dispatch({type:STUDENT.getAcademicInfo,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
+export const updateAcademicInfo=(id,data)=>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/student/"+id+"/educationalDetails",data, {
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:STUDENT.updateAcademicInfo,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}

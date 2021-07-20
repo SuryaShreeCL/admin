@@ -9,24 +9,24 @@ import {
   Toolbar,
   InputAdornment,
 } from '@material-ui/core';
-import useTable from '../components/useTable';
-import Controls from '../components/controls/Controls';
+import useTable from '../Utils/useTable';
+import Controls from '../Utils/controls/Controls';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
-import Popup from '../components/Popup';
+import Popup from '../Utils/Popup';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
-import Notification from '../components/Notification';
-import Loader from '../components/controls/Loader';
+import Notification from '../Utils/Notification';
+import Loader from '../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
-import ConfirmDialog from '../components/ConfirmDialog';
+import ConfirmDialog from '../Utils/ConfirmDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   listTestimonials,
   deleteTestimonial,
   createTestimonial,
   updateTestimonial,
-} from '../../../Actions/TestimonialActions';
+} from '../../Actions/TestimonialActions';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 

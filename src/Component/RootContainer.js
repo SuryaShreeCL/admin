@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -23,12 +23,35 @@ import PeopleIcon from '@material-ui/icons/People';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';import Avatar from '@material-ui/core/Avatar';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Content from './Content';
-import history from './History';
 import MenuIcon from "../Asset/Images/menu.svg"
 import BackButton from "../Asset/Images/BackButton.svg"
-import { rootPath, rootLoginPath, coursePath, studentPath, departmentPath, collegePath, universityPath, cityPath, aspirationPath, questionSetPath, videoPath, productPath, webinarPath, careerTrackPath, notificationPath, clientDetailsPath, ratingPath, testimonialsPath, reportsPath, productBasedPath, starterPackPath,productPunchingPath, callSummaryLayoutPath, OnboardingAcademicInfoPath, OnboardingPersonalInfoPath, OnboardingPath, obOperationPath } from './RoutePaths';
+import history from './History';
+import {
+  rootPath,
+  rootLoginPath,
+  coursePath,
+  studentPath,
+  departmentPath,
+  collegePath,
+  universityPath,
+  cityPath,
+  obOperationPath,
+  aspirationPath,
+  questionSetPath,
+  videoPath,
+  wallPath,
+  productPath,
+  webinarPath,
+  careerTrackPath,
+  notificationPath,
+  testimonialsPath,
+  reportsPath,
+  productBasedPath,
+  starterPackPath,
+  productPunchingPath,
+} from './RoutePaths';
 import GoogleBtn from './GoogleBtn';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -42,6 +65,7 @@ import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded';
 import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
+import InstagramIcon from '@material-ui/icons/Instagram';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 import CallIcon from '@material-ui/icons/Call';
 import Routes from './Routes';
@@ -50,7 +74,9 @@ import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOut
 import { Badge, Breadcrumbs } from '@material-ui/core';
 import StageBasedLayout from './ObOperations/StageBasedLayout';
 import ProductBasedUsers from './ObOperations/ProductBasedUsers';
-
+import { checkTokenStatus } from "../Actions/AdminAction"
+import { connect } from 'react-redux';
+import { TextRotateUp } from '@material-ui/icons';
 const drawerWidth = 240;
 const NavbarList = [
       {id: coursePath, icon: <MenuBookRoundedIcon />, title: 'Courses' },
@@ -64,9 +90,10 @@ const NavbarList = [
       {id: videoPath, icon:<VideocamRoundedIcon />, title:'Video'},
       {id: productPath, icon:<AddShoppingCartRoundedIcon />, title:'Product'},
       {id: webinarPath, icon:<SupervisorAccountIcon />, title:'Webinar'},
+      { id: wallPath, icon: <InstagramIcon />, title: 'Wall' },
       {id: careerTrackPath, icon:<TrendingUpRoundedIcon />, title:'Career Track'},
       {id: notificationPath, icon:<NotificationsIcon /> , title:'Notification'},
-       { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
+      { id: testimonialsPath, icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
       {id: reportsPath, icon:<AssessmentRoundedIcon />, title:'Reports'},
       {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'},
       {id: productPunchingPath, icon:<SupervisorAccountIcon />, title:'Product Punching'},
@@ -245,11 +272,11 @@ const theme = createMuiTheme({
   },
 });
 
-export default function RootContainer(props) {
+ function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [selectedMenu, setSelectedMenu] = React.useState(null)
+  const [selectedMenu, setSelectedMenu] = React.useState(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -264,7 +291,39 @@ export default function RootContainer(props) {
     props.history.push(rootLoginPath);
   };
 
-  console.log("........", history)
+
+  useEffect(()=>{
+   
+   
+
+    
+
+  },[])
+
+  const mounted = useRef();
+  useEffect(() => {
+    if (!mounted.current) {
+      // do componentDidMount logic
+      mounted.current = true;
+      let accessToken = window.sessionStorage.getItem("accessToken")
+      if(accessToken === null){
+        console.log("access token no need to come here......",accessToken)
+       window.sessionStorage.clear()
+        props.history.push(rootLoginPath)
+      }else{
+        props.checkTokenStatus()
+      }
+    } else {
+      // do componentDidUpdate logic
+      if(props.tokenStatus !== null && props.tokenStatus.expired){
+        console.log("Token status checked.........",props.tokenStatus)
+        window.sessionStorage.clear()
+       props.history.push(rootLoginPath)
+      }
+    }
+  });
+
+  console.log("........props", props)
 
   return (
     <ThemeProvider theme={theme}>
@@ -340,7 +399,7 @@ export default function RootContainer(props) {
                 button
                 key={Item.id}
                 onClick={() => {
-                  setSelectedMenu(index)
+                  setSelectedMenu(index);
                   props.history.push(Item.id);
                 }}
               >
@@ -386,3 +445,11 @@ function Copyright() {
     </Typography>
   );
 }
+
+const mapStateToProps = (state) =>{
+  return {
+    tokenStatus : state.AdminReducer.tokenStatus
+  }
+}
+
+export default connect(mapStateToProps,{ checkTokenStatus })(RootContainer)
