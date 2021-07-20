@@ -8,7 +8,6 @@ export default (state = initialState, action) => {
     case SCOREDETAILS.viewScoreDetails:
       return {
         ...state,
-        // viewScoreDetailsList : action.viewAnswersList,
         viewScoreDetailsList : action.viewScoreDetailsList,
       }; 
      

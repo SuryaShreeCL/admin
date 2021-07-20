@@ -29,17 +29,14 @@ import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import x from "../../Asset/Images/x.png";
 import Dropzone from "react-dropzone";
-const ColoredLine = ({ color }) => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      // height: 5
-    }}
-  />
-);
-
-class testEngineResult extends Component {
+import {
+  viewresettest,
+  viewanswers,
+  viewstudentmarkdetails,
+} from "../../Actions/StudentMarkDetails";
+import { viewscoredetails } from "../../Actions/ScoreDetails";
+import { connect } from "react-redux";
+class TestEngineResult extends Component {
   constructor() {
     super();
     this.state = {
@@ -48,11 +45,19 @@ class testEngineResult extends Component {
       showEye: false,
     };
   }
+
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
   }
+
+  componentDidMount() {
+    this.props.viewscoredetails("fdc29eb8-9e93-45f9-85c4-3a80acd895e8");
+  }
+
+  componentDidUpdate(prevProps, prevState) {}
+
   render() {
-    console.log(this.state);
+    console.log("test engine props........", this.props);
     return (
       <div style={{ padding: 25 }}>
         <div
@@ -165,82 +170,88 @@ class testEngineResult extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell
-                  align="center"
-                  contentEditable={this.state.disable}
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 16,
-                    fontFamily: "Montserrat",
-                    borderBottom: "none",
-                  }}
-                >
-                  1
-                </TableCell>
-                <TableCell
-                  align="center"
-                  contentEditable={this.state.disable}
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 16,
-                    fontFamily: "Montserrat",
-                    borderBottom: "none",
-                  }}
-                >
-                  DD/MM/YYYY
-                </TableCell>
-
-                <TableCell
-                  align="center"
-                  contentEditable={this.state.disable}
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 16,
-                    fontFamily: "Montserrat",
-                    borderBottom: "none",
-                  }}
-                >
-                  computer Eng Technical Test
-                </TableCell>
-                <TableCell
-                  align="center"
-                  contentEditable={this.state.disable}
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 16,
-                    fontFamily: "Montserrat",
-                    borderBottom: "none",
-                  }}
-                >
-                  20/20
-                </TableCell>
-                <TableCell
-                  align="center"
-                  contentEditable={this.state.disable}
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 16,
-                    fontFamily: "Montserrat",
-                    borderBottom: "none",
-                  }}
-                >
-                  161/170
-                </TableCell>
-                <TableCell align="center" style={{ borderBottom: "none" }}>
-                  <IconButton onClick={() => this.setState({ showEye: true })}>
-                    <img src={Eye} height={20} width={20} style={{ top: 5 }} />
-                  </IconButton>
-                  <IconButton onClick={() => this.setState({ show: true })}>
-                    <img src={Delete} height={20} width={20} />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+              {this.props.viewScoreDetailsList.length !== 0 && this.props.viewScoreDetailsList.map((eachItem,index)=>{
+                return (
+                  <TableRow>
+                  <TableCell
+                    align="center"
+                    contentEditable={this.state.disable}
+                    style={{
+                      color: "#000000",
+                      fontWeight: 400,
+                      fontSize: 16,
+                      fontFamily: "Montserrat",
+                      borderBottom: "none",
+                    }}
+                  >
+                    {index+1}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    contentEditable={this.state.disable}
+                    style={{
+                      color: "#000000",
+                      fontWeight: 400,
+                      fontSize: 16,
+                      fontFamily: "Montserrat",
+                      borderBottom: "none",
+                    }}
+                  >
+                    {eachItem.examDate}
+                  </TableCell>
+  
+                  <TableCell
+                    align="center"
+                    contentEditable={this.state.disable}
+                    style={{
+                      color: "#000000",
+                      fontWeight: 400,
+                      fontSize: 16,
+                      fontFamily: "Montserrat",
+                      borderBottom: "none",
+                    }}
+                  >
+                    {eachItem.questionSetName}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    contentEditable={this.state.disable}
+                    style={{
+                      color: "#000000",
+                      fontWeight: 400,
+                      fontSize: 16,
+                      fontFamily: "Montserrat",
+                      borderBottom: "none",
+                    }}
+                  >
+                    {eachItem.noOfQuestionAttempt}
+                    
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    contentEditable={this.state.disable}
+                    style={{
+                      color: "#000000",
+                      fontWeight: 400,
+                      fontSize: 16,
+                      fontFamily: "Montserrat",
+                      borderBottom: "none",
+                    }}
+                  >
+                    {eachItem.score + "/" + eachItem.total}
+                  </TableCell>
+                  <TableCell align="center" style={{ borderBottom: "none" }}>
+                    <IconButton onClick={() => this.setState({ showEye: true })}>
+                      <img src={Eye} height={20} width={20} style={{ top: 5 }} />
+                    </IconButton>
+                    <IconButton onClick={() => this.setState({ show: true })}>
+                      <img src={Delete} height={20} width={20} />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+                )
+              })}
+             
             </TableBody>
           </Table>
         </TableContainer>
@@ -290,7 +301,7 @@ class testEngineResult extends Component {
           // onClose={this.setState({ showEye: !this.state.disable })}
           aria-labelledby="customized-dialog-title"
         >
-            <DialogTitle>
+          <DialogTitle>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Typography
                 style={{
@@ -304,12 +315,18 @@ class testEngineResult extends Component {
                 Test Name{" "}
               </Typography>
             </div>
-            <div style={{ display: "flex", justifyContent: "flex-end",marginTop:"-6%" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: "-6%",
+              }}
+            >
               <IconButton onClick={() => this.setState({ showEye: false })}>
                 <img src={x} height={17} width={17} />
               </IconButton>
             </div>
-            </DialogTitle>
+          </DialogTitle>
           <DialogContent style={{ height: "800px", width: "700px" }}>
             <div
               style={{
@@ -437,4 +454,19 @@ class testEngineResult extends Component {
   }
 }
 
-export default testEngineResult;
+const mapStateToProps = (state) => {
+  return {
+    viewstudentmarkdetailsList:
+      state.StudentMarkDetailReducer.viewStudentMarkDetailsList,
+    viewReseTestList: state.StudentMarkDetailReducer.viewReseTestList,
+    viewAnswers: state.StudentMarkDetailReducer.viewAnswersList,
+    viewScoreDetailsList: state.ScoreReducer.viewScoreDetailsList,
+  };
+};
+
+export default connect(mapStateToProps, {
+  viewstudentmarkdetails,
+  viewresettest,
+  viewanswers,
+  viewscoredetails,
+})(TestEngineResult);

@@ -89,7 +89,7 @@ componentDidUpdate(prevProps, prevState) {
             "Work Experience" : "WorkExperience",
             "Aspiration Details" : "AspirationDetails",
             "Graduate Application Tests" : "GraduateTestResult",
-            "Tests and Surveys" : "TestAndSurvey",
+            "Tests and Survey" : "TestAndSurvey",
             "Others" : "AdmissionServices"
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
@@ -139,7 +139,7 @@ componentDidUpdate(prevProps, prevState) {
                        )
                    })
                })}
-               <ThemedTab value={{stepItem : "Others"}} label={"Others"} />
+               <ThemedTab value={{stepName : "Others"}} label={"Others"} />
                </ThemedTabs>
                </Grid>
                <Grid item md={12}>
@@ -150,13 +150,6 @@ componentDidUpdate(prevProps, prevState) {
     }
 }
 
-const PGA = () =>{
-    return <Typography>PGA</Typography>
-}
-
-const APPLICATION_STAGE = () =>{
-    return <Typography>APPLICATION_STAGE</Typography>
-}
 
 
 const mapStateToProps = (state) =>({
