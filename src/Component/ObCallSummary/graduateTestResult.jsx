@@ -217,7 +217,7 @@ class GraduateTestResult extends Component {
         console.log(name)
       var file = this.state.gmatfiles[0];
       console.log(file)
-
+      this.setState({ gmatfilename : file.name })
       var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
@@ -247,7 +247,7 @@ class GraduateTestResult extends Component {
         console.log(name)
       var file = this.state.toeflfiles[0];
       console.log(file)
-
+      this.setState({ toeflfilename : file.name })
       var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
@@ -277,7 +277,7 @@ class GraduateTestResult extends Component {
         console.log(name)
       var file = this.state.ieltsfiles[0];
       console.log(file)
-
+      this.setState({ ieltsfilename : file.name })
       var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
@@ -362,13 +362,13 @@ class GraduateTestResult extends Component {
      this.props.downloadGAT(this.props.match.params.studentId,this.state.grefilename)
     }
     if( data ===  "GMAT" && this.state.gmatfiles.length > 0 ){
-      this.props.downloadGAT(this.props.match.params.studentId,this.state.gmatfiles)
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.gmatfilename)
     }
     if(data === "TOEFL" && this.state.toeflfiles.length > 0){
-      this.props.downloadGAT(this.props.match.params.studentId,this.state.toeflfiles)
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.toeflfilename)
     }
     if(data === "IELTS" && this.state.ieltsfiles.length > 0){
-      this.props.downloadGAT(this.props.match.params.studentId,this.state.ieltsfileErr)
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.ieltsfilename)
     }
   }
   Drop = () => {
