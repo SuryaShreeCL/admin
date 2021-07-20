@@ -94,7 +94,7 @@ class GraduateTestResult extends Component {
       gredate: null,
       gmatdate: null,
       toefldate: null,
-      ieltsdate: null,
+      ieltsdate: new Date(),
       greattempt: {},
       grequan: "",
       greverbal: "",
@@ -1413,7 +1413,7 @@ class GraduateTestResult extends Component {
                       fullWidth
                       value={this.state.gredate}
                       onChange={(e, newValue) =>
-                        this.setState({ gredate: newValue })
+                        this.setState({ gredate:new Date(newValue) })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
@@ -1595,7 +1595,7 @@ class GraduateTestResult extends Component {
                       value={this.state.gmatdate}
                       // disabled
                       onChange={(e, newValue) =>
-                        this.setState({ gmatdate: newValue })
+                        this.setState({ gmatdate: new Date(newValue) })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
@@ -1780,7 +1780,7 @@ class GraduateTestResult extends Component {
                       value={this.state.toefldate}
                       // disabled
                       onChange={(e, newValue) =>
-                        this.setState({ toefldate: newValue })
+                        this.setState({ toefldate: new Date(newValue) })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
@@ -1963,8 +1963,11 @@ class GraduateTestResult extends Component {
                       format="MM/dd/yyyy"
                       fullWidth
                       value={this.state.ieltsdate}
-                      onChange={(newValue) =>
-                        this.setState({ ieltsdate: newValue })
+                      onChange={(e,newValue) =>{
+                        console.log(newValue)
+                        this.setState({ ieltsdate: new Date(newValue) })
+
+                      }
                       }
                       onChange={(e, newValue) =>
                         this.setState({ ieltsdate: newValue })
