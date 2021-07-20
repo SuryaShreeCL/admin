@@ -224,3 +224,14 @@ export const updateieltsscore = (ieltsid,data) =>{
         })
     }
 }
+export const downloadGAT = (studentId,filename) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/files/download/"+studentId+"/"+filename)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.updatetoeflscore,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

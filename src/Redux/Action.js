@@ -229,7 +229,8 @@ export const CALL_DETAILS={
   updategrescore : "updategrescore",
   updategmatscore : "updategmatscore",
   updatetoeflscore : "updatetoeflscore",
-  updateieltsscore : "updateieltsscore"
+  updateieltsscore : "updateieltsscore",
+  downloadGAT : "downloadGAT",
 }
 
 export const CAREER_TRACK = {
