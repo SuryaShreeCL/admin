@@ -144,7 +144,7 @@ const EditPost = () => {
           initialValues={records || state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            updatePost({ ...values, wallFiles: [...values.wallFilesUpdate] });
+            updatePost({ ...values, wallFiles: [...(values.wallFilesUpdate ?? [])] });
             resetForm();
           }}
           enableReinitialize
