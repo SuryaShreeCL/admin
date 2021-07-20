@@ -48,7 +48,8 @@ import {
   updategrescore,
   updategmatscore,
   updatetoeflscore,
-  downloadGAT
+  downloadGAT,
+  fileuploadGAT
 } from "../../Actions/Calldetails";
 import {proofUplaod,getStudentsById} from '../../Actions/Student'
 import { connect } from "react-redux";
@@ -157,7 +158,11 @@ class GraduateTestResult extends Component {
       grefilename : "",
       gmatfilename : "",
       ieltsfilename : "",
-      toeflfilename : ""
+      toeflfilename : "",
+      greindex : "",
+      gmatindex : "",
+      ieltsindex:"",
+      toeflindex: ""
     };
   }
   componentDidMount() {
@@ -301,8 +306,8 @@ class GraduateTestResult extends Component {
       });
     }
   }
-  handleClick(data) {
-    console.log(data);
+  handleClick(data,index) {
+    console.log(data,index);
     this.setState({
       show: true,
       greattempt: {title : data.attempt},
@@ -311,7 +316,8 @@ class GraduateTestResult extends Component {
       greverbal: data.verbalReasoning,
       greanalytic: data.analyticalWriting,
       gretotal: data.score,
-      greid : data.id
+      greid : data.id,
+      greindex : index+1
     });
   }
   handleGmatclick = (data) => {
@@ -681,7 +687,7 @@ class GraduateTestResult extends Component {
                 </TableHead>
                 <TableBody>
                   {this.props.getgrescoreList !== null &&
-                    this.props.getgrescoreList.map((eachdata) => {
+                    this.props.getgrescoreList.map((eachdata,index) => {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
@@ -788,7 +794,7 @@ class GraduateTestResult extends Component {
                           </TableCell>
                           <TableCell style={{ borderBottom: "none" }}>
                             <IconButton
-                              onClick={() => this.handleClick(eachdata)}
+                              onClick={() => this.handleClick(eachdata,index)}
                             >
                               <img src={Pencil} height={17} width={17} />
                             </IconButton>
@@ -1565,22 +1571,6 @@ class GraduateTestResult extends Component {
                 </Table>
               )}
             </TableContainer>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "5%",
-              }}
-            >
-              <PrimaryButton
-                variant={"contained"}
-                color={"primary"}
-                style={{ textTransform: "none" }}
-              >
-                Save Changes
-              </PrimaryButton>
-            </div>
             <Dialog
               open={this.state.show}
               onClose={() => this.setState({ show: false })}
@@ -2346,7 +2336,8 @@ const mapStateToProps = (state) => {
     updatetoeflscoreList: state.CallReducer.updatetoeflscore,
     proofUplaodlist : state.StudentReducer.proofUplaod,
     getStudentsByIdList : state.StudentReducer.StudentList,
-    downloadGATList : state.CallReducer.downloadGAT
+    downloadGATList : state.CallReducer.downloadGAT,
+    fileuploadGATList : state.CallReducer.fileuploadGAT
   };
 };
 
@@ -2361,5 +2352,6 @@ export default connect(mapStateToProps, {
   updatetoeflscore,
   proofUplaod,
   getStudentsById,
-  downloadGAT
+  downloadGAT,
+  fileuploadGAT
 })(GraduateTestResult);

@@ -235,3 +235,14 @@ export const downloadGAT = (studentId,filename) =>{
         })
     }
 }
+export const fileuploadGAT = (studentId,index,examtype) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/files/upload/file/"+studentId+"/"+index+"/"+examtype)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.fileuploadGAT,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

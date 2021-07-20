@@ -208,7 +208,10 @@ export const ADMIN = {
 };
 
 export const MENTORSCHEDULELIST={
-  viewSchedule : "viewSchedule"
+  viewSchedule : "viewSchedule",
+  getstudentMapping : "getstudentMapping",
+  getproductdetails : "getproductdetails",
+  updateallocatementor : "updateallocatementor"
 }
 export const CALL_DETAILS={
   updateclientdetails : "updateclientdetails",
@@ -231,6 +234,7 @@ export const CALL_DETAILS={
   updatetoeflscore : "updatetoeflscore",
   updateieltsscore : "updateieltsscore",
   downloadGAT : "downloadGAT",
+  fileuploadGAT:"fileuploadGAT"
 }
 
 export const CAREER_TRACK = {

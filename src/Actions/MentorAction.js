@@ -33,3 +33,44 @@ export const viewschedule=()=>{
     }
     
 }
+export const getstudentMapping = (id) => {
+    return dispatch => {
+        axios.get(URL+"/api/v1/adminuser/studentProduct/"+id,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:MENTORSCHEDULELIST.getstudentMapping,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+export const getproductdetails = () => {
+    let userId = window.sessionStorage.getItem("adminUserId")
+    return dispatch => {
+        axios.get(URL+"/api/v1/adminuser/product/"+userId,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:MENTORSCHEDULELIST.getproductdetails,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+export const updateallocatementor = (data) => {
+    let userId = window.sessionStorage.getItem("adminUserId")
+    return dispatch => {
+        axios.put(URL+"/api/v1/adminuser/"+userId, data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:MENTORSCHEDULELIST.updateallocatementor,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
