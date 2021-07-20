@@ -43,6 +43,9 @@ class TestEngineResult extends Component {
       disable: false,
       show: false,
       showEye: false,
+      quesAns : [],
+      questionSetName : null,
+      testExeId : null
     };
   }
 
@@ -51,13 +54,47 @@ class TestEngineResult extends Component {
   }
 
   componentDidMount() {
-    this.props.viewscoredetails("fdc29eb8-9e93-45f9-85c4-3a80acd895e8");
+    this.props.viewscoredetails("8589811a-f8d4-42e9-bd8c-d54db5274f1c");
   }
 
-  componentDidUpdate(prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.viewAnswersList !== prevProps.viewAnswersList){
+      if(typeof this.props.viewAnswersList === "object"){
+        let quesAnsArr = []
+        for (const property in this.props.viewAnswersList) {
+          console.log(`${property}: ${this.props.viewAnswersList[property]}`);
+          quesAnsArr.push({
+              question: property,
+              answer: this.props.viewAnswersList[property],
+            })
+        }
+        this.setState({
+          quesAns : quesAnsArr
+        })
+      }
+      
+    }
+  }
+
+  handleShowAnswer = (questionSetName) =>{
+
+    this.props.viewanswers("8589811a-f8d4-42e9-bd8c-d54db5274f1c",questionSetName)
+    this.setState({
+      questionSetName : questionSetName,
+      showEye : true
+    })
+  }
+
+  handleResetTest = () =>{
+    this.setState({
+      show : false
+    })
+    this.props.viewresettest("8589811a-f8d4-42e9-bd8c-d54db5274f1c",this.state.testExeId)
+  }
 
   render() {
     console.log("test engine props........", this.props);
+    console.log("test engine state........", this.state);
     return (
       <div style={{ padding: 25 }}>
         <div
@@ -241,10 +278,10 @@ class TestEngineResult extends Component {
                     {eachItem.score + "/" + eachItem.total}
                   </TableCell>
                   <TableCell align="center" style={{ borderBottom: "none" }}>
-                    <IconButton onClick={() => this.setState({ showEye: true })}>
+                    <IconButton onClick={()=>this.handleShowAnswer(eachItem.questionSetName)}>
                       <img src={Eye} height={20} width={20} style={{ top: 5 }} />
                     </IconButton>
-                    <IconButton onClick={() => this.setState({ show: true })}>
+                    <IconButton onClick={() => this.setState({ show: true, questionSetName : eachItem.questionSetName, testExeId : eachItem.testExecutionId })}>
                       <img src={Delete} height={20} width={20} />
                     </IconButton>
                   </TableCell>
@@ -260,18 +297,17 @@ class TestEngineResult extends Component {
           fullWidth={true}
           // TransitionComponent={Transition}
           open={this.state.show}
-          onClose={this.handleClose}
+          onClose={()=>this.setState({show : false})}
           aria-labelledby="customized-dialog-title"
         >
           <DialogContent>
             <Typography
               style={{ color: "#052A4E", fontSize: 24, fontWeight: "bold" }}
             >
-              Reset Test Name ?{" "}
+              Reset {this.state.questionSetName} ?
             </Typography>
             <Typography style={{ color: "#052A4E", fontSize: 16 }}>
-              Resetting this test will give option to CLIENT NAME to retake test
-              name
+              Resetting this test will give option to Selva to retake {this.state.questionSetName}
             </Typography>
             <div
               style={{
@@ -286,7 +322,7 @@ class TestEngineResult extends Component {
                 variant="contained"
                 color="primary"
                 // startIcon={<AddIcon />}
-                onClick={() => this.setState({ show: false })}
+                onClick={this.handleResetTest}
               >
                 Reset
               </Button>
@@ -312,7 +348,7 @@ class TestEngineResult extends Component {
                   justifyContent: "center",
                 }}
               >
-                Test Name{" "}
+                Test Name {this.state.questionSetName}
               </Typography>
             </div>
             <div
@@ -340,96 +376,22 @@ class TestEngineResult extends Component {
                 Test completion Date
               </Typography>
             </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: "10px" }}>
-              <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                1.Question Comes Here
-              </Typography>
-            </div>
-            <div style={{ paddingTop: 10 }}>
-              <Typography style={{ color: "#686868", fontSize: 14 }}>
-                Answer for Question Comes Here
-              </Typography>
-            </div>
+            {this.state.quesAns.length !== 0 && this.state.quesAns.map((eachItem,index)=>{
+              return (
+                <>
+                <div style={{ paddingTop: "10px" }}>
+                <Typography style={{ color: "#052A4E", fontSize: 14 }}>
+                  {eachItem.question}
+                </Typography>
+              </div>
+              <div style={{ paddingTop: 10 }}>
+                <Typography style={{ color: "#686868", fontSize: 14 }}>
+                  {eachItem.answer}
+                </Typography>
+              </div>
+              </>
+              )
+            })}
           </DialogContent>
         </Dialog>
         <div
@@ -459,7 +421,7 @@ const mapStateToProps = (state) => {
     viewstudentmarkdetailsList:
       state.StudentMarkDetailReducer.viewStudentMarkDetailsList,
     viewReseTestList: state.StudentMarkDetailReducer.viewReseTestList,
-    viewAnswers: state.StudentMarkDetailReducer.viewAnswersList,
+    viewAnswersList: state.StudentMarkDetailReducer.viewAnswersList,
     viewScoreDetailsList: state.ScoreReducer.viewScoreDetailsList,
   };
 };
