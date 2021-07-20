@@ -174,6 +174,11 @@ export default (state = initialState, action) => {
             ...state,
             updateAcademicInfo: action.payload,
           };
+          case STUDENT.sscexamboard:
+          return {
+            ...state,
+            sscexamboard: action.payload,
+          };
 
 
     default:

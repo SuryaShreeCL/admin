@@ -455,3 +455,15 @@ export const updateAcademicInfo=(id,data)=>{
             });
     }
 }
+
+export const sscexamboard = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/students/examBoard")
+        .then(result=>{
+            dispatch({type:STUDENT.sscexamboard, payload :result.data})
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
+}

@@ -32,6 +32,7 @@ import {
   getAcademicInfo,
   updateAcademicInfo,
   getStudentsById,
+  sscexamboard,
 } from "../../Actions/Student";
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
@@ -152,6 +153,7 @@ export class academicInfo extends Component {
     this.props.getDegree();
     this.props.getAllColleges();
     this.props.getUniversity();
+    this.props.sscexamboard();
     // this.props.getAcademicInfo(this.props.match.params.studentId);
     this.props.getStudentsById(this.props.match.params.studentId);
   }
@@ -614,7 +616,7 @@ export class academicInfo extends Component {
                             id="debug"
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
-                            value={this.state.pgDegreeErr}
+                            // value={this.state.pgDegreeErr}
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgDegree: newValue,
@@ -977,7 +979,7 @@ export class academicInfo extends Component {
                             id="debug"
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
-                            value={this.state.diplomaCollege}
+                            // value={this.state.diplomaCollege}
                             onChange={(e) =>
                               this.setState({
                                 diplomaCollege: e.target.value,
@@ -987,6 +989,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                value={this.state.diplomaCollege}
                                 error={this.state.diplomaCollegeErr.length > 0}
                                 helperText={this.state.diplomaCollegeErr}
                                 label="College Name"
@@ -1196,7 +1199,7 @@ export class academicInfo extends Component {
                             error={this.state.twelthSchoolErr.length > 0}
                             helperText={this.state.twelthSchoolErr}
                             label="School Name"
-                            margin="normal"
+                            // margin="normal"
                             onChange={(e) =>
                               this.setState({
                                 twelthSchool: e.target.value,
@@ -1210,7 +1213,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            options={this.props.getCollegesList}
+                            options={this.props.sscexamboardList || []}
                             getOptionLabel={(option) => option.name}
                             value={this.state.twelthExamBoard}
                             onChange={(e, newValue) =>
@@ -1392,7 +1395,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            options={this.props.getCollegesList}
+                            options={this.props.sscexamboardList || []}
                             getOptionLabel={(option) => option.name}
                             value={this.state.tenthExamBoard}
                             onChange={(e, newValue) =>
@@ -1584,6 +1587,7 @@ const mapStateToProps = (state) => {
     getStudentsByIdList: state.StudentReducer.StudentList,
     getAcademicInfoList: state.StudentReducer.getAcademicInfo,
     updateAcademicInfoList: state.StudentReducer.updateAcademicInfo,
+    sscexamboardList: state.StudentReducer.sscexamboard,
   };
 };
 
@@ -1595,4 +1599,5 @@ export default connect(mapStateToProps, {
   getStudentsById,
   getAcademicInfo,
   updateAcademicInfo,
+  sscexamboard
 })(academicInfo);
