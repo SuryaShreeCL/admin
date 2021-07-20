@@ -64,7 +64,8 @@ export const STUDENT = {
   verifyNewPersonalData: 'verifyNewPersonalData',
   updateUserData: 'updateUserData',
   getAcademicInfo: 'getAcademicInfo',
-  updateAcademicInfo: 'updateAcademicInfo'
+  updateAcademicInfo: 'updateAcademicInfo',
+  uploadFile:"uploadFile"
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',

@@ -97,12 +97,13 @@ export class personalInfo extends Component {
   componentDidUpdate(prevProps, prevState) {
      
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
-      this.props.getPincodeDetails(this.props.getStudentsByIdList.address.pincode , (data) => {
+      this.props.getPincodeDetails(this.props.getStudentsByIdList.address !== null && this.props.getStudentsByIdList.address.pincode , (data) => {
         this.setState({
           state: data[0].PostOffice[0].State,
           city: data[0].PostOffice[0].District,
         })
       })
+      this.props.getStudentsByIdList.address !== null &&
       this.setState({
         firstName: this.props.getStudentsByIdList.firstName,
         lastName:this.props.getStudentsByIdList.lastName,

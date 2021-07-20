@@ -24,6 +24,7 @@ const initialState = {
   updateUserData : [],
   getAcademicInfo: [],
   updateAcademicInfo:[],
+  uploadFile:[],
 
 };
 
@@ -174,8 +175,12 @@ export default (state = initialState, action) => {
             ...state,
             updateAcademicInfo: action.payload,
           };
-
-
+         
+          case STUDENT.uploadFile:
+            return {
+              ...state,
+              uploadFile: action.payload,
+            };
     default:
       break;
   }
