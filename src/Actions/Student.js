@@ -455,6 +455,19 @@ export const updateAcademicInfo=(id,data)=>{
             });
     }
 }
+export const proofUplaod=(studentId,data)=>{    
+    return dispatch =>{
+        axios.post(URL+"/api/v1/files/upload/"+studentId,data,{
+            crossDomain: true
+        })
+            .then(result => {                                                
+                dispatch({type:STUDENT.uploadFile,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
 
 export const sscexamboard = () =>{
     return dispatch =>{
