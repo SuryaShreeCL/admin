@@ -25,7 +25,7 @@ const initialState = {
   getAcademicInfo: [],
   updateAcademicInfo:[],
   uploadFile:[],
-
+  sscexamboard : []
 };
 
 export default (state = initialState, action) => {
@@ -181,6 +181,13 @@ export default (state = initialState, action) => {
               ...state,
               uploadFile: action.payload,
             };
+          case STUDENT.sscexamboard:
+          return {
+            ...state,
+            sscexamboard: action.payload,
+          };
+
+
     default:
       break;
   }
