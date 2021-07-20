@@ -536,9 +536,9 @@ export const getallcountry=()=>{
 
 export const updateAspiration=(data,callback)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/aspirationDetails/02c1c610-3f86-45ff-88e3-9642d8ee092e/57ec9eb8-4b62-4b1e-806b-429bdb7d7c09",{
+        axios.put(URL+"/api/v1/aspirationDetails/02c1c610-3f86-45ff-88e3-9642d8ee092e/57ec9eb8-4b62-4b1e-806b-429bdb7d7c09",data,{
             crossDomain: true
-        },data)
+        })
             .then(result => {
                 callback(result.data)
                 // dispatch({type:ASPIRATION.getallcountry,payload:result.data})
@@ -547,4 +547,24 @@ export const updateAspiration=(data,callback)=>{
                 console.log(error);
             });
     }   
+}
+
+export const getAspiration=(callback)=>{
+    return dispatch=>{
+        let accessToken = window.sessionStorage.getItem("accessToken");
+        axios.get(URL+"/api/v1/aspirationDetails/02c1c610-3f86-45ff-88e3-9642d8ee092e",{
+            crossDomain: true,           
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+            .then(result => {                
+                callback(result.data)                
+                // dispatch({type:ASPIRATION.getallcountry,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 }
