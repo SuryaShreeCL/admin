@@ -35,11 +35,16 @@ export class Onboarding extends Component {
     this.props.getStudentByStages(this.props.stageDetails.stepName)
   
   }
+
+  componentDidUpdate(prevProps, prevState) {
+  
+  }
+  
   
   
   render() {
 
-    console.log(this.props)
+    console.log(this.props.productId)
 
     const { HeadStyle, HeadDisplay } = style;
     return (
@@ -98,28 +103,33 @@ export class Onboarding extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>CLS200051</TableCell>
-                    <TableCell>Atharva Unde</TableCell>
-                    <TableCell>atharva@thecareerlabs.com</TableCell>
-                    <TableCell>+919561027164</TableCell>
-                    <TableCell >Completed</TableCell>
-                    <TableCell align="center">90%</TableCell>
-                    <TableCell>
-                      <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
-                    <img onClick={()=>this.props.history.push(callSummaryLayoutPath+"02c1c610-3f86-45ff-88e3-9642d8ee092e"+"/product/"+"1")} src={Call} style={{height:30, width:30, marginRight:10}} />
-                      <PrimaryButton
-                        onClick={()=>this.props.history.push(stagedTabsPath+"02c1c610-3f86-45ff-88e3-9642d8ee092e")}
-                        variant={"contained"}
-                        color={"primary"}
-                        size={"small"}
-                        style={{ textTransform: "none" }}
-                      >
-                        Manage Client
-                      </PrimaryButton>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  {this.props.studentsByStagesList.length !== 0 && this.props.studentsByStagesList.map((eachItem,index)=>{
+                    return (
+                      <TableRow> 
+                      <TableCell>{eachItem.clsId}</TableCell>
+                      <TableCell>{eachItem.fullName !== null ? eachItem.fullName : eachItem.firstName+" "+eachItem.lastName}</TableCell>
+                      <TableCell>{eachItem.emailId}</TableCell>
+                      <TableCell>{eachItem.phoneNumber}</TableCell>
+                      <TableCell >{eachItem.obCallStatus}</TableCell>
+                      <TableCell align="center">90%</TableCell>
+                      <TableCell>
+                        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
+                      <img onClick={()=>this.props.history.push(callSummaryLayoutPath+eachItem.studentId+"/product/"+this.props.productId)} src={Call} style={{height:30, width:30, marginRight:10}} />
+                        <PrimaryButton
+                          onClick={()=>this.props.history.push(stagedTabsPath+eachItem.studentId)}
+                          variant={"contained"}
+                          color={"primary"}
+                          size={"small"}
+                          style={{ textTransform: "none" }}
+                        >
+                          Manage Client
+                        </PrimaryButton>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                    )
+                  })}
+                 
                 </TableBody>
               </Table>
             </TableContainer>

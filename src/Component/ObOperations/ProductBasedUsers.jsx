@@ -11,6 +11,7 @@ class ProductBasedUsers extends Component {
             tabCount : 0,
             selectedItem : null,
             productDetails : null,
+            adminUserDetails : JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
         }
     }
 
@@ -75,7 +76,7 @@ class ProductBasedUsers extends Component {
            </ThemedTabs>
                </Grid>
                <Grid item md={12}>
-               {Page !== undefined && <Page stageDetails={this.state.selectedItem} {...this.props} />  }             
+               {Page !== undefined && <Page productId={this.state.adminUserDetails.products[0].id} stageDetails={this.state.selectedItem} {...this.props} />  }             
                </Grid>
            </Grid>
         );
