@@ -100,7 +100,7 @@ const NavbarList = [
       // {id: callSummaryLayoutPath, icon:<CallIcon />, title:'Call Summary'},
       {id: obOperationPath , icon:<SupervisorAccountIcon />, title:'OB Operation'},
       // {id: starterPackPath, icon:<AssessmentRoundedIcon />, title:'Starter Pack'},
-      // {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
+      {id: productBasedPath, icon:<AssessmentRoundedIcon />, title:'Based'},
       
     ];
 
