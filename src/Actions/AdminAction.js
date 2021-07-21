@@ -278,9 +278,15 @@ export const getAwaitingUsersByAdminId = () =>{
 // TO Activate Student Product
 
 export const activateStudentProduct = (data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
     let id = window.sessionStorage.getItem("adminUserId")
     return dispatch =>{
-        axios.put(URL+"/api/v1/product/activate/"+id,data)
+        axios.put(URL+"/api/v1/product/activate/"+id,data,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        })
         .then(result=>{
             dispatch({type : ADMIN.activateStudentProduct, payload : result.data})
         })
