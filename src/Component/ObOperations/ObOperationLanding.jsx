@@ -6,11 +6,12 @@ import TodayWorkCompletion from './TodayWorkCompletion';
 import add from "../../Asset/Images/add.svg"
 import pbResource from "../../Asset/Images/PB resource icon.svg"
 import { listUsersProdBasedPath, productActivationPath } from '../RoutePaths';
+import { getAdminLinkedProduct } from "../../Actions/AdminAction"
 class ObOperationLanding extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            adminDepartment : null,
         }
     }
     theme = createMuiTheme({
@@ -22,7 +23,33 @@ class ObOperationLanding extends Component {
             }
         }
     })
+
+    componentDidMount() {
+
+        // To get admin department
+        this.props.getAdminLinkedProduct()
+
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
+           this.setState({
+            adminDepartment : this.props.adminLinkedProductDetails.department
+           })
+            window.sessionStorage.setItem("adminDepartment",this.props.adminLinkedProductDetails.department)
+        }
+    }
+    
+    handleProductActivate = () =>{
+
+        if(this.state.adminDepartment !== "Sales"){
+            this.props.history.push(productActivationPath)
+        }
+
+    }
+
     render() {
+        console.log(this.state)
         const { classes } = this.props
         return (
             <Grid container>
@@ -58,7 +85,7 @@ class ObOperationLanding extends Component {
                                 <img src={pbResource}></img>
                                 <Typography variant="caption" style={{ fontWeight: 600 }}>Manage Students</Typography>
                             </div>
-                            <div className={classes.items} onClick={() => this.props.history.push(productActivationPath)}>
+                            <div className={classes.items} onClick={this.handleProductActivate}>
                                 <img src={pbResource}></img>
                                 <Typography variant="caption" style={{ fontWeight: 600 }}>Product Activate</Typography>
                             </div>
@@ -72,6 +99,8 @@ class ObOperationLanding extends Component {
 }
 
 const mapStateToProps = (state) => ({
+
+    adminLinkedProductDetails : state.AdminReducer.adminLinkedProductDetails
 
 })
 
@@ -97,4 +126,4 @@ const useStyles = () => ({
     }
 })
 
-export default connect(mapStateToProps, {})(withStyles(useStyles)(ObOperationLanding))
+export default connect(mapStateToProps, { getAdminLinkedProduct } )(withStyles(useStyles)(ObOperationLanding))

@@ -204,7 +204,8 @@ export const ADMIN = {
   getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
   activateStudentProduct : "activateStudentProduct",
   getAdminLinkedProduct : "getAdminLinkedProduct", 
-  checkTokenStatus : "checkTokenStatus"
+  checkTokenStatus : "checkTokenStatus",
+  getStudentsByStages : "getStudentsByStages"
 };
 
 export const MENTORSCHEDULELIST={

@@ -17,7 +17,8 @@ const initialState = {
   awaitingUsersForActivationList : [],
   productActivationResponse : [],
   adminLinkedProductDetails : [],
-  tokenStatus : null
+  tokenStatus : null,
+  studentsByStagesList : []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -110,6 +111,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tokenStatus : action.payload
+      }
+      case ADMIN.getStudentsByStages : 
+      return {
+        ...state,
+        studentsByStagesList : action.payload
       }
 
     default:

@@ -75,7 +75,7 @@ class ProductBasedUsers extends Component {
            </ThemedTabs>
                </Grid>
                <Grid item md={12}>
-               {Page !== undefined && <Page {...this.props} />  }             
+               {Page !== undefined && <Page stageDetails={this.state.selectedItem} {...this.props} />  }             
                </Grid>
            </Grid>
         );

@@ -17,7 +17,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { OnboardingPersonalInfoPath, stagedTabsPath,callSummaryLayoutPath } from "../RoutePaths";
 import DataGridTable from "../Utils/DataGridTable";
 import Call from "../../Asset/Images/callImg.png"
-
+import { connect } from "react-redux";
+import { getStudentByStages } from "../../Actions/AdminAction";
 
 export class Onboarding extends Component {
   constructor(props) {
@@ -28,8 +29,18 @@ export class Onboarding extends Component {
     }
   }
  
+  componentDidMount() {
+
+    // To get the users based on stages
+    this.props.getStudentByStages(this.props.stageDetails.stepName)
+  
+  }
+  
   
   render() {
+
+    console.log(this.props)
+
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
@@ -136,4 +147,12 @@ const style = {
     padding:20
   }
 };
-export default Onboarding;
+
+const mapStateToProps = (state) =>{
+  return {  
+    studentsByStagesList : state.AdminReducer.studentsByStagesList
+
+  }
+}
+
+export default connect(mapStateToProps, {getStudentByStages})(Onboarding)
