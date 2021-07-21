@@ -48,7 +48,10 @@ import {
   updategrescore,
   updategmatscore,
   updatetoeflscore,
+  downloadGAT,
+  fileuploadGAT
 } from "../../Actions/Calldetails";
+import {proofUplaod,getStudentsById} from '../../Actions/Student'
 import { connect } from "react-redux";
 import Mysnack from '../MySnackBar'
 const theme = createMuiTheme({
@@ -75,6 +78,22 @@ const theme = createMuiTheme({
 class GraduateTestResult extends Component {
   constructor() {
     super();
+    this.onDrop = (files) => {
+      console.log(files)
+      this.setState({ files });
+    };
+    this.gmatonDrop = (files) => {
+      console.log(files)
+      this.setState({ gmatfiles : files });
+    };
+    this.toeflonDrop = (files) => {
+      console.log(files)
+      this.setState({ toeflfiles : files });
+    };
+    this.ieltsonDrop = (files) => {
+      console.log(files)
+      this.setState({ ieltsfiles : files });
+    };
     var today = new Date(),
       date =
         today.getFullYear() +
@@ -82,8 +101,7 @@ class GraduateTestResult extends Component {
         (today.getMonth() + 1) +
         "/" +
         today.getDate();
-
-    this.state = {
+      this.state = {
       disable: false,
       date: null,
       show: false,
@@ -124,7 +142,27 @@ class GraduateTestResult extends Component {
       ieltsid : "",
       snackmsg  : "",
       snackVariant : "",
-      snackopen : false
+      snackopen : false,
+      files: [],
+      fileErr: false,
+      finalFile: null,
+      gmatfiles: [],
+      gmatfileErr: false,
+      gmatfinalFile: null,
+      toeflfiles: [],
+      toeflfileErr: false,
+      toeflfinalFile: null,
+      ieltsfiles: [],
+      ieltsfileErr: false,
+      ieltsfinalFile: null,
+      grefilename : "",
+      gmatfilename : "",
+      ieltsfilename : "",
+      toeflfilename : "",
+      greindex : "",
+      gmatindex : "",
+      ieltsindex:"",
+      toeflindex: ""
     };
   }
   componentDidMount() {
@@ -132,6 +170,7 @@ class GraduateTestResult extends Component {
     this.props.getgmatscore(this.props.match.params.studentId);
     this.props.getieltsscore(this.props.match.params.studentId);
     this.props.gettoeflscore(this.props.match.params.studentId);
+    this.props.getStudentsById(this.props.match.params.studentId)
   }
   componentDidUpdate(prevProps,prevState){
     if(this.props.updategrescoreList !== prevProps.updategrescoreList){
@@ -146,9 +185,129 @@ class GraduateTestResult extends Component {
     if(this.props.updateieltsscoreList !== prevProps.updateieltsscoreList){
       this.props.getieltsscore(this.props.match.params.studentId);
     }
+    if (this.state.files !== prevState.files) {
+      console.log(this.state.files[0]);
+      var name =
+        this.props.getStudentsByIdList.fullName + '_' ;
+        console.log(name)
+      var file = this.state.files[0];
+      console.log(file)
+      this.setState({ grefilename : file.name })
+      var indexOf = file.type.indexOf('/');
+      var newFileType = file.type.substr(indexOf + 1);
+
+      var blob = new Blob([file], { type: newFileType });
+      console.log(blob);
+
+      var newFile = new File(
+        [blob],
+        name
+          .concat('.', newFileType)
+          .replace(
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
+          ),
+        { type: newFileType }
+      );
+      console.log('NEW FILE..................', newFile);
+      console.log('NEW FILE TYPE..................', newFileType);
+      this.setState({
+        finalFile: newFile,
+      });
+    }
+    if (this.state.gmatfiles !== prevState.gmatfiles) {
+      console.log(this.state.gmatfiles[0]);
+      var name =
+        this.props.getStudentsByIdList.fullName + '_' ;
+        console.log(name)
+      var file = this.state.gmatfiles[0];
+      console.log(file)
+      this.setState({ gmatfilename : file.name })
+      var indexOf = file.type.indexOf('/');
+      var newFileType = file.type.substr(indexOf + 1);
+
+      var blob = new Blob([file], { type: newFileType });
+      console.log(blob);
+
+      var newFile = new File(
+        [blob],
+        name
+          .concat('.', newFileType)
+          .replace(
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
+          ),
+        { type: newFileType }
+      );
+      console.log('NEW FILE..................', newFile);
+      console.log('NEW FILE TYPE..................', newFileType);
+      this.setState({
+        gmatfinalFile: newFile,
+      });
+    }
+    if (this.state.toeflfiles !== prevState.toeflfiles) {
+      console.log(this.state.toeflfiles[0]);
+      var name =
+        this.props.getStudentsByIdList.fullName + '_' ;
+        console.log(name)
+      var file = this.state.toeflfiles[0];
+      console.log(file)
+      this.setState({ toeflfilename : file.name })
+      var indexOf = file.type.indexOf('/');
+      var newFileType = file.type.substr(indexOf + 1);
+
+      var blob = new Blob([file], { type: newFileType });
+      console.log(blob);
+
+      var newFile = new File(
+        [blob],
+        name
+          .concat('.', newFileType)
+          .replace(
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
+          ),
+        { type: newFileType }
+      );
+      console.log('NEW FILE..................', newFile);
+      console.log('NEW FILE TYPE..................', newFileType);
+      this.setState({
+        toeflfinalFile: newFile,
+      });
+    }
+    if (this.state.ieltsfiles !== prevState.ieltsfiles) {
+      console.log(this.state.ieltsfiles[0]);
+      var name =
+        this.props.getStudentsByIdList.fullName + '_' ;
+        console.log(name)
+      var file = this.state.ieltsfiles[0];
+      console.log(file)
+      this.setState({ ieltsfilename : file.name })
+      var indexOf = file.type.indexOf('/');
+      var newFileType = file.type.substr(indexOf + 1);
+
+      var blob = new Blob([file], { type: newFileType });
+      console.log(blob);
+
+      var newFile = new File(
+        [blob],
+        name
+          .concat('.', newFileType)
+          .replace(
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
+          ),
+        { type: newFileType }
+      );
+      console.log('NEW FILE..................', newFile);
+      console.log('NEW FILE TYPE..................', newFileType);
+      this.setState({
+        ieltsfinalFile: newFile,
+      });
+    }
   }
-  handleClick(data) {
-    console.log(data);
+  handleClick(data,index) {
+    console.log(data,index);
     this.setState({
       show: true,
       greattempt: {title : data.attempt},
@@ -157,7 +316,8 @@ class GraduateTestResult extends Component {
       greverbal: data.verbalReasoning,
       greanalytic: data.analyticalWriting,
       gretotal: data.score,
-      greid : data.id
+      greid : data.id,
+      greindex : index+1
     });
   }
   handleGmatclick = (data) => {
@@ -202,6 +362,32 @@ class GraduateTestResult extends Component {
       ieltsid : data.id
     });
   };
+  handledownload = (data) => {
+    console.log(data)
+    if(data === "GRE" && this.state.files.length > 0){
+     this.props.downloadGAT(this.props.match.params.studentId,this.state.grefilename)
+    }
+    if( data ===  "GMAT" && this.state.gmatfiles.length > 0 ){
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.gmatfilename)
+    }
+    if(data === "TOEFL" && this.state.toeflfiles.length > 0){
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.toeflfilename)
+    }
+    if(data === "IELTS" && this.state.ieltsfiles.length > 0){
+      this.props.downloadGAT(this.props.match.params.studentId,this.state.ieltsfilename)
+    }
+  }
+  Drop = () => {
+    let files = this.state.files.map((file) => (
+      <li key={file.name}>
+        {file.name} - {file.size} bytes
+      </li>
+    ));
+
+    this.setState({
+      files,
+    });
+  };
   handleSave = (data) => {
     console.log(data);
     if(data === "GRE"){
@@ -221,6 +407,10 @@ class GraduateTestResult extends Component {
     }
     console.log(obj)
     this.props.updategrescore(this.state.greid,obj)
+    const d = new FormData();
+    d.append('file', this.state.finalFile);
+    console.log(d);
+    this.props.proofUplaod(this.props.match.params.studentId,d);
     this.setState({
       snackmsg  : "Updated Successfully",
       snackVariant : "Success",
@@ -240,6 +430,10 @@ class GraduateTestResult extends Component {
           }
           console.log(obj)
           this.props.updategmatscore(this.state.gmatid,obj)
+          const d = new FormData();
+          d.append('file', this.state.gmatfinalFile);
+          console.log(d);
+          this.props.proofUplaod(this.props.match.params.studentId,d);
           this.setState({
             snackmsg  : "Updated Successfully",
             snackVariant : "Success",
@@ -260,6 +454,10 @@ class GraduateTestResult extends Component {
     }
     console.log(obj)
     this.props.updatetoeflscore(this.state.toeflid,obj)
+    const d = new FormData();
+    d.append('file', this.state.finalFile);
+    console.log(d);
+    this.props.proofUplaod(this.props.match.params.studentId,d);
     this.setState({
       snackmsg  : "Updated Successfully",
       snackVariant : "Success",
@@ -280,6 +478,10 @@ class GraduateTestResult extends Component {
     }
     console.log(obj)
     this.props.updateieltsscore(this.state.ieltsid,obj)
+    const d = new FormData();
+    d.append('file', this.state.finalFile);
+    console.log(d);
+    this.props.proofUplaod(this.props.match.params.studentId,d);
     this.setState({
       snackmsg  : "Updated Successfully",
       snackVariant : "Success",
@@ -303,6 +505,35 @@ class GraduateTestResult extends Component {
   render() {
     console.log(this.state);
     console.log(this.props);
+    const files =
+    this.state.finalFile !== null ? (
+      <li key={this.state.finalFile.name}>
+        {this.state.finalFile.name} - {this.state.finalFile.size} bytes
+      </li>
+    ) : null;
+    const gmatfiles =
+    this.state.gmatfinalFile !== null ? (
+      <li key={this.state.gmatfinalFile.name}>
+        {this.state.gmatfinalFile.name} - {this.state.gmatfinalFile.size} bytes
+      </li>
+    ) : null;
+    const toeflfiles =
+    this.state.toeflfinalFile !== null ? (
+      <li key={this.state.toeflfinalFile.name}>
+        {this.state.toeflfinalFile.name} - {this.state.toeflfinalFile.size} bytes
+      </li>
+    ) : null;
+    const ieltsfiles =
+    this.state.ieltsfinalFile !== null ? (
+      <li key={this.state.ieltsfinalFile.name}>
+        {this.state.ieltsfinalFile.name} - {this.state.ieltsfinalFile.size} bytes
+      </li>
+    ) : null;
+  const { classes } = this.props;
+  if (this.state.finalFile !== null) {
+    console.log(this.state.finalFile.name);
+  }
+  console.log("State.....",this.state)
     return (
       <ThemeProvider theme={theme}>
         <div style={{ padding: 25 }}>
@@ -456,7 +687,7 @@ class GraduateTestResult extends Component {
                 </TableHead>
                 <TableBody>
                   {this.props.getgrescoreList !== null &&
-                    this.props.getgrescoreList.map((eachdata) => {
+                    this.props.getgrescoreList.map((eachdata,index) => {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
@@ -558,12 +789,12 @@ class GraduateTestResult extends Component {
                                 fontStyle: "italic",
                               }}
                             >
-                              <Link>Access Here</Link>
+                              <Link onClick={()=>this.handledownload("GRE")}>Access Here</Link>
                             </div>
                           </TableCell>
                           <TableCell style={{ borderBottom: "none" }}>
                             <IconButton
-                              onClick={() => this.handleClick(eachdata)}
+                              onClick={() => this.handleClick(eachdata,index)}
                             >
                               <img src={Pencil} height={17} width={17} />
                             </IconButton>
@@ -812,7 +1043,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("GMAT")}>Access Here</Link>
                               </div>
                             </div>
                           </TableCell>
@@ -847,9 +1078,6 @@ class GraduateTestResult extends Component {
                 {this.props.gettoeflscoreList.length !== 0 ? "TOEFL" : null}
               </div>
               <div>
-                {/* <IconButton onClick={() => this.setState({ toeflshow: true })}>
-                <img src={Pencil} height={17} width={17} />
-              </IconButton> */}
               </div>
             </div>
             <TableContainer>
@@ -1073,7 +1301,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("TOEFL")}>Access Here</Link>
                               </div>
                             </div>
                           </TableCell>
@@ -1326,7 +1554,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("IELTS")}>Access Here</Link>
                               </div>
                             </TableCell>
                             <TableCell>
@@ -1343,22 +1571,6 @@ class GraduateTestResult extends Component {
                 </Table>
               )}
             </TableContainer>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "5%",
-              }}
-            >
-              <PrimaryButton
-                variant={"contained"}
-                color={"primary"}
-                style={{ textTransform: "none" }}
-              >
-                Save Changes
-              </PrimaryButton>
-            </div>
             <Dialog
               open={this.state.show}
               onClose={() => this.setState({ show: false })}
@@ -1473,48 +1685,48 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.onDrop}>
-                      {({ getRootProps, getInputProps }) => (
-                        <section>
-                          <p
-                            style={{
-                              color: "#686868",
-                              fontFamily: "Montserrat",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Marksheet / Trasncripts
-                          </p>
-                          <div
-                            style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
-                            }}
-                            {...getRootProps({ className: "dropzone" })}
-                          >
-                            <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
-                          </div>
-
-                          <aside>
-                            <p
-                              style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              File size: less than 1MB | Format: PDF
-                            </p>
-
-                            {/* <ul>{this.state.finalFile !== null ? files : null}</ul> */}
-                          </aside>
-                        </section>
-                      )}
-                    </Dropzone>
+                  <Dropzone onDrop={this.onDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <section >
+                      <div
+                        style={{
+                          height: '100px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          border: '1px dashed #1093FF',
+                        }}
+                        {...getRootProps({ className: 'dropzone' })}
+                      >
+                        <input {...getInputProps()} />
+                        <PublishRoundedIcon color="primary" />
+                      </div>
+                      <Typography
+                        style={{
+                          paddingTop: '5px',
+                          display: this.state.fileErr ? 'block' : 'none',
+                        }}
+                        variant={'body2'}
+                        color={'secondary'}
+                      >
+                        Marksheet/Transcript
+                      </Typography>
+                      <aside>
+                        <p
+                          style={{
+                            color: '#686868',
+                            fontFamily: 'Montserrat',
+                          }}
+                        >
+                          File Size: less than 1MB | Formatted: PDF{' '}
+                        </p>
+                        {/* <h4>Files</h4> */}
+                        <ul>{this.state.finalFile !== null ? files : null}</ul>
+                      </aside>
+                    </section>
+                  )}
+                </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -1658,48 +1870,48 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.onDrop}>
-                      {({ getRootProps, getInputProps }) => (
-                        <section>
-                          <p
-                            style={{
-                              color: "#686868",
-                              fontFamily: "Montserrat",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Marksheet / Trasncripts
-                          </p>
-                          <div
-                            style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
-                            }}
-                            {...getRootProps({ className: "dropzone" })}
-                          >
-                            <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
-                          </div>
-
-                          <aside>
-                            <p
-                              style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              File size: less than 1MB | Format: PDF
-                            </p>
-
-                            {/* <ul>{this.state.finalFile !== null ? files : null}</ul> */}
-                          </aside>
-                        </section>
-                      )}
-                    </Dropzone>
+                  <Dropzone onDrop={this.gmatonDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <section >
+                      <div
+                        style={{
+                          height: '100px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          border: '1px dashed #1093FF',
+                        }}
+                        {...getRootProps({ className: 'dropzone' })}
+                      >
+                        <input {...getInputProps()} />
+                        <PublishRoundedIcon color="primary" />
+                      </div>
+                      <Typography
+                        style={{
+                          paddingTop: '5px',
+                          display: this.state.gmatfileErr ? 'block' : 'none',
+                        }}
+                        variant={'body2'}
+                        color={'secondary'}
+                      >
+                        Marksheet/Transcript
+                      </Typography>
+                      <aside>
+                        <p
+                          style={{
+                            color: '#686868',
+                            fontFamily: 'Montserrat',
+                          }}
+                        >
+                          File Size: less than 1MB | Formatted: PDF{' '}
+                        </p>
+                        {/* <h4>Files</h4> */}
+                        <ul>{this.state.gmatfinalFile !== null ? gmatfiles : null}</ul>
+                      </aside>
+                    </section>
+                  )}
+                </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -1843,48 +2055,48 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.onDrop}>
-                      {({ getRootProps, getInputProps }) => (
-                        <section>
-                          <p
-                            style={{
-                              color: "#686868",
-                              fontFamily: "Montserrat",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Marksheet / Trasncripts
-                          </p>
-                          <div
-                            style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
-                            }}
-                            {...getRootProps({ className: "dropzone" })}
-                          >
-                            <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
-                          </div>
-
-                          <aside>
-                            <p
-                              style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              File size: less than 1MB | Format: PDF
-                            </p>
-
-                            {/* <ul>{this.state.finalFile !== null ? files : null}</ul> */}
-                          </aside>
-                        </section>
-                      )}
-                    </Dropzone>
+                  <Dropzone onDrop={this.toeflonDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <section >
+                      <div
+                        style={{
+                          height: '100px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          border: '1px dashed #1093FF',
+                        }}
+                        {...getRootProps({ className: 'dropzone' })}
+                      >
+                        <input {...getInputProps()} />
+                        <PublishRoundedIcon color="primary" />
+                      </div>
+                      <Typography
+                        style={{
+                          paddingTop: '5px',
+                          display: this.state.toeflfileErr ? 'block' : 'none',
+                        }}
+                        variant={'body2'}
+                        color={'secondary'}
+                      >
+                        Marksheet/Transcript
+                      </Typography>
+                      <aside>
+                        <p
+                          style={{
+                            color: '#686868',
+                            fontFamily: 'Montserrat',
+                          }}
+                        >
+                          File Size: less than 1MB | Formatted: PDF{' '}
+                        </p>
+                        {/* <h4>Files</h4> */}
+                        <ul>{this.state.toeflfinalFile !== null ? toeflfiles : null}</ul>
+                      </aside>
+                    </section>
+                  )}
+                </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -2033,48 +2245,48 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.onDrop}>
-                      {({ getRootProps, getInputProps }) => (
-                        <section>
-                          <p
-                            style={{
-                              color: "#686868",
-                              fontFamily: "Montserrat",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Marksheet / Trasncripts
-                          </p>
-                          <div
-                            style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
-                            }}
-                            {...getRootProps({ className: "dropzone" })}
-                          >
-                            <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
-                          </div>
-
-                          <aside>
-                            <p
-                              style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              File size: less than 1MB | Format: PDF
-                            </p>
-
-                            {/* <ul>{this.state.finalFile !== null ? files : null}</ul> */}
-                          </aside>
-                        </section>
-                      )}
-                    </Dropzone>
+                  <Dropzone onDrop={this.ieltsonDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <section >
+                      <div
+                        style={{
+                          height: '100px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          border: '1px dashed #1093FF',
+                        }}
+                        {...getRootProps({ className: 'dropzone' })}
+                      >
+                        <input {...getInputProps()} />
+                        <PublishRoundedIcon color="primary" />
+                      </div>
+                      <Typography
+                        style={{
+                          paddingTop: '5px',
+                          display: this.state.ieltsfileErr ? 'block' : 'none',
+                        }}
+                        variant={'body2'}
+                        color={'secondary'}
+                      >
+                        Marksheet/Transcript
+                      </Typography>
+                      <aside>
+                        <p
+                          style={{
+                            color: '#686868',
+                            fontFamily: 'Montserrat',
+                          }}
+                        >
+                          File Size: less than 1MB | Formatted: PDF{' '}
+                        </p>
+                        {/* <h4>Files</h4> */}
+                        <ul>{this.state.ieltsfinalFile !== null ? ieltsfiles : null}</ul>
+                      </aside>
+                    </section>
+                  )}
+                </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -2122,6 +2334,10 @@ const mapStateToProps = (state) => {
     updategmatscoreList: state.CallReducer.updategmatscore,
     updategrescoreList: state.CallReducer.updategrescore,
     updatetoeflscoreList: state.CallReducer.updatetoeflscore,
+    proofUplaodlist : state.StudentReducer.proofUplaod,
+    getStudentsByIdList : state.StudentReducer.StudentList,
+    downloadGATList : state.CallReducer.downloadGAT,
+    fileuploadGATList : state.CallReducer.fileuploadGAT
   };
 };
 
@@ -2134,4 +2350,8 @@ export default connect(mapStateToProps, {
   updategrescore,
   updategmatscore,
   updatetoeflscore,
+  proofUplaod,
+  getStudentsById,
+  downloadGAT,
+  fileuploadGAT
 })(GraduateTestResult);

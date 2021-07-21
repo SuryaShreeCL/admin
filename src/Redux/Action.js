@@ -65,6 +65,7 @@ export const STUDENT = {
   updateUserData: 'updateUserData',
   getAcademicInfo: 'getAcademicInfo',
   updateAcademicInfo: 'updateAcademicInfo',
+  uploadFile:"uploadFile",
   sscexamboard: "sscexamboard"
 };
 export const CHOICE_ANSWER = {
@@ -203,11 +204,15 @@ export const ADMIN = {
   getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
   activateStudentProduct : "activateStudentProduct",
   getAdminLinkedProduct : "getAdminLinkedProduct", 
-  checkTokenStatus : "checkTokenStatus"
+  checkTokenStatus : "checkTokenStatus",
+  getStudentsByStages : "getStudentsByStages"
 };
 
 export const MENTORSCHEDULELIST={
-  viewSchedule : "viewSchedule"
+  viewSchedule : "viewSchedule",
+  getstudentMapping : "getstudentMapping",
+  getproductdetails : "getproductdetails",
+  updateallocatementor : "updateallocatementor"
 }
 export const CALL_DETAILS={
   updateclientdetails : "updateclientdetails",
@@ -228,7 +233,9 @@ export const CALL_DETAILS={
   updategrescore : "updategrescore",
   updategmatscore : "updategmatscore",
   updatetoeflscore : "updatetoeflscore",
-  updateieltsscore : "updateieltsscore"
+  updateieltsscore : "updateieltsscore",
+  downloadGAT : "downloadGAT",
+  fileuploadGAT:"fileuploadGAT"
 }
 
 export const CAREER_TRACK = {

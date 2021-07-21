@@ -17,7 +17,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { OnboardingPersonalInfoPath, stagedTabsPath,callSummaryLayoutPath } from "../RoutePaths";
 import DataGridTable from "../Utils/DataGridTable";
 import Call from "../../Asset/Images/callImg.png"
-
+import { connect } from "react-redux";
+import { getStudentByStages } from "../../Actions/AdminAction";
 
 export class Onboarding extends Component {
   constructor(props) {
@@ -28,8 +29,23 @@ export class Onboarding extends Component {
     }
   }
  
+  componentDidMount() {
+
+    // To get the users based on stages
+    this.props.getStudentByStages(this.props.stageDetails.stepName)
+  
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+  
+  }
+  
+  
   
   render() {
+
+    console.log(this.props.productId)
+
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
@@ -87,28 +103,33 @@ export class Onboarding extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>CLS200051</TableCell>
-                    <TableCell>Atharva Unde</TableCell>
-                    <TableCell>atharva@thecareerlabs.com</TableCell>
-                    <TableCell>+919561027164</TableCell>
-                    <TableCell >Completed</TableCell>
-                    <TableCell align="center">90%</TableCell>
-                    <TableCell>
-                      <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
-                    <img onClick={()=>this.props.history.push(callSummaryLayoutPath+"02c1c610-3f86-45ff-88e3-9642d8ee092e"+"/product/"+"1")} src={Call} style={{height:30, width:30, marginRight:10}} />
-                      <PrimaryButton
-                        onClick={()=>this.props.history.push(stagedTabsPath+"02c1c610-3f86-45ff-88e3-9642d8ee092e")}
-                        variant={"contained"}
-                        color={"primary"}
-                        size={"small"}
-                        style={{ textTransform: "none" }}
-                      >
-                        Manage Client
-                      </PrimaryButton>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  {this.props.studentsByStagesList.length !== 0 && this.props.studentsByStagesList.map((eachItem,index)=>{
+                    return (
+                      <TableRow> 
+                      <TableCell>{eachItem.clsId}</TableCell>
+                      <TableCell>{eachItem.fullName !== null ? eachItem.fullName : eachItem.firstName+" "+eachItem.lastName}</TableCell>
+                      <TableCell>{eachItem.emailId}</TableCell>
+                      <TableCell>{eachItem.phoneNumber}</TableCell>
+                      <TableCell >{eachItem.obCallStatus}</TableCell>
+                      <TableCell align="center">90%</TableCell>
+                      <TableCell>
+                        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
+                      <img onClick={()=>this.props.history.push(callSummaryLayoutPath+eachItem.studentId+"/product/"+this.props.productId)} src={Call} style={{height:30, width:30, marginRight:10}} />
+                        <PrimaryButton
+                          onClick={()=>this.props.history.push(stagedTabsPath+eachItem.studentId)}
+                          variant={"contained"}
+                          color={"primary"}
+                          size={"small"}
+                          style={{ textTransform: "none" }}
+                        >
+                          Manage Client
+                        </PrimaryButton>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                    )
+                  })}
+                 
                 </TableBody>
               </Table>
             </TableContainer>
@@ -136,4 +157,12 @@ const style = {
     padding:20
   }
 };
-export default Onboarding;
+
+const mapStateToProps = (state) =>{
+  return {  
+    studentsByStagesList : state.AdminReducer.studentsByStagesList
+
+  }
+}
+
+export default connect(mapStateToProps, {getStudentByStages})(Onboarding)

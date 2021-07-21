@@ -49,7 +49,7 @@ export default combineReducers({
   CareerTrackReducer: CareerTrackReducer,
   NotificationReducer: NotificationReducer,
   StudentMarkDetailReducer: StudentMarkDetailReducer,
-  ScoreDetailsReducer: ScoreDetailsReducer,
+  ScoreReducer: ScoreDetailsReducer,
   MentorReducer: MentorReducer,
   PgaReducer: PgaReducer,
   testimonialCreateReducer: testimonialCreateReducer,
