@@ -432,7 +432,7 @@ export const updateUserData=(data)=>{
 
 export const getAcademicInfo = (id) =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/get/student/educationDetails/"+id)
+        axios.get(URL+"/api/v1/student/educationDetails/"+id)
         .then(result=>{
             dispatch({type:STUDENT.getAcademicInfo,payload:result.data})
         })

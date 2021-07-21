@@ -154,12 +154,102 @@ export class academicInfo extends Component {
     this.props.getAllColleges();
     this.props.getUniversity();
     this.props.sscexamboard();
-    // this.props.getAcademicInfo(this.props.match.params.studentId);
+    this.props.getAcademicInfo(this.props.match.params.studentId);
     this.props.getStudentsById(this.props.match.params.studentId);
   }
 
-  componentDidUpdate() {
-     
+  componentDidUpdate(prevProps, prevState) {
+     if(this.props.getAcademicInfoList !== prevProps.getAcademicInfoList){
+       const{scoreScale} = this.props.getAcademicInfoList
+       let ugDetails = null
+       this.props.getAcademicInfoList.map(data => {
+           if (data.type === "ug"){
+            ugDetails = data
+           }
+       })
+       console.log(ugDetails)
+       var ugScale = ugDetails.scoreScale
+       this.setState ({
+        ugCollege: ugDetails.college,
+        ugUniversity: ugDetails.university,
+        ugDepartment: ugDetails.department,
+        ugDegree: ugDetails.degree,
+        ugSemester: ugDetails.currentSem,
+        ugCgpaScale: {title:ugScale.toString(), value : ugScale},
+        ugCgpa: ugDetails.score ,
+        ugStartDate: ugDetails.startDate,
+        ugEndDate: ugDetails.endDate,
+       })
+       let pgDetails = null
+       this.props.getAcademicInfoList.map(data => {
+           if (data.type === "pg"){
+            pgDetails = data
+           }
+       })
+       console.log(pgDetails)
+       var pgScale = pgDetails.scoreScale
+       this.setState({
+        pgCollege: pgDetails.college,
+        pgUniversity: pgDetails.university,
+        pgDepartment: pgDetails.department,
+        pgDegree: pgDetails.degree,
+        pgCgpa: pgDetails.score,
+        pgCgpaScale: {title:pgScale.toString(), value:pgScale},
+        pgStartDate: pgDetails.startDate,
+        pgEndDate: pgDetails.endDate,
+       })
+       let diplomaDetails = null
+       this.props.getAcademicInfoList.map(data => {
+           if (data.type === "diploma"){
+            diplomaDetails = data
+           }
+       })
+       const {diplomaType}  = diplomaDetails
+       console.log(diplomaDetails)
+       var diplomoScale = diplomaDetails.scoreScale
+       this.setState({
+        diplomaCollege: diplomaDetails.college ,
+        diplomoUniversity: diplomaDetails.university,
+        diplomoDepartment: {title:diplomaType},
+        diplomoDegree: diplomaDetails.degree,
+        diplomoEndDate: diplomaDetails.endDate,
+        diplomostartDate: diplomaDetails.startDate,
+        diplomoCgpaScale: {title:diplomoScale.toString(), value: diplomoScale},
+        diplomoCgpa: diplomaDetails.score
+       })
+       let tenthDetails = null
+       this.props.getAcademicInfoList.map(data => {
+           if (data.type === "ssc"){
+            tenthDetails = data
+           }
+       })
+       console.log(tenthDetails)
+       var tenthScale = tenthDetails.scoreScale
+       this.setState ({
+        tenthSchool: tenthDetails.schoolName,
+        tenthExamBoard: tenthDetails.examBoard,
+        tenthCgpaScale: {title:tenthScale.toString(), value: tenthScale},
+        tenthStartDate: tenthDetails.startDate,
+        tenthEndDate: tenthDetails.endDate,
+        tenthCgpa: tenthDetails.score,
+       })
+       let twelthDetails = null
+       this.props.getAcademicInfoList.map(data => {
+           if (data.type === "hsc"){
+            twelthDetails = data
+           }
+       })
+       console.log(twelthDetails)
+       var twelthScale = twelthDetails.scoreScale
+       this.setState({
+        twelthSchool: twelthDetails.schoolName,
+        twelthExamBoard: twelthDetails.examBoard,
+        twelthStartDate: twelthDetails.startDate,
+        twelthEndDate: twelthDetails.endDate,
+        twelthCgpa: twelthDetails.score,
+        twelthCgpaScale: {title:twelthScale.toString(), value: twelthScale},
+       })
+     }
   }
 
   handleChange = (panel) => (event, newExpanded) => {
@@ -268,7 +358,7 @@ export class academicInfo extends Component {
       ? this.setState({ pgEndDateErr: hlptxt })
       : this.setState({ pgEndDateErr: "" });
     this.state.ugSemester === ""
-      ? this.setState({ ugSemesterErr: hlptxt })
+      ? this.setState({ ugSemesterErr: hlptxt})
       : this.setState({ ugSemesterErr: "" });
     this.state.ugCgpaScale === ""
       ? this.setState({ ugCgpaScaleErr: hlptxt })
@@ -469,7 +559,9 @@ export class academicInfo extends Component {
   ];
 
   render() {
-    console.log(this.props.match.params.studentId);
+    console.log(this.state)
+    console.log(this.props.getAcademicInfoList);
+
     const { HeadStyle, title, ans, secondary } = style;
     return (
       <div>
@@ -616,7 +708,7 @@ export class academicInfo extends Component {
                             id="debug"
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
-                            // value={this.state.pgDegreeErr}
+                            value={this.state.pgDegree}
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgDegree: newValue,
@@ -626,7 +718,6 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                value={this.state.pgDegree}
                                 error={this.state.pgDegreeErr.length > 0}
                                 label="Degree"
                                 margin="normal"
@@ -886,8 +977,8 @@ export class academicInfo extends Component {
                             id="standard-basic"
                             label="CGPA"
                             value={this.state.ugCgpa}
-                            onChange={(e, newValue) =>
-                              this.setState({ ugCgpa: newValue, ugCgpaErr: "" })
+                            onChange={(e) =>
+                              this.setState({ ugCgpa: e.target.value, ugCgpaErr: "" })
                             }
                             error={this.state.ugCgpaErr.length > 0}
                             helperText={this.state.ugCgpaErr}
@@ -979,17 +1070,16 @@ export class academicInfo extends Component {
                             id="debug"
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
-                            // value={this.state.diplomaCollege}
-                            onChange={(e) =>
+                            value={this.state.diplomaCollege}
+                            onChange={(e, newValue) =>
                               this.setState({
-                                diplomaCollege: e.target.value,
+                                diplomaCollege: newValue,
                                 diplomaCollegeErr: "",
                               })
                             }
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                value={this.state.diplomaCollege}
                                 error={this.state.diplomaCollegeErr.length > 0}
                                 helperText={this.state.diplomaCollegeErr}
                                 label="College Name"
@@ -1101,9 +1191,9 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             value={this.state.diplomoCgpa}
-                            onChange={(e, newValue) =>
+                            onChange={(e) =>
                               this.setState({
-                                diplomoCgpa: newValue,
+                                diplomoCgpa: e.target.value,
                                 diplomoCgpaErr: "",
                               })
                             }
@@ -1198,6 +1288,7 @@ export class academicInfo extends Component {
                           <TextField
                             error={this.state.twelthSchoolErr.length > 0}
                             helperText={this.state.twelthSchoolErr}
+                            value={this.state.twelthSchool}
                             label="School Name"
                             // margin="normal"
                             onChange={(e) =>
@@ -1291,9 +1382,9 @@ export class academicInfo extends Component {
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
-                            onChange={(e, newValue) =>
+                            onChange={(e) =>
                               this.setState({
-                                twelthCgpa: newValue,
+                                twelthCgpa: e.target.value,
                                 twelthCgpaErr: "",
                               })
                             }
