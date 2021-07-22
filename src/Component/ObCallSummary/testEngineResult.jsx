@@ -48,7 +48,7 @@ class TestEngineResult extends Component {
   }
 
   componentDidMount() {
-    this.props.viewscoredetails("8589811a-f8d4-42e9-bd8c-d54db5274f1c");
+    this.props.viewscoredetails(this.props.match.params.id);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -71,7 +71,7 @@ class TestEngineResult extends Component {
 
   handleShowAnswer = (questionSetName) => {
     this.props.viewanswers(
-      "8589811a-f8d4-42e9-bd8c-d54db5274f1c",
+      this.props.match.params.id,
       questionSetName
     );
     this.setState({
@@ -85,7 +85,7 @@ class TestEngineResult extends Component {
       show: false,
     });
     this.props.viewresettest(
-      "8589811a-f8d4-42e9-bd8c-d54db5274f1c",
+      this.props.match.params.id,
       this.state.testExeId
     );
   };
