@@ -54,6 +54,7 @@ import {
 import {proofUplaod,getStudentsById} from '../../Actions/Student'
 import { connect } from "react-redux";
 import Mysnack from '../MySnackBar'
+import {URL} from '../../Actions/URL'
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
@@ -362,19 +363,25 @@ class GraduateTestResult extends Component {
       ieltsid : data.id
     });
   };
-  handledownload = (data) => {
-    console.log(data)
-    if(data === "GRE" && this.state.files.length > 0){
-     this.props.downloadGAT(this.props.match.params.studentId,this.state.grefilename)
+  handledownload = (data,index) => {
+    console.log(data,index)
+    console.log(this.props.getgrescoreList[index].studentDocument.path)
+    if(data === "GRE"){
+      console.log("GRE" && this.props.getgrescoreList[index].studentDocument !== null)
+     this.props.downloadGAT(this.props.match.params.studentId,this.props.getgrescoreList[index].studentDocument.path)
+     window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.getgrescoreList[index].studentDocument.path)
     }
-    if( data ===  "GMAT" && this.state.gmatfiles.length > 0 ){
-      this.props.downloadGAT(this.props.match.params.studentId,this.state.gmatfilename)
+    if( data ===  "GMAT" && this.props.getgmatscoreList[index].studentDocument !== null){
+      this.props.downloadGAT(this.props.match.params.studentId,this.props.getgmatscoreList[index].studentDocument.path)
+      window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.getgmatscoreList[index].studentDocument.path)
     }
-    if(data === "TOEFL" && this.state.toeflfiles.length > 0){
-      this.props.downloadGAT(this.props.match.params.studentId,this.state.toeflfilename)
+    if(data === "TOEFL" && this.props.gettoeflscoreList[index].studentDocument !== null){
+      this.props.downloadGAT(this.props.match.params.studentId,this.props.gettoeflscoreList[index].studentDocument.path)
+      window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.gettoeflscoreList[index].studentDocument.path)
     }
-    if(data === "IELTS" && this.state.ieltsfiles.length > 0){
-      this.props.downloadGAT(this.props.match.params.studentId,this.state.ieltsfilename)
+    if(data === "IELTS" && this.props.getieltsscoreList[index].studentDocument !== null){
+      this.props.downloadGAT(this.props.match.params.studentId,this.props.getieltsscoreList[index].studentDocument.path)
+      window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.getieltsscoreList[index].studentDocument.path)
     }
   }
   Drop = () => {
@@ -410,7 +417,7 @@ class GraduateTestResult extends Component {
     const d = new FormData();
     d.append('file', this.state.finalFile);
     console.log(d);
-    this.props.proofUplaod(this.props.match.params.studentId,d);
+    this.props.fileuploadGAT(this.props.match.params.studentId,"gre",this.state.greid,d);
     this.setState({
       snackmsg  : "Updated Successfully",
       snackVariant : "Success",
@@ -433,7 +440,7 @@ class GraduateTestResult extends Component {
           const d = new FormData();
           d.append('file', this.state.gmatfinalFile);
           console.log(d);
-          this.props.proofUplaod(this.props.match.params.studentId,d);
+          this.props.fileuploadGAT(this.props.match.params.studentId,"gmat",this.state.gmatid,d);
           this.setState({
             snackmsg  : "Updated Successfully",
             snackVariant : "Success",
@@ -455,9 +462,9 @@ class GraduateTestResult extends Component {
     console.log(obj)
     this.props.updatetoeflscore(this.state.toeflid,obj)
     const d = new FormData();
-    d.append('file', this.state.finalFile);
+    d.append('file', this.state.toeflfinalFile);
     console.log(d);
-    this.props.proofUplaod(this.props.match.params.studentId,d);
+    this.props.fileuploadGAT(this.props.match.params.studentId,"toefl",this.state.toeflid,d);
     this.setState({
       snackmsg  : "Updated Successfully",
       snackVariant : "Success",
@@ -479,9 +486,9 @@ class GraduateTestResult extends Component {
     console.log(obj)
     this.props.updateieltsscore(this.state.ieltsid,obj)
     const d = new FormData();
-    d.append('file', this.state.finalFile);
-    console.log(d);
-    this.props.proofUplaod(this.props.match.params.studentId,d);
+    d.append('file', this.state.ieltsfinalFile);
+    console.log(this.state.ieltsfinalFile);
+    this.props.fileuploadGAT(this.props.match.params.studentId,"ielts",this.state.ieltsid,d);
     this.setState({
       snackmsg  : "Updated Successfully",
       snackVariant : "Success",
@@ -534,6 +541,7 @@ class GraduateTestResult extends Component {
     console.log(this.state.finalFile.name);
   }
   console.log("State.....",this.state)
+  console.log(this.props.downloadGATList)
     return (
       <ThemeProvider theme={theme}>
         <div style={{ padding: 25 }}>
@@ -789,7 +797,7 @@ class GraduateTestResult extends Component {
                                 fontStyle: "italic",
                               }}
                             >
-                              <Link onClick={()=>this.handledownload("GRE")}>Access Here</Link>
+                              <Link onClick={()=>this.handledownload("GRE",index)}>Access Here</Link>
                             </div>
                           </TableCell>
                           <TableCell style={{ borderBottom: "none" }}>
@@ -922,12 +930,21 @@ class GraduateTestResult extends Component {
                       >
                         Transcripts
                       </TableCell>
+                      <TableCell
+                        align="center"
+                        style={{
+                          color: "#000000",
+                          fontWeight: 400,
+                          fontSize: 14,
+                          fontFamily: "Montserrat",
+                        }}
+                      ></TableCell>
                     </TableRow>
                   )}
                 </TableHead>
                 <TableBody>
                   {this.props.getgmatscoreList !== null &&
-                    this.props.getgmatscoreList.map((eachdata) => {
+                    this.props.getgmatscoreList.map((eachdata,index) => {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
@@ -1043,7 +1060,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link onClick={()=>this.handledownload("GMAT")}>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("GMAT",index)}>Access Here</Link>
                               </div>
                             </div>
                           </TableCell>
@@ -1173,12 +1190,21 @@ class GraduateTestResult extends Component {
                       >
                         Transcripts
                       </TableCell>
+                      <TableCell
+                        align="center"
+                        style={{
+                          color: "#000000",
+                          fontWeight: 400,
+                          fontSize: 14,
+                          fontFamily: "Montserrat",
+                        }}
+                      ></TableCell>
                     </TableRow>
                   )}
                 </TableHead>
                 <TableBody>
                   {this.props.gettoeflscoreList.length !== 0 &&
-                    this.props.gettoeflscoreList.map((eachdata) => {
+                    this.props.gettoeflscoreList.map((eachdata,index) => {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
@@ -1301,7 +1327,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link onClick={()=>this.handledownload("TOEFL")}>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("TOEFL",index)}>Access Here</Link>
                               </div>
                             </div>
                           </TableCell>
@@ -1336,9 +1362,6 @@ class GraduateTestResult extends Component {
                 {this.props.getieltsscoreList.length !== 0 ? "IELTS" : null}
               </div>
               <div>
-                {/* <IconButton onClick={() => this.setState({ ieltsshow: true })}>
-                <img src={Pencil} height={17} width={17} />
-              </IconButton> */}
               </div>
             </div>
             <TableContainer>
@@ -1434,11 +1457,21 @@ class GraduateTestResult extends Component {
                       >
                         Transcripts
                       </TableCell>
+                      <TableCell
+                        align="center"
+                        style={{
+                          color: "#000000",
+                          fontWeight: 400,
+                          fontSize: 14,
+                          fontFamily: "Montserrat",
+                        }}
+                      >
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {this.props.getieltsscoreList.length !== 0 &&
-                      this.props.getieltsscoreList.map((eachdata) => {
+                      this.props.getieltsscoreList.map((eachdata,index) => {
                         let date = new Date(
                           eachdata.completedExamDate
                         ).getDate();
@@ -1554,7 +1587,7 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link onClick={()=>this.handledownload("IELTS")}>Access Here</Link>
+                                <Link onClick={()=>this.handledownload("IELTS",index)}>Access Here</Link>
                               </div>
                             </TableCell>
                             <TableCell>

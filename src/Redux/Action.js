@@ -211,7 +211,10 @@ export const MENTORSCHEDULELIST={
   viewSchedule : "viewSchedule",
   getstudentMapping : "getstudentMapping",
   getproductdetails : "getproductdetails",
-  updateallocatementor : "updateallocatementor"
+  updateallocatementor : "updateallocatementor",
+  addmentor : "addmentor",
+  updatementor : "updatementor",
+  getmentor : "getmentor"
 }
 export const CALL_DETAILS={
   updateclientdetails : "updateclientdetails",
