@@ -8,13 +8,19 @@ import {
   withStyles,
   createMuiTheme,
 } from "@material-ui/core";
-import { getStudentsById } from "../../Actions/Student";
+import { getStudentsById, getDocumentList } from "../../Actions/Student";
 import { connect } from "react-redux";
-import { getPersonalInfo, updatePersonalInfo, getPincodeDetails } from "../../Actions/Calldetails";
+import {
+  getPersonalInfo,
+  updatePersonalInfo,
+  getPincodeDetails,
+
+} from "../../Actions/Calldetails";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { isEmptyString } from "../../Component/Validation";
+import DoccumentCard from "../Utils/DoccumentCard";
 
 const theme = createMuiTheme({
   overrides: {
@@ -54,15 +60,15 @@ export class personalInfo extends Component {
       personalDisable: true,
       addressDisable: true,
       mediaDisable: true,
-      clsid:'',
+      clsid: "",
       firstName: "",
       firstNameErr: "",
       lastName: "",
       lastNameErr: "",
       fullName: "",
       fullNameErr: "",
-      number:'',
-      email:'',
+      number: "",
+      email: "",
       altPhone: "",
       altPhoneErr: "",
       altEmail: "",
@@ -87,43 +93,50 @@ export class personalInfo extends Component {
       facebookErr: "",
       twitter: "",
       twitterErr: "",
-      pincodeDetails:[]
+      pincodeDetails: [],
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.props.getStudentsById(this.props.match.params.studentId);
+    this.props.getDocumentList(this.props.match.params.studentId)
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
-     
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
-      this.props.getPincodeDetails(this.props.getStudentsByIdList.address !== null && this.props.getStudentsByIdList.address.pincode , (data) => {
-        this.setState({
-          state: data[0].PostOffice[0].State,
-          city: data[0].PostOffice[0].District,
-        })
-      })
+      this.props.getPincodeDetails(
+        this.props.getStudentsByIdList.address !== null &&
+          this.props.getStudentsByIdList.address.pincode,
+        (data) => {
+          this.setState({
+            state: data[0].PostOffice[0].State,
+            city: data[0].PostOffice[0].District,
+          });
+        }
+      );
       this.props.getStudentsByIdList.address !== null &&
-      this.setState({
-        firstName: this.props.getStudentsByIdList.firstName,
-        lastName:this.props.getStudentsByIdList.lastName,
-        fullName:this.props.getStudentsByIdList.firstName + this.props.getStudentsByIdList.lastName,
-        number: this.props.getStudentsByIdList.phoneNumber,
-        email: this.props.getStudentsByIdList.emailId,
-        clsid: this.props.getStudentsByIdList.studentID,
-        altPhone: this.props.getStudentsByIdList.altPhoneNumber,
-        altEmail: this.props.getStudentsByIdList.altEmailId,
-        apartmentName: this.props.getStudentsByIdList.address.suitNoApartmentNo,
-        address1: this.props.getStudentsByIdList.address.streetAddressOne,
-        address2: this.props.getStudentsByIdList.address.streetAddressTwo,
-        landmark: this.props.getStudentsByIdList.address.landMark,
-        pincode: this.props.getStudentsByIdList.address.pincode,
-        // state: this.props.getStudentsByIdList.address.state,
-        // city: this.props.getStudentsByIdList.address.city,
-        twitter: this.props.getStudentsByIdList.twitterUrl,
-        facebook:this.props.getStudentsByIdList.faceBookUrl,
-        linkedIn: this.props.getStudentsByIdList.linkedInProfile
-      });
+        this.setState({
+          firstName: this.props.getStudentsByIdList.firstName,
+          lastName: this.props.getStudentsByIdList.lastName,
+          fullName:
+            this.props.getStudentsByIdList.firstName +
+            this.props.getStudentsByIdList.lastName,
+          number: this.props.getStudentsByIdList.phoneNumber,
+          email: this.props.getStudentsByIdList.emailId,
+          clsid: this.props.getStudentsByIdList.studentID,
+          altPhone: this.props.getStudentsByIdList.altPhoneNumber,
+          altEmail: this.props.getStudentsByIdList.altEmailId,
+          apartmentName: this.props.getStudentsByIdList.address
+            .suitNoApartmentNo,
+          address1: this.props.getStudentsByIdList.address.streetAddressOne,
+          address2: this.props.getStudentsByIdList.address.streetAddressTwo,
+          landmark: this.props.getStudentsByIdList.address.landMark,
+          pincode: this.props.getStudentsByIdList.address.pincode,
+          // state: this.props.getStudentsByIdList.address.state,
+          // city: this.props.getStudentsByIdList.address.city,
+          twitter: this.props.getStudentsByIdList.twitterUrl,
+          facebook: this.props.getStudentsByIdList.faceBookUrl,
+          linkedIn: this.props.getStudentsByIdList.linkedInProfile,
+        });
     }
   }
   handlePersonalClick(e) {
@@ -194,37 +207,37 @@ export class personalInfo extends Component {
 
     // }
     {
-   let obj = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      fullName: this.state.fullName,
-      studentID: this.state.clsid,
-      twitterUrl: this.state.twitter,
-      faceBookUrl: this.state.facebook,
-      linkedInProfile: this.state.linkedIn,
-      altPhoneNumber: this.state.altPhone,
-      altEmailId: this.state.altEmail,
-      address: {
-        city: this.state.city,
-        state: this.state.state,
-        country:"null",
-        streetAddressOne: this.state.address1,
-        streetAddressTwo: this.state.address2,
-        pincode: this.state.pincode,
-        landMark: this.state.landmark,
-        suitNoApartmentNo: this.state.apartmentName,
-      },
+      let obj = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        fullName: this.state.fullName,
+        studentID: this.state.clsid,
+        twitterUrl: this.state.twitter,
+        faceBookUrl: this.state.facebook,
+        linkedInProfile: this.state.linkedIn,
+        altPhoneNumber: this.state.altPhone,
+        altEmailId: this.state.altEmail,
+        address: {
+          city: this.state.city,
+          state: this.state.state,
+          country: "null",
+          streetAddressOne: this.state.address1,
+          streetAddressTwo: this.state.address2,
+          pincode: this.state.pincode,
+          landMark: this.state.landmark,
+          suitNoApartmentNo: this.state.apartmentName,
+        },
+      };
+      this.props.updatePersonalInfo(this.props.match.params.studentId, obj);
+      console.log(this.props.match.params.studentId);
     }
-    this.props.updatePersonalInfo(this.props.match.params.studentId,obj)
-    console.log(this.props.match.params.studentId)
-    };
   };
 
   render() {
-    console.log(this.props.getStudentsByIdList)
-    console.log(this.props)
+    console.log(this.props.getStudentsByIdList);
+    console.log(this.props);
 
-    const { HeadStyle, HeadDisplay } = style;
+    const { HeadStyle, GridStyle } = style;
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -278,7 +291,6 @@ export class personalInfo extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
-                    fontSize: "18px",
                   }}
                   id="standard-basic"
                   label="Client First Name"
@@ -466,7 +478,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="Pincode"
                   value={this.state.pincode}
-                  type='number'
+                  type="number"
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
                     this.setState({ pincode: e.target.value, pincodeErr: "" })
@@ -575,6 +587,86 @@ export class personalInfo extends Component {
                   helperText={this.state.twitterErr}
                 />
               </Grid>
+              <Grid item md={12}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "22%",
+                    }}
+                  >
+                    <p style={HeadStyle}>Documents Received</p>
+                    <img
+                      src={GreenTick}
+                      style={{
+                        height: 17,
+                        width: 17,
+                        position: "relative",
+                        top: 5,
+                      }}
+                    />
+                  </div>
+                  <IconButton onClick={this.handleAddressClick.bind(this)}>
+                    <img src={Pencil} height={17} width={17} />
+                  </IconButton>
+                </div>
+              </Grid>
+
+              <div style={{ display: "flex", flexDirection: "column", justifyContent:'space-around', width:'100%'}}>
+
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>PG Degree</p>
+                  <div style={{display:'flex', flexDirection:'row' }}>
+                  <DoccumentCard />
+                  <DoccumentCard/>
+                  </div>
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>UG Degree</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>XII Grade</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>X Grade</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>GRE</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>GMAT</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>TOEFL</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>IELTS</p>
+                  <DoccumentCard />
+                </Grid>
+              </div>
+
               <Grid
                 item
                 md={12}
@@ -606,11 +698,9 @@ export class personalInfo extends Component {
 const style = {
   HeadStyle: {
     fontStyle: "Poppins",
-    // fontWeight: "600",
     fontStyle: "normal",
     fontSize: "18px",
     color: "#0081FF",
-    // padding:15
   },
   HeadDisplay: {
     display: "flex",
@@ -619,19 +709,28 @@ const style = {
     justifyContent: "space-between",
     padding: 20,
   },
+  GridStyle: {
+    fontStyle: "Montserrat",
+    fontWeight: "700",
+    fontStyle: "normal",
+    fontSize: "16px",
+    color: "#052A4E",
+  },
 };
 
 const mapStateToProps = (state) => {
   return {
-    updatePersonalInfoList : state.CallReducer.updatePersonalInfo,
-    getPersonalInfoList : state.CallReducer.getPersonalInfo,
+    updatePersonalInfoList: state.CallReducer.updatePersonalInfo,
+    getPersonalInfoList: state.CallReducer.getPersonalInfo,
     getStudentsByIdList: state.StudentReducer.StudentList,
+    getDocumentList: state.StudentReducer.getDocumentList,
   };
 };
 
 export default connect(mapStateToProps, {
-  getPersonalInfo, updatePersonalInfo,
+  getPersonalInfo,
+  updatePersonalInfo,
   getStudentsById,
-  getPincodeDetails
+  getPincodeDetails,
+  getDocumentList
 })(personalInfo);
-

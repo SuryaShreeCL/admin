@@ -228,16 +228,16 @@ export const downloadGAT = (studentId,filename) =>{
     return dispatch =>{
         axios.get(URL+"/api/v1/files/download/"+studentId+"/"+filename)
         .then(result=>{
-            dispatch({type:CALL_DETAILS.updatetoeflscore,payload:result.data})
+            dispatch({type:CALL_DETAILS.downloadGAT,payload:result.data})
         })
         .catch(error=>{
             console.log(error)
         })
     }
 }
-export const fileuploadGAT = (studentId,index,examtype) =>{
+export const fileuploadGAT = (studentId,examtype,examid,data) =>{
     return dispatch =>{
-        axios.put(URL+"/api/v1/files/upload/file/"+studentId+"/"+index+"/"+examtype)
+        axios.post(URL+"/api/v1/files/fileUpload/"+studentId+"/"+examtype+"/"+examid,data)
         .then(result=>{
             dispatch({type:CALL_DETAILS.fileuploadGAT,payload:result.data})
         })

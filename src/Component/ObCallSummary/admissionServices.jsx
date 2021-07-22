@@ -35,7 +35,7 @@ import { ExpandMore } from "@material-ui/icons";
 import { isEmptyString } from "../Validation";
 import {getAllMentors} from "../../Actions/AdminAction"
 import {getStudentsById} from '../../Actions/Student'
-import {getstudentMapping,getproductdetails,updateallocatementor} from '../../Actions/MentorAction'
+import {getstudentMapping,getproductdetails,updateallocatementor,getmentor,updatementor} from '../../Actions/MentorAction'
 import MySnackBar from "../MySnackBar";
 class AdmissionServices extends Component {
   constructor() {
@@ -45,37 +45,46 @@ class AdmissionServices extends Component {
       disable2: false,
       show: false,
       mentorErr: "",
-      mentor: "",
+      mentor: {},
       enrollmentdate : "",
       snackmsg :"",
       snackvariant : "",
-      snackopen : false
+      snackopen : false,
+      mentorname : ""
     };
   }
   handleClick(e) {
-    this.setState({ disable: !this.state.disable });
+    // this.setState({ disable: !this.state.disable });
   }
 
   allocate = () => {
     isEmptyString(this.state.mentor)
       ? this.setState({ mentorErr: "Field Required" })
       : this.setState({ mentorErr: ""});
-      let obj = {
-        "id": "3",
-        "name": this.state.mentor.name,
-        "department":"mentor",
-        "calendarId":this.state.mentor.calendarId
-        }
-        console.log(obj)
-    this.props.updateallocatementor(obj)
-    this.setState({ 
-        show: false,
-        snackmsg : "Updated Successfully",
-        snackvariant : "success",
-        snackopen : true
-    })
+      if(this.state.mentor !== null && this.state.mentor !== undefined){
+        let obj = {
+          "id": this.state.mentor.id,
+          "name": this.state.mentor.name,
+          "department":this.state.mentor.department,
+          "calendarId":this.state.mentor.calendarId
+          }
+          console.log(obj)
+      this.props.updatementor( this.props.match.params.studentId,obj)
+      this.setState({ 
+          show: false,
+          snackmsg : "Updated Successfully",
+          snackvariant : "success",
+          snackopen : true
+      })
+      }
   };
- 
+ componentDidUpdate(prevProps,prevState){
+   if(this.props.getmentorList !== prevProps.getmentorList){
+       this.setState({
+         mentor : this.props.getmentorList
+       })
+   }
+ }
   componentDidMount(){
     this.props.getAllMentors()
     this.props.getstudentMapping(this.props.match.params.studentId)
@@ -83,15 +92,16 @@ class AdmissionServices extends Component {
     this.props.getproductdetails()
     if(this.props.studentDetails.mentor !== null){
         this.setState({
-            mentor : this.props.studentDetails.mentor
+            mentorname : this.props.studentDetails.mentor
         })
     }
+    this.props.getmentor(this.props.match.params.studentId)
   }
   handleallocate=()=>{
     this.setState({ show: true })
   }
   render() {
-      console.log(this.props.studentDetails)
+      console.log(this.props)
       console.log(this.state)
     return (
       <div style={{ padding: 25 }}>
@@ -110,7 +120,7 @@ class AdmissionServices extends Component {
         <TableContainer>
           <Table>
             <TableHead>
-                {/* {this.props.getstudentMappingList.length > 0 && */}
+                {this.props.getstudentMappingList.length > 0 &&
               <TableRow>
                 <TableCell
                   align="center"
@@ -215,86 +225,93 @@ class AdmissionServices extends Component {
                   {" "}
                   <Button
                     style={{
-                      width: 300,
+                      width: 230,
                       borderRadius: 20,
                       textTransform: "none",
                     }}
                     variant="contained"
                     color="primary"
-                    // startIcon={<AddIcon />}
                     onClick={() => this.handleallocate()}
                   >
                     Allocate Mentor
                   </Button>
                 </TableCell>
               </TableRow>
-              {/* } */}
+               }
             </TableHead>
             <TableBody>
-                {this.props.getstudentMappingList.length > 0 && this.props.getstudentMappingList.map((eachdata,index)=>
-                     <TableRow>
-                     <TableCell
-                       align="center"
-                       style={{
-                         color: "#000000",
-                         fontWeight: 400,
-                         fontSize: 14,
-                         fontFamily: "Montserrat",
-                         borderBottom: "none",
-                       }}
-                     >
-                       {index+1}
-                     </TableCell>
-                     <TableCell
-                       align="center"
-                       style={{
-                         color: "#000000",
-                         fontWeight: 400,
-                         fontSize: 14,
-                         fontFamily: "Montserrat",
-                         borderBottom: "none",
-                       }}
-                     >
-                      {eachdata.Role}
-                     </TableCell>
-     
-                     <TableCell
-                       align="center"
-                       style={{
-                         color: "#000000",
-                         fontWeight: 400,
-                         fontSize: 14,
-                         fontFamily: "Montserrat",
-                         borderBottom: "none",
-                       }}
-                     >
-                      {eachdata.EmployeeName}
-                     </TableCell>
-                     <TableCell
-                       align="center"
-                       style={{
-                         color: "#000000",
-                         fontWeight: 400,
-                         fontSize: 14,
-                         fontFamily: "Montserrat",
-                         borderBottom: "none",
-                       }}
-                     >
-                       {/* Mayur Dhade */}
-                     </TableCell>
-                     <TableCell
-                       align="center"
-                       style={{
-                         color: "#000000",
-                         fontWeight: 400,
-                         fontSize: 14,
-                         fontFamily: "Montserrat",
-                         borderBottom: "none",
-                       }}
-                     >
-                       {/* DD/MM/YYYY HH:MM */}
-                     </TableCell>
-                   </TableRow>
+                {this.props.getstudentMappingList.length > 0 && this.props.getstudentMappingList.map((eachdata,index)=>{
+                  let date = new Date(eachdata.AllocatedAt).getDate()
+                  let month = new Date(eachdata.AllocatedAt).getMonth()+1
+                  let year = new Date(eachdata.AllocatedAt).getFullYear()
+                  let time = new Date(eachdata.AllocatedAt).toLocaleTimeString()
+                  let newallocatedat = new Date(eachdata.AllocatedAt) !== null ? date+"/"+month+"/"+year+" "+time : ""
+                  return(
+                    <TableRow>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                        borderBottom: "none",
+                      }}
+                    >
+                      {index+1}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                        borderBottom: "none",
+                      }}
+                    >
+                     {eachdata.Role}
+                    </TableCell>
+    
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                        borderBottom: "none",
+                      }}
+                    >
+                     {eachdata.EmployeeName}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                        borderBottom: "none",
+                      }}
+                    >
+                      {eachdata.AllocatedBy}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                        borderBottom: "none",
+                      }}
+                    >
+                      {newallocatedat}
+                    </TableCell>
+                  </TableRow>  
+                  )
+                } 
                     )}
             </TableBody>
           </Table>
@@ -412,6 +429,14 @@ class AdmissionServices extends Component {
                     let enrollmentmonth = new Date(eachdata.EnrollmentDate).getMonth()+1
                     let enrollmentyear =  new Date(eachdata.EnrollmentDate).getFullYear()
                     let enrollment = eachdata.EnrollmentDate !== null ? enrollmentdate+"/"+enrollmentmonth+"/"+enrollmentyear : null
+                    let expirydate = new Date(eachdata.ExpiryDate).getDate()
+                    let expirymonth = new Date(eachdata.ExpiryDate).getMonth()
+                    let expiryyear = new Date(eachdata.ExpiryDate).getFullYear()
+                    let newexpiry = eachdata.ExpiryDate ? expirydate+"/"+expirymonth+"/"+expiryyear : null
+                    let eosdate = new Date(eachdata.["End Of service Date"]).getDate()
+                    let eosmonth = new Date(eachdata.["End Of service Date"]).getMonth()
+                    let eosyear = new Date(eachdata.["End Of service Date"]).getFullYear()
+                    let neweos = eachdata.["End Of service Date"] !== null ? eosdate+"/"+eosmonth+"/"+eosyear : null
                       return(
                         <TableRow>
                         <TableCell
@@ -485,7 +510,7 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                          {eachdata.ExpiryDate}
+                          {newexpiry}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -497,7 +522,7 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                          {eachdata.["End Of service Date"]}
+                          {neweos}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -527,19 +552,9 @@ class AdmissionServices extends Component {
             paddingTop: "15%",
           }}
         >
-          <PrimaryButton
-            // onClick={() => this.handleSave()}
-            style={{ textTransform: "none" }}
-            variant={"contained"}
-            color={"primary"}
-            size={"small"}
-          >
-            Save changes
-          </PrimaryButton>
           <Dialog
             maxWidth="xs"
             fullWidth={true}
-            // TransitionComponent={Transition}
             open={this.state.show}
             onClose={() => this.setState({ show: false })}
             aria-labelledby="customized-dialog-title"
@@ -565,7 +580,6 @@ class AdmissionServices extends Component {
               </Typography>
 
               <div style={{ paddingBottom: "5%" }}>
-                {/* <InputLabel id="demo-simple-select-label">Select Mentor From Dropdown</InputLabel> */}
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
@@ -575,7 +589,10 @@ class AdmissionServices extends Component {
                     this.setState({ mentor: newValue });
                   }}
                   options={this.props.mentorList}
-                  getOptionLabel={(option) => option.name}
+                  getOptionLabel={(option) => {
+                    console.log(option);
+                    return option.name;
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -634,10 +651,11 @@ const mapStateToProps = (state) => {
         studentDetails : state.StudentReducer.StudentList,
         getstudentMappingList : state.MentorReducer.getstudentMapping,
         getproductdetailsList : state.MentorReducer.getproductdetails,
-        updateallocatementorList : state.MentorReducer.updateallocatementor
+        updateallocatementorList : state.MentorReducer.updateallocatementor,
+        getmentorList : state.MentorReducer.getmentor
     };
   };
   
   export default connect(mapStateToProps, {
-    getAllMentors,getStudentsById,getstudentMapping,getproductdetails,updateallocatementor
+    getAllMentors,getStudentsById,getstudentMapping,getproductdetails,updateallocatementor,getmentor,updatementor
   })(AdmissionServices);

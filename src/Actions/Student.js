@@ -480,3 +480,15 @@ export const sscexamboard = () =>{
         })
     }
 }
+
+export const getDocumentList = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/files/fileUpload/student/"+id)
+        .then(result=>{
+            dispatch({type:STUDENT.getDocumentList,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
