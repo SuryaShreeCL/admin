@@ -66,7 +66,8 @@ export const STUDENT = {
   getAcademicInfo: 'getAcademicInfo',
   updateAcademicInfo: 'updateAcademicInfo',
   uploadFile:"uploadFile",
-  sscexamboard: "sscexamboard"
+  sscexamboard: "sscexamboard",
+  getDocumentList: 'getDocumentList'
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -204,7 +205,8 @@ export const ADMIN = {
   getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
   activateStudentProduct : "activateStudentProduct",
   getAdminLinkedProduct : "getAdminLinkedProduct", 
-  checkTokenStatus : "checkTokenStatus"
+  checkTokenStatus : "checkTokenStatus",
+  getStudentsByStages : "getStudentsByStages"
 };
 
 export const MENTORSCHEDULELIST={

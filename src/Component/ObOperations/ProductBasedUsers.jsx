@@ -11,6 +11,7 @@ class ProductBasedUsers extends Component {
             tabCount : 0,
             selectedItem : null,
             productDetails : null,
+            adminUserDetails : JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
         }
     }
 
@@ -47,7 +48,7 @@ class ProductBasedUsers extends Component {
     render() {
         console.log(this.state)
         var componentList = {
-            "Onboarding" : "Onboarding",
+            "On Boarding" : "Onboarding",
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
         var obj = {
@@ -66,7 +67,7 @@ class ProductBasedUsers extends Component {
              aria-label="ant example"
            >
             
-               {this.state.productDetails !== null && this.state.productDetails.map((item,index)=>{
+               {this.state.productDetails && this.state.productDetails.map((item,index)=>{
                    return (
                     <ThemedTab value={item} label={item.stepName} />
                    )    
@@ -75,7 +76,7 @@ class ProductBasedUsers extends Component {
            </ThemedTabs>
                </Grid>
                <Grid item md={12}>
-               {Page !== undefined && <Page {...this.props} />  }             
+               {Page !== undefined && <Page productId={this.state.adminUserDetails.products[0].id} stageDetails={this.state.selectedItem} {...this.props} />  }             
                </Grid>
            </Grid>
         );

@@ -432,7 +432,7 @@ export const updateUserData=(data)=>{
 
 export const getAcademicInfo = (id) =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/get/student/educationDetails/"+id)
+        axios.get(URL+"/api/v1/student/educationDetails/"+id)
         .then(result=>{
             dispatch({type:STUDENT.getAcademicInfo,payload:result.data})
         })
@@ -477,6 +477,18 @@ export const sscexamboard = () =>{
         })
         .catch(error=>{
             console.log(error);
+        })
+    }
+}
+
+export const getDocumentList = (id) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/files/fileUpload/student/"+id)
+        .then(result=>{
+            dispatch({type:STUDENT.getDocumentList,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
         })
     }
 }
