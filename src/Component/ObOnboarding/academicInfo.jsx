@@ -166,73 +166,79 @@ export class academicInfo extends Component {
            if (data.type === "ug"){
             ugDetails = data
            }
-       })
-       console.log(ugDetails)
-       var ugScale = ugDetails.scoreScale
-       this.setState ({
-        ugCollege: ugDetails.college,
-        ugUniversity: ugDetails.university,
-        ugDepartment: ugDetails.department,
-        ugDegree: ugDetails.degree,
-        ugSemester: ugDetails.currentSem,
-        ugCgpaScale: {title:ugScale.toString(), value : ugScale},
-        ugCgpa: ugDetails.score ,
-        ugStartDate: ugDetails.startDate,
-        ugEndDate: ugDetails.endDate,
-       })
+       })       
+       if(ugDetails){
+        var ugScale = ugDetails.scoreScale
+        this.setState ({
+         ugCollege: ugDetails.college,
+         ugUniversity: ugDetails.university,
+         ugDepartment: ugDetails.department,
+         ugDegree: ugDetails.degree,
+         ugSemester: ugDetails.currentSem,
+         ugCgpaScale: {title:ugScale.toString(), value : ugScale},
+         ugCgpa: ugDetails.score ,
+         ugStartDate: ugDetails.startDate,
+         ugEndDate: ugDetails.endDate,
+        })
+       }       
        let pgDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "pg"){
             pgDetails = data
            }
        })
-       console.log(pgDetails)
-       var pgScale = pgDetails.scoreScale
-       this.setState({
-        pgCollege: pgDetails.college,
-        pgUniversity: pgDetails.university,
-        pgDepartment: pgDetails.department,
-        pgDegree: pgDetails.degree,
-        pgCgpa: pgDetails.score,
-        pgCgpaScale: {title:pgScale.toString(), value:pgScale},
-        pgStartDate: pgDetails.startDate,
-        pgEndDate: pgDetails.endDate,
-       })
+       if(pgDetails){
+        var pgScale = pgDetails.scoreScale
+        this.setState({
+         pgCollege: pgDetails.college,
+         pgUniversity: pgDetails.university,
+         pgDepartment: pgDetails.department,
+         pgDegree: pgDetails.degree,
+         pgCgpa: pgDetails.score,
+         pgCgpaScale: {title:pgScale.toString(), value:pgScale},
+         pgStartDate: pgDetails.startDate,
+         pgEndDate: pgDetails.endDate,
+        })
+       }       
        let diplomaDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "diploma"){
             diplomaDetails = data
            }
        })
-       const {diplomaType}  = diplomaDetails
-       console.log(diplomaDetails)
-       var diplomoScale = diplomaDetails.scoreScale
-       this.setState({
-        diplomaCollege: diplomaDetails.college ,
-        diplomoUniversity: diplomaDetails.university,
-        diplomoDepartment: {title:diplomaType},
-        diplomoDegree: diplomaDetails.degree,
-        diplomoEndDate: diplomaDetails.endDate,
-        diplomostartDate: diplomaDetails.startDate,
-        diplomoCgpaScale: {title:diplomoScale.toString(), value: diplomoScale},
-        diplomoCgpa: diplomaDetails.score
-       })
+       if(diplomaDetails){
+        const {diplomaType}  = diplomaDetails
+        console.log(diplomaDetails)
+        var diplomoScale = diplomaDetails.scoreScale
+        this.setState({
+         diplomaCollege: diplomaDetails.college ,
+         diplomoUniversity: diplomaDetails.university,
+         diplomoDepartment: {title:diplomaType},
+         diplomoDegree: diplomaDetails.degree,
+         diplomoEndDate: diplomaDetails.endDate,
+         diplomostartDate: diplomaDetails.startDate,
+         diplomoCgpaScale: {title:diplomoScale.toString(), value: diplomoScale},
+         diplomoCgpa: diplomaDetails.score
+        })
+       }       
        let tenthDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "ssc"){
             tenthDetails = data
            }
        })
-       console.log(tenthDetails)
-       var tenthScale = tenthDetails.scoreScale
-       this.setState ({
-        tenthSchool: tenthDetails.schoolName,
-        tenthExamBoard: tenthDetails.examBoard,
-        tenthCgpaScale: {title:tenthScale.toString(), value: tenthScale},
-        tenthStartDate: tenthDetails.startDate,
-        tenthEndDate: tenthDetails.endDate,
-        tenthCgpa: tenthDetails.score,
-       })
+       if(tenthDetails){
+        var tenthScale = tenthDetails.scoreScale
+        this.setState ({
+         tenthSchool: tenthDetails.schoolName,
+         tenthExamBoard: tenthDetails.examBoard,
+         tenthCgpaScale: {title:tenthScale.toString(), value: tenthScale},
+         tenthStartDate: tenthDetails.startDate,
+         tenthEndDate: tenthDetails.endDate,
+         tenthCgpa: tenthDetails.score,
+        })
+       }       
+       
        let twelthDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "hsc"){
@@ -240,15 +246,17 @@ export class academicInfo extends Component {
            }
        })
        console.log(twelthDetails)
-       var twelthScale = twelthDetails.scoreScale
-       this.setState({
-        twelthSchool: twelthDetails.schoolName,
-        twelthExamBoard: twelthDetails.examBoard,
-        twelthStartDate: twelthDetails.startDate,
-        twelthEndDate: twelthDetails.endDate,
-        twelthCgpa: twelthDetails.score,
-        twelthCgpaScale: {title:twelthScale.toString(), value: twelthScale},
-       })
+       if(twelthDetails){
+        var twelthScale = twelthDetails.scoreScale
+        this.setState({
+         twelthSchool: twelthDetails.schoolName,
+         twelthExamBoard: twelthDetails.examBoard,
+         twelthStartDate: twelthDetails.startDate,
+         twelthEndDate: twelthDetails.endDate,
+         twelthCgpa: twelthDetails.score,
+         twelthCgpaScale: {title:twelthScale.toString(), value: twelthScale},
+        })
+       }      
      }
   }
 

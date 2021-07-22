@@ -9,12 +9,20 @@ import {
   createMuiTheme,
 } from "@material-ui/core";
 import { getStudentsById } from "../../Actions/Student";
+import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import { connect } from "react-redux";
-import { getPersonalInfo, updatePersonalInfo, getPincodeDetails } from "../../Actions/Calldetails";
+import {
+  getPersonalInfo,
+  updatePersonalInfo,
+  getPincodeDetails,
+} from "../../Actions/Calldetails";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { isEmptyString } from "../../Component/Validation";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
 
 const theme = createMuiTheme({
   overrides: {
@@ -49,20 +57,19 @@ const theme = createMuiTheme({
 export class personalInfo extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       personalDisable: true,
       addressDisable: true,
       mediaDisable: true,
-      clsid:'',
+      clsid: "",
       firstName: "",
       firstNameErr: "",
       lastName: "",
       lastNameErr: "",
       fullName: "",
       fullNameErr: "",
-      number:'',
-      email:'',
+      number: "",
+      email: "",
       altPhone: "",
       altPhoneErr: "",
       altEmail: "",
@@ -87,45 +94,59 @@ export class personalInfo extends Component {
       facebookErr: "",
       twitter: "",
       twitterErr: "",
-      pincodeDetails:[]
+      pincodeDetails: [],
+
+      sectionStatus: {
+        model: false,
+        data: null,
+        sectionName: "",
+      },
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.props.getStudentsById(this.props.match.params.studentId);
+    this.props.viewStudentStatus(this.props.match.params.studentId);
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
-     
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
-      this.props.getPincodeDetails(this.props.getStudentsByIdList.address !== null && this.props.getStudentsByIdList.address.pincode , (data) => {
-        this.setState({
-          state: data[0].PostOffice[0].State,
-          city: data[0].PostOffice[0].District,
-        })
-      })
+      this.props.getPincodeDetails(
+        this.props.getStudentsByIdList.address !== null &&
+          this.props.getStudentsByIdList.address.pincode,
+        (data) => {
+          this.setState({
+            state: data[0].PostOffice[0].State,
+            city: data[0].PostOffice[0].District,
+          });
+        }
+      );
       this.props.getStudentsByIdList.address !== null &&
-      this.setState({
-        firstName: this.props.getStudentsByIdList.firstName,
-        lastName:this.props.getStudentsByIdList.lastName,
-        fullName:this.props.getStudentsByIdList.firstName + this.props.getStudentsByIdList.lastName,
-        number: this.props.getStudentsByIdList.phoneNumber,
-        email: this.props.getStudentsByIdList.emailId,
-        clsid: this.props.getStudentsByIdList.studentID,
-        altPhone: this.props.getStudentsByIdList.altPhoneNumber,
-        altEmail: this.props.getStudentsByIdList.altEmailId,
-        apartmentName: this.props.getStudentsByIdList.address.suitNoApartmentNo,
-        address1: this.props.getStudentsByIdList.address.streetAddressOne,
-        address2: this.props.getStudentsByIdList.address.streetAddressTwo,
-        landmark: this.props.getStudentsByIdList.address.landMark,
-        pincode: this.props.getStudentsByIdList.address.pincode,
-        // state: this.props.getStudentsByIdList.address.state,
-        // city: this.props.getStudentsByIdList.address.city,
-        twitter: this.props.getStudentsByIdList.twitterUrl,
-        facebook:this.props.getStudentsByIdList.faceBookUrl,
-        linkedIn: this.props.getStudentsByIdList.linkedInProfile
-      });
+        this.setState({
+          firstName: this.props.getStudentsByIdList.firstName,
+          lastName: this.props.getStudentsByIdList.lastName,
+          fullName:
+            this.props.getStudentsByIdList.firstName +
+            this.props.getStudentsByIdList.lastName,
+          number: this.props.getStudentsByIdList.phoneNumber,
+          email: this.props.getStudentsByIdList.emailId,
+          clsid: this.props.getStudentsByIdList.studentID,
+          altPhone: this.props.getStudentsByIdList.altPhoneNumber,
+          altEmail: this.props.getStudentsByIdList.altEmailId,
+          apartmentName: this.props.getStudentsByIdList.address
+            .suitNoApartmentNo,
+          address1: this.props.getStudentsByIdList.address.streetAddressOne,
+          address2: this.props.getStudentsByIdList.address.streetAddressTwo,
+          landmark: this.props.getStudentsByIdList.address.landMark,
+          pincode: this.props.getStudentsByIdList.address.pincode,
+          // state: this.props.getStudentsByIdList.address.state,
+          // city: this.props.getStudentsByIdList.address.city,
+          twitter: this.props.getStudentsByIdList.twitterUrl,
+          facebook: this.props.getStudentsByIdList.faceBookUrl,
+          linkedIn: this.props.getStudentsByIdList.linkedInProfile,
+        });
     }
   }
+
   handlePersonalClick(e) {
     this.setState({ personalDisable: !this.state.personalDisable });
   }
@@ -194,36 +215,59 @@ export class personalInfo extends Component {
 
     // }
     {
-   let obj = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      fullName: this.state.fullName,
-      studentID: this.state.clsid,
-      twitterUrl: this.state.twitter,
-      faceBookUrl: this.state.facebook,
-      linkedInProfile: this.state.linkedIn,
-      altPhoneNumber: this.state.altPhone,
-      altEmailId: this.state.altEmail,
-      address: {
-        city: this.state.city,
-        state: this.state.state,
-        country:"null",
-        streetAddressOne: this.state.address1,
-        streetAddressTwo: this.state.address2,
-        pincode: this.state.pincode,
-        landMark: this.state.landmark,
-        suitNoApartmentNo: this.state.apartmentName,
-      },
+      let obj = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        fullName: this.state.fullName,
+        studentID: this.state.clsid,
+        twitterUrl: this.state.twitter,
+        faceBookUrl: this.state.facebook,
+        linkedInProfile: this.state.linkedIn,
+        altPhoneNumber: this.state.altPhone,
+        altEmailId: this.state.altEmail,
+        address: {
+          city: this.state.city,
+          state: this.state.state,
+          country: "null",
+          streetAddressOne: this.state.address1,
+          streetAddressTwo: this.state.address2,
+          pincode: this.state.pincode,
+          landMark: this.state.landmark,
+          suitNoApartmentNo: this.state.apartmentName,
+        },
+      };
+      this.props.updatePersonalInfo(this.props.match.params.studentId, obj);
+      console.log(this.props.match.params.studentId);
     }
-    this.props.updatePersonalInfo(this.props.match.params.studentId,obj)
-    console.log(this.props.match.params.studentId)
-    };
   };
 
-  render() {
-    console.log(this.props.getStudentsByIdList)
-    console.log(this.props)
+  getStatus = (sectionName) => {
+    if (
+      this.props.studentStatus &&
+      this.props.studentStatus.length !== 0
+    ) {
+      const { studentStatus } = this.props;         
+      return studentStatus.find((item) => item.sectionName === sectionName);
+    } 
+  };
 
+  renderModel = () => (
+    <Model
+      data={this.state.sectionStatus}
+      handleClose={() =>
+        this.setState({
+          sectionStatus: {
+            ...this.state.sectionStatus,
+            model: false,
+          },
+        })
+      }
+      section={this.state.sectionStatus}
+      {...this.props}
+    />
+  );  
+
+  render() {    
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
@@ -248,14 +292,21 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Personal Information</p>
-                    <img
-                      src={GreenTick}
-                      style={{
-                        height: 17,
-                        width: 17,
-                        position: "relative",
-                        top: 5,
+                    <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.personalDetail),
+                            sectionName: SECTION.personalDetail,
+                          },
+                        });
                       }}
+                      status={
+                        this.getStatus(SECTION.personalDetail)
+                          ? this.getStatus(SECTION.personalDetail).status
+                          : "notVerified"
+                      }
                     />
                   </div>
                   <IconButton onClick={this.handlePersonalClick.bind(this)}>
@@ -386,14 +437,21 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Address Details</p>
-                    <img
-                      src={GreenTick}
-                      style={{
-                        height: 17,
-                        width: 17,
-                        position: "relative",
-                        top: 5,
+                    <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.addressDetail),
+                            sectionName: SECTION.addressDetail,
+                          },
+                        });
                       }}
+                      status={
+                        this.getStatus(SECTION.addressDetail)
+                          ? this.getStatus(SECTION.addressDetail).status
+                          : "notVerified"
+                      }
                     />
                   </div>
                   <IconButton onClick={this.handleAddressClick.bind(this)}>
@@ -466,7 +524,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="Pincode"
                   value={this.state.pincode}
-                  type='number'
+                  type="number"
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
                     this.setState({ pincode: e.target.value, pincodeErr: "" })
@@ -521,14 +579,21 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Social Media</p>
-                    <img
-                      src={GreenTick}
-                      style={{
-                        height: 17,
-                        width: 17,
-                        position: "relative",
-                        top: 5,
+                    <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.socialMedia),
+                            sectionName: SECTION.socialMedia,
+                          },
+                        });
                       }}
+                      status={
+                        this.getStatus(SECTION.socialMedia)
+                          ? this.getStatus(SECTION.socialMedia).status
+                          : "notVerified"
+                      }
                     />
                   </div>
                   <IconButton onClick={this.handleSocialClick.bind(this)}>
@@ -598,6 +663,7 @@ export class personalInfo extends Component {
               </Grid>
             </Grid>
           </Card>
+          {this.renderModel()}
         </ThemeProvider>
       </div>
     );
@@ -623,15 +689,18 @@ const style = {
 
 const mapStateToProps = (state) => {
   return {
-    updatePersonalInfoList : state.CallReducer.updatePersonalInfo,
-    getPersonalInfoList : state.CallReducer.getPersonalInfo,
+    updatePersonalInfoList: state.CallReducer.updatePersonalInfo,
+    getPersonalInfoList: state.CallReducer.getPersonalInfo,
     getStudentsByIdList: state.StudentReducer.StudentList,
+    studentStatus: state.AdminReducer.studentStatusResponse,
   };
 };
 
 export default connect(mapStateToProps, {
-  getPersonalInfo, updatePersonalInfo,
+  getPersonalInfo,
+  updatePersonalInfo,
   getStudentsById,
-  getPincodeDetails
+  getPincodeDetails,
+  viewStudentStatus,
+  updateVerificationStatus
 })(personalInfo);
-
