@@ -481,7 +481,7 @@ class ProductActivation extends Component {
                             </DialogContent>
                             {/* <DialogActions> */}
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
-                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} >
+                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} style={{textTransform : "none"}}>
                                     Activate
                                 </PrimaryButton>
                             </div>

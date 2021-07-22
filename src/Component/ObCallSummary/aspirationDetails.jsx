@@ -349,7 +349,7 @@ class AspirationDetails extends Component {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Targeted Degree"
+                    label="Degree"
                     variant="standard"
                   />
                 )}

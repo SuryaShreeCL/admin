@@ -252,6 +252,7 @@ class workExperience extends Component {
                 var startmonthName = months[new Date(item.startDate).getMonth()];
                 var endMonthName = months[new Date(item.endDate).getMonth()];
               return(
+                item.id !== null &&
                 <Accordion>
                 <AccordionSummary expandIcon={<ExpandMore />}>
                   <div style={{ display: "flex", flexDirection: "row" }}>
