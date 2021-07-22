@@ -74,3 +74,29 @@ export const updateallocatementor = (data) => {
             });
     }
 }
+export const getmentor = (studentId) => {
+    return dispatch => {
+        axios.get(URL+"/api/v1/mentor/"+studentId,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:MENTORSCHEDULELIST.getmentor,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+export const updatementor = (studentId,data) => {
+    return dispatch => {
+        axios.put(URL+"/api/v1/student/mentor/"+studentId,data,{
+            crossDomain: true
+        })
+            .then(result => {
+                dispatch({type:MENTORSCHEDULELIST.updatementor,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}

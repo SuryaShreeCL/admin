@@ -48,7 +48,7 @@ class ProductBasedUsers extends Component {
     render() {
         console.log(this.state)
         var componentList = {
-            "Onboarding" : "Onboarding",
+            "On Boarding" : "Onboarding",
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
         var obj = {
@@ -67,7 +67,7 @@ class ProductBasedUsers extends Component {
              aria-label="ant example"
            >
             
-               {this.state.productDetails !== null && this.state.productDetails.map((item,index)=>{
+               {this.state.productDetails && this.state.productDetails.map((item,index)=>{
                    return (
                     <ThemedTab value={item} label={item.stepName} />
                    )    

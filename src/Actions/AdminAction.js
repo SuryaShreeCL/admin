@@ -238,7 +238,7 @@ export const updateVerificationStatus=(data,callback)=>{
 
 export const getAllMentors = () =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/get/mentors")
+        axios.get(URL+"/api/v1/mentors")
         .then(result=>{
             dispatch({type : ADMIN.getAllMentor, payload : result.data})
         })

@@ -41,10 +41,10 @@ class Question extends Component {
        componentDidUpdate(prevProps, prevState){
         if(this.props.getClientInfoList !== prevProps.getClientInfoList){
           this.setState({
-            questions: this.props.getClientInfoList.questions,
-            expectations: this.props.getClientInfoList.expectations,
-            concerns: this.props.getClientInfoList.concerns,
-            feedback: this.props.getClientInfoList.feedback,
+            questions: this.props.getClientInfoList.questions !== null ? this.props.getClientInfoList.questions : '',
+            expectations: this.props.getClientInfoList.expectations !== null ? this.props.getClientInfoList.expectations : '',
+            concerns: this.props.getClientInfoList.concerns !== null ? this.props.getClientInfoList.concerns : '',
+            feedback: this.props.getClientInfoList.feedback !== null ? this.props.getClientInfoList.feedback : '',
           })
         }
       }

@@ -103,7 +103,7 @@ import ProductComboForm from './Product/ProductComboForm';
 import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
 import ProductStages from './Product/ProductStages';
 // import Rating from './ObOnboarding/Onboarding';
-import PersonaInfo from './ObOnboarding/personalInfo'
+// import PersonaInfo, { personalInfo } from './ObOnboarding/personalInfo'
 import ClientDetails from './ObCallSummary/ClientDetails';
 // import Onboarding from './ObCallSummary/Rating';
 import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
@@ -114,6 +114,8 @@ import StageBasedLayout from './ObOperations/StageBasedLayout';
 import ProductActivation from './ObCallSummary/productActivation';
 import CreatePost from './Wall/Pages/CreatePost';
 import EditPost from './Wall/Pages/EditPost';
+import PersonaInfo from './ObOnboarding/personalInfo';
+// import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
 
@@ -149,7 +151,7 @@ export default function Routes(props) {
             <Route exact path={reportsPath} render={(props)=> <ReportHome {...props} />} />
             <Route exact path={webinarPath} render={(props)=> <Webinar {...props} />} />
             <Route exact path={careerTrackPath} render={(props)=> <CareerTrack {...props} />} />
-            <Route exact path={productBasedPath} render={(props)=> <ProductBasedRoot {...props} />} />
+            <Route exact path={productBasedPath} render={(props)=> <PersonaInfo {...props} />} />
             <Route exact path={starterPackPath} render={(props)=> <StarterPack {...props} />} />
             <Route exact path={productVariantPath} render={(props)=> <ProductVariantRoot {...props} />} />
             <Route exact path={productVariantPath+"/:id"} render={(props)=> <ProductVariantRoot {...props} />} />

@@ -8,7 +8,7 @@ import {
   withStyles,
   createMuiTheme,
 } from "@material-ui/core";
-import { getStudentsById } from "../../Actions/Student";
+import { getStudentsById ,getDocumentList} from "../../Actions/Student";
 import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import { connect } from "react-redux";
 import {
@@ -23,6 +23,7 @@ import { isEmptyString } from "../../Component/Validation";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
+import DoccumentCard from "../Utils/DoccumentCard";
 
 const theme = createMuiTheme({
   overrides: {
@@ -106,6 +107,7 @@ export class personalInfo extends Component {
   componentDidMount() {
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
+    this.props.getDocumentList(this.props.match.params.studentId)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -268,7 +270,7 @@ export class personalInfo extends Component {
   );  
 
   render() {    
-    const { HeadStyle, HeadDisplay } = style;
+    const { HeadStyle, GridStyle } = style;
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -329,7 +331,6 @@ export class personalInfo extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
-                    fontSize: "18px",
                   }}
                   id="standard-basic"
                   label="Client First Name"
@@ -640,6 +641,86 @@ export class personalInfo extends Component {
                   helperText={this.state.twitterErr}
                 />
               </Grid>
+              <Grid item md={12}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "22%",
+                    }}
+                  >
+                    <p style={HeadStyle}>Documents Received</p>
+                    <img
+                      src={GreenTick}
+                      style={{
+                        height: 17,
+                        width: 17,
+                        position: "relative",
+                        top: 5,
+                      }}
+                    />
+                  </div>
+                  <IconButton onClick={this.handleAddressClick.bind(this)}>
+                    <img src={Pencil} height={17} width={17} />
+                  </IconButton>
+                </div>
+              </Grid>
+
+              <div style={{ display: "flex", flexDirection: "column", justifyContent:'space-around', width:'100%'}}>
+
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>PG Degree</p>
+                  <div style={{display:'flex', flexDirection:'row' }}>
+                  <DoccumentCard />
+                  <DoccumentCard/>
+                  </div>
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>UG Degree</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>XII Grade</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>X Grade</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>GRE</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>GMAT</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>TOEFL</p>
+                  <DoccumentCard />
+                </Grid>
+
+                <Grid item direction="column">
+                  <p style={GridStyle}>IELTS</p>
+                  <DoccumentCard />
+                </Grid>
+              </div>
+
               <Grid
                 item
                 md={12}
@@ -672,11 +753,9 @@ export class personalInfo extends Component {
 const style = {
   HeadStyle: {
     fontStyle: "Poppins",
-    // fontWeight: "600",
     fontStyle: "normal",
     fontSize: "18px",
     color: "#0081FF",
-    // padding:15
   },
   HeadDisplay: {
     display: "flex",
@@ -684,6 +763,13 @@ const style = {
     width: "100%",
     justifyContent: "space-between",
     padding: 20,
+  },
+  GridStyle: {
+    fontStyle: "Montserrat",
+    fontWeight: "700",
+    fontStyle: "normal",
+    fontSize: "16px",
+    color: "#052A4E",
   },
 };
 
@@ -693,6 +779,7 @@ const mapStateToProps = (state) => {
     getPersonalInfoList: state.CallReducer.getPersonalInfo,
     getStudentsByIdList: state.StudentReducer.StudentList,
     studentStatus: state.AdminReducer.studentStatusResponse,
+    getDocumentList: state.StudentReducer.getDocumentList,
   };
 };
 
@@ -702,5 +789,6 @@ export default connect(mapStateToProps, {
   getStudentsById,
   getPincodeDetails,
   viewStudentStatus,
-  updateVerificationStatus
+  updateVerificationStatus,
+  getDocumentList
 })(personalInfo);
