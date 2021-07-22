@@ -18,7 +18,7 @@ export const updateclientdetails = (studentId, productId, data) => {
 
 export const getClientInfo = (studentId,productId) =>{
     return dispatch =>{
-        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId,)
+        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId)
         .then(result=>{
             dispatch({type:CALL_DETAILS.getClientInfo,payload:result.data})
             console.log(result)
