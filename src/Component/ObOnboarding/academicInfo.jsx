@@ -159,79 +159,121 @@ export class academicInfo extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-     if(this.props.getAcademicInfoList !== prevProps.getAcademicInfoList){
+    if(this.state.pgEndDate !== prevState.pgEndDate ) {
+      if(this.state.pgStartDate === this.state.pgEndDate){
+        this.setState({
+          pgEndDateErr : "Please Choose the Valid date"
+        })
+    }
+    }
+    if(this.state.ugEndDate !== prevState.ugEndDate ) {
+      if(this.state.ugStartDate === this.state.ugEndDate){
+        this.setState({
+          ugEndDateErr : "Please Choose the Valid date"
+        })
+    }
+    }  
+    if(this.state.diplomoEndDate !== prevState.diplomoEndDate ) {
+      if(this.state.diplomostartDate === this.state.diplomoEndDate){
+        this.setState({
+          diplomoEndDateErr : "Please Choose the Valid date"
+        })
+    }
+    }  
+    if(this.state.twelthEndDate !== prevState.twelthEndDate ) {
+      if(this.state.twelthStartDate === this.state.twelthEndDate){
+        this.setState({
+          twelthEndDateErr : "Please Choose the Valid date"
+        })
+    }
+    } 
+    if(this.state.tenthEndDate !== prevState.tenthEndDate ) {
+      if(this.state.tenthStartDate === this.state.tenthEndDate){
+        this.setState({
+          tenthEndDateErr : "Please Choose the Valid date"
+        })
+    }
+    } 
+     if(this.props.getAcademicInfoList.length > 0 && this.props.getAcademicInfoList !== prevProps.getAcademicInfoList){
+       const{scoreScale} = this.props.getAcademicInfoList
        let ugDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "ug"){
             ugDetails = data
            }
-       })
-       console.log(ugDetails)
-       var ugScale = ugDetails.scoreScale
-       this.setState ({
-        ugCollege: ugDetails.college,
-        ugUniversity: ugDetails.university,
-        ugDepartment: ugDetails.department,
-        ugDegree: ugDetails.degree,
-        ugSemester: ugDetails.currentSem,
-        ugCgpaScale: {title:ugScale.toString(), value : ugScale},
-        ugCgpa: ugDetails.score ,
-        ugStartDate: ugDetails.startDate,
-        ugEndDate: ugDetails.endDate,
-       })
+       })       
+       if(ugDetails){
+        var ugScale = ugDetails.scoreScale
+        this.setState ({
+         ugCollege: ugDetails.college,
+         ugUniversity: ugDetails.university,
+         ugDepartment: ugDetails.department,
+         ugDegree: ugDetails.degree,
+         ugSemester: ugDetails.currentSem,
+         ugCgpaScale: {title:ugScale.toString(), value : ugScale},
+         ugCgpa: ugDetails.score ,
+         ugStartDate: ugDetails.startDate,
+         ugEndDate: ugDetails.endDate,
+        })
+       }       
        let pgDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "pg"){
             pgDetails = data
            }
        })
-       console.log(pgDetails)
-       var pgScale = pgDetails.scoreScale
-       this.setState({
-        pgCollege: pgDetails.college,
-        pgUniversity: pgDetails.university,
-        pgDepartment: pgDetails.department,
-        pgDegree: pgDetails.degree,
-        pgCgpa: pgDetails.score,
-        pgCgpaScale: {title:pgScale.toString(), value:pgScale},
-        pgStartDate: pgDetails.startDate,
-        pgEndDate: pgDetails.endDate,
-       })
+       if(pgDetails){
+        var pgScale = pgDetails.scoreScale
+        this.setState({
+         pgCollege: pgDetails.college,
+         pgUniversity: pgDetails.university,
+         pgDepartment: pgDetails.department,
+         pgDegree: pgDetails.degree,
+         pgCgpa: pgDetails.score,
+         pgCgpaScale: {title:pgScale.toString(), value:pgScale},
+         pgStartDate: pgDetails.startDate,
+         pgEndDate: pgDetails.endDate,
+        })
+       }       
        let diplomaDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "diploma"){
             diplomaDetails = data
            }
        })
-       const {diplomaType}  = diplomaDetails
-       console.log(diplomaDetails)
-       var diplomoScale = diplomaDetails.scoreScale
-       this.setState({
-        diplomaCollege: diplomaDetails.college ,
-        diplomoUniversity: diplomaDetails.university,
-        diplomoDepartment: {title:diplomaType},
-        diplomoDegree: diplomaDetails.degree,
-        diplomoEndDate: diplomaDetails.endDate,
-        diplomostartDate: diplomaDetails.startDate,
-        diplomoCgpaScale: {title:diplomoScale.toString(), value: diplomoScale},
-        diplomoCgpa: diplomaDetails.score
-       })
+       if(diplomaDetails){
+        const {diplomaType}  = diplomaDetails
+        console.log(diplomaDetails)
+        var diplomoScale = diplomaDetails.scoreScale
+        this.setState({
+         diplomaCollege: diplomaDetails.college ,
+         diplomoUniversity: diplomaDetails.university,
+         diplomoDepartment: {title:diplomaType},
+         diplomoDegree: diplomaDetails.degree,
+         diplomoEndDate: diplomaDetails.endDate,
+         diplomostartDate: diplomaDetails.startDate,
+         diplomoCgpaScale: {title:diplomoScale.toString(), value: diplomoScale},
+         diplomoCgpa: diplomaDetails.score
+        })
+       }       
        let tenthDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "ssc"){
             tenthDetails = data
            }
        })
-       console.log(tenthDetails)
-       var tenthScale = tenthDetails.scoreScale
-       this.setState ({
-        tenthSchool: tenthDetails.schoolName,
-        tenthExamBoard: tenthDetails.examBoard,
-        tenthCgpaScale: {title:tenthScale.toString(), value: tenthScale},
-        tenthStartDate: tenthDetails.startDate,
-        tenthEndDate: tenthDetails.endDate,
-        tenthCgpa: tenthDetails.score,
-       })
+       if(tenthDetails){
+        var tenthScale = tenthDetails.scoreScale
+        this.setState ({
+         tenthSchool: tenthDetails.schoolName,
+         tenthExamBoard: tenthDetails.examBoard,
+         tenthCgpaScale: {title:tenthScale.toString(), value: tenthScale},
+         tenthStartDate: tenthDetails.startDate,
+         tenthEndDate: tenthDetails.endDate,
+         tenthCgpa: tenthDetails.score,
+        })
+       }       
+       
        let twelthDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "hsc"){
@@ -239,15 +281,17 @@ export class academicInfo extends Component {
            }
        })
        console.log(twelthDetails)
-       var twelthScale = twelthDetails.scoreScale
-       this.setState({
-        twelthSchool: twelthDetails.schoolName,
-        twelthExamBoard: twelthDetails.examBoard,
-        twelthStartDate: twelthDetails.startDate,
-        twelthEndDate: twelthDetails.endDate,
-        twelthCgpa: twelthDetails.score,
-        twelthCgpaScale: {title:twelthScale.toString(), value: twelthScale},
-       })
+       if(twelthDetails){
+        var twelthScale = twelthDetails.scoreScale
+        this.setState({
+         twelthSchool: twelthDetails.schoolName,
+         twelthExamBoard: twelthDetails.examBoard,
+         twelthStartDate: twelthDetails.startDate,
+         twelthEndDate: twelthDetails.endDate,
+         twelthCgpa: twelthDetails.score,
+         twelthCgpaScale: {title:twelthScale.toString(), value: twelthScale},
+        })
+       }      
      }
   }
 
@@ -767,6 +811,7 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
+                            disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
                             format="MM-dd-yyyy"
@@ -792,7 +837,7 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             label="End Date"
-                            format="MM/dd/yyyy"
+                            format="MM-dd-yyyy"
                             inputProps={{ readOnly: true }}
                             disabled={this.state.pgStartDate === null}
                             minDate={this.state.pgStartDate}
@@ -985,6 +1030,7 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
+                            disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
                             format="MM/dd/yyyy"
@@ -1204,6 +1250,7 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
+                            disableFuture
                             id="date-picker-dialog"
                             value={this.state.diplomostartDate}
                             onChange={(e, newValue) =>
@@ -1392,6 +1439,7 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
+                            disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
                             format="MM/dd/yyyy"
@@ -1548,6 +1596,7 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
+                            disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
                             value={this.state.tenthStartDate}

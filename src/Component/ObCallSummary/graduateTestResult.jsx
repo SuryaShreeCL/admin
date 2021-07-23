@@ -174,6 +174,12 @@ class GraduateTestResult extends Component {
     this.props.getStudentsById(this.props.match.params.studentId)
   }
   componentDidUpdate(prevProps,prevState){
+    if(this.props.fileuploadGATList !== prevProps.fileuploadGATList){
+      this.props.getgrescore(this.props.match.params.studentId)
+      this.props.getgmatscore(this.props.match.params.studentId)
+      this.props.getieltsscore(this.props.match.params.studentId)
+      this.props.gettoeflscore(this.props.match.params.studentId)
+    }
     if(this.props.updategrescoreList !== prevProps.updategrescoreList){
       this.props.getgrescore(this.props.match.params.studentId);
     }
@@ -365,9 +371,9 @@ class GraduateTestResult extends Component {
   };
   handledownload = (data,index) => {
     console.log(data,index)
-    console.log(this.props.getgrescoreList[index].studentDocument.path)
-    if(data === "GRE"){
-      console.log("GRE" && this.props.getgrescoreList[index].studentDocument !== null)
+    // console.log(this.props.getgrescoreList[index].studentDocument.path)
+    if(data === "GRE" && this.props.getgrescoreList[index].studentDocument !== null){
+      // console.log("GRE" && this.props.getgrescoreList[index].studentDocument !== null)
      this.props.downloadGAT(this.props.match.params.studentId,this.props.getgrescoreList[index].studentDocument.path)
      window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.getgrescoreList[index].studentDocument.path)
     }
@@ -464,7 +470,7 @@ class GraduateTestResult extends Component {
     const d = new FormData();
     d.append('file', this.state.toeflfinalFile);
     console.log(d);
-    this.props.fileuploadGAT(this.props.match.params.studentId,"toefl",this.state.toeflid,d);
+    this.props.fileuploadGAT(this.props.match.params.studentId,"tofel",this.state.toeflid,d);
     this.setState({
       snackmsg  : "Updated Successfully",
       snackVariant : "Success",

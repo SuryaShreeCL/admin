@@ -8,18 +8,21 @@ import {
   withStyles,
   createMuiTheme,
 } from "@material-ui/core";
-import { getStudentsById, getDocumentList } from "../../Actions/Student";
+import { getStudentsById ,getDocumentList} from "../../Actions/Student";
+import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import { connect } from "react-redux";
 import {
   getPersonalInfo,
   updatePersonalInfo,
   getPincodeDetails,
-
 } from "../../Actions/Calldetails";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { isEmptyString } from "../../Component/Validation";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
 
 const theme = createMuiTheme({
@@ -55,7 +58,6 @@ const theme = createMuiTheme({
 export class personalInfo extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       personalDisable: true,
       addressDisable: true,
@@ -94,10 +96,17 @@ export class personalInfo extends Component {
       twitter: "",
       twitterErr: "",
       pincodeDetails: [],
+
+      sectionStatus: {
+        model: false,
+        data: null,
+        sectionName: "",
+      },
     };
   }
   componentDidMount() {
     this.props.getStudentsById(this.props.match.params.studentId);
+    this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getDocumentList(this.props.match.params.studentId)
   }
 
@@ -137,6 +146,7 @@ export class personalInfo extends Component {
         });
     }
   }
+
   handlePersonalClick(e) {
     this.setState({ personalDisable: !this.state.personalDisable });
   }
@@ -230,11 +240,33 @@ export class personalInfo extends Component {
     }
   };
 
-  render() {
-    console.log(this.props.getAllDocumentList);
-    console.log(this.props.getAllDocumentList.["UG Degree"]);
-    console.log(this.props);
+  getStatus = (sectionName) => {
+    if (
+      this.props.studentStatus &&
+      this.props.studentStatus.length !== 0
+    ) {
+      const { studentStatus } = this.props;         
+      return studentStatus.find((item) => item.sectionName === sectionName);
+    } 
+  };
 
+  renderModel = () => (
+    <Model
+      data={this.state.sectionStatus}
+      handleClose={() =>
+        this.setState({
+          sectionStatus: {
+            ...this.state.sectionStatus,
+            model: false,
+          },
+        })
+      }
+      section={this.state.sectionStatus}
+      {...this.props}
+    />
+  );  
+
+  render() {    
     const { HeadStyle, GridStyle } = style;
     return (
       <div>
@@ -259,14 +291,21 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Personal Information</p>
-                    <img
-                      src={GreenTick}
-                      style={{
-                        height: 17,
-                        width: 17,
-                        position: "relative",
-                        top: 5,
+                    <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.personalDetail),
+                            sectionName: SECTION.personalDetail,
+                          },
+                        });
                       }}
+                      status={
+                        this.getStatus(SECTION.personalDetail)
+                          ? this.getStatus(SECTION.personalDetail).status
+                          : "notVerified"
+                      }
                     />
                   </div>
                   <IconButton onClick={this.handlePersonalClick.bind(this)}>
@@ -396,14 +435,21 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Address Details</p>
-                    <img
-                      src={GreenTick}
-                      style={{
-                        height: 17,
-                        width: 17,
-                        position: "relative",
-                        top: 5,
+                    <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.addressDetail),
+                            sectionName: SECTION.addressDetail,
+                          },
+                        });
                       }}
+                      status={
+                        this.getStatus(SECTION.addressDetail)
+                          ? this.getStatus(SECTION.addressDetail).status
+                          : "notVerified"
+                      }
                     />
                   </div>
                   <IconButton onClick={this.handleAddressClick.bind(this)}>
@@ -531,14 +577,21 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Social Media</p>
-                    <img
-                      src={GreenTick}
-                      style={{
-                        height: 17,
-                        width: 17,
-                        position: "relative",
-                        top: 5,
+                    <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.socialMedia),
+                            sectionName: SECTION.socialMedia,
+                          },
+                        });
                       }}
+                      status={
+                        this.getStatus(SECTION.socialMedia)
+                          ? this.getStatus(SECTION.socialMedia).status
+                          : "notVerified"
+                      }
                     />
                   </div>
                   <IconButton onClick={this.handleSocialClick.bind(this)}>
@@ -802,6 +855,7 @@ export class personalInfo extends Component {
               </Grid>
             </Grid>
           </Card>
+          {this.renderModel()}
         </ThemeProvider>
       </div>
     );
@@ -836,6 +890,8 @@ const mapStateToProps = (state) => {
     getPersonalInfoList: state.CallReducer.getPersonalInfo,
     getStudentsByIdList: state.StudentReducer.StudentList,
     getAllDocumentList: state.StudentReducer.getDocumentList,
+    studentStatus: state.AdminReducer.studentStatusResponse,
+    // getDocumentList: state.StudentReducer.getDocumentList,
   };
 };
 
@@ -844,5 +900,7 @@ export default connect(mapStateToProps, {
   updatePersonalInfo,
   getStudentsById,
   getPincodeDetails,
+  viewStudentStatus,
+  updateVerificationStatus,
   getDocumentList
 })(personalInfo);

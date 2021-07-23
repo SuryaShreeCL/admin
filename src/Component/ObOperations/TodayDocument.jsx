@@ -12,9 +12,9 @@ class TodayDocument extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.top}>
-          <Typography style={{ fontWeight: 700 }}>Today's Document</Typography>
+          <Typography style={{ fontWeight: 700 }}>Today's Documents</Typography>
           <Typography color={"textSecondary"}>
-            Documents that need to be closed today
+            Documents That Needs To Be Closed Today
           </Typography>
         </div>
         <div className={classes.middle}>

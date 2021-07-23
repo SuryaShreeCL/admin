@@ -260,6 +260,10 @@ class ProductActivation extends Component {
                                 {this.props.awaitingUsersForActivationList.length !== 0 &&
                                     this.props.awaitingUsersForActivationList.map(
                                         (eachData, index) => {
+                                            let date = new Date(eachData.orderDate).getDate()
+                                            let month = new Date(eachData.orderDate).getMonth()
+                                            let year = new Date(eachData.orderDate).getFullYear()
+                                            let newDate = eachData.orderDate !== null ? date + "/" + month + "/" + year : null
                                             return (
                                                 <TableRow>
                                                     <TableCell align="center">{eachData.clsId}</TableCell>
@@ -275,7 +279,7 @@ class ProductActivation extends Component {
                                                         {eachData.products.name}
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        {eachData.orderDate}
+                                                        {newDate}
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         {eachData.paymentProvider}
@@ -477,7 +481,7 @@ class ProductActivation extends Component {
                             </DialogContent>
                             {/* <DialogActions> */}
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
-                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} >
+                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} style={{textTransform : "none"}}>
                                     Activate
                                 </PrimaryButton>
                             </div>
