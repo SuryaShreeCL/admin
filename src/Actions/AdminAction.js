@@ -214,7 +214,7 @@ export const viewStudentStatus=(id)=>{
 }
 
 
-export const updateVerificationStatus=(data)=>{
+export const updateVerificationStatus=(data,callback)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")  
 
     return dispatch => {
@@ -226,7 +226,7 @@ export const updateVerificationStatus=(data)=>{
             crossDomain: true
         })
             .then(result => {
-                console.log(result)
+                callback(result)
                 dispatch({type:ADMIN.updateVerificationStatus,updateVerificationResponse:result.data})
             })
             .catch(error => {

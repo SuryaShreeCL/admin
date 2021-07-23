@@ -252,6 +252,7 @@ class workExperience extends Component {
                 var startmonthName = months[new Date(item.startDate).getMonth()];
                 var endMonthName = months[new Date(item.endDate).getMonth()];
               return(
+                item.id !== null &&
                 <Accordion>
                 <AccordionSummary expandIcon={<ExpandMore />}>
                   <div style={{ display: "flex", flexDirection: "row" }}>
@@ -319,12 +320,12 @@ class workExperience extends Component {
   
                     <Grid item md={3}>
                       <KeyboardDatePicker
+                        disableFuture
                         margin="normal"
                         id="date-picker-dialog"
                         label="Start Date"
                         format="yyyy-MM"
                         views={["year", "month"]}
-                        contentEditable={this.state.disable}
                         inputProps={{ readOnly: true }}
                         error={this.state.startDateErr.length > 0}
                         helperText={this.state.startDateErr}
@@ -332,7 +333,7 @@ class workExperience extends Component {
                         // onChange={(e, newValue) =>
                         //   this.setState({ startDate: newValue, startDateErr:'' })
                         // }
-                        error={this.state.[`startDateErr${index}`] !== undefined && this.state.[`startDateErr${index}`] !== null ? true : false}
+                        error={this.state.[`startDateErr${index}`] !== undefined && this.state.[`startDateErr${index}`] !== "" ? true : false}
                         helperText={this.state.[`startDateErr${index}`]}
                         onChange={(date) => this.state.disable === false && this.onChange({target:{name:"startDate",value:date}},index)}
                         InputLabelProps={{
@@ -345,14 +346,15 @@ class workExperience extends Component {
                     </Grid>
                     <Grid item md={3}>
                       <KeyboardDatePicker
+                        disableFuture
                         margin="normal"
                         id="date-picker-dialog"
                         label="End Date"
                         format="yyyy-MM"
                         views={["year", "month"]}
                         contentEditable={this.state.disable}
-                        minDate={this.state.startDate}
-                        error={this.state.[`endDateErr${index}`] !== undefined && this.state.[`endDateErr${index}`] !== null ? true : false}
+                        minDate={this.state.professional[index].startDate}
+                        error={this.state.[`endDateErr${index}`] !== undefined && this.state.[`endDateErr${index}`] !== "" ? true : false}
                         helperText={this.state.[`endDateErr${index}`]}
                         value={item.endDate || ""}
                         onChange={(date) => this.state.disable === false && this.onChange({target:{name:"endDate",value:date}},index)}
