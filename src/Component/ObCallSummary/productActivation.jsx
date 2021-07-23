@@ -261,7 +261,7 @@ class ProductActivation extends Component {
                                     this.props.awaitingUsersForActivationList.map(
                                         (eachData, index) => {
                                             let date = new Date(eachData.orderDate).getDate()
-                                            let month = new Date(eachData.orderDate).getMonth()
+                                            let month = new Date(eachData.orderDate).getMonth() + 1
                                             let year = new Date(eachData.orderDate).getFullYear()
                                             let newDate = eachData.orderDate !== null ? date + "/" + month + "/" + year : null
                                             return (
