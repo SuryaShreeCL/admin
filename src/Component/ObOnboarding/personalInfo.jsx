@@ -140,8 +140,6 @@ export class personalInfo extends Component {
           address2: this.props.getStudentsByIdList.address.streetAddressTwo,
           landmark: this.props.getStudentsByIdList.address.landMark,
           pincode: this.props.getStudentsByIdList.address.pincode,
-          // state: this.props.getStudentsByIdList.address.state,
-          // city: this.props.getStudentsByIdList.address.city,
           twitter: this.props.getStudentsByIdList.twitterUrl,
           facebook: this.props.getStudentsByIdList.faceBookUrl,
           linkedIn: this.props.getStudentsByIdList.linkedInProfile,
@@ -242,7 +240,6 @@ export class personalInfo extends Component {
         },
       };
       this.props.updatePersonalInfo(this.props.match.params.studentId, obj);
-      console.log(this.props.match.params.studentId);
     }
   };
 
@@ -390,7 +387,7 @@ export class personalInfo extends Component {
                   label="Email Address"
                   disabled={true}
                   value={this.state.email}
-                />
+                /> 
               </Grid>
 
               <Grid item md={2}>
@@ -678,51 +675,165 @@ export class personalInfo extends Component {
                 </div>
               </Grid>
 
-              <div style={{ display: "flex", flexDirection: "column", justifyContent:'space-around', width:'100%'}}>
-
+              {this.props.getAllDocumentList.["PG Degree"] && this.props.getAllDocumentList.["PG Degree"].length !== 0 &&
+                <Grid item md={12}>
                 <Grid item md={12} direction="column">
-                  <p style={GridStyle}>PG Degree</p>
-                  <div style={{display:'flex', flexDirection:'row' }}>
-                  <DoccumentCard />
-                  <DoccumentCard/>
-                  </div>
-                </Grid>
+                  <p style={GridStyle}>PG Degree</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["PG Degree"] ? this.props.getAllDocumentList.["PG Degree"].map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
 
-                <Grid item direction="column">
-                  <p style={GridStyle}>UG Degree</p>
-                  <DoccumentCard />
-                </Grid>
+   {this.props.getAllDocumentList.["UG Degree"] && this.props.getAllDocumentList.["UG Degree"].length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>UG Degree</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["UG Degree"] ? this.props.getAllDocumentList.["UG Degree"].map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
 
-                <Grid item direction="column">
-                  <p style={GridStyle}>XII Grade</p>
-                  <DoccumentCard />
-                </Grid>
+               
+   {this.props.getAllDocumentList.Diploma && this.props.getAllDocumentList.Diploma.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>Diploma</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.Diploma ? this.props.getAllDocumentList.Diploma.map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
 
-                <Grid item direction="column">
-                  <p style={GridStyle}>X Grade</p>
-                  <DoccumentCard />
-                </Grid>
+  {this.props.getAllDocumentList.["XII Grade"] && this.props.getAllDocumentList.["XII Grade"].length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>XII Grade</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["XII Grade"] ? this.props.getAllDocumentList.["XII Grade"].map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
 
-                <Grid item direction="column">
-                  <p style={GridStyle}>GRE</p>
-                  <DoccumentCard />
-                </Grid>
 
-                <Grid item direction="column">
-                  <p style={GridStyle}>GMAT</p>
-                  <DoccumentCard />
-                </Grid>
+{this.props.getAllDocumentList.["X Grade"] && this.props.getAllDocumentList.["X Grade"].length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>X Grade</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["X Grade"] ? this.props.getAllDocumentList.["X Grade"].map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+               
 
-                <Grid item direction="column">
-                  <p style={GridStyle}>TOEFL</p>
-                  <DoccumentCard />
-                </Grid>
-
-                <Grid item direction="column">
-                  <p style={GridStyle}>IELTS</p>
-                  <DoccumentCard />
-                </Grid>
-              </div>
+{this.props.getAllDocumentList.GRE && this.props.getAllDocumentList.GRE.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>GRE</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.GRE ? this.props.getAllDocumentList.GRE.map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+  {this.props.getAllDocumentList.GMAT && this.props.getAllDocumentList.GMAT.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>GMAT</p> 
+                  </Grid>
+                  {this.props.getAllDocumentList.GMAT ? this.props.getAllDocumentList.GMAT.map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+  }
+                    {this.props.getAllDocumentList.TOEFL && this.props.getAllDocumentList.TOEFL.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} >
+                  <p style={GridStyle}>TOEFL</p> 
+                  </Grid>
+                 <Grid item={12} container >
+                 {this.props.getAllDocumentList.TOEFL ? this.props.getAllDocumentList.TOEFL.map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+               </Grid>
+                  </Grid>
+  }
+   {this.props.getAllDocumentList.IELTS && this.props.getAllDocumentList.IELTS.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>IELTS</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.IELTS ? this.props.getAllDocumentList.IELTS.map(data =>
+                   <Grid item md={4} direction="row">
+                  <DoccumentCard 
+                  certificate={data.type}
+                  date={data.date}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
 
               <Grid
                 item
@@ -781,8 +892,9 @@ const mapStateToProps = (state) => {
     updatePersonalInfoList: state.CallReducer.updatePersonalInfo,
     getPersonalInfoList: state.CallReducer.getPersonalInfo,
     getStudentsByIdList: state.StudentReducer.StudentList,
+    getAllDocumentList: state.StudentReducer.getDocumentList,
     studentStatus: state.AdminReducer.studentStatusResponse,
-    getDocumentList: state.StudentReducer.getDocumentList,
+    // getDocumentList: state.StudentReducer.getDocumentList,
   };
 };
 

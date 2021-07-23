@@ -75,21 +75,7 @@ export class Onboarding extends Component {
                       >
                        Filter
                       </PrimaryButton>
-                      {/* </div> */}
             </div>
-          {/* <Grid item md={12} style={{height : "500px"}}>
-          <DataGridTable
-      columns = {this.state.tableColumns}
-      // rows = {this.props.getAllProductFamilyList} 
-      filterItems = {
-        [
-          { columnField: 'productName', operatorValue: 'contains' },
-          { columnField: 'shortName', operatorValue: 'contains' },
-          { columnField: 'codeName', operatorValue: 'contains' },
-        ]
-      }
-      />
-          </Grid> */}
               <Table aria-label="caption table">
                 <TableHead>
                   <TableRow>

@@ -2,8 +2,19 @@ import { Card } from "@material-ui/core";
 import React, { Component } from "react";
 
 export class DoccumentCard extends Component {
+  
   render() {
+    let date = new Date(this.props.date).getDate()
+    let month = new Date(this.props.date).getMonth()
+    let year = new Date(this.props.date).getFullYear()
+    
+
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sep","Oct","Nov","Dec"];
+                var monthName = months[month];
+                let newDate = date + " " +monthName+" "+ year
+
     return (
+
       <div style={{marginBottom:20, marginLeft:10}}>
         <Card
           style={{
@@ -31,7 +42,7 @@ export class DoccumentCard extends Component {
                 color: "#052A4E",
               }}
             >
-              PC Certificate.pdf
+              {this.props.certificate}
             </p>
             <p
               style={{
@@ -42,7 +53,7 @@ export class DoccumentCard extends Component {
                 color: "#686868",
               }}
             >
-              Uploaded on: 01 Feb 20
+             Uploaded On: {newDate}
             </p>
           </div>
         </Card>
