@@ -43,7 +43,7 @@ const theme = createMuiTheme({
     MuiInputLabel: {
       root: {
         whiteSpace: "nowrap",
-        fontSize: "inherit",
+        fontSize: "11px",
       },
     },
     MuiFormControl: {
@@ -305,7 +305,7 @@ export class personalInfo extends Component {
               <Grid item md={2}>
                 <TextField
                   id="standard-basic"
-                  label="CLS ID (Order ID / Student ID)"
+                  label="CLS ID(Order ID/Student ID)"
                   disabled={true}
                   value={this.state.clsid}
                 />
@@ -376,7 +376,7 @@ export class personalInfo extends Component {
                 /> 
               </Grid>
 
-              <Grid item md={2}>
+              <Grid item md={3}>
                 <TextField
                   inputMode="numeric"
                   id="standard-basic"
