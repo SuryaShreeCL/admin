@@ -48,7 +48,7 @@ class ProductBasedUsers extends Component {
     render() {
         console.log(this.state)
         var componentList = {
-            "On Boarding" : "Onboarding",
+            "Onboarding" : "Onboarding",
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
         var obj = {
