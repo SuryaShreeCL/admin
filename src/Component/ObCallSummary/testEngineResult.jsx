@@ -48,7 +48,7 @@ class TestEngineResult extends Component {
   }
 
   componentDidMount() {
-    this.props.viewscoredetails(this.props.match.params.id);
+    this.props.viewscoredetails(this.props.match.params.studentId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -71,7 +71,7 @@ class TestEngineResult extends Component {
 
   handleShowAnswer = (questionSetName) => {
     this.props.viewanswers(
-      this.props.match.params.id,
+      this.props.match.params.studentId,
       questionSetName
     );
     this.setState({
@@ -85,7 +85,7 @@ class TestEngineResult extends Component {
       show: false,
     });
     this.props.viewresettest(
-      this.props.match.params.id,
+      this.props.match.params.studentId,
       this.state.testExeId
     );
   };
