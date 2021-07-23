@@ -213,9 +213,12 @@ export class personalInfo extends Component {
       ? this.setState({ twitterErr: hlptxt })
       : this.setState({ twitterErr: "" });
 
-    // if(){
-
-    // }
+    // if(
+    //   !isEmptyString(this.state.firstName) &&
+    //   this.state.lastName !== "" &&
+    //   this.state.fullName !== "" &&
+    //   this.state.altPhone !== "" &&
+    // )
     {
       let obj = {
         firstName: this.state.firstName,
@@ -394,7 +397,7 @@ export class personalInfo extends Component {
                 <TextField
                   inputMode="numeric"
                   id="standard-basic"
-                  label="Alternate Contatct Number"
+                  label="Alternate Contact Number"
                   // disabled={this.state.personalDisable}
                   value={this.state.altPhone}
                   onChange={(e) =>
