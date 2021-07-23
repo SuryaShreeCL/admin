@@ -160,7 +160,6 @@ export class academicInfo extends Component {
 
   componentDidUpdate(prevProps, prevState) {
      if(this.props.getAcademicInfoList !== prevProps.getAcademicInfoList){
-       const{scoreScale} = this.props.getAcademicInfoList
        let ugDetails = null
        this.props.getAcademicInfoList.map(data => {
            if (data.type === "ug"){
