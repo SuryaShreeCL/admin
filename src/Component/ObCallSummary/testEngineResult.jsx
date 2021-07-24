@@ -67,6 +67,13 @@ class TestEngineResult extends Component {
         });
       }
     }
+    if(this.props.viewReseTestList !== prevProps.viewReseTestList){
+      this.setState({
+        snackMsg : "Test reseted successfully",
+        snackVariant : "success",
+        snackOpen : true
+      })
+    }
   }
 
   handleShowAnswer = (questionSetName) => {
