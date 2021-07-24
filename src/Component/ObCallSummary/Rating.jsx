@@ -405,6 +405,8 @@ export class rating extends Component {
       underRate: '',
       ratingOfInteraction: '',
       interaction: '',
+      rating:'',
+
     };
   }
    componentDidMount() {
@@ -429,6 +431,7 @@ export class rating extends Component {
       ratingOfExpectation: this.state.ratingOfExpectation,
       ratingOfUnderstanding: this.state.ratingOfUnderstanding,
       ratingOfInteraction: this.state.ratingOfInteraction,
+      rating: this.state.rating
 
     }
     console.log(obj, 'sa')

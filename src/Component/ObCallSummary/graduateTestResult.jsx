@@ -24,10 +24,10 @@ import {
   downloadGAT,
   fileuploadGAT, getgmatscore, getgrescore, getieltsscore, gettoeflscore, updategmatscore, updategrescore, updateieltsscore, updatetoeflscore
 } from "../../Actions/Calldetails";
-import {proofUplaod,getStudentsById} from '../../Actions/Student'
-import { connect } from "react-redux";
+// import {proofUplaod,getStudentsById} from '../../Actions/Student'
+// import { connect } from "react-redux";
 import Mysnack from '../MySnackBar'
-import {URL} from '../../Actions/URL'
+// import {URL} from '../../Actions/URL'
 import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
@@ -39,7 +39,7 @@ import { URL } from '../../Actions/URL';
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import Mysnack from '../MySnackBar';
+// import Mysnack from '../MySnackBar';
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
