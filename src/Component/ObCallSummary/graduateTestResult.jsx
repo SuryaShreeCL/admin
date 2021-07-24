@@ -680,7 +680,7 @@ class GraduateTestResult extends Component {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
-                      ).getMonth();
+                      ).getMonth()+1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -929,7 +929,7 @@ class GraduateTestResult extends Component {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
-                      ).getMonth();
+                      ).getMonth()+1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -1189,7 +1189,7 @@ class GraduateTestResult extends Component {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
-                      ).getMonth();
+                      ).getMonth()+1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -1458,7 +1458,7 @@ class GraduateTestResult extends Component {
                         ).getDate();
                         let month = new Date(
                           eachdata.completedExamDate
-                        ).getMonth();
+                        ).getMonth()+1;
                         let year = new Date(
                           eachdata.completedExamDate
                         ).getFullYear();

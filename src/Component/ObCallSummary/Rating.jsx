@@ -16,8 +16,7 @@ import { ThemeProvider } from "styled-components";
 import { connect } from "react-redux";
 import { updateRating , getClientInfo} from '../../Actions/Calldetails';
 import PrimaryButton from "../../Utils/PrimaryButton";
-
-
+import Mysnack from '../MySnackBar';
 
 const StyledRating = withStyles({
   iconFilled: {
@@ -405,6 +404,9 @@ export class rating extends Component {
       underRate: '',
       ratingOfInteraction: '',
       interaction: '',
+      snackmsg : "",
+      snackvarient : "",
+      snackopen : false
     };
   }
    componentDidMount() {
@@ -433,6 +435,11 @@ export class rating extends Component {
     }
     console.log(obj, 'sa')
     this.props.updateRating(this.props.match.params.studentId, this.props.match.params.productId, obj)
+    this.setState({
+      snackmsg : "Updated Successfully",
+      snackvarient : "Success",
+      snackopen : true
+  })
   }
 
   valuetext(value) {
@@ -615,6 +622,12 @@ export class rating extends Component {
         </Grid>
         {/* </Card> */}
         <PrimaryButton style={{ width: "130px" }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
+        <Mysnack
+          snackMsg={this.state.snackmsg}
+          snackVariant={this.state.snackvariant}
+          snackOpen={this.state.snackopen}
+          onClose={() => this.setState({ snackopen: false })}
+          /> 
       </div>
     );
   }

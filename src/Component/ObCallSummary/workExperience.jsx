@@ -116,6 +116,9 @@ class workExperience extends Component {
         })
         ) 
     }
+    if(this.props.updateworkexpList !== prevProps.updateworkexpList){
+      this.props.getworkexp(this.props.match.params.studentId)
+    }
   }
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
