@@ -1,39 +1,27 @@
+import DateFnsUtils from "@date-io/date-fns";
 import {
-  Grid,
-  TextField,
-  Typography,
-  ThemeProvider,
-  createMuiTheme,
-  Button,
+  createMuiTheme, Grid,
+  TextField, ThemeProvider, Typography
 } from "@material-ui/core";
+import { ExpandMore } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
+import { KeyboardDatePicker, KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getBranches, getDegree, getAllColleges } from "../../Actions/College";
-import { viewProductToStudent } from "../../Actions/ProductAction";
 import {
-  getAllProductFamily,
-  getvarientByid,
-  getProductByFamilyId,
+  getallcountry, getAllDegree,
+  getAllTerms,
+  viewCountry
+} from "../../Actions/Aspiration";
+import { getClientInfo, updateclientdetails } from "../../Actions/Calldetails";
+import { getAllColleges, getBranches, getDegree } from "../../Actions/College";
+import {
+  getAllProductFamily, getProductByFamilyId, getvarientByid
 } from "../../Actions/ProductAction";
 import { getStudentsById } from "../../Actions/Student";
-import {
-  getAllDegree,
-  getAllTerms,
-  viewCountry,
-  getallcountry,
-} from "../../Actions/Aspiration";
-import { updateclientdetails, getClientInfo } from "../../Actions/Calldetails";
-import DateFnsUtils from "@date-io/date-fns";
-import { DateTimePicker, KeyboardDateTimePicker } from "@material-ui/pickers";
-import { ExpandMore } from "@material-ui/icons";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import { isEmptyString } from "../Validation";
 import PrimaryButton from "../../Utils/PrimaryButton";
+import Mysnack from '../MySnackBar';
+import { isEmptyString } from "../Validation";
 
 const theme = createMuiTheme({
   overrides: {
@@ -131,6 +119,9 @@ class ClientDetails extends Component {
       termErr: "",
       intakeyear: "",
       intakeyearErr: "",
+      snackmsg: "",
+      snackvariant : "",
+      snackopen : false
     };
   }
   componentDidMount() {
@@ -494,6 +485,11 @@ class ClientDetails extends Component {
         this.props.match.params.productId,
         obj
       );
+      this.setState({
+        snackmsg : "Updated Successfully",
+        snackvariant : "success",
+        snackopen : true
+      })
     }
   };
   render() {
@@ -1228,6 +1224,12 @@ class ClientDetails extends Component {
             </Grid>
           </MuiPickersUtilsProvider>
         </ThemeProvider>
+        <Mysnack
+          snackMsg={this.state.snackmsg}
+          snackVariant={this.state.snackvariant}
+          snackOpen={this.state.snackopen}
+          onClose={() => this.setState({ snackopen: false })}
+          /> 
       </div>
     );
   }

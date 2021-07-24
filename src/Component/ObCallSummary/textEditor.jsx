@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { IconButton } from '@material-ui/core';
-import Pencil from "../../Asset/Images/pencil.png";
+import Grid from '@material-ui/core/Grid';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { updateQuestions, getClientInfo } from '../../Actions/Calldetails'
-import { ControlCameraOutlined } from '@material-ui/icons';
+import { getClientInfo, updateQuestions } from '../../Actions/Calldetails';
+import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from '../../Utils/PrimaryButton';
+import Mysnack from '../MySnackBar';
 const ColoredLine = ({ color }) => (
     <hr
         style={{
@@ -28,6 +27,9 @@ class Question extends Component {
             expectations: '',
             concerns: '',
             feedback: '',
+            snackmsg : "",
+            snackvarient : "",
+            snackopen : false
 
         }
     }
@@ -69,6 +71,11 @@ class Question extends Component {
         }
         console.log(obj, "hello")
         this.props.updateQuestions(this.props.match.params.studentId, this.props.match.params.productId, obj)
+        this.setState({
+            snackmsg : "Updated Successfully",
+            snackvarient : "Success",
+            snackopen : true
+        })
     }
     // if() {
     //     let obj = {
@@ -210,6 +217,12 @@ class Question extends Component {
 
                 </Grid>
                 <PrimaryButton style={{ width: "130px" }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
+                <Mysnack
+                    snackMsg={this.state.snackmsg}
+                    snackVariant={this.state.snackvariant}
+                    snackOpen={this.state.snackopen}
+                    onClose={() => this.setState({ snackopen: false })}
+                   /> 
             </div>
 
 

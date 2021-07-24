@@ -1,60 +1,35 @@
-import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import RoomIcon from "@material-ui/icons/Room";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  Table,
+  createMuiTheme, Dialog,
+  DialogContent, Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  Slide,
-  TextField,
-  Button,
-  Dialog,
-  DialogContent,
-  Typography,
-  createMuiTheme,
-  ThemeProvider,
+  TableRow, TextField, ThemeProvider, Typography
 } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
-import { ExpandMore } from "@material-ui/icons";
-import Dropzone from "react-dropzone";
-import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import Warning from "../../Asset/Images/warningImg.png";
-import { Link } from "react-router-dom";
-import Pencil from "../../Asset/Images/pencil.png";
+import { ExpandMore } from "@material-ui/icons";
+import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
+import { Autocomplete } from "@material-ui/lab";
 import {
-  getgrescore,
-  getgmatscore,
-  gettoeflscore,
-  getieltsscore,
-  updateieltsscore,
-  updategrescore,
-  updategmatscore,
-  updatetoeflscore,
-  downloadGAT,
-  fileuploadGAT
-} from "../../Actions/Calldetails";
-import {proofUplaod,getStudentsById} from '../../Actions/Student'
+  KeyboardDatePicker, MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+import React, { Component } from "react";
+import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
-import Mysnack from '../MySnackBar'
-import {URL} from '../../Actions/URL'
+import { Link } from "react-router-dom";
+import {
+  downloadGAT,
+  fileuploadGAT, getgmatscore, getgrescore, getieltsscore, gettoeflscore, updategmatscore, updategrescore, updateieltsscore, updatetoeflscore
+} from "../../Actions/Calldetails";
+import { getStudentsById, proofUplaod } from '../../Actions/Student';
+import { URL } from '../../Actions/URL';
+import Pencil from "../../Asset/Images/pencil.png";
+import Warning from "../../Asset/Images/warningImg.png";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import Mysnack from '../MySnackBar';
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
@@ -195,7 +170,7 @@ class GraduateTestResult extends Component {
     if (this.state.files !== prevState.files) {
       console.log(this.state.files[0]);
       var name =
-        this.props.getStudentsByIdList.fullName + '_' ;
+      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GRE" ;
         console.log(name)
       var file = this.state.files[0];
       console.log(file)
@@ -225,7 +200,7 @@ class GraduateTestResult extends Component {
     if (this.state.gmatfiles !== prevState.gmatfiles) {
       console.log(this.state.gmatfiles[0]);
       var name =
-        this.props.getStudentsByIdList.fullName + '_' ;
+        this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GMAT" ;
         console.log(name)
       var file = this.state.gmatfiles[0];
       console.log(file)
@@ -255,7 +230,7 @@ class GraduateTestResult extends Component {
     if (this.state.toeflfiles !== prevState.toeflfiles) {
       console.log(this.state.toeflfiles[0]);
       var name =
-        this.props.getStudentsByIdList.fullName + '_' ;
+      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "TOEFL" ;
         console.log(name)
       var file = this.state.toeflfiles[0];
       console.log(file)
@@ -285,7 +260,7 @@ class GraduateTestResult extends Component {
     if (this.state.ieltsfiles !== prevState.ieltsfiles) {
       console.log(this.state.ieltsfiles[0]);
       var name =
-        this.props.getStudentsByIdList.fullName + '_' ;
+      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "IELTS" ;
         console.log(name)
       var file = this.state.ieltsfiles[0];
       console.log(file)
