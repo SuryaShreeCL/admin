@@ -43,7 +43,7 @@ const theme = createMuiTheme({
     MuiInputLabel: {
       root: {
         whiteSpace: "nowrap",
-        fontSize: "inherit",
+        fontSize: "11px",
       },
     },
     MuiFormControl: {
@@ -169,16 +169,6 @@ export class personalInfo extends Component {
     this.state.fullName === ""
       ? this.setState({ fullNameErr: hlptxt })
       : this.setState({ fullNameErr: "" });
-    this.state.altPhone === ""
-      ? this.setState({ altPhoneErr: hlptxt })
-      : this.setState({ altPhoneErr: "" });
-    this.state.altPhone === ""
-      ? this.setState({ altPhoneErr: hlptxt })
-      : this.setState({ altPhoneErr: "" });
-    this.state.altEmail === ""
-      ? this.setState({ altEmailErr: hlptxt })
-      : this.setState({ altEmailErr: "" });
-
     this.state.apartmentName === ""
       ? this.setState({ apartmentNameErr: hlptxt })
       : this.setState({ apartmentNameErr: "" });
@@ -201,19 +191,18 @@ export class personalInfo extends Component {
       ? this.setState({ cityErr: hlptxt })
       : this.setState({ cityErr: "" });
 
-    this.state.linkedIn === ""
-      ? this.setState({ linkedInErr: hlptxt })
-      : this.setState({ linkedInErr: "" });
-    this.state.facebook === ""
-      ? this.setState({ facebookErr: hlptxt })
-      : this.setState({ facebookErr: "" });
-    this.state.twitter === ""
-      ? this.setState({ twitterErr: hlptxt })
-      : this.setState({ twitterErr: "" });
-
-    // if(){
-
-    // }
+    if(
+      !isEmptyString(this.state.firstName) &&
+      !isEmptyString(this.state.lastName) &&
+      !isEmptyString(this.state.fullName) &&
+      !isEmptyString(this.state.apartmentName) &&
+      !isEmptyString(this.state.address1) &&
+      !isEmptyString(this.state.address2) &&
+      !isEmptyString(this.state.landmark) &&
+      !isEmptyString(this.state.pincode) &&
+      !isEmptyString(this.state.state) &&
+      !isEmptyString(this.state.city)
+    )
     {
       let obj = {
         firstName: this.state.firstName,
@@ -316,7 +305,7 @@ export class personalInfo extends Component {
               <Grid item md={2}>
                 <TextField
                   id="standard-basic"
-                  label="CLS ID (Order ID / Student ID)"
+                  label="CLS ID(Order ID/Student ID)"
                   disabled={true}
                   value={this.state.clsid}
                 />
@@ -387,11 +376,11 @@ export class personalInfo extends Component {
                 /> 
               </Grid>
 
-              <Grid item md={2}>
+              <Grid item md={3}>
                 <TextField
                   inputMode="numeric"
                   id="standard-basic"
-                  label="Alternate Contatct Number"
+                  label="Alternate Contact Number"
                   // disabled={this.state.personalDisable}
                   value={this.state.altPhone}
                   onChange={(e) =>
