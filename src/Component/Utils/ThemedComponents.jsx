@@ -11,7 +11,6 @@ export const ThemedTabs = withStyles({
       height : "5px",
       borderRadius : "6px 6px 0px 0px"
     },
-    
   })(Tabs);
 
 

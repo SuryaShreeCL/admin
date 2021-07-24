@@ -1,4 +1,4 @@
-import { Grid, withStyles, Box } from '@material-ui/core';
+import { Grid, withStyles, Box,ThemeProvider, Tabs } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
@@ -14,6 +14,8 @@ import AspirationDetails from "../ObCallSummary/aspirationDetails"
 import GraduateTestResult from "../ObCallSummary/graduateTestResult"
 import TestAndSurvey from "../ObCallSummary/testEngineResult"
 import AdmissionServices from '../ObCallSummary/admissionServices';
+import { createMuiTheme } from '@material-ui/core';
+ 
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -34,7 +36,16 @@ const TabPanel = (props) => {
       </div>
     );
   }
-
+  const theme = createMuiTheme({
+      overrides:{
+            style:{
+                left : "900px",
+                width:"100px"
+            }
+                 
+        
+      }
+  })
 class StageBasedLayout extends Component {
     constructor(props){
         super(props);
@@ -82,6 +93,7 @@ componentDidUpdate(prevProps, prevState) {
 
 
     render() {
+        console.log(this.state)
         console.log(this.props.adminLinkedProductDetails)
         var componentList = {
             "Personal Information" : "PersonalInfo",
@@ -100,13 +112,14 @@ componentDidUpdate(prevProps, prevState) {
             AspirationDetails : AspirationDetails,
             GraduateTestResult : GraduateTestResult,
             TestAndSurvey : TestAndSurvey,
-            AdmissionServices : AdmissionServices
+            Others : AdmissionServices
         }
         var selectedComponent = this.state.selectedItem !== null && componentList.[this.state.selectedItem.stepName]
         var Page = obj[selectedComponent];
         console.log("state...........",this.state)
         console.log("props..................",this.props)
         return (
+        //  <ThemeProvider theme={theme}>
          <Grid container>
             <Grid item md={12}>
                <ThemedTabs
@@ -121,7 +134,6 @@ componentDidUpdate(prevProps, prevState) {
                     <ThemedTab label={item.stepName} />
                    )    
                })}
-         
            </ThemedTabs>
                </Grid>
                <Grid item md={12}>
@@ -131,21 +143,28 @@ componentDidUpdate(prevProps, prevState) {
              textColor={"inherit"}
              onChange={(e, value) => this.setState({ selectedItem : value })}
              aria-label="ant example"
-           >
+           >               
                {this.state.productDetails !== null && this.state.productDetails.filter((it,ix)=> ix === this.state.tabCount).map((item,index)=>{
                    return item.steps.map((stepItem,stepIndex)=>{
                        return (
                         <ThemedTab value={stepItem} label={stepItem.stepName} />
                        )
                    })
-               })}
-               <ThemedTab value={{stepName : "Others"}} label={"Others"} />
+               })
+               
+               }
+               <ThemedTab 
+               textColor="primary"
+               value={"Others"}
+               label={"Others"}/>
                </ThemedTabs>
                </Grid>
                <Grid item md={12}>
-                   {Page !== undefined && this.state.tabCount === 0 && <Page {...this.props} />  }             
+                   {Page !== undefined && this.state.tabCount === 0 && this.state.selectedItem !== "Others" && <Page {...this.props} />  }  
+                   {this.state.selectedItem === "Others" && <AdmissionServices {...this.props}/>}           
                </Grid>
          </Grid>
+        //  </ThemeProvider>
         );
     }
 }
