@@ -67,7 +67,8 @@ export const STUDENT = {
   updateAcademicInfo: 'updateAcademicInfo',
   uploadFile:"uploadFile",
   sscexamboard: "sscexamboard",
-  getDocumentList: 'getDocumentList'
+  getDocumentList: 'getDocumentList',
+  deleteDocument: 'deleteDocument'
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',

@@ -26,7 +26,8 @@ const initialState = {
   updateAcademicInfo:[],
   uploadFile:[],
   sscexamboard : [],
-  getDocumentList : []
+  getDocumentList : [],
+  deleteDocument : []
 };
 
 export default (state = initialState, action) => {
@@ -191,6 +192,11 @@ export default (state = initialState, action) => {
             return {
               ...state,
               getDocumentList: action.payload,
+            };
+            case STUDENT.deleteDocument:
+            return {
+              ...state,
+              deleteDocument: action.payload,
             };
 
     default:

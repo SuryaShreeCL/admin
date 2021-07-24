@@ -18,18 +18,22 @@ import {
 } from "@material-ui/pickers";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   downloadGAT,
   fileuploadGAT, getgmatscore, getgrescore, getieltsscore, gettoeflscore, updategmatscore, updategrescore, updateieltsscore, updatetoeflscore
 } from "../../Actions/Calldetails";
-import { getStudentsById, proofUplaod } from '../../Actions/Student';
-import { URL } from '../../Actions/URL';
+import {proofUplaod,getStudentsById} from '../../Actions/Student'
+import { connect } from "react-redux";
+import Mysnack from '../MySnackBar'
+import {URL} from '../../Actions/URL'
+import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import Mysnack from '../MySnackBar';
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
@@ -138,7 +142,12 @@ class GraduateTestResult extends Component {
       greindex : "",
       gmatindex : "",
       ieltsindex:"",
-      toeflindex: ""
+      toeflindex: "",
+      sectionStatus: {
+        model: false,
+        data: null,
+        sectionName: "",
+      },
     };
   }
   componentDidMount() {
@@ -147,6 +156,8 @@ class GraduateTestResult extends Component {
     this.props.getieltsscore(this.props.match.params.studentId);
     this.props.gettoeflscore(this.props.match.params.studentId);
     this.props.getStudentsById(this.props.match.params.studentId)
+    this.props.viewStudentStatus(this.props.match.params.studentId);
+
   }
   componentDidUpdate(prevProps,prevState){
     if(this.props.fileuploadGATList !== prevProps.fileuploadGATList){
@@ -490,6 +501,33 @@ class GraduateTestResult extends Component {
     { title: "9" },
     { title: "10" },
   ];
+
+  getStatus = (sectionName) => {
+    if (
+      this.props.studentStatus &&
+      this.props.studentStatus.length !== 0
+    ) {
+      const { studentStatus } = this.props;         
+      return studentStatus.find((item) => item.sectionName === sectionName);
+    } 
+  };
+
+  renderModel = () => (
+    <Model
+      data={this.state.sectionStatus}
+      handleClose={() =>
+        this.setState({
+          sectionStatus: {
+            ...this.state.sectionStatus,
+            model: false,
+          },
+        })
+      }
+      section={this.state.sectionStatus}
+      {...this.props}
+    />
+  );  
+
   render() {
     console.log(this.state);
     console.log(this.props);
@@ -546,12 +584,28 @@ class GraduateTestResult extends Component {
               >
                 Graduate Test Details
               </p>
-              <img
+              {/* <img
                 src={Warning}
                 height={17}
                 width={17}
                 style={{ position: "realative", top: 5 }}
-              />
+              /> */}
+              <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.graduateDetail),
+                            sectionName: SECTION.graduateDetail,
+                          },
+                        });
+                      }}
+                      status={
+                        this.getStatus(SECTION.graduateDetail)
+                          ? this.getStatus(SECTION.graduateDetail).status
+                          : "notVerified"
+                      }
+                    />
             </div>
             <div
               style={{
@@ -2334,6 +2388,7 @@ class GraduateTestResult extends Component {
            snackOpen={this.state.snackopen}
            onClose={() => this.setState({ snackopen: false })}
         /> 
+        {this.renderModel()}
       </ThemeProvider>
     );
   }
@@ -2351,7 +2406,9 @@ const mapStateToProps = (state) => {
     proofUplaodlist : state.StudentReducer.proofUplaod,
     getStudentsByIdList : state.StudentReducer.StudentList,
     downloadGATList : state.CallReducer.downloadGAT,
-    fileuploadGATList : state.CallReducer.fileuploadGAT
+    fileuploadGATList : state.CallReducer.fileuploadGAT,
+    studentStatus: state.AdminReducer.studentStatusResponse,
+
   };
 };
 
@@ -2367,5 +2424,7 @@ export default connect(mapStateToProps, {
   proofUplaod,
   getStudentsById,
   downloadGAT,
-  fileuploadGAT
+  fileuploadGAT,
+  updateVerificationStatus,
+  viewStudentStatus
 })(GraduateTestResult);

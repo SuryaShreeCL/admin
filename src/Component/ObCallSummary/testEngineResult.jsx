@@ -27,6 +27,12 @@ import {
 } from "../../Actions/StudentMarkDetails";
 import { viewscoredetails } from "../../Actions/ScoreDetails";
 import { connect } from "react-redux";
+import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
+
+
 class TestEngineResult extends Component {
   constructor() {
     super();
@@ -40,6 +46,11 @@ class TestEngineResult extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
+      sectionStatus: {
+        model: false,
+        data: null,
+        sectionName: "",
+      },
     };
   }
 
@@ -48,6 +59,9 @@ class TestEngineResult extends Component {
   }
 
   componentDidMount() {
+    // this.props.viewscoredetails(this.props.match.params.id);
+    this.props.viewStudentStatus(this.props.match.params.studentId);
+
     this.props.viewscoredetails(this.props.match.params.studentId);
   }
 
@@ -97,6 +111,32 @@ class TestEngineResult extends Component {
     );
   };
 
+  getStatus = (sectionName) => {
+    if (
+      this.props.studentStatus &&
+      this.props.studentStatus.length !== 0
+    ) {
+      const { studentStatus } = this.props;         
+      return studentStatus.find((item) => item.sectionName === sectionName);
+    } 
+  };
+
+  renderModel = () => (
+    <Model
+      data={this.state.sectionStatus}
+      handleClose={() =>
+        this.setState({
+          sectionStatus: {
+            ...this.state.sectionStatus,
+            model: false,
+          },
+        })
+      }
+      section={this.state.sectionStatus}
+      {...this.props}
+    />
+  );  
+  
   render() {
     console.log("test engine props........", this.props);
     console.log("test engine state........", this.state);
@@ -128,12 +168,28 @@ class TestEngineResult extends Component {
             >
               Test Engine Results{" "}
             </p>
-            <img
+            {/* <img
               src={Warning}
               height={17}
               width={17}
               style={{ position: "realative", top: 5 }}
-            />
+            /> */}
+            <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.testDetail),
+                            sectionName: SECTION.testDetail,
+                          },
+                        });
+                      }}
+                      status={
+                        this.getStatus(SECTION.testDetail)
+                          ? this.getStatus(SECTION.testDetail).status
+                          : "notVerified"
+                      }
+                    />
           </div>
           <IconButton onClick={this.handleClick.bind(this)}>
             <img src={Pencil} height={17} width={17} />
@@ -442,6 +498,7 @@ class TestEngineResult extends Component {
           snackOpen={this.state.snackOpen}
           onClose={() => this.setState({ snackOpen: false })}
         />
+        {this.renderModel()}
       </div>
     );
   }
@@ -454,6 +511,7 @@ const mapStateToProps = (state) => {
     viewReseTestList: state.StudentMarkDetailReducer.viewReseTestList,
     viewAnswersList: state.StudentMarkDetailReducer.viewAnswersList,
     viewScoreDetailsList: state.ScoreReducer.viewScoreDetailsList,
+    studentStatus: state.AdminReducer.studentStatusResponse,
   };
 };
 
@@ -462,4 +520,6 @@ export default connect(mapStateToProps, {
   viewresettest,
   viewanswers,
   viewscoredetails,
+  viewStudentStatus,
+  updateVerificationStatus,
 })(TestEngineResult);

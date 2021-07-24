@@ -28,6 +28,10 @@ import {
   updateAspiration,
   getAspiration,
 } from "../../Actions/Aspiration";
+import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
 
 const theme = createMuiTheme({
   overrides: {
@@ -99,6 +103,11 @@ class AspirationDetails extends Component {
       aspirationBranches: [],
       aspirationAreaOfSpecializations: [],
       aspirationUniversities: [],
+      sectionStatus: {
+        model: false,
+        data: null,
+        sectionName: "",
+      },
     };
   }
 
@@ -109,6 +118,7 @@ class AspirationDetails extends Component {
     this.props.getAllTerms();
     this.props.getAllUniversity();
     this.props.getallcountry();
+    this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getAspiration((response) => {
       this.setState({
         ...response,
@@ -144,6 +154,33 @@ class AspirationDetails extends Component {
     this.props.updateAspiration(obj,response=>console.log(response))    
   };
 
+  getStatus = (sectionName) => {
+    if (
+      this.props.studentStatus &&
+      this.props.studentStatus.length !== 0
+    ) {
+      const { studentStatus } = this.props;         
+      return studentStatus.find((item) => item.sectionName === sectionName);
+    } 
+  };
+
+  renderModel = () => (
+    <Model
+      data={this.state.sectionStatus}
+      handleClose={() =>
+        this.setState({
+          sectionStatus: {
+            ...this.state.sectionStatus,
+            model: false,
+          },
+        })
+      }
+      section={this.state.sectionStatus}
+      {...this.props}
+    />
+  );  
+  
+
   render() {
     const { choiceStyle } = style;
     return (
@@ -176,12 +213,28 @@ class AspirationDetails extends Component {
               >
                 Aspiration Details
               </p>
-              <img
+              {/* <img
                 src={Warning}
                 height={17}
                 width={17}
                 style={{ position: "realative", top: 5 }}
-              />
+              /> */}
+              <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.aspirationDetail),
+                            sectionName: SECTION.aspirationDetail,
+                          },
+                        });
+                      }}
+                      status={
+                        this.getStatus(SECTION.aspirationDetail)
+                          ? this.getStatus(SECTION.aspirationDetail).status
+                          : "notVerified"
+                      }
+                    />
             </div>
             <IconButton onClick={this.handleClick.bind(this)}>
               <img src={Pencil} height={17} width={17} />
@@ -465,6 +518,7 @@ class AspirationDetails extends Component {
               Save Changes
             </PrimaryButton>
           </div>
+          {this.renderModel()}
         </ThemeProvider>
       </div>
     );
@@ -483,6 +537,7 @@ const style = {
 const mapStateToProps = (state) => {
   return {
     ...state.AspirationReducer,
+    studentStatus: state.AdminReducer.studentStatusResponse,
   };
 };
 
@@ -495,4 +550,6 @@ export default connect(mapStateToProps, {
   getallcountry,
   updateAspiration,
   getAspiration,
+  viewStudentStatus,
+  updateVerificationStatus,
 })(AspirationDetails);
