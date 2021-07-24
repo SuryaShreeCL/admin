@@ -363,16 +363,20 @@ input[type=checkbox]:checked + label {
     
   }
 
-
-  .MuiRating-icon{
+  .rating__item >img{
+    /* Default Style */  
     filter: grayscale(1);
-}
-
-.MuiRating-iconActive{    
-    filter: grayscale(0) !important;
-}  
-/* Rengine Version Two */
-
-.Mui-checked {
-    color: #1093FF;
-}
+  }
+  
+  .rating__item >img:hover {
+    /* Hover Style */
+    transform: scale(1.1);
+    transition: 0.5s;
+    filter: grayscale(0);
+  }
+  
+  .rating__item__active {
+    /* Active Style */
+    transform: scale(1.5);
+    transition: 0.1s;  
+  }

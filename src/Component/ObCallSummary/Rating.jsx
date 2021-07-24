@@ -17,10 +17,12 @@ import { connect } from "react-redux";
 import { updateRating , getClientInfo} from '../../Actions/Calldetails';
 import PrimaryButton from "../../Utils/PrimaryButton";
 import Mysnack from '../MySnackBar';
+import CustomRating from './customRating'
+
 
 const StyledRating = withStyles({
   iconFilled: {
-    color: 'red',
+    filter: "grayscale(1)"
   },
   iconHover: {
     color: 'black',
@@ -404,6 +406,8 @@ export class rating extends Component {
       underRate: '',
       ratingOfInteraction: '',
       interaction: '',
+      rating:'',
+
       snackmsg : "",
       snackvarient : "",
       snackopen : false
@@ -420,8 +424,8 @@ export class rating extends Component {
        this.setState({
         underRate: this.props.getClientInfoList.rateOfUnderstand === "Understands Most" ? 0 : this.props.getClientInfoList.rateOfUnderstand === "Understands All" ? 50 : this.props.getClientInfoList.rateOfUnderstand === "Understands Nothing" ? 100 : null,
         interaction: this.props.getClientInfoList.rateOfInteraction === "V Pleasant" ? 0 : this.props.getClientInfoList.rateOfInteraction === "Pleasant" ? 25 : this.props.getClientInfoList.rateOfInteraction === 'Neutral' ? 50 : this.props.getClientInfoList.rateOfInteraction === 'UnPleasant' ? 75 : this.props.getClientInfoList.rateOfInteraction === 'V UnPleasant' ? 100 : null,
-        expRate:this.props.getClientInfoList.rateOfExpectations === "Very Low" ? 0 : this.props.getClientInfoList.rateOfExpectations === "Low" ? 25 : this.props.getClientInfoList.rateOfExpectations === 'Medium' ? 50 : this.props.getClientInfoList.rateOfExpectations === 'High' ? 75 : this.props.getClientInfoList.rateOfExpectations === 'Very High' ? 100 : null
-
+        expRate:this.props.getClientInfoList.rateOfExpectations === "Very Low" ? 0 : this.props.getClientInfoList.rateOfExpectations === "Low" ? 25 : this.props.getClientInfoList.rateOfExpectations === 'Medium' ? 50 : this.props.getClientInfoList.rateOfExpectations === 'High' ? 75 : this.props.getClientInfoList.rateOfExpectations === 'Very High' ? 100 : null,
+        rating: this.props.getClientInfoList.rating
        })
      }
    }
@@ -431,6 +435,7 @@ export class rating extends Component {
       ratingOfExpectation: this.state.ratingOfExpectation,
       ratingOfUnderstanding: this.state.ratingOfUnderstanding,
       ratingOfInteraction: this.state.ratingOfInteraction,
+      rating: this.state.rating
 
     }
     console.log(obj, 'sa')
@@ -465,7 +470,7 @@ export class rating extends Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     const { root, HeadStyle, textStyle, secondaryHeadStyle } = style;
     return (
       <div style={{ padding: 15 }}>
@@ -598,30 +603,40 @@ export class rating extends Component {
               }}
             >
               {/* <ThemeProvider theme={theme}> */}
-              <StyledRating
+              {/* <StyledRating
                 style={{
                   display: "flex",
                   width: "600px",
                   // justifyContent: "space-evenly",
                 }}
                 name="customized-icons"
+                value={this.state.rating}
                 defaultValue={0}
                 getLabelText={(value) => customIcons[value].label}
                 IconContainerComponent={this.IconContainer}
                 itemStyle={{ height: 20, width: 20 }}
                 itemIconStyle={{ height: 20, width: 20 }}
-                onChangeActive={(event, newHover) => {
-                  this.setState({ hover: newHover });
-                  console.log(newHover)
-                }}
+                // onChangeActive={(event, newHover) => {
+                //   this.setState({ hover: newHover });
+                  // console.log(newHover)
+                // }}
+                onChange={(e) => {
+                  this.setState({rating : e.target.value})
+                  console.log(e.target.value)
+                }
+                }
 
+              /> */}
+              <CustomRating
+              onClick={(item)=> this.setState({rating : item.value}) }
+              rating={this.state.rating}
               />
               {/* </ThemeProvider> */}
             </div>
           </Grid>
         </Grid>
         {/* </Card> */}
-        <PrimaryButton style={{ width: "130px" }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
+        <PrimaryButton style={{ width: "130px", marginTop:78 }} color={"primary"} variant={"contained"} onClick={() => this.handleSaved()}>Save</PrimaryButton>
         <Mysnack
           snackMsg={this.state.snackmsg}
           snackVariant={this.state.snackvariant}
