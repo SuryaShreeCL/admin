@@ -179,9 +179,10 @@ class GraduateTestResult extends Component {
       this.props.getieltsscore(this.props.match.params.studentId);
     }
     if (this.state.files !== prevState.files) {
+      console.log(this.state.greattempt)
       console.log(this.state.files[0]);
       var name =
-      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GRE" ;
+      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GRE"+this.state.greattempt.title;
         console.log(name)
       var file = this.state.files[0];
       console.log(file)
@@ -211,7 +212,7 @@ class GraduateTestResult extends Component {
     if (this.state.gmatfiles !== prevState.gmatfiles) {
       console.log(this.state.gmatfiles[0]);
       var name =
-        this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GMAT" ;
+        this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GMAT"+this.state.gmatattempt.title ;
         console.log(name)
       var file = this.state.gmatfiles[0];
       console.log(file)
@@ -241,7 +242,7 @@ class GraduateTestResult extends Component {
     if (this.state.toeflfiles !== prevState.toeflfiles) {
       console.log(this.state.toeflfiles[0]);
       var name =
-      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "TOEFL" ;
+      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "TOEFL"+this.state.toeflattempt.title ;
         console.log(name)
       var file = this.state.toeflfiles[0];
       console.log(file)
@@ -271,7 +272,7 @@ class GraduateTestResult extends Component {
     if (this.state.ieltsfiles !== prevState.ieltsfiles) {
       console.log(this.state.ieltsfiles[0]);
       var name =
-      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "IELTS" ;
+      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "IELTS"+this.state.ieltsattempt.title ;
         console.log(name)
       var file = this.state.ieltsfiles[0];
       console.log(file)
