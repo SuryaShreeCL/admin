@@ -87,6 +87,7 @@ class TestEngineResult extends Component {
         snackVariant : "success",
         snackOpen : true
       })
+      this.props.viewscoredetails(this.props.match.params.studentId)
     }
   }
 
