@@ -18,7 +18,6 @@ import {
 } from "@material-ui/pickers";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   downloadGAT,
@@ -32,14 +31,9 @@ import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/Admin
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
-
-
-import { getStudentsById, proofUplaod } from '../../Actions/Student';
-import { URL } from '../../Actions/URL';
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import Mysnack from '../MySnackBar';
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
