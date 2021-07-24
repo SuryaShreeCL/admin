@@ -491,6 +491,78 @@ class ClientDetails extends Component {
       })
     }
   };
+
+  componentWillUnmount() {
+    
+    // console.log(this.state)
+    // let obj = {
+    //   ugDegree: {
+    //     id: !isEmptyString(this.state.ugdegree) ? this.state.ugdegree.id : null,
+    //   },
+    //   studentCollege: {
+    //     id: typeof this.state.collegename !== "string" ? this.state.collegename.id : null,
+    //   },
+    //   studentDepartment: {
+    //     id: typeof this.state.department !== "string" ? this.state.department.id : null,
+    //   },
+    //   studentCurrentSem: this.state.sem.toString(),
+    //   studentCgpa: this.state.cgpa.toString(),
+    //   ameyoId: this.state.ameyoid,
+    //   obCallDate: new Date(this.state.calldate),
+    //   obCallTime: new Date(this.state.calltime),
+    //   onBoardingAgent: this.state.agent,
+    //   callStatus: typeof this.state.callstatus !== "string" ? this.state.callstatus.title : null,
+    //   callBackTime: new Date(this.state.callbacktime),
+    //   weekDays: typeof this.state.spedays !== "string" ? this.state.spedays.title : null,
+    //   specificTime: this.state.spetime,
+    //   clientName: this.state.name,
+
+    //   aspirationDegrees: [
+    //     {
+    //       id: !isEmptyString(this.state.appdegree) ? this.state.appdegree.id : null,
+    //     },
+    //   ],
+    //   aspirationCountries: [
+    //     {
+    //       id: !isEmptyString(this.state.countries) ? this.state.countries.id : null,
+    //     },
+    //   ],
+    //   aspirationTerms: [
+    //     {
+    //       id: !isEmptyString(this.state.term) ? this.state.term.id : null,
+    //     },
+    //   ],
+    //   enrollmentDate: new Date(this.state.enrolldate),
+    //   orderType: this.state.order.title,
+    //   intakeYear: typeof this.state.intakeyear !== "string" ? this.state.intakeyear.title : null,
+    //   packages: this.state.package,
+    //   workExperience: typeof this.state.workexp !== "string" ? this.state.workexp.title : null,
+    //   typeOfExperience: typeof this.state.exptype !== "string" ? this.state.exptype.title : null ,
+    //   fieldOfExpertise: this.state.expfield,
+    //   experienceMonths: this.state.expmonth,
+    //   degree: {
+    //     id:  !isEmptyString(this.state.ugdegree) ? this.state.ugdegree.id : null,
+    //   },
+    //   department: {
+    //     id: typeof this.state.department !== "string" ? this.state.department.id : null,
+    //   },
+    //   college: {
+    //     id: typeof this.state.collegename !== "string" ? this.state.collegename.id : null,
+    //   },
+    //   presentSem: this.state.sem.toString(),
+    //   backlogs: this.state.activebacklogs.toString(),
+    //   activeBacklogs: this.state.activebacklogs.toString(),
+    //   cgpa: this.state.cgpa.toString(),
+    // };
+    // console.log(obj)
+    // this.props.updateclientdetails(
+    //   this.props.match.params.studentId,
+    //   this.props.match.params.productId,
+    //   obj
+    // );
+
+  }
+  
   render() {
     console.log(this.props.match.params.studentId);
     console.log(this.state);
