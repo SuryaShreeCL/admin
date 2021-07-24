@@ -36,6 +36,10 @@ import {
 import {getworkexp,updateworkexp} from '../../Actions/Calldetails'
 import {connect} from 'react-redux'
 import Mysnack from '../MySnackBar'
+import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
 
 const theme = createMuiTheme({
   overrides: {
@@ -91,10 +95,17 @@ class workExperience extends Component {
       snackmsg : "",
       snackvariant : "",
       snackopen : false,
+      sectionStatus: {
+        model: false,
+        data: null,
+        sectionName: "",
+      },
     };
+    
   }
   componentDidMount(){
     this.props.getworkexp(this.props.match.params.studentId)
+    this.props.viewStudentStatus(this.props.match.params.studentId);
   }
   componentDidUpdate(prevProps, prevState){
     if(this.props.getworkexpList !== prevProps.getworkexpList){
@@ -201,6 +212,32 @@ class workExperience extends Component {
     {title : "TRAINEE", value : "TRAINEE"},
   ]
 
+  getStatus = (sectionName) => {
+    if (
+      this.props.studentStatus &&
+      this.props.studentStatus.length !== 0
+    ) {
+      const { studentStatus } = this.props;         
+      return studentStatus.find((item) => item.sectionName === sectionName);
+    } 
+  };
+
+  renderModel = () => (
+    <Model
+      data={this.state.sectionStatus}
+      handleClose={() =>
+        this.setState({
+          sectionStatus: {
+            ...this.state.sectionStatus,
+            model: false,
+          },
+        })
+      }
+      section={this.state.sectionStatus}
+      {...this.props}
+    />
+  );  
+
   render() {
     console.log(this.state);
     console.log(this.props.getworkexpList)
@@ -235,12 +272,28 @@ class workExperience extends Component {
               >
                 Work Experience
               </p>
-              <img
+              {/* <img
                 src={Warning}
                 height={17}
                 width={17}
                 style={{ position: "realative", top: 5 }}
-              />
+              /> */}
+               <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.workExperience),
+                            sectionName: SECTION.workExperience,
+                          },
+                        });
+                      }}
+                      status={
+                        this.getStatus(SECTION.workExperience)
+                          ? this.getStatus(SECTION.workExperience).status
+                          : "notVerified"
+                      }
+                    />
             </div>
             <IconButton onClick={this.handleClick.bind(this)}>
               <img src={Pencil} height={17} width={17} />
@@ -425,6 +478,7 @@ class workExperience extends Component {
               Save Changes
             </PrimaryButton>
           </div>
+
         </MuiPickersUtilsProvider>
         <Mysnack
            snackMsg={this.state.snackmsg}
@@ -432,6 +486,7 @@ class workExperience extends Component {
            snackOpen={this.state.snackopen}
            onClose={() => this.setState({ snackopen: false })}
         /> 
+        {this.renderModel()}
         </ThemeProvider>
       </div>
     );
@@ -440,10 +495,14 @@ class workExperience extends Component {
 const mapStateToProps = (state) => {
   return {
     getworkexpList : state.CallReducer.getworkexp,
-    updateworkexpList : state.CallReducer.updateworkexp
+    updateworkexpList : state.CallReducer.updateworkexp,
+    studentStatus: state.AdminReducer.studentStatusResponse,
+
   };
 };
 
 export default connect(mapStateToProps, {
- getworkexp,updateworkexp
+ getworkexp,updateworkexp,
+ viewStudentStatus,
+  updateVerificationStatus,
 })(workExperience);

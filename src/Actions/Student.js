@@ -492,3 +492,17 @@ export const getDocumentList = (id) =>{
         })
     }
 }
+
+export const deleteDocument=(id,fileName)=>{    
+    return dispatch =>{
+        axios.delete(URL+"/api/v1/files/delete/"+id+"/"+fileName,{
+            crossDomain: true
+        })
+            .then(result => {                                                
+                dispatch({type:STUDENT.deleteDocument,deletedFileResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}

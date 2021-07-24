@@ -88,7 +88,7 @@ componentDidUpdate(prevProps, prevState) {
             "Academic Information" : "AcademicInfo",
             "Work Experience" : "WorkExperience",
             "Aspiration Details" : "AspirationDetails",
-            "Graduate Application Tests" : "GraduateTestResult",
+            "Graduate Admission Test" : "GraduateTestResult",
             "Tests and Survey" : "TestAndSurvey",
             "Others" : "AdmissionServices"
         }

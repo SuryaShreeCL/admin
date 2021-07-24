@@ -16,6 +16,10 @@ import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import { ExpandMore } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -145,7 +149,13 @@ export class academicInfo extends Component {
       twelthCgpaErr: "",
       twelthCgpaScaleErr: "",
       twelthCgpaScale: "",
+      sectionStatus: {
+        model: false,
+        data: null,
+        sectionName: "",
+      },
     };
+    
   }
 
   componentDidMount() {
@@ -156,6 +166,8 @@ export class academicInfo extends Component {
     this.props.sscexamboard();
     this.props.getAcademicInfo(this.props.match.params.studentId);
     this.props.getStudentsById(this.props.match.params.studentId);
+    this.props.viewStudentStatus(this.props.match.params.studentId);
+
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -601,6 +613,32 @@ export class academicInfo extends Component {
     { title: "Post Graduate Diploma", value: "Post Graduate Diploma" },
   ];
 
+  getStatus = (sectionName) => {
+    if (
+      this.props.studentStatus &&
+      this.props.studentStatus.length !== 0
+    ) {
+      const { studentStatus } = this.props;         
+      return studentStatus.find((item) => item.sectionName === sectionName);
+    } 
+  };
+
+  renderModel = () => (
+    <Model
+      data={this.state.sectionStatus}
+      handleClose={() =>
+        this.setState({
+          sectionStatus: {
+            ...this.state.sectionStatus,
+            model: false,
+          },
+        })
+      }
+      section={this.state.sectionStatus}
+      {...this.props}
+    />
+  );  
+
   render() {
     console.log(this.state)
     console.log(this.props.getAcademicInfoList);
@@ -629,12 +667,28 @@ export class academicInfo extends Component {
                       }}
                     >
                       <p style={HeadStyle}>Academic Information</p>
-                      <img
+                      {/* <img
                         src={Warning}
                         height={17}
                         width={17}
                         style={{ position: "realative", top: 5 }}
-                      />
+                      /> */}
+                      <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.educationDetail),
+                            sectionName: SECTION.educationDetail,
+                          },
+                        });
+                      }}
+                      status={
+                        this.getStatus(SECTION.educationDetail)
+                          ? this.getStatus(SECTION.educationDetail).status
+                          : "notVerified"
+                      }
+                    />
                     </div>
                     <IconButton>
                       <img src={Pencil} height={17} width={17} />
@@ -1672,6 +1726,7 @@ export class academicInfo extends Component {
                 </div>
               </ThemeProvider>
             </Card>
+            {this.renderModel()}
           </ThemeProvider>
         </MuiPickersUtilsProvider>
       </div>
@@ -1727,6 +1782,8 @@ const mapStateToProps = (state) => {
     getAcademicInfoList: state.StudentReducer.getAcademicInfo,
     updateAcademicInfoList: state.StudentReducer.updateAcademicInfo,
     sscexamboardList: state.StudentReducer.sscexamboard,
+    studentStatus: state.AdminReducer.studentStatusResponse,
+
   };
 };
 
@@ -1738,5 +1795,8 @@ export default connect(mapStateToProps, {
   getStudentsById,
   getAcademicInfo,
   updateAcademicInfo,
-  sscexamboard
+  sscexamboard,
+  viewStudentStatus,
+  updateVerificationStatus,
+  
 })(academicInfo);

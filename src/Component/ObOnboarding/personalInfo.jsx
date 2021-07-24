@@ -656,14 +656,21 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Documents Received</p>
-                    <img
-                      src={GreenTick}
-                      style={{
-                        height: 17,
-                        width: 17,
-                        position: "relative",
-                        top: 5,
+                     <Status
+                      onClick={() => {
+                        this.setState({
+                          sectionStatus: {
+                            model: true,
+                            data: this.getStatus(SECTION.supportingDocument),
+                            sectionName: SECTION.supportingDocument,
+                          },
+                        });
                       }}
+                      status={
+                        this.getStatus(SECTION.supportingDocument)
+                          ? this.getStatus(SECTION.supportingDocument).status
+                          : "notVerified"
+                      }
                     />
                   </div>
                   <IconButton onClick={this.handleAddressClick.bind(this)}>
@@ -683,6 +690,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -701,6 +709,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -720,6 +729,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -738,6 +748,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -757,6 +768,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -776,6 +788,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -792,6 +805,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -808,6 +822,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
@@ -825,6 +840,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
                   ) : null}
