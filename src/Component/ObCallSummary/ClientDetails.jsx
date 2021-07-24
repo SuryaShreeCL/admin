@@ -369,15 +369,15 @@ class ClientDetails extends Component {
     isEmptyString(this.state.workexp)
       ? this.setState({ workexpErr: hlptxt })
       : this.setState({ workexpErr: "" });
-    isEmptyString(this.state.exptype)
-      ? this.setState({ exptypeErr: hlptxt })
-      : this.setState({ exptypeErr: "" });
-    isEmptyString(this.state.expfield)
-      ? this.setState({ expfieldErr: hlptxt })
-      : this.setState({ expfieldErr: "" });
-    isEmptyString(this.state.expmonth)
-      ? this.setState({ expmonthErr: hlptxt })
-      : this.setState({ expmonthErr: "" });
+    // isEmptyString(this.state.exptype)
+    //   ? this.setState({ exptypeErr: hlptxt })
+    //   : this.setState({ exptypeErr: "" });
+    // isEmptyString(this.state.expfield)
+    //   ? this.setState({ expfieldErr: hlptxt })
+    //   : this.setState({ expfieldErr: "" });
+    // isEmptyString(this.state.expmonth)
+    //   ? this.setState({ expmonthErr: hlptxt })
+    //   : this.setState({ expmonthErr: "" });
     isEmptyString(this.state.term)
       ? this.setState({ termErr: hlptxt })
       : this.setState({ termErr: "" });
@@ -385,42 +385,41 @@ class ClientDetails extends Component {
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
     // console.log(this.state)
-    // if (
-    //   !isEmptyString(this.state.name) &&
-    //   !isEmptyString(this.state.number) &&
-    //   !isEmptyString(this.state.email) &&
-    //   !isEmptyString(this.state.ugdegree) &&
-    //   !isEmptyString(this.state.department) &&
-    //   !isEmptyString(this.state.collegename) &&
-    //   !isEmptyString(this.state.sem) &&
-    //   !isEmptyString(this.state.activebacklogs) &&
-    //   !isEmptyString(this.state.cgpa) &&
-    //   // !isEmptyString(this.state.family)&&
-    //   // !isEmptyString(this.state.varient)&&
-    //   // !isEmptyString(this.state.intake)&&
-    //   // !isEmptyString(this.state.year)&&
-    //   // !isEmptyString(this.state.validity)&&
-    //   // !this.state.endofservice === null&&
-    //   // !isEmptyString(this.state.pricing)&&
-    //   !isEmptyString(this.state.ameyoid) &&
-    //   this.state.calldate !== null &&
-    //   this.state.calltime !== null &&
-    //   !isEmptyString(this.state.agent) &&
-    //   !isEmptyString(this.state.callstatus) &&
-    //   !this.state.callbacktime === null &&
-    //   !isEmptyString(this.state.spedays) &&
-    //   !isEmptyString(this.state.spetime) &&
-    //   this.state.enrolldate !== null &&
-    //   !isEmptyString(this.state.appdegree) &&
-    //   !isEmptyString(this.state.order) &&
-    //   !isEmptyString(this.state.countries) &&
-    //   !isEmptyString(this.state.package) &&
-    //   !isEmptyString(this.state.workexp) &&
-    //   !isEmptyString(this.state.exptype) &&
-    //   !isEmptyString(this.state.expfield) &&
-    //   !isEmptyString(this.state.expmonth)
-    // )
-    {
+    if(
+      !isEmptyString(this.state.name) &&
+      !isEmptyString(this.state.number) &&
+      !isEmptyString(this.state.email) &&
+      !isEmptyString(this.state.ugdegree) &&
+      !isEmptyString(this.state.department) &&
+      !isEmptyString(this.state.collegename) &&
+      !isEmptyString(this.state.sem) &&
+      !isEmptyString(this.state.activebacklogs) &&
+      !isEmptyString(this.state.cgpa) &&
+      // !isEmptyString(this.state.family)&&
+      // !isEmptyString(this.state.varient)&&
+      !isEmptyString(this.state.intake)&&
+      !isEmptyString(this.state.year)&&
+      // !isEmptyString(this.state.validity)&&
+      // !this.state.endofservice === null&&
+      // !isEmptyString(this.state.pricing)&&
+      !isEmptyString(this.state.ameyoid) &&
+      this.state.calldate !== null &&
+      this.state.calltime !== null &&
+      !isEmptyString(this.state.agent) &&
+      !isEmptyString(this.state.callstatus) &&
+      this.state.callbacktime !== null &&
+      !isEmptyString(this.state.spedays) &&
+      !isEmptyString(this.state.spetime) &&
+      this.state.enrolldate !== null &&
+      !isEmptyString(this.state.appdegree) &&
+      !isEmptyString(this.state.order) &&
+      !isEmptyString(this.state.countries) &&
+      !isEmptyString(this.state.package) &&
+      !isEmptyString(this.state.workexp) 
+      // !isEmptyString(this.state.exptype) &&
+      // !isEmptyString(this.state.expfield) &&
+      // !isEmptyString(this.state.expmonth)
+    ){
       let obj = {
         ugDegree: {
           id: this.state.ugdegree.id,
@@ -463,7 +462,7 @@ class ClientDetails extends Component {
         intakeYear: this.state.intakeyear.title,
         packages: this.state.package,
         workExperience: this.state.workexp.title,
-        typeOfExperience: this.state.exptype.title,
+        typeOfExperience: this.state.exptype !== null ? this.state.exptype.title : null ,
         fieldOfExpertise: this.state.expfield,
         experienceMonths: this.state.expmonth,
         degree: {
@@ -834,6 +833,7 @@ class ClientDetails extends Component {
                   ampm={false}
                   label="Call Back Time"
                   disabled={
+                    this.state.callstatus !== null &&
                     ["Completed", "Pending"].indexOf(
                       this.state.callstatus.title
                     ) > -1

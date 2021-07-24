@@ -18,7 +18,6 @@ import {
 } from "@material-ui/pickers";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   downloadGAT,
@@ -32,14 +31,13 @@ import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/Admin
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
-
-
-import { getStudentsById, proofUplaod } from '../../Actions/Student';
-import { URL } from '../../Actions/URL';
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
+<<<<<<< HEAD
 // import Mysnack from '../MySnackBar';
+=======
+>>>>>>> 16bf469c5ca56708354ac6656fbb1533c6c173aa
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
@@ -740,7 +738,7 @@ class GraduateTestResult extends Component {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
-                      ).getMonth();
+                      ).getMonth()+1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -989,7 +987,7 @@ class GraduateTestResult extends Component {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
-                      ).getMonth();
+                      ).getMonth()+1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -1249,7 +1247,7 @@ class GraduateTestResult extends Component {
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month = new Date(
                         eachdata.completedExamDate
-                      ).getMonth();
+                      ).getMonth()+1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -1518,7 +1516,7 @@ class GraduateTestResult extends Component {
                         ).getDate();
                         let month = new Date(
                           eachdata.completedExamDate
-                        ).getMonth();
+                        ).getMonth()+1;
                         let year = new Date(
                           eachdata.completedExamDate
                         ).getFullYear();
