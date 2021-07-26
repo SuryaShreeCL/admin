@@ -27,6 +27,7 @@ import {
   getallcountry,
   updateAspiration,
   getAspiration,
+  getAspirationQuestion
 } from "../../Actions/Aspiration";
 import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
@@ -118,12 +119,13 @@ class AspirationDetails extends Component {
     this.props.getAllTerms();
     this.props.getAllUniversity();
     this.props.getallcountry();
+    this.props.getAspirationQuestion(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getAspiration((response) => {
       this.setState({
         ...response,
       });
-    });
+    }, this.props.match.params.studentId);
   }
 
   handleClick(e) {
@@ -151,7 +153,7 @@ class AspirationDetails extends Component {
       aspirationUniversities: aspirationUniversities,
       testQuestionModels:[]
     };
-    this.props.updateAspiration(obj,response=>console.log(response))    
+    this.props.updateAspiration(obj,response=>console.log(response),this.props.match.params.studentId)    
   };
 
   getStatus = (sectionName) => {
@@ -183,6 +185,7 @@ class AspirationDetails extends Component {
 
   render() {
     const { choiceStyle } = style;
+    console.log(this.props.getAspirationQuestionList)
     return (
       <div style={{ padding: 25 }}>
         <ThemeProvider theme={theme}>
@@ -213,12 +216,6 @@ class AspirationDetails extends Component {
               >
                 Aspiration Details
               </p>
-              {/* <img
-                src={Warning}
-                height={17}
-                width={17}
-                style={{ position: "realative", top: 5 }}
-              /> */}
               <Status
                       onClick={() => {
                         this.setState({
@@ -505,7 +502,7 @@ class AspirationDetails extends Component {
             style={{
               display: "flex",
               justifyContent: "center",
-              paddingTop: "5%",
+              paddingTop: "5%",getAspirationQuestion
             }}
           >
             <PrimaryButton
@@ -538,6 +535,7 @@ const mapStateToProps = (state) => {
   return {
     ...state.AspirationReducer,
     studentStatus: state.AdminReducer.studentStatusResponse,
+    getAspirationQuestionList: state.AspirationReducer.getAspirationQuestion
   };
 };
 
@@ -552,4 +550,5 @@ export default connect(mapStateToProps, {
   getAspiration,
   viewStudentStatus,
   updateVerificationStatus,
+  getAspirationQuestion
 })(AspirationDetails);

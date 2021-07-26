@@ -68,7 +68,8 @@ export const STUDENT = {
   uploadFile:"uploadFile",
   sscexamboard: "sscexamboard",
   getDocumentList: 'getDocumentList',
-  deleteDocument: 'deleteDocument'
+  deleteDocument: 'deleteDocument',
+  
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -116,7 +117,8 @@ export const ASPIRATION = {
   addCity: 'addCity',
   updateCity: 'updateCity',
   deleteCity: 'deleteCity',
-  getallcountry:"getallcountry"
+  getallcountry:"getallcountry",
+  getAspirationQuestion: "getAspirationQuestion"
 };
 
 export const QUESTIONSET = {

@@ -534,9 +534,9 @@ export const getallcountry=()=>{
 
 // testExecutionId=57ec9eb8-4b62-4b1e-806b-429bdb7d7c09
 
-export const updateAspiration=(data,callback)=>{
+export const updateAspiration=(data,callback,id)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/aspirationDetails/02c1c610-3f86-45ff-88e3-9642d8ee092e/57ec9eb8-4b62-4b1e-806b-429bdb7d7c09",data,{
+        axios.put(URL+"/api/v1/aspirationDetails/"+id+"/57ec9eb8-4b62-4b1e-806b-429bdb7d7c09",data,{
             crossDomain: true
         })
             .then(result => {
@@ -549,10 +549,10 @@ export const updateAspiration=(data,callback)=>{
     }   
 }
 
-export const getAspiration=(callback)=>{
+export const getAspiration=(callback,id)=>{
     return dispatch=>{
         let accessToken = window.sessionStorage.getItem("accessToken");
-        axios.get(URL+"/api/v1/aspirationDetails/02c1c610-3f86-45ff-88e3-9642d8ee092e",{
+        axios.get(URL+"/api/v1/aspirationDetails/"+id,{
             crossDomain: true,           
             headers:{
                 "admin" : "yes",
@@ -562,6 +562,26 @@ export const getAspiration=(callback)=>{
             .then(result => {                
                 callback(result.data)                
                 // dispatch({type:ASPIRATION.getallcountry,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const getAspirationQuestion=(id)=>{
+    return dispatch=>{
+        let accessToken = window.sessionStorage.getItem("accessToken");
+        axios.get(URL+"/api/v1/student/"+id+"/testdetails?questionSetName=AspirationACS",{
+            crossDomain: true,           
+            headers:{
+                 "admin" : 'yes',
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+            .then(result => {                
+                // callback(result.data)                
+                dispatch({type:ASPIRATION.getAspirationQuestion,payload:result.data})
             })
             .catch(error => {
                 console.log(error);
