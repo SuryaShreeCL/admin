@@ -507,9 +507,9 @@ export const deleteDocument=(id,fileName)=>{
     }
 }
 
-export const deleteDocumentGraduate=(id,fileName,fileId)=>{    
+export const deleteDocumentGraduate=(id,fileName,fileId,category)=>{    
     return dispatch =>{
-        axios.delete(URL+"/api/v1/files/deleteFile/"+id+"/gre/"+fileId+"/"+fileName,{
+        axios.delete(URL+"/api/v1/files/deleteFile/"+id+"/"+category+"/"+fileId+"/"+fileName,{
             crossDomain: true
         })
             .then(result => {                                                

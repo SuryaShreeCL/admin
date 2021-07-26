@@ -1,13 +1,23 @@
 import { Card , Button} from "@material-ui/core";
 import React, { Component } from "react";
-import {deleteDocument, getDocumentList} from "../../Actions/Student";
+import {deleteDocument, getDocumentList, deleteDocumentGraduate, getStudentsById} from "../../Actions/Student";
+import { getgmatscore, getgrescore, getieltsscore, gettoeflscore} from "../../Actions/Calldetails";
 import {connect} from "react-redux"
 
 class DoccumentCard extends Component {
+  
+  componentDidMount(){
+    this.props.getgrescore(this.props.studentid);
+    this.props.getgmatscore(this.props.studentid);
+    this.props.getieltsscore(this.props.studentid);
+    this.props.gettoeflscore(this.props.studentid);
+  }
 
   handleSave = () => {
+      
       this.props.deleteDocument(this.props.studentid,this.props.certificate)
       this.props.getDocumentList(this.props.studentid)
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate,)
   }
   
   render() {
@@ -69,7 +79,7 @@ class DoccumentCard extends Component {
             </p>
           </div>
           <div>
-               <Button
+                   <Button
                         href="#text-buttons"
                         color="secondary"
                         style={deletebtn}
@@ -84,24 +94,35 @@ class DoccumentCard extends Component {
   }
 }
 const style = {
-  deletebtn:{
-      color: "red",
-  fontWeight: "500",
-  fontSize: "14px",
-  fontFamily: "Montserrat",
-  fontStyle: "normal",
-  textTransform: "none",
-  textDecorationLine: "underline",
+          deletebtn:{
+          color: "red",
+          fontWeight: "500",
+          fontSize: "14px",
+          fontFamily: "Montserrat",
+          fontStyle: "normal",
+          textTransform: "none",
+          textDecorationLine: "underline",
   }
 };
 const mapStateToProps = (state) => {
   return {
     deleteDocumentList : state.StudentReducer.deleteDocument,
     getAllDocumentList: state.StudentReducer.getDocumentList,
-
+    deleteDocumentGraduateList: state.StudentReducer.deleteDocumentGraduate,
+    getgrescoreList: state.CallReducer.getgrescore,
+    getieltsscoreList: state.CallReducer.getieltsscore,
+    gettoeflscoreList: state.CallReducer.gettoeflscore,
+    getgmatscoreList: state.CallReducer.getgmatscore,
+    getStudentsByIdList : state.StudentReducer.StudentList,
   };
 };
 export default  connect(mapStateToProps, {
   deleteDocument,
-  getDocumentList
+  getDocumentList,
+  deleteDocumentGraduate,
+  getgrescore,
+  getgmatscore,
+  gettoeflscore,
+  getieltsscore,
+  getStudentsById,
 })(DoccumentCard);
