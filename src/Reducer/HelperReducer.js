@@ -1,6 +1,6 @@
 import {HELPER} from '../Redux/Action'
 const initialState = {
-    tempState : []
+    tempState : {}
 }
 
 export default (state = initialState, action) => {

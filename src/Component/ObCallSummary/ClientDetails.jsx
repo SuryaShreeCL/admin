@@ -150,6 +150,11 @@ class ClientDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
+    // if(!this.state.formSubmitted){
+    //     this.setState({
+    //       ...this.props.tempState
+    //     })
+    // }
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
@@ -506,6 +511,7 @@ class ClientDetails extends Component {
         obj
       );
       this.setState({
+        formSubmitted : true,
         snackmsg: "Updated Successfully",
         snackvariant: "success",
         snackopen: true,
@@ -513,10 +519,17 @@ class ClientDetails extends Component {
     }
   };
 
+  componentWillUnmount() {
+    // if(!this.state.formSubmitted){
+    //   this.props.storeItInState({...this.state})
+    // }
+  }
+  
+
   render() {
     console.log(this.props.match.params.studentId);
     console.log(this.state);
-    console.log(this.props);
+    console.log("clent details props........",this.props);
     return (
       <div>
         <ThemeProvider theme={theme}>
