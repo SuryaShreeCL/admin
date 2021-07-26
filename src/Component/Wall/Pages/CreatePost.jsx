@@ -202,6 +202,7 @@ const CreatePost = () => {
                         checked={state.isEvent}
                         onChange={handlePostType}
                         name={values.isEvent}
+                        disabled
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                       />
@@ -480,7 +481,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button
                       color='primary'

@@ -59,9 +59,8 @@ const headCells = [
   { id: 'eventTitle', label: 'Event Title' },
   { id: 'description', label: 'Description' },
   { id: 'registrations', label: 'registrations' },
-  { id: 's&t', label: 'Starts' },
-  { id: 'e&t', label: 'Ends' },
-  { id: 'createdby', label: 'Created by' },
+  { id: 's&t', label: 'Start Date' },
+  { id: 'e&t', label: 'End Date' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -184,9 +183,8 @@ export default function Events() {
                   <TableCell>{item.eventTitle}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalRegistrations}</TableCell>
-                  <TableCell>{moment(item.eventDate).calendar()}</TableCell>
-                  <TableCell>{moment(item.eventEndDate).calendar()}</TableCell>
-                  <TableCell>{item.createdBy}</TableCell>
+                  <TableCell>{moment(item.eventDate).format('MMM Do, hh:mm a')}</TableCell>
+                  <TableCell>{moment(item.eventEndDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>{item?.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
