@@ -13,6 +13,7 @@ import {
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { storeItInState } from "../../Actions/HelperAction"
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -132,6 +133,7 @@ class ClientDetails extends Component {
       snackmsg: "",
       snackvariant: "",
       snackopen: false,
+      formSubmitted : false
     };
   }
   componentDidMount() {
@@ -148,6 +150,11 @@ class ClientDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
+    // if(!this.state.formSubmitted){
+    //     this.setState({
+    //       ...this.props.tempState
+    //     })
+    // }
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
@@ -165,7 +172,7 @@ class ClientDetails extends Component {
         sem: this.props.getStudentsByIdList.currentSem,
         department: this.props.getStudentsByIdList.department,
         collegename: this.props.getStudentsByIdList.college,
-        ugdegree: this.props.getStudentsByIdList.ugDegree,
+        // ugdegree: this.props.getStudentsByIdList.ugDegree,
         cgpa: this.props.getStudentsByIdList.uggpa,
         activebacklogs: this.props.getStudentsByIdList.noOfBacklogs,
         clsid: this.props.getStudentsByIdList.studentID,
@@ -181,75 +188,68 @@ class ClientDetails extends Component {
         pricing: this.props.getvarientByidList.sellingPrice,
         varient: this.props.getvarientByidList,
       });
-    }
-    if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
-      console.log("huhoihoijijo");
-      const {
-        collegeId,
-        degreeId,
-        departmentId,
-        clientName,
-        presentSem,
-        backlogs,
-        cgpa,
-        ameyoId,
-        callBackTime,
-        obCallDate,
-        obCallTime,
-        agent,
-        callStatus,
-        specificDays,
-        specificTime,
-        enrolmentDate,
-        aspirationDegrees,
-        aspirationCountries,
-        aspirationTerms,
-        year,
-        orderType,
-        packages,
-        experience,
-        typeOfExperience,
-        fieldOfExperience,
-        months,
-      } = this.props.getClientInfoList;
-      this.setState({
-        name: clientName,
-        ugdegree: degreeId,
-        collegename: collegeId,
-        department: departmentId,
-        sem: presentSem,
-        activebacklogs: backlogs,
-        cgpa: cgpa,
-        ameyoid: ameyoId,
-        calldate: obCallDate,
-        calltime: obCallTime,
-        agent: agent,
-        callstatus: { title: callStatus },
-        callbacktime: new Date(callBackTime),
-        spedays: { title: specificDays },
-        spetime: specificTime,
-        enrolldate: new Date(enrolmentDate),
-        appdegree:
-          aspirationDegrees && aspirationDegrees.length !== 0
-            ? { ...aspirationDegrees[0] }
-            : null,
-        order: { title: orderType },
-        countries:
-          aspirationCountries && aspirationCountries.length !== 0
-            ? { ...aspirationCountries[0] }
-            : null,
-        package: packages,
-        workexp: { title: experience },
-        exptype: { title: typeOfExperience },
-        expfield: fieldOfExperience,
-        expmonth: months,
-        term:
-          aspirationTerms && aspirationTerms.length !== 0
-            ? { ...aspirationTerms[0] }
-            : null,
-        intakeyear: { title: year },
-      });
-    }
+     
+      }
+      if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
+        console.log('huhoihoijijo')
+        console.log(this.props.getClientInfoList)
+        const {
+          collegeId,
+          degreeId,
+          departmentId,
+          clientName,
+          presentSem,
+          backlogs,
+          cgpa,
+          ameyoId,
+          callBackTime,
+          obCallDate,
+          obCallTime,
+          agent,
+          callStatus,
+          specificDays,
+          specificTime,
+          enrolmentDate,
+          aspirationDegrees,
+          aspirationCountries,
+          aspirationTerms,
+          year,
+          orderType,
+          packages,
+          experience,
+          typeOfExperience,
+          fieldOfExperience,
+          months,
+        } = this.props.getClientInfoList;
+        this.setState({
+          name: clientName,
+          ugdegree: this.props.getClientInfoList.degree,
+          collegename: collegeId,
+          department: departmentId,
+          sem: presentSem,
+          activebacklogs: backlogs,
+          cgpa: cgpa,
+          ameyoid: ameyoId,
+          calldate: obCallDate,
+          calltime: obCallTime,
+          agent: agent,
+          callstatus: {title:callStatus},
+          callbacktime: new Date(callBackTime),
+          spedays: {title:specificDays},
+          spetime: specificTime,
+          enrolldate: this.props.getClientInfoList.enrollmentDate,
+          appdegree: aspirationDegrees && aspirationDegrees.length !== 0 ? {...aspirationDegrees[0]} : null,
+          order: {title:orderType},
+          countries: aspirationCountries && aspirationCountries.length !== 0 ? {...aspirationCountries[0]} : null,
+          package: packages,
+          workexp: {title:experience},
+          exptype: {title:typeOfExperience},
+          expfield:fieldOfExperience,
+          expmonth: months,
+          term: aspirationTerms && aspirationTerms.length !== 0 ? {...aspirationTerms[0]} : null,
+          intakeyear: {title:year},
+        })
+      }
   }
   CallStatus = [
     { title: "Completed" },
@@ -402,24 +402,24 @@ class ClientDetails extends Component {
     isEmptyString(this.state.intakeyear)
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
-    // console.log(this.state)
-    if (
+    console.log(this.state)
+    if(
       !isEmptyString(this.state.name) &&
       !isEmptyString(this.state.number) &&
       !isEmptyString(this.state.email) &&
-      !isEmptyString(this.state.ugdegree) &&
-      !isEmptyString(this.state.department) &&
-      !isEmptyString(this.state.collegename) &&
+      this.state.ugdegree !== null &&
+      this.state.department !== null &&
+      this.state.collegename !== null &&
       !isEmptyString(this.state.sem) &&
       !isEmptyString(this.state.activebacklogs) &&
       !isEmptyString(this.state.cgpa) &&
-      // !isEmptyString(this.state.family)&&
-      // !isEmptyString(this.state.varient)&&
-      !isEmptyString(this.state.intake) &&
-      !isEmptyString(this.state.year) &&
-      // !isEmptyString(this.state.validity)&&
-      // !this.state.endofservice === null&&
-      // !isEmptyString(this.state.pricing)&&
+      // // !isEmptyString(this.state.family)&&
+      // // !isEmptyString(this.state.varient)&&
+      // this.state.intake !== null &&
+      // this.state.year !== null
+      // // !isEmptyString(this.state.validity)&&
+      // // !this.state.endofservice === null&&
+      // // !isEmptyString(this.state.pricing)&&
       !isEmptyString(this.state.ameyoid) &&
       this.state.calldate !== null &&
       this.state.calltime !== null &&
@@ -433,11 +433,9 @@ class ClientDetails extends Component {
       !isEmptyString(this.state.order) &&
       !isEmptyString(this.state.countries) &&
       !isEmptyString(this.state.package) &&
-      !isEmptyString(this.state.workexp)
-      // !isEmptyString(this.state.exptype) &&
-      // !isEmptyString(this.state.expfield) &&
-      // !isEmptyString(this.state.expmonth)
-    ) {
+      !isEmptyString(this.state.workexp) 
+    )
+    {
       let obj = {
         ugDegree: {
           id: this.state.ugdegree.id,
@@ -504,6 +502,7 @@ class ClientDetails extends Component {
         obj
       );
       this.setState({
+        formSubmitted : true,
         snackmsg: "Updated Successfully",
         snackvariant: "success",
         snackopen: true,
@@ -511,10 +510,17 @@ class ClientDetails extends Component {
     }
   };
 
+  componentWillUnmount() {
+    // if(!this.state.formSubmitted){
+    //   this.props.storeItInState({...this.state})
+    // }
+  }
+  
+
   render() {
     console.log(this.props.match.params.studentId);
     console.log(this.state);
-    console.log(this.props);
+    console.log("clent details props........",this.props);
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -1269,6 +1275,7 @@ const mapStateToProps = (state) => {
     getvarientByidList: state.ProductReducer.getvarientByid,
     updateclientdetailsList: state.ProductReducer.updateclientdetails,
     getClientInfoList: state.CallReducer.getClientInfo,
+    tempState : state.HelperReducer.tempState
   };
 };
 
@@ -1286,4 +1293,5 @@ export default connect(mapStateToProps, {
   getvarientByid,
   updateclientdetails,
   getClientInfo,
+  storeItInState
 })(ClientDetails);

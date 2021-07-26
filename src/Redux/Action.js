@@ -321,6 +321,10 @@ export const PGA = {
   clearUnEnroll: 'clearUnEnroll',
 };
 
+export const HELPER = {
+  storeItInState : "storeItInState"
+}
+
 //MOHAMMED
 export const TESTIMONIAL = {
   LIST_REQUEST: 'LIST_REQUEST',

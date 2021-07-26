@@ -27,12 +27,16 @@ import {
   getallcountry,
   updateAspiration,
   getAspiration,
-  getAspirationQuestion
+  getAspirationQuestion,
 } from "../../Actions/Aspiration";
-import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import {
+  viewStudentStatus,
+  updateVerificationStatus,
+} from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
+import { check } from "prettier";
 
 const theme = createMuiTheme({
   overrides: {
@@ -97,6 +101,7 @@ class AspirationDetails extends Component {
           },
         },
       ],
+      answerModel:[],
       noOfSchool: "",
       intake: "",
       aspirationCountries: [],
@@ -108,7 +113,7 @@ class AspirationDetails extends Component {
         model: false,
         data: null,
         sectionName: "",
-      },
+      },      
     };
   }
 
@@ -122,8 +127,9 @@ class AspirationDetails extends Component {
     this.props.getAspirationQuestion(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getAspiration((response) => {
+      console.log(response)
       this.setState({
-        ...response,
+        ...response,        
       });
     }, this.props.match.params.studentId);
   }
@@ -145,25 +151,27 @@ class AspirationDetails extends Component {
     } = this.state;
     let obj = {
       noOfSchool: noOfSchool,
-      intake: intake ?intake.name : "",
+      intake: intake ? intake.name : "",
       aspirationCountries: aspirationCountries,
       aspirationDegrees: aspirationDegrees,
       aspirationBranches: aspirationBranches,
       aspirationAreaOfSpecializations: aspirationAreaOfSpecializations,
       aspirationUniversities: aspirationUniversities,
-      testQuestionModels:[]
-    };
-    this.props.updateAspiration(obj,response=>console.log(response),this.props.match.params.studentId)    
+      testQuestionModels: this.state.answerModel,
+    };    
+    this.props.updateAspiration(
+      obj,
+      (response) => console.log(response),
+      this.props.match.params.studentId,
+      this.props.getAspirationQuestionList.id, 
+    );    
   };
 
   getStatus = (sectionName) => {
-    if (
-      this.props.studentStatus &&
-      this.props.studentStatus.length !== 0
-    ) {
-      const { studentStatus } = this.props;         
+    if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
+      const { studentStatus } = this.props;
       return studentStatus.find((item) => item.sectionName === sectionName);
-    } 
+    }
   };
 
   renderModel = () => (
@@ -180,12 +188,154 @@ class AspirationDetails extends Component {
       section={this.state.sectionStatus}
       {...this.props}
     />
-  );  
-  
+  );
+
+  getAnswer=(qid)=>{
+    let obj=this.state.testQuestionModels.find(item=>item.answer.questionId===qid)    
+    if(obj){     
+      if(obj.question.type==="SINGLE_SELECT") 
+      return obj.answer.selectedChoices[0].id;
+      else{        
+        return obj.answer.selectedChoices.map(item=>item.id);
+      }      
+    }
+    return null;
+  }
+
+  renderAspirationQuestions = () => {
+    const {
+      questionsSet: { questions },
+      answer,
+    } = this.props.getAspirationQuestionList;
+    const { choiceStyle } = style;
+    return (
+      <Grid container spacing={2}>
+        {questions.map(({ id, question, choices, type }, index) => {
+          var qid=id;          
+          if (type === "SINGLE_SELECT")
+            return (
+              <>
+                <Grid
+                  item
+                  xs={8}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    fontSize: 18,
+                    fontWeight: 400,
+                  }}
+                >
+                  {question}
+                </Grid>
+                <Grid item md={12}>
+                  <FormControl component="fieldset">                    
+                    <RadioGroup
+                      aria-label="gender"                      
+                      style={{ display: "flex", flexDirection: "row" }}
+                      onChange={(e)=>{
+                        let arr=[];
+                        let choiceId={
+                          id:e.target.value,
+                        }
+                        let obj={
+                          question:{
+                            id:qid,                            
+                          },
+                          answer:{
+                            selectedChoices:[choiceId]
+                          }                         
+                        }
+                        if(this.state.answerModel.some(item=>item.question.id===obj.question.id)){                                                    
+                          arr = this.state.answerModel.filter(item=>item.question.id!==obj.question.id).concat(obj);
+                        }else{
+                          arr=this.state.answerModel.concat(obj);
+                        }
+                        this.setState({answerModel:arr});
+                      }} 
+                      value={this.getAnswer(qid)}
+                    >
+                      {choices.map(({ text ,id }) => {
+                        return (
+                          <FormControlLabel
+                            style={choiceStyle}                         
+                            control={<Radio />}
+                            label={text}      
+                            value={id}                      
+                          />
+                        );
+                      })}
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+              </>
+            );
+
+          if (type === "MULTI_CHOICE")
+            return (
+              <>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    fontSize: 18,
+                    fontWeight: 400,
+                  }}
+                >
+                  {question}
+                </Grid>
+                <Grid item md={12}>
+                  <FormGroup row >
+                    {choices.map(({ text,id }) => {                      
+                      return (
+                        <FormControlLabel
+                          style={choiceStyle}
+                          labelStyle={{ color: "white" }}
+                          iconStyle={{ fill: "white" }}
+                          control={<Checkbox name="checkedA" />}
+
+                          label={text}
+                          value={id}
+                          onChange={({target:{value,checked}})=>{  
+                            let obj={
+                              question:{
+                                id:qid,                            
+                              },
+                              answer:{
+                                selectedChoices:[{id:value}]
+                              }                         
+                            }
+                            var question=this.state.answerModel.find(item=>item.question.id===obj.question.id)
+                            if(question){
+                              if(checked){                                
+                                question.answer.selectedChoices.push({id:value})
+                                let removeExist=this.state.answerModel.filter(item=>item.question.id!==obj.question.id)
+                                this.setState({answerModel:removeExist.concat(question)})                                                              
+                              }else{                                                                
+                                let removeExist=this.state.answerModel.filter(item=>item.question.id!==obj.question.id)
+                                question.answer.selectedChoices=question.answer.selectedChoices.filter(item=>item.id!==value)
+                                this.setState({answerModel:removeExist.concat(question)})
+                              }
+                            }else{
+                              this.setState({answerModel:this.state.answerModel.concat(obj)})
+                            }
+                          }}                                                    
+                        />                                             
+                      );
+                    })}
+                  </FormGroup>
+                </Grid>
+              </>
+            );
+        })}
+      </Grid>
+    );
+  };
 
   render() {
-    const { choiceStyle } = style;
-    console.log(this.props.getAspirationQuestionList)
+    const { choiceStyle } = style;   
+    console.log(this.state.testQuestionModels) 
     return (
       <div style={{ padding: 25 }}>
         <ThemeProvider theme={theme}>
@@ -217,151 +367,29 @@ class AspirationDetails extends Component {
                 Aspiration Details
               </p>
               <Status
-                      onClick={() => {
-                        this.setState({
-                          sectionStatus: {
-                            model: true,
-                            data: this.getStatus(SECTION.aspirationDetail),
-                            sectionName: SECTION.aspirationDetail,
-                          },
-                        });
-                      }}
-                      status={
-                        this.getStatus(SECTION.aspirationDetail)
-                          ? this.getStatus(SECTION.aspirationDetail).status
-                          : "notVerified"
-                      }
-                    />
+                onClick={() => {
+                  this.setState({
+                    sectionStatus: {
+                      model: true,
+                      data: this.getStatus(SECTION.aspirationDetail),
+                      sectionName: SECTION.aspirationDetail,
+                    },
+                  });
+                }}
+                status={
+                  this.getStatus(SECTION.aspirationDetail)
+                    ? this.getStatus(SECTION.aspirationDetail).status
+                    : "notVerified"
+                }
+              />
             </div>
             <IconButton onClick={this.handleClick.bind(this)}>
               <img src={Pencil} height={17} width={17} />
             </IconButton>
           </div>
+          {this.props.getAspirationQuestionList.length !== 0 &&
+            this.renderAspirationQuestions()}
           <Grid container spacing={2}>
-            <Grid
-              item
-              xs={8}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                fontSize: 18,
-                fontWeight: 400,
-              }}
-            >
-              What Kind Of Degree You Want To Persue?
-            </Grid>
-            <Grid item md={12}>
-              <FormControl component="fieldset">
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
-                  style={{ display: "flex", flexDirection: "row" }}
-                >
-                  <FormControlLabel
-                    style={choiceStyle}
-                    value="Not yet Decided"
-                    control={<Radio />}
-                    label="Not yet Decided"
-                  />
-                  <FormControlLabel
-                    style={choiceStyle}
-                    value="Technical (Eg: MS in CS)"
-                    control={<Radio />}
-                    label="Technical (Eg: MS in CS)"
-                  />
-                  <FormControlLabel
-                    style={choiceStyle}
-                    value="Management (Eg: MiM/MSBA)"
-                    control={<Radio />}
-                    label="Management (Eg: MiM/MSBA)"
-                  />
-                  <FormControlLabel
-                    style={choiceStyle}
-                    value="Techno-Managerial (Eg: MEM)"
-                    control={<Radio />}
-                    label="Techno-Managerial (Eg: MEM)"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                fontSize: 18,
-                fontWeight: 400,
-              }}
-            >
-              Which Of The Following Tests Have you Taken Or Intend To Take?
-            </Grid>
-            <Grid item md={12}>
-              <FormGroup row>
-                <FormControlLabel
-                  style={choiceStyle}
-                  labelStyle={{ color: "white" }}
-                  iconStyle={{ fill: "white" }}
-                  control={<Checkbox name="checkedA" />}
-                  label="GRE"
-                />
-                <FormControlLabel
-                  style={choiceStyle}
-                  control={<Checkbox name="checkedB" />}
-                  label="GMAT"
-                />
-                <FormControlLabel
-                  style={choiceStyle}
-                  control={<Checkbox name="checkedC" />}
-                  label="TOEFL"
-                />
-                <FormControlLabel
-                  style={choiceStyle}
-                  control={<Checkbox name="checkedD" />}
-                  label="IELTS"
-                />
-              </FormGroup>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                fontSize: 18,
-                fontWeight: 400,
-              }}
-            >
-              How Do You Propose To Finance Your Studies?
-            </Grid>
-            <Grid item md={12}>
-              <FormControl component="fieldset">
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
-                  style={{ display: "flex", flexDirection: "row" }}
-                >
-                  <FormControlLabel
-                    style={choiceStyle}
-                    value="Self"
-                    control={<Radio />}
-                    label="Self"
-                  />
-                  <FormControlLabel
-                    style={choiceStyle}
-                    value="Loan"
-                    control={<Radio />}
-                    label="Loan"
-                  />
-                  <FormControlLabel
-                    style={choiceStyle}
-                    value="other"
-                    control={<Radio />}
-                    label="Other"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
             <Grid item md={2}>
               <TextField
                 //   style={{ width: "100%" }}
@@ -380,7 +408,7 @@ class AspirationDetails extends Component {
                 id="combo-box-demo"
                 disabled={this.state.disable}
                 options={[{ name: "2011" }, { name: "2012" }]}
-                getOptionLabel={(option) => option.name}                
+                getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
                   <TextField {...params} label="Intake" variant="standard" />
                 )}
@@ -390,18 +418,14 @@ class AspirationDetails extends Component {
             </Grid>
             <Grid item md={2}>
               <Autocomplete
-              multiple
+                multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 disabled={this.state.disable}
                 options={this.props.allDegreeList || []}
                 getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Degree"
-                    variant="standard"
-                  />
+                  <TextField {...params} label="Degree" variant="standard" />
                 )}
                 onChange={(e, value) =>
                   this.setState({ aspirationDegrees: value })
@@ -412,7 +436,7 @@ class AspirationDetails extends Component {
 
             <Grid item md={5}>
               <Autocomplete
-              multiple
+                multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allBranchList}
@@ -434,7 +458,7 @@ class AspirationDetails extends Component {
 
             <Grid item md={3}>
               <Autocomplete
-              multiple
+                multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allCountry}
@@ -456,7 +480,7 @@ class AspirationDetails extends Component {
 
             <Grid item md={3}>
               <Autocomplete
-              multiple
+                multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allUniversityList}
@@ -477,7 +501,7 @@ class AspirationDetails extends Component {
             </Grid>
             <Grid item md={3}>
               <Autocomplete
-              multiple
+                multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
                 options={this.props.allSpeciaizationList}
@@ -502,7 +526,8 @@ class AspirationDetails extends Component {
             style={{
               display: "flex",
               justifyContent: "center",
-              paddingTop: "5%",getAspirationQuestion
+              paddingTop: "5%",
+              getAspirationQuestion,
             }}
           >
             <PrimaryButton
@@ -535,7 +560,7 @@ const mapStateToProps = (state) => {
   return {
     ...state.AspirationReducer,
     studentStatus: state.AdminReducer.studentStatusResponse,
-    getAspirationQuestionList: state.AspirationReducer.getAspirationQuestion
+    getAspirationQuestionList: state.AspirationReducer.getAspirationQuestion,
   };
 };
 
@@ -550,5 +575,5 @@ export default connect(mapStateToProps, {
   getAspiration,
   viewStudentStatus,
   updateVerificationStatus,
-  getAspirationQuestion
+  getAspirationQuestion,
 })(AspirationDetails);
