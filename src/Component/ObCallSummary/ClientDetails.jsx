@@ -223,7 +223,7 @@ class ClientDetails extends Component {
         } = this.props.getClientInfoList;
         this.setState({
           name: clientName,
-          ugdegree: degreeId,
+          ugdegree: this.props.getClientInfoList.degree,
           collegename: collegeId,
           department: departmentId,
           sem: presentSem,
@@ -237,7 +237,7 @@ class ClientDetails extends Component {
           callbacktime: new Date(callBackTime),
           spedays: {title:specificDays},
           spetime: specificTime,
-          enrolldate: enrolmentDate,
+          enrolldate: this.props.getClientInfoList.enrollmentDate,
           appdegree: aspirationDegrees && aspirationDegrees.length !== 0 ? {...aspirationDegrees[0]} : null,
           order: {title:orderType},
           countries: aspirationCountries && aspirationCountries.length !== 0 ? {...aspirationCountries[0]} : null,
@@ -250,75 +250,6 @@ class ClientDetails extends Component {
           intakeyear: {title:year},
         })
       }
-    
-    if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
-      console.log("huhoihoijijo");
-      const {
-        collegeId,
-        degreeId,
-        departmentId,
-        clientName,
-        presentSem,
-        backlogs,
-        cgpa,
-        ameyoId,
-        callBackTime,
-        obCallDate,
-        obCallTime,
-        agent,
-        callStatus,
-        specificDays,
-        specificTime,
-        enrolmentDate,
-        aspirationDegrees,
-        aspirationCountries,
-        aspirationTerms,
-        year,
-        orderType,
-        packages,
-        experience,
-        typeOfExperience,
-        fieldOfExperience,
-        months,
-      } = this.props.getClientInfoList;
-      this.setState({
-        name: clientName,
-        ugdegree: degreeId,
-        collegename: collegeId,
-        department: departmentId,
-        sem: presentSem,
-        activebacklogs: backlogs,
-        cgpa: cgpa,
-        ameyoid: ameyoId,
-        calldate: obCallDate,
-        calltime: obCallTime,
-        agent: agent,
-        callstatus: { title: callStatus },
-        callbacktime: new Date(callBackTime),
-        spedays: { title: specificDays },
-        spetime: specificTime,
-        enrolldate: new Date(enrolmentDate),
-        appdegree:
-          aspirationDegrees && aspirationDegrees.length !== 0
-            ? { ...aspirationDegrees[0] }
-            : null,
-        order: { title: orderType },
-        countries:
-          aspirationCountries && aspirationCountries.length !== 0
-            ? { ...aspirationCountries[0] }
-            : null,
-        package: packages,
-        workexp: { title: experience },
-        exptype: { title: typeOfExperience },
-        expfield: fieldOfExperience,
-        expmonth: months,
-        term:
-          aspirationTerms && aspirationTerms.length !== 0
-            ? { ...aspirationTerms[0] }
-            : null,
-        intakeyear: { title: year },
-      });
-    }
   }
   CallStatus = [
     { title: "Completed" },
@@ -471,42 +402,39 @@ class ClientDetails extends Component {
     isEmptyString(this.state.intakeyear)
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
-    // console.log(this.state)
-    // if(
-    //   !isEmptyString(this.state.name) &&
-    //   !isEmptyString(this.state.number) &&
-    //   !isEmptyString(this.state.email) &&
-    //   !isEmptyString(this.state.ugdegree) &&
-    //   !isEmptyString(this.state.department) &&
-    //   !isEmptyString(this.state.collegename) &&
-    //   !isEmptyString(this.state.sem) &&
-    //   !isEmptyString(this.state.activebacklogs) &&
-    //   !isEmptyString(this.state.cgpa) &&
-    //   // !isEmptyString(this.state.family)&&
-    //   // !isEmptyString(this.state.varient)&&
-    //   !isEmptyString(this.state.intake)&&
-    //   !isEmptyString(this.state.year)&&
-    //   // !isEmptyString(this.state.validity)&&
-    //   // !this.state.endofservice === null&&
-    //   // !isEmptyString(this.state.pricing)&&
-    //   !isEmptyString(this.state.ameyoid) &&
-    //   this.state.calldate !== null &&
-    //   this.state.calltime !== null &&
-    //   !isEmptyString(this.state.agent) &&
-    //   !isEmptyString(this.state.callstatus) &&
-    //   this.state.callbacktime !== null &&
-    //   !isEmptyString(this.state.spedays) &&
-    //   !isEmptyString(this.state.spetime) &&
-    //   this.state.enrolldate !== null &&
-    //   !isEmptyString(this.state.appdegree) &&
-    //   !isEmptyString(this.state.order) &&
-    //   !isEmptyString(this.state.countries) &&
-    //   !isEmptyString(this.state.package) &&
-    //   !isEmptyString(this.state.workexp) 
-    //   // !isEmptyString(this.state.exptype) &&
-    //   // !isEmptyString(this.state.expfield) &&
-    //   // !isEmptyString(this.state.expmonth)
-    // )
+    console.log(this.state)
+    if(
+      !isEmptyString(this.state.name) &&
+      !isEmptyString(this.state.number) &&
+      !isEmptyString(this.state.email) &&
+      this.state.ugdegree !== null &&
+      this.state.department !== null &&
+      this.state.collegename !== null &&
+      !isEmptyString(this.state.sem) &&
+      !isEmptyString(this.state.activebacklogs) &&
+      !isEmptyString(this.state.cgpa) &&
+      // // !isEmptyString(this.state.family)&&
+      // // !isEmptyString(this.state.varient)&&
+      // this.state.intake !== null &&
+      // this.state.year !== null
+      // // !isEmptyString(this.state.validity)&&
+      // // !this.state.endofservice === null&&
+      // // !isEmptyString(this.state.pricing)&&
+      !isEmptyString(this.state.ameyoid) &&
+      this.state.calldate !== null &&
+      this.state.calltime !== null &&
+      !isEmptyString(this.state.agent) &&
+      !isEmptyString(this.state.callstatus) &&
+      this.state.callbacktime !== null &&
+      !isEmptyString(this.state.spedays) &&
+      !isEmptyString(this.state.spetime) &&
+      this.state.enrolldate !== null &&
+      !isEmptyString(this.state.appdegree) &&
+      !isEmptyString(this.state.order) &&
+      !isEmptyString(this.state.countries) &&
+      !isEmptyString(this.state.package) &&
+      !isEmptyString(this.state.workexp) 
+    )
     {
       let obj = {
         ugDegree: {

@@ -506,3 +506,18 @@ export const deleteDocument=(id,fileName)=>{
             });
     }
 }
+
+export const deleteDocumentGraduate=(id,fileName,fileId)=>{    
+    return dispatch =>{
+        axios.delete(URL+"/api/v1/files/deleteFile/"+id+"/gre/"+fileId+"/"+fileName,{
+            crossDomain: true
+        })
+            .then(result => {                                                
+                dispatch({type:STUDENT.deleteDocumentGraduate,deletedFileResponse:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
