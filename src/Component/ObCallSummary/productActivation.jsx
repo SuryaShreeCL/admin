@@ -16,7 +16,7 @@ import {
     ThemeProvider,
     createMuiTheme,
 } from "@material-ui/core";
-import { getAllProductFamily, getProductByFamilyId, getProductVarient } from "../../Actions/ProductAction"
+import { getAllProductFamily, getProductByFamilyId, getProductVarient, searchProductActivationList } from "../../Actions/ProductAction"
 import { ExpandMore } from '@material-ui/icons';
 import AddIcon from "@material-ui/icons/Add";
 import {
@@ -139,6 +139,7 @@ class ProductActivation extends Component {
             snackColor: null,
             snackMsg: null,
             shrink:false,
+            listOfUsers : []
         };
 
     }
@@ -150,6 +151,7 @@ class ProductActivation extends Component {
         this.props.getAwaitingUsersByAdminId();
         this.props.getAllProductFamily()
         this.props.getProductVarient()
+        this.props.searchProductActivationList("CLS")
     }
     shrink(){
         this.setState({ shrink: true });
@@ -183,6 +185,11 @@ class ProductActivation extends Component {
                 snackMsg: "Product activated successfully"
             })
         }
+        if(this.props.awaitingUsersForActivationList !== prevProps.awaitingUsersForActivationList){
+            this.setState({
+                listOfUsers : this.props.awaitingUsersForActivationList
+            })
+        }
     }
 
     handleActivate = () => {
@@ -201,7 +208,7 @@ class ProductActivation extends Component {
 
 
     render() {
-        console.log(this.state)
+        console.log("prod act props.......",this.props)
         return (
             <div style={{ padding: 10 }}>
                 <ThemeProvider theme={theme}>
@@ -257,8 +264,8 @@ class ProductActivation extends Component {
                             </TableHead>
                             <TableBody>
 
-                                {this.props.awaitingUsersForActivationList.length !== 0 &&
-                                    this.props.awaitingUsersForActivationList.map(
+                                {this.state.listOfUsers.length !== 0 &&
+                                    this.state.listOfUsers.map(
                                         (eachData, index) => {
                                             let date = new Date(eachData.orderDate).getDate()
                                             let month = new Date(eachData.orderDate).getMonth() + 1
@@ -510,6 +517,7 @@ export const mapStateToProps = (state) => {
         getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
         getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
         getProductVarientList: state.ProductReducer.getProductVarient,
+        searchActivationList : state.ProductReducer.searchActivationList
 
     };
 };
@@ -520,4 +528,5 @@ export default connect(mapStateToProps, {
     getProductByFamilyId,
     getAllProductFamily,
     getProductVarient,
+    searchProductActivationList
 })(ProductActivation);
