@@ -13,6 +13,7 @@ import {
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { storeItInState } from "../../Actions/HelperAction"
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -132,6 +133,7 @@ class ClientDetails extends Component {
       snackmsg: "",
       snackvariant: "",
       snackopen: false,
+      formSubmitted : false
     };
   }
   componentDidMount() {
@@ -1269,6 +1271,7 @@ const mapStateToProps = (state) => {
     getvarientByidList: state.ProductReducer.getvarientByid,
     updateclientdetailsList: state.ProductReducer.updateclientdetails,
     getClientInfoList: state.CallReducer.getClientInfo,
+    tempState : state.HelperReducer.tempState
   };
 };
 
@@ -1286,4 +1289,5 @@ export default connect(mapStateToProps, {
   getvarientByid,
   updateclientdetails,
   getClientInfo,
+  storeItInState
 })(ClientDetails);

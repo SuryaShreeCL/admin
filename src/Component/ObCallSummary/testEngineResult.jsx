@@ -46,6 +46,7 @@ class TestEngineResult extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
+      examAttendDate : null,
       sectionStatus: {
         model: false,
         data: null,
@@ -91,14 +92,19 @@ class TestEngineResult extends Component {
     }
   }
 
-  handleShowAnswer = (questionSetName) => {
+  handleShowAnswer = (questionSetName,examDate) => {
     this.props.viewanswers(
       this.props.match.params.studentId,
       questionSetName
     );
+    let date = new Date(examDate).getDate()
+    let month = new Date(examDate).getMonth()+1
+    let year = new Date(examDate).getFullYear()
+    let newFullDate = date + "/" + month + "/" + year
     this.setState({
       questionSetName: questionSetName,
       showEye: true,
+      examAttendDate : newFullDate
     });
   };
 
@@ -349,7 +355,7 @@ class TestEngineResult extends Component {
                       >
                         <IconButton
                           onClick={() =>
-                            this.handleShowAnswer(eachItem.questionSetName)
+                            this.handleShowAnswer(eachItem.questionSetName,eachItem.examDate)
                           }
                         >
                           <img
@@ -454,7 +460,7 @@ class TestEngineResult extends Component {
               }}
             >
               <Typography style={{ color: "#052A4E", fontSize: 12 }}>
-                Test completion Date
+                Test completion Date {this.state.examAttendDate}
               </Typography>
             </div>
             {this.state.quesAns.length !== 0 &&
