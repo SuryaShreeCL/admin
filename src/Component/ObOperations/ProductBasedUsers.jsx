@@ -39,6 +39,7 @@ class ProductBasedUsers extends Component {
             console.log(sortedArr)
             this.setState({
                 productDetails : sortedArr,
+                selectedItem : sortedArr[0]
             })
         }
     }

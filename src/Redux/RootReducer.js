@@ -12,6 +12,7 @@ import ProductReducer from '../Reducer/ProductReducer';
 import AdminReducer from '../Reducer/AdminReducer';
 import CareerTrackReducer from '../Reducer/CareerTrackReducer';
 import NotificationReducer from '../Reducer/NotificationReducer';
+import HelperReducer from '../Reducer/HelperReducer';
 import ReportReducer from '../Reducer/ReportReducer';
 import {
   testimonialCreateReducer,
@@ -62,4 +63,5 @@ export default combineReducers({
   wallPostUpdateReducer: wallPostUpdateReducer,
   wallPostListReducer: wallPostListReducer,
   getWallCategoriesReducer: getWallCategoriesReducer,
+  HelperReducer: HelperReducer,
 });

@@ -901,3 +901,16 @@ export const getproductsteps = (id) => {
   };
 };
 
+
+export const searchProductActivationList = (keyword) =>{
+  let adminUserId = window.sessionStorage.getItem("adminUserId")
+  return dispatch =>{
+    axios.get(URL+"/api/v1/get/studentProduct/search/"+adminUserId+"?page=0&size=20&q="+keyword)
+    .then((result)=>{
+      dispatch({type: PRODUCT.searchProductActivationList, payload: result.data})
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+}

@@ -36,6 +36,7 @@ const initialState = {
   allTermList: [],
   getallcountry: [],
   allCountry:[],
+  getAspirationQuestion: []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -214,6 +215,12 @@ export default (state = initialState, action) => {
         ...state,
         allCountry:action.payload,
         getallcountry: action.payload,
+      };
+      case ASPIRATION.getAspirationQuestion:      
+      return {
+        ...state,
+        getAspirationQuestion:action.payload,
+        // getallcountry: action.payload,
       };
 
     default:

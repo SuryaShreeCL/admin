@@ -68,7 +68,8 @@ export const STUDENT = {
   uploadFile:"uploadFile",
   sscexamboard: "sscexamboard",
   getDocumentList: 'getDocumentList',
-  deleteDocument: 'deleteDocument'
+  deleteDocument: 'deleteDocument',
+  
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -116,7 +117,8 @@ export const ASPIRATION = {
   addCity: 'addCity',
   updateCity: 'updateCity',
   deleteCity: 'deleteCity',
-  getallcountry:"getallcountry"
+  getallcountry:"getallcountry",
+  getAspirationQuestion: "getAspirationQuestion"
 };
 
 export const QUESTIONSET = {
@@ -185,7 +187,8 @@ export const PRODUCT = {
   getproductstructure : "getproductstructure",
   postproductstructure : "postproductstructure",
   getUserDataAcademicInfo: 'getUserDataAcademicInfo',
-  getproductsteps:"getproductsteps"
+  getproductsteps:"getproductsteps",
+  searchProductActivationList : "searchProductActivationList"
 };
 
 export const ADMIN = {
@@ -316,6 +319,10 @@ export const PGA = {
   clearNewEnroll: 'clearNewEnroll',
   clearUnEnroll: 'clearUnEnroll',
 };
+
+export const HELPER = {
+  storeItInState : "storeItInState"
+}
 
 //MOHAMMED
 export const TESTIMONIAL = {
