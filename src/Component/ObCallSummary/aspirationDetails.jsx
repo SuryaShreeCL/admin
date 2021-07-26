@@ -191,15 +191,18 @@ class AspirationDetails extends Component {
   );
 
   getAnswer=(qid)=>{
-    let obj=this.state.testQuestionModels.find(item=>item.answer.questionId===qid)    
+    let obj=this.state.testQuestionModels.find(item=>item.answer.questionId===qid)  
+    let choice=null;      
     if(obj){     
       if(obj.question.type==="SINGLE_SELECT") 
-      return obj.answer.selectedChoices[0].id;
-      else{        
-        return obj.answer.selectedChoices.map(item=>item.id);
+      choice= obj.answer.selectedChoices[0].id;
+      else if(obj.question.type==="MULTI_CHOICE"){        
+        console.log('multi choices')
+        choice= obj.answer.selectedChoices.map(item=>item.id);
       }      
     }
-    return null;
+    console.log(choice)
+    return choice;
   }
 
   renderAspirationQuestions = () => {
@@ -211,7 +214,7 @@ class AspirationDetails extends Component {
     return (
       <Grid container spacing={2}>
         {questions.map(({ id, question, choices, type }, index) => {
-          var qid=id;          
+          var qid=id;                                        
           if (type === "SINGLE_SELECT")
             return (
               <>
@@ -272,7 +275,7 @@ class AspirationDetails extends Component {
 
           if (type === "MULTI_CHOICE")
             return (
-              <>
+              <>              
                 <Grid
                   item
                   xs={12}
@@ -320,7 +323,8 @@ class AspirationDetails extends Component {
                             }else{
                               this.setState({answerModel:this.state.answerModel.concat(obj)})
                             }
-                          }}                                                    
+                          }}  
+                          checked={this.getAnswer(qid) ? this.getAnswer(qid).indexOf(id)>-1 : null}
                         />                                             
                       );
                     })}
