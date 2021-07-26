@@ -1,42 +1,24 @@
-import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import RoomIcon from "@material-ui/icons/Room";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import {connect} from 'react-redux'
 import {
-  Table,
+  Button, Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  Slide,
-  Button,
-  IconButton,
-  Typography,
-  TextField,
+  TableRow, TextField, Typography
 } from "@material-ui/core";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import { Autocomplete } from "@material-ui/lab";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { ExpandMore } from "@material-ui/icons";
-import { isEmptyString } from "../Validation";
-import {getAllMentors} from "../../Actions/AdminAction"
-import {getStudentsById} from '../../Actions/Student'
-import {getstudentMapping,getproductdetails,updateallocatementor,getmentor,updatementor} from '../../Actions/MentorAction'
+import { Autocomplete } from "@material-ui/lab";
+import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { getAllMentors } from "../../Actions/AdminAction";
+import { getmentor, getproductdetails, getstudentMapping, updateallocatementor, updatementor } from '../../Actions/MentorAction';
+import { getStudentsById } from '../../Actions/Student';
+import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
+import { isEmptyString } from "../Validation";
 class AdmissionServices extends Component {
   constructor() {
     super();
@@ -89,7 +71,7 @@ class AdmissionServices extends Component {
     this.props.getAllMentors()
     this.props.getstudentMapping(this.props.match.params.studentId)
     this.props.getStudentsById(this.props.match.params.studentId)
-    this.props.getproductdetails()
+    this.props.getproductdetails(this.props.match.params.studentId)
     if(this.props.studentDetails.mentor !== null){
         this.setState({
             mentorname : this.props.studentDetails.mentor

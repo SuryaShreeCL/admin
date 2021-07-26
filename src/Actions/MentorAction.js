@@ -46,10 +46,10 @@ export const getstudentMapping = (id) => {
             });
     }
 }
-export const getproductdetails = () => {
+export const getproductdetails = (studentID) => {
     let userId = window.sessionStorage.getItem("adminUserId")
     return dispatch => {
-        axios.get(URL+"/api/v1/adminuser/product/"+userId,{
+        axios.get(URL+"/api/v1/adminuser/product/"+userId+"/"+studentID,{
             crossDomain: true
         })
             .then(result => {
