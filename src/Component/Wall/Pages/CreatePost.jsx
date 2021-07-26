@@ -177,7 +177,7 @@ const CreatePost = () => {
 
   return (
     <>
-      <BackHandler title='Create New Post' />
+      <BackHandler title='Create New Post' tab={state.isEvent ? 3 : 0} />
       <CreatePostContainer>
         <Formik
           initialValues={state || []}
@@ -464,7 +464,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
                     <Button
                       color='primary'

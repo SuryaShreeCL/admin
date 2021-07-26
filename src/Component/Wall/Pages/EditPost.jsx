@@ -138,7 +138,7 @@ const EditPost = () => {
 
   return (
     <>
-      <BackHandler title='Edit Post' />
+      <BackHandler title='Edit Post' tab={records.isEvent ? 3 : 0} />
       <CreatePostContainer>
         <Formik
           initialValues={records || state}

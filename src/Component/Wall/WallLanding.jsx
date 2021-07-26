@@ -5,10 +5,12 @@ import DraftPost from './Pages/DraftPost';
 import ScheduledPost from './Pages/ScheduledPost';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import Events from './Pages/Events';
+import { useLocation } from 'react-router-dom';
 import Restricted from './Components/Restricted';
 
 const WallLanding = () => {
-  const [tabCount, setTabCount] = useState(0);
+  let location = useLocation();
+  const [tabCount, setTabCount] = useState(location.tab ?? 0);
   let isDepartment = window.sessionStorage.getItem('department');
   const hasPermission = isDepartment === 'elev8';
 

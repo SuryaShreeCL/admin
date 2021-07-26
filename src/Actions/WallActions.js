@@ -3,13 +3,14 @@ import axios from 'axios';
 
 let accessToken = window.sessionStorage.getItem('accessToken');
 
-export const listWallPosts = (status) => async (dispatch) => {
+export const listWallPosts = (status, type) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?activeStatus=${status}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?isEvent=${type}&activeStatus=${status}`,
       {
+        crossDomain: true,
         headers: {
           admin: 'yes',
           Authorization: `Bearer ${accessToken}`,

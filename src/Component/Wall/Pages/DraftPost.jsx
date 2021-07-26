@@ -31,11 +31,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import {
-  listWallPosts,
-  deleteWallPost,
-  updateWallPost,
-} from '../../../Actions/WallActions';
+import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -139,7 +135,7 @@ export default function DraftPost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Draft'));
+      dispatch(listWallPosts('Draft', false));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -149,7 +145,7 @@ export default function DraftPost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Draft'));
+    dispatch(listWallPosts('Draft', false));
   }, [dispatch]);
 
   return (

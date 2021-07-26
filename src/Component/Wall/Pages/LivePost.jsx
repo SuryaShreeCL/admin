@@ -125,7 +125,7 @@ export default function LivePost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live'));
+      dispatch(listWallPosts('Live', false));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -135,7 +135,7 @@ export default function LivePost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live'));
+    dispatch(listWallPosts('Live', false));
   }, [dispatch]);
 
   return (
