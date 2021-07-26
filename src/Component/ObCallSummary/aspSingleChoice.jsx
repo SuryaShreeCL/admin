@@ -6,31 +6,13 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { connect } from 'react-redux';
 import { pushIntoSingleChoiceArr,getChoiceText } from "../../../Actions/HelperAction"
- class AspSingleChoice extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-
-        }
-    }
-    handleChange = (e) =>{
-        console.log(e.target.name)
-        let data = JSON.parse(e.target.value)
-        console.log(data)
-        if(e.target.name === "pursueHigherEducation"){
-            this.props.getChoiceText(data.text)
-        }
-        // this.props.pushIntoSingleChoiceArr({questionId : e.target.id, answer : JSON.parse(e.target.value)})
-    }
-    render() {
-        console.log(this.props.choiceText)
+ class AspSingleChoice extends Component {   
+    render() {        
        return (
         <FormControl component="fieldset">
-
              <RadioGroup 
-             row
-              name={this.props.question.name} 
-            //   value={value} 
+              row
+              name={this.props.question.name}            
               onChange={this.handleChange}
               >
                   {this.props.choices.map(eachChoice=>{

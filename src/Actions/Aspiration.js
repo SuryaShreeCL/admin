@@ -534,9 +534,9 @@ export const getallcountry=()=>{
 
 // testExecutionId=57ec9eb8-4b62-4b1e-806b-429bdb7d7c09
 
-export const updateAspiration=(data,callback,id)=>{
+export const updateAspiration=(data,callback,id,tid)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/aspirationDetails/"+id+"/57ec9eb8-4b62-4b1e-806b-429bdb7d7c09",data,{
+        axios.put(URL+"/api/v1/aspirationDetails/"+id+"/"+tid,data,{
             crossDomain: true
         })
             .then(result => {
