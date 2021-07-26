@@ -130,10 +130,6 @@ const CreatePost = () => {
     return true;
   };
 
-  const handleDateChange = () => {
-    setState((s) => ({ ...s, selectedDate: state.selectedDate }));
-  };
-
   const handlePostType = () => {
     setState((s) => ({ ...s, isEvent: !state.isEvent }));
   };
@@ -421,7 +417,9 @@ const CreatePost = () => {
                             disablePast
                             name='eventDate'
                             inputVariant='outlined'
-                            onChange={handleDateChange}
+                            onChange={(val) => {
+                              setFieldValue('eventDate', val);
+                            }}
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
@@ -441,7 +439,9 @@ const CreatePost = () => {
                             disablePast
                             name='eventEndDate'
                             inputVariant='outlined'
-                            onChange={handleDateChange}
+                            onChange={(val) => {
+                              setFieldValue('eventEndDate', val);
+                            }}
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
@@ -458,12 +458,14 @@ const CreatePost = () => {
                               </InputAdornment>
                             ),
                           }}
-                          value={state.selectedDate}
+                          value={values.selectedDate}
                           style={{ width: '80%', margin: '10px 0px' }}
                           disablePast
                           name='selectedDate'
                           inputVariant='outlined'
-                          onChange={handleDateChange}
+                          onChange={(val) => {
+                            setFieldValue('selectedDate', val);
+                          }}
                           label='Schedule Data & Time'
                         />
                       </MuiPickersUtilsProvider>
