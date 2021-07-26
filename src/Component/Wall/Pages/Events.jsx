@@ -181,7 +181,7 @@ export default function Events() {
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalRegistrations}</TableCell>
                   <TableCell>{moment(item.eventDate).calendar()}</TableCell>
-                  <TableCell>{moment(item.endDate).calendar()}</TableCell>
+                  <TableCell>{moment(item.eventEndDate).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item?.activeStatus}</TableCell>
                   <TableCell>

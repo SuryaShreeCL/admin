@@ -61,15 +61,19 @@ const EditPost = () => {
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
+    isEvent: false,
     supportingMedia: 'image',
     wallFiles: [],
     canComment: false,
     totalViews: 0,
-    isEvent: false,
-    wallFilesUpdate: [],
     totalLikes: 0,
+    eventTitle: '',
     redirectionUrl: '',
     buttonText: '',
+    createdBy: window.sessionStorage.getItem('department') || '',
+    eventDate: new Date(),
+    resumeNeeded: false,
+    eventEndDate: new Date(),
     selectedDate: new Date(),
     isScheduled: false,
     isVideoUrlEnabled: false,
@@ -100,11 +104,14 @@ const EditPost = () => {
     else dispatch(updateWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
-      message: 'Post Drafted Successfully',
+      message: 'Drafted Successfully',
       type: 'success',
     });
     setTimeout(() => {
-      history.push(wallPath);
+      history.push({
+        pathname: wallPath,
+        tab: 1,
+      });
     }, 1200);
   };
 
@@ -112,16 +119,15 @@ const EditPost = () => {
     dispatch(updateWallPost(post));
     setNotify({
       isOpen: true,
-      message: 'Post Updated Successfully',
+      message: 'Updated Successfully',
       type: 'success',
     });
     setTimeout(() => {
-      history.push(wallPath);
+      history.push({
+        pathname: wallPath,
+        tab: post.isEvent ? 3 : 0,
+      });
     }, 1200);
-  };
-
-  const handleDateChange = () => {
-    setState((s) => ({ ...s, selectedDate: state.selectedDate }));
   };
 
   const validationSchema = yup.object({
@@ -211,6 +217,17 @@ const EditPost = () => {
                       )}
                     />
                   </FormControl>
+                  {values.isEvent && (
+                    <Grid item>
+                      <Controls.Input
+                        label='Enter Event Title'
+                        name='eventTitle'
+                        style={{ width: '80%', marginTop: '18px' }}
+                        value={values.eventTitle}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                  )}
                   <Grid item>
                     <Controls.Input
                       label='Type caption here..'
@@ -287,39 +304,108 @@ const EditPost = () => {
                       ))}
                     </Grid>
                   </Grid>
-                  <Grid
-                    container
-                    direction='row'
-                    justify='space-between'
-                    className={classes.spacer}
-                  >
+                  {!values.isEvent && (
+                    <Grid
+                      container
+                      direction='row'
+                      justify='space-between'
+                      className={classes.spacer}
+                    >
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>
+                          Schedule Post for Later
+                          <Switch
+                            checked={values.isScheduled}
+                            onChange={handleChange}
+                            name='isScheduled'
+                            color='primary'
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                          />
+                        </h6>
+                      </Grid>
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>
+                          Disable Comments
+                          <Switch
+                            checked={values.canComment}
+                            onChange={handleChange}
+                            name='canComment'
+                            color='primary'
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                          />
+                        </h6>
+                      </Grid>
+                    </Grid>
+                  )}
+                  {values.isEvent && (
                     <Grid item>
                       <h6 style={{ fontSize: '1rem' }}>
-                        Schedule Post for Later
+                        Upload Resume?
                         <Switch
-                          checked={values.isScheduled}
+                          checked={values.resumeNeeded}
                           onChange={handleChange}
-                          name='isScheduled'
+                          name='resumeNeeded'
                           color='primary'
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
                       </h6>
                     </Grid>
-                    <Grid item>
-                      <h6 style={{ fontSize: '1rem' }}>
-                        Disable Comments
-                        <Switch
-                          checked={values.canComment}
-                          onChange={handleChange}
-                          name='canComment'
-                          color='primary'
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                        />
-                      </h6>
+                  )}
+                  {values.isEvent && (
+                    <Grid
+                      container
+                      direction='row'
+                      justify='space-between'
+                      className={classes.spacer}
+                    >
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>Event Start Date </h6>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position='start'>
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.eventDate}
+                            style={{ width: '100%', margin: '10px 0px' }}
+                            disablePast
+                            name='eventDate'
+                            inputVariant='outlined'
+                            onChange={(val) => {
+                              setFieldValue('eventDate', val);
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>Event End Date </h6>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position='start'>
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.eventEndDate}
+                            style={{ width: '100%', margin: '10px 0px' }}
+                            disablePast
+                            name='eventEndDate'
+                            inputVariant='outlined'
+                            onChange={(val) => {
+                              setFieldValue('eventEndDate', val);
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  )}
                   <Grid item>
-                    {state.isScheduled && (
+                    {values.isScheduled && (
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DateTimePicker
                           InputProps={{
@@ -334,14 +420,15 @@ const EditPost = () => {
                           disablePast
                           name='selectedDate'
                           inputVariant='outlined'
-                          onChange={handleDateChange}
+                          onChange={(val) => {
+                            setFieldValue('selectedDate', val);
+                          }}
                           label='Schedule Data & Time'
-                          showTodayButton
                         />
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
                     <Button
                       color='primary'
@@ -365,9 +452,11 @@ const EditPost = () => {
                       style={{ borderRadius: '26px' }}
                       type='submit'
                     />
-                    <Button color='primary' onClick={() => onEditDraft(values, 'Draft')}>
-                      Save as Draft
-                    </Button>
+                    {!values.isEvent && (
+                      <Button color='primary' onClick={() => onEditDraft(values, 'Draft')}>
+                        Save as Draft
+                      </Button>
+                    )}
                   </ButtonsContainer>
                 </Form>
               </div>

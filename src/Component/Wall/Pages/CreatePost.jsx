@@ -146,7 +146,10 @@ const CreatePost = () => {
       type: 'success',
     });
     setTimeout(() => {
-      history.push(wallPath);
+      history.push({
+        pathname: wallPath,
+        tab: state.isEvent ? 3 : 0,
+      });
     }, 1200);
   };
 
@@ -156,7 +159,10 @@ const CreatePost = () => {
       isOpen: false,
     });
     setTimeout(() => {
-      history.push(wallPath);
+      history.push({
+        pathname: wallPath,
+        tab: state.isEvent ? 3 : 0,
+      });
     }, 1200);
     setNotify({
       isOpen: true,
@@ -174,7 +180,6 @@ const CreatePost = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
-              console.log('inn');
               createPost(values, 'Live');
               resetForm();
             }
