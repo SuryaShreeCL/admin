@@ -24,7 +24,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { wallPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 
@@ -50,12 +50,13 @@ const useStyles = makeStyles({
 const CreatePost = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
 
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
-    isEvent: false,
+    isEvent: location.type ?? false,
     supportingMedia: 'image',
     wallFiles: [],
     canComment: false,
@@ -173,7 +174,10 @@ const CreatePost = () => {
 
   return (
     <>
-      <BackHandler title='Create New Post' tab={state.isEvent ? 3 : 0} />
+      <BackHandler
+        title={`Create New ${location?.type ? 'Event' : 'Post'}`}
+        tab={state.isEvent ? 3 : 0}
+      />
       <CreatePostContainer>
         <Formik
           initialValues={state || []}
@@ -500,14 +504,16 @@ const CreatePost = () => {
                       style={{ borderRadius: '26px' }}
                       type='submit'
                     />
-                    <Button
-                      color='primary'
-                      onClick={() => {
-                        if (validate(values)) createPost(values, 'Draft');
-                      }}
-                    >
-                      Save as Draft
-                    </Button>
+                    {!values.isEvent && (
+                      <Button
+                        color='primary'
+                        onClick={() => {
+                          if (validate(values)) createPost(values, 'Draft');
+                        }}
+                      >
+                        Save as Draft
+                      </Button>
+                    )}
                   </ButtonsContainer>
                 </Form>
               </div>

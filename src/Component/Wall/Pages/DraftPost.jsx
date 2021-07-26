@@ -125,6 +125,7 @@ export default function DraftPost() {
     history.push({
       pathname: editPath,
       recordForEdit: item,
+      postType: 'Draft',
     });
     setOpenDrawer(false);
   };

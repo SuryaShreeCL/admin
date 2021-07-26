@@ -114,6 +114,7 @@ export default function LivePost() {
     history.push({
       pathname: editPath,
       recordForEdit: item,
+      postType: 'Post',
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
@@ -168,7 +169,10 @@ export default function LivePost() {
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push(createPath);
+              history.push({
+                pathname: createPath,
+                type: false,
+              });
             }}
           />
         </Toolbar>

@@ -113,6 +113,7 @@ export default function Events() {
     history.push({
       pathname: editPath,
       recordForEdit: item,
+      postType: 'Event',
     });
     setOpenDrawer(false);
   };
@@ -166,7 +167,10 @@ export default function Events() {
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push(createPath);
+              history.push({
+                pathname: createPath,
+                type: true,
+              });
             }}
           />
         </Toolbar>
