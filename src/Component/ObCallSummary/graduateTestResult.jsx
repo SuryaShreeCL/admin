@@ -26,7 +26,7 @@ import {
 import {proofUplaod,getStudentsById} from '../../Actions/Student'
 import { connect } from "react-redux";
 import Mysnack from '../MySnackBar'
-// import {URL} from '../../Actions/URL'
+import {URL} from '../../Actions/URL'
 import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
