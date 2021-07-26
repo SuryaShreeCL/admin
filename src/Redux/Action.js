@@ -69,6 +69,7 @@ export const STUDENT = {
   sscexamboard: "sscexamboard",
   getDocumentList: 'getDocumentList',
   deleteDocument: 'deleteDocument',
+  deleteDocumentGraduate: 'deleteDocumentGraduate',
   
 };
 export const CHOICE_ANSWER = {
