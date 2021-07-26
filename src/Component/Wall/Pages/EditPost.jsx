@@ -120,16 +120,8 @@ const EditPost = () => {
     }, 1200);
   };
 
-  const handleScheduled = () => {
-    setState((s) => ({ ...s, isScheduled: !state.isScheduled }));
-  };
-
   const handleDateChange = () => {
     setState((s) => ({ ...s, selectedDate: state.selectedDate }));
-  };
-
-  const handleComment = () => {
-    setState((s) => ({ ...s, cancComment: !state.canComment }));
   };
 
   const validationSchema = yup.object({
@@ -305,10 +297,10 @@ const EditPost = () => {
                       <h6 style={{ fontSize: '1rem' }}>
                         Schedule Post for Later
                         <Switch
-                          checked={state.isScheduled}
-                          onChange={handleScheduled}
+                          checked={values.isScheduled}
+                          onChange={handleChange}
+                          name='isScheduled'
                           color='primary'
-                          value={values.isScheduled}
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
                       </h6>
@@ -317,9 +309,9 @@ const EditPost = () => {
                       <h6 style={{ fontSize: '1rem' }}>
                         Disable Comments
                         <Switch
-                          checked={state.canComments}
-                          onChange={handleComment}
-                          name={values.canComment}
+                          checked={values.canComment}
+                          onChange={handleChange}
+                          name='canComment'
                           color='primary'
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />

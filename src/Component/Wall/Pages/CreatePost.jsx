@@ -64,7 +64,9 @@ const CreatePost = () => {
     eventTitle: '',
     redirectionUrl: '',
     buttonText: '',
+    createdBy: window.sessionStorage.getItem('department') || '',
     eventDate: new Date(),
+    resumeNeeded: false,
     eventEndDate: new Date(),
     selectedDate: new Date(),
     isScheduled: false,
@@ -128,16 +130,8 @@ const CreatePost = () => {
     return true;
   };
 
-  const handleScheduled = () => {
-    setState((s) => ({ ...s, isScheduled: !state.isScheduled }));
-  };
-
   const handleDateChange = () => {
     setState((s) => ({ ...s, selectedDate: state.selectedDate }));
-  };
-
-  const handleComment = () => {
-    setState((s) => ({ ...s, canComment: !state.canComment }));
   };
 
   const handlePostType = () => {
@@ -152,7 +146,7 @@ const CreatePost = () => {
     if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
-      message: 'Post Created Successfully',
+      message: 'Created Successfully',
       type: 'success',
     });
     setTimeout(() => {
@@ -170,7 +164,7 @@ const CreatePost = () => {
     }, 1200);
     setNotify({
       isOpen: true,
-      message: 'Post Discarded',
+      message: 'Discarded',
       type: 'warning',
     });
   };
@@ -368,10 +362,10 @@ const CreatePost = () => {
                         <h6 style={{ fontSize: '1rem' }}>
                           Schedule Post for Later
                           <Switch
-                            checked={state.isScheduled}
-                            onChange={handleScheduled}
+                            checked={values.isScheduled}
+                            onChange={handleChange}
+                            name='isScheduled'
                             color='primary'
-                            value={values.isScheduled}
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                           />
                         </h6>
@@ -380,14 +374,28 @@ const CreatePost = () => {
                         <h6 style={{ fontSize: '1rem' }}>
                           Disable Comments
                           <Switch
-                            checked={state.canComments}
-                            onChange={handleComment}
-                            name={values.canComment}
+                            checked={values.canComment}
+                            onChange={handleChange}
+                            name='canComment'
                             color='primary'
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                           />
                         </h6>
                       </Grid>
+                    </Grid>
+                  )}
+                  {values.isEvent && (
+                    <Grid item>
+                      <h6 style={{ fontSize: '1rem' }}>
+                        Upload Resume?
+                        <Switch
+                          checked={values.resumeNeeded}
+                          onChange={handleChange}
+                          name='resumeNeeded'
+                          color='primary'
+                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+                      </h6>
                     </Grid>
                   )}
                   {values.isEvent && (
@@ -414,7 +422,6 @@ const CreatePost = () => {
                             name='eventDate'
                             inputVariant='outlined'
                             onChange={handleDateChange}
-                            showTodayButton
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
@@ -435,14 +442,13 @@ const CreatePost = () => {
                             name='eventEndDate'
                             inputVariant='outlined'
                             onChange={handleDateChange}
-                            showTodayButton
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
                     </Grid>
                   )}
                   <Grid item>
-                    {state.isScheduled && (
+                    {values.isScheduled && (
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DateTimePicker
                           InputProps={{
@@ -452,14 +458,13 @@ const CreatePost = () => {
                               </InputAdornment>
                             ),
                           }}
-                          value={values.selectedDate}
+                          value={state.selectedDate}
                           style={{ width: '80%', margin: '10px 0px' }}
                           disablePast
                           name='selectedDate'
                           inputVariant='outlined'
                           onChange={handleDateChange}
                           label='Schedule Data & Time'
-                          showTodayButton
                         />
                       </MuiPickersUtilsProvider>
                     )}

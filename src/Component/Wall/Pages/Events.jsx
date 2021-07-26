@@ -57,10 +57,11 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'eventTitle', label: 'Event Title' },
-  { id: 'date', label: 'Date' },
-  { id: 'caption', label: 'Description' },
-  { id: 'likes', label: 'Likes' },
-  { id: 'totalViews', label: 'Views' },
+  { id: 'description', label: 'Description' },
+  { id: 'registrations', label: 'registrations' },
+  { id: 's&t', label: 'Starts' },
+  { id: 'e&t', label: 'Ends' },
+  { id: 'createdby', label: 'Created by' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -176,13 +177,12 @@ export default function Events() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>
-                    {item.wallCategories?.map((category) => `${category.name}, `)}
-                  </TableCell>
-                  <TableCell>{moment(item.createdAt).calendar()}</TableCell>
+                  <TableCell>{item.eventTitle}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.totalLikes}</TableCell>
-                  <TableCell>{item.totalViews}</TableCell>
+                  <TableCell>{item.totalRegistrations}</TableCell>
+                  <TableCell>{moment(item.eventDate).calendar()}</TableCell>
+                  <TableCell>{moment(item.endDate).calendar()}</TableCell>
+                  <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item?.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
