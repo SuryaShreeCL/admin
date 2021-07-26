@@ -98,7 +98,7 @@ export default function Events() {
     setFilterFn({
       fn: (items) => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+        else return items.filter((x) => x.eventTitle.toLowerCase().includes(target.value));
       },
     });
   };
@@ -143,6 +143,7 @@ export default function Events() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
+            placeholder='Search Events'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -180,9 +181,9 @@ export default function Events() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.eventTitle}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.totalRegistrations}</TableCell>
+                  <TableCell>{`${item.eventTitle?.slice(0, 25)}..`}</TableCell>
+                  <TableCell>{`${item.caption?.slice(0, 20)}...`}</TableCell>
+                  <TableCell>{item.totalRegistrations ?? 0}</TableCell>
                   <TableCell>{moment(item.eventDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>{moment(item.eventEndDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>{item?.activeStatus}</TableCell>

@@ -155,6 +155,7 @@ export default function DraftPost() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
+            placeholder='Search Drafts'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>

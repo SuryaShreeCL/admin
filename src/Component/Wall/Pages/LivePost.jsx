@@ -145,6 +145,7 @@ export default function LivePost() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
+            placeholder='Search Posts'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
