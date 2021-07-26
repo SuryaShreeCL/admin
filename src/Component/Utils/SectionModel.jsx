@@ -65,10 +65,10 @@ const Model = ({ section, handleClose ,...props }) => {
       aria-labelledby="max-width-dialog-title"
     >
       <Box p={3}>
-        <Box fontWeight={600} fontSize={24} color={"#052A4E"}>
+        <Box fontWeight={600} fontSize={24} color={"#052A4E"} style={{margin:"20px"}}>
           Data Verification {sectionName}
         </Box>
-        <Box display={"flex"} flexDirection={"column"} gridGap={15} pt={2}>
+        <Box display={"flex"} flexDirection={"column"} gridGap={15} pt={2} style={{margin:"20px"}}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">
               Select the Status from Dropdown

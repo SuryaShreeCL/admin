@@ -47,7 +47,8 @@ const initialState = {
   getproductstructure:[],
   postproductstructure:[],
   putproductstructure:[],
-  getproductsteps:[]
+  getproductsteps:[],
+  searchActivationList : []
 };
 
 export default (state = initialState, action) => {
@@ -274,6 +275,11 @@ export default (state = initialState, action) => {
                               ...state,
                               getproductsteps: action.payload,
                             }
+                            case PRODUCT.searchProductActivationList:
+                              return {
+                                ...state,
+                                searchActivationList: action.payload,
+                              }
     default:
       break;
   }

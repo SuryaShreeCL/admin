@@ -9,6 +9,7 @@ import {
   Typography,
   Paper,
   TextField,
+  Icon,
 } from "@material-ui/core";
 import React, { Component } from "react";
 import PrimaryButton from '../../Utils/PrimaryButton'
@@ -25,7 +26,7 @@ export class Onboarding extends Component {
     super(props)
   
     this.state = {
-
+      shrink : false
     }
   }
  
@@ -39,7 +40,9 @@ export class Onboarding extends Component {
   componentDidUpdate(prevProps, prevState) {
   
   }
-  
+  shrink(){
+    this.setState({ shrink: true });
+}
   
   
   render() {
@@ -55,18 +58,28 @@ export class Onboarding extends Component {
               <div style={HeadDisplay}>
             <p style={HeadStyle}> List of Users in On Boarding Stage </p>
             {/* <div> */}
-            <TextField 
-            label='Search by Email ID / Mobile / Full Name / CLS ID'
-            variant="outlined"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon/>
-                </InputAdornment>
-              ),
-            }}
-            style={{width:'50%', marginLeft:50}}
-             />
+            <TextField
+                label= {
+                    <Typography style={{fontSize:"12px",marginLeft:"23px"}}>
+                      Search by Email ID / Mobile / Full Name / CLS ID
+                    </Typography>
+                }
+                  // '&nbsp; &nbsp;&nbsp;&nbsp;Search by EmailID / Mobile / FullName / CLS ID'
+                variant="outlined"
+                InputLabelProps={{
+                    shrink: this.state.shrink
+                }}
+                onFocus={()=> this.shrink()}
+                type="search"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
+                    ),
+                }}
+                style={{ width: '100%', marginLeft: '42%'}}
+            />
               <PrimaryButton
                         style={{height:30, width:107, marginRight:70, marginTop:10, textTransform: "none"}}
                         variant={"contained"}
