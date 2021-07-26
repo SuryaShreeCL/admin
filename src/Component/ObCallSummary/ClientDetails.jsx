@@ -250,7 +250,7 @@ class ClientDetails extends Component {
           intakeyear: {title:year},
         })
       }
-    }
+    
     if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
       console.log("huhoihoijijo");
       const {
