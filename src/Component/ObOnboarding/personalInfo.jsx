@@ -24,7 +24,7 @@ import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
-
+import {URL} from '../../Actions/URL'
 const theme = createMuiTheme({
   overrides: {
     MuiInputBase: {
@@ -255,6 +255,11 @@ export class personalInfo extends Component {
       {...this.props}
     />
   );  
+  documentClick = (data) =>{
+    console.log(data)
+    // this.props.downloadGAT(this.props.match.params.studentId,data.type)
+    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+data.type)
+  }
 
   render() {    
     const { HeadStyle, GridStyle } = style;
@@ -676,7 +681,7 @@ export class personalInfo extends Component {
                   </Grid>
                   <Grid item={12} container >
                   {this.props.getAllDocumentList.["PG Degree"] ? this.props.getAllDocumentList.["PG Degree"].map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -695,7 +700,7 @@ export class personalInfo extends Component {
                   </Grid>
                   <Grid item={12} container >
                   {this.props.getAllDocumentList.["UG Degree"] ? this.props.getAllDocumentList.["UG Degree"].map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -715,7 +720,7 @@ export class personalInfo extends Component {
                   </Grid>
                   <Grid item={12} container >
                   {this.props.getAllDocumentList.Diploma ? this.props.getAllDocumentList.Diploma.map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -734,7 +739,7 @@ export class personalInfo extends Component {
                   </Grid>
                   <Grid item={12} container >
                   {this.props.getAllDocumentList.["XII Grade"] ? this.props.getAllDocumentList.["XII Grade"].map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -754,7 +759,7 @@ export class personalInfo extends Component {
                   </Grid>
                   <Grid item={12} container >
                   {this.props.getAllDocumentList.["X Grade"] ? this.props.getAllDocumentList.["X Grade"].map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -774,7 +779,7 @@ export class personalInfo extends Component {
                   </Grid>
                   <Grid item={12} container >
                   {this.props.getAllDocumentList.GRE ? this.props.getAllDocumentList.GRE.map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -792,7 +797,7 @@ export class personalInfo extends Component {
                   <p style={GridStyle}>GMAT</p> 
                   </Grid>
                   {this.props.getAllDocumentList.GMAT ? this.props.getAllDocumentList.GMAT.map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -810,7 +815,7 @@ export class personalInfo extends Component {
                   </Grid>
                  <Grid item={12} container >
                  {this.props.getAllDocumentList.TOEFL ? this.props.getAllDocumentList.TOEFL.map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
@@ -829,7 +834,7 @@ export class personalInfo extends Component {
                   </Grid>
                   <Grid item={12} container >
                   {this.props.getAllDocumentList.IELTS ? this.props.getAllDocumentList.IELTS.map(data =>
-                   <Grid item md={4} direction="row">
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
