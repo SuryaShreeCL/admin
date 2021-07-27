@@ -65,9 +65,9 @@
   },
   "scripts": {
     "start": "PORT=8000 react-scripts start .env.development",
-    "build": "env-cmd -f .env.production react-scripts build",
-    "build:development": "env-cmd -f .env.development react-scripts build",
-    "build:staging": "env-cmd -f .env.staging react-scripts build",
+    "build": "env-cmd -f .env.production react-scripts --max_old_space_size=1024 build",
+    "build:development": "env-cmd -f .env.development react-scripts --max_old_space_size=1024 build",
+    "build:staging": "env-cmd -f .env.staging react-scripts --max_old_space_size=1024 build",
     "start:dev": "PORT=8000 env-cmd -f .env.development react-scripts start",
     "start:stage": "PORT=8000 env-cmd -f .env.staging react-scripts start",
     "test": "react-scripts test --env=jsdom",
