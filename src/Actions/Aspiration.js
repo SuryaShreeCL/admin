@@ -536,7 +536,7 @@ export const getallcountry=()=>{
 
 export const updateAspiration=(data,callback,id,tid)=>{
     return dispatch => {
-        axios.put(URL+"/api/v1/aspirationDetails/"+id+"/"+tid,data,{
+        axios.put(URL+"/api/v1/aspirationDetails/"+tid+"/"+id,data,{
             crossDomain: true
         })
             .then(result => {
