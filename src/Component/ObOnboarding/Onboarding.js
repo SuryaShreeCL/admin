@@ -145,7 +145,7 @@ export class Onboarding extends Component {
                       <TableCell>{eachItem.emailId}</TableCell>
                       <TableCell>{eachItem.phoneNumber}</TableCell>
                       <TableCell >{eachItem.obCallStatus}</TableCell>
-                      <TableCell align="center">90%</TableCell>
+                      <TableCell align="center">{eachItem.percentage+ "%"}</TableCell>
                       <TableCell>
                         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:50}}>
                       <img onClick={()=>this.props.history.push(callSummaryLayoutPath+eachItem.studentId+"/product/"+this.props.productId)} src={Call} style={{height:30, width:30, marginRight:10}} />
