@@ -19,11 +19,6 @@ class DoccumentCard extends Component {
     this.props.getieltsscore(this.props.studentid);
     this.props.gettoeflscore(this.props.studentid);
   }
-   componentDidUpdate(prevProps,prevState){
-     if(this.props.deleteDocumentList !== prevProps.deleteDocumentList){
-       this.props.getDocumentList(this.props.studentid)
-     }
-   }
   handleSave = (event) => {
     if(this.props.category === 'Toefl'){
       this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.gettoeflscoreList[0].id, "tofel")
@@ -40,14 +35,14 @@ class DoccumentCard extends Component {
     if(!this.props.category){
         this.props.deleteDocument(this.props.studentid,this.props.certificate)
         this.props.getDocumentList(this.props.studentid) 
-        // this.setState({
-        //   snackmsg : "Document Deleted",
-        //   snackopen : true,
-        //   snackvariant: "success"
-        // })
     }
       
       this.props.getDocumentList(this.props.studentid) 
+      this.setState({
+          snackmsg : "Document Deleted",
+          snackopen : true,
+          snackvariant: "success"
+        })
         event.stopPropagation();
   }
   
