@@ -3,16 +3,23 @@ import React, { Component } from "react";
 import {deleteDocument, getDocumentList, deleteDocumentGraduate, getStudentsById} from "../../Actions/Student";
 import { getgmatscore, getgrescore, getieltsscore, gettoeflscore} from "../../Actions/Calldetails";
 import {connect} from "react-redux"
-
+import Mysnack from "../MySnackBar";
 class DoccumentCard extends Component {
+  constructor(){
+    super();
+    this.state={
+      snackmsg : "",
+      snackvariant:"",
+      snackopen : false
+    }
+  }
   componentDidMount(){
     this.props.getgrescore(this.props.studentid);
     this.props.getgmatscore(this.props.studentid);
     this.props.getieltsscore(this.props.studentid);
     this.props.gettoeflscore(this.props.studentid);
   }
-
-  handleSave = () => {
+  handleSave = (event) => {
     if(this.props.category === 'Toefl'){
       this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "tofel")
     }
@@ -27,8 +34,16 @@ class DoccumentCard extends Component {
     }
     if(!this.props.category){
         this.props.deleteDocument(this.props.studentid,this.props.certificate)
+        this.props.getDocumentList(this.props.studentid) 
     }
-      this.props.getDocumentList(this.props.studentid)  
+      
+      this.props.getDocumentList(this.props.studentid) 
+      this.setState({
+          snackmsg : "Document Deleted",
+          snackopen : true,
+          snackvariant: "success"
+        })
+        event.stopPropagation();
   }
   
   render() {
@@ -43,7 +58,6 @@ class DoccumentCard extends Component {
 
                 const {deletebtn} =style;
 
-                // console.log(this.props.id, "jfjyhgjgkkku")
 
     return (
 
@@ -94,12 +108,18 @@ class DoccumentCard extends Component {
                         href="#text-buttons"
                         color="secondary"
                         style={deletebtn}
-                        onClick={() => this.handleSave()}
+                        onClick={(event) => this.handleSave(event)}
                       >
                         Delete
                       </Button>
           </div>
         </Card>
+        <Mysnack
+          snackMsg={this.state.snackmsg}
+          snackVariant={this.state.snackvariant}
+          snackOpen={this.state.snackopen}
+          onClose={() => this.setState({ snackopen: false })}
+        />
       </div>
     );
   }
