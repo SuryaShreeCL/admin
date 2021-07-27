@@ -779,6 +779,7 @@ export class personalInfo extends Component {
                   certificate={data.type}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
+                  category = "Gre"
                   />
                    </Grid>
                   ) : null}
@@ -796,6 +797,7 @@ export class personalInfo extends Component {
                   certificate={data.type}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
+                  category ="Gmat"
                   />
                    </Grid>
                   ) : null}
@@ -813,6 +815,7 @@ export class personalInfo extends Component {
                   certificate={data.type}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
+                  category ="Toefl"
                   />
                    </Grid>
                   ) : null}
@@ -831,6 +834,7 @@ export class personalInfo extends Component {
                   certificate={data.type}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
+                  category = 'Ielts'
                   />
                    </Grid>
                   ) : null}

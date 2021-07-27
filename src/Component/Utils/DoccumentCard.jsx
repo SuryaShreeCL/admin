@@ -5,7 +5,6 @@ import { getgmatscore, getgrescore, getieltsscore, gettoeflscore} from "../../Ac
 import {connect} from "react-redux"
 
 class DoccumentCard extends Component {
-  
   componentDidMount(){
     this.props.getgrescore(this.props.studentid);
     this.props.getgmatscore(this.props.studentid);
@@ -14,10 +13,22 @@ class DoccumentCard extends Component {
   }
 
   handleSave = () => {
-      
-      this.props.deleteDocument(this.props.studentid,this.props.certificate)
-      this.props.getDocumentList(this.props.studentid)
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate,)
+    if(this.props.category === 'Toefl'){
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.gettoeflscoreList[0].id, "tofel")
+    }
+    if(this.props.category === 'Gre'){
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.getgrescoreList[0].id, "gre")
+    }
+    if(this.props.category === 'Gmat'){
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.getgmatscoreList[0].id, "gmat")
+    }
+    if(this.props.category === 'Ielts'){
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.getieltsscoreList[0].id, "ielts")
+    }
+    if(!this.props.category){
+        this.props.deleteDocument(this.props.studentid,this.props.certificate)
+    }
+      this.props.getDocumentList(this.props.studentid)  
   }
   
   render() {
