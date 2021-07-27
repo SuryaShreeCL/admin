@@ -244,7 +244,8 @@ export const CALL_DETAILS={
   updatetoeflscore : "updatetoeflscore",
   updateieltsscore : "updateieltsscore",
   downloadGAT : "downloadGAT",
-  fileuploadGAT:"fileuploadGAT"
+  fileuploadGAT:"fileuploadGAT",
+  completecall:"completecall"
 }
 
 export const CAREER_TRACK = {

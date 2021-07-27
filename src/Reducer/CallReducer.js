@@ -19,7 +19,8 @@ const initialState = {
   updatetoeflscore: [],
   updateieltsscore: [],
   downloadGAT : [],
-  fileuploadGAT :[]
+  fileuploadGAT :[],
+  completecall:[]
 };
 
 export default (state = initialState, action) => {
@@ -123,6 +124,11 @@ export default (state = initialState, action) => {
           return {
             ...state,
             fileuploadGAT: action.payload,
+          };
+          case CALL_DETAILS.completecall:
+          return {
+            ...state,
+            completecall: action.payload,
           };
     default:
       break;

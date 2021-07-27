@@ -246,3 +246,14 @@ export const fileuploadGAT = (studentId,examtype,examid,data) =>{
         })
     }
 }
+export const completecall = (studentId,productId) =>{
+    return dispatch =>{
+        axios.put(URL+"/api/v1/student/onboardingcallsummary/status/"+studentId+"/"+productId)
+        .then(result=>{
+            dispatch({type:CALL_DETAILS.completecall,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

@@ -6,15 +6,28 @@ import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents"
 import ClientDetails from './ClientDetails';
 import Question from './textEditor';
 import Rating from './Rating';
+import {completecall} from '../../Actions/Calldetails'
+import Mysnack from "../MySnackBar";
+
 class CallSummaryLayout extends Component {
     constructor(props) {
         super(props);
         this.state = {
             leftTabCount: 0,
             rightTabCount: 0,
+            snackmsg : "",
+            snackopen:false,
+            snackvariant:""
         }
     }
-
+    handlecomplete=()=>{
+        this.props.completecall(this.props.match.params.studentId,this.props.match.params.productId)
+        this.setState({
+            snackopen : true,
+            snackmsg:"Call Completed Successfully",
+            snackvariant:"success"
+        })
+    }
     renderLeftContent = (value) => {
         try {
             if (value === 0) {
@@ -39,13 +52,15 @@ class CallSummaryLayout extends Component {
     }
 
     render() {
+        console.log(this.props)
         return (
+            <div>
             <Grid container spacing={2}>
                 <Grid item md={12} container justify={"space-between"} alignItems={"center"}>
                     <Typography variant="h6">
                         OnBoarding Call Summary
                     </Typography>
-                    <PrimaryButton variant={"contained"} color={"primary"} style={{textTransform: "none"}}>
+                    <PrimaryButton variant={"contained"} color={"primary"} style={{textTransform: "none"}} onClick={()=>this.handlecomplete()}>
                         Complete Call Summary
                     </PrimaryButton>
                 </Grid>
@@ -89,14 +104,21 @@ class CallSummaryLayout extends Component {
                     </Grid>
                     </Grid>
                     </Grid>
+                    <Mysnack
+                        snackMsg={this.state.snackmsg}
+                        snackVariant={this.state.snackvariant}
+                        snackOpen={this.state.snackopen}
+                        onClose={() => this.setState({ snackopen: false })}
+                        />
+                    </div>
                     );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-
+        completecallList : state.CallReducer.completecall
                     }
 }
 
-                    export default connect(mapStateToProps, { })(CallSummaryLayout)
+export default connect(mapStateToProps, { completecall})(CallSummaryLayout)
