@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Date' },
+  { id: 'date', label: 'Drafted' },
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },

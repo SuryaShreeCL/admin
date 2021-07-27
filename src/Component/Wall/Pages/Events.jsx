@@ -56,9 +56,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'eventTitle', label: 'Event Title' },
+  { id: 'eventTitle', label: 'Title' },
   { id: 'description', label: 'Description' },
-  { id: 'registrations', label: 'registrations' },
+  { id: 'registrations', label: 'Registrations' },
   { id: 's&t', label: 'Start Date' },
   { id: 'e&t', label: 'End Date' },
   { id: 'status', label: 'Status' },

@@ -371,7 +371,6 @@ const EditPost = () => {
                             }}
                             value={values.eventDate}
                             style={{ width: '100%', margin: '10px 0px' }}
-                            disablePast
                             name='eventDate'
                             inputVariant='outlined'
                             onChange={(val) => {
@@ -393,7 +392,6 @@ const EditPost = () => {
                             }}
                             value={values.eventEndDate}
                             style={{ width: '100%', margin: '10px 0px' }}
-                            disablePast
                             name='eventEndDate'
                             inputVariant='outlined'
                             onChange={(val) => {
@@ -417,7 +415,6 @@ const EditPost = () => {
                           }}
                           value={values.selectedDate}
                           style={{ width: '80%', margin: '10px 0px' }}
-                          disablePast
                           name='selectedDate'
                           inputVariant='outlined'
                           onChange={(val) => {
