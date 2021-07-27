@@ -87,7 +87,7 @@ class AdmissionServices extends Component {
       console.log(this.state)
     return (
       <div style={{ padding: 25 }}>
-           {this.props.getstudentMappingList.length > 0 &&
+           {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.studentMapping.length > 0 &&
         <div
           style={{
             color: "#0081FF",
@@ -102,7 +102,7 @@ class AdmissionServices extends Component {
         <TableContainer>
           <Table>
             <TableHead>
-                {this.props.getstudentMappingList.length > 0 &&
+                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.studentMapping.length > 0 &&
               <TableRow>
                 <TableCell
                   align="center"
@@ -222,12 +222,12 @@ class AdmissionServices extends Component {
                }
             </TableHead>
             <TableBody>
-                {this.props.getstudentMappingList.length > 0 && this.props.getstudentMappingList.map((eachdata,index)=>{
-                  let date = new Date(eachdata.AllocatedAt).getDate()
-                  let month = new Date(eachdata.AllocatedAt).getMonth()+1
-                  let year = new Date(eachdata.AllocatedAt).getFullYear()
-                  let time = new Date(eachdata.AllocatedAt).toLocaleTimeString()
-                  let newallocatedat = new Date(eachdata.AllocatedAt) !== null ? date+"/"+month+"/"+year+" "+time : ""
+                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.studentMapping.length > 0 && this.props.getproductdetailsList.studentMapping.map((eachdata,index)=>{
+                  let date = new Date(eachdata.allocatedAt).getDate()
+                  let month = new Date(eachdata.allocatedAt).getMonth()+1
+                  let year = new Date(eachdata.allocatedAt).getFullYear()
+                  let time = new Date(eachdata.allocatedAt).toLocaleTimeString()
+                  let newallocatedat = new Date(eachdata.allocatedAt) !== null ? date+"/"+month+"/"+year+" "+time : ""
                   return(
                     <TableRow>
                     <TableCell
@@ -265,7 +265,7 @@ class AdmissionServices extends Component {
                         borderBottom: "none",
                       }}
                     >
-                     {eachdata.EmployeeName}
+                     {eachdata.Name}
                     </TableCell>
                     <TableCell
                       align="center"
@@ -277,7 +277,7 @@ class AdmissionServices extends Component {
                         borderBottom: "none",
                       }}
                     >
-                      {eachdata.AllocatedBy}
+                      {eachdata.allocatedBy}
                     </TableCell>
                     <TableCell
                       align="center"
@@ -311,7 +311,7 @@ class AdmissionServices extends Component {
         <TableContainer>
           <Table>
             <TableHead>
-                {this.props.getproductdetailsList.length > 0 && 
+                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.product.length !== 0 &&
               <TableRow>
                 <TableCell
                   align="center"
@@ -405,7 +405,7 @@ class AdmissionServices extends Component {
   }
             </TableHead>
             <TableBody>
-                {this.props.getproductdetailsList.length > 0 && this.props.getproductdetailsList.map((eachdata,index)=>
+                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.product.length !== 0 && this.props.getproductdetailsList.product.map((eachdata,index)=>
                   { 
                     let enrollmentdate = new Date(eachdata.EnrollmentDate).getDate()
                     let enrollmentmonth = new Date(eachdata.EnrollmentDate).getMonth()+1
