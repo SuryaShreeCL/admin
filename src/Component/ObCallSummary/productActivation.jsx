@@ -23,6 +23,7 @@ import {
     getAwaitingUsersByAdminId,
     activateStudentProduct,
 } from "../../Actions/AdminAction";
+// import{getsearchlist} from '../../Actions/Calldetails'
 // import button from './button';
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -139,7 +140,8 @@ class ProductActivation extends Component {
             snackColor: null,
             snackMsg: null,
             shrink:false,
-            listOfUsers : []
+            listOfUsers : [],
+            // searchdata : ""
         };
 
     }
@@ -190,6 +192,9 @@ class ProductActivation extends Component {
                 listOfUsers : this.props.awaitingUsersForActivationList
             })
         }
+        // if(this.state.searchdata !== prevState.searchdata){
+        //     this.props.getsearchlist(this.state.searchdata)
+        // }
     }
 
     handleActivate = () => {
@@ -209,6 +214,7 @@ class ProductActivation extends Component {
 
     render() {
         console.log("prod act props.......",this.props)
+        console.log(this.state)
         return (
             <div style={{ padding: 10 }}>
                 <ThemeProvider theme={theme}>
@@ -226,6 +232,8 @@ class ProductActivation extends Component {
                     <TextField
                         label= '&nbsp; &nbsp;&nbsp;&nbsp;   Search by Email ID / Mobile / Full Name / CLS ID'
                         variant="outlined"
+                        // value={this.state.searchdata}
+                        // onChange={(e)=>this.setState({ searchdata : e.target.value})}
                         InputLabelProps={{
                             shrink: this.state.shrink
                         }}
@@ -511,14 +519,13 @@ class ProductActivation extends Component {
 
 export const mapStateToProps = (state) => {
     return {
-        awaitingUsersForActivationList:
-            state.AdminReducer.awaitingUsersForActivationList,
+        awaitingUsersForActivationList:state.AdminReducer.awaitingUsersForActivationList,
         productActivationResponse: state.AdminReducer.productActivationResponse,
         getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
         getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
         getProductVarientList: state.ProductReducer.getProductVarient,
-        searchActivationList : state.ProductReducer.searchActivationList
-
+        searchActivationList : state.ProductReducer.searchActivationList,
+        // getsearchlistResonse : state.CallReducer.getsearchlist
     };
 };
 
@@ -528,5 +535,6 @@ export default connect(mapStateToProps, {
     getProductByFamilyId,
     getAllProductFamily,
     getProductVarient,
-    searchProductActivationList
+    searchProductActivationList,
+    // getsearchlist
 })(ProductActivation);

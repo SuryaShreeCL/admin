@@ -257,3 +257,15 @@ export const completecall = (studentId,productId) =>{
         })
     }
 }
+// export const getsearchlist = (data) =>{
+//     let userId = window.sessionStorage.getItem("adminUserId")
+//     return dispatch =>{
+//         axios.get(URL+"/api/v1/get/studentProduct/search/"+userId+"?page=0&size=20&q="+data)
+//         .then(result=>{
+//             dispatch({type:CALL_DETAILS.getsearchlist,payload:result.data})
+//         })
+//         .catch(error=>{
+//             console.log(error)
+//         })
+//     }
+// }

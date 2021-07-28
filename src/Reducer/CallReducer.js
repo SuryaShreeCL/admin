@@ -130,6 +130,11 @@ export default (state = initialState, action) => {
             ...state,
             completecall: action.payload,
           };
+          // case CALL_DETAILS.getsearchlist:
+          //   return {
+          //     ...state,
+          //     getsearchlist: action.payload,
+          //   };
     default:
       break;
   }

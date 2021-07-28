@@ -32,6 +32,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {Autocomplete} from '@material-ui/lab';
 import { ExpandMore } from "@material-ui/icons";
 import {getAllTerms} from '../../Actions/Aspiration'
+// import {getsearchlist} from '../../Actions/Calldetails'
 const theme = createMuiTheme({
   overrides: {
     MuiDrawer : {
@@ -47,7 +48,8 @@ export class Onboarding extends Component {
   
     this.state = {
       shrink : false,
-      draweropen : false
+      draweropen : false,
+      // search : ""
     }
   }
  
@@ -60,7 +62,9 @@ export class Onboarding extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-  
+    // if(this.state.search !== prevState.search){
+    //   this.props.getsearchlist(this.state.search)
+    // }
   }
   shrink(){
     this.setState({ shrink: true });
@@ -81,9 +85,7 @@ export class Onboarding extends Component {
   //   </div>
   // }
   render() {
-
-    console.log(this.props.productId)
-
+    console.log(this.state)
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
@@ -100,6 +102,10 @@ export class Onboarding extends Component {
                     </Typography>
                 }
                 variant="outlined"
+                // value={this.state.search}
+                // onChange={(e)=>{
+                //   console.log(e)
+                //   this.setState({search : e.target.value})}}
                 InputLabelProps={{
                     shrink: this.state.shrink
                 }}
@@ -119,7 +125,7 @@ export class Onboarding extends Component {
                         variant={"contained"}
                         color={"primary"}
                         size={"small"}
-                        onClick={()=>this.filterfunction()}
+                        // onClick={()=>this.filterfunction()}
                       >
                        Filter
                       </PrimaryButton>
@@ -305,6 +311,7 @@ const mapStateToProps = (state) =>{
     getBranchesList: state.CollegeReducer.BranchList,
     getCollegesList: state.CollegeReducer.allCollegeList,
     getAspTermsList: state.AspirationReducer.allTermList,
+    // getsearchlistresponse : state.CallReducer.getsearchlist
   }
 }
 
