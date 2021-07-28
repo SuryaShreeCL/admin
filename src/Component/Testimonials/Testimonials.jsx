@@ -139,8 +139,6 @@ export default function Testimonials() {
 
   return (
     <>
-      {loading && <Loader />}
-      {error && <Alert severity='error'>{error}</Alert>}
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
@@ -209,6 +207,10 @@ export default function Testimonials() {
             </TableBody>
           )}
         </TblContainer>
+        <div style={{ margin: '2rem auto', width: '60%' }}>
+          {loading && <Loader />}
+          {error && <Alert severity='error'>{error}</Alert>}
+        </div>
         <TblPagination />
       </Paper>
       <Popup title='Add or Edit Testimonial' openPopup={openPopup} setOpenPopup={setOpenPopup}>

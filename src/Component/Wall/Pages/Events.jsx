@@ -32,6 +32,7 @@ import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
 import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
+import JsonToExcel from '../Components/JsonToExcel';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -61,7 +62,6 @@ const headCells = [
   { id: 'registrations', label: 'Registrations' },
   { id: 's&t', label: 'Start Date' },
   { id: 'e&t', label: 'End Date' },
-  { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -186,11 +186,11 @@ export default function Events() {
                   <TableCell>{item.totalRegistrations ?? 0}</TableCell>
                   <TableCell>{moment(item.eventDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>{moment(item.eventEndDate).format('MMM Do, hh:mm a')}</TableCell>
-                  <TableCell>{item?.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
+                    <JsonToExcel eventsData={[]} eventTitle={item.eventTitle} />
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
