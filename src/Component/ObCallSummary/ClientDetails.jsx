@@ -157,6 +157,42 @@ class ClientDetails extends Component {
     // }
   }
   componentDidUpdate(prevProps, prevState) {
+    // if(this.props.status !== prevProps.status){
+    //   if(this.props.status === true){
+    //     if(
+    //       isEmptyString(this.state.name) &&
+    //       isEmptyString(this.state.number) &&
+    //       isEmptyString(this.state.email) &&
+    //       this.state.ugdegree === null &&
+    //       this.state.department === null &&
+    //       this.state.collegename === null &&
+    //       isEmptyString(this.state.sem) &&
+    //       isEmptyString(this.state.activebacklogs) &&
+    //       isEmptyString(this.state.cgpa) &&
+    //       isEmptyString(this.state.ameyoid) &&
+    //       this.state.calldate === null &&
+    //       this.state.calltime === null &&
+    //       isEmptyString(this.state.agent) &&
+    //       isEmptyString(this.state.callstatus) &&
+    //       this.state.callbacktime === null &&
+    //       isEmptyString(this.state.spedays) &&
+    //       isEmptyString(this.state.spetime) &&
+    //       this.state.enrolldate === null &&
+    //       isEmptyString(this.state.appdegree) &&
+    //       isEmptyString(this.state.order) &&
+    //       isEmptyString(this.state.countries) &&
+    //       isEmptyString(this.state.package) &&
+    //       isEmptyString(this.state.workexp) 
+    //     ){
+    //        this.setState({
+    //          snackmsg:"Please Fill Required Field",
+    //          snackopen : true,
+    //          snackvariant:"error"
+    //        })
+    //     }
+    //   }
+    // }
+   
     if (this.state.family !== prevState.family) {
       this.props.getProductByFamilyId(
         this.state.family !== null ? this.state.family.id : ""

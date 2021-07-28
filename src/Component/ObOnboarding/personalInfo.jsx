@@ -96,7 +96,7 @@ export class personalInfo extends Component {
       twitter: "",
       twitterErr: "",
       pincodeDetails: [],
-
+      documentedit : false,
       sectionStatus: {
         model: false,
         data: null,
@@ -159,6 +159,11 @@ export class personalInfo extends Component {
 
   handleSocialClick(e) {
     this.setState({ mediaDisable: !this.state.mediaDisable });
+  }
+  handleEdit=()=>{
+     this.setState({
+       documentedit : true
+     })
   }
   handleSave = () => {
     let hlptxt = "Please fill the required field";
@@ -669,7 +674,7 @@ export class personalInfo extends Component {
                       }
                     />
                   </div>
-                  <IconButton onClick={this.handleAddressClick.bind(this)}>
+                  <IconButton onClick={()=>this.handleEdit()}>
                     <img src={Pencil} height={17} width={17} />
                   </IconButton>
                 </div>
@@ -688,6 +693,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   path={data.path}
                   studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}
@@ -708,6 +714,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   path={data.path}
                   studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}
@@ -729,6 +736,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   path={data.path}
                   studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}
@@ -755,8 +763,6 @@ export class personalInfo extends Component {
                   </Grid>
                   </Grid>
   }
-
-
 {this.props.getAllDocumentList.["X Grade"] && this.props.getAllDocumentList.["X Grade"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
@@ -770,6 +776,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   path={data.path}
                   studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}
@@ -793,6 +800,7 @@ export class personalInfo extends Component {
                   studentid = {this.props.match.params.studentId}
                   category = "Gre"
                   id = {data.greId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}
@@ -813,6 +821,7 @@ export class personalInfo extends Component {
                   studentid = {this.props.match.params.studentId}
                   category ="Gmat"
                   id = {data.gmatId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}
@@ -833,6 +842,7 @@ export class personalInfo extends Component {
                   studentid = {this.props.match.params.studentId}
                   category ="Toefl"
                   id = {data.tofelId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}
@@ -854,6 +864,7 @@ export class personalInfo extends Component {
                   studentid = {this.props.match.params.studentId}
                   category = 'Ielts'
                   id = {data.ieltsId}
+                  status={this.state.documentedit}
                   />
                    </Grid>
                   ) : null}

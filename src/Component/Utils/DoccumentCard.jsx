@@ -51,7 +51,7 @@ class DoccumentCard extends Component {
     let date = new Date(this.props.date).getDate()
     let month = new Date(this.props.date).getMonth()
     let year = new Date(this.props.date).getFullYear()
-    
+    console.log(this.props)
 
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sep","Oct","Nov","Dec"];
                 var monthName = months[month];
@@ -104,7 +104,8 @@ class DoccumentCard extends Component {
              Uploaded On: {newDate}
             </p>
           </div>
-          <div>
+          {this.props.status === true &&
+            <div>
                    <Button
                         href="#text-buttons"
                         color="secondary"
@@ -113,7 +114,8 @@ class DoccumentCard extends Component {
                       >
                         Delete
                       </Button>
-          </div>
+          </div> }
+         
         </Card>
         <Mysnack
           snackMsg={this.state.snackmsg}
