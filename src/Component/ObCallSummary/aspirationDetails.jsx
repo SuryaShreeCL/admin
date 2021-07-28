@@ -103,7 +103,7 @@ class AspirationDetails extends Component {
       ],
       answerModel:[],
       noOfSchool: "",
-      intake: "",
+      intake: [],
       aspirationCountries: [],
       aspirationDegrees: [],
       aspirationBranches: [],
@@ -151,13 +151,13 @@ class AspirationDetails extends Component {
     } = this.state;
     let obj = {
       noOfSchool: noOfSchool,
-      intake: intake ? intake.name : "",
+      intake: intake.map(item => {return {id: item.id}}) ,
       aspirationCountries: aspirationCountries,
       aspirationDegrees: aspirationDegrees,
       aspirationBranches: aspirationBranches,
       aspirationAreaOfSpecializations: aspirationAreaOfSpecializations,
       aspirationUniversities: aspirationUniversities,
-      testQuestionModels: this.state.answerModel,
+      testQuestionModels: this.state.answerModel.length === 0 ? this.state.testQuestionModels : this.state.answerModel,
     };    
     this.props.updateAspiration(
       obj,
@@ -338,6 +338,7 @@ class AspirationDetails extends Component {
   };
 
   render() {
+    console.log(this.props.allTermList)
     const { choiceStyle } = style;   
     console.log(this.state.testQuestionModels) 
     return (
@@ -409,15 +410,16 @@ class AspirationDetails extends Component {
             <Grid item md={3}>
               <Autocomplete
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                multiple
                 id="combo-box-demo"
                 disabled={this.state.disable}
-                options={[{ name: "2011" }, { name: "2012" }]}
+                options={this.props.allTermList || []}
                 getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
                   <TextField {...params} label="Intake" variant="standard" />
                 )}
                 onChange={(e, value) => this.setState({ intake: value })}
-                value={this.state.intake}
+                value={this.state.intake || []}
               />
             </Grid>
             <Grid item md={2}>
@@ -565,6 +567,7 @@ const mapStateToProps = (state) => {
     ...state.AspirationReducer,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getAspirationQuestionList: state.AspirationReducer.getAspirationQuestion,
+    // getAllTermsList: state.AspirationReducer.getAllTerms
   };
 };
 

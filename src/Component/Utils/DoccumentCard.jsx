@@ -21,16 +21,16 @@ class DoccumentCard extends Component {
   }
   handleSave = (event) => {
     if(this.props.category === 'Toefl'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.gettoeflscoreList[0].id, "tofel")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "tofel")
     }
     if(this.props.category === 'Gre'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.getgrescoreList[0].id, "gre")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "gre")
     }
     if(this.props.category === 'Gmat'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.getgmatscoreList[0].id, "gmat")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "gmat")
     }
     if(this.props.category === 'Ielts'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.getieltsscoreList[0].id, "ielts")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "ielts")
     }
     if(!this.props.category){
         this.props.deleteDocument(this.props.studentid,this.props.certificate)
@@ -58,7 +58,6 @@ class DoccumentCard extends Component {
 
                 const {deletebtn} =style;
 
-                console.log(this.props)
 
     return (
 

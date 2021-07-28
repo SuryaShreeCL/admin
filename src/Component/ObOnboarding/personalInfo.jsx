@@ -785,6 +785,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category = "Gre"
+                  id = {data.greId}
                   />
                    </Grid>
                   ) : null}
@@ -803,6 +804,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category ="Gmat"
+                  id = {data.gmatId}
                   />
                    </Grid>
                   ) : null}
@@ -821,6 +823,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category ="Toefl"
+                  id = {data.tofelId}
                   />
                    </Grid>
                   ) : null}
@@ -840,6 +843,7 @@ export class personalInfo extends Component {
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category = 'Ielts'
+                  id = {data.ieltsId}
                   />
                    </Grid>
                   ) : null}
