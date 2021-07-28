@@ -190,7 +190,11 @@ export default function Events() {
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <JsonToExcel eventsData={[]} eventTitle={item.eventTitle} />
+                    <JsonToExcel
+                      eventsData={[]}
+                      eventTitle={item.eventTitle}
+                      disabled={item.totalRegistrations === null}
+                    />
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>

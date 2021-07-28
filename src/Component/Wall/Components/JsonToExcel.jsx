@@ -6,8 +6,8 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
-const JsonToExcel = ({ eventsData,eventTitle }) => {
-  const DataSet = [
+const JsonToExcel = ({ eventsData,eventTitle,disabled }) => {
+  const Event = [
     {
       columns: [
         {
@@ -68,12 +68,12 @@ const JsonToExcel = ({ eventsData,eventTitle }) => {
       <ExcelFile
         filename={eventTitle}
         element={
-          <Controls.ActionButton>
-            <CloudDownloadIcon fontSize='small' style={{ color: 'green' }} />
+          <Controls.ActionButton disabled>
+            <CloudDownloadIcon fontSize='small' style={{ color: `${!disabled && 'green' }`}} />
           </Controls.ActionButton>
         }
       >
-        <ExcelSheet dataSet={DataSet} name={eventTitle} />
+        <ExcelSheet dataSet={Event} name={eventTitle} />
       </ExcelFile>
     </>
   );
