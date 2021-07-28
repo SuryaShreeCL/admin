@@ -32,6 +32,7 @@ import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
 import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
+import { renderListCategory } from '../../Utils/Helpers';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -190,9 +191,7 @@ export default function DraftPost() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>
-                    {item.wallCategories?.map((category) => `${category.name}, `)}
-                  </TableCell>
+                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
                   <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
