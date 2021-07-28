@@ -112,16 +112,16 @@ export class personalInfo extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
-      this.props.getPincodeDetails(
-        this.props.getStudentsByIdList.address !== null &&
-          this.props.getStudentsByIdList.address.pincode,
-        (data) => {
-          this.setState({
-            state: data[0].PostOffice[0].State,
-            city: data[0].PostOffice[0].District,
-          });
-        }
-      );
+      // this.props.getPincodeDetails(
+      //   this.props.getStudentsByIdList.address !== null &&
+      //     this.props.getStudentsByIdList.address.pincode,
+      //   (data) => {
+      //     this.setState({
+      //       state: data[0].PostOffice[0].State,
+      //       city: data[0].PostOffice[0].District,
+      //     });
+      //   }
+      // );
       this.props.getStudentsByIdList.address !== null &&
         this.setState({
           firstName: this.props.getStudentsByIdList.firstName,
@@ -140,10 +140,11 @@ export class personalInfo extends Component {
           address2: this.props.getStudentsByIdList.address.streetAddressTwo,
           landmark: this.props.getStudentsByIdList.address.landMark,
           pincode: this.props.getStudentsByIdList.address.pincode,
-          // city : this.props.getStudentsByIdList.address.city,
+          city : this.props.getStudentsByIdList.address.city,
           twitter: this.props.getStudentsByIdList.twitterUrl,
           facebook: this.props.getStudentsByIdList.faceBookUrl,
           linkedIn: this.props.getStudentsByIdList.linkedInProfile,
+          state:this.props.getStudentsByIdList.address.state
         });
     }
   }
