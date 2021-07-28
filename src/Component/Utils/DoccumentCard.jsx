@@ -21,29 +21,30 @@ class DoccumentCard extends Component {
   }
   handleSave = (event) => {
     if(this.props.category === 'Toefl'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "tofel")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.path, this.props.id, "tofel")
     }
     if(this.props.category === 'Gre'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "gre")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.path, this.props.id, "gre")
     }
     if(this.props.category === 'Gmat'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "gmat")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.path, this.props.id, "gmat")
     }
     if(this.props.category === 'Ielts'){
-      this.props.deleteDocumentGraduate(this.props.studentid,this.props.certificate, this.props.id, "ielts")
+      this.props.deleteDocumentGraduate(this.props.studentid,this.props.path, this.props.id, "ielts")
     }
     if(!this.props.category){
-        this.props.deleteDocument(this.props.studentid,this.props.certificate)
-        this.props.getDocumentList(this.props.studentid) 
+      console.log(this.props)
+        this.props.deleteDocument(this.props.studentid,this.props.path)
     }
       
-      this.props.getDocumentList(this.props.studentid) 
       this.setState({
           snackmsg : "Document Deleted",
           snackopen : true,
           snackvariant: "success"
         })
+        this.props.getDocumentList(this.props.studentid) 
         event.stopPropagation();
+
   }
   
   render() {

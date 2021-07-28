@@ -686,6 +686,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.type}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
@@ -705,6 +706,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
@@ -725,6 +727,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
@@ -744,6 +747,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
@@ -764,6 +768,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
@@ -784,6 +789,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   category = "Gre"
                   id = {data.greId}
@@ -803,6 +809,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   category ="Gmat"
                   id = {data.gmatId}
@@ -822,6 +829,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   category ="Toefl"
                   id = {data.tofelId}
@@ -842,6 +850,7 @@ export class personalInfo extends Component {
                   <DoccumentCard 
                   certificate={data.name}
                   date={data.date}
+                  path={data.path}
                   studentid = {this.props.match.params.studentId}
                   category = 'Ielts'
                   id = {data.ieltsId}
