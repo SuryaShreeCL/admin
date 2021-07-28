@@ -703,7 +703,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.["UG Degree"] ? this.props.getAllDocumentList.["UG Degree"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   />
@@ -723,7 +723,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.Diploma ? this.props.getAllDocumentList.Diploma.map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   />
@@ -742,7 +742,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.["XII Grade"] ? this.props.getAllDocumentList.["XII Grade"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   />
@@ -762,7 +762,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.["X Grade"] ? this.props.getAllDocumentList.["X Grade"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   />
@@ -782,7 +782,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.GRE ? this.props.getAllDocumentList.GRE.map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category = "Gre"
@@ -801,7 +801,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.GMAT ? this.props.getAllDocumentList.GMAT.map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category ="Gmat"
@@ -820,7 +820,7 @@ export class personalInfo extends Component {
                  {this.props.getAllDocumentList.TOEFL ? this.props.getAllDocumentList.TOEFL.map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category ="Toefl"
@@ -840,7 +840,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.IELTS ? this.props.getAllDocumentList.IELTS.map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   studentid = {this.props.match.params.studentId}
                   category = 'Ielts'
