@@ -278,7 +278,7 @@ class TestEngineResult extends Component {
               {this.props.viewScoreDetailsList.length !== 0 &&
                 this.props.viewScoreDetailsList.map((eachItem, index) => {
                   let date = new Date(eachItem.examDate).getDate();
-                  let month = new Date(eachItem.examDate).getMonth();
+                  let month = new Date(eachItem.examDate).getMonth()+1;
                   let year = new Date(eachItem.examDate).getFullYear();
                   let newExamDate = date + "/" + month + "/" + year;
                   return (
@@ -469,7 +469,7 @@ class TestEngineResult extends Component {
                   <>
                     <div style={{ paddingTop: "10px" }}>
                       <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                        {eachItem.question}
+                        {index+1}.{eachItem.question}
                       </Typography>
                     </div>
                     <div style={{ paddingTop: 10 }}>

@@ -65,7 +65,7 @@ class DoccumentCard extends Component {
         <Card
           style={{
             height: "80px",
-            maxWidth: "300px",
+            maxWidth: "330px",
             width: "100%",
             boxShadow: " 0px 8px 7px rgba(183, 222, 255, 0.5)",
             borderRadius: 8,
