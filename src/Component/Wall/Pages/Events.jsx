@@ -19,6 +19,7 @@ import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
 import moment from 'moment';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -31,7 +32,6 @@ import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
 import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
-import { renderListCategory } from '../../Utils/Helpers';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -56,20 +56,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Published' },
-  { id: 'caption', label: 'Caption' },
-  { id: 'likes', label: 'Likes' },
-  { id: 'totalViews', label: 'Views' },
-  { id: 'status', label: 'Status' },
+  { id: 'eventTitle', label: 'Title' },
+  { id: 'description', label: 'Description' },
+  { id: 'registrations', label: 'Registrations' },
+  { id: 's&t', label: 'Start Date' },
+  { id: 'e&t', label: 'End Date' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function LivePost() {
+export default function Events() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
@@ -99,7 +97,7 @@ export default function LivePost() {
     setFilterFn({
       fn: (items) => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+        else return items.filter((x) => x.eventTitle.toLowerCase().includes(target.value));
       },
     });
   };
@@ -113,9 +111,8 @@ export default function LivePost() {
     history.push({
       pathname: editPath,
       recordForEdit: item,
-      postType: 'Post',
+      postType: 'Event',
     });
-    setRecordForEdit(item);
     setOpenDrawer(false);
   };
 
@@ -126,7 +123,7 @@ export default function LivePost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', false));
+      dispatch(listWallPosts('Live', true));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -136,7 +133,7 @@ export default function LivePost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live', false));
+    dispatch(listWallPosts('Live', true));
   }, [dispatch]);
 
   return (
@@ -145,7 +142,7 @@ export default function LivePost() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Posts'
+            placeholder='Search Events'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -163,7 +160,7 @@ export default function LivePost() {
             className={classes.filterBtn}
           />
           <Controls.Button
-            text='Create New Post'
+            text='Create New Event'
             variant='contained'
             color='primary'
             startIcon={<AddIcon />}
@@ -171,7 +168,7 @@ export default function LivePost() {
             onClick={() => {
               history.push({
                 pathname: createPath,
-                type: false,
+                type: true,
               });
             }}
           />
@@ -183,15 +180,23 @@ export default function LivePost() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
-                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.totalLikes}</TableCell>
-                  <TableCell>{item.totalViews}</TableCell>
-                  <TableCell>{item?.activeStatus}</TableCell>
+                  <TableCell>{`${item.eventTitle?.slice(0, 25)}..`}</TableCell>
+                  <TableCell>{`${item.caption?.slice(0, 20)}...`}</TableCell>
+                  <TableCell>{item.totalRegistrations ?? 0}</TableCell>
+                  <TableCell>{moment(item.eventDate).format('MMM Do, hh:mm a')}</TableCell>
+                  <TableCell>{moment(item.eventEndDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton
+                      disabled={item.totalRegistrations === null}
+                      href={`${process.env.REACT_APP_API_URL}/api/v1/events/${item.id}/export/excel`}
+                    >
+                      <CloudDownloadIcon
+                        fontSize='small'
+                        style={{ color: `${item.totalRegistrations && 'green'}` }}
+                      />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />

@@ -15,11 +15,10 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../Utils/Notification';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useHistory } from 'react-router-dom';
-import { editPath, createPath, wallPath } from '../../RoutePaths';
+import { editPath, createPath } from '../../RoutePaths';
 import moment from 'moment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
@@ -32,12 +31,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import {
-  listWallPosts,
-  deleteWallPost,
-  createWallPost,
-  updateWallPost,
-} from '../../../Actions/WallActions';
+import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
+import { renderListCategory } from '../../Utils/Helpers';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -63,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Date' },
+  { id: 'date', label: 'Drafted' },
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
@@ -75,7 +70,6 @@ export default function DraftPost() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
@@ -131,8 +125,8 @@ export default function DraftPost() {
     history.push({
       pathname: editPath,
       recordForEdit: item,
+      postType: 'Draft',
     });
-    setRecordForEdit(item);
     setOpenDrawer(false);
   };
 
@@ -143,7 +137,7 @@ export default function DraftPost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Draft'));
+      dispatch(listWallPosts('Draft', false));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -153,7 +147,7 @@ export default function DraftPost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Draft'));
+    dispatch(listWallPosts('Draft', false));
   }, [dispatch]);
 
   return (
@@ -162,6 +156,7 @@ export default function DraftPost() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
+            placeholder='Search Drafts'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -196,10 +191,8 @@ export default function DraftPost() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>
-                    {item.wallCategories?.map((category) => `${category.name}, `)}
-                  </TableCell>
-                  <TableCell>{moment(item.createdAt).calendar()}</TableCell>
+                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
+                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
                   <TableCell>{item.totalViews}</TableCell>
