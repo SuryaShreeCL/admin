@@ -12,7 +12,8 @@ import AcademicInfo from "../ObOnboarding/academicInfo";
 import PersonalInfo from "../ObOnboarding/personalInfo";
 import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
 import SubLayoutTab from './SubLayoutTab';
- 
+import { getVariantStepsById } from "../../Actions/ProductAction"
+
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -66,7 +67,13 @@ componentDidMount() {
 
 componentDidUpdate(prevProps, prevState) {    
     if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
-        var sortedArr =  this.props.adminLinkedProductDetails.products.length > 0 && this.props.adminLinkedProductDetails.products[0].steps.sort((a,b) => a.rank-b.rank)
+        if(this.props.adminLinkedProductDetails.products.length > 0){
+            this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
+        }
+       
+    }
+    if(this.props.variantStepList !== prevProps.variantStepList){
+        var sortedArr =  this.props.variantStepList.steps.length > 0 && this.props.variantStepList.steps.sort((a,b) => a.rank-b.rank)
         console.log(sortedArr)
         sortedArr !== false && sortedArr.map((it,ix)=>{
             it.steps.sort((c,d)=>c.rank - d.rank)
@@ -77,6 +84,7 @@ componentDidUpdate(prevProps, prevState) {
             selectedItem : sortedArr[0].steps[0]
         })
     }
+
 }   
 
 
@@ -162,11 +170,13 @@ componentDidUpdate(prevProps, prevState) {
 
 const mapStateToProps = (state) =>({
     getvarientByidData : state.ProductReducer.getvarientByid,
-    adminLinkedProductDetails : state.AdminReducer.adminLinkedProductDetails
+    adminLinkedProductDetails : state.AdminReducer.adminLinkedProductDetails,
+    variantStepList : state.ProductReducer.variantStepList
+
 })
 
 const useStyles = () =>({
 
 })
 
-export default connect(mapStateToProps,{ getvarientByid, getAdminLinkedProduct })(withStyles(useStyles)(StageBasedLayout))
+export default connect(mapStateToProps,{ getvarientByid, getAdminLinkedProduct, getVariantStepsById })(withStyles(useStyles)(StageBasedLayout))

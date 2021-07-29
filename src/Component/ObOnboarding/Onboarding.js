@@ -1,43 +1,23 @@
 import {
-  Grid,
-  TableCell,
-  TableHead,
-  TableContainer,
-  TableRow,
-  Table,
-  TableBody,
-  Typography,
-  Paper,
-  TextField,
-  Icon,
-  Drawer,
-  ListItem,
-  List,
-  createMuiTheme,
-  ThemeProvider,
-  IconButton,
-  Divider,
+  createMuiTheme, Drawer, Grid, IconButton, List, ListItem, Paper, Table,
+  TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography
 } from "@material-ui/core";
-import React, { Component } from "react";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import {
-  OnboardingPersonalInfoPath,
-  stagedTabsPath,
-  callSummaryLayoutPath,
-} from "../RoutePaths";
-import { getAllColleges, getBranches } from "../../Actions/College";
-import DataGridTable from "../Utils/DataGridTable";
-import Call from "../../Asset/Images/callImg.png";
-import { connect } from "react-redux";
-import { getStudentByStages } from "../../Actions/AdminAction";
-import CloseIcon from "@material-ui/icons/Close";
-import { Autocomplete } from "@material-ui/lab";
 import { ExpandMore } from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
+import SearchIcon from "@material-ui/icons/Search";
+import { Autocomplete } from "@material-ui/lab";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getAllAdminUsers, getStudentByStages } from "../../Actions/AdminAction";
 import { getAllTerms } from "../../Actions/Aspiration";
-import { viewAllCities, filterStageBaseUsers } from "../../Actions/Student";
-import { getAllAdminUsers } from "../../Actions/AdminAction";
+import { getAllColleges, getBranches } from "../../Actions/College";
+import { filterStageBaseUsers, viewAllCities } from "../../Actions/Student";
+import Call from "../../Asset/Images/callImg.png";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import {
+  callSummaryLayoutPath, stagedTabsPath
+} from "../RoutePaths";
 const theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
@@ -83,35 +63,38 @@ export class Onboarding extends Component {
     }
 
     //Setting the filtered users in state
-    // if(this.props.filteredStageBasedUsers !== prevProps.filteredStageBasedUsers){
-    //   let listOfUsersArr = []
-    //   this.props.filteredStageBasedUsers.map((eachUser,index)=>{
-    //     listOfUsersArr.push({
-    //       activatedBy : null,
-    //       allocatedAt : eachUser.allocatedAt,
-    //       allocatedBy : eachUser.allocatedBy,
-    //       amountPaid : eachUser.product.sellingPrice,
-    //       clsId : eachUser.student.studentID,
-    //       college : eachUser.student.college !== null && eachUser.student.college.name,
-    //       degree : eachUser.student.ugDegree !== null && eachUser.student.ugDegree.name,
-    //       department : eachUser.student.department !== null && eachUser.student.department.name,
-    //       emailId : eachUser.student.emailId,
-    //       firstName : eachUser.student.firstName,
-    //       fullName : eachUser.student.fullName,
-    //       lastName : eachUser.student.lastName,
-    //       obCallStatus : null,
-    //       orderDate : null,
-    //       paymentId : eachUser.paymentId,
-    //       paymentProvider : eachUser.paymentProvider,
-    //       percentage : null,
-    //       phoneNumber : eachUser.student.phoneNumber,
-    //       products : null,
-    //       punchedBy : null,
-    //       stage : eachUser.stage,
-    //       studentId : eachUser.student.id
-    //     })
-    //   })
-    // }
+    if(this.props.filteredStageBasedUsers !== prevProps.filteredStageBasedUsers){
+      let listOfUsersArr = []
+      this.props.filteredStageBasedUsers.map((eachUser,index)=>{
+        listOfUsersArr.push({
+          activatedBy : eachUser.adminUser,
+          allocatedAt : eachUser.allocatedAt,
+          allocatedBy : eachUser.allocatedBy,
+          amountPaid : eachUser.product.sellingPrice,
+          clsId : eachUser.student.studentID,
+          college : eachUser.student.college !== null && eachUser.student.college.name,
+          degree : eachUser.student.ugDegree !== null && eachUser.student.ugDegree.name,
+          department : eachUser.student.department !== null && eachUser.student.department.name,
+          emailId : eachUser.student.emailId,
+          firstName : eachUser.student.firstName,
+          fullName : eachUser.student.fullName,
+          lastName : eachUser.student.lastName,
+          obCallStatus : null,
+          orderDate : eachUser.enrollmentDate,
+          paymentId : eachUser.paymentId,
+          paymentProvider : eachUser.paymentProvider,
+          percentage : null,
+          phoneNumber : eachUser.student.phoneNumber,
+          products : null,
+          punchedBy : eachUser.adminUsers,
+          stage : eachUser.stage,
+          studentId : eachUser.student.id
+        })
+      })
+      this.setState({
+        listOfusers : listOfUsersArr
+      })
+    }
 
   }
   shrink() {
@@ -205,6 +188,7 @@ export class Onboarding extends Component {
                 <TableBody>
                   {this.state.listOfusers.length !== 0 &&
                     this.state.listOfusers.map((eachItem, index) => {
+                      console.log(eachItem.percentage)
                       return (
                         <TableRow>
                           <TableCell>{eachItem.clsId}</TableCell>
@@ -217,7 +201,7 @@ export class Onboarding extends Component {
                           <TableCell>{eachItem.phoneNumber}</TableCell>
                           <TableCell>{eachItem.obCallStatus}</TableCell>
                           <TableCell align="center">
-                            {eachItem.percentage + "%"}
+                            {eachItem.percentage !== null ? eachItem.percentage + "%" : null}
                           </TableCell>
                           <TableCell>
                             <div
