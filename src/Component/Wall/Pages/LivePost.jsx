@@ -15,7 +15,6 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';

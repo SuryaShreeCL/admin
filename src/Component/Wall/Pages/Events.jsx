@@ -7,7 +7,6 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
-  Button,
   IconButton,
 } from '@material-ui/core';
 import useTable from '../../Utils/useTable';
@@ -20,6 +19,7 @@ import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
 import moment from 'moment';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -32,7 +32,6 @@ import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
 import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
-import JsonToExcel from '../Components/JsonToExcel';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -190,11 +189,15 @@ export default function Events() {
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <JsonToExcel
-                      eventsData={[]}
-                      eventTitle={item.eventTitle}
+                    <Controls.ActionButton
                       disabled={item.totalRegistrations === null}
-                    />
+                      href={`${process.env.REACT_APP_API_URL}/api/v1/events/${item.id}/export/excel`}
+                    >
+                      <CloudDownloadIcon
+                        fontSize='small'
+                        style={{ color: `${item.totalRegistrations && 'green'}` }}
+                      />
+                    </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
