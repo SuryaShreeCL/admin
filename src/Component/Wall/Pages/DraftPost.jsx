@@ -62,7 +62,6 @@ const headCells = [
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
-  { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -196,7 +195,6 @@ export default function DraftPost() {
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
                   <TableCell>{item.totalViews}</TableCell>
-                  <TableCell>{item?.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
