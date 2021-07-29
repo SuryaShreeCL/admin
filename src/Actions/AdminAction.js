@@ -342,3 +342,18 @@ export const getStudentByStages = (stageName) =>{
         })
     }
 } 
+
+// To get all admin users
+
+
+export const getAllAdminUsers = () =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/adminUsers")
+        .then(result=>{
+            dispatch({type : ADMIN.getAllAdminUsers, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+} 

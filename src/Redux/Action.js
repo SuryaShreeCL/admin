@@ -70,6 +70,7 @@ export const STUDENT = {
   getDocumentList: 'getDocumentList',
   deleteDocument: 'deleteDocument',
   deleteDocumentGraduate: 'deleteDocumentGraduate',
+  filterStageBaseUsers : "filterStageBaseUsers"
   
 };
 export const CHOICE_ANSWER = {
@@ -211,7 +212,8 @@ export const ADMIN = {
   activateStudentProduct : "activateStudentProduct",
   getAdminLinkedProduct : "getAdminLinkedProduct", 
   checkTokenStatus : "checkTokenStatus",
-  getStudentsByStages : "getStudentsByStages"
+  getStudentsByStages : "getStudentsByStages",
+  getAllAdminUsers : "getAllAdminUsers"
 };
 
 export const MENTORSCHEDULELIST={

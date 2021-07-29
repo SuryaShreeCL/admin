@@ -521,3 +521,14 @@ export const deleteDocumentGraduate=(id,fileName,fileId,category)=>{
     }
 }
 
+export const filterStageBaseUsers = (collegeId,departmentId,cityId,bdaName,intake) =>{
+    return dispatch =>{
+        axios.get(URL+"/api/v1/student/product/filter?collegeId="+collegeId+"&departmentId="+departmentId+"&cityId="+cityId+"&bdaId="+bdaName+"&intake="+intake)
+        .then(result=>{
+            dispatch({type:STUDENT.filterStageBaseUsers,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

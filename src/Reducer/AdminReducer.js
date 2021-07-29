@@ -18,7 +18,8 @@ const initialState = {
   productActivationResponse : [],
   adminLinkedProductDetails : [],
   tokenStatus : null,
-  studentsByStagesList : []
+  studentsByStagesList : [],
+  adminUserList : []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -116,6 +117,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         studentsByStagesList : action.payload
+      }
+      case ADMIN.getAllAdminUsers : 
+      return {
+        ...state,
+        adminUserList : action.payload
       }
 
     default:

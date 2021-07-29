@@ -1,20 +1,17 @@
-import { Grid, withStyles, Box,ThemeProvider, Tabs } from '@material-ui/core';
+import { Box, createMuiTheme, Grid, withStyles } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getAdminLinkedProduct } from "../../Actions/AdminAction";
+import { getvarientByid } from "../../Actions/ProductAction";
+import AdmissionServices from '../ObCallSummary/admissionServices';
+import AspirationDetails from "../ObCallSummary/aspirationDetails";
+import GraduateTestResult from "../ObCallSummary/graduateTestResult";
+import TestAndSurvey from "../ObCallSummary/testEngineResult";
+import WorkExperience from "../ObCallSummary/workExperience";
+import AcademicInfo from "../ObOnboarding/academicInfo";
+import PersonalInfo from "../ObOnboarding/personalInfo";
 import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
 import SubLayoutTab from './SubLayoutTab';
-import { getvarientByid } from "../../Actions/ProductAction"
-import { getAdminLinkedProduct } from "../../Actions/AdminAction"
-import ProdDetails from "./ProdDetails.json"
-import { Typography } from '@material-ui/core';
-import PersonalInfo from "../ObOnboarding/personalInfo"
-import AcademicInfo from "../ObOnboarding/academicInfo"
-import WorkExperience from "../ObCallSummary/workExperience"
-import AspirationDetails from "../ObCallSummary/aspirationDetails"
-import GraduateTestResult from "../ObCallSummary/graduateTestResult"
-import TestAndSurvey from "../ObCallSummary/testEngineResult"
-import AdmissionServices from '../ObCallSummary/admissionServices';
-import { createMuiTheme } from '@material-ui/core';
  
 
 const TabPanel = (props) => {
@@ -36,16 +33,7 @@ const TabPanel = (props) => {
       </div>
     );
   }
-  const theme = createMuiTheme({
-      overrides:{
-            style:{
-                left : "900px",
-                width:"100px"
-            }
-                 
-        
-      }
-  })
+
 class StageBasedLayout extends Component {
     constructor(props){
         super(props);
@@ -86,6 +74,7 @@ componentDidUpdate(prevProps, prevState) {
         console.log(sortedArr)
         this.setState({
             productDetails : sortedArr,
+            selectedItem : sortedArr[0].steps[0]
         })
     }
 }   

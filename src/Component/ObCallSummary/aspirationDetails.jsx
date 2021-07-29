@@ -193,6 +193,7 @@ class AspirationDetails extends Component {
   getAnswer=(qid)=>{
     let obj=this.state.testQuestionModels.find(item=>item.answer.questionId===qid)  
     let choice=null;      
+    console.log(obj)
     if(obj){     
       if(obj.question.type==="SINGLE_SELECT") 
       choice= obj.answer.selectedChoices[0].id;

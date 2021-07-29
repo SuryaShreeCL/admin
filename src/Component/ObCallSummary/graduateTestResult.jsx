@@ -2244,14 +2244,18 @@ class GraduateTestResult extends Component {
                       format="MM/dd/yyyy"
                       fullWidth
                       value={this.state.ieltsdate}
-                      onChange={(e,newValue) =>{
-                        console.log(newValue)
-                        this.setState({ ieltsdate: new Date(newValue) })
+                      // onChange={(e,newValue) =>{
+                      //   console.log(newValue)
+                      //   this.setState({ ieltsdate: new Date(newValue) })
 
-                      }
-                      }
-                      onChange={(e, newValue) =>
-                        this.setState({ ieltsdate: newValue })
+                      // }
+                      // }
+                      onChange={(newValue) =>
+                        {
+                          console.log(newValue)
+                          this.setState({ ieltsdate:  newValue })
+
+                        }
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",

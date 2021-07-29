@@ -141,7 +141,7 @@ class ProductActivation extends Component {
             snackMsg: null,
             shrink:false,
             listOfUsers : [],
-            // searchdata : ""
+            keyword : "",
         };
 
     }
@@ -153,7 +153,7 @@ class ProductActivation extends Component {
         this.props.getAwaitingUsersByAdminId();
         this.props.getAllProductFamily()
         this.props.getProductVarient()
-        this.props.searchProductActivationList("CLS")
+        this.props.searchProductActivationList("")
     }
     shrink(){
         this.setState({ shrink: true });
@@ -192,9 +192,14 @@ class ProductActivation extends Component {
                 listOfUsers : this.props.awaitingUsersForActivationList
             })
         }
-        // if(this.state.searchdata !== prevState.searchdata){
-        //     this.props.getsearchlist(this.state.searchdata)
-        // }
+        if(this.state.keyword !== prevState.keyword){
+            this.props.searchProductActivationList(this.state.keyword)
+        }
+        if(this.props.searchActivationList !== prevProps.searchActivationList){
+            this.setState({
+                listOfUsers : this.props.searchActivationList.content
+            })
+        }
     }
 
     handleActivate = () => {
@@ -211,6 +216,7 @@ class ProductActivation extends Component {
         this.props.activateStudentProduct(obj)
     }
 
+    
 
     render() {
         console.log("prod act props.......",this.props)
@@ -232,8 +238,8 @@ class ProductActivation extends Component {
                     <TextField
                         label= '&nbsp; &nbsp;&nbsp;&nbsp;   Search by Email ID / Mobile / Full Name / CLS ID'
                         variant="outlined"
-                        // value={this.state.searchdata}
-                        // onChange={(e)=>this.setState({ searchdata : e.target.value})}
+                        value={this.state.keyword}
+                        onChange={(e)=>this.setState({keyword : e.target.value})}
                         InputLabelProps={{
                             shrink: this.state.shrink
                         }}

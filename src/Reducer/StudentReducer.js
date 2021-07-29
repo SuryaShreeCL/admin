@@ -28,7 +28,8 @@ const initialState = {
   sscexamboard : [],
   getDocumentList : [],
   deleteDocument : [],
-  deleteDocumentGraduate: []
+  deleteDocumentGraduate: [],
+  filteredStageBasedUsers : []
 };
 
 export default (state = initialState, action) => {
@@ -205,6 +206,12 @@ export default (state = initialState, action) => {
               deleteDocumentGraduate: action.payload,
             };
 
+            case STUDENT.filterStageBaseUsers:
+              return {
+                ...state,
+                filteredStageBasedUsers: action.payload,
+              };
+  
     default:
       break;
   }
