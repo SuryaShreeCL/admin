@@ -18,10 +18,11 @@ const Preview = ({ state }) => {
     supportingMedia,
     redirectionUrl,
     videoUrl,
+    eventTitle,
     wallFilesUpdate = [],
   } = state;
 
-  // Upload merge where wallFilesUpdate will be merged with wallFiles into uploadedMedia 
+  // Upload merge where wallFilesUpdate will be merged with wallFiles into uploadedMedia
   let uploadedMedia = [...wallFiles, ...wallFilesUpdate];
 
   return (
@@ -74,7 +75,7 @@ const Preview = ({ state }) => {
             )}
           </div>
           <div className='CaptionContainer'>
-            {/* <h6 style={{ marginTop: '7px' }}>#{category || 'Category Name'}</h6> */}
+            {eventTitle && <h6 style={{ marginTop: '7px' }}>{eventTitle}</h6>}
             <p>
               {caption ||
                 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}

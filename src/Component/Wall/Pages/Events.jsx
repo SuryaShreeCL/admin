@@ -16,10 +16,10 @@ import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
 import moment from 'moment';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -31,8 +31,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
-import { renderListCategory } from '../../Utils/Helpers';
+import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -57,15 +56,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Drafted' },
-  { id: 'caption', label: 'Caption' },
-  { id: 'likes', label: 'Likes' },
-  { id: 'totalViews', label: 'Views' },
+  { id: 'eventTitle', label: 'Title' },
+  { id: 'description', label: 'Description' },
+  { id: 'registrations', label: 'Registrations' },
+  { id: 's&t', label: 'Start Date' },
+  { id: 'e&t', label: 'End Date' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function DraftPost() {
+export default function Events() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -98,7 +97,7 @@ export default function DraftPost() {
     setFilterFn({
       fn: (items) => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+        else return items.filter((x) => x.eventTitle.toLowerCase().includes(target.value));
       },
     });
   };
@@ -108,23 +107,11 @@ export default function DraftPost() {
     setOpenDrawer(!openDrawer);
   };
 
-  const onPublish = (post, activeStatus) => {
-    dispatch(updateWallPost({ ...post, activeStatus }));
-    setNotify({
-      isOpen: true,
-      message: 'Post Published Successfully',
-      type: 'success',
-    });
-    setTimeout(() => {
-      dispatch(listWallPosts('Draft'));
-    }, 1200);
-  };
-
   const openInPage = (item) => {
     history.push({
       pathname: editPath,
       recordForEdit: item,
-      postType: 'Draft',
+      postType: 'Event',
     });
     setOpenDrawer(false);
   };
@@ -136,7 +123,7 @@ export default function DraftPost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Draft', false));
+      dispatch(listWallPosts('Live', true));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -146,7 +133,7 @@ export default function DraftPost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Draft', false));
+    dispatch(listWallPosts('Live', true));
   }, [dispatch]);
 
   return (
@@ -155,7 +142,7 @@ export default function DraftPost() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Drafts'
+            placeholder='Search Events'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -173,13 +160,16 @@ export default function DraftPost() {
             className={classes.filterBtn}
           />
           <Controls.Button
-            text='Create New Post'
+            text='Create New Event'
             variant='contained'
             color='primary'
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push(createPath);
+              history.push({
+                pathname: createPath,
+                type: true,
+              });
             }}
           />
         </Toolbar>
@@ -190,17 +180,23 @@ export default function DraftPost() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
-                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.totalLikes}</TableCell>
-                  <TableCell>{item.totalViews}</TableCell>
+                  <TableCell>{`${item.eventTitle?.slice(0, 25)}..`}</TableCell>
+                  <TableCell>{`${item.caption?.slice(0, 20)}...`}</TableCell>
+                  <TableCell>{item.totalRegistrations ?? 0}</TableCell>
+                  <TableCell>{moment(item.eventDate).format('MMM Do, hh:mm a')}</TableCell>
+                  <TableCell>{moment(item.eventEndDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => onPublish(item, 'Live')}>
-                      <CloudUploadIcon fontSize='small' style={{ color: 'green' }} />
+                    <Controls.ActionButton
+                      disabled={item.totalRegistrations === null}
+                      href={`${process.env.REACT_APP_API_URL}/api/v1/events/${item.id}/export/excel`}
+                    >
+                      <CloudDownloadIcon
+                        fontSize='small'
+                        style={{ color: `${item.totalRegistrations && 'green'}` }}
+                      />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />

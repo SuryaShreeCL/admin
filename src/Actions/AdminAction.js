@@ -5,21 +5,29 @@ import {URL} from "../Actions/URL"
 export const adminLogin=(data)=>{
     // let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch => {
-        axios.put(URL+"/api/v1/students/validateAdmin",data,{
+        axios
+          .put(URL + '/api/v1/students/validateAdmin', data, {
             crossDomain: true,
             // headers : {
             //     "admin" : "yes",
             //     "Authorization" : `Bearer ${accessToken}`
             // }
-        })
-            .then(result => {
-                console.log(result)
-                dispatch({type:ADMIN.adminLogin,adminLoginDetails:result.data})
-            })
-            .catch(error => {
-                // dispatch({type:ADMIN.adminLogin,adminLoginDetails:error.response.data})
-                console.log(error);
-            });
+          })
+          .then((result) => {
+            console.log(result);
+            dispatch({ type: ADMIN.adminLogin, adminLoginDetails: result.data });
+            axios
+              .get(URL + `/api/v1/adminusers/${result.data.AdminUsers}`, {
+                crossDomain: true,
+              })
+              .then((res) => {
+                window.sessionStorage.setItem('department', res.data.department);
+              });
+          })
+          .catch((error) => {
+            // dispatch({type:ADMIN.adminLogin,adminLoginDetails:error.response.data})
+            console.log(error);
+          });
     }
     
 }

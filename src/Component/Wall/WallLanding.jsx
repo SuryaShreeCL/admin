@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import LivePost from './Pages/LivePost';
 import DraftPost from './Pages/DraftPost';
 import ScheduledPost from './Pages/ScheduledPost';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
+import Events from './Pages/Events';
+import { useLocation } from 'react-router-dom';
+import Restricted from './Components/Restricted';
 
 const WallLanding = () => {
-  const [tabCount, setTabCount] = useState(0);
+  let location = useLocation();
+  const [tabCount, setTabCount] = useState(location.tab ?? 0);
+  let isDepartment = window.sessionStorage.getItem('department');
+  const hasPermission = isDepartment === 'elev8';
 
   const renderContent = (value) => {
     try {
@@ -16,6 +22,8 @@ const WallLanding = () => {
         return <DraftPost />;
       } else if (value === 2) {
         return <ScheduledPost />;
+      } else if (value === 3) {
+        return <Events />;
       }
     } catch (error) {
       console.log(error);
@@ -35,10 +43,11 @@ const WallLanding = () => {
             <TopTab label='Live Posts' />
             <TopTab label='Draft Posts' />
             <TopTab label='Scheduled Posts' />
+            <TopTab label='Events' />
           </TopTabs>
         </Grid>
         <Grid item md={12}>
-          {renderContent(tabCount)}
+          {hasPermission ? renderContent(tabCount) : <Restricted />}
         </Grid>
       </Grid>
     </Container>

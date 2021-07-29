@@ -7,7 +7,6 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
-  Button,
   IconButton,
 } from '@material-ui/core';
 import useTable from '../../Utils/useTable';
@@ -16,7 +15,6 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
@@ -33,6 +31,7 @@ import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
 import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
+import { renderListCategory } from '../../Utils/Helpers';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -58,11 +57,10 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Date' },
+  { id: 'date', label: 'Published' },
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
-  { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -114,6 +112,7 @@ export default function LivePost() {
     history.push({
       pathname: editPath,
       recordForEdit: item,
+      postType: 'Post',
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
@@ -126,7 +125,7 @@ export default function LivePost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live'));
+      dispatch(listWallPosts('Live', false));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -136,7 +135,7 @@ export default function LivePost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live'));
+    dispatch(listWallPosts('Live', false));
   }, [dispatch]);
 
   return (
@@ -145,6 +144,7 @@ export default function LivePost() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
+            placeholder='Search Posts'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -168,7 +168,10 @@ export default function LivePost() {
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push(createPath);
+              history.push({
+                pathname: createPath,
+                type: false,
+              });
             }}
           />
         </Toolbar>
@@ -179,14 +182,11 @@ export default function LivePost() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>
-                    {item.wallCategories?.map((category) => `${category.name}, `)}
-                  </TableCell>
-                  <TableCell>{moment(item.createdAt).calendar()}</TableCell>
+                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
+                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
                   <TableCell>{item.totalViews}</TableCell>
-                  <TableCell>{item?.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
