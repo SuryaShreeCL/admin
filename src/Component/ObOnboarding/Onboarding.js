@@ -110,6 +110,7 @@ export class Onboarding extends Component {
 
 // Apply filter function
 
+
   applyFilter = () =>{
     console.log(this.state)
     let collegeId = this.state.college !== null ? this.state.college.id : ""
@@ -118,6 +119,17 @@ export class Onboarding extends Component {
     let bdaName = this.state.bda !== null ? this.state.bda.name : ""
     let intake = this.state.intake !== null ? this.state.intake.name : ""
     this.props.filterStageBaseUsers(collegeId,departmentId,cityId,bdaName,intake)
+  }
+  handleReset = () =>{
+    this.setState({
+      college: null,
+      department: null,
+      intake: null,
+      city: null,
+      bda: null,
+    })
+    this.props.getStudentByStages(this.props.stageDetails.stepName);
+
   }
   render() {
     console.log(this.props);
@@ -383,6 +395,7 @@ export class Onboarding extends Component {
                   <PrimaryButton
                     color={"primary"}
                     variant={"outlined"}
+                    onClick={this.handleReset}
                     style={{ textTransform: "none", width: "300px" }}
                   >
                     Reset Filter
