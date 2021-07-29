@@ -1,5 +1,6 @@
 import {
-  createMuiTheme, Drawer, Grid, IconButton, List, ListItem, Paper, Table,
+  Chip,
+  createMuiTheme,createTheme , Drawer, Grid, IconButton, List, ListItem, Paper, Table,
   TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography
 } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -131,6 +132,32 @@ export class Onboarding extends Component {
     this.props.getStudentByStages(this.props.stageDetails.stepName);
 
   }
+  renderChip = (obCallStatus) =>{
+    console.log(obCallStatus.status)
+    if(obCallStatus.status === "Completed"){
+     return <Chip label={obCallStatus.status} color={"primary"} />
+    }else if(obCallStatus.status === null){
+      return null
+    }else{
+      return <Chip label={obCallStatus.status} color={"secondary"} />
+    }
+  }
+
+  chipTheme = createTheme({
+    overrides : {
+      MuiChip : {
+        colorPrimary : {
+          color : "#fff",
+          backgroundColor : "#0DBC5D"
+        },
+        colorSecondary : {
+          color : "#fff",
+          backgroundColor : "#FF0000"
+        }
+      },
+    }
+  })
+
   render() {
     console.log(this.props);
     const { HeadStyle, HeadDisplay } = style;
@@ -185,6 +212,7 @@ export class Onboarding extends Component {
                   Filter
                 </PrimaryButton>
               </div>
+              <ThemeProvider theme={this.chipTheme}>
               <Table aria-label="caption table">
                 <TableHead>
                   <TableRow>
@@ -193,7 +221,7 @@ export class Onboarding extends Component {
                     <TableCell align="left">Email Address</TableCell>
                     <TableCell align="left">Phone Number</TableCell>
                     <TableCell align="left">OB Call Status</TableCell>
-                    <TableCell align="left">Completion %</TableCell>
+                    <TableCell align="left">Stage Completion</TableCell>
                     <TableCell align="center">Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -211,7 +239,7 @@ export class Onboarding extends Component {
                           </TableCell>
                           <TableCell>{eachItem.emailId}</TableCell>
                           <TableCell>{eachItem.phoneNumber}</TableCell>
-                          <TableCell>{eachItem.obCallStatus}</TableCell>
+                          <TableCell>{this.renderChip(eachItem)}</TableCell>
                           <TableCell align="center">
                             {eachItem.percentage !== null ? eachItem.percentage + "%" : null}
                           </TableCell>
@@ -260,6 +288,7 @@ export class Onboarding extends Component {
                     })}
                 </TableBody>
               </Table>
+              </ThemeProvider>
             </TableContainer>
           </Grid>
         </Grid>
