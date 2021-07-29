@@ -95,7 +95,20 @@ export class Onboarding extends Component {
     //       college : eachUser.student.college !== null && eachUser.student.college.name,
     //       degree : eachUser.student.ugDegree !== null && eachUser.student.ugDegree.name,
     //       department : eachUser.student.department !== null && eachUser.student.department.name,
-    //       emailId : null
+    //       emailId : eachUser.student.emailId,
+    //       firstName : eachUser.student.firstName,
+    //       fullName : eachUser.student.fullName,
+    //       lastName : eachUser.student.lastName,
+    //       obCallStatus : null,
+    //       orderDate : null,
+    //       paymentId : eachUser.paymentId,
+    //       paymentProvider : eachUser.paymentProvider,
+    //       percentage : null,
+    //       phoneNumber : eachUser.student.phoneNumber,
+    //       products : null,
+    //       punchedBy : null,
+    //       stage : eachUser.stage,
+    //       studentId : eachUser.student.id
     //     })
     //   })
     // }
