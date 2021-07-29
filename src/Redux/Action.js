@@ -190,7 +190,8 @@ export const PRODUCT = {
   postproductstructure : "postproductstructure",
   getUserDataAcademicInfo: 'getUserDataAcademicInfo',
   getproductsteps:"getproductsteps",
-  searchProductActivationList : "searchProductActivationList"
+  searchProductActivationList : "searchProductActivationList",
+  getVariantStepsById : "getVariantStepsById"
 };
 
 export const ADMIN = {

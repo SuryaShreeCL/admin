@@ -914,3 +914,15 @@ export const searchProductActivationList = (keyword) =>{
     })
   }
 }
+
+export const getVariantStepsById = (variantId) =>{
+  return dispatch =>{
+    axios.get(URL+"/api/v1/get/product/varient/steps/"+variantId)
+    .then((result)=>{
+      dispatch({type: PRODUCT.getVariantStepsById, payload: result.data})
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+}

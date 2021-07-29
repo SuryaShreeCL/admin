@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Onboarding from '../ObOnboarding/Onboarding';
 import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
 import { getAdminLinkedProduct } from "../../Actions/AdminAction"
+import { getVariantStepsById } from "../../Actions/ProductAction"
 class ProductBasedUsers extends Component {
     constructor(props){
         super(props);
@@ -31,7 +32,14 @@ class ProductBasedUsers extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
-            var sortedArr =  this.props.adminLinkedProductDetails.products.length > 0 && this.props.adminLinkedProductDetails.products[0].steps.sort((a,b) => a.rank-b.rank)
+            console.log(this.props.adminLinkedProductDetails)
+            if(this.props.adminLinkedProductDetails.products.length > 0){
+                this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
+            }
+            
+        }
+        if(this.props.variantStepList !== prevProps.variantStepList){
+             var sortedArr =  this.props.variantStepList.steps.length > 0 && this.props.variantStepList.steps.sort((a,b) => a.rank-b.rank)
             console.log(sortedArr)
             sortedArr !== false && sortedArr.map((it,ix)=>{
                 it.steps.sort((c,d)=>c.rank - d.rank)
@@ -47,6 +55,7 @@ class ProductBasedUsers extends Component {
     
 
     render() {
+        console.log(this.props)
         console.log(this.state)
         var componentList = {
             "Onboarding" : "Onboarding",
@@ -85,11 +94,12 @@ class ProductBasedUsers extends Component {
 }
 
  const mapStateToProps = (state) =>({
-    adminLinkedProductDetails : state.AdminReducer.adminLinkedProductDetails
+    adminLinkedProductDetails : state.AdminReducer.adminLinkedProductDetails,
+    variantStepList : state.ProductReducer.variantStepList
 })
 
 const useStyles = () =>({
 
 })
 
-export default connect(mapStateToProps,{ getAdminLinkedProduct })(withStyles(useStyles)(ProductBasedUsers))
+export default connect(mapStateToProps,{ getAdminLinkedProduct, getVariantStepsById })(withStyles(useStyles)(ProductBasedUsers))

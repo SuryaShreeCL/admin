@@ -29,26 +29,27 @@ const initialState = {
   getFaq: [],
   updateFaq: [],
   postFaq: [],
-  getvarientByid:[],
+  getvarientByid: [],
   // getProductFamily :[],
   // getProductVarientByFamily :[]
-   getproductcombo:[],
-  addproductcombo:[],
-  isVariantCreated : false,
-  updateOneLineAndDesResponse : [],
-  updateTncResponse : [],
-  updateProductPunching : [],
-  addProductPunching : [],
-  publishvarient:[],
-  comboexcel:[],
-  varientexcel:[],
-  getpunchingdata:[],
-  postpunchingdata:[],
-  getproductstructure:[],
-  postproductstructure:[],
-  putproductstructure:[],
-  getproductsteps:[],
-  searchActivationList : []
+  getproductcombo: [],
+  addproductcombo: [],
+  isVariantCreated: false,
+  updateOneLineAndDesResponse: [],
+  updateTncResponse: [],
+  updateProductPunching: [],
+  addProductPunching: [],
+  publishvarient: [],
+  comboexcel: [],
+  varientexcel: [],
+  getpunchingdata: [],
+  postpunchingdata: [],
+  getproductstructure: [],
+  postproductstructure: [],
+  putproductstructure: [],
+  getproductsteps: [],
+  searchActivationList: [],
+  variantStepList: [],
 };
 
 export default (state = initialState, action) => {
@@ -173,113 +174,117 @@ export default (state = initialState, action) => {
         ...state,
         deleteproductvarient: action.payload,
       };
-      case PRODUCT.getFaq:
+    case PRODUCT.getFaq:
       return {
         ...state,
         getFaq: action.payload,
       };
-      case PRODUCT.updateFaq:
+    case PRODUCT.updateFaq:
       return {
         ...state,
         updateFaq: action.payload,
       };
-      case PRODUCT.postFaq:
+    case PRODUCT.postFaq:
       return {
         ...state,
         postFaq: action.payload,
       };
-      case PRODUCT.getvarientByid:
+    case PRODUCT.getvarientByid:
       return {
         ...state,
         getvarientByid: action.payload,
       };
-      case PRODUCT.updateProductPunching:
+    case PRODUCT.updateProductPunching:
       return {
         ...state,
         updateProductPunching: action.payload,
       };
-     
-      
-      case PRODUCT.addproductcombo:
-        return {
-          ...state,
-          addproductcombo: action.payload,
-        };
-        case PRODUCT.getproductcombo:
-        return {
-          ...state,
-          getproductcombo: action.payload,
-        };
-      case PRODUCT.isVariantCreated:
-        return {
-          ...state,
-          isVariantCreated: action.payload,
-        };
-        case PRODUCT.updateProductOnelinerAndDesc:
-          return {
-            ...state,
-            updateOneLineAndDesResponse: action.payload,
-          };
-          case PRODUCT.updateTnc:
-            return {
-              ...state,
-              updateTncResponse: action.payload,
-            };
-            case PRODUCT.addProductPunching:
-            return {
-              ...state,
-              addProductPunching: action.payload,
-            };
-            case PRODUCT.publishvarient:
-              return {
-                ...state,
-                publishvarient: action.payload,
-              };
-              case PRODUCT.comboexcel:
-              return {
-                ...state,
-                comboexcel: action.payload,
-              };
-              case PRODUCT.varientexcel:
-                return {
-                  ...state,
-                  varientexcel: action.payload,
-                };
-                case PRODUCT.getpunchingdata:
-                  return {
-                    ...state,
-                    getpunchingdata: action.payload,
-                  };
-                  case PRODUCT.postpunchingdata:
-                    return {
-                      ...state,
-                      postpunchingdata: action.payload,
-                    };
-                    case PRODUCT.getproductstructure:
-                      return {
-                        ...state,
-                        getproductstructure: action.payload,
-                      };
-                      case PRODUCT.postproductstructure:
-                        return {
-                          ...state,
-                          postproductstructure: action.payload,
-                        };
-                        case PRODUCT.putproductstructure:
-                          return {
-                            ...state,
-                            putproductstructure: action.payload,
-                          };
-                          case PRODUCT.getproductsteps:
-                            return {
-                              ...state,
-                              getproductsteps: action.payload,
-                            }
-                            case PRODUCT.searchProductActivationList:
-                              return {
-                                ...state,
-                                searchActivationList: action.payload,
-                              }
+
+    case PRODUCT.addproductcombo:
+      return {
+        ...state,
+        addproductcombo: action.payload,
+      };
+    case PRODUCT.getproductcombo:
+      return {
+        ...state,
+        getproductcombo: action.payload,
+      };
+    case PRODUCT.isVariantCreated:
+      return {
+        ...state,
+        isVariantCreated: action.payload,
+      };
+    case PRODUCT.updateProductOnelinerAndDesc:
+      return {
+        ...state,
+        updateOneLineAndDesResponse: action.payload,
+      };
+    case PRODUCT.updateTnc:
+      return {
+        ...state,
+        updateTncResponse: action.payload,
+      };
+    case PRODUCT.addProductPunching:
+      return {
+        ...state,
+        addProductPunching: action.payload,
+      };
+    case PRODUCT.publishvarient:
+      return {
+        ...state,
+        publishvarient: action.payload,
+      };
+    case PRODUCT.comboexcel:
+      return {
+        ...state,
+        comboexcel: action.payload,
+      };
+    case PRODUCT.varientexcel:
+      return {
+        ...state,
+        varientexcel: action.payload,
+      };
+    case PRODUCT.getpunchingdata:
+      return {
+        ...state,
+        getpunchingdata: action.payload,
+      };
+    case PRODUCT.postpunchingdata:
+      return {
+        ...state,
+        postpunchingdata: action.payload,
+      };
+    case PRODUCT.getproductstructure:
+      return {
+        ...state,
+        getproductstructure: action.payload,
+      };
+    case PRODUCT.postproductstructure:
+      return {
+        ...state,
+        postproductstructure: action.payload,
+      };
+    case PRODUCT.putproductstructure:
+      return {
+        ...state,
+        putproductstructure: action.payload,
+      };
+    case PRODUCT.getproductsteps:
+      return {
+        ...state,
+        getproductsteps: action.payload,
+      };
+    case PRODUCT.searchProductActivationList:
+      return {
+        ...state,
+        searchActivationList: action.payload,
+      };
+    case PRODUCT.getVariantStepsById:
+      return {
+        ...state,
+        variantStepList: action.payload,
+      };
     default:
       break;
   }

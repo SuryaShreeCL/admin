@@ -1916,7 +1916,7 @@ class GraduateTestResult extends Component {
                       }
                     />
                   </Grid>
-                  <Grid item md={3}>
+                  {/* <Grid item md={3}>
                     <TextField
                       type="number"
                       label="Verbal Reasoning"
@@ -1926,8 +1926,8 @@ class GraduateTestResult extends Component {
                         this.setState({ gmatverb: e.target.value })
                       }
                     />
-                  </Grid>
-                  <Grid item md={3}>
+                  </Grid> */}
+                  <Grid item md={6}>
                     <TextField
                       type="number"
                       label="Total"
