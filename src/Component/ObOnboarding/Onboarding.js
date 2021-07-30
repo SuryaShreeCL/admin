@@ -1,7 +1,22 @@
 import {
   Chip,
-  createMuiTheme,createTheme , Drawer, Grid, IconButton, List, ListItem, Paper, Table,
-  TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography
+  createMuiTheme,
+  createTheme,
+  Drawer,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  ThemeProvider,
+  Typography,
 } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { ExpandMore } from "@material-ui/icons";
@@ -10,15 +25,21 @@ import SearchIcon from "@material-ui/icons/Search";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAllAdminUsers, getStudentByStages } from "../../Actions/AdminAction";
+import {
+  getAllAdminUsers,
+  getStudentByStages,
+} from "../../Actions/AdminAction";
 import { getAllTerms } from "../../Actions/Aspiration";
 import { getAllColleges, getBranches } from "../../Actions/College";
-import { filterStageBaseUsers, viewAllCities } from "../../Actions/Student";
+import {
+  filterStageBaseUsers,
+  viewAllCities,
+  searchStudentInStages,
+} from "../../Actions/Student";
 import Call from "../../Asset/Images/callImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import {
-  callSummaryLayoutPath, stagedTabsPath
-} from "../RoutePaths";
+import { callSummaryLayoutPath, stagedTabsPath } from "../RoutePaths";
+import {isEmptyString} from "../Validation"
 const theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
@@ -40,8 +61,8 @@ export class Onboarding extends Component {
       intake: null,
       city: null,
       bda: null,
-      // search : "",
-      listOfusers : []
+      search: null,
+      listOfusers: [],
     };
   }
 
@@ -57,43 +78,63 @@ export class Onboarding extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // Setting the users in state
-    if(this.props.studentsByStagesList !== prevProps.studentsByStagesList){
+    if (this.props.studentsByStagesList !== prevProps.studentsByStagesList) {
       this.setState({
-        listOfusers : this.props.studentsByStagesList
-      })
+        listOfusers: this.props.studentsByStagesList,
+      });
     }
 
     //Setting the filtered users in state
-    if(this.props.filteredStageBasedUsers !== prevProps.filteredStageBasedUsers){
-      let listOfUsersArr = []
-      this.props.filteredStageBasedUsers.map((eachUser,index)=>{
+    if (
+      this.props.filteredStageBasedUsers !== prevProps.filteredStageBasedUsers
+    ) {
+      let listOfUsersArr = [];
+      this.props.filteredStageBasedUsers.map((eachUser, index) => {
         listOfUsersArr.push({
-          activatedBy : eachUser.adminUser,
-          allocatedAt : eachUser.allocatedAt,
-          allocatedBy : eachUser.allocatedBy,
-          amountPaid : eachUser.product.sellingPrice,
-          clsId : eachUser.student.studentID,
-          college : eachUser.student.college !== null && eachUser.student.college.name,
-          degree : eachUser.student.ugDegree !== null && eachUser.student.ugDegree.name,
-          department : eachUser.student.department !== null && eachUser.student.department.name,
-          emailId : eachUser.student.emailId,
-          firstName : eachUser.student.firstName,
-          fullName : eachUser.student.fullName,
-          lastName : eachUser.student.lastName,
-          obCallStatus : null,
-          orderDate : eachUser.enrollmentDate,
-          paymentId : eachUser.paymentId,
-          paymentProvider : eachUser.paymentProvider,
-          percentage : null,
-          phoneNumber : eachUser.student.phoneNumber,
-          products : null,
-          punchedBy : eachUser.adminUsers,
-          stage : eachUser.stage,
-          studentId : eachUser.student.id
-        })
-      })
+          activatedBy: eachUser.adminUser,
+          allocatedAt: eachUser.allocatedAt,
+          allocatedBy: eachUser.allocatedBy,
+          amountPaid: eachUser.product.sellingPrice,
+          clsId: eachUser.student.studentID,
+          college:
+            eachUser.student.college !== null && eachUser.student.college.name,
+          degree:
+            eachUser.student.ugDegree !== null &&
+            eachUser.student.ugDegree.name,
+          department:
+            eachUser.student.department !== null &&
+            eachUser.student.department.name,
+          emailId: eachUser.student.emailId,
+          firstName: eachUser.student.firstName,
+          fullName: eachUser.student.fullName,
+          lastName: eachUser.student.lastName,
+          obCallStatus: null,
+          orderDate: eachUser.enrollmentDate,
+          paymentId: eachUser.paymentId,
+          paymentProvider: eachUser.paymentProvider,
+          percentage: null,
+          phoneNumber: eachUser.student.phoneNumber,
+          products: null,
+          punchedBy: eachUser.adminUsers,
+          stage: eachUser.stage,
+          studentId: eachUser.student.id,
+        });
+      });
       this.setState({
-        listOfusers : listOfUsersArr
+        listOfusers: listOfUsersArr,
+      });
+    }
+    if(this.state.search !== prevState.search){
+      if(!isEmptyString(this.state.search)){
+        this.props.searchStudentInStages(this.state.search)
+      }else{
+        this.props.getStudentByStages(this.props.stageDetails.stepName);
+
+      }
+    }
+    if(this.props.searchedList !== prevProps.searchedList){
+      this.setState({
+        listOfusers : this.props.searchedList.content
       })
     }
 
@@ -109,77 +150,98 @@ export class Onboarding extends Component {
     });
   };
 
-// Apply filter function
+  // Apply filter function
 
-
-  applyFilter = () =>{
-    console.log(this.state)
-    let collegeId = this.state.college !== null ? this.state.college.id : ""
-    let departmentId = this.state.department !== null ? this.state.department.id : ""
-    let cityId = this.state.city !== null ? this.state.city.id : ""
-    let bdaName = this.state.bda !== null ? this.state.bda.name : ""
-    let intake = this.state.intake !== null ? this.state.intake.name : ""
-    this.props.filterStageBaseUsers(collegeId,departmentId,cityId,bdaName,intake)
-  }
-  handleReset = () =>{
+  applyFilter = () => {
+    console.log(this.state);
+    let collegeId = this.state.college !== null ? this.state.college.id : "";
+    let departmentId =
+      this.state.department !== null ? this.state.department.id : "";
+    let cityId = this.state.city !== null ? this.state.city.id : "";
+    let bdaName = this.state.bda !== null ? this.state.bda.name : "";
+    let intake = this.state.intake !== null ? this.state.intake.name : "";
+    this.props.filterStageBaseUsers(
+      collegeId,
+      departmentId,
+      cityId,
+      bdaName,
+      intake
+    );
+  };
+  handleReset = () => {
     this.setState({
       college: null,
       department: null,
       intake: null,
       city: null,
       bda: null,
-    })
+    });
     this.props.getStudentByStages(this.props.stageDetails.stepName);
-
-  }
-  renderChip = (obCallStatus) =>{
-    console.log(obCallStatus)
-    if(obCallStatus.obCallStatus === "Completed"){
-     return <Chip onClick={()=>{
-      this.props.history.push(
-        callSummaryLayoutPath +
-        obCallStatus.studentId +
-          "/product/" +
-          this.props.productId
-      )
-     }} label={obCallStatus.obCallStatus} color={"primary"} />
+  };
+  renderChip = (obCallStatus) => {
+    console.log(obCallStatus);
+    if (obCallStatus.obCallStatus === "Completed") {
+      return (
+        <Chip
+          onClick={() => {
+            this.props.history.push(
+              callSummaryLayoutPath +
+                obCallStatus.studentId +
+                "/product/" +
+                this.props.productId
+            );
+          }}
+          label={obCallStatus.obCallStatus}
+          color={"primary"}
+        />
+      );
+    } else if (obCallStatus.obCallStatus === null) {
+      return (
+        <Chip
+          onClick={() => {
+            this.props.history.push(
+              callSummaryLayoutPath +
+                obCallStatus.studentId +
+                "/product/" +
+                this.props.productId
+            );
+          }}
+          label={"Pending"}
+          color={"secondary"}
+        />
+      );
+    } else {
+      return (
+        <Chip
+          onClick={() => {
+            this.props.history.push(
+              callSummaryLayoutPath +
+                obCallStatus.studentId +
+                "/product/" +
+                this.props.productId
+            );
+          }}
+          label={obCallStatus.obCallStatus}
+          color={"secondary"}
+        />
+      );
     }
-    else if(obCallStatus.obCallStatus === null){
-      return <Chip onClick={()=>{
-        this.props.history.push(
-          callSummaryLayoutPath +
-          obCallStatus.studentId +
-            "/product/" +
-            this.props.productId
-        )
-      }} label={"Pending"} color={"secondary"} />
-    }
-    else{
-      return <Chip onClick={()=>{
-        this.props.history.push(
-          callSummaryLayoutPath +
-          obCallStatus.studentId +
-            "/product/" +
-            this.props.productId
-        )
-      }} label={obCallStatus.obCallStatus} color={"secondary"} />
-    }
-  }
+  };
 
   chipTheme = createTheme({
-    overrides : {
-      MuiChip : {
-        colorPrimary : {
-          color : "#fff",
-          backgroundColor : "#0DBC5D"
+    overrides: {
+      MuiChip: {
+        colorPrimary: {
+          color: "#fff",
+          backgroundColor: "#0DBC5D",
         },
-        colorSecondary : {
-          color : "#fff",
-          backgroundColor : "#FF0000"
-        }
+        colorSecondary: {
+          color: "#fff",
+          backgroundColor: "#FF0000",
+        },
       },
-    }
-  })
+    },
+  });
 
   render() {
     console.log(this.props);
@@ -201,10 +263,10 @@ export class Onboarding extends Component {
                     </Typography>
                   }
                   variant="outlined"
-                  // value={this.state.search}
-                  // onChange={(e)=>{
-                  //   console.log(e)
-                  //   this.setState({search : e.target.value})}}
+                  value={this.state.search}
+                  onChange={(e) => {
+                    this.setState({ search: e.target.value });
+                  }}
                   InputLabelProps={{
                     shrink: this.state.shrink,
                   }}
@@ -236,38 +298,40 @@ export class Onboarding extends Component {
                 </PrimaryButton>
               </div>
               <ThemeProvider theme={this.chipTheme}>
-              <Table aria-label="caption table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">CLS ID</TableCell>
-                    <TableCell align="left">Client Name</TableCell>
-                    <TableCell align="left">Email Address</TableCell>
-                    <TableCell align="left">Phone Number</TableCell>
-                    <TableCell align="left">OB Call Status</TableCell>
-                    <TableCell align="left">Stage Completion</TableCell>
-                    <TableCell align="center">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.listOfusers.length !== 0 &&
-                    this.state.listOfusers.map((eachItem, index) => {
-                      console.log(eachItem.percentage)
-                      return (
-                        <TableRow>
-                          <TableCell>{eachItem.clsId}</TableCell>
-                          <TableCell>
-                            {eachItem.fullName !== null
-                              ? eachItem.fullName
-                              : eachItem.firstName + " " + eachItem.lastName}
-                          </TableCell>
-                          <TableCell>{eachItem.emailId}</TableCell>
-                          <TableCell>{eachItem.phoneNumber}</TableCell>
-                          <TableCell>{this.renderChip(eachItem)}</TableCell>
-                          <TableCell align="center">
-                            {eachItem.percentage !== null ? eachItem.percentage + "%" : null}
-                          </TableCell>
-                          <TableCell>
-                            {/* <div
+                <Table aria-label="caption table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="left">CLS ID</TableCell>
+                      <TableCell align="left">Client Name</TableCell>
+                      <TableCell align="left">Email Address</TableCell>
+                      <TableCell align="left">Phone Number</TableCell>
+                      <TableCell align="left">OB Call Status</TableCell>
+                      <TableCell align="left">Stage Completion</TableCell>
+                      <TableCell align="center">Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.listOfusers.length !== 0 &&
+                      this.state.listOfusers.map((eachItem, index) => {
+                        console.log(eachItem.percentage);
+                        return (
+                          <TableRow>
+                            <TableCell>{eachItem.clsId}</TableCell>
+                            <TableCell>
+                              {eachItem.fullName !== null
+                                ? eachItem.fullName
+                                : eachItem.firstName + " " + eachItem.lastName}
+                            </TableCell>
+                            <TableCell>{eachItem.emailId}</TableCell>
+                            <TableCell>{eachItem.phoneNumber}</TableCell>
+                            <TableCell>{this.renderChip(eachItem)}</TableCell>
+                            <TableCell align="center">
+                              {eachItem.percentage !== null
+                                ? eachItem.percentage + "%"
+                                : null}
+                            </TableCell>
+                            <TableCell>
+                              {/* <div
                               style={{
                                 display: "flex",
                                 flexDirection: "row",
@@ -304,12 +368,12 @@ export class Onboarding extends Component {
                               >
                                 Manage
                               </PrimaryButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                </Table>
               </ThemeProvider>
             </TableContainer>
           </Grid>
@@ -366,8 +430,10 @@ export class Onboarding extends Component {
                     id="combo-box-demo"
                     options={this.props.getBranchesList}
                     getOptionLabel={(option) => option.name}
-                    onChange={(e,value)=>this.setState({department : value})}
-                   value={this.state.department}
+                    onChange={(e, value) =>
+                      this.setState({ department: value })
+                    }
+                    value={this.state.department}
                     style={{ width: 300 }}
                     renderInput={(params) => (
                       <TextField
@@ -388,8 +454,8 @@ export class Onboarding extends Component {
                     id="combo-box-demo"
                     options={this.props.getAspTermsList}
                     getOptionLabel={(option) => option.name}
-                    onChange={(e,value)=>this.setState({intake : value})}
-                   value={this.state.intake}
+                    onChange={(e, value) => this.setState({ intake: value })}
+                    value={this.state.intake}
                     style={{ width: 300 }}
                     renderInput={(params) => (
                       <TextField
@@ -408,7 +474,7 @@ export class Onboarding extends Component {
                     getOptionLabel={(option) => option.name}
                     style={{ width: 300 }}
                     value={this.state.city}
-                    onChange={(e,value)=>this.setState({city : value})}
+                    onChange={(e, value) => this.setState({ city: value })}
                     renderInput={(params) => (
                       <TextField {...params} label="City" variant="outlined" />
                     )}
@@ -488,6 +554,7 @@ const mapStateToProps = (state) => {
     cityList: state.StudentReducer.cityList,
     adminUserList: state.AdminReducer.adminUserList,
     filteredStageBasedUsers: state.StudentReducer.filteredStageBasedUsers,
+    searchedList: state.StudentReducer.searchedList,
     // getsearchlistresponse : state.CallReducer.getsearchlist
   };
 };
@@ -500,4 +567,5 @@ export default connect(mapStateToProps, {
   viewAllCities,
   getAllAdminUsers,
   filterStageBaseUsers,
+  searchStudentInStages,
 })(Onboarding);

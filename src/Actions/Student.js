@@ -532,3 +532,17 @@ export const filterStageBaseUsers = (collegeId,departmentId,cityId,bdaName,intak
         })
     }
 }
+
+export const searchStudentInStages = (keyword) =>{
+    let adminuserId = window.sessionStorage.getItem("adminUserId")
+    return dispatch =>{
+        axios.get(URL+"/api/v1/get/studentProduct/onboarding/search/"+adminuserId+"?page=0&size=20&q="+keyword)
+        .then(result=>{
+            dispatch({type:STUDENT.searchStudentInStages,payload:result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+

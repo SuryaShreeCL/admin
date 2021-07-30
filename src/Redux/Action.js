@@ -70,8 +70,9 @@ export const STUDENT = {
   getDocumentList: 'getDocumentList',
   deleteDocument: 'deleteDocument',
   deleteDocumentGraduate: 'deleteDocumentGraduate',
-  filterStageBaseUsers : "filterStageBaseUsers"
-  
+  filterStageBaseUsers : "filterStageBaseUsers",
+  searchStudentInStages : "searchStudentInStages"
+
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -191,7 +192,7 @@ export const PRODUCT = {
   getUserDataAcademicInfo: 'getUserDataAcademicInfo',
   getproductsteps:"getproductsteps",
   searchProductActivationList : "searchProductActivationList",
-  getVariantStepsById : "getVariantStepsById"
+  getVariantStepsById : "getVariantStepsById",
 };
 
 export const ADMIN = {
