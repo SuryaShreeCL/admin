@@ -29,7 +29,8 @@ const initialState = {
   getDocumentList : [],
   deleteDocument : [],
   deleteDocumentGraduate: [],
-  filteredStageBasedUsers : []
+  filteredStageBasedUsers : [],
+  searchedList : []
 };
 
 export default (state = initialState, action) => {
@@ -211,6 +212,11 @@ export default (state = initialState, action) => {
                 ...state,
                 filteredStageBasedUsers: action.payload,
               };
+              case STUDENT.searchStudentInStages:
+                return {
+                  ...state,
+                  searchedList: action.payload,
+                };
   
     default:
       break;
