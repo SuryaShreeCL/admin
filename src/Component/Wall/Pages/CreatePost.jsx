@@ -393,7 +393,7 @@ const CreatePost = () => {
                   {values.isEvent && (
                     <Grid item>
                       <h6 style={{ fontSize: '1rem' }}>
-                        Upload Resume?
+                         Resume Required?
                         <Switch
                           checked={values.resumeNeeded}
                           onChange={handleChange}
