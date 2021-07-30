@@ -133,13 +133,36 @@ export class Onboarding extends Component {
 
   }
   renderChip = (obCallStatus) =>{
-    console.log(obCallStatus.status)
-    if(obCallStatus.status === "Completed"){
-     return <Chip label={obCallStatus.status} color={"primary"} />
-    }else if(obCallStatus.status === null){
-      return null
-    }else{
-      return <Chip label={obCallStatus.status} color={"secondary"} />
+    console.log(obCallStatus)
+    if(obCallStatus.obCallStatus === "Completed"){
+     return <Chip onClick={()=>{
+      this.props.history.push(
+        callSummaryLayoutPath +
+        obCallStatus.studentId +
+          "/product/" +
+          this.props.productId
+      )
+     }} label={obCallStatus.obCallStatus} color={"primary"} />
+    }
+    else if(obCallStatus.obCallStatus === null){
+      return <Chip onClick={()=>{
+        this.props.history.push(
+          callSummaryLayoutPath +
+          obCallStatus.studentId +
+            "/product/" +
+            this.props.productId
+        )
+      }} label={"Pending"} color={"secondary"} />
+    }
+    else{
+      return <Chip onClick={()=>{
+        this.props.history.push(
+          callSummaryLayoutPath +
+          obCallStatus.studentId +
+            "/product/" +
+            this.props.productId
+        )
+      }} label={obCallStatus.obCallStatus} color={"secondary"} />
     }
   }
 
@@ -244,7 +267,7 @@ export class Onboarding extends Component {
                             {eachItem.percentage !== null ? eachItem.percentage + "%" : null}
                           </TableCell>
                           <TableCell>
-                            <div
+                            {/* <div
                               style={{
                                 display: "flex",
                                 flexDirection: "row",
@@ -267,7 +290,7 @@ export class Onboarding extends Component {
                                   width: 30,
                                   marginRight: 10,
                                 }}
-                              />
+                              /> */}
                               <PrimaryButton
                                 onClick={() =>
                                   this.props.history.push(
@@ -281,7 +304,6 @@ export class Onboarding extends Component {
                               >
                                 Manage
                               </PrimaryButton>
-                            </div>
                           </TableCell>
                         </TableRow>
                       );
