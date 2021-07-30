@@ -103,7 +103,8 @@ class ProductStructure extends Component {
         mintat:data.min_tat,
         maxtat:data.max_tat,
         drop : false,
-        id:data.id
+        id:data.id,
+        varient : data.product.id
     })
 }
 handleUpdate=()=>{
@@ -145,7 +146,7 @@ handleUpdate=()=>{
             "rank":this.state.rank,
             "parent": null,
             "product":{
-                "id": this.state.varient.id
+                "id": this.state.varient
             },
         }
         this.props.putproductstructure(obj)
@@ -224,7 +225,7 @@ handelAdd=()=>{
             "rank":this.state.rank,
             "parent":null,
             "product":{
-                id:this.state.varient.id,
+                id:this.state.varient,
             }
         }
         this.props.postproductstructure(obj)
