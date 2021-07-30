@@ -128,7 +128,9 @@ class AspirationDetails extends Component {
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getAspiration((response) => {
       console.log(response)
+
       this.setState({
+        answerModel : response.testQuestionModels,
         ...response,        
       });
     }, this.props.match.params.studentId);
@@ -159,12 +161,13 @@ class AspirationDetails extends Component {
       aspirationUniversities: aspirationUniversities,
       testQuestionModels: this.state.answerModel.length === 0 ? this.state.testQuestionModels : this.state.answerModel,
     };    
-    this.props.updateAspiration(
-      obj,
-      (response) => console.log(response),
-      this.props.match.params.studentId,
-      this.props.getAspirationQuestionList.id, 
-    );    
+    console.log(obj)
+    // this.props.updateAspiration(
+    //   obj,
+    //   (response) => console.log(response),
+    //   this.props.match.params.studentId,
+    //   this.props.getAspirationQuestionList.id, 
+    // );    
   };
 
   getStatus = (sectionName) => {
@@ -191,7 +194,8 @@ class AspirationDetails extends Component {
   );
 
   getAnswer=(qid)=>{
-    let obj=this.state.testQuestionModels.find(item=>item.answer.questionId===qid)  
+    console.log(qid)
+    let obj=this.state.answerModel.find(item=>item.answer.questionId===qid)  
     let choice=null;      
     console.log(obj)
     if(obj){     
@@ -250,15 +254,19 @@ class AspirationDetails extends Component {
                           }                         
                         }
                         if(this.state.answerModel.some(item=>item.question.id===obj.question.id)){                                                    
+                          console.log("pass")
                           arr = this.state.answerModel.filter(item=>item.question.id!==obj.question.id).concat(obj);
                         }else{
+                          console.log("fail")
                           arr=this.state.answerModel.concat(obj);
                         }
                         this.setState({answerModel:arr});
-                      }} 
+                      }}
+                      // defaultValue={this.getAnswer(qid)}
                       value={this.getAnswer(qid)}
                     >
                       {choices.map(({ text ,id }) => {
+                        console.log(id)
                         return (
                           <FormControlLabel
                             style={choiceStyle}                         
@@ -341,7 +349,7 @@ class AspirationDetails extends Component {
   render() {
     console.log(this.props.allTermList)
     const { choiceStyle } = style;   
-    console.log(this.state.testQuestionModels) 
+    console.log("state.......................",this.state) 
     return (
       <div style={{ padding: 25 }}>
         <ThemeProvider theme={theme}>
