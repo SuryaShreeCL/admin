@@ -32,7 +32,9 @@ const initialState = {
   unenroll:[],
   allEnrollCourseList : [],
   filteredCourseList : [],
-  uploadfile:[]
+  uploadfile:[],
+  getallfiles:[],
+  downlaodfiles:[]
 };
 
 export default (state = initialState, action) => {
@@ -207,6 +209,16 @@ export default (state = initialState, action) => {
                       ...state,
                       uploadfile : action.payload
                     }
+                    case PGA.getallfiles:
+                      return {
+                        ...state,
+                        getallfiles : action.payload
+                      }
+                      case PGA.downlaodfiles:
+                        return {
+                          ...state,
+                          downlaodfiles : action.payload
+                        }
 
 
     default:

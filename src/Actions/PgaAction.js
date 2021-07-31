@@ -389,4 +389,19 @@ export const uploadfile = (studentid,productid,name,filename,data) =>{
         })
     }
 }
+export const getallfiles = (studentid) =>{
+    let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
+    let productid = product.products[0].id
+    console.log(productid)
+    return dispatch=>{
+        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid)
+        .then(result=>{
+            dispatch({type : PGA.getallfiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+
 

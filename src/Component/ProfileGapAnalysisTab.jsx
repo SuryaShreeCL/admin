@@ -10,7 +10,7 @@ import Dropzone from "react-dropzone";
 import PrimaryButton from '../Utils/PrimaryButton'
 import {connect} from 'react-redux'
 import {getStudentsById} from '../Actions/Student'
-import {uploadfile} from '../Actions/PgaAction'
+import {uploadfile,getallfiles} from '../Actions/PgaAction'
 import MySnackBar from './MySnackBar';
 class ProfileGapAnalysisTab extends Component {
     constructor(){
@@ -29,6 +29,7 @@ class ProfileGapAnalysisTab extends Component {
     }
     componentDidMount(){
        this.props.getStudentsById(this.props.match.params.studentId)
+       this.props.getallfiles(this.props.match.params.studentId)
     }
     componentDidUpdate(prevProps,prevState){
         if (this.state.files !== prevState.files) {
@@ -100,6 +101,12 @@ class ProfileGapAnalysisTab extends Component {
           {this.state.finalFile.name} - {this.state.finalFile.size} bytes
         </li>
       ) : null;
+      let date = new Date(this.props.getallfilesList.uploadedAt).getDate()
+      let month = new Date(this.props.getallfilesList.uploadedAt).getMonth()+1
+      let year = new Date(this.props.getallfilesList.uploadedAt).getFullYear()
+      var months = ["January", "Febuary", "March", "April", "May", "June", "July","August","September","October","November","December"];
+      var monthname = months[month];
+      let finaldate = date+" "+monthname+" "+year
         return (
             <div>
                 <Typography style={{margin:"1%"}}>Profile Gap Analysis</Typography>
@@ -158,45 +165,27 @@ class ProfileGapAnalysisTab extends Component {
               </Grid>
               <Grid item md={6}>
                   <Grid container spacing={2}>
-                      <Grid item md={12}>
-                      <Paper variant="outlined" style={{width : "90%", padding : "3%"}}>
-                        <Grid container>
-                            <Grid item md={8}>
-                                <div style={{display:"flex",flexDirection:"column"}}>
-                                <Typography style={{color:"#0645AD"}}>
-                                PM Report Atharva May 2020
-                                </Typography>
-                                <Typography>
-                                Last updated : 21 Dec 2020
-                                </Typography>
-                                </div>
-                            </Grid>
-                            <Grid item md={4}>
-                                <PrimaryButton style={{width:"100px",height:"30px"}} variant={"outlined"} color={"secondary"} onClick={()=>this.handleDelete()}>Delete</PrimaryButton>
-                            </Grid>
+                        <Grid item md={12}>
+                        <Paper variant="outlined" style={{width : "90%", padding : "3%"}}>
+                          <Grid container>
+                              <Grid item md={8}>
+                                  <div style={{display:"flex",flexDirection:"column"}}>
+                                  <Typography style={{color:"#0645AD"}}>
+                                  {this.props.getallfilesList.reportTitle}
+                                  </Typography>
+                                  <Typography>
+                                  Last updated : {finaldate}
+                                  </Typography>
+                                  </div>
+                              </Grid>
+                              <Grid item md={4}>
+                                  <PrimaryButton style={{width:"100px",height:"30px"}} variant={"outlined"} color={"secondary"} onClick={()=>this.handleDelete()}>Delete</PrimaryButton>
+                              </Grid>
+                          </Grid>
+                    </Paper>
                         </Grid>
-                  </Paper>
-                      </Grid>
-                      <Grid item md={12}>
-                      <Paper variant="outlined" style={{width : "90%", padding : "3%"}}>
-                        <Grid container>
-                            <Grid item md={8}>
-                                <div style={{display:"flex",flexDirection:"column"}}>
-                                <Typography style={{color:"#0645AD"}}>
-                                PM Report Atharva May 2020
-                                </Typography>
-                                <Typography>
-                                Last updated : 21 Dec 2020
-                                </Typography>
-                                </div>
-                            </Grid>
-                            <Grid item md={4}>
-                            <PrimaryButton style={{width:"100px",height:"30px"}} variant={"outlined"} color={"secondary"} onClick={()=>this.handleDelete()}>Delete</PrimaryButton>
-                            </Grid>
-                        </Grid>
-                  </Paper>
-                      </Grid>
-                      <Grid item md={12}>
+                     
+                      {/* <Grid item md={12}>
                       <Paper variant="outlined" style={{width : "90%", padding : "3%"}}>
                         <Grid container>
                             <Grid item md={8}>
@@ -234,6 +223,25 @@ class ProfileGapAnalysisTab extends Component {
                         </Grid>
                   </Paper>
                       </Grid>
+                      <Grid item md={12}>
+                      <Paper variant="outlined" style={{width : "90%", padding : "3%"}}>
+                        <Grid container>
+                            <Grid item md={8}>
+                                <div style={{display:"flex",flexDirection:"column"}}>
+                                <Typography style={{color:"#0645AD"}}>
+                                PM Report Atharva May 2020
+                                </Typography>
+                                <Typography>
+                                Last updated : 21 Dec 2020
+                                </Typography>
+                                </div>
+                            </Grid>
+                            <Grid item md={4}>
+                            <PrimaryButton style={{width:"100px",height:"30px"}} variant={"outlined"} color={"secondary"} onClick={()=>this.handleDelete()}>Delete</PrimaryButton>
+                            </Grid>
+                        </Grid>
+                  </Paper>
+                      </Grid> */}
                   </Grid>
                 
               </Grid>
@@ -251,8 +259,9 @@ class ProfileGapAnalysisTab extends Component {
 const mapStateToProps=(state)=>{
     return {
         getStudentsByIdList : state.StudentReducer.StudentList,
-        uploadfileList : state.PgaReducer.uploadfile
+        uploadfileList : state.PgaReducer.uploadfile,
+        getallfilesList : state.PgaReducer.getallfiles
     }
 }
-export default connect(mapStateToProps,{getStudentsById,uploadfile})(ProfileGapAnalysisTab)
+export default connect(mapStateToProps,{getStudentsById,uploadfile,getallfiles})(ProfileGapAnalysisTab)
 
