@@ -271,9 +271,12 @@ export const allocateMentor = (mentorId,studentId) =>{
 // For Getting List of users based on admin user Id
 
 export const getAwaitingUsersByAdminId = () =>{
-    let id = window.sessionStorage.getItem("adminUserId")
+  let adminUserId = window.sessionStorage.getItem("adminUserId")
+  let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct")) 
+  let productid = product.products[0].id
+  console.log(productid)
     return dispatch =>{
-        axios.get(URL+"/api/v1/product/notActivate/"+id)
+        axios.get(URL+"/api/v1/product/"+productid+"/admin/"+adminUserId+"/search?page=0&size=20&q=")
         .then(result=>{
             dispatch({type : ADMIN.getAwaitingUsersByAdminId, payload : result.data})
         })

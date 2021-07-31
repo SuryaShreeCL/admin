@@ -153,7 +153,7 @@ class ProductActivation extends Component {
         this.props.getAwaitingUsersByAdminId();
         this.props.getAllProductFamily()
         this.props.getProductVarient()
-        this.props.searchProductActivationList("")
+        this.props.searchProductActivationList(this.state.keyword)
     }
     shrink(){
         this.setState({ shrink: true });
@@ -189,7 +189,7 @@ class ProductActivation extends Component {
         }
         if(this.props.awaitingUsersForActivationList !== prevProps.awaitingUsersForActivationList){
             this.setState({
-                listOfUsers : this.props.awaitingUsersForActivationList
+                listOfUsers : this.props.awaitingUsersForActivationList.content
             })
         }
         if(this.state.keyword !== prevState.keyword){
