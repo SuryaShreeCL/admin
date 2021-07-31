@@ -11,6 +11,7 @@ import PrimaryButton from '../Utils/PrimaryButton'
 import {connect} from 'react-redux'
 import {getStudentsById} from '../Actions/Student'
 import {uploadfile} from '../Actions/PgaAction'
+import MySnackBar from './MySnackBar';
 class ProfileGapAnalysisTab extends Component {
     constructor(){
         super();
@@ -76,6 +77,11 @@ class ProfileGapAnalysisTab extends Component {
                 d.append('file', this.state.finalFile);
                 console.log(d)
             this.props.uploadfile(this.props.match.params.studentId,productid,name,filename,d)
+            this.setState({
+                snackMsg : "Uploaded Successfully",
+                snackOpen : true,
+                snackVariant : "success"
+            })
         }
         else{
             this.setState({
@@ -232,6 +238,12 @@ class ProfileGapAnalysisTab extends Component {
                 
               </Grid>
                 </Grid>
+                <MySnackBar 
+                   snackMsg={this.state.snackMsg}
+                   snackVariant={this.state.snackVariant}
+                   snackOpen={this.state.snackOpen}
+                   onClose={() => this.setState({ snackOpen: false })}
+                />
             </div>
         )
     }
