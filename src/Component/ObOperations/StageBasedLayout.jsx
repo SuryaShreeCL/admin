@@ -13,6 +13,7 @@ import PersonalInfo from "../ObOnboarding/personalInfo";
 import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
 import SubLayoutTab from './SubLayoutTab';
 import { getVariantStepsById } from "../../Actions/ProductAction"
+import ProfileGapAnalysisTab from '../ProfileGapAnalysisTab';
 
 
 const TabPanel = (props) => {
@@ -84,11 +85,7 @@ componentDidUpdate(prevProps, prevState) {
             selectedItem : sortedArr[0].steps[0]
         })
     }
-
 }   
-
-
-
     render() {
         console.log(this.state)
         console.log(this.props.adminLinkedProductDetails)
@@ -134,7 +131,8 @@ componentDidUpdate(prevProps, prevState) {
            </ThemedTabs>
                </Grid>
                <Grid item md={12}>
-               <ThemedTabs
+             { this.state.tabCount === 0 &&
+              <ThemedTabs
              value={this.state.selectedItem}
              variant="scrollable"
              textColor={"inherit"}
@@ -154,11 +152,12 @@ componentDidUpdate(prevProps, prevState) {
                textColor="primary"
                value={"Others"}
                label={"Others"}/>
-               </ThemedTabs>
+               </ThemedTabs>}
                </Grid>
                <Grid item md={12}>
                    {Page !== undefined && this.state.tabCount === 0 && this.state.selectedItem !== "Others" && <Page {...this.props} />  }  
-                   {this.state.selectedItem === "Others" && <AdmissionServices {...this.props}/>}           
+                   {this.state.tabCount === 0 && this.state.selectedItem === "Others" && <AdmissionServices {...this.props}/>}    
+                   {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }       
                </Grid>
          </Grid>
         //  </ThemeProvider>

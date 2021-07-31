@@ -325,6 +325,7 @@ export const PGA = {
   getFilteredCourseForEnroll: 'getFilteredCourseForEnroll',
   clearNewEnroll: 'clearNewEnroll',
   clearUnEnroll: 'clearUnEnroll',
+  uploadfile : 'uploadfile'
 };
 
 export const HELPER = {

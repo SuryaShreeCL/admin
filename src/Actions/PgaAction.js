@@ -1,3 +1,4 @@
+import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid"
 import axios from "axios"
 import { PGA } from "../Redux/Action"
 import { URL } from "./URL"
@@ -377,5 +378,15 @@ export const unenroll = (data) =>{
         })
     }
 }
-
+export const uploadfile = (studentid,productid,name,filename,data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/student/pgaUpload/"+studentid+"/"+productid+"/"+name+"/"+filename,data)
+        .then(result=>{
+            dispatch({type : PGA.uploadfile, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
 
