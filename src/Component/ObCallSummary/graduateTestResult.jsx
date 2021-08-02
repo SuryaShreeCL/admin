@@ -319,8 +319,8 @@ class GraduateTestResult extends Component {
     this.setState({
       gmatshow: true,
       gmatattempt:{title : data.attempt},
-      gmatquan: data.quantitativeVerbal,
-      gmatverb: "",
+      gmatquan: data.quantitativeReasoning,
+      gmatverb: data.verbalReasoning,
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: data.analyticalAssessment,
@@ -422,12 +422,14 @@ class GraduateTestResult extends Component {
       let obj ={
           "attempt": this.state.gmatattempt.title,
           "expectedExamDate": null ,
-          "quantitativeVerbal": this.state.gmatquan,
+          "quantitativeReasoning": this.state.gmatquan,
           "integratedReasoning":this.state.gmatint,
           "analyticalAssessment":this.state.gmatanalytic,
           "score":this.state.gmatscore,
-          "completedExamDate": this.state.gmatdate
+          "completedExamDate": this.state.gmatdate,
+          "verbalReasoning":"100",
           }
+
           console.log(obj)
           this.props.updategmatscore(this.state.gmatid,obj)
           const d = new FormData();
@@ -1029,7 +1031,7 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {eachdata.quantitativeVerbal}
+                            {eachdata.quantitativeReasoning}
                           </TableCell>
                           <TableCell
                             align="center"
@@ -1055,7 +1057,7 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {60}
+                            {eachdata.verbalReasoning}
                           </TableCell>
                           <TableCell
                             align="center"
@@ -1916,7 +1918,7 @@ class GraduateTestResult extends Component {
                       }
                     />
                   </Grid>
-                  {/* <Grid item md={3}>
+                  <Grid item md={3}>
                     <TextField
                       type="number"
                       label="Verbal Reasoning"
@@ -1926,8 +1928,8 @@ class GraduateTestResult extends Component {
                         this.setState({ gmatverb: e.target.value })
                       }
                     />
-                  </Grid> */}
-                  <Grid item md={6}>
+                  </Grid>
+                  <Grid item md={3}>
                     <TextField
                       type="number"
                       label="Total"
