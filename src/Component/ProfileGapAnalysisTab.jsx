@@ -38,8 +38,10 @@ class ProfileGapAnalysisTab extends Component {
             // var stuBasicData = JSON.parse(
             //   window.sessionStorage.getItem("studentBasicData")
             // );
+            var filenumber = this.props.getallfilesList.length+1
+            console.log(filenumber)
             var name =
-              this.props.getStudentsByIdList.firstName + "_" + this.props.getStudentsByIdList.lastName + "_" + "PGA"+this.props.getallfilesList.length;
+              this.props.getStudentsByIdList.firstName + "_" + this.props.getStudentsByIdList.lastName + "_" + "PGA"+filenumber;
             var file = this.state.files[0];
       
             var indexOf = file.type.indexOf("/");
