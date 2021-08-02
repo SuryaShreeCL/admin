@@ -193,7 +193,7 @@ class ProductActivation extends Component {
             })
         }
         if(this.state.keyword !== prevState.keyword){
-            this.props.searchProductActivationList(this.state.keyword)
+            this.props.searchProductActivationList(this.props.match.params.productId,this.state.keyword)
         }
         if(this.props.searchActivationList !== prevProps.searchActivationList){
             this.setState({
