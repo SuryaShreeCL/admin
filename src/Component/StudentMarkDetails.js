@@ -1,43 +1,34 @@
-import React, { Component, useState, useEffect } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Typography,
+} from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { withStyles } from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import {
+  viewanswers,
   viewresettest,
   viewstudentmarkdetails,
 } from "../Actions/StudentMarkDetails";
-import { connect } from "react-redux";
-import StudentMarkDetails from "../Reducer/MarkReducer";
-import {
-  Grid,
-  Button,
-  Typography,
-  Collapse,
-  TableRow,
-  TableCell,
-} from "@material-ui/core";
-import { careerTrackVideoSetPath } from "./RoutePaths";
-import { viewanswers } from "../Actions/StudentMarkDetails";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@material-ui/core";
-import NoDataImg from '../Asset/Images/noData.jpg'
+import NoDataImg from "../Asset/Images/noData.jpg";
 
 function usePrevious(value) {
-  const ref =  React.useRef();
+  const ref = React.useRef();
   useEffect(() => {
     ref.current = value;
   });
   return ref.current;
 }
 
-
 function CustomizedPrograss(props) {
-
-  const prevViewAnswers = usePrevious(props.viewAnswers)
-  console.log(prevViewAnswers)
+  const prevViewAnswers = usePrevious(props.viewAnswers);
+  console.log(prevViewAnswers);
 
   const [show, setShow] = useState(false);
   // const quesAns = []
@@ -47,31 +38,32 @@ function CustomizedPrograss(props) {
   const [snackColor, setSnackColor] = useState("");
   React.useEffect(() => {
     props.viewstudentmarkdetails(props.id);
-  
-    console.log(props.viewAnswers)
 
-    if(typeof props.viewAnswers === "object"){
+    console.log(props.viewAnswers);
+
+    if (typeof props.viewAnswers === "object") {
       // if(quesAns.length === 0){
-        if(prevViewAnswers !== undefined){
-         if(Object.keys(props.viewAnswers).length !== Object.keys(prevViewAnswers).length){
-          let arr=[]
+      if (prevViewAnswers !== undefined) {
+        if (
+          Object.keys(props.viewAnswers).length !==
+          Object.keys(prevViewAnswers).length
+        ) {
+          let arr = [];
           for (const property in props.viewAnswers) {
             console.log(`${property}: ${props.viewAnswers[property]}`);
-              arr.push({
-                question: property,
-                answer: props.viewAnswers[property],
-              })
+            arr.push({
+              question: property,
+              answer: props.viewAnswers[property],
+            });
           }
-          setQuesAns(arr)
-         }
-        // } 
+          setQuesAns(arr);
+        }
+        // }
       }
-      console.log(quesAns)
-
-    }else{
-      setQuesAns([])
+      console.log(quesAns);
+    } else {
+      setQuesAns([]);
     }
-      
   }, [props.viewReseTestList, props.viewAnswers]);
 
   const BorderLinearProgress = withStyles((theme) => ({
@@ -100,7 +92,7 @@ function CustomizedPrograss(props) {
   };
   console.log(props.viewAnswers);
   console.log(quesAns);
-  
+
   return (
     <div>
       <div style={{ position: "relative" }}>
@@ -156,39 +148,45 @@ function CustomizedPrograss(props) {
             })
           : null}
         <Dialog open={show}>
-          {quesAns.length !== 0 ?
-          <>
-          <DialogTitle>Answers</DialogTitle>
-          <DialogContent>
-            <ol>
-              {quesAns.map((content) => {
-                return (
-                  <Grid>
-                    <li>
-                      <Typography>{content.question}</Typography>
-                    </li>
-                    <Typography style={{ color: "green" }}>
-                      {content.answer}
-                    </Typography>
-                  </Grid>
-                );
-              })}
-            </ol> 
-          </DialogContent>
-          </>
-          :
-          <>
+          {quesAns.length !== 0 ? (
+            <>
+              <DialogTitle>Answers</DialogTitle>
+              <DialogContent>
+                <ol>
+                  {quesAns.map((content) => {
+                    return (
+                      <Grid>
+                        <li>
+                          <Typography>{content.question}</Typography>
+                        </li>
+                        <Typography style={{ color: "green" }}>
+                          {content.answer}
+                        </Typography>
+                      </Grid>
+                    );
+                  })}
+                </ol>
+              </DialogContent>
+            </>
+          ) : (
+            <>
               <DialogTitle>Please Attend The Test !</DialogTitle>
               <DialogContent>
                 <Grid item align={"center"}>
-                <img src={NoDataImg} style={{width : "80%"}}></img>
+                  <img src={NoDataImg} style={{ width: "80%" }}></img>
                 </Grid>
               </DialogContent>
-              </>
-
-            }
+            </>
+          )}
           <DialogActions>
-            <Button variant={"outlined"} color={"primary"} size={"small"} onClick={() => setShow(false)}>OK</Button>
+            <Button
+              variant={"outlined"}
+              color={"primary"}
+              size={"small"}
+              onClick={() => setShow(false)}
+            >
+              OK
+            </Button>
           </DialogActions>
         </Dialog>
       </div>

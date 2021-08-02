@@ -314,6 +314,7 @@ export const getAdminLinkedProduct = () =>{
     return dispatch =>{
         axios.get(URL+"/api/v1/adminusers/"+id)
         .then(result=>{
+            window.sessionStorage.setItem("adminDetails", JSON.stringify(result.data))
             dispatch({type : ADMIN.getAdminLinkedProduct, payload : result.data})
         })
         .catch(error=>{
