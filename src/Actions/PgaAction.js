@@ -1,3 +1,4 @@
+import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid"
 import axios from "axios"
 import { PGA } from "../Redux/Action"
 import { URL } from "./URL"
@@ -377,5 +378,64 @@ export const unenroll = (data) =>{
         })
     }
 }
-
-
+export const uploadfile = (studentid,productid,name,filename,data) =>{
+    return dispatch=>{
+        axios.post(URL+"/api/v1/student/pgaUpload/"+studentid+"/"+productid+"/"+name+"/"+filename,data)
+        .then(result=>{
+            dispatch({type : PGA.uploadfile, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const getallfiles = (studentid) =>{
+    let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
+    let productid = product.products[0].id
+    console.log(productid)
+    return dispatch=>{
+        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid)
+        .then(result=>{
+            dispatch({type : PGA.getallfiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const deletefiles = (studentid,filename) =>{
+    return dispatch=>{
+        axios.delete(URL+"/api/v1/delete/"+studentid+"/"+filename)
+        .then(result=>{
+            dispatch({type : PGA.deletefiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const viewfiles = (studentid) =>{
+    let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
+    let productid = product.products[0].id
+    console.log(productid)
+    return dispatch=>{
+        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid)
+        .then(result=>{
+            dispatch({type : PGA.viewfiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const downlaodfiles = (studentid,filename) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/pgaDownload/"+studentid+"/"+filename)
+        .then(result=>{
+            dispatch({type : PGA.downlaodfiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

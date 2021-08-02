@@ -1,7 +1,6 @@
 import { PRODUCT } from "../Redux/Action";
 import axios from "axios";
 import { URL } from "../Actions/URL";
-
 export const viewProduct = () => {
   return (dispatch) => {
     axios
@@ -902,10 +901,25 @@ export const getproductsteps = (id) => {
 };
 
 
-export const searchProductActivationList = (keyword) =>{
+// export const searchProductActivationList = (keyword) =>{
+//   let adminUserId = window.sessionStorage.getItem("adminUserId")
+//   return dispatch =>{
+//     axios.get(URL+"/api/v1/get/studentProduct/search/"+adminUserId+"?page=0&size=20&q="+keyword)
+//     .then((result)=>{
+//       dispatch({type: PRODUCT.searchProductActivationList, payload: result.data})
+//     })
+//     .catch((error)=>{
+//       console.log(error)
+//     })
+//   }
+// }
+export const searchProductActivationList = (data) =>{
   let adminUserId = window.sessionStorage.getItem("adminUserId")
+  let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct")) 
+  let productid = product.products[0].id
+  console.log(productid)
   return dispatch =>{
-    axios.get(URL+"/api/v1/get/studentProduct/search/"+adminUserId+"?page=0&size=20&q="+keyword)
+    axios.get(URL+"/api/v1/product/"+productid+"/admin/"+adminUserId+"/search?page=0&size=20&q="+data)
     .then((result)=>{
       dispatch({type: PRODUCT.searchProductActivationList, payload: result.data})
     })
@@ -926,3 +940,15 @@ export const getVariantStepsById = (variantId) =>{
     })
   }
 }
+// export const getactivationlist = (keyword) =>{
+//   let adminUserId = window.sessionStorage.getItem("adminUserId")
+//   return dispatch =>{
+//     axios.get(URL+"/api/v1/product/"++"/admin/"+adminUserId+"/search?page=0&size=20&q=")
+//     .then((result)=>{
+//       dispatch({type: PRODUCT.getactivationlist, payload: result.data})
+//     })
+//     .catch((error)=>{
+//       console.log(error)
+//     })
+//   }
+// }
