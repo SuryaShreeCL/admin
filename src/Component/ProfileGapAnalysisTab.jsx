@@ -38,8 +38,10 @@ class ProfileGapAnalysisTab extends Component {
             // var stuBasicData = JSON.parse(
             //   window.sessionStorage.getItem("studentBasicData")
             // );
+            var filenumber = this.props.getallfilesList.length+1
+            console.log(filenumber)
             var name =
-              this.props.getStudentsByIdList.firstName + "_" + this.props.getStudentsByIdList.lastName + "_" + "PGA"+this.props.getallfilesList.length;
+              this.props.getStudentsByIdList.firstName + "_" + this.props.getStudentsByIdList.lastName + "_" + "PGA"+filenumber;
             var file = this.state.files[0];
       
             var indexOf = file.type.indexOf("/");
@@ -178,7 +180,7 @@ class ProfileGapAnalysisTab extends Component {
               </Grid>
               <Grid item md={6}>
                   <Grid container spacing={2}>
-                    {this.props.getallfilesList.map(eachdata => {
+                    {this.props.getallfilesList.length !== 0 && this.props.getallfilesList.map(eachdata => {
                        let date = new Date(eachdata.uploadedAt).getDate()
                        let month = new Date(eachdata.uploadedAt).getMonth()
                        let year = new Date(eachdata.uploadedAt).getFullYear()

@@ -68,7 +68,7 @@ componentDidMount() {
 
 componentDidUpdate(prevProps, prevState) {    
     if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
-        if(this.props.adminLinkedProductDetails.products.length > 0){
+        if(this.props.adminLinkedProductDetails.length !== 0 && this.props.adminLinkedProductDetails.products.length > 0){
             this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
         }
        
