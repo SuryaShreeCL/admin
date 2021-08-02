@@ -13,6 +13,7 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
@@ -41,7 +42,9 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import TrendingUpRoundedIcon from "@material-ui/icons/TrendingUpRounded";
 import VideocamRoundedIcon from "@material-ui/icons/VideocamRounded";
 import clsx from "clsx";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+
 import { connect } from "react-redux";
 import { checkTokenStatus } from "../Actions/AdminAction";
 import BackButton from "../Asset/Images/BackButton.svg";
@@ -75,7 +78,7 @@ import Routes from "./Routes";
 import TreeView from "@material-ui/lab/TreeView";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import TreeItem from "@material-ui/lab/TreeItem";
-import { My_Tree_View } from "../Constant/Variables";
+import { menu } from "../Constant/Variables";
 import { getAdminLinkedProduct } from "../Actions/AdminAction";
 import { getProductByFamilyId } from "../Actions/ProductAction";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -299,14 +302,7 @@ function RootContainer(props) {
   const [open, setOpen] = React.useState(true);
   const [selectedMenu, setSelectedMenu] = React.useState(null);
   const [state, setState] = React.useState({open : {}})
-  const [sideNav, setSideNav] = React.useState([
-    {
-      id: "1",
-      key: "operations",
-      label : "Operations",
-      items: [],
-    },
-  ]);
+  const [sideNav, setSideNav] = React.useState([]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -318,7 +314,8 @@ function RootContainer(props) {
   const logout = () => {
     window.sessionStorage.setItem("token", "false");
     window.sessionStorage.clear();
-    props.history.push(rootLoginPath);
+    window.location.pathname = "/admin/login";
+    // props.history.push(rootLoginPath);
   };
 
 
@@ -367,122 +364,232 @@ function RootContainer(props) {
   useEffect(()=>{
     console.log(props.adminLinkedProductDetails)
     
-    if(props.adminLinkedProductDetails.length !== 0 && props.getProductByFamilyIdList.length === 0){
+    if(props.adminLinkedProductDetails.length !== 0 && props.getProductByFamilyIdList.length === 0 && props.adminLinkedProductDetails.department !== "sales" ){
       props.getProductByFamilyId(props.adminLinkedProductDetails.products[0].productFamily.id)
     }
     console.log(props.getProductByFamilyIdList)
-    let newListArr = []
-    props.getProductByFamilyIdList.map((eachItem,index)=>{
-     newListArr.push({
-      id: eachItem.id,
-      key: eachItem.id,
-      label : eachItem.shortName,
-      icon: StarBorder
-     })
-    })
-    setSideNav([{
-      id: "1",
-      key: "operations",
-      icon: InboxIcon,
-      label : "Operations",
-      items: newListArr,
-    }])
-  },[props.adminLinkedProductDetails, props.getProductByFamilyIdList])
+    // let newListArr = []
+    // props.getProductByFamilyIdList.map((eachItem,index)=>{
+    //  newListArr.push({
+    //   id: eachItem.id,
+    //   key: eachItem.id,
+    //   label : eachItem.shortName,
+    //   icon: StarBorder
+    //  })
+    // })
+    // setSideNav([{
+    //   id: "1",
+    //   key: "operations",
+    //   icon: InboxIcon,
+    //   label : "Operations",
+    //   items: newListArr,
+    // }])
 
-    // Handle path push
-
-  const  handlePathPush = (data) =>{
-    console.log(data)
-      props.history.push(obOperationPath+"/"+data)
-
-    
-  }
-
-  // const getTreeItemsFromData = (treeItems) => {
-  //   return treeItems.map((treeItemData) => {
-  //     let children = undefined;
-  //     if (treeItemData.children && treeItemData.children.length > 0) {
-  //       children = getTreeItemsFromData(treeItemData.children);
-  //     }
-  //     console.log(treeItemData.id, children)
-  //     return (
-  //       <TreeItem
-  //         key={treeItemData.id}
-  //         nodeId={treeItemData.id}
-  //         label={treeItemData.shortName}
-  //         children={children}
-  //       />
-  //     );
-  //   });
-  // };
-  // const DataTreeView = ({ treeItems }) => {
-  //   return (
-  //     <TreeView
-  //       defaultCollapseIcon={<ExpandMoreIcon />}
-  //       defaultExpandIcon={<ChevronRightIcon />}
-  //     >
-  //       {getTreeItemsFromData(treeItems)}
-  //     </TreeView>
-  //   );
-  // };
-
-  // const mapStructure = (nodes) => {
-  //   if (nodes) {
-  //     console.log(nodes)
-  //     return nodes.map(node => (
-  //       <>
-  //       {console.log(node)}
-  //       <ListItem
-  //         key={node.id}
-  //         primaryText={node.shortName}
-  //         initiallyOpen //optional
-  //         nestedItems={mapStructure(node.children)}
-  //       />
-  //       </>
-  //     ));
-  //   }
-  // };
-
-  // const DynamicNestedItems = ({ RootObject }) => {
-  //   return (
-  //     <List>
-  //       {mapStructure(RootObject)}
-  //     </List>
-  //   );
-  // };
-
-
-const lists = [
-  {
-    key: "inbox",
-    label: "Inbox",
-    icon: InboxIcon,
-    items: [
+    if(props.adminLinkedProductDetails.department === "Acsoperations"){
+      let myArr = []
+      props.getProductByFamilyIdList.map((eachItem,index)=>{
+        myArr.push({
+         title: eachItem.shortName,
+         to: eachItem.id,
+        })
+       })
+      setSideNav([{
+        icon: <HomeOutlinedIcon />,
+        title: "Aspiration",
+        items: []
+      },
       {
-        key: "starred",
-        label: "Starred",
-        icon: StarBorder
+        icon: <HomeOutlinedIcon />,
+        title: "Templates",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Master Grad list",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Call Scheduler",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Reports",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Notification",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Career Track",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Resources",
+        items: [{
+          title : "Webinar",
+          to : "webinar",
+        },
+        {
+          title : "Testmonial",
+          to : "testmonial",
+        },
+        {
+          title : "Role Videos",
+          to : "roleVideos",
+        }
+      ]  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Operations",
+        items: myArr
+      },
+    ])
+    }else if(props.adminLinkedProductDetails.department === "Pboperations"){
+      let myArr = []
+      props.getProductByFamilyIdList.map((eachItem,index)=>{
+        myArr.push({
+         title: eachItem.shortName,
+         to: eachItem.id,
+        })
+       })
+      setSideNav([{
+        icon: <HomeOutlinedIcon />,
+        title: "Aspiration",
+        items: []
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Career Track",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Reports",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Notification",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Resources",
+        items: [{
+          title : "Webinar",
+          to : "webinar",
+        },
+        {
+          title : "Testmonial",
+          to : "testmonial",
+        },
+        {
+          title : "Role Videos",
+          to : "roleVideos",
+        }
+      ]  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Operations",
+        items: myArr
+      },
+    ])
+    }else if(props.adminLinkedProductDetails.department === "sales"){
+      setSideNav([{
+        icon: <HomeOutlinedIcon />,
+        title: "City",
+        items: []
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Product Punching",
+        items: []  
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Products",
+        items: []  
       }
-    ]
-  },
-  {
-    key: "drafts",
-    label: "Drafts",
-    icon: DraftsIcon,
-    items: [{ key: "send", label: "Sent Items", icon: SendIcon }]
-  }
-];
+    ])
+    }
 
-const handleClick = (key) => {
-  console.log(key);
-  setState({
-    // ...state,
-     [key]: !state[key] 
-    });
-};
+  },[props.adminLinkedProductDetails, props.getProductByFamilyIdList])
 
   console.log("........props", props);
   console.log("sidenav..............", sideNav)
+
+
+const MenuItem = ({ item }) => {
+  const Component = hasChildren(item) ? MultiLevel : SingleLevel;
+  return <Component item={item} />;
+};
+
+const SingleLevel = ({ item }) => {
+  return (
+    <ListItem button onClick={()=>console.log(item)}>
+      <ListItemIcon>{item.icon}</ListItemIcon>
+      <ListItemText primary={item.title} />
+    </ListItem>
+  );
+};
+
+const MultiLevel = ({ item }) => {
+  const { items: children } = item;
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
+
+  return (
+    <React.Fragment>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText primary={item.title} />
+        {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {children.map((child, key) => (
+            <MenuItem key={key} item={child} />
+          ))}
+        </List>
+      </Collapse>
+    </React.Fragment>
+  );
+};
+
+
+  const hasChildren = (item) =>{
+    const { items: children } = item;
+  
+    if (children === undefined) {
+      return false;
+    }
+  
+    if (children.constructor !== Array) {
+      return false;
+    }
+  
+    if (children.length === 0) {
+      return false;
+    }
+  
+    return true;
+  }
+  
+
+    const renderSideNav = () =>{
+
+    }
 
   return (
     <ThemeProvider theme={theme}>
@@ -565,9 +672,8 @@ const handleClick = (key) => {
           </div>
           <Divider />
 
-          {/* <DataTreeView treeItems={sideNav} /> */}
 
-          <List>
+          {/* <List>
             {NavbarList.map((Item, index) => (
               <ListItem
                 selected={selectedMenu === index}
@@ -584,41 +690,10 @@ const handleClick = (key) => {
                 <ListItemText primary={Item.title} />
               </ListItem>
             ))}
-          </List>
-          {/* <DynamicNestedItems RootObject={sideNav} /> */}
-          {/* <List
-          component="nav"
-          
-        >
-          {sideNav[0].items.length !== 0 && sideNav.map(({ key, label, icon: Icon, items }) => {
-            const open = state[key] || false;
-            return (
-              <div key={key}>
-                <ListItem button onClick={()=>handleClick(key)}>
-                
-                  {open ? <ExpandLess /> : <ExpandMore />}
-                  <ListItemText primary={label} />
-                  <ListItemIcon>
-                    <Icon />
+          </List> */}
+          {sideNav.map((item, key) => <MenuItem key={key} item={item} />)}
 
-                  </ListItemIcon>
-                </ListItem>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    {items.map(({ key: childKey, label: childLabel, icon: ChildIcon }) => (
-                      <ListItem key={childKey} button onClick={()=>handlePathPush(childKey)} className={classes.nested}>
-                        <ListItemIcon>
-                          <ChildIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={childLabel} />
-                      </ListItem>
-                    ))}
-                  </List>
-                </Collapse>
-              </div>
-            );
-          })}
-        </List> */}
+       
           <Divider />
         </Drawer>
         <main
