@@ -14,3 +14,29 @@ socialMedia:"Social Media",
 }
 
 export {SECTION};
+
+export const My_Tree_View = [
+   
+    {
+      id: "1",
+      name: "Operations",
+      children: [
+        {
+          id: "2",
+          name: "MS",
+          children: []
+        },
+        {
+            id: "3",
+            name: "MBA",
+            children: []
+          },
+          {
+            id: "4",
+            name: "MIM",
+            children: []
+          }
+      ]
+    }
+  ];
+  
