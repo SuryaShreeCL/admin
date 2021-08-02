@@ -364,30 +364,30 @@ function RootContainer(props) {
   const prevProps = usePrevious(props)
 
 
-  useEffect(()=>{
-    console.log(props.adminLinkedProductDetails)
+  // useEffect(()=>{
+  //   console.log(props.adminLinkedProductDetails)
     
-    if(props.adminLinkedProductDetails.length !== 0 && props.getProductByFamilyIdList.length === 0){
-      props.getProductByFamilyId(props.adminLinkedProductDetails.products[0].productFamily.id)
-    }
-    console.log(props.getProductByFamilyIdList)
-    let newListArr = []
-    props.getProductByFamilyIdList.map((eachItem,index)=>{
-     newListArr.push({
-      id: eachItem.id,
-      key: eachItem.id,
-      label : eachItem.shortName,
-      icon: StarBorder
-     })
-    })
-    setSideNav([{
-      id: "1",
-      key: "operations",
-      icon: InboxIcon,
-      label : "Operations",
-      items: newListArr,
-    }])
-  },[props.adminLinkedProductDetails, props.getProductByFamilyIdList])
+  //   if(props.adminLinkedProductDetails.length !== 0 && props.getProductByFamilyIdList.length === 0){
+  //     props.getProductByFamilyId(props.adminLinkedProductDetails.products[0].productFamily.id)
+  //   }
+  //   console.log(props.getProductByFamilyIdList)
+  //   let newListArr = []
+  //   props.getProductByFamilyIdList.map((eachItem,index)=>{
+  //    newListArr.push({
+  //     id: eachItem.id,
+  //     key: eachItem.id,
+  //     label : eachItem.shortName,
+  //     icon: StarBorder
+  //    })
+  //   })
+  //   setSideNav([{
+  //     id: "1",
+  //     key: "operations",
+  //     icon: InboxIcon,
+  //     label : "Operations",
+  //     items: newListArr,
+  //   }])
+  // },[props.adminLinkedProductDetails, props.getProductByFamilyIdList])
 
     // Handle path push
 
