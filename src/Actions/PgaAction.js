@@ -428,4 +428,14 @@ export const viewfiles = (studentid) =>{
         })
     }
 }
-
+export const downlaodfiles = (studentid,filename) =>{
+    return dispatch=>{
+        axios.get(URL+"/api/v1/pgaDownload/"+studentid+"/"+filename)
+        .then(result=>{
+            dispatch({type : PGA.downlaodfiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}

@@ -10,8 +10,9 @@ import Dropzone from "react-dropzone";
 import PrimaryButton from '../Utils/PrimaryButton'
 import {connect} from 'react-redux'
 import {getStudentsById} from '../Actions/Student'
-import {uploadfile,getallfiles,deletefiles,viewfiles} from '../Actions/PgaAction'
+import {uploadfile,getallfiles,deletefiles,viewfiles,downlaodfiles} from '../Actions/PgaAction'
 import MySnackBar from './MySnackBar';
+import {URL} from '../Actions/URL'
 class ProfileGapAnalysisTab extends Component {
     constructor(){
         super();
@@ -96,7 +97,7 @@ class ProfileGapAnalysisTab extends Component {
             })
         }
     }
-    handleDelete=(data)=>{
+    handleDelete=(event,data)=>{
         console.log(data)
         this.props.deletefiles(this.props.match.params.studentId,data.fileName)
         this.setState({
@@ -104,10 +105,12 @@ class ProfileGapAnalysisTab extends Component {
           snackOpen: true,
           snackVariant : "success"
         })
+        event.stopPropagation()
     }
-    handleView=(data)=>{
+    handleView=(event,data)=>{
         console.log(data)
-        this.props.viewfiles(this.props.match.params.studentId)
+        // this.props.downlaodfiles(this.props.match.params.studentId,data.fileName)
+        window.open(URL+"/api/v1/pgaDownload/"+this.props.match.params.studentId+"/"+data.fileName)
     }
     render() {
         console.log(this.props)
@@ -184,7 +187,7 @@ class ProfileGapAnalysisTab extends Component {
                        let finaldate = date+" "+monthname+" "+year
                       return(
                       <Grid item md={12}>
-                        <Paper variant="outlined" style={{width : "90%", padding : "3%"}} onClick={()=>this.handleView(eachdata)}>
+                        <Paper variant="outlined" style={{width : "90%", padding : "3%"}} onClick={(event)=>this.handleView(event,eachdata)}>
                           <Grid container>
                               <Grid item md={8}>
                                   <div style={{display:"flex",flexDirection:"column"}}>
@@ -197,7 +200,7 @@ class ProfileGapAnalysisTab extends Component {
                                   </div>
                               </Grid>
                               <Grid item md={4}>
-                                  <PrimaryButton style={{width:"100px",height:"30px"}} variant={"outlined"} color={"secondary"} onClick={()=>this.handleDelete(eachdata)}>Delete</PrimaryButton>
+                                  <PrimaryButton style={{width:"100px",height:"30px"}} variant={"outlined"} color={"secondary"} onClick={(event)=>this.handleDelete(event,eachdata)}>Delete</PrimaryButton>
                               </Grid>
                           </Grid>
                     </Paper>
@@ -224,8 +227,9 @@ const mapStateToProps=(state)=>{
         uploadfileList : state.PgaReducer.uploadfile,
         getallfilesList : state.PgaReducer.getallfiles,
         deletefilesList : state.PgaReducer.deletefiles,
-        viewfilesList : state.PgaReducer.viewfiles
+        viewfilesList : state.PgaReducer.viewfiles,
+        downlaodfilesList : state.PgaReducer.downlaodfiles
     }
 }
-export default connect(mapStateToProps,{getStudentsById,uploadfile,getallfiles,deletefiles,viewfiles})(ProfileGapAnalysisTab)
+export default connect(mapStateToProps,{getStudentsById,uploadfile,getallfiles,deletefiles,viewfiles,downlaodfiles})(ProfileGapAnalysisTab)
 
