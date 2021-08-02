@@ -913,13 +913,11 @@ export const getproductsteps = (id) => {
 //     })
 //   }
 // }
-export const searchProductActivationList = (data) =>{
+export const searchProductActivationList = (productId,data) =>{
   let adminUserId = window.sessionStorage.getItem("adminUserId")
-  let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct")) 
-  let productid = product.products[0].id
-  console.log(productid)
+
   return dispatch =>{
-    axios.get(URL+"/api/v1/product/"+productid+"/admin/"+adminUserId+"/search?page=0&size=20&q="+data)
+    axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminUserId+"/search?page=0&size=20&q="+data)
     .then((result)=>{
       dispatch({type: PRODUCT.searchProductActivationList, payload: result.data})
     })

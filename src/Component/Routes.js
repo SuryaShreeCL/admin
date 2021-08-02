@@ -164,8 +164,10 @@ export default function Routes(props) {
             <Route exact path={obOperationPath} render={(props)=> <ObOperationLanding {...props} />} />
             <Route exact path={obOperationPath+"/:productId"} render={(props)=> <ObOperationLanding {...props} />} />
             <Route exact path={listUsersProdBasedPath} render={(props)=> <ProductBasedUsers {...props} />} />
-            <Route exact path={stagedTabsPath.concat(':studentId')} render={(props)=> <StageBasedLayout {...props} />} />
+            <Route exact path={listUsersProdBasedPath+"/:productId"} render={(props)=> <ProductBasedUsers {...props} />} />
+            <Route exact path={stagedTabsPath.concat(':studentId'+"/:productId")} render={(props)=> <StageBasedLayout {...props} />} />
             <Route exact path={productActivationPath} render={(props)=> <ProductActivation {...props} />} />
+            <Route exact path={productActivationPath + "/:productId"} render={(props)=> <ProductActivation {...props} />} />
             <Route
               exact
               // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}

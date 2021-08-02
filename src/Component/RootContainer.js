@@ -55,6 +55,7 @@ import DraftsIcon from "@material-ui/icons/Drafts";
 import SendIcon from "@material-ui/icons/Send";
 import {
   aspirationPath,
+  callSchedulePath,
   careerTrackPath,
   cityPath,
   collegePath,
@@ -390,12 +391,19 @@ function RootContainer(props) {
       props.getProductByFamilyIdList.map((eachItem,index)=>{
         myArr.push({
          title: eachItem.shortName,
-         to: eachItem.id,
+         path: obOperationPath+"/"+eachItem.id,
         })
        })
-      setSideNav([{
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Operations",
+          items: myArr
+        },
+        {
         icon: <HomeOutlinedIcon />,
         title: "Aspiration",
+        path : aspirationPath,
         items: []
       },
       {
@@ -411,21 +419,25 @@ function RootContainer(props) {
       {
         icon: <HomeOutlinedIcon />,
         title: "Call Scheduler",
+        path : callSchedulePath,
         items: []  
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Reports",
+        path : reportsPath,
         items: []  
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Notification",
+        path : notificationPath,
         items: []  
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Career Track",
+        path : careerTrackPath,
         items: []  
       },
       {
@@ -433,50 +445,51 @@ function RootContainer(props) {
         title: "Resources",
         items: [{
           title : "Webinar",
-          to : "webinar",
+          path : webinarPath,
         },
         {
           title : "Testmonial",
-          to : "testmonial",
+          path : testimonialsPath,
         },
         {
           title : "Role Videos",
-          to : "roleVideos",
+          path : videoPath,
         }
       ]  
       },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Operations",
-        items: myArr
-      },
+      
     ])
     }else if(props.adminLinkedProductDetails.department === "Pboperations"){
       let myArr = []
       props.getProductByFamilyIdList.map((eachItem,index)=>{
         myArr.push({
          title: eachItem.shortName,
-         to: eachItem.id,
+         path: obOperationPath + "/" + eachItem.id,
+
         })
        })
       setSideNav([{
         icon: <HomeOutlinedIcon />,
         title: "Aspiration",
+        path : aspirationPath,
         items: []
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Career Track",
+        path : careerTrackPath,
         items: []  
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Reports",
+        path : reportsPath,
         items: []  
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Notification",
+        path : notificationPath,
         items: []  
       },
       {
@@ -484,15 +497,15 @@ function RootContainer(props) {
         title: "Resources",
         items: [{
           title : "Webinar",
-          to : "webinar",
+          path : webinarPath,
         },
         {
           title : "Testmonial",
-          to : "testmonial",
+          path : testimonialsPath,
         },
         {
           title : "Role Videos",
-          to : "roleVideos",
+          path : videoPath,
         }
       ]  
       },
@@ -506,16 +519,19 @@ function RootContainer(props) {
       setSideNav([{
         icon: <HomeOutlinedIcon />,
         title: "City",
+        path : cityPath,
         items: []
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Product Punching",
+        path : productPunchingPath,
         items: []  
       },
       {
         icon: <HomeOutlinedIcon />,
         title: "Products",
+        path : productPath,
         items: []  
       }
     ])
@@ -534,7 +550,7 @@ const MenuItem = ({ item }) => {
 
 const SingleLevel = ({ item }) => {
   return (
-    <ListItem button onClick={()=>console.log(item)}>
+    <ListItem button onClick={()=>props.history.push(item.path)}>
       <ListItemIcon>{item.icon}</ListItemIcon>
       <ListItemText primary={item.title} />
     </ListItem>
@@ -543,20 +559,22 @@ const SingleLevel = ({ item }) => {
 
 const MultiLevel = ({ item }) => {
   const { items: children } = item;
-  const [open, setOpen] = useState(false);
-
+  const [menuOpen, setMenuOpen] = useState(false);
+console.log(open)
   const handleClick = () => {
-    setOpen((prev) => !prev);
-  };
+    console.log("handle click called")
+      setMenuOpen((prev) => !prev);
+    
+    };
 
   return (
     <React.Fragment>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={item.title} />
-        {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        {menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={menuOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {children.map((child, key) => (
             <MenuItem key={key} item={child} />

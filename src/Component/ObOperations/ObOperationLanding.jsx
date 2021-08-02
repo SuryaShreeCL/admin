@@ -43,13 +43,13 @@ class ObOperationLanding extends Component {
     
     handleProductActivate = () =>{
 
-        if(this.state.adminDepartment !== "Sales"){
-            this.props.history.push(productActivationPath)
-        }
+            this.props.history.push(productActivationPath+"/"+this.props.match.params.productId)
+        
 
     }
 
     render() {
+        console.log(this.props)
         console.log(this.state)
         const { classes } = this.props
         return (
@@ -82,7 +82,7 @@ class ObOperationLanding extends Component {
                     <div className={classes.quickAccess}>
                         <Typography style={{ fontWeight: 600 }}>Quick Acess</Typography>
                         <div className={classes.rowContainer}>
-                            <div onClick={() => this.props.history.push(listUsersProdBasedPath)} className={classes.items}>
+                            <div onClick={() => this.props.history.push(listUsersProdBasedPath+"/"+this.props.match.params.productId)} className={classes.items}>
                                 <img src={pbResource}></img>
                                 <Typography variant="caption" style={{ fontWeight: 600 }}>Manage Students</Typography>
                             </div>

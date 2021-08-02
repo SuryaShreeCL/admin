@@ -68,7 +68,7 @@ export class Onboarding extends Component {
 
   componentDidMount() {
     // To get the users based on stages
-    this.props.getStudentByStages(this.props.stageDetails.stepName);
+    this.props.getStudentByStages(this.props.match.params.productId,this.props.stageDetails.stepName,"");
     this.props.getBranches();
     this.props.getAllColleges();
     this.props.getAllTerms();
@@ -80,7 +80,7 @@ export class Onboarding extends Component {
     // Setting the users in state
     if (this.props.studentsByStagesList !== prevProps.studentsByStagesList) {
       this.setState({
-        listOfusers: this.props.studentsByStagesList,
+        listOfusers: this.props.studentsByStagesList.content,
       });
     }
 
@@ -126,10 +126,7 @@ export class Onboarding extends Component {
     }
     if(this.state.search !== prevState.search){
       if(!isEmptyString(this.state.search)){
-        this.props.searchStudentInStages(this.state.search)
-      }else{
-        this.props.getStudentByStages(this.props.stageDetails.stepName);
-
+        this.props.getStudentByStages(this.props.match.params.productId,this.props.stageDetails.stepName,this.state.search)
       }
     }
     if(this.props.searchedList !== prevProps.searchedList){
@@ -176,7 +173,7 @@ export class Onboarding extends Component {
       city: null,
       bda: null,
     });
-    this.props.getStudentByStages(this.props.stageDetails.stepName);
+    this.props.getStudentByStages(this.props.match.params.productId,this.props.stageDetails.stepName,"");
   };
   renderChip = (obCallStatus) => {
     console.log(obCallStatus);
@@ -358,7 +355,7 @@ export class Onboarding extends Component {
                               <PrimaryButton
                                 onClick={() =>
                                   this.props.history.push(
-                                    stagedTabsPath + eachItem.studentId
+                                    stagedTabsPath + eachItem.studentId + "/" + this.props.match.params.productId
                                   )
                                 }
                                 variant={"contained"}

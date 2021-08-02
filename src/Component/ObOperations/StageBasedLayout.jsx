@@ -60,19 +60,21 @@ class StageBasedLayout extends Component {
   
 componentDidMount() {
     // this.props.getvarientByid("fd08541f-d7e8-4497-8fbc-ae5128e16315")
-    this.props.getAdminLinkedProduct()
+    // this.props.getAdminLinkedProduct()
     // this.setState({
     //     selectedItem : ProdDetails.steps[0].steps[0]
     // })
+    this.props.getVariantStepsById(this.props.match.params.productId)
+
 }
 
 componentDidUpdate(prevProps, prevState) {    
-    if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
-        if(this.props.adminLinkedProductDetails.products.length > 0){
-            this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
-        }
+    // if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
+    //     if(this.props.adminLinkedProductDetails.products.length > 0){
+    //         this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
+    //     }
        
-    }
+    // }
     if(this.props.variantStepList !== prevProps.variantStepList){
         var sortedArr =  this.props.variantStepList.steps.length > 0 && this.props.variantStepList.steps.sort((a,b) => a.rank-b.rank)
         console.log(sortedArr)

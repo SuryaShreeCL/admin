@@ -150,10 +150,10 @@ class ProductActivation extends Component {
     };
 
     componentDidMount() {
-        this.props.getAwaitingUsersByAdminId();
+        // this.props.getAwaitingUsersByAdminId();
         this.props.getAllProductFamily()
         this.props.getProductVarient()
-        this.props.searchProductActivationList(this.state.keyword)
+        this.props.searchProductActivationList(this.props.match.params.productId,this.state.keyword)
     }
     shrink(){
         this.setState({ shrink: true });

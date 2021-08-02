@@ -27,17 +27,18 @@ class ProductBasedUsers extends Component {
     }
 
     componentDidMount() {
-        this.props.getAdminLinkedProduct()
+        // this.props.getAdminLinkedProduct()
+        this.props.getVariantStepsById(this.props.match.params.productId)
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
-            console.log(this.props.adminLinkedProductDetails)
-            if(this.props.adminLinkedProductDetails.products.length > 0){
-                this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
-            }
+        // if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
+        //     console.log(this.props.adminLinkedProductDetails)
+        //     if(this.props.adminLinkedProductDetails.products.length > 0){
+        //         this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
+        //     }
             
-        }
+        // }
         if(this.props.variantStepList !== prevProps.variantStepList){
              var sortedArr =  this.props.variantStepList.steps.length > 0 && this.props.variantStepList.steps.sort((a,b) => a.rank-b.rank)
             console.log(sortedArr)
