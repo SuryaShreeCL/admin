@@ -403,5 +403,29 @@ export const getallfiles = (studentid) =>{
         })
     }
 }
-
+export const deletefiles = (studentid,filename) =>{
+    return dispatch=>{
+        axios.delete(URL+"/api/v1/delete/"+studentid+"/"+filename)
+        .then(result=>{
+            dispatch({type : PGA.deletefiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
+export const viewfiles = (studentid) =>{
+    let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
+    let productid = product.products[0].id
+    console.log(productid)
+    return dispatch=>{
+        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid)
+        .then(result=>{
+            dispatch({type : PGA.viewfiles, payload : result.data})
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+}
 

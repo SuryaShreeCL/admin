@@ -34,7 +34,9 @@ const initialState = {
   filteredCourseList : [],
   uploadfile:[],
   getallfiles:[],
-  downlaodfiles:[]
+  downlaodfiles:[],
+  deletefiles:[],
+  viewfiles:[]
 };
 
 export default (state = initialState, action) => {
@@ -219,6 +221,16 @@ export default (state = initialState, action) => {
                           ...state,
                           downlaodfiles : action.payload
                         }
+                        case PGA.deletefiles:
+                          return {
+                            ...state,
+                            deletefiles : action.payload
+                          }
+                          case PGA.viewfiles:
+                            return {
+                              ...state,
+                              viewfiles : action.payload
+                            }
 
 
     default:

@@ -327,7 +327,9 @@ export const PGA = {
   clearUnEnroll: 'clearUnEnroll',
   uploadfile : 'uploadfile',
   getallfiles : "getallfiles",
-  downlaodfiles : "downlaodfiles"
+  downlaodfiles : "downlaodfiles",
+  deletefiles : "deletefiles",
+  viewfiles:"viewfiles"
 };
 
 export const HELPER = {
