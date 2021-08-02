@@ -178,7 +178,7 @@ class ProfileGapAnalysisTab extends Component {
               </Grid>
               <Grid item md={6}>
                   <Grid container spacing={2}>
-                    {this.props.getallfilesList.map(eachdata => {
+                    {this.props.getallfilesList.length !== 0 && this.props.getallfilesList.map(eachdata => {
                        let date = new Date(eachdata.uploadedAt).getDate()
                        let month = new Date(eachdata.uploadedAt).getMonth()
                        let year = new Date(eachdata.uploadedAt).getFullYear()
