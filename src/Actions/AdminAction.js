@@ -345,7 +345,7 @@ export const checkTokenStatus = () =>{
 export const getStudentByStages = (productId,stageName,keyword) =>{
     let adminId = window.sessionStorage.getItem("adminUserId")
     return dispatch =>{
-        axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminId+"/searchbystage?stage="+stageName+"?page=0&size=200&q="+keyword)
+        axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminId+"/searchbystage?stage="+stageName+"&page=0&size=200&q="+keyword)
         .then(result=>{
             dispatch({type : ADMIN.getStudentsByStages, payload : result.data})
         })
