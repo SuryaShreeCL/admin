@@ -451,9 +451,15 @@ export const getAcademicInfo = (id) =>{
 }
 
 export const updateAcademicInfo=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.put(URL+"/api/v1/student/"+id+"/educationalDetails",data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                "admin" : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.updateAcademicInfo,payload:result.data})
