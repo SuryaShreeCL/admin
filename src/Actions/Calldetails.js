@@ -137,8 +137,13 @@ export const getAspirationDetails = (studentId) =>{
     }
 }
 export const getgrescore = (studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/gre/"+studentId)
+        axios.get(URL+"/api/v1/gre/"+studentId, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.getgrescore,payload:result.data})
         })

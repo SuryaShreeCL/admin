@@ -430,9 +430,17 @@ export const updateUserData=(data)=>{
     }
 }
 
+
 export const getAcademicInfo = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/student/educationDetails/"+id)
+        axios.get(URL+"/api/v1/student/educationDetails/"+id, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                "admin" : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.getAcademicInfo,payload:result.data})
         })
