@@ -365,7 +365,7 @@ function RootContainer(props) {
   useEffect(()=>{
     console.log(props.adminLinkedProductDetails)
     
-    if(props.adminLinkedProductDetails.length !== 0 && props.getProductByFamilyIdList.length === 0 && props.adminLinkedProductDetails.department !== "sales" ){
+    if(props.adminLinkedProductDetails.length !== 0 && props.getProductByFamilyIdList.length === 0 && props.adminLinkedProductDetails.department !== "sales" && props.adminLinkedProductDetails.department !== "elev8" ){
       props.getProductByFamilyId(props.adminLinkedProductDetails.products[0].productFamily.id)
     }
     console.log(props.getProductByFamilyIdList)
@@ -532,6 +532,20 @@ function RootContainer(props) {
         icon: <HomeOutlinedIcon />,
         title: "Products",
         path : productPath,
+        items: []  
+      }
+    ])
+    }else if(props.adminLinkedProductDetails.department === "elev8"){
+      setSideNav([{
+        icon: <HomeOutlinedIcon />,
+        title: "Wall",
+        path : wallPath,
+        items: []
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Career Track",
+        path : careerTrackPath,
         items: []  
       }
     ])
