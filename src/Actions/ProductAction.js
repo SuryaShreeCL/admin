@@ -917,7 +917,7 @@ export const searchProductActivationList = (productId,data) =>{
   let adminUserId = window.sessionStorage.getItem("adminUserId")
 
   return dispatch =>{
-    axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminUserId+"/search?page=0&size=20&q="+data)
+    axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminUserId+"/notactsearch?page=0&size=200&q="+data)
     .then((result)=>{
       dispatch({type: PRODUCT.searchProductActivationList, payload: result.data})
     })
