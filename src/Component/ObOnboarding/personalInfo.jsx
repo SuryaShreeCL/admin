@@ -107,7 +107,7 @@ export class personalInfo extends Component {
   componentDidMount() {
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
-    this.props.getDocumentList(this.props.match.params.studentId)
+    this.props.getDocumentList(this.props.match.params.studentId,this.props.match.params.productId)
   }
 
   componentDidUpdate(prevProps, prevState) {

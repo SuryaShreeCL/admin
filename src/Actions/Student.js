@@ -481,9 +481,15 @@ export const sscexamboard = () =>{
     }
 }
 
-export const getDocumentList = (id) =>{
+export const getDocumentList = (studentId,productId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/files/fileUpload/student/"+id)
+        axios.get(URL+"/api/v1/files/fileUpload/student/"+studentId+ "/" + productId,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.getDocumentList,payload:result.data})
         })
