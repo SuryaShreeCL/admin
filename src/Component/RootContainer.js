@@ -559,7 +559,7 @@ function RootContainer(props) {
 
 const MenuItem = ({ item }) => {
   const Component = hasChildren(item) ? MultiLevel : SingleLevel;
-  return <Component item={item} />;
+  return <Component  item={item} />;
 };
 
 const SingleLevel = ({ item }) => {
@@ -576,9 +576,9 @@ const MultiLevel = ({ item }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 console.log(open)
   const handleClick = () => {
-    console.log("handle click called")
+    console.log("handle click called",menuOpen)
       setMenuOpen((prev) => !prev);
-    
+      console.log(menuOpen)
     };
 
   return (
@@ -588,9 +588,9 @@ console.log(open)
         <ListItemText primary={item.title} />
       </ListItem>
       <Collapse in={menuOpen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List style={{marginLeft:"14px"}} component="div" disablePadding>
           {children.map((child, key) => (
-            <MenuItem key={key} item={child} />
+            <MenuItem  key={key} item={child} />
           ))}
         </List>
       </Collapse>
