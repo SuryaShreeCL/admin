@@ -559,13 +559,13 @@ function RootContainer(props) {
 
 const MenuItem = ({ item }) => {
   const Component = hasChildren(item) ? MultiLevel : SingleLevel;
-  return <Component item={item} />;
+  return <Component  item={item} />;
 };
 
 const SingleLevel = ({ item }) => {
   return (
     <ListItem button onClick={()=>props.history.push(item.path)}>
-      <ListItemIcon>{item.icon}</ListItemIcon>
+      <ListItemIcon>{""}</ListItemIcon>
       <ListItemText primary={item.title} />
     </ListItem>
   );
@@ -576,22 +576,21 @@ const MultiLevel = ({ item }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 console.log(open)
   const handleClick = () => {
-    console.log("handle click called")
+    console.log("handle click called",menuOpen)
       setMenuOpen((prev) => !prev);
-    
+      console.log(menuOpen)
     };
 
   return (
     <React.Fragment>
       <ListItem button onClick={handleClick}>
-        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemIcon>{menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}</ListItemIcon>
         <ListItemText primary={item.title} />
-        {menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </ListItem>
       <Collapse in={menuOpen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List style={{marginLeft:"14px"}} component="div" disablePadding>
           {children.map((child, key) => (
-            <MenuItem key={key} item={child} />
+            <MenuItem  key={key} item={child} />
           ))}
         </List>
       </Collapse>
@@ -687,9 +686,9 @@ console.log(open)
           <div className={classes.drawerHeader}>
             <ListItem button>
               <ListItemIcon className={classes.ListItemIcon}>
-                <HomeIcon />
+                {/* <HomeIcon /> */}
               </ListItemIcon>
-              <ListItemText>Overview</ListItemText>
+              <ListItemText>CareerLabs</ListItemText>
             </ListItem>
             <IconButton
               onClick={handleDrawerClose}
