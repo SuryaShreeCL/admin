@@ -16,13 +16,17 @@ export const adminLogin=(data)=>{
           .then((result) => {
             console.log(result);
             dispatch({ type: ADMIN.adminLogin, adminLoginDetails: result.data });
-            axios
-              .get(URL + `/api/v1/adminusers/${result.data.AdminUsers}`, {
-                crossDomain: true,
-              })
-              .then((res) => {
-                window.sessionStorage.setItem('department', res.data.department);
-              });
+            // axios
+            //   .get(URL + `/api/v1/adminusers/${result.data.AdminUsers}`, {
+            //     crossDomain: true,
+            //     headers : {
+            //     "admin" : "yes",
+            //     "Authorization" : `Bearer ${accessToken}`
+            // }
+            //   })
+            //   .then((res) => {
+            //     window.sessionStorage.setItem('department', res.data.department);
+            //   });
           })
           .catch((error) => {
             // dispatch({type:ADMIN.adminLogin,adminLoginDetails:error.response.data})
