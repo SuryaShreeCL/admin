@@ -14,7 +14,7 @@ import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { getAllMentors } from "../../Actions/AdminAction";
-import { getmentor, getproductdetails, getstudentMapping, updateallocatementor, updatementor } from '../../Actions/MentorAction';
+import { getmentor, getproductdetails, updateallocatementor, updatementor } from '../../Actions/MentorAction';
 import { getStudentsById } from '../../Actions/Student';
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
@@ -51,7 +51,7 @@ class AdmissionServices extends Component {
           "calendarId":this.state.mentor.calendarId
           }
           console.log(obj)
-      this.props.updatementor( this.props.match.params.studentId,obj)
+      this.props.updatementor( this.props.match.params.studentId,this.props.match.params.productId,obj)
       this.setState({ 
           show: false,
           snackmsg : "Updated Successfully",
@@ -69,7 +69,6 @@ class AdmissionServices extends Component {
  }
   componentDidMount(){
     this.props.getAllMentors()
-    this.props.getstudentMapping(this.props.match.params.studentId)
     this.props.getStudentsById(this.props.match.params.studentId)
     this.props.getproductdetails(this.props.match.params.studentId)
     if(this.props.studentDetails.mentor !== null){
@@ -639,5 +638,5 @@ const mapStateToProps = (state) => {
   };
   
   export default connect(mapStateToProps, {
-    getAllMentors,getStudentsById,getstudentMapping,getproductdetails,updateallocatementor,getmentor,updatementor
+    getAllMentors,getStudentsById,getproductdetails,updateallocatementor,getmentor,updatementor
   })(AdmissionServices);

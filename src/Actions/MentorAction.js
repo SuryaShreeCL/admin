@@ -87,9 +87,9 @@ export const getmentor = (studentId) => {
             });
     }
 }
-export const updatementor = (studentId,data) => {
+export const updatementor = (studentId,productId ,data) => {
     return dispatch => {
-        axios.put(URL+"/api/v1/student/mentor/"+studentId,data,{
+        axios.put(URL+"/api/v1/student/mentor/"+studentId+"/"+productId,data,{
             crossDomain: true
         })
             .then(result => {

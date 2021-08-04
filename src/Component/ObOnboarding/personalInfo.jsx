@@ -871,6 +871,28 @@ export class personalInfo extends Component {
                   </Grid>
                   </Grid>
   }
+  {this.props.getAllDocumentList.CV && this.props.getAllDocumentList.CV.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>CV</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.CV ? this.props.getAllDocumentList.CV.map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.path}
+                  date={data.uploadDate}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  // category = 'cv'
+                  // id = {data.ieltsId}
+                  // status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
 
               <Grid
                 item

@@ -406,8 +406,15 @@ export const verifyNewPersonalData = (id,data) =>{
 }
 
 export const getUserDataAcademicInfo = (id,type) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/get/student/educationDetails/"+id+"/type?type=ug")
+        axios.get(URL+"/api/v1/get/student/educationDetails/"+id+"/type?type=ug", {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.getUserDataAcademicInfo,payload:result.data})
         })

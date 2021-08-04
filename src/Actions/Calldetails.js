@@ -87,7 +87,7 @@ export const updatePersonalInfo = (studentId, data) => {
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.put(URL + "/api/v1/student/personalDetails/" + studentId + "/" , data, {
+        axios.put(URL + "/api/v1/student/personalDetails/" + studentId, data, {
             crossDomain: true,
             headers : {
                 "Authorization" : `Bearer ${accessToken}`,
