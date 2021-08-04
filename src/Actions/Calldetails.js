@@ -3,9 +3,15 @@ import axios from 'axios'
 import { URL } from './URL'
 
 export const updateclientdetails = (studentId, productId, data) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL + "/api/v1/student/onboardingcallsummary/" + studentId + "/" + productId, data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({ type: CALL_DETAILS.updateclientdetails, payload: result.data })
@@ -17,8 +23,14 @@ export const updateclientdetails = (studentId, productId, data) => {
 }
 
 export const getClientInfo = (studentId,productId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId)
+        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.getClientInfo,payload:result.data})
             console.log(result)
@@ -30,9 +42,15 @@ export const getClientInfo = (studentId,productId) =>{
 }
 
 export const updateQuestions = (studentId, productId, data) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL + "/api/v1/student/onboardingcallQuestions/" + studentId + "/" + productId, data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({ type: CALL_DETAILS.updateQuestions, payload: result.data })
@@ -45,9 +63,15 @@ export const updateQuestions = (studentId, productId, data) => {
 }
 
 export const updateRating = (studentId, productId, data) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL + "/api/v1/student/onboardingcallRating/" + studentId + "/" + productId, data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({ type: CALL_DETAILS.updateRating, payload: result.data })
@@ -60,9 +84,15 @@ export const updateRating = (studentId, productId, data) => {
 }
 
 export const updatePersonalInfo = (studentId, data) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL + "/api/v1/student/personalDetails/" + studentId + "/" , data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({ type: CALL_DETAILS.updatePersonalInfo, payload: result.data })
@@ -74,9 +104,15 @@ export const updatePersonalInfo = (studentId, data) => {
 
 }
 export const updateworkexp = (studentId, data) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL + "/api/v1/students/"+studentId+"/experience" , data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({ type: CALL_DETAILS.updateworkexp, payload: result.data })
@@ -88,9 +124,16 @@ export const updateworkexp = (studentId, data) => {
 
 }
 export const getworkexp = (studentId) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
+
         axios.get(URL + "/api/v1/get/student/"+studentId+"/experience" , {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({ type: CALL_DETAILS.getworkexp, payload: result.data })
@@ -102,8 +145,15 @@ export const getworkexp = (studentId) => {
 }
 
 export const getPersonalInfo = (studentId,productId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId,)
+        axios.get(URL+"/api/v1/clientDetails/" + studentId + "/" + productId, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.getPersonalInfo,payload:result.data})
         })
@@ -126,6 +176,7 @@ export const getPincodeDetails = (pincode, callback) =>{
 }
 
 export const getAspirationDetails = (studentId) =>{
+
     return dispatch =>{
         axios.get(URL+"api/v1/students/"+studentId+"/testExecutions?questionSetName=RecEenginePersonalityBasedSurvey")
         .then(result=>{
@@ -137,8 +188,14 @@ export const getAspirationDetails = (studentId) =>{
     }
 }
 export const getgrescore = (studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/gre/"+studentId)
+        axios.get(URL+"/api/v1/gre/"+studentId, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.getgrescore,payload:result.data})
         })
@@ -148,8 +205,15 @@ export const getgrescore = (studentId) =>{
     }
 }
 export const getgmatscore = (studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/gmat/"+studentId)
+        axios.get(URL+"/api/v1/gmat/"+studentId, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.getgmatscore,payload:result.data})
         })
@@ -159,8 +223,15 @@ export const getgmatscore = (studentId) =>{
     }
 }
 export const gettoeflscore = (studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/tofel/"+studentId)
+        axios.get(URL+"/api/v1/tofel/"+studentId, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.gettoeflscore,payload:result.data})
         })
@@ -170,8 +241,15 @@ export const gettoeflscore = (studentId) =>{
     }
 }
 export const getieltsscore = (studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/"+studentId+"/graduate/ielts")
+        axios.get(URL+"/api/v1/students/"+studentId+"/graduate/ielts", {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.getieltsscore,payload:result.data})
         })
@@ -181,8 +259,15 @@ export const getieltsscore = (studentId) =>{
     }
 }
 export const updategrescore = (greid,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.put(URL+"/api/v1/gre/"+greid,data)
+        axios.put(URL+"/api/v1/gre/"+greid,data,{
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.updategrescore,payload:result.data})
         })
@@ -192,8 +277,15 @@ export const updategrescore = (greid,data) =>{
     }
 }
 export const updategmatscore = (gmatid,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.put(URL+"/api/v1/gmat/update/"+gmatid,data)
+        axios.put(URL+"/api/v1/gmat/update/"+gmatid,data, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.updategmatscore,payload:result.data})
         })
@@ -203,8 +295,15 @@ export const updategmatscore = (gmatid,data) =>{
     }
 }
 export const updatetoeflscore = (toeflid,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.put(URL+"/api/v1/tofel/"+toeflid,data)
+        axios.put(URL+"/api/v1/tofel/"+toeflid,data, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.updatetoeflscore,payload:result.data})
         })
@@ -214,8 +313,15 @@ export const updatetoeflscore = (toeflid,data) =>{
     }
 }
 export const updateieltsscore = (ieltsid,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.put(URL+"/api/v1/students/"+ieltsid+"/graduate/ielts",data)
+        axios.put(URL+"/api/v1/students/"+ieltsid+"/graduate/ielts",data, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.updateieltsscore,payload:result.data})
         })
@@ -236,8 +342,15 @@ export const downloadGAT = (studentId,filename) =>{
     }
 }
 export const fileuploadGAT = (studentId,examtype,examid,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.post(URL+"/api/v1/files/fileUpload/"+studentId+"/"+examtype+"/"+examid,data)
+        axios.post(URL+"/api/v1/files/fileUpload/"+studentId+"/"+examtype+"/"+examid,data,{
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.fileuploadGAT,payload:result.data})
         })
@@ -247,8 +360,15 @@ export const fileuploadGAT = (studentId,examtype,examid,data) =>{
     }
 }
 export const completecall = (studentId,productId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.put(URL+"/api/v1/student/onboardingcallsummary/status/"+studentId+"/"+productId)
+        axios.put(URL+"/api/v1/student/onboardingcallsummary/status/"+studentId+"/"+productId,{
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.completecall,payload:result.data})
         })

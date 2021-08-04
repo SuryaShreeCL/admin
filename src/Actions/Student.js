@@ -430,9 +430,17 @@ export const updateUserData=(data)=>{
     }
 }
 
+
 export const getAcademicInfo = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/student/educationDetails/"+id)
+        axios.get(URL+"/api/v1/student/educationDetails/"+id, {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                "admin" : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.getAcademicInfo,payload:result.data})
         })
@@ -443,9 +451,15 @@ export const getAcademicInfo = (id) =>{
 }
 
 export const updateAcademicInfo=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.put(URL+"/api/v1/student/"+id+"/educationalDetails",data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                "admin" : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.updateAcademicInfo,payload:result.data})
@@ -481,9 +495,15 @@ export const sscexamboard = () =>{
     }
 }
 
-export const getDocumentList = (id) =>{
+export const getDocumentList = (studentId,productId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
-        axios.get(URL+"/api/v1/files/fileUpload/student/"+id)
+        axios.get(URL+"/api/v1/files/fileUpload/student/"+studentId+ "/" + productId,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.getDocumentList,payload:result.data})
         })
@@ -536,7 +556,7 @@ export const filterStageBaseUsers = (collegeId,departmentId,cityId,bdaName,intak
 export const searchStudentInStages = (keyword) =>{
     let adminuserId = window.sessionStorage.getItem("adminUserId")
     return dispatch =>{
-        axios.get(URL+"/api/v1/get/studentProduct/onboarding/search/"+adminuserId+"?page=0&size=20&q="+keyword)
+        axios.get(URL+"/api/v1/get/studentProduct/onboarding/search/"+adminuserId+"?page=0&size=200&q="+keyword)
         .then(result=>{
             dispatch({type:STUDENT.searchStudentInStages,payload:result.data})
         })
