@@ -141,12 +141,12 @@ export const viewDegree = (pageNumber,size,keyword) =>{
     return dispatch =>{
         let accessToken = window.sessionStorage.getItem("accessToken")
 
-        axios.get(URL+"/api/v1/aspiration/degree/page/search?page="+pageNumber+"&size="+size+"&q="+keyword),{
+        axios.get(URL+"/api/v1/aspiration/degree/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
             headers:{
                 "admin" : "yes",
                 "Authorization" : `Bearer ${accessToken}`
             }
-        }
+        })
         .then(result=>{
             console.log(result)
             dispatch({type:ASPIRATION.viewDegree,viewDegreeList:result.data});
