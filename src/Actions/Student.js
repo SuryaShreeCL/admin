@@ -63,10 +63,15 @@ export const getStudentsById=(id)=>{
 }
 
 export const postStudents=(data)=>{
-    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.post(URL+"/api/v1/students",data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 sessionStorage.setItem('studentId',JSON.stringify(result.data.id));
@@ -80,9 +85,15 @@ export const postStudents=(data)=>{
 }
 
 export const studentCollegeInformation=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return  dispatch => {
         axios.put(URL+"/api/v1/students/CollegeInfo",data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.studentCollegeInformation,CollegeInfo:result.data})
@@ -93,9 +104,15 @@ export const studentCollegeInformation=(data)=>{
     }
 }
 export const postQuestions=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.put(URL+"/api/v1/students/testExecutions/answers",data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.postQuestion,QustionList:result.data})
@@ -107,9 +124,15 @@ export const postQuestions=(data)=>{
 }
 
 export const studentFeedback=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.post(URL+"/api/v1/feedback",data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.studentFeedback,StudentFeedback:result.data})
@@ -121,9 +144,15 @@ export const studentFeedback=(data)=>{
 }
 
 export const startTestExecution=(studentId)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.post(URL+"/api/v1/students/testExecutions?studentId="+studentId+"&questionSetName=RecEenginePersonalityBasedSurvey", {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 sessionStorage.setItem('TestExecutionId',JSON.stringify(result.data.id))
@@ -136,9 +165,15 @@ export const startTestExecution=(studentId)=>{
 }
 
 export const careerInterestSurvey=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.get(URL+"/api/v1/students/careerInterestSurvey?testExecutionId="+id, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {                
                 dispatch({type:STUDENT.careerInterestSurvey,CareerInterestSurvey:result.data})
@@ -150,9 +185,15 @@ export const careerInterestSurvey=(id)=>{
 }
 
 export const getAnswer=(testId,questionId)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.get(URL+"/api/v1/students/testExecutions/answers?testExecutionId="+testId+"&questionId="+questionId,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {                                                
                 dispatch({type:STUDENT.getAnswer,Answer:result.data})
@@ -164,9 +205,15 @@ export const getAnswer=(testId,questionId)=>{
 }
 
 export const getDocumentsByStudentId=(studentId)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.get(URL+"/api/v1/files/get/"+studentId,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {                                                
                 dispatch({type:STUDENT.viewDocumet,studentDocumentList:result.data})
@@ -178,6 +225,7 @@ export const getDocumentsByStudentId=(studentId)=>{
 }
 
 export const downloadDocumentByStudentId=(fileName)=>{
+
     return dispatch =>{
         axios.get(URL+"api/v1/files/download/"+fileName,{
             crossDomain: true
@@ -192,9 +240,15 @@ export const downloadDocumentByStudentId=(fileName)=>{
 }
 
 export const deleteStudentFileById=(id,path)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.delete(URL+"/api/v1/files/delete/"+id+"/"+path,{
-            crossDomain: true
+            crossDomain: true,
+             headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {                                                
                 dispatch({type:STUDENT.deleteDocument,deletedFileResponse:result.data})
@@ -357,8 +411,15 @@ export const getMernUser=(pageNumber,size,keyword)=>{
 }
 
 export const viewAllCities = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/cities")
+        axios.get(URL+"/api/v1/cities", {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.viewAllCity,cityList:result.data})
         })
@@ -369,8 +430,15 @@ export const viewAllCities = () =>{
 }
 
 export const getAspirationByStudentId = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/aspiration/get/"+id)
+        axios.get(URL+"/aspiration/get/"+id, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.getAspirationById,aspirationDetails:result.data})
         })
@@ -382,8 +450,15 @@ export const getAspirationByStudentId = (id) =>{
 
 
 export const getTempPersonalData = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/"+id+"/viewPersonalDetails")
+        axios.get(URL+"/api/v1/students/"+id+"/viewPersonalDetails", {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.getTempPersonalData,payload:result.data})
         })
@@ -394,8 +469,15 @@ export const getTempPersonalData = (id) =>{
 }
 
 export const verifyNewPersonalData = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.post(URL+"/api/v1/student/"+id+"/personalDetails",data)
+        axios.post(URL+"/api/v1/student/"+id+"/personalDetails",data, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.verifyNewPersonalData, payload:result.data})
         })
@@ -406,6 +488,7 @@ export const verifyNewPersonalData = (id,data) =>{
 }
 
 export const getUserDataAcademicInfo = (id,type) =>{
+
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch =>{
@@ -424,9 +507,15 @@ export const getUserDataAcademicInfo = (id,type) =>{
     }
 }
 export const updateUserData=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.put(URL+"/api/v1/update/userData/ug",data, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:STUDENT.updateUserData,QustionList:result.data})
@@ -476,10 +565,16 @@ export const updateAcademicInfo=(id,data)=>{
             });
     }
 }
-export const proofUplaod=(studentId,data)=>{    
+export const proofUplaod=(studentId,data)=>{  
+    let accessToken = window.sessionStorage.getItem("accessToken")
+  
     return dispatch =>{
         axios.post(URL+"/api/v1/files/upload/"+studentId,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                "admin" : "yes"
+            }
         })
             .then(result => {                                                
                 dispatch({type:STUDENT.uploadFile,payload:result.data})
@@ -491,8 +586,15 @@ export const proofUplaod=(studentId,data)=>{
 }
 
 export const sscexamboard = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/examBoard")
+        axios.get(URL+"/api/v1/students/examBoard", {
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                "admin" : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.sscexamboard, payload :result.data})
         })
@@ -521,9 +623,15 @@ export const getDocumentList = (studentId,productId) =>{
 }
 
 export const deleteDocument=(id,fileName)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
         axios.delete(URL+"/api/v1/files/delete/"+id+"/"+fileName,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {                                                
                 dispatch({type:STUDENT.deleteDocument,deletedFileResponse:result.data})
@@ -534,10 +642,16 @@ export const deleteDocument=(id,fileName)=>{
     }
 }
 
-export const deleteDocumentGraduate=(id,fileName,fileId,category)=>{    
+export const deleteDocumentGraduate=(id,fileName,fileId,category)=>{  
+    let accessToken = window.sessionStorage.getItem("accessToken")
+  
     return dispatch =>{
         axios.delete(URL+"/api/v1/files/deleteFile/"+id+"/"+category+"/"+fileId+"/"+fileName,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {                                                
                 dispatch({type:STUDENT.deleteDocumentGraduate,deletedFileResponse:result.data})
@@ -549,8 +663,15 @@ export const deleteDocumentGraduate=(id,fileName,fileId,category)=>{
 }
 
 export const filterStageBaseUsers = (collegeId,departmentId,cityId,bdaName,intake) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/student/product/filter?collegeId="+collegeId+"&departmentId="+departmentId+"&cityId="+cityId+"&bdaId="+bdaName+"&intake="+intake)
+        axios.get(URL+"/api/v1/student/product/filter?collegeId="+collegeId+"&departmentId="+departmentId+"&cityId="+cityId+"&bdaId="+bdaName+"&intake="+intake, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.filterStageBaseUsers,payload:result.data})
         })
@@ -561,9 +682,16 @@ export const filterStageBaseUsers = (collegeId,departmentId,cityId,bdaName,intak
 }
 
 export const searchStudentInStages = (keyword) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     let adminuserId = window.sessionStorage.getItem("adminUserId")
     return dispatch =>{
-        axios.get(URL+"/api/v1/get/studentProduct/onboarding/search/"+adminuserId+"?page=0&size=200&q="+keyword)
+        axios.get(URL+"/api/v1/get/studentProduct/onboarding/search/"+adminuserId+"?page=0&size=200&q="+keyword, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:STUDENT.searchStudentInStages,payload:result.data})
         })

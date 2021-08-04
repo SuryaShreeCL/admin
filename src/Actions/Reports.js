@@ -142,8 +142,15 @@ export const viewDiagTestReport = () =>{
 }
 
 export const getCareerExpoReport = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/reports/cit/Career Exploration Test")
+        axios.get(URL+"/api/v1/students/reports/cit/Career Exploration Test", {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result =>{
             dispatch({type:REPORTS.viewCareerExpoTest,payload:result.data});
         })

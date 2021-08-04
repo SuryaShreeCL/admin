@@ -5,9 +5,15 @@ import { data } from 'jquery'
 
 
 export const addCourses=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.post(URL+"/api/v1/courses", data ,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COURSES.AddCourse,addCourses:result.data})
@@ -19,9 +25,15 @@ export const addCourses=(data)=>{
 }
 
 export const getCourses=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/courses", {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COURSES.GetCourses,courseList:result.data})
@@ -33,9 +45,15 @@ export const getCourses=()=>{
 }
 
 export const getCoursesById=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/courses/"+id, {
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COURSES.GetCourseById,courseList:result.data})
@@ -47,9 +65,15 @@ export const getCoursesById=(id)=>{
 }
 
 export const updateCourse=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL+"/api/v1/courses/"+id,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COURSES.UpdateCourse,updateCourse:result.data})
@@ -63,9 +87,15 @@ export const updateCourse=(id,data)=>{
 // Selva
 
 export const deleteCourse=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.delete(URL+"/api/v1/courses/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COURSES.deleteCourse,deleteCourse:result.data})
@@ -77,9 +107,15 @@ export const deleteCourse=(id)=>{
 }
 
 export const getRecommendedCourses=(TestId,studentId)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
    return dispatch =>{
     axios.get(URL+"/api/v1/students/recommendedandsimilar/courses?studentId="+ studentId +"&testExecutionId="+TestId, {
-        crossDomain: true
+        crossDomain: true,
+        headers : {
+            "Authorization" : `Bearer ${accessToken}`,
+            admin : "yes"
+        }
     })
         .then(result => {
             dispatch({type:COURSES.GetRecommendedCouses,recommendedCourseList:result.data})
@@ -91,9 +127,15 @@ export const getRecommendedCourses=(TestId,studentId)=>{
 }
 
 export const getPopularCourses=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
      axios.get(URL+"/api/v1/students/courses/popular", {
-         crossDomain: true
+         crossDomain: true,
+         headers : {
+            "Authorization" : `Bearer ${accessToken}`,
+            admin : "yes"
+        }
      })
          .then(result => {
              dispatch({type:COURSES.GetPopularCourses,popularCourseList:result.data})
@@ -105,9 +147,15 @@ export const getPopularCourses=()=>{
  }
 
  export const getSimilarCourses=(studentId)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
      axios.get(URL+"/api/v1/students/courses/branch?studentId="+studentId, {
-         crossDomain: true
+         crossDomain: true,
+         headers : {
+            "Authorization" : `Bearer ${accessToken}`,
+            admin : "yes"
+        }
      })
          .then(result => {
              dispatch({type:COURSES.GetSimilarCourses,similarCourseList:result.data})
@@ -159,12 +207,18 @@ export const getPopularCourses=()=>{
  // Selva
 
  export const getPaginateCourse=(pageNumber,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     if(keyword === null || keyword === undefined ){
         keyword='';
     }
     return dispatch =>{        
         axios.get(URL+"/api/v1/courses/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
             crossDomain:true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
         .then(result=>{
             dispatch({type:COURSES.getPaginateCourse,courseFilterResult:result.data});

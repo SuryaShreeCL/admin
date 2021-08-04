@@ -6,8 +6,14 @@ import { URL } from "./URL"
 
 
 export const getPgaScores = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/"+id+"/pgaTestResults")
+        axios.get(URL+"/api/v1/students/"+id+"/pgaTestResults",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getScoreDetails, payload : result.data})
         })
@@ -18,8 +24,14 @@ export const getPgaScores = (id) =>{
 }
 
 export const getCareerInterest = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/areaOfInterest/"+id)
+        axios.get(URL+"/api/v1/students/areaOfInterest/"+id,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getCareerInterest, payload : result.data})
         })
@@ -30,8 +42,15 @@ export const getCareerInterest = (id) =>{
 }
 
 export const postPgaAcademicData = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch =>{
-        axios.post(URL+"/api/v1/students/"+id+"/save/pgaacademicdetails",data)
+       axios.post(URL+"/api/v1/students/"+id+"/save/pgaacademicdetails",data,{
+        crossDomain: true,
+        headers:{
+            "admin" : "yes",
+            "Authorization" : `Bearer ${accessToken}`
+        }
+       })
         .then(result=>{
             dispatch({type : PGA.postAcademicData, payload : result.data})
         })
@@ -42,8 +61,14 @@ export const postPgaAcademicData = (id,data) =>{
 }
 
 export const getPgaAcademicData = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/"+id+"/getpgaAcademicdata")
+        axios.get(URL+"/api/v1/students/"+id+"/getpgaAcademicdata",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getPgaAcademicData, payload : result.data})
         })
@@ -54,8 +79,14 @@ export const getPgaAcademicData = (id) =>{
 }
 
 export const getChoosenTrackById = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch =>{
-        axios.get(URL+"/api/v1/students/"+id+"/citquestion")
+        axios.get(URL+"/api/v1/students/"+id+"/citquestion",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getChoosenTrack, payload : result.data})
         })
@@ -66,8 +97,15 @@ export const getChoosenTrackById = (id) =>{
 }
 
 export const postGenralDetails = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/students/"+id+"/save/pgageneraldetails", data)
+        axios.post(URL+"/api/v1/students/"+id+"/save/pgageneraldetails",data,{
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+           })
         .then(result=>{
             dispatch({type : PGA.postGenralDetails, payload : result.data})
         })
@@ -78,8 +116,14 @@ export const postGenralDetails = (id,data) =>{
 }
 
 export const getAllEnrollmentPerid = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/enrollment/period")
+        axios.get(URL+"/api/v1/students/enrollment/period",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getAllEnrollmentPeriod, payload : result.data})
         })
@@ -90,8 +134,14 @@ export const getAllEnrollmentPerid = () =>{
 }
 
 export const getQuarterPlanByType = (id,type) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan?grade="+type)
+        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan?grade="+type,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getQuarterPlanByType, payload : result.data})
         })
@@ -103,8 +153,14 @@ export const getQuarterPlanByType = (id,type) =>{
 
 
 export const getAllStarterPack = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/quarterPlan/careerTrack")
+        axios.get(URL+"/api/v1/students/quarterPlan/careerTrack",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getAllStarterPack, payload : result.data})
         })
@@ -115,8 +171,14 @@ export const getAllStarterPack = () =>{
 }
 
 export const getPackageByStudentId = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/"+id+"/product")
+        axios.get(URL+"/api/v1/students/"+id+"/product",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getPackageByStudentId, payload : result.data})
         })
@@ -127,8 +189,14 @@ export const getPackageByStudentId = (id) =>{
 }
 
 export const getQuarterPlan = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan/comment")
+        axios.get(URL+"/api/v1/students/"+id+"/quarter/plan/comment",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getQuarterPlan, payload : result.data})
         })
@@ -139,8 +207,14 @@ export const getQuarterPlan = (id) =>{
 }
 
 export const getppgaques = () => {
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/ppgaQuestions" )
+        axios.get(URL+"/api/v1/ppgaQuestions",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getppgaques, payload : result.data})
         })
@@ -150,8 +224,14 @@ export const getppgaques = () => {
     }
 }
 export const getcvques = () => {
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/cvFactors" )
+        axios.get(URL+"/api/v1/cvFactors",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getcvques, payload : result.data})
         })
@@ -161,8 +241,15 @@ export const getcvques = () => {
     }
 }
 export const postcvandppga = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/students/"+id+"/save/cvandppga",data)
+        axios.post(URL+"/api/v1/students/"+id+"/save/cvandppga",data,{
+            crossDomain: true,           
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.postcvandppga, payload : result.data})
         })
@@ -172,8 +259,14 @@ export const postcvandppga = (id,data) =>{
     }
 }
 export const getcvandppga = (id) => {
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/get/cvandppga/"+id )
+        axios.get(URL+"/api/v1/students/get/cvandppga/"+id,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getcvandppga, payload : result.data})
         })
@@ -184,8 +277,14 @@ export const getcvandppga = (id) => {
 }
 
 export const getAllQuarterPlan = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/get/quarterplancourse")
+        axios.get(URL+"/api/v1/students/get/quarterplancourse",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getAllQuarterPlan, payload : result.data})
         })
@@ -196,8 +295,15 @@ export const getAllQuarterPlan = () =>{
 }
 
 export const postCommentsAndPoints = (data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/students/create/quarter/plan/comment",data)
+        axios.post(URL+"/api/v1/students/create/quarter/plan/comment",data,{
+            crossDomain: true,           
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.postCommentsAndPoints, payload : result.data})
         })
@@ -208,8 +314,14 @@ export const postCommentsAndPoints = (data) =>{
 }
 
 export const getAdditionalPoints = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/get/"+id+"/quarter/plan/comments/additionalpoints")
+        axios.get(URL+"/api/v1/students/get/"+id+"/quarter/plan/comments/additionalpoints",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getAdditionalPoints, payload : result.data})
         })
@@ -220,8 +332,15 @@ export const getAdditionalPoints = (id) =>{
 }
 
 export const postAdditionalPoints = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/students/"+id+"/quarter/plan/comments/additionalpoints",data)
+        axios.post(URL+"/api/v1/students/"+id+"/quarter/plan/comments/additionalpoints",data,{
+            crossDomain: true,           
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.postAditionalPoints, payload : result.data})
         })
@@ -232,8 +351,14 @@ export const postAdditionalPoints = (id,data) =>{
 }
 
 export const getPbChoosenTrack = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/chosenTrack")
+        axios.get(URL+"/api/v1/students/chosenTrack",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getPbChoosenTrack, payload : result.data})
         })
@@ -244,8 +369,14 @@ export const getPbChoosenTrack = () =>{
 }
 
 export const getStudentGrade = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/grade")
+        axios.get(URL+"/api/v1/students/grade",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getStudentGrade, payload : result.data})
         })
@@ -256,8 +387,14 @@ export const getStudentGrade = () =>{
 }
 
 export const getAllSpecialization=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/students/specialization/getAll")
+        axios.get(URL+"/api/v1/students/specialization/getAll",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getAllSpecialization, payload : result.data})
         })
@@ -269,8 +406,14 @@ export const getAllSpecialization=()=>{
 
 
 export const postPgaPlanCareerTrack = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/students/"+id+"/quarterPlan/careerTrack",data)
+        axios.post(URL+"/api/v1/students/"+id+"/quarterPlan/careerTrack",data,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.postPgaPlanCareerTrack, payload : result.data})
         })
@@ -281,8 +424,14 @@ export const postPgaPlanCareerTrack = (id,data) =>{
 }
 
 export const postPGaQuarter = (id,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/students/"+id+"/quarter/plan/update",data)
+        axios.post(URL+"/api/v1/students/"+id+"/quarter/plan/update",data,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.postQuarterPgaPlan, payload : result.data})
         })
@@ -293,8 +442,15 @@ export const postPGaQuarter = (id,data) =>{
 }
 
 export const getallcourse = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/get/allcourses")
+        
+        axios.get(URL+"/api/v1/get/allcourses",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getallcourse, payload : result.data})
         })
@@ -306,7 +462,13 @@ export const getallcourse = () =>{
 
 export const newenroll = (data) =>{
     return dispatch=>{
-        axios.post(URL+"/api/v1/create/enrolledcourse",data)
+        let accessToken = window.sessionStorage.getItem("accessToken");
+        axios.post(URL+"/api/v1/create/enrolledcourse",data,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.newenroll, payload : result.data})
         })
@@ -319,8 +481,14 @@ export const newenroll = (data) =>{
 // http://localhost:8080/api/v1/get/enrolled/course/6ef44156-fd06-4e22-9e9b-9b122bbccc6a
 
 export const getenroll = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/get/enrolled/course/"+id)
+        axios.get(URL+"/api/v1/get/enrolled/course/"+id,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getenroll, payload : result.data})
         })
@@ -331,8 +499,14 @@ export const getenroll = (id) =>{
 }
 
 export const getAllEnroll = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/get/all/enrolled/course")
+        axios.get(URL+"/api/v1/get/all/enrolled/course",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getAllEnroll, payload : result.data})
         })
@@ -343,8 +517,14 @@ export const getAllEnroll = () =>{
 }
 
 export const getFilteredCourseEnroll = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/get/courses/"+id)
+        axios.get(URL+"/api/v1/get/courses/"+id,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getFilteredCourseForEnroll, payload : result.data})
         })
@@ -368,8 +548,15 @@ export const clearUnEnroll = () =>{
 
 
 export const unenroll = (data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/create/unenrolledcourse",data)
+        axios.post(URL+"/api/v1/create/unenrolledcourse",data,{
+            crossDomain: true,           
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.unenroll, payload : result.data})
         })
@@ -379,8 +566,15 @@ export const unenroll = (data) =>{
     }
 }
 export const uploadfile = (studentid,productid,name,filename,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.post(URL+"/api/v1/student/pgaUpload/"+studentid+"/"+productid+"/"+name+"/"+filename,data)
+        axios.post(URL+"/api/v1/student/pgaUpload/"+studentid+"/"+productid+"/"+name+"/"+filename,data,{
+            crossDomain: true,           
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.uploadfile, payload : result.data})
         })
@@ -390,11 +584,17 @@ export const uploadfile = (studentid,productid,name,filename,data) =>{
     }
 }
 export const getallfiles = (studentid) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
     let productid = product.products[0].id
     console.log(productid)
     return dispatch=>{
-        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid)
+        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.getallfiles, payload : result.data})
         })
@@ -404,8 +604,14 @@ export const getallfiles = (studentid) =>{
     }
 }
 export const deletefiles = (studentid,filename) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.delete(URL+"/api/v1/delete/"+studentid+"/"+filename)
+        axios.delete(URL+"/api/v1/delete/"+studentid+"/"+filename,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.deletefiles, payload : result.data})
         })
@@ -415,11 +621,17 @@ export const deletefiles = (studentid,filename) =>{
     }
 }
 export const viewfiles = (studentid) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct"))
     let productid = product.products[0].id
     console.log(productid)
     return dispatch=>{
-        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid)
+        axios.get(URL+"/api/v1/student/pgaReport/"+studentid+"/"+productid,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.viewfiles, payload : result.data})
         })
@@ -429,8 +641,14 @@ export const viewfiles = (studentid) =>{
     }
 }
 export const downlaodfiles = (studentid,filename) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
     return dispatch=>{
-        axios.get(URL+"/api/v1/pgaDownload/"+studentid+"/"+filename)
+        axios.get(URL+"/api/v1/pgaDownload/"+studentid+"/"+filename,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type : PGA.downlaodfiles, payload : result.data})
         })

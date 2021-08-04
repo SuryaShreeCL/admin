@@ -38,11 +38,16 @@ export const viewresettest=(id,executionid)=>{
     }
 }
 export const viewanswers=(id,QuestionSetName)=>{
-    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/students/testAnswers/"+id+"/"+QuestionSetName,
          {
             crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
             
         })
             .then(result => {
