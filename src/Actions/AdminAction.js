@@ -8,10 +8,10 @@ export const adminLogin=(data)=>{
         axios
           .put(URL + '/api/v1/students/validateAdmin', data, {
             crossDomain: true,
-            headers : {
-                "admin" : "yes",
-                "Authorization" : `Bearer ${accessToken}`
-            }
+            // headers : {
+            //     "admin" : "yes",
+            //     "Authorization" : `Bearer ${accessToken}`
+            // }
           })
           .then((result) => {
             console.log(result);
