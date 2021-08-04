@@ -308,6 +308,14 @@ class ClientDetails extends Component {
     { title: "Techno-Managerial" },
     { title: "Custom" },
   ];
+  emptype=[
+    {title:"Full_time"},
+    {title:"Part_time"},
+    {title:"Self_Employed"},
+    {title:"FreeLance"},
+    {title:"Internship"},
+    {title:"Trainee"},
+  ]
 
   Workexp = [{ title: "Yes" }, { title: "No" }];
 
@@ -1253,6 +1261,27 @@ class ClientDetails extends Component {
                   )}
                 />
               </Grid>
+              {/* <Grid item md={4}>
+                <Autocomplete
+                  id="combo-box-demo"
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                  options={this.emptype}
+                  getOptionLabel={(option) => option.title}
+                  // value={this.state.exptype}
+                  // onChange={(e, newValue) =>
+                  //   this.setState({ exptype: newValue })
+                  // }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="If yes, then type of Employment?"
+                      variant="standard"
+                      // error={this.state.exptypeErr.length > 0}
+                      // helperText={this.state.exptypeErr}
+                    />
+                  )}
+                />
+              </Grid> */}
               <Grid item md={4}>
                 <TextField
                   fullWidth
