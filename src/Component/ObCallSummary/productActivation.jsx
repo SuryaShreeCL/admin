@@ -289,7 +289,7 @@ class ProductActivation extends Component {
                                                 <TableRow>
                                                     <TableCell align="center">{eachData.clsId}</TableCell>
                                                     <TableCell align="center">
-                                                        {eachData.fullName}
+                                                        {eachData.firstName + eachData.lastName}
                                                     </TableCell>
                                                     <TableCell align="center">{eachData.college}</TableCell>
                                                     <TableCell align="center">

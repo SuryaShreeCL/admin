@@ -174,7 +174,7 @@ class ProductPunching extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Select Product Varient"
+                  label="Select Product Variant"
                   variant="standard"
                   error={this.state.varientErr.length > 0}
                   helperText={this.state.varientErr}
