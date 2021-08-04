@@ -3,15 +3,15 @@ import axios from "axios"
 import {URL} from "../Actions/URL"
 
 export const adminLogin=(data)=>{
-    // let accessToken = window.sessionStorage.getItem("accessToken")  
+    let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch => {
         axios
           .put(URL + '/api/v1/students/validateAdmin', data, {
             crossDomain: true,
-            // headers : {
-            //     "admin" : "yes",
-            //     "Authorization" : `Bearer ${accessToken}`
-            // }
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
           })
           .then((result) => {
             console.log(result);
@@ -54,9 +54,15 @@ export const toRefreshToken=(data)=>{
 }
 
 export const postStudentAccess=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     return dispatch => {
         axios.put(URL+"/api/v1/students/unifiedAccess",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -91,9 +97,15 @@ export const updateStudentPersonal=(id,data)=>{
 }
 
 export const updateStudentEducation=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     return dispatch => {
         axios.put(URL+"/api/v1/student/"+id+"/educationaldetails",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -188,9 +200,15 @@ export const updateLmsAccess = (id,data) =>{
 
 
 export const updateAspirationData=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     return dispatch => {
         axios.put(URL+"/aspiration/update/"+id,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -206,9 +224,15 @@ export const updateAspirationData=(id,data)=>{
 
 
 export const viewStudentStatus=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     return dispatch => {
         axios.get(URL+"/api/v1/studentVerification/view/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -245,8 +269,15 @@ export const updateVerificationStatus=(data,callback)=>{
 }
 
 export const getAllMentors = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/mentors")
+        axios.get(URL+"/api/v1/mentors", {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        })
         .then(result=>{
             dispatch({type : ADMIN.getAllMentor, payload : result.data})
         })
@@ -257,8 +288,15 @@ export const getAllMentors = () =>{
 } 
 
 export const allocateMentor = (mentorId,studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     return dispatch =>{
-        axios.post(URL+"/api/v1/student/mentor/"+studentId+"/"+mentorId)
+        axios.post(URL+"/api/v1/student/mentor/"+studentId+"/"+mentorId, {},{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        })
         .then(result=>{
             dispatch({type : ADMIN.alocateMentor, payload : result.data})
         })
@@ -273,10 +311,17 @@ export const allocateMentor = (mentorId,studentId) =>{
 export const getAwaitingUsersByAdminId = () =>{
   let adminUserId = window.sessionStorage.getItem("adminUserId")
   let product = JSON.parse(window.sessionStorage.getItem("adminLinkedProduct")) 
+  let accessToken = window.sessionStorage.getItem("accessToken")  
+
   let productid = product.products[0].id
   console.log(productid)
     return dispatch =>{
-        axios.get(URL+"/api/v1/product/"+productid+"/admin/"+adminUserId+"/search?page=0&size=20&q=")
+        axios.get(URL+"/api/v1/product/"+productid+"/admin/"+adminUserId+"/search?page=0&size=20&q=",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        })
         .then(result=>{
             dispatch({type : ADMIN.getAwaitingUsersByAdminId, payload : result.data})
         })
@@ -310,9 +355,18 @@ export const activateStudentProduct = (data) =>{
 // To get admin linked product
 
 export const getAdminLinkedProduct = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+
     let id = window.sessionStorage.getItem("adminUserId")
     return dispatch =>{
-        axios.get(URL+"/api/v1/adminusers/"+id)
+        axios.get(URL+"/api/v1/adminusers/"+id,
+        {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        }
+        )
         .then(result=>{
             window.sessionStorage.setItem("adminDetails", JSON.stringify(result.data))
             dispatch({type : ADMIN.getAdminLinkedProduct, payload : result.data})
@@ -343,9 +397,16 @@ export const checkTokenStatus = () =>{
 // To get students by stages
 
 export const getStudentByStages = (productId,stageName,keyword) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     let adminId = window.sessionStorage.getItem("adminUserId")
     return dispatch =>{
-        axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminId+"/searchbystage?stage="+stageName+"&page=0&size=200&q="+keyword)
+        axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminId+"/searchbystage?stage="+stageName+"&page=0&size=200&q="+keyword,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        })
         .then(result=>{
             dispatch({type : ADMIN.getStudentsByStages, payload : result.data})
         })
@@ -359,8 +420,15 @@ export const getStudentByStages = (productId,stageName,keyword) =>{
 
 
 export const getAllAdminUsers = () =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/adminUsers")
+        axios.get(URL+"/api/v1/adminUsers",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        })
         .then(result=>{
             dispatch({type : ADMIN.getAllAdminUsers, payload : result.data})
         })

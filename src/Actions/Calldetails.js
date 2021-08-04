@@ -176,9 +176,15 @@ export const getPincodeDetails = (pincode, callback) =>{
 }
 
 export const getAspirationDetails = (studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch =>{
-        axios.get(URL+"api/v1/students/"+studentId+"/testExecutions?questionSetName=RecEenginePersonalityBasedSurvey")
+        axios.get(URL+"/api/v1/students/"+studentId+"/testExecutions?questionSetName=RecEenginePersonalityBasedSurvey",{
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
         .then(result=>{
             dispatch({type:CALL_DETAILS.getAspirationDetails,payload:result.data})
         })

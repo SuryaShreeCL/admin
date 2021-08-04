@@ -6,8 +6,15 @@ import {URL} from "../Actions/URL"
 
 export const viewQuestionSet = () =>{
     // keyword=keyword===null? '':keyword
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/testquestionsets")
+        axios.get(URL+"/api/v1/testquestionsets", {
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
+        })
         .then(result=>{
             console.log(result)
             dispatch({type:QUESTIONSET.viewQuestionSet,viewQuestionSetList:result.data});
@@ -18,9 +25,15 @@ export const viewQuestionSet = () =>{
     }
 }
 export const addQuestionSet=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.post(URL+"/api/v1/testquestionsets",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {                
                 dispatch({type: QUESTIONSET.addQuestionSet,addQuestionSet:result.data})
@@ -32,9 +45,15 @@ export const addQuestionSet=(data)=>{
     
 }
 export const updateQuestionSet=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.put(URL+"/api/v1/testquestionsets",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {
                 dispatch({type:QUESTIONSET.updateQuestionSet,updateQuestionSet:result.data})
@@ -46,9 +65,15 @@ export const updateQuestionSet=(data)=>{
 }
 
 export const deleteQuestionSet=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.delete(URL+"/api/v1/testquestionsets/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {
                 dispatch({type:QUESTIONSET.deleteQuestionSet,deleteQuestionSet:result.data})
@@ -62,9 +87,16 @@ export const deleteQuestionSet=(id)=>{
 // Questions Actions
 
 export const viewQuestion = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     // keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/testquestionset/"+id)
+        axios.get(URL+"/api/v1/testquestionset/"+id, {
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
+        })
         .then(result=>{
             console.log(result.data.questions)
             dispatch({type:QUESTIONSET.viewQuestion,viewQuestionList:result.data.questions});
@@ -75,9 +107,15 @@ export const viewQuestion = (id) =>{
     }
 }
 export const addQuestion=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.post(URL+"/api/v1/testquestion",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {                
                 dispatch({type: QUESTIONSET.addQuestion,addQuestion:result.data})
@@ -89,9 +127,15 @@ export const addQuestion=(data)=>{
     
 }
 export const updateQuestion=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.put(URL+"/api/v1/questions",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {
                 dispatch({type:QUESTIONSET.updateQuestion,updateQuestion:result.data})
@@ -103,9 +147,15 @@ export const updateQuestion=(data)=>{
 }
 
 export const deleteQuestion=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.delete(URL+"/api/v1/testquestion/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {
                 dispatch({type:QUESTIONSET.deleteQuestion,deleteQuestion:result.data})
@@ -119,11 +169,17 @@ export const deleteQuestion=(id)=>{
 // Choice Action
 
 export const viewChoice = (id) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     console.log(id)
     // keyword=keyword===null? '':keyword
     return dispatch =>{
         axios.get(URL+"/api/v1/choice/"+id,{
-            crossDomain : true
+            crossDomain : true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
         .then(result=>{
             console.log(result)
@@ -135,9 +191,15 @@ export const viewChoice = (id) =>{
     }
 }
 export const addChoice=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.post(URL+"/api/v1/choice/"+id,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {         
                 console.log(result)       
@@ -150,9 +212,15 @@ export const addChoice=(id,data)=>{
     
 }
 export const updateChoice=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.put(URL+"/api/v1/choice/"+id,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {
                 dispatch({type:QUESTIONSET.updateChoice,updateChoice:result.data})
@@ -164,9 +232,15 @@ export const updateChoice=(id,data)=>{
 }
 
 export const deleteChoice=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
+
     return dispatch => {
         axios.delete(URL+"/api/v1/choice/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
         })
             .then(result => {
                 dispatch({type:QUESTIONSET.deleteChoice,deleteChoice:result.data})

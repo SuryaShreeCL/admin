@@ -3,9 +3,15 @@ import {URL} from './URL'
 import axios from 'axios'
 
 export const getColleges=(name)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/colleges/search?name="+name,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COLLEGES.getCollege,CollegeList:result.data})
@@ -18,9 +24,15 @@ export const getColleges=(name)=>{
 }
 
 export const getAllColleges=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/colleges",{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COLLEGES.getAllColleges,allCollegeList:result.data})
@@ -33,9 +45,15 @@ export const getAllColleges=()=>{
 }
 
 export const addColleges=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.post(URL+"/api/v1/colleges/create",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COLLEGES.addCollges,addCollege:result.data})
@@ -48,9 +66,15 @@ export const addColleges=(data)=>{
 }
 
 export const updateColleges=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL+"/api/v1/colleges/update/"+id,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COLLEGES.updateColleges,updateColleges:result.data})
@@ -63,9 +87,15 @@ export const updateColleges=(id,data)=>{
 }
 
 export const deleteCollege=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.delete(URL+"/api/v1/colleges/delete/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COLLEGES.deleteCollege,deleteCollege:result.data})
@@ -77,9 +107,15 @@ export const deleteCollege=(id)=>{
 }
 
 export const getUniversity=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/university",{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {                
                 dispatch({type:COLLEGES.getUniversity,universityList:result.data})
@@ -92,9 +128,15 @@ export const getUniversity=()=>{
 }
 
 export const addUniversity=(data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.post(URL+"/api/v1/university",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {                
                 dispatch({type:COLLEGES.addUniversity,addUniversityList:result.data})
@@ -107,9 +149,15 @@ export const addUniversity=(data)=>{
 }
 
 export const updateUniversity=(id,data)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.put(URL+"/api/v1/university/"+id,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {                
                 dispatch({type:COLLEGES.updateUniversity,updateUniversityList:result.data})
@@ -122,9 +170,15 @@ export const updateUniversity=(id,data)=>{
 }
 
 export const deleteUniversity=(id)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.delete(URL+"/api/v1/university/delete/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COLLEGES.deleteUniversity,deleteUniversity:result.data})
@@ -136,9 +190,15 @@ export const deleteUniversity=(id)=>{
 }
 
 export const getDegree=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/degrees",{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 console.log(result);
@@ -153,10 +213,16 @@ export const getDegree=()=>{
 }
 
 export const getPaginateDegree=(page,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     if(keyword===null) keyword=''
     return dispatch => {
         axios.get(URL+"/api/v1/departments/page/search?page="+page+"&size="+size+"&q="+keyword,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {                               
                 dispatch({type:COLLEGES.getPaginateDegree,PaginateDegreeList:result.data})
@@ -171,9 +237,15 @@ export const getPaginateDegree=(page,size,keyword)=>{
 
 
 export const getBranches=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     return dispatch => {
         axios.get(URL+"/api/v1/departments",{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {
                 dispatch({type:COLLEGES.getBranches,BranchList:result.data})
@@ -188,10 +260,16 @@ export const getBranches=()=>{
 // Selva
 
 export const getPaginateCollege=(page,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     if(keyword===null) keyword=''
     return dispatch => {
         axios.get(URL+"/api/v1/colleges/page/search?page="+page+"&size="+size+"&q="+keyword,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {                               
                 dispatch({type:COLLEGES.getPaginateCollege,paginateCollegeList:result.data})
@@ -204,10 +282,16 @@ export const getPaginateCollege=(page,size,keyword)=>{
 }
 
 export const getPaginateUniversity=(page,size,keyword)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     if(keyword===null) keyword=''
     return dispatch => {
         axios.get(URL+"/api/v1/university/page/search?page="+page+"&size="+size+"&q="+keyword,{
-            crossDomain: true
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
         })
             .then(result => {                               
                 dispatch({type:COLLEGES.getPaginateUniversity,paginateUniversityList:result.data})

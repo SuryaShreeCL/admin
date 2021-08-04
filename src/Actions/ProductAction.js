@@ -2,9 +2,16 @@ import { PRODUCT } from "../Redux/Action";
 import axios from "axios";
 import { URL } from "../Actions/URL";
 export const viewProduct = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/product/view")
+      .get(URL + "/api/v1/product/view",{
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.viewProduct, viewProductList: result.data });
       })
@@ -14,10 +21,16 @@ export const viewProduct = () => {
   };
 };
 export const addProduct = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
       .post(URL + "/api/v1/product/create", data, {
         crossDomain: true,
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
       })
       .then((result) => {
         dispatch({ type: PRODUCT.addProduct, addProduct: result.data });
@@ -28,10 +41,16 @@ export const addProduct = (data) => {
   };
 };
 export const updateProduct = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
       .put(URL + "/api/v1/product/update", data, {
         crossDomain: true,
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
       })
       .then((result) => {
         dispatch({ type: PRODUCT.editProduct, editProduct: result.data });
@@ -43,10 +62,16 @@ export const updateProduct = (data) => {
 };
 
 export const deleteProduct = (id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
       .delete(URL + "/api/v1/product/" + id, {
         crossDomain: true,
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
       })
       .then((result) => {
         dispatch({ type: PRODUCT.deleteProduct, deleteProduct: result.data });
@@ -58,10 +83,16 @@ export const deleteProduct = (id) => {
 };
 
 export const addProductToStudent = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
       .post(URL + "/api/v1/student/product/create", data, {
         crossDomain: true,
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
       })
       .then((result) => {
         dispatch({ type: PRODUCT.addProductToStudent, payload: result.data });
@@ -73,9 +104,16 @@ export const addProductToStudent = (data) => {
 };
 
 export const viewProductToStudent = (id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/student/product/" + id)
+      .get(URL + "/api/v1/get/student/product/" + id,{
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.viewProductToStudent, payload: result.data });
       })
@@ -86,9 +124,16 @@ export const viewProductToStudent = (id) => {
 };
 
 export const getAllProductFamily = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/productFamily")
+      .get(URL + "/api/v1/get/productFamily", {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.getAllProductFamily, payload: result.data });
         console.log(result);
@@ -101,9 +146,16 @@ export const getAllProductFamily = () => {
 };
 
 export const getProductByFamilyId = (familyId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/product/productFamily/" + familyId)
+      .get(URL + "/api/v1/get/product/productFamily/" + familyId, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.getProductByFamilyId, payload: result.data });
       })
@@ -113,9 +165,16 @@ export const getProductByFamilyId = (familyId) => {
   };
 };
 export const postproductfamily = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .post(URL + "/api/v1/create/product/family", data)
+      .post(URL + "/api/v1/create/product/family", data, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.postproductfamily, payload: result.data });
       })
@@ -125,9 +184,16 @@ export const postproductfamily = (data) => {
   };
 };
 export const getProductVarient = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/product/varient")
+      .get(URL + "/api/v1/get/product/varient", {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.getProductVarient, payload: result.data });
       })
@@ -137,9 +203,16 @@ export const getProductVarient = () => {
   };
 };
 export const varientexcel = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/productvarient/excel")
+      .get(URL + "/api/v1/get/productvarient/excel", {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.varientexcel, payload: result.data });
       })
@@ -149,9 +222,16 @@ export const varientexcel = () => {
   };
 };
 export const postProductVarient = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .post(URL + "/api/v1/create/product/varient", data)
+      .post(URL + "/api/v1/create/product/varient", data, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.postProductVarient, payload: result.data });
       })
@@ -161,10 +241,16 @@ export const postProductVarient = (data) => {
   };
 };
 export const updateProductVarient = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
       .put(URL + "/api/v1/update/product/varient", data, {
         crossDomain: true,
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
       })
       .then((result) => {
         dispatch({
@@ -179,9 +265,16 @@ export const updateProductVarient = (data) => {
 };
 
 export const getAllProductImages = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/product/images")
+      .get(URL + "/api/v1/get/product/images", {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.getAllProductImages, payload: result.data });
       })
@@ -192,9 +285,16 @@ export const getAllProductImages = () => {
 };
 
 export const getAllProductVideos = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/product/videos")
+      .get(URL + "/api/v1/get/product/videos", {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.getAllProductVideos, payload: result.data });
       })
@@ -205,9 +305,16 @@ export const getAllProductVideos = () => {
 };
 
 export const getAllProductQuesAns = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/product/questionAnswer")
+      .get(URL + "/api/v1/get/product/questionAnswer", {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.getAllProductQuesAns, payload: result.data });
       })
@@ -218,9 +325,16 @@ export const getAllProductQuesAns = () => {
 };
 
 export const updateproductfamily = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/update/product/family", data)
+      .put(URL + "/api/v1/update/product/family", data, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.updateproductfamily, payload: result.data });
       })
@@ -230,9 +344,17 @@ export const updateproductfamily = (data) => {
   };
 };
 export const postProductVideos = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
+
   return (dispatch) => {
     axios
-      .post(URL + "/api/v1/create/product/videos", data)
+      .post(URL + "/api/v1/create/product/videos", data, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.postProductVideos, payload: result.data });
       })
@@ -243,9 +365,16 @@ export const postProductVideos = (data) => {
 };
 
 export const postvarientimage = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .post(URL + "/api/v1/create/product/images", data)
+      .post(URL + "/api/v1/create/product/images", data, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.postvarientimage, payload: result.data });
       })
@@ -255,10 +384,16 @@ export const postvarientimage = (data) => {
   };
 };
 export const updateProductVideos = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
       .put(URL + "/api/v1/update/product/videos", data, {
         crossDomain: true,
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
       })
       .then((result) => {
         dispatch({
@@ -273,9 +408,16 @@ export const updateProductVideos = (data) => {
 };
 
 export const updatevarientimage = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/update/product/images", data)
+      .put(URL + "/api/v1/update/product/images", data, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.updatevarientimage, payload: result.data });
       })
@@ -285,9 +427,16 @@ export const updatevarientimage = (data) => {
   };
 };
 export const deletefamily = (oldId, newId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken")
+
   return (dispatch) => {
     axios
-      .delete(URL + "/api/v1/delete/product/family/" + oldId + "/" + newId)
+      .delete(URL + "/api/v1/delete/product/family/" + oldId + "/" + newId, {
+        headers:{
+          "admin" : "yes",
+          "Authorization" : `Bearer ${accessToken}`
+      }
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.deletefamily, payload: result.data });
       })
@@ -298,6 +447,7 @@ export const deletefamily = (oldId, newId) => {
 };
 
 export const updatefamily = (data) => {
+
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -317,9 +467,16 @@ export const updatefamily = (data) => {
   };
 };
 export const postgeneraldetails = (data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
   return (dispatch) => {
     axios
-      .post(URL + "/api/v1/create/product/varient", data)
+      .post(URL + "/api/v1/create/product/varient", data, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.postgeneraldetails, payload: result.data });
       })
@@ -329,9 +486,16 @@ export const postgeneraldetails = (data) => {
   };
 };
 export const deleteproductvarient = (oldId, newId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
   return (dispatch) => {
     axios
-      .delete(URL + "/api/v1/delete/product/variant/" + oldId + "/" + newId)
+      .delete(URL + "/api/v1/delete/product/variant/" + oldId + "/" + newId, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then((result) => {
         dispatch({ type: PRODUCT.deleteproductvarient, payload: result.data });
       })
@@ -626,8 +790,15 @@ export const isVariantCreated = (data) => {
         //     }
         // }
     export const getFaq = () =>{
+      let accessToken = window.sessionStorage.getItem("accessToken");
+
         return dispatch =>{
-            axios.get(URL+"/api/v1/get/product/varient")
+            axios.get(URL+"/api/v1/get/product/varient", {
+              headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            })
             .then(result=>{
                 dispatch({type:PRODUCT.getFaq,payload:result.data});
             })
@@ -637,8 +808,15 @@ export const isVariantCreated = (data) => {
         }
     }
     export const updateFaq = (data) =>{
+      let accessToken = window.sessionStorage.getItem("accessToken");
+
         return dispatch =>{
-            axios.put(URL+"/api/v1/update/product/question/answer",data)
+            axios.put(URL+"/api/v1/update/product/question/answer",data, {
+              headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            })
             .then(result=>{
                 dispatch({type:PRODUCT.updateFaq,payload:result.data});
             })
@@ -648,8 +826,15 @@ export const isVariantCreated = (data) => {
         }
     }
     export const postFaq = (data) =>{
+      let accessToken = window.sessionStorage.getItem("accessToken");
+
         return dispatch =>{
-            axios.post(URL+"/api/v1/create/product/question/answer",data)
+            axios.post(URL+"/api/v1/create/product/question/answer",data, {
+              headers: {
+                admin: "yes",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            })
             .then(result=>{
                 dispatch({type:PRODUCT.postFaq,payload:result.data});
             })
@@ -659,8 +844,15 @@ export const isVariantCreated = (data) => {
         }
     }
     export const publishvarient = (data) =>{
+      let accessToken = window.sessionStorage.getItem("accessToken");
+
       return dispatch =>{
-          axios.post(URL+"/api/v1/check/productVariant/status",data)
+          axios.post(URL+"/api/v1/check/productVariant/status",data, {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then(result=>{
               dispatch({type:PRODUCT.publishvarient,payload:result.data});
           })
@@ -914,10 +1106,16 @@ export const getproductsteps = (id) => {
 //   }
 // }
 export const searchProductActivationList = (productId,data) =>{
+  let accessToken = window.sessionStorage.getItem("accessToken");
   let adminUserId = window.sessionStorage.getItem("adminUserId")
 
   return dispatch =>{
-    axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminUserId+"/notactsearch?page=0&size=200&q="+data)
+    axios.get(URL+"/api/v1/product/"+productId+"/admin/"+adminUserId+"/notactsearch?page=0&size=200&q="+data, {
+      headers: {
+        admin: "yes",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
     .then((result)=>{
       dispatch({type: PRODUCT.searchProductActivationList, payload: result.data})
     })
@@ -928,8 +1126,15 @@ export const searchProductActivationList = (productId,data) =>{
 }
 
 export const getVariantStepsById = (variantId) =>{
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
   return dispatch =>{
-    axios.get(URL+"/api/v1/get/product/varient/steps/"+variantId)
+    axios.get(URL+"/api/v1/get/product/varient/steps/"+variantId, {
+      headers: {
+        admin: "yes",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
     .then((result)=>{
       dispatch({type: PRODUCT.getVariantStepsById, payload: result.data})
     })
