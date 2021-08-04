@@ -4,8 +4,16 @@ import {URL} from "../Actions/URL"
 // For Aspiration Specialization
 
 export const getAllSpecialization = () =>{
+
     return dispatch=>{
-        axios.get(URL+"/api/v1/aspiration/specialization")
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/specialization",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type: ASPIRATION.getAllSpecialization, payload: result.data})
         })
@@ -16,9 +24,17 @@ export const getAllSpecialization = () =>{
 }
 
 export const viewSpecialization = (pageNumber,size,keyword) =>{
+
     keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/specialization/page/search?page="+pageNumber+"&size="+size+"&q="+keyword)
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/specialization/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:ASPIRATION.viewSpecialization,viewSpecializationList:result.data});
         })
@@ -28,9 +44,16 @@ export const viewSpecialization = (pageNumber,size,keyword) =>{
     }
 }
 export const addSpecialization=(data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.post(URL+"/api/v1/aspiration/specialization/create",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -44,9 +67,16 @@ export const addSpecialization=(data)=>{
 }
 
 export const updateSpecialization=(data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.put(URL+"/api/v1/aspiration/specialization/update",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -60,9 +90,16 @@ export const updateSpecialization=(data)=>{
 }
 
 export const deleteSpecialization=(id)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.delete(URL+"/api/v1/aspiration/specialization/delete/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -78,9 +115,10 @@ export const deleteSpecialization=(id)=>{
 // For Aspiration Degree
 
 export const getAllDegree = () =>{
-    let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch=>{
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.get(URL+"/api/v1/aspiration/degree",{
             headers : {
                 "admin" : "yes",
@@ -98,9 +136,17 @@ export const getAllDegree = () =>{
 
 
 export const viewDegree = (pageNumber,size,keyword) =>{
+
     keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/degree/page/search?page="+pageNumber+"&size="+size+"&q="+keyword)
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/degree/page/search?page="+pageNumber+"&size="+size+"&q="+keyword),{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        }
         .then(result=>{
             console.log(result)
             dispatch({type:ASPIRATION.viewDegree,viewDegreeList:result.data});
@@ -112,9 +158,16 @@ export const viewDegree = (pageNumber,size,keyword) =>{
 }
 
 export const addDegree=(data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.post(URL+"/api/v1/aspirationDegree",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -128,9 +181,16 @@ export const addDegree=(data)=>{
 }
 
 export const updateDegree=(id,data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.put(URL+"/api/v1/aspirationDegree",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:ASPIRATION.updateDegree,updateDegree:result.data})
@@ -142,9 +202,16 @@ export const updateDegree=(id,data)=>{
     
 }
 export const deleteDegree=(id)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.delete(URL+"/api/v1/aspirationDegree",{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:ASPIRATION.deleteDegree,deleteDegree:result.data})
@@ -160,8 +227,16 @@ export const deleteDegree=(id)=>{
 
 
 export const getAllBranch = () =>{
+
     return dispatch=>{
-        axios.get(URL+"/api/v1/aspiration/branch")
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/branch",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type: ASPIRATION.getAllBranch, payload: result.data})
         })
@@ -174,9 +249,17 @@ export const getAllBranch = () =>{
 
 
 export const viewFeild = (pageNumber,size,keyword) =>{
+
     keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/branch/page/search?page="+pageNumber+"&size="+size+"&q="+keyword)
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/branch/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             console.log(result)
             dispatch({type:ASPIRATION.viewFeild,viewFeildList:result.data});
@@ -188,9 +271,16 @@ export const viewFeild = (pageNumber,size,keyword) =>{
 }
 
 export const addFeild=(data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.post(URL+"/api/v1/aspirationBranch",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -204,9 +294,16 @@ export const addFeild=(data)=>{
 }
 
 export const updateFeild=(id,data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.put(URL+"/api/v1/aspirationBranch",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:ASPIRATION.updateFeild,updateFeild:result.data})
@@ -219,9 +316,16 @@ export const updateFeild=(id,data)=>{
 }
 
 export const deleteFeild=(id)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.delete(URL+"/api/v1/aspiration/branch/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -236,9 +340,17 @@ export const deleteFeild=(id)=>{
 
 
 export const viewCountry = (pageNumber,size,keyword) =>{
+
     keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/country/page/search?page="+pageNumber+"&size="+size+"&q="+keyword)
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/country/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             console.log(result)
             dispatch({type:ASPIRATION.viewCountry,viewCountryList:result.data});
@@ -250,8 +362,16 @@ export const viewCountry = (pageNumber,size,keyword) =>{
 }
 
 export const viewCountryForSelect = () =>{
+
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/country")
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/country",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             console.log(result)
             dispatch({type:ASPIRATION.viewCountryForSelect,viewCountryForSelectList:result.data});
@@ -263,9 +383,16 @@ export const viewCountryForSelect = () =>{
 }
 
 export const addCountry=(data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.post(URL+"/api/v1/aspirationCountry",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -279,9 +406,16 @@ export const addCountry=(data)=>{
 }
 
 export const updateCountry=(id,data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.put(URL+"/api/v1/aspirationCountry",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:ASPIRATION.updateCountry,updateCountry:result.data})
@@ -294,9 +428,16 @@ export const updateCountry=(id,data)=>{
 }
 
 export const deleteCountry=(id)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.delete(URL+"/api/v1/aspiration/country/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -312,8 +453,16 @@ export const deleteCountry=(id)=>{
 
 
 export const getAllUniversity = () =>{
+
     return dispatch=>{
-        axios.get(URL+"/api/v1/aspiration/university")
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/university",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type: ASPIRATION.getAllUniversity, payload: result.data})
         })
@@ -326,9 +475,17 @@ export const getAllUniversity = () =>{
 
 
 export const viewCollege = (pageNumber,size,keyword) =>{
+
     keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/university/page/search?page="+pageNumber+"&size="+size+"&q="+keyword)
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/university/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             console.log(result)
             dispatch({type:ASPIRATION.viewCollege,viewCollegeList:result.data});
@@ -340,9 +497,16 @@ export const viewCollege = (pageNumber,size,keyword) =>{
 }
 
 export const addCollege=(data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.post(URL+"/api/v1/aspiration/university/post",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -356,9 +520,16 @@ export const addCollege=(data)=>{
 }
 
 export const updateCollege=(id,data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.put(URL+"/api/v1/aspiration/university/update",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:ASPIRATION.updateCollege,updateCollege:result.data})
@@ -370,9 +541,16 @@ export const updateCollege=(id,data)=>{
 }
 
 export const deleteCollege=(id)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.delete(URL+"/api/v1/aspiration/university/"+id,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -387,8 +565,16 @@ export const deleteCollege=(id)=>{
 // For Aspiration Term
 
 export const getAllTerms = () =>{
+
     return dispatch=>{
-        axios.get(URL+"/api/v1/aspiration/terms")
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/terms",{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type: ASPIRATION.getAllTerms, payload: result.data})
         })
@@ -400,9 +586,17 @@ export const getAllTerms = () =>{
 
 
 export const viewTerm = (pageNumber,size,keyword) =>{
+
     keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/term/page/search?page="+pageNumber+"&size="+size+"&q="+keyword)
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
+        axios.get(URL+"/api/v1/aspiration/term/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:ASPIRATION.viewTerm,viewTermList:result.data});
         })
@@ -414,8 +608,14 @@ export const viewTerm = (pageNumber,size,keyword) =>{
 
 export const addTerm=(data)=>{
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.post(URL+"/api/v1/aspirationTerms",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:ASPIRATION.addTerm,addTerm : result.data})
@@ -429,8 +629,14 @@ export const addTerm=(data)=>{
 
 export const updateTerm=(data)=>{
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken")
+
         axios.put(URL+"/api/v1/aspirationTerms",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -443,18 +649,25 @@ export const updateTerm=(data)=>{
 }
 
 export const deleteTerm=(id)=>{
-    return dispatch => {
-        axios.delete(URL+"/api/v1/aspiration/terms/"+id,{
-            crossDomain: true
+    return (dispatch) => {
+        let accessToken = window.sessionStorage.getItem("accessToken");
+
+      axios
+        .delete(URL + "/api/v1/aspiration/terms/" + id, {
+          crossDomain: true,
+          headers:{
+            "admin" : "yes",
+            "Authorization" : `Bearer ${accessToken}`
+        }
         })
-            .then(result => {
-                console.log(result)
-                dispatch({type:ASPIRATION.deleteTerm,deleteTerm:result.data})
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }   
+        .then((result) => {
+          console.log(result);
+          dispatch({ type: ASPIRATION.deleteTerm, deleteTerm: result.data });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };   
 }
 
 // City
@@ -462,7 +675,14 @@ export const deleteTerm=(id)=>{
 export const viewCity = (pageNumber,size,keyword) =>{
     keyword=keyword===null? '':keyword
     return dispatch =>{
-        axios.get(URL+"/api/v1/aspiration/city/page/search?page="+pageNumber+"&size="+size+"&q="+keyword)
+        let accessToken = window.sessionStorage.getItem("accessToken");
+
+        axios.get(URL+"/api/v1/aspiration/city/page/search?page="+pageNumber+"&size="+size+"&q="+keyword,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         .then(result=>{
             dispatch({type:ASPIRATION.viewCity,viewCityList:result.data});
         })
@@ -474,8 +694,14 @@ export const viewCity = (pageNumber,size,keyword) =>{
 
 export const addCity=(data)=>{
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken");
+
         axios.post(URL+"/api/v1/cities/create",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 dispatch({type:ASPIRATION.addCity,addCity : result.data})
@@ -488,9 +714,16 @@ export const addCity=(data)=>{
 }
 
 export const updateCity=(data)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken");
+
         axios.put(URL+"/api/v1/cities/update",data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -503,23 +736,37 @@ export const updateCity=(data)=>{
 }
 
 export const deleteCity=(id)=>{
+
     return dispatch => {
-        axios.delete(URL+"/api/v1/cities/delete/"+id,{
-            crossDomain: true
-        })
-            .then(result => {
-                console.log(result)
-                dispatch({type:ASPIRATION.deleteCity,deleteCity:result.data})
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        let accessToken = window.sessionStorage.getItem("accessToken");
+
+        axios
+          .delete(URL + "/api/v1/cities/delete/" + id, {
+            crossDomain: true,
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((result) => {
+            console.log(result);
+            dispatch({ type: ASPIRATION.deleteCity, deleteCity: result.data });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     }   
 }
 export const getallcountry=()=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken");
         axios.get(URL+"/api/v1/aspiration/country",{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 console.log(result)
@@ -535,9 +782,15 @@ export const getallcountry=()=>{
 // testExecutionId=57ec9eb8-4b62-4b1e-806b-429bdb7d7c09
 
 export const updateAspiration=(data,callback,id,tid)=>{
+
     return dispatch => {
+        let accessToken = window.sessionStorage.getItem("accessToken");
         axios.put(URL+"/api/v1/aspirationDetails/"+tid+"/"+id,data,{
-            crossDomain: true
+            crossDomain: true,
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
         })
             .then(result => {
                 callback(result.data)
@@ -550,6 +803,7 @@ export const updateAspiration=(data,callback,id,tid)=>{
 }
 
 export const getAspiration=(callback,id)=>{
+
     return dispatch=>{
         let accessToken = window.sessionStorage.getItem("accessToken");
         axios.get(URL+"/api/v1/aspirationDetails/"+id,{
