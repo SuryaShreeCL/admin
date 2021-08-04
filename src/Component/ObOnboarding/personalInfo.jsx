@@ -151,20 +151,23 @@ export class personalInfo extends Component {
 
   handlePersonalClick(e) {
     this.setState({ personalDisable: !this.state.personalDisable });
-  }
-
-  handleAddressClick(e) {
     this.setState({ addressDisable: !this.state.addressDisable });
+    this.setState({ mediaDisable: !this.state.mediaDisable });
+    this.setState({
+      documentedit : true
+    })
   }
 
-  handleSocialClick(e) {
-    this.setState({ mediaDisable: !this.state.mediaDisable });
-  }
-  handleEdit=()=>{
-     this.setState({
-       documentedit : true
-     })
-  }
+  // handleAddressClick(e) {
+   
+  // }
+
+  // handleSocialClick(e) {
+  
+  // }
+  // handleEdit=()=>{
+     
+  // }
   handleSave = () => {
     let hlptxt = "Please fill the required field";
     isEmptyString(this.state.firstName)
@@ -332,7 +335,7 @@ export class personalInfo extends Component {
                   }}
                   id="standard-basic"
                   label="Client First Name"
-                  // disabled={this.state.personalDisable}
+                  disabled={this.state.personalDisable}
                   value={this.state.firstName}
                   onChange={(e) =>
                     this.setState({
@@ -348,7 +351,7 @@ export class personalInfo extends Component {
                 <TextField
                   id="standard-basic"
                   label="Client Last Name"
-                  // disabled={this.state.personalDisable}
+                  disabled={this.state.personalDisable}
                   value={this.state.lastName}
                   onChange={(e) =>
                     this.setState({ lastName: e.target.value, lastNameErr: "" })
@@ -361,7 +364,7 @@ export class personalInfo extends Component {
                 <TextField
                   id="standard-basic"
                   label="Full Name"
-                  // disabled={this.state.personalDisable}
+                  disabled={this.state.personalDisable}
                   value={this.state.fullName}
                   onChange={(e) =>
                     this.setState({ fullName: e.target.value, fullNameErr: "" })
@@ -393,7 +396,7 @@ export class personalInfo extends Component {
                   inputMode="numeric"
                   id="standard-basic"
                   label="Alternate Contact Number"
-                  // disabled={this.state.personalDisable}
+                  disabled={this.state.personalDisable}
                   value={this.state.altPhone}
                   onChange={(e) =>
                     this.setState({ altPhone: e.target.value, altPhoneErr: "" })
@@ -407,7 +410,7 @@ export class personalInfo extends Component {
                 <TextField
                   id="standard-basic"
                   label="Alternate Email Address"
-                  // disabled={this.state.personalDisable}
+                  disabled={this.state.personalDisable}
                   value={this.state.altEmail}
                   onChange={(e) =>
                     this.setState({ altEmail: e.target.value, altEmailErr: "" })
@@ -453,9 +456,9 @@ export class personalInfo extends Component {
                       }
                     />
                   </div>
-                  <IconButton onClick={this.handleAddressClick.bind(this)}>
+                  {/* <IconButton onClick={this.handleAddressClick.bind(this)}>
                     <img src={Pencil} height={17} width={17} />
-                  </IconButton>
+                  </IconButton> */}
                 </div>
               </Grid>
               <Grid item md={4}>
@@ -595,9 +598,9 @@ export class personalInfo extends Component {
                       }
                     />
                   </div>
-                  <IconButton onClick={this.handleSocialClick.bind(this)}>
+                  {/* <IconButton onClick={this.handleSocialClick.bind(this)}>
                     <img src={Pencil} height={17} width={17} />
-                  </IconButton>
+                  </IconButton> */}
                 </div>
               </Grid>
               <Grid item md={3}>
@@ -674,9 +677,9 @@ export class personalInfo extends Component {
                       }
                     />
                   </div>
-                  <IconButton onClick={()=>this.handleEdit()}>
+                  {/* <IconButton onClick={()=>this.handleEdit()}>
                     <img src={Pencil} height={17} width={17} />
-                  </IconButton>
+                  </IconButton> */}
                 </div>
               </Grid>
 
