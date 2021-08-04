@@ -689,7 +689,7 @@ export class personalInfo extends Component {
                   {this.props.getAllDocumentList.["PG Degree"] ? this.props.getAllDocumentList.["PG Degree"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
-                  certificate={data.type}
+                  certificate={data.name}
                   date={data.date}
                   path={data.path}
                   studentid = {this.props.match.params.studentId}
