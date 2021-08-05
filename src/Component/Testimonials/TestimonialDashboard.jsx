@@ -23,10 +23,10 @@ const theme = createMuiTheme({
   },
 });
 
-function TestimonialDashboard() {
+function TestimonialDashboard(props) {
   return (
     <ThemeProvider theme={theme}>
-      <Testimonials />
+      <Testimonials {...props} />
     </ThemeProvider>
   );
 }

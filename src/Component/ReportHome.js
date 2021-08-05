@@ -12,12 +12,16 @@ import {
   ThemeProvider,
   CircularProgress,
   createMuiTheme,
+  Breadcrumbs,
 } from "@material-ui/core";
 import { viewTermsAndConReports, viewCvReport, viewMarkSheetReport, viewMydetailsReport, viewTechTestReport, viewTestRating, viewDiagTestReport, getCareerExpoReport } from "../Actions/Reports";
 import React from "react";
 import { connect } from "react-redux";
 import ReactExport from "react-export-excel";
 import Loader from "./Utils/controls/Loader";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import {studentPath } from "./RoutePaths";
+import BackButton from '../Asset/Images/backbutton.svg';
 const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -83,7 +87,21 @@ render(){
   console.log(this.state.objectKeys)
   return (
     <div>
-      
+          <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Report
+              </Typography>
+            </Breadcrumbs>
+            </div>
       <Grid container spacing={2}>
         <Grid item md={12}>
           <Typography variant="h6">Reports</Typography>

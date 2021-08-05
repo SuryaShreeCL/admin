@@ -10,6 +10,8 @@ import {
     TableHead,
     TableRow,
     TextField,
+    Breadcrumbs,
+    Typography
   } from "@material-ui/core";
 import React, { Component } from 'react'
 import { connect } from "react-redux";
@@ -27,7 +29,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { isEmptyString } from "../Validation";
 import MySnackBar from "../MySnackBar";
 import { productstructurePath } from "../RoutePaths";
-
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from '../../Asset/Images/backbutton.svg'
+import {studentPath} from '../RoutePaths'
 class ProductStages extends Component {
     constructor() {
         super();
@@ -224,6 +228,21 @@ handleClick=(data)=>{
         console.log(this.props.getproductstepsList)
         return (
           <div>
+            <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Product Stage
+              </Typography>
+            </Breadcrumbs>
+            </div>
             <div style={{
                  display: "flex",
                  flexDirection: "row",

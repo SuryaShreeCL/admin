@@ -15,6 +15,7 @@ import {
     Tabs,
     Snackbar,
     CircularProgress,
+    Breadcrumbs,
   } from "@material-ui/core";
   import TableComponent from "./TableComponent/TableComponent";
   import CloseIcon from "@material-ui/icons/Close";
@@ -25,6 +26,9 @@ import IconButton from "@material-ui/core/IconButton";
   import {connect} from 'react-redux';
   import {viewAllCities} from "../Actions/Student"
   import {viewCity,addCity,updateCity,deleteCity} from "../Actions/Aspiration"
+  import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+  import BackButton from '../Asset/Images/backbutton.svg';
+  import {studentPath} from '../Component/RoutePaths'
 export class City extends Component {
     constructor(props) {
         super(props);
@@ -214,6 +218,21 @@ export class City extends Component {
       console.log(this.props.cityList)
         return (
             <div>
+             <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                City
+              </Typography>
+            </Breadcrumbs>
+            </div>
                 <ThemeProvider theme={this.getmuitheme()}>
                <Grid container>
                    <Grid item md={12}>

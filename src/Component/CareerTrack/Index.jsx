@@ -11,16 +11,18 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField,Breadcrumbs,Typography } from "@material-ui/core";
 import {getCourses} from "../../Actions/Course";
 import {getBranches} from "../../Actions/College"
 import {viewAllCareerTrack,addCareerTrack ,updateCareerTrack} from "../../Actions/CareerTrackAction"
-import { careerTrackPath, careerTrackVideoSetPath } from "../RoutePaths";
+import { careerTrackPath, careerTrackVideoSetPath,studentPath } from "../RoutePaths";
 import history from '../History'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from "axios";
 import {connect} from 'react-redux';
 import { isEmptyString } from "../Validation";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from '../../Asset/Images/backbutton.svg'
 export class Index extends Component {
   constructor(props) {
     super(props);
@@ -288,6 +290,21 @@ export class Index extends Component {
     const { column, openCreateModel ,openUpdateModel ,handleRowClick} = this;
     return (
       <div>        
+         <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Career Track
+              </Typography>
+            </Breadcrumbs>
+            </div>
         <TableComponent
           title={"Career Track"}
           data={careerTrackList.length !== 0 ? careerTrackList : null}
