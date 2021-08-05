@@ -759,6 +759,7 @@ export class personalInfo extends Component {
                   certificate={data.name}
                   date={data.date}
                   path={data.path}
+                  status={this.state.documentedit}
                   studentid = {this.props.match.params.studentId}
                   />
                    </Grid>
