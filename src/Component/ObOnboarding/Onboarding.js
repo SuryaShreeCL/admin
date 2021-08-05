@@ -6,21 +6,12 @@ import {
   IconButton,
   List,
   ListItem,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   ThemeProvider,
   Typography,
 } from "@material-ui/core";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import { ExpandMore } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
-import SearchIcon from "@material-ui/icons/Search";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -32,13 +23,18 @@ import { getAllTerms } from "../../Actions/Aspiration";
 import { getAllColleges, getBranches } from "../../Actions/College";
 import {
   filterStageBaseUsers,
-  viewAllCities,
   searchStudentInStages,
+  viewAllCities,
 } from "../../Actions/Student";
-import Call from "../../Asset/Images/callImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import { callSummaryLayoutPath, stagedTabsPath } from "../RoutePaths";
-import {isEmptyString} from "../Validation"
+import Call from "../../Asset/Images/callImg.png";
+import { callSummaryLayoutPath ,stagedTabsPath } from "../RoutePaths";
+import { isEmptyString } from "../Validation";
+import DataGrid from "./DataGrid";
+import SearchIcon from "@material-ui/icons/Search";
+import InputAdornment from "@material-ui/core/InputAdornment";
+
+
 const theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
@@ -48,6 +44,7 @@ const theme = createMuiTheme({
     },
   },
 });
+
 export class Onboarding extends Component {
   constructor(props) {
     super(props);
@@ -67,7 +64,11 @@ export class Onboarding extends Component {
 
   componentDidMount() {
     // To get the users based on stages
-    this.props.getStudentByStages(this.props.match.params.productId,this.props.stageDetails.stepName,"");
+    this.props.getStudentByStages(
+      this.props.match.params.productId,
+      this.props.stageDetails.stepName,
+      ""
+    );
     this.props.getBranches();
     this.props.getAllColleges();
     this.props.getAllTerms();
@@ -123,17 +124,20 @@ export class Onboarding extends Component {
         listOfusers: listOfUsersArr,
       });
     }
-    if(this.state.search !== prevState.search){
-      if(!isEmptyString(this.state.search)){
-        this.props.getStudentByStages(this.props.match.params.productId,this.props.stageDetails.stepName,this.state.search)
+    if (this.state.search !== prevState.search) {
+      if (!isEmptyString(this.state.search)) {
+        this.props.getStudentByStages(
+          this.props.match.params.productId,
+          this.props.stageDetails.stepName,
+          this.state.search
+        );
       }
     }
-    if(this.props.searchedList !== prevProps.searchedList){
+    if (this.props.searchedList !== prevProps.searchedList) {
       this.setState({
-        listOfusers : this.props.searchedList.content
-      })
+        listOfusers: this.props.searchedList.content,
+      });
     }
-
   }
   shrink() {
     this.setState({ shrink: true });
@@ -172,10 +176,13 @@ export class Onboarding extends Component {
       city: null,
       bda: null,
     });
-    this.props.getStudentByStages(this.props.match.params.productId,this.props.stageDetails.stepName,"");
+    this.props.getStudentByStages(
+      this.props.match.params.productId,
+      this.props.stageDetails.stepName,
+      ""
+    );
   };
   renderChip = (obCallStatus) => {
-    console.log(obCallStatus);
     if (obCallStatus.obCallStatus === "Completed") {
       return (
         <Chip
@@ -224,6 +231,51 @@ export class Onboarding extends Component {
     }
   };
 
+  renderManageButton = (eachItem) => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",          
+        }}
+      >
+        <img
+          onClick={() =>
+            this.props.history.push(
+              callSummaryLayoutPath +
+                eachItem.studentId +
+                "/product/" +
+                this.props.productId
+            )
+          }
+          src={Call}
+          style={{
+            height: 30,
+            width: 30,
+            marginRight: 10,
+          }}
+        />
+        <PrimaryButton
+          onClick={() =>
+            this.props.history.push(
+              stagedTabsPath +
+                eachItem.studentId +
+                "/" +
+                this.props.match.params.productId
+            )
+          }
+          variant={"contained"}
+          color={"primary"}
+          size={"small"}
+          style={{ textTransform: "none" }}
+        >
+          Manage
+        </PrimaryButton>
+      </div>
+    );
+  };
+
   chipTheme = createMuiTheme({
     overrides: {
       MuiChip: {
@@ -240,20 +292,19 @@ export class Onboarding extends Component {
   });
 
   render() {
-    console.log(this.props);
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
         <Grid container spacing={3}>
           <Grid item md={12}>
-            <TableContainer component={Paper}>
+             {/* <TableContainer component={Paper}> */}
               <div style={HeadDisplay}>
-                <p style={HeadStyle}> List of Users in On Boarding Stage </p>
-                {/* <div> */}
-                <TextField
+                <p style={HeadStyle}> List of Users in On Boarding Stage </p>                 
+               <div> 
+             <TextField
                   label={
                     <Typography
-                      style={{ fontSize: "13px", marginLeft: "30px" }}
+                      style={{ fontSize: "13px",marginLeft:30 }}
                     >
                       Search by Email ID / Mobile / Full Name / CLS ID
                     </Typography>
@@ -275,8 +326,9 @@ export class Onboarding extends Component {
                       </InputAdornment>
                     ),
                   }}
-                  style={{ width: "45%", marginLeft: "23%" }}
+                  // style={{ width: "45%", marginLeft: "23%" }}
                 />
+                {/*  
                 <PrimaryButton
                   style={{
                     height: 30,
@@ -291,9 +343,10 @@ export class Onboarding extends Component {
                   onClick={() => this.filterfunction()}
                 >
                   Filter
-                </PrimaryButton>
+                </PrimaryButton> */}              
               </div>
-              <ThemeProvider theme={this.chipTheme}>
+              </div>
+            {/* <ThemeProvider theme={this.chipTheme}>
                 <Table aria-label="caption table">
                   <TableHead>
                     <TableRow>
@@ -326,8 +379,8 @@ export class Onboarding extends Component {
                                 ? eachItem.percentage + "%"
                                 : null}
                             </TableCell>
-                            <TableCell>
-                              {/* <div
+                            <TableCell> */}
+            {/* <div
                               style={{
                                 display: "flex",
                                 flexDirection: "row",
@@ -351,7 +404,7 @@ export class Onboarding extends Component {
                                   marginRight: 10,
                                 }}
                               /> */}
-                              <PrimaryButton
+            {/* <PrimaryButton
                                 onClick={() =>
                                   this.props.history.push(
                                     stagedTabsPath + eachItem.studentId + "/" + this.props.match.params.productId
@@ -371,9 +424,26 @@ export class Onboarding extends Component {
                   </TableBody>
                 </Table>
               </ThemeProvider>
-            </TableContainer>
+            </TableContainer> */}
+
+            {/* DATA GRID TABLE */}
+            {/* <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={5}
+                checkboxSelection
+                disableSelectionOnClick                                
+              /> */}
+            {this.state.listOfusers.length !== 0 && (
+              <DataGrid
+                data={this.state.listOfusers}
+                obCallStatus={this.renderChip}
+                action={this.renderManageButton}
+              />
+            )}
           </Grid>
         </Grid>
+
         <ThemeProvider theme={theme}>
           <Drawer
             anchor={"right"}
