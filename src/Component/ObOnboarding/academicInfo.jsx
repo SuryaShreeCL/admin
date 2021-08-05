@@ -16,6 +16,7 @@ import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import { ExpandMore } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import DoccumentCard from "../Utils/DoccumentCard";
 import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
@@ -37,10 +38,12 @@ import {
   updateAcademicInfo,
   getStudentsById,
   sscexamboard,
+  getDocumentList
 } from "../../Actions/Student";
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
+import { URL } from "../../Actions/URL";
 
 const theme = createMuiTheme({
   overrides: {
@@ -154,6 +157,7 @@ export class academicInfo extends Component {
         data: null,
         sectionName: "",
       },
+      documentedit : false
     };
     
   }
@@ -305,6 +309,11 @@ export class academicInfo extends Component {
         })
        }      
      }
+  }
+  documentClick = (data) =>{
+    console.log(data)
+    // this.props.downloadGAT(this.props.match.params.studentId,data.type)
+    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
   }
 
   handleChange = (panel) => (event, newExpanded) => {
@@ -643,7 +652,7 @@ export class academicInfo extends Component {
     console.log(this.state)
     console.log(this.props.getAcademicInfoList);
 
-    const { HeadStyle, title, ans, secondary } = style;
+    const { HeadStyle, title, ans, secondary, GridStyle } = style;
     return (
       <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -690,7 +699,9 @@ export class academicInfo extends Component {
                       }
                     />
                     </div>
-                    <IconButton>
+                    <IconButton onClick={()=>  this.setState({
+      documentedit : !this.state.documentedit
+    })}>
                       <img src={Pencil} height={17} width={17} />
                     </IconButton>
                   </div>
@@ -1697,10 +1708,120 @@ export class academicInfo extends Component {
                             }}
                           />
                         </Grid>
-                        <Grid item md={12}></Grid>
+                        <Grid item md={12}
+                        
+                        ></Grid>
                       </Grid>
                     </AccordionDetails>
                   </Accordion>
+                      <Grid item md={12}>
+                      <p style={HeadStyle}>Documents Received</p>
+                      </Grid>
+                      {this.props.getAllDocumentList.["PG Degree"] && this.props.getAllDocumentList.["PG Degree"].length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>PG Degree</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["PG Degree"] ? this.props.getAllDocumentList.["PG Degree"].map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+
+   {this.props.getAllDocumentList.["UG Degree"] && this.props.getAllDocumentList.["UG Degree"].length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>UG Degree</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["UG Degree"] ? this.props.getAllDocumentList.["UG Degree"].map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+
+               
+   {this.props.getAllDocumentList.Diploma && this.props.getAllDocumentList.Diploma.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>Diploma</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.Diploma ? this.props.getAllDocumentList.Diploma.map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+
+  {this.props.getAllDocumentList.["XII Grade"] && this.props.getAllDocumentList.["XII Grade"].length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>XII Grade</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["XII Grade"] ? this.props.getAllDocumentList.["XII Grade"].map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  status={this.state.documentedit}
+                  studentid = {this.props.match.params.studentId}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+{this.props.getAllDocumentList.["X Grade"] && this.props.getAllDocumentList.["X Grade"].length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>X Grade</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.["X Grade"] ? this.props.getAllDocumentList.["X Grade"].map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+
                   <Grid
                     item
                     md={12}
@@ -1736,6 +1857,7 @@ export class academicInfo extends Component {
 
 const style = {
   HeadStyle: {
+    paddingTop : "18px",
     fontStyle: "Poppins",
     fontWeight: "600",
     fontStyle: "normal",
@@ -1770,6 +1892,13 @@ const style = {
     fontSize: "16px",
     color: "#052A4E",
   },
+  GridStyle: {
+    fontStyle: "Montserrat",
+    fontWeight: "700",
+    fontStyle: "normal",
+    fontSize: "16px",
+    color: "#052A4E",
+  },
 };
 
 const mapStateToProps = (state) => {
@@ -1783,6 +1912,7 @@ const mapStateToProps = (state) => {
     updateAcademicInfoList: state.StudentReducer.updateAcademicInfo,
     sscexamboardList: state.StudentReducer.sscexamboard,
     studentStatus: state.AdminReducer.studentStatusResponse,
+    getAllDocumentList: state.StudentReducer.getDocumentList,
 
   };
 };
@@ -1798,5 +1928,5 @@ export default connect(mapStateToProps, {
   sscexamboard,
   viewStudentStatus,
   updateVerificationStatus,
-  
+  getDocumentList
 })(academicInfo);
