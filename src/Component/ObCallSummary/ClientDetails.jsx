@@ -337,6 +337,8 @@ class ClientDetails extends Component {
     { title: "Fulltime" },
     { title: "Parttime" },
     { title: "Freelance" },
+    { title:"SelfEmployed"},
+    { title:"Trainee"}
   ];
   handleSaved = () => {
     console.log(this.state);
