@@ -313,7 +313,7 @@ export class Student extends Component {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
-        <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+        {/* <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
           <img
             src={BackButton}
             style={{ cursor: "pointer",marginTop:"-10px" }}
@@ -327,7 +327,7 @@ export class Student extends Component {
                 Product Punching
               </Typography>
             </Breadcrumbs>
-            </div>
+            </div> */}
           {/* <MaterialTable            
             columns={this.stu_header}
             icons={this.tableIcons}
