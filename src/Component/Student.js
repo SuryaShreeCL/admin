@@ -43,6 +43,10 @@ import {CircularProgress,
 } from "@material-ui/core"
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {studentPath } from "./RoutePaths";
+import BackButton from '../Asset/Images/backbutton.svg';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { Breadcrumbs,Typography} from '@material-ui/core'
 export class Student extends Component {
   constructor(props) {
     super(props);
@@ -309,6 +313,21 @@ export class Student extends Component {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
+        <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Product Punching
+              </Typography>
+            </Breadcrumbs>
+            </div>
           {/* <MaterialTable            
             columns={this.stu_header}
             icons={this.tableIcons}
