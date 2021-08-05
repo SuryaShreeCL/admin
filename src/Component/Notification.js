@@ -12,6 +12,8 @@ import {
      CircularProgress,
      Slide,
      Grid,
+     Breadcrumbs,
+     Typography
     } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from "@material-ui/icons/Close";
@@ -20,6 +22,9 @@ import {viewnotification,addnotification,updatenotification,deletenotification} 
 import TableComponent from "./TableComponent/TableComponent";
 import MySnackBar from "./MySnackBar";
 import { isEmptyString } from './Validation';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import {studentPath } from "./RoutePaths";
+import BackButton from '../Asset/Images/backbutton.svg'
 
 export class Notification extends Component {
 
@@ -387,6 +392,21 @@ spinnerTheme = () =>createMuiTheme({
     render() {
         return (
             <ThemeProvider theme={this.tableTheme()}>
+               <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Notification
+              </Typography>
+            </Breadcrumbs>
+            </div>
             <div>
                {this.props.viewNotification !== 0 ? (
                 <TableComponent

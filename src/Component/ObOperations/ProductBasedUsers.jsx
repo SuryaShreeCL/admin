@@ -1,10 +1,14 @@
-import { Grid, withStyles } from '@material-ui/core';
+import { Grid, withStyles,Breadcrumbs,Typography } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Onboarding from '../ObOnboarding/Onboarding';
 import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
 import { getAdminLinkedProduct } from "../../Actions/AdminAction"
 import { getVariantStepsById } from "../../Actions/ProductAction"
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from '../../Asset/Images/backbutton.svg'
+import {studentPath } from '../RoutePaths';
+
 class ProductBasedUsers extends Component {
     constructor(props){
         super(props);
@@ -69,6 +73,22 @@ class ProductBasedUsers extends Component {
         var selectedComponent = this.state.selectedItem !== null && componentList.[this.state.selectedItem.stepName]
         var Page = obj[selectedComponent];
         return (
+            <div>
+                  <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Manage Student
+              </Typography>
+            </Breadcrumbs>
+            </div>
            <Grid container>
                <Grid item md={12}>
                <ThemedTabs
@@ -90,6 +110,7 @@ class ProductBasedUsers extends Component {
                {Page !== undefined && <Page productId={this.state.adminUserDetails.products[0].id} stageDetails={this.state.selectedItem} {...this.props} />  }             
                </Grid>
            </Grid>
+           </div>
         );
     }
 }

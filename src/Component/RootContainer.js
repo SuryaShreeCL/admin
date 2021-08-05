@@ -651,7 +651,7 @@ console.log(open)
             /> */}
             <div className={classes.spacer}></div>
             <IconButton color="primary" style={{ marginRight: "10px" }}>
-              <Badge variant="dot" color="primary">
+              <Badge color="primary">
                 <NotificationsNoneOutlinedIcon />
               </Badge>
             </IconButton>
@@ -661,7 +661,7 @@ console.log(open)
             />
             {/* <GoogleBtn {...props} />       */}
             <IconButton color="primary" style={{ marginRight: "10px" }}>
-              <Badge variant="dot" color="primary">
+              <Badge color="primary">
                 <InsertInvitationOutlinedIcon />
               </Badge>
             </IconButton>
@@ -732,7 +732,7 @@ console.log(open)
             [classes.contentShift]: open,
           })}
         >
-          <div
+          {/* <div
             style={{
               display: "flex",
               alignItems: "center",
@@ -750,7 +750,7 @@ console.log(open)
               <Typography style={{ cursor: "pointer" }}>Home</Typography>
               <Typography style={{ cursor: "pointer" }}>Product</Typography>
             </Breadcrumbs>
-          </div>
+          </div> */}
 
           <Routes {...props} />
           {/* <ProductBasedUsers {...props} /> */}

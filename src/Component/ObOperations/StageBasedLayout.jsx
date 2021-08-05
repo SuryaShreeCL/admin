@@ -1,4 +1,4 @@
-import { Box, createMuiTheme, Grid, withStyles } from '@material-ui/core';
+import { Box, createMuiTheme, Grid, withStyles,Breadcrumbs,Typography } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAdminLinkedProduct } from "../../Actions/AdminAction";
@@ -14,7 +14,9 @@ import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
 import SubLayoutTab from './SubLayoutTab';
 import { getVariantStepsById } from "../../Actions/ProductAction"
 import ProfileGapAnalysisTab from '../ProfileGapAnalysisTab';
-
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from '../../Asset/Images/backbutton.svg'
+import {studentPath } from '../RoutePaths';
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -115,7 +117,22 @@ componentDidUpdate(prevProps, prevState) {
         console.log("state...........",this.state)
         console.log("props..................",this.props)
         return (
-        //  <ThemeProvider theme={theme}>
+            <div>
+                 <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Manage Client
+              </Typography>
+            </Breadcrumbs>
+            </div>
          <Grid container>
             <Grid item md={12}>
                <ThemedTabs
@@ -162,7 +179,7 @@ componentDidUpdate(prevProps, prevState) {
                    {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }       
                </Grid>
          </Grid>
-        //  </ThemeProvider>
+         </div>
         );
     }
 }

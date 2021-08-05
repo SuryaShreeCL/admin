@@ -8,6 +8,7 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
+  Typography
 } from '@material-ui/core';
 import useTable from '../Utils/useTable';
 import Controls from '../Utils/controls/Controls';
@@ -27,6 +28,10 @@ import {
   createTestimonial,
   updateTestimonial,
 } from '../../Actions/TestimonialActions';
+import {studentPath } from "../RoutePaths";
+import BackButton from '../../Asset/Images/backbutton.svg';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { Breadcrumbs} from '@material-ui/core'
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -55,7 +60,7 @@ const headCells = [
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function Testimonials() {
+export default function Testimonials(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [recordForEdit, setRecordForEdit] = useState(null);
@@ -139,6 +144,21 @@ export default function Testimonials() {
 
   return (
     <>
+     <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Testimonial
+              </Typography>
+            </Breadcrumbs>
+            </div>
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input

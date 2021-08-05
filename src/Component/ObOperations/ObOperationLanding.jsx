@@ -1,12 +1,14 @@
-import { createMuiTheme, Divider, Grid, Typography, ThemeProvider, withStyles } from '@material-ui/core';
+import { createMuiTheme, Divider, Grid, Typography, ThemeProvider, withStyles,Breadcrumbs } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TodayDocument from './TodayDocument';
 import TodayWorkCompletion from './TodayWorkCompletion';
 import add from "../../Asset/Images/add.svg"
 import pbResource from "../../Asset/Images/PB resource icon.svg"
-import { listUsersProdBasedPath, productActivationPath } from '../RoutePaths';
+import { listUsersProdBasedPath, productActivationPath,studentPath } from '../RoutePaths';
 import { getAdminLinkedProduct } from "../../Actions/AdminAction"
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from '../../Asset/Images/backbutton.svg'
 class ObOperationLanding extends Component {
     constructor(props) {
         super(props);
@@ -53,6 +55,22 @@ class ObOperationLanding extends Component {
         console.log(this.state)
         const { classes } = this.props
         return (
+            <div>
+                  <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Operation
+              </Typography>
+            </Breadcrumbs>
+            </div>
             <Grid container>
                 <Grid item md={4}>
                     <Grid container spacing={2}>
@@ -95,6 +113,7 @@ class ObOperationLanding extends Component {
                 </Grid>
 
             </Grid>
+            </div>
         );
     }
 }
