@@ -365,14 +365,14 @@ export const fileuploadGAT = (studentId,examtype,examid,data) =>{
         })
     }
 }
-export const completecall = (studentId,productId) =>{
-    let accessToken = window.sessionStorage.getItem("accessToken")
+export const completecall = (studentId,productId,data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken");
 
     return dispatch =>{
-        axios.put(URL+"/api/v1/student/onboardingcallsummary/status/"+studentId+"/"+productId,{
-            headers : {
-                "Authorization" : `Bearer ${accessToken}`,
-                admin : "yes"
+        axios.put(URL+"/api/v1/student/onboardingcallsummary/status/"+studentId+"/"+productId,data,{
+            headers:{
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
             }
         })
         .then(result=>{

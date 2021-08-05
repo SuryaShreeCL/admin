@@ -245,7 +245,7 @@ class ClientDetails extends Component {
           callStatus,
           specificDays,
           specificTime,
-          enrolmentDate,
+          enrollmentDate,
           aspirationDegrees,
           aspirationCountries,
           aspirationTerms,

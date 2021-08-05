@@ -1,7 +1,6 @@
 import {
   Chip,
   createMuiTheme,
-  createTheme,
   Drawer,
   Grid,
   IconButton,
@@ -225,7 +224,7 @@ export class Onboarding extends Component {
     }
   };
 
-  chipTheme = createTheme({
+  chipTheme = createMuiTheme({
     overrides: {
       MuiChip: {
         colorPrimary: {
