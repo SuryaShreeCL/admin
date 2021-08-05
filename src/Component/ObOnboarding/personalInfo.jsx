@@ -439,7 +439,7 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Address Details</p>
-                    <Status
+                    {/* <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -454,7 +454,7 @@ export class personalInfo extends Component {
                           ? this.getStatus(SECTION.addressDetail).status
                           : "notVerified"
                       }
-                    />
+                    /> */}
                   </div>
                   {/* <IconButton onClick={this.handleAddressClick.bind(this)}>
                     <img src={Pencil} height={17} width={17} />
@@ -581,7 +581,7 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Social Media</p>
-                    <Status
+                    {/* <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -596,7 +596,7 @@ export class personalInfo extends Component {
                           ? this.getStatus(SECTION.socialMedia).status
                           : "notVerified"
                       }
-                    />
+                    /> */}
                   </div>
                   {/* <IconButton onClick={this.handleSocialClick.bind(this)}>
                     <img src={Pencil} height={17} width={17} />
@@ -660,7 +660,7 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Documents Received</p>
-                     <Status
+                     {/* <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -675,7 +675,7 @@ export class personalInfo extends Component {
                           ? this.getStatus(SECTION.supportingDocument).status
                           : "notVerified"
                       }
-                    />
+                    /> */}
                   </div>
                   {/* <IconButton onClick={()=>this.handleEdit()}>
                     <img src={Pencil} height={17} width={17} />
