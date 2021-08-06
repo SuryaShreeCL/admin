@@ -576,7 +576,7 @@ const SingleLevel = ({ item }) => {
 
 const MultiLevel = ({ item }) => {
   const { items: children } = item;
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
   console.log("single Item menu open......",menuOpen)
   const handleClick = () => {
     console.log("Menu1clicked")
@@ -584,7 +584,6 @@ const MultiLevel = ({ item }) => {
     };
   const MenuClick = () => {
     console.log("MenuClicked")
-    
     }
   return (
     <React.Fragment>
