@@ -588,7 +588,7 @@ const MultiLevel = ({ item }) => {
         <ListItemIcon>{menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}</ListItemIcon>
         <ListItemText primary={item.title} />
       </ListItem>
-      <Collapse in={menuOpen} timeout="auto" unmountOnExit>
+      <Collapse style={{minHeight:"270px"}} in={menuOpen} timeout="auto" unmountOnExit>
         <List style={{marginLeft:"14px"}} component="div" disablePadding>
           {children.map((child, key) => (
             <MenuItem  key={key} item={child} />
