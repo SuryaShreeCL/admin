@@ -437,7 +437,7 @@ class GraduateTestResult extends Component {
           "analyticalAssessment":this.state.gmatanalytic,
           "score":this.state.gmatscore,
           "completedExamDate": this.state.gmatdate,
-          "verbalReasoning":"100",
+          "verbalReasoning":this.state.gmatverb,
           }
 
           console.log(obj)
@@ -1989,7 +1989,7 @@ class GraduateTestResult extends Component {
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Quantative Verbal Reasoning"
+                      label="Quantative Reasoning"
                       fullWidth
                       value={this.state.gmatquan}
                       onChange={(e) =>
