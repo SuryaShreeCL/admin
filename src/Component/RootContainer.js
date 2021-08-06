@@ -86,6 +86,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import LandingAdmin from "./LandingAdmin";
 
 const drawerWidth = 240;
 const NavbarList = [
@@ -388,7 +389,8 @@ function RootContainer(props) {
 
     if(props.adminLinkedProductDetails.department === "Acsoperations"){
       let myArr = []
-      props.getProductByFamilyIdList.map((eachItem,index)=>{
+      props.getProductByFamilyIdList.filter(eachProd=>eachProd.variantSKU === "ACS_MS").map((eachItem,index)=>{
+        console.log(eachItem)
         myArr.push({
          title: eachItem.shortName,
          path: obOperationPath+"/"+eachItem.id,
@@ -461,7 +463,7 @@ function RootContainer(props) {
     ])
     }else if(props.adminLinkedProductDetails.department === "Pboperations"){
       let myArr = []
-      props.getProductByFamilyIdList.map((eachItem,index)=>{
+      props.getProductByFamilyIdList.filter(prodItems => prodItems.variantSKU === "PBP").map((eachItem,index)=>{
         myArr.push({
          title: eachItem.shortName,
          path: obOperationPath + "/" + eachItem.id,
@@ -533,7 +535,14 @@ function RootContainer(props) {
         title: "Products",
         path : productPath,
         items: []  
-      }
+      },
+      {
+        icon: <HomeOutlinedIcon />,
+        title: "Student",
+        path : studentPath,
+        items: []  
+      },
+
     ])
     }else if(props.adminLinkedProductDetails.department === "elev8"){
       setSideNav([{
@@ -582,17 +591,15 @@ const MultiLevel = ({ item }) => {
     console.log("Menu1clicked")
       setMenuOpen((prev) => !prev);
     };
-  const MenuClick = () => {
-    console.log("MenuClicked")
-    }
+
   return (
     <React.Fragment>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>{menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}</ListItemIcon>
         <ListItemText primary={item.title} />
       </ListItem>
-      <Collapse style={{minHeight:"290px"}} in={menuOpen} timeout="auto" unmountOnExit>
-        <List onClick={()=>MenuClick()} style={{marginLeft:"14px"}} component="div" disablePadding>
+      <Collapse style={{minHeight:"50px"}} in={menuOpen} timeout="auto" unmountOnExit>
+        <List style={{marginLeft:"14px"}} component="div" disablePadding>
           {children.map((child, key) => (
             <MenuItem  key={key} item={child} />
           ))}
@@ -755,7 +762,7 @@ console.log("Root container props.......", props)
           </div> */}
 
           <Routes {...props} />
-          {/* <ProductBasedUsers {...props} /> */}
+          {/* <LandingAdmin {...props} /> */}
         </main>
         <footer className={classes.footer}>
           <Copyright />

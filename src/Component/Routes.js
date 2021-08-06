@@ -70,7 +70,8 @@ import {
   obOperationPath,
   listUsersProdBasedPath,
   stagedTabsPath,
-  productActivationPath
+  productActivationPath,
+  landingAdminPath
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -115,6 +116,7 @@ import ProductActivation from './ObCallSummary/productActivation';
 import CreatePost from './Wall/Pages/CreatePost';
 import EditPost from './Wall/Pages/EditPost';
 import PersonaInfo from './ObOnboarding/personalInfo';
+import LandingAdmin from './LandingAdmin';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -168,6 +170,8 @@ export default function Routes(props) {
             <Route exact path={stagedTabsPath.concat(':studentId'+"/:productId")} render={(props)=> <StageBasedLayout {...props} />} />
             <Route exact path={productActivationPath} render={(props)=> <ProductActivation {...props} />} />
             <Route exact path={productActivationPath + "/:productId"} render={(props)=> <ProductActivation {...props} />} />
+            <Route exact path={landingAdminPath} render={(props)=> <LandingAdmin {...props} />} />
+
             <Route
               exact
               // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
