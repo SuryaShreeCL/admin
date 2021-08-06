@@ -494,6 +494,11 @@ function RootContainer(props) {
       },
       {
         icon: <HomeOutlinedIcon />,
+        title: "Operations",
+        items: myArr
+      },
+      {
+        icon: <HomeOutlinedIcon />,
         title: "Resources",
         items: [{
           title : "Webinar",
@@ -508,11 +513,6 @@ function RootContainer(props) {
           path : videoPath,
         }
       ]  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Operations",
-        items: myArr
       },
     ])
     }else if(props.adminLinkedProductDetails.department === "sales"){
@@ -579,17 +579,21 @@ const MultiLevel = ({ item }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   console.log("single Item menu open......",menuOpen)
   const handleClick = () => {
+    console.log("Menu1clicked")
       setMenuOpen((prev) => !prev);
     };
-
+  const MenuClick = () => {
+    console.log("MenuClicked")
+    
+    }
   return (
     <React.Fragment>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>{menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}</ListItemIcon>
         <ListItemText primary={item.title} />
       </ListItem>
-      <Collapse in={menuOpen} timeout="auto" unmountOnExit>
-        <List style={{marginLeft:"14px"}} component="div" disablePadding>
+      <Collapse style={{minHeight:"290px"}} in={menuOpen} timeout="auto" unmountOnExit>
+        <List onClick={()=>MenuClick()} style={{marginLeft:"14px"}} component="div" disablePadding>
           {children.map((child, key) => (
             <MenuItem  key={key} item={child} />
           ))}

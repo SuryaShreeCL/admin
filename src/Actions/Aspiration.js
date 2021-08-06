@@ -802,11 +802,11 @@ export const updateAspiration=(data,callback,id,tid)=>{
     }   
 }
 
-export const getAspiration=(callback,id)=>{
+export const getAspiration=(callback,id,productid)=>{
 
     return dispatch=>{
         let accessToken = window.sessionStorage.getItem("accessToken");
-        axios.get(URL+"/api/v1/aspirationDetails/"+id,{
+        axios.get(URL+"/api/v1/aspirationDetails/"+id+"/"+productid,{
             crossDomain: true,           
             headers:{
                 "admin" : "yes",

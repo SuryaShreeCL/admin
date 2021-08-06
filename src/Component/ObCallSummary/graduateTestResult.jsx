@@ -437,7 +437,7 @@ class GraduateTestResult extends Component {
           "analyticalAssessment":this.state.gmatanalytic,
           "score":this.state.gmatscore,
           "completedExamDate": this.state.gmatdate,
-          "verbalReasoning":"100",
+          "verbalReasoning":this.state.gmatverb,
           }
 
           console.log(obj)
@@ -1684,6 +1684,7 @@ class GraduateTestResult extends Component {
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>GMAT</p> 
                   </Grid>
+                  <Grid item={12} container >
                   {this.props.getAllDocumentList.GMAT ? this.props.getAllDocumentList.GMAT.map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
@@ -1697,6 +1698,7 @@ class GraduateTestResult extends Component {
                   />
                    </Grid>
                   ) : null}
+                  </Grid>
                   </Grid>
   }
                     {this.props.getAllDocumentList.TOEFL && this.props.getAllDocumentList.TOEFL.length !== 0 &&
@@ -1989,7 +1991,7 @@ class GraduateTestResult extends Component {
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Quantative Verbal Reasoning"
+                      label="Quantative Reasoning"
                       fullWidth
                       value={this.state.gmatquan}
                       onChange={(e) =>

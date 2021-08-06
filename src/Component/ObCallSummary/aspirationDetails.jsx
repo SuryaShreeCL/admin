@@ -133,7 +133,7 @@ class AspirationDetails extends Component {
         answerModel : response.testQuestionModels,
         ...response,        
       });
-    }, this.props.match.params.studentId);
+    }, this.props.match.params.studentId,this.props.match.params.productId);
   }
 
   handleClick(e) {
@@ -350,6 +350,7 @@ class AspirationDetails extends Component {
     console.log(this.props.allTermList)
     const { choiceStyle } = style;   
     console.log("state.......................",this.state) 
+    console.log("props.......................",this.props)
     return (
       <div style={{ padding: 25 }}>
         <ThemeProvider theme={theme}>
