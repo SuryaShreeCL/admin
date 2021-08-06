@@ -564,7 +564,10 @@ const MenuItem = ({ item }) => {
 
 const SingleLevel = ({ item }) => {
   return (
-    <ListItem button onClick={()=>props.history.push(item.path)}>
+    <ListItem button onClick={(e)=>{
+      
+      props.history.push(item.path)
+    }}>
       <ListItemIcon>{""}</ListItemIcon>
       <ListItemText primary={item.title} />
     </ListItem>
@@ -574,11 +577,9 @@ const SingleLevel = ({ item }) => {
 const MultiLevel = ({ item }) => {
   const { items: children } = item;
   const [menuOpen, setMenuOpen] = useState(false);
-console.log(open)
+  console.log("single Item menu open......",menuOpen)
   const handleClick = () => {
-    console.log("handle click called",menuOpen)
       setMenuOpen((prev) => !prev);
-      console.log(menuOpen)
     };
 
   return (
@@ -618,10 +619,8 @@ console.log(open)
   }
   
 
-    const renderSideNav = () =>{
 
-    }
-
+console.log("Root container props.......", props)
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
