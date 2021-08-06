@@ -72,7 +72,7 @@ export class AspirationDetails extends Component {
   }
 
     var findObj = this.props.studentStatusResponse.find(
-      (res) => res.section.name === "Aspiration Details"
+      (res) => res.section && res.section.name === "Aspiration Details"
     );
     console.log(findObj);
 
@@ -104,7 +104,7 @@ export class AspirationDetails extends Component {
         specialization : this.props.aspirationDetails.specializations,
         university : this.props.aspirationDetails.universities,
         noOfSchool : this.props.aspirationDetails.noOfSchool,
-        year : {title : this.props.aspirationDetails.year.toString(), value : this.props.aspirationDetails.year} 
+        year : {title : this.props.aspirationDetails.year && this.props.aspirationDetails.year.toString(), value : this.props.aspirationDetails.year && this.props.aspirationDetails.year} 
       });
     }
     if (
