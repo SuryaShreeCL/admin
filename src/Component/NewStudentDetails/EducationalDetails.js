@@ -80,7 +80,7 @@ export class EducationalDetails extends Component {
   }
 
     var findObj = this.props.studentStatusResponse.find(
-      (res) => res.section.name === "Educational Details'"
+      (res) => res.section && res.section.name === "Educational Details'"
     );
     console.log(findObj);
 

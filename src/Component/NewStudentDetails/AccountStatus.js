@@ -44,7 +44,7 @@ export class AccountStatus extends Component {
     }
   
       var findObj = this.props.studentStatusResponse.find(
-        (res) => res.section.name === "Account Status"
+        (res) => res.section && res.section.name === "Account Status"
       );
       console.log(findObj);
   
