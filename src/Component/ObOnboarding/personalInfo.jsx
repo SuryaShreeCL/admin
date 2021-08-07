@@ -25,6 +25,7 @@ import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
 import {URL} from '../../Actions/URL'
+import MySnackBar from "../MySnackBar";
 const theme = createMuiTheme({
   overrides: {
     MuiInputBase: {
@@ -59,6 +60,9 @@ export class personalInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      snackMsg:"",
+      snackOpen:false,
+      snackVariant:"",
       personalDisable: true,
       addressDisable: true,
       mediaDisable: true,
@@ -146,6 +150,13 @@ export class personalInfo extends Component {
           linkedIn: this.props.getStudentsByIdList.linkedInProfile,
           state:this.props.getStudentsByIdList.address.state
         });
+    }
+    if(this.props.updatePersonalInfoList !== prevProps.updatePersonalInfoList){
+       this.setState({
+         snackMsg:"Updated Successfully",
+         snackVariant:"success",
+         snackOpen:true
+       })
     }
   }
 
@@ -922,6 +933,11 @@ export class personalInfo extends Component {
             </Grid>
           </Card>
           {this.renderModel()}
+          <MySnackBar 
+          snackMsg={this.state.snackMsg}
+          snackVariant={this.state.snackVariant}
+          snackOpen={this.state.snackOpen}
+          />
         </ThemeProvider>
       </div>
     );

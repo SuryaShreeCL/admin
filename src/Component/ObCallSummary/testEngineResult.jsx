@@ -58,7 +58,6 @@ class TestEngineResult extends Component {
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
   }
-
   componentDidMount() {
     // this.props.viewscoredetails(this.props.match.params.id);
     this.props.viewStudentStatus(this.props.match.params.studentId);
@@ -506,6 +505,11 @@ class TestEngineResult extends Component {
           onClose={() => this.setState({ snackOpen: false })}
         />
         {this.renderModel()}
+        {/* <MySnackBar 
+          snackMsg={this.state.snackMsg}
+          snackVariant={this.state.snackVariant}
+          snackOpen={this.state.snackOpen}        
+        /> */}
       </div>
     );
   }

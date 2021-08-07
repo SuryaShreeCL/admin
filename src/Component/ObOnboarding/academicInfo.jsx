@@ -44,6 +44,7 @@ import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { URL } from "../../Actions/URL";
+import MySnackBar from "../MySnackBar";
 
 const theme = createMuiTheme({
   overrides: {
@@ -64,6 +65,9 @@ export class academicInfo extends Component {
     super(props);
 
     this.state = {
+      snackMsg:"",
+      snackOpen:false,
+      snackVariant:"",
       expanded: "panel1",
       open: false,
       ugCollege: "",
@@ -203,6 +207,13 @@ export class academicInfo extends Component {
         })
     }
     } 
+    if(this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList){
+     this.setState({
+       snackMsg:"Uploaded Successfully",
+       snackOpen:true,
+       snackVariant:"success"
+     })
+    }
     if(this.state.tenthEndDate !== prevState.tenthEndDate ) {
       if(this.state.tenthStartDate === this.state.tenthEndDate){
         this.setState({
@@ -1848,6 +1859,11 @@ export class academicInfo extends Component {
               </ThemeProvider>
             </Card>
             {this.renderModel()}
+            <MySnackBar 
+              snackMsg={this.state.snackMsg}
+              snackVariant={this.state.snackVariant}
+              snackOpen={this.state.snackOpen} 
+            />
           </ThemeProvider>
         </MuiPickersUtilsProvider>
       </div>
