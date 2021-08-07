@@ -734,7 +734,7 @@ console.log("Root container props.......", props)
           {sideNav.map((item, key) => <MenuItem key={key} item={item} />)}
 
        
-          <Divider />
+          {/* <Divider /> */}
         </Drawer>
         <main
           className={clsx(classes.content, {
