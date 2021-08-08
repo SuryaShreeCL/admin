@@ -153,12 +153,12 @@ export class Login extends Component {
                       Sign in
                     </Button>
                   </div>
-                  <div className="login__footer__label">
+                  {/* <div className="login__footer__label">
                     <label className="text-secondary">
                       Sign in with Other?
                     </label>
                   </div>
-                  <GoogleBtn {...this.props} />
+                  <GoogleBtn {...this.props} /> */}
                 </div>
               </div>
             </div>

@@ -302,7 +302,7 @@ function RootContainer(props) {
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [selectedMenu, setSelectedMenu] = React.useState(null);
-  const [state, setState] = React.useState({open : {}})
+  const [state, setState] = React.useState({ open: {} });
   const [sideNav, setSideNav] = React.useState([]);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -319,11 +319,10 @@ function RootContainer(props) {
     // props.history.push(rootLoginPath);
   };
 
-
   const mounted = useRef();
 
-  var flag = false
-  
+  var flag = false;
+
   useEffect(() => {
     if (!mounted.current) {
       // do componentDidMount logic
@@ -338,37 +337,41 @@ function RootContainer(props) {
         props.checkTokenStatus();
       }
     } else {
-            // do componentDidUpdate logic
+      // do componentDidUpdate logic
 
-     
       if (props.tokenStatus !== null && props.tokenStatus.expired) {
         console.log("Token status checked.........", props.tokenStatus);
         window.sessionStorage.clear();
         props.history.push(rootLoginPath);
       }
-
     }
   });
 
-
   function usePrevious(value) {
     const ref = useRef();
+    
     useEffect(() => {
       ref.current = value;
     });
     return ref.current;
   }
 
-  const prevProps = usePrevious(props)
+  const prevProps = usePrevious(props);
 
+  useEffect(() => {
+    console.log(props.adminLinkedProductDetails);
 
-  useEffect(()=>{
-    console.log(props.adminLinkedProductDetails)
-    
-    if(props.adminLinkedProductDetails.length !== 0 && props.getProductByFamilyIdList.length === 0 && props.adminLinkedProductDetails.department !== "sales" && props.adminLinkedProductDetails.department !== "elev8" ){
-      props.getProductByFamilyId(props.adminLinkedProductDetails.products[0].productFamily.id)
+    if (
+      props.adminLinkedProductDetails.length !== 0 &&
+      props.getProductByFamilyIdList.length === 0 &&
+      props.adminLinkedProductDetails.department !== "sales" &&
+      props.adminLinkedProductDetails.department !== "elev8"
+    ) {
+      props.getProductByFamilyId(
+        props.adminLinkedProductDetails.products[0].productFamily.id
+      );
     }
-    console.log(props.getProductByFamilyIdList)
+    console.log(props.getProductByFamilyIdList);
     // let newListArr = []
     // props.getProductByFamilyIdList.map((eachItem,index)=>{
     //  newListArr.push({
@@ -386,241 +389,236 @@ function RootContainer(props) {
     //   items: newListArr,
     // }])
 
-    if(props.adminLinkedProductDetails.department === "Acsoperations"){
-      let myArr = []
-      props.getProductByFamilyIdList.map((eachItem,index)=>{
+    if (props.adminLinkedProductDetails.department === "Acsoperations") {
+      let myArr = [];
+      props.getProductByFamilyIdList.map((eachItem, index) => {
         myArr.push({
-         title: eachItem.shortName,
-         path: obOperationPath+"/"+eachItem.id,
-        })
-       })
+          title: eachItem.shortName,
+          path: obOperationPath + "/" + eachItem.id,
+        });
+      });
       setSideNav([
         {
           icon: <HomeOutlinedIcon />,
           title: "Operations",
-          items: myArr
+          items: myArr,
         },
         {
-        icon: <HomeOutlinedIcon />,
-        title: "Aspiration",
-        path : aspirationPath,
-        items: []
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Templates",
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Master Grad list",
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Call Scheduler",
-        path : callSchedulePath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Reports",
-        path : reportsPath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Notification",
-        path : notificationPath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Career Track",
-        path : careerTrackPath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Resources",
-        items: [{
-          title : "Webinar",
-          path : webinarPath,
+          icon: <HomeOutlinedIcon />,
+          title: "Aspiration",
+          path: aspirationPath,
+          items: [],
         },
         {
-          title : "Testmonial",
-          path : testimonialsPath,
+          icon: <HomeOutlinedIcon />,
+          title: "Templates",
+          items: [],
         },
         {
-          title : "Role Videos",
-          path : videoPath,
-        }
-      ]  
-      },
-      
-    ])
-    }else if(props.adminLinkedProductDetails.department === "Pboperations"){
-      let myArr = []
-      props.getProductByFamilyIdList.map((eachItem,index)=>{
+          icon: <HomeOutlinedIcon />,
+          title: "Master Grad list",
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Call Scheduler",
+          path: callSchedulePath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Reports",
+          path: reportsPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Notification",
+          path: notificationPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Career Track",
+          path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Resources",
+          items: [
+            {
+              title: "Webinar",
+              path: webinarPath,
+            },
+            {
+              title: "Testmonial",
+              path: testimonialsPath,
+            },
+            {
+              title: "Role Videos",
+              path: videoPath,
+            },
+          ],
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === "Pboperations") {
+      let myArr = [];
+      props.getProductByFamilyIdList.map((eachItem, index) => {
         myArr.push({
-         title: eachItem.shortName,
-         path: obOperationPath + "/" + eachItem.id,
-
-        })
-       })
-      setSideNav([{
-        icon: <HomeOutlinedIcon />,
-        title: "Aspiration",
-        path : aspirationPath,
-        items: []
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Career Track",
-        path : careerTrackPath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Reports",
-        path : reportsPath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Notification",
-        path : notificationPath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Resources",
-        items: [{
-          title : "Webinar",
-          path : webinarPath,
+          title: eachItem.shortName,
+          path: obOperationPath + "/" + eachItem.id,
+        });
+      });
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Aspiration",
+          path: aspirationPath,
+          items: [],
         },
         {
-          title : "Testmonial",
-          path : testimonialsPath,
+          icon: <HomeOutlinedIcon />,
+          title: "Career Track",
+          path: careerTrackPath,
+          items: [],
         },
         {
-          title : "Role Videos",
-          path : videoPath,
-        }
-      ]  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Operations",
-        items: myArr
-      },
-    ])
-    }else if(props.adminLinkedProductDetails.department === "sales"){
-      setSideNav([{
-        icon: <HomeOutlinedIcon />,
-        title: "City",
-        path : cityPath,
-        items: []
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Product Punching",
-        path : productPunchingPath,
-        items: []  
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Products",
-        path : productPath,
-        items: []  
-      }
-    ])
-    }else if(props.adminLinkedProductDetails.department === "elev8"){
-      setSideNav([{
-        icon: <HomeOutlinedIcon />,
-        title: "Wall",
-        path : wallPath,
-        items: []
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Career Track",
-        path : careerTrackPath,
-        items: []  
-      }
-    ])
+          icon: <HomeOutlinedIcon />,
+          title: "Reports",
+          path: reportsPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Notification",
+          path: notificationPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Resources",
+          items: [
+            {
+              title: "Webinar",
+              path: webinarPath,
+            },
+            {
+              title: "Testmonial",
+              path: testimonialsPath,
+            },
+            {
+              title: "Role Videos",
+              path: videoPath,
+            },
+          ],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Operations",
+          items: myArr,
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === "sales") {
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "City",
+          path: cityPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Product Punching",
+          path: productPunchingPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Products",
+          path: productPath,
+          items: [],
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === "elev8") {
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Wall",
+          path: wallPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Career Track",
+          path: careerTrackPath,
+          items: [],
+        },
+      ]);
     }
+  }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
 
-  },[props.adminLinkedProductDetails, props.getProductByFamilyIdList])
+  const MenuItem = ({ item }) => {
+    const Component = hasChildren(item) ? MultiLevel : SingleLevel;
+    return <Component item={item} />;
+  };
 
-  console.log("........props", props);
-  console.log("sidenav..............", sideNav)
-
-
-const MenuItem = ({ item }) => {
-  const Component = hasChildren(item) ? MultiLevel : SingleLevel;
-  return <Component  item={item} />;
-};
-
-const SingleLevel = ({ item }) => {
-  return (
-    <ListItem button onClick={()=>props.history.push(item.path)}>
-      <ListItemIcon>{""}</ListItemIcon>
-      <ListItemText primary={item.title} />
-    </ListItem>
-  );
-};
-
-const MultiLevel = ({ item }) => {
-  const { items: children } = item;
-  const [menuOpen, setMenuOpen] = useState(false);
-console.log(open)
-  const handleClick = () => {
-    console.log("handle click called",menuOpen)
-      setMenuOpen((prev) => !prev);
-      console.log(menuOpen)
-    };
-
-  return (
-    <React.Fragment>
-      <ListItem button onClick={handleClick}>
-        <ListItemIcon>{menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}</ListItemIcon>
+  const SingleLevel = ({ item }) => {
+    return (
+      <ListItem button onClick={() => props.history.push(item.path)}>
+        <ListItemIcon>{""}</ListItemIcon>
         <ListItemText primary={item.title} />
       </ListItem>
-      <Collapse in={menuOpen} timeout="auto" unmountOnExit>
-        <List style={{marginLeft:"14px"}} component="div" disablePadding>
-          {children.map((child, key) => (
-            <MenuItem  key={key} item={child} />
-          ))}
-        </List>
-      </Collapse>
-    </React.Fragment>
-  );
-};
+    );
+  };
 
-
-  const hasChildren = (item) =>{
+  const MultiLevel = ({ item }) => {
     const { items: children } = item;
-  
+    const [menuOpen, setMenuOpen] = useState(false);
+    console.log(open);
+    const handleClick = () => {
+      console.log("handle click called", menuOpen);
+      setMenuOpen((prev) => !prev);
+    };
+
+    return (
+      <React.Fragment>
+        <ListItem button onClick={handleClick}>
+          <ListItemIcon>
+            {menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </ListItemIcon>
+          <ListItemText primary={item.title} />
+        </ListItem>
+        <Collapse in={menuOpen} timeout="auto">
+          <List style={{ marginLeft: "14px" }} component="div" disablePadding>
+            {children.map((child, key) => (
+              <MenuItem key={key} item={child} />
+            ))}
+          </List>
+        </Collapse>
+      </React.Fragment>
+    );
+  };
+
+  const hasChildren = (item) => {
+    const { items: children } = item;
+
     if (children === undefined) {
       return false;
     }
-  
+
     if (children.constructor !== Array) {
       return false;
     }
-  
+
     if (children.length === 0) {
       return false;
     }
-  
+
     return true;
-  }
-  
+  };
 
-    const renderSideNav = () =>{
-
-    }
+  const renderSideNav = () => {};
 
   return (
     <ThemeProvider theme={theme}>
@@ -703,7 +701,6 @@ console.log(open)
           </div>
           <Divider />
 
-
           {/* <List>
             {NavbarList.map((Item, index) => (
               <ListItem
@@ -722,9 +719,10 @@ console.log(open)
               </ListItem>
             ))}
           </List> */}
-          {sideNav.map((item, key) => <MenuItem key={key} item={item} />)}
+          {sideNav.map((item, key) => (
+            <MenuItem key={key} item={item} />
+          ))}
 
-       
           <Divider />
         </Drawer>
         <main
@@ -778,12 +776,12 @@ const mapStateToProps = (state) => {
   return {
     tokenStatus: state.AdminReducer.tokenStatus,
     adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,
-    getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId
+    getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
   };
 };
 
 export default connect(mapStateToProps, {
   checkTokenStatus,
   getAdminLinkedProduct,
-  getProductByFamilyId
+  getProductByFamilyId,
 })(RootContainer);

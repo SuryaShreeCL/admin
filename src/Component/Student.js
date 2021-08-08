@@ -75,6 +75,7 @@ export class Student extends Component {
       studentIdHelperText : null,
       internAccess : false,
       lmsAccess : false,
+      prevEmail:null,
     };
   }
 
@@ -199,6 +200,13 @@ export class Student extends Component {
   paginate = (page, size, keyword) => {
     this.props.getStudentPaginate(page, size, keyword);
   };
+
+  isEmail = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
+
   handleSubmit = (e) =>{
     this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
     this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
@@ -207,6 +215,13 @@ export class Student extends Component {
     this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
     this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
     this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
+
+    if(this.state.eMail&&!this.isEmail(this.state.eMail)){
+      this.setState({emailHelperText:'Please fill valid email'})
+    }else{
+      this.setState({emailHelperText:''})
+    }
+
     if(
      this.state.firstName !== null && this.state.firstName.length !== 0 &&
      this.state.lastName !== null && this.state.lastName.length !== 0 &&
@@ -214,7 +229,8 @@ export class Student extends Component {
      this.state.phone !== null && this.state.phone.length !== 0 &&
      this.state.college !== null && this.state.college.length !== 0 &&
      this.state.department !== null && this.state.department.length !== 0 &&
-     this.state.studentId !== null && this.state.studentId.length !== 0 
+     this.state.studentId !== null && this.state.studentId.length !== 0 &&
+     this.state.emailHelperText===null
      ){
       let studentObj = {
         firstName: this.state.firstName,
@@ -234,8 +250,7 @@ export class Student extends Component {
         internshipAccess : this.state.internAccess === false ? "no" : "yes",
         origin : "ADMIN Portal"
       };
-      this.props.mernStudentSignUp(studentObj)
-      console.log(studentObj)
+      this.props.mernStudentSignUp(studentObj)      
       this.setState({
         dialogOpen : false,
         firstName : null,
@@ -261,7 +276,7 @@ export class Student extends Component {
     this.state.phone === null || this.state.phone.length === 0 ? this.setState({phoneHelperText : "Please fill the required feild"}) : this.setState({phoneHelperText : null})
     this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
     this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
-    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
+    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})    
     if(
      this.state.firstName !== null && this.state.firstName.length !== 0 &&
      this.state.lastName !== null && this.state.lastName.length !== 0 &&
@@ -276,6 +291,7 @@ export class Student extends Component {
       lastName: this.state.lastName,
       college: this.state.college.id,
       department: this.state.department.id,
+      email_id  :this.state.eMail,
       isActive: this.state.isActive,
       avatar: "",
       studentId: this.state.studentId,
@@ -303,10 +319,7 @@ export class Student extends Component {
     })
   }
   }
-  render() {  
-    console.log("State............",this.state)
-    console.log("Edit Student response.................",this.props)
-    console.log(this.props.match.path)
+  render() {      
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
@@ -363,6 +376,7 @@ export class Student extends Component {
                   firstName : rowdata.firstName,
                   lastName : rowdata.lastName,
                   eMail : rowdata.emailId,
+                  prevEmail:rowdata.emailId,
                   phone : rowdata.phoneNumber,
                   college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
                   department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
@@ -487,6 +501,9 @@ export class Student extends Component {
                onChange={(e)=>this.setState({phone : e.target.value})}
                fullWidth
                label="Phone Number"
+               inputProps={{
+                maxLength: 10,
+              }}               
                />
                   </Grid>
                   <Grid item md={6}>
