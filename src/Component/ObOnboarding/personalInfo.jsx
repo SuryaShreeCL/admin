@@ -659,8 +659,8 @@ export class personalInfo extends Component {
                       width: "22%",
                     }}
                   >
-                    <p style={HeadStyle}>Documents Received</p>
-                     {/* <Status
+                    {/* <p style={HeadStyle}>Documents Received</p>
+                      <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -682,7 +682,7 @@ export class personalInfo extends Component {
                   </IconButton> */}
                 </div>
               </Grid>
-
+{/* 
               {this.props.getAllDocumentList.["PG Degree"] && this.props.getAllDocumentList.["PG Degree"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
@@ -896,7 +896,7 @@ export class personalInfo extends Component {
                   ) : null}
                   </Grid>
                   </Grid>
-  }
+  } */}
 
               <Grid
                 item

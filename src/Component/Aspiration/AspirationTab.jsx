@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import {Paper} from "@material-ui/core"
+import {Paper,Breadcrumbs} from "@material-ui/core"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +13,9 @@ import AspirationFeildOfStudy from "./AspirationFeildOfStudy"
 import AspirationDegree from "./AspirationDegree"
 import AspirationCountry from "./AspirationCountry"
 import AspirationCollege from "./AspirationCollege"
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import {studentPath } from "../RoutePaths";
+import BackButton from '../../Asset/Images/backbutton.svg';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -66,6 +69,21 @@ export default function AspirationTab(props) {
 
   return (
     <div className={classes.root}>
+     <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Aspiration
+              </Typography>
+            </Breadcrumbs>
+            </div>
       <>
       <div>
        </div>

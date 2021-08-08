@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography } from '@material-ui/core';
+import { Divider, Grid, Typography,Breadcrumbs } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../Utils/PrimaryButton';
@@ -8,6 +8,9 @@ import Question from './textEditor';
 import Rating from './Rating';
 import {completecall} from '../../Actions/Calldetails'
 import Mysnack from "../MySnackBar";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from '../../Asset/Images/backbutton.svg'
+import { studentPath } from "../RoutePaths";
 
 class CallSummaryLayout extends Component {
     constructor(props) {
@@ -55,6 +58,21 @@ class CallSummaryLayout extends Component {
         console.log(this.props)
         return (
             <div>
+                 <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Call Summary
+              </Typography>
+            </Breadcrumbs>
+            </div>
             <Grid container spacing={2}>
                 <Grid item md={12} container justify={"space-between"} alignItems={"center"}>
                     <Typography variant="h6">

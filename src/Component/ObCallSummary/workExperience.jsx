@@ -33,6 +33,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { getDocumentList } from "../../Actions/Student";  
 import {getworkexp,updateworkexp} from '../../Actions/Calldetails'
 import {connect} from 'react-redux'
 import Mysnack from '../MySnackBar'
@@ -40,6 +41,8 @@ import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/Admin
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
+import DoccumentCard from "../Utils/DoccumentCard";
+import { URL } from "../../Actions/URL";
 
 const theme = createMuiTheme({
   overrides: {
@@ -225,6 +228,12 @@ class workExperience extends Component {
     } 
   };
 
+  documentClick = (data) =>{
+    console.log(data)
+    // this.props.downloadGAT(this.props.match.params.studentId,data.type)
+    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
+  }
+
   renderModel = () => (
     <Model
       data={this.state.sectionStatus}
@@ -242,6 +251,8 @@ class workExperience extends Component {
   );  
 
   render() {
+    const { HeadStyle, GridStyle } = style;
+
     console.log(this.state);
     console.log(this.props.getworkexpList)
     // console.log(new Date(this.state.startDate).setMonth(new Date(this.state.startDate).getMonth()+3))
@@ -463,6 +474,33 @@ class workExperience extends Component {
             }
             )}
           </div>
+          <Grid item md={12}>
+                      <p style={HeadStyle}>Documents Received</p>
+                      </Grid>
+          <Grid item md={12}>
+          {this.props.getAllDocumentList.CV && this.props.getAllDocumentList.CV.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>CV</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.CV ? this.props.getAllDocumentList.CV.map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.path}
+                  date={data.uploadDate}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  // category = 'cv'
+                  // id = {data.ieltsId}
+                  // status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+          </Grid>
 
           <div
             style={{
@@ -495,11 +533,30 @@ class workExperience extends Component {
     );
   }
 }
+
+const style = {
+  HeadStyle: {
+    paddingTop : "18px",
+    fontStyle: "Poppins",
+    fontWeight: "600",
+    fontStyle: "normal",
+    fontSize: "18px",
+    color: "#0081FF",
+  },
+  GridStyle: {
+    fontStyle: "Montserrat",
+    fontWeight: "700",
+    fontStyle: "normal",
+    fontSize: "16px",
+    color: "#052A4E",
+  },
+}
 const mapStateToProps = (state) => {
   return {
     getworkexpList : state.CallReducer.getworkexp,
     updateworkexpList : state.CallReducer.updateworkexp,
     studentStatus: state.AdminReducer.studentStatusResponse,
+    getAllDocumentList: state.StudentReducer.getDocumentList,
 
   };
 };
@@ -508,4 +565,5 @@ export default connect(mapStateToProps, {
  getworkexp,updateworkexp,
  viewStudentStatus,
   updateVerificationStatus,
+  getDocumentList
 })(workExperience);

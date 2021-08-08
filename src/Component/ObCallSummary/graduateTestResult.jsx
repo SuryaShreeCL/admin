@@ -16,6 +16,8 @@ import { Autocomplete } from "@material-ui/lab";
 import {
   KeyboardDatePicker, MuiPickersUtilsProvider
 } from "@material-ui/pickers";
+import DoccumentCard from "../Utils/DoccumentCard";
+
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { Link } from "react-router-dom";
@@ -23,10 +25,10 @@ import {
   downloadGAT,
   fileuploadGAT, getgmatscore, getgrescore, getieltsscore, gettoeflscore, updategmatscore, updategrescore, updateieltsscore, updatetoeflscore
 } from "../../Actions/Calldetails";
-import {proofUplaod,getStudentsById} from '../../Actions/Student'
+import {proofUplaod,getStudentsById, getDocumentList} from '../../Actions/Student'
 import { connect } from "react-redux";
 import Mysnack from '../MySnackBar'
-import {URL} from '../../Actions/URL'
+import { URL} from '../../Actions/URL'
 import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
@@ -143,6 +145,7 @@ class GraduateTestResult extends Component {
       gmatindex : "",
       ieltsindex:"",
       toeflindex: "",
+      documentedit : false,
       sectionStatus: {
         model: false,
         data: null,
@@ -314,6 +317,13 @@ class GraduateTestResult extends Component {
       greindex : index+1
     });
   }
+
+  documentClick = (data) =>{
+    console.log(data)
+    // this.props.downloadGAT(this.props.match.params.studentId,data.type)
+    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
+  }
+
   handleGmatclick = (data) => {
     console.log(data);
     this.setState({
@@ -427,7 +437,7 @@ class GraduateTestResult extends Component {
           "analyticalAssessment":this.state.gmatanalytic,
           "score":this.state.gmatscore,
           "completedExamDate": this.state.gmatdate,
-          "verbalReasoning":"100",
+          "verbalReasoning":this.state.gmatverb,
           }
 
           console.log(obj)
@@ -564,6 +574,8 @@ class GraduateTestResult extends Component {
   }
   console.log("State.....",this.state)
   console.log(this.props.downloadGATList)
+  const { HeadStyle, GridStyle } = style;
+
     return (
       <ThemeProvider theme={theme}>
         <div style={{ padding: 25 }}>
@@ -1642,6 +1654,97 @@ class GraduateTestResult extends Component {
                 </Table>
               )}
             </TableContainer>
+            <Grid item md={12}>
+                      <p style={HeadStyle}>Documents Received</p>
+                 </Grid>
+                 {this.props.getAllDocumentList.GRE && this.props.getAllDocumentList.GRE.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>GRE</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.GRE ? this.props.getAllDocumentList.GRE.map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  category = "Gre"
+                  id = {data.greId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+  {this.props.getAllDocumentList.GMAT && this.props.getAllDocumentList.GMAT.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>GMAT</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.GMAT ? this.props.getAllDocumentList.GMAT.map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  category ="Gmat"
+                  id = {data.gmatId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
+                    {this.props.getAllDocumentList.TOEFL && this.props.getAllDocumentList.TOEFL.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} >
+                  <p style={GridStyle}>TOEFL</p> 
+                  </Grid>
+                 <Grid item={12} container >
+                 {this.props.getAllDocumentList.TOEFL ? this.props.getAllDocumentList.TOEFL.map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  category ="Toefl"
+                  id = {data.tofelId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+               </Grid>
+                  </Grid>
+  }
+   {this.props.getAllDocumentList.IELTS && this.props.getAllDocumentList.IELTS.length !== 0 &&
+                <Grid item md={12}>
+                <Grid item md={12} direction="column">
+                  <p style={GridStyle}>IELTS</p> 
+                  </Grid>
+                  <Grid item={12} container >
+                  {this.props.getAllDocumentList.IELTS ? this.props.getAllDocumentList.IELTS.map(data =>
+                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
+                  <DoccumentCard 
+                  certificate={data.name}
+                  date={data.date}
+                  path={data.path}
+                  studentid = {this.props.match.params.studentId}
+                  category = 'Ielts'
+                  id = {data.ieltsId}
+                  status={this.state.documentedit}
+                  />
+                   </Grid>
+                  ) : null}
+                  </Grid>
+                  </Grid>
+  }
             <Dialog
               open={this.state.show}
               onClose={() => this.setState({ show: false })}
@@ -1888,7 +1991,7 @@ class GraduateTestResult extends Component {
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Quantative Verbal Reasoning"
+                      label="Quantative Reasoning"
                       fullWidth
                       value={this.state.gmatquan}
                       onChange={(e) =>
@@ -2400,6 +2503,25 @@ class GraduateTestResult extends Component {
     );
   }
 }
+
+const style = {
+  HeadStyle: {
+    paddingTop : "18px",
+    fontStyle: "Poppins",
+    fontWeight: "600",
+    fontStyle: "normal",
+    fontSize: "18px",
+    color: "#0081FF",
+  },
+  GridStyle: {
+    fontStyle: "Montserrat",
+    fontWeight: "700",
+    fontStyle: "normal",
+    fontSize: "16px",
+    color: "#052A4E",
+  },
+}
+
 const mapStateToProps = (state) => {
   return {
     getgrescoreList: state.CallReducer.getgrescore,
@@ -2415,6 +2537,7 @@ const mapStateToProps = (state) => {
     downloadGATList : state.CallReducer.downloadGAT,
     fileuploadGATList : state.CallReducer.fileuploadGAT,
     studentStatus: state.AdminReducer.studentStatusResponse,
+    getAllDocumentList: state.StudentReducer.getDocumentList,
 
   };
 };
@@ -2433,5 +2556,6 @@ export default connect(mapStateToProps, {
   downloadGAT,
   fileuploadGAT,
   updateVerificationStatus,
-  viewStudentStatus
+  viewStudentStatus,
+  getDocumentList
 })(GraduateTestResult);

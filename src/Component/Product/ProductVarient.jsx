@@ -39,6 +39,7 @@ import ReactExport from "react-export-excel";
 import DataGridTable from "../Utils/DataGridTable";
 import PrimaryButton from '../../Utils/PrimaryButton'
 import VariantGeneralData from './VariantGeneralData';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 export class ProductVarient extends Component {
     constructor(props) {
@@ -396,7 +397,7 @@ export class ProductVarient extends Component {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div>
                 <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
-                <h4>Product Varient</h4>
+                <h4>Product Variant</h4>
                 <div style={{display:'flex', flexDirection: "row",justifyContent:"space-around"}}>
                 <Button 
                 style={{marginRight:"2%"}}

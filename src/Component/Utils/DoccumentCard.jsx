@@ -86,8 +86,9 @@ class DoccumentCard extends Component {
                 fontStyle: "Montserrat",
                 fontWeight: "400",
                 fontStyle: "normal",
-                fontSize: "16px",
+                fontSize: "14px",
                 color: "#052A4E",
+                marginTop:"10px"
               }}
             >
               {this.props.certificate}

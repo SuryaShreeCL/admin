@@ -14,6 +14,10 @@ import VarriantQna from './VarriantQna';
 import PrimaryButton from '../../Utils/PrimaryButton';
 import {publishvarient} from '../../Actions/ProductAction'
 import { productVariantPath } from '../RoutePaths';
+import BackButton from '../../Asset/Images/backbutton.svg'
+import {studentPath} from '../RoutePaths'
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+
 import Link from '@material-ui/core/Link';
 const AntTabs = withStyles({
     root: {
@@ -113,6 +117,25 @@ const AntTabs = withStyles({
    render() {
     console.log(this.props.match.params.id)
      return (
+       <div>
+      <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+      <img
+        src={BackButton}
+        style={{ cursor: "pointer",marginTop:"-10px" }}
+        onClick={() => this.props.history.goBack()}
+         />
+           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+          <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+            Home
+          </Typography>
+          <Typography style={{ cursor: "pointer", fontWeight: "600" }}  onClick={() => this.props.history.goBack()}>
+            Product 
+          </Typography>
+          <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+            Product Variant
+          </Typography>
+        </Breadcrumbs>
+        </div>
        <Grid container spacing={2}>
            <Grid item md={12}>
              <Breadcrumbs separator="›">
@@ -148,6 +171,7 @@ const AntTabs = withStyles({
             >Publish Variant</PrimaryButton>
          </Grid>
        </Grid>
+       </div>
      );
    }
  }

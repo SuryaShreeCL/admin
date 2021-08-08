@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
 import "../Asset/Login.css";
 import GoogleBtn from "./GoogleBtn";
-import { rootPath, studentPath } from "./RoutePaths";
+import { landingAdminPath, rootPath, studentPath } from "./RoutePaths";
 import {connect} from 'react-redux';
 import history from "./History";
 import Visibility from "@material-ui/icons/Visibility";
@@ -53,7 +53,7 @@ export class Login extends Component {
         window.sessionStorage.setItem("role", this.props.adminLoginDetails.role);
          window.sessionStorage.setItem("mentor",JSON.stringify(this.props.adminLoginDetails.Mentor))
         window.sessionStorage.setItem("adminUserId",this.props.adminLoginDetails.AdminUsers)
-         this.props.history.push(studentPath); 
+         this.props.history.push(landingAdminPath); 
         console.log("success.......",this.props.adminLoginDetails)
       }
         

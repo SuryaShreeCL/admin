@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Divider, Grid, Box, Typography, TextField } from "@material-ui/core";
+import { Divider, Grid, Box, Typography, TextField, createMuiTheme,ThemeProvider } from "@material-ui/core";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { Autocomplete } from "@material-ui/lab";
 import {
@@ -11,7 +11,15 @@ import {
 } from "../../Actions/ProductAction";
 import { connect } from "react-redux";
 import MySnackBar from "../MySnackBar";
-
+const theme = createMuiTheme({
+  overrides:{
+    MuiFormLabel:{
+      root:{
+        fontSize:"11px"
+      }
+    }
+  }
+})
 class ProductPunching extends Component {
   constructor(props) {
     super(props);
@@ -57,6 +65,7 @@ class ProductPunching extends Component {
       ? this.setState({ familyErr: hlptxt })
       : this.setState({ familyErr: "" });
     if (this.state.varient !== null) {
+      console.log(this.state.punching)
       let arr = this.state.punching;
       arr.push({
         id: this.state.varient.id,
@@ -147,6 +156,7 @@ class ProductPunching extends Component {
     console.log(this.props.getpunchingdataList)
     return (
       <div> 
+        <ThemeProvider theme={theme}>
          <Grid container spacing={2}>
           <Grid item md={4}>
             <Autocomplete
@@ -192,7 +202,7 @@ class ProductPunching extends Component {
             </PrimaryButton>
           </Grid>
         </Grid>
-        {this.props.getpunchingdataList.length !== 0 && this.props.getpunchingdataList.map(data=>
+        {this.props.getpunchingdataList.length !== 0 && this.props.getpunchingdataList.map((data,index)=>
           <Grid container spacing={2}>
             <Grid item md={12}>
               <Typography style={{fontWeight:"bold"}}>Product</Typography>
@@ -235,7 +245,7 @@ class ProductPunching extends Component {
             </Grid>
           </Grid>
           )}
-        {this.state.punching.map((data) => {
+        {this.state.punching.map((data,index) => {
           let servicedate = new Date(data.endofservice).getDate();
           let servicemonth = new Date(data.endofservice).getMonth();
           let serviceyear = new Date(data.endofservice).getFullYear();
@@ -245,12 +255,20 @@ class ProductPunching extends Component {
             <Grid container spacing={2}>
               <Grid item md={12}>
                 <Box pt={3}>
+                  {/* <div style={{display:"flex"}}> */}
                   <Typography
                     variant={"h6"}
                     style={{ color: "#1093FF", fontWeight: "bold" }}
                   >
-                    Product
+                    Product {index+1}
                   </Typography>
+                  {/* <Typography
+                    // variant={"h6"}
+                    style={{ color: "red", fontWeight: "bold",margin:"7px" }}
+                  >
+                    Delete
+                  </Typography> */}
+                  {/* </div> */}
                 </Box>
               </Grid>
               <Grid item md={2}>
@@ -350,13 +368,15 @@ class ProductPunching extends Component {
           }}
         >
           <Box pt={3}>
-            <PrimaryButton
-              color={"primary"}
-              variant={"contained"}
-              onClick={() => this.handleUpdate()}
-            >
-              Update Details
-            </PrimaryButton>
+            {this.state.punching.length > 0 &&
+             <PrimaryButton
+             color={"primary"}
+             variant={"contained"}
+             onClick={() => this.handleUpdate()}
+           >
+             Update Details
+           </PrimaryButton>
+            }
           </Box>
         </Grid>
         <MySnackBar
@@ -365,6 +385,7 @@ class ProductPunching extends Component {
           snackOpen={this.state.snackOpen}
           onClose={() => this.setState({ snackOpen: false })}
         />
+        </ThemeProvider>
       </div>
     );
   }

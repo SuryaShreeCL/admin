@@ -1,4 +1,4 @@
-import { Card, Grid } from '@material-ui/core'
+import { Card, Grid,Breadcrumbs,Typography } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -7,7 +7,9 @@ import Tab from '@material-ui/core/Tab';
 import ProductPunching from './ProductPunching';
 import UserData from './UserData';
 import "./ProductPunching.css"
-
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import {studentPath } from "../RoutePaths";
+import BackButton from '../../Asset/Images/backbutton.svg';
 const AntTabs = withStyles({
     root: {
       borderBottom: '2px solid #A2D3FC',
@@ -87,7 +89,22 @@ const AntTabs = withStyles({
    render() {
     
      return (
-       
+       <div>
+             <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Product Punching
+              </Typography>
+            </Breadcrumbs>
+            </div>
        <Grid container spacing={2} >
        <Card style={{padding : "0px 30px",height: "70%", width: "100%"}}>
          <Grid item md={12}>
@@ -109,7 +126,7 @@ const AntTabs = withStyles({
          </Grid>
          </Card>
        </Grid>
-       
+       </div>
      );
    }
  }
