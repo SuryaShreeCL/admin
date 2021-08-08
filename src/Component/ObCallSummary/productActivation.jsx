@@ -53,6 +53,7 @@ import {
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from '../../Asset/Images/backbutton.svg'
 import { studentPath } from "../RoutePaths";
+import { CircularProgress } from '@material-ui/core';
 
 const AntTabs = withStyles({
     root: {
@@ -164,8 +165,7 @@ class ProductActivation extends Component {
         this.setState({ shrink: true });
     }
 
-    handleShowPopUp = (data) => {
-        console.log(data)
+    handleShowPopUp = (data) => {        
         this.setState({
             show: true,
             clientName: data.fullName === null ? data.firstName + data.lastName : data.fullName,
@@ -189,7 +189,9 @@ class ProductActivation extends Component {
             this.setState({
                 snackOpen: true,
                 snackColor: "success",
-                snackMsg: "Product activated successfully"
+                snackMsg: "Product activated successfully",
+                show:false,
+                isLoading:false,
             })
         }
         if(this.props.awaitingUsersForActivationList !== prevProps.awaitingUsersForActivationList){
@@ -208,6 +210,7 @@ class ProductActivation extends Component {
     }
 
     handleActivate = () => {
+        this.setState({isLoading:true});
         let obj = {
             studentId: this.state.studentId,
             productPaymentModels: [
@@ -218,14 +221,10 @@ class ProductActivation extends Component {
                 },
             ],
         };
-        this.props.activateStudentProduct(obj)
+        this.props.activateStudentProduct(obj);
     }
 
-    
-
-    render() {
-        console.log("prod act props.......",this.props)
-        console.log(this.state)
+    render() {        
         return (
             <div style={{ padding: 10 }}>
                     <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
@@ -522,8 +521,9 @@ class ProductActivation extends Component {
                             </DialogContent>
                             {/* <DialogActions> */}
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
-                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} style={{textTransform : "none"}}>
-                                    Activate
+                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} style={{textTransform : "none"}} >
+                                {this.state.isLoading && <CircularProgress disableShrink  style={{color:'#fff',width:20,height:20,marginRight:10}} /> }
+                                 Activate                                                                  
                                 </PrimaryButton>
                             </div>
                             {/* </DialogActions> */}
