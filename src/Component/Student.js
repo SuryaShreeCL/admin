@@ -589,7 +589,7 @@ export class Student extends Component {
         <DialogActions>
           
           <Button onClick={(e)=>this.state.id === null ? this.handleSubmit(e) : this.handleEdit(e)} color="primary" autoFocus>
-           {this.state.id === null ? "Add" : "Edit"} 
+           {this.state.id === null ? "Add" : "Update"} 
           </Button>
         </DialogActions>
       </Dialog>

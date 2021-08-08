@@ -310,8 +310,12 @@ class ClientDetails extends Component {
     {title:"FreeLance"},
     {title:"Internship"},
     {title:"Trainee"},
+  ];
+  package=[
+    {name:"1"},
+    {name:"3"},
+    {name:"5"}
   ]
-
   Workexp = [{ title: "Yes" }, { title: "No" }];
 
   intakeYear = [
@@ -517,7 +521,7 @@ class ClientDetails extends Component {
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear.title,
-        packages: this.state.package,
+        packages: this.state.package.name,
         workExperience: this.state.workexp.title,
         typeOfExperience:
           this.state.exptype !== null ? this.state.exptype.title : null,
@@ -1089,13 +1093,32 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-                <TextField
+              <Autocomplete
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                  id="combo-box-demo"
+                  options={this.package}
+                  getOptionLabel={(option) => option.name}
+                  // value={this.state.countries}
+                  onChange={(e, newValue) =>
+                    this.setState({ package: newValue })
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Package"
+                      variant="standard"
+                      error={this.state.packageErr.length > 0}
+                      helperText={this.state.packageErr}
+                    />
+                  )}
+                />
+                {/* <TextField
                   label="Package"
                   value={this.state.package}
                   onChange={(e) => this.setState({ package: e.target.value })}
                   error={this.state.packageErr.length > 0}
                   helperText={this.state.packageErr}
-                />
+                /> */}
               </Grid>
               <Grid item md={12}>
                 <Typography
