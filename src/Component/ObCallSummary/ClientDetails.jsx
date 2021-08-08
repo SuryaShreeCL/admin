@@ -11,6 +11,7 @@ import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete
 import {
   KeyboardDatePicker,
   KeyboardDateTimePicker,
+  KeyboardTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { storeItInState } from "../../Actions/HelperAction"
@@ -106,7 +107,7 @@ class ClientDetails extends Component {
       callbacktimeErr: "",
       spedays: "",
       speDaysErr: "",
-      spetime: "",
+      spetime: null,
       speErr: "",
       enrolldate: null,
       enrolldateErr: "",
@@ -411,7 +412,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.spedays)
       ? this.setState({ speDaysErr: hlptxt })
       : this.setState({ speDaysErr: "" });
-    isEmptyString(this.state.spetime)
+    this.state.spetime === null
       ? this.setState({ speErr: hlptxt })
       : this.setState({ speErr: "" });
     this.state.enrolldate === null
@@ -472,7 +473,7 @@ class ClientDetails extends Component {
       !isEmptyString(this.state.callstatus) &&
       this.state.callbacktime !== null &&
       !isEmptyString(this.state.spedays) &&
-      !isEmptyString(this.state.spetime) &&
+      this.state.spetime !== null &&
       this.state.enrolldate !== null &&
       !isEmptyString(this.state.appdegree) &&
       !isEmptyString(this.state.order) &&
@@ -949,13 +950,31 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={4}>
-                <TextField
+                {/* <TextField
                   label="Specific Time to be Contacted?"
                   value={this.state.spetime}
                   onChange={(e) => this.setState({ spetime: e.target.value })}
                   error={this.state.speErr.length > 0}
                   helperText={this.state.speErr}
-                />
+                /> */}
+                 <KeyboardTimePicker
+                    margin="normal"
+                    // format="HH:mm"
+                    label="Specific Time to be Contacted?"
+                    value={this.state.spetime}
+                    onChange={(newValue) => {
+                      console.log(newValue)
+                      this.setState({ spetime: newValue })
+                    }}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change time',
+                    }}
+                    error={this.state.speErr.length > 0}
+                    helperText={this.state.speErr}
+                    InputLabelProps={{
+                      shrink:true
+                    }}
+                  />
               </Grid>
               <Grid item md={12}>
                 <Typography
@@ -1074,8 +1093,9 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
+                  // multiple
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  id="combo-box-demo"
+                  // id="combo-box-demo"
                   options={this.props.getallcountryList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.countries}
