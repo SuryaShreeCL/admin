@@ -294,13 +294,8 @@ class ClientDetails extends Component {
     { title: "Reschedule" },
   ];
   Days = [
-    { title: "Monday" },
-    { title: "Tuesday" },
-    { title: "Wednesday" },
-    { title: "Thursday" },
-    { title: "Friday" },
-    { title: "Saturday" },
-    { title: "Sunday" },
+    { title: "WeekEnd" },
+    { title: "WeekDays" },
   ];
   Order = [
     { title: "Technical" },
@@ -315,8 +310,12 @@ class ClientDetails extends Component {
     {title:"FreeLance"},
     {title:"Internship"},
     {title:"Trainee"},
+  ];
+  package=[
+    {name:"1"},
+    {name:"3"},
+    {name:"5"}
   ]
-
   Workexp = [{ title: "Yes" }, { title: "No" }];
 
   intakeYear = [
@@ -394,9 +393,9 @@ class ClientDetails extends Component {
     isEmptyString(this.state.ameyoid)
       ? this.setState({ ameyoidErr: hlptxt })
       : this.setState({ ameyoidErr: "" });
-    this.state.calldate === null
-      ? this.setState({ calldateErr: hlptxt })
-      : this.setState({ calldateErr: "" });
+    // this.state.calldate === null
+    //   ? this.setState({ calldateErr: hlptxt })
+    //   : this.setState({ calldateErr: "" });
     this.state.calltime === null
       ? this.setState({ calltimeErr: hlptxt })
       : this.setState({ calltimeErr: "" });
@@ -467,7 +466,7 @@ class ClientDetails extends Component {
       // // !this.state.endofservice === null&&
       // // !isEmptyString(this.state.pricing)&&
       !isEmptyString(this.state.ameyoid) &&
-      this.state.calldate !== null &&
+      // this.state.calldate !== null &&
       this.state.calltime !== null &&
       !isEmptyString(this.state.agent) &&
       !isEmptyString(this.state.callstatus) &&
@@ -495,7 +494,7 @@ class ClientDetails extends Component {
         studentCurrentSem: this.state.sem.toString(),
         studentCgpa: this.state.cgpa.toString(),
         ameyoId: this.state.ameyoid,
-        obCallDate: new Date(this.state.calldate),
+        // obCallDate: new Date(this.state.calldate),
         obCallTime: new Date(this.state.calltime),
         onBoardingAgent: this.state.agent,
         callStatus: this.state.callstatus.title,
@@ -522,7 +521,7 @@ class ClientDetails extends Component {
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear.title,
-        packages: this.state.package,
+        packages: this.state.package.name,
         workExperience: this.state.workexp.title,
         typeOfExperience:
           this.state.exptype !== null ? this.state.exptype.title : null,
@@ -822,7 +821,7 @@ class ClientDetails extends Component {
                   Call Details
                 </Typography>
               </Grid>
-              <Grid item md={3}>
+              <Grid item md={4}>
                 <TextField
                   label="AMEYO ID"
                   value={this.state.ameyoid}
@@ -831,7 +830,7 @@ class ClientDetails extends Component {
                   helperText={this.state.ameyoidErr}
                 />
               </Grid>
-              <Grid item md={3}>
+              {/* <Grid item md={3}>
                 <KeyboardDatePicker
                   margin="normal"
                   id="date-picker-dialog"
@@ -847,8 +846,8 @@ class ClientDetails extends Component {
                     "aria-label": "change date",
                   }}
                 />
-              </Grid>
-              <Grid item md={3}>
+              </Grid> */}
+              <Grid item md={4}>
                 <KeyboardDateTimePicker
                   ampm={false}
                   variant="dialog"
@@ -868,7 +867,7 @@ class ClientDetails extends Component {
                   format="yyyy-MM-dd HH:mm"
                 />
               </Grid>
-              <Grid item md={3}>
+              <Grid item md={4}>
                 <TextField
                   label="Onboarding Agent"
                   value={this.state.agent}
@@ -1094,13 +1093,32 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-                <TextField
+              <Autocomplete
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                  id="combo-box-demo"
+                  options={this.package}
+                  getOptionLabel={(option) => option.name}
+                  // value={this.state.countries}
+                  onChange={(e, newValue) =>
+                    this.setState({ package: newValue })
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Package"
+                      variant="standard"
+                      error={this.state.packageErr.length > 0}
+                      helperText={this.state.packageErr}
+                    />
+                  )}
+                />
+                {/* <TextField
                   label="Package"
                   value={this.state.package}
                   onChange={(e) => this.setState({ package: e.target.value })}
                   error={this.state.packageErr.length > 0}
                   helperText={this.state.packageErr}
-                />
+                /> */}
               </Grid>
               <Grid item md={12}>
                 <Typography
