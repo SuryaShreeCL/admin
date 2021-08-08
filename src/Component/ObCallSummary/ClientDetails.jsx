@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { Autocomplete } from "@material-ui/lab";
+import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import {
   KeyboardDatePicker,
   KeyboardDateTimePicker,
@@ -521,7 +521,7 @@ class ClientDetails extends Component {
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear.title,
-        packages: this.state.package.name,
+        packages: typeof this.state.package ? this.state.package : this.state.package.name,
         workExperience: this.state.workexp.title,
         typeOfExperience:
           this.state.exptype !== null ? this.state.exptype.title : null,
@@ -563,6 +563,7 @@ class ClientDetails extends Component {
   
 
   render() {
+    const filter = createFilterOptions();
     console.log(this.props.match.params.studentId);
     console.log(this.state);
     console.log("clent details props........",this.props);
@@ -1097,10 +1098,49 @@ class ClientDetails extends Component {
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.package}
-                  getOptionLabel={(option) => option.name}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    console.log(filtered)
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== '') {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        title: `Add "${params.inputValue}"`,
+                      });
+                    }
+            
+                    return filtered;
+                  }}
+                  getOptionLabel={(option)=>{
+                    if (typeof option === 'string') {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name === null ? "" : option.name;
+                  }
+                  }
                   // value={this.state.countries}
-                  onChange={(e, newValue) =>
-                    this.setState({ package: newValue })
+                  onChange={(e, newValue) =>{
+                    if (typeof newValue === 'string') {
+                      this.setState({
+                        package : newValue
+                      })
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        package : newValue.inputValue
+                      })
+                    } else {
+                      this.setState({
+                        package : newValue
+                      })                   
+                     }
+                  }
+                   
                   }
                   renderInput={(params) => (
                     <TextField
