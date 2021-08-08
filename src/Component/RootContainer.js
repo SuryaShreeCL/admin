@@ -389,7 +389,7 @@ function RootContainer(props) {
 
     if(props.adminLinkedProductDetails.department === "Acsoperations"){
       let myArr = []
-      props.getProductByFamilyIdList.filter(eachProd=>eachProd.variantSKU === "ACS_MS").map((eachItem,index)=>{
+      props.getProductByFamilyIdList.filter(eachProd=>eachProd.variantSKU === "ACS_MS" || eachProd.variantSKU === "ACS_MBA").map((eachItem,index)=>{
         console.log(eachItem)
         myArr.push({
          title: eachItem.shortName,

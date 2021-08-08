@@ -145,9 +145,7 @@ handleUpdate=()=>{
             "min_tat":this.state.mintat,
             "rank":this.state.rank,
             "parent": null,
-            "product":{
-                "id": this.state.varient
-            },
+            "product" : this.state.varient
         }
         this.props.putproductstructure(obj)
         this.setState({
@@ -224,11 +222,10 @@ handelAdd=()=>{
             "min_tat":this.state.mintat,
             "rank":this.state.rank,
             "parent":null,
-            "product":{
-                id:this.state.varient,
-            }
+            "product": this.state.varient
         }
         this.props.postproductstructure(obj)
+        console.log(obj)
         this.setState({
             snackMsg:"Added Successfully",
             snackOpen:true,
