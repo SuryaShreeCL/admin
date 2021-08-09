@@ -175,8 +175,7 @@ export class Student extends Component {
     } 
   }
   rowClick = (rowData) => {
-    window.sessionStorage.setItem('student', rowData)
-    console.log(rowData)
+    window.sessionStorage.setItem('student', rowData)    
     this.props.match.path !== "/admin/productpunching" ?
     this.props.history.push(studentIdPath +"/"+ rowData.id) : this.props.history.push(productuserPunchingPath+rowData.id)
   };
