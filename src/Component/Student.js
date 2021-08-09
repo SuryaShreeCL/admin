@@ -367,28 +367,26 @@ export class Student extends Component {
               }
               add={ this.props.match.path === "/admin/productpunching" ? false : true}
               onAddClick={(e)=>this.setState({
-                dialogOpen : true,
+                dialogOpen : true,                
                 id : null,
-                id : null,
-                firstName : null,
-                lastName : null,
-                eMail : null,
-                userName : null,
-                college : null,
-                department : null,
-                phone : null,
-                internAccess : false,
-                provider : "",
-                toogleButton : false,
-                studentId : null,
-                isActive : true,
-                lmsAccess : false
+                // firstName : null,
+                // lastName : null,
+                // eMail : null,
+                // userName : null,
+                // college : null,
+                // department : null,
+                // phone : null,
+                // internAccess : false,
+                // provider : "",
+                // toogleButton : false,
+                // studentId : null,
+                // isActive : true,
+                // lmsAccess : false
 
               })}
               action={this.props.match.path === "/admin/productpunching" ? false : true}
               onEdit={true}
-              onEditClick={(rowdata)=>{
-                console.log(rowdata)
+              onEditClick={(rowdata)=>{                
                 this.setState({
                   id : rowdata.id,
                   firstName : rowdata.firstName,
