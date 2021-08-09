@@ -7,10 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { Autocomplete } from "@material-ui/lab";
+import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import {
   KeyboardDatePicker,
   KeyboardDateTimePicker,
+  KeyboardTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { storeItInState } from "../../Actions/HelperAction"
@@ -106,7 +107,7 @@ class ClientDetails extends Component {
       callbacktimeErr: "",
       spedays: "",
       speDaysErr: "",
-      spetime: "",
+      spetime: null,
       speErr: "",
       enrolldate: null,
       enrolldateErr: "",
@@ -310,8 +311,12 @@ class ClientDetails extends Component {
     {title:"FreeLance"},
     {title:"Internship"},
     {title:"Trainee"},
+  ];
+  package=[
+    {name:"1"},
+    {name:"3"},
+    {name:"5"}
   ]
-
   Workexp = [{ title: "Yes" }, { title: "No" }];
 
   intakeYear = [
@@ -407,7 +412,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.spedays)
       ? this.setState({ speDaysErr: hlptxt })
       : this.setState({ speDaysErr: "" });
-    isEmptyString(this.state.spetime)
+    this.state.spetime === null
       ? this.setState({ speErr: hlptxt })
       : this.setState({ speErr: "" });
     this.state.enrolldate === null
@@ -468,7 +473,7 @@ class ClientDetails extends Component {
       !isEmptyString(this.state.callstatus) &&
       this.state.callbacktime !== null &&
       !isEmptyString(this.state.spedays) &&
-      !isEmptyString(this.state.spetime) &&
+      this.state.spetime !== null &&
       this.state.enrolldate !== null &&
       !isEmptyString(this.state.appdegree) &&
       !isEmptyString(this.state.order) &&
@@ -517,7 +522,7 @@ class ClientDetails extends Component {
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear.title,
-        packages: this.state.package,
+        packages: typeof this.state.package ? this.state.package : this.state.package.name,
         workExperience: this.state.workexp.title,
         typeOfExperience:
           this.state.exptype !== null ? this.state.exptype.title : null,
@@ -559,6 +564,7 @@ class ClientDetails extends Component {
   
 
   render() {
+    const filter = createFilterOptions();
     console.log(this.props.match.params.studentId);
     console.log(this.state);
     console.log("clent details props........",this.props);
@@ -944,13 +950,31 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={4}>
-                <TextField
+                {/* <TextField
                   label="Specific Time to be Contacted?"
                   value={this.state.spetime}
                   onChange={(e) => this.setState({ spetime: e.target.value })}
                   error={this.state.speErr.length > 0}
                   helperText={this.state.speErr}
-                />
+                /> */}
+                 <KeyboardTimePicker
+                    margin="normal"
+                    // format="HH:mm"
+                    label="Specific Time to be Contacted?"
+                    value={this.state.spetime}
+                    onChange={(newValue) => {
+                      console.log(newValue)
+                      this.setState({ spetime: newValue })
+                    }}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change time',
+                    }}
+                    error={this.state.speErr.length > 0}
+                    helperText={this.state.speErr}
+                    InputLabelProps={{
+                      shrink:true
+                    }}
+                  />
               </Grid>
               <Grid item md={12}>
                 <Typography
@@ -1069,8 +1093,9 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
+                  // multiple
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  id="combo-box-demo"
+                  // id="combo-box-demo"
                   options={this.props.getallcountryList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.countries}
@@ -1089,13 +1114,71 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-                <TextField
+              <Autocomplete
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                  id="combo-box-demo"
+                  options={this.package}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    console.log(filtered)
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== '') {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        title: `Add "${params.inputValue}"`,
+                      });
+                    }
+            
+                    return filtered;
+                  }}
+                  getOptionLabel={(option)=>{
+                    if (typeof option === 'string') {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name === null ? "" : option.name;
+                  }
+                  }
+                  // value={this.state.countries}
+                  onChange={(e, newValue) =>{
+                    if (typeof newValue === 'string') {
+                      this.setState({
+                        package : newValue
+                      })
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        package : newValue.inputValue
+                      })
+                    } else {
+                      this.setState({
+                        package : newValue
+                      })                   
+                     }
+                  }
+                   
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Package"
+                      variant="standard"
+                      error={this.state.packageErr.length > 0}
+                      helperText={this.state.packageErr}
+                    />
+                  )}
+                />
+                {/* <TextField
                   label="Package"
                   value={this.state.package}
                   onChange={(e) => this.setState({ package: e.target.value })}
                   error={this.state.packageErr.length > 0}
                   helperText={this.state.packageErr}
-                />
+                /> */}
               </Grid>
               <Grid item md={12}>
                 <Typography

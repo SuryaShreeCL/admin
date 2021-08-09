@@ -68,7 +68,7 @@ export class Student extends Component {
       toogleButton : false,
       password : "123456",
       studentId : null,
-      isActive : false,
+      isActive : true,
       firstNameHelperText : null,
       lastNameHelperText : null,
       emailHelperText : null,
@@ -262,7 +262,7 @@ export class Student extends Component {
         phone : null,
         college : null,
         department : null,
-        isActive : false,
+        isActive : true,
         toogleButton : false,
         provider : "",
         internAccess : false,
@@ -313,7 +313,7 @@ export class Student extends Component {
       phone : null,
       college : null,
       department : null,
-      isActive : false,
+      isActive : true,
       toogleButton : false,
       internshipAccess : false,
       lmsAccess : false,
@@ -381,7 +381,7 @@ export class Student extends Component {
                 provider : "",
                 toogleButton : false,
                 studentId : null,
-                isActive : false,
+                isActive : true,
                 lmsAccess : false
 
               })}
@@ -606,7 +606,7 @@ export class Student extends Component {
         <DialogActions>
           
           <Button onClick={(e)=>this.state.id === null ? this.handleSubmit(e) : this.handleEdit(e)} color="primary" autoFocus>
-           {this.state.id === null ? "Add" : "Edit"} 
+           {this.state.id === null ? "Add" : "Update"} 
           </Button>
         </DialogActions>
       </Dialog>

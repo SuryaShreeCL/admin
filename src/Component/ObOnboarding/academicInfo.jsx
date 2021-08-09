@@ -390,147 +390,147 @@ export class academicInfo extends Component {
   handleSave = () => {
     console.log(this.state);
     let hlptxt = "Please fill the required field";
-    this.state.pgCollege === ""
-      ? this.setState({ pgCollegeErr: hlptxt })
-      : this.setState({ pgCollegeErr: "" });
-    this.state.ugCollege === ""
-      ? this.setState({ ugCollegeErr: hlptxt })
-      : this.setState({ ugCollegeErr: "" });
-    this.state.pgUniversity === ""
-      ? this.setState({ pgUniversityErr: hlptxt })
-      : this.setState({ pgUniversityErr: "" });
-    this.state.ugUniversity === ""
-      ? this.setState({ ugUniversityErr: hlptxt })
-      : this.setState({ ugUniversityErr: "" });
-    this.state.ugDepartment === ""
-      ? this.setState({ ugDepartmentErr: hlptxt })
-      : this.setState({ ugDepartmentErr: "" });
-    this.state.pgDepartment === ""
-      ? this.setState({ pgDepartmentErr: hlptxt })
-      : this.setState({ pgDepartmentErr: "" });
-    this.state.ugDegree === ""
-      ? this.setState({ ugDegreeErr: hlptxt })
-      : this.setState({ ugDegreeErr: "" });
-    this.state.pgDegree === ""
-      ? this.setState({ pgDegreeErr: hlptxt })
-      : this.setState({ pgDegreeErr: "" });
-    this.state.pgSemester === ""
-      ? this.setState({ pgSemesterErr: hlptxt })
-      : this.setState({ pgSemesterErr: "" });
-    this.state.pgYear === ""
-      ? this.setState({ pgYearErr: hlptxt })
-      : this.setState({ pgYearErr: "" });
-    this.state.pgCgpa === ""
-      ? this.setState({ pgCgpaErr: hlptxt })
-      : this.setState({ pgCgpaErr: "" });
-    this.state.pgCgpaScale === ""
-      ? this.setState({ pgCgpaScaleErr: hlptxt })
-      : this.setState({ pgCgpaScaleErr: "" });
-    this.state.pgStartDate === null
-      ? this.setState({ pgStartDateErr: hlptxt })
-      : this.setState({ pgStartDateErr: "" });
-    this.state.pgEndDate === null
-      ? this.setState({ pgEndDateErr: hlptxt })
-      : this.setState({ pgEndDateErr: "" });
-    this.state.ugSemester === ""
-      ? this.setState({ ugSemesterErr: hlptxt})
-      : this.setState({ ugSemesterErr: "" });
-    this.state.ugCgpaScale === ""
-      ? this.setState({ ugCgpaScaleErr: hlptxt })
-      : this.setState({ ugCgpaScaleErr: "" });
-    this.state.ugCgpa === ""
-      ? this.setState({ ugCgpaErr: hlptxt })
-      : this.setState({ ugCgpaErr: "" });
-    this.state.ugStartDate === null
-      ? this.setState({ ugStartDateErr: hlptxt })
-      : this.setState({ ugStartDateErr: "" });
-    this.state.ugEndDate === null
-      ? this.setState({ ugEndDateErr: hlptxt })
-      : this.setState({ ugEndDateErr: "" });
-    this.state.diplomaCollege === ""
-      ? this.setState({ diplomaCollegeErr: hlptxt })
-      : this.setState({ diplomaCollegeErr: "" });
-    this.state.diplomoUniversity === ""
-      ? this.setState({ diplomoUniversityErr: hlptxt })
-      : this.setState({ diplomoUniversityErr: "" });
-    this.state.diplomoDepartment === ""
-      ? this.setState({ diplomoDepartmentErr: hlptxt })
-      : this.setState({ diplomoDepartmentErr: "" });
-    this.state.diplomoDegree === ""
-      ? this.setState({ diplomoDegreeErr: hlptxt })
-      : this.setState({ diplomoDegreeErr: "" });
-    this.state.diplomostartDate === null
-      ? this.setState({ diplomostartDateErr: hlptxt })
-      : this.setState({ diplomostartDateErr: "" });
-    this.state.diplomoCgpaScale === ""
-      ? this.setState({ diplomoCgpaScaleErr: hlptxt })
-      : this.setState({ diplomoCgpaScaleErr: "" });
-    this.state.diplomoCgpa === ""
-      ? this.setState({ diplomoCgpaErr: hlptxt })
-      : this.setState({ diplomoCgpaErr: "" });
-    this.state.diplomoEndDate === null
-      ? this.setState({ diplomoEndDateErr: hlptxt })
-      : this.setState({ diplomoEndDateErr: "" });
-    this.state.tenthSchool === ""
-      ? this.setState({ tenthSchoolErr: hlptxt })
-      : this.setState({ tenthSchoolErr: "" });
-    this.state.tenthExamBoard === ""
-      ? this.setState({ tenthExamBoardErr: hlptxt })
-      : this.setState({ tenthExamBoardErr: "" });
-    this.state.tenthType === ""
-      ? this.setState({ tenthTypeErr: hlptxt })
-      : this.setState({ tenthTypeErr: "" });
-    this.state.tenthCgpa === ""
-      ? this.setState({ tenthCgpaErr: hlptxt })
-      : this.setState({ tenthCgpaErr: "" });
-    this.state.tenthStartDate === null
-      ? this.setState({ tenthStartDateErr: hlptxt })
-      : this.setState({ tenthStartDateErr: "" });
-    this.state.tenthEndDate === null
-      ? this.setState({ tenthEndDateErr: hlptxt })
-      : this.setState({ tenthEndDateErr: "" });
-    this.state.tenthSchool === ""
-      ? this.setState({ tenthSchoolErr: hlptxt })
-      : this.setState({ tenthSchoolErr: "" });
-    this.state.tenthExamBoard === ""
-      ? this.setState({ tenthExamBoardErr: hlptxt })
-      : this.setState({ tenthExamBoardErr: "" });
-    this.state.tenthType === ""
-      ? this.setState({ tenthTypeErr: hlptxt })
-      : this.setState({ tenthTypeErr: "" });
-    this.state.tenthCgpa === ""
-      ? this.setState({ tenthCgpaErr: hlptxt })
-      : this.setState({ tenthCgpaErr: "" });
-    // this.state.tenthStartDate === ""
+    // this.state.pgCollege === ""
+    //   ? this.setState({ pgCollegeErr: hlptxt })
+    //   : this.setState({ pgCollegeErr: "" });
+    // this.state.ugCollege === ""
+    //   ? this.setState({ ugCollegeErr: hlptxt })
+    //   : this.setState({ ugCollegeErr: "" });
+    // this.state.pgUniversity === ""
+    //   ? this.setState({ pgUniversityErr: hlptxt })
+    //   : this.setState({ pgUniversityErr: "" });
+    // this.state.ugUniversity === ""
+    //   ? this.setState({ ugUniversityErr: hlptxt })
+    //   : this.setState({ ugUniversityErr: "" });
+    // this.state.ugDepartment === ""
+    //   ? this.setState({ ugDepartmentErr: hlptxt })
+    //   : this.setState({ ugDepartmentErr: "" });
+    // this.state.pgDepartment === ""
+    //   ? this.setState({ pgDepartmentErr: hlptxt })
+    //   : this.setState({ pgDepartmentErr: "" });
+    // this.state.ugDegree === ""
+    //   ? this.setState({ ugDegreeErr: hlptxt })
+    //   : this.setState({ ugDegreeErr: "" });
+    // this.state.pgDegree === ""
+    //   ? this.setState({ pgDegreeErr: hlptxt })
+    //   : this.setState({ pgDegreeErr: "" });
+    // this.state.pgSemester === ""
+    //   ? this.setState({ pgSemesterErr: hlptxt })
+    //   : this.setState({ pgSemesterErr: "" });
+    // this.state.pgYear === ""
+    //   ? this.setState({ pgYearErr: hlptxt })
+    //   : this.setState({ pgYearErr: "" });
+    // this.state.pgCgpa === ""
+    //   ? this.setState({ pgCgpaErr: hlptxt })
+    //   : this.setState({ pgCgpaErr: "" });
+    // this.state.pgCgpaScale === ""
+    //   ? this.setState({ pgCgpaScaleErr: hlptxt })
+    //   : this.setState({ pgCgpaScaleErr: "" });
+    // this.state.pgStartDate === null
+    //   ? this.setState({ pgStartDateErr: hlptxt })
+    //   : this.setState({ pgStartDateErr: "" });
+    // this.state.pgEndDate === null
+    //   ? this.setState({ pgEndDateErr: hlptxt })
+    //   : this.setState({ pgEndDateErr: "" });
+    // this.state.ugSemester === ""
+    //   ? this.setState({ ugSemesterErr: hlptxt})
+    //   : this.setState({ ugSemesterErr: "" });
+    // this.state.ugCgpaScale === ""
+    //   ? this.setState({ ugCgpaScaleErr: hlptxt })
+    //   : this.setState({ ugCgpaScaleErr: "" });
+    // this.state.ugCgpa === ""
+    //   ? this.setState({ ugCgpaErr: hlptxt })
+    //   : this.setState({ ugCgpaErr: "" });
+    // this.state.ugStartDate === null
+    //   ? this.setState({ ugStartDateErr: hlptxt })
+    //   : this.setState({ ugStartDateErr: "" });
+    // this.state.ugEndDate === null
+    //   ? this.setState({ ugEndDateErr: hlptxt })
+    //   : this.setState({ ugEndDateErr: "" });
+    // this.state.diplomaCollege === ""
+    //   ? this.setState({ diplomaCollegeErr: hlptxt })
+    //   : this.setState({ diplomaCollegeErr: "" });
+    // this.state.diplomoUniversity === ""
+    //   ? this.setState({ diplomoUniversityErr: hlptxt })
+    //   : this.setState({ diplomoUniversityErr: "" });
+    // this.state.diplomoDepartment === ""
+    //   ? this.setState({ diplomoDepartmentErr: hlptxt })
+    //   : this.setState({ diplomoDepartmentErr: "" });
+    // this.state.diplomoDegree === ""
+    //   ? this.setState({ diplomoDegreeErr: hlptxt })
+    //   : this.setState({ diplomoDegreeErr: "" });
+    // this.state.diplomostartDate === null
+    //   ? this.setState({ diplomostartDateErr: hlptxt })
+    //   : this.setState({ diplomostartDateErr: "" });
+    // this.state.diplomoCgpaScale === ""
+    //   ? this.setState({ diplomoCgpaScaleErr: hlptxt })
+    //   : this.setState({ diplomoCgpaScaleErr: "" });
+    // this.state.diplomoCgpa === ""
+    //   ? this.setState({ diplomoCgpaErr: hlptxt })
+    //   : this.setState({ diplomoCgpaErr: "" });
+    // this.state.diplomoEndDate === null
+    //   ? this.setState({ diplomoEndDateErr: hlptxt })
+    //   : this.setState({ diplomoEndDateErr: "" });
+    // this.state.tenthSchool === ""
+    //   ? this.setState({ tenthSchoolErr: hlptxt })
+    //   : this.setState({ tenthSchoolErr: "" });
+    // this.state.tenthExamBoard === ""
+    //   ? this.setState({ tenthExamBoardErr: hlptxt })
+    //   : this.setState({ tenthExamBoardErr: "" });
+    // this.state.tenthType === ""
+    //   ? this.setState({ tenthTypeErr: hlptxt })
+    //   : this.setState({ tenthTypeErr: "" });
+    // this.state.tenthCgpa === ""
+    //   ? this.setState({ tenthCgpaErr: hlptxt })
+    //   : this.setState({ tenthCgpaErr: "" });
+    // this.state.tenthStartDate === null
     //   ? this.setState({ tenthStartDateErr: hlptxt })
     //   : this.setState({ tenthStartDateErr: "" });
-    // this.state.tenthEndDate === ""
+    // this.state.tenthEndDate === null
     //   ? this.setState({ tenthEndDateErr: hlptxt })
     //   : this.setState({ tenthEndDateErr: "" });
-    this.state.tenthCgpaScale === ""
-      ? this.setState({ tenthCgpaScaleErr: hlptxt })
-      : this.setState({ tenthCgpaScaleErr: "" });
-    this.state.twelthSchool === ""
-      ? this.setState({ twelthSchoolErr: hlptxt })
-      : this.setState({ twelthSchoolErr: "" });
-    this.state.twelthExamBoard === ""
-      ? this.setState({ twelthExamBoardErr: hlptxt })
-      : this.setState({ twelthExamBoardErr: "" });
-    this.state.twelthType === ""
-      ? this.setState({ twelthTypeErr: hlptxt })
-      : this.setState({ twelthTypeErr: "" });
-    this.state.twelthCgpa === ""
-      ? this.setState({ twelthCgpaErr: hlptxt })
-      : this.setState({ twelthCgpaErr: "" });
-    this.state.twelthStartDate === null
-      ? this.setState({ twelthStartDateErr: hlptxt })
-      : this.setState({ twelthStartDateErr: "" });
-    this.state.twelthEndDate === null
-      ? this.setState({ twelthEndDateErr: hlptxt })
-      : this.setState({ twelthEndDateErr: "" });
-    this.state.twelthCgpaScale === ""
-      ? this.setState({ twelthCgpaScaleErr: hlptxt })
-      : this.setState({ twelthCgpaScaleErr: "" });
+    // this.state.tenthSchool === ""
+    //   ? this.setState({ tenthSchoolErr: hlptxt })
+    //   : this.setState({ tenthSchoolErr: "" });
+    // this.state.tenthExamBoard === ""
+    //   ? this.setState({ tenthExamBoardErr: hlptxt })
+    //   : this.setState({ tenthExamBoardErr: "" });
+    // this.state.tenthType === ""
+    //   ? this.setState({ tenthTypeErr: hlptxt })
+    //   : this.setState({ tenthTypeErr: "" });
+    // this.state.tenthCgpa === ""
+    //   ? this.setState({ tenthCgpaErr: hlptxt })
+    //   : this.setState({ tenthCgpaErr: "" });
+    // // this.state.tenthStartDate === ""
+    // //   ? this.setState({ tenthStartDateErr: hlptxt })
+    // //   : this.setState({ tenthStartDateErr: "" });
+    // // this.state.tenthEndDate === ""
+    // //   ? this.setState({ tenthEndDateErr: hlptxt })
+    // //   : this.setState({ tenthEndDateErr: "" });
+    // this.state.tenthCgpaScale === ""
+    //   ? this.setState({ tenthCgpaScaleErr: hlptxt })
+    //   : this.setState({ tenthCgpaScaleErr: "" });
+    // this.state.twelthSchool === ""
+    //   ? this.setState({ twelthSchoolErr: hlptxt })
+    //   : this.setState({ twelthSchoolErr: "" });
+    // this.state.twelthExamBoard === ""
+    //   ? this.setState({ twelthExamBoardErr: hlptxt })
+    //   : this.setState({ twelthExamBoardErr: "" });
+    // this.state.twelthType === ""
+    //   ? this.setState({ twelthTypeErr: hlptxt })
+    //   : this.setState({ twelthTypeErr: "" });
+    // this.state.twelthCgpa === ""
+    //   ? this.setState({ twelthCgpaErr: hlptxt })
+    //   : this.setState({ twelthCgpaErr: "" });
+    // this.state.twelthStartDate === null
+    //   ? this.setState({ twelthStartDateErr: hlptxt })
+    //   : this.setState({ twelthStartDateErr: "" });
+    // this.state.twelthEndDate === null
+    //   ? this.setState({ twelthEndDateErr: hlptxt })
+    //   : this.setState({ twelthEndDateErr: "" });
+    // this.state.twelthCgpaScale === ""
+    //   ? this.setState({ twelthCgpaScaleErr: hlptxt })
+    //   : this.setState({ twelthCgpaScaleErr: "" });
     {
     let obj = [
         {
