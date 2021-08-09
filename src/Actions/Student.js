@@ -279,7 +279,7 @@ export const editDocumentsByStudentId=(studentId,data)=>{
 
 
 
-export const mernStudentSignUp=(data)=>{    
+export const mernStudentSignUp=(data,callback)=>{    
     // let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch=>{                
         console.log(data)
@@ -294,17 +294,19 @@ export const mernStudentSignUp=(data)=>{
         })                
         .then(result => {                                                               
             dispatch({type:STUDENT.mernStudentSignUp,signUpResponse:result.data})
+            callback(result.data);
         })
         .catch(error=>{
             console.log(error)
-            // console.log(error.response.data);
+            // console.log(error.response.data);                
                 dispatch({type:STUDENT.catchSignUpError,signUpError:error.response.data})
+                callback(error.response.data);
             
         })
     }
 }
 
-export const mernStudentEdit=(id,data)=>{  
+export const mernStudentEdit=(id,data,callback)=>{  
     let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch=>{                
         console.log(data)
@@ -315,6 +317,7 @@ export const mernStudentEdit=(id,data)=>{
         })                
         .then(result => {                                                               
             dispatch({type:STUDENT.mernStudentEdit,editStudentResponse:result.data})
+            callback(result.data);
         })
         .catch(error=>{
             console.log(error);

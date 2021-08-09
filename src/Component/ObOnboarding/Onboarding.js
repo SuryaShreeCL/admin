@@ -125,7 +125,7 @@ export class Onboarding extends Component {
       });
     }
     if (this.state.search !== prevState.search) {
-      if (!isEmptyString(this.state.search)) {
+      if (!isEmptyString(this.state.search)&&this.state.search.length>=4) {
         this.props.getStudentByStages(
           this.props.match.params.productId,
           this.props.stageDetails.stepName,
@@ -325,6 +325,18 @@ export class Onboarding extends Component {
                         <SearchIcon />
                       </InputAdornment>
                     ),
+                  }}
+                  onKeyUp={(e)=>{
+                    if(e.keyCode===13){
+                      e.preventDefault();
+                      if (!isEmptyString(this.state.search)) {
+                        this.props.getStudentByStages(
+                          this.props.match.params.productId,
+                          this.props.stageDetails.stepName,
+                          this.state.search
+                        );
+                      }
+                    }
                   }}
                   // style={{ width: "45%", marginLeft: "23%" }}
                 />

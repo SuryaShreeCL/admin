@@ -148,29 +148,29 @@ export class Student extends Component {
           isLMSUser : this.state.lmsAccess === false ? "false" : "true",
         }
         this.props.updateLmsAccess(this.props.signUpResponse.studentInfo.id,lmsobj)
-        this.setState({
-          snackMessage : "Student Registered Successfully",
-          snackColor : "success",
-          snackOpen : true
-        }) 
+        // this.setState({
+        //   snackMessage : "Student Registered Successfully",
+        //   snackColor : "success",
+        //   snackOpen : true
+        // }) 
         
       }
       this.props.getStudentPaginate(0, 20);
     }
     if(this.props.signUpError !== prevProps.signUpError){
       console.log("Something")
-      this.setState({
-        snackMessage : this.props.signUpError,
-        snackColor : "error",
-        snackOpen : true
-      })
+      // this.setState({
+      //   snackMessage : this.props.signUpError,
+      //   snackColor : "error",
+      //   snackOpen : true
+      // })
     }
     if(this.props.editStudentResponse !== prevProps.editStudentResponse){
-      this.setState({
-        snackMessage : "Student Edited Successfully",
-        snackColor : "success",
-        snackOpen : true
-      }) 
+      // this.setState({
+      //   snackMessage : "Student Edited Successfully",
+      //   snackColor : "success",
+      //   snackOpen : true
+      // }) 
       this.props.getStudentPaginate(0, 20);
     } 
   }
@@ -211,6 +211,7 @@ export class Student extends Component {
   };
 
   handleSubmit = (e) =>{
+    this.setState({isLoading:true})
     this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
     this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
     this.state.eMail === null || this.state.eMail.length === 0 ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
@@ -253,9 +254,27 @@ export class Student extends Component {
         internshipAccess : this.state.internAccess === false ? "no" : "yes",
         origin : "ADMIN Portal"
       };
-      this.props.mernStudentSignUp(studentObj)      
-      this.setState({
-        dialogOpen : false,
+      this.props.mernStudentSignUp(studentObj,response=>{      
+        if(response.auth){
+          this.setState({
+            isLoading:false,
+            snackMessage : "Student Registered Successfully",
+            snackColor : "success",
+            snackOpen : true,
+            dialogOpen : false,
+          });
+        }else{
+          this.setState({
+            isLoading:false,
+            snackMessage : response,
+            snackColor : "error",
+            snackOpen : true,
+            dialogOpen : false,            
+          });
+        }
+      });
+
+      this.setState({        
         firstName : null,
         lastName : null,
         eMail : null,
@@ -273,6 +292,7 @@ export class Student extends Component {
    
   }
   handleEdit = () =>{
+    this.setState({isLoading:true})
     this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
     this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
     this.state.eMail === null || this.state.eMail.length === 0 ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
@@ -304,9 +324,16 @@ export class Student extends Component {
       password: this.state.password,
     };
     console.log(studentObj)
-    this.props.mernStudentEdit(this.state.id,studentObj)
-    this.setState({
-      dialogOpen : false,
+    this.props.mernStudentEdit(this.state.id,studentObj,response=>{
+      this.setState({
+        isLoading:false,
+        snackMessage : "Student Edited Successfully",
+        snackColor : "success",
+        snackOpen : true,
+        dialogOpen : false,
+      });
+    });
+    this.setState({      
       firstName : null,
       lastName : null,
       eMail : null,
@@ -603,8 +630,8 @@ export class Student extends Component {
         </DialogContent>
         <DialogActions>
           
-          <Button onClick={(e)=>this.state.id === null ? this.handleSubmit(e) : this.handleEdit(e)} color="primary" autoFocus>
-           {this.state.id === null ? "Add" : "Update"} 
+          <Button onClick={(e)=>this.state.id === null ? this.handleSubmit(e) : this.handleEdit(e)} color="primary" disabled={this.state.isLoading} autoFocus>
+          {this.state.isLoading && <CircularProgress style={{width:20,height:20,marginRight:10}} /> } {this.state.id === null ? "Add" : "Update"}
           </Button>
         </DialogActions>
       </Dialog>
