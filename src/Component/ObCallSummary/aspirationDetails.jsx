@@ -128,7 +128,6 @@ class AspirationDetails extends Component {
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getAspiration((response) => {
       console.log(response)
-
       this.setState({
         answerModel : response.testQuestionModels,
         ...response,        
@@ -160,14 +159,13 @@ class AspirationDetails extends Component {
       aspirationAreaOfSpecializations: aspirationAreaOfSpecializations,
       aspirationUniversities: aspirationUniversities,
       testQuestionModels: this.state.answerModel.length === 0 ? this.state.testQuestionModels : this.state.answerModel,
-    };    
-    console.log(obj)
-    // this.props.updateAspiration(
-    //   obj,
-    //   (response) => console.log(response),
-    //   this.props.match.params.studentId,
-    //   this.props.getAspirationQuestionList.id, 
-    // );    
+    };        
+    this.props.updateAspiration(
+      obj,
+      (response) => console.log(response),
+      this.props.match.params.studentId,
+      this.props.getAspirationQuestionList.id, 
+    );    
   };
 
   getStatus = (sectionName) => {
@@ -193,20 +191,22 @@ class AspirationDetails extends Component {
     />
   );
 
-  getAnswer=(qid)=>{
-    console.log(qid)
-    let obj=this.state.answerModel.find(item=>item.answer.questionId===qid)  
-    let choice=null;      
-    console.log(obj)
-    if(obj){     
+  getAnswer=(qid)=>{        
+    let obj=this.state.answerModel.find(item=>{
+      if(item.answer.questionId===qid){
+        console.log("**************",item)
+      }
+      return item.answer.questionId===qid
+    })  
+
+    let choice=null;          
+    if(obj){       
       if(obj.question.type==="SINGLE_SELECT") 
       choice= obj.answer.selectedChoices[0].id;
-      else if(obj.question.type==="MULTI_CHOICE"){        
-        console.log('multi choices')
+      else if(obj.question.type==="MULTI_CHOICE"){                
         choice= obj.answer.selectedChoices.map(item=>item.id);
       }      
-    }
-    console.log(choice)
+    }    
     return choice;
   }
 
@@ -219,10 +219,11 @@ class AspirationDetails extends Component {
     return (
       <Grid container spacing={2}>
         {questions.map(({ id, question, choices, type }, index) => {
+          
           var qid=id;                                        
           if (type === "SINGLE_SELECT")
             return (
-              <>
+              <>              
                 <Grid
                   item
                   xs={8}
@@ -243,27 +244,26 @@ class AspirationDetails extends Component {
                       onChange={(e)=>{
                         let arr=[];
                         let choiceId={
-                          id:e.target.value,
+                          id:e.target.value,                          
                         }
                         let obj={
                           question:{
                             id:qid,                            
                           },
                           answer:{
-                            selectedChoices:[choiceId]
+                            selectedChoices:[choiceId],
+                            questionId:qid,
                           }                         
                         }
-                        if(this.state.answerModel.some(item=>item.question.id===obj.question.id)){                                                    
-                          console.log("pass")
+                        if(this.state.answerModel.some(item=>item.question.id===obj.question.id)){                                                                              
                           arr = this.state.answerModel.filter(item=>item.question.id!==obj.question.id).concat(obj);
-                        }else{
-                          console.log("fail")
+                        }else{                          
                           arr=this.state.answerModel.concat(obj);
                         }
                         this.setState({answerModel:arr});
                       }}
                       // defaultValue={this.getAnswer(qid)}
-                      value={this.getAnswer(qid)}
+                      value={this.state.answerModel.find(item=>item.answer.questionId===qid)? this.state.answerModel.find(item=>item.answer.questionId===qid).answer.selectedChoices[0].id  :null}
                     >
                       {choices.map(({ text ,id }) => {
                         console.log(id)
@@ -272,7 +272,7 @@ class AspirationDetails extends Component {
                             style={choiceStyle}                         
                             control={<Radio />}
                             label={text}      
-                            value={id}                      
+                            value={id}                            
                           />
                         );
                       })}
