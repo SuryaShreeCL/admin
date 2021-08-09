@@ -159,7 +159,22 @@ class AspirationDetails extends Component {
       aspirationAreaOfSpecializations: aspirationAreaOfSpecializations,
       aspirationUniversities: aspirationUniversities,
       testQuestionModels: this.state.answerModel.length === 0 ? this.state.testQuestionModels : this.state.answerModel,
-    };        
+    };
+
+    console.log("Before",obj);
+
+    obj.testQuestionModels.map(item=>{
+      for (const [key, value] of Object.entries(item.question)) {
+        if(key!=="id"){
+          delete item.question[key];
+        }        
+      }  
+      
+      delete item.answer["questionId"];              
+      delete item['testExecutionId'];       
+    })
+
+    console.log("After",obj);
     this.props.updateAspiration(
       obj,
       (response) => console.log(response),
