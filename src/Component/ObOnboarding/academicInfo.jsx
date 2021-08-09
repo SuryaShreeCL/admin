@@ -1177,7 +1177,7 @@ export class academicInfo extends Component {
                         }}
                       >
                         <Grid container direction="row" justify="flex-start">
-                          <p style={title}>Diploma</p>
+                          <p style={title}>Diploma Course</p>
                         </Grid>
                       </div>
                     </AccordionSummary>
@@ -1400,7 +1400,7 @@ export class academicInfo extends Component {
                         }}
                       >
                         <Grid container direction="row" justify="flex-start">
-                          <p style={title}>XII Grade</p>
+                          <p style={title}>12th Grade</p>
                         </Grid>
                       </div>
                     </AccordionSummary>
@@ -1583,7 +1583,7 @@ export class academicInfo extends Component {
                         }}
                       >
                         <Grid container direction="row" justify="flex-start">
-                          <p style={title}>X Grade</p>
+                          <p style={title}>10th Grade</p>
                         </Grid>
                       </div>
                     </AccordionSummary>

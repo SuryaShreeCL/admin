@@ -15,6 +15,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import {adminLogin} from "../Actions/AdminAction"
 import { isEmptyString } from "./Validation";
+import MySnackBar from "./MySnackBar";
 export class Login extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +25,9 @@ export class Login extends Component {
       password: null,
       passwordErr : "",
       error: "",
+      snackMsg:"",
+      snackOpen:false,
+      snackVariant:""
     };
   }
   componentDidMount() {
@@ -42,9 +46,11 @@ export class Login extends Component {
     }
   };
   componentDidUpdate(prevProps){
+    // console.log(this.state.adminLoginDetails)
     if(prevProps.adminLoginDetails !== this.props.adminLoginDetails){
+      console.log(this.state.adminLoginDetails)
       if(this.props.adminLoginDetails.status === 500){
-        this.setState({ error: "Invalid Username or Password" });
+        this.setState({ snackMsg: "Invalid Username or Password" ,snackOpen:true,snackVariant:"error"});
         console.log("fail........",this.props.adminLoginDetails)
       }else{
         window.sessionStorage.setItem("token", "true");
@@ -164,6 +170,11 @@ export class Login extends Component {
             </div>
           </div>
         </div>
+        <MySnackBar 
+          snackOpen={this.state.snackOpen}
+          snackVariant={this.state.snackVariant}
+          snackMsg={this.state.snackMsg}
+        />
       </div>
     );
   }
