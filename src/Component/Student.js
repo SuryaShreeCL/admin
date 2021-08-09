@@ -221,8 +221,8 @@ export class Student extends Component {
 
     if(this.state.eMail&&!this.isEmail(this.state.eMail)){
       this.setState({emailHelperText:'Please fill valid email'})
-    }else{
-      this.setState({emailHelperText:''})
+    }else if(this.isEmail(this.state.eMail)){
+      this.setState({emailHelperText:null})
     }
 
     if(
@@ -233,7 +233,7 @@ export class Student extends Component {
      this.state.college !== null && this.state.college.length !== 0 &&
      this.state.department !== null && this.state.department.length !== 0 &&
      this.state.studentId !== null && this.state.studentId.length !== 0 &&
-     this.state.emailHelperText===null
+     this.isEmail(this.state.eMail)
      ){
       let studentObj = {
         firstName: this.state.firstName,
@@ -275,6 +275,7 @@ export class Student extends Component {
 
       this.setState({        
         firstName : null,
+        isLoading:false,
         lastName : null,
         eMail : null,
         phone : null,
@@ -287,6 +288,8 @@ export class Student extends Component {
         studentId : null,
         lmsAccess : false
       })
+   }else{     
+     this.setState({isLoading:false})
    }
    
   }
