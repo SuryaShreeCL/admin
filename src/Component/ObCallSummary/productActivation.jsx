@@ -521,7 +521,7 @@ class ProductActivation extends Component {
                             </DialogContent>
                             {/* <DialogActions> */}
                             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10%', paddingBottom: '5%' }}>
-                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} style={{textTransform : "none"}} >
+                                <PrimaryButton onClick={this.handleActivate} variant={"contained"} color={"primary"} disabled={this.state.isLoading} style={{textTransform : "none"}} >
                                 {this.state.isLoading && <CircularProgress disableShrink  style={{color:'#fff',width:20,height:20,marginRight:10}} /> }
                                  Activate                                                                  
                                 </PrimaryButton>
