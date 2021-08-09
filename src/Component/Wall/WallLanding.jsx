@@ -6,13 +6,10 @@ import ScheduledPost from './Pages/ScheduledPost';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import Events from './Pages/Events';
 import { useLocation } from 'react-router-dom';
-import Restricted from './Components/Restricted';
 
 const WallLanding = () => {
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
-  let isDepartment = window.sessionStorage.getItem('department');
-  const hasPermission = isDepartment === 'elev8';
 
   const renderContent = (value) => {
     try {
@@ -47,7 +44,7 @@ const WallLanding = () => {
           </TopTabs>
         </Grid>
         <Grid item md={12}>
-          {hasPermission ? renderContent(tabCount) : <Restricted />}
+          {renderContent(tabCount)}
         </Grid>
       </Grid>
     </Container>
