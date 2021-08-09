@@ -25,6 +25,7 @@ export default class TableComponent extends Component {
       searchKeyword: "",
       tableColumn: null,
       tableData: null,
+      eventTrigger:false,
     };
     this.flag = false;
   }
@@ -49,13 +50,13 @@ export default class TableComponent extends Component {
     if (
       prevState.pageCount !== this.state.pageCount ||
       prevState.rowCount !== this.state.rowCount ||
-      prevState.searchKeyword !== this.state.searchKeyword
-    ) {
-      this.props.paginate(
-        this.state.pageCount,
-        this.state.rowCount,
-        this.state.searchKeyword
-      );
+      prevState.eventTrigger!==this.state.eventTrigger
+    ) {            
+        this.props.paginate(
+          this.state.pageCount,
+          this.state.rowCount,
+          this.state.searchKeyword
+        );      
     }
   }
 
@@ -253,6 +254,14 @@ export default class TableComponent extends Component {
                   value={this.state.searchKeyword}
                   onChange={(e) =>
                     this.setState({ searchKeyword: e.target.value })
+                  }
+                  onKeyUp={
+                    (e)=>{                      
+                      if(e.keyCode===13){                        
+                        e.preventDefault();
+                        this.setState({eventTrigger:!this.state.eventTrigger})
+                      }
+                    }
                   }
                 />
               </div>
