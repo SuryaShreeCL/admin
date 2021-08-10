@@ -8,9 +8,10 @@ import {
   TableHead,
   TableRow, TextField, ThemeProvider, Typography
 } from "@material-ui/core";
+import GetAppIcon from '@material-ui/icons/GetApp';
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import { ExpandMore } from "@material-ui/icons";
+import { ExpandMore} from "@material-ui/icons";
 import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
 import { Autocomplete } from "@material-ui/lab";
 import {
@@ -847,7 +848,10 @@ class GraduateTestResult extends Component {
                                 fontStyle: "italic",
                               }}
                             >
-                              <Link onClick={()=>this.handledownload("GRE",index)}>Access Here</Link>
+                              <IconButton onClick={()=>this.handledownload("GRE",index)}>
+                                <GetAppIcon />
+                              </IconButton>
+                              {/* <Link onClick={()=>this.handledownload("GRE",index)}>Access Here</Link> */}
                             </div>
                           </TableCell>
                           <TableCell style={{ borderBottom: "none" }}>
@@ -1110,7 +1114,10 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link onClick={()=>this.handledownload("GMAT",index)}>Access Here</Link>
+                                 <IconButton onClick={()=>this.handledownload("GMAT",index)}>
+                                <GetAppIcon />
+                              </IconButton>
+                                {/* <Link onClick={()=>this.handledownload("GMAT",index)}>Access Here</Link> */}
                               </div>
                             </div>
                           </TableCell>
@@ -1377,7 +1384,10 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link onClick={()=>this.handledownload("TOEFL",index)}>Access Here</Link>
+                                 <IconButton onClick={()=>this.handledownload("TOEFL",index)}>
+                                <GetAppIcon />
+                              </IconButton>
+                                {/* <Link onClick={()=>this.handledownload("TOEFL",index)}>Access Here</Link> */}
                               </div>
                             </div>
                           </TableCell>
@@ -1637,7 +1647,10 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                <Link onClick={()=>this.handledownload("IELTS",index)}>Access Here</Link>
+                                  <IconButton onClick={()=>this.handledownload("IELTS",index)}>
+                                <GetAppIcon />
+                              </IconButton>
+                                {/* <Link onClick={()=>this.handledownload("IELTS",index)}>Access Here</Link> */}
                               </div>
                             </TableCell>
                             <TableCell>
@@ -1893,7 +1906,7 @@ class GraduateTestResult extends Component {
                             fontFamily: 'Montserrat',
                           }}
                         >
-                          File Size: less than 1MB | Formatted: PDF{' '}
+                          File Size: less than 1MB | Format: PDF{' '}
                         </p>
                         {/* <h4>Files</h4> */}
                         <ul>{this.state.finalFile !== null ? files : null}</ul>
@@ -2078,7 +2091,7 @@ class GraduateTestResult extends Component {
                             fontFamily: 'Montserrat',
                           }}
                         >
-                          File Size: less than 1MB | Formatted: PDF{' '}
+                          File Size: less than 1MB | Format: PDF{' '}
                         </p>
                         {/* <h4>Files</h4> */}
                         <ul>{this.state.gmatfinalFile !== null ? gmatfiles : null}</ul>
@@ -2263,7 +2276,7 @@ class GraduateTestResult extends Component {
                             fontFamily: 'Montserrat',
                           }}
                         >
-                          File Size: less than 1MB | Formatted: PDF{' '}
+                          File Size: less than 1MB | Format: PDF{' '}
                         </p>
                         {/* <h4>Files</h4> */}
                         <ul>{this.state.toeflfinalFile !== null ? toeflfiles : null}</ul>
@@ -2457,7 +2470,7 @@ class GraduateTestResult extends Component {
                             fontFamily: 'Montserrat',
                           }}
                         >
-                          File Size: less than 1MB | Formatted: PDF{' '}
+                          File Size: less than 1MB | Format: PDF{' '}
                         </p>
                         {/* <h4>Files</h4> */}
                         <ul>{this.state.ieltsfinalFile !== null ? ieltsfiles : null}</ul>
