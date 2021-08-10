@@ -823,10 +823,10 @@ export const getAspiration=(callback,id,productid)=>{
     }
 }
 
-export const getAspirationQuestion=(id)=>{
+export const getAspirationQuestion=(id,questionSetName)=>{    
     return dispatch=>{
         let accessToken = window.sessionStorage.getItem("accessToken");
-        axios.get(URL+"/api/v1/student/"+id+"/testdetails?questionSetName=AspirationACS",{
+        axios.get(URL+"/api/v1/student/"+id+"/testdetails?questionSetName="+questionSetName,{
             crossDomain: true,           
             headers:{
                  "admin" : 'yes',

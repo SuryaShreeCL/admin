@@ -610,7 +610,7 @@ export const deleteproductvarient = (oldId, newId) => {
 //         })
 //     }
 // }
-export const getvarientByid = (id) => {
+export const getvarientByid = (id,callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -623,6 +623,7 @@ export const getvarientByid = (id) => {
       })
       .then((result) => {
         dispatch({ type: PRODUCT.getvarientByid, payload: result.data });
+        callback(result.data);
       })
       .catch((error) => {
         console.log(error);
@@ -1125,7 +1126,7 @@ export const searchProductActivationList = (productId,data) =>{
   }
 }
 
-export const getVariantStepsById = (variantId) =>{
+export const getVariantStepsById = (variantId,callback) =>{
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return dispatch =>{
@@ -1137,6 +1138,7 @@ export const getVariantStepsById = (variantId) =>{
     })
     .then((result)=>{
       dispatch({type: PRODUCT.getVariantStepsById, payload: result.data})
+      callback(result.data);
     })
     .catch((error)=>{
       console.log(error)
