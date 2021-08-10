@@ -214,7 +214,7 @@ class ProductActivation extends Component {
       });
     }
     if (this.state.keyword !== prevState.keyword) {
-      // this.props.searchProductActivationList(this.props.match.params.productId,this.state.keyword)
+      this.props.searchProductActivationList(this.props.match.params.productId,this.state.keyword)
     }
     if (this.props.searchActivationList !== prevProps.searchActivationList) {
       this.setState({
@@ -282,14 +282,14 @@ class ProductActivation extends Component {
             InputLabelProps={{
               shrink: this.state.shrink,
             }}
-            onKeyUp={(e) => {
-              if (e.keyCode === 13) {
-                this.props.searchProductActivationList(
-                  this.props.match.params.productId,
-                  this.state.keyword
-                );
-              }
-            }}
+            // onKeyUp={(e) => {
+            //   if (e.keyCode === 13) {
+            //     this.props.searchProductActivationList(
+            //       this.props.match.params.productId,
+            //       this.state.keyword
+            //     );
+            //   }
+            // }}
             // label=""
 
             onFocus={() => this.shrink()}
