@@ -1862,7 +1862,8 @@ export class academicInfo extends Component {
             <MySnackBar 
               snackMsg={this.state.snackMsg}
               snackVariant={this.state.snackVariant}
-              snackOpen={this.state.snackOpen} 
+              snackOpen={this.state.snackOpen}
+              onClose={()=>this.setState({snackOpen:false})} 
             />
           </ThemeProvider>
         </MuiPickersUtilsProvider>
