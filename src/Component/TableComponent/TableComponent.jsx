@@ -50,7 +50,7 @@ export default class TableComponent extends Component {
     if (
       prevState.pageCount !== this.state.pageCount ||
       prevState.rowCount !== this.state.rowCount ||
-      prevState.eventTrigger!==this.state.eventTrigger
+      prevState.searchKeyword!==this.state.searchKeyword
     ) {            
         this.props.paginate(
           this.state.pageCount,
@@ -255,14 +255,14 @@ export default class TableComponent extends Component {
                   onChange={(e) =>
                     this.setState({ searchKeyword: e.target.value })
                   }
-                  onKeyUp={
-                    (e)=>{                      
-                      if(e.keyCode===13){                        
-                        e.preventDefault();
-                        this.setState({eventTrigger:!this.state.eventTrigger})
-                      }
-                    }
-                  }
+                  // onKeyUp={
+                  //   (e)=>{                      
+                  //     if(e.keyCode===13){                        
+                  //       e.preventDefault();
+                  //       this.setState({eventTrigger:!this.state.eventTrigger})
+                  //     }
+                  //   }
+                  // }
                 />
               </div>
               {this.props.add ? (
