@@ -231,7 +231,8 @@ class workExperience extends Component {
   documentClick = (data) =>{
     console.log(data)
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
-    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
+    // window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
+    window.open(URL+"/api/v1/cv/download/"+data.studentId+"/"+data.path+"/"+data.productId)
   }
 
   renderModel = () => (
@@ -254,7 +255,7 @@ class workExperience extends Component {
     const { HeadStyle, GridStyle } = style;
 
     console.log(this.state);
-    console.log(this.props.getworkexpList)
+    console.log(this.props)
     // console.log(new Date(this.state.startDate).setMonth(new Date(this.state.startDate).getMonth()+3))
     return (
       <div style={{ padding: 25 }}>
