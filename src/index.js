@@ -13,7 +13,7 @@ import ReduxStore from "./Redux/Store";
 // import PersonalityTest from './Component/RengineLiteUpgrade/PersonalityTest';
 //import Login from './component/Login'
 //import Button from '@material-ui/core/Button';
-import Lms from "./Lms/Index";
+//import Lms from "./Lms/Index";
 
 function App(props) {
   React.useEffect(() => {
@@ -45,13 +45,12 @@ function App(props) {
         {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
       </Switch>
     </BrowserRouter>
-    // <Lms />
   );
 }
 
 ReactDOM.render(
   <Provider store={ReduxStore}>
-    <App />{" "}
+    <App />
   </Provider>,
   document.getElementById("app")
 );
