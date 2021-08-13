@@ -1,0 +1,5 @@
+.active__task__tab {
+  font-weight: 600;
+  color: #1093ff !important;
+  border-bottom: 4px solid #1093ff;
+}
