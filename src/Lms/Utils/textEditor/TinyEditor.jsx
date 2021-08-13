@@ -16,7 +16,7 @@ class TinyEditor extends Component {
               freeTiny.style = "display: none";
             },
             branding: false,
-            height: 500,
+            height: 565,
             plugins: [
               "advlist autolink lists link image charmap print preview anchor",
               "searchreplace visualblocks code fullscreen",

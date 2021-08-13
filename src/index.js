@@ -54,6 +54,7 @@ function App(props) {
 ReactDOM.render(
   <Provider store={ReduxStore}>
     <App />
+    {/* <Lms /> */}
   </Provider>,
   document.getElementById('app')
 );
