@@ -45,13 +45,12 @@ function App(props) {
         {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
       </Switch>
     </BrowserRouter>
-    // <Lms />
   );
 }
 
 ReactDOM.render(
   <Provider store={ReduxStore}>
-    <App />{" "}
+    <App /> {/* <Lms /> */}
   </Provider>,
   document.getElementById("app")
 );
