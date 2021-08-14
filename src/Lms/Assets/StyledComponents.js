@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { createTheme, Button } from '@material-ui/core';
+import styled from "styled-components";
+import { createTheme, Button } from "@material-ui/core";
 
 export const Container = styled.div`
   display: flex;
@@ -20,10 +20,10 @@ export const H1 = styled.div`
 export const ColorScheme = createTheme({
   palette: {
     primary: {
-      main: '#052A4E',
+      main: "#052A4E",
     },
     secondary: {
-      main: '#1093FF',
+      main: "#1093FF",
     },
   },
 });
@@ -32,16 +32,16 @@ export const textFieldTheme = createTheme({
   overrides: {
     MuiInputBase: {
       input: {
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: '16px',
-        lineHeight: '20px',
-        color: '#686868',
-        height: '40px',
-        background: '#FFFFFF',
-        border: '1px solid #CCCCCC',
-        boxSizing: 'border-box',
-        borderRadius: '4px',
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "16px",
+        lineHeight: "20px",
+        color: "#686868",
+        height: "40px",
+        background: "#FFFFFF",
+        border: "1px solid #CCCCCC",
+        boxSizing: "border-box",
+        borderRadius: "4px",
       },
     },
   },
@@ -113,4 +113,10 @@ export const Wrapper = styled.div`
 
 export const InputCard = styled.div`
   padding: 30px 20px 22px 20px;
+`;
+
+export const Card = styled.div`
+  background: #ffffff;
+  box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
+  border-radius: 16px;
 `;
