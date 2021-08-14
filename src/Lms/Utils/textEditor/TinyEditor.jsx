@@ -6,14 +6,13 @@ class TinyEditor extends Component {
     return (
       <>
         <Editor
-          onChange={this.props.onEditorChange}
+          initialValue={this.props.data}
+          onEditorChange={this.props.onEditorChange}
           init={{
-            selector: "textarea",
-            init_instance_callback: function() {
-              var freeTiny = document.querySelector(
+            init_instance_callback: (editor) => {
+              document.querySelector(
                 ".tox .tox-notification--in"
-              );
-              freeTiny.style = "display: none";
+              ).style.display = "none";
             },
             branding: false,
             height: 565,
