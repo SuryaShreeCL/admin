@@ -12,9 +12,9 @@ import {
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const DropDownIcon = withStyles({
-  root:{
-    fill:'#323232',
-  }
+  root: {
+    fill: '#323232',
+  },
 })(ArrowDropDownIcon);
 // export const ButtonIcon = withStyles({
 //   root: {
@@ -26,41 +26,57 @@ const DropDownIcon = withStyles({
 
 const selectTheme = createTheme({
   overrides: {
+    MuiInputBase: {
+      root: {
+        display: 'flex',
+        // flex: '1 1',
+
+        height: '48px',
+        minWidth: '350px',
+      },
+    },
     MuiSelect: {
       select: {
-        width:'350px',
-        // minWidth: '350px',
+        // display: 'flex',
+        // width: '350px',
+        height: '48px',
+        minWidth: '350px',
         // maxWidth: '350px',
-        '&:focus':{
-          backgroundColor:'rgba(5, 42, 78, 0.05)'
+        '&:focus': {
+          backgroundColor: 'rgba(5, 42, 78, 0.05)',
         },
-        fontStyle: "normal", fontWeight: "normal", fontSize: "16px", lineHeight: "20px", color: "#052A4E",
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontSize: '16px',
+        lineHeight: '20px',
+        color: '#052A4E',
       },
     },
-    MuiInputLabel:{
-      shrink:{
-        transform:'translate(14px, -6px) scale(0.75)',
+    MuiInputLabel: {
+      shrink: {
+        transform: 'translate(14px, -6px) scale(0.75)',
       },
-      formControl:{
+      formControl: {
         // top:'20px',
         // left:'12px',
-        transform:'translate(8px, 22px) scale(1)',
-      }
-      
+        transform: 'translate(8px, 22px) scale(1)',
+      },
     },
-    MuiListItem:{
-      root:{
-        fontStyle: "normal", fontWeight: "normal", fontSize: "16px", lineHeight: "20px", color: "#052A4E",
-      }
-    }
-   
-    
+    MuiListItem: {
+      root: {
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontSize: '16px',
+        lineHeight: '20px',
+        color: '#052A4E',
+      },
+    },
+
     // MuiListItem:{
     //   button:{
     //     '&:hover':{
     //       backgroundColor:'rgba(16, 147, 255, 0.4)'
     //       // rgba(, 1)
-
 
     //     }
     //   },
@@ -72,11 +88,10 @@ const selectTheme = createTheme({
     //   // },
     //   root:{
     //     backgroundColor:'blue',
-    
+
     //     // '& .Mui-selected':{
     //     //   backgroundColor:'rgba(5, 42, 78, 0.8)'
     //     //   // '&:hover':{
-            
 
     //     //   // }
     //     // }
@@ -104,7 +119,14 @@ export default function DropDown(props) {
         <FormControl>
           <InputLabel id={label}>{label}</InputLabel>
 
-          <Select fullWidth variant='outlined' labelId={label} label={label} id={props.label} IconComponent={DropDownIcon}>
+          <Select
+            fullWidth
+            variant='outlined'
+            labelId={label}
+            label={label}
+            id={props.label}
+            IconComponent={DropDownIcon}
+          >
             {props.items !== undefined &&
               props.items.map(item => (
                 <MenuItem value={item.value}>{item.label}</MenuItem>

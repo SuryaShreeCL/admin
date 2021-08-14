@@ -6,56 +6,42 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import DropDown from '../../Utils/DropDown';
 
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    // margin: theme.spacing(1),
-    // minWidth: 120,
-  },
-  selectEmpty: {
-    // marginTop: theme.spacing(2),
-  },
-}));
-
 export default function DropDownRack() {
-  const classes = useStyles();
   const [value, setValue] = useState(0);
   const handleChange = event => {
     setValue(event.target.value);
   };
-  console.log(value);
   return (
-    <Grid container>
-      <Grid item xs={12} lg={4}>
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={4}>
         <DropDown
           label='Subject'
           items={[
-            { value: 1, label: 'One' },
-            { value: 2, label: 'Two' },
-            { value: 3, label: 'Three' },
+            { value: 1, label: 'GRE' },
+            { value: 2, label: 'GMAT' },
+            { value: 3, label: 'TOFEL' },
           ]}
           value={value}
           onChange={handleChange}
         />
       </Grid>
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12} md={4}>
         <DropDown
-          label='Subject'
+          label='Course'
           items={[
-            { value: 1, label: 'One' },
-            { value: 2, label: 'Two' },
-            { value: 3, label: 'Three' },
+            { value: 1, label: 'Verbal' },
+            { value: 2, label: 'Quantitative' },
           ]}
           value={value}
           onChange={handleChange}
         />
       </Grid>
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12} md={4}>
         <DropDown
-          label='Subject'
+          label='Concept'
           items={[
-            { value: 1, label: 'One' },
-            { value: 2, label: 'Two' },
-            { value: 3, label: 'Three' },
+            { value: 1, label: 'Grammar' },
+            { value: 2, label: 'Confidence' },
           ]}
           value={value}
           onChange={handleChange}
