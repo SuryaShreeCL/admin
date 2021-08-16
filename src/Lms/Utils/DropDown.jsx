@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   createTheme,
   FormControl,
@@ -7,13 +7,13 @@ import {
   ThemeProvider,
   MenuItem,
   withStyles,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const DropDownIcon = withStyles({
   root: {
-    fill: '#323232',
+    fill: "#323232",
   },
 })(ArrowDropDownIcon);
 // export const ButtonIcon = withStyles({
@@ -28,47 +28,47 @@ const selectTheme = createTheme({
   overrides: {
     MuiInputBase: {
       root: {
-        display: 'flex',
+        display: "flex",
         // flex: '1 1',
 
-        height: '48px',
-        minWidth: '350px',
+        height: "48px",
+        minWidth: "350px",
       },
     },
     MuiSelect: {
       select: {
         // display: 'flex',
         // width: '350px',
-        height: '48px',
-        minWidth: '350px',
+        height: "48px",
+        minWidth: "350px",
         // maxWidth: '350px',
-        '&:focus': {
-          backgroundColor: 'rgba(5, 42, 78, 0.05)',
+        "&:focus": {
+          backgroundColor: "rgba(5, 42, 78, 0.05)",
         },
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: '16px',
-        lineHeight: '20px',
-        color: '#052A4E',
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "16px",
+        lineHeight: "20px",
+        color: "#052A4E",
       },
     },
     MuiInputLabel: {
       shrink: {
-        transform: 'translate(14px, -6px) scale(0.75)',
+        transform: "translate(14px, -6px) scale(0.75)",
       },
       formControl: {
         // top:'20px',
         // left:'12px',
-        transform: 'translate(8px, 22px) scale(1)',
+        transform: "translate(8px, 22px) scale(1)",
       },
     },
     MuiListItem: {
       root: {
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: '16px',
-        lineHeight: '20px',
-        color: '#052A4E',
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "16px",
+        lineHeight: "20px",
+        color: "#052A4E",
       },
     },
 
@@ -114,21 +114,21 @@ export default function DropDown(props) {
   // label and items array as props
   const { label, items, value } = props;
   return (
-    <div style={{ display: 'flex', width: '100%' }}>
+    <div style={{ display: "flex", width: "100%" }}>
       <ThemeProvider theme={selectTheme}>
         <FormControl>
           <InputLabel id={label}>{label}</InputLabel>
 
           <Select
             fullWidth
-            variant='outlined'
+            variant="outlined"
             labelId={label}
             label={label}
             id={props.label}
             IconComponent={DropDownIcon}
           >
             {props.items !== undefined &&
-              props.items.map(item => (
+              props.items.map((item) => (
                 <MenuItem value={item.value}>{item.label}</MenuItem>
               ))}
           </Select>

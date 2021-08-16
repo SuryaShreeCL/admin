@@ -15,6 +15,7 @@ export const InputTextField = (props) => {
       {...props}
       inputProps={{ style: { color: "#052A4E" } }}
       variant="outlined"
+      fullWidth
     />
   );
 };

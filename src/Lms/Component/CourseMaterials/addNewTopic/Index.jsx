@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import TinyEditor from "../../../Utils/textEditor/TinyEditor";
 import {
   Grid,
@@ -10,7 +10,7 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import Preview from "../../../Assets/icons/preview.svg";
-import DropDown from "../../../Utils/DropDown";
+import { SelectDropDown } from "../../../Utils/SelectField";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import { FillButton, OutlineButton, AddButton } from "../../../Utils/Buttons";
 import { InputTextField } from "../../../Utils/TextField";
@@ -29,24 +29,47 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorSources: { source1: [], source2: [] },
-      editorNames: ["source1", "source2"],
-      tabValue: 0,
+      courseValue: "1a",
+      subjectValue: null,
+      conceptValue: null,
+      topicValue: null,
+      descriptionValue: null,
+      imageUrl: null,
+      addTask: false,
+      taskValue: null,
+      taskType: null,
+      taskTime: null,
+      newTaskData: [],
+      tabValue: null,
+      totalTasks: 0,
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleTaskProperties = this.handleTaskProperties.bind(this);
   }
 
-  getCurrentTask = () => {
-    const { editorNames } = this.state;
-    const source = editorNames.find(
-      (item) => editorNames.indexOf(item) === this.state.tabValue
-    );
-    return source;
+  handleChange = (e) => {
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
   };
 
-  onEditorTextChange = (evt, editor) => {
-    const source = this.getCurrentTask();
+  // getCurrentTask = () => {
+  //   const { editorNames } = this.state;
+  //   const source = editorNames.find(
+  //     (item) => editorNames.indexOf(item) === this.state.tabValue
+  //   );
+  //   return source;
+  // };
+
+  onRichEditorChange = (evt, editor) => {
+    var taskData = [...this.state.newTaskData];
+    const { tabValue } = this.state;
+    taskData[tabValue - 1] = {
+      ...taskData[tabValue - 1],
+      richEditorData: editor.getContent(),
+    };
     this.setState({
-      editorSources: { [source]: editor.getContent() },
+      newTaskData: taskData,
     });
   };
 
@@ -56,7 +79,46 @@ class Index extends Component {
     alert(editorSources[editor]);
   };
 
+  handleAddTask = () => {
+    let count = this.state.totalTasks + 1;
+    this.setState((prevState) => ({
+      newTaskData: [
+        ...prevState.newTaskData,
+        {
+          id: "",
+          taskValue: "",
+          taskType: "",
+          taskTime: "",
+          richEditorData: "",
+        },
+      ],
+    }));
+    this.setState({ totalTasks: count, tabValue: count });
+  };
+
+  handleTopicSave = () => {};
+
+  handleTaskProperties = (index, event) => {
+    const taskData = [...this.state.newTaskData];
+    const { name, value } = event.target;
+    taskData[index][name] = value;
+    this.setState({
+      taskData,
+    });
+  };
+
   render() {
+    const {
+      courseValue,
+      subjectValue,
+      conceptValue,
+      topicValue,
+      descriptionValue,
+      imageUrl,
+      addTask,
+      tabValue,
+      newTaskData,
+    } = this.state;
     return (
       <>
         <MainContainer>
@@ -64,77 +126,83 @@ class Index extends Component {
             <Wrapper>
               <Title>Add New Topic</Title>
               <InputCard>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <DropDown
+                <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
+                  <Grid item xs={12} md={4}>
+                    <SelectDropDown
                       label="Course"
+                      name="courseValue"
                       items={[
-                        { value: 1, label: "One" },
-                        { value: 2, label: "Two" },
-                        { value: 3, label: "Three" },
+                        { id: "1a", label: "One" },
+                        { id: "2b", label: "Two" },
+                        { id: "3c", label: "Three" },
                       ]}
-                      //value={value}
-                      //onChange={handleChange}
+                      value={courseValue}
+                      onhandleChange={this.handleChange}
                     />
                   </Grid>
                 </Grid>
-                <Grid container spacing={3}>
+                <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
                   <Grid item xs={12} md={4}>
-                    <DropDown
+                    <SelectDropDown
                       label="Subject"
+                      name="subjectValue"
                       items={[
-                        { value: 1, label: "One" },
-                        { value: 2, label: "Two" },
-                        { value: 3, label: "Three" },
+                        { id: 1, label: "One" },
+                        { id: 2, label: "Two" },
+                        { id: 3, label: "Three" },
                       ]}
-                      //value={value}
-                      //onChange={handleChange}
+                      value={subjectValue}
+                      onhandleChange={this.handleChange}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
-                    <DropDown
+                    <SelectDropDown
                       label="Concept"
+                      name="conceptValue"
                       items={[
-                        { value: 1, label: "One" },
-                        { value: 2, label: "Two" },
-                        { value: 3, label: "Three" },
+                        { id: 1, label: "One" },
+                        { id: 2, label: "Two" },
+                        { id: 3, label: "Three" },
                       ]}
-                      //value={value}
-                      //onChange={handleChange}
-                      //fullWidth
+                      value={conceptValue}
+                      onhandleChange={this.handleChange}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <InputTextField
+                      name="topicValue"
+                      value={topicValue}
+                      onChange={this.handleChange}
                       label="Topic name"
-                      variant="outlined"
-                      fullWidth
                     />
                   </Grid>
                 </Grid>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
                   <Grid item xs={12} md={8}>
                     <InputTextField
+                      name="descriptionValue"
+                      onChange={this.handleChange}
+                      value={descriptionValue}
                       label="Description"
-                      variant="outlined"
-                      fullWidth
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <InputTextField
+                      name="imageUrl"
+                      onChange={this.handleChange}
+                      value={imageUrl}
                       label="Image Url"
-                      variant="outlined"
-                      fullWidth
                     />
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} justifyContent={"flex-end"}>
                   <Grid item>
-                    <AddButton>Save</AddButton>
+                    <AddButton onClick={this.handleTopicSave}>Save</AddButton>
                   </Grid>
-                  <Grid item>
+                  <Grid item style={{ opacity: !addTask && 0.6 }}>
                     <AddButton
                       startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
+                      onClick={this.handleAddTask}
                     >
                       Add New Task
                     </AddButton>
@@ -143,9 +211,9 @@ class Index extends Component {
               </InputCard>
               <TabContainer>
                 <Tabs
-                  value={this.state.tabValue}
+                  value={tabValue - 1}
                   onChange={(e, newValue) =>
-                    this.setState({ tabValue: newValue })
+                    this.setState({ tabValue: newValue + 1 })
                   }
                   TabIndicatorProps={{
                     style: {
@@ -153,68 +221,82 @@ class Index extends Component {
                     },
                   }}
                 >
-                  <Tab
-                    className={this.state.tabValue === 0 && "active__task__tab"}
-                    label="Task 1"
-                    style={style}
-                  ></Tab>
-                  <Tab
-                    className={this.state.tabValue === 1 && "active__task__tab"}
-                    style={style}
-                    label="Task 2"
-                  ></Tab>
+                  {newTaskData.map((i, tabIndex) => {
+                    return (
+                      <Tab
+                        className={
+                          tabValue === tabIndex + 1 && "active__task__tab"
+                        }
+                        label={"Task " + (tabIndex + 1)}
+                        style={style}
+                      ></Tab>
+                    );
+                  })}
                 </Tabs>
               </TabContainer>
-              <InputCard>
-                <Grid container spacing={2}>
-                  <Grid item xs={6} xl={6}>
-                    <InputTextField label="Task Name" fullWidth />
-                  </Grid>
-                  <Grid item xs={12} lg={3}>
-                    <DropDown
-                      label="Task Type"
-                      items={[
-                        { value: 1, label: "Image" },
-                        { value: 2, label: "Video" },
-                      ]}
-                      //value={value}
-                      //onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={3}>
-                    <FormControl variant="outlined">
-                      <InputLabel>Approximate time</InputLabel>
-                      <OutlinedInput
-                        type={"number"}
-                        //value={values.password}
-                        //onChange={handleChange('password')}
-                        endAdornment={
-                          <InputAdornment position="end">mins</InputAdornment>
-                        }
-                        labelWidth={145}
-                      />
-                    </FormControl>
-                  </Grid>
-                </Grid>
-              </InputCard>
-              <div
-                style={{ padding: "8px" }}
-                hidden={this.state.tabValue !== 0}
-              >
-                <TinyEditor
-                  data={"ok"}
-                  onEditorChange={this.onEditorTextChange}
-                />
-              </div>
-              <div
-                style={{ padding: "8px" }}
-                hidden={this.state.tabValue !== 1}
-              >
-                <TinyEditor
-                  data={"done"}
-                  onEditorChange={this.onEditorTextChange}
-                />
-              </div>
+
+              {newTaskData.map((item, index) => {
+                return (
+                  <Fragment key={index}>
+                    <div hidden={tabValue !== index + 1}>
+                      <InputCard>
+                        <Grid container spacing={2}>
+                          <Grid item xs={6} xl={6}>
+                            <InputTextField
+                              name="taskValue"
+                              value={item.taskValue}
+                              onChange={(e) =>
+                                this.handleTaskProperties(index, e)
+                              }
+                              label="Task Name"
+                              fullWidth
+                            />
+                          </Grid>
+                          <Grid item xs={12} lg={3}>
+                            <SelectDropDown
+                              label="Task Type"
+                              name="taskType"
+                              items={[
+                                { id: 1, label: "TEXT" },
+                                { id: 2, label: "VIDEO" },
+                              ]}
+                              value={item.taskType}
+                              onhandleChange={(e) =>
+                                this.handleTaskProperties(index, e)
+                              }
+                            />
+                          </Grid>
+                          <Grid item xs={12} lg={3}>
+                            <FormControl variant="outlined">
+                              <InputLabel>Approximate time</InputLabel>
+                              <OutlinedInput
+                                type={"number"}
+                                value={item.taskTime}
+                                name="taskTime"
+                                onChange={(e) =>
+                                  this.handleTaskProperties(index, e)
+                                }
+                                endAdornment={
+                                  <InputAdornment position="end">
+                                    mins
+                                  </InputAdornment>
+                                }
+                                labelWidth={145}
+                              />
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+                      </InputCard>
+                      <div style={{ padding: "8px" }}>
+                        <TinyEditor
+                          data={item.richEditorData || ""}
+                          onEditorChange={this.onRichEditorChange}
+                        />
+                      </div>
+                    </div>
+                  </Fragment>
+                );
+              })}
             </Wrapper>
           </Card>
           <ButtonContainer>
