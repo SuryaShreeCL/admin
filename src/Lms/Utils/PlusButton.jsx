@@ -22,7 +22,7 @@ const buttonTheme = createTheme({
 export default function PlusButton(props) {
   return (
     <ThemeProvider theme={buttonTheme}>
-      <Button startIcon={<AddRoundedIcon />} {...props}>
+      <Button {...props} startIcon={<AddRoundedIcon />}>
         {props.children}
       </Button>
     </ThemeProvider>

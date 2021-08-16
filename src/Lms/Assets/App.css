@@ -2,3 +2,15 @@
   font-weight: 600 !important;
   color: #1093ff !important;
 }
+
+.menu-item-text {
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  color: #646464 !important;
+}
+.menu-item-text:hover {
+  color: #052a4e !important;
+  background-color: #f2f9ff !important;
+}

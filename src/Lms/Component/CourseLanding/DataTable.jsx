@@ -3,7 +3,6 @@ import { DataGrid } from '@material-ui/data-grid';
 import {
   Table,
   TableBody,
-  TableHead,
   TableRow,
   makeStyles,
   IconButton,
@@ -13,9 +12,11 @@ import {
   BodyCell,
   Head,
   HeadCell,
+  MuiMenu,
 } from '../../Assets/StyledTableComponents';
 import { MoreVertRounded, ViewColumnSharp } from '@material-ui/icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuItems from './MenuItems';
 
 const MONTH = [
   'Jan',
@@ -91,9 +92,14 @@ const getDateFormat = dateString => {
 };
 
 export default function DataTable(props) {
-  console.log(props.content);
   const classes = useStyles();
-  const { content: rows } = props;
+  const {
+    content: rows,
+    anchorEl,
+    threeDotId,
+    handleThreeDotClick,
+    handleClose,
+  } = props;
   return (
     <React.Fragment>
       <Table>
@@ -122,16 +128,30 @@ export default function DataTable(props) {
                   </BodyCell>
                   <BodyCell>{getDateFormat(item.createdAt)}</BodyCell>
                   <BlueCell>
-                    <IconButton>
+                    <IconButton
+                      aria-controls={item.id}
+                      aria-haspopup='true'
+                      onClick={handleThreeDotClick}
+                    >
                       <MoreVertRounded style={{ fill: '#1093FF' }} />
                     </IconButton>
+                    <MuiMenu
+                      id={item.id}
+                      open={Boolean(anchorEl)}
+                      anchorEl={anchorEl}
+                      getContentAnchorEl={null}
+                      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                      onClose={handleClose}
+                    >
+                      <MenuItems roll={'LMSCHECKER'} />
+                    </MuiMenu>
                   </BlueCell>
                 </TableRow>
               );
             })}
         </TableBody>
       </Table>
-      {/* {row && <DataGrid columns={column} rows={row} pageSize={5} />} */}
     </React.Fragment>
   );
 }

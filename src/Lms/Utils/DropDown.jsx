@@ -26,21 +26,23 @@ const DropDownIcon = withStyles({
 
 const selectTheme = createTheme({
   overrides: {
-    MuiInputBase: {
+    MuiFormControl: {
       root: {
         display: 'flex',
-        // flex: '1 1',
-
+        flexGrow: 1,
         height: '48px',
-        minWidth: '350px',
+        // minWidth: '350px',
       },
+    },
+    MuiInputBase: {
+      root: {},
     },
     MuiSelect: {
       select: {
         // display: 'flex',
         // width: '350px',
-        height: '48px',
-        minWidth: '350px',
+        // height: '48px',
+        // minWidth: '350px',
         // maxWidth: '350px',
         '&:focus': {
           backgroundColor: 'rgba(5, 42, 78, 0.05)',
@@ -57,8 +59,6 @@ const selectTheme = createTheme({
         transform: 'translate(14px, -6px) scale(0.75)',
       },
       formControl: {
-        // top:'20px',
-        // left:'12px',
         transform: 'translate(8px, 22px) scale(1)',
       },
     },
@@ -113,8 +113,9 @@ const selectTheme = createTheme({
 export default function DropDown(props) {
   // label and items array as props
   const { label, items, value } = props;
+  console.log(value);
   return (
-    <div style={{ display: 'flex', width: '100%' }}>
+    <React.Fragment>
       <ThemeProvider theme={selectTheme}>
         <FormControl>
           <InputLabel id={label}>{label}</InputLabel>
@@ -124,16 +125,17 @@ export default function DropDown(props) {
             variant='outlined'
             labelId={label}
             label={label}
-            id={props.label}
+            id={value}
             IconComponent={DropDownIcon}
+            {...props}
           >
             {props.items !== undefined &&
               props.items.map(item => (
-                <MenuItem value={item.value}>{item.label}</MenuItem>
+                <MenuItem value={item.id}>{item.title}</MenuItem>
               ))}
           </Select>
         </FormControl>
       </ThemeProvider>
-    </div>
+    </React.Fragment>
   );
 }

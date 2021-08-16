@@ -20,25 +20,107 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import DropDownRack from './DropDownRack';
 import PlusButton from '../../Utils/PlusButton';
 import DataTable from './DataTable';
+import Pagination from '@material-ui/lab/Pagination';
+import PaginationComponent from '../../Utils/PaginationComponent';
+import { connect } from 'react-redux';
+// import { getCourses } from '../../../Actions/Course';
+import {
+  getCourses,
+  getSubjects,
+  getConcepts,
+  getTopics,
+} from '../../Redux/Action/CourseMaterial';
 
-export default class CourseLanding extends Component {
+const INITIAL_PAGE_NO = 0;
+const INITIAL_SEARCH_TEXT = '';
+
+class CourseLanding extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { data: [] };
+    this.state = {
+      content: [],
+      threeDotId: null,
+      anchorEl: null,
+      courseId: null,
+      subjectId: null,
+      conceptId: null,
+    };
   }
 
   componentDidMount() {
+    this.props.getCourses(response => {
+      if (response.success) {
+        this.props.getSubjects(response.data[0].id, subjectResponse => {
+          if (subjectResponse.success) {
+            this.props.getConcepts(
+              subjectResponse.data[0].id,
+              conceptResponse => {
+                if (conceptResponse.success) {
+                  this.props.getTopics(
+                    conceptResponse.data[0].id,
+                    INITIAL_PAGE_NO,
+                    INITIAL_SEARCH_TEXT,
+                    topicResponse => {
+                      console.log(topicResponse);
+                      this.setState({
+                        courseId: response.data[0].id,
+                        subjectId: subjectResponse.data[0].id,
+                        conceptId: conceptResponse.data[0].id,
+                      });
+                    }
+                  );
+                }
+              }
+            );
+          }
+        });
+      }
+    });
     let data = require('./course-material-landing.json');
-    console.log(data.data.content);
+    // console.log(data.data.content);
     this.setState({ content: data.data.content });
   }
 
+  handleThreeDotClick = event => {
+    console.log(event.currentTarget);
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handlePlusButton = () => {
+    console.log('hi');
+  };
+
+  handleChange = event => {
+    this.setState({
+      ...this.state,
+      [event.target.name + 'Id']: event.target.value,
+    });
+  };
+
   render() {
-    console.log(this.state);
+    console.log(this.state.courseId);
+    const {
+      content,
+      threeDotId,
+      anchorEl,
+      courseId,
+      subjectId,
+      conceptId,
+    } = this.state;
+    const {
+      handlePlusButton,
+      handleThreeDotClick,
+      handleClose,
+      handleChange,
+    } = this;
+    const { courses, subjects, concepts, topics } = this.props;
     return (
       <Box display='flex' m={3}>
-        {/* <ThemeProvider theme={ColorScheme}> */}
         <Container>
           <Grid container spacing={3}>
             <Grid
@@ -60,21 +142,59 @@ export default class CourseLanding extends Component {
                     </ThemeProvider>
                   </Grid>
                   <Grid item>
-                    <PlusButton>Add</PlusButton>
+                    <PlusButton onClick={handlePlusButton}>Add</PlusButton>
                   </Grid>
                 </Grid>
               </div>
             </Grid>
-            <Box marginBottom='40px'>
-              <DropDownRack />
+            <Box width='100%' marginBottom='40px'>
+              <DropDownRack
+                courses={courses}
+                subjects={subjects}
+                concepts={concepts}
+                handleChange={handleChange}
+                courseId={courseId}
+                subjectId={subjectId}
+                conceptId={conceptId}
+              />
             </Box>
-            <Box flexGrow='1' width='200%' height='100vh'>
-              <DataTable content={this.state.content} />
+            <Box flexGrow='1'>
+              <DataTable
+                content={content}
+                threeDotId={threeDotId}
+                anchorEl={anchorEl}
+                handleThreeDotClick={handleThreeDotClick}
+                handleClose={handleClose}
+                handlePlusButton
+              />
             </Box>
           </Grid>
+          <PaginationComponent pageCount={23} />
         </Container>
         {/* </ThemeProvider> */}
       </Box>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    courses: state.CourseMaterialReducer.courses,
+    subjects: state.CourseMaterialReducer.subjects,
+    concepts: state.CourseMaterialReducer.concepts,
+    topics: state.CourseMaterialReducer.topics,
+  };
+};
+
+// export default connect(mapStateToProps, {
+//   getOneQuestion,
+//   getQuestionAnswer,
+//   getAnswerExplanation,
+// })(Question);
+
+export default connect(mapStateToProps, {
+  getCourses,
+  getSubjects,
+  getConcepts,
+  getTopics,
+})(CourseLanding);

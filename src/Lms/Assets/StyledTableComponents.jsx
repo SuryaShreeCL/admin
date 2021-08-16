@@ -1,5 +1,5 @@
-import { withStyles, withStylesT } from '@material-ui/styles';
-import { TableHead, TableCell } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+import { TableHead, TableCell, Menu } from '@material-ui/core';
 
 export const Head = withStyles({
   root: {
@@ -57,3 +57,13 @@ export const BlueCell = withStyles({
     borderBottom: 'none',
   },
 })(TableCell);
+
+export const MuiMenu = withStyles({
+  paper: {
+    background: '#ffffff',
+    boxShadow: '0px 4px 11px 1px rgba(55, 143, 233, 0.25)',
+    borderRadius: '12px',
+    padding: '17px 12px',
+    width: '260px',
+  },
+})(Menu);

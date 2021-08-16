@@ -6,44 +6,48 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import DropDown from '../../Utils/DropDown';
 
-export default function DropDownRack() {
-  const [value, setValue] = useState(0);
-  const handleChange = event => {
-    setValue(event.target.value);
-  };
+export default function DropDownRack(props) {
+  // const [value, setValue] = useState(0);
+  // const handleChange = event => {
+  //   setValue(event.target.value);
+  // };
+
+  const {
+    courses,
+    subjects,
+    concepts,
+    handleChange,
+    courseId,
+    subjectId,
+    conceptId,
+  } = props;
+  console.log(courseId);
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
         <DropDown
-          label='Subject'
-          items={[
-            { value: 1, label: 'GRE' },
-            { value: 2, label: 'GMAT' },
-            { value: 3, label: 'TOFEL' },
-          ]}
-          value={value}
+          label='Course'
+          name='course'
+          items={courses.data}
+          value={courseId}
           onChange={handleChange}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <DropDown
-          label='Course'
-          items={[
-            { value: 1, label: 'Verbal' },
-            { value: 2, label: 'Quantitative' },
-          ]}
-          value={value}
+          label='Subject'
+          name='subject'
+          items={subjects.data}
+          value={subjectId}
           onChange={handleChange}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <DropDown
           label='Concept'
-          items={[
-            { value: 1, label: 'Grammar' },
-            { value: 2, label: 'Confidence' },
-          ]}
-          value={value}
+          name='concept'
+          items={concepts.data}
+          value={conceptId}
           onChange={handleChange}
         />
       </Grid>
