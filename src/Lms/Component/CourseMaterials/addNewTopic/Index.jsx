@@ -8,19 +8,17 @@ import {
   InputLabel,
   OutlinedInput,
   InputAdornment,
-  Button,
-  TextField,
 } from "@material-ui/core";
 import Preview from "../../../Assets/icons/preview.svg";
 import DropDown from "../../../Utils/DropDown";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import { FillButton, OutlineButton, AddButton } from "../../../Utils/Buttons";
+import { InputTextField } from "../../../Utils/TextField";
 import {
   ButtonContainer,
   Card,
-  FillButton,
   InputCard,
   MainContainer,
-  OutlineButton,
   PreviewIcon,
   TabContainer,
   Title,
@@ -67,7 +65,7 @@ class Index extends Component {
               <Title>Add New Topic</Title>
               <InputCard>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} lg={4}>
+                  <Grid item xs={12}>
                     <DropDown
                       label="Course"
                       items={[
@@ -79,7 +77,9 @@ class Index extends Component {
                       //onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} lg={4}>
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={4}>
                     <DropDown
                       label="Subject"
                       items={[
@@ -91,7 +91,7 @@ class Index extends Component {
                       //onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} lg={4}>
+                  <Grid item xs={12} md={4}>
                     <DropDown
                       label="Concept"
                       items={[
@@ -101,26 +101,43 @@ class Index extends Component {
                       ]}
                       //value={value}
                       //onChange={handleChange}
+                      //fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <InputTextField
+                      label="Topic name"
+                      variant="outlined"
+                      fullWidth
                     />
                   </Grid>
                 </Grid>
                 <Grid container spacing={2}>
-                  <Grid item xs={4} xl={4}>
-                    <TextField label="Description" variant="outlined" />
+                  <Grid item xs={12} md={8}>
+                    <InputTextField
+                      label="Description"
+                      variant="outlined"
+                      fullWidth
+                    />
                   </Grid>
-                  <Grid item xs={4} xl={4}>
-                    <TextField label="Image Url" variant="outlined" />
-                  </Grid>
-                  <Grid item xs={4} xl={4}>
-                    <TextField label="Topic name" variant="outlined" />
+                  <Grid item xs={12} md={4}>
+                    <InputTextField
+                      label="Image Url"
+                      variant="outlined"
+                      fullWidth
+                    />
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} justifyContent={"flex-end"}>
                   <Grid item>
-                    <Button style={{ marginRight: 20 }}>Save</Button>
+                    <AddButton>Save</AddButton>
                   </Grid>
                   <Grid item>
-                    <Button startIcon={<AddRoundedIcon />}>Add New Task</Button>
+                    <AddButton
+                      startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
+                    >
+                      Add New Task
+                    </AddButton>
                   </Grid>
                 </Grid>
               </InputCard>
@@ -151,7 +168,7 @@ class Index extends Component {
               <InputCard>
                 <Grid container spacing={2}>
                   <Grid item xs={6} xl={6}>
-                    <TextField label="Task Name" variant="outlined" />
+                    <InputTextField label="Task Name" fullWidth />
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <DropDown
@@ -172,7 +189,7 @@ class Index extends Component {
                         //value={values.password}
                         //onChange={handleChange('password')}
                         endAdornment={
-                          <InputAdornment position="end">ms</InputAdornment>
+                          <InputAdornment position="end">mins</InputAdornment>
                         }
                         labelWidth={145}
                       />
@@ -204,8 +221,9 @@ class Index extends Component {
             <OutlineButton>
               <PreviewIcon src={Preview} /> Preview
             </OutlineButton>
-
-            <FillButton onClick={this.handleSaveButton}>Save</FillButton>
+            <span style={{ marginLeft: 26 }}>
+              <FillButton onClick={this.handleSaveButton}>Save</FillButton>
+            </span>
           </ButtonContainer>
         </MainContainer>
       </>

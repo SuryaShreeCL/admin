@@ -1,18 +1,18 @@
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
 
-import React from 'react';
-import { Button, createTheme, ThemeProvider } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import { Button, createTheme, ThemeProvider } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const buttonTheme = createTheme({
   overrides: {
     MuiButton: {
       root: {
-        background: '#1093FF',
-        color: 'white',
-        textTransform: 'none',
-        '&:hover': {
-          backgroundColor: '#1093FF',
+        background: "#1093FF",
+        color: "white",
+        textTransform: "none",
+        "&:hover": {
+          backgroundColor: "#1093FF",
         },
       },
     },
