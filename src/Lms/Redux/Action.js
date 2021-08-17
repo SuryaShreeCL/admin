@@ -6,4 +6,5 @@ export const COURSE_MATERIAL = {
   createorUpdateTopics: "createorUpdateTopics",
   getTopicFullDetails: "getTopicDetails",
   createorUpdateTask: "reateorUpdateTask",
+  deleteTopic: "deleteTopic",
 };

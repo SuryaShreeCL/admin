@@ -8,6 +8,7 @@ const initialState = {
   topicsDetails: [],
   taskDetails: [],
   createorUpdateTaskResponse: [],
+  deleteResponse: [],
 };
 
 const CourseMaterialReducer = (state = initialState, action) => {
@@ -59,6 +60,13 @@ const CourseMaterialReducer = (state = initialState, action) => {
         ...state,
         topicsDetails: action.payload,
         taskDetails: action.payload.data.tasks,
+      };
+    }
+
+    case COURSE_MATERIAL.deleteTopic: {
+      return {
+        ...state,
+        topics: action.payload,
       };
     }
 

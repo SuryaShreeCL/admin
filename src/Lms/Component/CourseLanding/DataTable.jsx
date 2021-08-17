@@ -6,6 +6,9 @@ import {
   TableRow,
   makeStyles,
   IconButton,
+  MenuItem,
+  ListItemIcon,
+  Typography,
 } from '@material-ui/core';
 import {
   BlueCell,
@@ -17,6 +20,9 @@ import {
 import { MoreVertRounded, ViewColumnSharp } from '@material-ui/icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuItems from './MenuItems';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import PublishIcon from '../../Assets/icons/Publish.svg';
 
 const MONTH = [
   'Jan',
@@ -33,40 +39,7 @@ const MONTH = [
   'Dec',
 ];
 
-// const columns = [
-//   { field: 'no', headerName: '', width: 150, headerAlign: 'center' },
-//   {
-//     field: 'conceptName',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   {
-//     field: 'topicName',
-//     headerName: ',
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   {
-//     field: 'noOfTasks',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   {
-//     field: 'uploadedBy',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   { field: 'status', headerName: 'Status', width: 200, headerAlign: 'center' },
-//   {
-//     field: 'createdDate',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-// ];
+const ROLLS = { admin: 'LMSADMIN', checker: 'LMSCHECKER' };
 
 const useStyles = makeStyles({
   leftAlign: {
@@ -81,6 +54,7 @@ const columns = [
   'No. of Tasks',
   'Uploaded by',
   'Created Date',
+  '',
 ];
 
 const getDateFormat = dateString => {
@@ -93,13 +67,64 @@ const getDateFormat = dateString => {
 
 export default function DataTable(props) {
   const classes = useStyles();
+
+  const renderMenuItems = (roll, topicId) => {
+    if (roll === ROLLS.admin) {
+      // console.log(topicId);
+      return (
+        <div>
+          <MenuItem>
+            <ListItemIcon className={'menu-item-text'}>
+              <EditIcon style={{ fill: '#1093FF' }} />
+            </ListItemIcon>
+            <Typography>Edit</Typography>
+          </MenuItem>
+          <MenuItem onClick={() => handleDelete(topicId)}>
+            <ListItemIcon className={'menu-item-text'}>
+              <DeleteIcon style={{ fill: '#1093ff' }} />
+            </ListItemIcon>
+            <Typography>Delete</Typography>
+          </MenuItem>
+        </div>
+      );
+    }
+    if (roll === ROLLS.checker) {
+      return (
+        <div>
+          <MenuItem className={'menu-item-text'}>
+            <ListItemIcon>
+              <img src={PublishIcon} alt='Publish Icon' />
+            </ListItemIcon>
+            <Typography>Publish Now</Typography>
+          </MenuItem>
+          <MenuItem className={'menu-item-text'}>
+            <ListItemIcon>
+              <EditIcon style={{ fill: '#1093FF' }} />
+            </ListItemIcon>
+            <Typography>Edit</Typography>
+          </MenuItem>
+          <MenuItem className={'menu-item-text'}>
+            <ListItemIcon onClick={() => handleDelete(topicId)}>
+              <DeleteIcon style={{ fill: '#1093ff' }} />
+            </ListItemIcon>
+            <Typography>Delete</Typography>
+          </MenuItem>
+        </div>
+      );
+    }
+  };
   const {
-    content: rows,
+    topics,
     anchorEl,
-    threeDotId,
     handleThreeDotClick,
     handleClose,
+    pageNo,
+    handleDelete,
+    popUpId,
   } = props;
+  // if (props.topics !== undefined) {
+  //   console.log(topics.data);
+  // }
   return (
     <React.Fragment>
       <Table>
@@ -107,7 +132,8 @@ export default function DataTable(props) {
           <TableRow>
             {columns.map((item, index) => (
               <HeadCell
-                className={(index === 0 || index === 4) && classes.leftAlign}
+                className={index === 4 ? classes.leftAlign : null}
+                key={index}
               >
                 {item}
               </HeadCell>
@@ -115,11 +141,14 @@ export default function DataTable(props) {
           </TableRow>
         </Head>
         <TableBody>
-          {rows &&
-            rows.map((item, index) => {
+          {topics !== undefined &&
+            topics.data.content.map((item, index) => {
+              // console.log(item.id);
               return (
-                <TableRow style={{ border: '0 0 0 0' }}>
-                  <BodyCell className={classes.leftAlign}>{index}</BodyCell>
+                <TableRow key={index} style={{ border: '0 0 0 0' }}>
+                  <BodyCell className={classes.leftAlign}>
+                    {pageNo * 10 + index + 1}
+                  </BodyCell>
                   <BodyCell>{item.conceptName}</BodyCell>
                   <BlueCell>{item.topicName}</BlueCell>
                   <BodyCell>{item.noOfTasks}</BodyCell>
@@ -131,20 +160,27 @@ export default function DataTable(props) {
                     <IconButton
                       aria-controls={item.id}
                       aria-haspopup='true'
-                      onClick={handleThreeDotClick}
+                      onClick={event => handleThreeDotClick(item.id, event)}
                     >
                       <MoreVertRounded style={{ fill: '#1093FF' }} />
                     </IconButton>
                     <MuiMenu
                       id={item.id}
-                      open={Boolean(anchorEl)}
+                      open={item.id === popUpId}
                       anchorEl={anchorEl}
                       getContentAnchorEl={null}
-                      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
                       onClose={handleClose}
                     >
-                      <MenuItems roll={'LMSCHECKER'} />
+                      {renderMenuItems('LMSCHECKER', item.id)}
+                      {/* <MenuItems  /> */}
                     </MuiMenu>
                   </BlueCell>
                 </TableRow>
@@ -154,4 +190,5 @@ export default function DataTable(props) {
       </Table>
     </React.Fragment>
   );
+  // } else return null;
 }

@@ -110,6 +110,34 @@ export const getTopics = (conceptId, pageNo, searchString, callback) => {
   };
 };
 
+export const deleteTopic = (topicId) => {
+  let accessToken = validationToken;
+  return (dispatch) => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/topics${topicId}/status/Archive`,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: COURSE_MATERIAL.deleteTopic,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  // {{DEV-LMS}}/api/v1/topics/{{TOPICID}}/status/Archive
+};
+
 // export const viewStudentStatus = id => {
 //   let accessToken = window.sessionStorage.getItem('accessToken');
 

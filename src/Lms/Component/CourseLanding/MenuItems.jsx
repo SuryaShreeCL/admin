@@ -9,6 +9,7 @@ const ROLLS = { admin: 'LMSADMIN', checker: 'LMSCHECKER' };
 // const menueItems = {icon:EditIcon,text:'Edit'}
 
 export default function MenuItems(props) {
+  const { handleDelete, topicId } = props;
   if (props.roll === ROLLS.admin) {
     return (
       <React.Fragment>
@@ -18,7 +19,7 @@ export default function MenuItems(props) {
           </ListItemIcon>
           <Typography>Edit</Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => handleDelete(topicId)}>
           <ListItemIcon className={'menu-item-text'}>
             <DeleteIcon style={{ fill: '#1093ff' }} />
           </ListItemIcon>
@@ -43,7 +44,7 @@ export default function MenuItems(props) {
           <Typography>Edit</Typography>
         </MenuItem>
         <MenuItem className={'menu-item-text'}>
-          <ListItemIcon>
+          <ListItemIcon onClick={() => handleDelete(topicId)}>
             <DeleteIcon style={{ fill: '#1093ff' }} />
           </ListItemIcon>
           <Typography>Delete</Typography>

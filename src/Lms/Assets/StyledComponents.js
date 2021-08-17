@@ -8,7 +8,8 @@ export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
-  padding: 24px 20px;
+  padding: 24px 24px;
+  margin: 24px;
 `;
 
 export const H1 = styled.div`
@@ -33,6 +34,9 @@ export const ColorScheme = createTheme({
 export const textFieldTheme = createTheme({
   overrides: {
     MuiInputBase: {
+      root: {
+        height: '40px',
+      },
       input: {
         fontStyle: 'normal',
         fontWeight: 'normal',
@@ -96,4 +100,49 @@ export const Card = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
+`;
+
+export const DialogDiv = styled.div`
+  padding: 40px 60px;
+  // height: 308px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const IconContainer = styled.div`
+  width: 124px;
+  height: 124px;
+  background: rgba(16, 147, 255, 0.5);
+  border-radius: 50%;
+  margin-bottom: 12px;
+`;
+
+export const HeadText = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+  color: #052a4e;
+`;
+
+export const BodyText = styled.div`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  color: #052a4e;
+`;
+
+export const ButtonBox = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const FlexFiller = styled.div`
+  display: flex;
+  flex-grow: 1;
 `;
