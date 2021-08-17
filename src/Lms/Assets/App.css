@@ -14,3 +14,7 @@
   color: #052a4e !important;
   background-color: #f2f9ff !important;
 }
+
+.tox .tox-notification--in {
+  display: none !important;
+}

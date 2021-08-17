@@ -1,9 +1,13 @@
-import { COURSE_MATERIAL } from '../Action';
+import { COURSE_MATERIAL } from "../Action";
 
 const initialState = {
   courses: [],
   subjects: [],
   concepts: [],
+  createorUpdateTopicResponse: [],
+  topicsDetails: [],
+  taskDetails: [],
+  createorUpdateTaskResponse: [],
 };
 
 const CourseMaterialReducer = (state = initialState, action) => {
@@ -33,6 +37,28 @@ const CourseMaterialReducer = (state = initialState, action) => {
       return {
         ...state,
         topics: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.createorUpdateTask: {
+      return {
+        ...state,
+        createorUpdateTaskResponse: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.createorUpdateTopics: {
+      return {
+        ...state,
+        createorUpdateTopicResponse: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.getTopicFullDetails: {
+      return {
+        ...state,
+        topicsDetails: action.payload,
+        taskDetails: action.payload.data.tasks,
       };
     }
 

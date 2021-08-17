@@ -8,7 +8,9 @@ import {
   InputLabel,
   OutlinedInput,
   InputAdornment,
+  Snackbar,
 } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import Preview from "../../../Assets/icons/preview.svg";
 import { SelectDropDown } from "../../../Utils/SelectField";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
@@ -24,79 +26,211 @@ import {
   Title,
   Wrapper,
 } from "../../../Assets/StyledComponents";
+import {
+  getCourses,
+  getSubjects,
+  getConcepts,
+  addTaskDetails,
+  addTopicDetails,
+  getTopicDetails,
+} from "../../../Redux/Action/CourseMaterial";
+import { connect } from "react-redux";
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      courseValue: "1a",
+      courseValue: null,
       subjectValue: null,
       conceptValue: null,
-      topicValue: null,
-      descriptionValue: null,
-      imageUrl: null,
-      addTask: false,
-      taskValue: null,
-      taskType: null,
-      taskTime: null,
+      topicValue: "",
+      descriptionValue: "",
+      imageUrl: "",
       newTaskData: [],
       tabValue: null,
       totalTasks: 0,
+      topicId: null,
+      message: "",
+      snackOpen: false,
+      snackType: "success",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleTaskProperties = this.handleTaskProperties.bind(this);
   }
 
+  componentDidMount() {
+    //let topicId = new URLSearchParams(history.location.search).get('topicId');
+    let newtopicId = "a66f873b-0065-468b-b79e-0b2cf3f0ff61";
+    this.props.getCourses((response) => {
+      if (response.success) {
+        this.props.getSubjects(response.data[0].id, (subjectResponse) => {
+          if (subjectResponse.success) {
+            this.props.getConcepts(
+              subjectResponse.data[0].id,
+              (conceptResponse) => {
+                if (conceptResponse.success) {
+                  this.setState({
+                    courseValue: response.data[0].id,
+                    subjectValue: subjectResponse.data[0].id,
+                    conceptValue: conceptResponse.data[0].id,
+                  });
+                  if (newtopicId.trim().length > 10) {
+                    this.props.getTopicDetails(
+                      newtopicId,
+                      (newtopicResponse) => {
+                        if (newtopicResponse.success) {
+                          console.log(this.props.taskDetails);
+                          this.setState({
+                            newTaskData: this.props.taskDetails,
+                            totalTasks: this.props.taskDetails.length,
+                            tabValue: this.props.taskDetails.length,
+                            topicId: newtopicId,
+                          });
+                        }
+                      }
+                    );
+                  }
+                }
+              }
+            );
+          }
+        });
+      }
+    });
+  }
+
   handleChange = (e) => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
+    if (name === "courseValue") {
+      this.props.getSubjects(value, (subjectResponse) => {
+        if (subjectResponse.success) {
+          this.props.getConcepts(
+            subjectResponse.data[0].id,
+            (conceptResponse) => {
+              if (conceptResponse.success) {
+                this.setState({
+                  subjectValue: subjectResponse.data[0].id,
+                  conceptValue: conceptResponse.data[0].id,
+                });
+                //this.props.getTopicDetails(conceptResponse.data[0].id);
+              }
+            }
+          );
+        }
+      });
+    }
+    if (name === "subjectValue") {
+      this.props.getConcepts(value, (conceptResponse) => {
+        if (conceptResponse.success) {
+          this.setState({
+            conceptValue: conceptResponse.data[0].id,
+          });
+          //this.props.getTopicDetails(conceptResponse.data[0].id);
+        }
+      });
+    }
   };
-
-  // getCurrentTask = () => {
-  //   const { editorNames } = this.state;
-  //   const source = editorNames.find(
-  //     (item) => editorNames.indexOf(item) === this.state.tabValue
-  //   );
-  //   return source;
-  // };
 
   onRichEditorChange = (evt, editor) => {
     var taskData = [...this.state.newTaskData];
     const { tabValue } = this.state;
     taskData[tabValue - 1] = {
       ...taskData[tabValue - 1],
-      richEditorData: editor.getContent(),
+      content: editor.getContent(),
     };
     this.setState({
       newTaskData: taskData,
     });
   };
 
-  handleSaveButton = () => {
-    const { editorSources } = this.state;
-    const editor = this.getCurrentTask();
-    alert(editorSources[editor]);
+  handleTopicSaveButton = () => {
+    const { topicValue, descriptionValue, imageUrl, conceptValue } = this.state;
+
+    if (
+      topicValue.trim().length !== 0 &&
+      imageUrl.trim().length !== 0 &&
+      descriptionValue.trim().length !== 0
+    ) {
+      const topicData = {
+        id: null,
+        name: topicValue,
+        description: descriptionValue,
+        imageUrl: imageUrl,
+        concept: { id: conceptValue },
+      };
+      this.props.addTopicDetails(topicData, (topicResponse) => {
+        if (topicResponse.success) {
+          this.setState({
+            message: "New Topic Added Successfully",
+            snackOpen: true,
+            snackType: "success",
+            topicId: topicResponse.data.id,
+          });
+        }
+      });
+    } else {
+      this.setState({
+        message: "Please fill all the fields",
+        snackOpen: true,
+        snackType: "warning",
+      });
+    }
   };
 
   handleAddTask = () => {
-    let count = this.state.totalTasks + 1;
-    this.setState((prevState) => ({
-      newTaskData: [
-        ...prevState.newTaskData,
-        {
-          id: "",
-          taskValue: "",
-          taskType: "",
-          taskTime: "",
-          richEditorData: "",
-        },
-      ],
-    }));
-    this.setState({ totalTasks: count, tabValue: count });
+    if (this.state.topicId !== null) {
+      let count = this.state.totalTasks + 1;
+      this.setState((prevState) => ({
+        newTaskData: [
+          ...prevState.newTaskData,
+          {
+            id: null,
+            name: "",
+            contentType: "",
+            duration: "",
+            content: "",
+            topic: { id: this.state.topicId },
+          },
+        ],
+      }));
+      this.setState({
+        totalTasks: count,
+        tabValue: count,
+      });
+    }
   };
 
-  handleTopicSave = () => {};
+  handleTaskSaveButton = () => {
+    const { newTaskData, tabValue } = this.state;
+    const taskData = [...this.state.newTaskData];
+    const taskDetail = newTaskData[tabValue - 1];
+    if (
+      taskDetail.content.trim().length !== 0 &&
+      taskDetail.contentType.trim().length !== 0 &&
+      taskDetail.duration > 0 &&
+      taskDetail.name.trim().length !== 0
+    ) {
+      this.props.addTaskDetails(newTaskData[tabValue - 1], (taskResponse) => {
+        if (taskResponse.success) {
+          taskData[tabValue - 1]["id"] = taskResponse.data.id;
+          this.setState({
+            message: "New Task Added Successfully",
+            snackOpen: true,
+            snackType: "success",
+            taskData,
+          });
+        }
+      });
+    } else {
+      this.setState({
+        message: "Please fill all the fields",
+        snackOpen: true,
+        snackType: "warning",
+      });
+    }
+  };
 
   handleTaskProperties = (index, event) => {
     const taskData = [...this.state.newTaskData];
@@ -115,10 +249,15 @@ class Index extends Component {
       topicValue,
       descriptionValue,
       imageUrl,
-      addTask,
       tabValue,
       newTaskData,
+      topicId,
+      message,
+      snackOpen,
+      snackType,
     } = this.state;
+    const { courses, subjects, concepts } = this.props;
+    //console.log(concepts.data);
     return (
       <>
         <MainContainer>
@@ -131,11 +270,7 @@ class Index extends Component {
                     <SelectDropDown
                       label="Course"
                       name="courseValue"
-                      items={[
-                        { id: "1a", label: "One" },
-                        { id: "2b", label: "Two" },
-                        { id: "3c", label: "Three" },
-                      ]}
+                      items={courses.data}
                       value={courseValue}
                       onhandleChange={this.handleChange}
                     />
@@ -146,11 +281,7 @@ class Index extends Component {
                     <SelectDropDown
                       label="Subject"
                       name="subjectValue"
-                      items={[
-                        { id: 1, label: "One" },
-                        { id: 2, label: "Two" },
-                        { id: 3, label: "Three" },
-                      ]}
+                      items={subjects.data}
                       value={subjectValue}
                       onhandleChange={this.handleChange}
                     />
@@ -159,11 +290,7 @@ class Index extends Component {
                     <SelectDropDown
                       label="Concept"
                       name="conceptValue"
-                      items={[
-                        { id: 1, label: "One" },
-                        { id: 2, label: "Two" },
-                        { id: 3, label: "Three" },
-                      ]}
+                      items={concepts.data}
                       value={conceptValue}
                       onhandleChange={this.handleChange}
                     />
@@ -197,9 +324,11 @@ class Index extends Component {
                 </Grid>
                 <Grid container spacing={2} justifyContent={"flex-end"}>
                   <Grid item>
-                    <AddButton onClick={this.handleTopicSave}>Save</AddButton>
+                    <AddButton onClick={this.handleTopicSaveButton}>
+                      Save
+                    </AddButton>
                   </Grid>
-                  <Grid item style={{ opacity: !addTask && 0.6 }}>
+                  <Grid item style={{ opacity: !topicId && 0.6 }}>
                     <AddButton
                       startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
                       onClick={this.handleAddTask}
@@ -243,8 +372,8 @@ class Index extends Component {
                         <Grid container spacing={2}>
                           <Grid item xs={6} xl={6}>
                             <InputTextField
-                              name="taskValue"
-                              value={item.taskValue}
+                              name="name"
+                              value={item.name}
                               onChange={(e) =>
                                 this.handleTaskProperties(index, e)
                               }
@@ -255,12 +384,12 @@ class Index extends Component {
                           <Grid item xs={12} lg={3}>
                             <SelectDropDown
                               label="Task Type"
-                              name="taskType"
+                              name="contentType"
                               items={[
-                                { id: 1, label: "TEXT" },
-                                { id: 2, label: "VIDEO" },
+                                { id: "TEXT", title: "TEXT" },
+                                { id: "VIDEO", title: "VIDEO" },
                               ]}
-                              value={item.taskType}
+                              value={item.contentType}
                               onhandleChange={(e) =>
                                 this.handleTaskProperties(index, e)
                               }
@@ -271,8 +400,8 @@ class Index extends Component {
                               <InputLabel>Approximate time</InputLabel>
                               <OutlinedInput
                                 type={"number"}
-                                value={item.taskTime}
-                                name="taskTime"
+                                value={item.duration}
+                                name="duration"
                                 onChange={(e) =>
                                   this.handleTaskProperties(index, e)
                                 }
@@ -289,7 +418,7 @@ class Index extends Component {
                       </InputCard>
                       <div style={{ padding: "8px" }}>
                         <TinyEditor
-                          data={item.richEditorData || ""}
+                          data={item.content || ""}
                           onEditorChange={this.onRichEditorChange}
                         />
                       </div>
@@ -299,21 +428,57 @@ class Index extends Component {
               })}
             </Wrapper>
           </Card>
-          <ButtonContainer>
-            <OutlineButton>
-              <PreviewIcon src={Preview} /> Preview
-            </OutlineButton>
-            <span style={{ marginLeft: 26 }}>
-              <FillButton onClick={this.handleSaveButton}>Save</FillButton>
-            </span>
-          </ButtonContainer>
+          {tabValue !== null && tabValue !== 0 && (
+            <ButtonContainer>
+              <OutlineButton>
+                <PreviewIcon src={Preview} /> Preview
+              </OutlineButton>
+              <span style={{ marginLeft: 26 }}>
+                <FillButton onClick={this.handleTaskSaveButton}>
+                  Save
+                </FillButton>
+              </span>
+            </ButtonContainer>
+          )}
+          <Snackbar
+            open={snackOpen}
+            autoHideDuration={6000}
+            onClose={() => {
+              this.setState({ snackOpen: false });
+            }}
+          >
+            <Alert
+              onClose={() => {
+                this.setState({ snackOpen: false });
+              }}
+              severity={snackType}
+              elevation={6}
+              variant="filled"
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+          <p>{newTaskData.length !== 0 && newTaskData[tabValue - 1].content}</p>
         </MainContainer>
       </>
     );
   }
 }
 
-export default Index;
+const mapStateToProps = (state) => {
+  return {
+    ...state.CourseMaterialReducer,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getCourses,
+  getSubjects,
+  getConcepts,
+  addTaskDetails,
+  addTopicDetails,
+  getTopicDetails,
+})(Index);
 
 const style = {
   minWidth: 40,
