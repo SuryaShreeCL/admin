@@ -6,7 +6,7 @@ const DEV_LMS = 'https://dev-serviceslms.thecareerlabs.com';
 const pageSize = 10;
 
 const validationToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTExODcwMywiaWF0IjoxNjI5MTExNTAzfQ.whG_fZt4_-EENV-uywcTJ19Le1GRM3AG9UYc-TYFlXD_r6NlInjoMfOIdRLunweZpa6t_vkfBcgd_kk5zafOyw';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTE5OTQ4MywiaWF0IjoxNjI5MTkyMjgzfQ.mBtSBIoiEO5mmReaT-J7R9JjsyB2Gh3MiZaUCwxqCZMXN4yMk0jjxCBJsjKdKEvzJu50K1EwKGBXE6f6qqYXsw';
 
 export const getCourses = callback => {
   let accessToken = validationToken;
@@ -108,6 +108,34 @@ export const getTopics = (conceptId, pageNo, searchString, callback) => {
         console.log(error);
       });
   };
+};
+
+export const deleteTopic = topicId => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/topics${topicId}/status/Archive`,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.deleteTopic,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  // {{DEV-LMS}}/api/v1/topics/{{TOPICID}}/status/Archive
 };
 
 // export const viewStudentStatus = id => {

@@ -35,7 +35,9 @@ const selectTheme = createTheme({
       },
     },
     MuiInputBase: {
-      root: {},
+      root: {
+        height: '48px',
+      },
     },
     MuiSelect: {
       select: {
@@ -113,29 +115,33 @@ const selectTheme = createTheme({
 export default function DropDown(props) {
   // label and items array as props
   const { label, items, value } = props;
-  console.log(value);
-  return (
-    <React.Fragment>
-      <ThemeProvider theme={selectTheme}>
-        <FormControl>
-          <InputLabel id={label}>{label}</InputLabel>
+  if (props.value !== null || undefined)
+    return (
+      <React.Fragment>
+        <ThemeProvider theme={selectTheme}>
+          <FormControl>
+            <InputLabel id={label}>{label}</InputLabel>
 
-          <Select
-            fullWidth
-            variant='outlined'
-            labelId={label}
-            label={label}
-            id={value}
-            IconComponent={DropDownIcon}
-            {...props}
-          >
-            {props.items !== undefined &&
-              props.items.map(item => (
-                <MenuItem value={item.id}>{item.title}</MenuItem>
-              ))}
-          </Select>
-        </FormControl>
-      </ThemeProvider>
-    </React.Fragment>
-  );
+            <Select
+              fullWidth
+              variant='outlined'
+              labelId={label}
+              label={label}
+              value={value}
+              key={value}
+              IconComponent={DropDownIcon}
+              {...props}
+            >
+              {props.items !== undefined &&
+                props.items.map(item => (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.title}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </ThemeProvider>
+      </React.Fragment>
+    );
+  else return null;
 }

@@ -4,6 +4,7 @@ const initialState = {
   courses: [],
   subjects: [],
   concepts: [],
+  deleteResponse: [],
 };
 
 const CourseMaterialReducer = (state = initialState, action) => {
@@ -30,6 +31,13 @@ const CourseMaterialReducer = (state = initialState, action) => {
     }
 
     case COURSE_MATERIAL.viewTopics: {
+      return {
+        ...state,
+        topics: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.deleteTopic: {
       return {
         ...state,
         topics: action.payload,
