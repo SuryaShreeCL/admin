@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 function PaginationComponent(props) {
   const classes = useStyles();
   const { pageCount, onPageChange } = props;
-  if (pageCount === 1) return null;
+  if (pageCount <= 1) return null;
   else {
     return (
       <React.Fragment>
