@@ -16,6 +16,8 @@ import ReduxStore from "./Redux/Store";
 import Lms from "./Lms/Index";
 import CourseLanding from "./Lms/Component/CourseLanding/CourseLanding";
 import store from "./Lms/Redux/Configuration/Store";
+import ViewStudyPlans from "./Lms/StudyPlans/ViewStudyPlans";
+import AddStudyPlans from "./Lms/StudyPlans/AddStudyPlans";
 
 function App(props) {
   React.useEffect(() => {
@@ -48,7 +50,8 @@ function App(props) {
       </Switch>
     </BrowserRouter>
     // <Provider store={store}>
-    //   {/* // <CourseLanding /> */}
+    //   {/* <ViewStudyPlans /> */}
+    //   <AddStudyPlans/>
     //   {/* <Lms /> */}
     // </Provider>
   );

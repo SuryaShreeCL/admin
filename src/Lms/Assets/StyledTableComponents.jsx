@@ -67,3 +67,15 @@ export const MuiMenu = withStyles({
     width: '260px',
   },
 })(Menu);
+
+// studyplans
+export const TableCells = withStyles({
+  root: {
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: '18px',
+    lineHeight: '22px',
+    color:'#052A4E',
+    borderBottom: 'none',
+  },
+})(TableCell);
