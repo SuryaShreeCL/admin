@@ -15,6 +15,10 @@
   background-color: #f2f9ff !important;
 }
 
+.button-style {
+  border-radius: 4px !important;
+  flex-grow: 1;
+}
 .tox .tox-notification--in {
   display: none !important;
 }

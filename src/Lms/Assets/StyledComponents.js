@@ -23,10 +23,10 @@ export const H1 = styled.div`
 export const ColorScheme = createTheme({
   palette: {
     primary: {
-      main: '#052A4E',
+      main: '#1093FF',
     },
     secondary: {
-      main: '#1093FF',
+      main: '#052A4E',
     },
   },
 });
@@ -114,20 +114,23 @@ color: #052A4E;
 
 
 export const DialogDiv = styled.div`
-  padding: 40px 60px;
-  // height: 308px;
+  padding: 20px 20px;
+  min-height: 365px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
 `;
 
 export const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 124px;
   height: 124px;
-  background: rgba(16, 147, 255, 0.5);
+  background: rgba(16, 147, 255, 0.05);
   border-radius: 50%;
-  margin-bottom: 12px;
+  align-self: center;
 `;
 
 export const HeadText = styled.div`
@@ -151,9 +154,17 @@ export const BodyText = styled.div`
 export const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
+  min-height: 40px;
 `;
 
 export const FlexFiller = styled.div`
   display: flex;
   flex-grow: 1;
+`;
+
+export const FlexBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

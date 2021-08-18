@@ -1,4 +1,4 @@
-import { COURSE_MATERIAL } from "../Action";
+import { COURSE_MATERIAL } from '../Action';
 
 const initialState = {
   courses: [],
