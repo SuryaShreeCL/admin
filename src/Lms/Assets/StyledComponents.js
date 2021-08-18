@@ -102,6 +102,17 @@ export const Card = styled.div`
   border-radius: 16px;
 `;
 
+// view StudyPlans
+export const CardTitle = styled.div`
+ font-style: normal;
+font-weight: 600;
+font-size: 24px;
+line-height: 29px;
+color: #052A4E;
+`;
+
+
+
 export const DialogDiv = styled.div`
   padding: 20px 20px;
   min-height: 365px;

@@ -9,11 +9,6 @@ class TinyEditor extends Component {
           initialValue={this.props.data}
           onEditorChange={this.props.onEditorChange}
           init={{
-            init_instance_callback: (editor) => {
-              document.querySelector(
-                ".tox .tox-notification--in"
-              ).style.display = "none";
-            },
             branding: false,
             height: 565,
             plugins: [

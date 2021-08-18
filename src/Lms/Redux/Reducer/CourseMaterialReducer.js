@@ -4,6 +4,10 @@ const initialState = {
   courses: [],
   subjects: [],
   concepts: [],
+  createorUpdateTopicResponse: [],
+  topicsDetails: [],
+  taskDetails: [],
+  createorUpdateTaskResponse: [],
   deleteResponse: [],
 };
 
@@ -31,6 +35,35 @@ const CourseMaterialReducer = (state = initialState, action) => {
     }
 
     case COURSE_MATERIAL.viewTopics: {
+      return {
+        ...state,
+        topics: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.createorUpdateTask: {
+      return {
+        ...state,
+        createorUpdateTaskResponse: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.createorUpdateTopics: {
+      return {
+        ...state,
+        createorUpdateTopicResponse: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.getTopicFullDetails: {
+      return {
+        ...state,
+        topicsDetails: action.payload,
+        taskDetails: action.payload.data.tasks,
+      };
+    }
+
+    case COURSE_MATERIAL.deleteTopic: {
       return {
         ...state,
         topics: action.payload,

@@ -37,7 +37,6 @@ const selectTheme = createTheme({
     MuiInputBase: {
       root: {
         height: '48px',
-
       },
     },
     MuiSelect: {

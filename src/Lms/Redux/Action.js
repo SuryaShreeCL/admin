@@ -3,4 +3,8 @@ export const COURSE_MATERIAL = {
   viewSubjects: 'viewSubjects',
   viewConcepts: 'viewConcepts',
   viewTopics: 'viewTopics',
+  createorUpdateTopics: 'createorUpdateTopics',
+  getTopicFullDetails: 'getTopicDetails',
+  createorUpdateTask: 'reateorUpdateTask',
+  deleteTopic: 'deleteTopic',
 };

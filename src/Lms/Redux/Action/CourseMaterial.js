@@ -183,6 +183,74 @@ export const reviewTopic = (topicId, callback) => {
   };
 };
 
-// {{DEV-LMS}}/api/v1/topics/810defd8-003e-40da-8e84-c5b0b457c5ba/status/
+export const addTopicDetails = (topicDetails, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .post(DEV_LMS + '/api/v1/topics', topicDetails, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.createorUpdateTopics,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
 
-// {{DEV-LMS}}/api/v1/topics/{{TOPICID}}/status/Live
+export const addTaskDetails = (taskDetails, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .post(DEV_LMS + '/api/v1/tasks', taskDetails, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.createorUpdateTask,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getTopicDetails = (topicId, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .get(DEV_LMS + '/api/v1/topics/${topicId}', {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.getTopicFullDetails,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};

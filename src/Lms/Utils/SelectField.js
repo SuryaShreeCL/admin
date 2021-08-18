@@ -6,11 +6,18 @@ export const SelectDropDown = (props) => {
 
   return (
     <FormControl variant="outlined" fullWidth>
-      <InputLabel>{label}</InputLabel>
+      <InputLabel
+        htmlFor={name}
+        shrink={value ? true : false}
+        style={{ background: "#FFFFFF", padding: "0px 8px" }}
+      >
+        {label}
+      </InputLabel>
       <Select name={name} value={value} onChange={onhandleChange} label={label}>
-        {items.map((item) => (
-          <MenuItem value={item.id}>{item.label}</MenuItem>
-        ))}
+        {items !== undefined &&
+          items.map((item) => {
+            return <MenuItem value={item.id}>{item.title}</MenuItem>;
+          })}
       </Select>
     </FormControl>
   );
