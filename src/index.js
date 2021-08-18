@@ -50,9 +50,11 @@ function App(props) {
       </Switch>
     </BrowserRouter>
     // <Provider store={store}>
-    //   {/* <ViewStudyPlans /> */}
-    //   <AddStudyPlans/>
-    //   {/* <Lms /> */}
+    //   <BrowserRouter history={history}>
+    //     {/* <ViewStudyPlans /> */}
+    //     {/* <AddStudyPlans/> */}
+    //     {/* <Lms /> */}
+    //   </BrowserRouter>
     // </Provider>
   );
 }

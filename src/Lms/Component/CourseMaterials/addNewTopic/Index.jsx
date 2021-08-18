@@ -1,27 +1,7 @@
-import React, { Component, Fragment } from "react";
-import TinyEditor from "../../../Utils/textEditor/TinyEditor";
+import React, { Component } from "react";
 import {
-  Grid,
-  Tab,
-  Tabs,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  Snackbar,
-} from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import Preview from "../../../Assets/icons/preview.svg";
-import { SelectDropDown } from "../../../Utils/SelectField";
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import { FillButton, OutlineButton, AddButton } from "../../../Utils/Buttons";
-import { InputTextField } from "../../../Utils/TextField";
-import {
-  ButtonContainer,
   Card,
-  InputCard,
   MainContainer,
-  PreviewIcon,
   TabContainer,
   Title,
   Wrapper,
@@ -35,6 +15,18 @@ import {
   getTopicDetails,
 } from "../../../Redux/Action/CourseMaterial";
 import { connect } from "react-redux";
+import { TopicCard } from "./TopicCard";
+import { TaskCard } from "./TaskCard";
+import { SnackBar } from "../../../Utils/SnackBar";
+import { TaskButtons } from "./TaskButtons";
+import { StyledTaps } from "../../../Utils/Tabs";
+
+// let newtopicId = new URLSearchParams(
+//   this.props.history.location.search
+// ).get("topicId");
+//console.log(this.props);
+const newtopicId = "72eea4d6-786d-4c03-89c6-4f3d77943a83";
+// const newtopicId = null;
 
 class Index extends Component {
   constructor(props) {
@@ -53,6 +45,7 @@ class Index extends Component {
       message: "",
       snackOpen: false,
       snackType: "success",
+      tabsLabels: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -60,8 +53,6 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    //let topicId = new URLSearchParams(history.location.search).get('topicId');
-    let newtopicId = "a66f873b-0065-468b-b79e-0b2cf3f0ff61";
     this.props.getCourses((response) => {
       if (response.success) {
         this.props.getSubjects(response.data[0].id, (subjectResponse) => {
@@ -70,26 +61,50 @@ class Index extends Component {
               subjectResponse.data[0].id,
               (conceptResponse) => {
                 if (conceptResponse.success) {
-                  this.setState({
-                    courseValue: response.data[0].id,
-                    subjectValue: subjectResponse.data[0].id,
-                    conceptValue: conceptResponse.data[0].id,
-                  });
-                  if (newtopicId.trim().length > 10) {
+                  if (
+                    newtopicId !== undefined &&
+                    newtopicId !== null &&
+                    newtopicId.trim().length > 10
+                  ) {
                     this.props.getTopicDetails(
                       newtopicId,
                       (newtopicResponse) => {
                         if (newtopicResponse.success) {
-                          console.log(this.props.taskDetails);
+                          const { data } = this.props.topicsDetails;
+                          const { taskDetails } = this.props;
+                          this.props.getSubjects(data.course.id, {});
+                          this.props.getConcepts(data.subject.id, {});
                           this.setState({
-                            newTaskData: this.props.taskDetails,
-                            totalTasks: this.props.taskDetails.length,
-                            tabValue: this.props.taskDetails.length,
-                            topicId: newtopicId,
+                            newTaskData: taskDetails,
+                            totalTasks: taskDetails.length,
+                            tabValue: taskDetails.length,
+                            topicId: data.id,
+                            courseValue: data.course.id,
+                            subjectValue: data.subject.id,
+                            conceptValue: data.concept.id,
+                            topicValue: data.name,
+                            descriptionValue: data.description,
+                            imageUrl: data.imageUrl,
+                          });
+                          taskDetails.map((i, index) => {
+                            this.setState((prevState) => ({
+                              tabsLabels: [
+                                ...prevState.tabsLabels,
+                                {
+                                  tabLabel: "Task " + (index + 1),
+                                },
+                              ],
+                            }));
                           });
                         }
                       }
                     );
+                  } else {
+                    this.setState({
+                      courseValue: response.data[0].id,
+                      subjectValue: subjectResponse.data[0].id,
+                      conceptValue: conceptResponse.data[0].id,
+                    });
                   }
                 }
               }
@@ -114,7 +129,6 @@ class Index extends Component {
                   subjectValue: subjectResponse.data[0].id,
                   conceptValue: conceptResponse.data[0].id,
                 });
-                //this.props.getTopicDetails(conceptResponse.data[0].id);
               }
             }
           );
@@ -127,7 +141,6 @@ class Index extends Component {
           this.setState({
             conceptValue: conceptResponse.data[0].id,
           });
-          //this.props.getTopicDetails(conceptResponse.data[0].id);
         }
       });
     }
@@ -146,15 +159,20 @@ class Index extends Component {
   };
 
   handleTopicSaveButton = () => {
-    const { topicValue, descriptionValue, imageUrl, conceptValue } = this.state;
-
+    const {
+      topicValue,
+      descriptionValue,
+      imageUrl,
+      conceptValue,
+      topicId,
+    } = this.state;
     if (
-      topicValue.trim().length !== 0 &&
-      imageUrl.trim().length !== 0 &&
-      descriptionValue.trim().length !== 0
+      topicValue.trim().length > 0 &&
+      imageUrl.trim().length > 0 &&
+      descriptionValue.trim().length > 0
     ) {
       const topicData = {
-        id: null,
+        id: topicId,
         name: topicValue,
         description: descriptionValue,
         imageUrl: imageUrl,
@@ -162,8 +180,11 @@ class Index extends Component {
       };
       this.props.addTopicDetails(topicData, (topicResponse) => {
         if (topicResponse.success) {
+          var topicMessage = "New Topic Added Successfully";
+          if (topicId !== null)
+            topicMessage = "Current Topic Updated Successfully";
           this.setState({
-            message: "New Topic Added Successfully",
+            message: topicMessage,
             snackOpen: true,
             snackType: "success",
             topicId: topicResponse.data.id,
@@ -171,8 +192,9 @@ class Index extends Component {
         }
       });
     } else {
+      var imageMessage = "Please fill all the valid fields";
       this.setState({
-        message: "Please fill all the fields",
+        message: imageMessage,
         snackOpen: true,
         snackType: "warning",
       });
@@ -194,6 +216,10 @@ class Index extends Component {
             topic: { id: this.state.topicId },
           },
         ],
+        tabsLabels: [
+          ...prevState.tabsLabels,
+          { tabLabel: "Task " + (this.state.totalTasks + 1) },
+        ],
       }));
       this.setState({
         totalTasks: count,
@@ -207,16 +233,20 @@ class Index extends Component {
     const taskData = [...this.state.newTaskData];
     const taskDetail = newTaskData[tabValue - 1];
     if (
-      taskDetail.content.trim().length !== 0 &&
-      taskDetail.contentType.trim().length !== 0 &&
+      taskDetail.content.trim().length > 0 &&
+      taskDetail.contentType.trim().length > 0 &&
       taskDetail.duration > 0 &&
-      taskDetail.name.trim().length !== 0
+      taskDetail.name.trim().length > 0
     ) {
       this.props.addTaskDetails(newTaskData[tabValue - 1], (taskResponse) => {
         if (taskResponse.success) {
+          var taskMessage = "New Task Added Successfully";
+          if (newTaskData[tabValue - 1].id !== null)
+            taskMessage = "Current Task Updated Successfully";
+
           taskData[tabValue - 1]["id"] = taskResponse.data.id;
           this.setState({
-            message: "New Task Added Successfully",
+            message: taskMessage,
             snackOpen: true,
             snackType: "success",
             taskData,
@@ -255,209 +285,83 @@ class Index extends Component {
       message,
       snackOpen,
       snackType,
+      tabsLabels,
     } = this.state;
-    const { courses, subjects, concepts } = this.props;
-    //console.log(concepts.data);
+    const { courses, subjects, concepts, taskDetails } = this.props;
     return (
       <>
         <MainContainer>
           <Card>
             <Wrapper>
-              <Title>Add New Topic</Title>
-              <InputCard>
-                <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
-                  <Grid item xs={12} md={4}>
-                    <SelectDropDown
-                      label="Course"
-                      name="courseValue"
-                      items={courses.data}
-                      value={courseValue}
-                      onhandleChange={this.handleChange}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
-                  <Grid item xs={12} md={4}>
-                    <SelectDropDown
-                      label="Subject"
-                      name="subjectValue"
-                      items={subjects.data}
-                      value={subjectValue}
-                      onhandleChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <SelectDropDown
-                      label="Concept"
-                      name="conceptValue"
-                      items={concepts.data}
-                      value={conceptValue}
-                      onhandleChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <InputTextField
-                      name="topicValue"
-                      value={topicValue}
-                      onChange={this.handleChange}
-                      label="Topic name"
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
-                  <Grid item xs={12} md={8}>
-                    <InputTextField
-                      name="descriptionValue"
-                      onChange={this.handleChange}
-                      value={descriptionValue}
-                      label="Description"
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <InputTextField
-                      name="imageUrl"
-                      onChange={this.handleChange}
-                      value={imageUrl}
-                      label="Image Url"
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} justifyContent={"flex-end"}>
-                  <Grid item>
-                    <AddButton onClick={this.handleTopicSaveButton}>
-                      Save
-                    </AddButton>
-                  </Grid>
-                  <Grid item style={{ opacity: !topicId && 0.6 }}>
-                    <AddButton
-                      startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
-                      onClick={this.handleAddTask}
-                    >
-                      Add New Task
-                    </AddButton>
-                  </Grid>
-                </Grid>
-              </InputCard>
+              <Title>{newtopicId ? "Edit Topic" : "Add New Topic"}</Title>
+              <TopicCard
+                data={{
+                  courses: courses.data,
+                  courseId: courseValue,
+                  subjects: subjects.data,
+                  subjectId: subjectValue,
+                  concepts: concepts.data,
+                  conceptId: conceptValue,
+                  topic: topicValue,
+                  topicId: topicId,
+                  url: imageUrl,
+                  description: descriptionValue,
+                  handleChange: this.handleChange,
+                  AddTask: this.handleAddTask,
+                  topicSaveButton: this.handleTopicSaveButton,
+                }}
+              />
+
               <TabContainer>
-                <Tabs
-                  value={tabValue - 1}
-                  onChange={(e, newValue) =>
-                    this.setState({ tabValue: newValue + 1 })
-                  }
-                  TabIndicatorProps={{
-                    style: {
-                      background: "#1093FF",
-                    },
+                <StyledTaps
+                  tabsData={{
+                    tabId: tabValue - 1,
+                    handleTabChange: (e, newValue) =>
+                      this.setState({ tabValue: newValue + 1 }),
+                    tabsBackColor: "#1093FF",
+                    tabData: tabsLabels,
+                    activeClass: "active__task__tab",
+                    styleName: "addNewTask",
                   }}
-                >
-                  {newTaskData.map((i, tabIndex) => {
-                    return (
-                      <Tab
-                        className={
-                          tabValue === tabIndex + 1 && "active__task__tab"
-                        }
-                        label={"Task " + (tabIndex + 1)}
-                        style={style}
-                      ></Tab>
-                    );
-                  })}
-                </Tabs>
+                />
               </TabContainer>
 
               {newTaskData.map((item, index) => {
                 return (
-                  <Fragment key={index}>
-                    <div hidden={tabValue !== index + 1}>
-                      <InputCard>
-                        <Grid container spacing={2}>
-                          <Grid item xs={6} xl={6}>
-                            <InputTextField
-                              name="name"
-                              value={item.name}
-                              onChange={(e) =>
-                                this.handleTaskProperties(index, e)
-                              }
-                              label="Task Name"
-                              fullWidth
-                            />
-                          </Grid>
-                          <Grid item xs={12} lg={3}>
-                            <SelectDropDown
-                              label="Task Type"
-                              name="contentType"
-                              items={[
-                                { id: "TEXT", title: "TEXT" },
-                                { id: "VIDEO", title: "VIDEO" },
-                              ]}
-                              value={item.contentType}
-                              onhandleChange={(e) =>
-                                this.handleTaskProperties(index, e)
-                              }
-                            />
-                          </Grid>
-                          <Grid item xs={12} lg={3}>
-                            <FormControl variant="outlined">
-                              <InputLabel>Approximate time</InputLabel>
-                              <OutlinedInput
-                                type={"number"}
-                                value={item.duration}
-                                name="duration"
-                                onChange={(e) =>
-                                  this.handleTaskProperties(index, e)
-                                }
-                                endAdornment={
-                                  <InputAdornment position="end">
-                                    mins
-                                  </InputAdornment>
-                                }
-                                labelWidth={145}
-                              />
-                            </FormControl>
-                          </Grid>
-                        </Grid>
-                      </InputCard>
-                      <div style={{ padding: "8px" }}>
-                        <TinyEditor
-                          data={item.content || ""}
-                          onEditorChange={this.onRichEditorChange}
-                        />
-                      </div>
-                    </div>
-                  </Fragment>
+                  <TaskCard
+                    taskDatas={{
+                      index: index,
+                      tabId: tabValue,
+                      inputItem: item,
+                      taskProperties: (e) =>
+                        this.handleTaskProperties(index, e),
+                      richContent:
+                        (taskDetails.length > 0 &&
+                          taskDetails[tabValue - 1] !== undefined &&
+                          taskDetails[tabValue - 1].content) ||
+                        "",
+                      richEditorChange: this.onRichEditorChange,
+                    }}
+                  />
                 );
               })}
             </Wrapper>
           </Card>
           {tabValue !== null && tabValue !== 0 && (
-            <ButtonContainer>
-              <OutlineButton>
-                <PreviewIcon src={Preview} /> Preview
-              </OutlineButton>
-              <span style={{ marginLeft: 26 }}>
-                <FillButton onClick={this.handleTaskSaveButton}>
-                  Save
-                </FillButton>
-              </span>
-            </ButtonContainer>
+            <TaskButtons
+              actionData={{ taskSaveButton: this.handleTaskSaveButton }}
+            />
           )}
-          <Snackbar
-            open={snackOpen}
-            autoHideDuration={6000}
-            onClose={() => {
-              this.setState({ snackOpen: false });
-            }}
-          >
-            <Alert
-              onClose={() => {
+          <SnackBar
+            snackData={{
+              open: snackOpen,
+              snackClose: () => {
                 this.setState({ snackOpen: false });
-              }}
-              severity={snackType}
-              elevation={6}
-              variant="filled"
-            >
-              {message}
-            </Alert>
-          </Snackbar>
+              },
+              snackType: snackType,
+              message: message,
+            }}
+          />
           <p>{newTaskData.length !== 0 && newTaskData[tabValue - 1].content}</p>
         </MainContainer>
       </>
@@ -479,10 +383,3 @@ export default connect(mapStateToProps, {
   addTopicDetails,
   getTopicDetails,
 })(Index);
-
-const style = {
-  minWidth: 40,
-  fontSize: "18px",
-  margin: "0px 40px",
-  padding: 0,
-};

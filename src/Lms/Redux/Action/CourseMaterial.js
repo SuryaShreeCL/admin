@@ -6,7 +6,7 @@ const DEV_LMS = "https://dev-serviceslms.thecareerlabs.com";
 const pageSize = 10;
 
 const validationToken =
-  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTIwNjUzMywiaWF0IjoxNjI5MTk5MzMzfQ.QroJZdCaK1qyObGyjXj0VciiBejgR7uphz3G33M0KOLkg41pTPB5esKX_BebJ3oKuE_nTAyfPtjYt3wqW7EHXQ";
+  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTI5MzUxOSwiaWF0IjoxNjI5Mjg2MzE5fQ.6OutYsYCA2loH_1eRE9QRzh2IYWm8bK32sdlgTyNiaVvtwH0f8eLvEW8QVoz9QfQ7jK9ojKcAVn0JI-s2jY8cQ";
 
 export const getCourses = (callback) => {
   let accessToken = validationToken;
