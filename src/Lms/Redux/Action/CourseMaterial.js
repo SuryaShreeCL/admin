@@ -6,7 +6,7 @@ const DEV_LMS = "https://dev-serviceslms.thecareerlabs.com";
 const pageSize = 10;
 
 const validationToken =
-  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTIwNjUzMywiaWF0IjoxNjI5MTk5MzMzfQ.QroJZdCaK1qyObGyjXj0VciiBejgR7uphz3G33M0KOLkg41pTPB5esKX_BebJ3oKuE_nTAyfPtjYt3wqW7EHXQ";
+  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTI5Mjk0MSwiaWF0IjoxNjI5Mjg1NzQxfQ.BbcmWP8eBsiC60ZdxpFYLMsJZNcGkIaPyeTHbJeUiGu6dgzMAIcFnoqBGoGBMR_jwdtl-3U33ynVkAl5Zpc_0Q";
 
 export const getCourses = (callback) => {
   let accessToken = validationToken;
@@ -25,6 +25,30 @@ export const getCourses = (callback) => {
           payload: response.data,
         });
         callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const courseMonth = (productId,callback) => {
+  let accessToken = validationToken;
+  return (dispatch) => {
+    axios
+      .get(DEV_LMS + "/api/v1/lms/studyPlanMaster/product/"+ productId + "/studyPlan/month", {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: COURSE_MATERIAL.courseMonth,
+          payload: response.data,
+        });
+        // callback(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -225,6 +249,30 @@ export const getTopicDetails = (topicId, callback) => {
       .then((response) => {
         dispatch({
           type: COURSE_MATERIAL.getTopicFullDetails,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const createFileUpload = (data,callback) => {
+  let accessToken = validationToken;
+  return (dispatch) => {
+    axios
+      .post(DEV_LMS + "/api/v1/lms/studyPlanMaster/6cd18687-70d8-4019-96c9-60144b34c0012/studyPlan/import", data, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: COURSE_MATERIAL.createFileUpload,
           payload: response.data,
         });
         callback(response.data);

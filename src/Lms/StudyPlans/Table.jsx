@@ -1,93 +1,52 @@
-import React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
+import React from "react";
+import { DataGrid } from "@material-ui/data-grid";
 import {
   Table,
   TableBody,
   TableRow,
   makeStyles,
   IconButton,
-} from '@material-ui/core';
+} from "@material-ui/core";
 import {
   BlueCell,
   TableCells,
   Head,
   HeadCell,
   MuiMenu,
-} from '../Assets/StyledTableComponents';
-import { MoreVertRounded, ViewColumnSharp } from '@material-ui/icons';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuItems from './Pop';
+} from "../Assets/StyledTableComponents";
+import { MoreVertRounded, ViewColumnSharp } from "@material-ui/icons";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MenuItems from "./Pop";
 
 const MONTH = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
-
-// const columns = [
-//   { field: 'no', headerName: '', width: 150, headerAlign: 'center' },
-//   {
-//     field: 'conceptName',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   {
-//     field: 'topicName',
-//     headerName: ',
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   {
-//     field: 'noOfTasks',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   {
-//     field: 'uploadedBy',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-//   { field: 'status', headerName: 'Status', width: 200, headerAlign: 'center' },
-//   {
-//     field: 'createdDate',
-//     headerName: ,
-//     width: 200,
-//     headerAlign: 'center',
-//   },
-// ];
 
 const useStyles = makeStyles({
   leftAlign: {
-    textAlign: 'left',
+    textAlign: "left",
   },
 });
 
-const columns = [
-  '#Day',
-  'Topic',
-  'No. of Tasks',
-  'Time Required',
-  
-];
+const columns = ["#Day", "Topic", "No. of Tasks", "Time Required"];
 
-const getDateFormat = dateString => {
+const getDateFormat = (dateString) => {
   let date = new Date(dateString);
   let day = date.getDay();
   let month = MONTH[date.getMonth()];
   let year = date.getFullYear();
-  return day + ' ' + month + ' ' + year;
+  return day + " " + month + " " + year;
 };
 
 export default function DataTable(props) {
@@ -117,8 +76,10 @@ export default function DataTable(props) {
           {rows &&
             rows.map((item, index) => {
               return (
-                <TableRow style={{ border: '0 0 0 0' }}>
-                  <TableCells className={classes.leftAlign}>{index} Add New Study Plan</TableCells>
+                <TableRow style={{ border: "0 0 0 0" }}>
+                  <TableCells className={classes.leftAlign}>
+                    {index} Add New Study Plan
+                  </TableCells>
                   <TableCells>{item}</TableCells>
                   <TableCells>{item}</TableCells>
                   <TableCells>{item}</TableCells>
@@ -129,21 +90,21 @@ export default function DataTable(props) {
                   <BlueCell>
                     <IconButton
                       aria-controls={item.id}
-                      aria-haspopup='true'
+                      aria-haspopup="true"
                       onClick={handleThreeDotClick}
                     >
-                      <MoreVertRounded style={{ fill: '#1093FF' }}/>
+                      <MoreVertRounded style={{ fill: "#1093FF" }} />
                     </IconButton>
                     <MuiMenu
                       id={item.id}
                       open={Boolean(anchorEl)}
                       anchorEl={anchorEl}
                       getContentAnchorEl={null}
-                      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                      transformOrigin={{ vertical: "top", horizontal: "right" }}
                       onClose={handleClose}
                     >
-                      <MenuItems roll={'LMSCHECKER'} />
+                      <MenuItems roll={"LMSCHECKER"} />
                     </MuiMenu>
                   </BlueCell>
                 </TableRow>

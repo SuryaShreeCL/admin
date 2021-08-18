@@ -16,7 +16,7 @@ import ReduxStore from "./Redux/Store";
 import Lms from "./Lms/Index";
 import CourseLanding from "./Lms/Component/CourseLanding/CourseLanding";
 import store from "./Lms/Redux/Configuration/Store";
-import ViewStudyPlans from "./Lms/StudyPlans/ViewStudyPlans";
+import Index from "./Lms/StudyPlans/Index";
 import AddStudyPlans from "./Lms/StudyPlans/AddStudyPlans";
 
 function App(props) {
@@ -41,19 +41,19 @@ function App(props) {
   console.warn = () => {};
   console.error = () => {};
   return (
-    <BrowserRouter history={history}>
-      <Switch>
-        <Route exact path={rootLoginPath} component={Login}></Route>
-        <Route path={rootPath} component={RootContainer}></Route>
-        <Redirect from="/" to={rootLoginPath}></Redirect>
-        {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
-      </Switch>
-    </BrowserRouter>
-    // <Provider store={store}>
-    //   {/* <ViewStudyPlans /> */}
-    //   <AddStudyPlans/>
-    //   {/* <Lms /> */}
-    // </Provider>
+    // <BrowserRouter history={history}>
+    //   <Switch>
+    //     <Route exact path={rootLoginPath} component={Login}></Route>
+    //     <Route path={rootPath} component={RootContainer}></Route>
+    //     <Redirect from="/" to={rootLoginPath}></Redirect>
+    //     {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
+    //   </Switch>
+    // </BrowserRouter>
+    <Provider store={store}>
+      {/* <Index /> */}
+      <AddStudyPlans/>
+      {/* <Lms /> */}
+    </Provider>
   );
 }
 
