@@ -3,5 +3,4 @@ export const COURSE_MATERIAL = {
   viewSubjects: 'viewSubjects',
   viewConcepts: 'viewConcepts',
   viewTopics: 'viewTopics',
-  deleteTopic: 'deleteTopic',
 };

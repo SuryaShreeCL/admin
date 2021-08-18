@@ -14,3 +14,8 @@
   color: #052a4e !important;
   background-color: #f2f9ff !important;
 }
+
+.button-style {
+  border-radius: 4px !important;
+  flex-grow: 1;
+}

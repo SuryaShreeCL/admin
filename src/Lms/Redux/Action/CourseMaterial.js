@@ -6,7 +6,7 @@ const DEV_LMS = 'https://dev-serviceslms.thecareerlabs.com';
 const pageSize = 10;
 
 const validationToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTE5OTQ4MywiaWF0IjoxNjI5MTkyMjgzfQ.mBtSBIoiEO5mmReaT-J7R9JjsyB2Gh3MiZaUCwxqCZMXN4yMk0jjxCBJsjKdKEvzJu50K1EwKGBXE6f6qqYXsw';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNjaGVja2VyIiwiZXhwIjoxNjI5Mjk1OTgzLCJpYXQiOjE2MjkyODg3ODN9.E93lw1J-updK4U6i_sATgY7KEq_JD89_Sn379kLsQ3aKahO2vsoKsFEQrfdC3CmLLqRzL2HyvgElwdOsUyQy9w';
 
 export const getCourses = callback => {
   let accessToken = validationToken;
@@ -82,8 +82,6 @@ export const getConcepts = (subjectId, callback) => {
 
 export const getTopics = (conceptId, pageNo, searchString, callback) => {
   let accessToken = validationToken;
-  //   /api/v1/concepts/subject/9031684e-db7e-4744-b0b5-1c7a9172ef30
-  //   /api/v1/topics/concept/37eb6138-c085-4a2f-a453-a73fb190d868?page=0&size=10&search=
   return dispatch => {
     axios
       .get(
@@ -110,12 +108,13 @@ export const getTopics = (conceptId, pageNo, searchString, callback) => {
   };
 };
 
-export const deleteTopic = topicId => {
+export const deleteTopic = (topicId, callback) => {
   let accessToken = validationToken;
   return dispatch => {
     axios
       .put(
-        `${DEV_LMS}/api/v1/topics${topicId}/status/Archive`,
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Archive`,
+        {},
 
         {
           crossDomain: true,
@@ -126,39 +125,64 @@ export const deleteTopic = topicId => {
         }
       )
       .then(response => {
-        dispatch({
-          type: COURSE_MATERIAL.deleteTopic,
-          payload: response.data,
-        });
+        callback(response.data);
       })
       .catch(error => {
         console.log(error);
       });
   };
-  // {{DEV-LMS}}/api/v1/topics/{{TOPICID}}/status/Archive
 };
 
-// export const viewStudentStatus = id => {
-//   let accessToken = window.sessionStorage.getItem('accessToken');
+export const publishTopic = (topicId, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Live`,
+        {},
 
-//   return dispatch => {
-//     axios
-//       .get(URL + '/api/v1/studentVerification/view/' + id, {
-//         crossDomain: true,
-//         headers: {
-//           admin: 'yes',
-//           Authorization: `Bearer ${accessToken}`,
-//         },
-//       })
-//       .then(result => {
-//         console.log(result);
-//         dispatch({
-//           type: ADMIN.viewStudentStatus,
-//           studentStatusResponse: result.data,
-//         });
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   };
-// };
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const reviewTopic = (topicId, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Review`,
+        {},
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+// {{DEV-LMS}}/api/v1/topics/810defd8-003e-40da-8e84-c5b0b457c5ba/status/
+
+// {{DEV-LMS}}/api/v1/topics/{{TOPICID}}/status/Live

@@ -37,13 +37,6 @@ const CourseMaterialReducer = (state = initialState, action) => {
       };
     }
 
-    case COURSE_MATERIAL.deleteTopic: {
-      return {
-        ...state,
-        topics: action.payload,
-      };
-    }
-
     default:
       break;
   }

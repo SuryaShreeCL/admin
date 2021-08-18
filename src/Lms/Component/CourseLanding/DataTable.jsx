@@ -1,28 +1,19 @@
-import React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
 import {
+  IconButton,
+  makeStyles,
   Table,
   TableBody,
   TableRow,
-  makeStyles,
-  IconButton,
-  MenuItem,
-  ListItemIcon,
-  Typography,
 } from '@material-ui/core';
+import { MoreVertRounded } from '@material-ui/icons';
+import React from 'react';
 import {
   BlueCell,
   BodyCell,
   Head,
   HeadCell,
-  MuiMenu,
 } from '../../Assets/StyledTableComponents';
-import { MoreVertRounded, ViewColumnSharp } from '@material-ui/icons';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuItems from './MenuItems';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import PublishIcon from '../../Assets/icons/Publish.svg';
+import Menu from './Menu';
 
 const MONTH = [
   'Jan',
@@ -39,8 +30,6 @@ const MONTH = [
   'Dec',
 ];
 
-const ROLLS = { admin: 'LMSADMIN', checker: 'LMSCHECKER' };
-
 const useStyles = makeStyles({
   leftAlign: {
     textAlign: 'left',
@@ -53,6 +42,7 @@ const columns = [
   'Topic Name',
   'No. of Tasks',
   'Uploaded by',
+  'Status',
   'Created Date',
   '',
 ];
@@ -68,51 +58,6 @@ const getDateFormat = dateString => {
 export default function DataTable(props) {
   const classes = useStyles();
 
-  const renderMenuItems = (roll, topicId) => {
-    if (roll === ROLLS.admin) {
-      // console.log(topicId);
-      return (
-        <div>
-          <MenuItem>
-            <ListItemIcon className={'menu-item-text'}>
-              <EditIcon style={{ fill: '#1093FF' }} />
-            </ListItemIcon>
-            <Typography>Edit</Typography>
-          </MenuItem>
-          <MenuItem onClick={() => handleDelete(topicId)}>
-            <ListItemIcon className={'menu-item-text'}>
-              <DeleteIcon style={{ fill: '#1093ff' }} />
-            </ListItemIcon>
-            <Typography>Delete</Typography>
-          </MenuItem>
-        </div>
-      );
-    }
-    if (roll === ROLLS.checker) {
-      return (
-        <div>
-          <MenuItem className={'menu-item-text'}>
-            <ListItemIcon>
-              <img src={PublishIcon} alt='Publish Icon' />
-            </ListItemIcon>
-            <Typography>Publish Now</Typography>
-          </MenuItem>
-          <MenuItem className={'menu-item-text'}>
-            <ListItemIcon>
-              <EditIcon style={{ fill: '#1093FF' }} />
-            </ListItemIcon>
-            <Typography>Edit</Typography>
-          </MenuItem>
-          <MenuItem className={'menu-item-text'}>
-            <ListItemIcon onClick={() => handleDelete(topicId)}>
-              <DeleteIcon style={{ fill: '#1093ff' }} />
-            </ListItemIcon>
-            <Typography>Delete</Typography>
-          </MenuItem>
-        </div>
-      );
-    }
-  };
   const {
     topics,
     anchorEl,
@@ -121,6 +66,8 @@ export default function DataTable(props) {
     pageNo,
     handleDelete,
     popUpId,
+    handlePublish,
+    handleSendReview,
   } = props;
   // if (props.topics !== undefined) {
   //   console.log(topics.data);
@@ -155,6 +102,7 @@ export default function DataTable(props) {
                   <BodyCell className={classes.leftAlign}>
                     {item.uploadedBy}
                   </BodyCell>
+                  <BodyCell>{item.status}</BodyCell>
                   <BodyCell>{getDateFormat(item.createdAt)}</BodyCell>
                   <BlueCell>
                     <IconButton
@@ -164,24 +112,18 @@ export default function DataTable(props) {
                     >
                       <MoreVertRounded style={{ fill: '#1093FF' }} />
                     </IconButton>
-                    <MuiMenu
-                      id={item.id}
+                    <Menu
+                      roll={'LMSCHECKER'}
                       open={item.id === popUpId}
                       anchorEl={anchorEl}
-                      getContentAnchorEl={null}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      onClose={handleClose}
-                    >
-                      {renderMenuItems('LMSCHECKER', item.id)}
-                      {/* <MenuItems  /> */}
-                    </MuiMenu>
+                      handleClose={handleClose}
+                      handleDelete={handleDelete}
+                      topicId={item.id}
+                      topicName={item.topicName}
+                      handlePublish={handlePublish}
+                      handleSendReview={handleSendReview}
+                      isMapped={item.isMapped}
+                    />
                   </BlueCell>
                 </TableRow>
               );
@@ -190,5 +132,4 @@ export default function DataTable(props) {
       </Table>
     </React.Fragment>
   );
-  // } else return null;
 }
