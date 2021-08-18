@@ -235,7 +235,7 @@ export const getTopicDetails = (topicId, callback) => {
   let accessToken = validationToken;
   return dispatch => {
     axios
-      .get(DEV_LMS + '/api/v1/topics/${topicId}', {
+      .get(DEV_LMS + `/api/v1/topics/${topicId}`, {
         crossDomain: true,
         headers: {
           admin: 'yes',
