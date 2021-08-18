@@ -396,7 +396,7 @@ class TestEngineResult extends Component {
               Reset {this.state.questionSetName} ?
             </Typography>
             <Typography style={{ color: "#052A4E", fontSize: 16 }}>
-              Resetting this test will give option to Selva to retake{" "}
+            Resetting this test will give option to {this.props.getStudentsByIdList && this.props.getStudentsByIdList.fullName !== null ? this.props.getStudentsByIdList.fullName : this.props.getStudentsByIdList.firstName + this.props.getStudentsByIdList.lastName} to retake{" "}
               {this.state.questionSetName}
             </Typography>
             <div
@@ -523,6 +523,8 @@ const mapStateToProps = (state) => {
     viewAnswersList: state.StudentMarkDetailReducer.viewAnswersList,
     viewScoreDetailsList: state.ScoreReducer.viewScoreDetailsList,
     studentStatus: state.AdminReducer.studentStatusResponse,
+    getStudentsByIdList: state.StudentReducer.StudentList,
+
   };
 };
 
