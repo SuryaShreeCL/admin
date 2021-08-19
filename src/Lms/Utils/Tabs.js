@@ -19,6 +19,8 @@ export const StyledTaps = (props) => {
           background: (tabsBackColor !== undefined && tabsBackColor) || "auto",
         },
       }}
+      variant="scrollable"
+      scrollButtons="off"
     >
       {tabData.map((item, tabIndex) => {
         return (
