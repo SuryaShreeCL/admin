@@ -44,10 +44,13 @@ class CourseLanding extends Component {
       popUpId: null,
       dialogStatus: false,
       dialogContent: null,
+      role: '',
     };
   }
 
   componentDidMount() {
+    const role = sessionStorage.getItem('role');
+    console.log(role);
     this.props.getCourses(response => {
       if (response.success) {
         this.props.getSubjects(response.data[0].id, subjectResponse => {
@@ -66,6 +69,7 @@ class CourseLanding extends Component {
                     courseId: response.data[0].id,
                     subjectId: subjectResponse.data[0].id,
                     conceptId: conceptResponse.data[0].id,
+                    role: role,
                   });
                 }
               }
@@ -276,6 +280,7 @@ class CourseLanding extends Component {
       popUpId,
       dialogStatus,
       dialogContent,
+      role,
     } = this.state;
     const {
       handlePlusButton,
@@ -350,6 +355,7 @@ class CourseLanding extends Component {
                 handlePublish={handlePublishClick}
                 handleSendReview={handleSendReviewClick}
                 handleEdit={handleEdit}
+                role={role}
               />
             </Box>
           </Grid>

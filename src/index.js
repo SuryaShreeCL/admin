@@ -50,16 +50,6 @@ function App(props) {
         {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
       </Switch>
     </BrowserRouter>
-    // <BrowserRouter history={history}>
-    //   <Route exact path={rootLoginPath} component={Login}></Route>
-    //   <Route path={rootPath} component={RootContainer}></Route>
-    //   <Redirect from='/' to={rootLoginPath}></Redirect>
-    //   {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
-    //   {/* <CourseLanding /> */}
-    //   {/* <ViewStudyPlans /> */}
-    //   {/* <AddStudyPlans/> */}
-    //   {/* <Lms /> */}
-    // </BrowserRouter>
   );
 }
 
