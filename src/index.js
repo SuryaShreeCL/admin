@@ -16,7 +16,7 @@ import ReduxStore from './Redux/Store';
 import Lms from './Lms/Index';
 import CourseLanding from './Lms/Component/CourseLanding/CourseLanding';
 import store from './Lms/Redux/Configuration/Store';
-import ViewStudyPlans from './Lms/StudyPlans/ViewStudyPlans';
+// import ViewStudyPlans from './Lms/StudyPlans/ViewStudyPlans';
 import AddStudyPlans from './Lms/StudyPlans/AddStudyPlans';
 import TestLanding from './Lms/Component/Test/Index';
 

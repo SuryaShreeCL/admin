@@ -24,6 +24,7 @@ import DialogComponent from '../../Utils/DialogComponent';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PublishIcon from '../../Assets/icons/Publish.svg';
 import ShareIcon from '@material-ui/icons/Share';
+import { lms_add_topic } from '../../../Component/RoutePaths';
 
 const INITIAL_PAGE_NO = 0;
 const INITIAL_SEARCH_TEXT = '';
@@ -85,7 +86,7 @@ class CourseLanding extends Component {
   };
 
   handlePlusButton = () => {
-    console.log('Plus button');
+    this.props.history.push(lms_add_topic);
   };
 
   // Drop Downs Handling
@@ -259,6 +260,10 @@ class CourseLanding extends Component {
     this.setState({ dialogStatus: true, dialogContent: dialogContent });
   };
 
+  handleEdit = topicId => {
+    this.props.history.push(lms_add_topic + '?topic_id=' + topicId);
+  };
+
   render() {
     // console.log(this.)
     const {
@@ -285,6 +290,7 @@ class CourseLanding extends Component {
       handleButton2Click,
       handlePublishClick,
       handleSendReviewClick,
+      handleEdit,
     } = this;
     const { courses, subjects, concepts, topics } = this.props;
     return (
@@ -331,7 +337,7 @@ class CourseLanding extends Component {
                 conceptId={conceptId}
               />
             </Box>
-            <Box overflow='auto'>
+            <Box overflow='auto' width='100%'>
               <DataTable
                 topics={topics}
                 anchorEl={anchorEl}
@@ -343,6 +349,7 @@ class CourseLanding extends Component {
                 popUpId={popUpId}
                 handlePublish={handlePublishClick}
                 handleSendReview={handleSendReviewClick}
+                handleEdit={handleEdit}
               />
             </Box>
           </Grid>

@@ -20,13 +20,13 @@ import { TaskCard } from './TaskCard';
 import { SnackBar } from '../../../Utils/SnackBar';
 import { TaskButtons } from './TaskButtons';
 import { StyledTaps } from '../../../Utils/Tabs';
+import QueryString from 'qs';
 
 // let newtopicId = new URLSearchParams(
 //   this.props.history.location.search
 // ).get("topicId");
 //console.log(this.props);
-const newtopicId = '72eea4d6-786d-4c03-89c6-4f3d77943a83';
-// const newtopicId = null;
+//const newtopicId = "72eea4d6-786d-4c03-89c6-4f3d77943a83";
 
 class Index extends Component {
   constructor(props) {
@@ -53,6 +53,10 @@ class Index extends Component {
   }
 
   componentDidMount() {
+    const { topic_id } = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    var newtopicId = topic_id;
     this.props.getCourses(response => {
       if (response.success) {
         this.props.getSubjects(response.data[0].id, subjectResponse => {
@@ -75,7 +79,7 @@ class Index extends Component {
                         this.setState({
                           newTaskData: taskDetails,
                           totalTasks: taskDetails.length,
-                          tabValue: taskDetails.length,
+                          tabValue: 1,
                           topicId: data.id,
                           courseValue: data.course.id,
                           subjectValue: data.subject.id,
@@ -269,6 +273,10 @@ class Index extends Component {
   };
 
   render() {
+    const { topic_id } = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    var newtopicId = topic_id;
     const {
       courseValue,
       subjectValue,

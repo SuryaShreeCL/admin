@@ -33,6 +33,36 @@ export const getCourses = callback => {
   };
 };
 
+export const courseMonth = (productId, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .get(
+        DEV_LMS +
+          '/api/v1/lms/studyPlanMaster/product/' +
+          productId +
+          '/studyPlan/month',
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.courseMonth,
+          payload: response.data,
+        });
+        // callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
 export const getSubjects = (courseId, callback) => {
   let accessToken = validationToken;
   return dispatch => {
@@ -246,6 +276,59 @@ export const getTopicDetails = (topicId, callback) => {
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.getTopicFullDetails,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const createFileUpload = (data, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .post(
+        DEV_LMS +
+          '/api/v1/lms/studyPlanMaster/6cd18687-70d8-4019-96c9-60144b34c0012/studyPlan/import',
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.createFileUpload,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const monthPlan = (monthId, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .get(DEV_LMS + '/api/v1/lms/studyPlanMaster/' + monthId + '/studyPlan', {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.monthPlan,
           payload: response.data,
         });
         callback(response.data);

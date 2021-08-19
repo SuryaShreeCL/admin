@@ -9,6 +9,9 @@ const initialState = {
   taskDetails: [],
   createorUpdateTaskResponse: [],
   deleteResponse: [],
+  fileUpload: [],
+  monthlyCourse : null,
+  monthlyPlan : []
 };
 
 const CourseMaterialReducer = (state = initialState, action) => {
@@ -67,6 +70,27 @@ const CourseMaterialReducer = (state = initialState, action) => {
       return {
         ...state,
         topics: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.createFileUpload: {
+      return {
+        ...state,
+        fileUpload: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.courseMonth: {
+      return {
+        ...state,
+        monthlyCourse: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.monthPlan: {
+      return {
+        ...state,
+        monthlyPlan: action.payload,
       };
     }
 

@@ -20,6 +20,7 @@ export default function Menu(props) {
     handlePublish,
     handleSendReview,
     isMapped,
+    handleEdit,
   } = props;
   if (roll === ROLLS.maker) {
     return (
@@ -48,7 +49,7 @@ export default function Menu(props) {
           </div>
         ) : null}
 
-        <MenuItem>
+        <MenuItem onClick={() => handleEdit(topicId)}>
           <ListItemIcon>
             <EditIcon style={{ fill: '#1093FF' }} />
           </ListItemIcon>
@@ -83,7 +84,7 @@ export default function Menu(props) {
           </div>
         ) : null}
 
-        <MenuItem>
+        <MenuItem onClick={() => handleEdit(topicId)}>
           <ListItemIcon>
             <EditIcon style={{ fill: '#1093FF' }} />
           </ListItemIcon>

@@ -1,19 +1,44 @@
-import { Card, Box, Grid } from "@material-ui/core";
+import { Card, Grid, Button } from "@material-ui/core";
 import React, { Component } from "react";
 import "../Assets/App.css";
 import { CardTitle } from "../Assets/StyledComponents";
-import DropDown from "../Utils/DropDown";
-import PlusButton from "../Utils/PlusButton";
-import TabBar from "./TabBar";
-import Table from "./Table";
-import PaginationComponent from "../Utils/PaginationComponent";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import { FillButton, OutlineButton } from "../Utils/Buttons";
+import {
+  getCourses,
+  createFileUpload,
+  courseMonth,
+} from "../Redux/Action/CourseMaterial";
+import { connect } from "react-redux";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
-export default class AddStudyPlans extends Component {
+class AddStudyPlans extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      courses: "",
+      month: "",
+      courseValue: [],
+      monthValue: "",
+      productId: null,
+    };
+  }
+
+  componentDidMount() {
+    this.props.getCourses();
+  }
+  
+  handleClick() {}
+
+  handleCourseChange = (e, newValue) => {
+    this.setState({ courseValue: newValue });
+    if (newValue) this.props.courseMonth(newValue.id);
+  };
+
   render() {
+    console.log(this.state);
+    // console.log(this.props)
     return (
       <div style={{ padding: "10px 5px 5px" }}>
         <Card className={"card"}>
@@ -25,28 +50,57 @@ export default class AddStudyPlans extends Component {
 
             {/* dropdown and button */}
 
-            <Grid
-              container
-              //   justifyContent="space-between"
-              style={{ padding: "12px" }}
-            >
-              <Grid item md={3} xs={3}>
-                <DropDown fullWidth label="Course" name="course" />
-              </Grid>
-              <Grid item md={1}></Grid>
-              <Grid item md={3}>
-                <DropDown
-                  fullWidth
-                  label="Plan Duration"
-                  name="plan duration"
+            <Grid container style={{ padding: "12px" }}>
+              <Grid item xs={3} sm={3} md={3} xl={3} lg={3}>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={this.props.coursesResponse.data || []}
+                  value={this.state.courseValue}
+                  onChange={this.handleCourseChange}
+                  getOptionLabel={(option) => option.title}
+                  style={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Courses" variant="outlined" />
+                  )}
                 />
               </Grid>
-               
-            
+              <Grid item xs={1} sm={1} md={1} xl={1} lg={1}></Grid>
+              <Grid item xs={3} sm={3} md={3} xl={3} lg={3}>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={this.props.monthResponse ? this.props.monthResponse.data :  [] }
+                  getOptionLabel={(option) => `${option.month} month` }
+                  style={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Plan Duration"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </Grid>
             </Grid>
-            {/* tabBar */}
-            <Grid item md={12}>
-              <TabBar />
+            {/* cancel and upload button */}
+
+            <Grid item md={4} container style={{ padding: "10px" }}>
+              <Grid item md={6} xs={12}>
+                <OutlineButton>Cancel</OutlineButton>
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <input
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="contained-button-file"
+                  type="file"
+                />
+                <label htmlFor="contained-button-file">
+                  <FillButton variant="contained" component="span">
+                    Upload
+                  </FillButton>
+                </label>
+              </Grid>
             </Grid>
           </Grid>
         </Card>
@@ -54,3 +108,20 @@ export default class AddStudyPlans extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    coursesResponse: state.CourseMaterialReducer.courses,
+    uploadResponse: state.CourseMaterialReducer.fileUpload,
+    monthResponse: state.CourseMaterialReducer.monthlyCourse,
+  };
+};
+
+export default connect(mapStateToProps, {
+  createFileUpload,
+  getCourses,
+  courseMonth,
+})(AddStudyPlans);
+
+

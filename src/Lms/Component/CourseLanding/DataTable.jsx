@@ -68,6 +68,7 @@ export default function DataTable(props) {
     popUpId,
     handlePublish,
     handleSendReview,
+    handleEdit,
   } = props;
   // if (props.topics !== undefined) {
   //   console.log(topics.data);
@@ -123,6 +124,7 @@ export default function DataTable(props) {
                       handlePublish={handlePublish}
                       handleSendReview={handleSendReview}
                       isMapped={item.isMapped}
+                      handleEdit={handleEdit}
                     />
                   </BlueCell>
                 </TableRow>
