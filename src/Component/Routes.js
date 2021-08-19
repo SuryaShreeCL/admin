@@ -34,6 +34,7 @@ import {
   curatedPath,
   questionBankPath,
   rootPath,
+  testPath,
   collegePath,
   createPath,
   universityPath,
@@ -117,6 +118,7 @@ import CreatePost from './Wall/Pages/CreatePost';
 import EditPost from './Wall/Pages/EditPost';
 import PersonaInfo from './ObOnboarding/personalInfo';
 import LandingAdmin from './LandingAdmin';
+import TestLanding from './Test/TestLanding';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -133,6 +135,7 @@ export default function Routes(props) {
             <Route exact path={studentIdPath+'/:id'} render={(props)=> <Student_data {...props} />} />
             <Route exact path={loginPath} render={(props)=> <MLogin {...props} />} />
             <Route exact path={wallPath} render={(props)=> <WallLanding {...props} />} />
+            <Route exact path={testPath} render={(props)=> <TestLanding {...props} />} />
             <Route exact path={createPath} render={(props)=> <CreatePost {...props} />} />
             <Route exact path={editPath} render={(props)=> <EditPost {...props} />} />
             <Route exact path={personelInfoPath} render={(props)=> <Personal_information {...props} />} />

@@ -30,6 +30,7 @@ import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOut
 import InstagramIcon from "@material-ui/icons/Instagram";
 import LocationCityRoundedIcon from "@material-ui/icons/LocationCityRounded";
 import MenuBookRoundedIcon from "@material-ui/icons/MenuBookRounded";
+import AssignmentIcon from '@material-ui/icons/Assignment';
 // import MenuIcon from '@material-ui/icons/Menu';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -72,6 +73,7 @@ import {
   testimonialsPath,
   universityPath,
   videoPath,
+  testPath,
   wallPath,
   webinarPath,
 } from "./RoutePaths";
@@ -545,19 +547,26 @@ function RootContainer(props) {
 
     ])
     }else if(props.adminLinkedProductDetails.department === "elev8"){
-      setSideNav([{
-        icon: <HomeOutlinedIcon />,
-        title: "Wall",
-        path : wallPath,
-        items: []
-      },
-      {
-        icon: <HomeOutlinedIcon />,
-        title: "Career Track",
-        path : careerTrackPath,
-        items: []  
-      }
-    ])
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: 'Wall',
+          path: wallPath,
+          items: [],
+        },
+        {
+          icon: <AssignmentIcon />,
+          title: 'Tests',
+          path: testPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: 'Career Track',
+          path: careerTrackPath,
+          items: [],
+        },
+      ]);
     }
 
   },[props.adminLinkedProductDetails, props.getProductByFamilyIdList])

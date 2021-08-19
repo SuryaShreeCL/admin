@@ -22,6 +22,7 @@ export const questionSetPath = rootPath.concat('/questionSet');
 export const questionsPath = rootPath.concat('/questionSet/questions/');
 export const choicePath = rootPath.concat('/questionSet/questions/choice/');
 export const videoPath = rootPath.concat('/video');
+export const testPath = rootPath.concat('/tests');
 export const productPath = rootPath.concat('/product');
 export const documentDetailsPath = rootPath.concat('/documents');
 export const webinarPath = rootPath.concat('/webinar');
