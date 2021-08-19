@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { COURSE_MATERIAL } from '../Action';
+import { URL } from '../../../Actions/URL';
 
-const DEV_LMS = 'https://dev-serviceslms.thecareerlabs.com';
+const DEV_LMS = URL;
 
 const pageSize = 10;
 
-const validationToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNjaGVja2VyIiwiZXhwIjoxNjI5Mjk1OTgzLCJpYXQiOjE2MjkyODg3ODN9.E93lw1J-updK4U6i_sATgY7KEq_JD89_Sn379kLsQ3aKahO2vsoKsFEQrfdC3CmLLqRzL2HyvgElwdOsUyQy9w';
+const validationToken = sessionStorage.getItem('accessToken');
+// console.log(validationToken);
 
 export const getCourses = callback => {
   let accessToken = validationToken;
@@ -138,7 +139,7 @@ export const publishTopic = (topicId, callback) => {
   return dispatch => {
     axios
       .put(
-        `${DEV_LMS}/api/v1/topics/${topicId}/status/Live`,
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Approved`,
         {},
 
         {
