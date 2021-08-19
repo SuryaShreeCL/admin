@@ -1,37 +1,12 @@
 import React from "react";
-import { DataGrid } from "@material-ui/data-grid";
-import {
-  Table,
-  TableBody,
-  TableRow,
-  makeStyles,
-  IconButton,
-} from "@material-ui/core";
-import {
-  BlueCell,
-  TableCells,
-  Head,
-  HeadCell,
-  MuiMenu,
-} from "../Assets/StyledTableComponents";
-import { MoreVertRounded, ViewColumnSharp } from "@material-ui/icons";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import MenuItems from "./Pop";
-
-const MONTH = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+import { makeStyles } from "@material-ui/core";
+import { TableCells, Head, HeadCell } from "../Assets/StyledTableComponents";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
 
 const useStyles = makeStyles({
   leftAlign: {
@@ -41,31 +16,18 @@ const useStyles = makeStyles({
 
 const columns = ["#Day", "Topic", "No. of Tasks", "Time Required"];
 
-const getDateFormat = (dateString) => {
-  let date = new Date(dateString);
-  let day = date.getDay();
-  let month = MONTH[date.getMonth()];
-  let year = date.getFullYear();
-  return day + " " + month + " " + year;
-};
-
 export default function DataTable(props) {
   const classes = useStyles();
-  const {
-    content: rows,
-    anchorEl,
-    threeDotId,
-    handleThreeDotClick,
-    handleClose,
-  } = props;
+  const { item } = props;
+  console.log(props.item);
   return (
     <React.Fragment>
       <Table>
         <Head>
-          <TableRow>
+          <TableRow >
             {columns.map((item, index) => (
-              <HeadCell
-                className={(index === 0 || index === 4) && classes.leftAlign}
+              <HeadCell 
+              style={{textAlign:"left"}}
               >
                 {item}
               </HeadCell>
@@ -73,45 +35,22 @@ export default function DataTable(props) {
           </TableRow>
         </Head>
         <TableBody>
-          {rows &&
-            rows.map((item, index) => {
-              return (
-                <TableRow style={{ border: "0 0 0 0" }}>
-                  <TableCells className={classes.leftAlign}>
-                    {index} Add New Study Plan
-                  </TableCells>
-                  <TableCells>{item}</TableCells>
-                  <TableCells>{item}</TableCells>
-                  <TableCells>{item}</TableCells>
-                  <TableCells className={classes.leftAlign}>
-                    {item.uploadedBy}
-                  </TableCells>
-                  {/* <TableCells>{getDateFormat(item.createdAt)}</TableCells> */}
-                  <BlueCell>
-                    <IconButton
-                      aria-controls={item.id}
-                      aria-haspopup="true"
-                      onClick={handleThreeDotClick}
-                    >
-                      <MoreVertRounded style={{ fill: "#1093FF" }} />
-                    </IconButton>
-                    <MuiMenu
-                      id={item.id}
-                      open={Boolean(anchorEl)}
-                      anchorEl={anchorEl}
-                      getContentAnchorEl={null}
-                      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                      transformOrigin={{ vertical: "top", horizontal: "right" }}
-                      onClose={handleClose}
-                    >
-                      <MenuItems roll={"LMSCHECKER"} />
-                    </MuiMenu>
-                  </BlueCell>
+         
+            {item.data && item.data[0].map((month,index)=>{
+              return(
+                <TableRow 
+                // style={{ border: "0 0 0 0" }}
+                >
+                  <TableCells >Day {month.day}</TableCells>
+                  <TableCells>{month.topicName}</TableCells>
+                  <TableCells style={{textAlign:"center"}}>{month.noOfTask}</TableCells>
+                  <TableCells style={{textAlign:"center"}}>{month.duration} min</TableCells>
                 </TableRow>
-              );
+              )
             })}
         </TableBody>
       </Table>
+     
     </React.Fragment>
   );
 }

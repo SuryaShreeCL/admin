@@ -11,7 +11,7 @@ import PaginationComponent from "../Utils/PaginationComponent";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { getCourses,courseMonth } from "../Redux/Action/CourseMaterial";
+import { getCourses,courseMonth,monthPlan } from "../Redux/Action/CourseMaterial";
 import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -59,6 +59,7 @@ class Index extends Component {
 
   componentDidMount() {
     this.props.getCourses();
+    
   }
 
   handleCourseChange = (e, newValue) => {
@@ -76,9 +77,13 @@ class Index extends Component {
    
   };
 
+  handleClick = (id) =>{
+    this.props.monthPlan(id);
+  }
+
   render() {
-    const { courses } = this.props;
-    console.log(this.props.monthResponse)
+    console.log(this.props.monthResponse);
+    console.log(this.props.courseMonthResponse)
     return (
       <div
       // style={{ padding: "10px 5px 5px" }}
@@ -169,13 +174,13 @@ class Index extends Component {
 
             {/* table */}
             <Grid container>
-              <Grid item md={3} style={{ backgroundColor: "#FAFAFA" }}>
+              <Grid item md={3} style={{ backgroundColor: "#FAFAFA",display:"flex",flexDirection:"column"}}>
                 {this.props.monthResponse && this.props.monthResponse.data.filter(item=>item.month<=this.state.courseMonth).map((month,index)=>{
                  return (
                    <div key={index}>
                       <List component="nav" aria-labelledby="nested-list-subheader">
                   <ListItem className={"list_button"} button>
-                    <ListItemText
+                    <ListItemText onClick={()=>this.handleClick(month.id)}
                       className={"list_item"}
                       primary={`${month.month} month`}
                     />
@@ -188,7 +193,7 @@ class Index extends Component {
               </Grid>
 
               <Grid item md={9}>
-                <Table />
+                <Table item={this.props.courseMonthResponse}/>
                 <Grid
                   item
                   style={{
@@ -197,7 +202,7 @@ class Index extends Component {
                     justifyContent: "center",
                   }}
                 >
-                  {/* <PaginationComponent pageCount={2} /> */}
+                  <PaginationComponent pageCount={2} />
                 </Grid>
               </Grid>
             </Grid>
@@ -212,11 +217,13 @@ const mapStateToProps = (state) => {
   return {
     coursesResponse: state.CourseMaterialReducer.courses,
     monthResponse: state.CourseMaterialReducer.monthlyCourse,
+    courseMonthResponse : state.CourseMaterialReducer.monthlyPlan
 
   };
 };
 
 export default connect(mapStateToProps, {
   getCourses,
-  courseMonth
+  courseMonth,
+  monthPlan
 })(Index);
