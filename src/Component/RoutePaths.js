@@ -29,8 +29,12 @@ export const notificationPath = rootPath.concat('/notification');
 export const reportsPath = rootPath.concat('/reports');
 export const testimonialsPath = rootPath.concat('/testimonials');
 export const careerTrackPath = rootPath.concat('/career-track');
-export const careerTrackVideoSetPath = rootPath.concat('/career-track/videoset/');
-export const careerTrackVideoPath = rootPath.concat('/career-track/videoset/video/');
+export const careerTrackVideoSetPath = rootPath.concat(
+  '/career-track/videoset/'
+);
+export const careerTrackVideoPath = rootPath.concat(
+  '/career-track/videoset/video/'
+);
 export const callSchedulePath = rootPath.concat('/schedule');
 export const productBasedPath = rootPath.concat('/based');
 export const wallPath = rootPath.concat('/wall');
@@ -43,12 +47,12 @@ export const productcomboPath = rootPath.concat('/productcombo');
 export const productuserPunchingPath = rootPath.concat('/productpunching/');
 export const productstructurePath = rootPath.concat('/productstructure/');
 export const clientDetailsPath = rootPath.concat('/clientdetails/');
-export const callSummaryLayoutPath = rootPath.concat("/callSummary/")
-export const obOperationPath = rootPath.concat("/obOperation")
-export const listUsersProdBasedPath = rootPath.concat("/listUsers")
-export const stagedTabsPath = rootPath.concat("/stageTabs/")
-export const productActivationPath = rootPath.concat("/productActivation")
-export const landingAdminPath = rootPath.concat("/welcome-admin")
+export const callSummaryLayoutPath = rootPath.concat('/callSummary/');
+export const obOperationPath = rootPath.concat('/obOperation');
+export const listUsersProdBasedPath = rootPath.concat('/listUsers');
+export const stagedTabsPath = rootPath.concat('/stageTabs/');
+export const productActivationPath = rootPath.concat('/productActivation');
+export const landingAdminPath = rootPath.concat('/welcome-admin');
 // Rengine another version path
 
 export const loginPath = rootPath.concat('/Mlogin');
@@ -56,6 +60,10 @@ export const curatedPath = rootPath.concat('/curatedCourse');
 export const personelInfoPath = rootPath.concat('/personalInfo');
 // export const OnboardingPersonalInfoPath = rootPath.concat('/Onboarding/personalInfo');
 // export const OnboardingAcademicInfoPath = rootPath.concat('/Onboarding/academicInfo');
-export const OnboardingPath = rootPath.concat('/onboarding')
+export const OnboardingPath = rootPath.concat('/onboarding');
 
+// LMS
 
+export const lms_course_landing = rootPath.concat('/course-landing');
+export const lms_add_topic = rootPath.concat('/add-topic');
+export const lms_study_plans = rootPath.concat('/study-plans');

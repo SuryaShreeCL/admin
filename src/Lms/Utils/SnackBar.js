@@ -9,7 +9,7 @@ export const SnackBar = (props) => {
       <Alert
         onClose={snackClose}
         severity={snackType}
-        elevation={10}
+        elevation={8}
         variant="filled"
       >
         {message}

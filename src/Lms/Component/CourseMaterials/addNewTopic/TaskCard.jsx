@@ -29,7 +29,7 @@ export class TaskCard extends Component {
         <div hidden={tabId !== index + 1}>
           <InputCard>
             <Grid container spacing={2}>
-              <Grid item xs={6} xl={6}>
+              <Grid item xs={12} md={6}>
                 <InputTextField
                   name="name"
                   value={inputItem.name}
@@ -38,7 +38,7 @@ export class TaskCard extends Component {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} lg={3}>
+              <Grid item xs={12} md={3}>
                 <SelectDropDown
                   label="Task Type"
                   name="contentType"
@@ -50,8 +50,8 @@ export class TaskCard extends Component {
                   onhandleChange={taskProperties}
                 />
               </Grid>
-              <Grid item xs={12} lg={3}>
-                <FormControl variant="outlined">
+              <Grid item xs={12} md={3}>
+                <FormControl variant="outlined" fullWidth>
                   <InputLabel>Approximate time</InputLabel>
                   <OutlinedInput
                     type={"number"}

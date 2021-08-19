@@ -29,7 +29,7 @@ class AddStudyPlans extends Component {
     this.props.getCourses();
   }
   
-  handleClick() {}
+ 
 
   handleCourseChange = (e, newValue) => {
     this.setState({ courseValue: newValue });

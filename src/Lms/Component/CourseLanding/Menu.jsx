@@ -7,21 +7,22 @@ import PublishIcon from '../../Assets/icons/Publish.svg';
 import ShareIcon from '@material-ui/icons/Share';
 
 export default function Menu(props) {
-  const ROLLS = { maker: 'LMSMAKER', checker: 'LMSCHECKER' };
+  const ROLES = { maker: 'LMSEDITOR', checker: 'LMSCHECKER' };
 
   const {
     open,
     anchorEl,
     handleClose,
-    roll,
+    role,
     handleDelete,
     topicId,
     topicName,
     handlePublish,
     handleSendReview,
     isMapped,
+    handleEdit,
   } = props;
-  if (roll === ROLLS.maker) {
+  if (role === ROLES.maker) {
     return (
       <MuiMenu
         id={topicId}
@@ -48,7 +49,7 @@ export default function Menu(props) {
           </div>
         ) : null}
 
-        <MenuItem>
+        <MenuItem onClick={() => handleEdit(topicId)}>
           <ListItemIcon>
             <EditIcon style={{ fill: '#1093FF' }} />
           </ListItemIcon>
@@ -56,7 +57,7 @@ export default function Menu(props) {
         </MenuItem>
       </MuiMenu>
     );
-  } else if (roll === ROLLS.checker) {
+  } else if (role === ROLES.checker) {
     return (
       <MuiMenu
         id={topicId}
@@ -83,7 +84,7 @@ export default function Menu(props) {
           </div>
         ) : null}
 
-        <MenuItem>
+        <MenuItem onClick={() => handleEdit(topicId)}>
           <ListItemIcon>
             <EditIcon style={{ fill: '#1093FF' }} />
           </ListItemIcon>

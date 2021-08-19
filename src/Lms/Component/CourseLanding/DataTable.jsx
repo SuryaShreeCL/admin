@@ -15,6 +15,8 @@ import {
 } from '../../Assets/StyledTableComponents';
 import Menu from './Menu';
 
+const role = sessionStorage.getItem('role');
+
 const MONTH = [
   'Jan',
   'Feb',
@@ -68,6 +70,8 @@ export default function DataTable(props) {
     popUpId,
     handlePublish,
     handleSendReview,
+    handleEdit,
+    role,
   } = props;
   // if (props.topics !== undefined) {
   //   console.log(topics.data);
@@ -113,7 +117,7 @@ export default function DataTable(props) {
                       <MoreVertRounded style={{ fill: '#1093FF' }} />
                     </IconButton>
                     <Menu
-                      roll={'LMSCHECKER'}
+                      role={role}
                       open={item.id === popUpId}
                       anchorEl={anchorEl}
                       handleClose={handleClose}
@@ -123,6 +127,7 @@ export default function DataTable(props) {
                       handlePublish={handlePublish}
                       handleSendReview={handleSendReview}
                       isMapped={item.isMapped}
+                      handleEdit={handleEdit}
                     />
                   </BlueCell>
                 </TableRow>

@@ -5,6 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: stretch;
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
@@ -104,14 +105,12 @@ export const Card = styled.div`
 
 // view StudyPlans
 export const CardTitle = styled.div`
- font-style: normal;
-font-weight: 600;
-font-size: 24px;
-line-height: 29px;
-color: #052A4E;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #052a4e;
 `;
-
-
 
 export const DialogDiv = styled.div`
   padding: 20px 20px;

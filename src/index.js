@@ -9,15 +9,6 @@ import Login from "./Component/Login";
 import RootContainer from "./Component/RootContainer";
 import { rootLoginPath, rootPath } from "./Component/RoutePaths";
 import ReduxStore from "./Redux/Store";
-//import RengineV2Route from './Component/RengineVersion2/RengineV2Route';
-// import PersonalityTest from './Component/RengineLiteUpgrade/PersonalityTest';
-//import Login from './component/Login'
-//import Button from '@material-ui/core/Button';
-import Lms from "./Lms/Index";
-import CourseLanding from "./Lms/Component/CourseLanding/CourseLanding";
-import store from "./Lms/Redux/Configuration/Store";
-import Index from "./Lms/StudyPlans/Index";
-import AddStudyPlans from "./Lms/StudyPlans/AddStudyPlans";
 
 function App(props) {
   React.useEffect(() => {
@@ -41,22 +32,14 @@ function App(props) {
   console.warn = () => {};
   console.error = () => {};
   return (
-    // <BrowserRouter history={history}>
-    //   <Switch>
-    //     <Route exact path={rootLoginPath} component={Login}></Route>
-    //     <Route path={rootPath} component={RootContainer}></Route>
-    //     <Redirect from="/" to={rootLoginPath}></Redirect>
-    //     {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
-    //   </Switch>
-    // </BrowserRouter>
-    <Provider store={store}>
-      {/* <BrowserRouter history={history}> */}
-        {/* <ViewStudyPlans /> */}
-        {/* <AddStudyPlans/> */}
-        <Index />
-        {/* <Lms /> */}
-      {/* </BrowserRouter> */}
-    </Provider>
+    <BrowserRouter history={history}>
+      <Switch>
+        <Route exact path={rootLoginPath} component={Login}></Route>
+        <Route path={rootPath} component={RootContainer}></Route>
+        <Redirect from="/" to={rootLoginPath}></Redirect>
+        {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
+      </Switch>
+    </BrowserRouter>
   );
 }
 
