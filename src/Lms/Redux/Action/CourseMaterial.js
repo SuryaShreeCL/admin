@@ -6,7 +6,7 @@ const DEV_LMS = 'https://dev-serviceslms.thecareerlabs.com';
 const pageSize = 10;
 
 const validationToken =
-  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTI5Mjk0MSwiaWF0IjoxNjI5Mjg1NzQxfQ.BbcmWP8eBsiC60ZdxpFYLMsJZNcGkIaPyeTHbJeUiGu6dgzMAIcFnoqBGoGBMR_jwdtl-3U33ynVkAl5Zpc_0Q";
+  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsbXNhZG1pbiIsImV4cCI6MTYyOTM2MzE5MCwiaWF0IjoxNjI5MzU1OTkwfQ.D4K1K68q7yoROls53r_fBak7jhEnKZCxA56PZBJr9eTZmQ-dt9LUzWgSN3YMn2v9coFN5_Z_aUYuytEc5UzxgA";
 
 export const getCourses = callback => {
   let accessToken = validationToken;
@@ -298,6 +298,30 @@ export const createFileUpload = (data,callback) => {
         callback(response.data);
       })
       .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const monthPlan = (monthId, callback) => {
+  let accessToken = validationToken;
+  return dispatch => {
+    axios
+      .get(DEV_LMS + '/api/v1/lms/studyPlanMaster/' + monthId +'/studyPlan', {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }) 
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.monthPlan,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => {
         console.log(error);
       });
   };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState}from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,9 +7,13 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Index from './Index';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value,index, ...other } = props;
+   
 
   return (
     <div
@@ -50,40 +54,69 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleTabs(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState("one");
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const months=[
+    "1 Month",
+    "3 Month",
+    "6 Month",
+    "9 Month"
+  ]
+
+  console.log(props.data);
   return (
     <div className={classes.root}>
-             
-      <AppBar position="static" 
-      // style={{backgroundColor:"#1093FF"}}
-      style={{
-        backgroundColor:
-          <Index/>
-            ? "#1093FF"
-            : "#F5F5F5"}}
+      <AppBar
+        position="static"
+        // style={{backgroundColor:"#1093FF"}}
+        style={{
+          backgroundColor: <Index /> ? "#1093FF" : "#F5F5F5",
+        }}
       >
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="1 Month" {...a11yProps(0)} />
-          <Tab label="3 Month" {...a11yProps(1)} />
-          <Tab label="6 Month" {...a11yProps(2)} />
-
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
+        >
+          {months &&
+            months.map((month, index) => {
+              return (
+                <div key={index}>
+                  <Tab label={month} value="one" {...a11yProps(0)} />
+                </div>
+              );
+            })}
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        {/* <Callbytoday /> */}
+      <TabPanel value={value} index={"one"}>
+      {props.data &&
+            props.data.data.map((month, index) => {
+              return (
+                <div key={index}>
+                   <List component="nav" aria-labelledby="nested-list-subheader">
+                  <ListItem className={"list_button"} button>
+                    <ListItemText
+                      className={"list_item"}
+                      primary={`${month.month} month`}
+                    />
+                  </ListItem>
+                  </List>
+                </div>
+              );
+            })}
+          
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        {/* <CallbyTommorrow/> */}
+      {/* <TabPanel value={value} index={1}>
+        <CallbyTommorrow/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {/* <CallBydayafterTommorrow/> */}
-      </TabPanel>
-    
+        <CallBydayafterTommorrow/>
+      </TabPanel> */}
     </div>
   );
 }

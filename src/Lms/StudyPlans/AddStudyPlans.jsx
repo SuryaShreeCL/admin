@@ -51,7 +51,7 @@ class AddStudyPlans extends Component {
             {/* dropdown and button */}
 
             <Grid container style={{ padding: "12px" }}>
-              <Grid item md={3} xs={3}>
+              <Grid item xs={3} sm={3} md={3} xl={3} lg={3}>
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.props.coursesResponse.data || []}
@@ -64,8 +64,8 @@ class AddStudyPlans extends Component {
                   )}
                 />
               </Grid>
-              <Grid item md={1} xs={1}></Grid>
-              <Grid item md={3} xs={3}>
+              <Grid item xs={1} sm={1} md={1} xl={1} lg={1}></Grid>
+              <Grid item xs={3} sm={3} md={3} xl={3} lg={3}>
                 <Autocomplete
                   id="combo-box-demo"
                   options={this.props.monthResponse ? this.props.monthResponse.data :  [] }
@@ -123,3 +123,5 @@ export default connect(mapStateToProps, {
   getCourses,
   courseMonth,
 })(AddStudyPlans);
+
+

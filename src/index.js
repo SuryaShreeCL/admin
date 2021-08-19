@@ -41,7 +41,6 @@ function App(props) {
   console.warn = () => {};
   console.error = () => {};
   return (
-<<<<<<< HEAD
     // <BrowserRouter history={history}>
     //   <Switch>
     //     <Route exact path={rootLoginPath} component={Login}></Route>
@@ -51,27 +50,12 @@ function App(props) {
     //   </Switch>
     // </BrowserRouter>
     <Provider store={store}>
-      {/* <Index /> */}
-      <AddStudyPlans/>
-      {/* <Lms /> */}
+      {/* <BrowserRouter history={history}> */}
+        <Index />
+        {/* <AddStudyPlans/> */}
+        {/* <Lms /> */}
+      {/* </BrowserRouter> */}
     </Provider>
-=======
-    <BrowserRouter history={history}>
-      <Switch>
-        <Route exact path={rootLoginPath} component={Login}></Route>
-        <Route path={rootPath} component={RootContainer}></Route>
-        <Redirect from="/" to={rootLoginPath}></Redirect>
-        {/* <PrivateRoute path={rootPath} component={RootContainer} /> */}
-      </Switch>
-    </BrowserRouter>
-    // <Provider store={store}>
-    //   <BrowserRouter history={history}>
-    //     {/* <ViewStudyPlans /> */}
-    //     {/* <AddStudyPlans/> */}
-    //     {/* <Lms /> */}
-    //   </BrowserRouter>
-    // </Provider>
->>>>>>> 0914fe5bdd4dae2fae7a0625e65682f2c5e0bfe8
   );
 }
 

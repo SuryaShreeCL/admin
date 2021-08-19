@@ -17,4 +17,5 @@ export const COURSE_MATERIAL = {
   getTopicFullDetails: 'getTopicDetails',
   createorUpdateTask: 'reateorUpdateTask',
   deleteTopic: 'deleteTopic',
+  monthPlan : 'monthPlan',
 };
