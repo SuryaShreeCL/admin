@@ -333,7 +333,7 @@ function RootContainer(props) {
       mounted.current = true;
       let accessToken = window.sessionStorage.getItem('accessToken');
       if (accessToken === null) {
-        console.log('access token no need to come here......', accessToken);
+        // console.log('access token no need to come here......', accessToken);
         window.sessionStorage.clear();
         props.history.push(rootLoginPath);
       } else {
@@ -343,7 +343,7 @@ function RootContainer(props) {
       // do componentDidUpdate logic
 
       if (props.tokenStatus !== null && props.tokenStatus.expired) {
-        console.log('Token status checked.........', props.tokenStatus);
+        // console.log('Token status checked.........', props.tokenStatus);
         window.sessionStorage.clear();
         props.history.push(rootLoginPath);
       }
@@ -361,7 +361,7 @@ function RootContainer(props) {
   const prevProps = usePrevious(props);
 
   useEffect(() => {
-    console.log(props.adminLinkedProductDetails);
+    // console.log(props.adminLinkedProductDetails);
 
     if (
       props.adminLinkedProductDetails.length !== 0 &&
@@ -373,7 +373,7 @@ function RootContainer(props) {
         props.adminLinkedProductDetails.products[0].productFamily.id
       );
     }
-    console.log(props.getProductByFamilyIdList);
+    // console.log(props.getProductByFamilyIdList);
     // let newListArr = []
     // props.getProductByFamilyIdList.map((eachItem,index)=>{
     //  newListArr.push({
@@ -400,7 +400,7 @@ function RootContainer(props) {
             eachProd.variantSKU === 'ACS_MBA'
         )
         .map((eachItem, index) => {
-          console.log(eachItem);
+          // console.log(eachItem);
           myArr.push({
             title: eachItem.shortName,
             path: obOperationPath + '/' + eachItem.id,
@@ -590,8 +590,8 @@ function RootContainer(props) {
     }
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
 
-  console.log('........props', props);
-  console.log('sidenav..............', sideNav);
+  // console.log('........props', props);
+  // console.log('sidenav..............', sideNav);
 
   const MenuItem = ({ item }) => {
     const Component = hasChildren(item) ? MultiLevel : SingleLevel;
@@ -615,9 +615,9 @@ function RootContainer(props) {
   const MultiLevel = ({ item }) => {
     const { items: children } = item;
     const [menuOpen, setMenuOpen] = useState(true);
-    console.log('single Item menu open......', menuOpen);
+    // console.log('single Item menu open......', menuOpen);
     const handleClick = () => {
-      console.log('Menu1clicked');
+      // console.log('Menu1clicked');
       setMenuOpen(prev => !prev);
     };
 
@@ -663,7 +663,7 @@ function RootContainer(props) {
     return true;
   };
 
-  console.log('Root container props.......', props);
+  // console.log('Root container props.......', props);
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>

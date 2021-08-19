@@ -9,16 +9,6 @@ import Login from './Component/Login';
 import RootContainer from './Component/RootContainer';
 import { rootLoginPath, rootPath } from './Component/RoutePaths';
 import ReduxStore from './Redux/Store';
-//import RengineV2Route from './Component/RengineVersion2/RengineV2Route';
-// import PersonalityTest from './Component/RengineLiteUpgrade/PersonalityTest';
-//import Login from './component/Login'
-//import Button from '@material-ui/core/Button';
-import Lms from './Lms/Index';
-import CourseLanding from './Lms/Component/CourseLanding/CourseLanding';
-import store from './Lms/Redux/Configuration/Store';
-// import ViewStudyPlans from './Lms/StudyPlans/ViewStudyPlans';
-import AddStudyPlans from './Lms/StudyPlans/AddStudyPlans';
-import TestLanding from './Lms/Component/Test/Index';
 
 function App(props) {
   React.useEffect(() => {
