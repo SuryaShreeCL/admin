@@ -65,9 +65,10 @@
     "prettier": "1.19.1"
   },
   "scripts": {
-    "start": "PORT=8000 react-scripts start .env.development",
+    "start": "PORT=8000 react-scripts start ",
     "build": "env-cmd -f .env.production react-scripts --max_old_space_size=4096 build",
     "build:development": "env-cmd -f .env.development react-scripts --max_old_space_size=4096 build",
+    "build:lms": "env-cmd -f .env.lms react-scripts --max_old_space_size=4096 build",
     "build:staging": "env-cmd -f .env.staging react-scripts --max_old_space_size=4096 build",
     "build:qa": "env-cmd -f .env.qa react-scripts --max_old_space_size=4096 build",
     "start:dev": "PORT=8000 env-cmd -f .env.development react-scripts start",
