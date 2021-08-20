@@ -232,7 +232,8 @@ class workExperience extends Component {
     console.log(data)
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     // window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
-    window.open(URL+"/api/v1/cv/download/"+data.studentId+"/"+data.path+"/"+data.productId)
+   // window.open(URL+"/api/v1/cv/download/"+data.studentId+"/"+data.path+"/"+data.productId)
+    window.open(URL+"/api/v1/cv/download/cv/"+data.studentId+"/"+data.path)
   }
 
   renderModel = () => (
