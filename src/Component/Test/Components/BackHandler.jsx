@@ -1,6 +1,6 @@
 import React from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { BackHandlerContainer } from '../Assets/Styles/CreatePostStyles';
+import { BackHandlerContainer } from '../Assets/Styles/CreateTestStyles';
 import { wallPath } from '../../RoutePaths';
 import { useHistory } from 'react-router-dom';
 

@@ -29,7 +29,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
-import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
+import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
 import { renderListCategory } from '../../Utils/Helpers';
 

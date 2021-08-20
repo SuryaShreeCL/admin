@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
+import { ButtonsContainer, CreatePostContainer, CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
 import Switch from '@material-ui/core/Switch';
@@ -137,7 +137,7 @@ const EditTest = () => {
   return (
     <>
       <BackHandler title={`Edit ${location.postType}`} tab={records.isEvent ? 3 : 0} />
-      <CreatePostContainer>
+      <CreateTestContainer>
         <Formik
           initialValues={records || state}
           validationSchema={validationSchema}
@@ -149,7 +149,7 @@ const EditTest = () => {
         >
           {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
             <>
-              <div className='CreatePost'>
+              <div className='CreateTest'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <h6>Post Type</h6>
                   <Grid component='label' container alignItems='center' spacing={1}>
@@ -461,7 +461,7 @@ const EditTest = () => {
             </>
           )}
         </Formik>
-      </CreatePostContainer>
+      </CreateTestContainer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </>
