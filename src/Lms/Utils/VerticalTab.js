@@ -1,7 +1,15 @@
 import React from "react";
 import { Tab, Tabs } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-export const StyledTaps = (props) => {
+const useStyles = makeStyles({
+  wrapper: {
+    alignItem: "flex-start",
+  },
+});
+
+export const StyledVerticalTaps = (props) => {
+  const classes = useStyles();
   const {
     tabId,
     handleTabChange,
@@ -12,16 +20,20 @@ export const StyledTaps = (props) => {
   } = props.tabsData;
   return (
     <Tabs
+      classes={{
+        wrapper: classes.wrapper,
+      }}
+      orientation={"vertical"}
       value={tabId}
       onChange={handleTabChange}
       style={{
-        padding: "0px 40px",
-        minHeight: (styleName === "courseTaken" && 56) || "auto",
+        padding: "10px 0px",
+        display: "grid",
       }}
       TabIndicatorProps={{
         style: {
           background: (tabsBackColor !== undefined && tabsBackColor) || "auto",
-          height: 4,
+          widt: 4,
         },
       }}
       variant="scrollable"
@@ -30,6 +42,7 @@ export const StyledTaps = (props) => {
       {tabData.map((item, tabIndex) => {
         return (
           <Tab
+            classes={{ labelContainer: { textAlign: "right" } }}
             className={
               (activeClass !== undefined &&
                 tabId === tabIndex &&
@@ -39,9 +52,7 @@ export const StyledTaps = (props) => {
             label={item.tabLabel}
             style={
               styleName !== undefined
-                ? styleName === "addNewTask"
-                  ? taskStyle
-                  : styleName === "courseTaken"
+                ? styleName === "courseTaken"
                   ? courseStyle
                   : {}
                 : {}
@@ -53,17 +64,9 @@ export const StyledTaps = (props) => {
   );
 };
 
-const taskStyle = {
-  minWidth: 40,
-  fontSize: "18px",
-  marginRight: "40px",
-  padding: 0,
-};
-
 const courseStyle = {
-  minHeight: 56,
-  fontSize: "16px",
-  color: "#FFFFFF",
-  marginRight: "40px",
-  padding: "0 10px",
+  minHeight: 54,
+  fontSize: "18px",
+  color: "#052A4E",
+  margin: "2px 0px",
 };

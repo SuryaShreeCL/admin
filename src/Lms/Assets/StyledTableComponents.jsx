@@ -72,10 +72,10 @@ export const MuiMenu = withStyles({
 export const TableCells = withStyles({
   root: {
     fontStyle: 'normal',
-    fontWeight: '600',
-    fontSize: '18px',
-    lineHeight: '22px',
-    color:'#052A4E',
+    fontWeight: 'normal',
+    fontSize: '16px',
+    lineHeight: '20px',
+    color: '#052A4E',
     borderBottom: 'none',
   },
 })(TableCell);
