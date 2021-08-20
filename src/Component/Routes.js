@@ -76,6 +76,7 @@ import {
   lms_add_topic,
   lms_study_plans,
   lmsTest,
+  lms_course_taken,
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -127,6 +128,7 @@ import CourseLanding from '../Lms/Component/CourseLanding/CourseLanding';
 import AddNewTopic from '../Lms/Component/CourseMaterials/addNewTopic/Index';
 import StudyPlans from '../Lms/StudyPlans/Index';
 import TestLanding from '../Lms/Component/Test/Index';
+import CourseTaken from '../Lms/Component/CourseMaterials/addNewTopic/Index';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -368,6 +370,7 @@ export default function Routes(props) {
       <Route exact path={lms_add_topic} component={AddNewTopic} />
       <Route exact path={lms_study_plans} component={StudyPlans} />
       <Route exact path={lmsTest} component={TestLanding} />
+      <Route exact path={lms_course_taken} component={CourseTaken} />
     </Switch>
   );
 }
