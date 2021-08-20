@@ -35,6 +35,7 @@ import CallReducer from '../Reducer/CallReducer';
 
 // LMS
 import CourseMaterialReducer from '../Lms/Redux/Reducer/CourseMaterialReducer';
+import TestReducer from '../Lms/Redux/Reducer/TestReducer';
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -68,4 +69,5 @@ export default combineReducers({
   HelperReducer: HelperReducer,
   // LMS
   CourseMaterialReducer: CourseMaterialReducer,
+  TestReducer: TestReducer,
 });

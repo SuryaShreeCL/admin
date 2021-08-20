@@ -1,30 +1,19 @@
 import { withStyles } from '@material-ui/styles';
 import { TableHead, TableCell, Menu } from '@material-ui/core';
+import styled from 'styled-components';
 
 export const Head = withStyles({
   root: {
     borderBottom: '1px solid #CCCCCC',
-
-    // borderBottom: 'solid',
-    // borderWidth: '1px',
-    // borderColor: '#CCCCCC',
   },
 })(TableHead);
 
-// export const TableHeaderCell = withStyles((theme) => ({
-//     root: {
-//       fontStyle: 'normal',
-//       fontWeight: 600,
-//       fontSize: '16px',
-//       lineHeight: '20px',
-//       color: '#052A4E',
-//       textAlign: 'center',
-//       border: '0',
-//     },
-//   }))(TableCell);
-
 export const HeadCell = withStyles({
   root: {
+    // display: 'inlin',
+    // flexDirection: 'row',
+    // alignContent: 'center',
+    // justifyContent: 'center',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: '18px',
@@ -79,3 +68,25 @@ export const TableCells = withStyles({
     borderBottom: 'none',
   },
 })(TableCell);
+
+export const TableBox = styled.div`
+  overflow: auto;
+  width: 100%;
+`;
+
+export const IconBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HeadInline = styled.div`
+  display: inline-flex;
+  align-items: center;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #052a4e;
+`;

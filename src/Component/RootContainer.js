@@ -61,6 +61,7 @@ import {
   collegePath,
   coursePath,
   departmentPath,
+  lmsTest,
   lms_course_landing,
   lms_study_plans,
   notificationPath,
@@ -584,6 +585,12 @@ function RootContainer(props) {
           icon: <></>,
           title: 'Study plan',
           path: lms_study_plans,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: 'Test',
+          path: lmsTest,
           items: [],
         },
       ]);

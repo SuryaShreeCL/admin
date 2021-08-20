@@ -67,3 +67,4 @@ export const OnboardingPath = rootPath.concat('/onboarding');
 export const lms_course_landing = rootPath.concat('/course-landing');
 export const lms_add_topic = rootPath.concat('/add-topic');
 export const lms_study_plans = rootPath.concat('/study-plans');
+export const lmsTest = rootPath.concat('/test');

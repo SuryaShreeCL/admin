@@ -14,6 +14,11 @@ import { ThemeProvider } from 'styled-components';
 // });
 
 const useStyles = makeStyles(theme => ({
+  ul: {
+    '& .MuiPaginationItem-root': {
+      color: '#fff',
+    },
+  },
   root: {
     '& > *': {
       marginTop: theme.spacing(2),
@@ -49,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 
 function PaginationComponent(props) {
   const classes = useStyles();
-  console.log(classes.root)
+  console.log(classes);
   const { pageCount, onPageChange } = props;
   if (pageCount <= 1) return null;
   else {

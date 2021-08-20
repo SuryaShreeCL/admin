@@ -75,6 +75,7 @@ import {
   lms_course_landing,
   lms_add_topic,
   lms_study_plans,
+  lmsTest,
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -120,9 +121,12 @@ import CreatePost from './Wall/Pages/CreatePost';
 import EditPost from './Wall/Pages/EditPost';
 import PersonaInfo from './ObOnboarding/personalInfo';
 import LandingAdmin from './LandingAdmin';
+
+//LMS
 import CourseLanding from '../Lms/Component/CourseLanding/CourseLanding';
 import AddNewTopic from '../Lms/Component/CourseMaterials/addNewTopic/Index';
 import StudyPlans from '../Lms/StudyPlans/Index';
+import TestLanding from '../Lms/Component/Test/Index';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -363,6 +367,7 @@ export default function Routes(props) {
       <Route exact path={lms_course_landing} component={CourseLanding} />
       <Route exact path={lms_add_topic} component={AddNewTopic} />
       <Route exact path={lms_study_plans} component={StudyPlans} />
+      <Route exact path={lmsTest} component={TestLanding} />
     </Switch>
   );
 }
