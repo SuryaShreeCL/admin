@@ -1,14 +1,4 @@
 export const COURSE_MATERIAL = {
-  viewCourses: "viewCourses",
-  viewSubjects: "viewSubjects",
-  viewConcepts: "viewConcepts",
-  viewTopics: "viewTopics",
-  createorUpdateTopics: "createorUpdateTopics",
-  getTopicFullDetails: "getTopicDetails",
-  createorUpdateTask: "reateorUpdateTask",
-  deleteTopic: "deleteTopic",
-  createFileUpload : "createFileUpload",
-  courseMonth : "courseMonth",
   viewCourses: 'viewCourses',
   viewSubjects: 'viewSubjects',
   viewConcepts: 'viewConcepts',
@@ -17,5 +7,20 @@ export const COURSE_MATERIAL = {
   getTopicFullDetails: 'getTopicDetails',
   createorUpdateTask: 'reateorUpdateTask',
   deleteTopic: 'deleteTopic',
-  monthPlan : 'monthPlan',
+  createFileUpload: 'createFileUpload',
+  courseMonth: 'courseMonth',
+  viewCourses: 'viewCourses',
+  viewSubjects: 'viewSubjects',
+  viewConcepts: 'viewConcepts',
+  viewTopics: 'viewTopics',
+  createorUpdateTopics: 'createorUpdateTopics',
+  getTopicFullDetails: 'getTopicDetails',
+  createorUpdateTask: 'reateorUpdateTask',
+  deleteTopic: 'deleteTopic',
+  monthPlan: 'monthPlan',
+};
+
+export const TEST = {
+  getFilters: 'getFilters',
+  getQuestionSet: 'getQuestionSet',
 };

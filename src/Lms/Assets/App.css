@@ -3,6 +3,11 @@
   color: #1093ff !important;
 }
 
+.course__task__tab {
+  font-weight: 600 !important;
+  color: #ffffff !important;
+}
+
 .menu-item-text {
   font-style: normal !important;
   font-weight: normal !important;

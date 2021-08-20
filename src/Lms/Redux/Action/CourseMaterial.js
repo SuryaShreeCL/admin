@@ -6,9 +6,6 @@ const DEV_LMS = URL;
 
 const pageSize = 10;
 
-// const sessionStorage.getItem("accessToken") = sessionStorage.getItem("accessToken");
-// console.log(sessionStorage.getItem("accessToken"));
-
 export const getCourses = callback => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
