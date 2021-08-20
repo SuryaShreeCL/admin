@@ -53,6 +53,8 @@ import {
   documentDetailsPath,
   notificationPath,
   reportsPath,
+  testCreate,
+  testEdit,
   callSchedulePath,
   productBasedPath,
   starterPackPath,
@@ -116,6 +118,8 @@ import StageBasedLayout from './ObOperations/StageBasedLayout';
 import ProductActivation from './ObCallSummary/productActivation';
 import CreatePost from './Wall/Pages/CreatePost';
 import EditPost from './Wall/Pages/EditPost';
+import CreateTest from './Test/Pages/CreateTest';
+import EditTest from './Test/Pages/EditTest';
 import PersonaInfo from './ObOnboarding/personalInfo';
 import LandingAdmin from './LandingAdmin';
 import TestLanding from './Test/TestLanding';
@@ -136,6 +140,8 @@ export default function Routes(props) {
             <Route exact path={loginPath} render={(props)=> <MLogin {...props} />} />
             <Route exact path={wallPath} render={(props)=> <WallLanding {...props} />} />
             <Route exact path={testPath} render={(props)=> <TestLanding {...props} />} />
+            <Route exact path={testCreate} render={(props)=> <CreateTest {...props} />} />
+            <Route exact path={testEdit} render={(props)=> <EditTest {...props} />} />
             <Route exact path={createPath} render={(props)=> <CreatePost {...props} />} />
             <Route exact path={editPath} render={(props)=> <EditPost {...props} />} />
             <Route exact path={personelInfoPath} render={(props)=> <Personal_information {...props} />} />

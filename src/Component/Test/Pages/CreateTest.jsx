@@ -13,22 +13,20 @@ import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import * as yup from 'yup';
-import { useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { ExistingMedia } from '../Components/Upload/ExistingMedia';
-import { createWallPost, getWallCategories, updateWallPost } from '../../../Actions/WallActions';
+import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { wallPath } from '../../RoutePaths';
+import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
+import { useHistory, useLocation } from 'react-router-dom';
+import { wallPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
-import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 
 const useStyles = makeStyles({
   root: {
@@ -49,19 +47,16 @@ const useStyles = makeStyles({
   },
 });
 
-const EditPost = () => {
+const CreateTest = () => {
   const classes = useStyles();
-  let location = useLocation();
-  const history = useHistory();
   const dispatch = useDispatch();
-
-  const { recordForEdit } = location;
-  const [records, setRecords] = useState(recordForEdit);
+  const location = useLocation();
+  const history = useHistory();
 
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
-    isEvent: false,
+    isEvent: location.type ?? false,
     supportingMedia: 'image',
     wallFiles: [],
     canComment: false,
@@ -81,6 +76,10 @@ const EditPost = () => {
     activeStatus: 'Live',
   });
 
+  const [errorSchema, setErrorSchema] = useState({
+    isVideoLink: false,
+  });
+
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -88,62 +87,106 @@ const EditPost = () => {
     subTitle: '',
   });
 
-  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
-
   useEffect(() => {
     dispatch(getWallCategories('Live'));
-    //SETTING PRE POPULATED RECORD
-    if (records != null)
-      setRecords({
-        ...recordForEdit,
-      });
-  }, [recordForEdit, dispatch]);
+  }, [dispatch]);
 
-  const onEditDraft = (post, activeStatus) => {
-    if (!post.id) dispatch(createWallPost(post));
-    else dispatch(updateWallPost({ ...post, activeStatus }));
-    setNotify({
-      isOpen: true,
-      message: 'Drafted Successfully',
-      type: 'success',
-    });
-    setTimeout(() => {
-      history.push({
-        pathname: wallPath,
-        tab: 1,
+  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
+
+  const validate = (values) => {
+    if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
+      setNotify({
+        isOpen: true,
+        message: 'Please upload image(s)',
+        type: 'error',
       });
-    }, 1200);
+      return false;
+    }
+    if (
+      !values.isVideoUrlEnabled &&
+      values.supportingMedia === 'video' &&
+      values.wallFiles.length === 0
+    ) {
+      setNotify({
+        isOpen: true,
+        message: 'Please upload a video',
+        type: 'error',
+      });
+      return false;
+    }
+    if (values.supportingMedia === 'audio' && values.wallFiles.length === 0) {
+      setNotify({
+        isOpen: true,
+        message: 'Please upload an audio',
+        type: 'error',
+      });
+      return false;
+    }
+
+    if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
+      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
+      return false;
+    }
+
+    return true;
   };
 
-  const updatePost = (post) => {
-    dispatch(updateWallPost(post));
-    setNotify({
-      isOpen: true,
-      message: 'Updated Successfully',
-      type: 'success',
-    });
-    setTimeout(() => {
-      history.push({
-        pathname: wallPath,
-        tab: post.isEvent ? 3 : 0,
-      });
-    }, 1200);
+  const handlePostType = () => {
+    setState((s) => ({ ...s, isEvent: !state.isEvent }));
   };
 
   const validationSchema = yup.object({
     caption: yup.string().required('caption is required'),
   });
 
+  const createPost = (post, activeStatus) => {
+    if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
+    setNotify({
+      isOpen: true,
+      message: 'Created Successfully',
+      type: 'success',
+    });
+    setTimeout(() => {
+      history.push({
+        pathname: wallPath,
+        tab: state.isEvent ? 3 : 0,
+      });
+    }, 1200);
+  };
+
+  const onDiscard = () => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    setTimeout(() => {
+      history.push({
+        pathname: wallPath,
+        tab: state.isEvent ? 3 : 0,
+      });
+    }, 1200);
+    setNotify({
+      isOpen: true,
+      message: 'Discarded',
+      type: 'warning',
+    });
+  };
+
   return (
     <>
-      <BackHandler title={`Edit ${location.postType}`} tab={records.isEvent ? 3 : 0} />
+      <BackHandler
+        title={`Create New ${location?.type ? 'Event' : 'Post'}`}
+        tab={state.isEvent ? 3 : 0}
+      />
       <CreatePostContainer>
         <Formik
-          initialValues={records || state}
+          initialValues={state || []}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            updatePost({ ...values, wallFiles: [...(values.wallFilesUpdate ?? [])] });
-            resetForm();
+            if (validate(values)) {
+              createPost(values, 'Live');
+              resetForm();
+            }
           }}
           enableReinitialize
         >
@@ -156,7 +199,8 @@ const EditPost = () => {
                     <Grid item>Wall Post</Grid>
                     <Grid item>
                       <Switch
-                        checked={values.isEvent}
+                        checked={state.isEvent}
+                        onChange={handlePostType}
                         name={values.isEvent}
                         disabled
                         color='primary'
@@ -259,50 +303,59 @@ const EditPost = () => {
                       <Controls.Input
                         label='Paste Video URL'
                         name='videoUrl'
-                        className={classes.spacer}
+                        style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
                         value={values.videoUrl}
+                        error={errorSchema.isVideoLink}
                         onChange={handleChange}
                       />
                     </Grid>
                   )}
-                  <Grid item>
-                    <Controls.Input
-                      label='Paste the Redirection Link'
-                      name='redirectionUrl'
-                      className={classes.spacer}
-                      value={values.redirectionUrl}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Controls.Input
-                      label='Enter Button Text Here'
-                      name='buttonText'
-                      error={
-                        values.redirectionUrl?.length > 1 &&
-                        values.buttonText?.length < 1 &&
-                        Boolean(true)
-                      }
-                      style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
-                      value={values.buttonText}
-                      onChange={handleChange}
-                    />
-                  </Grid>
+                  {!values.isEvent && (
+                    <>
+                      <Grid item>
+                        <Controls.Input
+                          label='Paste the Redirection Link'
+                          name='redirectionUrl'
+                          className={classes.spacer}
+                          value={values.redirectionUrl}
+                          onChange={handleChange}
+                          error={
+                            values.redirectionUrl.length > 5 &&
+                            !values.redirectionUrl.includes('http')
+                          }
+                          helperText={
+                            values.redirectionUrl.length > 5 &&
+                            !values.redirectionUrl.includes('http') &&
+                            'Enter Full link Ex:https://www.example.com/'
+                          }
+                        />
+                      </Grid>
+                      <Grid item>
+                        <Controls.Input
+                          label='Enter Button Text Here'
+                          name='buttonText'
+                          error={
+                            values.redirectionUrl?.length > 1 &&
+                            values.buttonText?.length < 1 &&
+                            Boolean(true)
+                          }
+                          style={{ width: '80%', marginTop: '18px', marginBottom: '14px' }}
+                          value={values.buttonText}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                    </>
+                  )}
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.supportingMedia === 'image' && (
-                      <MultipleFileUploadField name='wallFilesUpdate' fileType='image' />
+                      <MultipleFileUploadField name='wallFiles' fileType='image' />
                     )}
                     {values.supportingMedia === 'video' && !values.isVideoUrlEnabled && (
-                      <MultipleFileUploadField name='wallFilesUpdate' fileType='video' />
+                      <MultipleFileUploadField name='wallFiles' fileType='video' />
                     )}
                     {values.supportingMedia === 'audio' && (
-                      <MultipleFileUploadField name='wallFilesUpdate' fileType='audio' />
+                      <MultipleFileUploadField name='wallFiles' fileType='audio' />
                     )}
-                    <Grid item>
-                      {values.wallFiles?.map((media) => (
-                        <ExistingMedia media={media} wallFiles={values.wallFiles} />
-                      ))}
-                    </Grid>
                   </Grid>
                   {!values.isEvent && (
                     <Grid
@@ -340,7 +393,7 @@ const EditPost = () => {
                   {values.isEvent && (
                     <Grid item>
                       <h6 style={{ fontSize: '1rem' }}>
-                        Resume Required?
+                         Resume Required?
                         <Switch
                           checked={values.resumeNeeded}
                           onChange={handleChange}
@@ -371,6 +424,7 @@ const EditPost = () => {
                             }}
                             value={values.eventDate}
                             style={{ width: '100%', margin: '10px 0px' }}
+                            disablePast
                             name='eventDate'
                             inputVariant='outlined'
                             onChange={(val) => {
@@ -392,6 +446,7 @@ const EditPost = () => {
                             }}
                             value={values.eventEndDate}
                             style={{ width: '100%', margin: '10px 0px' }}
+                            disablePast
                             name='eventEndDate'
                             inputVariant='outlined'
                             onChange={(val) => {
@@ -415,6 +470,7 @@ const EditPost = () => {
                           }}
                           value={values.selectedDate}
                           style={{ width: '80%', margin: '10px 0px' }}
+                          disablePast
                           name='selectedDate'
                           inputVariant='outlined'
                           onChange={(val) => {
@@ -435,7 +491,7 @@ const EditPost = () => {
                           title: 'Are you sure to discard this post?',
                           subTitle: "You can't undo this operation",
                           onConfirm: () => {
-                            history.push(wallPath);
+                            onDiscard();
                           },
                         });
                       }}
@@ -450,7 +506,12 @@ const EditPost = () => {
                       type='submit'
                     />
                     {!values.isEvent && (
-                      <Button color='primary' onClick={() => onEditDraft(values, 'Draft')}>
+                      <Button
+                        color='primary'
+                        onClick={() => {
+                          if (validate(values)) createPost(values, 'Draft');
+                        }}
+                      >
                         Save as Draft
                       </Button>
                     )}
@@ -468,4 +529,4 @@ const EditPost = () => {
   );
 };
 
-export default EditPost;
+export default CreateTest;

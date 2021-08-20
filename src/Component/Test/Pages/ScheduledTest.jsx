@@ -3,7 +3,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
-const ScheduledPost = () => {
+const ScheduledTest = () => {
   return (
     <div style={{ width: '30%', margin: '5rem auto' }}>
       <Alert severity='info'>Coming Soon</Alert>
@@ -11,4 +11,4 @@ const ScheduledPost = () => {
   );
 };
 
-export default ScheduledPost;
+export default ScheduledTest;

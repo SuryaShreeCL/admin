@@ -16,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
 import moment from 'moment';
@@ -30,7 +31,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
+import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
 import { renderListCategory } from '../../Utils/Helpers';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -57,18 +58,17 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Published' },
+  { id: 'date', label: 'Drafted' },
   { id: 'caption', label: 'Caption' },
   { id: 'likes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function LivePost() {
+export default function DraftTest() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
@@ -108,13 +108,24 @@ export default function LivePost() {
     setOpenDrawer(!openDrawer);
   };
 
+  const onPublish = (post, activeStatus) => {
+    dispatch(updateWallPost({ ...post, activeStatus }));
+    setNotify({
+      isOpen: true,
+      message: 'Post Published Successfully',
+      type: 'success',
+    });
+    setTimeout(() => {
+      dispatch(listWallPosts('Draft'));
+    }, 1200);
+  };
+
   const openInPage = (item) => {
     history.push({
       pathname: editPath,
       recordForEdit: item,
-      postType: 'Post',
+      postType: 'Draft',
     });
-    setRecordForEdit(item);
     setOpenDrawer(false);
   };
 
@@ -125,7 +136,7 @@ export default function LivePost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', false));
+      dispatch(listWallPosts('Draft', false));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -135,7 +146,7 @@ export default function LivePost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live', false));
+    dispatch(listWallPosts('Draft', false));
   }, [dispatch]);
 
   return (
@@ -144,7 +155,7 @@ export default function LivePost() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Posts'
+            placeholder='Search Drafts'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -168,10 +179,7 @@ export default function LivePost() {
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push({
-                pathname: createPath,
-                type: false,
-              });
+              history.push(createPath);
             }}
           />
         </Toolbar>
@@ -190,6 +198,9 @@ export default function LivePost() {
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton onClick={() => onPublish(item, 'Live')}>
+                      <CloudUploadIcon fontSize='small' style={{ color: 'green' }} />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />

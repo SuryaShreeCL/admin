@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
-import LivePost from './Pages/LivePost';
-import DraftPost from './Pages/DraftPost';
-import ScheduledPost from './Pages/ScheduledPost';
+import LiveTest from './Pages/LiveTest';
+import DraftTest from './Pages/DraftTest';
+import ScheduledTest from './Pages/ScheduledTest';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
-import Events from './Pages/Events';
 import { useLocation } from 'react-router-dom';
 
 const TestLanding = () => {
@@ -14,13 +13,11 @@ const TestLanding = () => {
   const renderContent = (value) => {
     try {
       if (value === 0) {
-        return <LivePost />;
+        return <LiveTest />;
       } else if (value === 1) {
-        return <DraftPost />;
+        return <DraftTest />;
       } else if (value === 2) {
-        return <ScheduledPost />;
-      } else if (value === 3) {
-        return <Events />;
+        return <ScheduledTest />;
       }
     } catch (error) {
       console.log(error);
@@ -37,9 +34,9 @@ const TestLanding = () => {
             onChange={(e, value) => setTabCount(value)}
             aria-label='tabs'
           >
-            <TopTab label='Tests' />
-            <TopTab label='Scheduled Tests' />
+            <TopTab label='Live Tests' />
             <TopTab label='Draft Tests' />
+            <TopTab label='Scheduled Tests' />
           </TopTabs>
         </Grid>
         <Grid item md={12}>
