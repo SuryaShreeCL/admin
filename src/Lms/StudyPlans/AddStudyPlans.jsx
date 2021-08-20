@@ -25,8 +25,14 @@ class AddStudyPlans extends Component {
     };
   }
 
+
+
   componentDidMount() {
     this.props.getCourses();
+  }
+
+  handleClick = () =>{
+    this.props.createFileUpload()
   }
   
  
@@ -37,12 +43,14 @@ class AddStudyPlans extends Component {
   };
 
   render() {
+    console.log(this.props.monthResponse)
+
     console.log(this.state);
     // console.log(this.props)
     return (
       <div style={{ padding: "10px 5px 5px" }}>
         <Card className={"card"}>
-          <Grid container spacing={3} style={{ padding: "12px" }}>
+          <Grid container spacing={5} style={{ padding: "12px" }}>
             {/* title */}
             <Grid item md={12}>
               <CardTitle>Add Study Plan</CardTitle>
@@ -50,58 +58,65 @@ class AddStudyPlans extends Component {
 
             {/* dropdown and button */}
 
-            <Grid container style={{ padding: "12px" }}>
-              <Grid item xs={3} sm={3} md={3} xl={3} lg={3}>
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={this.props.coursesResponse.data || []}
-                  value={this.state.courseValue}
-                  onChange={this.handleCourseChange}
-                  getOptionLabel={(option) => option.title}
-                  style={{ width: 300 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Courses" variant="outlined" />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={1} sm={1} md={1} xl={1} lg={1}></Grid>
-              <Grid item xs={3} sm={3} md={3} xl={3} lg={3}>
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={this.props.monthResponse ? this.props.monthResponse.data :  [] }
-                  getOptionLabel={(option) => `${option.month} month` }
-                  style={{ width: 300 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Plan Duration"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </Grid>
+            {/* <Grid container style={{ padding: "12px" }}> */}
+            <Grid item md={5}>
+              <Autocomplete
+                id="combo-box-demo"
+                options={this.props.coursesResponse.data || []}
+                value={this.state.courseValue}
+                onChange={this.handleCourseChange}
+                getOptionLabel={(option) => option.title}
+                // style={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Courses" variant="outlined" />
+                )}
+              />
             </Grid>
+
+            <Grid item md={5}>
+              <Autocomplete
+                id="combo-box-demo"
+                options={
+                  this.props.monthResponse ? this.props.monthResponse.data : []
+                }
+                getOptionLabel={(option) => `${option.month} month`}
+                // style={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Plan Duration"
+                    variant="outlined"
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item md={2}></Grid>
+            {/* </Grid> */}
             {/* cancel and upload button */}
 
-            <Grid item md={4} container style={{ padding: "10px" }}>
-              <Grid item md={6} xs={12}>
-                <OutlineButton>Cancel</OutlineButton>
-              </Grid>
-
-              <Grid item md={6} xs={12}>
-                <input
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  id="contained-button-file"
-                  type="file"
-                />
-                <label htmlFor="contained-button-file">
-                  <FillButton variant="contained" component="span">
-                    Upload
-                  </FillButton>
-                </label>
-              </Grid>
+            {/* <Grid item md={4} container style={{ padding: "10px" }}> */}
+            <Grid item md={3}>
+              <OutlineButton>Cancel</OutlineButton>
             </Grid>
+
+            <Grid item md={3}>
+              <input
+                accept="image/*"
+                style={{ display: "none" }}
+                id="contained-button-file"
+                type="file"
+              />
+              <label htmlFor="contained-button-file">
+                <FillButton
+                  // onClick={() => this.handleClick(this.masterId)}
+                  variant="contained"
+                  component="span"
+                >
+                  Upload
+                </FillButton>
+              </label>
+            </Grid>
+            {/* </Grid> */}
           </Grid>
         </Card>
       </div>
