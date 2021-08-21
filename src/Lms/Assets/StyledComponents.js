@@ -167,3 +167,37 @@ export const FlexBox = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const DeleteCard = styled.div`
+ 
+background: #FFFFFF;
+box-shadow: 0px 4px 11px 1px rgba(55, 143, 233, 0.25);
+border-radius: 12px;
+`;
+
+export const DeleteTitle = styled.div`
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 30px;
+text-align: center;
+color: #052A4E;
+`;
+
+export const Close = styled.div`
+position: absolute;
+/* left: 300px; */
+top: 15px;
+right:15px
+`;
+
+export const DialogBox = styled.div`
+position: absolute;
+width: 560px;
+height: 403px;
+left: 443px;
+top: 271px;
+background: #FFFFFF;
+`;
+
+

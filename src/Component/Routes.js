@@ -75,6 +75,7 @@ import {
   lms_course_landing,
   lms_add_topic,
   lms_study_plans,
+  lms_add_study_plan,
   lmsTest,
   lms_course_taken,
 } from './RoutePaths';
@@ -127,6 +128,7 @@ import LandingAdmin from './LandingAdmin';
 import CourseLanding from '../Lms/Component/CourseLanding/CourseLanding';
 import AddNewTopic from '../Lms/Component/CourseMaterials/addNewTopic/Index';
 import StudyPlans from '../Lms/StudyPlans/Index';
+import AddStudyPlans from '../Lms/StudyPlans/AddStudyPlans';
 import TestLanding from '../Lms/Component/Test/Index';
 import CourseTaken from '../Lms/Component/CourseMaterials/addNewTopic/Index';
 // import PersonaInfo from './Utils/DoccumentCard'
@@ -362,6 +364,13 @@ export default function Routes(props) {
         // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
         path={careerTrackVideoPath.concat(':id')}
         render={props => <CareerTrackVideo {...props} />}
+      />
+
+<Route
+        exact
+        // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
+        path={lms_add_study_plan}
+        render={props => <AddStudyPlans {...props} />}
       />
 
       {/* LMS */}
