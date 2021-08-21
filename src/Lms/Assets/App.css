@@ -66,16 +66,23 @@
 .list_button:hover {
   background-color: #ffffff;
 }
-::-webkit-scrollbar{
+
+.table_left_align {
+  text-align: left !important;
+}
+
+.table_center_align {
+  text-align: center !important;
+}
+::-webkit-scrollbar {
   display: none;
 }
 
 .delete_modal {
   width: 259px;
-height: 68px;
+  height: 68px;
 
-
-background: #FFFFFF;
-box-shadow: 0px 4px 11px 1px rgba(55, 143, 233, 0.25);
-border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0px 4px 11px 1px rgba(55, 143, 233, 0.25);
+  border-radius: 12px;
 }

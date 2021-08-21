@@ -84,9 +84,23 @@ export const IconBox = styled.div`
 export const HeadInline = styled.div`
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
   color: #052a4e;
+  white-space: nowrap;
 `;
+
+export const BoldCell = withStyles({
+  root: {
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: '16px',
+    lineHeight: '20px',
+    color: '#052A4E',
+    textAlign: 'center',
+    borderBottom: 'none',
+  },
+})(TableCell);
