@@ -38,6 +38,9 @@ const useStyles = makeStyles(theme => ({
         },
       },
     },
+    '& .MuiPagination-ul': {
+      flexWrap: 'nowrap',
+    },
     '& .Mui-selected': {
       backgroundColor: 'white',
       color: '#1093ff',
@@ -54,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 
 function PaginationComponent(props) {
   const classes = useStyles();
-  console.log(classes);
+  // console.log(classes);
   const { pageCount, onPageChange } = props;
   if (pageCount <= 1) return null;
   else {

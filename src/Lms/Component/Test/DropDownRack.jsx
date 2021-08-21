@@ -8,9 +8,9 @@ export default function DropDownRack(props) {
   const {
     handleDropDownChange,
     filterData,
-    testType,
-    topicName,
-    status: statusValue,
+    testTypeValue,
+    topicNameValue,
+    statusValue,
   } = props;
 
   let [state, setState] = useState({ testTypes: [], topics: [], status: [] });
@@ -28,25 +28,25 @@ export default function DropDownRack(props) {
       <Grid item xs={12} md={4}>
         <DropDown
           label='Test Type'
-          name='testType'
+          name='testTypeValue'
           items={state.testTypes}
-          value={testType}
+          value={testTypeValue}
           onChange={handleDropDownChange}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <DropDown
           label='Topic Name'
-          name='topicName'
+          name='topicNameValue'
           items={state.topics}
-          value={topicName}
+          value={topicNameValue}
           onChange={handleDropDownChange}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <DropDown
           label='Status'
-          name='status'
+          name='statusValue'
           items={state.status}
           value={statusValue}
           onChange={handleDropDownChange}
