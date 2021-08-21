@@ -3,9 +3,10 @@ import React, { Component } from "react";
 import {
   CourseContainer,
   CourseTabs,
+  CourseTabsDuplicateCard,
   TaskTabs,
 } from "../../../Assets/css/StyledCourseTakenComponent/StyledCourseTaken";
-import { DataTable } from "../../../Utils/DataTable";
+import { DataTable } from "./TasksAndTopic/TodaysTask";
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
 import { StyledVerticalTaps } from "../../../Utils/VerticalTab";
@@ -24,19 +25,18 @@ const verticalTabsLabels = [
   { tabLabel: "Pending Task" },
   { tabLabel: "Completed Task" },
   { tabLabel: "Other Tasks" },
-  { tabLabel: "Last Topic" },
 ];
 
 const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  { id: 1, taskName: "Snow", topicName: "Jon", status: 35 },
+  { id: 2, taskName: "Lannister", topicName: "Cersei", status: 42 },
+  { id: 3, taskName: "Lannister", topicName: "Jaime", status: 45 },
+  { id: 4, taskName: "Stark", topicName: "Arya", status: 16 },
+  { id: 5, taskName: "Targaryen", topicName: "Daenerys", status: null },
+  { id: 6, taskName: "Melisandre", topicName: null, status: 150 },
+  { id: 7, taskName: "Clifford", topicName: "Ferrara", status: 44 },
+  { id: 8, taskName: "Frances", topicName: "Rossini", status: 36 },
+  { id: 9, taskName: "Roxie", topicName: "Harvey", status: 65 },
 ];
 
 class Index extends Component {
@@ -87,6 +87,7 @@ class Index extends Component {
               styleName: "courseTaken",
             }}
           />
+          <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
         </CourseTabs>
         <Grid container>
           <Grid item md={3}>

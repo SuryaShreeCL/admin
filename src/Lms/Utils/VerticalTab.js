@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   wrapper: {
-    alignItem: "flex-start",
+    alignItems: "flex-start",
   },
 });
 
@@ -20,20 +20,18 @@ export const StyledVerticalTaps = (props) => {
   } = props.tabsData;
   return (
     <Tabs
-      classes={{
-        wrapper: classes.wrapper,
-      }}
       orientation={"vertical"}
       value={tabId}
       onChange={handleTabChange}
       style={{
         padding: "10px 0px",
-        display: "grid",
+        paddingBottom: 4,
+        backgroundColor: "#FFFFFF",
       }}
       TabIndicatorProps={{
         style: {
           background: (tabsBackColor !== undefined && tabsBackColor) || "auto",
-          widt: 4,
+          width: 4,
         },
       }}
       variant="scrollable"
@@ -42,7 +40,9 @@ export const StyledVerticalTaps = (props) => {
       {tabData.map((item, tabIndex) => {
         return (
           <Tab
-            classes={{ labelContainer: { textAlign: "right" } }}
+            classes={{
+              wrapper: classes.wrapper,
+            }}
             className={
               (activeClass !== undefined &&
                 tabId === tabIndex &&
@@ -69,4 +69,6 @@ const courseStyle = {
   fontSize: "18px",
   color: "#052A4E",
   margin: "2px 0px",
+  paddingLeft: "20px",
+  background: "#fafafa",
 };
