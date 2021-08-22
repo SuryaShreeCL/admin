@@ -25,7 +25,7 @@ export const CourseTabsDuplicateCard = styled.div`
 `;
 
 export const TaskTabs = styled.div`
-  min-height: 100vh;
+  height: 100%;
   background: #fafafa;
   width: 210px;
 `;
