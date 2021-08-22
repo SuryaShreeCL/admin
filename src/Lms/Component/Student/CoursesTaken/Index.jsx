@@ -1,15 +1,13 @@
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import {
   CourseContainer,
   CourseTabs,
   CourseTabsDuplicateCard,
-  TaskTabs,
 } from "../../../Assets/css/StyledCourseTakenComponent/StyledCourseTaken";
-import { DataTable } from "./TasksAndTopic/TodaysTask";
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
-import { StyledVerticalTaps } from "../../../Utils/VerticalTab";
+import TasksAndTopic from "./TasksAndTopic/Index";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
@@ -20,37 +18,17 @@ const tabsLabels = [
   { tabLabel: "Logs" },
 ];
 
-const verticalTabsLabels = [
-  { tabLabel: "Today's Task" },
-  { tabLabel: "Pending Task" },
-  { tabLabel: "Completed Task" },
-  { tabLabel: "Other Tasks" },
-];
-
-const rows = [
-  { id: 1, taskName: "Snow", topicName: "Jon", status: 35 },
-  { id: 2, taskName: "Lannister", topicName: "Cersei", status: 42 },
-  { id: 3, taskName: "Lannister", topicName: "Jaime", status: 45 },
-  { id: 4, taskName: "Stark", topicName: "Arya", status: 16 },
-  { id: 5, taskName: "Targaryen", topicName: "Daenerys", status: null },
-  { id: 6, taskName: "Melisandre", topicName: null, status: 150 },
-  { id: 7, taskName: "Clifford", topicName: "Ferrara", status: 44 },
-  { id: 8, taskName: "Frances", topicName: "Rossini", status: 36 },
-  { id: 9, taskName: "Roxie", topicName: "Harvey", status: 65 },
-];
-
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
       courseId: "1",
-      tabId: 1,
-      verticalTabId: 1,
+      tabId: 0,
     };
   }
 
   render() {
-    const { courseId, tabId, verticalTabId } = this.state;
+    const { courseId, tabId } = this.state;
     return (
       <CourseContainer>
         <Grid
@@ -89,27 +67,14 @@ class Index extends Component {
           />
           <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
         </CourseTabs>
-        <Grid container>
-          <Grid item md={3}>
-            <TaskTabs>
-              <StyledVerticalTaps
-                tabsData={{
-                  tabId: verticalTabId,
-                  handleTabChange: (e, newValue) => {
-                    this.setState({ verticalTabId: newValue });
-                  },
-                  tabsBackColor: "#1093FF",
-                  tabData: verticalTabsLabels,
-                  activeClass: "active__task__tab",
-                  styleName: "courseTaken",
-                }}
-              />
-            </TaskTabs>
-          </Grid>
-          <Grid item md={9}>
-            <DataTable dataTable={{ rows: rows }} />
-          </Grid>
-        </Grid>
+        <div hidden={tabId !== 0}>
+          <TasksAndTopic />
+        </div>
+        <div hidden={tabId !== 1}></div>
+        <div hidden={tabId !== 2}></div>
+        <div hidden={tabId !== 3}></div>
+        <div hidden={tabId !== 4}></div>
+        <div hidden={tabId !== 5}></div>
       </CourseContainer>
     );
   }

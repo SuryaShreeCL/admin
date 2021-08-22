@@ -7,9 +7,16 @@ import UnsortedIcon from "../Assets/icons/unsorted.svg";
 const useStyles = makeStyles({
   root: {
     border: "none",
+    "& .MuiDataGrid-columnHeaderTitleContainer": {
+      padding: "0 !important",
+      fontWeight: 600,
+      fontSize: "18px",
+      color: "#052A4E",
+    },
   },
   cell: {
     border: "none !important",
+    color: "#052A4E",
     columnSeparator: {
       display: "none",
     },
@@ -34,47 +41,21 @@ const Unsorted = () => {
 };
 
 export const DataTable = (props) => {
-  const { rows } = props.dataTable;
+  const { rows, columns } = props.dataTable;
   const classes = useStyles();
 
-  const columns = [
-    {
-      field: "id",
-      headerName: "#",
-      width: 50,
+  const columnsMap = columns.map((column) =>
+    Object.assign({}, column, {
       headerClassName: classes.hideRightSeparator,
-      sortable: false,
-      headerAlign: "center",
-    },
-    {
-      field: "taskName",
-      headerName: "Task name",
-      sortable: false,
-      flex: 1,
-      headerClassName: classes.hideRightSeparator,
-    },
-    {
-      field: "topicName",
-      headerName: "Topic Name",
-      flex: 1,
-      headerClassName: classes.hideRightSeparator,
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      type: "number",
-      flex: 1,
-      sortable: false,
-      headerClassName: classes.hideRightSeparator,
-    },
-  ];
+    })
+  );
 
   return (
-    <div style={{ height: 700, width: "100%", padding: 10, paddingLeft: 0 }}>
+    <div style={{ height: 700, width: "100%", padding: 10, paddingLeft: 15 }}>
       <DataGrid
         sortingOrder={["desc", "asc", null]}
         rows={rows}
-        columns={columns}
+        columns={columnsMap}
         hideFooter={true}
         disableColumnMenu={true}
         components={{
