@@ -6,7 +6,19 @@ class PendingTask extends Component {
     super(props);
   }
   render() {
-    const { rows } = this.props;
+    const { pendingTasks } = this.props;
+    const rows = (pendingTasks &&
+      pendingTasks.length !== 0 &&
+      pendingTasks.map((item, index) => ({
+        id: index + 1,
+        taskName: item.task,
+        topicName: item.topic,
+        schudledDate: item.schudledDate,
+        status: item.progress,
+      }))) || [
+      { id: "", taskName: "", topicName: "", schudledDate: null, status: null },
+    ];
+
     const columns = [
       {
         field: "id",

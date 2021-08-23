@@ -1,5 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   CourseContainer,
   CourseTabs,
@@ -8,6 +9,7 @@ import {
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
 import TasksAndTopic from "./TasksAndTopic/Index";
+import { getTaskTopic, getProducts } from "../../../Redux/Action/Student";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
@@ -22,13 +24,26 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      courseId: "1",
+      productId: "",
+      studentId: "",
       tabId: 0,
     };
   }
 
+  componentDidMount() {
+    var studentId = "8915d475-9618-43c0-b88f-0dda2c7e92a4";
+    this.setState({ studentId: studentId });
+    this.props.getProducts(studentId, (productResponse) => {
+      if (productResponse.success) {
+        this.setState({ productId: this.props.products.data[0].id });
+      }
+    });
+  }
+
   render() {
-    const { courseId, tabId } = this.state;
+    const { productId, studentId, tabId } = this.state;
+    const { products } = this.props;
+
     return (
       <CourseContainer>
         <Grid
@@ -41,14 +56,17 @@ class Index extends Component {
           <RadioButtonsGroup
             radioData={{
               name: "Course",
-              activeValue: courseId,
+              activeValue: productId,
               handleRadioChange: (e) => {
-                this.setState({ courseId: e.target.value });
+                this.setState({ productId: e.target.value });
               },
-              radioItemData: [
-                { id: "1", label: "One" },
-                { id: "2", label: "Two" },
-              ],
+              radioItemData:
+                (products.length !== 0 &&
+                  products.data.map((item) => ({
+                    id: item.id,
+                    label: item.productName,
+                  }))) ||
+                [],
             }}
           />
         </Grid>
@@ -68,7 +86,7 @@ class Index extends Component {
           <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
         </CourseTabs>
         <div hidden={tabId !== 0}>
-          <TasksAndTopic />
+          <TasksAndTopic productId={productId} studentId={studentId} />
         </div>
         <div hidden={tabId !== 1}></div>
         <div hidden={tabId !== 2}></div>
@@ -79,5 +97,12 @@ class Index extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    ...state.LmsStudentReducer,
+  };
+};
 
-export default Index;
+export default connect(mapStateToProps, {
+  getProducts,
+})(Index);

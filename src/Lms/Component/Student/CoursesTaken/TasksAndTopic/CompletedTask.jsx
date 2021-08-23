@@ -6,7 +6,19 @@ class CompletedTask extends Component {
     super(props);
   }
   render() {
-    const { rows } = this.props;
+    const { completedTasks } = this.props;
+    const rows = (completedTasks &&
+      completedTasks.length !== 0 &&
+      completedTasks.map((item, index) => ({
+        id: index + 1,
+        taskName: item.task,
+        topicName: item.topic,
+        completedDate: item.date,
+        time: item.time,
+      }))) || [
+      { id: "", taskName: "", topicName: "", completedDate: null, time: null },
+    ];
+
     const columns = [
       {
         field: "id",
@@ -36,9 +48,9 @@ class CompletedTask extends Component {
         align: "center",
       },
       {
-        field: "status",
-        headerName: "Status",
-        type: "number",
+        field: "time",
+        headerName: "Time",
+        type: "time",
         flex: 1,
         sortable: false,
         headerAlign: "center",
