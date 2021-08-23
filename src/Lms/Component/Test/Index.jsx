@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { Container, H1 } from "../../Assets/StyledComponents";
@@ -6,16 +5,6 @@ import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
 import { connect } from "react-redux";
-import { getFilters, getQuestionSet } from "../../Redux/Action/Test";
-import PaginationComponent from "../../Utils/PaginationComponent";
-=======
-import { Grid } from '@material-ui/core';
-import React, { Component } from 'react';
-import { Container, H1 } from '../../Assets/StyledComponents';
-import PlusButton from '../../Utils/PlusButton';
-import DropDownRack from './DropDownRack';
-import TableComp from './TableComp';
-import { connect } from 'react-redux';
 import {
   getFilters,
   getQuestionSet,
@@ -23,14 +12,13 @@ import {
   reviewTest,
   approveTest,
   publishTest,
-} from '../../Redux/Action/Test';
-import PaginationComponent from '../../Utils/PaginationComponent';
-import DialogComponent from '../../Utils/DialogComponent';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import ShareIcon from '@material-ui/icons/Share';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import PublishIcon from '../../Assets/icons/Publish.svg';
->>>>>>> 5628dcaa3acced81980ca3cf778bfdfb2e4afe05
+} from "../../Redux/Action/Test";
+import PaginationComponent from "../../Utils/PaginationComponent";
+import DialogComponent from "../../Utils/DialogComponent";
+import ArchiveIcon from "@material-ui/icons/Archive";
+import ShareIcon from "@material-ui/icons/Share";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import PublishIcon from "../../Assets/icons/Publish.svg";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -40,18 +28,12 @@ class TestLanding extends Component {
     super(props);
 
     this.state = {
-<<<<<<< HEAD
-      testTypeValue: "default",
-      topicNameValue: "default",
-      statusValue: "default",
-=======
-      testType: 'default',
-      topicId: 'default',
-      status: 'default',
->>>>>>> 5628dcaa3acced81980ca3cf778bfdfb2e4afe05
+      testType: "default",
+      topicId: "default",
+      status: "default",
       order: [],
       field: [],
-      role: '',
+      role: "",
       anchorEl: null,
       popUpId: null,
       dialogStatus: false,
@@ -60,38 +42,14 @@ class TestLanding extends Component {
   }
 
   componentDidMount() {
-    const role = sessionStorage.getItem('role');
+    const role = sessionStorage.getItem("role");
     this.props.getFilters();
     let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
     this.props.getQuestionSet(paramObj);
     this.setState({ role: role });
   }
 
-<<<<<<< HEAD
   handleDropDownChange = (event) => {
-    // console.log(event.target.value);
-    this.setState({ [event.target.name]: event.target.value });
-    let paramObj = {
-      page: INITIAL_PAGE_NO,
-      size: NO_OF_RESPONSE,
-      testType:
-        event.target.name === "testTypeValue" &&
-        event.target.value !== "default"
-          ? event.target.value
-          : null,
-      topicId:
-        event.target.name === "topicNameValue" &&
-        event.target.value !== "default"
-          ? event.target.value
-          : null,
-      status:
-        event.target.name === "statusValue" && event.target.value !== "default"
-          ? event.target.value
-          : null,
-    };
-    this.props.getQuestionSet(paramObj);
-=======
-  handleDropDownChange = event => {
     console.log(event.target.value);
     this.setState({
       [event.target.name]: event.target.value,
@@ -108,7 +66,6 @@ class TestLanding extends Component {
       //     ? event.target.value
       //     : this.state.status,
     });
->>>>>>> 5628dcaa3acced81980ca3cf778bfdfb2e4afe05
   };
 
   handlePageChange = (event, value) => {
@@ -197,9 +154,9 @@ class TestLanding extends Component {
         page: INITIAL_PAGE_NO,
         size: NO_OF_RESPONSE,
         testType:
-          this.state.testType !== 'default' ? this.state.testType : null,
-        topicId: this.state.topicId !== 'default' ? this.state.topicId : null,
-        status: this.state.status !== 'default' ? this.state.status : null,
+          this.state.testType !== "default" ? this.state.testType : null,
+        topicId: this.state.topicId !== "default" ? this.state.topicId : null,
+        status: this.state.status !== "default" ? this.state.status : null,
       };
       this.props.getQuestionSet(paramObj);
     }
@@ -218,45 +175,45 @@ class TestLanding extends Component {
   };
 
   handleOptions = (text, topicName) => {
-    if (text === 'Archive') {
+    if (text === "Archive") {
       const dialogContent = {
-        type: 'archive',
-        icon: <ArchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
-        title: 'Are you sure you want to Archive?',
+        type: "archive",
+        icon: <ArchiveIcon style={{ fontSize: "48px", fill: "#1093FF" }} />,
+        title: "Are you sure you want to Archive?",
         body: topicName,
-        button1: 'No',
-        button2: 'Yes',
+        button1: "No",
+        button2: "Yes",
       };
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
-    } else if (text === 'Send Review') {
+    } else if (text === "Send Review") {
       const dialogContent = {
-        type: 'review',
-        icon: <ShareIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
-        title: 'Are you sure you want to Send Review?',
+        type: "review",
+        icon: <ShareIcon style={{ fontSize: "48px", fill: "#1093FF" }} />,
+        title: "Are you sure you want to Send Review?",
         body: topicName,
-        button1: 'Cancel',
-        button2: 'Send',
+        button1: "Cancel",
+        button2: "Send",
       };
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
-    } else if (text === 'Approve') {
+    } else if (text === "Approve") {
       const dialogContent = {
-        type: 'approve',
-        icon: <ThumbUpIcon style={{ fontSize: '48px', fill: '#1093ff' }} />,
-        title: 'Are you sure you want to Approve?',
+        type: "approve",
+        icon: <ThumbUpIcon style={{ fontSize: "48px", fill: "#1093ff" }} />,
+        title: "Are you sure you want to Approve?",
         body: topicName,
-        button1: 'Cancel',
-        button2: 'Approve',
+        button1: "Cancel",
+        button2: "Approve",
       };
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
-    } else if (text === 'Publish Now') {
-      console.log('hi');
+    } else if (text === "Publish Now") {
+      console.log("hi");
       const dialogContent = {
-        type: 'publish',
-        icon: <img src={PublishIcon} width='64px' height='64px' />,
-        title: 'Are you sure you want to Publish? ',
+        type: "publish",
+        icon: <img src={PublishIcon} width="64px" height="64px" />,
+        title: "Are you sure you want to Publish? ",
         body: topicName,
-        button1: 'Cancel',
-        button2: 'Publish now',
+        button1: "Cancel",
+        button2: "Publish now",
       };
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
     }
@@ -279,66 +236,66 @@ class TestLanding extends Component {
   };
 
   handlePrimaryButtonClick = () => {
-    if (this.state.dialogContent.type === 'archive') {
-      this.props.deleteTest(this.state.popUpId, response => {
+    if (this.state.dialogContent.type === "archive") {
+      this.props.deleteTest(this.state.popUpId, (response) => {
         if (response.success) {
           console.log(response);
           let paramObj = {
             page: INITIAL_PAGE_NO,
             size: NO_OF_RESPONSE,
             testType:
-              this.state.testType !== 'default' ? this.state.testType : null,
+              this.state.testType !== "default" ? this.state.testType : null,
             topicId:
-              this.state.topicId !== 'default' ? this.state.topicId : null,
-            status: this.state.status !== 'default' ? this.state.status : null,
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
       });
-    } else if (this.state.dialogContent.type === 'review') {
-      this.props.reviewTest(this.state.popUpId, response => {
+    } else if (this.state.dialogContent.type === "review") {
+      this.props.reviewTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
             page: INITIAL_PAGE_NO,
             size: NO_OF_RESPONSE,
             testType:
-              this.state.testType !== 'default' ? this.state.testType : null,
+              this.state.testType !== "default" ? this.state.testType : null,
             topicId:
-              this.state.topicId !== 'default' ? this.state.topicId : null,
-            status: this.state.status !== 'default' ? this.state.status : null,
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
       });
-    } else if (this.state.dialogContent.type === 'approve') {
-      this.props.approveTest(this.state.popUpId, response => {
+    } else if (this.state.dialogContent.type === "approve") {
+      this.props.approveTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
             page: INITIAL_PAGE_NO,
             size: NO_OF_RESPONSE,
             testType:
-              this.state.testType !== 'default' ? this.state.testType : null,
+              this.state.testType !== "default" ? this.state.testType : null,
             topicId:
-              this.state.topicId !== 'default' ? this.state.topicId : null,
-            status: this.state.status !== 'default' ? this.state.status : null,
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
       });
-    } else if (this.state.dialogContent.type === 'publish') {
-      this.props.publishTest(this.state.popUpId, response => {
+    } else if (this.state.dialogContent.type === "publish") {
+      this.props.publishTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
             page: INITIAL_PAGE_NO,
             size: NO_OF_RESPONSE,
             testType:
-              this.state.testType !== 'default' ? this.state.testType : null,
+              this.state.testType !== "default" ? this.state.testType : null,
             topicId:
-              this.state.topicId !== 'default' ? this.state.topicId : null,
-            status: this.state.status !== 'default' ? this.state.status : null,
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
