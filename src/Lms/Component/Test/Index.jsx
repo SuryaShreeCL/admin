@@ -1,12 +1,12 @@
-import { Grid } from '@material-ui/core';
-import React, { Component } from 'react';
-import { Container, H1 } from '../../Assets/StyledComponents';
-import PlusButton from '../../Utils/PlusButton';
-import DropDownRack from './DropDownRack';
-import TableComp from './TableComp';
-import { connect } from 'react-redux';
-import { getFilters, getQuestionSet } from '../../Redux/Action/Test';
-import PaginationComponent from '../../Utils/PaginationComponent';
+import { Grid } from "@material-ui/core";
+import React, { Component } from "react";
+import { Container, H1 } from "../../Assets/StyledComponents";
+import PlusButton from "../../Utils/PlusButton";
+import DropDownRack from "./DropDownRack";
+import TableComp from "./TableComp";
+import { connect } from "react-redux";
+import { getFilters, getQuestionSet } from "../../Redux/Action/Test";
+import PaginationComponent from "../../Utils/PaginationComponent";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -16,9 +16,9 @@ class TestLanding extends Component {
     super(props);
 
     this.state = {
-      testTypeValue: 'default',
-      topicNameValue: 'default',
-      statusValue: 'default',
+      testTypeValue: "default",
+      topicNameValue: "default",
+      statusValue: "default",
       order: [],
       field: [],
     };
@@ -30,24 +30,24 @@ class TestLanding extends Component {
     this.props.getQuestionSet(paramObj);
   }
 
-  handleDropDownChange = event => {
+  handleDropDownChange = (event) => {
     // console.log(event.target.value);
     this.setState({ [event.target.name]: event.target.value });
     let paramObj = {
       page: INITIAL_PAGE_NO,
       size: NO_OF_RESPONSE,
       testType:
-        event.target.name === 'testTypeValue' &&
-        event.target.value !== 'default'
+        event.target.name === "testTypeValue" &&
+        event.target.value !== "default"
           ? event.target.value
           : null,
       topicId:
-        event.target.name === 'topicNameValue' &&
-        event.target.value !== 'default'
+        event.target.name === "topicNameValue" &&
+        event.target.value !== "default"
           ? event.target.value
           : null,
       status:
-        event.target.name === 'statusValue' && event.target.value !== 'default'
+        event.target.name === "statusValue" && event.target.value !== "default"
           ? event.target.value
           : null,
     };
@@ -61,7 +61,7 @@ class TestLanding extends Component {
   };
 
   handleSortNew = (index, order) => {
-    const fields = { 1: 'type', 4: 'courseName', 6: 'wkStatusValue' };
+    const fields = { 1: "type", 4: "courseName", 6: "wkStatusValue" };
     // console.log(fields[index]);
     this.setState({
       field: this.state.field.concat(fields[index]),
@@ -76,7 +76,7 @@ class TestLanding extends Component {
     // this.props.getQuestionSet(paramObj);
   };
 
-  handleSortBlue = fieldIndex => {
+  handleSortBlue = (fieldIndex) => {
     this.setState({
       field: this.state.field.filter((item, index) => {
         if (index !== fieldIndex) return item;
@@ -94,15 +94,15 @@ class TestLanding extends Component {
     // this.props.getQuestionSet(paramObj);
   };
 
-  handleSortBlur = fieldIndex => {
-    if (this.state.order[fieldIndex] === 'ASC') {
+  handleSortBlur = (fieldIndex) => {
+    if (this.state.order[fieldIndex] === "ASC") {
       let newOrder = this.state.order;
-      newOrder.splice(fieldIndex, 1, 'DESC');
+      newOrder.splice(fieldIndex, 1, "DESC");
       console.log(newOrder);
       this.setState({ order: newOrder });
     } else {
       let newOrder = this.state.order;
-      newOrder.splice(fieldIndex, 1, 'ASC');
+      newOrder.splice(fieldIndex, 1, "ASC");
       console.log(newOrder);
       this.setState({ order: newOrder });
     }
@@ -150,9 +150,9 @@ class TestLanding extends Component {
         <Grid
           item
           container
-          alignItems='center'
-          justifyContent='space-between'
-          style={{ marginBottom: '35px' }}
+          alignItems="center"
+          justifyContent="space-between"
+          style={{ marginBottom: "35px" }}
         >
           <H1>Test</H1>
           <PlusButton>Add</PlusButton>
@@ -187,7 +187,7 @@ class TestLanding extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     filterData: state.TestReducer.filterData,
     testData: state.TestReducer.testData,

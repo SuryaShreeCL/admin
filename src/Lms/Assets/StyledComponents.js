@@ -243,3 +243,11 @@ export const Save = styled(MuiButton)`
     opacity: 0.6;
   }
 `;
+
+export const Divider = styled.div`
+  width: 100%;
+  height: 0px;
+  opacity: 0.3;
+  border: 1px solid #1093ff;
+  margin: 24px 0px 30px 0px;
+`;

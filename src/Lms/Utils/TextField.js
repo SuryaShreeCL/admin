@@ -1,13 +1,6 @@
 import React from "react";
 
-import {
-  TextField,
-  InputLabel,
-  Select,
-  ThemeProvider,
-  MenuItem,
-  withStyles,
-} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 
 export const InputTextField = (props) => {
   return (
