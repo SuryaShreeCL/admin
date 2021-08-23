@@ -1,5 +1,6 @@
-import styled from 'styled-components';
-import { createTheme, Button } from '@material-ui/core';
+import styled from "styled-components";
+import { createTheme, Button } from "@material-ui/core";
+import { Box as MuiBox, Button as MuiButton } from "@material-ui/core";
 
 export const Container = styled.div`
   display: flex;
@@ -24,10 +25,10 @@ export const H1 = styled.div`
 export const ColorScheme = createTheme({
   palette: {
     primary: {
-      main: '#1093FF',
+      main: "#1093FF",
     },
     secondary: {
-      main: '#052A4E',
+      main: "#052A4E",
     },
   },
 });
@@ -36,19 +37,19 @@ export const textFieldTheme = createTheme({
   overrides: {
     MuiInputBase: {
       root: {
-        height: '40px',
+        height: "40px",
       },
       input: {
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: '16px',
-        lineHeight: '20px',
-        color: '#686868',
-        height: '40px',
-        background: '#FFFFFF',
-        border: '1px solid #CCCCCC',
-        boxSizing: 'border-box',
-        borderRadius: '4px',
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "16px",
+        lineHeight: "20px",
+        color: "#686868",
+        height: "40px",
+        background: "#FFFFFF",
+        border: "1px solid #CCCCCC",
+        boxSizing: "border-box",
+        borderRadius: "4px",
       },
     },
   },
@@ -101,6 +102,7 @@ export const Card = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
+  padding: ${(props) => props.padding || 0};
 `;
 
 // view StudyPlans
@@ -169,35 +171,75 @@ export const FlexBox = styled.div`
 `;
 
 export const DeleteCard = styled.div`
- 
-background: #FFFFFF;
-box-shadow: 0px 4px 11px 1px rgba(55, 143, 233, 0.25);
-border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0px 4px 11px 1px rgba(55, 143, 233, 0.25);
+  border-radius: 12px;
 `;
 
 export const DeleteTitle = styled.div`
-font-style: normal;
-font-weight: 600;
-font-size: 18px;
-line-height: 30px;
-text-align: center;
-color: #052A4E;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 30px;
+  text-align: center;
+  color: #052a4e;
 `;
 
 export const Close = styled.div`
-position: absolute;
-/* left: 300px; */
-top: 15px;
-right:15px
+  position: absolute;
+  /* left: 300px; */
+  top: 15px;
+  right: 15px;
 `;
 
 export const DialogBox = styled.div`
-position: absolute;
-width: 560px;
-height: 403px;
-left: 443px;
-top: 271px;
-background: #FFFFFF;
+  position: absolute;
+  width: 560px;
+  height: 403px;
+  left: 443px;
+  top: 271px;
+  background: #ffffff;
 `;
 
+export const Box = styled(MuiBox)`
+  color: #052a4e;
+`;
 
+export const TestTitle = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #052a4e;
+  flex: ${(props) => props.flex || 0};
+`;
+
+export const Cancel = styled(MuiButton)`
+  background: #ffffff;
+  border: 1px solid #1093ff;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #1093ff;
+  width: 140px;
+  height: 40px;
+`;
+
+export const Save = styled(MuiButton)`
+  background: #1093ff;
+  border: 1px solid #1093ff;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #fff;
+  width: 140px;
+  height: 40px;
+  &:hover {
+    background-color: #1093ff;
+    opacity: 0.6;
+  }
+`;

@@ -86,3 +86,17 @@
   box-shadow: 0px 4px 11px 1px rgba(55, 143, 233, 0.25);
   border-radius: 12px;
 }
+
+.down_arrow {
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.up_arrow {
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
