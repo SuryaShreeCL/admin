@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ButtonsContainer, CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
-import Switch from '@material-ui/core/Switch';
-import Select from '@material-ui/core/Select';
-import Radio from '@material-ui/core/Radio';
-import MenuItem from '@material-ui/core/MenuItem';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { DateTimePicker } from '@material-ui/pickers';
+import { DatePicker, TimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EventIcon from '@material-ui/icons/Event';
@@ -19,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -44,6 +39,9 @@ const useStyles = makeStyles({
     width: '80%',
     marginTop: '10px',
   },
+  topSpacer: {
+    marginTop: '1.2rem',
+  },
 });
 
 const CreateTest = () => {
@@ -54,30 +52,33 @@ const CreateTest = () => {
 
   const [state, setState] = useState({
     wallCategories: [],
-    caption: '',
-    isEvent: location.type ?? false,
+    duration: 0,
     supportingMedia: 'image',
     wallFiles: [],
-    canComment: false,
-    totalViews: 0,
-    totalLikes: 0,
-    eventTitle: '',
-    redirectionUrl: '',
-    buttonText: '',
+    noOfQuestions: 0,
+    testName: '',
     createdBy: window.sessionStorage.getItem('department') || '',
     eventDate: new Date(),
     resumeNeeded: false,
     eventEndDate: new Date(),
     selectedDate: new Date(),
-    isScheduled: false,
-    isVideoUrlEnabled: false,
-    videoUrl: '',
+    description: '',
     activeStatus: 'Live',
   });
 
-  const [errorSchema, setErrorSchema] = useState({
-    isVideoLink: false,
-  });
+  const durations = [
+    { id: '1', title: 5 },
+    { id: '2', title: 10 },
+    { id: '3', title: 15 },
+    { id: '4', title: 20 },
+  ];
+
+  const noOfQuestionsList = [
+    { id: '1', title: 10 },
+    { id: '2', title: 15 },
+    { id: '3', title: 20 },
+    { id: '4', title: 25 },
+  ];
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
@@ -101,37 +102,8 @@ const CreateTest = () => {
       });
       return false;
     }
-    if (
-      !values.isVideoUrlEnabled &&
-      values.supportingMedia === 'video' &&
-      values.wallFiles.length === 0
-    ) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload a video',
-        type: 'error',
-      });
-      return false;
-    }
-    if (values.supportingMedia === 'audio' && values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload an audio',
-        type: 'error',
-      });
-      return false;
-    }
-
-    if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
-      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
-      return false;
-    }
 
     return true;
-  };
-
-  const handlePostType = () => {
-    setState((s) => ({ ...s, isEvent: !state.isEvent }));
   };
 
   const validationSchema = yup.object({
@@ -195,9 +167,9 @@ const CreateTest = () => {
                     <Grid item style={{ width: '48%' }}>
                       <Controls.Input
                         label='Test Name'
-                        name='eventTitle'
+                        name='testName'
                         style={{ width: '100%' }}
-                        value={values.eventTitle}
+                        value={values.testName}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -231,45 +203,57 @@ const CreateTest = () => {
                   </Grid>
                   <Grid item>
                     <Controls.Input
-                      label='Paste Video URL'
-                      name='videoUrl'
-                      style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }}
-                      value={values.videoUrl}
-                      error={errorSchema.isVideoLink}
+                      label='Description'
+                      name='description'
+                      style={{ width: '100%', marginTop: '1.2rem', marginBottom: '10px' }}
+                      value={values.description}
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid container direction='row' justify='space-between' style={{ width: '100%' }}>
-                    <Grid item style={{ width: '48%' }}>
+                  <Grid
+                    container
+                    direction='row'
+                    justify='space-between'
+                    style={{ width: '100%', marginTop: '1.2rem' }}
+                  >
+                    <Grid item style={{ width: '30%' }}>
                       <Controls.Select
-                        label='Testimonial Origin'
-                        name='testimonialOrigin'
+                        label='Number Of Questions'
+                        name='noOfQuestions'
                         size='100%'
                         onChange={handleChange}
-                        options={[]}
+                        options={noOfQuestionsList}
                       />
                     </Grid>
-                    <Grid item style={{ width: '48%' }}>
+                    <Grid item style={{ width: '30%' }}>
                       <Controls.Select
-                        label='Testimonial Origin'
-                        name='testimonialOrigin'
+                        label='Duration'
+                        name='duration'
                         size='100%'
                         onChange={handleChange}
-                        options={[]}
+                        options={durations}
+                      />
+                    </Grid>
+                    <Grid item style={{ width: '30%' }}>
+                      <Controls.Select
+                        label=' Select Module'
+                        name='module'
+                        size='100%'
+                        onChange={handleChange}
+                        options={durations}
                       />
                     </Grid>
                   </Grid>
-
                   <Grid
                     container
                     direction='row'
                     justify='space-between'
                     style={{ width: '100%', margin: '1rem 0' }}
                   >
-                    <Grid item style={{ width: '48%' }}>
+                    <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
                       <MultipleFileUploadField name='wallFiles' fileType='image' />
                     </Grid>
-                    <Grid item style={{ width: '48%' }}>
+                    <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                       <Controls.Input
                         label='Test instructions..'
                         value={values.caption}
@@ -282,15 +266,16 @@ const CreateTest = () => {
                       />
                     </Grid>
                   </Grid>
+                  <h6>Schedule Details</h6>
                   <Grid
                     item
                     container
                     direction='row'
                     justify='space-between'
-                    style={{ width: '100%' }}
+                    style={{ width: '100%', marginTop: '1.5rem' }}
                   >
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DateTimePicker
+                      <DatePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -305,15 +290,15 @@ const CreateTest = () => {
                         onChange={(val) => {
                           setFieldValue('selectedDate', val);
                         }}
-                        label='Schedule Data & Time'
+                        label='Start Date'
                       />
                     </MuiPickersUtilsProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DateTimePicker
+                      <TimePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
-                              <EventIcon />
+                              <ScheduleIcon />
                             </InputAdornment>
                           ),
                         }}
@@ -324,11 +309,11 @@ const CreateTest = () => {
                         onChange={(val) => {
                           setFieldValue('selectedDate', val);
                         }}
-                        label='Schedule Data & Time'
+                        label='Start Time'
                       />
                     </MuiPickersUtilsProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DateTimePicker
+                      <DatePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -343,15 +328,15 @@ const CreateTest = () => {
                         onChange={(val) => {
                           setFieldValue('selectedDate', val);
                         }}
-                        label='Schedule Data & Time'
+                        label='Start Date'
                       />
                     </MuiPickersUtilsProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DateTimePicker
+                      <TimePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
-                              <EventIcon />
+                              <ScheduleIcon />
                             </InputAdornment>
                           ),
                         }}
@@ -362,7 +347,7 @@ const CreateTest = () => {
                         onChange={(val) => {
                           setFieldValue('selectedDate', val);
                         }}
-                        label='Schedule Data & Time'
+                        label='End Time'
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>

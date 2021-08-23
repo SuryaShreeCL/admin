@@ -21,6 +21,8 @@ import { editPath, createPath, testCreate } from '../../RoutePaths';
 import moment from 'moment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import DescriptionIcon from '@material-ui/icons/Description';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -188,11 +190,14 @@ export default function LiveTest() {
                   <TableCell>{item.totalLikes}</TableCell>
                   <TableCell>{item.totalViews}</TableCell>
                   <TableCell>
-                    <Controls.ActionButton onClick={() => openInPopup(item)}>
-                      <VisibilityIcon fontSize='small' color='default' />
+                    <Controls.ActionButton>
+                      <DescriptionIcon fontSize='small' style={{ color: 'green' }} />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
-                      <EditOutlinedIcon fontSize='small' color='primary' />
+                      <EditOutlinedIcon fontSize='small' color='default' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton onClick={() => openInPage(item)}>
+                      <ScheduleIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       onClick={() => {
