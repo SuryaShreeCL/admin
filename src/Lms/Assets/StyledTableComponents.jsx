@@ -52,7 +52,7 @@ export const MuiMenu = withStyles({
     background: '#ffffff',
     boxShadow: '0px 4px 11px 1px rgba(55, 143, 233, 0.25)',
     borderRadius: '12px',
-    padding: '17px 12px',
+    padding: '8px 8px',
     width: '260px',
   },
 })(Menu);

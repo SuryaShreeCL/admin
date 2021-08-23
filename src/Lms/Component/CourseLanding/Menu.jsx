@@ -7,7 +7,7 @@ import PublishIcon from '../../Assets/icons/Publish.svg';
 import ShareIcon from '@material-ui/icons/Share';
 
 export default function Menu(props) {
-  const ROLES = { maker: 'LMSEDITOR', checker: 'LMSCHECKER' };
+  const ROLES = { editor: 'LMSEDITOR', checker: 'LMSCHECKER' };
 
   const {
     open,
@@ -22,7 +22,7 @@ export default function Menu(props) {
     isMapped,
     handleEdit,
   } = props;
-  if (role === ROLES.maker) {
+  if (role === ROLES.editor) {
     return (
       <MuiMenu
         id={topicId}

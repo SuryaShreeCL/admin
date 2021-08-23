@@ -1,25 +1,23 @@
 import {
-  Box,
+  IconButton,
   Table,
+  TableBody,
   TableCell,
   TableRow,
-  TableBody,
-  IconButton,
 } from '@material-ui/core';
+import { MoreVertRounded } from '@material-ui/icons';
 import React from 'react';
-import {
-  Head,
-  HeadCell,
-  IconBox,
-  TableBox,
-  HeadInline,
-  BodyCell,
-  BoldCell,
-} from '../../Assets/StyledTableComponents';
 import Blue from '../../../Asset/icons/Down.svg';
 import Blur from '../../../Asset/icons/Up.png';
-import { MoreVertRounded } from '@material-ui/icons';
-import { indexOf } from 'lodash';
+import {
+  BodyCell,
+  BoldCell,
+  Head,
+  HeadInline,
+  IconBox,
+  TableBox,
+} from '../../Assets/StyledTableComponents';
+import Menu from './Menu';
 
 const headText = [
   'Name',
@@ -42,8 +40,15 @@ export default function TableComp(props) {
     handleSortNew,
     handleSortBlue,
     handleSortBlur,
+    role,
+    handleThreeDotClick,
+    anchorEl,
+    popUpId,
+    handleClose,
+    handleOptions,
   } = props;
 
+  //Sort Icons
   const renderIcons = (field, order, index) => {
     const typeIndex = field.indexOf('type');
     const courseNameIndex = field.indexOf('courseName');
@@ -207,17 +212,7 @@ export default function TableComp(props) {
                 <HeadInline>
                   {item}
                   {(index === 1 || index === 4 || index === 6) &&
-                    renderIcons(field, order, index)
-                  // <img
-                  //   src={Down}
-                  //   alt=''
-                  //   style={{
-                  //     transform: 'rotate(180deg',
-                  //     padding: '2px 8px',
-                  //   }}
-                  // />
-                  // <img src={Down} alt='' style={{ padding: '2px 8px' }} />
-                  }
+                    renderIcons(field, order, index)}
                 </HeadInline>
               </TableCell>
             ))}
@@ -240,10 +235,19 @@ export default function TableComp(props) {
                   <IconButton
                     aria-controls={item.id}
                     aria-haspopup='true'
-                    // onClick={event => handleThreeDotClick(item.id, event)}
+                    onClick={event => handleThreeDotClick(event, item.id)}
                   >
                     <MoreVertRounded style={{ fill: '#1093FF' }} />
                   </IconButton>
+                  <Menu
+                    role={role}
+                    anchorEl={anchorEl}
+                    open={item.id === popUpId}
+                    handleClose={handleClose}
+                    status={item.status}
+                    handleOptions={handleOptions}
+                    name={item.name}
+                  />
                 </BodyCell>
               </TableRow>
             ))}
