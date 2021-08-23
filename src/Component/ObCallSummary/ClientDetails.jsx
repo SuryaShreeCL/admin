@@ -793,7 +793,7 @@ class ClientDetails extends Component {
                   margin="normal"
                   id="date-picker-dialog"
                   label="End of Service Date"
-                  format="MM/dd/yyyy"
+                  format="dd/MM/yyyy"
                   value={this.state.endofservice}
                   disabled
                   onChange={(e, newValue) =>
@@ -866,7 +866,7 @@ class ClientDetails extends Component {
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
-                  format="yyyy-MM-dd HH:mm"
+                  format="dd/MM/yyyy HH:mm"
                 />
               </Grid>
               <Grid item md={4}>
@@ -919,7 +919,7 @@ class ClientDetails extends Component {
                   }
                   onError={console.log}
                   // disablePast
-                  format="yyyy-MM-dd HH:mm"
+                  format="dd/MM/yyyy HH:mm"
                 />
               </Grid>
               <Grid item md={4}>
@@ -996,7 +996,7 @@ class ClientDetails extends Component {
                   disableFuture
                   id="date-picker-dialog"
                   label="Enrollment Date"
-                  format="yyyy-MM-dd"
+                  format="dd/MM/yyyy"
                   value={this.state.enrolldate}
                   error={this.state.enrolldateErr.length > 0}
                   helperText={this.state.enrolldateErr}
