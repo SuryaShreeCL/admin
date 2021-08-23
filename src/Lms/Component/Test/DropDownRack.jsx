@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import DropDown from '../../Utils/DropDown';
 
 const DEFAULT_OBJ = { id: 'default', title: 'Select' };
 
 export default function DropDownRack(props) {
-  const {
-    handleDropDownChange,
-    filterData,
-    testTypeValue,
-    topicNameValue,
-    statusValue,
-  } = props;
+  const { handleDropDownChange, filterData, testType, topicId, status } = props;
 
   let [state, setState] = useState({ testTypes: [], topics: [], status: [] });
 
@@ -28,27 +22,27 @@ export default function DropDownRack(props) {
       <Grid item xs={12} md={4}>
         <DropDown
           label='Test Type'
-          name='testTypeValue'
+          name='testType'
           items={state.testTypes}
-          value={testTypeValue}
+          value={testType}
           onChange={handleDropDownChange}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <DropDown
           label='Topic Name'
-          name='topicNameValue'
+          name='topicId'
           items={state.topics}
-          value={topicNameValue}
+          value={topicId}
           onChange={handleDropDownChange}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <DropDown
           label='Status'
-          name='statusValue'
+          name='status'
           items={state.status}
-          value={statusValue}
+          value={status}
           onChange={handleDropDownChange}
         />
       </Grid>
