@@ -28,7 +28,6 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
@@ -234,7 +233,6 @@ export default function DraftTest() {
 
       <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <DrawerContainer>
-          <Preview state={viewData} />
           <ButtonsContainerTwo>
             <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
               <IconButton aria-label='edit'>

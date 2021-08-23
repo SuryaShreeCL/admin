@@ -29,11 +29,11 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
 import { renderListCategory } from '../../Utils/Helpers';
+import ScheduleLater from '../Components/ScheduleLater';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -80,6 +80,8 @@ export default function LiveTest() {
   });
 
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+
+  const [scheduler, setScheduler] = useState(false);
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -196,7 +198,7 @@ export default function LiveTest() {
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => openInPage(item)}>
+                    <Controls.ActionButton onClick={() => setScheduler(true)}>
                       <ScheduleIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                     <Controls.ActionButton
@@ -228,7 +230,6 @@ export default function LiveTest() {
 
       <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <DrawerContainer>
-          <Preview state={viewData} />
           <ButtonsContainerTwo>
             <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
               <IconButton aria-label='edit'>
@@ -260,6 +261,7 @@ export default function LiveTest() {
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ScheduleLater scheduler={scheduler} setScheduler={setScheduler} />
     </>
   );
 }

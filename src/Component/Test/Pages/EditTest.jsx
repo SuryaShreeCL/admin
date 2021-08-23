@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ButtonsContainer, CreatePostContainer, CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
-import Preview from '../Components/Preview';
 import Switch from '@material-ui/core/Switch';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -457,7 +456,6 @@ const EditTest = () => {
                   </ButtonsContainer>
                 </Form>
               </div>
-              <Preview state={values} />
             </>
           )}
         </Formik>
