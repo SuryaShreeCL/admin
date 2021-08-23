@@ -178,8 +178,13 @@ export default function ScheduleLater(props) {
         </Formik>
       </DialogContent>
       <DialogActions className={classes.dialogAction}>
-        <Controls.Button text='Cancel' color='default' onClick={() => setScheduler(false)} />
-        <Controls.Button text='Set' color='primary' />
+        <Controls.Button
+          variant='outlined'
+          text='Cancel'
+          color='primary'
+          onClick={() => setScheduler(false)}
+        />
+        <Controls.Button text='Submit' color='primary' />
       </DialogActions>
     </Dialog>
   );
