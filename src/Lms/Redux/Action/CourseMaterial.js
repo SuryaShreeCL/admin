@@ -283,13 +283,13 @@ export const getTopicDetails = (topicId, callback) => {
   };
 };
 
-export const createFileUpload = (MasterId,data, callback) => {
+export const createFileUpload = (masterId,data, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
     axios
       .post(
         DEV_LMS +
-          '/api/v1/lms/studyPlanMaster/e07e5050-f61e-46bd-8d93-cd2add307404/studyPlan/import',
+          '/api/v1/lms/studyPlanMaster/' +masterId+'/studyPlan/import',
         data,
         {
           crossDomain: true,

@@ -1,18 +1,12 @@
-import { Card, Box, Grid, Typography, IconButton,ListItemIcon} from "@material-ui/core";
+import { Card, Grid } from "@material-ui/core";
 import React, { Component } from "react";
-import CloseIcon from '@material-ui/icons/Close';
 
-import Button from "@material-ui/core/Button";
 import "../Assets/App.css";
-import { CardTitle, DeleteCard,DeleteTitle,Close,DialogBox } from "../Assets/StyledComponents";
-import DropDown from "../Utils/DropDown";
+import { CardTitle } from "../Assets/StyledComponents";
 import PlusButton from "../Utils/PlusButton";
 import TabBar from "./TabBar";
 import Table from "./Table";
-import PaginationComponent from "../Utils/PaginationComponent";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+
 import {
   getCourses,
   courseMonth,
@@ -21,25 +15,12 @@ import {
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+
 import { createTheme, ThemeProvider } from "@material-ui/core";
 import { lms_add_study_plan } from "../../Component/RoutePaths";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Fade from '@material-ui/core/Fade';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { FillButton, OutlineButton } from "../Utils/Buttons";
-import DeleteImage  from '../Assets/images/DeleteImage.png'
- 
 
-
+import { StyledVerticalTaps } from "./VerticalTab";
+import { TaskTabs } from "../Assets/css/StyledCourseTakenComponent/StyledCourseTaken";
 
 const appBar = createTheme({
   overrides: {
@@ -66,6 +47,14 @@ const buttonTheme = createTheme({
   },
 });
 
+const verticalTabsLabels = [
+  { tabLabel: "Today's Task" },
+  { tabLabel: "Pending Task" },
+  { tabLabel: "Completed Task" },
+  { tabLabel: "Other Tasks" },
+  { tabLabel: "Last Topic" },
+];
+
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -77,8 +66,10 @@ class Index extends Component {
       monthValue: "",
       productId: null,
       courseMonth: -1,
-      open:false,
-      anchorEl:null
+      open: false,
+      anchorEl: null,
+      verticalTabId: 1,
+      tabId: 1,
     };
   }
 
@@ -104,41 +95,37 @@ class Index extends Component {
 
   // open = Boolean(this.state.anchorEl);
 
-  handleClickOpen = ()=>{
-    console.log("click")
+  handleClickOpen = () => {
+    console.log("click");
     this.setState({
-      open:true
-    })
-  }
+      open: true,
+    });
+  };
 
-  handleClickClose = ()=>{
-    console.log("click")
+  handleClickClose = () => {
+    console.log("click");
     this.setState({
-      open:false
-    })
-  }
+      open: false,
+    });
+  };
   handleOpen = (event) => {
     this.setState({
-          anchorEl : event.currentTarget
-        })
+      anchorEl: event.currentTarget,
+    });
   };
 
   handleClose = () => {
     this.setState({
-      anchorEl : null
-    })
+      anchorEl: null,
+    });
   };
 
-  
-
   render() {
-    
+    const { tabId, verticalTabId } = this.state;
     console.log(this.props.monthResponse);
     console.log(this.props.courseMonthResponse);
     return (
-      <div
-      // style={{ padding: "10px 5px 5px" }}
-      >
+      <div>
         <Card className={"card"}>
           <Grid container spacing={3} style={{ padding: "12px" }}>
             {/* title */}
@@ -157,11 +144,6 @@ class Index extends Component {
 
             {/* dropdown and button */}
 
-            {/* <Grid
-              container
-             
-              style={{ padding: "12px" }}
-            > */}
             <Grid item md={9}>
               <Autocomplete
                 id="combo-box-demo"
@@ -195,7 +177,6 @@ class Index extends Component {
                 </PlusButton>
               </ThemeProvider>
             </Grid>
-            {/* </Grid> */}
 
             {/* tabBar */}
             <Grid
@@ -209,161 +190,7 @@ class Index extends Component {
               style={{ position: "relative" }}
             >
               <ThemeProvider theme={appBar}>
-                <AppBar position="static" style={{ overflowX: "scroll" }}>
-                  <Toolbar>
-                    {this.props.monthResponse &&
-                      this.props.monthResponse.data.map((month, index) => {
-                        return (
-                          <div
-                            key={index}
-                            style={{ margin: "5px 27px", whiteSpace: "nowrap" }}
-                          >
-                            <Typography
-                              id={month.month}
-                              onClick={this.handleMonthChange}
-                              style={{ color: "#ffff" }}
-                            >
-                              {month.month + " Month"}
-                            </Typography>
-                          </div>
-                        );
-                      })}
-                    <div>
-                      <MoreVertIcon onClick={this.handleOpen} />
-                      <Menu
-                        //  className={"delete_modal"}
-                        id="fade-menu"
-                        anchorEl={this.state.anchorEl}
-                        keepMounted
-                        open={this.state.anchorEl}
-                        onClose={this.handleClose}
-                        TransitionComponent={Fade}
-                      >
-                        <div style={{ display: "flex", flexDirection: "row" }}>
-                          <MenuItem
-                            onClick={this.handleClickOpen}
-                            // onClick={() => handleDelete(topicId, topicName)}
-                          >
-                            <ListItemIcon>
-                              <DeleteIcon style={{ fill: "#1093ff" }} />
-                            </ListItemIcon>
-                            <Typography className={"menu-item-text"}>
-                              Delete
-                            </Typography>
-                          </MenuItem>
-                        </div>
-                      </Menu>
-                    </div>
-                    {/* <Dialog
-                      open={this.state.open}
-                      onClose={this.handleClose}
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description"
-                    >
-                     
-                        <CloseIcon 
-                        onClick={this.handleClickClose}
-                        />
-                        <DeleteIcon color='primary' style={{ fontSize: '48px' }} />
-                     
-                      <DialogTitle id="alert-dialog-title">
-                        {"Are you sure you want to Delete?"}
-                      </DialogTitle>
-                      <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                          Let Google help apps determine location. This means
-                          sending anonymous location data to Google, even when
-                          no apps are running.
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                          Disagree
-                        </Button>
-                        <Button
-                          onClick={this.handleClose}
-                          color="primary"
-                          autoFocus
-                        >
-                          Agree
-                        </Button>
-                      </DialogActions>
-                    </Dialog> */}
-                    <DialogBox>
-                    <Dialog
-                      className={"dialog_alignment"}
-                      onClose={this.handleClose}
-                      aria-labelledby="customized-dialog-title"
-                      open={this.state.open}
-                    >
-                      <Box>
-                        <Box pt={3}>
-                          <DialogTitle
-                           
-                            id="customized-dialog-title"
-                            onClose={this.handleClose}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <img src={DeleteImage} />
-                            </div>
-                            <div style={{display:"flex"}}>
-                             <Close>
-                             <CloseIcon  
-                              style={{fill:"#1093FF"}}
-                              onClick={this.handleClickClose}/>
-                             </Close>
-                            </div>
-
-                            <DeleteTitle>
-                              Are you sure you want to Delete?
-                            </DeleteTitle>
-                          </DialogTitle>
-                        </Box>
-                        {/* dialog content */}
-                        <DialogContent>
-                          <DialogContentText id="customized-dialog-content">
-                            {/* dropdown */}
-                            <Grid item md={12}>
-                              <Autocomplete
-                                id="combo-box-demo"
-                                options={this.props.coursesResponse.data || []}
-                                value={this.state.courseValue}
-                                onChange={this.handleCourseChange}
-                                getOptionLabel={(option) => option.title}
-                                style={{ width: 400 }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    label="Courses"
-                                    variant="outlined"
-                                  />
-                                )}
-                              />
-                            </Grid>
-                          </DialogContentText>
-                        </DialogContent>
-                        
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                            paddingBottom: "15px",
-                            paddingTop:"15px"
-                          }}
-                        >
-                          <OutlineButton  onClick={this.handleClickClose}>No</OutlineButton>
-                          <FillButton>Yes</FillButton>
-                        </div>
-                      </Box>
-                    </Dialog>
-                    </DialogBox>
-                  </Toolbar>
-                </AppBar>
+                <TabBar item={this.props.monthResponse} />
               </ThemeProvider>
             </Grid>
 
@@ -373,31 +200,35 @@ class Index extends Component {
                 item
                 md={3}
                 style={{
-                  backgroundColor: "#FAFAFA",
+                  // backgroundColor: "#FAFAFA",
                   display: "flex",
                   flexDirection: "column",
                 }}
               >
                 {this.props.monthResponse &&
                   this.props.monthResponse.data
-                    .sort((a, b) => a - b)
+
                     .filter((item) => item.month <= this.state.courseMonth)
                     .map((month, index) => {
                       return (
                         <div key={index}>
-                          <List
-                            component="nav"
-                            aria-labelledby="nested-list-subheader"
-                          >
-                            <ListItem className={"list_button"} button>
-                              <ListItemText
-                                onClick={() => this.handleClick(month.id)}
-                                className={"list_item"}
-                                // style={{background:"#FAFAFA"}}
-                                primary={`${month.month} Month`}
-                              />
-                            </ListItem>
-                          </List>
+                          <TaskTabs>
+                            <StyledVerticalTaps
+                              tabsData={{
+                                tabId: verticalTabId,
+                                handleTabChange: (e, newValue) => {
+                                  this.setState({ verticalTabId: newValue });
+                                },
+                                tabsBackColor: "#1093FF",
+                                tabData: this.props.monthResponse.data.filter(
+                                  (item) => item.month <= this.state.courseMonth
+                                ),
+                                activeClass: "active__task__tab",
+                                styleName: "courseTaken",
+                              }}
+                              onClick={() => this.handleClick(month.id)}
+                            />
+                          </TaskTabs>
                         </div>
                       );
                     })}

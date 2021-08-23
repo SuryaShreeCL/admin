@@ -22,6 +22,8 @@ class AddStudyPlans extends Component {
       courseValue: [],
       monthValue: "",
       productId: null,
+      selectedFile : null,
+      selectedMonth : null
     };
   }
 
@@ -31,16 +33,26 @@ class AddStudyPlans extends Component {
     this.props.getCourses();
   }
 
-  handleClick = () =>{
-    this.props.createFileUpload()
-  }
-  
+ handleMonthChange = (e,newValue) => {
+  this.setState({ selectedMonth : newValue})
+ }
  
 
   handleCourseChange = (e, newValue) => {
     this.setState({ courseValue: newValue });
     if (newValue) this.props.courseMonth(newValue.id);
   };
+
+  handleChange = (e) => {
+       console.log(e.target.files[0])
+       this.setState({
+         selectedFile: e.target.files[0]
+       })
+       const formData = new FormData();
+       formData.append("file",e.target.files[0])
+       this.props.createFileUpload(this.state.selectedMonth.id,formData);
+
+  }
 
   render() {
     console.log(this.props.monthResponse)
@@ -79,6 +91,7 @@ class AddStudyPlans extends Component {
                 options={
                   this.props.monthResponse ? this.props.monthResponse.data : []
                 }
+                onChange={this.handleMonthChange}
                 getOptionLabel={(option) => `${option.month} month`}
                 // style={{ width: 300 }}
                 renderInput={(params) => (
@@ -105,15 +118,21 @@ class AddStudyPlans extends Component {
                 style={{ display: "none" }}
                 id="contained-button-file"
                 type="file"
+                onChange={this.handleChange}
               />
               <label htmlFor="contained-button-file">
-                <FillButton
+                {this.state.selectedMonth && this.state.selectedMonth.studyPlanCreated ? 
+                  
+                "" : (
+                  <FillButton
                   // onClick={() => this.handleClick(this.masterId)}
                   variant="contained"
                   component="span"
                 >
                   Upload
                 </FillButton>
+                )}
+                
               </label>
             </Grid>
             {/* </Grid> */}

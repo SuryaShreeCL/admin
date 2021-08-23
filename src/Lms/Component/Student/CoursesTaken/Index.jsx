@@ -102,7 +102,7 @@ class Index extends Component {
                   activeClass: "active__task__tab",
                   styleName: "courseTaken",
                 }}
-              />
+              /> 
             </TaskTabs>
           </Grid>
           <Grid item md={9}>

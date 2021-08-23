@@ -18,6 +18,7 @@ export const StyledVerticalTaps = (props) => {
     activeClass,
     styleName,
   } = props.tabsData;
+  console.log(tabData);
   return (
     <Tabs
       orientation={"vertical"}
@@ -49,7 +50,7 @@ export const StyledVerticalTaps = (props) => {
                 activeClass) ||
               ""
             }
-            label={item.tabLabel}
+            label={`${item.month} Month`}
             style={
               styleName !== undefined
                 ? styleName === "courseTaken"
