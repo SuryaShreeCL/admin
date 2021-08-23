@@ -6,7 +6,22 @@ class TodaysTask extends Component {
     super(props);
   }
   render() {
-    const { rows } = this.props;
+    const { todaysTasks } = this.props;
+    const rows = (todaysTasks &&
+      todaysTasks.length !== 0 &&
+      todaysTasks.map((item, index) => ({
+        id: index + 1,
+        taskName: item.task,
+        topicName: item.topic,
+        status: item.progress,
+      }))) || [
+      {
+        id: "",
+        taskName: "",
+        topicName: "",
+        status: null,
+      },
+    ];
     const columns = [
       {
         field: "id",

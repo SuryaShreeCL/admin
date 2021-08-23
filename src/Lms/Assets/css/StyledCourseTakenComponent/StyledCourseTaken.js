@@ -29,3 +29,11 @@ export const TaskTabs = styled.div`
   background: #fafafa;
   width: 210px;
 `;
+
+export const LmsTabs = styled.div`
+  background: #f5f5f5;
+  box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
+  border-radius: 4px;
+  height: 56px;
+  margin-bottom: 16px;
+`;

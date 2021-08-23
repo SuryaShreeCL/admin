@@ -6,24 +6,14 @@ import { StyledVerticalTaps } from "../../../../Utils/VerticalTab";
 import PendingTask from "./PendingTask";
 import CompletedTask from "./CompletedTask";
 import OtherTask from "./OtherTasks";
+import { getTaskTopic } from "../../../../Redux/Action/Student";
+import { connect } from "react-redux";
 
 const verticalTabsLabels = [
   { tabLabel: "Today's Task" },
   { tabLabel: "Pending Task" },
   { tabLabel: "Completed Task" },
   { tabLabel: "Other Tasks" },
-];
-
-const rows = [
-  { id: 1, taskName: "Snow", topicName: "Jon", status: 35 },
-  { id: 2, taskName: "Lannister", topicName: "Cersei", status: 42 },
-  { id: 3, taskName: "Lannister", topicName: "Jaime", status: 45 },
-  { id: 4, taskName: "Stark", topicName: "Arya", status: 16 },
-  { id: 5, taskName: "Targaryen", topicName: "Daenerys", status: null },
-  { id: 6, taskName: "Melisandre", topicName: null, status: 150 },
-  { id: 7, taskName: "Clifford", topicName: "Ferrara", status: 44 },
-  { id: 8, taskName: "Frances", topicName: "Rossini", status: 36 },
-  { id: 9, taskName: "Roxie", topicName: "Harvey", status: 65 },
 ];
 
 class Index extends Component {
@@ -34,8 +24,21 @@ class Index extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    const { studentId, productId } = this.props;
+    if (
+      studentId !== prevProps.studentId ||
+      productId !== prevProps.productId
+    ) {
+      if (studentId.trim().length !== 0 && productId.trim().length !== 0)
+        this.props.getTaskTopic(studentId, productId, {});
+    }
+  }
+
   render() {
     const { verticalTabId } = this.state;
+    const { taskTopic } = this.props;
+
     return (
       <Grid container>
         <Grid item>
@@ -56,16 +59,40 @@ class Index extends Component {
         </Grid>
         <Grid item style={{ flex: 1 }}>
           <div hidden={verticalTabId !== 0}>
-            <TodaysTask rows={rows} />
+            <TodaysTask
+              todaysTasks={
+                taskTopic.length !== 0 &&
+                taskTopic.data.length !== 0 &&
+                taskTopic.data.todaysTopic
+              }
+            />
           </div>
           <div hidden={verticalTabId !== 1}>
-            <PendingTask rows={rows} />
+            <PendingTask
+              pendingTasks={
+                taskTopic.length !== 0 &&
+                taskTopic.data.length !== 0 &&
+                taskTopic.data.pendingTasks
+              }
+            />
           </div>
           <div hidden={verticalTabId !== 2}>
-            <CompletedTask rows={rows} />
+            <CompletedTask
+              completedTasks={
+                taskTopic.length !== 0 &&
+                taskTopic.data.length !== 0 &&
+                taskTopic.data.completedTasks
+              }
+            />
           </div>
           <div hidden={verticalTabId !== 3}>
-            <OtherTask rows={rows} />
+            <OtherTask
+              otherTasks={
+                taskTopic.length !== 0 &&
+                taskTopic.data.length !== 0 &&
+                taskTopic.data.otherTasks
+              }
+            />
           </div>
         </Grid>
       </Grid>
@@ -73,4 +100,12 @@ class Index extends Component {
   }
 }
 
-export default Index;
+const mapStateToProps = (state) => {
+  return {
+    ...state.LmsStudentReducer,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getTaskTopic,
+})(Index);

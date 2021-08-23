@@ -71,4 +71,5 @@ const courseStyle = {
   margin: "2px 0px",
   paddingLeft: "20px",
   background: "#fafafa",
+  textTransform: "capitalize",
 };

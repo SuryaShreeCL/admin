@@ -6,7 +6,26 @@ class OtherTask extends Component {
     super(props);
   }
   render() {
-    const { rows } = this.props;
+    const { otherTasks } = this.props;
+    const rows = (otherTasks &&
+      otherTasks.length !== 0 &&
+      otherTasks.map((item, index) => ({
+        id: index + 1,
+        taskName: item.task,
+        topicName: item.topic,
+        startTime: item.time,
+        schudledDate: item.date,
+        status: item.progress,
+      }))) || [
+      {
+        id: "",
+        taskName: "",
+        topicName: "",
+        startTime: "",
+        schudledDate: null,
+        status: null,
+      },
+    ];
     const columns = [
       {
         field: "id",
@@ -31,6 +50,7 @@ class OtherTask extends Component {
       {
         field: "startTime",
         headerName: "Start Time",
+        type: "time",
         flex: 1,
         sortable: false,
         headerAlign: "center",
