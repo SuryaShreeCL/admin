@@ -13,10 +13,10 @@ class PendingTask extends Component {
         id: index + 1,
         taskName: item.task,
         topicName: item.topic,
-        schudledDate: item.schudledDate,
+        scheduledDate: item.scheduledDate,
         status: item.progress,
       }))) || [
-      { id: "", taskName: "", topicName: "", schudledDate: null, status: null },
+      { id: "", taskName: "", topicName: "", scheduledDate: null, status: null },
     ];
 
     const columns = [
@@ -40,8 +40,8 @@ class PendingTask extends Component {
         flex: 1,
       },
       {
-        field: "schudledDate",
-        headerName: "Schudled date",
+        field: "scheduledDate",
+        headerName: "Scheduled date",
         type: "date",
         flex: 1,
         sortable: false,

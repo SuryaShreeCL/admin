@@ -1,13 +1,13 @@
 import { Card, Grid, Button } from "@material-ui/core";
 import React, { Component } from "react";
-import "../Assets/App.css";
-import { CardTitle } from "../Assets/StyledComponents";
-import { FillButton, OutlineButton } from "../Utils/Buttons";
+import "../../Assets/App.css";
+import { CardTitle } from "../../Assets/StyledComponents";
+import { FillButton, OutlineButton } from "../../Utils/Buttons";
 import {
   getCourses,
   createFileUpload,
   courseMonth,
-} from "../Redux/Action/CourseMaterial";
+} from "../../Redux/Action/CourseMaterial";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -22,21 +22,18 @@ class AddStudyPlans extends Component {
       courseValue: [],
       monthValue: "",
       productId: null,
-      selectedFile : null,
-      selectedMonth : null
+      selectedFile: null,
+      selectedMonth: null,
     };
   }
-
-
 
   componentDidMount() {
     this.props.getCourses();
   }
 
- handleMonthChange = (e,newValue) => {
-  this.setState({ selectedMonth : newValue})
- }
- 
+  handleMonthChange = (e, newValue) => {
+    this.setState({ selectedMonth: newValue });
+  };
 
   handleCourseChange = (e, newValue) => {
     this.setState({ courseValue: newValue });
@@ -44,18 +41,17 @@ class AddStudyPlans extends Component {
   };
 
   handleChange = (e) => {
-       console.log(e.target.files[0])
-       this.setState({
-         selectedFile: e.target.files[0]
-       })
-       const formData = new FormData();
-       formData.append("file",e.target.files[0])
-       this.props.createFileUpload(this.state.selectedMonth.id,formData);
-
-  }
+    console.log(e.target.files[0]);
+    this.setState({
+      selectedFile: e.target.files[0],
+    });
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    this.props.createFileUpload(this.state.selectedMonth.id, formData);
+  };
 
   render() {
-    console.log(this.props.monthResponse)
+    console.log(this.props.monthResponse);
 
     console.log(this.state);
     // console.log(this.props)
@@ -121,18 +117,18 @@ class AddStudyPlans extends Component {
                 onChange={this.handleChange}
               />
               <label htmlFor="contained-button-file">
-                {this.state.selectedMonth && this.state.selectedMonth.studyPlanCreated ? 
-                  
-                "" : (
+                {this.state.selectedMonth &&
+                this.state.selectedMonth.studyPlanCreated ? (
+                  ""
+                ) : (
                   <FillButton
-                  // onClick={() => this.handleClick(this.masterId)}
-                  variant="contained"
-                  component="span"
-                >
-                  Upload
-                </FillButton>
+                    // onClick={() => this.handleClick(this.masterId)}
+                    variant="contained"
+                    component="span"
+                  >
+                    Upload
+                  </FillButton>
                 )}
-                
               </label>
             </Grid>
             {/* </Grid> */}
@@ -157,5 +153,3 @@ export default connect(mapStateToProps, {
   getCourses,
   courseMonth,
 })(AddStudyPlans);
-
-
