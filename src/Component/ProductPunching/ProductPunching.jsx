@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { Divider, Grid, Box, Typography, TextField, createMuiTheme,ThemeProvider } from "@material-ui/core";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { Autocomplete } from "@material-ui/lab";
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 import {
   getAllProductFamily,
   getProductByFamilyId,
@@ -11,12 +15,18 @@ import {
 } from "../../Actions/ProductAction";
 import { connect } from "react-redux";
 import MySnackBar from "../MySnackBar";
-const theme = createMuiTheme({
+import { createTheme } from "@material-ui/core";
+const theme = createTheme({
   overrides:{
     MuiFormLabel:{
       root:{
         fontSize:"11px"
       }
+    },
+    MuiMenu:{
+      paper:{
+        maxHeight:"240px",
+      },
     }
   }
 })
@@ -149,7 +159,24 @@ class ProductPunching extends Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
-
+providervalue =[
+   "Razorpay",
+   "Cheque",
+   "Cash Deposit",
+   "NEFT/RTGS",
+   "PDC",
+   "G-Pay/Phonepe",
+    "Online Transfer",
+    "Bajaj Finserv",
+    "POS",
+    "Cash",
+    "PinLabs",
+    "Propelled",
+    "Website",
+    "Loan2Grow",
+    "EarlySalary",
+    "Scholfe",
+]
   render() {
     console.log(this.props.match.params.id);
     console.log(this.state);
@@ -219,8 +246,8 @@ class ProductPunching extends Component {
             <TextField
                   disabled
                   fullWidth
-                  label="Product ID"
-                  value={data.products.id}
+                  label="Product Name"
+                  value={data.products.name}
                 />
             </Grid>
             <Grid item md={6}>
@@ -335,14 +362,23 @@ class ProductPunching extends Component {
                 />
               </Grid>
               <Grid item md={4}>
-                <TextField
-                  // disabled
-                  label="Payment Provider"
-                  name={"payment_provider_" + data.id}
-                  // name="payment_provider_"
-                  // value={this.state.payment_provider_}
-                  onChange={(e) => this.handleChange(e)}
-                />
+                <ThemeProvider theme={theme}>
+                <FormControl style={{width : "100%"}}>
+                  <InputLabel id="demo-simple-select-label">Payment Mode</InputLabel>
+                  <Select style={{minHeight:"20px"}}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    // value={age}
+                    name={"payment_provider_" + data.id}
+                    onChange={(e) => this.handleChange(e)}
+                    >
+                      {this.providervalue.map((data)=>(
+                        <MenuItem key={data} value={data}>{data}</MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+                </ThemeProvider>
+                
               </Grid>
               <Grid item md={4}>
                 <TextField

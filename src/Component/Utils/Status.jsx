@@ -4,7 +4,7 @@ import React from "react"
 
 const Status=({status,onClick})=>{
     return <img
-    src={status==="verified".toLocaleLowerCase() ? GreenTick : Warning }
+    src={status === "Verified" ? GreenTick : Warning }
     style={{
       height: 17,
       width: 17,

@@ -16,15 +16,15 @@ const Model = ({ section, handleClose ,...props }) => {
   const prevData=useRef({data}).current;
 
 
-  useEffect(() => {            
+  useEffect(() => {       
     if(prevData!==data){
       if(data){
-        setVerified(data.status.toLowerCase().trim());
+        setVerified(data.status);
       setRemark(data.remark)
       }      
     }
     if (data) {           
-      setVerified(data.status.toLowerCase().trim());
+      setVerified(data.status);
       setRemark(data.remark)      
     }
     return () => { 
@@ -33,9 +33,9 @@ const Model = ({ section, handleClose ,...props }) => {
   },[data]);
 
   const status = [
-    { title: "Verified", value: "verified" },
-    { title: "Not Verified", value: "notverified" },
-    { title: "Mismatch", value: "mismatched" },
+    { title: "Verified", value: "Verified" },
+    { title: "Not Verified", value: "NotVerified" },
+    { title: "Mismatch", value: "Mismatched" },
   ];
 
   const updateVerification = () => {     
@@ -46,7 +46,7 @@ const Model = ({ section, handleClose ,...props }) => {
       section: {
         name: sectionName,
       },
-      remark: verified==="mismatched" ? remark : "",
+      remark: verified==="Mismatched" ? remark : "",
       status: verified,
       updatedDate: new Date(),
     };
@@ -85,7 +85,7 @@ const Model = ({ section, handleClose ,...props }) => {
               ))}
             </Select>
           </FormControl>
-          {verified === "mismatched" && (
+          {verified === "Mismatched" && (
             <TextField
               variant={"standard"}
               multiline
