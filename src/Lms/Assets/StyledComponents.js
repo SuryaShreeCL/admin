@@ -251,3 +251,23 @@ export const Divider = styled.div`
   border: 1px solid #1093ff;
   margin: 24px 0px 30px 0px;
 `;
+
+export const SubTitle = styled.div`
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #052a4e;
+`;
+
+export const CenteredImg = styled.img`
+  display: block;
+  margin: 0 auto;
+  padding: 50px 0px 40px;
+`;
+
+export const SubHeaderTitle = styled.div`
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #052a4e;
+`;
