@@ -23,12 +23,23 @@ export const RadioButtonsGroup = (props) => {
     activeValue,
     radioItemData,
     handleRadioChange,
+    groupName,
   } = props.radioData;
   const classes = useStyles();
 
   return (
     <FormControl component="fieldset">
-      {/* <FormLabel component="legend">{}</FormLabel> */}
+      <FormLabel
+        component="legend"
+        style={{
+          margin: "-4px",
+          position: "relative",
+          top: "-5px",
+          fontSize: "12px !important",
+        }}
+      >
+        {groupName !== undefined && groupName}
+      </FormLabel>
       <RadioGroup
         style={{ flexDirection: "row" }}
         name={name}

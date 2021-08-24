@@ -300,79 +300,79 @@ class CourseLanding extends Component {
     const { courses, subjects, concepts, topics } = this.props;
     return (
       <Container>
-        <ThemeProvider theme={ColorScheme}>
-          <Grid style={{ minWidth: 0 }} container spacing={3}>
-            <Grid
-              item
-              container
-              alignItems='center'
-              justifyContent='space-between'
-              spacing={2}
-              style={{ marginBottom: '35px' }}
-            >
-              <Grid item>
-                <H1>Course Materials</H1>
-              </Grid>
-              <div>
-                <Grid item container alignItems='center' spacing={2}>
-                  <Grid item>
-                    <ThemeProvider theme={textFieldTheme}>
-                      <TextField
-                        style={{ height: '40px' }}
-                        variant='outlined'
-                        placeholder='Search'
-                        onChange={handleTextFieldChange}
-                      />
-                    </ThemeProvider>
-                  </Grid>
-                  <Grid item>
-                    <PlusButton onClick={handlePlusButton}>Add</PlusButton>
-                  </Grid>
-                </Grid>
-              </div>
+        {/* <ThemeProvider theme={ColorScheme}> */}
+        <Grid style={{ minWidth: 0 }} container spacing={3}>
+          <Grid
+            item
+            container
+            alignItems='center'
+            justifyContent='space-between'
+            spacing={2}
+            style={{ marginBottom: '35px' }}
+          >
+            <Grid item>
+              <H1>Course Materials</H1>
             </Grid>
-            <Box width='100%' marginBottom='40px'>
-              <DropDownRack
-                courses={courses}
-                subjects={subjects}
-                concepts={concepts}
-                handleChange={handleChange}
-                courseId={courseId}
-                subjectId={subjectId}
-                conceptId={conceptId}
-              />
-            </Box>
-            <Box overflow='auto' width='100%'>
-              <DataTable
-                topics={topics}
-                anchorEl={anchorEl}
-                handleThreeDotClick={handleThreeDotClick}
-                handleClose={handleClose}
-                handlePlusButton
-                pageNo={pageNo}
-                handleDelete={handleDelete}
-                popUpId={popUpId}
-                handlePublish={handlePublishClick}
-                handleSendReview={handleSendReviewClick}
-                handleEdit={handleEdit}
-                role={role}
-              />
-            </Box>
+            <div>
+              <Grid item container alignItems='center' spacing={2}>
+                <Grid item>
+                  <ThemeProvider theme={textFieldTheme}>
+                    <TextField
+                      style={{ height: '40px' }}
+                      variant='outlined'
+                      placeholder='Search'
+                      onChange={handleTextFieldChange}
+                    />
+                  </ThemeProvider>
+                </Grid>
+                <Grid item>
+                  <PlusButton onClick={handlePlusButton}>Add</PlusButton>
+                </Grid>
+              </Grid>
+            </div>
           </Grid>
-          {topics !== undefined && (
-            <PaginationComponent
-              pageCount={topics.data.totalPages}
-              onPageChange={handlePageChange}
+          <Box width='100%' marginBottom='40px'>
+            <DropDownRack
+              courses={courses}
+              subjects={subjects}
+              concepts={concepts}
+              handleChange={handleChange}
+              courseId={courseId}
+              subjectId={subjectId}
+              conceptId={conceptId}
             />
-          )}
-          <DialogComponent
-            open={dialogStatus}
-            dialogContent={dialogContent}
-            handleButton1Click={handleButton1Click}
-            handleCloseIconClick={handleCloseIconClick}
-            handleButton2Click={handleButton2Click}
+          </Box>
+          <Box overflow='auto' width='100%'>
+            <DataTable
+              topics={topics}
+              anchorEl={anchorEl}
+              handleThreeDotClick={handleThreeDotClick}
+              handleClose={handleClose}
+              handlePlusButton
+              pageNo={pageNo}
+              handleDelete={handleDelete}
+              popUpId={popUpId}
+              handlePublish={handlePublishClick}
+              handleSendReview={handleSendReviewClick}
+              handleEdit={handleEdit}
+              role={role}
+            />
+          </Box>
+        </Grid>
+        {topics !== undefined && (
+          <PaginationComponent
+            pageCount={topics.data.totalPages}
+            onPageChange={handlePageChange}
           />
-        </ThemeProvider>
+        )}
+        <DialogComponent
+          open={dialogStatus}
+          dialogContent={dialogContent}
+          handleButton1Click={handleButton1Click}
+          handleCloseIconClick={handleCloseIconClick}
+          handleButton2Click={handleButton2Click}
+        />
+        {/* </ThemeProvider> */}
       </Container>
     );
   }

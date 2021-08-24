@@ -47,6 +47,8 @@ export const StyledTaps = (props) => {
                   ? lmsStyle
                   : styleName === "student"
                   ? studentStyle
+                  : styleName === "test"
+                  ? testStyle
                   : {}
                 : {}
             }
@@ -88,5 +90,13 @@ const studentStyle = {
   fontSize: "18px",
   marginRight: "40px",
   padding: "0 10px",
+  textTransform: "capitalize",
+};
+
+const testStyle = {
+  minWidth: 140,
+  fontSize: "18px",
+  marginRight: "40px",
+  padding: 0,
   textTransform: "capitalize",
 };
