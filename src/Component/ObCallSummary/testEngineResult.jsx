@@ -449,7 +449,7 @@ class TestEngineResult extends Component {
               </IconButton>
             </div>
           </DialogTitle>
-          <DialogContent style={{ height: "800px", width: "700px" }}>
+          <DialogContent style={{ height: "800px" }}>
             <div
               style={{
                 display: "flex",
