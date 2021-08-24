@@ -128,8 +128,8 @@ import LandingAdmin from "./LandingAdmin";
 //LMS
 import CourseLanding from "../Lms/Component/CourseLanding/CourseLanding";
 import AddNewTopic from "../Lms/Component/CourseMaterials/addNewTopic/Index";
-import StudyPlans from "../Lms/StudyPlans/Index";
-import AddStudyPlans from "../Lms/StudyPlans/AddStudyPlans";
+import StudyPlans from "../Lms/Component/StudyPlans/Index";
+import AddStudyPlans from "../Lms/Component/StudyPlans/AddStudyPlans";
 import TestLanding from "../Lms/Component/Test/Index";
 import CourseTaken from "../Lms/Component/Student/Index";
 import AddTest from "../Lms/Component/Test/AddTest/Add";

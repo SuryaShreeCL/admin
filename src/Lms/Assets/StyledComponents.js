@@ -251,3 +251,28 @@ export const Divider = styled.div`
   border: 1px solid #1093ff;
   margin: 24px 0px 30px 0px;
 `;
+
+export const TabBarItem = styled(MuiBox)`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ffffff;
+  background: none;
+  border: none;
+  padding: 20px !important;
+  grid-gap: 20px;
+  border-bottom: ${(props) => (props.active ? "4px solid #FFE100" : "")};
+`;
+
+export const TabBarMonthItem = styled(MuiBox)`
+  background: ${(props) => (props.active ? "#fff" : "#fafafa")};
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: ${(props) => (props.active ? "#1093FF" : "#052a4e")};
+  border: none;
+  border-right: ${(props) => (props.active ? "4px solid" : "")};
+  width: 210px;
+`;
