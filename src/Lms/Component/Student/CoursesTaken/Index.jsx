@@ -31,7 +31,7 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    var studentId = "8915d475-9618-43c0-b88f-0dda2c7e92a4";
+    var studentId = "7ae9216c-30bf-4c23-a492-4a1fca510b8b";
     this.setState({ studentId: studentId });
     this.props.getProducts(studentId, (productResponse) => {
       if (productResponse.success) {

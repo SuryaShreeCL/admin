@@ -24,6 +24,7 @@ export const RadioButtonsGroup = (props) => {
     radioItemData,
     handleRadioChange,
     groupName,
+    marginRightValue,
   } = props.radioData;
   const classes = useStyles();
 
@@ -32,7 +33,7 @@ export const RadioButtonsGroup = (props) => {
       <FormLabel
         component="legend"
         style={{
-          margin: "-4px",
+          marginBottom: "-4px",
           position: "relative",
           top: "-5px",
           fontSize: "12px !important",
@@ -49,6 +50,9 @@ export const RadioButtonsGroup = (props) => {
         {radioItemData.map((item) => {
           return (
             <FormControlLabel
+              style={{
+                marginRight: marginRightValue !== undefined && marginRightValue,
+              }}
               value={item.id}
               control={
                 <Radio

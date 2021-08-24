@@ -264,6 +264,25 @@ export const H2 = styled.div`
   line-height: 22px;
   color: #052a4e;
 `;
+export const SubTitle = styled.div`
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #052a4e;
+`;
+
+export const CenteredImg = styled.img`
+  display: block;
+  margin: 0 auto;
+  padding: 50px 0px 40px;
+`;
+
+export const SubHeaderTitle = styled.div`
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #052a4e;
+`;
 
 export const B1 = styled.div`
   font-style: normal;
@@ -300,4 +319,28 @@ export const FileName = styled.div`
   letter-spacing: 0.15px;
   color: #000000;
   padding-top: 16px;
+`;
+export const TabBarItem = styled(MuiBox)`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ffffff;
+  background: none;
+  border: none;
+  padding: 20px !important;
+  grid-gap: 20px;
+  border-bottom: ${props => (props.active ? '4px solid #FFE100' : '')};
+`;
+
+export const TabBarMonthItem = styled(MuiBox)`
+  background: ${props => (props.active ? '#fff' : '#fafafa')};
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: ${props => (props.active ? '#1093FF' : '#052a4e')};
+  border: none;
+  border-right: ${props => (props.active ? '4px solid' : '')};
+  width: 210px;
 `;
