@@ -132,7 +132,7 @@ import StudyPlans from "../Lms/StudyPlans/Index";
 import AddStudyPlans from "../Lms/StudyPlans/AddStudyPlans";
 import TestLanding from "../Lms/Component/Test/Index";
 import CourseTaken from "../Lms/Component/Student/Index";
-import AddTest from "../Lms/Component/Question/Test/Add";
+import AddTest from "../Lms/Component/Test/AddTest/Add";
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
