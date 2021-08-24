@@ -100,3 +100,55 @@
 .rotate {
   transform: rotate(180deg);
 }
+
+.link_text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-decoration-line: underline;
+  color: #1093ff;
+  padding-bottom: 8px;
+}
+
+.divider_style {
+  background: rgba(0, 1, 40, 0.2);
+  margin-bottom: 24px !important;
+}
+
+.padding {
+  margin-bottom: 24px !important;
+}
+
+.drop_zone_style {
+  opacity: 0.5;
+  border: 1px dashed #1d3c8a;
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 92px;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.round-button {
+  height: 40px !important;
+  width: 162px !important;
+  /* padding: 18px !important; */
+  border-radius: 30px !important;
+  flex-grow: 1 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 16px !important;
+  margin-top: 32px !important;
+}
+
+.margin-style-right {
+  margin-right: 30px !important;
+}
+
+.margin-style-left {
+  margin-left: 30px !important;
+}

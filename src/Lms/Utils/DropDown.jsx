@@ -61,7 +61,7 @@ const selectTheme = createTheme({
         transform: 'translate(14px, -6px) scale(0.75)',
       },
       formControl: {
-        transform: 'translate(8px, 22px) scale(1)',
+        transform: 'translate(8px, 18px) scale(1)',
       },
     },
     MuiListItem: {

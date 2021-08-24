@@ -3,6 +3,7 @@ import { TEST } from '../Action';
 const initialState = {
   filterData: [],
   testData: [],
+  questionType: [],
 };
 
 const TestReducer = (state = initialState, action) => {
@@ -17,6 +18,12 @@ const TestReducer = (state = initialState, action) => {
       return {
         ...state,
         testData: action.payload,
+      };
+    }
+    case TEST.getQuestionType: {
+      return {
+        ...state,
+        questionType: action.payload,
       };
     }
     default:

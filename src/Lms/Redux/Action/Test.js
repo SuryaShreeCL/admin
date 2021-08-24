@@ -138,3 +138,87 @@ export const publishTest = (testQuestionSetId, callback) => {
       });
   };
 };
+
+export const getQuestionType = () => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(`${URL}/api/v1/lms/questions/types`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: TEST.getQuestionType,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const setQuestionData = (testQuestionSetId, type, data, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+
+  return dispatch => {
+    axios
+      .post(
+        `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/questions/import?type=${type}`,
+        // {{DEV-LMS}}/api/v1/lms/testQuestionSet/{{TESTQUESTIONSETID}}/questions/import?type=SINGLE_SELECT&testSectionId={{TESTSECTIONID}}
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        // dispatch({
+        //   type: COURSE_MATERIAL.createFileUpload,
+        //   payload: response.data,
+        // });
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const setQuestionDataWithId = (
+  testQuestionSetId,
+  type,
+  testSectionId,
+  data,
+  callback
+) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+
+  return dispatch => {
+    axios
+      .post(
+        `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/questions/import?type=${type}&testSectionId=${testSectionId}`,
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};

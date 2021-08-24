@@ -1,17 +1,17 @@
-import styled from "styled-components";
-import { createTheme, Button } from "@material-ui/core";
-import { Box as MuiBox, Button as MuiButton } from "@material-ui/core";
+import styled from 'styled-components';
+import { createTheme, Button } from '@material-ui/core';
+import { Box as MuiBox, Button as MuiButton } from '@material-ui/core';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: stretch;
+  // align-items: center;
+  // justify-content: stretch;
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
-  padding: 24px 24px;
-  margin: 24px;
+  padding: 24px 20px;
+  // margin: 20px 24px;
 `;
 
 export const H1 = styled.div`
@@ -25,10 +25,10 @@ export const H1 = styled.div`
 export const ColorScheme = createTheme({
   palette: {
     primary: {
-      main: "#1093FF",
+      main: '#1093FF',
     },
     secondary: {
-      main: "#052A4E",
+      main: '#052A4E',
     },
   },
 });
@@ -37,19 +37,19 @@ export const textFieldTheme = createTheme({
   overrides: {
     MuiInputBase: {
       root: {
-        height: "40px",
+        height: '40px',
       },
       input: {
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontSize: "16px",
-        lineHeight: "20px",
-        color: "#686868",
-        height: "40px",
-        background: "#FFFFFF",
-        border: "1px solid #CCCCCC",
-        boxSizing: "border-box",
-        borderRadius: "4px",
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontSize: '16px',
+        lineHeight: '20px',
+        color: '#686868',
+        height: '40px',
+        background: '#FFFFFF',
+        border: '1px solid #CCCCCC',
+        boxSizing: 'border-box',
+        borderRadius: '4px',
       },
     },
   },
@@ -102,7 +102,7 @@ export const Card = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
-  padding: ${(props) => props.padding || 0};
+  padding: ${props => props.padding || 0};
 `;
 
 // view StudyPlans
@@ -211,7 +211,7 @@ export const TestTitle = styled.div`
   font-size: 24px;
   line-height: 29px;
   color: #052a4e;
-  flex: ${(props) => props.flex || 0};
+  flex: ${props => props.flex || 0};
 `;
 
 export const Cancel = styled(MuiButton)`
@@ -250,4 +250,54 @@ export const Divider = styled.div`
   opacity: 0.3;
   border: 1px solid #1093ff;
   margin: 24px 0px 30px 0px;
+`;
+
+export const DropDownBox = styled.div`
+  max-width: 350px;
+  margin: 31px 0px;
+`;
+
+export const H2 = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #052a4e;
+`;
+
+export const B1 = styled.div`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+`;
+
+export const GreySpan = styled.span`
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: rgba(0, 0, 0, 0.87);
+`;
+
+export const BlueSpan = styled.span`
+  font-weight: 700;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: #1093ff;
+  opacity: 1;
+`;
+
+export const FileName = styled.div`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: #000000;
+  padding-top: 16px;
 `;
