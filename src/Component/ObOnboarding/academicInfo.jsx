@@ -887,13 +887,13 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
-                            disableFuture
+                            // disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
-                            format="MM-dd-yyyy"
+                            format="dd/MM/yyyy"
                             inputProps={{ readOnly: true }}
                             value={this.state.pgStartDate}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 pgStartDate: newValue,
                                 pgStartDateErr: "",
@@ -913,12 +913,12 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             label="End Date"
-                            format="MM-dd-yyyy"
+                            format="dd/MM/yyyy"
                             inputProps={{ readOnly: true }}
                             disabled={this.state.pgStartDate === null}
                             minDate={this.state.pgStartDate}
                             value={this.state.pgEndDate}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 pgEndDate: newValue,
                                 pgEndDateErr: "",
@@ -1106,12 +1106,12 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
-                            disableFuture
+                            // disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
-                            format="MM/dd/yyyy"
+                            format="dd/MM/yyyy"
                             value={this.state.ugStartDate}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 ugStartDate: newValue,
                                 ugStartDateErr: "",
@@ -1132,12 +1132,12 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             label="End Date"
-                            format="MM/dd/yyyy"
+                            format="dd/MM/yyyy"
                             inputProps={{ readOnly: true }}
                             disabled={this.state.ugStartDate === null}
                             minDate={this.state.ugStartDate}
                             value={this.state.ugEndDate}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 ugEndDate: newValue,
                                 ugEndDateErr: "",
@@ -1326,7 +1326,7 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
-                            disableFuture
+                            // disableFuture
                             id="date-picker-dialog"
                             value={this.state.diplomostartDate}
                             onChange={(e, newValue) =>
@@ -1348,11 +1348,13 @@ export class academicInfo extends Component {
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            format="dd/MM/yyyy"
                           />
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
                             id="date-picker-dialog"
+                            format="dd/MM/yyyy"
                             label="End Date"
                             inputProps={{ readOnly: true }}
                             disabled={
@@ -1370,7 +1372,7 @@ export class academicInfo extends Component {
                               this.state.diplomoEndDateErr.length > 0
                             }
                             helperText={this.state.diplomoEndDateErr}
-                            format="MM/dd/yyyy"
+                            format="dd/MM/yyyy"
                             KeyboardButtonProps={{
                               "aria-label": "change date",
                             }}
@@ -1515,12 +1517,12 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
-                            disableFuture
+                            // disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
-                            format="MM/dd/yyyy"
+                            format="dd/MM/yyyy"
                             value={this.state.twelthStartDate || ""}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 twelthStartDate: newValue,
                                 twelthStartDateErr: "",
@@ -1541,13 +1543,13 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             label="End Date"
-                            format="MM/dd/yyyy"
+                            format="dd/MM/yyyy"
                             label="End Date"
                             inputProps={{ readOnly: true }}
                             disabled={this.state.twelthStartDate === null}
                             minDate={this.state.twelthStartDate}
                             value={this.state.twelthEndDate || ""}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 twelthEndDate: newValue,
                                 twelthEndDateErr: "",
@@ -1672,11 +1674,11 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <KeyboardDatePicker
-                            disableFuture
+                            // disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
                             value={this.state.tenthStartDate}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 tenthStartDate: newValue,
                                 tenthStartDateErr: "",
@@ -1684,7 +1686,7 @@ export class academicInfo extends Component {
                             }
                             error={this.state.tenthStartDateErr.length > 0}
                             helperText={this.state.tenthStartDateErr}
-                            format="MM/dd/yyyy"
+                            format="dd/MM/yyyy"
                             KeyboardButtonProps={{
                               "aria-label": "change date",
                             }}
@@ -1701,7 +1703,7 @@ export class academicInfo extends Component {
                             disabled={this.state.tenthStartDate === null}
                             minDate={this.state.tenthStartDate}
                             value={this.state.tenthEndDate}
-                            onChange={(e, newValue) =>
+                            onChange={(newValue) =>
                               this.setState({
                                 tenthEndDate: newValue,
                                 tenthEndDateErr: "",
@@ -1710,7 +1712,7 @@ export class academicInfo extends Component {
                             label="End Date"
                             error={this.state.tenthEndDateErr.length > 0}
                             helperText={this.state.tenthEndDateErr}
-                            format="MM/dd/yyyy"
+                            format="dd/MM/yyyy"
                             KeyboardButtonProps={{
                               "aria-label": "change date",
                             }}

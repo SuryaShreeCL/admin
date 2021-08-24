@@ -754,7 +754,7 @@ class GraduateTestResult extends Component {
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = year + "/" + month + "/" + date;
+                      let examdate = date + "/" + month + "/" + year;
                       return (
                         <TableRow>
                           <TableCell
@@ -1006,7 +1006,7 @@ class GraduateTestResult extends Component {
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = year + "/" + month + "/" + date;
+                      let examdate = date + "/" + month + "/" + year;
                       return (
                         <TableRow>
                           <TableCell
@@ -1269,7 +1269,7 @@ class GraduateTestResult extends Component {
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = year + "/" + month + "/" + date;
+                      let examdate = date + "/" + month + "/" + year;
                       return (
                         <TableRow>
                           <TableCell
@@ -1541,7 +1541,7 @@ class GraduateTestResult extends Component {
                         let year = new Date(
                           eachdata.completedExamDate
                         ).getFullYear();
-                        let ieltsdate = year + "/" + month + "/" + date;
+                        let ieltsdate = date + "/" + month + "/" + year;
                         return (
                           <TableRow>
                             <TableCell
