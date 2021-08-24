@@ -48,30 +48,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleTabs(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  // const [value, setValue] = React.useState(0);
   // const item = props;
   console.log(props);
 
-  const handleChange = (event, newValue) => {
-    console.log(newValue);
-    setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   console.log(newValue);
+  //   setValue(newValue);
+  // };
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs
-         
-          value={value}
-          onChange={handleChange}
+          value={props.value}
+          onChange={props.onChange}
           aria-label="simple tabs example"
         >
           {props.item &&
             props.item.data.map((monthData) => {
               return <Tab 
-              style={{overflowX:"scroll"}}
+              style={{overflowX:"scroll",textTransform:"none"}}
               value={monthData}
-              label={monthData.month} />;
+              label={monthData.month + " "+ "Month"} />;
+
             })}
         </Tabs>
       </AppBar>

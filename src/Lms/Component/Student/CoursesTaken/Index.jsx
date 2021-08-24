@@ -1,14 +1,15 @@
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   CourseContainer,
   CourseTabs,
-  TaskTabs,
+  CourseTabsDuplicateCard,
 } from "../../../Assets/css/StyledCourseTakenComponent/StyledCourseTaken";
-import { DataTable } from "../../../Utils/DataTable";
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
-import { StyledVerticalTaps } from "../../../Utils/VerticalTab";
+import TasksAndTopic from "./TasksAndTopic/Index";
+import { getTaskTopic, getProducts } from "../../../Redux/Action/Student";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
@@ -19,38 +20,30 @@ const tabsLabels = [
   { tabLabel: "Logs" },
 ];
 
-const verticalTabsLabels = [
-  { tabLabel: "Today's Task" },
-  { tabLabel: "Pending Task" },
-  { tabLabel: "Completed Task" },
-  { tabLabel: "Other Tasks" },
-  { tabLabel: "Last Topic" },
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
-
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      courseId: "1",
-      tabId: 1,
-      verticalTabId: 1,
+      productId: "",
+      studentId: "",
+      tabId: 0,
     };
   }
 
+  componentDidMount() {
+    var studentId = "8915d475-9618-43c0-b88f-0dda2c7e92a4";
+    this.setState({ studentId: studentId });
+    this.props.getProducts(studentId, (productResponse) => {
+      if (productResponse.success) {
+        this.setState({ productId: this.props.products.data[0].id });
+      }
+    });
+  }
+
   render() {
-    const { courseId, tabId, verticalTabId } = this.state;
+    const { productId, studentId, tabId } = this.state;
+    const { products } = this.props;
+
     return (
       <CourseContainer>
         <Grid
@@ -63,14 +56,17 @@ class Index extends Component {
           <RadioButtonsGroup
             radioData={{
               name: "Course",
-              activeValue: courseId,
+              activeValue: productId,
               handleRadioChange: (e) => {
-                this.setState({ courseId: e.target.value });
+                this.setState({ productId: e.target.value });
               },
-              radioItemData: [
-                { id: "1", label: "One" },
-                { id: "2", label: "Two" },
-              ],
+              radioItemData:
+                (products.length !== 0 &&
+                  products.data.map((item) => ({
+                    id: item.id,
+                    label: item.productName,
+                  }))) ||
+                [],
             }}
           />
         </Grid>
@@ -87,31 +83,26 @@ class Index extends Component {
               styleName: "courseTaken",
             }}
           />
+          <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
         </CourseTabs>
-        <Grid container>
-          <Grid item md={3}>
-            <TaskTabs>
-              <StyledVerticalTaps
-                tabsData={{
-                  tabId: verticalTabId,
-                  handleTabChange: (e, newValue) => {
-                    this.setState({ verticalTabId: newValue });
-                  },
-                  tabsBackColor: "#1093FF",
-                  tabData: verticalTabsLabels,
-                  activeClass: "active__task__tab",
-                  styleName: "courseTaken",
-                }}
-              /> 
-            </TaskTabs>
-          </Grid>
-          <Grid item md={9}>
-            <DataTable dataTable={{ rows: rows }} />
-          </Grid>
-        </Grid>
+        <div hidden={tabId !== 0}>
+          <TasksAndTopic productId={productId} studentId={studentId} />
+        </div>
+        <div hidden={tabId !== 1}></div>
+        <div hidden={tabId !== 2}></div>
+        <div hidden={tabId !== 3}></div>
+        <div hidden={tabId !== 4}></div>
+        <div hidden={tabId !== 5}></div>
       </CourseContainer>
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    ...state.LmsStudentReducer,
+  };
+};
 
-export default Index;
+export default connect(mapStateToProps, {
+  getProducts,
+})(Index);

@@ -6,6 +6,7 @@ import DropDownRack from './DropDownRack';
 import TableComp from './TableComp';
 import { connect } from 'react-redux';
 import { getFilters, getQuestionSet } from '../../Redux/Action/Test';
+import PaginationComponent from '../../Utils/PaginationComponent';
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -15,27 +16,135 @@ class TestLanding extends Component {
     super(props);
 
     this.state = {
-      testType: 'default',
-      topicName: 'default',
-      status: 'default',
+      testTypeValue: 'default',
+      topicNameValue: 'default',
+      statusValue: 'default',
+      order: [],
+      field: [],
     };
   }
 
   componentDidMount() {
-    let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
     this.props.getFilters();
+    let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
     this.props.getQuestionSet(paramObj);
   }
 
   handleDropDownChange = event => {
-    console.log(event.target.name);
+    // console.log(event.target.value);
     this.setState({ [event.target.name]: event.target.value });
+    let paramObj = {
+      page: INITIAL_PAGE_NO,
+      size: NO_OF_RESPONSE,
+      testType:
+        event.target.name === 'testTypeValue' &&
+        event.target.value !== 'default'
+          ? event.target.value
+          : null,
+      topicId:
+        event.target.name === 'topicNameValue' &&
+        event.target.value !== 'default'
+          ? event.target.value
+          : null,
+      status:
+        event.target.name === 'statusValue' && event.target.value !== 'default'
+          ? event.target.value
+          : null,
+    };
+    this.props.getQuestionSet(paramObj);
   };
+
+  handlePageChange = (event, value) => {
+    window.scroll(0, 0);
+    let paramObj = { page: value - 1, size: NO_OF_RESPONSE };
+    this.props.getQuestionSet(paramObj);
+  };
+
+  handleSortNew = (index, order) => {
+    const fields = { 1: 'type', 4: 'courseName', 6: 'wkStatusValue' };
+    // console.log(fields[index]);
+    this.setState({
+      field: this.state.field.concat(fields[index]),
+      order: this.state.order.concat(order),
+    });
+    // let paramObj = {
+    //   page: INITIAL_PAGE_NO,
+    //   size: NO_OF_RESPONSE,
+    //   field: this.state.field.concat(fields[index]),
+    //   order: this.state.order.concat(order),
+    // };
+    // this.props.getQuestionSet(paramObj);
+  };
+
+  handleSortBlue = fieldIndex => {
+    this.setState({
+      field: this.state.field.filter((item, index) => {
+        if (index !== fieldIndex) return item;
+      }),
+      order: this.state.order.filter((item, index) => {
+        if (index !== fieldIndex) return item;
+      }),
+    });
+    // let paramObj = {
+    //   page: INITIAL_PAGE_NO,
+    //   size: NO_OF_RESPONSE,
+    //   field: this.state.field,
+    //   order: this.state.order,
+    // };
+    // this.props.getQuestionSet(paramObj);
+  };
+
+  handleSortBlur = fieldIndex => {
+    if (this.state.order[fieldIndex] === 'ASC') {
+      let newOrder = this.state.order;
+      newOrder.splice(fieldIndex, 1, 'DESC');
+      console.log(newOrder);
+      this.setState({ order: newOrder });
+    } else {
+      let newOrder = this.state.order;
+      newOrder.splice(fieldIndex, 1, 'ASC');
+      console.log(newOrder);
+      this.setState({ order: newOrder });
+    }
+    // let paramObj = {
+    //   page: INITIAL_PAGE_NO,
+    //   size: NO_OF_RESPONSE,
+    //   field: this.state.field,
+    //   order: this.state.order,
+    // };
+    // this.props.getQuestionSet(paramObj);
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      let paramObj = {
+        page: INITIAL_PAGE_NO,
+        size: NO_OF_RESPONSE,
+        field: this.state.field,
+        order: this.state.order,
+      };
+      this.props.getQuestionSet(paramObj);
+    }
+  }
+
   render() {
-    console.log(this.props.testData);
     const { data: filterData } = this.props.filterData;
-    const { testType, topicName, status } = this.state;
-    const { handleDropDownChange } = this;
+    const { data: tableContent } = this.props.testData;
+    const {
+      testTypeValue,
+      topicNameValue,
+      statusValue,
+      field,
+      order,
+    } = this.state;
+    const {
+      handleDropDownChange,
+      handlePageChange,
+      handleSortNew,
+      handleSortBlue,
+      handleSortBlur,
+    } = this;
+    console.log(this.state.order);
     return (
       <Container>
         <Grid
@@ -51,13 +160,28 @@ class TestLanding extends Component {
         {filterData && (
           <DropDownRack
             filterData={filterData}
-            testType={testType}
-            topicName={topicName}
-            status={status}
+            testTypeValue={testTypeValue}
+            topicNameValue={topicNameValue}
+            statusValue={statusValue}
             handleDropDownChange={handleDropDownChange}
           />
         )}
-        <TableComp />
+        {tableContent && (
+          <TableComp
+            tableContent={tableContent.content}
+            handleSortNew={handleSortNew}
+            field={field}
+            order={order}
+            handleSortBlue={handleSortBlue}
+            handleSortBlur={handleSortBlur}
+          />
+        )}
+        {tableContent !== undefined && (
+          <PaginationComponent
+            pageCount={tableContent.totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </Container>
     );
   }

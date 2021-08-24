@@ -43,6 +43,10 @@ export const StyledTaps = (props) => {
                   ? taskStyle
                   : styleName === "courseTaken"
                   ? courseStyle
+                  : styleName === "lms"
+                  ? lmsStyle
+                  : styleName === "student"
+                  ? studentStyle
                   : {}
                 : {}
             }
@@ -58,6 +62,7 @@ const taskStyle = {
   fontSize: "18px",
   marginRight: "40px",
   padding: 0,
+  textTransform: "capitalize",
 };
 
 const courseStyle = {
@@ -66,4 +71,22 @@ const courseStyle = {
   color: "#FFFFFF",
   marginRight: "40px",
   padding: "0 10px",
+  textTransform: "capitalize",
+};
+
+const lmsStyle = {
+  minWidth: 40,
+  minHeight: 56,
+  fontSize: "18px",
+  marginRight: "40px",
+  padding: "0 10px",
+};
+
+const studentStyle = {
+  minWidth: 220,
+  minHeight: 56,
+  fontSize: "18px",
+  marginRight: "40px",
+  padding: "0 10px",
+  textTransform: "capitalize",
 };

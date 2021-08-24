@@ -70,6 +70,7 @@ class Index extends Component {
       anchorEl: null,
       verticalTabId: 1,
       tabId: 1,
+      value:0
     };
   }
 
@@ -118,6 +119,14 @@ class Index extends Component {
     this.setState({
       anchorEl: null,
     });
+  };
+
+  handleChange = (event, newValue) => {
+    console.log(newValue);
+   this.setState({
+     value:newValue,
+     courseMonth: event.currentTarget.id
+   })
   };
 
   render() {
@@ -190,7 +199,11 @@ class Index extends Component {
               style={{ position: "relative" }}
             >
               <ThemeProvider theme={appBar}>
-                <TabBar item={this.props.monthResponse} />
+                <TabBar 
+                item={this.props.monthResponse} 
+                value={this.state.value}
+                onChange={this.handleChange}
+                />
               </ThemeProvider>
             </Grid>
 

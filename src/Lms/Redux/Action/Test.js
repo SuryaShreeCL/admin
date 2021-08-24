@@ -26,16 +26,13 @@ export const getFilters = () => {
 export const getQuestionSet = bodyObj => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
-    console.log(bodyObj);
-
     axios
-      .get(`${URL}/api/v1/lms/testQuestionSets`, {
+      .post(`${URL}/api/v1/lms/testQuestionSets`, bodyObj, {
         crossDomain: true,
         headers: {
           admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
-        bodyObj,
       })
       .then(response => {
         dispatch({
