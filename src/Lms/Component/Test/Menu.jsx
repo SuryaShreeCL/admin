@@ -23,6 +23,40 @@ export default function Menu(props) {
     { text: 'Publish Now', icon: <img src={PublishIcon} alt='Publish' /> },
   ];
 
+  const filterMaker = (array, status) => {
+    if (status === 'Live') {
+      array.length = 1;
+      return array;
+    }
+    if (status === 'In Review') {
+      array.length = 2;
+      return array;
+    }
+    if (status === 'Draft') {
+      array.length = 3;
+      return array;
+    } else return [];
+  };
+
+  const filterChecker = (array, status) => {
+    if (status === 'Live') {
+      array.length = 1;
+      return array;
+    }
+    if (status === 'Draft') {
+      array.length = 2;
+      return array;
+    }
+    if (status === 'In Review') {
+      array.length = 3;
+      return array;
+    }
+    if (status === 'Approved') {
+      array.splice(2, 1);
+      return array;
+    } else return null;
+  };
+
   const {
     role,
     topicId,
@@ -43,17 +77,12 @@ export default function Menu(props) {
         getContentAnchorEl={null}
         onClose={handleClose}
       >
-        {editorChoices
-          .filter(
-            choice =>
-              (status === 'Live' && choice.text === 'Edit') || status !== 'Live'
-          )
-          .map(item => (
-            <MenuItem onClick={() => handleOptions(item.text, name)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <Typography className={'menu-item-text'}>{item.text}</Typography>
-            </MenuItem>
-          ))}
+        {filterMaker(editorChoices, status).map(item => (
+          <MenuItem onClick={() => handleOptions(item.text, name)}>
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <Typography className={'menu-item-text'}>{item.text}</Typography>
+          </MenuItem>
+        ))}
       </MuiMenu>
     );
   if (role === ROLES.checker)
@@ -65,17 +94,13 @@ export default function Menu(props) {
         getContentAnchorEl={null}
         onClose={handleClose}
       >
-        {checkerChoices
-          .filter(
-            choice =>
-              (status === 'Live' && choice.text === 'Edit') || status !== 'Live'
-          )
-          .map(item => (
-            <MenuItem onClick={() => handleOptions(item.text, name)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <Typography className={'menu-item-text'}>{item.text}</Typography>
-            </MenuItem>
-          ))}
+        {filterChecker(checkerChoices, status).map(item => (
+          <MenuItem onClick={() => handleOptions(item.text, name)}>
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <Typography className={'menu-item-text'}>{item.text}</Typography>
+          </MenuItem>
+        ))}
       </MuiMenu>
     );
+  else return null;
 }

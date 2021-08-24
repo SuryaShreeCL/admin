@@ -50,7 +50,6 @@ class TestLanding extends Component {
   }
 
   handleDropDownChange = event => {
-    console.log(event.target.value);
     this.setState({
       [event.target.name]: event.target.value,
       // testType:
@@ -81,13 +80,6 @@ class TestLanding extends Component {
       field: this.state.field.concat(fields[index]),
       order: this.state.order.concat(order),
     });
-    // let paramObj = {
-    //   page: INITIAL_PAGE_NO,
-    //   size: NO_OF_RESPONSE,
-    //   field: this.state.field.concat(fields[index]),
-    //   order: this.state.order.concat(order),
-    // };
-    // this.props.getQuestionSet(paramObj);
   };
 
   handleSortBlue = fieldIndex => {
@@ -99,34 +91,18 @@ class TestLanding extends Component {
         if (index !== fieldIndex) return item;
       }),
     });
-    // let paramObj = {
-    //   page: INITIAL_PAGE_NO,
-    //   size: NO_OF_RESPONSE,
-    //   field: this.state.field,
-    //   order: this.state.order,
-    // };
-    // this.props.getQuestionSet(paramObj);
   };
 
   handleSortBlur = fieldIndex => {
     if (this.state.order[fieldIndex] === 'ASC') {
       let newOrder = this.state.order;
       newOrder.splice(fieldIndex, 1, 'DESC');
-      console.log(newOrder);
       this.setState({ order: newOrder });
     } else {
       let newOrder = this.state.order;
       newOrder.splice(fieldIndex, 1, 'ASC');
-      console.log(newOrder);
       this.setState({ order: newOrder });
     }
-    // let paramObj = {
-    //   page: INITIAL_PAGE_NO,
-    //   size: NO_OF_RESPONSE,
-    //   field: this.state.field,
-    //   order: this.state.order,
-    // };
-    // this.props.getQuestionSet(paramObj);
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -135,7 +111,6 @@ class TestLanding extends Component {
       prevState.order !== this.state.order
     ) {
       let paramObj = {
-        // ...this.state,
         page: INITIAL_PAGE_NO,
         size: NO_OF_RESPONSE,
         field: this.state.field.length > 0 ? this.state.field : null,
@@ -164,7 +139,6 @@ class TestLanding extends Component {
 
   handleThreeDotClick = (event, topicId) => {
     this.setState({
-      ...this.state,
       anchorEl: event.currentTarget,
       popUpId: topicId,
     });
@@ -332,7 +306,7 @@ class TestLanding extends Component {
       handleCloseIconClick,
       handlePrimaryButtonClick,
     } = this;
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <Container>
         <Grid
