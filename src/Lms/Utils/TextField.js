@@ -6,7 +6,17 @@ export const InputTextField = (props) => {
   return (
     <TextField
       {...props}
-      inputProps={{ style: { color: "#052A4E" } }}
+      inputProps={{
+        style: {
+          color: "#052A4E",
+          height: props.height !== undefined ? props.height : "auto",
+        },
+      }}
+      InputLabelProps={{
+        style: {
+          top: props.height !== undefined && "-4px",
+        },
+      }}
       variant="outlined"
       fullWidth
     />

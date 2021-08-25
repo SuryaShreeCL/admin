@@ -1,9 +1,11 @@
-import { TEST } from '../Action';
+import { TEST } from "../Action";
 
 const initialState = {
   filterData: [],
   testData: [],
   questionType: [],
+  testQuestionSet: [],
+  topics: [],
 };
 
 const TestReducer = (state = initialState, action) => {
@@ -24,6 +26,18 @@ const TestReducer = (state = initialState, action) => {
       return {
         ...state,
         questionType: action.payload,
+      };
+    }
+    case TEST.createTestQuestionSet: {
+      return {
+        ...state,
+        testQuestionSet: action.payload,
+      };
+    }
+    case TEST.getTopicByCourse: {
+      return {
+        ...state,
+        topics: action.payload,
       };
     }
     default:

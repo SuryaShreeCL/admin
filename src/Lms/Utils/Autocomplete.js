@@ -6,34 +6,26 @@ import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles({
   root: {
+    minHeight: "250px !important",
+    display: "contents",
     "& .MuiAutocomplete-inputRoot": {
-      height: "250px",
-    },
-    "& .MuiAutocomplete-root": {
-      height: "250px",
+      minHeight: "250px",
+      alignItems: "start",
     },
   },
 });
 
-export const AutocompleteText = () => {
+export const AutocompleteText = (props) => {
   const classes = useStyles();
-  const top100Films = [
-    { title: "Inglourious Basterds", year: 2009 },
-    { title: "Snatch", year: 2000 },
-    { title: "3 Idiots", year: 2009 },
-    { title: "Monty Python and the Holy Grail", year: 1975 },
-  ];
+  const { onChange, defaultValue, label, placeholder } = props.autoData;
 
   return (
     <Autocomplete
-      classes={{ root: classes.root, combobox: classes.root }}
+      classes={{ root: classes.root }}
       multiple
-      style={{ height: "80px" }}
-      onChange={(e, newValue) => {
-        console.log(newValue);
-      }}
-      options={top100Films.map((option) => option.title)}
-      defaultValue={[top100Films[1].title, top100Films[2].title]}
+      onChange={onChange !== undefined && onChange}
+      options={defaultValue !== undefined && defaultValue}
+      defaultValue={defaultValue !== undefined && defaultValue}
       freeSolo
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
@@ -44,8 +36,8 @@ export const AutocompleteText = () => {
         <TextField
           {...params}
           variant={"outlined"}
-          label="freeSolo"
-          placeholder="Favorites"
+          label={label !== undefined && label}
+          placeholder={placeholder !== undefined && placeholder}
         />
       )}
     />

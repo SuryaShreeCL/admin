@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
-import { AddButton } from "../../../Utils/Buttons";
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import {
-  Divider,
-  CenteredImg,
-  SubTitle,
-  SubHeaderTitle,
-} from "../../../Assets/StyledComponents";
-import Freepik from "../../../Assets/images/freepik.png";
+import { Divider, SubHeaderTitle } from "../../../Assets/StyledComponents";
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 
 class QuestionBankCard extends Component {
@@ -47,25 +39,6 @@ class QuestionBankCard extends Component {
             />
           </Grid>
         </Grid>
-        <Grid
-          container
-          spacing={4}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-          <Grid item>
-            <SubTitle>List of Question</SubTitle>
-          </Grid>
-          <Grid item>
-            <AddButton
-              startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
-              //onClick={AddTask}
-            >
-              Add New Question
-            </AddButton>
-          </Grid>
-        </Grid>
-        <CenteredImg src={Freepik} />
       </>
     );
   }
