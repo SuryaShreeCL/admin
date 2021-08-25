@@ -5,13 +5,22 @@ import { Box as MuiBox, Button as MuiButton } from '@material-ui/core';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  // align-items: center;
+  align-items: center;
   // justify-content: stretch;
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
   padding: 24px 20px;
   // margin: 20px 24px;
+`;
+
+export const C2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
+  border-radius: 16px;
+  padding: 24px 20px;
 `;
 
 export const H1 = styled.div`

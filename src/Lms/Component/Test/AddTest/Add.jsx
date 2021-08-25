@@ -23,6 +23,8 @@ import {
 import { connect } from "react-redux";
 import QueryString from "qs";
 import { SnackBar } from "../../../Utils/SnackBar";
+import { withRouter } from "react-router-dom";
+import { bulk_upload } from "../../../../Component/RoutePaths";
 
 class Add extends Component {
   constructor(props) {
@@ -103,7 +105,9 @@ class Add extends Component {
     this.setState({ calibrationActiveSectionTab: newValue + 1 });
   };
 
-  handleAddQuestion = () => {};
+  handleAddQuestion = () => {
+    this.props.history.push(bulk_upload);
+  };
 
   handleCalibrationTestProperties = (index, event) => {
     const calibrationTestData = [...this.state.calibrationTestData];
@@ -293,4 +297,4 @@ export default connect(mapStateToProps, {
   getCourses,
   getTopicByCourse,
   createTestQuestionSet,
-})(Add);
+})(withRouter(Add));

@@ -42,7 +42,8 @@ class Index extends Component {
       });
     }
     if (this.state.activeDownMonth !== prevState.activeDownMonth) {
-      this.props.monthPlan(this.state.activeDownMonth.id);
+      if (this.state.activeDownMonth)
+        this.props.monthPlan(this.state.activeDownMonth.id);
     }
   }
 

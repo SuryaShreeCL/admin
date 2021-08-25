@@ -139,17 +139,20 @@ export const publishTest = (testQuestionSetId, callback) => {
   };
 };
 
-export const getQuestionType = () => {
+export const getQuestionType = (testQuestionSetId) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(`${URL}/api/v1/lms/questions/types`, {
-        crossDomain: true,
-        headers: {
-          admin: "yes",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(
+        `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/questions/types`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         dispatch({
           type: TEST.getQuestionType,
@@ -219,6 +222,7 @@ export const setQuestionDataWithId = (
       })
       .catch((error) => {
         console.log(error);
+        callback(error.response.data);
       });
   };
 };
@@ -263,5 +267,26 @@ export const getTopicByCourse = (courseId) => {
         });
       })
       .catch((error) => console.log(error));
+  };
+};
+export const getTemplate = (fileName) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/files/template/${fileName}`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: TEST.getTemplate,
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error));
+    // {{DEV-LMS}}/api/v1/files/template/calibration_bundel.xlsx
   };
 };
