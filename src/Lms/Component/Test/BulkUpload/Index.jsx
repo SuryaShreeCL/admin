@@ -10,6 +10,7 @@ import {
   GreySpan,
   BlueSpan,
   FileName,
+  C2,
 } from '../../../Assets/StyledComponents';
 import DropDown from '../../../Utils/DropDown';
 import { RadioButtonsGroup } from '../../../Utils/RadioButton';
@@ -134,7 +135,7 @@ class Index extends Component {
       const { handleClose } = this;
       return (
         <React.Fragment>
-          <Container>
+          <C2>
             <H1>Add new Question</H1>
             <DropDownBox>
               <DropDown
@@ -180,7 +181,7 @@ class Index extends Component {
                 </section>
               )}
             </Dropzone>
-          </Container>
+          </C2>
           <ThemeProvider theme={ColorScheme}>
             <Button
               variant='outlined'
@@ -199,11 +200,7 @@ class Index extends Component {
               Send
             </Button>
           </ThemeProvider>
-          <Snackbar
-            open={this.state.alertState}
-            autoHideDuration={3000}
-            onClose={handleClose}
-          >
+          <Snackbar open={this.state.alertState} onClose={handleClose}>
             <Alert
               onClose={handleClose}
               severity={this.state.alertSeverity}

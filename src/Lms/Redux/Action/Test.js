@@ -219,6 +219,7 @@ export const setQuestionDataWithId = (
       })
       .catch(error => {
         console.log(error);
+        callback(error.response.data);
       });
   };
 };
