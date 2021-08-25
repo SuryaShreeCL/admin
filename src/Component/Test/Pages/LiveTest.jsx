@@ -17,7 +17,7 @@ import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
-import { editPath, createPath, testCreate } from '../../RoutePaths';
+import { editPath, createPath, testCreate, testEdit } from '../../RoutePaths';
 import moment from 'moment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
@@ -114,7 +114,7 @@ export default function LiveTest() {
 
   const openInPage = (item) => {
     history.push({
-      pathname: editPath,
+      pathname: testEdit,
       recordForEdit: item,
       postType: 'Post',
     });

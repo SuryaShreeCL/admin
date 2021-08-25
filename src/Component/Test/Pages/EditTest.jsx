@@ -24,7 +24,7 @@ import { ExistingMedia } from '../Components/Upload/ExistingMedia';
 import { createWallPost, getWallCategories, updateWallPost } from '../../../Actions/WallActions';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { wallPath } from '../../RoutePaths';
+import { testPath, wallPath } from '../../RoutePaths';
 import Notification from '../../Utils/Notification';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
@@ -135,7 +135,11 @@ const EditTest = () => {
 
   return (
     <>
-      <BackHandler title={`Edit ${location.postType}`} tab={records.isEvent ? 3 : 0} />
+      <BackHandler
+        title={`Edit ${location.postType}`}
+        tab={records.isEvent ? 3 : 0}
+        path={testPath}
+      />
       <CreateTestContainer>
         <Formik
           initialValues={records || state}

@@ -181,7 +181,7 @@ export default function LivePost() {
           {posts && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item.id} onClick={() => openInPopup(item)}>
                   <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
                   <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>

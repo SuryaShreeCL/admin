@@ -1,15 +1,14 @@
 import React from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { BackHandlerContainer } from '../Assets/Styles/CreateTestStyles';
-import { wallPath } from '../../RoutePaths';
 import { useHistory } from 'react-router-dom';
 
-const BackHandler = ({ title, tab }) => {
+const BackHandler = ({ title, tab, path }) => {
   const history = useHistory();
 
   const handleBack = () => {
     history.push({
-      pathname: wallPath,
+      pathname: path,
       tab: tab,
     });
   };

@@ -179,7 +179,7 @@ export default function Events() {
           {posts && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item.id} onClick={() => openInPopup(item)}>
                   <TableCell>{`${item.eventTitle?.slice(0, 25)}..`}</TableCell>
                   <TableCell>{`${item.caption?.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalRegistrations ?? 0}</TableCell>

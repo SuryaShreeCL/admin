@@ -21,7 +21,7 @@ import TextField from '@material-ui/core/TextField';
 import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
-import { wallPath } from '../../RoutePaths';
+import { testPath, wallPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 
 const useStyles = makeStyles({
@@ -145,7 +145,7 @@ const CreateTest = () => {
 
   return (
     <>
-      <BackHandler title={`Create New Test`} tab={0} />
+      <BackHandler title={`Create New Test`} tab={0} path={testPath} />
       <CreateTestContainer>
         <Formik
           initialValues={state || []}
@@ -262,7 +262,7 @@ const CreateTest = () => {
                         error={touched.caption && Boolean(errors.caption)}
                         multiline
                         className={classes.captionStyle}
-                        rows={6}
+                        rows={8}
                       />
                     </Grid>
                   </Grid>
