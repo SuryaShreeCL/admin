@@ -23,11 +23,24 @@ import {
   getQuestionType,
   setQuestionData,
   setQuestionDataWithId,
+  getTemplate,
 } from '../../../Redux/Action/Test';
 import Alert from '@material-ui/lab/Alert';
+import QueryString from 'qs';
 
-const testQuestionSetId = '4c72684b-3499-4378-a272-304f1708a798';
-const sectionId = '02106c2d-5e4c-45da-9f85-4efa0d7b9298';
+// const testQuestionSetId = '4c72684b-3499-4378-a272-304f1708a798';
+// const sectionId = '02106c2d-5e4c-45da-9f85-4efa0d7b9298';
+
+const radioData = {
+  name: 'Question Pattern',
+  activeValue: 2,
+  radioItemData: [
+    { id: 1, label: 'By Single Question' },
+    { id: 2, label: 'Bulk Upload' },
+  ],
+  handleRadioChange: () => console.log('hi'),
+  groupName: 'Question Pattern',
+};
 
 class Index extends Component {
   constructor(props) {
@@ -38,17 +51,29 @@ class Index extends Component {
       files: [],
       selectedType: '',
       alertState: false,
-      alertMsg: 'Hello',
-      alertSeverity: 'Success',
+      alertMsg: '',
+      alertSeverity: '',
     };
   }
 
   componentDidMount() {
-    this.props.getQuestionType();
-    console.log(this.props.questionTypes);
+    const { testQuestionSetId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
+    this.props.getQuestionType(testQuestionSetId);
   }
 
   handleChange = event => {
+    // console.log(event.target.value);
+    // console.log(this.props.questionType)
+    let index = this.props.questionTypes.data.findIndex(
+      obj => obj.id === event.target.value
+    );
+    this.props.getTemplate(this.props.questionTypes.data[index].fileName);
+    // console.log(this.props.questionTypes.data[index].fileName);
     this.setState({ selectedType: event.target.value });
   };
 
@@ -75,32 +100,62 @@ class Index extends Component {
         alertSeverity: 'error',
       });
     } else if (this.state.files.length > 0) {
-      const formData = new FormData();
-      formData.append('file', this.state.files[0]);
-      this.props.setQuestionDataWithId(
-        testQuestionSetId,
-        this.state.selectedType,
-        sectionId,
-        formData,
-        response => {
-          if (response.success) {
-            this.setState({
-              files: [],
-              alertState: true,
-              alertMsg: response.message,
-              alertSeverity: 'success',
-            });
-          } else {
-            this.setState({
-              files: [],
-              alertState: true,
-              alertMsg: response.message,
-              alertSeverity: 'error',
-            });
-          }
-          console.log(response);
+      const { testQuestionSetId, sectionId } = QueryString.parse(
+        this.props.location.search,
+        {
+          ignoreQueryPrefix: true,
         }
       );
+      const formData = new FormData();
+      formData.append('file', this.state.files[0]);
+      if (sectionId !== undefined) {
+        this.props.setQuestionDataWithId(
+          testQuestionSetId,
+          this.state.selectedType,
+          sectionId,
+          formData,
+          response => {
+            if (response.success) {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: 'success',
+              });
+            } else {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: 'error',
+              });
+            }
+          }
+        );
+      } else {
+        this.props.setQuestionData(
+          testQuestionSetId,
+          this.state.selectedType,
+          formData,
+          response => {
+            if (response.success) {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: 'success',
+              });
+            } else {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: 'error',
+              });
+            }
+          }
+        );
+      }
     }
   };
 
@@ -108,31 +163,31 @@ class Index extends Component {
     this.setState({ alertState: false });
   };
 
-  render() {
-    const { handleChange } = this;
-    // const data = null;
-    console.log(this.state.selectedType);
-    const radioData = {
-      name: 'Question Pattern',
-      activeValue: 2,
-      radioItemData: [
-        { id: 1, label: 'By Single Question' },
-        { id: 2, label: 'Bulk Upload' },
-      ],
-      handleRadioChange: () => console.log('hi'),
-      groupName: 'Question Pattern',
-    };
+  handleTemplateClick = () => {
+    if (this.state.selectedType === '') {
+      this.setState({
+        alertState: true,
+        alertMsg: 'Please select a Question Type',
+        alertSeverity: 'error',
+      });
+    } else window.open(this.props.template.data.url);
+    // return false;
+  };
 
-    // const files =
-    //   this.state.files.length > -1 ? (
-    //     <li key={this.state.file.name}>
-    //       {this.state.file.name} - {this.state.file.size} bytes
-    //     </li>
-    //   ) : null;
+  render() {
+    // const { handleChange } = this;
+    // const { testQuestionSetId } = QueryString.parse(
+    //   this.props.location.search,
+    //   {
+    //     ignoreQueryPrefix: true,
+    //   }
+    // );
+    // // console.log(this.props);
+    // console.log(this.props.template);
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
       const { selectedType } = this.state;
-      const { handleClose } = this;
+      const { handleChange, handleClose, handleTemplateClick } = this;
       return (
         <React.Fragment>
           <C2>
@@ -146,13 +201,7 @@ class Index extends Component {
                 onChange={handleChange}
               />
             </DropDownBox>
-            <Link
-              className={'link_text'}
-              to={{
-                pathname: 'https://google.com',
-              }}
-              target='_blank'
-            >
+            <Link onClick={handleTemplateClick} className={'link_text'}>
               Preview Template
             </Link>
             <Divider className={'divider_style'} />
@@ -218,6 +267,7 @@ class Index extends Component {
 const mapStateToProps = state => {
   return {
     questionTypes: state.TestReducer.questionType,
+    template: state.TestReducer.template,
   };
 };
 
@@ -225,4 +275,5 @@ export default connect(mapStateToProps, {
   getQuestionType,
   setQuestionData,
   setQuestionDataWithId,
+  getTemplate,
 })(Index);

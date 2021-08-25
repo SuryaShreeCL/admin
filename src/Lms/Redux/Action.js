@@ -25,6 +25,7 @@ export const TEST = {
   getQuestionSet: 'getQuestionSet',
   getQuestionType: 'getQuestionType',
   setQuestionData: 'setQuestionData',
+  getTemplate: 'getTemplate',
 };
 
 export const STUDENT = {

@@ -4,9 +4,11 @@ const initialState = {
   filterData: [],
   testData: [],
   questionType: [],
+  template: [],
 };
 
 const TestReducer = (state = initialState, action) => {
+  // console.log(action);
   switch (action.type) {
     case TEST.getFilters: {
       return {
@@ -24,6 +26,12 @@ const TestReducer = (state = initialState, action) => {
       return {
         ...state,
         questionType: action.payload,
+      };
+    }
+    case TEST.getTemplate: {
+      return {
+        ...state,
+        template: action.payload,
       };
     }
     default:
