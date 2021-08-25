@@ -96,7 +96,13 @@ export class Student extends Component {
       internAccess: false,
       lmsAccess: false,
       prevEmail: null,
+      search : {
+        page : '',
+        size : '',
+        keyword : '',
+      }
     };
+
   }
 
   // stu_header = [
@@ -168,29 +174,19 @@ export class Student extends Component {
           this.props.signUpResponse.studentInfo.id,
           lmsobj
         );
-        // this.setState({
-        //   snackMessage : "Student Registered Successfully",
-        //   snackColor : "success",
-        //   snackOpen : true
-        // })
+      
       }
       this.props.getStudentPaginate(0, 20);
     }
-    if (this.props.signUpError !== prevProps.signUpError) {
-      console.log("Something");
-      // this.setState({
-      //   snackMessage : this.props.signUpError,
-      //   snackColor : "error",
-      //   snackOpen : true
-      // })
-    }
     if (this.props.editStudentResponse !== prevProps.editStudentResponse) {
-      // this.setState({
-      //   snackMessage : "Student Edited Successfully",
-      //   snackColor : "success",
-      //   snackOpen : true
-      // })
+     
       this.props.getStudentPaginate(0, 20);
+    }
+    // TO search users when the input feild for search is empty
+    if(this.state.search.keyword !== prevState.search.keyword){
+      if(isEmptyString(this.state.search.keyword)){
+        this.props.getStudentPaginate(0, 20);
+      }
     }
   }
   rowClick = (rowData) => {
@@ -221,7 +217,16 @@ export class Student extends Component {
       },
     });
   paginate = (page, size, keyword) => {
-    this.props.getStudentPaginate(page, size, keyword);
+    console.log(page,size,keyword)
+    var tempSearchHolder = {...this.state.search}
+    tempSearchHolder.page = page
+    tempSearchHolder.size = size
+    tempSearchHolder.keyword = keyword
+    console.log(tempSearchHolder)
+    this.setState({
+      search : tempSearchHolder
+    })
+    // this.props.getStudentPaginate(page, size, keyword);
   };
 
   isEmail = (email) => {
@@ -422,6 +427,13 @@ export class Student extends Component {
       });
     }
   };
+
+  // Function that handle search
+  handleSearch = () =>{
+
+    this.props.getStudentPaginate(this.state.search.page,this.state.search.size,this.state.search.keyword)
+
+  }
   render() {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
@@ -470,6 +482,14 @@ export class Student extends Component {
                   ? false
                   : true
               }
+              needSearch
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  e.preventDefault();
+                  document.getElementById("search").click();
+                }
+              }}
+              onSearchClick={this.handleSearch}
               onAddClick={(e) =>
                 this.setState({
                   dialogOpen: true,

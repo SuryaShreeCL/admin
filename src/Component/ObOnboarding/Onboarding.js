@@ -33,7 +33,7 @@ import { isEmptyString } from "../Validation";
 import DataGrid from "./DataGrid";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
-
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 
 const theme = createMuiTheme({
   overrides: {
@@ -67,7 +67,13 @@ export class Onboarding extends Component {
     this.props.getStudentByStages(
       this.props.match.params.productId,
       this.props.stageDetails.stepName,
-      ""
+      "",(response=>{
+        if(response.status === 200){
+          this.setState({
+            listOfusers : response.data.content
+          })
+        }
+      })
     );
     this.props.getBranches();
     this.props.getAllColleges();
@@ -124,20 +130,22 @@ export class Onboarding extends Component {
         listOfusers: listOfUsersArr,
       });
     }
-    if (this.state.search !== prevState.search) {
-      if (!isEmptyString(this.state.search)) {
+    if(this.state.search !== prevState.search){
+      if(isEmptyString(this.state.search)){
         this.props.getStudentByStages(
           this.props.match.params.productId,
           this.props.stageDetails.stepName,
-          this.state.search
+          "",(response=>{
+            if(response.status === 200){
+              this.setState({
+                listOfusers : response.data.content
+              })
+            }
+          })
         );
       }
     }
-    if (this.props.searchedList !== prevProps.searchedList) {
-      this.setState({
-        listOfusers: this.props.searchedList.content,
-      });
-    }
+    
   }
   shrink() {
     this.setState({ shrink: true });
@@ -291,6 +299,24 @@ export class Onboarding extends Component {
     },
   });
 
+  // To handle search
+
+  handleSearch = () =>{
+
+    if (!isEmptyString(this.state.search)) {
+      this.props.getStudentByStages(
+        this.props.match.params.productId,
+        this.props.stageDetails.stepName,
+        this.state.search,(response=>{
+          this.setState({
+            listOfusers : response.data.content
+          })
+        })
+      );
+    }
+     
+  }
+
   render() {
     const { HeadStyle, HeadDisplay } = style;
     return (
@@ -318,28 +344,30 @@ export class Onboarding extends Component {
                     shrink: this.state.shrink,
                   }}
                   onFocus={() => this.shrink()}
-                  type="search"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  // onKeyUp={(e)=>{
-                  //   if(e.keyCode===13){
-                  //     e.preventDefault();
-                  //     if (!isEmptyString(this.state.search)) {
-                  //       this.props.getStudentByStages(
-                  //         this.props.match.params.productId,
-                  //         this.props.stageDetails.stepName,
-                  //         this.state.search
-                  //       );
-                  //     }
-                  //   }
+                  // type="search"
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <SearchIcon />
+                  //     </InputAdornment>
+                  //   ),
                   // }}
-                  // style={{ width: "45%", marginLeft: "23%" }}
+                  onKeyUp={(e) => {
+                    if (e.keyCode === 13) {
+                      e.preventDefault();
+                      document.getElementById("search").click();
+                    }
+                  }}
                 />
+                  <IconButton
+                    style={{ marginLeft: "8px" }}
+                    onClick={this.handleSearch}
+                    color="primary"
+                    id={"search"}
+                    aria-label="search"
+                  >
+                    <SearchRoundedIcon />
+                  </IconButton>
                 {/*  
                 <PrimaryButton
                   style={{
