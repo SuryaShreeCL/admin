@@ -87,16 +87,21 @@ export class Student extends Component {
       password: "123456",
       studentId: null,
       isActive: true,
-      firstNameHelperText: '',
-      lastNameHelperText: '',
-      emailHelperText: '',
-      collegeHelperText: '',
-      departmentHelperText: '',
-      phoneHelperText: '',
-      studentIdHelperText: '',
+      firstNameHelperText: "",
+      lastNameHelperText: "",
+      emailHelperText: "",
+      collegeHelperText: "",
+      departmentHelperText: "",
+      phoneHelperText: "",
+      studentIdHelperText: "",
       internAccess: false,
       lmsAccess: false,
       prevEmail: null,
+      search: {
+        page: 0,
+        size: "",
+        keyword: "",
+      },
     };
   }
 
@@ -169,29 +174,17 @@ export class Student extends Component {
           this.props.signUpResponse.studentInfo.id,
           lmsobj
         );
-        // this.setState({
-        //   snackMessage : "Student Registered Successfully",
-        //   snackColor : "success",
-        //   snackOpen : true
-        // })
       }
       this.props.getStudentPaginate(0, 20);
     }
-    if (this.props.signUpError !== prevProps.signUpError) {
-      console.log("Something");
-      // this.setState({
-      //   snackMessage : this.props.signUpError,
-      //   snackColor : "error",
-      //   snackOpen : true
-      // })
-    }
     if (this.props.editStudentResponse !== prevProps.editStudentResponse) {
-      // this.setState({
-      //   snackMessage : "Student Edited Successfully",
-      //   snackColor : "success",
-      //   snackOpen : true
-      // })
       this.props.getStudentPaginate(0, 20);
+    }
+    // TO search users when the input feild for search is empty
+    if (this.state.search.keyword !== prevState.search.keyword) {
+      if (isEmptyString(this.state.search.keyword)) {
+        this.props.getStudentPaginate(0, 20);
+      }
     }
   }
   rowClick = (rowData) => {
@@ -222,7 +215,21 @@ export class Student extends Component {
       },
     });
   paginate = (page, size, keyword) => {
-    this.props.getStudentPaginate(page, size, keyword);
+    console.log(page, size, keyword);
+    var tempSearchHolder = { ...this.state.search };
+    tempSearchHolder.page = page;
+    tempSearchHolder.size = size;
+    tempSearchHolder.keyword = keyword;
+    console.log(tempSearchHolder);
+    this.setState({
+      search: tempSearchHolder,
+    });
+    if (
+      // this.state.search.page !== 0 &&
+      this.state.search.page !== page
+    ) {
+      this.props.getStudentPaginate(page, size, keyword);
+    }
   };
 
   isEmail = (email) => {
@@ -234,28 +241,28 @@ export class Student extends Component {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({ firstNameHelperText: "Please fill the required feild" })
-      : this.setState({ firstNameHelperText: '' });
+      : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
       ? this.setState({ lastNameHelperText: "Please fill the required feild" })
-      : this.setState({ lastNameHelperText: '' });
+      : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({ emailHelperText: "Please fill the required feild" })
-      : this.setState({ emailHelperText: '' });
+      : this.setState({ emailHelperText: "" });
     this.state.college === null || this.state.college.length === 0
       ? this.setState({ collegeHelperText: "Please fill the required feild" })
-      : this.setState({ collegeHelperText: '' });
+      : this.setState({ collegeHelperText: "" });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
           departmentHelperText: "Please fill the required feild",
         })
-      : this.setState({ departmentHelperText: '' });
+      : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
       ? this.setState({ studentIdHelperText: "Please fill the required feild" })
-      : this.setState({ studentIdHelperText: '' });
+      : this.setState({ studentIdHelperText: "" });
     if (this.state.eMail && !this.isEmail(this.state.eMail)) {
       this.setState({ emailHelperText: "Please fill valid email" });
     } else if (this.isEmail(this.state.eMail)) {
-      this.setState({ emailHelperText: '' });
+      this.setState({ emailHelperText: "" });
     }
     if (isEmptyString(this.state.phone)) {
       this.setState({ phoneHelperText: "Please fill the required feild" });
@@ -423,6 +430,16 @@ export class Student extends Component {
       });
     }
   };
+
+  // Function that handle search
+  handleSearch = () => {
+    // this.state.search.page
+    this.props.getStudentPaginate(
+      0,
+      this.state.search.size,
+      this.state.search.keyword
+    );
+  };
   render() {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
@@ -471,6 +488,14 @@ export class Student extends Component {
                   ? false
                   : true
               }
+              needSearch
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  e.preventDefault();
+                  document.getElementById("search").click();
+                }
+              }}
+              onSearchClick={this.handleSearch}
               onAddClick={(e) =>
                 this.setState({
                   dialogOpen: true,
@@ -532,7 +557,7 @@ export class Student extends Component {
               }}
               cols={this.stu_header}
               onRowClick={(rowData) => this.rowClick(rowData)}
-              onSearch={this.paginate}
+              // onSearch={this.paginate}
               paginate={this.paginate}
               totalCount={this.props.StudentFilterList.totalElements}
               title={"Student"}
