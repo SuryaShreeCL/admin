@@ -13,7 +13,7 @@ import {
   Head,
   HeadCell,
 } from '../../Assets/StyledTableComponents';
-import Menu from './Menu';
+import Menu from '../Test/Menu';
 
 const role = sessionStorage.getItem('role');
 
@@ -66,12 +66,10 @@ export default function DataTable(props) {
     handleThreeDotClick,
     handleClose,
     pageNo,
-    handleDelete,
     popUpId,
-    handlePublish,
-    handleSendReview,
-    handleEdit,
+
     role,
+    handleOptions,
   } = props;
   // if (props.topics !== undefined) {
   //   console.log(topics.data);
@@ -94,7 +92,6 @@ export default function DataTable(props) {
         <TableBody>
           {topics !== undefined &&
             topics.data.content.map((item, index) => {
-              // console.log(item.id);
               return (
                 <TableRow key={index} style={{ border: '0 0 0 0' }}>
                   <BodyCell className={classes.leftAlign}>
@@ -118,6 +115,16 @@ export default function DataTable(props) {
                     </IconButton>
                     <Menu
                       role={role}
+                      anchorEl={anchorEl}
+                      open={item.id === popUpId}
+                      handleClose={handleClose}
+                      status={item.status}
+                      handleOptions={handleOptions}
+                      name={item.topicName}
+                      topicId={item.id}
+                    />
+                    {/* <Menu
+                      role={role}
                       open={item.id === popUpId}
                       anchorEl={anchorEl}
                       handleClose={handleClose}
@@ -128,7 +135,7 @@ export default function DataTable(props) {
                       handleSendReview={handleSendReview}
                       isMapped={item.isMapped}
                       handleEdit={handleEdit}
-                    />
+                    /> */}
                   </BlueCell>
                 </TableRow>
               );

@@ -1,30 +1,28 @@
 import { Box, Grid, TextField, ThemeProvider } from '@material-ui/core';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import ShareIcon from '@material-ui/icons/Share';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { lms_add_topic } from '../../../Component/RoutePaths';
+import PublishIcon from '../../Assets/icons/Publish.svg';
+import { Container, H1, textFieldTheme } from '../../Assets/StyledComponents';
 import {
-  ColorScheme,
-  Container,
-  H1,
-  textFieldTheme,
-} from '../../Assets/StyledComponents';
-import {
+  deleteTopic,
   getConcepts,
   getCourses,
   getSubjects,
   getTopics,
-  deleteTopic,
   publishTopic,
   reviewTopic,
+  approveTopic,
 } from '../../Redux/Action/CourseMaterial';
+import DialogComponent from '../../Utils/DialogComponent';
 import PaginationComponent from '../../Utils/PaginationComponent';
 import PlusButton from '../../Utils/PlusButton';
 import DataTable from './DataTable';
 import DropDownRack from './DropDownRack';
-import DialogComponent from '../../Utils/DialogComponent';
-import DeleteIcon from '@material-ui/icons/Delete';
-import PublishIcon from '../../Assets/icons/Publish.svg';
-import ShareIcon from '@material-ui/icons/Share';
-import { lms_add_topic } from '../../../Component/RoutePaths';
+// import { approveTopic } from '../../Redux/Action/Test';
 
 const INITIAL_PAGE_NO = 0;
 const INITIAL_SEARCH_TEXT = '';
@@ -50,7 +48,6 @@ class CourseLanding extends Component {
 
   componentDidMount() {
     const role = sessionStorage.getItem('role');
-    console.log(role);
     this.props.getCourses(response => {
       if (response.success) {
         this.props.getSubjects(response.data[0].id, subjectResponse => {
@@ -81,7 +78,6 @@ class CourseLanding extends Component {
   }
 
   handleThreeDotClick = (topicId, event) => {
-    // console.log(event.currentTarget);
     this.setState({ anchorEl: event.currentTarget, popUpId: topicId });
   };
 
@@ -173,19 +169,6 @@ class CourseLanding extends Component {
     this.setState({ pageNo: value - 1 });
   };
 
-  handleDelete = (topicId, topicName) => {
-    // console.log(topicId);
-    const dialogContent = {
-      type: 'delete',
-      icon: <DeleteIcon color='primary' style={{ fontSize: '48px' }} />,
-      title: 'Are you sure you want to Delete?',
-      body: topicName,
-      button1: 'No',
-      button2: 'Yes',
-    };
-    this.setState({ dialogStatus: true, dialogContent: dialogContent });
-  };
-
   handleButton1Click = () => {
     this.setState({
       dialogStatus: false,
@@ -204,7 +187,7 @@ class CourseLanding extends Component {
 
   // Main action button in popup
   handleButton2Click = () => {
-    if (this.state.dialogContent.type === 'delete')
+    if (this.state.dialogContent.type === 'archive')
       this.props.deleteTopic(this.state.popUpId, response => {
         if (response.success) {
           this.props.getTopics(
@@ -240,17 +223,18 @@ class CourseLanding extends Component {
           this.handleCloseIconClick();
         }
       });
-  };
-
-  handlePublishClick = topicId => {
-    const dialogContent = {
-      type: 'publish',
-      icon: <img src={PublishIcon} width='64px' height='64px' />,
-      title: 'Are you sure you want to Publish? ',
-      button1: 'Cancel',
-      button2: 'Publish now',
-    };
-    this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    else if (this.state.dialogContent.type === 'approve')
+      this.props.approveTopic(this.state.popUpId, response => {
+        if (response.success) {
+          this.props.getTopics(
+            this.state.conceptId,
+            INITIAL_PAGE_NO,
+            INITIAL_SEARCH_TEXT,
+            topicResponse => {}
+          );
+          this.handleCloseIconClick();
+        }
+      });
   };
 
   handleSendReviewClick = () => {
@@ -264,14 +248,56 @@ class CourseLanding extends Component {
     this.setState({ dialogStatus: true, dialogContent: dialogContent });
   };
 
-  handleEdit = topicId => {
-    this.props.history.push(lms_add_topic + '?topic_id=' + topicId);
+  handleOptions = (text, topicName, topicId) => {
+    // console.log(text);
+    if (text === 'Edit') {
+      this.props.history.push(lms_add_topic + '?topic_id=' + topicId);
+    } else if (text === 'Archive') {
+      const dialogContent = {
+        type: 'archive',
+        icon: <ArchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
+        title: 'Are you sure you want to Archive?',
+        body: topicName,
+        button1: 'No',
+        button2: 'Yes',
+      };
+      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    } else if (text === 'Send Review') {
+      const dialogContent = {
+        type: 'review',
+        icon: <ShareIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
+        title: 'Are you sure you want to Send Review?',
+        body: topicName,
+        button1: 'Cancel',
+        button2: 'Send',
+      };
+      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    } else if (text === 'Approve') {
+      console.log('hi');
+      const dialogContent = {
+        type: 'approve',
+        icon: <ThumbUpIcon style={{ fontSize: '48px', fill: '#1093ff' }} />,
+        title: 'Are you sure you want to Approve?',
+        body: topicName,
+        button1: 'Cancel',
+        button2: 'Approve',
+      };
+      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    } else if (text === 'Publish Now') {
+      const dialogContent = {
+        type: 'publish',
+        icon: <img src={PublishIcon} width='64px' height='64px' />,
+        title: 'Are you sure you want to Publish? ',
+        body: topicName,
+        button1: 'Cancel',
+        button2: 'Publish now',
+      };
+      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    }
   };
 
   render() {
-    // console.log(this.)
     const {
-      content,
       anchorEl,
       courseId,
       subjectId,
@@ -289,13 +315,11 @@ class CourseLanding extends Component {
       handleChange,
       handleTextFieldChange,
       handlePageChange,
-      handleDelete,
       handleButton1Click,
       handleCloseIconClick,
       handleButton2Click,
-      handlePublishClick,
       handleSendReviewClick,
-      handleEdit,
+      handleOptions,
     } = this;
     const { courses, subjects, concepts, topics } = this.props;
     return (
@@ -350,12 +374,10 @@ class CourseLanding extends Component {
               handleClose={handleClose}
               handlePlusButton
               pageNo={pageNo}
-              handleDelete={handleDelete}
               popUpId={popUpId}
-              handlePublish={handlePublishClick}
               handleSendReview={handleSendReviewClick}
-              handleEdit={handleEdit}
               role={role}
+              handleOptions={handleOptions}
             />
           </Box>
         </Grid>
@@ -395,4 +417,5 @@ export default connect(mapStateToProps, {
   deleteTopic,
   publishTopic,
   reviewTopic,
+  approveTopic,
 })(CourseLanding);
