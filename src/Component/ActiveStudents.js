@@ -42,6 +42,7 @@ import {CircularProgress,
   FormControlLabel,
   Checkbox
 } from "@material-ui/core"
+import Loader from "./Utils/controls/Loader";
 export class ActiveStudents extends Component {
   constructor(props) {
     super(props);
@@ -372,12 +373,13 @@ export class ActiveStudents extends Component {
                       alignItems: "center",
                       height: "65vh",
                 }}>
-              <CircularProgress
+              {/* <CircularProgress
              color="primary"
               variant="indeterminate"
               size = "3rem"
               thickness="3"
-               />
+               /> */}
+               <Loader />
                </div>
               </ThemeProvider>
           )}
