@@ -7,6 +7,7 @@ const initialState = {
   testQuestionSet: [],
   topics: [],
   template: [],
+  subjects: [],
 };
 
 const TestReducer = (state = initialState, action) => {
@@ -46,6 +47,18 @@ const TestReducer = (state = initialState, action) => {
       return {
         ...state,
         template: action.payload,
+      };
+    }
+    case TEST.getSubjectsByCourse: {
+      return {
+        ...state,
+        subjects: action.payload,
+      };
+    }
+    case TEST.getTestQuestionSet: {
+      return {
+        ...state,
+        testQuestionSet: action.payload,
       };
     }
     default:

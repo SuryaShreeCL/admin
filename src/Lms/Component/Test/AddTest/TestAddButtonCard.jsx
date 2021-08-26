@@ -11,7 +11,7 @@ class TestAddButtonCard extends Component {
   }
 
   render() {
-    const { addQuestion, type } = this.props;
+    const { addQuestion, type, id } = this.props;
     return (
       <>
         <Grid
@@ -27,12 +27,14 @@ class TestAddButtonCard extends Component {
             <SubTitle>List of Question</SubTitle>
           </Grid>
           <Grid item>
-            <AddButton
-              startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
-              onClick={addQuestion}
-            >
-              Add New Question
-            </AddButton>
+            <div style={{ opacity: id === null && "0.5" }}>
+              <AddButton
+                startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
+                onClick={addQuestion}
+              >
+                Add New Question
+              </AddButton>
+            </div>
           </Grid>
         </Grid>
         <CenteredImg src={Freepik} />

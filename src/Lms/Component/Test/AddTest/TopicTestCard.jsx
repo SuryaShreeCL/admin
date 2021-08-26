@@ -13,15 +13,17 @@ class TopicTestCard extends Component {
     super(props);
   }
   render() {
+    const { testSections, handleChange } = this.props.data;
     return (
       <>
         <Divider />
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <InputTextField
-              name="n"
-              onChange={() => {}}
-              //value={""}
+              name="noOfQuestions"
+              type={"number"}
+              onChange={handleChange}
+              value={testSections.noOfQuestions}
               label="Number of question"
               height="11px"
             />
@@ -38,9 +40,9 @@ class TopicTestCard extends Component {
                   },
                 }}
                 type={"number"}
-                //value={inputItem.duration}
+                value={testSections.duration}
                 name="duration"
-                //onChange={taskProperties}
+                onChange={handleChange}
                 endAdornment={
                   <InputAdornment position="end">min</InputAdornment>
                 }

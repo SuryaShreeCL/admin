@@ -291,3 +291,47 @@ export const getTemplate = (fileName) => {
     // {{DEV-LMS}}/api/v1/files/template/calibration_bundel.xlsx
   };
 };
+
+export const getSubjectsByCourse = (subjectId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/subjects/course/${subjectId}`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: TEST.getSubjectsByCourse,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => console.log(error));
+  };
+};
+
+export const getTestQuestionSet = (testQuestionSetId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/lms/testquestionset/${testQuestionSetId}`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: TEST.getTestQuestionSet,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => console.log(error));
+  };
+};
