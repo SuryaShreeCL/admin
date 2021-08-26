@@ -124,7 +124,7 @@ class AspirationDetails extends Component {
     this.props.getAllTerms();
     this.props.getAllUniversity();
     this.props.getallcountry();
-    this.props.getAspirationQuestion(this.props.match.params.studentId);
+    this.props.getAspirationQuestion(this.props.match.params.studentId,this.props.variantStepList && this.props.variantStepList.productFamily.aspirationQuestionSet);
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getAspiration(
       (response) => {
@@ -180,12 +180,12 @@ class AspirationDetails extends Component {
       }
 
       delete item.answer["questionId"];
-      delete item["testExecutionId"];
+      // delete item["testExecutionId"];
     });
     this.props.updateAspiration(
       obj,
       (response) => {
-        this.props.getAspirationQuestion(this.props.match.params.studentId);
+        this.props.getAspirationQuestion(this.props.match.params.studentId,this.props.variantStepList && this.props.variantStepList.productFamily.aspirationQuestionSet);
         this.props.viewStudentStatus(this.props.match.params.studentId);
         this.props.getAspiration(
           (response) => {
@@ -277,6 +277,7 @@ class AspirationDetails extends Component {
                       aria-label="gender"
                       style={{ display: "flex", flexDirection: "row" }}
                       onChange={(e) => {
+                        console.log(e.target.value)
                         let arr = [];
                         let choiceId = {
                           id: e.target.value,
@@ -289,6 +290,7 @@ class AspirationDetails extends Component {
                             selectedChoices: [choiceId],
                             questionId: qid,
                           },
+                          testExecutionId :  this.state.answerModel[0].testExecutionId
                         };
                         if (
                           this.state.answerModel.some(
@@ -303,6 +305,7 @@ class AspirationDetails extends Component {
                         } else {
                           arr = this.state.answerModel.concat(obj);
                         }
+                        console.log(arr)
                         this.setState({ answerModel: arr });
                       }}
                       // defaultValue={this.getAnswer(qid)}
