@@ -26,6 +26,7 @@ import { connect } from "react-redux";
 import MySnackBar from '../MySnackBar';
 import { isEmptyString } from '../Validation';
 import {viewSpecialization, addSpecialization, updateSpecialization, deleteSpecialization} from "../../Actions/Aspiration"
+import Loader from '../Utils/controls/Loader'
 
 export class AspirationArea extends Component {
   constructor(props) {
@@ -244,12 +245,13 @@ export class AspirationArea extends Component {
                       height: "65vh",
                     }}
                   >
-                    <CircularProgress
+                    {/* <CircularProgress
                       color="primary"
                       variant="indeterminate"
                       size="3rem"
                       thickness="3"
-                    />
+                    /> */}
+                    <Loader />
                   </div>
                 </ThemeProvider>
               )}
