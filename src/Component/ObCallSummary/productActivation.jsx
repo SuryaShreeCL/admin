@@ -1,10 +1,15 @@
 import {
-  Breadcrumbs, CircularProgress, createMuiTheme, Table,
+  Breadcrumbs,
+  CircularProgress,
+  createMuiTheme,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, ThemeProvider, Typography
+  TableRow,
+  ThemeProvider,
+  Typography,
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -27,19 +32,19 @@ import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  activateStudentProduct, getAwaitingUsersByAdminId
+  activateStudentProduct,
+  getAwaitingUsersByAdminId,
 } from "../../Actions/AdminAction";
 import {
   getAllProductFamily,
   getProductByFamilyId,
   getProductVarient,
-  searchProductActivationList
+  searchProductActivationList,
 } from "../../Actions/ProductAction";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import { studentPath } from "../RoutePaths";
-import { CircularProgress } from "@material-ui/core";
 import Loader from "../Utils/controls/Loader";
 import { isEmptyArray, isEmptyString } from "../Validation";
 
@@ -194,15 +199,18 @@ class ProductActivation extends Component {
         listOfUsers: this.props.awaitingUsersForActivationList.content,
       });
     }
-    
+
     if (this.props.searchActivationList !== prevProps.searchActivationList) {
       this.setState({
         listOfUsers: this.props.searchActivationList.content,
       });
     }
-    if(this.state.keyword !== prevState.keyword){
-      if(isEmptyString(this.state.keyword)){
-        this.props.searchProductActivationList(this.props.match.params.productId,this.state.keyword)
+    if (this.state.keyword !== prevState.keyword) {
+      if (isEmptyString(this.state.keyword)) {
+        this.props.searchProductActivationList(
+          this.props.match.params.productId,
+          this.state.keyword
+        );
       }
     }
   }
@@ -224,9 +232,12 @@ class ProductActivation extends Component {
 
   // To handle search
 
-  handleSearch = () =>{
-    this.props.searchProductActivationList(this.props.match.params.productId,this.state.keyword)
-  }
+  handleSearch = () => {
+    this.props.searchProductActivationList(
+      this.props.match.params.productId,
+      this.state.keyword
+    );
+  };
 
   render() {
     return (
@@ -299,35 +310,36 @@ class ProductActivation extends Component {
             // }}
             style={{ width: "40%", marginLeft: "50%", bottom: 65 }}
           />
-           <IconButton
-                    style={{ marginLeft: "8px", top : -60 }}
-                    onClick={this.handleSearch}
-                    color="primary"
-                    id={"search"}
-                    aria-label="search"
-                  >
-                    <SearchRoundedIcon />
-                  </IconButton>
+          <IconButton
+            style={{ marginLeft: "8px", top: -60 }}
+            onClick={this.handleSearch}
+            color="primary"
+            id={"search"}
+            aria-label="search"
+          >
+            <SearchRoundedIcon />
+          </IconButton>
           {/* </div> */}
 
           <TableContainer>
             <Table>
               <TableHead>
-                {this.state.listOfUsers.length !== 0 ?
-                 <TableRow>
-                 <TableCell align="center">CLS ID</TableCell>
-                 <TableCell align="center">Client Name</TableCell>
-                 <TableCell align="center">College</TableCell>
-                 <TableCell align="center">Dept</TableCell>
-                 <TableCell align="center">Degree</TableCell>
-                 <TableCell align="center">Product Varient</TableCell>
-                 <TableCell align="center">Order Punch Date</TableCell>
-                 <TableCell align="center">Amount Paid</TableCell>
-                 <TableCell align="center">Activated</TableCell>
-                 <TableCell align="center"></TableCell>
-               </TableRow>
-               : <Loader/>
-                }
+                {this.state.listOfUsers.length !== 0 ? (
+                  <TableRow>
+                    <TableCell align="center">CLS ID</TableCell>
+                    <TableCell align="center">Client Name</TableCell>
+                    <TableCell align="center">College</TableCell>
+                    <TableCell align="center">Dept</TableCell>
+                    <TableCell align="center">Degree</TableCell>
+                    <TableCell align="center">Product Varient</TableCell>
+                    <TableCell align="center">Order Punch Date</TableCell>
+                    <TableCell align="center">Amount Paid</TableCell>
+                    <TableCell align="center">Activated</TableCell>
+                    <TableCell align="center"></TableCell>
+                  </TableRow>
+                ) : (
+                  <Loader />
+                )}
               </TableHead>
               <TableBody>
                 {this.state.listOfUsers.length !== 0 &&
@@ -369,7 +381,7 @@ class ProductActivation extends Component {
                         </TableCell>
                       </TableRow>
                     );
-                  })}                
+                  })}
               </TableBody>
               {/* <TableFooter>
                   <TableRow>
