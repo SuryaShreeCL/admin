@@ -278,7 +278,7 @@ class ClientDetails extends Component {
           appdegree: aspirationDegrees && aspirationDegrees.length !== 0 ? {...aspirationDegrees[0]} : null,
           order: {title:orderType},
           countries: aspirationCountries && aspirationCountries.length !== 0 ? {...aspirationCountries[0]} : null,
-          package: packages,
+          package: {name:packages},
           workexp: {title:experience},
           exptype: {title:typeOfExperience},
           expfield:fieldOfExperience,
@@ -409,19 +409,19 @@ class ClientDetails extends Component {
     this.state.callbacktime === null
       ? this.setState({ callbacktimeErr: hlptxt })
       : this.setState({ callbacktimeErr: "" });
-    isEmptyString(this.state.spedays)
+    this.state.spedays && this.state.spedays.title === undefined || isEmptyString(this.state.spedays)
       ? this.setState({ speDaysErr: hlptxt })
       : this.setState({ speDaysErr: "" });
     this.state.spetime === null
       ? this.setState({ speErr: hlptxt })
       : this.setState({ speErr: "" });
-    this.state.enrolldate === null
+    this.state.enrolldate === "" || this.state.enrolldate === null
       ? this.setState({ enrolldateErr: hlptxt })
       : this.setState({ enrolldateErr: "" });
     isEmptyString(this.state.appdegree)
       ? this.setState({ appdegreeErr: hlptxt })
       : this.setState({ appdegreeErr: "" });
-    isEmptyString(this.state.order)
+    this.state.order && this.state.order.title === undefined || isEmptyString(this.state.order)
       ? this.setState({ orderErr: hlptxt })
       : this.setState({ orderErr: "" });
     isEmptyString(this.state.countries)
@@ -445,7 +445,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.term)
       ? this.setState({ termErr: hlptxt })
       : this.setState({ termErr: "" });
-    isEmptyString(this.state.intakeyear)
+      this.state.intakeyear && this.state.intakeyear.title === undefined
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
     console.log(this.state)
@@ -522,7 +522,8 @@ class ClientDetails extends Component {
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear.title,
-        packages: typeof this.state.package ? this.state.package : this.state.package.name,
+        // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
+        packages : this.state.package && this.state.package.name,
         workExperience: this.state.workexp.title,
         typeOfExperience:
           this.state.exptype !== null ? this.state.exptype.title : null,
@@ -1114,7 +1115,7 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-              <Autocomplete
+              {/* <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.package}
@@ -1171,7 +1172,7 @@ class ClientDetails extends Component {
                       helperText={this.state.packageErr}
                     />
                   )}
-                />
+                /> */}
                 {/* <TextField
                   label="Package"
                   value={this.state.package}
@@ -1179,6 +1180,22 @@ class ClientDetails extends Component {
                   error={this.state.packageErr.length > 0}
                   helperText={this.state.packageErr}
                 /> */}
+                 <Autocomplete
+                      id="combo-box-demo"
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      options={this.package}
+                      getOptionLabel={(option) => option.name}
+                      value={this.state.package}
+                      onChange={(e,newValue)=>this.setState({ package : newValue})}
+                      renderInput={(params) => 
+                      <TextField
+                        {...params}
+                          label="Package"
+                          variant="standard" 
+                          error={this.state.packageErr.length > 0}
+                          helperText={this.state.packageErr}
+                          />}
+                    />
               </Grid>
               <Grid item md={12}>
                 <Typography

@@ -61,6 +61,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import { studentPath } from "../RoutePaths";
 import { CircularProgress } from "@material-ui/core";
+import Loader from "../Utils/controls/Loader";
 
 const AntTabs = withStyles({
   root: {
@@ -308,18 +309,21 @@ class ProductActivation extends Component {
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell align="center">CLS ID</TableCell>
-                  <TableCell align="center">Client Name</TableCell>
-                  <TableCell align="center">College</TableCell>
-                  <TableCell align="center">Dept</TableCell>
-                  <TableCell align="center">Degree</TableCell>
-                  <TableCell align="center">Product Varient</TableCell>
-                  <TableCell align="center">Order Punch Date</TableCell>
-                  <TableCell align="center">Amount Paid</TableCell>
-                  <TableCell align="center">Activated</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
+                {this.state.listOfUsers.length !== 0 ?
+                 <TableRow>
+                 <TableCell align="center">CLS ID</TableCell>
+                 <TableCell align="center">Client Name</TableCell>
+                 <TableCell align="center">College</TableCell>
+                 <TableCell align="center">Dept</TableCell>
+                 <TableCell align="center">Degree</TableCell>
+                 <TableCell align="center">Product Varient</TableCell>
+                 <TableCell align="center">Order Punch Date</TableCell>
+                 <TableCell align="center">Amount Paid</TableCell>
+                 <TableCell align="center">Activated</TableCell>
+                 <TableCell align="center"></TableCell>
+               </TableRow>
+               : <Loader/>
+                }
               </TableHead>
               <TableBody>
                 {this.state.listOfUsers.length !== 0 &&

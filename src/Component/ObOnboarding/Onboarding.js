@@ -33,6 +33,7 @@ import { isEmptyString } from "../Validation";
 import DataGrid from "./DataGrid";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Loader from "../Utils/controls/Loader";
 
 
 const theme = createMuiTheme({
@@ -446,13 +447,13 @@ export class Onboarding extends Component {
                 checkboxSelection
                 disableSelectionOnClick                                
               /> */}
-            {this.state.listOfusers.length !== 0 && (
+            {this.state.listOfusers.length !== 0 ? (
               <DataGrid
                 data={this.state.listOfusers}
                 obCallStatus={this.renderChip}
                 action={this.renderManageButton}
               />
-            )}
+            ) : <Loader/>}
           </Grid>
         </Grid>
 
