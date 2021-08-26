@@ -3,5 +3,5 @@
 // export const URL='http://localhost:8080';
 // export const AUTH_URL = 'http://localhost:5000';
 
-export const URL=process.env.REACT_APP_API_URL;
-export const AUTH_URL = process.env.REACT_APP_API_AUTH_URL
+export const URL = process.env.REACT_APP_API_URL;
+export const AUTH_URL = process.env.REACT_APP_API_AUTH_URL;
