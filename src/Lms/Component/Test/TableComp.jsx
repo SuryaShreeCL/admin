@@ -247,6 +247,7 @@ export default function TableComp(props) {
                     status={item.status}
                     handleOptions={handleOptions}
                     name={item.name}
+                    topicId={item.id}
                   />
                 </BodyCell>
               </TableRow>

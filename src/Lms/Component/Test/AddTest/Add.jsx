@@ -27,7 +27,6 @@ import QueryString from "qs";
 import { SnackBar } from "../../../Utils/SnackBar";
 import { withRouter } from "react-router-dom";
 import { bulk_upload, lmsTest } from "../../../../Component/RoutePaths";
-import { name } from "store/storages/cookieStorage";
 
 class Add extends Component {
   constructor(props) {
