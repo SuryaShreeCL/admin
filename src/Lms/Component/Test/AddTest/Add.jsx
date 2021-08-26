@@ -24,7 +24,7 @@ import { connect } from "react-redux";
 import QueryString from "qs";
 import { SnackBar } from "../../../Utils/SnackBar";
 import { withRouter } from "react-router-dom";
-import { bulk_upload } from "../../../../Component/RoutePaths";
+import { bulk_upload, lmsTest } from "../../../../Component/RoutePaths";
 
 class Add extends Component {
   constructor(props) {
@@ -47,6 +47,7 @@ class Add extends Component {
       snackOpen: false,
       snackType: "success",
       message: "",
+      sectionId: undefined,
     };
   }
   componentDidMount() {
@@ -56,17 +57,42 @@ class Add extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    const { courses } = this.props;
+    const { courseId, type } = this.state;
     this.props.getCourses((response) => {
       if (response.success) {
-        this.setState({
-          courseId: courses.data[0].courseId,
-        });
+        if (type !== "CALIBRATION" && response.data[0].courseId !== undefined) {
+          this.props.getTopicByCourse(
+            response.data[0].courseId,
+            (topicResponse) => {
+              if (topicResponse.success) {
+                this.setState({
+                  courseId: response.data[0].courseId,
+                  topicId: topicResponse.data[0].id,
+                });
+              }
+            }
+          );
+        } else {
+          this.setState({
+            courseId: response.data[0].courseId,
+          });
+        }
       }
     });
   }
   handleTestChange = (event) => {
-    this.setState({ type: event.target.value });
+    const { value } = event.target;
+    this.setState({ type: value });
+    const { courseId } = this.state;
+    if (value !== "CALIBRATION" && courseId !== undefined) {
+      this.props.getTopicByCourse(courseId, (topicResponse) => {
+        if (topicResponse.success) {
+          this.setState({
+            topicId: topicResponse.data[0].id,
+          });
+        }
+      });
+    }
   };
 
   handleInstructionChange = (e, newValue) => {
@@ -106,7 +132,21 @@ class Add extends Component {
   };
 
   handleAddQuestion = () => {
-    this.props.history.push(bulk_upload);
+    const { testQuestionSetId, sectionId, type } = this.state;
+    //"CALIBRATION","TOPIC","QUESTIONBANK"
+    if (testQuestionSetId !== null) {
+      if (type === "QUESTIONBANK") {
+        this.props.history.push(
+          bulk_upload + `?testQuestionSetId=${testQuestionSetId}`
+        );
+      }
+    } else {
+      this.setState({
+        snackOpen: true,
+        snackType: "warning",
+        message: "Please save the test",
+      });
+    }
   };
 
   handleCalibrationTestProperties = (index, event) => {
@@ -119,14 +159,54 @@ class Add extends Component {
   };
 
   handleChange = (e) => {
+    const { type } = this.state;
     const { value, name } = e.target;
     this.setState({ [name]: value });
-    if (name === "courseId") {
+    if (name === "courseId" && type !== "CALIBRATION" && value !== undefined) {
       this.props.getTopicByCourse(value, (topicResponse) => {
         if (topicResponse.success) {
-          console.log("ok");
-          this.setState({ topicId: this.props.topics.data[0].id });
+          this.setState({ topicId: topicResponse.data[0].id });
         }
+      });
+    }
+  };
+
+  handleSaveButton = () => {
+    const { testQuestionSetId, type, topicId } = this.state;
+    if (type === "QUESTIONBANK") {
+      if (topicId !== undefined) {
+        var questionBankSet = {
+          id: testQuestionSetId,
+          type: type,
+          topic: { id: topicId },
+        };
+        console.log(questionBankSet);
+        this.props.createTestQuestionSet(
+          questionBankSet,
+          (questionBankResponse) => {
+            if (questionBankResponse) {
+              var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
+              this.setState({
+                snackOpen: true,
+                snackType: "success",
+                message: `${type} TEST ${message} SUCCESSFULLY`,
+                testQuestionSetId: questionBankResponse.id,
+              });
+            }
+          }
+        );
+      } else {
+        this.setState({
+          snackOpen: true,
+          snackType: "warning",
+          message: "Please fill all the fields",
+        });
+      }
+    } else {
+      this.setState({
+        snackOpen: true,
+        snackType: "warning",
+        message: "Please fill all the fields",
       });
     }
   };
@@ -158,9 +238,15 @@ class Add extends Component {
           <TestTitle flex={1}>Add new Test</TestTitle>
           <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
             {/* cancel */}
-            <Cancel>Cancel</Cancel>
+            <Cancel
+              onClick={() => {
+                this.props.history.push(lmsTest);
+              }}
+            >
+              Cancel
+            </Cancel>
             {/* save */}
-            <Save>Save</Save>
+            <Save onClick={this.handleSaveButton}>Save</Save>
           </Box>
         </Box>
         <Grid container spacing={3}>
@@ -213,7 +299,7 @@ class Add extends Component {
                 name="topicId"
                 items={topics.data}
                 value={topicId}
-                onhandleChange={this.handleChange}
+                onChange={this.handleChange}
               />
             )}
           </Grid>

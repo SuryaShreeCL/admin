@@ -239,17 +239,17 @@ export const createTestQuestionSet = (questionSets, callback) => {
         },
       })
       .then((response) => {
+        callback(response.data);
         dispatch({
           type: TEST.createTestQuestionSet,
           payload: response.data,
         });
-        callback(response.data);
       })
       .catch((error) => console.log(error));
   };
 };
 
-export const getTopicByCourse = (courseId) => {
+export const getTopicByCourse = (courseId, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -265,6 +265,7 @@ export const getTopicByCourse = (courseId) => {
           type: TEST.getTopicByCourse,
           payload: response.data,
         });
+        callback(response.data);
       })
       .catch((error) => console.log(error));
   };
