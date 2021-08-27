@@ -25,6 +25,7 @@ export const RadioButtonsGroup = (props) => {
     handleRadioChange,
     groupName,
     marginRightValue,
+    disabled,
   } = props.radioData;
   const classes = useStyles();
 
@@ -50,6 +51,7 @@ export const RadioButtonsGroup = (props) => {
         {radioItemData.map((item) => {
           return (
             <FormControlLabel
+              disabled={disabled !== undefined ? disabled : false}
               style={{
                 marginRight: marginRightValue !== undefined && marginRightValue,
               }}

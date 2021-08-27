@@ -1,52 +1,52 @@
-import axios from "axios";
-import { TEST } from "../Action";
-import { URL } from "../../../Actions/URL";
+import axios from 'axios';
+import { TEST } from '../Action';
+import { URL } from '../../../Actions/URL';
 
 export const getFilters = () => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     axios
       .get(`${URL}/api/v1/lms/testQuestionSets/filter`, {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response) => {
+      .then(response => {
         dispatch({
           type: TEST.getFilters,
           payload: response.data,
         });
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 };
 
-export const getQuestionSet = (bodyObj) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+export const getQuestionSet = bodyObj => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     axios
       .post(`${URL}/api/v1/lms/testQuestionSets`, bodyObj, {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response) => {
+      .then(response => {
         dispatch({
           type: TEST.getQuestionSet,
           payload: response.data,
         });
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 };
 
 export const deleteTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     // {{DEV-LMS}}/api/v1/testquestionsets/3f6245e1-78d4-4bbc-be07-519624100297/status/Archive
     axios
       .put(
@@ -55,22 +55,22 @@ export const deleteTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         callback(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 };
 export const reviewTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     axios
       .put(
         `${URL}/api/v1/testquestionsets/${testQuestionSetId}/status/Review`,
@@ -78,23 +78,23 @@ export const reviewTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         callback(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 };
 
 export const approveTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     axios
       .put(
         `${URL}/api/v1/testquestionsets/${testQuestionSetId}/status/Approved`,
@@ -102,22 +102,22 @@ export const approveTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         callback(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 };
 export const publishTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     axios
       .put(
         `${URL}/api/v1/testquestionsets/${testQuestionSetId}/status/Live`,
@@ -125,50 +125,50 @@ export const publishTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         callback(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 };
 
-export const getQuestionType = (testQuestionSetId) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+export const getQuestionType = testQuestionSetId => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     axios
       .get(
         `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/questions/types`,
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         dispatch({
           type: TEST.getQuestionType,
           payload: response.data,
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 };
 
 export const setQuestionData = (testQuestionSetId, type, data, callback) => {
-  let accessToken = sessionStorage.getItem("accessToken");
+  let accessToken = sessionStorage.getItem('accessToken');
 
-  return (dispatch) => {
+  return dispatch => {
     axios
       .post(
         `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/questions/import?type=${type}`,
@@ -177,20 +177,21 @@ export const setQuestionData = (testQuestionSetId, type, data, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         // dispatch({
         //   type: COURSE_MATERIAL.createFileUpload,
         //   payload: response.data,
         // });
         callback(response.data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(error => {
+        // console.log(error);
+        callback(error.response.data);
       });
   };
 };
@@ -202,9 +203,9 @@ export const setQuestionDataWithId = (
   data,
   callback
 ) => {
-  let accessToken = sessionStorage.getItem("accessToken");
+  let accessToken = sessionStorage.getItem('accessToken');
 
-  return (dispatch) => {
+  return dispatch => {
     axios
       .post(
         `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/questions/import?type=${type}&testSectionId=${testSectionId}`,
@@ -212,48 +213,91 @@ export const setQuestionDataWithId = (
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         callback(response.data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(error => {
+        // console.log(error);
         callback(error.response.data);
       });
   };
 };
 
 export const createTestQuestionSet = (questionSets, callback) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
     axios
       .post(`${URL}/api/v1/lms/testquestionsets`, questionSets, {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response) => {
+      .then(response => {
         callback(response.data);
         dispatch({
           type: TEST.createTestQuestionSet,
           payload: response.data,
         });
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 };
 
 export const getTopicByCourse = (courseId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(`${URL}/api/v1/topics/course/${courseId}`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: TEST.getTopicByCourse,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => console.log(error));
+  };
+};
+export const getTemplate = fileName => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(`${URL}/api/v1/files/template/${fileName}`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: TEST.getTemplate,
+          payload: response.data,
+        });
+      })
+      .catch(error => console.log(error));
+    // {{DEV-LMS}}/api/v1/files/template/calibration_bundel.xlsx
+  };
+};
+
+export const getSubjectsByCourse = (subjectId, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(`${URL}/api/v1/topics/course/${courseId}`, {
+      .get(`${URL}/api/v1/subjects/course/${subjectId}`, {
         crossDomain: true,
         headers: {
           admin: "yes",
@@ -262,7 +306,7 @@ export const getTopicByCourse = (courseId, callback) => {
       })
       .then((response) => {
         dispatch({
-          type: TEST.getTopicByCourse,
+          type: TEST.getSubjectsByCourse,
           payload: response.data,
         });
         callback(response.data);
@@ -270,11 +314,12 @@ export const getTopicByCourse = (courseId, callback) => {
       .catch((error) => console.log(error));
   };
 };
-export const getTemplate = (fileName) => {
+
+export const getTestQuestionSet = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(`${URL}/api/v1/files/template/${fileName}`, {
+      .get(`${URL}/api/v1/lms/testquestionset/${testQuestionSetId}`, {
         crossDomain: true,
         headers: {
           admin: "yes",
@@ -283,11 +328,11 @@ export const getTemplate = (fileName) => {
       })
       .then((response) => {
         dispatch({
-          type: TEST.getTemplate,
+          type: TEST.getTestQuestionSet,
           payload: response.data,
         });
+        callback(response.data);
       })
       .catch((error) => console.log(error));
-    // {{DEV-LMS}}/api/v1/files/template/calibration_bundel.xlsx
   };
 };

@@ -19,6 +19,8 @@ import { getCourses } from "../../../Redux/Action/CourseMaterial";
 import {
   createTestQuestionSet,
   getTopicByCourse,
+  getSubjectsByCourse,
+  getTestQuestionSet,
 } from "../../../Redux/Action/Test";
 import { connect } from "react-redux";
 import QueryString from "qs";
@@ -32,22 +34,25 @@ class Add extends Component {
     this.state = {
       testQuestionSetId: null,
       type: "CALIBRATION",
-      name: "",
       description: [],
       descriptionTitle: "",
       nameDescription: "",
       courseId: undefined,
       topicId: undefined,
+      name: undefined,
       calibrationTestData: [],
       calibrationTotalSection: undefined,
       calibrationActiveSectionTab: 0,
       calibrationSectionTabLabels: [],
-      topicTestData: [],
-      questionBankData: [],
       snackOpen: false,
       snackType: "success",
       message: "",
       sectionId: undefined,
+      topicTestSections: {
+        id: null,
+        duration: null,
+        noOfQuestions: null,
+      },
     };
   }
   componentDidMount() {
@@ -57,7 +62,15 @@ class Add extends Component {
         ignoreQueryPrefix: true,
       }
     );
+    //var testQuestionSet_Id = "b5f70f16-32f9-476c-94db-89e75e4105aa";
     const { courseId, type } = this.state;
+    if(testQuestionSet_Id !== undefined){
+      this.props.getTestQuestionSet(testQuestionSet_Id, (testQuestionSetResponse) => {
+        if(testQuestionSetResponse.success){
+          console.log('success');
+        }
+      });
+    }
     this.props.getCourses((response) => {
       if (response.success) {
         if (type !== "CALIBRATION" && response.data[0].courseId !== undefined) {
@@ -77,6 +90,9 @@ class Add extends Component {
             courseId: response.data[0].courseId,
           });
         }
+        if (type === "CALIBRATION") {
+          this.props.getSubjectsByCourse(response.data[0].courseId, {});
+        } 
       }
     });
   }
@@ -100,13 +116,14 @@ class Add extends Component {
   };
 
   handleSectionChange = (e) => {
-    const { calibrationSectionTabLabels } = this.state;
+    const { calibrationSectionTabLabels, calibrationTestData } = this.state;
     const { value } = e.target;
     this.setState({ calibrationTotalSection: value });
     let tabArr = [];
     let testArr = [];
     if (calibrationSectionTabLabels.length > value) {
       tabArr = calibrationSectionTabLabels.slice(0, value);
+      testArr = calibrationTestData.slice(0, value);
     } else {
       for (let i = tabArr.length; i < value; i++) {
         tabArr.push({
@@ -132,13 +149,27 @@ class Add extends Component {
   };
 
   handleAddQuestion = () => {
-    const { testQuestionSetId, sectionId, type } = this.state;
-    //"CALIBRATION","TOPIC","QUESTIONBANK"
+    const { testQuestionSetId, sectionId, type, calibrationActiveSectionTab, calibrationTestData } = this.state;
     if (testQuestionSetId !== null) {
       if (type === "QUESTIONBANK") {
         this.props.history.push(
           bulk_upload + `?testQuestionSetId=${testQuestionSetId}`
         );
+      } else {
+        if (type === "CALIBRATION") {
+          var calibrationSectionId = calibrationTestData.length !== 0 && calibrationTestData[calibrationActiveSectionTab - 1].id || "";
+          //console.log(calibrationSectionId);
+          this.props.history.push(
+            bulk_upload +
+              `?testQuestionSetId=${testQuestionSetId}&sectionId=${calibrationSectionId}`
+          );
+        }
+        else{
+        this.props.history.push(
+          bulk_upload +
+            `?testQuestionSetId=${testQuestionSetId}&sectionId=${sectionId}`
+        );
+        }
       }
     } else {
       this.setState({
@@ -159,9 +190,19 @@ class Add extends Component {
   };
 
   handleChange = (e) => {
-    const { type } = this.state;
+    const { type, topicTestSections } = this.state;
     const { value, name } = e.target;
-    this.setState({ [name]: value });
+    if (name === "noOfQuestions" || name === "duration") {
+      var tempTopicTestSections = this.state.topicTestSections;
+      tempTopicTestSections.[name] = value;
+      this.setState({
+        topicTestSections: tempTopicTestSections,
+      });
+      console.log(topicTestSections);
+    } else {
+      this.setState({ [name]: value });
+    }
+
     if (name === "courseId" && type !== "CALIBRATION" && value !== undefined) {
       this.props.getTopicByCourse(value, (topicResponse) => {
         if (topicResponse.success) {
@@ -169,28 +210,44 @@ class Add extends Component {
         }
       });
     }
+    if (name === "courseId" && type === "CALIBRATION" && value !== undefined) {
+      this.props.getSubjectsByCourse(value, {});
+    } 
   };
 
   handleSaveButton = () => {
-    const { testQuestionSetId, type, topicId } = this.state;
+    const {
+      testQuestionSetId,
+      type,
+      topicId,
+      description,
+      descriptionTitle,
+      nameDescription,
+      topicTestSections,
+      name,
+      courseId,
+      calibrationTestData
+    } = this.state;
+
     if (type === "QUESTIONBANK") {
+      // QUESTIONBANK save action
       if (topicId !== undefined) {
         var questionBankSet = {
           id: testQuestionSetId,
           type: type,
           topic: { id: topicId },
         };
-        console.log(questionBankSet);
         this.props.createTestQuestionSet(
           questionBankSet,
           (questionBankResponse) => {
-            if (questionBankResponse) {
+            console.log(questionBankResponse);
+            if (questionBankResponse.success) {
               var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
               this.setState({
                 snackOpen: true,
                 snackType: "success",
                 message: `${type} TEST ${message} SUCCESSFULLY`,
-                testQuestionSetId: questionBankResponse.id,
+                testQuestionSetId: questionBankResponse.data.id,
               });
             }
           }
@@ -202,12 +259,95 @@ class Add extends Component {
           message: "Please fill all the fields",
         });
       }
-    } else {
+    }
+
+    if (type === "TOPIC") {
+      // TOPIC Save action
+      if (
+        topicId !== undefined &&
+        topicTestSections.duration > 0  &&
+        topicTestSections.noOfQuestions > 0 &&
+        nameDescription.trim().length !== 0 &&
+        description.length !== 0 &&
+        descriptionTitle.trim().length !== 0
+      ) {
+        var topicTestSet = {
+          id: testQuestionSetId,
+          type: type,
+          topic: { id: topicId },
+          description: description,
+          descriptionTitle: descriptionTitle,
+          nameDescription: nameDescription,
+          testSections: [topicTestSections],
+        };
+        this.props.createTestQuestionSet(topicTestSet, (topicTestResponse) => {
+          if (topicTestResponse.success) {
+            var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
+            var tempTopicTestSections = this.state.topicTestSections;
+            tempTopicTestSections.["id"] = topicTestResponse.data.testSection[0].id;
+            this.setState({
+              snackOpen: true,
+              snackType: "success",
+              message: `${type} TEST ${message} SUCCESSFULLY`,
+              testQuestionSetId: topicTestResponse.data.id,
+              topicTestSection: tempTopicTestSections,
+              sectionId: topicTestResponse.data.testSection[0].id,
+            });
+          }
+        });
+      } else {
+        this.setState({
+          snackOpen: true,
+          snackType: "warning",
+          message: "Please fill all the fields",
+        });
+      }
+    }
+
+    if (type === "CALIBRATION") {
+      // CALIBRATION Save action
+      var calibrationTestDataTotalValidation = calibrationTestData.map((item) => item.name.trim().length !== 0 && item.duration > 0 && item.noOfQuestions > 0);
+      console.log(calibrationTestDataTotalValidation);
+      if (
+        name !== undefined &&
+        nameDescription.trim().length !== 0 &&
+        description.length !== 0 &&
+        descriptionTitle.trim().length !== 0 &&
+        courseId !== undefined && calibrationTestData.length !== 0 && calibrationTestDataTotalValidation
+      ) {
+        var calibrationTestSet = {
+          id: testQuestionSetId,
+          name: name,
+          type: type,
+          course: { id: courseId },
+          description: description,
+          descriptionTitle: descriptionTitle,
+          nameDescription: nameDescription,
+          testSections: calibrationTestData,
+        };
+        this.props.createTestQuestionSet(calibrationTestSet, (calibrationTestResponse) => {
+          if (calibrationTestResponse.success) {
+            var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
+            var tempcalibrationTestData = calibrationTestData;
+            calibrationTestResponse.data.testSection.map((item, index) => {
+              tempcalibrationTestData.[index].id = item.id;
+            });
+            this.setState({
+              snackOpen: true,
+              snackType: "success",
+              message: `${type} TEST ${message} SUCCESSFULLY`,
+              testQuestionSetId: calibrationTestResponse.data.id,
+              calibrationTestData: tempcalibrationTestData,
+            });
+          }
+        });
+      } else {
       this.setState({
         snackOpen: true,
         snackType: "warning",
         message: "Please fill all the fields",
       });
+    }
     }
   };
 
@@ -216,8 +356,7 @@ class Add extends Component {
       type,
       description,
       calibrationTestData,
-      testId,
-      name,
+      testQuestionSetId,
       descriptionTitle,
       nameDescription,
       courseId,
@@ -228,9 +367,10 @@ class Add extends Component {
       snackOpen,
       snackType,
       message,
+      topicTestSections,
+      name
     } = this.state;
-    const { courses, topics } = this.props;
-    //testQuestionSet
+    const { courses, topics, subjects } = this.props;
     return (
       <Card padding={"0px 20px"}>
         <Box display={"flex"} alignItems={"center"}>
@@ -279,6 +419,7 @@ class Add extends Component {
                 handleRadioChange: this.handleTestChange,
                 groupName: "Test Type",
                 marginRightValue: "56px",
+                disabled: testQuestionSetId !== null ? true : false,
               }}
             />
           </Grid>
@@ -287,8 +428,8 @@ class Add extends Component {
               <div>
                 <InputTextField
                   name="name"
-                  onChange={() => {}}
-                  //value={""}
+                  onChange={this.handleChange}
+                  value={name}
                   label="Test name"
                   height="11px"
                 />
@@ -307,9 +448,9 @@ class Add extends Component {
             <>
               <Grid item xs={12} md={8}>
                 <InputTextField
-                  name="description"
-                  onChange={() => {}}
-                  //value={""}
+                  name="nameDescription"
+                  onChange={this.handleChange}
+                  value={nameDescription}
                   label="Description"
                   multiline
                   rows={3}
@@ -318,8 +459,8 @@ class Add extends Component {
               <Grid item xs={12} md={4}>
                 <InputTextField
                   name="descriptionTitle"
-                  onChange={() => {}}
-                  //value={""}
+                  onChange={this.handleChange}
+                  value={descriptionTitle}
                   label="Test Instruction heading"
                   height="11px"
                 />
@@ -350,12 +491,24 @@ class Add extends Component {
               totalSection: calibrationTotalSection,
               tabChange: this.handleTabChange,
               testPropertiesChange: this.handleCalibrationTestProperties,
+              subjects: subjects.length !== 0 && subjects.data || [],
             }}
           />
         )}
-        {type === "TOPIC" && <TopicTestCard />}
+        {type === "TOPIC" && (
+          <TopicTestCard
+            data={{
+              testSections: topicTestSections,
+              handleChange: this.handleChange,
+            }}
+          />
+        )}
         {type !== undefined && (
-          <TestAddButtonCard addQuestion={this.handleAddQuestion} type={type} />
+          <TestAddButtonCard
+            addQuestion={this.handleAddQuestion}
+            type={type}
+            id={testQuestionSetId}
+          />
         )}
         <SnackBar
           snackData={{
@@ -383,4 +536,6 @@ export default connect(mapStateToProps, {
   getCourses,
   getTopicByCourse,
   createTestQuestionSet,
+  getSubjectsByCourse,
+  getTestQuestionSet,
 })(withRouter(Add));

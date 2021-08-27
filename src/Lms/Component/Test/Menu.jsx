@@ -28,6 +28,10 @@ export default function Menu(props) {
       array.length = 1;
       return array;
     }
+    if (status === 'Approved') {
+      array.length = 2;
+      return array;
+    }
     if (status === 'In Review') {
       array.length = 2;
       return array;
@@ -54,7 +58,7 @@ export default function Menu(props) {
     if (status === 'Approved') {
       array.splice(2, 1);
       return array;
-    } else return null;
+    } else return [];
   };
 
   const {
@@ -78,7 +82,7 @@ export default function Menu(props) {
         onClose={handleClose}
       >
         {filterMaker(editorChoices, status).map(item => (
-          <MenuItem onClick={() => handleOptions(item.text, name)}>
+          <MenuItem onClick={() => handleOptions(item.text, name, topicId)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <Typography className={'menu-item-text'}>{item.text}</Typography>
           </MenuItem>
@@ -95,7 +99,7 @@ export default function Menu(props) {
         onClose={handleClose}
       >
         {filterChecker(checkerChoices, status).map(item => (
-          <MenuItem onClick={() => handleOptions(item.text, name)}>
+          <MenuItem onClick={() => handleOptions(item.text, name, topicId)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <Typography className={'menu-item-text'}>{item.text}</Typography>
           </MenuItem>

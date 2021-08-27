@@ -24,6 +24,7 @@ class CalibrationTestCard extends Component {
       testData,
       tabChange,
       testPropertiesChange,
+      subjects,
     } = this.props.data;
     return (
       <>
@@ -33,13 +34,14 @@ class CalibrationTestCard extends Component {
             <DropDown
               label="Number of Section"
               name="section"
-              items={[
-                { id: 1, title: 1 },
-                { id: 2, title: 2 },
-                { id: 3, title: 3 },
-                { id: 4, title: 4 },
-                { id: 5, title: 5 },
-              ]}
+              items={
+                (subjects.length !== 0 &&
+                  subjects.map((item, number) => ({
+                    id: number + 1,
+                    title: number + 1,
+                  }))) ||
+                []
+              }
               value={totalSection}
               onChange={sectionChange}
             />
@@ -63,17 +65,25 @@ class CalibrationTestCard extends Component {
               <div hidden={tabValue !== index + 1}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={4}>
-                    <InputTextField
+                    <DropDown
+                      label="Subject"
                       name="name"
-                      onChange={testPropertiesChange}
+                      items={
+                        (subjects.length !== 0 &&
+                          subjects.map((item) => ({
+                            id: item.label,
+                            title: item.label,
+                          }))) ||
+                        []
+                      }
                       value={item.name}
-                      label="Section Name"
+                      onChange={(e) => testPropertiesChange(index, e)}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <InputTextField
                       name="noOfQuestions"
-                      onChange={testPropertiesChange}
+                      onChange={(e) => testPropertiesChange(index, e)}
                       value={item.noOfQuestions}
                       label="Number of question"
                     />
@@ -85,7 +95,7 @@ class CalibrationTestCard extends Component {
                         type={"number"}
                         value={item.duration}
                         name="duration"
-                        onChange={testPropertiesChange}
+                        onChange={(e) => testPropertiesChange(index, e)}
                         endAdornment={
                           <InputAdornment position="end">min</InputAdornment>
                         }
