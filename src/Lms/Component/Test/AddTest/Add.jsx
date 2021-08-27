@@ -354,6 +354,7 @@ class Add extends Component {
     if (type === "TOPIC") {
       // TOPIC Save action
       if (
+        nameDescription &&
         topicId !== undefined &&
         topicTestSections.duration > 0 &&
         topicTestSections.noOfQuestions > 0 &&
@@ -403,7 +404,9 @@ class Add extends Component {
           item.noOfQuestions > 0
       );
       if (
-        name !== undefined &&
+        name &&
+        nameDescription &&
+        name.trim().length !== 0 &&
         nameDescription.trim().length !== 0 &&
         description.length !== 0 &&
         descriptionTitle.trim().length !== 0 &&
