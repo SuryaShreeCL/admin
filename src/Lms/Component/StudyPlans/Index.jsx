@@ -26,7 +26,7 @@ class Index extends Component {
       courseValue: [],
       activeMonth: null,
       activeDownMonth: null,
-      activeDownMonthIdx: 0,
+      activeDownMonthIdx: -1,
     };
   }
 
@@ -35,15 +35,11 @@ class Index extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.monthResponse !== this.props.monthResponse) {
-      this.setState({
-        activeMonth: this.props.monthResponse.data[0],
-        activeDownMonth: this.props.monthResponse.data[0],
-      });
+    if (prevProps.courseMonthResponse !== this.props.courseMonthResponse) {
+      this.handleDownMonthChange(this.props.courseMonthResponse.data[0], 0);
     }
-    if (this.state.activeDownMonth !== prevState.activeDownMonth) {
-      if (this.state.activeDownMonth)
-        this.props.monthPlan(this.state.activeDownMonth.id);
+    if (prevProps.monthResponse !== this.props.monthResponse) {
+      this.handleMonthChange(this.props.monthResponse.data[0]);
     }
   }
 
@@ -54,11 +50,11 @@ class Index extends Component {
 
   handleMonthChange(month) {
     this.setState({ activeMonth: month });
+    this.props.monthPlan(month.id);
   }
 
   handleDownMonthChange(month, idx) {
     this.setState({ activeDownMonth: month, activeDownMonthIdx: idx });
-    this.props.monthPlan(month.id);
   }
 
   renderMonth() {
@@ -87,17 +83,15 @@ class Index extends Component {
   renderSideBarMonth() {
     return (
       <>
-        {this.props.monthResponse.data
-          .filter((item) => item.month <= this.state.activeMonth.month)
-          .map((item, idx) => (
-            <TabBarMonthItem
-              component={"button"}
-              onClick={() => this.handleDownMonthChange(item, idx)}
-              active={this.state.activeDownMonth === item}
-            >
-              {item.month + `${idx === 0 ? " st " : " nd "}` + "Month"}
-            </TabBarMonthItem>
-          ))}
+        {this.props.courseMonthResponse.data.map((item, idx) => (
+          <TabBarMonthItem
+            component={"button"}
+            onClick={() => this.handleDownMonthChange(item, idx)}
+            active={this.state.activeDownMonth === item}
+          >
+            {idx + 1 + `${idx === 0 ? " st " : " nd "}` + "Month"}
+          </TabBarMonthItem>
+        ))}
       </>
     );
   }
@@ -159,14 +153,19 @@ class Index extends Component {
             }}
           >
             {this.props.monthResponse &&
-              this.state.activeMonth &&
+              this.props.courseMonthResponse &&
               this.renderSideBarMonth()}
           </Grid>
           <Grid item md={8} sm={8} style={{ padding: "20px" }}>
-            {this.state.activeDownMonth &&
-              this.props.courseMonthResponse.length !== 0 && (
-                <Table item={this.props.courseMonthResponse} />
-              )}
+            {this.state.activeDownMonth && this.props.courseMonthResponse && (
+              <Table
+                item={
+                  this.props.courseMonthResponse.data[
+                    this.state.activeDownMonthIdx
+                  ]
+                }
+              />
+            )}
           </Grid>
         </Grid>
       </Card>

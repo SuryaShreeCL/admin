@@ -1,4 +1,4 @@
-import { COURSE_MATERIAL } from '../Action';
+import { COURSE_MATERIAL } from "../Action";
 
 const initialState = {
   courses: [],
@@ -10,8 +10,8 @@ const initialState = {
   createorUpdateTaskResponse: [],
   deleteResponse: [],
   fileUpload: [],
-  monthlyCourse : null,
-  monthlyPlan : []
+  monthlyCourse: null,
+  monthlyPlan: null,
 };
 
 const CourseMaterialReducer = (state = initialState, action) => {

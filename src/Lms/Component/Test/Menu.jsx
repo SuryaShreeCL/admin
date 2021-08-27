@@ -99,7 +99,7 @@ export default function Menu(props) {
         onClose={handleClose}
       >
         {filterChecker(checkerChoices, status).map(item => (
-          <MenuItem onClick={() => handleOptions(item.text, name)}>
+          <MenuItem onClick={() => handleOptions(item.text, name, topicId)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <Typography className={'menu-item-text'}>{item.text}</Typography>
           </MenuItem>

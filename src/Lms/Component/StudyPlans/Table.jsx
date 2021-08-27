@@ -34,49 +34,52 @@ export default function DataTable(props) {
     setEnd(10);
   }, [item]);
 
-  return (
-    <React.Fragment>
-      <Table>
-        <Head>
-          <TableRow>
-            {columns.map((item, index) => (
-              <HeadCell style={{ textAlign: "left" }}>{item}</HeadCell>
-            ))}
-          </TableRow>
-        </Head>
-        <TableBody>
-          {item.data &&
-            item.data[0].slice(end - 10, end).map((month, index) => {
-              return (
-                <TableRow
-                // style={{ border: "0 0 0 0" }}
-                >
-                  <TableCells>Day {month.day}</TableCells>
-                  <TableCells>{month.topicName}</TableCells>
-                  <TableCells style={{ textAlign: "center" }}>
-                    {month.noOfTask}
-                  </TableCells>
-                  <TableCells style={{ textAlign: "center" }}>
-                    {month.duration} min
-                  </TableCells>
-                  <TableCells style={{ textAlign: "center" }}>
-                    <Popover options={["Edit"]} />
-                  </TableCells>
-                </TableRow>
-              );
-            })}
-        </TableBody>
-      </Table>
-      <PaginationComponent
-        variant="outlined"
-        pageCount={item.data[0].length / 10}
-        onPageChange={(e, page) => {
-          // setStart(start * 10);
-          setEnd(page * 10);
-          console.log(page);
-        }}
-        shape="rounded"
-      />
-    </React.Fragment>
-  );
+  if (item)
+    return (
+      <React.Fragment>
+        <Table>
+          <Head>
+            <TableRow>
+              {columns.map((item, index) => (
+                <HeadCell style={{ textAlign: "left" }}>{item}</HeadCell>
+              ))}
+            </TableRow>
+          </Head>
+          <TableBody>
+            {item &&
+              item.slice(end - 10, end).map((month, index) => {
+                return (
+                  <TableRow
+                  // style={{ border: "0 0 0 0" }}
+                  >
+                    <TableCells>Day {month.day}</TableCells>
+                    <TableCells>{month.topicName}</TableCells>
+                    <TableCells style={{ textAlign: "center" }}>
+                      {month.noOfTask}
+                    </TableCells>
+                    <TableCells style={{ textAlign: "center" }}>
+                      {month.duration} min
+                    </TableCells>
+                    <TableCells style={{ textAlign: "center" }}>
+                      <Popover options={["Edit"]} />
+                    </TableCells>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+        <PaginationComponent
+          variant="outlined"
+          pageCount={item.length / 10}
+          onPageChange={(e, page) => {
+            // setStart(start * 10);
+            setEnd(page * 10);
+            console.log(page);
+          }}
+          shape="rounded"
+        />
+      </React.Fragment>
+    );
+
+  return <></>;
 }
