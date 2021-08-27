@@ -14,6 +14,7 @@ const initialState = {
   PaginateDegreeList:[],
   paginateCollegeList : [],
   paginateUniversityList : [],
+  getPGDegrees:[]
 };
 
 export default (state = initialState, action) => {
@@ -89,6 +90,12 @@ export default (state = initialState, action) => {
           ...state,
           paginateUniversityList:action.paginateUniversityList,
         }
+        case COLLEGES.getPGDegrees:
+          return {
+            ...state,
+            getPGDegrees:action.getPGDegrees,
+          }
+        
     default:
       break;
   }
