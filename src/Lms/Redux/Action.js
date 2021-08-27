@@ -28,6 +28,8 @@ export const TEST = {
   createTestQuestionSet: "createTestQuestionSet",
   getTopicByCourse: "getTopicByCourse",
   getTemplate: "getTemplate",
+  getSubjectsByCourse: "getSubjectsByCourse",
+  getTestQuestionSet: "getTestQuestionSet",
 };
 
 export const STUDENT = {
