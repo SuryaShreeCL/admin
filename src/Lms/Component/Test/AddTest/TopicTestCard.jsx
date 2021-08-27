@@ -26,7 +26,7 @@ class TopicTestCard extends Component {
               value={testSections.noOfQuestions}
               label="Number of question"
               height="11px"
-              placeHolder="Number of question"
+              placeholder="Number of question"
             />
           </Grid>
           <Grid item xs={12} md={4}>

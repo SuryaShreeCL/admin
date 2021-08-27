@@ -246,7 +246,9 @@ export const createTestQuestionSet = (questionSets, callback) => {
           payload: response.data,
         });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        callback(error.response.data);
+      });
   };
 };
 

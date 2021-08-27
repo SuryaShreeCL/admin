@@ -65,6 +65,7 @@ class Add extends Component {
     const { type } = this.state;
     this.props.getCourses((response) => {
       if (response.success) {
+        if(testQuestionSetId === undefined){
         if (type !== "CALIBRATION" && response.data[0].courseId !== undefined) {
           this.props.getTopicByCourse(
             response.data[0].courseId,
@@ -85,6 +86,7 @@ class Add extends Component {
         if (type === "CALIBRATION") {
           this.props.getSubjectsByCourse(response.data[0].courseId);
         } 
+      }
       }
     });
 
@@ -121,16 +123,33 @@ class Add extends Component {
           if(questionSet.type === "TOPIC"){
             this.setState({
               testQuestionSetId: questionSet.id,
-              course: questionSet.course,
+              courseId: questionSet.course,
+              type: questionSet.type,
               description: questionSet.description,
+              descriptionTitle: questionSet.descriptionTitle,
+              nameDescription: questionSet.nameDescription,
+              topicTestSections: questionSet.testSection[0],
+              sectionId: questionSet.testSection[0].id,
             });
           }
 
           if(questionSet.type === "QUESTIONBANK"){
             this.setState({
               testQuestionSetId: questionSet.id,
-              course: questionSet.course,
+              courseId: questionSet.course,
+              type: questionSet.type,
+              topicId: questionSet.topic,
             });
+          }
+
+          if(questionSet.type === "QUESTIONBANK" || questionSet.type === "TOPIC"){
+            if ( questionSet.course !== undefined) {
+              this.props.getTopicByCourse(questionSet.course, (topicResponse) => {
+                if (topicResponse.success) {
+                  this.setState({ topicId:  questionSet.topic,});
+                }
+              });
+            }
           }
         }
       });
@@ -374,6 +393,7 @@ class Add extends Component {
           testSections: calibrationTestData,
         };
         this.props.createTestQuestionSet(calibrationTestSet, (calibrationTestResponse) => {
+          console.log(calibrationTestResponse);
           if (calibrationTestResponse.success) {
             var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
             var tempcalibrationTestData = calibrationTestData;
@@ -388,6 +408,13 @@ class Add extends Component {
               message: `${type} TEST ${message} SUCCESSFULLY`,
               testQuestionSetId: calibrationTestResponse.data.id,
               calibrationTestData: tempcalibrationTestData,
+            });
+          }
+          else{
+            this.setState({
+              snackOpen: true,
+              snackType: "warning",
+              message: calibrationTestResponse.message,
             });
           }
         });
@@ -482,9 +509,9 @@ class Add extends Component {
                   name="name"
                   onChange={this.handleChange}
                   value={name}
-                  label="Test name"
+                  label={"Test name"}
                   height="11px"
-                  placeholder="Test name"
+                  placeholder={"Test name"}
                 />
               </div>
             ) : (
@@ -495,6 +522,7 @@ class Add extends Component {
                 value={topicId}
                 onChange={this.handleChange}
                 placeholder="Topic"
+                disabled={testQuestionSetId !== null ? true : false}
               />
             )}
           </Grid>
@@ -525,8 +553,8 @@ class Add extends Component {
                 <AutocompleteText
                   autoData={{
                     label: "Test Instruction Details",
-                    placeholder: "Details Test Instruction",
-                    title: "Type the content to press enter button",
+                    placeholder: "List The Instruction",
+                    title: "Type the content and press enter",
                     value: description,
                     onChange: this.handleInstructionChange,
                   }}

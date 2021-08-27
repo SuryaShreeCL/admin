@@ -37,6 +37,9 @@ export const AutocompleteText = (props) => {
         <TextField
           {...params}
           variant={"outlined"}
+          InputLabelProps={{
+            shrink: true,
+          }}
           label={label !== undefined && label}
           placeholder={placeholder !== undefined && placeholder}
         />
