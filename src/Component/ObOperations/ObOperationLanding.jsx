@@ -98,7 +98,7 @@ class ObOperationLanding extends Component {
                         <Typography color="primary">Add new widget</Typography>
                     </div>
                     <div className={classes.quickAccess}>
-                        <Typography style={{ fontWeight: 600 }}>Quick Acess</Typography>
+                        <Typography style={{ fontWeight: 600 }}>Quick Access</Typography>
                         <div className={classes.rowContainer}>
                             <div onClick={() => this.props.history.push(listUsersProdBasedPath+"/"+this.props.match.params.productId)} className={classes.items}>
                                 <img src={pbResource}></img>

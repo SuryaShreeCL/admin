@@ -31,6 +31,7 @@ import {
   getAllColleges,
   getBranches,
   getDegree,
+  getPGDegree,
   getUniversity,
 } from "../../Actions/College";
 import {
@@ -169,6 +170,7 @@ export class academicInfo extends Component {
   componentDidMount() {
     this.props.getBranches();
     this.props.getDegree();
+    this.props.getPGDegree()
     this.props.getAllColleges();
     this.props.getUniversity();
     this.props.sscexamboard();
@@ -825,7 +827,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
-                            options={this.props.getDegreeList}
+                            options={this.props.getPGDegreesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgDegree}
                             onChange={(e, newValue) =>
@@ -1932,6 +1934,7 @@ const mapStateToProps = (state) => {
     sscexamboardList: state.StudentReducer.sscexamboard,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getAllDocumentList: state.StudentReducer.getDocumentList,
+    getPGDegreesList : state.CollegeReducer.getPGDegrees
 
   };
 };
@@ -1947,5 +1950,6 @@ export default connect(mapStateToProps, {
   sscexamboard,
   viewStudentStatus,
   updateVerificationStatus,
-  getDocumentList
+  getDocumentList,
+  getPGDegree
 })(academicInfo);
