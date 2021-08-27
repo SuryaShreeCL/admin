@@ -53,18 +53,6 @@ class TestLanding extends Component {
   handleDropDownChange = event => {
     this.setState({
       [event.target.name]: event.target.value,
-      // testType:
-      //   event.target.name === 'testType' && event.target.value !== 'default'
-      //     ? event.target.value
-      //     : this.state.testType,
-      // topicId:
-      //   event.target.name === 'topicId' && event.target.value !== 'default'
-      //     ? event.target.value
-      //     : this.state.topicId,
-      // status:
-      //   event.target.name === 'status' && event.target.value !== 'default'
-      //     ? event.target.value
-      //     : this.state.status,
     });
   };
 
@@ -120,37 +108,6 @@ class TestLanding extends Component {
       };
       this.props.getQuestionSet(paramObj);
     }
-    // if (
-    //   prevState.field !== this.state.field &&
-    //   prevState.order !== this.state.order
-    // ) {
-    //   let paramObj = {
-    //     page: INITIAL_PAGE_NO,
-    //     size: NO_OF_RESPONSE,
-    //     field: this.state.field.length > 0 ? this.state.field : null,
-    //     order: this.state.order.length > 0 ? this.state.order : null,
-    //   };
-    //   this.props.getQuestionSet(paramObj);
-    // }
-
-    // Filtering
-    // if (
-    //   prevState.topicId !== this.state.topicId ||
-    //   prevState.testType !== this.state.testType ||
-    //   prevState.status !== this.state.status
-    // ) {
-    //   let paramObj = {
-    //     page: INITIAL_PAGE_NO,
-    //     size: NO_OF_RESPONSE,
-    //     testType:
-    //       this.state.testType !== 'default' ? this.state.testType : null,
-    //     topicId: this.state.topicId !== 'default' ? this.state.topicId : null,
-    //     status: this.state.status !== 'default' ? this.state.status : null,
-    //     field: this.state.field.length > 0 ? this.state.field : null,
-    //     order: this.state.order.length > 0 ? this.state.order : null,
-    //   };
-    //   this.props.getQuestionSet(paramObj);
-    // }
   }
 
   handleThreeDotClick = (event, topicId) => {

@@ -54,7 +54,6 @@ export default function TableComp(props) {
     const courseNameIndex = field.indexOf('courseName');
     const statusIndex = field.indexOf('wkStatusValue');
     const fields = ['type', 'courseName', 'wkStatusValue'];
-    // console.log(order[typeIndex] === 'ASC');
     if (index === 1 && order[typeIndex] === 'ASC') {
       return (
         <IconBox>
