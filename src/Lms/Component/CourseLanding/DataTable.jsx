@@ -67,7 +67,6 @@ export default function DataTable(props) {
     handleClose,
     pageNo,
     popUpId,
-
     role,
     handleOptions,
   } = props;

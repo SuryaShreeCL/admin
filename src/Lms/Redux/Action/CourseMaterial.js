@@ -166,7 +166,7 @@ export const publishTopic = (topicId, callback) => {
   return dispatch => {
     axios
       .put(
-        `${DEV_LMS}/api/v1/topics/${topicId}/status/Approved`,
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Live`,
         {},
 
         {
@@ -283,13 +283,15 @@ export const getTopicDetails = (topicId, callback) => {
   };
 };
 
-export const createFileUpload = (masterId,data, callback) => {
+export const createFileUpload = (masterId, data, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
     axios
       .post(
         DEV_LMS +
-          '/api/v1/lms/studyPlanMaster/' +masterId+'/studyPlan/import',
+          '/api/v1/lms/studyPlanMaster/' +
+          masterId +
+          '/studyPlan/import',
         data,
         {
           crossDomain: true,
@@ -328,6 +330,31 @@ export const monthPlan = (monthId, callback) => {
           type: COURSE_MATERIAL.monthPlan,
           payload: response.data,
         });
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const approveTopic = (topicId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Approved`,
+        {},
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
         callback(response.data);
       })
       .catch(error => {
