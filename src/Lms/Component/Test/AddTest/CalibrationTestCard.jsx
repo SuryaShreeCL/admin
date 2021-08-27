@@ -42,8 +42,9 @@ class CalibrationTestCard extends Component {
                   }))) ||
                 []
               }
-              value={totalSection}
+              value={totalSection || undefined}
               onChange={sectionChange}
+              placeHolder="Number of Section"
             />
           </Grid>
         </Grid>
@@ -78,6 +79,7 @@ class CalibrationTestCard extends Component {
                       }
                       value={item.name}
                       onChange={(e) => testPropertiesChange(index, e)}
+                      placeHolder="Subject"
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -86,6 +88,7 @@ class CalibrationTestCard extends Component {
                       onChange={(e) => testPropertiesChange(index, e)}
                       value={item.noOfQuestions}
                       label="Number of question"
+                      placeHolder="Number of question"
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -95,6 +98,7 @@ class CalibrationTestCard extends Component {
                         type={"number"}
                         value={item.duration}
                         name="duration"
+                        placeHolder="Expected time for completion"
                         onChange={(e) => testPropertiesChange(index, e)}
                         endAdornment={
                           <InputAdornment position="end">min</InputAdornment>
@@ -111,6 +115,7 @@ class CalibrationTestCard extends Component {
                       onChange={() => {}}
                       //value={""}
                       label="Section Description"
+                      placeHolder="Section Description"
                       multiline
                       rows={3}
                     />
@@ -121,6 +126,7 @@ class CalibrationTestCard extends Component {
                       onChange={() => {}}
                       //value={""}
                       label="Section instruction"
+                      placeHolder="Section instruction"
                       multiline
                       rows={3}
                     />

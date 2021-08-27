@@ -41,7 +41,7 @@ class Add extends Component {
       topicId: undefined,
       name: undefined,
       calibrationTestData: [],
-      calibrationTotalSection: undefined,
+      calibrationTotalSection: null,
       calibrationActiveSectionTab: 0,
       calibrationSectionTabLabels: [],
       snackOpen: false,
@@ -56,21 +56,13 @@ class Add extends Component {
     };
   }
   componentDidMount() {
-    const { testQuestionSet_Id } = QueryString.parse(
+    const { testQuestionSetId } = QueryString.parse(
       this.props.location.search,
       {
         ignoreQueryPrefix: true,
       }
     );
-    //var testQuestionSet_Id = "b5f70f16-32f9-476c-94db-89e75e4105aa";
-    const { courseId, type } = this.state;
-    if(testQuestionSet_Id !== undefined){
-      this.props.getTestQuestionSet(testQuestionSet_Id, (testQuestionSetResponse) => {
-        if(testQuestionSetResponse.success){
-          console.log('success');
-        }
-      });
-    }
+    const { type } = this.state;
     this.props.getCourses((response) => {
       if (response.success) {
         if (type !== "CALIBRATION" && response.data[0].courseId !== undefined) {
@@ -91,10 +83,58 @@ class Add extends Component {
           });
         }
         if (type === "CALIBRATION") {
-          this.props.getSubjectsByCourse(response.data[0].courseId, {});
+          this.props.getSubjectsByCourse(response.data[0].courseId);
         } 
       }
     });
+
+    // Editable Mode
+    if(testQuestionSetId !== undefined){
+      this.props.getTestQuestionSet(testQuestionSetId, (testQuestionSetResponse) => {
+        if(testQuestionSetResponse.success){
+          const {testQuestionSet } = this.props;
+          const questionSet = testQuestionSet.length !== 0 && testQuestionSet.data || false;
+          console.log(questionSet);
+
+          if(questionSet.type === "CALIBRATION"){
+            let tabArr = [];
+            questionSet.testSection.map((i, index) => {
+              tabArr.push({
+                tabLabel: `Section ${index + 1}`,
+              });
+            });
+            this.setState({
+              testQuestionSetId: questionSet.id,
+              courseId: questionSet.course,
+              name: questionSet.name,
+              type: questionSet.type,
+              description: questionSet.description,
+              descriptionTitle: questionSet.descriptionTitle,
+              nameDescription: questionSet.nameDescription,
+              calibrationTestData: questionSet.testSection,
+              calibrationSectionTabLabels: tabArr,
+              calibrationActiveSectionTab: 1,
+              calibrationTotalSection: questionSet.testSection.length,
+            });
+          }
+
+          if(questionSet.type === "TOPIC"){
+            this.setState({
+              testQuestionSetId: questionSet.id,
+              course: questionSet.course,
+              description: questionSet.description,
+            });
+          }
+
+          if(questionSet.type === "QUESTIONBANK"){
+            this.setState({
+              testQuestionSetId: questionSet.id,
+              course: questionSet.course,
+            });
+          }
+        }
+      });
+    }
   }
   handleTestChange = (event) => {
     const { value } = event.target;
@@ -190,7 +230,7 @@ class Add extends Component {
   };
 
   handleChange = (e) => {
-    const { type, topicTestSections } = this.state;
+    const { type, topicTestSections, calibrationSectionTabLabels, calibrationTestData, calibrationTotalSection } = this.state;
     const { value, name } = e.target;
     if (name === "noOfQuestions" || name === "duration") {
       var tempTopicTestSections = this.state.topicTestSections;
@@ -211,7 +251,15 @@ class Add extends Component {
       });
     }
     if (name === "courseId" && type === "CALIBRATION" && value !== undefined) {
-      this.props.getSubjectsByCourse(value, {});
+      this.props.getSubjectsByCourse(value);
+      if (calibrationTotalSection !== null) {
+      this.setState({
+        calibrationSectionTabLabels: [],
+        calibrationTestData: [],
+        calibrationActiveSectionTab: 0,
+        calibrationTotalSection: null,
+      });
+    }
     } 
   };
 
@@ -331,6 +379,8 @@ class Add extends Component {
             var tempcalibrationTestData = calibrationTestData;
             calibrationTestResponse.data.testSection.map((item, index) => {
               tempcalibrationTestData.[index].id = item.id;
+              console.log(item.id);
+              console.log(calibrationTestResponse.data.id);
             });
             this.setState({
               snackOpen: true,
@@ -404,6 +454,8 @@ class Add extends Component {
               }
               value={courseId}
               onChange={this.handleChange}
+              disabled={testQuestionSetId !== null ? true : false}
+              placeholder="Course"
             />
           </Grid>
           <Grid item xs={12} md={8}>
@@ -432,6 +484,7 @@ class Add extends Component {
                   value={name}
                   label="Test name"
                   height="11px"
+                  placeholder="Test name"
                 />
               </div>
             ) : (
@@ -441,6 +494,7 @@ class Add extends Component {
                 items={topics.data}
                 value={topicId}
                 onChange={this.handleChange}
+                placeholder="Topic"
               />
             )}
           </Grid>
@@ -454,6 +508,7 @@ class Add extends Component {
                   label="Description"
                   multiline
                   rows={3}
+                  placeholder="Description"
                 />
               </Grid>
               <Grid item xs={12} md={4}>
@@ -463,6 +518,7 @@ class Add extends Component {
                   value={descriptionTitle}
                   label="Test Instruction heading"
                   height="11px"
+                  placeholder="Test Instruction heading"
                 />
               </Grid>
               <Grid item xs={12} md={8}>
@@ -470,7 +526,8 @@ class Add extends Component {
                   autoData={{
                     label: "Test Instruction Details",
                     placeholder: "Details Test Instruction",
-                    defaultValue: description,
+                    title: "Type the content to press enter button",
+                    value: description,
                     onChange: this.handleInstructionChange,
                   }}
                 />

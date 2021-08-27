@@ -4,6 +4,7 @@ const initialState = {
   filterData: [],
   testData: [],
   questionType: [],
+  testQuestionSetResponse: [],
   testQuestionSet: [],
   topics: [],
   template: [],
@@ -34,7 +35,7 @@ const TestReducer = (state = initialState, action) => {
     case TEST.createTestQuestionSet: {
       return {
         ...state,
-        testQuestionSet: action.payload,
+        testQuestionSetResponse: action.payload,
       };
     }
     case TEST.getTopicByCourse: {
