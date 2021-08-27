@@ -62,6 +62,9 @@ class CalibrationTestCard extends Component {
           />
         </TabContainer>
         {testData.map((item, index) => {
+          var sliceName = testData
+            .filter((subject) => subject.name !== item.name)
+            .map((subjectName) => subjectName.name);
           return (
             <Fragment key={index}>
               <div hidden={tabValue !== index + 1}>
@@ -72,10 +75,12 @@ class CalibrationTestCard extends Component {
                       name="name"
                       items={
                         (subjects.length !== 0 &&
-                          subjects.map((item) => ({
-                            id: item.label,
-                            title: item.label,
-                          }))) ||
+                          subjects
+                            .filter((item) => sliceName.indexOf(item.label))
+                            .map((item) => ({
+                              id: item.label,
+                              title: item.label,
+                            }))) ||
                         []
                       }
                       value={item.name}
