@@ -8,9 +8,9 @@ import Group from "../../Assets/icons/Group.svg";
 
 const tabsLabels = [{ tabLabel: "LMS" }];
 const studentTabsLabels = [
-  { tabLabel: "Student Profile" },
+  // { tabLabel: "Student Profile" },
   { tabLabel: "Courses Taken" },
-  { tabLabel: "Activity" },
+  // { tabLabel: "Activity" },
 ];
 
 class Index extends Component {

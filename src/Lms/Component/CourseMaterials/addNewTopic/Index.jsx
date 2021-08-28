@@ -286,12 +286,15 @@ class Index extends Component {
       tabsLabels,
     } = this.state;
     const { courses, subjects, concepts, taskDetails } = this.props;
+    const { topic_id } = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
     return (
       <>
         <MainContainer>
           <Card>
             <Wrapper>
-              <Title>{topicId ? "Edit Topic" : "Add New Topic"}</Title>
+              <Title>{topic_id ? "Edit Topic" : "Add New Topic"}</Title>
               <TopicCard
                 data={{
                   courses: courses.data,

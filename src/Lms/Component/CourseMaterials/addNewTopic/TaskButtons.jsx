@@ -7,10 +7,11 @@ export const TaskButtons = (props) => {
   const { taskSaveButton } = props.actionData;
   return (
     <ButtonContainer>
-      <OutlineButton>
+      {/* <OutlineButton>
         <PreviewIcon src={Preview} /> Preview
-      </OutlineButton>
-      <span style={{ marginLeft: 26 }}>
+      </OutlineButton> */}
+      {/* style={{ marginLeft: 26 }} */}
+      <span>
         <FillButton onClick={taskSaveButton}>Save</FillButton>
       </span>
     </ButtonContainer>
