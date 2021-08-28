@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import MaterialTable from "material-table";
 import history from "./History";
-import {isAlpha, isEmailSpecialChar, isNumber, isSpecialCharacter} from "./Validation"
+import {isAlpha, isEmailSpecialChar, isEmptyString, isNumber, isSpecialCharacter} from "./Validation"
 import { createMuiTheme, MuiThemeProvider, ThemeProvider } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -73,6 +73,11 @@ export class ActiveStudents extends Component {
       phoneHelperText : null,
       studentIdHelperText : null,
       internAccess : false,
+      search: {
+        page: 0,
+        size: "",
+        keyword: "",
+      },
     };
   }
 
@@ -92,7 +97,7 @@ export class ActiveStudents extends Component {
     { title: "Full Name", fieldName: "fullName" },
     { title: "Email Id", fieldName: "emailId" },
     { title: "Phone", fieldName: "phoneNumber" },
-    { title: "Department", fieldName: "department.name" },
+    // { title: "Department", fieldName: "department.name" },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
@@ -159,6 +164,12 @@ export class ActiveStudents extends Component {
       }) 
       this.props.getWhiteListedUser(0, 20);
     } 
+     // TO search users when the input feild for search is empty
+     if (this.state.search.keyword !== prevState.search.keyword) {
+      if (isEmptyString(this.state.search.keyword)) {
+        this.props.getWhiteListedUser(0, 20);
+      }
+    }
   }
 
 
@@ -186,7 +197,20 @@ export class ActiveStudents extends Component {
       }
     });
   paginate = (page, size, keyword) => {
-    this.props.getWhiteListedUser(page, size, keyword);
+
+    var tempSearchHolder = { ...this.state.search };
+    tempSearchHolder.page = page;
+    tempSearchHolder.size = size;
+    tempSearchHolder.keyword = keyword;
+    this.setState({
+      search: tempSearchHolder,
+    });
+    if (
+      // this.state.search.page !== 0 &&
+      this.state.search.page !== page
+    ) {
+      this.props.getWhiteListedUser(page, size, keyword);
+    }
   };
   handleSubmit = (e) =>{
     this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
@@ -289,6 +313,16 @@ export class ActiveStudents extends Component {
     })
   }
   }
+
+   // Function that handle search
+   handleSearch = () => {
+    this.props.getWhiteListedUser(
+      0,
+      this.state.search.size,
+      this.state.search.keyword
+    );
+  };
+
   render() {  
     console.log("Props............",this.props.whiteListedUserDetails)
     return (
@@ -319,6 +353,14 @@ export class ActiveStudents extends Component {
                   : null
               }
               add={true}
+              needSearch
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  e.preventDefault();
+                  document.getElementById("search").click();
+                }
+              }}
+              onSearchClick={this.handleSearch}
               onAddClick={(e)=>this.setState({
                 dialogOpen : true,
                 id : null,
@@ -359,7 +401,6 @@ export class ActiveStudents extends Component {
               }}
               cols={this.stu_header}
               onRowClick={this.rowClick}
-              onSearch={this.paginate}
               paginate={this.paginate}
               totalCount={this.props.whiteListedUserDetails.totalElements}
               title={"Student"}

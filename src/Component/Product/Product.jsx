@@ -85,47 +85,70 @@ class Product extends Component {
           headerName: "Action",
           sortable: false,
           width: 200,
-          renderCell: (params) => {
-            const onClick = () => {
-              const api: GridApi = params.api;
-              const fields = api
-                .getAllColumns()
-                .map((c) => c.field)
-                .filter((c) => c !== "__check__" && !!c);
-              const thisRow: Record<string, GridCellValue> = {};
+          renderCell : (params) => (
+            <PrimaryButton
+                  onClick={()=>{
+                    this.setState({
+                              show: true,
+                              id: params.row.id,
+                              codeName: params.row.codeName,
+                              // shortName:thisRow.shortName,
+                              productName: params.row.productName,
+                              createdby: params.row.createdBy,
+                              createdon: params.row.dateOfCreation,
+                              updatedby: params.row.updatedBy,
+                              updatedon: params.row.dateOfUpdate,
+                            })
+                  }}
+                  variant={"contained"}
+                  color={"primary"}
+                  size={"small"}
+                  style={{ marginLeft: 16 }}
+                >
+                  Manage
+                </PrimaryButton>
+          ),
+          // renderCell: (params) => {
+          //   const onClick = () => {
+          //     const api: GridApi = params.api;
+          //     const fields = api
+          //       .getAllColumns()
+          //       .map((c) => c.field)
+          //       .filter((c) => c !== "__check__" && !!c);
+          //     const thisRow: Record<string, GridCellValue> = {};
 
-              fields.forEach((f) => {
-                thisRow[f] = params.getValue(f);
-              });
+          //     fields.forEach((f) => {
+          //       thisRow[f] = params.getValue(f);
+          //     });
 
-              return (
-                // console.log(thisRow)
-                this.setState({
-                  show: true,
-                  id: thisRow.id,
-                  codeName: thisRow.codeName,
-                  // shortName:thisRow.shortName,
-                  productName: thisRow.productName,
-                  createdby: thisRow.createdBy,
-                  createdon: thisRow.dateOfCreation,
-                  updatedby: thisRow.updatedBy,
-                  updatedon: thisRow.dateOfUpdate,
-                })
-              );
-              // alert(JSON.stringify(thisRow, null, 4));
-            };
-            return (
-              <PrimaryButton
-                onClick={onClick}
-                variant={"contained"}
-                color={"primary"}
-                size={"small"}
-                style={{ marginLeft: 16 }}
-              >
-                Manage
-              </PrimaryButton>
-            );
-          },
+          //     return (
+          //       // console.log(thisRow)
+          //       this.setState({
+          //         show: true,
+          //         id: thisRow.id,
+          //         codeName: thisRow.codeName,
+          //         // shortName:thisRow.shortName,
+          //         productName: thisRow.productName,
+          //         createdby: thisRow.createdBy,
+          //         createdon: thisRow.dateOfCreation,
+          //         updatedby: thisRow.updatedBy,
+          //         updatedon: thisRow.dateOfUpdate,
+          //       })
+          //     );
+          //     // alert(JSON.stringify(thisRow, null, 4));
+          //   };
+          //   return (
+          //     <PrimaryButton
+          //       onClick={onClick}
+          //       variant={"contained"}
+          //       color={"primary"}
+          //       size={"small"}
+          //       style={{ marginLeft: 16 }}
+          //     >
+          //       Manage
+          //     </PrimaryButton>
+          //   );
+          // },
         },
       ],
       deletedialog :false,

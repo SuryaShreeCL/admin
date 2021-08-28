@@ -557,7 +557,6 @@ export class Student extends Component {
               }}
               cols={this.stu_header}
               onRowClick={(rowData) => this.rowClick(rowData)}
-              // onSearch={this.paginate}
               paginate={this.paginate}
               totalCount={this.props.StudentFilterList.totalElements}
               title={"Student"}
