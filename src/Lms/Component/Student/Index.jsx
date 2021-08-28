@@ -16,7 +16,7 @@ const studentTabsLabels = [
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = { tabValue: 0, studentTab: 1 };
+    this.state = { tabValue: 0, studentTab: 0 };
   }
 
   render() {
