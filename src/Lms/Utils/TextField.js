@@ -13,6 +13,7 @@ export const InputTextField = (props) => {
         },
       }}
       InputLabelProps={{
+        shrink: true,
         style: {
           top: props.height !== undefined && "-4px",
         },

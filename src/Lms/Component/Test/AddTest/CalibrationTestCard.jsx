@@ -3,6 +3,7 @@ import { StyledTaps } from "../../../Utils/Tabs";
 import DropDown from "../../../Utils/DropDown";
 import { Divider, TabContainer } from "../../../Assets/StyledComponents";
 import { InputTextField } from "../../../Utils/TextField";
+import { AutocompleteText } from "../../../Utils/Autocomplete";
 import {
   FormControl,
   OutlinedInput,
@@ -42,8 +43,9 @@ class CalibrationTestCard extends Component {
                   }))) ||
                 []
               }
-              value={totalSection}
+              value={totalSection || undefined}
               onChange={sectionChange}
+              placeHolder="Number of Section"
             />
           </Grid>
         </Grid>
@@ -60,6 +62,9 @@ class CalibrationTestCard extends Component {
           />
         </TabContainer>
         {testData.map((item, index) => {
+          var sliceName = testData
+            .filter((subject) => subject.name !== item.name)
+            .map((subjectName) => subjectName.name);
           return (
             <Fragment key={index}>
               <div hidden={tabValue !== index + 1}>
@@ -70,14 +75,17 @@ class CalibrationTestCard extends Component {
                       name="name"
                       items={
                         (subjects.length !== 0 &&
-                          subjects.map((item) => ({
-                            id: item.label,
-                            title: item.label,
-                          }))) ||
+                          subjects
+                            .filter((item) => sliceName.indexOf(item.label))
+                            .map((item) => ({
+                              id: item.label,
+                              title: item.label,
+                            }))) ||
                         []
                       }
                       value={item.name}
                       onChange={(e) => testPropertiesChange(index, e)}
+                      placeHolder="Subject"
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -86,18 +94,38 @@ class CalibrationTestCard extends Component {
                       onChange={(e) => testPropertiesChange(index, e)}
                       value={item.noOfQuestions}
                       label="Number of question"
+                      placeholder="Number of question"
+                      height="11px"
+                      type={"number"}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
-                    <FormControl variant="outlined" fullWidth>
-                      <InputLabel>Expected time for completion</InputLabel>
+                    <FormControl fullWidth>
+                      <InputLabel
+                        shrink={true}
+                        style={{
+                          top: "-8px",
+                          left: "15px",
+                          background: "#FFFFFF",
+                          padding: "0 10px 0 8px",
+                          zIndex: 1,
+                        }}
+                      >
+                        Expected time for completion
+                      </InputLabel>
                       <OutlinedInput
+                        inputProps={{
+                          style: {
+                            height: "11px",
+                          },
+                        }}
                         type={"number"}
                         value={item.duration}
                         name="duration"
+                        placeholder="Expected time for completion"
                         onChange={(e) => testPropertiesChange(index, e)}
                         endAdornment={
-                          <InputAdornment position="end">min</InputAdornment>
+                          <InputAdornment position="end">mins</InputAdornment>
                         }
                         labelWidth={230}
                       />
@@ -105,24 +133,36 @@ class CalibrationTestCard extends Component {
                   </Grid>
                 </Grid>
                 <Grid container style={{ paddingTop: "30px" }} spacing={2}>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={4}>
+                    <InputTextField
+                      name="sectionName"
+                      onChange={() => {}}
+                      //value={""}
+                      label="Section Instruction heading"
+                      placeholder="Section Instruction heading"
+                      height="11px"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={8}>
                     <InputTextField
                       name="sectiondescription"
                       onChange={() => {}}
                       //value={""}
                       label="Section Description"
+                      placeholder="Section Description"
                       multiline
                       rows={3}
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <InputTextField
-                      name="instruction"
-                      onChange={() => {}}
-                      //value={""}
-                      label="Section instruction"
-                      multiline
-                      rows={3}
+                  <Grid item xs={12}>
+                    <AutocompleteText
+                      autoData={{
+                        label: "Section Instruction Details",
+                        placeholder: "List The Instruction",
+                        title: "Type the content and press enter",
+                        //value: [],
+                        onChange: (e) => {},
+                      }}
                     />
                   </Grid>
                 </Grid>

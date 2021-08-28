@@ -11,22 +11,23 @@ const useStyles = makeStyles({
     "& .MuiAutocomplete-inputRoot": {
       minHeight: "250px",
       alignItems: "start",
+      alignContent: "flex-start",
     },
   },
 });
 
 export const AutocompleteText = (props) => {
   const classes = useStyles();
-  const { onChange, defaultValue, label, placeholder } = props.autoData;
-
+  const { onChange, value, label, placeholder, title } = props.autoData;
   return (
     <Autocomplete
+      title={title !== undefined && title}
       classes={{ root: classes.root }}
       multiple
       onChange={onChange !== undefined && onChange}
-      options={defaultValue !== undefined && defaultValue}
-      defaultValue={defaultValue !== undefined && defaultValue}
+      options={[]}
       freeSolo
+      value={value}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip variant="outlined" label={option} {...getTagProps({ index })} />
@@ -36,6 +37,9 @@ export const AutocompleteText = (props) => {
         <TextField
           {...params}
           variant={"outlined"}
+          InputLabelProps={{
+            shrink: true,
+          }}
           label={label !== undefined && label}
           placeholder={placeholder !== undefined && placeholder}
         />
