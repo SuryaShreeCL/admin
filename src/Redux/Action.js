@@ -34,6 +34,7 @@ export const COLLEGES = {
   // Selva
   getPaginateCollege: 'getPaginateCollege',
   getPaginateUniversity: 'getPaginateUniversity',
+  getPGDegrees:"getPGDegrees"
 };
 
 export const STUDENT = {
