@@ -579,7 +579,7 @@ function RootContainer(props) {
         {
           icon: <></>,
           title: "Student",
-          path: lms_course_taken,
+          path: studentPath,
           items: [],
         },
         {
@@ -596,7 +596,7 @@ function RootContainer(props) {
         },
         {
           icon: <></>,
-          title: 'Test',
+          title: "Test",
           path: lmsTest,
           items: [],
         },
