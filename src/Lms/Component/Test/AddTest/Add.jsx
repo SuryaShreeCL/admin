@@ -370,6 +370,7 @@ class Add extends Component {
       // TOPIC Save action
       if (
         nameDescription &&
+        description &&
         descriptionTitle &&
         topicId !== undefined &&
         topicTestSections.duration &&
@@ -421,11 +422,11 @@ class Add extends Component {
           item.noOfQuestions !== null &&
           item.nameDescription !== null  &&
           item.nameDescription.trim().length !== 0 &&
+          item.description !== null &&
           item.description.length !== 0 &&
           item.descriptionTitle  !== null  &&
           item.descriptionTitle.trim().length !== 0
       );
-      console.log(calibrationTestDataTotalValidation);
       if (
         name &&
         nameDescription &&
@@ -454,7 +455,9 @@ class Add extends Component {
               var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
               var tempcalibrationTestData = calibrationTestData;
               calibrationTestResponse.data.testSection.map((item, index) => {
-                tempcalibrationTestData.[index].id = item.id;
+                if(calibrationTestData.length > index){
+                  tempcalibrationTestData.[index].id = item.id;
+                }
               });
               this.setState({
                 snackOpen: true,
@@ -614,7 +617,7 @@ class Add extends Component {
                     label: "Test Instruction Details",
                     placeholder: "List The Instruction",
                     title: "Type the content and press enter",
-                    value: description,
+                    value: description !== null ? description : [],
                     onChange: this.handleInstructionChange,
                   }}
                 />

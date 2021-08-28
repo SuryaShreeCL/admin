@@ -168,7 +168,8 @@ class CalibrationTestCard extends Component {
                         label: "Section Instruction Details",
                         placeholder: "List The Instruction",
                         title: "Type the content and press enter",
-                        value: item.description,
+                        value:
+                          item.description !== null ? item.description : [],
                         onChange: sectionInstructionChange,
                       }}
                     />
