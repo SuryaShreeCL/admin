@@ -17,6 +17,8 @@ export default function DropDownRack(props) {
     });
   }, []);
 
+  // console.log(testType);
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
@@ -35,6 +37,7 @@ export default function DropDownRack(props) {
           items={state.topics}
           value={topicId}
           onChange={handleDropDownChange}
+          disabled={testType === 'CALIBRATION'}
         />
       </Grid>
       <Grid item xs={12} md={4}>

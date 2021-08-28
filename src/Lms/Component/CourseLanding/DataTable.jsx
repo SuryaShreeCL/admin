@@ -32,12 +32,6 @@ const MONTH = [
   'Dec',
 ];
 
-const useStyles = makeStyles({
-  leftAlign: {
-    textAlign: 'left',
-  },
-});
-
 const columns = [
   'No.',
   'Concept Name',
@@ -58,8 +52,6 @@ const getDateFormat = dateString => {
 };
 
 export default function DataTable(props) {
-  const classes = useStyles();
-
   const {
     topics,
     anchorEl,
@@ -80,7 +72,7 @@ export default function DataTable(props) {
           <TableRow>
             {columns.map((item, index) => (
               <HeadCell
-                className={index === 4 ? classes.leftAlign : null}
+                // className={index === 4 ? classes.leftAlign : null}
                 key={index}
               >
                 {item}
@@ -93,15 +85,15 @@ export default function DataTable(props) {
             topics.data.content.map((item, index) => {
               return (
                 <TableRow key={index} style={{ border: '0 0 0 0' }}>
-                  <BodyCell className={classes.leftAlign}>
+                  <BodyCell className={'table_center_align'}>
                     {pageNo * 10 + index + 1}
                   </BodyCell>
                   <BodyCell>{item.conceptName}</BodyCell>
                   <BlueCell>{item.topicName}</BlueCell>
-                  <BodyCell>{item.noOfTasks}</BodyCell>
-                  <BodyCell className={classes.leftAlign}>
-                    {item.uploadedBy}
+                  <BodyCell className={'table_center_align'}>
+                    {item.noOfTasks}
                   </BodyCell>
+                  <BodyCell>{item.uploadedBy}</BodyCell>
                   <BodyCell>{item.status}</BodyCell>
                   <BodyCell>{getDateFormat(item.createdAt)}</BodyCell>
                   <BlueCell>
