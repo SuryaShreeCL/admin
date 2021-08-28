@@ -427,7 +427,6 @@ class Add extends Component {
           item.descriptionTitle  !== null  &&
           item.descriptionTitle.trim().length !== 0
       );
-      console.log(calibrationTestDataTotalValidation);
       if (
         name &&
         nameDescription &&
@@ -456,7 +455,9 @@ class Add extends Component {
               var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
               var tempcalibrationTestData = calibrationTestData;
               calibrationTestResponse.data.testSection.map((item, index) => {
-                tempcalibrationTestData.[index].id = item.id;
+                if(calibrationTestData.length > index){
+                  tempcalibrationTestData.[index].id = item.id;
+                }
               });
               this.setState({
                 snackOpen: true,
