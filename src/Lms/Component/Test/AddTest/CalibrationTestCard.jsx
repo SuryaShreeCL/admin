@@ -26,6 +26,7 @@ class CalibrationTestCard extends Component {
       tabChange,
       testPropertiesChange,
       subjects,
+      sectionInstructionChange,
     } = this.props.data;
     return (
       <>
@@ -63,7 +64,12 @@ class CalibrationTestCard extends Component {
         </TabContainer>
         {testData.map((item, index) => {
           var sliceName = testData
-            .filter((subject) => subject.name !== item.name)
+            .filter(
+              (subject) =>
+                subject.name !== item.name &&
+                subject.name !== null &&
+                subject.name.trim().length !== 0
+            )
             .map((subjectName) => subjectName.name);
           return (
             <Fragment key={index}>
@@ -83,9 +89,10 @@ class CalibrationTestCard extends Component {
                             }))) ||
                         []
                       }
-                      value={item.name}
+                      value={item.name !== null ? item.name : ""}
                       onChange={(e) => testPropertiesChange(index, e)}
                       placeHolder="Subject"
+                      key={item}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -135,9 +142,9 @@ class CalibrationTestCard extends Component {
                 <Grid container style={{ paddingTop: "30px" }} spacing={2}>
                   <Grid item xs={12} md={4}>
                     <InputTextField
-                      name="sectionName"
-                      onChange={() => {}}
-                      //value={""}
+                      name="descriptionTitle"
+                      onChange={(e) => testPropertiesChange(index, e)}
+                      value={item.descriptionTitle}
                       label="Section Instruction heading"
                       placeholder="Section Instruction heading"
                       height="11px"
@@ -145,9 +152,9 @@ class CalibrationTestCard extends Component {
                   </Grid>
                   <Grid item xs={12} md={8}>
                     <InputTextField
-                      name="sectiondescription"
-                      onChange={() => {}}
-                      //value={""}
+                      name="nameDescription"
+                      onChange={(e) => testPropertiesChange(index, e)}
+                      value={item.nameDescription}
                       label="Section Description"
                       placeholder="Section Description"
                       multiline
@@ -157,11 +164,12 @@ class CalibrationTestCard extends Component {
                   <Grid item xs={12}>
                     <AutocompleteText
                       autoData={{
+                        key: index,
                         label: "Section Instruction Details",
                         placeholder: "List The Instruction",
                         title: "Type the content and press enter",
-                        //value: [],
-                        onChange: (e) => {},
+                        value: item.description,
+                        onChange: sectionInstructionChange,
                       }}
                     />
                   </Grid>

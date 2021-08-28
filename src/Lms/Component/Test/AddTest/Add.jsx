@@ -188,6 +188,15 @@ class Add extends Component {
     this.setState({ description: newValue });
   };
 
+  //handleSectionInstructionChange for Calibration Test
+  handleSectionInstructionChange = (e, newValue) => {
+    const calibrationTestData = [...this.state.calibrationTestData];
+    calibrationTestData[this.state.calibrationActiveSectionTab - 1]["description"] = newValue;
+    this.setState({
+      calibrationTestData,
+    });
+  };
+
   handleSectionChange = (e) => {
     const { calibrationSectionTabLabels, calibrationTestData } = this.state;
     const { value } = e.target;
@@ -198,16 +207,22 @@ class Add extends Component {
       tabArr = calibrationSectionTabLabels.slice(0, value);
       testArr = calibrationTestData.slice(0, value);
     } else {
+      testArr = calibrationTestData;
       for (let i = tabArr.length; i < value; i++) {
         tabArr.push({
           tabLabel: `Section ${i + 1}`,
         });
+        if(testArr.length < (i + 1)){
         testArr.push({
           id: null,
           name: "",
-          duration: "",
-          noOfQuestions: "",
+          duration: null,
+          noOfQuestions: null,
+          description: [],
+          descriptionTitle: null,
+          nameDescription: null, 
         });
+      }
       }
     }
     this.setState({
@@ -232,7 +247,7 @@ class Add extends Component {
     if (testQuestionSetId !== null) {
       if (type === "QUESTIONBANK") {
         this.props.history.push(
-          bulk_upload + `?testQuestionSetId=${testQuestionSetId}`
+          bulk_upload + `/${testQuestionSetId}`
         );
       } else {
         if (type === "CALIBRATION") {
@@ -242,12 +257,12 @@ class Add extends Component {
             "";
           this.props.history.push(
             bulk_upload +
-              `?testQuestionSetId=${testQuestionSetId}&sectionId=${calibrationSectionId}`
+              `/${testQuestionSetId}/${calibrationSectionId}`
           );
         } else {
           this.props.history.push(
             bulk_upload +
-              `?testQuestionSetId=${testQuestionSetId}&sectionId=${sectionId}`
+              `/${testQuestionSetId}/${sectionId}`
           );
         }
       }
@@ -355,9 +370,10 @@ class Add extends Component {
       // TOPIC Save action
       if (
         nameDescription &&
+        descriptionTitle &&
         topicId !== undefined &&
-        topicTestSections.duration > 0 &&
-        topicTestSections.noOfQuestions > 0 &&
+        topicTestSections.duration &&
+        topicTestSections.noOfQuestions &&
         nameDescription.trim().length !== 0 &&
         description.length !== 0 &&
         descriptionTitle.trim().length !== 0
@@ -398,11 +414,18 @@ class Add extends Component {
     if (type === "CALIBRATION") {
       // CALIBRATION Save action
       var calibrationTestDataTotalValidation = calibrationTestData.map(
-        (item) =>
+        (item) => 
+          item.name !== null &&
           item.name.trim().length !== 0 &&
-          item.duration > 0 &&
-          item.noOfQuestions > 0
+          item.duration !== null &&
+          item.noOfQuestions !== null &&
+          item.nameDescription !== null  &&
+          item.nameDescription.trim().length !== 0 &&
+          item.description.length !== 0 &&
+          item.descriptionTitle  !== null  &&
+          item.descriptionTitle.trim().length !== 0
       );
+      console.log(calibrationTestDataTotalValidation);
       if (
         name &&
         nameDescription &&
@@ -612,6 +635,7 @@ class Add extends Component {
               totalSection: calibrationTotalSection,
               tabChange: this.handleTabChange,
               testPropertiesChange: this.handleCalibrationTestProperties,
+              sectionInstructionChange: this.handleSectionInstructionChange,
               subjects: (subjects.length !== 0 && subjects.data) || [],
             }}
           />

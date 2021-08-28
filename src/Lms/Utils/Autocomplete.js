@@ -18,9 +18,10 @@ const useStyles = makeStyles({
 
 export const AutocompleteText = (props) => {
   const classes = useStyles();
-  const { onChange, value, label, placeholder, title } = props.autoData;
+  const { onChange, value, label, placeholder, title, key } = props.autoData;
   return (
     <Autocomplete
+      key={key !== undefined && key}
       title={title !== undefined && title}
       classes={{ root: classes.root }}
       multiple
