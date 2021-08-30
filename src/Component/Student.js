@@ -353,27 +353,27 @@ export class Student extends Component {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({ firstNameHelperText: "Please fill the required feild" })
-      : this.setState({ firstNameHelperText: null });
+      : this.setState({ firstNameHelperText: '' });
     this.state.lastName === null || this.state.lastName.length === 0
       ? this.setState({ lastNameHelperText: "Please fill the required feild" })
-      : this.setState({ lastNameHelperText: null });
+      : this.setState({ lastNameHelperText: '' });
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({ emailHelperText: "Please fill the required feild" })
-      : this.setState({ emailHelperText: null });
+      : this.setState({ emailHelperText: '' });
     this.state.phone === null || this.state.phone.length === 0
       ? this.setState({ phoneHelperText: "Please fill the required feild" })
-      : this.setState({ phoneHelperText: null });
+      : this.setState({ phoneHelperText: '' });
     this.state.college === null || this.state.college.length === 0
       ? this.setState({ collegeHelperText: "Please fill the required feild" })
-      : this.setState({ collegeHelperText: null });
+      : this.setState({ collegeHelperText: '' });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
           departmentHelperText: "Please fill the required feild",
         })
-      : this.setState({ departmentHelperText: null });
+      : this.setState({ departmentHelperText: '' });
     this.state.studentId === null || this.state.studentId.length === 0
       ? this.setState({ studentIdHelperText: "Please fill the required feild" })
-      : this.setState({ studentIdHelperText: null });
+      : this.setState({ studentIdHelperText: '' });
     if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&

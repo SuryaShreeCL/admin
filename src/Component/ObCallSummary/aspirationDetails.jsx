@@ -132,6 +132,7 @@ class AspirationDetails extends Component {
         this.setState({
           answerModel: response.testQuestionModels,
           ...response,
+          noOfSchool : response.noOfSchool && response.noOfSchool.toString()
         });
       },
       this.props.match.params.studentId,
@@ -419,6 +420,8 @@ class AspirationDetails extends Component {
     );
   };
 
+  noOfSchoolArr = ["1","3","5"]
+
   render() {
     console.log(this.props.allTermList);
     const { choiceStyle } = style;
@@ -479,7 +482,7 @@ class AspirationDetails extends Component {
             this.renderAspirationQuestions()}
           <Grid container spacing={2}>
             <Grid item md={2}>
-              <TextField
+              {/* <TextField
                 //   style={{ width: "100%" }}
                 id="standard-basic"
                 label="No Of Schools?"
@@ -488,7 +491,16 @@ class AspirationDetails extends Component {
                 onChange={(e) => {
                   this.setState({ noOfSchool: e.target.value });
                 }}
-              />
+              /> */}
+               <Autocomplete
+              id="tags-outlined"
+              options={this.noOfSchoolArr}
+              getOptionLabel={(option) => option}
+              value={this.state.noOfSchool}
+              renderInput={(params) => <TextField
+                {...params} label="Number Of Schools" />}
+              onChange={(e, newValue) => this.setState({ noOfSchool: newValue })}
+            />
             </Grid>
             <Grid item md={3}>
               <Autocomplete
