@@ -156,7 +156,6 @@ class TestLanding extends Component {
       };
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
     } else if (text === 'Publish Now') {
-      console.log('hi');
       const dialogContent = {
         type: 'publish',
         icon: <img src={PublishIcon} width='64px' height='64px' />,

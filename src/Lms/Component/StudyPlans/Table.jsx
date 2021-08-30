@@ -75,7 +75,6 @@ export default function DataTable(props) {
           onPageChange={(e, page) => {
             // setStart(start * 10);
             setEnd(page * 10);
-            console.log(page);
           }}
           shape='rounded'
         />
