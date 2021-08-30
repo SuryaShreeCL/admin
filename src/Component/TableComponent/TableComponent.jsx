@@ -13,7 +13,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit"
+import EditIcon from "@material-ui/icons/Edit";
 import Spinner from "./Utils/Spinner";
 
 export default class TableComponent extends Component {
@@ -25,7 +25,7 @@ export default class TableComponent extends Component {
       searchKeyword: "",
       tableColumn: null,
       tableData: null,
-      eventTrigger:false,
+      eventTrigger: false,
     };
     this.flag = false;
   }
@@ -50,13 +50,13 @@ export default class TableComponent extends Component {
     if (
       prevState.pageCount !== this.state.pageCount ||
       prevState.rowCount !== this.state.rowCount ||
-      prevState.searchKeyword!==this.state.searchKeyword
-    ) {            
-        this.props.paginate(
-          this.state.pageCount,
-          this.state.rowCount,
-          this.state.searchKeyword
-        );      
+      prevState.searchKeyword !== this.state.searchKeyword
+    ) {
+      this.props.paginate(
+        this.state.pageCount,
+        this.state.rowCount,
+        this.state.searchKeyword
+      );
     }
   }
 
@@ -108,15 +108,18 @@ export default class TableComponent extends Component {
             <Button
               variant="contained"
               color="primary"
-              disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
-              name='action'
-              onClick={(e) =>{
+              // disabled={
+              //   window.sessionStorage.getItem("role") !== "SUPER ADMIN"
+              //     ? true
+              //     : false
+              // }
+              name="action"
+              onClick={(e) => {
                 e.stopPropagation();
-                  if(typeof this.props.onEditClick === "function"){
-                  this.props.onEditClick(data)
+                if (typeof this.props.onEditClick === "function") {
+                  this.props.onEditClick(data);
                 }
-              }
-              }
+              }}
               startIcon={<EditIcon />}
             >
               Edit
@@ -127,15 +130,18 @@ export default class TableComponent extends Component {
           <td style={body.td}>
             <Button
               variant="contained"
-              disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
+              disabled={
+                window.sessionStorage.getItem("role") !== "SUPER ADMIN"
+                  ? true
+                  : false
+              }
               color="secondary"
-              onClick={(e) =>{
+              onClick={(e) => {
                 e.stopPropagation();
-                  if(typeof this.props.onDeleteClick === "function"){
-                  this.props.onDeleteClick(data)
+                if (typeof this.props.onDeleteClick === "function") {
+                  this.props.onDeleteClick(data);
                 }
-              }
-              }
+              }}
               startIcon={<DeleteIcon />}
             >
               Delete
@@ -153,8 +159,7 @@ export default class TableComponent extends Component {
         <tr
           key={index}
           onClick={(e) => {
-            if(this.props.onRowClick!==undefined)
-            this.props.onRowClick(row)
+            if (this.props.onRowClick !== undefined) this.props.onRowClick(row);
           }}
           style={body.tr}
         >
@@ -231,7 +236,7 @@ export default class TableComponent extends Component {
 
   render() {
     const { header, spacer, footer, body } = table;
-    var spin=true    
+    var spin = true;
     return (
       <div>
         {/* paper Container */}
@@ -256,8 +261,8 @@ export default class TableComponent extends Component {
                     this.setState({ searchKeyword: e.target.value })
                   }
                   // onKeyUp={
-                  //   (e)=>{                      
-                  //     if(e.keyCode===13){                        
+                  //   (e)=>{
+                  //     if(e.keyCode===13){
                   //       e.preventDefault();
                   //       this.setState({eventTrigger:!this.state.eventTrigger})
                   //     }
@@ -270,7 +275,11 @@ export default class TableComponent extends Component {
                   <Button
                     variant="contained"
                     color="primary"
-                    disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
+                    // disabled={
+                    //   window.sessionStorage.getItem("role") !== "SUPER ADMIN"
+                    //     ? true
+                    //     : false
+                    // }
                     onClick={(e) =>
                       typeof this.props.onAddClick === "function"
                         ? this.props.onAddClick(e)
@@ -296,8 +305,8 @@ export default class TableComponent extends Component {
                     </thead>
                     <tbody>{this.renderTableData()}</tbody>
                   </>
-                ) : (                                    
-                  <Spinner visible={spin} />                                                                      
+                ) : (
+                  <Spinner visible={spin} />
                 )}
               </table>
             </Grid>
