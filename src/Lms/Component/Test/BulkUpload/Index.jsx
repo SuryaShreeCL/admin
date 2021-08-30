@@ -26,6 +26,7 @@ import {
   getTemplate,
 } from '../../../Redux/Action/Test';
 import Alert from '@material-ui/lab/Alert';
+import { lmsTest } from '../../../../Component/RoutePaths';
 import QueryString from 'qs';
 
 // const testQuestionSetId = '4c72684b-3499-4378-a272-304f1708a798';
@@ -57,12 +58,8 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    const { testQuestionSetId } = QueryString.parse(
-      this.props.location.search,
-      {
-        ignoreQueryPrefix: true,
-      }
-    );
+    // console.log();
+    const { testQuestionSetId } = this.props.match.params;
     this.props.getQuestionType(testQuestionSetId);
   }
 
@@ -100,12 +97,7 @@ class Index extends Component {
         alertSeverity: 'error',
       });
     } else if (this.state.files.length > 0) {
-      const { testQuestionSetId, sectionId } = QueryString.parse(
-        this.props.location.search,
-        {
-          ignoreQueryPrefix: true,
-        }
-      );
+      const { testQuestionSetId, sectionId } = this.props.match.params;
       const formData = new FormData();
       formData.append('file', this.state.files[0]);
       if (sectionId !== undefined) {
@@ -171,23 +163,23 @@ class Index extends Component {
         alertSeverity: 'error',
       });
     } else window.open(this.props.template.data.url);
-    // return false;
+  };
+
+  handleCancelClick = () => {
+    const { testQuestionSetId } = this.props.match.params;
+    this.props.history.push(`${lmsTest}`);
   };
 
   render() {
-    // const { handleChange } = this;
-    // const { testQuestionSetId } = QueryString.parse(
-    //   this.props.location.search,
-    //   {
-    //     ignoreQueryPrefix: true,
-    //   }
-    // );
-    // // console.log(this.props);
-    // console.log(this.props.template);
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
       const { selectedType } = this.state;
-      const { handleChange, handleClose, handleTemplateClick } = this;
+      const {
+        handleChange,
+        handleClose,
+        handleTemplateClick,
+        handleCancelClick,
+      } = this;
       return (
         <React.Fragment>
           <C2>
@@ -236,7 +228,7 @@ class Index extends Component {
               variant='outlined'
               color='primary'
               className={'round-button margin-style-right'}
-              // onClick={handleClose}
+              onClick={handleCancelClick}
             >
               Cancel
             </Button>

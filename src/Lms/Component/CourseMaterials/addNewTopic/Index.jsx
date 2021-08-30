@@ -21,6 +21,7 @@ import { SnackBar } from "../../../Utils/SnackBar";
 import { TaskButtons } from "./TaskButtons";
 import { StyledTaps } from "../../../Utils/Tabs";
 import QueryString from "qs";
+import { lms_course_landing } from "../../../../Component/RoutePaths";
 
 class Index extends Component {
   constructor(props) {
@@ -249,6 +250,7 @@ class Index extends Component {
             snackType: "success",
             taskData,
           });
+          this.props.history.push(lms_course_landing);
         }
       });
     } else {
@@ -337,7 +339,8 @@ class Index extends Component {
                       taskProperties: (e) =>
                         this.handleTaskProperties(index, e),
                       richContent:
-                        (taskDetails.length > 0 &&
+                        (topic_id &&
+                          taskDetails.length > 0 &&
                           taskDetails[tabValue - 1] !== undefined &&
                           taskDetails[tabValue - 1].content) ||
                         "",
@@ -350,7 +353,12 @@ class Index extends Component {
           </Card>
           {tabValue !== null && tabValue !== 0 && (
             <TaskButtons
-              actionData={{ taskSaveButton: this.handleTaskSaveButton }}
+              actionData={{
+                taskSaveButton: this.handleTaskSaveButton,
+                cancelButton: () => {
+                  this.props.history.push(lms_course_landing);
+                },
+              }}
             />
           )}
           <SnackBar

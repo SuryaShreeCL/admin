@@ -386,7 +386,11 @@ export default function Routes(props) {
       <Route exact path={lmsTest} component={TestLanding} />
       <Route exact path={lms_course_taken} component={CourseTaken} />
       <Route exact path={lms_add_test} component={AddTest} />
-      <Route exact path={bulk_upload} component={BulkUpload} />
+      <Route
+        exact
+        path={bulk_upload + '/:testQuestionSetId/:sectionId?'}
+        component={BulkUpload}
+      />
     </Switch>
   );
 }

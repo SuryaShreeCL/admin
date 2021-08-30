@@ -79,6 +79,8 @@ export default function Menu(props) {
         open={open}
         anchorEl={anchorEl}
         getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'center', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         onClose={handleClose}
       >
         {filterMaker(editorChoices, status).map(item => (
@@ -96,6 +98,8 @@ export default function Menu(props) {
         open={open}
         anchorEl={anchorEl}
         getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'center', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         onClose={handleClose}
       >
         {filterChecker(checkerChoices, status).map(item => (

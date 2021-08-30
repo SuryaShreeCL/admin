@@ -235,6 +235,7 @@ export default function TableComp(props) {
                     aria-controls={item.id}
                     aria-haspopup='true'
                     onClick={event => handleThreeDotClick(event, item.id)}
+                    style={{ padding: '0px' }}
                   >
                     <MoreVertRounded style={{ fill: '#1093FF' }} />
                   </IconButton>

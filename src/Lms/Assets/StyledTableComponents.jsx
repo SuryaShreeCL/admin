@@ -19,7 +19,7 @@ export const HeadCell = withStyles({
     fontSize: '18px',
     lineHeight: '22px',
     color: '#052A4E',
-    textAlign: 'center',
+    textAlign: 'left',
   },
 })(TableCell);
 
@@ -30,7 +30,7 @@ export const BodyCell = withStyles({
     fontSize: '16px',
     lineHeight: '20px',
     color: '#052A4E',
-    textAlign: 'center',
+    textAlign: 'left',
     borderBottom: 'none',
   },
 })(TableCell);
@@ -42,7 +42,7 @@ export const BlueCell = withStyles({
     fontSize: '16px',
     lineHeight: '24px',
     color: '#0A66C2',
-    textAlign: 'center',
+    textAlign: 'left',
     borderBottom: 'none',
   },
 })(TableCell);
