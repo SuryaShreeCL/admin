@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { SnackBar } from '../../Utils/SnackBar';
 import Alert from '@material-ui/lab/Alert';
+import { lms_study_plans } from '../../../Component/RoutePaths';
 
 class AddStudyPlans extends Component {
   constructor(props) {
@@ -27,6 +28,8 @@ class AddStudyPlans extends Component {
       selectedFile: null,
       selectedMonth: null,
       open: false,
+      severity: '',
+      message: '',
     };
   }
 
@@ -38,6 +41,8 @@ class AddStudyPlans extends Component {
     this.setState({
       selectedMonth: newValue,
       open: newValue.studyPlanCreated,
+      severity: 'warning',
+      message: 'Study plan already created',
     });
   };
 
@@ -53,20 +58,39 @@ class AddStudyPlans extends Component {
     });
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
-    this.props.createFileUpload(this.state.selectedMonth.id, formData);
+    this.props.createFileUpload(
+      this.state.selectedMonth.id,
+      formData,
+      response => {
+        if (response.success) {
+          this.setState({
+            open: true,
+            message: response.message,
+            severity: 'success',
+          });
+        } else {
+          this.setState({
+            open: true,
+            message: response.message,
+            severity: 'error',
+          });
+        }
+        console.log(response);
+      }
+    );
   };
 
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    this.setState({ open: false });
+    this.setState({ open: false, severity: '', message: '' });
   };
 
   render() {
     // console.log(this.props.monthResponse);
 
-    console.log(this.state);
+    // console.log(this.state);
     // console.log(this.props)
     return (
       <div style={{ padding: '10px 5px 5px' }}>
@@ -82,7 +106,6 @@ class AddStudyPlans extends Component {
             {/* <Grid container style={{ padding: "12px" }}> */}
             <Grid item md={5}>
               <Autocomplete
-                id='combo-box-demo'
                 options={this.props.coursesResponse.data || []}
                 value={this.state.courseValue}
                 onChange={this.handleCourseChange}
@@ -96,7 +119,6 @@ class AddStudyPlans extends Component {
 
             <Grid item md={5}>
               <Autocomplete
-                id='combo-box-demo'
                 options={
                   this.props.monthResponse ? this.props.monthResponse.data : []
                 }
@@ -118,12 +140,16 @@ class AddStudyPlans extends Component {
 
             {/* <Grid item md={4} container style={{ padding: "10px" }}> */}
             <Grid item md={3}>
-              <OutlineButton>Cancel</OutlineButton>
+              <OutlineButton
+                onClick={() => this.props.history.push(lms_study_plans)}
+              >
+                Cancel
+              </OutlineButton>
             </Grid>
 
             <Grid item md={3}>
               <input
-                accept='image/*'
+                // accept='image/*'
                 style={{ display: 'none' }}
                 id='contained-button-file'
                 type='file'
@@ -152,8 +178,8 @@ class AddStudyPlans extends Component {
           autoHideDuration={4000}
           onClose={this.handleClose}
         >
-          <Alert variant='filled' severity='warning'>
-            Study plan already created
+          <Alert variant='filled' severity={this.state.severity}>
+            {this.state.message}
           </Alert>
         </Snackbar>
         {/* <SnackBar

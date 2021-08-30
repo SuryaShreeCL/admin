@@ -36,6 +36,7 @@ export class TopicCard extends Component {
               items={courses}
               value={courseId}
               onhandleChange={handleChange}
+              disabled={topicId}
             />
           </Grid>
         </Grid>
@@ -47,6 +48,7 @@ export class TopicCard extends Component {
               items={subjects}
               value={subjectId}
               onhandleChange={handleChange}
+              disabled={topicId}
             />
           </Grid>
           <Grid item xs={12} md={4}>
@@ -56,6 +58,7 @@ export class TopicCard extends Component {
               items={concepts}
               value={conceptId}
               onhandleChange={handleChange}
+              disabled={topicId}
             />
           </Grid>
           <Grid item xs={12} md={4}>

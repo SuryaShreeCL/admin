@@ -309,7 +309,9 @@ export const createFileUpload = (masterId, data, callback) => {
         callback(response.data);
       })
       .catch(error => {
-        console.log(error);
+        callback(error.response.data);
+
+        // console.log(error);
       });
   };
 };
