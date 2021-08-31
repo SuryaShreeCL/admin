@@ -59,7 +59,7 @@ class Index extends Component {
             </LmsTabs>
           </Grid>
           <Grid item>
-            <IconButton
+            {/* <IconButton
               style={{
                 boxShadow: "0px 4px 4px rgba(16, 147, 255, 0.25)",
                 borderRadius: "4px",
@@ -68,7 +68,7 @@ class Index extends Component {
               }}
             >
               <img src={Group} />
-            </IconButton>
+            </IconButton> */}
           </Grid>
         </Grid>
 

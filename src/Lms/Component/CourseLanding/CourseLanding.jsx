@@ -342,7 +342,7 @@ class CourseLanding extends Component {
                     <TextField
                       style={{ height: '40px' }}
                       variant='outlined'
-                      placeholder='Search'
+                      placeholder='Search topic name'
                       onChange={handleTextFieldChange}
                       onKeyPress={e => e.key === 'Enter' && handleSearch()}
                     />

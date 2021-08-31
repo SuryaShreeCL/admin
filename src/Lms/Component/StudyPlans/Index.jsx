@@ -88,7 +88,18 @@ class Index extends Component {
             onClick={() => this.handleDownMonthChange(item, idx)}
             active={this.state.activeDownMonth === item}
           >
-            {idx + 1 + `${idx === 0 ? ' st ' : ' nd '}` + 'Month'}
+            {idx +
+              1 +
+              `${
+                idx === 0
+                  ? ' st '
+                  : idx === 1
+                  ? ' nd '
+                  : idx === 2
+                  ? 'rd '
+                  : 'th '
+              }` +
+              'Month'}
           </TabBarMonthItem>
         ))}
       </>
@@ -100,7 +111,7 @@ class Index extends Component {
       <Card>
         <Grid container>
           <Grid item sm={12} md={12} style={{ padding: '20px' }}>
-            <TestTitle>Add StudyPlan </TestTitle>
+            <TestTitle>Study Plan</TestTitle>
           </Grid>
 
           <Grid item sm={12} md={12} style={{ padding: '20px' }}>

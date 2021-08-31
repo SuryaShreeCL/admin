@@ -45,7 +45,7 @@ const columns = [
 
 const getDateFormat = dateString => {
   let date = new Date(dateString);
-  let day = date.getDay();
+  let day = date.getDate();
   let month = MONTH[date.getMonth()];
   let year = date.getFullYear();
   return day + ' ' + month + ' ' + year;
@@ -72,7 +72,9 @@ export default function DataTable(props) {
           <TableRow>
             {columns.map((item, index) => (
               <HeadCell
-                // className={index === 4 ? classes.leftAlign : null}
+                className={
+                  index === 3 || index === 0 ? 'table_center_align' : null
+                }
                 key={index}
               >
                 {item}

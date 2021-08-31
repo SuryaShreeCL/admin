@@ -59,7 +59,6 @@ const useStyles = makeStyles(theme => ({
 
 function PaginationComponent({ pageCount, onPageChange, ...rest }) {
   const classes = useStyles();
-  console.log(pageCount);
   if (pageCount <= 1) return null;
   else
     return (
