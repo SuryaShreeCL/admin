@@ -31,7 +31,7 @@ class Index extends Component {
       productId !== prevProps.productId
     ) {
       if (studentId.trim().length !== 0 && productId.trim().length !== 0)
-        this.props.getTaskTopic(studentId, productId, {});
+        this.props.getTaskTopic(studentId, productId, this.props.category, {});
     }
   }
 

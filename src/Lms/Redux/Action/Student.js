@@ -28,13 +28,13 @@ export const getProducts = (studentId, callback) => {
   };
 };
 
-export const getTaskTopic = (studentId, productId, callback) => {
+export const getTaskTopic = (studentId, productId, category, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .get(
         DEV_LMS +
-          `/api/v1/lms/student/${studentId}/product/${productId}/taskTopic`,
+          `/api/v1/lms/student/${studentId}/product/${productId}/${category}`,
         {
           crossDomain: true,
           headers: {

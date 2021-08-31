@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -10,6 +10,8 @@ import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
 import TasksAndTopic from "./TasksAndTopic/Index";
 import { getTaskTopic, getProducts } from "../../../Redux/Action/Student";
+import QueryString from "qs";
+import { withRouter } from "react-router-dom";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
@@ -28,10 +30,19 @@ class Index extends Component {
       studentId: "",
       tabId: 0,
     };
+    this.category = {
+      taskAndTopic: "taskTopic",
+      studyPlan: "studyPlans/monthlyDetails",
+      strengthAndWeekNess: "strengthWeakness",
+      calibrationReport: "calibrationReport",
+    };
   }
 
   componentDidMount() {
-    var studentId = "7ae9216c-30bf-4c23-a492-4a1fca510b8b";
+    const { studentId } = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    // var studentId = "";
     this.setState({ studentId: studentId });
     this.props.getProducts(studentId, (productResponse) => {
       if (productResponse.success) {
@@ -86,9 +97,26 @@ class Index extends Component {
           <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
         </CourseTabs>
         <div hidden={tabId !== 0}>
-          <TasksAndTopic productId={productId} studentId={studentId} />
+          <TasksAndTopic
+            productId={productId}
+            studentId={studentId}
+            category={this.category.taskAndTopic}
+          />
         </div>
-        <div hidden={tabId !== 1}></div>
+        <div hidden={tabId !== 1}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              this.props.getTaskTopic(
+                studentId,
+                productId,
+                this.category.strengthAndWeekNess
+              );
+            }}
+          >
+            Export
+          </Button>
+        </div>
         <div hidden={tabId !== 2}></div>
         <div hidden={tabId !== 3}></div>
         <div hidden={tabId !== 4}></div>
@@ -105,4 +133,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getProducts,
-})(Index);
+  getTaskTopic,
+})(withRouter(Index));
