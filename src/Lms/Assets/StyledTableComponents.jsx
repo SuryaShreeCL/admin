@@ -10,16 +10,11 @@ export const Head = withStyles({
 
 export const HeadCell = withStyles({
   root: {
-    // display: 'inlin',
-    // flexDirection: 'row',
-    // alignContent: 'center',
-    // justifyContent: 'center',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: '18px',
     lineHeight: '22px',
     color: '#052A4E',
-    textAlign: 'left',
   },
 })(TableCell);
 
