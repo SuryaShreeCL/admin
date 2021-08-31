@@ -39,6 +39,7 @@ class TestLanding extends Component {
       popUpId: null,
       dialogStatus: false,
       dialogContent: null,
+      currentPage: 0,
     };
   }
 
@@ -58,13 +59,13 @@ class TestLanding extends Component {
 
   handlePageChange = (event, value) => {
     window.scroll(0, 0);
-    let paramObj = { page: value - 1, size: NO_OF_RESPONSE };
-    this.props.getQuestionSet(paramObj);
+    this.setState({ currentPage: value });
+    // let paramObj = { page: value - 1, size: NO_OF_RESPONSE };
+    // this.props.getQuestionSet(paramObj);
   };
 
   handleSortNew = (index, order) => {
     const fields = { 1: 'type', 4: 'courseName', 6: 'wkStatusValue' };
-    // console.log(fields[index]);
     this.setState({
       field: this.state.field.concat(fields[index]),
       order: this.state.order.concat(order),
@@ -97,14 +98,14 @@ class TestLanding extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
       let paramObj = {
-        page: INITIAL_PAGE_NO,
-        size: NO_OF_RESPONSE,
+        page: this.state.currentPage,
         testType:
           this.state.testType !== 'default' ? this.state.testType : null,
         topicId: this.state.topicId !== 'default' ? this.state.topicId : null,
         status: this.state.status !== 'default' ? this.state.status : null,
         field: this.state.field.length > 0 ? this.state.field : null,
         order: this.state.order.length > 0 ? this.state.order : null,
+        size: NO_OF_RESPONSE,
       };
       this.props.getQuestionSet(paramObj);
     }
@@ -188,7 +189,6 @@ class TestLanding extends Component {
     if (this.state.dialogContent.type === 'archive') {
       this.props.deleteTest(this.state.popUpId, response => {
         if (response.success) {
-          console.log(response);
           let paramObj = {
             page: INITIAL_PAGE_NO,
             size: NO_OF_RESPONSE,
@@ -281,7 +281,6 @@ class TestLanding extends Component {
       handleCloseIconClick,
       handlePrimaryButtonClick,
     } = this;
-    // console.log(this.state);
     return (
       <Container>
         <Grid

@@ -27,10 +27,6 @@ import {
 } from '../../../Redux/Action/Test';
 import Alert from '@material-ui/lab/Alert';
 import { lmsTest } from '../../../../Component/RoutePaths';
-import QueryString from 'qs';
-
-// const testQuestionSetId = '4c72684b-3499-4378-a272-304f1708a798';
-// const sectionId = '02106c2d-5e4c-45da-9f85-4efa0d7b9298';
 
 const radioData = {
   name: 'Question Pattern',
@@ -75,12 +71,21 @@ class Index extends Component {
   };
 
   onDrop = files => {
-    this.setState({
-      files,
-      alertState: true,
-      alertMsg: 'File Upload Successful!',
-      alertSeverity: 'success',
-    });
+    // console.log(files[0].name);
+    if (files[0].name.match(/.(xls|xlsx|csv)$/i))
+      this.setState({
+        files,
+        alertState: false,
+        alertMsg: '',
+        alertSeverity: '',
+      });
+    else {
+      this.setState({
+        alertState: true,
+        alertMsg: 'Please upload a .xls, .xlsx or csv file',
+        alertSeverity: 'error',
+      });
+    }
   };
 
   handleButtonClick = () => {
@@ -207,7 +212,11 @@ class Index extends Component {
               {({ getRootProps, getInputProps }) => (
                 <section>
                   <div className={'drop_zone_style'} {...getRootProps()}>
-                    <input {...getInputProps()} />
+                    <input
+                      {...getInputProps()}
+                      type='file'
+                      accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+                    />
                     <GreySpan>Drag & Drop your File or</GreySpan>
                     &nbsp;
                     <BlueSpan>Upload</BlueSpan>

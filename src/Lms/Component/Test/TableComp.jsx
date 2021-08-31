@@ -103,7 +103,6 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blue}
-            onClick={event => console.log(event.target.id)}
             alt='Up arrow'
             className={'up_arrow rotate'}
             id={'courseName'}
@@ -142,7 +141,6 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blue}
-            onClick={event => console.log(event.target.id)}
             alt='Up arrow'
             className={'up_arrow rotate'}
             id={'wkStatusValue'}
@@ -207,7 +205,7 @@ export default function TableComp(props) {
         <Head>
           <TableRow>
             {headText.map((item, index) => (
-              <TableCell>
+              <TableCell className={''}>
                 <HeadInline>
                   {item}
                   {(index === 1 || index === 4 || index === 6) &&
@@ -219,39 +217,43 @@ export default function TableComp(props) {
         </Head>
         <TableBody>
           {tableContent &&
-            tableContent.map(item => (
-              <TableRow key={item.id} style={{ border: '0 0 0 0' }}>
-                <BoldCell className={'table_left_align'}>{item.name}</BoldCell>
-                <BoldCell>{item.testType}</BoldCell>
-                <BoldCell>{item.queAssigns}</BoldCell>
-                <BodyCell>{item.queFilled}</BodyCell>
-                <BodyCell className={'table_left_align'}>
-                  {item.courseName}
-                </BodyCell>
-                <BodyCell>{item.topicName}</BodyCell>
-                <BodyCell>{item.status}</BodyCell>
-                <BodyCell>
-                  <IconButton
-                    aria-controls={item.id}
-                    aria-haspopup='true'
-                    onClick={event => handleThreeDotClick(event, item.id)}
-                    style={{ padding: '0px' }}
-                  >
-                    <MoreVertRounded style={{ fill: '#1093FF' }} />
-                  </IconButton>
-                  <Menu
-                    role={role}
-                    anchorEl={anchorEl}
-                    open={item.id === popUpId}
-                    handleClose={handleClose}
-                    status={item.status}
-                    handleOptions={handleOptions}
-                    name={item.name}
-                    topicId={item.id}
-                  />
-                </BodyCell>
-              </TableRow>
-            ))}
+            tableContent.map(item => {
+              return (
+                <TableRow key={item.id} style={{ border: '0 0 0 0' }}>
+                  <BoldCell>{item.name}</BoldCell>
+                  <BoldCell>{item.testType}</BoldCell>
+                  <BoldCell className={'table_center_align'}>
+                    {item.queAssigns}
+                  </BoldCell>
+                  <BodyCell className={'table_center_align'}>
+                    {item.queFilled}
+                  </BodyCell>
+                  <BodyCell>{item.courseName}</BodyCell>
+                  <BodyCell>{item.topicName}</BodyCell>
+                  <BodyCell>{item.status}</BodyCell>
+                  <BodyCell>
+                    <IconButton
+                      aria-controls={item.id}
+                      aria-haspopup='true'
+                      onClick={event => handleThreeDotClick(event, item.id)}
+                      style={{ padding: '0px' }}
+                    >
+                      <MoreVertRounded style={{ fill: '#1093FF' }} />
+                    </IconButton>
+                    <Menu
+                      role={role}
+                      anchorEl={anchorEl}
+                      open={item.id === popUpId}
+                      handleClose={handleClose}
+                      status={item.status}
+                      handleOptions={handleOptions}
+                      name={item.name}
+                      topicId={item.id}
+                    />
+                  </BodyCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
     </TableBox>

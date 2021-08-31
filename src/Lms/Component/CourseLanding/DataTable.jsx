@@ -51,6 +51,14 @@ const getDateFormat = dateString => {
   return day + ' ' + month + ' ' + year;
 };
 
+const openHandle = (itemId, popUpId, role, status) => {
+  // console.log(status);
+  // console.log(role === 'LMSEDITOR' && status === 'Live');
+  if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
+    return false;
+  else return itemId === popUpId;
+};
+
 export default function DataTable(props) {
   const {
     topics,
@@ -109,26 +117,14 @@ export default function DataTable(props) {
                     <Menu
                       role={role}
                       anchorEl={anchorEl}
-                      open={item.id === popUpId}
+                      // open={item.id === popUpId}
+                      open={openHandle(item.id, popUpId, role, item.status)}
                       handleClose={handleClose}
                       status={item.status}
                       handleOptions={handleOptions}
                       name={item.topicName}
                       topicId={item.id}
                     />
-                    {/* <Menu
-                      role={role}
-                      open={item.id === popUpId}
-                      anchorEl={anchorEl}
-                      handleClose={handleClose}
-                      handleDelete={handleDelete}
-                      topicId={item.id}
-                      topicName={item.topicName}
-                      handlePublish={handlePublish}
-                      handleSendReview={handleSendReview}
-                      isMapped={item.isMapped}
-                      handleEdit={handleEdit}
-                    /> */}
                   </BlueCell>
                 </TableRow>
               );
