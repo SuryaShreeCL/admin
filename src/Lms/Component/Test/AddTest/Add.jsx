@@ -217,38 +217,35 @@ class Add extends Component {
     });
   };
 
-  handleSectionChange = (e) => {
+  handleSectionChange = () => {
     const { calibrationSectionTabLabels, calibrationTestData } = this.state;
-    const { value } = e.target;
-    this.setState({ calibrationTotalSection: value });
     let tabArr = [];
     let testArr = [];
-    if (calibrationSectionTabLabels.length > value) {
-      tabArr = calibrationSectionTabLabels.slice(0, value);
-      testArr = calibrationTestData.slice(0, value);
-    } else {
-      testArr = calibrationTestData;
-      for (let i = tabArr.length; i < value; i++) {
-        tabArr.push({
-          tabLabel: `Section ${i + 1}`,
-        });
-        if (testArr.length < i + 1) {
-          testArr.push({
-            id: null,
-            name: "",
-            duration: null,
-            noOfQuestions: null,
-            description: [],
-            descriptionTitle: null,
-            nameDescription: null,
-          });
-        }
-      }
-    }
+    // if (calibrationSectionTabLabels.length > value) {
+    //   tabArr = calibrationSectionTabLabels.slice(0, value);
+    //   testArr = calibrationTestData.slice(0, value);
+    // }
+    tabArr = calibrationSectionTabLabels;
+    testArr = calibrationTestData;
+    // for (let i = tabArr.length; i < value; i++) {
+    tabArr.push({
+      tabLabel: `Section ${calibrationSectionTabLabels.length + 1}`,
+    });
+    // if (testArr.length < i + 1) {
+    testArr.push({
+      id: null,
+      name: "",
+      duration: 0,
+      noOfQuestions: null,
+      description: [],
+      descriptionTitle: null,
+      nameDescription: null,
+    });
     this.setState({
       calibrationSectionTabLabels: tabArr,
       calibrationTestData: testArr,
-      calibrationActiveSectionTab: value,
+      calibrationActiveSectionTab: tabArr.length,
+      calibrationTotalSection: tabArr.length,
     });
   };
 
