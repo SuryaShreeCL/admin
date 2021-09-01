@@ -147,7 +147,17 @@ class AddStudyPlans extends Component {
                 )}
               />
             </Grid>
-            <Grid item md={2}></Grid>
+            <Grid
+              item
+              md={10}
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              {this.props.monthResponse &&
+                this.props.monthResponse.data.filter(
+                  (item) => !item.studyPlanCreated
+                ).length === 0 &&
+                "Already all study plans are uploaded"}
+            </Grid>
             {/* </Grid> */}
             {/* cancel and upload button */}
 
@@ -164,6 +174,12 @@ class AddStudyPlans extends Component {
               <OutlineButton
                 onClick={this.handlePreview}
                 title={"Preview Template for study plan"}
+                disabled={
+                  this.props.monthResponse &&
+                  this.props.monthResponse.data.filter(
+                    (item) => !item.studyPlanCreated
+                  ).length === 0
+                }
               >
                 Preview
               </OutlineButton>
@@ -176,6 +192,12 @@ class AddStudyPlans extends Component {
                 id="contained-button-file"
                 type="file"
                 onChange={this.handleChange}
+                disabled={
+                  this.props.monthResponse &&
+                  this.props.monthResponse.data.filter(
+                    (item) => !item.studyPlanCreated
+                  ).length === 0
+                }
               />
               <label htmlFor="contained-button-file">
                 {this.state.selectedMonth &&
