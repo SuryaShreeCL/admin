@@ -290,7 +290,8 @@ class Add extends Component {
               calibrationTestData[calibrationActiveSectionTab - 1].id) ||
             '';
           this.props.history.push(
-            bulk_upload + `/${testQuestionSetId}/${calibrationSectionId}`
+            bulk_upload +
+              `/${testQuestionSetId}/${calibrationSectionId}/${type}`
           );
         } else {
           this.props.history.push(
