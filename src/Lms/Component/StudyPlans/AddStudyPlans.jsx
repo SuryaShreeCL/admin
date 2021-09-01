@@ -1,35 +1,36 @@
-import { Card, Grid, Button, Snackbar } from '@material-ui/core';
-import React, { Component } from 'react';
-import '../../Assets/App.css';
-import { CardTitle } from '../../Assets/StyledComponents';
-import { FillButton, OutlineButton } from '../../Utils/Buttons';
+import { Card, Grid, Button, Snackbar } from "@material-ui/core";
+import React, { Component } from "react";
+import "../../Assets/App.css";
+import { CardTitle } from "../../Assets/StyledComponents";
+import { FillButton, OutlineButton } from "../../Utils/Buttons";
 import {
   getCourses,
   createFileUpload,
   courseMonth,
-} from '../../Redux/Action/CourseMaterial';
-import { connect } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { SnackBar } from '../../Utils/SnackBar';
-import Alert from '@material-ui/lab/Alert';
-import { lms_study_plans } from '../../../Component/RoutePaths';
+} from "../../Redux/Action/CourseMaterial";
+import { connect } from "react-redux";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { SnackBar } from "../../Utils/SnackBar";
+import Alert from "@material-ui/lab/Alert";
+import { lms_study_plans } from "../../../Component/RoutePaths";
+import { getCsvTemplate } from "../../Redux/Action/Student";
 
 class AddStudyPlans extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      courses: '',
-      month: '',
+      courses: "",
+      month: "",
       courseValue: [],
-      monthValue: '',
+      monthValue: "",
       productId: null,
       selectedFile: null,
       selectedMonth: null,
       open: false,
-      severity: '',
-      message: '',
+      severity: "",
+      message: "",
     };
   }
 
@@ -41,8 +42,8 @@ class AddStudyPlans extends Component {
     this.setState({
       selectedMonth: newValue,
       open: newValue.studyPlanCreated,
-      severity: 'warning',
-      message: 'Study plan already created',
+      severity: "warning",
+      message: "Study plan already created",
     });
   };
 
@@ -51,28 +52,28 @@ class AddStudyPlans extends Component {
     if (newValue) this.props.courseMonth(newValue.id);
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     // console.log(e.target.files[0]);
     this.setState({
       selectedFile: e.target.files[0],
     });
     const formData = new FormData();
-    formData.append('file', e.target.files[0]);
+    formData.append("file", e.target.files[0]);
     this.props.createFileUpload(
       this.state.selectedMonth.id,
       formData,
-      response => {
+      (response) => {
         if (response.success) {
           this.setState({
             open: true,
             message: response.message,
-            severity: 'success',
+            severity: "success",
           });
         } else {
           this.setState({
             open: true,
             message: response.message,
-            severity: 'error',
+            severity: "error",
           });
         }
         console.log(response);
@@ -81,10 +82,18 @@ class AddStudyPlans extends Component {
   };
 
   handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
-    this.setState({ open: false, severity: '', message: '' });
+    this.setState({ open: false, severity: "", message: "" });
+  };
+
+  handlePreview = () => {
+    this.props.getCsvTemplate((response) => {
+      if (response.success) {
+        window.open(response.data.url);
+      }
+    });
   };
 
   render() {
@@ -93,9 +102,9 @@ class AddStudyPlans extends Component {
     // console.log(this.state);
     // console.log(this.props)
     return (
-      <div style={{ padding: '10px 5px 5px' }}>
-        <Card className={'card'}>
-          <Grid container spacing={5} style={{ padding: '12px' }}>
+      <div style={{ padding: "10px 5px 5px" }}>
+        <Card className={"card"}>
+          <Grid container spacing={4} style={{ padding: "12px" }}>
             {/* title */}
             <Grid item md={12}>
               <CardTitle>Add Study Plan</CardTitle>
@@ -109,10 +118,10 @@ class AddStudyPlans extends Component {
                 options={this.props.coursesResponse.data || []}
                 value={this.state.courseValue}
                 onChange={this.handleCourseChange}
-                getOptionLabel={option => option.title}
+                getOptionLabel={(option) => option.title}
                 // style={{ width: 300 }}
-                renderInput={params => (
-                  <TextField {...params} label='Courses' variant='outlined' />
+                renderInput={(params) => (
+                  <TextField {...params} label="Courses" variant="outlined" />
                 )}
               />
             </Grid>
@@ -120,16 +129,20 @@ class AddStudyPlans extends Component {
             <Grid item md={5}>
               <Autocomplete
                 options={
-                  this.props.monthResponse ? this.props.monthResponse.data : []
+                  this.props.monthResponse
+                    ? this.props.monthResponse.data.filter(
+                        (item) => !item.studyPlanCreated
+                      )
+                    : []
                 }
                 onChange={this.handleMonthChange}
-                getOptionLabel={option => `${option.month} month`}
+                getOptionLabel={(option) => `${option.month} month`}
                 // style={{ width: 300 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
-                    label='Plan Duration'
-                    variant='outlined'
+                    label="Plan Duration"
+                    variant="outlined"
                   />
                 )}
               />
@@ -148,22 +161,31 @@ class AddStudyPlans extends Component {
             </Grid>
 
             <Grid item md={3}>
+              <OutlineButton
+                onClick={this.handlePreview}
+                title={"Preview Template for study plan"}
+              >
+                Preview
+              </OutlineButton>
+            </Grid>
+
+            <Grid item md={3}>
               <input
                 // accept='image/*'
-                style={{ display: 'none' }}
-                id='contained-button-file'
-                type='file'
+                style={{ display: "none" }}
+                id="contained-button-file"
+                type="file"
                 onChange={this.handleChange}
               />
-              <label htmlFor='contained-button-file'>
+              <label htmlFor="contained-button-file">
                 {this.state.selectedMonth &&
                 this.state.selectedMonth.studyPlanCreated ? (
-                  ''
+                  ""
                 ) : (
                   <FillButton
                     // onClick={() => this.handleClick(this.masterId)}
-                    variant='contained'
-                    component='span'
+                    variant="contained"
+                    component="span"
                   >
                     Upload
                   </FillButton>
@@ -178,7 +200,7 @@ class AddStudyPlans extends Component {
           autoHideDuration={4000}
           onClose={this.handleClose}
         >
-          <Alert variant='filled' severity={this.state.severity}>
+          <Alert variant="filled" severity={this.state.severity}>
             {this.state.message}
           </Alert>
         </Snackbar>
@@ -198,7 +220,7 @@ class AddStudyPlans extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   // console.log(state);
   return {
     coursesResponse: state.CourseMaterialReducer.courses,
@@ -211,4 +233,5 @@ export default connect(mapStateToProps, {
   createFileUpload,
   getCourses,
   courseMonth,
+  getCsvTemplate,
 })(AddStudyPlans);

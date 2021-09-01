@@ -35,4 +35,7 @@ export const TEST = {
 export const STUDENT = {
   getTaskTopic: "getTaskTopic",
   getProducts: "getProducts",
+  getLmsProducts: "getLmsProduct",
+  studentLmsProduct: "studentLmsProduct",
+  studentExistProducts: "studentExistProduct",
 };

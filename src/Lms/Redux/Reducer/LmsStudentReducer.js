@@ -1,8 +1,10 @@
+import Student from "../../../Component/Student";
 import { STUDENT } from "../Action";
 
 const initialState = {
   taskTopic: [],
   products: [],
+  lmsProducts: {},
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -17,6 +19,17 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         taskTopic: action.payload,
+      };
+    }
+    case STUDENT.getLmsProducts: {
+      return {
+        ...state,
+        lmsProducts: action.payload,
+      };
+    }
+    case STUDENT.studentLmsProduct: {
+      return {
+        ...state,
       };
     }
     default:
