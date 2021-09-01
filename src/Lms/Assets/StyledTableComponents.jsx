@@ -15,6 +15,7 @@ export const HeadCell = withStyles({
     fontSize: '18px',
     lineHeight: '22px',
     color: '#052A4E',
+    textAlign: 'left',
   },
 })(TableCell);
 
@@ -95,7 +96,7 @@ export const BoldCell = withStyles({
     fontSize: '16px',
     lineHeight: '20px',
     color: '#052A4E',
-    textAlign: 'center',
+    textAlign: 'left',
     borderBottom: 'none',
   },
 })(TableCell);

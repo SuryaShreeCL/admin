@@ -11,9 +11,9 @@ export default function Menu(props) {
   const ROLES = { editor: 'LMSEDITOR', checker: 'LMSCHECKER' };
 
   const editorChoices = [
+    { text: 'Send Review', icon: <ShareIcon style={{ fill: '#1093ff' }} /> },
     { text: 'Edit', icon: <EditIcon style={{ fill: '#1093FF' }} /> },
     { text: 'Archive', icon: <ArchiveIcon style={{ fill: '#1093ff' }} /> },
-    { text: 'Send Review', icon: <ShareIcon style={{ fill: '#1093ff' }} /> },
   ];
 
   const checkerChoices = [
@@ -24,35 +24,27 @@ export default function Menu(props) {
   ];
 
   const filterMaker = (array, status) => {
-    if (status === 'Live') {
-      array.length = 1;
-      return array;
-    }
-    if (status === 'Approved') {
+    if (status === 'Pending') {
       array.length = 2;
       return array;
-    }
-    if (status === 'In Review') {
-      array.length = 2;
-      return array;
-    }
-    if (status === 'Draft') {
-      array.length = 3;
-      return array;
-    } else return [];
+    } else return array;
   };
 
   const filterChecker = (array, status) => {
-    if (status === 'Live') {
-      array.length = 1;
+    if (status === 'Draft') {
+      array.length = 3;
       return array;
     }
-    if (status === 'Draft') {
-      array.length = 2;
+    if (status === 'Pending') {
+      array.length = 3;
+      array.splice(1, 1);
       return array;
+    }
+    if (status === 'Live') {
+      return array.splice(1, 1);
     }
     if (status === 'In Review') {
-      array.length = 3;
+      array.splice(2, 1);
       return array;
     }
     if (status === 'Approved') {
@@ -71,7 +63,7 @@ export default function Menu(props) {
     handleOptions,
     name,
   } = props;
-  //   console.log(status);
+  // console.log(topicId);
   if (role === ROLES.editor)
     return (
       <MuiMenu
@@ -103,9 +95,12 @@ export default function Menu(props) {
         onClose={handleClose}
       >
         {filterChecker(checkerChoices, status).map(item => (
-          <MenuItem onClick={() => handleOptions(item.text, name, topicId)}>
+          <MenuItem
+            onClick={() => handleOptions(item.text, name, topicId)}
+            className={'menu-item-text'}
+          >
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <Typography className={'menu-item-text'}>{item.text}</Typography>
+            <Typography>{item.text}</Typography>
           </MenuItem>
         ))}
       </MuiMenu>

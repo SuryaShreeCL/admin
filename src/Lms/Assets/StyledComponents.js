@@ -342,7 +342,7 @@ export const TabBarItem = styled(MuiBox)`
   border-bottom: ${props => (props.active ? '4px solid #FFE100' : '')};
 `;
 
-export const TabBarMonthItem = styled(MuiBox)`
+export const TabBarMonthItem = styled(MuiButton)`
   background: ${props => (props.active ? '#fff' : '#fafafa')};
   font-style: normal;
   font-weight: normal;
@@ -352,4 +352,6 @@ export const TabBarMonthItem = styled(MuiBox)`
   border: none;
   border-right: ${props => (props.active ? '4px solid' : '')};
   width: 210px;
+  padding: 16px 88px 16px 13px;
+  cursor: pointer;
 `;
