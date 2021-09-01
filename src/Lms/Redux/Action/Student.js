@@ -107,3 +107,24 @@ export const postStudentLmsProduct = (studentId, data, callback) => {
       });
   };
 };
+
+export const getCsvTemplate = (callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return () => {
+    console.log("hello");
+    axios
+      .get(DEV_LMS + `/api/v1/files/template/studyplan_template.csv`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
