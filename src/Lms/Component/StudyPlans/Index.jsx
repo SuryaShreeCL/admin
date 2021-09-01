@@ -1,22 +1,22 @@
-import { Box, Grid, TextField } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { lms_add_study_plan } from '../../../Component/RoutePaths';
+import { Box, Grid, TextField } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { lms_add_study_plan } from "../../../Component/RoutePaths";
 import {
   Card,
   TabBarItem,
   TabBarMonthItem,
   TestTitle,
-} from '../../Assets/StyledComponents';
+} from "../../Assets/StyledComponents";
 import {
   courseMonth,
   getCourses,
   monthPlan,
-} from '../../Redux/Action/CourseMaterial';
-import PlusButton from '../../Utils/PlusButton';
-import PopOver from './Popover';
-import Table from './Table';
+} from "../../Redux/Action/CourseMaterial";
+import PlusButton from "../../Utils/PlusButton";
+import PopOver from "./Popover";
+import Table from "./Table";
 
 class Index extends Component {
   constructor(props) {
@@ -61,19 +61,19 @@ class Index extends Component {
       <>
         {this.props.monthResponse.data.map((item, idx) => (
           <TabBarItem
-            component={'button'}
+            component={"button"}
             // flex={
             //   this.props.monthResponse.data.length === idx + 1 ? 1 : "unset"
             // }
             onClick={() => this.handleMonthChange(item)}
             active={this.state.activeMonth === item}
           >
-            {item.month + ' ' + 'Month'}
+            {item.month + " " + "Month"}
           </TabBarItem>
         ))}
         <div style={{ flex: 1 }}></div>
-        <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
-          <PopOver options={['Delete']} color={'#ffff'} />
+        <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+          {/* <PopOver options={['Delete']} color={'#ffff'} /> */}
         </Box>
       </>
     );
@@ -84,7 +84,7 @@ class Index extends Component {
       <>
         {this.props.courseMonthResponse.data.map((item, idx) => (
           <TabBarMonthItem
-            component={'button'}
+            component={"button"}
             onClick={() => this.handleDownMonthChange(item, idx)}
             active={this.state.activeDownMonth === item}
           >
@@ -92,14 +92,14 @@ class Index extends Component {
               1 +
               `${
                 idx === 0
-                  ? ' st '
+                  ? " st "
                   : idx === 1
-                  ? ' nd '
+                  ? " nd "
                   : idx === 2
-                  ? 'rd '
-                  : 'th '
+                  ? "rd "
+                  : "th "
               }` +
-              'Month'}
+              "Month"}
           </TabBarMonthItem>
         ))}
       </>
@@ -110,28 +110,28 @@ class Index extends Component {
     return (
       <Card>
         <Grid container>
-          <Grid item sm={12} md={12} style={{ padding: '20px' }}>
+          <Grid item sm={12} md={12} style={{ padding: "20px" }}>
             <TestTitle>Study Plan</TestTitle>
           </Grid>
 
-          <Grid item sm={12} md={12} style={{ padding: '20px' }}>
-            <Box display={'flex'}>
+          <Grid item sm={12} md={12} style={{ padding: "20px" }}>
+            <Box display={"flex"}>
               <Box flex={1}>
                 <Autocomplete
-                  id='combo-box-demo'
+                  id="combo-box-demo"
                   options={this.props.coursesResponse.data || []}
                   value={this.state.courseValue}
                   onChange={this.handleCourseChange}
-                  getOptionLabel={option => option.title}
+                  getOptionLabel={(option) => option.title}
                   style={{ width: 300 }}
-                  renderInput={params => (
-                    <TextField {...params} label='Course' variant='outlined' />
+                  renderInput={(params) => (
+                    <TextField {...params} label="Course" variant="outlined" />
                   )}
                 />
               </Box>
               <Box>
                 <PlusButton
-                  style={{ width: '200px' }}
+                  style={{ width: "200px" }}
                   onClick={() => this.props.history.push(lms_add_study_plan)}
                 >
                   Add New Study Plan
@@ -142,11 +142,11 @@ class Index extends Component {
 
           <Grid sm={12} md={12}>
             <Box
-              width={'100%'}
-              bgcolor={'#1093FF'}
-              padding={'0px !important'}
-              display={'flex'}
-              style={{ overflowX: 'auto' }}
+              width={"100%"}
+              bgcolor={"#1093FF"}
+              padding={"0px !important"}
+              display={"flex"}
+              style={{ overflowX: "auto" }}
             >
               {this.props.monthResponse && this.renderMonth()}
             </Box>
@@ -156,17 +156,17 @@ class Index extends Component {
             md={3}
             sm={3}
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gridGap: '10px',
-              padding: '10px 0px',
+              display: "flex",
+              flexDirection: "column",
+              gridGap: "10px",
+              padding: "10px 0px",
             }}
           >
             {this.props.monthResponse &&
               this.props.courseMonthResponse &&
               this.renderSideBarMonth()}
           </Grid>
-          <Grid item md={8} sm={8} style={{ padding: '20px' }}>
+          <Grid item md={8} sm={8} style={{ padding: "20px" }}>
             {this.state.activeDownMonth && this.props.courseMonthResponse && (
               <Table
                 item={
@@ -183,7 +183,7 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     coursesResponse: state.CourseMaterialReducer.courses,
     monthResponse: state.CourseMaterialReducer.monthlyCourse,

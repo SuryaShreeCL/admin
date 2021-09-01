@@ -29,9 +29,9 @@ class TestAddButtonCard extends Component {
           {questions.data.questions.map((question, index) => {
             return (
               <Question id={question.id}>
-                <>
+                <div style={{ flex: 1 }}>
                   {index + 1}. {question.question}
-                </>
+                </div>
                 <IconButton
                   style={{ padding: '0px' }}
                   onClick={event => handleThreeDotClick(event, question.id)}
