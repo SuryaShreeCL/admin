@@ -54,7 +54,10 @@ const getDateFormat = dateString => {
 const openHandle = (itemId, popUpId, role, status) => {
   // console.log(status);
   // console.log(role === 'LMSEDITOR' && status === 'Live');
-  if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
+  if (
+    role === 'LMSEDITOR' &&
+    (status === 'Live' || status === 'In Review' || status === 'Approved')
+  )
     return false;
   else return itemId === popUpId;
 };

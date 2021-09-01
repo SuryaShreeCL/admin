@@ -370,3 +370,8 @@ export const Question = styled.div`
   padding: 16px;
   margin: 16px 0 16px 0;
 `;
+
+export const C1 = styled.div`
+  display: flex;
+  flex-direction: row;
+`;

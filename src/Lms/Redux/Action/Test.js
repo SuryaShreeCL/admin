@@ -358,3 +358,20 @@ export const deleteQuestion = (questionId, callback) => {
       .catch(error => console.log(error));
   };
 };
+
+export const getTopicList = (testQuestionSetId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/subjects/concepts/topics`
+      )
+      .then(response => {
+        window.open(
+          `${URL}/api/v1/lms/testQuestionSet/${testQuestionSetId}/subjects/concepts/topics`
+        );
+        callback(response.data);
+      })
+      .catch(error => console.log(error));
+  };
+};

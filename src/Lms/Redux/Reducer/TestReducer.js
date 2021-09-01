@@ -5,7 +5,7 @@ const initialState = {
   testData: [],
   questionType: [],
   testQuestionSetResponse: [],
-  testQuestionSet: {},
+  testQuestionSet: [],
   topics: [],
   template: [],
   subjects: [],

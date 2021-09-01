@@ -11,6 +11,7 @@ import {
   BlueSpan,
   FileName,
   C2,
+  C1,
 } from '../../../Assets/StyledComponents';
 import DropDown from '../../../Utils/DropDown';
 import { RadioButtonsGroup } from '../../../Utils/RadioButton';
@@ -24,9 +25,11 @@ import {
   setQuestionData,
   setQuestionDataWithId,
   getTemplate,
+  getTopicList,
 } from '../../../Redux/Action/Test';
 import Alert from '@material-ui/lab/Alert';
 import { lmsTest } from '../../../../Component/RoutePaths';
+import { lms_add_topic } from '../../../../Component/RoutePaths';
 
 const radioData = {
   name: 'Question Pattern',
@@ -119,6 +122,12 @@ class Index extends Component {
                 alertMsg: response.message,
                 alertSeverity: 'success',
               });
+
+              this.props.history.push(
+                lms_add_topic +
+                  '?testQuestionSetId=' +
+                  this.props.match.params.testQuestionSetId
+              );
             } else {
               this.setState({
                 files: [],
@@ -171,8 +180,15 @@ class Index extends Component {
   };
 
   handleCancelClick = () => {
-    const { testQuestionSetId } = this.props.match.params;
+    // const { testQuestionSetId } = this.props.match.params;
     this.props.history.push(`${lmsTest}`);
+  };
+
+  handleTopicList = () => {
+    const { testQuestionSetId } = this.props.match.params;
+    this.props.getTopicList(testQuestionSetId, response => {
+      console.log(response);
+    });
   };
 
   render() {
@@ -184,6 +200,7 @@ class Index extends Component {
         handleClose,
         handleTemplateClick,
         handleCancelClick,
+        handleTopicList,
       } = this;
       return (
         <React.Fragment>
@@ -198,9 +215,19 @@ class Index extends Component {
                 onChange={handleChange}
               />
             </DropDownBox>
-            <Link onClick={handleTemplateClick} className={'link_text'}>
-              Preview Template
-            </Link>
+            <C1>
+              <Link onClick={handleTemplateClick} className={'link_text'}>
+                Preview Template
+              </Link>
+              {this.props.match.params.type === 'CALIBRATION' && (
+                <Link
+                  onClick={handleTopicList}
+                  className={'link_text padding_left'}
+                >
+                  Download Topic List
+                </Link>
+              )}
+            </C1>
             <Divider className={'divider_style'} />
             <H2 className={'padding'}>Question</H2>
             <RadioButtonsGroup radioData={radioData} />
@@ -277,4 +304,5 @@ export default connect(mapStateToProps, {
   setQuestionData,
   setQuestionDataWithId,
   getTemplate,
+  getTopicList,
 })(Index);
