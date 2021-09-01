@@ -28,7 +28,7 @@ function App(props) {
     //   console.log(e);
     // }
   }, []);
-  // console.log(props);
+  console.log = () => {};
   console.warn = () => {};
   console.error = () => {};
   return (
