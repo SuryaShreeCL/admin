@@ -66,7 +66,16 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { studentPath } from "./RoutePaths";
 import BackButton from "../Asset/Images/backbutton.svg";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import { Breadcrumbs, Typography } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import { Breadcrumbs, Typography, IconButton } from "@material-ui/core";
+import styled from "styled-components";
+import {
+  getAllLmsProduct,
+  postStudentLmsProduct,
+  getProducts,
+} from "../Lms/Redux/Action/Student";
+import { keys } from "@material-ui/core/styles/createBreakpoints";
+
 export class Student extends Component {
   constructor(props) {
     super(props);
@@ -99,6 +108,9 @@ export class Student extends Component {
       internAccess: false,
       lmsAccess: false,
       prevEmail: null,
+
+      product: [],
+      selectedProduct: [],
     };
   }
 
@@ -166,6 +178,7 @@ export class Student extends Component {
 
   componentDidMount() {
     // this.props.getStudents();
+    this.props.getAllLmsProduct(() => {});
     this.props.getStudentPaginate(0, 20);
     this.props.getAllColleges();
     this.props.getBranches();
@@ -208,6 +221,7 @@ export class Student extends Component {
       this.props.getStudentPaginate(0, 20);
     }
   }
+
   rowClick = (rowData) => {
     if (
       ["LMSEDITOR", "LMSCHECKER"].indexOf(sessionStorage.getItem("role")) === -1
@@ -231,6 +245,7 @@ export class Student extends Component {
         },
       },
     });
+
   spinnerTheme = () =>
     createMuiTheme({
       overrides: {
@@ -241,6 +256,7 @@ export class Student extends Component {
         },
       },
     });
+
   paginate = (page, size, keyword) => {
     this.props.getStudentPaginate(page, size, keyword);
   };
@@ -253,31 +269,53 @@ export class Student extends Component {
   handleSubmit = (e) => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
-      ? this.setState({ firstNameHelperText: "Please fill the required feild" })
+      ? this.setState({
+          firstNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ firstNameHelperText: null });
     this.state.lastName === null || this.state.lastName.length === 0
-      ? this.setState({ lastNameHelperText: "Please fill the required feild" })
+      ? this.setState({
+          lastNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ lastNameHelperText: null });
     this.state.eMail === null || this.state.eMail.length === 0
-      ? this.setState({ emailHelperText: "Please fill the required feild" })
+      ? this.setState({
+          emailHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ emailHelperText: null });
     this.state.phone === null || this.state.phone.length === 0
-      ? this.setState({ phoneHelperText: "Please fill the required feild" })
+      ? this.setState({
+          phoneHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ phoneHelperText: null });
     this.state.college === null || this.state.college.length === 0
-      ? this.setState({ collegeHelperText: "Please fill the required feild" })
+      ? this.setState({
+          collegeHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ collegeHelperText: null });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
           departmentHelperText: "Please fill the required feild",
+          isLoading: false,
         })
       : this.setState({ departmentHelperText: null });
     this.state.studentId === null || this.state.studentId.length === 0
-      ? this.setState({ studentIdHelperText: "Please fill the required feild" })
+      ? this.setState({
+          studentIdHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ studentIdHelperText: null });
 
     if (this.state.eMail && !this.isEmail(this.state.eMail)) {
-      this.setState({ emailHelperText: "Please fill valid email" });
+      this.setState({
+        emailHelperText: "Please fill valid email",
+        isLoading: false,
+      });
     } else if (this.isEmail(this.state.eMail)) {
       this.setState({ emailHelperText: null });
     }
@@ -319,6 +357,16 @@ export class Student extends Component {
       };
       this.props.mernStudentSignUp(studentObj, (response) => {
         if (response.auth) {
+          this.props.postStudentLmsProduct(
+            response.studentInfo.id,
+            {
+              products: this.state.product.map((item) => ({
+                productId: item.product.id,
+                expirationDate: item.expirationDate,
+              })),
+            },
+            () => {}
+          );
           this.setState({
             isLoading: false,
             snackMessage: "Student Registered Successfully",
@@ -351,35 +399,57 @@ export class Student extends Component {
         internAccess: false,
         studentId: null,
         lmsAccess: false,
+        product: [],
+        selectedProduct: [],
       });
     } else {
       this.setState({ isLoading: false });
     }
   };
+
   handleEdit = () => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
-      ? this.setState({ firstNameHelperText: "Please fill the required feild" })
+      ? this.setState({
+          firstNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ firstNameHelperText: null });
     this.state.lastName === null || this.state.lastName.length === 0
-      ? this.setState({ lastNameHelperText: "Please fill the required feild" })
+      ? this.setState({
+          lastNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ lastNameHelperText: null });
     this.state.eMail === null || this.state.eMail.length === 0
-      ? this.setState({ emailHelperText: "Please fill the required feild" })
+      ? this.setState({
+          emailHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ emailHelperText: null });
     this.state.phone === null || this.state.phone.length === 0
-      ? this.setState({ phoneHelperText: "Please fill the required feild" })
+      ? this.setState({
+          phoneHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ phoneHelperText: null });
     this.state.college === null || this.state.college.length === 0
-      ? this.setState({ collegeHelperText: "Please fill the required feild" })
+      ? this.setState({
+          collegeHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ collegeHelperText: null });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
           departmentHelperText: "Please fill the required feild",
+          isLoading: false,
         })
       : this.setState({ departmentHelperText: null });
     this.state.studentId === null || this.state.studentId.length === 0
-      ? this.setState({ studentIdHelperText: "Please fill the required feild" })
+      ? this.setState({
+          studentIdHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ studentIdHelperText: null });
     if (
       this.state.firstName !== null &&
@@ -411,7 +481,18 @@ export class Student extends Component {
         provider: this.state.toogleButton === true ? "Google" : "Local",
         password: this.state.password,
       };
-      console.log(studentObj);
+
+      this.props.postStudentLmsProduct(
+        this.state.id,
+        {
+          products: this.state.product.map((item) => ({
+            productId: item.product.id,
+            expirationDate: item.expirationDate,
+          })),
+        },
+        () => {}
+      );
+
       this.props.mernStudentEdit(this.state.id, studentObj, (response) => {
         this.setState({
           isLoading: false,
@@ -434,9 +515,141 @@ export class Student extends Component {
         lmsAccess: false,
         provider: "",
         studentId: null,
+        isLoading: false,
       });
     }
   };
+
+  addProduct = () => {
+    let arr = this.state.product;
+
+    if (
+      Object.keys(this.props.lmsProducts).length &&
+      this.props.lmsProducts.data.length > this.state.product.length
+    ) {
+      arr.push({
+        product: {
+          id: "",
+        },
+        expirationDate: "",
+      });
+      this.setState({ product: arr });
+    }
+  };
+
+  removeProduct = (index) => {
+    if (this.state.product.length > 0) {
+      let items = this.state.product;
+      items.splice(index, 1);
+      this.setState({
+        product: items,
+      });
+    }
+  };
+
+  removeSelectedItem = (id) => {
+    this.setState({
+      selectedProduct: this.state.selectedProduct.filter((el) => el.id !== id),
+    });
+  };
+
+  onChange = (name, value, idx) => {
+    let arr = this.state.product;
+    let each = {
+      ...this.state.product[idx],
+      [name]: value,
+    };
+    arr[idx] = each;
+    this.setState({ product: arr });
+  };
+
+  renderProduct = () => {
+    return this.state.product.map((item, idx) => {
+      return (
+        <>
+          <Grid item sm={6} md={6}>
+            <Autocomplete
+              options={
+                Object.keys(this.props.lmsProducts).length !== 0
+                  ? this.props.lmsProducts.data.filter(
+                      (item) =>
+                        this.state.selectedProduct
+                          .map((el) => el.id)
+                          .indexOf(item.id) === -1
+                    )
+                  : []
+              }
+              value={item.product || null}
+              getOptionLabel={(option) => option.title}
+              onChange={(e, newValue) => {
+                if (newValue) {
+                  this.onChange("product", newValue, idx);
+                  let arr = this.state.selectedProduct.filter(
+                    (item) => item.id !== newValue.id
+                  );
+                  arr.push(newValue);
+                  this.setState({ selectedProduct: arr });
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Product Name"
+                  variant="outlined"
+                />
+              )}
+              fullWidth
+            />
+          </Grid>
+          <Grid item sm={5} md={5}>
+            <TextField
+              type={"date"}
+              color={"primary"}
+              variant={"outlined"}
+              onChange={(e) => {
+                this.onChange("expirationDate", new Date(e.target.value), idx);
+              }}
+              value={
+                item.expirationDate
+                  ? new Date(item.expirationDate)
+                      .toISOString()
+                      .replace(/T.*/, "")
+                      .split("-")
+                      .join("-")
+                  : item.expirationDate
+              }
+              label={"expiry Date"}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              InputProps={{
+                inputProps: {
+                  min: new Date()
+                    .toISOString()
+                    .replace(/T.*/, "")
+                    .split("-")
+                    .join("-"),
+                },
+              }}
+              fullWidth
+              disablePast
+            />
+          </Grid>
+          <Grid item sm={1} md={1}>
+            <IconButton
+              onClick={() => {
+                this.removeProduct(idx);
+                this.removeSelectedItem(item.product.id);
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+        </>
+      );
+    });
+  };
+
   render() {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
@@ -480,6 +693,7 @@ export class Student extends Component {
                   ? this.props.StudentFilterList.content
                   : null
               }
+              // data={data.length !== 0 ? data : null}
               add={
                 this.props.match.path === "/admin/productpunching"
                   ? false
@@ -489,6 +703,8 @@ export class Student extends Component {
                 this.setState({
                   dialogOpen: true,
                   id: null,
+                  product: [],
+                  selectedProduct: [],
                   // firstName : null,
                   // lastName : null,
                   // eMail : null,
@@ -511,6 +727,28 @@ export class Student extends Component {
               }
               onEdit={true}
               onEditClick={(rowdata) => {
+                this.props.getProducts(rowdata.id, (response) => {
+                  // expiryDate
+                  let arr = [];
+                  let selectedProductArr = [];
+                  response.data.map((item) => {
+                    let product = {
+                      courseId: "",
+                      id: item.id,
+                      title: item.productName,
+                    };
+                    let expiryDate = item.expiryDate;
+                    arr.push({
+                      product: product,
+                      expirationDate: expiryDate,
+                    });
+                    selectedProductArr.push(product);
+                  });
+                  this.setState({
+                    product: arr,
+                    selectedProduct: selectedProductArr,
+                  });
+                });
                 this.setState({
                   id: rowdata.id,
                   firstName: rowdata.firstName,
@@ -786,6 +1024,15 @@ export class Student extends Component {
                   label="Password"
                 />
               </Grid>
+
+              <Grid
+                item
+                md={12}
+                style={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                <LinkButton onClick={this.addProduct}>+ Add Product</LinkButton>
+              </Grid>
+              {this.renderProduct()}
             </Grid>
           </DialogContent>
           <DialogActions>
@@ -828,6 +1075,15 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+const LinkButton = styled.button`
+  background: none;
+  outline: none;
+  border: none;
+  text-decoration: underline;
+  color: blue;
+  text-align: end;
+`;
+
 const mapStateToProps = (state) => {
   return {
     StudentsList: state.StudentReducer.StudentsList,
@@ -838,6 +1094,7 @@ const mapStateToProps = (state) => {
     signUpError: state.StudentReducer.signUpError,
     editStudentResponse: state.StudentReducer.editStudentResponse,
     updateLmsAccessList: state.AdminReducer.updateLmsAccess,
+    lmsProducts: state.LmsStudentReducer.lmsProducts,
   };
 };
 export default connect(mapStateToProps, {
@@ -849,4 +1106,61 @@ export default connect(mapStateToProps, {
   getBranches,
   mernStudentSignUp,
   mernStudentEdit,
+  getAllLmsProduct,
+  postStudentLmsProduct,
+  getProducts,
 })(Student);
+
+const data = [
+  {
+    id: "0bc82206-7dae-486b-80f2-15fad4357b79",
+    studentID: "DEV1",
+    username: "devo1",
+    password: null,
+    firstName: "dev",
+    lastName: "ops",
+    fullName: null,
+    emailId: "developer1@gmail.com",
+    altEmailId: null,
+    isactive: true,
+    phoneNumber: "077552001",
+    altPhoneNumber: null,
+    linkedInProfile: null,
+    address: null,
+    faceBookUrl: null,
+    twitterUrl: null,
+    isLMSUser: null,
+    dob: null,
+    provider: "Local",
+    ugDegree: null,
+    college: null,
+    department: null,
+    university: null,
+    expectedYrOfGrad: 0,
+    currentSem: 0,
+    noOfBacklogs: 0,
+    noOfClearedBacklogs: 0,
+    testExecutions: [],
+    recommendedCourses: [],
+    mentorRecommendedCourses: [],
+    svcRecommendedCourses: [],
+    city: null,
+    mentor: null,
+    oldUser: null,
+    createdAt: null,
+    updatedAt: null,
+    lastLoginDate: null,
+    enrollmentPeriod: null,
+    initialQuarterPlan: null,
+    studentGrade: null,
+    commonFocusCourse: null,
+    product: null,
+    chosenTrack: null,
+    studentHsc: null,
+    studentSsc: null,
+    studentDiploma: null,
+    studentUgs: null,
+    uggpa: 0,
+    uggpascale: 0,
+  },
+];
