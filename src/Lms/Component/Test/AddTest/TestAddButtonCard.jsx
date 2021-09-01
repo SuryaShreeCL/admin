@@ -21,34 +21,41 @@ class TestAddButtonCard extends Component {
     popUpId,
     handleDelete
   ) => {
-    if (questions.length === 0) return <CenteredImg src={Freepik} />;
-    if (typeof (questions === "object")) {
-      return (
-        <>
-          {questions.data.questions.map((question, index) => {
-            return (
-              <Question id={question.id}>
-                <>
-                  {index + 1}. {question.question}
-                </>
-                <IconButton
-                  style={{ padding: "0px" }}
-                  onClick={(event) => handleThreeDotClick(event, question.id)}
-                >
-                  <MoreVertRounded style={{ fill: "#1093ff" }} />
-                </IconButton>
-                <Menu
-                  questionId={question.id}
-                  handleClose={handleClose}
-                  open={popUpId === question.id}
-                  anchorEl={anchorEl}
-                  handleDelete={handleDelete}
-                />
-              </Question>
-            );
-          })}
-        </>
-      );
+    // console.log(Object.keys(questions).length > 0);
+    if (Object.keys(questions).length > 0) {
+      console.log(questions.data.questions);
+      if (questions.data.questions.length === 0) {
+        console.log("hi");
+        return <CenteredImg src={Freepik} />;
+      } else if (questions.data.questions.length > 0) {
+        console.log("hi");
+        return (
+          <>
+            {questions.data.questions.map((question, index) => {
+              return (
+                <Question id={question.id}>
+                  <>
+                    {index + 1}. {question.question}
+                  </>
+                  <IconButton
+                    style={{ padding: "0px" }}
+                    onClick={(event) => handleThreeDotClick(event, question.id)}
+                  >
+                    <MoreVertRounded style={{ fill: "#1093ff" }} />
+                  </IconButton>
+                  <Menu
+                    questionId={question.id}
+                    handleClose={handleClose}
+                    open={popUpId === question.id}
+                    anchorEl={anchorEl}
+                    handleDelete={handleDelete}
+                  />
+                </Question>
+              );
+            })}
+          </>
+        );
+      }
     }
   };
 

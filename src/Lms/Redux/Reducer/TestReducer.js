@@ -1,11 +1,11 @@
-import { TEST } from "../Action";
+import { TEST } from '../Action';
 
 const initialState = {
   filterData: [],
   testData: [],
   questionType: [],
   testQuestionSetResponse: [],
-  testQuestionSet: [],
+  testQuestionSet: {},
   topics: [],
   template: [],
   subjects: [],
