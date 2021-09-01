@@ -37,12 +37,13 @@ import { lms_course_landing } from '../../../../Component/RoutePaths';
 //   return null;
 // }
 const validURL = url => {
+  return url.indexOf('jpg' || 'jpeg' || 'png' || 'tiff') > -1;
   // if (files[0].name.match(/.(xls|xlsx|csv)$/i))
   // console.log(url);
   // if (url.match(/\w+\.(jpg|jpeg|gif|png|tiff|bmp)$/gi)) return true;
   // return !!url.match(/\w+\.(jpg|jpeg|gif|png|tiff|bmp)$/gi);
   // return url.match(/\.(jpeg|jpg|gif|png)$/) !== null;
-  return true;
+  // return true;
 };
 
 function isValidImageURL(str) {}

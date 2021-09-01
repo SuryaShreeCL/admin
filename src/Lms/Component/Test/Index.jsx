@@ -20,6 +20,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import PublishIcon from '../../Assets/icons/Publish.svg';
 import { lms_add_test } from '../../../Component/RoutePaths';
+import { Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -40,6 +42,9 @@ class TestLanding extends Component {
       dialogStatus: false,
       dialogContent: null,
       currentPage: 0,
+      alertState: false,
+      alertMsg: '',
+      alertSeverity: '',
     };
   }
 
@@ -59,7 +64,7 @@ class TestLanding extends Component {
 
   handlePageChange = (event, value) => {
     window.scroll(0, 0);
-    this.setState({ currentPage: value });
+    this.setState({ currentPage: value - 1 });
     // let paramObj = { page: value - 1, size: NO_OF_RESPONSE };
     // this.props.getQuestionSet(paramObj);
   };
@@ -200,6 +205,14 @@ class TestLanding extends Component {
           };
           this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
+        } else {
+          // console.log(response);
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: 'error',
+          });
+          this.handleCloseIconClick();
         }
       });
     } else if (this.state.dialogContent.type === 'review') {
@@ -326,6 +339,8 @@ class TestLanding extends Component {
             onPageChange={handlePageChange}
           />
         )}
+
+        {/* PopUp Components */}
         <DialogComponent
           open={dialogStatus}
           dialogContent={dialogContent}
@@ -333,6 +348,18 @@ class TestLanding extends Component {
           handleCloseIconClick={handleCloseIconClick}
           handleButton2Click={handlePrimaryButtonClick}
         />
+        <Snackbar
+          open={this.state.alertState}
+          onClose={() => this.setState({ alertState: false })}
+        >
+          <Alert
+            onClose={() => this.setState({ alertState: false })}
+            severity={this.state.alertSeverity}
+            variant='filled'
+          >
+            {this.state.alertMsg}
+          </Alert>
+        </Snackbar>
       </Container>
     );
   }

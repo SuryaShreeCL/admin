@@ -339,3 +339,22 @@ export const getTestQuestionSet = (testQuestionSetId, callback) => {
       .catch(error => console.log(error));
   };
 };
+
+export const deleteQuestion = (questionId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+
+  return () => {
+    axios
+      .delete(`${URL}/api/v1/question/${questionId}`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => console.log(error));
+  };
+};

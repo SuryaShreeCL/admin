@@ -355,3 +355,18 @@ export const TabBarMonthItem = styled(MuiButton)`
   padding: 16px 88px 16px 13px;
   cursor: pointer;
 `;
+
+export const Question = styled.div`
+  display: flex;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #052a4e;
+  background: #ffffff;
+  box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0 16px 0;
+`;

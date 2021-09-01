@@ -30,11 +30,17 @@ const headText = [
   '',
 ];
 
+const handleOpen = (itemId, popUpId, role, status) => {
+  // console.log(status);
+  // console.log(role === 'LMSEDITOR' && status === 'Live');
+  if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
+    return false;
+  else return itemId === popUpId;
+};
+
 export default function TableComp(props) {
   const {
     tableContent,
-    handleUpClick,
-    handleDownClick,
     field,
     order,
     handleSortNew,
@@ -243,7 +249,8 @@ export default function TableComp(props) {
                     <Menu
                       role={role}
                       anchorEl={anchorEl}
-                      open={item.id === popUpId}
+                      // open={item.id === popUpId}
+                      open={handleOpen(item.id, popUpId, role, item.status)}
                       handleClose={handleClose}
                       status={item.status}
                       handleOptions={handleOptions}

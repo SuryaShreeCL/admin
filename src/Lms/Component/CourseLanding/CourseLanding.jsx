@@ -22,6 +22,8 @@ import PaginationComponent from '../../Utils/PaginationComponent';
 import PlusButton from '../../Utils/PlusButton';
 import DataTable from './DataTable';
 import DropDownRack from './DropDownRack';
+import { Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 // import { approveTopic } from "../../Redux/Action/Test";
 
 const INITIAL_PAGE_NO = 0;
@@ -43,6 +45,9 @@ class CourseLanding extends Component {
       dialogStatus: false,
       dialogContent: null,
       role: '',
+      alertState: false,
+      alertMsg: '',
+      alertSeverity: '',
     };
   }
 
@@ -143,6 +148,13 @@ class CourseLanding extends Component {
             INITIAL_SEARCH_TEXT,
             topicResponse => {}
           );
+          this.handleCloseIconClick();
+        } else {
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: 'error',
+          });
           this.handleCloseIconClick();
         }
       });
@@ -386,6 +398,20 @@ class CourseLanding extends Component {
             onPageChange={handlePageChange}
           />
         )}
+
+        {/* Popup components */}
+        <Snackbar
+          open={this.state.alertState}
+          onClose={() => this.setState({ alertState: false })}
+        >
+          <Alert
+            onClose={() => this.setState({ alertState: false })}
+            severity={this.state.alertSeverity}
+            variant='filled'
+          >
+            {this.state.alertMsg}
+          </Alert>
+        </Snackbar>
         <DialogComponent
           open={dialogStatus}
           dialogContent={dialogContent}
@@ -393,7 +419,6 @@ class CourseLanding extends Component {
           handleCloseIconClick={handleCloseIconClick}
           handleButton2Click={handleButton2Click}
         />
-        {/* </ThemeProvider> */}
       </Container>
     );
   }
