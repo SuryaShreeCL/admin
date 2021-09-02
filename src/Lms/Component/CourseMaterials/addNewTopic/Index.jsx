@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Card,
   MainContainer,
   TabContainer,
   Title,
   Wrapper,
-} from '../../../Assets/StyledComponents';
+} from "../../../Assets/StyledComponents";
 import {
   getCourses,
   getSubjects,
@@ -13,20 +13,20 @@ import {
   addTaskDetails,
   addTopicDetails,
   getTopicDetails,
-} from '../../../Redux/Action/CourseMaterial';
-import { connect } from 'react-redux';
-import { TopicCard } from './TopicCard';
-import { TaskCard } from './TaskCard';
-import { SnackBar } from '../../../Utils/SnackBar';
-import { TaskButtons } from './TaskButtons';
-import { StyledTaps } from '../../../Utils/Tabs';
-import QueryString from 'qs';
-import { lms_course_landing } from '../../../../Component/RoutePaths';
+} from "../../../Redux/Action/CourseMaterial";
+import { connect } from "react-redux";
+import { TopicCard } from "./TopicCard";
+import { TaskCard } from "./TaskCard";
+import { SnackBar } from "../../../Utils/SnackBar";
+import { TaskButtons } from "./TaskButtons";
+import { StyledTaps } from "../../../Utils/Tabs";
+import QueryString from "qs";
+import { lms_course_landing } from "../../../../Component/RoutePaths";
 
-const validURL = url => {
-  const IMAGE_FORMATS = ['.jpg', '.jpeg', '.png', '.tiff', '.svg'];
+const validURL = (url) => {
+  const IMAGE_FORMATS = [".jpg", ".jpeg", ".png", ".tiff", ".svg"];
   return (
-    IMAGE_FORMATS.indexOf(url.slice(url.lastIndexOf('.'), url.length)) > -1
+    IMAGE_FORMATS.indexOf(url.slice(url.lastIndexOf("."), url.length)) > -1
   );
 };
 
@@ -37,16 +37,16 @@ class Index extends Component {
       courseValue: null,
       subjectValue: null,
       conceptValue: null,
-      topicValue: '',
-      descriptionValue: '',
-      imageUrl: '',
+      topicValue: "",
+      descriptionValue: "",
+      imageUrl: "",
       newTaskData: [],
       tabValue: null,
       totalTasks: 0,
       topicId: null,
-      message: '',
+      message: "",
       snackOpen: false,
-      snackType: 'success',
+      snackType: "success",
       tabsLabels: [],
     };
 
@@ -59,49 +59,52 @@ class Index extends Component {
       ignoreQueryPrefix: true,
     });
     var newtopicId = topic_id;
-    this.props.getCourses(response => {
+    this.props.getCourses((response) => {
       if (response.success) {
-        this.props.getSubjects(response.data[0].id, subjectResponse => {
+        this.props.getSubjects(response.data[0].id, (subjectResponse) => {
           if (subjectResponse.success) {
             this.props.getConcepts(
               subjectResponse.data[0].id,
-              conceptResponse => {
+              (conceptResponse) => {
                 if (conceptResponse.success) {
                   if (
                     newtopicId !== undefined &&
                     newtopicId !== null &&
                     newtopicId.trim().length > 10
                   ) {
-                    this.props.getTopicDetails(newtopicId, newtopicResponse => {
-                      if (newtopicResponse.success) {
-                        const { data } = this.props.topicsDetails;
-                        const { taskDetails } = this.props;
-                        this.props.getSubjects(data.course.id, {});
-                        this.props.getConcepts(data.subject.id, {});
-                        this.setState({
-                          newTaskData: taskDetails,
-                          totalTasks: taskDetails.length,
-                          tabValue: 1,
-                          topicId: data.id,
-                          courseValue: data.course.id,
-                          subjectValue: data.subject.id,
-                          conceptValue: data.concept.id,
-                          topicValue: data.name,
-                          descriptionValue: data.description,
-                          imageUrl: data.imageUrl,
-                        });
-                        taskDetails.map((i, index) => {
-                          this.setState(prevState => ({
-                            tabsLabels: [
-                              ...prevState.tabsLabels,
-                              {
-                                tabLabel: 'Task ' + (index + 1),
-                              },
-                            ],
-                          }));
-                        });
+                    this.props.getTopicDetails(
+                      newtopicId,
+                      (newtopicResponse) => {
+                        if (newtopicResponse.success) {
+                          const { data } = this.props.topicsDetails;
+                          const { taskDetails } = this.props;
+                          this.props.getSubjects(data.course.id, {});
+                          this.props.getConcepts(data.subject.id, {});
+                          this.setState({
+                            newTaskData: taskDetails,
+                            totalTasks: taskDetails.length,
+                            tabValue: 1,
+                            topicId: data.id,
+                            courseValue: data.course.id,
+                            subjectValue: data.subject.id,
+                            conceptValue: data.concept.id,
+                            topicValue: data.name,
+                            descriptionValue: data.description,
+                            imageUrl: data.imageUrl,
+                          });
+                          taskDetails.map((i, index) => {
+                            this.setState((prevState) => ({
+                              tabsLabels: [
+                                ...prevState.tabsLabels,
+                                {
+                                  tabLabel: "Task " + (index + 1),
+                                },
+                              ],
+                            }));
+                          });
+                        }
                       }
-                    });
+                    );
                   } else {
                     this.setState({
                       courseValue: response.data[0].id,
@@ -118,15 +121,15 @@ class Index extends Component {
     });
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
-    if (name === 'courseValue') {
-      this.props.getSubjects(value, subjectResponse => {
+    if (name === "courseValue") {
+      this.props.getSubjects(value, (subjectResponse) => {
         if (subjectResponse.success) {
           this.props.getConcepts(
             subjectResponse.data[0].id,
-            conceptResponse => {
+            (conceptResponse) => {
               if (conceptResponse.success) {
                 this.setState({
                   subjectValue: subjectResponse.data[0].id,
@@ -138,8 +141,8 @@ class Index extends Component {
         }
       });
     }
-    if (name === 'subjectValue') {
-      this.props.getConcepts(value, conceptResponse => {
+    if (name === "subjectValue") {
+      this.props.getConcepts(value, (conceptResponse) => {
         if (conceptResponse.success) {
           this.setState({
             conceptValue: conceptResponse.data[0].id,
@@ -182,33 +185,33 @@ class Index extends Component {
           imageUrl: imageUrl,
           concept: { id: conceptValue },
         };
-        this.props.addTopicDetails(topicData, topicResponse => {
+        this.props.addTopicDetails(topicData, (topicResponse) => {
           if (topicResponse.success) {
-            var topicMessage = 'New Topic Added Successfully';
+            var topicMessage = "New Topic Added Successfully";
             if (topicId !== null)
-              topicMessage = 'Current Topic Updated Successfully';
+              topicMessage = "Current Topic Updated Successfully";
             this.setState({
               message: topicMessage,
               snackOpen: true,
-              snackType: 'success',
+              snackType: "success",
               topicId: topicResponse.data.id,
             });
           }
         });
       } else {
-        let imageMessage = 'Please enter a valid image url';
+        let imageMessage = "Please enter a valid image url";
         this.setState({
           message: imageMessage,
           snackOpen: true,
-          snackType: 'warning',
+          snackType: "warning",
         });
       }
     } else {
-      var imageMessage = 'Please fill all the valid fields';
+      var imageMessage = "Please fill all the valid fields";
       this.setState({
         message: imageMessage,
         snackOpen: true,
-        snackType: 'warning',
+        snackType: "warning",
       });
     }
   };
@@ -216,21 +219,21 @@ class Index extends Component {
   handleAddTask = () => {
     if (this.state.topicId !== null) {
       let count = this.state.totalTasks + 1;
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         newTaskData: [
           ...prevState.newTaskData,
           {
             id: null,
-            name: '',
-            contentType: '',
-            duration: '',
-            content: '',
+            name: "",
+            contentType: "",
+            duration: "",
+            content: "",
             topic: { id: this.state.topicId },
           },
         ],
         tabsLabels: [
           ...prevState.tabsLabels,
-          { tabLabel: 'Task ' + (this.state.totalTasks + 1) },
+          { tabLabel: "Task " + (this.state.totalTasks + 1) },
         ],
       }));
       this.setState({
@@ -250,17 +253,17 @@ class Index extends Component {
       taskDetail.duration > 0 &&
       taskDetail.name.trim().length > 0
     ) {
-      this.props.addTaskDetails(newTaskData[tabValue - 1], taskResponse => {
+      this.props.addTaskDetails(newTaskData[tabValue - 1], (taskResponse) => {
         if (taskResponse.success) {
-          var taskMessage = 'New Task Added Successfully';
+          var taskMessage = "New Task Added Successfully";
           if (newTaskData[tabValue - 1].id !== null)
-            taskMessage = 'Current Task Updated Successfully';
+            taskMessage = "Current Task Updated Successfully";
 
-          taskData[tabValue - 1]['id'] = taskResponse.data.id;
+          taskData[tabValue - 1]["id"] = taskResponse.data.id;
           this.setState({
             message: taskMessage,
             snackOpen: true,
-            snackType: 'success',
+            snackType: "success",
             taskData,
           });
           this.props.history.push(lms_course_landing);
@@ -268,9 +271,9 @@ class Index extends Component {
       });
     } else {
       this.setState({
-        message: 'Please fill all the fields',
+        message: "Please fill all the fields",
         snackOpen: true,
-        snackType: 'warning',
+        snackType: "warning",
       });
     }
   };
@@ -310,7 +313,7 @@ class Index extends Component {
         <MainContainer>
           <Card>
             <Wrapper>
-              <Title>{topic_id ? 'Edit Topic' : 'Add New Topic'}</Title>
+              <Title>{topic_id ? "Edit Topic" : "Add New Topic"}</Title>
               <TopicCard
                 data={{
                   courses: courses.data,
@@ -335,10 +338,10 @@ class Index extends Component {
                     tabId: tabValue - 1,
                     handleTabChange: (e, newValue) =>
                       this.setState({ tabValue: newValue + 1 }),
-                    tabsBackColor: '#1093FF',
+                    tabsBackColor: "#1093FF",
                     tabData: tabsLabels,
-                    activeClass: 'active__task__tab',
-                    styleName: 'addNewTask',
+                    activeClass: "active__task__tab",
+                    styleName: "addNewTask",
                   }}
                 />
               </TabContainer>
@@ -350,13 +353,14 @@ class Index extends Component {
                       index: index,
                       tabId: tabValue,
                       inputItem: item,
-                      taskProperties: e => this.handleTaskProperties(index, e),
+                      taskProperties: (e) =>
+                        this.handleTaskProperties(index, e),
                       richContent:
                         (topic_id &&
                           taskDetails.length > 0 &&
                           taskDetails[tabValue - 1] !== undefined &&
                           taskDetails[tabValue - 1].content) ||
-                        '',
+                        "",
                       richEditorChange: this.onRichEditorChange,
                     }}
                   />
@@ -391,7 +395,7 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ...state.CourseMaterialReducer,
   };
