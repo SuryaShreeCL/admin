@@ -64,13 +64,13 @@ export const deleteTest = (testQuestionSetId, callback) => {
         callback(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        callback(error.response.data);
       });
   };
 };
 export const reviewTest = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
+  return () => {
     axios
       .put(
         `${URL}/api/v1/testquestionsets/${testQuestionSetId}/status/Review`,
