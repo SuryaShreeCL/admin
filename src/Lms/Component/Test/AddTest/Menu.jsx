@@ -1,13 +1,13 @@
-import React from 'react';
-import { MuiMenu } from '../../../Assets/StyledTableComponents';
-import { DeleteRounded } from '@material-ui/icons';
-import { MenuItem, ListItemIcon, Typography } from '@material-ui/core';
+import React from "react";
+import { MuiMenu } from "../../../Assets/StyledTableComponents";
+import { DeleteRounded } from "@material-ui/icons";
+import { MenuItem, ListItemIcon, Typography } from "@material-ui/core";
 
 export default function Menu(props) {
   const choices = [
     {
-      text: 'Delete',
-      icon: <DeleteRounded style={{ fill: '#1093ff' }} />,
+      text: "Delete",
+      icon: <DeleteRounded style={{ fill: "#1093ff" }} />,
     },
   ];
 
@@ -18,14 +18,14 @@ export default function Menu(props) {
       open={open}
       anchorEl={anchorEl}
       getContentAnchorEl={null}
-      anchorOrigin={{ vertical: 'center', horizontal: 'left' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "center", horizontal: "left" }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       onClose={handleClose}
     >
-      {choices.map(choice => (
-        <MenuItem onClick={() => handleDelete(questionId)}>
+      {choices.map((choice) => (
+        <MenuItem onClick={handleDelete}>
           <ListItemIcon>{choice.icon}</ListItemIcon>
-          <Typography className={'menu-item-text'}>{choice.text}</Typography>
+          <Typography className={"menu-item-text"}>{choice.text}</Typography>
         </MenuItem>
       ))}
     </MuiMenu>

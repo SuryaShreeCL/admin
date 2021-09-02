@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { createTheme, Button } from '@material-ui/core';
-import { Box as MuiBox, Button as MuiButton } from '@material-ui/core';
+import styled from "styled-components";
+import { createTheme, Button } from "@material-ui/core";
+import { Box as MuiBox, Button as MuiButton } from "@material-ui/core";
 
 export const Container = styled.div`
   display: flex;
@@ -34,10 +34,10 @@ export const H1 = styled.div`
 export const ColorScheme = createTheme({
   palette: {
     primary: {
-      main: '#1093FF',
+      main: "#1093FF",
     },
     secondary: {
-      main: '#052A4E',
+      main: "#052A4E",
     },
   },
 });
@@ -46,19 +46,19 @@ export const textFieldTheme = createTheme({
   overrides: {
     MuiInputBase: {
       root: {
-        height: '40px',
+        height: "40px",
       },
       input: {
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: '16px',
-        lineHeight: '20px',
-        color: '#686868',
-        height: '40px',
-        background: '#FFFFFF',
-        border: '1px solid #CCCCCC',
-        boxSizing: 'border-box',
-        borderRadius: '4px',
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "16px",
+        lineHeight: "20px",
+        color: "#686868",
+        height: "40px",
+        background: "#FFFFFF",
+        border: "1px solid #CCCCCC",
+        boxSizing: "border-box",
+        borderRadius: "4px",
       },
     },
   },
@@ -73,6 +73,7 @@ export const TabContainer = styled.div`
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 4px;
   padding: 0px 8px;
+  position: relative;
 `;
 
 export const TabItem = styled.span`
@@ -111,7 +112,7 @@ export const Card = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
-  padding: ${props => props.padding || 0};
+  padding: ${(props) => props.padding || 0};
 `;
 
 // view StudyPlans
@@ -220,7 +221,7 @@ export const TestTitle = styled.div`
   font-size: 24px;
   line-height: 29px;
   color: #052a4e;
-  flex: ${props => props.flex || 0};
+  flex: ${(props) => props.flex || 0};
 `;
 
 export const Cancel = styled(MuiButton)`
@@ -339,18 +340,18 @@ export const TabBarItem = styled(MuiBox)`
   border: none;
   padding: 20px !important;
   grid-gap: 20px;
-  border-bottom: ${props => (props.active ? '4px solid #FFE100' : '')};
+  border-bottom: ${(props) => (props.active ? "4px solid #FFE100" : "")};
 `;
 
 export const TabBarMonthItem = styled(MuiButton)`
-  background: ${props => (props.active ? '#fff' : '#fafafa')};
+  background: ${(props) => (props.active ? "#fff" : "#fafafa")};
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
-  color: ${props => (props.active ? '#1093FF' : '#052a4e')};
+  color: ${(props) => (props.active ? "#1093FF" : "#052a4e")};
   border: none;
-  border-right: ${props => (props.active ? '4px solid' : '')};
+  border-right: ${(props) => (props.active ? "4px solid" : "")};
   width: 210px;
   padding: 16px 88px 16px 13px;
   cursor: pointer;
@@ -374,4 +375,10 @@ export const Question = styled.div`
 export const C1 = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+export const TabThreeDot = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 16px;
 `;
