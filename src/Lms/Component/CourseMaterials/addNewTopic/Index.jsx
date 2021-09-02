@@ -25,7 +25,9 @@ import { lms_course_landing } from '../../../../Component/RoutePaths';
 
 const validURL = url => {
   const IMAGE_FORMATS = ['.jpg', '.jpeg', '.png', '.tiff', '.svg'];
-  return IMAGE_FORMATS.indexOf(url.slice(url.indexOf('.'), url.length)) > -1;
+  return (
+    IMAGE_FORMATS.indexOf(url.slice(url.lastIndexOf('.'), url.length)) > -1
+  );
 };
 
 class Index extends Component {

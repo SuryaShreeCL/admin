@@ -311,7 +311,7 @@ export const createFileUpload = (masterId, data, callback) => {
       })
       .catch(error => {
         if (error.response) callback(error.response.data);
-        else callback({ message: 'file not uploaded' });
+        else callback({ response: false, message: 'file not uploaded' });
 
         // console.log(error);
       });

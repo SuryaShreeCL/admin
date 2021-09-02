@@ -404,11 +404,7 @@ class CourseLanding extends Component {
           open={this.state.alertState}
           onClose={() => this.setState({ alertState: false })}
         >
-          <Alert
-            onClose={() => this.setState({ alertState: false })}
-            severity={this.state.alertSeverity}
-            variant='filled'
-          >
+          <Alert severity={this.state.alertSeverity} variant='filled'>
             {this.state.alertMsg}
           </Alert>
         </Snackbar>
