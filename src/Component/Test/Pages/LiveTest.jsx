@@ -17,12 +17,11 @@ import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
-import { editPath, createPath, testCreate, testEdit } from '../../RoutePaths';
+import { testCreate, testEdit } from '../../RoutePaths';
 import moment from 'moment';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import DescriptionIcon from '@material-ui/icons/Description';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -31,7 +30,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
-import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
+import { listTests, deleteTest } from '../../../Actions/TestActions';
 import { renderListCategory } from '../../Utils/Helpers';
 import ScheduleLater from '../Components/ScheduleLater';
 
@@ -59,9 +58,10 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'testName', label: 'Test Name' },
-  { id: 'questions', label: 'Total Questions' },
+  { id: 'category', label: 'Category' },
   { id: 'duration', label: 'Duration' },
-  { id: 'created', label: 'Created' },
+  { id: 'created', label: 'Created On' },
+  { id: 'createdby', label: 'Created By' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -79,7 +79,7 @@ export default function LiveTest() {
     },
   });
 
-  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  const { loading, error, tests } = useSelector((state) => state.testListReducer);
 
   const [scheduler, setScheduler] = useState(false);
 
@@ -92,7 +92,7 @@ export default function LiveTest() {
   });
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    posts,
+    tests,
     headCells,
     filterFn
   );
@@ -127,9 +127,9 @@ export default function LiveTest() {
       ...confirmDialog,
       isOpen: false,
     });
-    dispatch(deleteWallPost(id));
+    dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', false));
+      dispatch(listTests('Live', 0, 10));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -139,7 +139,7 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live', false));
+    dispatch(listTests('Live', 0, 10));
   }, [dispatch]);
 
   return (
@@ -182,18 +182,19 @@ export default function LiveTest() {
 
         <TblContainer>
           <TblHead />
-          {posts && (
+          {tests && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
-                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.totalLikes}</TableCell>
-                  <TableCell>{item.totalViews}</TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.courseName}</TableCell>
+                  <TableCell>{item.duration}</TableCell>
+                  <TableCell>{moment(item.createdAt).calendar()}</TableCell>
+                  <TableCell>{item.createdBy}</TableCell>
+                  <TableCell>{item.status}</TableCell>
                   <TableCell>
                     <Controls.ActionButton>
-                      <DescriptionIcon fontSize='small' style={{ color: 'green' }} />
+                      <CloudDownloadIcon fontSize='small' style={{ color: 'green' }} />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='default' />
