@@ -124,15 +124,13 @@ class Add extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { testQuestionSetId } = QueryString.parse(
-      this.props.location.search,
-      {
-        ignoreQueryPrefix: true,
-      }
-    );
+    const id = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    }).testQuestionSetId;
+    const { testQuestionSetId } = this.state;
     const { testQuestionSet } = this.props;
     if (
-      testQuestionSetId !== undefined &&
+      (testQuestionSetId !== null || id !== undefined) &&
       prevProps.testQuestionSet !== testQuestionSet
     ) {
       const questionSet =
@@ -602,12 +600,7 @@ class Add extends Component {
 
   handleSectionDelete = () => {
     const { calibrationActiveSectionTab, calibrationTestData } = this.state;
-    const { testQuestionSetId } = QueryString.parse(
-      this.props.location.search,
-      {
-        ignoreQueryPrefix: true,
-      }
-    );
+    const { testQuestionSetId } = this.state;
     if (calibrationTestData.length !== 0) {
       var deleteSectionId =
         calibrationTestData[calibrationActiveSectionTab - 1]["id"];
@@ -615,7 +608,7 @@ class Add extends Component {
         this.props.deleteSection(deleteSectionId, (response) => {
           if (response.success) {
             this.props.getTestQuestionSet(testQuestionSetId, (res) => {
-              if (res) this.handleCloseIconClick();
+              if (res.success) this.handleCloseIconClick();
             });
           }
         });

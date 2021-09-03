@@ -64,8 +64,7 @@ export const textFieldTheme = createTheme({
   },
 });
 export const MainContainer = styled.div`
-  padding: 20px;
-  padding-right: 40px;
+  padding-right: 10px;
 `;
 
 export const TabContainer = styled.div`
@@ -381,4 +380,33 @@ export const TabThreeDot = styled.div`
   position: absolute;
   top: 12px;
   right: 16px;
+`;
+
+export const ImageUploadButton = styled.input`
+  padding: 14px;
+  opacity: 0;
+`;
+
+export const ImageUploadBox = styled.div`
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  color: #052a4e;
+  overflow: hidden;
+  &:hover {
+    border: 1px solid #000000de;
+  }
+`;
+
+export const ImageContent = styled.label`
+  position: absolute;
+  left: 15px;
+  top: 17px;
+`;
+
+export const UploadIcon = styled.img`
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  height: 28px;
+  width: 28px;
 `;

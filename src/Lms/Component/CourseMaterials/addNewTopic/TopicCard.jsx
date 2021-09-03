@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, IconButton, FormControl, InputLabel } from "@material-ui/core";
+import { PhotoCamera } from "@material-ui/icons";
 import { SelectDropDown } from "../../../Utils/SelectField";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import { AddButton } from "../../../Utils/Buttons";
 import { InputTextField } from "../../../Utils/TextField";
-import { InputCard } from "../../../Assets/StyledComponents";
+import FileIcon from "../../../Assets/images/fileUpload.png";
+import {
+  ImageUploadButton,
+  InputCard,
+  ImageUploadBox,
+  ImageContent,
+  UploadIcon,
+} from "../../../Assets/StyledComponents";
 
 export class TopicCard extends Component {
   constructor(props) {
@@ -25,6 +33,8 @@ export class TopicCard extends Component {
       handleChange,
       AddTask,
       topicSaveButton,
+      topicValid,
+      topicNameValidate,
     } = this.props.data;
     return (
       <InputCard>
@@ -40,7 +50,13 @@ export class TopicCard extends Component {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
+        <Grid
+          container
+          spacing={2}
+          style={{
+            paddingBottom: !topicValid ? "30px" : "8px",
+          }}
+        >
           <Grid item xs={12} md={4}>
             <SelectDropDown
               label="Subject"
@@ -66,7 +82,11 @@ export class TopicCard extends Component {
               name="topicValue"
               value={topic}
               onChange={handleChange}
+              onBlur={topicNameValidate}
               label="Topic name"
+              placeholder="Topic name"
+              helperText={topicValid ? "Topic name already exists" : ""}
+              error={topicValid}
             />
           </Grid>
         </Grid>
@@ -77,15 +97,32 @@ export class TopicCard extends Component {
               onChange={handleChange}
               value={description}
               label="Description"
+              placeholder="Description"
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <InputTextField
-              name="imageUrl"
-              onChange={handleChange}
-              value={url}
-              label="Topic Image"
-            />
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel
+                style={{ background: "white", padding: "0px 10px 0px 5px" }}
+                shrink
+              >
+                Topic image
+              </InputLabel>
+              <ImageUploadBox>
+                <ImageUploadButton
+                  title={url !== null ? url : "No file chosen"}
+                  accept="image/*"
+                  name="imageUrl"
+                  id="imageUrl"
+                  onChange={handleChange}
+                  type="file"
+                />
+                <ImageContent htmlFor="imageUrl">
+                  {url !== null ? url : "No file chosen"}
+                </ImageContent>
+                <UploadIcon src={FileIcon} />
+              </ImageUploadBox>
+            </FormControl>
           </Grid>
         </Grid>
         <Grid container spacing={2} justifyContent={"flex-end"}>
