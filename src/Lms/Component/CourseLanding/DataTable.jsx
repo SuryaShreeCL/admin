@@ -51,15 +51,22 @@ const getDateFormat = dateString => {
   return day + ' ' + month + ' ' + year;
 };
 
-const openHandle = (itemId, popUpId, role, status) => {
-  // console.log(status);
-  // console.log(role === 'LMSEDITOR' && status === 'Live');
-  if (
+// const openHandle = (itemId, popUpId, role, status) => {
+//   // console.log(status);
+//   // console.log(role === 'LMSEDITOR' && status === 'Live');
+//   if (
+//     role === 'LMSEDITOR' &&
+//     (status === 'Live' || status === 'In Review' || status === 'Approved')
+//   )
+//     return false;
+//   else return itemId === popUpId;
+// };
+
+const handleShowThreeDot = (role, status) => {
+  return !(
     role === 'LMSEDITOR' &&
     (status === 'Live' || status === 'In Review' || status === 'Approved')
-  )
-    return false;
-  else return itemId === popUpId;
+  );
 };
 
 export default function DataTable(props) {
@@ -76,6 +83,7 @@ export default function DataTable(props) {
   // if (props.topics !== undefined) {
   //   console.log(topics.data);
   // }
+
   return (
     <React.Fragment>
       <Table>
@@ -110,24 +118,28 @@ export default function DataTable(props) {
                   <BodyCell>{item.status}</BodyCell>
                   <BodyCell>{getDateFormat(item.createdAt)}</BodyCell>
                   <BlueCell>
-                    <IconButton
-                      aria-controls={item.id}
-                      aria-haspopup='true'
-                      onClick={event => handleThreeDotClick(item.id, event)}
-                    >
-                      <MoreVertRounded style={{ fill: '#1093FF' }} />
-                    </IconButton>
-                    <Menu
-                      role={role}
-                      anchorEl={anchorEl}
-                      // open={item.id === popUpId}
-                      open={openHandle(item.id, popUpId, role, item.status)}
-                      handleClose={handleClose}
-                      status={item.status}
-                      handleOptions={handleOptions}
-                      name={item.topicName}
-                      topicId={item.id}
-                    />
+                    {handleShowThreeDot(role, item.status) && (
+                      <div>
+                        <IconButton
+                          aria-controls={item.id}
+                          aria-haspopup='true'
+                          onClick={event => handleThreeDotClick(item.id, event)}
+                        >
+                          <MoreVertRounded style={{ fill: '#1093FF' }} />
+                        </IconButton>
+                        <Menu
+                          role={role}
+                          anchorEl={anchorEl}
+                          open={item.id === popUpId}
+                          // open={openHandle(item.id, popUpId, role, item.status)}
+                          handleClose={handleClose}
+                          status={item.status}
+                          handleOptions={handleOptions}
+                          name={item.topicName}
+                          topicId={item.id}
+                        />
+                      </div>
+                    )}
                   </BlueCell>
                 </TableRow>
               );

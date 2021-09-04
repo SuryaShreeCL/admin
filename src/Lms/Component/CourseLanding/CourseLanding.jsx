@@ -168,6 +168,13 @@ class CourseLanding extends Component {
             topicResponse => {}
           );
           this.handleCloseIconClick();
+        } else {
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: 'error',
+          });
+          this.handleCloseIconClick();
         }
       });
     else if (this.state.dialogContent.type === 'review')

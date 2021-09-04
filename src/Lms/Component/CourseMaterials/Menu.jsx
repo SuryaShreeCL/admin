@@ -1,5 +1,5 @@
 import React from "react";
-import { MuiMenu } from "../../../Assets/StyledTableComponents";
+import { MuiMenu } from "../../Assets/StyledTableComponents";
 import { DeleteRounded } from "@material-ui/icons";
 import { MenuItem, ListItemIcon, Typography } from "@material-ui/core";
 

@@ -360,6 +360,25 @@ export const deleteQuestion = (questionId, callback) => {
   };
 };
 
+export const deleteSection = (sectionId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+
+  return () => {
+    axios
+      .delete(`${URL}/api/v1/testSection/${sectionId}`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => console.log(error));
+  };
+};
+
 export const getTopicList = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
