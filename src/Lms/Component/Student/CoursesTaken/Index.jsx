@@ -9,7 +9,16 @@ import {
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
 import TasksAndTopic from "./TasksAndTopic/Index";
-import { getTaskTopic, getProducts } from "../../../Redux/Action/Student";
+import {
+  getTaskTopic,
+  getProducts,
+  strengthWeaknessExport,
+  studyPlanExport,
+  calibrationTestExport,
+  topicTestExport,
+  topicTestReportExport
+} from "../../../Redux/Action/Student";
+
 import QueryString from "qs";
 import { withRouter } from "react-router-dom";
 
@@ -106,20 +115,53 @@ class Index extends Component {
         <div hidden={tabId !== 1}>
           <Button
             variant="contained"
-            onClick={() => {
-              this.props.getTaskTopic(
-                studentId,
-                productId,
-                this.category.strengthAndWeekNess
-              );
-            }}
+            onClick={() =>
+              this.props.strengthWeaknessExport(studentId, productId)
+            }
+            // onClick={() => {
+            //   this.props.getTaskTopic(
+            //     studentId,
+            //     productId,
+            //     this.category.strengthAndWeekNess
+            //   );
+            // }}
           >
             Export
           </Button>
         </div>
-        <div hidden={tabId !== 2}></div>
-        <div hidden={tabId !== 3}></div>
-        <div hidden={tabId !== 4}></div>
+       
+        <div hidden={tabId !== 2}>
+          <Button
+            variant="contained"
+            onClick={() => this.props.studyPlanExport(studentId, productId)}
+          >
+            Export
+          </Button>
+        </div>
+        <div hidden={tabId !== 3}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              this.props.calibrationTestExport(studentId, productId)
+            }
+          >
+            Export
+          </Button>
+        </div>
+        <div hidden={tabId !== 4} style={{display:"flex",flexDirection:"row",justifyContent:"space-evenly"}}>
+          <Button
+            variant="contained"
+            onClick={() => this.props.topicTestExport(studentId, productId)}
+          >
+            Export TopicTest
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => this.props.topicTestReportExport(studentId, productId)}
+          >
+            Export TopicTestReport
+          </Button>
+        </div>
         <div hidden={tabId !== 5}></div>
       </CourseContainer>
     );
@@ -134,4 +176,9 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getProducts,
   getTaskTopic,
+  strengthWeaknessExport,
+  studyPlanExport,
+  calibrationTestExport,
+  topicTestExport,
+  topicTestReportExport
 })(withRouter(Index));

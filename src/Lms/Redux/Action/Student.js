@@ -128,3 +128,123 @@ export const getCsvTemplate = (callback) => {
       });
   };
 };
+
+export const strengthWeaknessExport = (studentId, productId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(DEV_LMS + `/api/v1/lms/student/${studentId}/product/${productId}/strengthWeakness?export=true`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: STUDENT.strengthWeaknessExport,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const studyPlanExport = (studentId, productId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(DEV_LMS + `/api/v1/lms/student/${studentId}/product/${productId}/studyPlans/monthlyDetails?export=true`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: STUDENT.studyPlanExport,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const calibrationTestExport = (studentId, productId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(DEV_LMS + `/api/v1/lms/student/${studentId}/product/${productId}/calibrationReport?export=true`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: STUDENT.calibrationTestExport,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const topicTestExport = (studentId, productId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(DEV_LMS + `/api/v1/lms/student/${studentId}/product/${productId}/topicTests?export=true`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: STUDENT.topicTestExport,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const topicTestReportExport = (studentId, productId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(DEV_LMS + `/api/v1/lms/student/${studentId}/product/${productId}/topicTests/report/export`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: STUDENT.topicTestReportExport,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
