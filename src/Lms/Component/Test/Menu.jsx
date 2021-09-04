@@ -31,9 +31,13 @@ export default function Menu(props) {
     //   array.length = 2;
     //   return array;
     // } else return array;
-    if (status === 'Archive') {
+    if (status === 'Draft') {
+      array.length = 3;
+      return array;
+    }
+    if (status === 'Archived') {
       return array.splice(3, 1);
-    } else return array;
+    } else return [];
   };
 
   const filterChecker = (array, status) => {
@@ -41,10 +45,10 @@ export default function Menu(props) {
       array.length = 3;
       return array;
     }
-    if (status === 'Pending') {
-      array.length = 3;
-      array.splice(1, 1);
-      return array;
+    if (status === 'Archived') {
+      // array.length = 3;
+      // array.splice(1, 1);
+      return array.splice(4, 1);
     }
     if (status === 'Live') {
       return array.splice(1, 1);
@@ -55,6 +59,8 @@ export default function Menu(props) {
     }
     if (status === 'Approved') {
       array.splice(2, 1);
+      array.splice(3, 1);
+      // console.log(array);
       return array;
     } else return [];
   };

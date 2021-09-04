@@ -115,6 +115,7 @@ export const approveTest = (testQuestionSetId, callback) => {
       });
   };
 };
+
 export const publishTest = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
@@ -393,5 +394,29 @@ export const getTopicList = (testQuestionSetId, callback) => {
         callback(response.data);
       })
       .catch(error => console.log(error));
+  };
+};
+
+export const draftTest = (testQuestionSetId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .put(
+        `${URL}/api/v1/testquestionsets/${testQuestionSetId}/status/Draft`,
+        {},
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 };
