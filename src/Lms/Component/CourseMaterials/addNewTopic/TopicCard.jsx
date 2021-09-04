@@ -5,7 +5,7 @@ import { SelectDropDown } from "../../../Utils/SelectField";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import { AddButton } from "../../../Utils/Buttons";
 import { InputTextField } from "../../../Utils/TextField";
-import FileIcon from "../../../Assets/images/fileUpload.png";
+import FileIcon from "../../../Assets/icons/Upload.svg";
 import {
   ImageUploadButton,
   InputCard,
@@ -54,7 +54,7 @@ export class TopicCard extends Component {
           container
           spacing={2}
           style={{
-            paddingBottom: !topicValid ? "30px" : "8px",
+            paddingBottom: topicValid ? "30px" : "8px",
           }}
         >
           <Grid item xs={12} md={4}>
@@ -85,8 +85,8 @@ export class TopicCard extends Component {
               onBlur={topicNameValidate}
               label="Topic name"
               placeholder="Topic name"
-              helperText={topicValid ? "Topic name already exists" : ""}
-              error={topicValid}
+              helperText={!topicValid ? "Topic name already exists" : ""}
+              error={!topicValid}
             />
           </Grid>
         </Grid>
@@ -101,7 +101,11 @@ export class TopicCard extends Component {
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <FormControl variant="outlined" fullWidth>
+            <FormControl
+              variant="outlined"
+              style={{ overflowX: "clip" }}
+              fullWidth
+            >
               <InputLabel
                 style={{ background: "white", padding: "0px 10px 0px 5px" }}
                 shrink
@@ -109,6 +113,9 @@ export class TopicCard extends Component {
                 Topic image
               </InputLabel>
               <ImageUploadBox>
+                <ImageContent htmlFor="imageUrl">
+                  {url !== null ? url : "No file chosen"}
+                </ImageContent>
                 <ImageUploadButton
                   title={url !== null ? url : "No file chosen"}
                   accept="image/*"
@@ -117,10 +124,9 @@ export class TopicCard extends Component {
                   onChange={handleChange}
                   type="file"
                 />
-                <ImageContent htmlFor="imageUrl">
-                  {url !== null ? url : "No file chosen"}
-                </ImageContent>
-                <UploadIcon src={FileIcon} />
+                <label htmlFor="imageUrl" style={{ float: "right" }}>
+                  <UploadIcon src={FileIcon} />
+                </label>
               </ImageUploadBox>
             </FormControl>
           </Grid>

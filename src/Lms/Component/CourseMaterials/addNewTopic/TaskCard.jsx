@@ -35,6 +35,7 @@ export class TaskCard extends Component {
                   value={inputItem.name}
                   onChange={taskProperties}
                   label="Task Name"
+                  placeholder="Task Name"
                   fullWidth
                 />
               </Grid>
@@ -58,6 +59,7 @@ export class TaskCard extends Component {
                     value={inputItem.duration}
                     name="duration"
                     onChange={taskProperties}
+                    placeholder="Approximate time"
                     endAdornment={
                       <InputAdornment position="end">mins</InputAdornment>
                     }
