@@ -24,7 +24,7 @@ import { TaskCard } from "./TaskCard";
 import { SnackBar } from "../../../Utils/SnackBar";
 import { TaskButtons } from "./TaskButtons";
 import { StyledTaps } from "../../../Utils/Tabs";
-import Menu from "../../Test/AddTest/Menu";
+import Menu from "../Menu";
 import { MoreVertRounded } from "@material-ui/icons";
 import DialogComponent from "../../../Utils/DialogComponent";
 import { IconButton } from "@material-ui/core";
@@ -55,8 +55,8 @@ class Index extends Component {
       subjectValue: null,
       conceptValue: null,
       topicValue: "",
-      oldTopicValue: true,
-      isTopicNameValid: false,
+      oldTopicValue: "",
+      isTopicNameValid: true,
       descriptionValue: "",
       imageUrl: null,
       newTaskData: [],
@@ -118,6 +118,10 @@ class Index extends Component {
         });
       }
     });
+    const { snackOpen } = this.state;
+    if (snackOpen === true) {
+      this.setState({ snackOpen: false });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -149,6 +153,9 @@ class Index extends Component {
 
   handleChange = (e) => {
     const { value, name } = e.target;
+    if (name === "topicValue" && value.trim().length === 0) {
+      this.setState({ isTopicNameValid: true });
+    }
     if (name === "imageUrl") {
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
@@ -192,8 +199,8 @@ class Index extends Component {
     const { conceptValue, oldTopicValue } = this.state;
     this.props.validTopicName(conceptValue, value, (res) => {
       if (res.success || oldTopicValue === value)
-        this.setState({ isTopicNameValid: false });
-      else this.setState({ isTopicNameValid: true });
+        this.setState({ isTopicNameValid: true });
+      else this.setState({ isTopicNameValid: false });
     });
   };
 
@@ -209,7 +216,8 @@ class Index extends Component {
     });
   };
 
-  handleTopicSaveButton = () => {
+  handleTopicSaveButton = (e) => {
+    e.preventDefault();
     const {
       topicValue,
       descriptionValue,
