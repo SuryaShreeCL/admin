@@ -182,7 +182,9 @@ export const publishTopic = (topicId, callback) => {
         callback(response.data);
       })
       .catch(error => {
-        console.log(error);
+        callback(error.esponse.data);
+
+        // console.log(error);
       });
   };
 };
