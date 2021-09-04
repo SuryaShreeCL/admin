@@ -21,12 +21,10 @@ class TestAddButtonCard extends Component {
     popUpId,
     handleDelete
   ) => {
-    if (Array.isArray(questions) || questions.data.questions.length === 0) {
-      return <CenteredImg src={Freepik} />;
-    } else if (questions.data.questions.length > 0) {
+    if (questions !== null && questions.length !== 0) {
       return (
         <>
-          {questions.data.questions.map((question, index) => {
+          {questions.map((question, index) => {
             return (
               <Question id={question.id}>
                 <div style={{ flex: 1 }}>
@@ -41,7 +39,7 @@ class TestAddButtonCard extends Component {
                 <Menu
                   questionId={question.id}
                   handleClose={handleClose}
-                  open={popUpId === question.id}
+                  open={anchorEl}
                   anchorEl={anchorEl}
                   handleDelete={handleDelete}
                 />
@@ -50,6 +48,8 @@ class TestAddButtonCard extends Component {
           })}
         </>
       );
+    } else {
+      return <CenteredImg src={Freepik} />;
     }
   };
 

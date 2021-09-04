@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { StyledTaps } from "../../../Utils/Tabs";
-import DropDown from "../../../Utils/DropDown";
 import {
   Divider,
   TabContainer,
@@ -12,7 +11,7 @@ import { AddButton } from "../../../Utils/Buttons";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import { MoreVertRounded } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
-import Menu from "./Menu";
+import Menu from "../../CourseMaterials/Menu";
 import {
   FormControl,
   OutlinedInput,
@@ -29,16 +28,14 @@ class CalibrationTestCard extends Component {
     const {
       tabValue,
       tabLabels,
-      totalSection,
       sectionChange,
       testData,
       tabChange,
       testPropertiesChange,
       sectionInstructionChange,
       handleClose,
-      popUpId,
       anchorEl,
-      handleDelete,
+      handleMenuItemDelete,
       handleThreeDotClick,
     } = this.props.data;
     return (
@@ -68,16 +65,16 @@ class CalibrationTestCard extends Component {
             <TabThreeDot>
               <IconButton
                 style={{ padding: "0px" }}
-                onClick={(event) => handleThreeDotClick(event, tabValue)}
+                onClick={handleThreeDotClick}
               >
                 <MoreVertRounded style={{ fill: "#1093ff" }} />
               </IconButton>
               <Menu
                 questionId={tabValue}
                 handleClose={handleClose}
-                open={Boolean(anchorEl)}
+                open={anchorEl}
                 anchorEl={anchorEl}
-                handleDelete={() => handleDelete("sectionDelete")}
+                handleDelete={handleMenuItemDelete}
               />
             </TabThreeDot>
           )}

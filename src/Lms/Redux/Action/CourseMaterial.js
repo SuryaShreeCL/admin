@@ -430,3 +430,28 @@ export const uploadTopicImage = (image, callback) => {
       });
   };
 };
+
+export const draftTopic = (topicId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Draft`,
+        {},
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};

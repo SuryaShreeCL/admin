@@ -63,6 +63,7 @@ class Add extends Component {
       calibrationTotalSection: null,
       calibrationActiveSectionTab: 0,
       calibrationSectionTabLabels: [],
+      questions: [],
       snackOpen: false,
       snackType: "success",
       message: "",
@@ -72,12 +73,13 @@ class Add extends Component {
         duration: null,
         noOfQuestions: null,
       },
-      sectionDelete: false,
       anchorEl: null,
       popUpId: null,
 
       dialogStatus: false,
       dialogContent: null,
+      sectionDialogOpen: false,
+      sectionAnchorEl: null,
     };
   }
 
@@ -155,6 +157,7 @@ class Add extends Component {
           calibrationSectionTabLabels: tabArr,
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
+          questions: questionSet.questions,
         });
       }
 
@@ -168,6 +171,7 @@ class Add extends Component {
           nameDescription: questionSet.nameDescription,
           topicTestSections: questionSet.testSection[0],
           sectionId: questionSet.testSection[0].id,
+          questions: questionSet.questions,
         });
       }
 
@@ -177,6 +181,7 @@ class Add extends Component {
           courseId: questionSet.course,
           type: questionSet.type,
           topicId: questionSet.topic,
+          questions: questionSet.questions,
         });
       }
 
@@ -256,8 +261,9 @@ class Add extends Component {
     this.setState({
       dialogStatus: false,
       dialogContent: null,
-      sectionDelete: false,
       anchorEl: null,
+      sectionAnchorEl: null,
+      sectionDialogOpen: false,
     });
   };
 
@@ -267,7 +273,8 @@ class Add extends Component {
       dialogContent: null,
       anchorEl: null,
       popUpId: null,
-      sectionDelete: false,
+      sectionAnchorEl: null,
+      sectionDialogOpen: false,
     });
   };
 
@@ -555,19 +562,23 @@ class Add extends Component {
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null, popUpId: null });
+    this.setState({ anchorEl: null, popUpId: null, sectionAnchorEl: null });
   };
 
-  handleDelete = (name) => {
-    if (name !== undefined && name === "sectionDelete") {
-      this.setState({
-        dialogStatus: true,
-        dialogContent: sectionDialogContent,
-        sectionDelete: true,
-      });
-    } else {
-      this.setState({ dialogStatus: true, dialogContent: dialogContent });
-    }
+  handleDelete = () => {
+    this.setState({ dialogStatus: true, dialogContent: dialogContent });
+  };
+
+  handleSectionThreeDotClick = (event) => {
+    this.setState({
+      sectionAnchorEl: event.currentTarget,
+    });
+  };
+
+  handleMenuItemDelete = () => {
+    this.setState({
+      sectionDialogOpen: true,
+    });
   };
 
   removeArrayItem = (arr, index) => {
@@ -659,6 +670,9 @@ class Add extends Component {
       dialogStatus,
       dialogContent,
       sectionDelete,
+      questions,
+      sectionDialogOpen,
+      sectionAnchorEl,
     } = this.state;
     const { courses, topics } = this.props;
     const id = QueryString.parse(this.props.location.search, {
@@ -673,6 +687,8 @@ class Add extends Component {
       handleCloseIconClick,
       handlePrimaryButtonClick,
       handleSectionDelete,
+      handleMenuItemDelete,
+      handleSectionThreeDotClick,
     } = this;
 
     return (
@@ -807,10 +823,9 @@ class Add extends Component {
               testPropertiesChange: this.handleCalibrationTestProperties,
               sectionInstructionChange: this.handleSectionInstructionChange,
               handleClose: handleClose,
-              popUpId: popUpId,
-              anchorEl: anchorEl,
-              handleDelete: handleDelete,
-              handleThreeDotClick: handleThreeDotClick,
+              anchorEl: sectionAnchorEl,
+              handleMenuItemDelete: handleMenuItemDelete,
+              handleThreeDotClick: handleSectionThreeDotClick,
             }}
           />
         )}
@@ -829,9 +844,7 @@ class Add extends Component {
             sectionData={calibrationTestData}
             tabValue={calibrationActiveSectionTab}
             id={testQuestionSetId}
-            questions={
-              testQuestionSetId !== null ? this.props.testQuestionSet : []
-            }
+            questions={questions}
             handleThreeDotClick={handleThreeDotClick}
             handleClose={handleClose}
             anchorEl={anchorEl}
@@ -840,13 +853,18 @@ class Add extends Component {
           />
         )}
         <DialogComponent
+          open={sectionDialogOpen}
+          dialogContent={sectionDialogContent}
+          handleButton1Click={handleButton1Click}
+          handleCloseIconClick={handleCloseIconClick}
+          handleButton2Click={handleSectionDelete}
+        />
+        <DialogComponent
           open={dialogStatus}
           dialogContent={dialogContent}
           handleButton1Click={handleButton1Click}
           handleCloseIconClick={handleCloseIconClick}
-          handleButton2Click={
-            sectionDelete ? handleSectionDelete : handlePrimaryButtonClick
-          }
+          handleButton2Click={handlePrimaryButtonClick}
         />
         <SnackBar
           snackData={{

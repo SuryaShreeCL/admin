@@ -385,6 +385,7 @@ export const TabThreeDot = styled.div`
 export const ImageUploadButton = styled.input`
   padding: 14px;
   opacity: 0;
+  width: 100%;
 `;
 
 export const ImageUploadBox = styled.div`
@@ -392,6 +393,7 @@ export const ImageUploadBox = styled.div`
   border-radius: 4px;
   color: #052a4e;
   overflow: hidden;
+  height: 56.5px;
   &:hover {
     border: 1px solid #000000de;
   }
@@ -400,13 +402,13 @@ export const ImageUploadBox = styled.div`
 export const ImageContent = styled.label`
   position: absolute;
   left: 15px;
-  top: 17px;
+  top: 18px;
 `;
 
 export const UploadIcon = styled.img`
   position: absolute;
   right: 12px;
-  top: 14px;
-  height: 28px;
-  width: 28px;
+  top: 15px;
+  height: 26px;
+  width: 26px;
 `;

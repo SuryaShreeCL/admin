@@ -16,6 +16,7 @@ import {
   publishTopic,
   reviewTopic,
   approveTopic,
+  draftTopic,
 } from '../../Redux/Action/CourseMaterial';
 import DialogComponent from '../../Utils/DialogComponent';
 import PaginationComponent from '../../Utils/PaginationComponent';
@@ -24,6 +25,8 @@ import DataTable from './DataTable';
 import DropDownRack from './DropDownRack';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import UnarchiveIcon from '@material-ui/icons/Unarchive';
+
 // import { approveTopic } from "../../Redux/Action/Test";
 
 const INITIAL_PAGE_NO = 0;
@@ -138,68 +141,48 @@ class CourseLanding extends Component {
     });
   };
 
+  // Fail response
+  handleFail = response => {
+    this.setState({
+      alertState: true,
+      alertMsg: response.message,
+      alertSeverity: 'error',
+    });
+    this.handleCloseIconClick();
+  };
+
+  handleSuccess = response => {
+    this.props.getTopics(
+      this.state.conceptId,
+      INITIAL_PAGE_NO,
+      INITIAL_SEARCH_TEXT,
+      topicResponse => {}
+    );
+    this.handleCloseIconClick();
+  };
+
   handleButton2Click = () => {
     if (this.state.dialogContent.type === 'archive')
       this.props.deleteTopic(this.state.popUpId, response => {
-        if (response.success) {
-          this.props.getTopics(
-            this.state.conceptId,
-            INITIAL_PAGE_NO,
-            INITIAL_SEARCH_TEXT,
-            topicResponse => {}
-          );
-          this.handleCloseIconClick();
-        } else {
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: 'error',
-          });
-          this.handleCloseIconClick();
-        }
+        if (response.success) this.handleSuccess(response);
+        else this.handleFail(response);
       });
     else if (this.state.dialogContent.type === 'publish')
       this.props.publishTopic(this.state.popUpId, response => {
-        if (response.success) {
-          this.props.getTopics(
-            this.state.conceptId,
-            INITIAL_PAGE_NO,
-            INITIAL_SEARCH_TEXT,
-            topicResponse => {}
-          );
-          this.handleCloseIconClick();
-        } else {
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: 'error',
-          });
-          this.handleCloseIconClick();
-        }
+        if (response.success) this.handleSuccess(response);
+        else this.handleFail(response);
+      });
+    else if (this.state.dialogContent.type === 'unarchive')
+      this.props.draftTopic(this.state.popUpId, response => {
+        if (response.success) this.handleSuccess(response);
       });
     else if (this.state.dialogContent.type === 'review')
       this.props.reviewTopic(this.state.popUpId, response => {
-        if (response.success) {
-          this.props.getTopics(
-            this.state.conceptId,
-            INITIAL_PAGE_NO,
-            INITIAL_SEARCH_TEXT,
-            topicResponse => {}
-          );
-          this.handleCloseIconClick();
-        }
+        if (response.success) this.handleSuccess(response);
       });
     else if (this.state.dialogContent.type === 'approve')
       this.props.approveTopic(this.state.popUpId, response => {
-        if (response.success) {
-          this.props.getTopics(
-            this.state.conceptId,
-            INITIAL_PAGE_NO,
-            INITIAL_SEARCH_TEXT,
-            topicResponse => {}
-          );
-          this.handleCloseIconClick();
-        }
+        if (response.success) this.handleSuccess(response);
       });
   };
 
@@ -210,8 +193,18 @@ class CourseLanding extends Component {
     } else if (text === 'Archive') {
       const dialogContent = {
         type: 'archive',
-        icon: <ArchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
+        icon: <UnarchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
         title: 'Are you sure you want to Archive?',
+        body: topicName,
+        button1: 'No',
+        button2: 'Yes',
+      };
+      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    } else if (text === 'Unarchive') {
+      const dialogContent = {
+        type: 'unarchive',
+        icon: <UnarchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
+        title: 'Are you sure you want to Unarchive?',
         body: topicName,
         button1: 'No',
         button2: 'Yes',
@@ -445,4 +438,5 @@ export default connect(mapStateToProps, {
   publishTopic,
   reviewTopic,
   approveTopic,
+  draftTopic,
 })(CourseLanding);
