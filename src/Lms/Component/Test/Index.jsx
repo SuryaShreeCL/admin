@@ -105,7 +105,7 @@ class TestLanding extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
       let paramObj = {
-        page: this.state.currentPage,
+        page: INITIAL_PAGE_NO,
         testType:
           this.state.testType !== 'default' ? this.state.testType : null,
         topicId: this.state.topicId !== 'default' ? this.state.topicId : null,

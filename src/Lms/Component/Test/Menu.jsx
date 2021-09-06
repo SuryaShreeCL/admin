@@ -55,6 +55,7 @@ export default function Menu(props) {
     }
     if (status === 'In Review') {
       array.splice(2, 1);
+      array.splice(3, 1);
       return array;
     }
     if (status === 'Approved') {

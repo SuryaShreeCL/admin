@@ -162,3 +162,9 @@
 .padding_left {
   padding-left: 16px;
 }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
