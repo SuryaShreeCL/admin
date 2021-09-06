@@ -64,7 +64,7 @@ class CalibrationTestCard extends Component {
           {tabValue > 0 && testData.length !== 0 && (
             <TabThreeDot>
               <IconButton
-                style={{ padding: "0px" }}
+                style={{ padding: "3px" }}
                 onClick={handleThreeDotClick}
               >
                 <MoreVertRounded style={{ fill: "#1093ff" }} />
