@@ -15,7 +15,7 @@ import Controls from '../../Utils/controls/Controls';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
-import { DatePicker, TimePicker } from '@material-ui/pickers';
+import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
@@ -91,7 +91,7 @@ export default function ScheduleLater(props) {
                     style={{ width: '100%' }}
                   >
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DatePicker
+                      <DateTimePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -99,18 +99,17 @@ export default function ScheduleLater(props) {
                             </InputAdornment>
                           ),
                         }}
-                        value={values.selectedDate}
+                        value={values.eventDate}
                         disablePast
-                        name='selectedDate'
+                        name='eventDate'
                         inputVariant='outlined'
                         onChange={(val) => {
-                          setFieldValue('selectedDate', val);
+                          setFieldValue('eventDate', val);
                         }}
-                        label='Start Date'
                       />
                     </MuiPickersUtilsProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DatePicker
+                      <DateTimePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -118,55 +117,14 @@ export default function ScheduleLater(props) {
                             </InputAdornment>
                           ),
                         }}
-                        value={values.selectedDate}
+                        value={values.eventDate}
+                        style={{ marginLeft: '1.5rem' }}
                         disablePast
-                        name='selectedDate'
+                        name='eventDate'
                         inputVariant='outlined'
                         onChange={(val) => {
-                          setFieldValue('selectedDate', val);
+                          setFieldValue('eventDate', val);
                         }}
-                        label='Start Date'
-                      />
-                    </MuiPickersUtilsProvider>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <TimePicker
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position='start'>
-                              <ScheduleIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        style={{ marginTop: '1.5rem' }}
-                        value={values.selectedDate}
-                        disablePast
-                        name='selectedDate'
-                        inputVariant='outlined'
-                        onChange={(val) => {
-                          setFieldValue('selectedDate', val);
-                        }}
-                        label='Start Time'
-                      />
-                    </MuiPickersUtilsProvider>
-
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <TimePicker
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position='start'>
-                              <ScheduleIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={values.selectedDate}
-                        disablePast
-                        style={{ marginTop: '1.5rem' }}
-                        name='selectedDate'
-                        inputVariant='outlined'
-                        onChange={(val) => {
-                          setFieldValue('selectedDate', val);
-                        }}
-                        label='End Time'
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>

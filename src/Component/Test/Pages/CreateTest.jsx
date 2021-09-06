@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ButtonsContainer, CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
-import { DatePicker, TimePicker } from '@material-ui/pickers';
+import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EventIcon from '@material-ui/icons/Event';
@@ -18,7 +18,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
+import { createWallPost, getWallCategories, listWallPosts } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { testPath, wallPath } from '../../RoutePaths';
@@ -51,19 +51,20 @@ const CreateTest = () => {
   const history = useHistory();
 
   const [state, setState] = useState({
-    wallCategories: [],
+    name: '',
+    type: 'EVENT',
+    description: [],
     duration: 0,
-    supportingMedia: 'image',
-    wallFiles: [],
     noOfQuestions: 0,
-    testName: '',
-    createdBy: window.sessionStorage.getItem('department') || '',
-    eventDate: new Date(),
-    resumeNeeded: false,
-    eventEndDate: new Date(),
-    selectedDate: new Date(),
-    description: '',
-    activeStatus: 'Live',
+    descriptionTitle: '',
+    nameDescription: '',
+    startDateTime: new Date(),
+    endDateTime: new Date(),
+    eventPost: { id: '' },
+    score: 0,
+    wallCategory: [],
+    wallFiles: [],
+    testSections: [],
   });
 
   const durations = [
@@ -89,9 +90,13 @@ const CreateTest = () => {
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
+    dispatch(listWallPosts('Live', true));
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
+  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  console.log(posts);
+  const Events = posts.map((evnt) => ({ value: evnt.id, label: evnt.eventTitle }));
 
   const validate = (values) => {
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
@@ -164,7 +169,7 @@ const CreateTest = () => {
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <h6>Question Details</h6>
                   <Grid container direction='row' justify='space-between'>
-                    <Grid item style={{ width: '48%' }}>
+                    <Grid item style={{ width: '30%' }}>
                       <Controls.Input
                         label='Test Name'
                         name='testName'
@@ -173,7 +178,7 @@ const CreateTest = () => {
                         onChange={handleChange}
                       />
                     </Grid>
-                    <Grid item style={{ width: '48%' }}>
+                    <Grid item style={{ width: '30%' }}>
                       <FormControl className={classes.root} style={{ width: '100%' }}>
                         <Autocomplete
                           multiple
@@ -199,6 +204,26 @@ const CreateTest = () => {
                           )}
                         />
                       </FormControl>
+                    </Grid>
+                    <Grid item style={{ width: '30%', zIndex: '77' }}>
+                      <Autocomplete
+                        options={posts}
+                        getOptionLabel={(option) => option.eventTitle}
+                        name='eventPost.id'
+                        disableClearable
+                        disabled={loading}
+                        onChange={(e, value) => {
+                          setFieldValue('eventPost.id', value !== null ? value.id : categories);
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant='outlined'
+                            label='Select Event'
+                            margin='normal'
+                          />
+                        )}
+                      />
                     </Grid>
                   </Grid>
                   <Grid item>
@@ -236,8 +261,8 @@ const CreateTest = () => {
                     </Grid>
                     <Grid item style={{ width: '30%' }}>
                       <Controls.Select
-                        label=' Select Module'
-                        name='module'
+                        label='Score'
+                        name='score'
                         size='100%'
                         onChange={handleChange}
                         options={durations}
@@ -272,10 +297,10 @@ const CreateTest = () => {
                     container
                     direction='row'
                     justify='space-between'
-                    style={{ width: '100%', marginTop: '1.5rem' }}
+                    style={{ width: '50%', marginTop: '1.5rem' }}
                   >
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DatePicker
+                      <DateTimePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -283,18 +308,18 @@ const CreateTest = () => {
                             </InputAdornment>
                           ),
                         }}
-                        value={values.selectedDate}
+                        value={values.startDateTime}
                         disablePast
-                        name='selectedDate'
+                        name='startDateTime'
                         inputVariant='outlined'
                         onChange={(val) => {
-                          setFieldValue('selectedDate', val);
+                          setFieldValue('startDateTime', val);
                         }}
-                        label='Start Date'
+                        label='Start Date & Time'
                       />
                     </MuiPickersUtilsProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <TimePicker
+                      <DateTimePicker
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -302,57 +327,19 @@ const CreateTest = () => {
                             </InputAdornment>
                           ),
                         }}
-                        value={values.selectedDate}
+                        value={values.endDateTime}
                         disablePast
-                        name='selectedDate'
+                        name='endDateTime'
                         inputVariant='outlined'
                         onChange={(val) => {
-                          setFieldValue('selectedDate', val);
+                          setFieldValue('endDateTime', val);
                         }}
-                        label='Start Time'
-                      />
-                    </MuiPickersUtilsProvider>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DatePicker
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position='start'>
-                              <EventIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={values.selectedDate}
-                        disablePast
-                        name='selectedDate'
-                        inputVariant='outlined'
-                        onChange={(val) => {
-                          setFieldValue('selectedDate', val);
-                        }}
-                        label='Start Date'
-                      />
-                    </MuiPickersUtilsProvider>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <TimePicker
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position='start'>
-                              <ScheduleIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={values.selectedDate}
-                        disablePast
-                        name='selectedDate'
-                        inputVariant='outlined'
-                        onChange={(val) => {
-                          setFieldValue('selectedDate', val);
-                        }}
-                        label='End Time'
+                        label='End Date & Time'
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>
 
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
                     <Button
                       color='primary'
