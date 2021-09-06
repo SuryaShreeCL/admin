@@ -31,7 +31,7 @@ class TestAddButtonCard extends Component {
                   {index + 1}. {question.question}
                 </div>
                 <IconButton
-                  style={{ padding: "0px" }}
+                  style={{ padding: "3px", height: "30px", margin: "auto 0px" }}
                   onClick={(event) => handleThreeDotClick(event, question.id)}
                 >
                   <MoreVertRounded style={{ fill: "#1093ff" }} />

@@ -146,7 +146,7 @@ export const IconContainer = styled.div`
 export const HeadText = styled.div`
   font-style: normal;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 30px;
   text-align: center;
   color: #052a4e;
@@ -378,8 +378,8 @@ export const C1 = styled.div`
 
 export const TabThreeDot = styled.div`
   position: absolute;
-  top: 12px;
-  right: 16px;
+  top: 10px;
+  right: 10px;
 `;
 
 export const ImageUploadButton = styled.input`
