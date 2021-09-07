@@ -182,7 +182,9 @@ export const publishTopic = (topicId, callback) => {
         callback(response.data);
       })
       .catch(error => {
-        console.log(error);
+        callback(error.esponse.data);
+
+        // console.log(error);
       });
   };
 };
@@ -311,7 +313,7 @@ export const createFileUpload = (masterId, data, callback) => {
       })
       .catch(error => {
         if (error.response) callback(error.response.data);
-        else callback({ message: 'file not uploaded' });
+        else callback({ response: false, message: 'file not uploaded' });
 
         // console.log(error);
       });
@@ -348,6 +350,93 @@ export const approveTopic = (topicId, callback) => {
     axios
       .put(
         `${DEV_LMS}/api/v1/topics/${topicId}/status/Approved`,
+        {},
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const deleteTask = (taskId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return () => {
+    axios
+      .delete(`${URL}/api/v1/tasks/${taskId}`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => console.log(error));
+  };
+};
+
+export const validTopicName = (conceptId, topicName, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return () => {
+    axios
+      .post(
+        DEV_LMS + `/api/v1/topic/concept/${conceptId}/name`,
+        { name: topicName },
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const uploadTopicImage = (image, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return () => {
+    axios
+      .post(DEV_LMS + `/api/v1/files/upload/concept/topic/image`, image, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const draftTopic = (topicId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/topics/${topicId}/status/Draft`,
         {},
 
         {

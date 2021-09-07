@@ -6,14 +6,16 @@ import { MuiMenu } from '../../Assets/StyledTableComponents';
 import { MenuItem, ListItemIcon, Typography } from '@material-ui/core';
 import PublishIcon from '../../Assets/icons/Publish.svg';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
 export default function Menu(props) {
   const ROLES = { editor: 'LMSEDITOR', checker: 'LMSCHECKER' };
 
-  const editorChoices = [
+  const makerChoices = [
     { text: 'Send Review', icon: <ShareIcon style={{ fill: '#1093ff' }} /> },
     { text: 'Edit', icon: <EditIcon style={{ fill: '#1093FF' }} /> },
     { text: 'Archive', icon: <ArchiveIcon style={{ fill: '#1093ff' }} /> },
+    { text: 'Unarchive', icon: <UnarchiveIcon style={{ fill: '#1093ff' }} /> },
   ];
 
   const checkerChoices = [
@@ -21,13 +23,21 @@ export default function Menu(props) {
     { text: 'Archive', icon: <ArchiveIcon style={{ fill: '#1093ff' }} /> },
     { text: 'Approve', icon: <ThumbUpIcon style={{ fill: '#1093ff' }} /> },
     { text: 'Publish Now', icon: <img src={PublishIcon} alt='Publish' /> },
+    { text: 'Unarchive', icon: <UnarchiveIcon style={{ fill: '#1093ff' }} /> },
   ];
 
   const filterMaker = (array, status) => {
-    if (status === 'Pending') {
-      array.length = 2;
+    // if (status === 'Pending') {
+    //   array.length = 2;
+    //   return array;
+    // } else return array;
+    if (status === 'Draft') {
+      array.length = 3;
       return array;
-    } else return array;
+    }
+    if (status === 'Archived') {
+      return array.splice(3, 1);
+    } else return [];
   };
 
   const filterChecker = (array, status) => {
@@ -35,20 +45,23 @@ export default function Menu(props) {
       array.length = 3;
       return array;
     }
-    if (status === 'Pending') {
-      array.length = 3;
-      array.splice(1, 1);
-      return array;
+    if (status === 'Archived') {
+      // array.length = 3;
+      // array.splice(1, 1);
+      return array.splice(4, 1);
     }
     if (status === 'Live') {
       return array.splice(1, 1);
     }
     if (status === 'In Review') {
       array.splice(2, 1);
+      array.splice(3, 1);
       return array;
     }
     if (status === 'Approved') {
       array.splice(2, 1);
+      array.splice(3, 1);
+      // console.log(array);
       return array;
     } else return [];
   };
@@ -75,7 +88,7 @@ export default function Menu(props) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         onClose={handleClose}
       >
-        {filterMaker(editorChoices, status).map(item => (
+        {filterMaker(makerChoices, status).map(item => (
           <MenuItem onClick={() => handleOptions(item.text, name, topicId)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <Typography className={'menu-item-text'}>{item.text}</Typography>

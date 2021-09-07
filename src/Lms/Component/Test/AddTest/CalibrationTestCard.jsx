@@ -1,18 +1,23 @@
 import React, { Component, Fragment } from "react";
 import { StyledTaps } from "../../../Utils/Tabs";
-import DropDown from "../../../Utils/DropDown";
-import { Divider, TabContainer } from "../../../Assets/StyledComponents";
+import {
+  Divider,
+  TabContainer,
+  TabThreeDot,
+} from "../../../Assets/StyledComponents";
 import { InputTextField } from "../../../Utils/TextField";
 import { AutocompleteText } from "../../../Utils/Autocomplete";
 import { AddButton } from "../../../Utils/Buttons";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import { MoreVertRounded } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
+import Menu from "../../CourseMaterials/Menu";
 import {
   FormControl,
   OutlinedInput,
   InputLabel,
   Grid,
   InputAdornment,
-  Button,
 } from "@material-ui/core";
 class CalibrationTestCard extends Component {
   constructor(props) {
@@ -23,33 +28,20 @@ class CalibrationTestCard extends Component {
     const {
       tabValue,
       tabLabels,
-      totalSection,
       sectionChange,
       testData,
       tabChange,
       testPropertiesChange,
-      subjects,
       sectionInstructionChange,
+      handleClose,
+      anchorEl,
+      handleMenuItemDelete,
+      handleThreeDotClick,
     } = this.props.data;
     return (
       <>
         <Divider />
         <Grid container spacing={3} justifyContent={"flex-end"}>
-          {/* <DropDown
-              label="Number of Section"
-              name="section"
-              items={
-                (subjects.length !== 0 &&
-                  subjects.map((item, number) => ({
-                    id: number + 1,
-                    title: number + 1,
-                  }))) ||
-                []
-              }
-              value={totalSection || undefined}
-              onChange={sectionChange}
-              placeHolder="Number of Section"
-            /> */}
           <AddButton
             style={{
               background: "none",
@@ -69,6 +61,23 @@ class CalibrationTestCard extends Component {
           </AddButton>
         </Grid>
         <TabContainer style={{ margin: "24px 0px 30px 0px" }}>
+          {tabValue > 0 && testData.length !== 0 && (
+            <TabThreeDot>
+              <IconButton
+                style={{ padding: "3px" }}
+                onClick={handleThreeDotClick}
+              >
+                <MoreVertRounded style={{ fill: "#1093ff" }} />
+              </IconButton>
+              <Menu
+                questionId={tabValue}
+                handleClose={handleClose}
+                open={anchorEl}
+                anchorEl={anchorEl}
+                handleDelete={handleMenuItemDelete}
+              />
+            </TabThreeDot>
+          )}
           <StyledTaps
             tabsData={{
               tabId: tabValue - 1,
@@ -81,36 +90,18 @@ class CalibrationTestCard extends Component {
           />
         </TabContainer>
         {testData.map((item, index) => {
-          var sliceName = testData
-            .filter(
-              (subject) =>
-                subject.name !== item.name &&
-                subject.name !== null &&
-                subject.name.trim().length !== 0
-            )
-            .map((subjectName) => subjectName.name);
           return (
             <Fragment key={index}>
               <div hidden={tabValue !== index + 1}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={4}>
-                    <DropDown
-                      label="Section name"
+                    <InputTextField
                       name="name"
-                      items={
-                        (subjects.length !== 0 &&
-                          subjects
-                            .filter((item) => sliceName.indexOf(item.label))
-                            .map((item) => ({
-                              id: item.label,
-                              title: item.label,
-                            }))) ||
-                        []
-                      }
-                      value={item.name !== null ? item.name : ""}
                       onChange={(e) => testPropertiesChange(index, e)}
-                      placeHolder="Subject"
-                      key={item}
+                      value={item.name}
+                      label="Section Name"
+                      placeholder="Section Name"
+                      height="11px"
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>

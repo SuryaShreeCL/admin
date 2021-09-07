@@ -5,6 +5,11 @@ const initialState = {
   taskTopic: [],
   products: [],
   lmsProducts: {},
+  strengthWeakness : null,
+  studyPlan: null,
+  calibrationTest : null,
+  topicTest : null,
+  topicTestReport : null
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -25,6 +30,36 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         lmsProducts: action.payload,
+      };
+    }
+    case STUDENT.strengthWeaknessExport: {
+      return {
+        ...state,
+        strengthWeakness: action.payload,
+      };
+    }
+    case STUDENT.studyPlanExport: {
+      return {
+        ...state,
+        studyPlan: action.payload,
+      };
+    }
+    case STUDENT.calibrationTestExport: {
+      return {
+        ...state,
+        calibrationTest: action.payload,
+      };
+    }
+    case STUDENT.topicTestExport: {
+      return {
+        ...state,
+        topicTest: action.payload,
+      };
+    }
+    case STUDENT.topicTestReportExport: {
+      return {
+        ...state,
+        topicTestReport: action.payload,
       };
     }
     case STUDENT.studentLmsProduct: {

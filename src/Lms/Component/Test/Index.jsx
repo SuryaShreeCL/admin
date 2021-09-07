@@ -12,6 +12,7 @@ import {
   reviewTest,
   approveTest,
   publishTest,
+  draftTest,
 } from '../../Redux/Action/Test';
 import PaginationComponent from '../../Utils/PaginationComponent';
 import DialogComponent from '../../Utils/DialogComponent';
@@ -22,6 +23,7 @@ import PublishIcon from '../../Assets/icons/Publish.svg';
 import { lms_add_test } from '../../../Component/RoutePaths';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -103,7 +105,7 @@ class TestLanding extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
       let paramObj = {
-        page: this.state.currentPage,
+        page: INITIAL_PAGE_NO,
         testType:
           this.state.testType !== 'default' ? this.state.testType : null,
         topicId: this.state.topicId !== 'default' ? this.state.topicId : null,
@@ -136,6 +138,16 @@ class TestLanding extends Component {
         type: 'archive',
         icon: <ArchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
         title: 'Are you sure you want to Archive?',
+        body: topicName,
+        button1: 'No',
+        button2: 'Yes',
+      };
+      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    } else if (text === 'Unarchive') {
+      const dialogContent = {
+        type: 'unarchive',
+        icon: <UnarchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
+        title: 'Are you sure you want to Unarchive?',
         body: topicName,
         button1: 'No',
         button2: 'Yes',
@@ -231,6 +243,22 @@ class TestLanding extends Component {
           this.handleCloseIconClick();
         }
       });
+    } else if (this.state.dialogContent.type === 'unarchive') {
+      this.props.draftTest(this.state.popUpId, response => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== 'default' ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== 'default' ? this.state.topicId : null,
+            status: this.state.status !== 'default' ? this.state.status : null,
+          };
+          this.props.getQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        }
+      });
     } else if (this.state.dialogContent.type === 'approve') {
       this.props.approveTest(this.state.popUpId, response => {
         if (response.success) {
@@ -260,6 +288,14 @@ class TestLanding extends Component {
             status: this.state.status !== 'default' ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        } else {
+          // console.log(response);
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: 'error',
+          });
           this.handleCloseIconClick();
         }
       });
@@ -379,4 +415,5 @@ export default connect(mapStateToProps, {
   reviewTest,
   approveTest,
   publishTest,
+  draftTest,
 })(TestLanding);

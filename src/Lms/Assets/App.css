@@ -71,7 +71,17 @@
   text-align: center !important;
 }
 ::-webkit-scrollbar {
-  display: none;
+  /* display: none; */
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a2d5ff;
+  border-radius: 25px;
 }
 
 .delete_modal {
@@ -151,4 +161,10 @@
 
 .padding_left {
   padding-left: 16px;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
 }

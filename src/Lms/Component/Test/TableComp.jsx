@@ -30,12 +30,19 @@ const headText = [
   '',
 ];
 
-const handleOpen = (itemId, popUpId, role, status) => {
-  // console.log(status);
-  // console.log(role === 'LMSEDITOR' && status === 'Live');
-  if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
-    return false;
-  else return itemId === popUpId;
+// const handleOpen = (itemId, popUpId, role, status) => {
+//   // console.log(status);
+//   // console.log(role === 'LMSEDITOR' && status === 'Live');
+//   if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
+//     return false;
+//   else return itemId === popUpId;
+// };
+
+const handleShowThreeDot = (role, status) => {
+  return !(
+    role === 'LMSEDITOR' &&
+    (status === 'Live' || status === 'In Review' || status === 'Approved')
+  );
 };
 
 export default function TableComp(props) {
@@ -238,25 +245,29 @@ export default function TableComp(props) {
                   <BodyCell>{item.topicName}</BodyCell>
                   <BodyCell>{item.status}</BodyCell>
                   <BodyCell>
-                    <IconButton
-                      aria-controls={item.id}
-                      aria-haspopup='true'
-                      onClick={event => handleThreeDotClick(event, item.id)}
-                      style={{ padding: '0px' }}
-                    >
-                      <MoreVertRounded style={{ fill: '#1093FF' }} />
-                    </IconButton>
-                    <Menu
-                      role={role}
-                      anchorEl={anchorEl}
-                      // open={item.id === popUpId}
-                      open={handleOpen(item.id, popUpId, role, item.status)}
-                      handleClose={handleClose}
-                      status={item.status}
-                      handleOptions={handleOptions}
-                      name={item.name}
-                      topicId={item.id}
-                    />
+                    {handleShowThreeDot(role, item.status) && (
+                      <div>
+                        <IconButton
+                          aria-controls={item.id}
+                          aria-haspopup='true'
+                          onClick={event => handleThreeDotClick(event, item.id)}
+                          style={{ padding: '0px' }}
+                        >
+                          <MoreVertRounded style={{ fill: '#1093FF' }} />
+                        </IconButton>
+                        <Menu
+                          role={role}
+                          anchorEl={anchorEl}
+                          open={item.id === popUpId}
+                          // open={handleOpen(item.id, popUpId, role, item.status)}
+                          handleClose={handleClose}
+                          status={item.status}
+                          handleOptions={handleOptions}
+                          name={item.name}
+                          topicId={item.id}
+                        />
+                      </div>
+                    )}
                   </BodyCell>
                 </TableRow>
               );

@@ -1,12 +1,8 @@
 import React from "react";
-import { MuiMenu } from "../../../Assets/StyledTableComponents";
+import { MuiMenu } from "../../Assets/StyledTableComponents";
 import { DeleteRounded } from "@material-ui/icons";
-import {
-  MenuItem,
-  ListItemIcon,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
+import { MenuItem, ListItemIcon, makeStyles } from "@material-ui/core";
+
 const useStyle = makeStyles({
   root: {
     height: "44px",
@@ -18,6 +14,7 @@ const useStyle = makeStyles({
     },
   },
 });
+
 export default function Menu(props) {
   const classes = useStyle();
   const choices = [
@@ -34,18 +31,16 @@ export default function Menu(props) {
       open={open}
       anchorEl={anchorEl}
       getContentAnchorEl={null}
-      anchorOrigin={{ vertical: "center", horizontal: "left" }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       onClose={handleClose}
     >
       {choices.map((choice) => (
-        <MenuItem onClick={handleDelete} classes={{ root: classes.root }}>
+        <MenuItem classes={{ root: classes.root }} onClick={handleDelete}>
           <ListItemIcon style={{ minWidth: "36px" }}>
             {choice.icon}
           </ListItemIcon>
-          {/* <Typography className={"menu-item-text"}> */}
           <span>{choice.text}</span>
-          {/* </Typography> */}
         </MenuItem>
       ))}
     </MuiMenu>

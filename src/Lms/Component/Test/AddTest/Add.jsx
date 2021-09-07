@@ -19,9 +19,9 @@ import { getCourses } from "../../../Redux/Action/CourseMaterial";
 import {
   createTestQuestionSet,
   getTopicByCourse,
-  getSubjectsByCourse,
   getTestQuestionSet,
   deleteQuestion,
+  deleteSection,
 } from "../../../Redux/Action/Test";
 import { connect } from "react-redux";
 import QueryString from "qs";
@@ -35,6 +35,14 @@ const dialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
   title: "Are you sure you want to delete this question ?",
+  button1: "No",
+  button2: "Yes",
+};
+
+const sectionDialogContent = {
+  type: "delete",
+  icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
+  title: "Are you sure you want to delete this section ?",
   button1: "No",
   button2: "Yes",
 };
@@ -55,6 +63,7 @@ class Add extends Component {
       calibrationTotalSection: null,
       calibrationActiveSectionTab: 0,
       calibrationSectionTabLabels: [],
+      questions: [],
       snackOpen: false,
       snackType: "success",
       message: "",
@@ -64,12 +73,13 @@ class Add extends Component {
         duration: null,
         noOfQuestions: null,
       },
-
       anchorEl: null,
       popUpId: null,
 
       dialogStatus: false,
       dialogContent: null,
+      sectionDialogOpen: false,
+      sectionAnchorEl: null,
     };
   }
 
@@ -105,88 +115,88 @@ class Add extends Component {
               courseId: response.data[0].courseId,
             });
           }
-          if (type === "CALIBRATION") {
-            this.props.getSubjectsByCourse(response.data[0].courseId);
-          }
         }
       }
     });
 
     // Editable Mode
     if (testQuestionSetId !== undefined) {
-      this.props.getTestQuestionSet(
-        testQuestionSetId,
-        (testQuestionSetResponse) => {
-          if (testQuestionSetResponse.success) {
-            const { testQuestionSet } = this.props;
-            const questionSet =
-              (testQuestionSet.length !== 0 && testQuestionSet.data) || false;
-
-            if (questionSet.type === "CALIBRATION") {
-              let tabArr = [];
-              questionSet.testSection.map((i, index) => {
-                tabArr.push({
-                  tabLabel: `Section ${index + 1}`,
-                });
-              });
-              this.props.getSubjectsByCourse(questionSet.course, () => {});
-              this.setState({
-                testQuestionSetId: questionSet.id,
-                courseId: questionSet.course,
-                name: questionSet.name,
-                type: questionSet.type,
-                description: questionSet.description,
-                descriptionTitle: questionSet.descriptionTitle,
-                nameDescription: questionSet.nameDescription,
-                calibrationTestData: questionSet.testSection,
-                calibrationSectionTabLabels: tabArr,
-                calibrationActiveSectionTab: 1,
-                calibrationTotalSection: questionSet.testSection.length,
-              });
-            }
-
-            if (questionSet.type === "TOPIC") {
-              this.setState({
-                testQuestionSetId: questionSet.id,
-                courseId: questionSet.course,
-                type: questionSet.type,
-                description: questionSet.description,
-                descriptionTitle: questionSet.descriptionTitle,
-                nameDescription: questionSet.nameDescription,
-                topicTestSections: questionSet.testSection[0],
-                sectionId: questionSet.testSection[0].id,
-              });
-            }
-
-            if (questionSet.type === "QUESTIONBANK") {
-              this.setState({
-                testQuestionSetId: questionSet.id,
-                courseId: questionSet.course,
-                type: questionSet.type,
-                topicId: questionSet.topic,
-              });
-            }
-
-            if (
-              questionSet.type === "QUESTIONBANK" ||
-              questionSet.type === "TOPIC"
-            ) {
-              if (questionSet.course !== undefined) {
-                this.props.getTopicByCourse(
-                  questionSet.course,
-                  (topicResponse) => {
-                    if (topicResponse.success) {
-                      this.setState({ topicId: questionSet.topic });
-                    }
-                  }
-                );
-              }
-            }
-          }
-        }
-      );
+      this.props.getTestQuestionSet(testQuestionSetId, () => {});
     }
   }
+
+  componentDidUpdate(prevProps) {
+    const id = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    }).testQuestionSetId;
+    const { testQuestionSetId } = this.state;
+    const { testQuestionSet } = this.props;
+    if (
+      (testQuestionSetId !== null || id !== undefined) &&
+      prevProps.testQuestionSet !== testQuestionSet
+    ) {
+      const questionSet =
+        (testQuestionSet.length !== 0 && testQuestionSet.data) || false;
+
+      if (questionSet.type === "CALIBRATION") {
+        let tabArr = [];
+        questionSet.testSection.map((i, index) => {
+          tabArr.push({
+            tabLabel: `Section ${index + 1}`,
+          });
+        });
+        this.setState({
+          testQuestionSetId: questionSet.id,
+          courseId: questionSet.course,
+          name: questionSet.name,
+          type: questionSet.type,
+          description: questionSet.description,
+          descriptionTitle: questionSet.descriptionTitle,
+          nameDescription: questionSet.nameDescription,
+          calibrationTestData: questionSet.testSection,
+          calibrationSectionTabLabels: tabArr,
+          calibrationActiveSectionTab: 1,
+          calibrationTotalSection: questionSet.testSection.length,
+          questions: questionSet.questions,
+        });
+      }
+
+      if (questionSet.type === "TOPIC") {
+        this.setState({
+          testQuestionSetId: questionSet.id,
+          courseId: questionSet.course,
+          type: questionSet.type,
+          description: questionSet.description,
+          descriptionTitle: questionSet.descriptionTitle,
+          nameDescription: questionSet.nameDescription,
+          topicTestSections: questionSet.testSection[0],
+          sectionId: questionSet.testSection[0].id,
+          questions: questionSet.questions,
+        });
+      }
+
+      if (questionSet.type === "QUESTIONBANK") {
+        this.setState({
+          testQuestionSetId: questionSet.id,
+          courseId: questionSet.course,
+          type: questionSet.type,
+          topicId: questionSet.topic,
+          questions: questionSet.questions,
+        });
+      }
+
+      if (questionSet.type === "QUESTIONBANK" || questionSet.type === "TOPIC") {
+        if (questionSet.course !== undefined) {
+          this.props.getTopicByCourse(questionSet.course, (topicResponse) => {
+            if (topicResponse.success) {
+              this.setState({ topicId: questionSet.topic });
+            }
+          });
+        }
+      }
+    }
+  }
+
   handleTestChange = (event) => {
     const { value } = event.target;
     this.setState({ type: value });
@@ -221,17 +231,11 @@ class Add extends Component {
     const { calibrationSectionTabLabels, calibrationTestData } = this.state;
     let tabArr = [];
     let testArr = [];
-    // if (calibrationSectionTabLabels.length > value) {
-    //   tabArr = calibrationSectionTabLabels.slice(0, value);
-    //   testArr = calibrationTestData.slice(0, value);
-    // }
     tabArr = calibrationSectionTabLabels;
     testArr = calibrationTestData;
-    // for (let i = tabArr.length; i < value; i++) {
     tabArr.push({
       tabLabel: `Section ${calibrationSectionTabLabels.length + 1}`,
     });
-    // if (testArr.length < i + 1) {
     testArr.push({
       id: null,
       name: "",
@@ -257,6 +261,9 @@ class Add extends Component {
     this.setState({
       dialogStatus: false,
       dialogContent: null,
+      anchorEl: null,
+      sectionAnchorEl: null,
+      sectionDialogOpen: false,
     });
   };
 
@@ -266,6 +273,8 @@ class Add extends Component {
       dialogContent: null,
       anchorEl: null,
       popUpId: null,
+      sectionAnchorEl: null,
+      sectionDialogOpen: false,
     });
   };
 
@@ -282,14 +291,32 @@ class Add extends Component {
         this.props.history.push(bulk_upload + `/${testQuestionSetId}`);
       } else {
         if (type === "CALIBRATION") {
-          var calibrationSectionId =
-            (calibrationTestData.length !== 0 &&
-              calibrationTestData[calibrationActiveSectionTab - 1].id) ||
-            "";
-          this.props.history.push(
-            bulk_upload +
-              `/${testQuestionSetId}/${calibrationSectionId}/${type}`
-          );
+          if (calibrationTestData.length !== 0) {
+            if (
+              calibrationTestData[calibrationActiveSectionTab - 1].id !== null
+            ) {
+              var calibrationSectionId =
+                (calibrationTestData.length !== 0 &&
+                  calibrationTestData[calibrationActiveSectionTab - 1].id) ||
+                "";
+              this.props.history.push(
+                bulk_upload +
+                  `/${testQuestionSetId}/${calibrationSectionId}/${type}`
+              );
+            } else {
+              this.setState({
+                snackOpen: true,
+                snackType: "warning",
+                message: "Please save the test",
+              });
+            }
+          } else {
+            this.setState({
+              snackOpen: true,
+              snackType: "warning",
+              message: "Please add the section",
+            });
+          }
         } else {
           this.props.history.push(
             bulk_upload + `/${testQuestionSetId}/${sectionId}`
@@ -335,7 +362,6 @@ class Add extends Component {
       });
     }
     if (name === "courseId" && type === "CALIBRATION" && value !== undefined) {
-      this.props.getSubjectsByCourse(value);
       if (calibrationTotalSection !== null) {
         this.setState({
           calibrationSectionTabLabels: [],
@@ -418,15 +444,14 @@ class Add extends Component {
           if (topicTestResponse.success) {
             var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
             var tempTopicTestSections = this.state.topicTestSections;
-            tempTopicTestSections["id"] =
-              topicTestResponse.data.testSection[0].id;
+            tempTopicTestSections.id = topicTestResponse.data.testSection[0].id;
             this.setState({
               snackOpen: true,
               snackType: "success",
               message: `${type} TEST ${message} SUCCESSFULLY`,
               testQuestionSetId: topicTestResponse.data.id,
-              topicTestSection: tempTopicTestSections,
               sectionId: topicTestResponse.data.testSection[0].id,
+              topicTestSections: tempTopicTestSections,
             });
           }
         });
@@ -461,47 +486,64 @@ class Add extends Component {
         nameDescription.trim().length !== 0 &&
         description.length !== 0 &&
         descriptionTitle.trim().length !== 0 &&
-        courseId !== undefined &&
-        calibrationTestData.length !== 0 &&
-        !calibrationTestDataTotalValidation.includes(false)
+        courseId !== undefined
       ) {
-        var calibrationTestSet = {
-          id: testQuestionSetId,
-          name: name,
-          type: type,
-          course: { id: courseId },
-          description: description,
-          descriptionTitle: descriptionTitle,
-          nameDescription: nameDescription,
-          testSections: calibrationTestData,
-        };
-        this.props.createTestQuestionSet(
-          calibrationTestSet,
-          (calibrationTestResponse) => {
-            if (calibrationTestResponse.success) {
-              var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
-              var tempcalibrationTestData = calibrationTestData;
-              calibrationTestResponse.data.testSection.map((item, index) => {
-                if (calibrationTestData.length > index) {
-                  tempcalibrationTestData[index].id = item.id;
+        if (calibrationTestData.length !== 0) {
+          if (!calibrationTestDataTotalValidation.includes(false)) {
+            var calibrationTestSet = {
+              id: testQuestionSetId,
+              name: name,
+              type: type,
+              course: { id: courseId },
+              description: description,
+              descriptionTitle: descriptionTitle,
+              nameDescription: nameDescription,
+              testSections: calibrationTestData,
+            };
+            this.props.createTestQuestionSet(
+              calibrationTestSet,
+              (calibrationTestResponse) => {
+                if (calibrationTestResponse.success) {
+                  var message =
+                    testQuestionSetId === null ? "ADDED" : "UPDATED";
+                  var tempcalibrationTestData = calibrationTestData;
+                  calibrationTestResponse.data.testSection.map(
+                    (item, index) => {
+                      if (calibrationTestData.length > index) {
+                        tempcalibrationTestData[index].id = item.id;
+                      }
+                    }
+                  );
+                  this.setState({
+                    snackOpen: true,
+                    snackType: "success",
+                    message: `${type} TEST ${message} SUCCESSFULLY`,
+                    testQuestionSetId: calibrationTestResponse.data.id,
+                    calibrationTestData: tempcalibrationTestData,
+                  });
+                } else {
+                  this.setState({
+                    snackOpen: true,
+                    snackType: "warning",
+                    message: calibrationTestResponse.message,
+                  });
                 }
-              });
-              this.setState({
-                snackOpen: true,
-                snackType: "success",
-                message: `${type} TEST ${message} SUCCESSFULLY`,
-                testQuestionSetId: calibrationTestResponse.data.id,
-                calibrationTestData: tempcalibrationTestData,
-              });
-            } else {
-              this.setState({
-                snackOpen: true,
-                snackType: "warning",
-                message: calibrationTestResponse.message,
-              });
-            }
+              }
+            );
+          } else {
+            this.setState({
+              snackOpen: true,
+              snackType: "warning",
+              message: "Please fill all the section fields",
+            });
           }
-        );
+        } else {
+          this.setState({
+            snackOpen: true,
+            snackType: "warning",
+            message: "Please add the section",
+          });
+        }
       } else {
         this.setState({
           snackOpen: true,
@@ -520,11 +562,32 @@ class Add extends Component {
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null, popUpId: null });
+    this.setState({ anchorEl: null, popUpId: null, sectionAnchorEl: null });
   };
 
-  handleDelete = (questionId) => {
+  handleDelete = () => {
     this.setState({ dialogStatus: true, dialogContent: dialogContent });
+  };
+
+  handleSectionThreeDotClick = (event) => {
+    this.setState({
+      sectionAnchorEl: event.currentTarget,
+    });
+  };
+
+  handleMenuItemDelete = () => {
+    this.setState({
+      sectionDialogOpen: true,
+    });
+  };
+
+  removeArrayItem = (arr, index) => {
+    for (var i = 0; i < arr.length; i++) {
+      if (i === index) {
+        arr.splice(i, 1);
+      }
+    }
+    return arr;
   };
 
   // Delete individual question
@@ -544,6 +607,44 @@ class Add extends Component {
         });
       }
     });
+  };
+
+  handleSectionDelete = () => {
+    const { calibrationActiveSectionTab, calibrationTestData } = this.state;
+    const { testQuestionSetId } = this.state;
+    if (calibrationTestData.length !== 0) {
+      var deleteSectionId =
+        calibrationTestData[calibrationActiveSectionTab - 1]["id"];
+      if (deleteSectionId !== null) {
+        this.props.deleteSection(deleteSectionId, (response) => {
+          if (response.success) {
+            this.props.getTestQuestionSet(testQuestionSetId, (res) => {
+              if (res.success) this.handleCloseIconClick();
+            });
+          }
+        });
+      } else {
+        let tabArr = [];
+        let testArr = [];
+        testArr = this.removeArrayItem(
+          calibrationTestData,
+          calibrationActiveSectionTab - 1
+        );
+        testArr.map((i, index) => {
+          tabArr.push({
+            tabLabel: `Section ${index + 1}`,
+          });
+        });
+
+        this.setState({
+          calibrationActiveSectionTab: tabArr.length,
+          calibrationTotalSection: tabArr.length,
+          calibrationSectionTabLabels: tabArr,
+          calibrationTestData: testArr,
+        });
+        this.handleCloseIconClick();
+      }
+    }
   };
 
   render() {
@@ -568,8 +669,12 @@ class Add extends Component {
       popUpId,
       dialogStatus,
       dialogContent,
+      sectionDelete,
+      questions,
+      sectionDialogOpen,
+      sectionAnchorEl,
     } = this.state;
-    const { courses, topics, subjects } = this.props;
+    const { courses, topics } = this.props;
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -581,6 +686,9 @@ class Add extends Component {
       handleButton1Click,
       handleCloseIconClick,
       handlePrimaryButtonClick,
+      handleSectionDelete,
+      handleMenuItemDelete,
+      handleSectionThreeDotClick,
     } = this;
 
     return (
@@ -616,7 +724,7 @@ class Add extends Component {
                   }))) ||
                 []
               }
-              value={courseId}
+              value={courseId ? courseId : undefined}
               onChange={this.handleChange}
               disabled={testQuestionSetId !== null ? true : false}
               placeholder="Course"
@@ -714,7 +822,10 @@ class Add extends Component {
               tabChange: this.handleTabChange,
               testPropertiesChange: this.handleCalibrationTestProperties,
               sectionInstructionChange: this.handleSectionInstructionChange,
-              subjects: (subjects.length !== 0 && subjects.data) || [],
+              handleClose: handleClose,
+              anchorEl: sectionAnchorEl,
+              handleMenuItemDelete: handleMenuItemDelete,
+              handleThreeDotClick: handleSectionThreeDotClick,
             }}
           />
         )}
@@ -730,8 +841,10 @@ class Add extends Component {
           <TestAddButtonCard
             addQuestion={this.handleAddQuestion}
             type={type}
+            sectionData={calibrationTestData}
+            tabValue={calibrationActiveSectionTab}
             id={testQuestionSetId}
-            questions={this.props.testQuestionSet}
+            questions={questions}
             handleThreeDotClick={handleThreeDotClick}
             handleClose={handleClose}
             anchorEl={anchorEl}
@@ -739,6 +852,13 @@ class Add extends Component {
             handleDelete={handleDelete}
           />
         )}
+        <DialogComponent
+          open={sectionDialogOpen}
+          dialogContent={sectionDialogContent}
+          handleButton1Click={handleButton1Click}
+          handleCloseIconClick={handleCloseIconClick}
+          handleButton2Click={handleSectionDelete}
+        />
         <DialogComponent
           open={dialogStatus}
           dialogContent={dialogContent}
@@ -772,7 +892,7 @@ export default connect(mapStateToProps, {
   getCourses,
   getTopicByCourse,
   createTestQuestionSet,
-  getSubjectsByCourse,
   getTestQuestionSet,
   deleteQuestion,
+  deleteSection,
 })(withRouter(Add));

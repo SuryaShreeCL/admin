@@ -38,4 +38,9 @@ export const STUDENT = {
   getLmsProducts: "getLmsProduct",
   studentLmsProduct: "studentLmsProduct",
   studentExistProducts: "studentExistProduct",
+  strengthWeaknessExport : "strengthWeaknessExport",
+  studyPlanExport : "studyPlanExport",
+  calibrationTestExport : "calibrationTestExport",
+  topicTestExport : "topicTestExport",
+  topicTestReportExport : "topicTestReportExport"
 };

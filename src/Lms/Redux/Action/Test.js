@@ -64,13 +64,13 @@ export const deleteTest = (testQuestionSetId, callback) => {
         callback(response.data);
       })
       .catch(error => {
-        console.log(error);
+        callback(error.response.data);
       });
   };
 };
 export const reviewTest = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return () => {
     axios
       .put(
         `${URL}/api/v1/testquestionsets/${testQuestionSetId}/status/Review`,
@@ -115,6 +115,7 @@ export const approveTest = (testQuestionSetId, callback) => {
       });
   };
 };
+
 export const publishTest = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
@@ -134,7 +135,8 @@ export const publishTest = (testQuestionSetId, callback) => {
         callback(response.data);
       })
       .catch(error => {
-        console.log(error);
+        callback(error.response.data);
+        // console.log(error);
       });
   };
 };
@@ -359,6 +361,25 @@ export const deleteQuestion = (questionId, callback) => {
   };
 };
 
+export const deleteSection = (sectionId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+
+  return () => {
+    axios
+      .delete(`${URL}/api/v1/testSection/${sectionId}`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => console.log(error));
+  };
+};
+
 export const getTopicList = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
@@ -373,5 +394,29 @@ export const getTopicList = (testQuestionSetId, callback) => {
         callback(response.data);
       })
       .catch(error => console.log(error));
+  };
+};
+
+export const draftTest = (testQuestionSetId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .put(
+        `${URL}/api/v1/testquestionsets/${testQuestionSetId}/status/Draft`,
+        {},
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 };

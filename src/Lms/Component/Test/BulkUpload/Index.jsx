@@ -29,7 +29,7 @@ import {
 } from '../../../Redux/Action/Test';
 import Alert from '@material-ui/lab/Alert';
 import { lmsTest } from '../../../../Component/RoutePaths';
-import { lms_add_topic } from '../../../../Component/RoutePaths';
+import { lms_add_test } from '../../../../Component/RoutePaths';
 
 const radioData = {
   name: 'Question Pattern',
@@ -124,7 +124,7 @@ class Index extends Component {
               });
 
               this.props.history.push(
-                lms_add_topic +
+                lms_add_test +
                   '?testQuestionSetId=' +
                   this.props.match.params.testQuestionSetId
               );
@@ -151,6 +151,11 @@ class Index extends Component {
                 alertMsg: response.message,
                 alertSeverity: 'success',
               });
+              this.props.history.push(
+                lms_add_test +
+                  '?testQuestionSetId=' +
+                  this.props.match.params.testQuestionSetId
+              );
             } else {
               this.setState({
                 files: [],
