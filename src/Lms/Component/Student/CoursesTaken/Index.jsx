@@ -1,14 +1,14 @@
-import { Button, Grid } from '@material-ui/core';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Button, Grid } from "@material-ui/core";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   CourseContainer,
   CourseTabs,
   CourseTabsDuplicateCard,
-} from '../../../Assets/css/StyledCourseTakenComponent/StyledCourseTaken';
-import { RadioButtonsGroup } from '../../../Utils/RadioButton';
-import { StyledTaps } from '../../../Utils/Tabs';
-import TasksAndTopic from './TasksAndTopic/Index';
+} from "../../../Assets/css/StyledCourseTakenComponent/StyledCourseTaken";
+import { RadioButtonsGroup } from "../../../Utils/RadioButton";
+import { StyledTaps } from "../../../Utils/Tabs";
+import TasksAndTopic from "./TasksAndTopic/Index";
 import {
   getTaskTopic,
   getProducts,
@@ -17,33 +17,33 @@ import {
   calibrationTestExport,
   topicTestExport,
   topicTestReportExport,
-} from '../../../Redux/Action/Student';
+} from "../../../Redux/Action/Student";
 
-import QueryString from 'qs';
-import { withRouter } from 'react-router-dom';
+import QueryString from "qs";
+import { withRouter } from "react-router-dom";
 
 const tabsLabels = [
-  { tabLabel: 'Tasks & Topic' },
-  { tabLabel: 'Strength & Weekness' },
-  { tabLabel: 'Study Plan' },
-  { tabLabel: 'Calibration Test' },
-  { tabLabel: 'Topic Test' },
-  { tabLabel: 'Logs' },
+  { tabLabel: "Tasks & Topic" },
+  { tabLabel: "Strength & Weekness" },
+  { tabLabel: "Study Plan" },
+  { tabLabel: "Calibration Test" },
+  { tabLabel: "Topic Test" },
+  // { tabLabel: 'Logs' },
 ];
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productId: '',
-      studentId: '',
+      productId: "",
+      studentId: "",
       tabId: 0,
     };
     this.category = {
-      taskAndTopic: 'taskTopic',
-      studyPlan: 'studyPlans/monthlyDetails',
-      strengthAndWeekNess: 'strengthWeakness',
-      calibrationReport: 'calibrationReport',
+      taskAndTopic: "taskTopic",
+      studyPlan: "studyPlans/monthlyDetails",
+      strengthAndWeekNess: "strengthWeakness",
+      calibrationReport: "calibrationReport",
     };
   }
 
@@ -53,7 +53,7 @@ class Index extends Component {
     });
     // var studentId = "";
     this.setState({ studentId: studentId });
-    this.props.getProducts(studentId, productResponse => {
+    this.props.getProducts(studentId, (productResponse) => {
       if (productResponse.success) {
         this.setState({ productId: this.props.products.data[0].id });
       }
@@ -69,20 +69,20 @@ class Index extends Component {
         <Grid
           container
           spacing={2}
-          justifyContent={'flex-end'}
-          alignItems={'center'}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
           style={{ paddingRight: 36, height: 56 }}
         >
           <RadioButtonsGroup
             radioData={{
-              name: 'Course',
+              name: "Course",
               activeValue: productId,
-              handleRadioChange: e => {
+              handleRadioChange: (e) => {
                 this.setState({ productId: e.target.value });
               },
               radioItemData:
                 (products.length !== 0 &&
-                  products.data.map(item => ({
+                  products.data.map((item) => ({
                     id: item.id,
                     label: item.productName,
                   }))) ||
@@ -97,10 +97,10 @@ class Index extends Component {
               handleTabChange: (e, newValue) => {
                 this.setState({ tabId: newValue });
               },
-              tabsBackColor: '#FFE100',
+              tabsBackColor: "#FFE100",
               tabData: tabsLabels,
-              activeClass: 'course__task__tab',
-              styleName: 'courseTaken',
+              activeClass: "course__task__tab",
+              styleName: "courseTaken",
             }}
           />
           <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
@@ -112,9 +112,9 @@ class Index extends Component {
             category={this.category.taskAndTopic}
           />
         </div>
-        <div hidden={tabId !== 1} className='flex-center'>
+        <div hidden={tabId !== 1} className="flex-center">
           <Button
-            variant='contained'
+            variant="contained"
             onClick={() =>
               this.props.strengthWeaknessExport(studentId, productId)
             }
@@ -130,17 +130,17 @@ class Index extends Component {
           </Button>
         </div>
 
-        <div hidden={tabId !== 2} className='flex-center'>
+        <div hidden={tabId !== 2} className="flex-center">
           <Button
-            variant='contained'
+            variant="contained"
             onClick={() => this.props.studyPlanExport(studentId, productId)}
           >
             Export
           </Button>
         </div>
-        <div hidden={tabId !== 3} className='flex-center'>
+        <div hidden={tabId !== 3} className="flex-center">
           <Button
-            variant='contained'
+            variant="contained"
             onClick={() =>
               this.props.calibrationTestExport(studentId, productId)
             }
@@ -151,20 +151,20 @@ class Index extends Component {
         <div
           hidden={tabId !== 4}
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            padding: '32px',
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            padding: "32px",
           }}
         >
           <Button
-            variant='contained'
+            variant="contained"
             onClick={() => this.props.topicTestExport(studentId, productId)}
           >
             Export TopicTest
           </Button>
           <Button
-            variant='contained'
+            variant="contained"
             onClick={() =>
               this.props.topicTestReportExport(studentId, productId)
             }
@@ -172,12 +172,12 @@ class Index extends Component {
             Export TopicTestReport
           </Button>
         </div>
-        <div hidden={tabId !== 5}></div>
+        {/* <div hidden={tabId !== 5}></div> */}
       </CourseContainer>
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ...state.LmsStudentReducer,
   };

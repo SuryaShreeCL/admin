@@ -196,11 +196,12 @@ export class Student extends Component {
           this.props.signUpResponse.studentInfo.id,
           lmsobj
         );
-        // this.setState({
-        //   snackMessage : "Student Registered Successfully",
-        //   snackColor : "success",
-        //   snackOpen : true
-        // })
+        this.setState({
+          lmsAccess: false,
+          //   //   snackMessage : "Student Registered Successfully",
+          //   //   snackColor : "success",
+          //   //   snackOpen : true
+        });
       }
       this.props.getStudentPaginate(0, 20);
     }
@@ -231,7 +232,8 @@ export class Student extends Component {
         ? this.props.history.push(studentIdPath + "/" + rowData.id)
         : this.props.history.push(productuserPunchingPath + rowData.id);
     } else {
-      this.props.history.push(lms_course_taken + "?studentId=" + rowData.id);
+      if (rowData.isLMSUser)
+        this.props.history.push(lms_course_taken + "?studentId=" + rowData.id);
     }
   };
 
@@ -398,7 +400,6 @@ export class Student extends Component {
         provider: "",
         internAccess: false,
         studentId: null,
-        lmsAccess: false,
         product: [],
         selectedProduct: [],
       });
