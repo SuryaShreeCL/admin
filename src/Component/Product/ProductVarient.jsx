@@ -98,50 +98,55 @@ export class ProductVarient extends Component {
               {field : "sellingPrice", headerName : "Pricing", width : 150},
               {field : "validity", headerName : "Validity", width : 150},
               {field : "endOfServiceDate", type: 'date', headerName : "End of Service", width : 150},
-              {field : "action", headerName : "Action",  width : 300, renderCell: (params) => { 
-                const onClick = () => {
-                  const api: GridApi = params.api;
-                  const fields = api
-                    .getAllColumns()
-                    .map((c) => c.field)
-                    .filter((c) => c !== "__check__" && !!c);
-                  const thisRow: Record<string, GridCellValue> = {};
-    
-                  fields.forEach((f) => {
-                    thisRow[f] = params.getValue(f);
-                  });
-                  return (
-                    this.props.history.push(productVariantPath+"/"+thisRow.id) 
-                  );
-                  // alert(JSON.stringify(thisRow, null, 4));
-                };
-    
-                return (
-                  <>
-                    <PrimaryButton
-                      onClick={onClick}
-                      variant={"contained"}
-                      color={"primary"}
-                      size={"small"}
-                      style={{ marginLeft: 16 }}
-                    >
-                      Manage
-                    </PrimaryButton>
-                    {/* <PrimaryButton
-                    <PrimaryButton
-                    // onClick={()=>this.handleDelete()}
-                    onClick={handleDelete}
-                    variant={"contained"}
-                    color={"secondary"}
-                    size={"small"}
-                    style={{ marginLeft: 16 }}
-                  >
-                    Delete
-                  </PrimaryButton> */}
-                  </>
-                )
-                },
+              {
+                field : "action", headerName : "Action",  width : 300,
+                renderCell: (params) => (
+                  <PrimaryButton
+                  onClick={()=>{
+                    this.props.history.push(productVariantPath+"/"+params.row.id)
+                  }}
+                  variant={"contained"}
+                  color={"primary"}
+                  size={"small"}
+                >
+                  Manage
+                </PrimaryButton>
+                ),
               },
+              // {field : "action", headerName : "Action",  width : 300, renderCell: (params) => { 
+              //   const onClick = () => {
+              //     const api: GridApi = params.api;
+              //     const fields = api
+              //       .getAllColumns()
+              //       .map((c) => c.field)
+              //       .filter((c) => c !== "__check__" && !!c);
+              //     const thisRow: Record<string, GridCellValue> = {};
+    
+              //     fields.forEach((f) => {
+              //       thisRow[f] = params.getValue(f);
+              //     });
+              //     return (
+              //       this.props.history.push(productVariantPath+"/"+thisRow.id) 
+              //     );
+              //     // alert(JSON.stringify(thisRow, null, 4));
+              //   };
+    
+              //   return (
+              //     <>
+              //       <PrimaryButton
+              //         onClick={onClick}
+              //         variant={"contained"}
+              //         color={"primary"}
+              //         size={"small"}
+              //         style={{ marginLeft: 16 }}
+              //       >
+              //         Manage
+              //       </PrimaryButton>
+                    
+              //     </>
+              //   )
+              //   },
+              // },
             ],
 
         }

@@ -12,6 +12,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import { ExpandMore} from "@material-ui/icons";
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
 import { Autocomplete } from "@material-ui/lab";
 import {
@@ -754,7 +755,7 @@ class GraduateTestResult extends Component {
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = year + "/" + month + "/" + date;
+                      let examdate = date + "/" + month + "/" + year;
                       return (
                         <TableRow>
                           <TableCell
@@ -1006,7 +1007,7 @@ class GraduateTestResult extends Component {
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = year + "/" + month + "/" + date;
+                      let examdate = date + "/" + month + "/" + year;
                       return (
                         <TableRow>
                           <TableCell
@@ -1269,7 +1270,7 @@ class GraduateTestResult extends Component {
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = year + "/" + month + "/" + date;
+                      let examdate = date + "/" + month + "/" + year;
                       return (
                         <TableRow>
                           <TableCell
@@ -1541,7 +1542,7 @@ class GraduateTestResult extends Component {
                         let year = new Date(
                           eachdata.completedExamDate
                         ).getFullYear();
-                        let ieltsdate = year + "/" + month + "/" + date;
+                        let ieltsdate = date + "/" + month + "/" + year;
                         return (
                           <TableRow>
                             <TableCell
@@ -1667,8 +1668,11 @@ class GraduateTestResult extends Component {
                 </Table>
               )}
             </TableContainer>
-            <Grid item md={12}>
+            <Grid item md={12} container justifyContent={"space-between"}>
                       <p style={HeadStyle}>Documents Received</p>
+                      <IconButton onClick={()=>this.setState({documentedit : !this.state.documentedit})}>
+                        <EditRoundedIcon color={"inherit"} />
+                      </IconButton>
                  </Grid>
                  {this.props.getAllDocumentList.GRE && this.props.getAllDocumentList.GRE.length !== 0 &&
                 <Grid item md={12}>

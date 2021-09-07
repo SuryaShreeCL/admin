@@ -35,6 +35,7 @@ import {studentPath } from "../RoutePaths";
 import BackButton from '../../Asset/Images/backbutton.svg';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { Breadcrumbs} from '@material-ui/core'
+import Loader from '../Utils/controls/Loader';
 export class Video extends Component {
     constructor(props) {
         super(props)
@@ -296,12 +297,13 @@ export class Video extends Component {
                       height: "65vh",
                     }}
                   >
-                    <CircularProgress
+                    {/* <CircularProgress
                       color="primary"
                       variant="indeterminate"
                       size="3rem"
                       thickness="3"
-                    />
+                    /> */}
+                    <Loader />
                   </div>
                 </ThemeProvider>
               )}

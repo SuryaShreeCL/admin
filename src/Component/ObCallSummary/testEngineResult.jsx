@@ -424,7 +424,7 @@ class TestEngineResult extends Component {
           aria-labelledby="customized-dialog-title"
         >
           <DialogTitle>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", justifyContent: "center",position : "relative" }}>
               <Typography
                 style={{
                   color: "#052A4E",
@@ -434,22 +434,15 @@ class TestEngineResult extends Component {
                   justifyContent: "center",
                 }}
               >
-                Test Name {this.state.questionSetName}
+                 {this.state.questionSetName}
               </Typography>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginTop: "-6%",
-              }}
-            >
-              <IconButton onClick={() => this.setState({ showEye: false })}>
+              <IconButton style={{position: "absolute", top : 0, right : 0}} onClick={() => this.setState({ showEye: false })}>
                 <img src={x} height={17} width={17} />
               </IconButton>
             </div>
+           
           </DialogTitle>
-          <DialogContent style={{ height: "800px", width: "700px" }}>
+          <DialogContent style={{ height: "800px" }}>
             <div
               style={{
                 display: "flex",

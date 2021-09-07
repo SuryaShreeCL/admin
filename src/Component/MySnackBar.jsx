@@ -6,7 +6,7 @@ function MySnackBar(props) {
     return (
         <Snackbar
         open={props.snackOpen}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         onClose={props.onClose}
       >
         <Alert

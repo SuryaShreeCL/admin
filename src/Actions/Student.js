@@ -331,7 +331,7 @@ export const getBlackListedUser=(pageNumber,size,keyword)=>{
         keyword='';
     }
     return dispatch =>{        
-        axios.get(URL+"/api/v1/students/searchblacklisted?page="+pageNumber+"&size="+size+"&q="+keyword,{
+        axios.get(URL+"/api/v1/students/search/blacklisted?page="+pageNumber+"&size="+size+"&q="+keyword,{
             crossDomain:true,
             headers : {
                 "admin" : "yes",
@@ -353,7 +353,7 @@ export const getWhiteListedUser=(pageNumber,size,keyword)=>{
         keyword='';
     }
     return dispatch =>{        
-        axios.get(URL+"/api/v1/students/searchwhitelisted?page="+pageNumber+"&size="+size+"&q="+keyword,{
+        axios.get(URL+"/api/v1/students/search/whitelisted?page="+pageNumber+"&size="+size+"&q="+keyword,{
             crossDomain:true,
             headers : {
                 "admin" : "yes",
@@ -375,7 +375,7 @@ export const getManualUser=(pageNumber,size,keyword)=>{
         keyword='';
     }
     return dispatch =>{        
-        axios.get(URL+"/api/v1/students/searchmanualnusers?page="+pageNumber+"&size="+size+"&q="+keyword,{
+        axios.get(URL+"/api/v1/students/search/manualnusers?page="+pageNumber+"&size="+size+"&q="+keyword,{
             crossDomain:true,
             headers : {
                 "admin" : "yes",
@@ -397,7 +397,7 @@ export const getMernUser=(pageNumber,size,keyword)=>{
         keyword='';
     }
     return dispatch =>{        
-        axios.get(URL+"/api/v1/students/searchmernusers?page="+pageNumber+"&size="+size+"&q="+keyword,{
+        axios.get(URL+"/api/v1/students/search/mernusers?page="+pageNumber+"&size="+size+"&q="+keyword,{
             crossDomain:true,
             headers : {
                 "admin" : "yes",

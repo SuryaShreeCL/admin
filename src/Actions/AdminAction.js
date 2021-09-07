@@ -400,7 +400,7 @@ export const checkTokenStatus = () =>{
 
 // To get students by stages
 
-export const getStudentByStages = (productId,stageName,keyword) =>{
+export const getStudentByStages = (productId,stageName,keyword,callback) =>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     let adminId = window.sessionStorage.getItem("adminUserId")
@@ -412,7 +412,9 @@ export const getStudentByStages = (productId,stageName,keyword) =>{
             },
         })
         .then(result=>{
+            callback(result)
             dispatch({type : ADMIN.getStudentsByStages, payload : result.data})
+
         })
         .catch(error=>{
             console.log(error)

@@ -1,66 +1,52 @@
-import React, { Component } from "react";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import { withStyles } from "@material-ui/core/styles";
-import MySnackBar from "../MySnackBar";
 import {
+  Breadcrumbs,
+  CircularProgress,
+  createMuiTheme,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TableFooter,
-  TablePagination,
-  Slide,
-  Button,
-  Icon,
   ThemeProvider,
-  createMuiTheme,
-  Breadcrumbs,
   Typography,
 } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import Grid from "@material-ui/core/Grid";
+// import{getsearchlist} from '../../Actions/Calldetails'
+// import button from './button';
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import { withStyles } from "@material-ui/core/styles";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import TextField from "@material-ui/core/TextField";
+import { ExpandMore } from "@material-ui/icons";
+import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
+import CloseIcon from "@material-ui/icons/Close";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import SearchIcon from "@material-ui/icons/Search";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import { Autocomplete } from "@material-ui/lab";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  activateStudentProduct,
+  getAwaitingUsersByAdminId,
+} from "../../Actions/AdminAction";
 import {
   getAllProductFamily,
   getProductByFamilyId,
   getProductVarient,
   searchProductActivationList,
 } from "../../Actions/ProductAction";
-import { ExpandMore } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
-import {
-  getAwaitingUsersByAdminId,
-  activateStudentProduct,
-} from "../../Actions/AdminAction";
-// import{getsearchlist} from '../../Actions/Calldetails'
-// import button from './button';
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
-import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import { Autocomplete } from "@material-ui/lab";
-import SearchIcon from "@material-ui/icons/Search";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { connect } from "react-redux";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from "../../Asset/Images/backbutton.svg";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import MySnackBar from "../MySnackBar";
 import { studentPath } from "../RoutePaths";
-import { CircularProgress } from "@material-ui/core";
+import Loader from "../Utils/controls/Loader";
+import { isEmptyArray, isEmptyString } from "../Validation";
 
 const AntTabs = withStyles({
   root: {
@@ -213,13 +199,19 @@ class ProductActivation extends Component {
         listOfUsers: this.props.awaitingUsersForActivationList.content,
       });
     }
-    if (this.state.keyword !== prevState.keyword) {
-      this.props.searchProductActivationList(this.props.match.params.productId,this.state.keyword)
-    }
+
     if (this.props.searchActivationList !== prevProps.searchActivationList) {
       this.setState({
         listOfUsers: this.props.searchActivationList.content,
       });
+    }
+    if (this.state.keyword !== prevState.keyword) {
+      if (isEmptyString(this.state.keyword)) {
+        this.props.searchProductActivationList(
+          this.props.match.params.productId,
+          this.state.keyword
+        );
+      }
     }
   }
 
@@ -236,6 +228,15 @@ class ProductActivation extends Component {
       ],
     };
     this.props.activateStudentProduct(obj);
+  };
+
+  // To handle search
+
+  handleSearch = () => {
+    this.props.searchProductActivationList(
+      this.props.match.params.productId,
+      this.state.keyword
+    );
   };
 
   render() {
@@ -293,33 +294,52 @@ class ProductActivation extends Component {
             // label=""
 
             onFocus={() => this.shrink()}
-            type="search"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
+            onKeyUp={(e) => {
+              if (e.keyCode === 13) {
+                e.preventDefault();
+                document.getElementById("search").click();
+              }
             }}
-            style={{ width: "50%", marginLeft: "50%", bottom: 65 }}
+            // type="search"
+            // InputProps={{
+            //   startAdornment: (
+            //     <InputAdornment position="start">
+            //       <SearchIcon />
+            //     </InputAdornment>
+            //   ),
+            // }}
+            style={{ width: "40%", marginLeft: "50%", bottom: 65 }}
           />
+          <IconButton
+            style={{ marginLeft: "8px", top: -60 }}
+            onClick={this.handleSearch}
+            color="primary"
+            id={"search"}
+            aria-label="search"
+          >
+            <SearchRoundedIcon />
+          </IconButton>
           {/* </div> */}
 
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell align="center">CLS ID</TableCell>
-                  <TableCell align="center">Client Name</TableCell>
-                  <TableCell align="center">College</TableCell>
-                  <TableCell align="center">Dept</TableCell>
-                  <TableCell align="center">Degree</TableCell>
-                  <TableCell align="center">Product Varient</TableCell>
-                  <TableCell align="center">Order Punch Date</TableCell>
-                  <TableCell align="center">Amount Paid</TableCell>
-                  <TableCell align="center">Activated</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
+                {this.state.listOfUsers.length !== 0 ? (
+                  <TableRow>
+                    <TableCell align="center">CLS ID</TableCell>
+                    <TableCell align="center">Client Name</TableCell>
+                    <TableCell align="center">College</TableCell>
+                    <TableCell align="center">Dept</TableCell>
+                    <TableCell align="center">Degree</TableCell>
+                    <TableCell align="center">Product Varient</TableCell>
+                    <TableCell align="center">Order Punch Date</TableCell>
+                    <TableCell align="center">Amount Paid</TableCell>
+                    <TableCell align="center">Activated</TableCell>
+                    <TableCell align="center"></TableCell>
+                  </TableRow>
+                ) : (
+                  <Loader />
+                )}
               </TableHead>
               <TableBody>
                 {this.state.listOfUsers.length !== 0 &&
@@ -361,7 +381,7 @@ class ProductActivation extends Component {
                         </TableCell>
                       </TableRow>
                     );
-                  })}                
+                  })}
               </TableBody>
               {/* <TableFooter>
                   <TableRow>

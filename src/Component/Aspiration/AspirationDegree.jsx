@@ -26,6 +26,7 @@ import IconButton from "@material-ui/core/IconButton";
   import {connect} from 'react-redux';
   import MySnackBar from '../MySnackBar';
   import { isEmptyString } from '../Validation';
+  import Loader from '../Utils/controls/Loader'
 
 export class AspirationDegree extends Component {
     constructor(props) {
@@ -240,12 +241,13 @@ export class AspirationDegree extends Component {
                   alignItems: "center",
                   height: "65vh",
             }}>
-          <CircularProgress
+          {/* <CircularProgress
          color="primary"
           variant="indeterminate"
           size = "3rem"
           thickness="3"
-           />
+           /> */}
+           <Loader />
            </div>
           </ThemeProvider>
           )}

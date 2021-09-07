@@ -27,6 +27,7 @@ import IconButton from "@material-ui/core/IconButton";
   import {viewCollege, addCollege, updateCollege, deleteCollege, viewCountry, viewCountryForSelect} from "../../Actions/Aspiration"
 import { isEmptyString } from '../Validation';
 import MySnackBar from '../MySnackBar';
+import Loader from '../Utils/controls/Loader'
 
 export class AspirationCollege extends Component {
     constructor(props) {
@@ -265,12 +266,13 @@ export class AspirationCollege extends Component {
                   alignItems: "center",
                   height: "65vh",
             }}>
-          <CircularProgress
+          {/* <CircularProgress
          color="primary"
           variant="indeterminate"
           size = "3rem"
           thickness="3"
-           />
+           /> */}
+           <Loader />
            </div>
           </ThemeProvider>
           )}

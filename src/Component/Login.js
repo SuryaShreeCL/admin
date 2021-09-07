@@ -174,6 +174,7 @@ export class Login extends Component {
           snackOpen={this.state.snackOpen}
           snackVariant={this.state.snackVariant}
           snackMsg={this.state.snackMsg}
+          onClose={()=>this.setState({snackOpen : false})}
         />
       </div>
     );

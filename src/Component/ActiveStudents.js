@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import MaterialTable from "material-table";
 import history from "./History";
-import {isAlpha, isEmailSpecialChar, isNumber, isSpecialCharacter} from "./Validation"
+import {isAlpha, isEmailSpecialChar, isEmptyString, isNumber, isSpecialCharacter} from "./Validation"
 import { createMuiTheme, MuiThemeProvider, ThemeProvider } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -42,6 +42,7 @@ import {CircularProgress,
   FormControlLabel,
   Checkbox
 } from "@material-ui/core"
+import Loader from "./Utils/controls/Loader";
 export class ActiveStudents extends Component {
   constructor(props) {
     super(props);
@@ -64,14 +65,19 @@ export class ActiveStudents extends Component {
       password : "123456",
       studentId : null,
       isActive : false,
-      firstNameHelperText : null,
-      lastNameHelperText : null,
-      emailHelperText : null,
-      collegeHelperText : null,
-      departmentHelperText : null,
-      phoneHelperText : null,
-      studentIdHelperText : null,
+      firstNameHelperText : '',
+      lastNameHelperText : '',
+      emailHelperText : '',
+      collegeHelperText : '',
+      departmentHelperText : '',
+      phoneHelperText : '',
+      studentIdHelperText : '',
       internAccess : false,
+      search: {
+        page: 0,
+        size: "",
+        keyword: "",
+      },
     };
   }
 
@@ -91,7 +97,7 @@ export class ActiveStudents extends Component {
     { title: "Full Name", fieldName: "fullName" },
     { title: "Email Id", fieldName: "emailId" },
     { title: "Phone", fieldName: "phoneNumber" },
-    { title: "Department", fieldName: "department.name" },
+    // { title: "Department", fieldName: "department.name" },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
@@ -158,6 +164,12 @@ export class ActiveStudents extends Component {
       }) 
       this.props.getWhiteListedUser(0, 20);
     } 
+     // TO search users when the input feild for search is empty
+     if (this.state.search.keyword !== prevState.search.keyword) {
+      if (isEmptyString(this.state.search.keyword)) {
+        this.props.getWhiteListedUser(0, 20);
+      }
+    }
   }
 
 
@@ -185,21 +197,42 @@ export class ActiveStudents extends Component {
       }
     });
   paginate = (page, size, keyword) => {
-    this.props.getWhiteListedUser(page, size, keyword);
+
+    var tempSearchHolder = { ...this.state.search };
+    tempSearchHolder.page = page;
+    tempSearchHolder.size = size;
+    tempSearchHolder.keyword = keyword;
+    this.setState({
+      search: tempSearchHolder,
+    });
+    if (
+      // this.state.search.page !== 0 &&
+      this.state.search.page !== page
+    ) {
+      this.props.getWhiteListedUser(page, size, keyword);
+    }
   };
   handleSubmit = (e) =>{
-    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
-    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
-    this.state.eMail === null || this.state.eMail.length === 0 ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
-    this.state.phone === null || this.state.phone.length === 0 ? this.setState({phoneHelperText : "Please fill the required feild"}) : this.setState({phoneHelperText : null})
-    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
-    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
-    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
+    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : ''})
+    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : ''})
+    this.state.eMail === null || this.state.eMail.length === 0 ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : ''})
+    if (isEmptyString(this.state.phone)) {
+      this.setState({ phoneHelperText: "Please fill the required feild" });
+    } else if (this.state.phone.length !== 10) {
+      this.setState({ phoneHelperText: "Enter the valid phone number" });
+    } else {
+      this.setState({
+        phoneHelperText: "",
+      });
+    }
+    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : ''})
+    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : ''})
+    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : ''})
     if(
      this.state.firstName !== null && this.state.firstName.length !== 0 &&
      this.state.lastName !== null && this.state.lastName.length !== 0 &&
      this.state.eMail !== null && this.state.eMail.length !== 0 &&
-     this.state.phone !== null && this.state.phone.length !== 0 &&
+     this.state.phone !== null && this.state.phone.length === 10 &&
      this.state.college !== null && this.state.college.length !== 0 &&
      this.state.department !== null && this.state.department.length !== 0 &&
      this.state.studentId !== null && this.state.studentId.length !== 0 
@@ -213,7 +246,7 @@ export class ActiveStudents extends Component {
         college: this.state.college.id,
         department: this.state.department.id,
         roles: ["Student"],
-        password: this.state.password,
+        password: this.state.phone,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
         internshipAccess : this.state.internAccess === false ? "no" : "yes",
@@ -242,18 +275,26 @@ export class ActiveStudents extends Component {
    
   }
   handleEdit = () =>{
-    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
-    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : null})
-    this.state.eMail === null || this.state.eMail.length === 0  ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : null})
-    this.state.phone === null || this.state.phone.length === 0 ? this.setState({phoneHelperText : "Please fill the required feild"}) : this.setState({phoneHelperText : null})
-    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : null})
-    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : null})
-    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : null})
+    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : ''})
+    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : ''})
+    this.state.eMail === null || this.state.eMail.length === 0  ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : ''})
+    if (isEmptyString(this.state.phone)) {
+      this.setState({ phoneHelperText: "Please fill the required feild" });
+    } else if (this.state.phone.length !== 10) {
+      this.setState({ phoneHelperText: "Enter the valid phone number" });
+    } else {
+      this.setState({
+        phoneHelperText: "",
+      });
+    }
+    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : ''})
+    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : ''})
+    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : ''})
     if(
       this.state.firstName !== null && this.state.firstName.length !== 0 &&
      this.state.lastName !== null && this.state.lastName.length !== 0 &&
      this.state.eMail !== null && this.state.eMail.length !== 0 &&
-     this.state.phone !== null && this.state.phone.length !== 0 &&
+     this.state.phone !== null && this.state.phone.length === 0 &&
      this.state.college !== null && this.state.college.length !== 0 &&
      this.state.department !== null && this.state.department.length !== 0 &&
      this.state.studentId !== null && this.state.studentId.length !== 0 
@@ -268,7 +309,7 @@ export class ActiveStudents extends Component {
       internshipAccess : this.state.internAccess === false ? "no" : "yes",
       studentId: this.state.studentId,
       provider: this.state.toogleButton === true ? "Google" : "Local",
-      password: this.state.password,
+      password: this.state.phone,
     };
     console.log(studentObj)
     this.props.mernStudentEdit(this.state.id,studentObj)
@@ -288,6 +329,16 @@ export class ActiveStudents extends Component {
     })
   }
   }
+
+   // Function that handle search
+   handleSearch = () => {
+    this.props.getWhiteListedUser(
+      0,
+      this.state.search.size,
+      this.state.search.keyword
+    );
+  };
+
   render() {  
     console.log("Props............",this.props.whiteListedUserDetails)
     return (
@@ -318,6 +369,14 @@ export class ActiveStudents extends Component {
                   : null
               }
               add={true}
+              needSearch
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  e.preventDefault();
+                  document.getElementById("search").click();
+                }
+              }}
+              onSearchClick={this.handleSearch}
               onAddClick={(e)=>this.setState({
                 dialogOpen : true,
                 id : null,
@@ -346,8 +405,8 @@ export class ActiveStudents extends Component {
                   lastName : rowdata.lastName,
                   eMail : rowdata.emailId,
                   phone : rowdata.phoneNumber,
-                  college : rowdata.college !== null ? {id : rowdata.college.id, name : rowdata.college.name} : null,
-                  department : rowdata.department !== null ? {id :rowdata.department.id, name : rowdata.department.name} : null,
+                  college : rowdata.college ? {id : rowdata.college.id, name : rowdata.college.name} : null,
+                  department : rowdata.department ? {id :rowdata.department.id, name : rowdata.department.name} : null,
                   isActive : rowdata.isactive,
                   internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
                   toogleButton : rowdata.provider === "Google" ? true : false,
@@ -358,7 +417,6 @@ export class ActiveStudents extends Component {
               }}
               cols={this.stu_header}
               onRowClick={this.rowClick}
-              onSearch={this.paginate}
               paginate={this.paginate}
               totalCount={this.props.whiteListedUserDetails.totalElements}
               title={"Student"}
@@ -372,12 +430,13 @@ export class ActiveStudents extends Component {
                       alignItems: "center",
                       height: "65vh",
                 }}>
-              <CircularProgress
+              {/* <CircularProgress
              color="primary"
               variant="indeterminate"
               size = "3rem"
               thickness="3"
-               />
+               /> */}
+               <Loader />
                </div>
               </ThemeProvider>
           )}
@@ -397,6 +456,7 @@ export class ActiveStudents extends Component {
                size="small"
                fullWidth
                helperText={this.state.firstNameHelperText}
+               error={this.state.firstNameHelperText.length !== 0}
                onKeyPress={(evt)=>{ if (isAlpha(evt)) evt.preventDefault() }}
                value={this.state.firstName}
                onChange={(e)=>this.setState({firstName : e.target.value})}
@@ -408,6 +468,7 @@ export class ActiveStudents extends Component {
                variant="outlined"
                size="small"
                fullWidth
+               error={this.state.lastNameHelperText.length !== 0}
                helperText={this.state.lastNameHelperText}
                onKeyPress={(evt)=>{ if (isAlpha(evt)) evt.preventDefault() }}
                value={this.state.lastName}
@@ -419,6 +480,7 @@ export class ActiveStudents extends Component {
                   <TextField
                variant="outlined"
                size="small"
+               error={this.state.emailHelperText.length !== 0}
                helperText={this.state.emailHelperText}
                value={this.state.eMail}
                onChange={(e)=>this.setState({eMail : e.target.value})}
@@ -445,7 +507,9 @@ export class ActiveStudents extends Component {
                   onChange={(e,newValue)=>this.setState({college : {id : newValue !== null ? newValue.id : null, name : newValue !== null ? newValue.name : null}})}
                   // onChange={(e,newValue)=>console.log(newValue)}
                   getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField helperText={this.state.collegeHelperText} {...params} size="small" label="College" variant="outlined" />}
+                  renderInput={(params) => <TextField helperText={this.state.collegeHelperText}   
+                    error={this.state.collegeHelperText.length !== 0}
+                  {...params} size="small" label="College" variant="outlined" />}
                 />
                   </Grid>
                   <Grid item md={6}>
@@ -455,7 +519,10 @@ export class ActiveStudents extends Component {
                   options={this.props.BranchList}
                   onChange={(e,newValue)=>this.setState({department : {id :newValue !== null ?  newValue.id : null, name : newValue !== null ? newValue.name : null}})}
                   getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField helperText={this.state.departmentHelperText} {...params} size="small" label="Department" variant="outlined" />}
+                  renderInput={(params) => <TextField
+                     helperText={this.state.departmentHelperText}
+                     error={this.state.departmentHelperText.length !== 0}
+                      {...params} size="small" label="Department" variant="outlined" />}
                 />
                   </Grid>
                   <Grid item md={6}>
@@ -467,6 +534,10 @@ export class ActiveStudents extends Component {
                value={this.state.phone}
                onChange={(e)=>this.setState({phone : e.target.value})}
                fullWidth
+               error={this.state.phoneHelperText.length !== 0}
+               inputProps={{
+                maxLength: 10,
+              }}
                label="Phone Number"
                />
                   </Grid>
@@ -474,6 +545,7 @@ export class ActiveStudents extends Component {
                   <TextField
                variant="outlined"
                size="small"
+               error={this.state.studentIdHelperText.length !== 0}
                 helperText={this.state.studentIdHelperText}
                value={this.state.studentId}
                onChange={(e)=>this.setState({studentId : e.target.value})}
@@ -528,7 +600,7 @@ export class ActiveStudents extends Component {
                variant="outlined"
                size="small"
                disabled
-               value={this.state.password}
+               value={this.state.phone || ""}
                fullWidth
                label="Password"
                />
