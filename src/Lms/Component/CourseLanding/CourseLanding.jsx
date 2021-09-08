@@ -377,7 +377,7 @@ class CourseLanding extends Component {
               conceptId={conceptId}
             />
           </Box>
-          <Box overflow='auto' width='100%'>
+          <Box overflow='auto' width='100%' height='900px'>
             <DataTable
               topics={topics}
               anchorEl={anchorEl}
