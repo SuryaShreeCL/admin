@@ -37,7 +37,7 @@ import styled from "styled-components";
 import {
   getAllLmsProduct,
   postStudentLmsProduct,
-  getProducts,
+  getStudentProducts,
 } from "../Lms/Redux/Action/Student";
 import { keys } from "@material-ui/core/styles/createBreakpoints";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -464,7 +464,6 @@ export class Student extends Component {
         isActive: true,
         toogleButton: false,
         internshipAccess: false,
-        lmsAccess: false,
         provider: "",
         studentId: null,
         isLoading: false,
@@ -695,7 +694,7 @@ export class Student extends Component {
               }
               onEdit={true}
               onEditClick={(rowdata) => {
-                this.props.getProducts(rowdata.id, (response) => {
+                this.props.getStudentProducts(rowdata.id, (response) => {
                   // expiryDate
                   let arr = [];
                   let selectedProductArr = [];
@@ -741,7 +740,7 @@ export class Student extends Component {
                       ? false
                       : true,
                   lmsAccess:
-                    rowdata.oldUser === null || rowdata.oldUser === "no"
+                    rowdata.isLMSUser === null || rowdata.isLMSUser === false
                       ? false
                       : true,
                   provider: rowdata.provider,
@@ -1086,7 +1085,7 @@ export default connect(mapStateToProps, {
   mernStudentEdit,
   getAllLmsProduct,
   postStudentLmsProduct,
-  getProducts,
+  getStudentProducts,
 })(Student);
 
 const data = [
