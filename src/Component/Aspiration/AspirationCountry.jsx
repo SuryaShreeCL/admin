@@ -1,36 +1,32 @@
 import React, { Component } from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import {
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Slide,
-  CircularProgress,
-  Tab,
-  Tabs,
-  Snackbar,
-} from '@material-ui/core';
-import TableComponent from '../TableComponent/TableComponent';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { connect } from 'react-redux';
-import MySnackBar from '../MySnackBar';
-import {
-  viewCountry,
-  addCountry,
-  updateCountry,
-  deleteCountry,
-} from '../../Actions/Aspiration';
-import { isEmptyString } from '../Validation';
+    Grid,
+    Paper,
+    TextField,
+    Typography,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Slide,
+    CircularProgress,
+    Tab,
+    Tabs,
+    Snackbar,
+  } from "@material-ui/core";
+  import TableComponent from "../TableComponent/TableComponent";
+  import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
+  import AddIcon from "@material-ui/icons/Add";
+  import EditIcon from "@material-ui/icons/Edit";
+  import DeleteIcon from "@material-ui/icons/Delete";
+  import {connect} from 'react-redux';
+  import MySnackBar from '../MySnackBar';
+  import {viewCountry, addCountry, updateCountry, deleteCountry} from "../../Actions/Aspiration"
+  import { isEmptyString } from '../Validation';
+  import Loader from '../Utils/controls/Loader'
 
 export class AspirationCountry extends Component {
   constructor(props) {
@@ -199,59 +195,59 @@ export class AspirationCountry extends Component {
       });
     }
     this.props.viewCountry(0, 20, null);
-  }
-  render() {
-    console.log(this.props);
-    return (
-      <div>
-        <ThemeProvider theme={this.getmuitheme()}>
-          <Grid container>
-            <Grid item md={12}>
-              {this.props.viewCountryList.length !== 0 ? (
-                <TableComponent
-                  data={
-                    this.props.viewCountryList.length !== 0
-                      ? this.props.viewCountryList.content
-                      : null
-                  }
-                  cols={this.col}
-                  onRowClick={this.rowClick}
-                  onSearch={this.paginate}
-                  paginate={this.paginate}
-                  totalCount={this.props.viewCountryList.totalElements}
-                  title={'Country Of Dream College'}
-                  pageCount={this.props.viewCountryList.totalPages}
-                  action={true}
-                  onDelete={true}
-                  onDeleteClick={this.deleteHandler}
-                  onEdit={true}
-                  onEditClick={this.handleEdit}
-                  add={true}
-                  onAddClick={this.handleClickOpen}
-                />
-              ) : (
-                <ThemeProvider theme={this.spinnerTheme()}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: '65vh',
-                    }}
-                  >
-                    <CircularProgress
-                      color='primary'
-                      variant='indeterminate'
-                      size='3rem'
-                      thickness='3'
-                    />
-                  </div>
-                </ThemeProvider>
-              )}
-            </Grid>
-          </Grid>
-          {/* Add and Edit Aspiration Country Of Dream College */}
-          <ThemeProvider theme={this.modeltheme()}>
+  
+    }
+    render() {
+      console.log(this.props)
+        return (
+            <div>
+                <ThemeProvider theme={this.getmuitheme()}>
+               <Grid container>
+                   <Grid item md={12}>
+                   {this.props.viewCountryList.length !== 0 ? (
+            <TableComponent
+              data={
+                this.props.viewCountryList.length !== 0
+                  ? this.props.viewCountryList.content
+                  : null
+              }
+              cols={this.col}
+              onRowClick={this.rowClick}
+              onSearch={this.paginate}
+              paginate={this.paginate}
+              totalCount={this.props.viewCountryList.totalElements}
+              title={"Country Of Dream College"}
+              pageCount={this.props.viewCountryList.totalPages}
+              action={true}
+              onDelete={true}
+              onDeleteClick={this.deleteHandler}
+              onEdit={true}              
+              onEditClick={this.handleEdit}
+              add={true}
+              onAddClick={this.handleClickOpen}
+            />
+          ) : (
+            <ThemeProvider theme={this.spinnerTheme()}>
+            <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "65vh",
+            }}>
+          {/* <CircularProgress
+         color="primary"
+          variant="indeterminate"
+          size = "3rem"
+          thickness="3"
+           /> */}
+           <Loader />
+           </div>
+          </ThemeProvider>
+          )}
+                   </Grid>
+               </Grid>
+                {/* Add and Edit Aspiration Country Of Dream College */}
+                <ThemeProvider theme={this.modeltheme()}>
             <Dialog
               TransitionComponent={Transition}
               open={this.state.show}

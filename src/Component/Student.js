@@ -1,22 +1,17 @@
 import React, { Component, forwardRef } from "react";
-import "../Asset/StudentData.css";
-import "bootstrap/dist/css/bootstrap.css";
-import axios from "axios";
-import MaterialTable from "material-table";
-import history from "./History";
 import {
-  isAlpha,
-  isEmailSpecialChar,
-  isNumber,
-  isSpecialCharacter,
-} from "./Validation";
+  Button, Checkbox, CircularProgress,
+  Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton,
+  TextField
+} from "@material-ui/core";
+
+import Snackbar from "@material-ui/core/Snackbar";
 import {
   createMuiTheme,
   MuiThemeProvider,
-  ThemeProvider,
+  ThemeProvider
 } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
 import ChevronLeft from "@material-ui/icons/ChevronLeft";
@@ -31,43 +26,13 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import {
-  getStudents,
-  getStudentPaginate,
-  postStudents,
-  mernStudentSignUp,
-  mernStudentEdit,
-} from "../Actions/Student";
-import { getAllColleges, getBranches } from "../Actions/College";
-import { updateLmsAccess } from "../Actions/AdminAction";
-import { connect } from "react-redux";
-import { URL } from "../Actions/URL";
+import CloseIcon from "@material-ui/icons/CloseRounded";
 import {
   studentIdPath,
   productuserPunchingPath,
   lms_course_taken,
 } from "./RoutePaths";
-import TableComponent from "./TableComponent/TableComponent";
-import {
-  CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Grid,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-} from "@material-ui/core";
-import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { studentPath } from "./RoutePaths";
-import BackButton from "../Asset/Images/backbutton.svg";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import CloseIcon from "@material-ui/icons/Close";
-import { Breadcrumbs, Typography, IconButton } from "@material-ui/core";
 import styled from "styled-components";
 import {
   getAllLmsProduct,
@@ -75,7 +40,21 @@ import {
   getStudentProducts,
 } from "../Lms/Redux/Action/Student";
 import { keys } from "@material-ui/core/styles/createBreakpoints";
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import "bootstrap/dist/css/bootstrap.css";
+import { connect } from "react-redux";
+import { updateLmsAccess } from "../Actions/AdminAction";
+import { getAllColleges, getBranches } from "../Actions/College";
+import {
+  getStudentPaginate, getStudents, mernStudentEdit, mernStudentSignUp, postStudents
+} from "../Actions/Student";
+import "../Asset/StudentData.css";
+import TableComponent from "./TableComponent/TableComponent";
+import Loader from "./Utils/controls/Loader";
+import {
+  isAlpha, isEmptyString,
+  isNumber
+} from "./Validation";
 export class Student extends Component {
   constructor(props) {
     super(props);
@@ -98,19 +77,21 @@ export class Student extends Component {
       password: "123456",
       studentId: null,
       isActive: true,
-      firstNameHelperText: null,
-      lastNameHelperText: null,
-      emailHelperText: null,
-      collegeHelperText: null,
-      departmentHelperText: null,
-      phoneHelperText: null,
-      studentIdHelperText: null,
+      firstNameHelperText: "",
+      lastNameHelperText: "",
+      emailHelperText: "",
+      collegeHelperText: "",
+      departmentHelperText: "",
+      phoneHelperText: "",
+      studentIdHelperText: "",
       internAccess: false,
       lmsAccess: false,
       prevEmail: null,
-
-      product: [],
-      selectedProduct: [],
+      search: {
+        page: 0,
+        size: "",
+        keyword: "",
+      },
     };
   }
 
@@ -197,29 +178,19 @@ export class Student extends Component {
           lmsobj
         );
         this.setState({
-          lmsAccess: false,
-          //   //   snackMessage : "Student Registered Successfully",
-          //   //   snackColor : "success",
-          //   //   snackOpen : true
-        });
+          lmsAccess : false
+        })
       }
       this.props.getStudentPaginate(0, 20);
     }
-    if (this.props.signUpError !== prevProps.signUpError) {
-      console.log("Something");
-      // this.setState({
-      //   snackMessage : this.props.signUpError,
-      //   snackColor : "error",
-      //   snackOpen : true
-      // })
-    }
     if (this.props.editStudentResponse !== prevProps.editStudentResponse) {
-      // this.setState({
-      //   snackMessage : "Student Edited Successfully",
-      //   snackColor : "success",
-      //   snackOpen : true
-      // })
       this.props.getStudentPaginate(0, 20);
+    }
+    // TO search users when the input feild for search is empty
+    if (this.state.search.keyword !== prevState.search.keyword) {
+      if (isEmptyString(this.state.search.keyword)) {
+        this.props.getStudentPaginate(0, 20);
+      }
     }
   }
 
@@ -235,6 +206,10 @@ export class Student extends Component {
       if (rowData.isLMSUser)
         this.props.history.push(lms_course_taken + "?studentId=" + rowData.id);
     }
+    // window.sessionStorage.setItem("student", rowData);
+    // this.props.match.path !== "/admin/productpunching"
+    //   ? this.props.history.push(studentIdPath + "/" + rowData.id)
+    //   : this.props.history.push(productuserPunchingPath + rowData.id);
   };
 
   getmuitheme = () =>
@@ -247,7 +222,6 @@ export class Student extends Component {
         },
       },
     });
-
   spinnerTheme = () =>
     createMuiTheme({
       overrides: {
@@ -260,7 +234,21 @@ export class Student extends Component {
     });
 
   paginate = (page, size, keyword) => {
-    this.props.getStudentPaginate(page, size, keyword);
+    console.log(page, size, keyword);
+    var tempSearchHolder = { ...this.state.search };
+    tempSearchHolder.page = page;
+    tempSearchHolder.size = size;
+    tempSearchHolder.keyword = keyword;
+    console.log(tempSearchHolder);
+    this.setState({
+      search: tempSearchHolder,
+    });
+    if (
+      // this.state.search.page !== 0 &&
+      this.state.search.page !== page
+    ) {
+      this.props.getStudentPaginate(page, size, keyword);
+    }
   };
 
   isEmail = (email) => {
@@ -271,55 +259,38 @@ export class Student extends Component {
   handleSubmit = (e) => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
-      ? this.setState({
-          firstNameHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ firstNameHelperText: null });
+      ? this.setState({ firstNameHelperText: "Please fill the required feild", isLoading: false, })
+      : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
-      ? this.setState({
-          lastNameHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ lastNameHelperText: null });
+      ? this.setState({ lastNameHelperText: "Please fill the required feild", isLoading: false, })
+      : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
-      ? this.setState({
-          emailHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ emailHelperText: null });
-    this.state.phone === null || this.state.phone.length === 0
-      ? this.setState({
-          phoneHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ phoneHelperText: null });
+      ? this.setState({ emailHelperText: "Please fill the required feild", isLoading: false, })
+      : this.setState({ emailHelperText: "" });
     this.state.college === null || this.state.college.length === 0
-      ? this.setState({
-          collegeHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ collegeHelperText: null });
+      ? this.setState({ collegeHelperText: "Please fill the required feild", isLoading: false, })
+      : this.setState({ collegeHelperText: "" });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
-          departmentHelperText: "Please fill the required feild",
-          isLoading: false,
+          departmentHelperText: "Please fill the required feild", isLoading: false,
         })
-      : this.setState({ departmentHelperText: null });
+      : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
-      ? this.setState({
-          studentIdHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ studentIdHelperText: null });
-
+      ? this.setState({ studentIdHelperText: "Please fill the required feild", isLoading: false, })
+      : this.setState({ studentIdHelperText: "" });
     if (this.state.eMail && !this.isEmail(this.state.eMail)) {
-      this.setState({
-        emailHelperText: "Please fill valid email",
-        isLoading: false,
-      });
+      this.setState({ emailHelperText: "Please fill valid email", isLoading: false, });
     } else if (this.isEmail(this.state.eMail)) {
-      this.setState({ emailHelperText: null });
+      this.setState({ emailHelperText: "" });
+    }
+    if (isEmptyString(this.state.phone)) {
+      this.setState({ phoneHelperText: "Please fill the required feild", isLoading: false, });
+    } else if (this.state.phone.length !== 10) {
+      this.setState({ phoneHelperText: "Enter the valid phone number", isLoading: false, });
+    } else {
+      this.setState({
+        phoneHelperText: "",
+      });
     }
 
     if (
@@ -330,7 +301,7 @@ export class Student extends Component {
       this.state.eMail !== null &&
       this.state.eMail.length !== 0 &&
       this.state.phone !== null &&
-      this.state.phone.length !== 0 &&
+      this.state.phone.length === 10 &&
       this.state.college !== null &&
       this.state.college.length !== 0 &&
       this.state.department !== null &&
@@ -348,7 +319,7 @@ export class Student extends Component {
         college: this.state.college.id,
         department: this.state.department.id,
         roles: ["Student"],
-        password: this.state.password,
+        password: this.state.phone,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
         avatar: "",
@@ -407,51 +378,31 @@ export class Student extends Component {
       this.setState({ isLoading: false });
     }
   };
-
   handleEdit = () => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
-      ? this.setState({
-          firstNameHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ firstNameHelperText: null });
+      ? this.setState({ firstNameHelperText: "Please fill the required feild", isLoading : false })
+      : this.setState({ firstNameHelperText: '' });
     this.state.lastName === null || this.state.lastName.length === 0
-      ? this.setState({
-          lastNameHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ lastNameHelperText: null });
+      ? this.setState({ lastNameHelperText: "Please fill the required feild", isLoading : false })
+      : this.setState({ lastNameHelperText: '' });
     this.state.eMail === null || this.state.eMail.length === 0
-      ? this.setState({
-          emailHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ emailHelperText: null });
+      ? this.setState({ emailHelperText: "Please fill the required feild", isLoading : false })
+      : this.setState({ emailHelperText: '' });
     this.state.phone === null || this.state.phone.length === 0
-      ? this.setState({
-          phoneHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ phoneHelperText: null });
+      ? this.setState({ phoneHelperText: "Please fill the required feild", isLoading : false })
+      : this.setState({ phoneHelperText: '' });
     this.state.college === null || this.state.college.length === 0
-      ? this.setState({
-          collegeHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ collegeHelperText: null });
+      ? this.setState({ collegeHelperText: "Please fill the required feild", isLoading : false })
+      : this.setState({ collegeHelperText: '' });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
-          departmentHelperText: "Please fill the required feild",
-          isLoading: false,
+          departmentHelperText: "Please fill the required feild", isLoading : false
         })
-      : this.setState({ departmentHelperText: null });
+      : this.setState({ departmentHelperText: '' });
     this.state.studentId === null || this.state.studentId.length === 0
-      ? this.setState({
-          studentIdHelperText: "Please fill the required feild",
-          isLoading: false,
-        })
-      : this.setState({ studentIdHelperText: null });
+      ? this.setState({ studentIdHelperText: "Please fill the required feild", isLoading : false })
+      : this.setState({ studentIdHelperText: '' });
     if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&
@@ -564,7 +515,7 @@ export class Student extends Component {
   };
 
   renderProduct = () => {
-    return this.state.product.map((item, idx) => {
+    return this.state.product && this.state.product.map((item, idx) => {
       return (
         <>
           <Grid item sm={6} md={6}>
@@ -650,6 +601,15 @@ export class Student extends Component {
     });
   };
 
+  // Function that handle search
+  handleSearch = () => {
+    // this.state.search.page
+    this.props.getStudentPaginate(
+      0,
+      this.state.search.size,
+      this.state.search.keyword
+    );
+  };
   render() {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
@@ -693,12 +653,19 @@ export class Student extends Component {
                   ? this.props.StudentFilterList.content
                   : null
               }
-              // data={data.length !== 0 ? data : null}
               add={
                 this.props.match.path === "/admin/productpunching"
                   ? false
                   : true
               }
+              needSearch
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  e.preventDefault();
+                  document.getElementById("search").click();
+                }
+              }}
+              onSearchClick={this.handleSearch}
               onAddClick={(e) =>
                 this.setState({
                   dialogOpen: true,
@@ -800,12 +767,13 @@ export class Student extends Component {
                   height: "65vh",
                 }}
               >
-                <CircularProgress
+                {/* <CircularProgress
                   color="primary"
                   variant="indeterminate"
                   size="3rem"
                   thickness="3"
-                />
+                /> */}
+                <Loader/>
               </div>
             </ThemeProvider>
           )}
@@ -835,11 +803,13 @@ export class Student extends Component {
                   label="First Name"
                 />
               </Grid>
+             
               <Grid item md={6}>
                 <TextField
                   variant="outlined"
                   size="small"
                   fullWidth
+                  error={this.state.lastNameHelperText.length !== 0}
                   helperText={this.state.lastNameHelperText}
                   onKeyPress={(evt) => {
                     if (isAlpha(evt)) evt.preventDefault();
@@ -853,6 +823,7 @@ export class Student extends Component {
                 <TextField
                   variant="outlined"
                   size="small"
+                  error={this.state.emailHelperText.length !== 0}
                   helperText={this.state.emailHelperText}
                   value={this.state.eMail}
                   onChange={(e) => this.setState({ eMail: e.target.value })}
@@ -891,6 +862,7 @@ export class Student extends Component {
                   renderInput={(params) => (
                     <TextField
                       helperText={this.state.collegeHelperText}
+                      error={this.state.collegeHelperText.length !== 0}
                       {...params}
                       size="small"
                       label="College"
@@ -916,6 +888,7 @@ export class Student extends Component {
                   renderInput={(params) => (
                     <TextField
                       helperText={this.state.departmentHelperText}
+                      error={this.state.departmentHelperText.length !== 0}
                       {...params}
                       size="small"
                       label="Department"
@@ -941,10 +914,12 @@ export class Student extends Component {
                   }}
                 />
               </Grid>
+             
               <Grid item md={6}>
                 <TextField
                   variant="outlined"
                   size="small"
+                  error={this.state.studentIdHelperText.length !== 0}
                   helperText={this.state.studentIdHelperText}
                   value={this.state.studentId}
                   onChange={(e) => this.setState({ studentId: e.target.value })}
@@ -1019,19 +994,21 @@ export class Student extends Component {
                   variant="outlined"
                   size="small"
                   disabled
-                  value={this.state.password}
+                  value={this.state.phone || ""}
                   fullWidth
                   label="Password"
                 />
               </Grid>
-
-              <Grid
-                item
-                md={12}
-                style={{ display: "flex", justifyContent: "flex-end" }}
-              >
-                <LinkButton onClick={this.addProduct}>+ Add Product</LinkButton>
-              </Grid>
+{["LMSEDITOR", "LMSCHECKER"].includes(window.sessionStorage.getItem("role")) && 
+   <Grid
+   item
+   md={12}
+   style={{ display: "flex", justifyContent: "flex-end" }}
+ >
+   <LinkButton onClick={this.addProduct}>+ Add Product</LinkButton>
+ </Grid>
+}
+             
               {this.renderProduct()}
             </Grid>
           </DialogContent>

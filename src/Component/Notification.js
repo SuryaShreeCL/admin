@@ -25,6 +25,7 @@ import { isEmptyString } from './Validation';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import {studentPath } from "./RoutePaths";
 import BackButton from '../Asset/Images/backbutton.svg'
+import Loader from './Utils/controls/Loader';
 
 export class Notification extends Component {
 
@@ -439,12 +440,13 @@ spinnerTheme = () =>createMuiTheme({
                       alignItems: "center",
                       height: "65vh",
                 }}>
-              <CircularProgress
+              {/* <CircularProgress
              color="primary"
               variant="indeterminate"
               size = "3rem"
               thickness="3"
-               />
+               /> */}
+               <Loader />
                </div>
               </ThemeProvider>
               )} 

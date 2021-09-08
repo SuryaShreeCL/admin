@@ -4,3 +4,6 @@
 .user_data_heading {
     color: #0081FF;
 }
+::-webkit-scrollbar{
+    display: none;
+}

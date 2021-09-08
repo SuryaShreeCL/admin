@@ -193,7 +193,7 @@ export const getDegree=()=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.get(URL+"/api/v1/degrees",{
+        axios.get(URL+"/api/v1/degrees/ug",{
             crossDomain: true,
             headers : {
                 "Authorization" : `Bearer ${accessToken}`,
@@ -204,6 +204,28 @@ export const getDegree=()=>{
                 console.log(result);
                 console.log(result.data);
                 dispatch({type:COLLEGES.getDegrees,degreeList:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+        
+}
+export const getPGDegree=()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/degrees/pg",{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {
+                console.log(result);
+                console.log(result.data);
+                dispatch({type:COLLEGES.getPGDegrees,getPGDegrees:result.data})
             })
             .catch(error => {
                 console.log(error);

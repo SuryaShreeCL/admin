@@ -29,6 +29,7 @@ import IconButton from "@material-ui/core/IconButton";
   import NavigateNextIcon from "@material-ui/icons/NavigateNext";
   import BackButton from '../Asset/Images/backbutton.svg';
   import {studentPath} from '../Component/RoutePaths'
+import Loader from './Utils/controls/Loader';
 export class City extends Component {
     constructor(props) {
         super(props);
@@ -266,12 +267,13 @@ export class City extends Component {
                   alignItems: "center",
                   height: "65vh",
             }}>
-          <CircularProgress
+          {/* <CircularProgress
          color="primary"
           variant="indeterminate"
           size = "3rem"
           thickness="3"
-           />
+           /> */}
+           <Loader />
            </div>
           </ThemeProvider>
           )}

@@ -391,7 +391,7 @@ class workExperience extends Component {
                         margin="normal"
                         id="date-picker-dialog"
                         label="Start Date"
-                        format="yyyy-MM"
+                        format="MM/yyyy"
                         views={["year", "month"]}
                         inputProps={{ readOnly: true }}
                         error={this.state.startDateErr.length > 0}
@@ -417,7 +417,7 @@ class workExperience extends Component {
                         margin="normal"
                         id="date-picker-dialog"
                         label="End Date"
-                        format="yyyy-MM"
+                        format="MM/yyyy"
                         views={["year", "month"]}
                         contentEditable={this.state.disable}
                         minDate={this.state.professional[index].startDate}
