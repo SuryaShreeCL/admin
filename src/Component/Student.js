@@ -1000,14 +1000,16 @@ export class Student extends Component {
                   label="Password"
                 />
               </Grid>
-
-              <Grid
-                item
-                md={12}
-                style={{ display: "flex", justifyContent: "flex-end" }}
-              >
-                <LinkButton onClick={this.addProduct}>+ Add Product</LinkButton>
-              </Grid>
+{["LMSEDITOR", "LMSCHECKER"].includes(window.sessionStorage.getItem("role")) && 
+   <Grid
+   item
+   md={12}
+   style={{ display: "flex", justifyContent: "flex-end" }}
+ >
+   <LinkButton onClick={this.addProduct}>+ Add Product</LinkButton>
+ </Grid>
+}
+             
               {this.renderProduct()}
             </Grid>
           </DialogContent>
