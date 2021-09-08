@@ -1,15 +1,23 @@
 import React, { Component, forwardRef } from "react";
 import {
-  Button, Checkbox, CircularProgress,
-  Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton,
-  TextField
+  Button,
+  Checkbox,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  TextField,
 } from "@material-ui/core";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import {
   createMuiTheme,
   MuiThemeProvider,
-  ThemeProvider
+  ThemeProvider,
 } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -46,15 +54,16 @@ import { connect } from "react-redux";
 import { updateLmsAccess } from "../Actions/AdminAction";
 import { getAllColleges, getBranches } from "../Actions/College";
 import {
-  getStudentPaginate, getStudents, mernStudentEdit, mernStudentSignUp, postStudents
+  getStudentPaginate,
+  getStudents,
+  mernStudentEdit,
+  mernStudentSignUp,
+  postStudents,
 } from "../Actions/Student";
 import "../Asset/StudentData.css";
 import TableComponent from "./TableComponent/TableComponent";
 import Loader from "./Utils/controls/Loader";
-import {
-  isAlpha, isEmptyString,
-  isNumber
-} from "./Validation";
+import { isAlpha, isEmptyString, isNumber } from "./Validation";
 export class Student extends Component {
   constructor(props) {
     super(props);
@@ -178,12 +187,13 @@ export class Student extends Component {
           lmsobj
         );
         this.setState({
-          lmsAccess : false
-        })
+          lmsAccess: false,
+        });
       }
       this.props.getStudentPaginate(0, 20);
     }
     if (this.props.editStudentResponse !== prevProps.editStudentResponse) {
+      console.log(this.props.editStudentResponse);
       this.props.getStudentPaginate(0, 20);
     }
     // TO search users when the input feild for search is empty
@@ -259,34 +269,59 @@ export class Student extends Component {
   handleSubmit = (e) => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
-      ? this.setState({ firstNameHelperText: "Please fill the required feild", isLoading: false, })
+      ? this.setState({
+          firstNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
-      ? this.setState({ lastNameHelperText: "Please fill the required feild", isLoading: false, })
+      ? this.setState({
+          lastNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
-      ? this.setState({ emailHelperText: "Please fill the required feild", isLoading: false, })
+      ? this.setState({
+          emailHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ emailHelperText: "" });
     this.state.college === null || this.state.college.length === 0
-      ? this.setState({ collegeHelperText: "Please fill the required feild", isLoading: false, })
+      ? this.setState({
+          collegeHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ collegeHelperText: "" });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
-          departmentHelperText: "Please fill the required feild", isLoading: false,
+          departmentHelperText: "Please fill the required feild",
+          isLoading: false,
         })
       : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
-      ? this.setState({ studentIdHelperText: "Please fill the required feild", isLoading: false, })
+      ? this.setState({
+          studentIdHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
       : this.setState({ studentIdHelperText: "" });
     if (this.state.eMail && !this.isEmail(this.state.eMail)) {
-      this.setState({ emailHelperText: "Please fill valid email", isLoading: false, });
+      this.setState({
+        emailHelperText: "Please fill valid email",
+        isLoading: false,
+      });
     } else if (this.isEmail(this.state.eMail)) {
       this.setState({ emailHelperText: "" });
     }
     if (isEmptyString(this.state.phone)) {
-      this.setState({ phoneHelperText: "Please fill the required feild", isLoading: false, });
+      this.setState({
+        phoneHelperText: "Please fill the required feild",
+        isLoading: false,
+      });
     } else if (this.state.phone.length !== 10) {
-      this.setState({ phoneHelperText: "Enter the valid phone number", isLoading: false, });
+      this.setState({
+        phoneHelperText: "Enter the valid phone number",
+        isLoading: false,
+      });
     } else {
       this.setState({
         phoneHelperText: "",
@@ -319,7 +354,7 @@ export class Student extends Component {
         college: this.state.college.id,
         department: this.state.department.id,
         roles: ["Student"],
-        password: this.state.phone,
+        password: this.state.password,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
         avatar: "",
@@ -371,7 +406,6 @@ export class Student extends Component {
         provider: "",
         internAccess: false,
         studentId: null,
-        product: [],
         selectedProduct: [],
       });
     } else {
@@ -381,28 +415,47 @@ export class Student extends Component {
   handleEdit = () => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
-      ? this.setState({ firstNameHelperText: "Please fill the required feild", isLoading : false })
-      : this.setState({ firstNameHelperText: '' });
+      ? this.setState({
+          firstNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
+      : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
-      ? this.setState({ lastNameHelperText: "Please fill the required feild", isLoading : false })
-      : this.setState({ lastNameHelperText: '' });
+      ? this.setState({
+          lastNameHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
+      : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
-      ? this.setState({ emailHelperText: "Please fill the required feild", isLoading : false })
-      : this.setState({ emailHelperText: '' });
+      ? this.setState({
+          emailHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
+      : this.setState({ emailHelperText: "" });
     this.state.phone === null || this.state.phone.length === 0
-      ? this.setState({ phoneHelperText: "Please fill the required feild", isLoading : false })
-      : this.setState({ phoneHelperText: '' });
+      ? this.setState({
+          phoneHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
+      : this.setState({ phoneHelperText: "" });
     this.state.college === null || this.state.college.length === 0
-      ? this.setState({ collegeHelperText: "Please fill the required feild", isLoading : false })
-      : this.setState({ collegeHelperText: '' });
+      ? this.setState({
+          collegeHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
+      : this.setState({ collegeHelperText: "" });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
-          departmentHelperText: "Please fill the required feild", isLoading : false
+          departmentHelperText: "Please fill the required feild",
+          isLoading: false,
         })
-      : this.setState({ departmentHelperText: '' });
+      : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
-      ? this.setState({ studentIdHelperText: "Please fill the required feild", isLoading : false })
-      : this.setState({ studentIdHelperText: '' });
+      ? this.setState({
+          studentIdHelperText: "Please fill the required feild",
+          isLoading: false,
+        })
+      : this.setState({ studentIdHelperText: "" });
     if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&
@@ -437,10 +490,12 @@ export class Student extends Component {
       this.props.postStudentLmsProduct(
         this.state.id,
         {
-          products: this.state.product.map((item) => ({
-            productId: item.product.id,
-            expirationDate: item.expirationDate,
-          })),
+          products:
+            this.state.product &&
+            this.state.product.map((item) => ({
+              productId: item.product.id,
+              expirationDate: item.expirationDate,
+            })),
         },
         () => {}
       );
@@ -515,90 +570,97 @@ export class Student extends Component {
   };
 
   renderProduct = () => {
-    return this.state.product && this.state.product.map((item, idx) => {
-      return (
-        <>
-          <Grid item sm={6} md={6}>
-            <Autocomplete
-              options={
-                Object.keys(this.props.lmsProducts).length !== 0
-                  ? this.props.lmsProducts.data.filter(
-                      (item) =>
-                        this.state.selectedProduct
-                          .map((el) => el.id)
-                          .indexOf(item.id) === -1
-                    )
-                  : []
-              }
-              value={item.product || null}
-              getOptionLabel={(option) => option.title}
-              onChange={(e, newValue) => {
-                if (newValue) {
-                  this.onChange("product", newValue, idx);
-                  let arr = this.state.selectedProduct.filter(
-                    (item) => item.id !== newValue.id
-                  );
-                  arr.push(newValue);
-                  this.setState({ selectedProduct: arr });
+    return (
+      this.state.product &&
+      this.state.product.map((item, idx) => {
+        return (
+          <>
+            <Grid item sm={6} md={6}>
+              <Autocomplete
+                options={
+                  Object.keys(this.props.lmsProducts).length !== 0
+                    ? this.props.lmsProducts.data.filter(
+                        (item) =>
+                          this.state.selectedProduct
+                            .map((el) => el.id)
+                            .indexOf(item.id) === -1
+                      )
+                    : []
                 }
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Product Name"
-                  variant="outlined"
-                />
-              )}
-              fullWidth
-            />
-          </Grid>
-          <Grid item sm={5} md={5}>
-            <TextField
-              type={"date"}
-              color={"primary"}
-              variant={"outlined"}
-              onChange={(e) => {
-                this.onChange("expirationDate", new Date(e.target.value), idx);
-              }}
-              value={
-                item.expirationDate
-                  ? new Date(item.expirationDate)
+                value={item.product || null}
+                getOptionLabel={(option) => option.title}
+                onChange={(e, newValue) => {
+                  if (newValue) {
+                    this.onChange("product", newValue, idx);
+                    let arr = this.state.selectedProduct.filter(
+                      (item) => item.id !== newValue.id
+                    );
+                    arr.push(newValue);
+                    this.setState({ selectedProduct: arr });
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Product Name"
+                    variant="outlined"
+                  />
+                )}
+                fullWidth
+              />
+            </Grid>
+            <Grid item sm={5} md={5}>
+              <TextField
+                type={"date"}
+                color={"primary"}
+                variant={"outlined"}
+                onChange={(e) => {
+                  this.onChange(
+                    "expirationDate",
+                    new Date(e.target.value),
+                    idx
+                  );
+                }}
+                value={
+                  item.expirationDate
+                    ? new Date(item.expirationDate)
+                        .toISOString()
+                        .replace(/T.*/, "")
+                        .split("-")
+                        .join("-")
+                    : item.expirationDate
+                }
+                label={"expiry Date"}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  inputProps: {
+                    min: new Date()
                       .toISOString()
                       .replace(/T.*/, "")
                       .split("-")
-                      .join("-")
-                  : item.expirationDate
-              }
-              label={"expiry Date"}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                inputProps: {
-                  min: new Date()
-                    .toISOString()
-                    .replace(/T.*/, "")
-                    .split("-")
-                    .join("-"),
-                },
-              }}
-              fullWidth
-              disablePast
-            />
-          </Grid>
-          <Grid item sm={1} md={1}>
-            <IconButton
-              onClick={() => {
-                this.removeProduct(idx);
-                this.removeSelectedItem(item.product.id);
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </>
-      );
-    });
+                      .join("-"),
+                  },
+                }}
+                fullWidth
+                disablePast
+              />
+            </Grid>
+            <Grid item sm={1} md={1}>
+              <IconButton
+                onClick={() => {
+                  this.removeProduct(idx);
+                  this.removeSelectedItem(item.product.id);
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Grid>
+          </>
+        );
+      })
+    );
   };
 
   // Function that handle search
@@ -773,7 +835,7 @@ export class Student extends Component {
                   size="3rem"
                   thickness="3"
                 /> */}
-                <Loader/>
+                <Loader />
               </div>
             </ThemeProvider>
           )}
@@ -803,7 +865,7 @@ export class Student extends Component {
                   label="First Name"
                 />
               </Grid>
-             
+
               <Grid item md={6}>
                 <TextField
                   variant="outlined"
@@ -914,7 +976,7 @@ export class Student extends Component {
                   }}
                 />
               </Grid>
-             
+
               <Grid item md={6}>
                 <TextField
                   variant="outlined"
@@ -994,21 +1056,25 @@ export class Student extends Component {
                   variant="outlined"
                   size="small"
                   disabled
-                  value={this.state.phone || ""}
+                  value={this.state.password || ""}
                   fullWidth
                   label="Password"
                 />
               </Grid>
-{["LMSEDITOR", "LMSCHECKER"].includes(window.sessionStorage.getItem("role")) && 
-   <Grid
-   item
-   md={12}
-   style={{ display: "flex", justifyContent: "flex-end" }}
- >
-   <LinkButton onClick={this.addProduct}>+ Add Product</LinkButton>
- </Grid>
-}
-             
+              {["LMSEDITOR", "LMSCHECKER"].includes(
+                window.sessionStorage.getItem("role")
+              ) && (
+                <Grid
+                  item
+                  md={12}
+                  style={{ display: "flex", justifyContent: "flex-end" }}
+                >
+                  <LinkButton onClick={this.addProduct}>
+                    + Add Product
+                  </LinkButton>
+                </Grid>
+              )}
+
               {this.renderProduct()}
             </Grid>
           </DialogContent>
