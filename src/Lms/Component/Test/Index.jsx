@@ -61,6 +61,7 @@ class TestLanding extends Component {
   handleDropDownChange = event => {
     this.setState({
       [event.target.name]: event.target.value,
+      currentPage: 0,
     });
   };
 
@@ -105,7 +106,7 @@ class TestLanding extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
       let paramObj = {
-        page: INITIAL_PAGE_NO,
+        page: this.state.currentPage,
         testType:
           this.state.testType !== 'default' ? this.state.testType : null,
         topicId: this.state.topicId !== 'default' ? this.state.topicId : null,
@@ -142,7 +143,10 @@ class TestLanding extends Component {
         button1: 'No',
         button2: 'Yes',
       };
-      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+      this.setState({
+        dialogStatus: true,
+        dialogContent: dialogContent,
+      });
     } else if (text === 'Unarchive') {
       const dialogContent = {
         type: 'unarchive',

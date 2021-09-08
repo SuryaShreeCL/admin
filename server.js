@@ -1,25 +1,25 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 const app = express();
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8001;
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, 'build')));
 
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.use(function(req, res, next) {
   //console.log(req, res, next, "req, res, nextreq, res, next")
   if (
-    req.method === "GET" &&
-    req.accepts("html") &&
-    !req.is("json") &&
-    !req.path.includes(".")
+    req.method === 'GET' &&
+    req.accepts('html') &&
+    !req.is('json') &&
+    !req.path.includes('.')
   ) {
     //res.sendFile('index.html', { root })
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
   } else next();
 });
 
