@@ -5,11 +5,12 @@ const initialState = {
   taskTopic: [],
   products: [],
   lmsProducts: {},
-  strengthWeakness : null,
+  strengthWeakness: null,
   studyPlan: null,
-  calibrationTest : null,
-  topicTest : null,
-  topicTestReport : null
+  calibrationTest: null,
+  topicTest: null,
+  topicTestReport: null,
+  studentProducts: {},
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -65,6 +66,12 @@ const LmsStudentReducer = (state = initialState, action) => {
     case STUDENT.studentLmsProduct: {
       return {
         ...state,
+      };
+    }
+    case STUDENT.getStudentProducts: {
+      return {
+        ...state,
+        studentProducts: action.payload,
       };
     }
     default:

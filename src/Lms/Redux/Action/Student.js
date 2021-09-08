@@ -287,3 +287,27 @@ export const topicTestReportExport = (studentId, productId, callback) => {
       });
   };
 };
+
+export const getStudentProducts = (studentId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(DEV_LMS + `/api/v1/lms/students/${studentId}/products/allocated`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: STUDENT.getStudentProducts,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};

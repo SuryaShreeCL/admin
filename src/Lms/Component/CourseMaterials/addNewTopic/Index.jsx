@@ -491,7 +491,9 @@ class Index extends Component {
                 {tabValue > 0 && newTaskData.length !== 0 && (
                   <TabThreeDot>
                     <IconButton
-                      style={{ padding: "0px" }}
+                      style={{
+                        padding: "3px",
+                      }}
                       onClick={handleThreeDotClick}
                     >
                       <MoreVertRounded style={{ fill: "#1093ff" }} />

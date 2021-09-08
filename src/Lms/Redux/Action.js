@@ -36,11 +36,12 @@ export const STUDENT = {
   getTaskTopic: "getTaskTopic",
   getProducts: "getProducts",
   getLmsProducts: "getLmsProduct",
+  getStudentProducts: "getStudentProducts",
   studentLmsProduct: "studentLmsProduct",
   studentExistProducts: "studentExistProduct",
-  strengthWeaknessExport : "strengthWeaknessExport",
-  studyPlanExport : "studyPlanExport",
-  calibrationTestExport : "calibrationTestExport",
-  topicTestExport : "topicTestExport",
-  topicTestReportExport : "topicTestReportExport"
+  strengthWeaknessExport: "strengthWeaknessExport",
+  studyPlanExport: "studyPlanExport",
+  calibrationTestExport: "calibrationTestExport",
+  topicTestExport: "topicTestExport",
+  topicTestReportExport: "topicTestReportExport",
 };
