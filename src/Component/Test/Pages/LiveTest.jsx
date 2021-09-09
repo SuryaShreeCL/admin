@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'testName', label: 'Test Name' },
-  { id: 'category', label: 'Category' },
+  { id: 'noOfQues', label: 'Questions' },
   { id: 'duration', label: 'Duration' },
   { id: 'created', label: 'Created On' },
   { id: 'createdby', label: 'Created By' },
@@ -82,6 +82,7 @@ export default function LiveTest() {
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
 
   const [scheduler, setScheduler] = useState(false);
+  const [data, setData] = useState('');
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -121,6 +122,11 @@ export default function LiveTest() {
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
+  };
+
+  const onSchedule = (item) => {
+    setScheduler(true);
+    setData(item);
   };
 
   const onDelete = (id) => {
@@ -188,7 +194,7 @@ export default function LiveTest() {
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.courseName}</TableCell>
+                  <TableCell>{item.noOfQuestions}</TableCell>
                   <TableCell>{item.duration}</TableCell>
                   <TableCell>{moment(item.createdAt).format('ll')}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
@@ -200,13 +206,13 @@ export default function LiveTest() {
                     >
                       <CloudDownloadIcon
                         fontSize='small'
-                        style={{ color: `${item.totalRegistrations && 'green'}` }}
+                        style={{ color: `${item.duration && 'green'}` }}
                       />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => setScheduler(true)}>
+                    <Controls.ActionButton onClick={() => onSchedule(item)}>
                       <ScheduleIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                     <Controls.ActionButton
@@ -269,7 +275,7 @@ export default function LiveTest() {
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
-      <ScheduleLater scheduler={scheduler} setScheduler={setScheduler} />
+      <ScheduleLater scheduler={scheduler} setScheduler={setScheduler} data={data} />
     </>
   );
 }

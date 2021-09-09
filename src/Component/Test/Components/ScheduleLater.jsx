@@ -12,9 +12,11 @@ import { Grid } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EventIcon from '@material-ui/icons/Event';
 import Controls from '../../Utils/controls/Controls';
+import { useDispatch } from 'react-redux';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
+import { scheduleTest } from '../../../Actions/TestActions';
 import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
@@ -46,22 +48,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ScheduleLater(props) {
-  const { scheduler, setScheduler } = props;
+  const { scheduler, setScheduler, data } = props;
   const classes = useStyles();
-  const [state, setState] = useState({
-    wallCategories: [],
-    duration: 0,
-    supportingMedia: 'image',
-    wallFiles: [],
-    noOfQuestions: 0,
-    testName: '',
-    eventDate: new Date(),
-    resumeNeeded: false,
-    eventEndDate: new Date(),
-    selectedDate: new Date(),
-    description: '',
-    activeStatus: 'Live',
-  });
+  const dispatch = useDispatch();
+
+  const onSubmit = (id, dates) => {
+    dispatch(scheduleTest(id, dates));
+  };
 
   return (
     <Dialog open={scheduler} classes={{ paper: classes.dialog }}>
@@ -75,8 +68,14 @@ export default function ScheduleLater(props) {
           Schedule this test for later
         </Typography>
         <Formik
-          initialValues={state || []}
-          onSubmit={(values, { resetForm }) => {}}
+          initialValues={data || []}
+          onSubmit={(values, { resetForm }) => {
+            let scheduleDate = {
+              startDateTime: values.startDateTime,
+              endDateTime: values.endDateTime,
+            };
+            onSubmit(values.id, scheduleDate);
+          }}
           enableReinitialize
         >
           {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
@@ -99,12 +98,12 @@ export default function ScheduleLater(props) {
                             </InputAdornment>
                           ),
                         }}
-                        value={values.eventDate}
-                        disablePast
-                        name='eventDate'
+                        value={values.startDateTime}
+                        name='startDateTime'
                         inputVariant='outlined'
+                        label='Start Date & Time'
                         onChange={(val) => {
-                          setFieldValue('eventDate', val);
+                          setFieldValue('startDateTime', val);
                         }}
                       />
                     </MuiPickersUtilsProvider>
@@ -117,33 +116,32 @@ export default function ScheduleLater(props) {
                             </InputAdornment>
                           ),
                         }}
-                        value={values.eventDate}
+                        value={values.endDateTime}
                         style={{ marginLeft: '1.5rem' }}
-                        disablePast
-                        name='eventDate'
+                        name='endDateTime'
                         inputVariant='outlined'
+                        label='End Date & Time'
                         onChange={(val) => {
-                          setFieldValue('eventDate', val);
+                          setFieldValue('endDateTime', val);
                         }}
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <DialogActions className={classes.dialogAction}>
+                    <Controls.Button
+                      variant='outlined'
+                      text='Cancel'
+                      color='primary'
+                      onClick={() => setScheduler(false)}
+                    />
+                    <Controls.Button text='Submit' type='submit' color='primary' />
+                  </DialogActions>
                 </Form>
               </div>
             </>
           )}
         </Formik>
       </DialogContent>
-      <DialogActions className={classes.dialogAction}>
-        <Controls.Button
-          variant='outlined'
-          text='Cancel'
-          color='primary'
-          onClick={() => setScheduler(false)}
-        />
-        <Controls.Button text='Submit' color='primary' />
-      </DialogActions>
     </Dialog>
   );
 }

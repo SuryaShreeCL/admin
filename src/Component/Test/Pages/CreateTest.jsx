@@ -22,8 +22,9 @@ import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
 import { createTest } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
-import { testPath, wallPath } from '../../RoutePaths';
+import { testPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
+import { QuestionsUploadField } from '../Components/QuestionsUpload/QuestionsUploadField';
 
 const useStyles = makeStyles({
   root: {
@@ -75,8 +76,8 @@ const CreateTest = () => {
     endDateTime: new Date(),
     eventPost: { id: '' },
     score: 0,
-    wallCategory: [],
-    wallFiles: null,
+    wallCategories: [],
+    wallFiles: [],
   });
 
   const durations = [
@@ -147,8 +148,8 @@ const CreateTest = () => {
     });
     setTimeout(() => {
       history.push({
-        pathname: wallPath,
-        tab: state.isEvent ? 3 : 0,
+        pathname: testPath,
+        tab: 0,
       });
     }, 1200);
     setNotify({
@@ -163,12 +164,12 @@ const CreateTest = () => {
       <BackHandler title={`Create New Test`} tab={0} path={testPath} />
       <CreateTestContainer>
         <Formik
-          initialValues={state || []}
+          initialValues={state}
           // validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             // if (validate(values)) {
             submitTestCreation(values, 'Draft');
-            resetForm();
+            // resetForm();
             // }
           }}
           enableReinitialize
@@ -192,18 +193,18 @@ const CreateTest = () => {
                       <FormControl className={classes.root} style={{ width: '100%' }}>
                         <Autocomplete
                           multiple
-                          name='wallCategory'
+                          name='wallCategories'
                           getOptionLabel={(option) => option?.name}
                           options={categories ?? []}
                           onChange={(e, value) => {
-                            setFieldValue('wallCategory', value !== null ? value : categories);
+                            setFieldValue('wallCategories', value !== null ? value : categories);
                           }}
-                          value={values.wallCategory}
+                          value={values.wallCategories}
                           renderInput={(params) => (
                             <TextField
                               {...params}
                               label='Select Category'
-                              name='wallCategory'
+                              name='wallCategories'
                               variant='outlined'
                               // error={
                               //   touched.wallCategories &&
@@ -307,6 +308,14 @@ const CreateTest = () => {
                   >
                     <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
                       <MultipleFileUploadField name='wallFiles' fileType='image' />
+                    </Grid>
+                    <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
+                      <QuestionsUploadField
+                        name='wallFiles'
+                        fileType='image'
+                        questionSetId='e7a46a42-c8e1-46d8-8469-f1726930c58c'
+                        questionSectionId='f3c9536c-cea6-4b73-9731-f02c11cbc495'
+                      />
                     </Grid>
                     <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                       <Controls.Input

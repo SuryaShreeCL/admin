@@ -68,7 +68,6 @@ export const deleteTest = (id) => async (dispatch) => {
 };
 
 export const createTest = (test) => async (dispatch) => {
-  console.log('payload', test);
   try {
     dispatch({
       type: TEST.CREATE_REQUEST,
@@ -94,6 +93,38 @@ export const createTest = (test) => async (dispatch) => {
 
     dispatch({
       type: TEST.CREATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const scheduleTest = (id, dates) => async (dispatch) => {
+  console.log(dates);
+  try {
+    dispatch({
+      type: TEST.SCHEDULE_REQUEST,
+    });
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${id}/schedule`,
+      dates,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    dispatch({
+      type: TEST.SCHEDULE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message ? error.response.data.message : error.message;
+
+    dispatch({
+      type: TEST.SCHEDULE_FAIL,
       payload: message,
     });
   }
