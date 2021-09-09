@@ -30,7 +30,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
-import { listTests, deleteTest } from '../../../Actions/TestActions';
+import { listTests, deleteTest, getTestDetails } from '../../../Actions/TestActions';
 import { renderListCategory } from '../../Utils/Helpers';
 import ScheduleLater from '../Components/ScheduleLater';
 
@@ -113,9 +113,10 @@ export default function LiveTest() {
   };
 
   const openInPage = (item) => {
+    console.log(item.id);
     history.push({
       pathname: testEdit,
-      recordForEdit: item,
+      testId: item.id,
       postType: 'Post',
     });
     setRecordForEdit(item);
@@ -129,7 +130,7 @@ export default function LiveTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests(null, 0, 10));
+      dispatch(listTests('Draft', 0, 10));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -139,7 +140,7 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests(null, 0, 10));
+    dispatch(listTests('Draft', 0, 10));
   }, [dispatch]);
 
   return (

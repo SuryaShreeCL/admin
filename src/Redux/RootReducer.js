@@ -32,6 +32,7 @@ import {
   testDeleteReducer,
   testUpdateReducer,
   testListReducer,
+  testDetailsReducer,
 } from '../Reducer/TestReducer';
 import StudentMarkDetailReducer from '../Reducer/MarkReducer';
 import ScoreDetailsReducer from '../Reducer/ScoreReducer';
@@ -73,6 +74,7 @@ export default combineReducers({
   //TESTS
   testCreateReducer,
   testDeleteReducer,
+  testDetailsReducer,
   testUpdateReducer,
   testListReducer,
   HelperReducer: HelperReducer,

@@ -6,7 +6,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FieldArray, Field } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,7 +18,8 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { createWallPost, getWallCategories, listWallPosts } from '../../../Actions/WallActions';
+import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
+import { createTest } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { testPath, wallPath } from '../../RoutePaths';
@@ -32,8 +33,21 @@ const useStyles = makeStyles({
       padding: '1rem',
     },
   },
+  wrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
   captionStyle: {
     width: '100%',
+  },
+  inputField: {
+    padding: '1rem',
+    margin: '0 1rem',
+    borderRadius: '5px',
+    width: '50%',
+    border: '1px solid gray',
   },
   spacer: {
     width: '80%',
@@ -54,8 +68,7 @@ const CreateTest = () => {
     name: '',
     type: 'EVENT',
     description: [],
-    duration: 0,
-    noOfQuestions: 0,
+    testSections: [{ duration: '', noOfQuestions: '' }],
     descriptionTitle: '',
     nameDescription: '',
     startDateTime: new Date(),
@@ -63,15 +76,14 @@ const CreateTest = () => {
     eventPost: { id: '' },
     score: 0,
     wallCategory: [],
-    wallFiles: [],
-    testSections: [],
+    wallFiles: null,
   });
 
   const durations = [
-    { id: '1', title: 5 },
-    { id: '2', title: 10 },
-    { id: '3', title: 15 },
-    { id: '4', title: 20 },
+    { id: '1', title: 10 },
+    { id: '2', title: 20 },
+    { id: '3', title: 30 },
+    { id: '4', title: 40 },
   ];
 
   const noOfQuestionsList = [
@@ -95,8 +107,6 @@ const CreateTest = () => {
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
-  console.log(posts);
-  const Events = posts.map((evnt) => ({ value: evnt.id, label: evnt.eventTitle }));
 
   const validate = (values) => {
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
@@ -115,19 +125,19 @@ const CreateTest = () => {
     caption: yup.string().required('caption is required'),
   });
 
-  const createPost = (post, activeStatus) => {
-    if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
+  const submitTestCreation = (test, status) => {
+    if (!test.id) dispatch(createTest({ ...test, status }));
     setNotify({
       isOpen: true,
       message: 'Created Successfully',
       type: 'success',
     });
-    setTimeout(() => {
-      history.push({
-        pathname: wallPath,
-        tab: state.isEvent ? 3 : 0,
-      });
-    }, 1200);
+    // setTimeout(() => {
+    //   history.push({
+    //     pathname: wallPath,
+    //     tab: state.isEvent ? 3 : 0,
+    //   });
+    // }, 1200);
   };
 
   const onDiscard = () => {
@@ -154,12 +164,12 @@ const CreateTest = () => {
       <CreateTestContainer>
         <Formik
           initialValues={state || []}
-          validationSchema={validationSchema}
+          // validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            if (validate(values)) {
-              createPost(values, 'Live');
-              resetForm();
-            }
+            // if (validate(values)) {
+            submitTestCreation(values, 'Draft');
+            resetForm();
+            // }
           }}
           enableReinitialize
         >
@@ -172,9 +182,9 @@ const CreateTest = () => {
                     <Grid item style={{ width: '30%' }}>
                       <Controls.Input
                         label='Test Name'
-                        name='testName'
+                        name='name'
                         style={{ width: '100%' }}
-                        value={values.testName}
+                        value={values.name}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -182,24 +192,24 @@ const CreateTest = () => {
                       <FormControl className={classes.root} style={{ width: '100%' }}>
                         <Autocomplete
                           multiple
-                          id='wallCategories'
-                          name='wallCategories'
+                          id='wallCategory'
+                          name='wallCategory'
                           getOptionLabel={(option) => option?.name}
                           options={categories ?? []}
                           onChange={(e, value) => {
-                            setFieldValue('wallCategories', value !== null ? value : categories);
+                            setFieldValue('wallCategory', value !== null ? value : categories);
                           }}
-                          value={values.wallCategories}
+                          value={values.wallCategory}
                           renderInput={(params) => (
                             <TextField
                               {...params}
                               label='Select Category'
-                              name='wallCategories'
+                              name='wallCategory'
                               variant='outlined'
-                              error={
-                                touched.wallCategories &&
-                                Boolean(values.wallCategories.length === 0)
-                              }
+                              // error={
+                              //   touched.wallCategories &&
+                              //   Boolean(values.wallCategories.length === 0)
+                              // }
                             />
                           )}
                         />
@@ -229,9 +239,9 @@ const CreateTest = () => {
                   <Grid item>
                     <Controls.Input
                       label='Description'
-                      name='description'
+                      name='descriptionTitle'
                       style={{ width: '100%', marginTop: '1.2rem', marginBottom: '10px' }}
-                      value={values.description}
+                      value={values.descriptionTitle}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -241,24 +251,24 @@ const CreateTest = () => {
                     justify='space-between'
                     style={{ width: '100%', marginTop: '1.2rem' }}
                   >
-                    <Grid item style={{ width: '30%' }}>
+                    {/* <Grid item style={{ width: '30%' }}>
                       <Controls.Select
                         label='Number Of Questions'
-                        name='noOfQuestions'
+                        name='testSections.0.noOfQuestions'
                         size='100%'
                         onChange={handleChange}
                         options={noOfQuestionsList}
                       />
-                    </Grid>
-                    <Grid item style={{ width: '30%' }}>
+                    </Grid> */}
+                    {/* <Grid item style={{ width: '30%' }}>
                       <Controls.Select
                         label='Duration'
-                        name='duration'
+                        name='testSections.0.duration'
                         size='100%'
                         onChange={handleChange}
                         options={durations}
                       />
-                    </Grid>
+                    </Grid> */}
                     <Grid item style={{ width: '30%' }}>
                       <Controls.Select
                         label='Score'
@@ -268,6 +278,27 @@ const CreateTest = () => {
                         options={durations}
                       />
                     </Grid>
+                    <FieldArray
+                      name='testSections'
+                      render={(arrayHelpers) => (
+                        <div className={classes.wrapper}>
+                          {values.testSections.map((_, index) => (
+                            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                              <Field
+                                className={classes.inputField}
+                                placeholder='Duration'
+                                name={`testSections.${index}.duration`}
+                              />
+                              <Field
+                                className={classes.inputField}
+                                placeholder='No Of Questions'
+                                name={`testSections.${index}.noOfQuestions`}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    />
                   </Grid>
                   <Grid
                     container
@@ -281,10 +312,10 @@ const CreateTest = () => {
                     <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                       <Controls.Input
                         label='Test instructions..'
-                        value={values.caption}
-                        name='caption'
+                        value={values.nameDescription}
+                        name='nameDescription'
                         onChange={handleChange}
-                        error={touched.caption && Boolean(errors.caption)}
+                        // error={touched.caption && Boolean(errors.caption)}
                         multiline
                         className={classes.captionStyle}
                         rows={8}
@@ -338,7 +369,6 @@ const CreateTest = () => {
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>
-
                   <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
                     <Button

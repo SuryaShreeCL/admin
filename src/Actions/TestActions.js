@@ -42,13 +42,16 @@ export const deleteTest = (id) => async (dispatch) => {
       type: TEST.DELETE_REQUEST,
     });
 
-    await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallpost/${id}`, {
+    await axios({
+      method: 'put',
+      url: `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${id}/status/Archive`,
       crossDomain: true,
       headers: {
         admin: 'yes',
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
     dispatch({
       type: TEST.DELETE_SUCCESS,
     });
@@ -64,19 +67,22 @@ export const deleteTest = (id) => async (dispatch) => {
   }
 };
 
-export const createTest = (post) => async (dispatch) => {
+export const createTest = (test) => async (dispatch) => {
   try {
     dispatch({
       type: TEST.CREATE_REQUEST,
     });
-    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/wallpost`, post, {
-      crossDomain: true,
-      headers: {
-        admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`,
+      test,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     dispatch({
       type: TEST.CREATE_SUCCESS,
       payload: data,
@@ -117,6 +123,35 @@ export const updateTest = (post) => async (dispatch) => {
       error.response && error.response.data.message ? error.response.data.message : error.message;
     dispatch({
       type: TEST.UPDATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const getTestDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: TEST.DETAILS_REQUEST,
+    });
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/testquestionset/${id}`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    dispatch({
+      type: TEST.DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message ? error.response.data.message : error.message;
+    dispatch({
+      type: TEST.DETAILS_FAIL,
       payload: message,
     });
   }

@@ -36,7 +36,7 @@ export function MultipleFileUploadField({ name, fileType }) {
   }, []);
 
   useEffect(() => {
-    helpers.setValue(files);
+    helpers.setValue(...files);
   }, [files]);
 
   function onUpload(file, data) {
