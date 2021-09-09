@@ -1807,9 +1807,9 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
-                      margin="normal"
+                  <KeyboardDatePicker
                       disableFuture
+                      margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
                       format="dd/MM/yyyy"
@@ -1988,9 +1988,9 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
-                      margin="normal"
+                  <KeyboardDatePicker
                       disableFuture
+                      margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
                       format="dd/MM/yyyy"
@@ -2175,7 +2175,8 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                  <KeyboardDatePicker
+                      disableFuture
                       margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
