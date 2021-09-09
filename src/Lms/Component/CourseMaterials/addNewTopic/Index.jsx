@@ -70,6 +70,7 @@ class Index extends Component {
       anchorEl: null,
       dialogStatus: false,
       dialogContent: null,
+      duplicateTask: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -136,6 +137,7 @@ class Index extends Component {
       });
       this.setState({
         newTaskData: taskDetails,
+        duplicateTask: taskDetails,
         totalTasks: taskDetails.length,
         tabValue: 1,
         topicId: data.id,
@@ -295,6 +297,17 @@ class Index extends Component {
             topic: { id: this.state.topicId },
           },
         ],
+        duplicateTask: [
+          ...prevState.duplicateTask,
+          {
+            id: null,
+            name: "",
+            contentType: "",
+            duration: "",
+            content: "",
+            topic: { id: this.state.topicId },
+          },
+        ],
         tabsLabels: [
           ...prevState.tabsLabels,
           { tabLabel: "Task " + (this.state.totalTasks + 1) },
@@ -307,9 +320,26 @@ class Index extends Component {
     }
   };
 
+  comparer = (otherArray) => {
+    return function(current) {
+      return (
+        otherArray.filter(function(other) {
+          return (
+            other.id === current.id &&
+            other.contentType === current.contentType &&
+            other.name === current.name &&
+            other.duration === current.duration &&
+            other.content === current.content
+          );
+        }).length === 0
+      );
+    };
+  };
+
   handleTaskSaveButton = () => {
     const { newTaskData, tabValue } = this.state;
     const taskData = [...this.state.newTaskData];
+    const duplicateData = [...this.state.duplicateTask];
     const taskDetail = newTaskData[tabValue - 1];
     if (
       taskDetail.content.trim().length > 0 &&
@@ -324,13 +354,37 @@ class Index extends Component {
             taskMessage = "Current Task Updated Successfully";
 
           taskData[tabValue - 1]["id"] = taskResponse.data.id;
+
+          duplicateData[tabValue - 1]["id"] = taskResponse.data.id;
+          duplicateData[tabValue - 1]["contentType"] =
+            taskResponse.data.contentType;
+          duplicateData[tabValue - 1]["name"] = taskResponse.data.name;
+          duplicateData[tabValue - 1]["duration"] = taskResponse.data.duration;
+          duplicateData[tabValue - 1]["content"] = taskResponse.data.content;
+
           this.setState({
             message: taskMessage,
             snackOpen: true,
             snackType: "success",
             taskData,
+            duplicateData,
           });
-          this.props.history.push(lms_course_landing);
+          var onlyInA = taskData.filter(this.comparer(duplicateData));
+          var onlyInB = duplicateData.filter(this.comparer(taskData));
+
+          var result = onlyInA.concat(onlyInB);
+          if (
+            result.length === 0 &&
+            JSON.stringify(taskData) === JSON.stringify(duplicateData)
+          ) {
+            this.props.history.push(lms_course_landing);
+          } else {
+            this.setState({
+              message: "Please save all tasks",
+              snackOpen: true,
+              snackType: "warning",
+            });
+          }
         }
       });
     } else {
@@ -409,9 +463,14 @@ class Index extends Component {
         });
       } else {
         let tabArr = [];
-        let testArr = [];
-        testArr = this.removeArrayItem(newTaskData, tabValue - 1);
-        testArr.map((i, index) => {
+        let taskArr = [];
+        let duplicateArr = [];
+        duplicateArr = this.removeArrayItem(
+          this.state.duplicateTask,
+          tabValue - 1
+        );
+        taskArr = this.removeArrayItem(newTaskData, tabValue - 1);
+        taskArr.map((i, index) => {
           tabArr.push({
             tabLabel: `Task ${index + 1}`,
           });
@@ -421,7 +480,8 @@ class Index extends Component {
           tabValue: tabArr.length,
           totalTasks: tabArr.length,
           tabsLabels: tabArr,
-          newTaskData: testArr,
+          newTaskData: taskArr,
+          duplicateTask: duplicateArr,
         });
         this.handleCloseIconClick();
       }
@@ -529,12 +589,6 @@ class Index extends Component {
                       inputItem: item,
                       taskProperties: (e) =>
                         this.handleTaskProperties(index, e),
-                      richContent:
-                        (topic_id &&
-                          taskDetails.length > 0 &&
-                          taskDetails[tabValue - 1] !== undefined &&
-                          taskDetails[tabValue - 1].content) ||
-                        "",
                       richEditorChange: this.onRichEditorChange,
                     }}
                   />

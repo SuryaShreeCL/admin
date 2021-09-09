@@ -21,7 +21,6 @@ export class TaskCard extends Component {
       tabId,
       inputItem,
       taskProperties,
-      richContent,
       richEditorChange,
     } = this.props.taskDatas;
     return (
@@ -70,7 +69,10 @@ export class TaskCard extends Component {
             </Grid>
           </InputCard>
           <div style={{ padding: "8px" }}>
-            <TinyEditor data={richContent} onEditorChange={richEditorChange} />
+            <TinyEditor
+              data={inputItem.content !== null ? inputItem.content : ""}
+              onEditorChange={richEditorChange}
+            />
           </div>
         </div>
       </Fragment>

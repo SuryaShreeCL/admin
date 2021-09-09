@@ -6,7 +6,7 @@ class TinyEditor extends Component {
     return (
       <>
         <Editor
-          initialValue={this.props.data}
+          value={this.props.data}
           onEditorChange={this.props.onEditorChange}
           init={{
             branding: false,
