@@ -262,7 +262,7 @@ export const getBranches=()=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.get(URL+"/api/v1/departments",{
+        axios.get(URL+"/api/v1/departments/default",{
             crossDomain: true,
             headers : {
                 "Authorization" : `Bearer ${accessToken}`,
