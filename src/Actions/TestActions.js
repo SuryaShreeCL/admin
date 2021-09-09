@@ -68,6 +68,7 @@ export const deleteTest = (id) => async (dispatch) => {
 };
 
 export const createTest = (test) => async (dispatch) => {
+  console.log('payload', test);
   try {
     dispatch({
       type: TEST.CREATE_REQUEST,

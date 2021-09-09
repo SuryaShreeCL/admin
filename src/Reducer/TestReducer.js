@@ -57,6 +57,36 @@ export const testCreateReducer = (state = {}, action) => {
   }
 };
 
+export const scheduleTestReducer = (state = {}, action) => {
+  switch (action.type) {
+    case TEST.SCHEDULE_REQUEST:
+      return { scheduling: true };
+    case TEST.SCHEDULE_SUCCESS:
+      return { scheduling: false, success: true, test: action.payload };
+    case TEST.SCHEDULE_FAIL:
+      return { scheduling: false, error: action.payload };
+    case TEST.SCHEDULE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const questionSetUploadReducer = (state = {}, action) => {
+  switch (action.type) {
+    case TEST.QUESTION_SET_UPLOAD_REQUEST:
+      return { uploading: true };
+    case TEST.QUESTION_SET_UPLOAD_SUCCESS:
+      return { uploading: false, success: true, test: action.payload };
+    case TEST.QUESTION_SET_UPLOAD_FAIL:
+      return { uploading: false, error: action.payload };
+    case TEST.QUESTION_SET_UPLOAD_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
 export const testUpdateReducer = (state = { post: {} }, action) => {
   switch (action.type) {
     case TEST.UPDATE_REQUEST:

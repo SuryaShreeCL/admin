@@ -79,7 +79,7 @@ const EditTest = () => {
     endDateTime: new Date(),
     eventPost: { id: '' },
     score: 0,
-    wallCategories: [],
+    wallCategory: [],
     wallFiles: [],
     testSection: [{ duration: '', noOfQuestions: '' }],
   });
@@ -201,19 +201,22 @@ const EditTest = () => {
                         <FormControl className={classes.root} style={{ width: '100%' }}>
                           <Autocomplete
                             multiple
-                            name='wallCategories'
+                            name='wallCategory'
                             getOptionLabel={(option) => option?.name}
                             options={categories ?? []}
                             disabled
                             onChange={(e, value) => {
-                              setFieldValue('wallCategories', value !== null ? value : categories);
+                              setFieldValue('wallCategory', value !== null ? value : categories);
                             }}
-                            value={values?.wallPost?.linkedEvent?.wallCategories}
+                            value={
+                              values?.wallPost?.linkedEvent?.wallCategories ||
+                              values.wallPost?.wallCategories
+                            }
                             renderInput={(params) => (
                               <TextField
                                 {...params}
                                 label='Select Category'
-                                name='wallCategories'
+                                name='wallCategory'
                                 variant='outlined'
                                 // error={
                                 //   touched.wallCategories &&
@@ -231,7 +234,7 @@ const EditTest = () => {
                           name='eventPost.id'
                           disableClearable
                           disabled
-                          defaultValue={filterEventFromId[0] || 'Not'}
+                          defaultValue={filterEventFromId[0]}
                           onChange={(e, value) => {
                             setFieldValue('eventPost.id', value !== null ? value.id : posts);
                           }}
