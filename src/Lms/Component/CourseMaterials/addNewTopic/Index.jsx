@@ -328,7 +328,7 @@ class Index extends Component {
             other.id === current.id &&
             other.contentType === current.contentType &&
             other.name === current.name &&
-            other.duration === current.duration &&
+            parseInt(other.duration) === parseInt(current.duration) &&
             other.content === current.content
           );
         }).length === 0
@@ -336,15 +336,34 @@ class Index extends Component {
     };
   };
 
+  totalTaskValidation = (tasks) => {
+    const valid = tasks.map(
+      (item) =>
+        item.content !== null &&
+        item.contentType !== null &&
+        item.name !== null &&
+        item.duration !== null &&
+        item.content.trim().length > 0 &&
+        item.contentType.trim().length > 0 &&
+        item.duration &&
+        item.name.trim().length > 0
+    );
+    return valid;
+  };
+
   handleTaskSaveButton = () => {
     const { newTaskData, tabValue } = this.state;
     const taskData = [...this.state.newTaskData];
     const duplicateData = [...this.state.duplicateTask];
     const taskDetail = newTaskData[tabValue - 1];
+
     if (
+      taskDetail.content &&
+      taskDetail.duration &&
+      taskDetail.name &&
+      taskDetail.contentType &&
       taskDetail.content.trim().length > 0 &&
       taskDetail.contentType.trim().length > 0 &&
-      taskDetail.duration > 0 &&
       taskDetail.name.trim().length > 0
     ) {
       this.props.addTaskDetails(newTaskData[tabValue - 1], (taskResponse) => {
@@ -371,12 +390,11 @@ class Index extends Component {
           });
           var onlyInA = taskData.filter(this.comparer(duplicateData));
           var onlyInB = duplicateData.filter(this.comparer(taskData));
-
           var result = onlyInA.concat(onlyInB);
-          if (
-            result.length === 0 &&
-            JSON.stringify(taskData) === JSON.stringify(duplicateData)
-          ) {
+          var valid = this.totalTaskValidation(taskData);
+          console.log(valid);
+          console.log(result);
+          if (result.length === 0 && !valid.includes(false)) {
             this.props.history.push(lms_course_landing);
           } else {
             this.setState({
