@@ -192,7 +192,6 @@ const CreateTest = () => {
                       <FormControl className={classes.root} style={{ width: '100%' }}>
                         <Autocomplete
                           multiple
-                          id='wallCategory'
                           name='wallCategory'
                           getOptionLabel={(option) => option?.name}
                           options={categories ?? []}
