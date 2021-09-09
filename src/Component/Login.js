@@ -34,7 +34,7 @@ export class Login extends Component {
     // sessionStorage.setItem('token','false');
   }
   handleLogin = (e) => {
-    let hlpTxt = "Please fill the required feild"
+    let hlpTxt = "Please fill the required field"
     isEmptyString(this.state.username) ? this.setState({userNameErr : hlpTxt}) : this.setState({userNameErr : ""})
     isEmptyString(this.state.password) ? this.setState({passwordErr : hlpTxt}) : this.setState({passwordErr : ""})
     if(!isEmptyString(this.state.username) && !isEmptyString(this.state.password)){

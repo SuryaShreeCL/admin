@@ -1807,16 +1807,26 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
-                      margin="normal"
+                  <KeyboardDatePicker
                       disableFuture
+                      margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
-                      format="MM/dd/yyyy"
+                      format="dd/MM/yyyy"
                       fullWidth
                       value={this.state.gredate}
-                      onChange={(e, newValue) =>
-                        this.setState({ gredate:new Date(newValue) })
+                      // onChange={(e,newValue) =>{
+                      //   console.log(newValue)
+                      //   this.setState({ ieltsdate: new Date(newValue) })
+
+                      // }
+                      // }
+                      onChange={(newValue) =>
+                        {
+                          console.log(newValue)
+                          this.setState({ gredate:  newValue })
+
+                        }
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
@@ -1988,17 +1998,26 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
-                      margin="normal"
+                  <KeyboardDatePicker
                       disableFuture
+                      margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
-                      format="MM/dd/yyyy"
+                      format="dd/MM/yyyy"
                       fullWidth
                       value={this.state.gmatdate}
-                      // disabled
-                      onChange={(e, newValue) =>
-                        this.setState({ gmatdate: new Date(newValue) })
+                      // onChange={(e,newValue) =>{
+                      //   console.log(newValue)
+                      //   this.setState({ ieltsdate: new Date(newValue) })
+
+                      // }
+                      // }
+                      onChange={(newValue) =>
+                        {
+                          console.log(newValue)
+                          this.setState({ gmatdate:  newValue })
+
+                        }
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
@@ -2173,17 +2192,26 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                  <KeyboardDatePicker
+                      disableFuture
                       margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
-                      disableFuture
-                      format="MM/dd/yyyy"
+                      format="dd/MM/yyyy"
                       fullWidth
                       value={this.state.toefldate}
-                      // disabled
-                      onChange={(e, newValue) =>
-                        this.setState({ toefldate: new Date(newValue) })
+                      // onChange={(e,newValue) =>{
+                      //   console.log(newValue)
+                      //   this.setState({ ieltsdate: new Date(newValue) })
+
+                      // }
+                      // }
+                      onChange={(newValue) =>
+                        {
+                          console.log(newValue)
+                          this.setState({ toefldate:  newValue })
+
+                        }
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
@@ -2363,7 +2391,7 @@ class GraduateTestResult extends Component {
                       margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
-                      format="MM/dd/yyyy"
+                      format="dd/MM/yyyy"
                       fullWidth
                       value={this.state.ieltsdate}
                       // onChange={(e,newValue) =>{
