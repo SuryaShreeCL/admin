@@ -1,10 +1,7 @@
 import {
-  Checkbox,
-  FormControlLabel,
+  Checkbox, createMuiTheme, FormControlLabel,
   Grid,
-  TextField,
-  createMuiTheme,
-  ThemeProvider,
+  TextField, ThemeProvider
 } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -14,29 +11,22 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import { ExpandMore } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
-import Pencil from "../../Asset/Images/pencil.png";
-import Warning from "../../Asset/Images/warningImg.png";
-import PrimaryButton from "../../Utils/PrimaryButton";
 import { connect } from "react-redux";
 import {
-  getAllBranch,
-  getAllDegree,
+  updateVerificationStatus, viewStudentStatus
+} from "../../Actions/AdminAction";
+import {
+  getAllBranch, getallcountry, getAllDegree,
   getAllSpecialization,
   getAllTerms,
-  getAllUniversity,
-  getallcountry,
-  updateAspiration,
-  getAspiration,
-  getAspirationQuestion,
+  getAllUniversity, getAspiration,
+  getAspirationQuestion, updateAspiration
 } from "../../Actions/Aspiration";
-import {
-  viewStudentStatus,
-  updateVerificationStatus,
-} from "../../Actions/AdminAction";
-import Status from "../Utils/Status";
+import Pencil from "../../Asset/Images/pencil.png";
 import { SECTION } from "../../Constant/Variables";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import Model from "../Utils/SectionModel";
-import { check } from "prettier";
+import Status from "../Utils/Status";
 
 const theme = createMuiTheme({
   overrides: {
@@ -109,6 +99,10 @@ class AspirationDetails extends Component {
       aspirationBranches: [],
       aspirationAreaOfSpecializations: [],
       aspirationUniversities: [],
+      filteredAspirationSpecializationList: [],
+      filteredCollegeList: [],
+      aspirationCollegeList: [],
+      aspirationSpecializationList: [],
       sectionStatus: {
         model: false,
         data: null,
@@ -120,24 +114,85 @@ class AspirationDetails extends Component {
   componentDidMount() {
     this.props.getAllBranch();
     this.props.getAllDegree();
-    this.props.getAllSpecialization();
     this.props.getAllTerms();
-    this.props.getAllUniversity();
     this.props.getallcountry();
-    this.props.getAspirationQuestion(this.props.match.params.studentId,this.props.variantStepList && this.props.variantStepList.productFamily.aspirationQuestionSet);
+    this.props.getAllSpecialization((response) => {
+      if (response.status === 200) {
+        this.setState({
+          aspirationSpecializationList: response.data,
+        });
+      }
+    });
+    this.props.getAllUniversity((response) => {
+      if (response.status === 200) {
+        this.setState({
+          aspirationCollegeList: response.data,
+        });
+      }
+    });
+    this.props.getAspirationQuestion(
+      this.props.match.params.studentId,
+      this.props.variantStepList &&
+        this.props.variantStepList.productFamily.aspirationQuestionSet
+    );
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getAspiration(
       (response) => {
-        console.log(response);
         this.setState({
-          answerModel: response.testQuestionModels,
+          answerModel: response.testQuestionModels.filter(
+            (el) => el.question.name !== "AspirationQ2"
+          ),
           ...response,
-          noOfSchool : response.noOfSchool && response.noOfSchool.toString()
+          noOfSchool: response.noOfSchool && response.noOfSchool.toString(),
         });
       },
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // -------------- College ---------------
+
+    if (this.state.aspirationCollegeList !== prevState.aspirationCollegeList) {
+      var searchData = this.state.aspirationCountries.map(
+        (eachData, index) => eachData.name
+      );
+
+      var filteredList = this.state.aspirationCollegeList
+        .map((eachElement, index) => {
+          if (searchData.includes(eachElement.country.name)) {
+            return eachElement;
+          }
+        })
+        .filter((element) => element !== undefined);
+      this.setState({
+        filteredCollegeList: filteredList,
+      });
+    }
+
+    // ---------- Specialization --------------
+
+    if (
+      this.state.aspirationSpecializationList !==
+      prevState.aspirationSpecializationList
+    ) {
+      var searchData = this.state.aspirationBranches.map(
+        (eachData, index) => eachData.name
+      );
+
+      var filteredList = this.state.aspirationSpecializationList
+        .map((eachElement, index) => {
+          if (searchData.includes(eachElement.aspirationBranch.name)) {
+            return eachElement;
+          }
+        })
+        .filter((element) => element !== undefined);
+
+      this.setState({
+        filteredAspirationSpecializationList: filteredList,
+      });
+    }
   }
 
   handleClick(e) {
@@ -171,26 +226,26 @@ class AspirationDetails extends Component {
           : this.state.answerModel,
     };
 
-    console.log("Before", obj);
-
     obj.testQuestionModels.map((item) => {
       for (const [key, value] of Object.entries(item.question)) {
         if (key !== "id") {
           delete item.question[key];
         }
       }
-
       delete item.answer["questionId"];
       // delete item["testExecutionId"];
     });
     this.props.updateAspiration(
       obj,
       (response) => {
-        this.props.getAspirationQuestion(this.props.match.params.studentId,this.props.variantStepList && this.props.variantStepList.productFamily.aspirationQuestionSet);
+        this.props.getAspirationQuestion(
+          this.props.match.params.studentId,
+          this.props.variantStepList &&
+            this.props.variantStepList.productFamily.aspirationQuestionSet
+        );
         this.props.viewStudentStatus(this.props.match.params.studentId);
         this.props.getAspiration(
           (response) => {
-            console.log(response);
             this.setState({
               answerModel: response.testQuestionModels,
               ...response,
@@ -230,9 +285,6 @@ class AspirationDetails extends Component {
 
   getAnswer = (qid) => {
     let obj = this.state.answerModel.find((item) => {
-      if (item.answer.questionId === qid) {
-        console.log("**************", item);
-      }
       return item.answer.questionId === qid;
     });
 
@@ -255,178 +307,239 @@ class AspirationDetails extends Component {
     const { choiceStyle } = style;
     return (
       <Grid container spacing={2}>
-        {questions.map(({ id, question, choices, type }, index) => {
-          var qid = id;
-          if (type === "SINGLE_SELECT")
-            return (
-              <>
-                <Grid
-                  item
-                  xs={8}
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    fontSize: 18,
-                    fontWeight: 400,
-                  }}
-                >
-                  {question}
-                </Grid>
-                <Grid item md={12}>
-                  <FormControl component="fieldset">
-                    <RadioGroup
-                      aria-label="gender"
-                      style={{ display: "flex", flexDirection: "row" }}
-                      onChange={(e) => {
-                        console.log(e.target.value)
-                        let arr = [];
-                        let choiceId = {
-                          id: e.target.value,
-                        };
-                        let obj = {
-                          question: {
-                            id: qid,
-                          },
-                          answer: {
-                            selectedChoices: [choiceId],
-                            questionId: qid,
-                          },
-                          testExecutionId :  this.state.answerModel[0].testExecutionId
-                        };
-                        if (
-                          this.state.answerModel.some(
-                            (item) => item.question.id === obj.question.id
-                          )
-                        ) {
-                          arr = this.state.answerModel
-                            .filter(
-                              (item) => item.question.id !== obj.question.id
+        {questions
+          .filter((el) => el.name !== "AspirationQ2")
+          .map(({ id, question, choices, type }, index) => {
+            var qid = id;
+            if (type === "SINGLE_SELECT")
+              return (
+                <>
+                  <Grid
+                    item
+                    xs={8}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      fontSize: 18,
+                      fontWeight: 400,
+                    }}
+                  >
+                    {question}
+                  </Grid>
+                  <Grid item md={12}>
+                    <FormControl component="fieldset">
+                      <RadioGroup
+                        aria-label="gender"
+                        style={{ display: "flex", flexDirection: "row" }}
+                        onChange={(e) => {
+                          let arr = [];
+                          let choiceId = {
+                            id: e.target.value,
+                          };
+                          let obj = {
+                            question: {
+                              id: qid,
+                            },
+                            answer: {
+                              selectedChoices: [choiceId],
+                              questionId: qid,
+                            },
+                            testExecutionId: this.state.answerModel[0]
+                              .testExecutionId,
+                          };
+                          if (
+                            this.state.answerModel.some(
+                              (item) => item.question.id === obj.question.id
                             )
-                            .concat(obj);
-                        } else {
-                          arr = this.state.answerModel.concat(obj);
+                          ) {
+                            arr = this.state.answerModel
+                              .filter(
+                                (item) => item.question.id !== obj.question.id
+                              )
+                              .concat(obj);
+                          } else {
+                            arr = this.state.answerModel.concat(obj);
+                          }
+
+                          this.setState({ answerModel: arr });
+                        }}
+                        // defaultValue={this.getAnswer(qid)}
+                        value={
+                          this.state.answerModel
+                            .filter((el) => el.question.name !== "AspirationQ2")
+                            .find((item) => item.answer.questionId === qid)
+                            ? this.state.answerModel
+                                .filter(
+                                  (el) => el.question.name !== "AspirationQ2"
+                                )
+                                .find((item) => item.answer.questionId === qid)
+                                .answer.selectedChoices[0].id
+                            : null
                         }
-                        console.log(arr)
-                        this.setState({ answerModel: arr });
-                      }}
-                      // defaultValue={this.getAnswer(qid)}
-                      value={
-                        this.state.answerModel.find(
-                          (item) => item.answer.questionId === qid
-                        )
-                          ? this.state.answerModel.find(
-                              (item) => item.answer.questionId === qid
-                            ).answer.selectedChoices[0].id
-                          : null
-                      }
-                    >
+                      >
+                        {choices.map(({ text, id }) => {
+                          return (
+                            <FormControlLabel
+                              style={choiceStyle}
+                              control={<Radio />}
+                              label={text}
+                              value={id}
+                            />
+                          );
+                        })}
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                </>
+              );
+
+            if (type === "MULTI_CHOICE")
+              return (
+                <>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      fontSize: 18,
+                      fontWeight: 400,
+                    }}
+                  >
+                    {question}
+                  </Grid>
+                  <Grid item md={12}>
+                    <FormGroup row>
                       {choices.map(({ text, id }) => {
-                        console.log(id);
                         return (
                           <FormControlLabel
                             style={choiceStyle}
-                            control={<Radio />}
+                            labelStyle={{ color: "white" }}
+                            iconStyle={{ fill: "white" }}
+                            control={<Checkbox name="checkedA" />}
                             label={text}
                             value={id}
+                            onChange={({ target: { value, checked } }) => {
+                              let obj = {
+                                question: {
+                                  id: qid,
+                                },
+                                answer: {
+                                  selectedChoices: [{ id: value }],
+                                },
+                              };
+                              var question = this.state.answerModel.find(
+                                (item) => item.question.id === obj.question.id
+                              );
+                              if (question) {
+                                if (checked) {
+                                  question.answer.selectedChoices.push({
+                                    id: value,
+                                  });
+                                  let removeExist = this.state.answerModel.filter(
+                                    (item) =>
+                                      item.question.id !== obj.question.id
+                                  );
+                                  this.setState({
+                                    answerModel: removeExist.concat(question),
+                                  });
+                                } else {
+                                  let removeExist = this.state.answerModel.filter(
+                                    (item) =>
+                                      item.question.id !== obj.question.id
+                                  );
+                                  question.answer.selectedChoices = question.answer.selectedChoices.filter(
+                                    (item) => item.id !== value
+                                  );
+                                  this.setState({
+                                    answerModel: removeExist.concat(question),
+                                  });
+                                }
+                              } else {
+                                this.setState({
+                                  answerModel: this.state.answerModel.concat(
+                                    obj
+                                  ),
+                                });
+                              }
+                            }}
+                            checked={
+                              this.getAnswer(qid)
+                                ? this.getAnswer(qid).indexOf(id) > -1
+                                : null
+                            }
                           />
                         );
                       })}
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
-              </>
-            );
-
-          if (type === "MULTI_CHOICE")
-            return (
-              <>
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    fontSize: 18,
-                    fontWeight: 400,
-                  }}
-                >
-                  {question}
-                </Grid>
-                <Grid item md={12}>
-                  <FormGroup row>
-                    {choices.map(({ text, id }) => {
-                      return (
-                        <FormControlLabel
-                          style={choiceStyle}
-                          labelStyle={{ color: "white" }}
-                          iconStyle={{ fill: "white" }}
-                          control={<Checkbox name="checkedA" />}
-                          label={text}
-                          value={id}
-                          onChange={({ target: { value, checked } }) => {
-                            let obj = {
-                              question: {
-                                id: qid,
-                              },
-                              answer: {
-                                selectedChoices: [{ id: value }],
-                              },
-                            };
-                            var question = this.state.answerModel.find(
-                              (item) => item.question.id === obj.question.id
-                            );
-                            if (question) {
-                              if (checked) {
-                                question.answer.selectedChoices.push({
-                                  id: value,
-                                });
-                                let removeExist = this.state.answerModel.filter(
-                                  (item) => item.question.id !== obj.question.id
-                                );
-                                this.setState({
-                                  answerModel: removeExist.concat(question),
-                                });
-                              } else {
-                                let removeExist = this.state.answerModel.filter(
-                                  (item) => item.question.id !== obj.question.id
-                                );
-                                question.answer.selectedChoices = question.answer.selectedChoices.filter(
-                                  (item) => item.id !== value
-                                );
-                                this.setState({
-                                  answerModel: removeExist.concat(question),
-                                });
-                              }
-                            } else {
-                              this.setState({
-                                answerModel: this.state.answerModel.concat(obj),
-                              });
-                            }
-                          }}
-                          checked={
-                            this.getAnswer(qid)
-                              ? this.getAnswer(qid).indexOf(id) > -1
-                              : null
-                          }
-                        />
-                      );
-                    })}
-                  </FormGroup>
-                </Grid>
-              </>
-            );
-        })}
+                    </FormGroup>
+                  </Grid>
+                </>
+              );
+          })}
       </Grid>
     );
   };
 
-  noOfSchoolArr = ["1","3","5"]
+  noOfSchoolArr = ["1", "3", "5"];
+
+  handleFeildOfStudyChange = (e, newValue) => {
+    var searchData = newValue.map((eachData, index) => eachData.name);
+    var filteredList = this.state.aspirationSpecializationList
+      .map((eachElement, index) => {
+        if (searchData.includes(eachElement.aspirationBranch.name)) {
+          return eachElement;
+        }
+      })
+      .filter((element) => element !== undefined);
+
+    this.setState({
+      filteredAspirationSpecializationList: filteredList,
+    });
+
+    var newSpecializationList = this.state.aspirationAreaOfSpecializations
+      .map((eachSpecialization, index) => {
+        if (searchData.includes(eachSpecialization.aspirationBranch.name)) {
+          return eachSpecialization;
+        }
+      })
+      .filter((eachElement) => eachElement !== undefined);
+    this.setState({
+      aspirationBranches: newValue,
+      aspirationAreaOfSpecializations: newSpecializationList,
+    });
+  };
+
+  handleCountryChange = (e, newValue) => {
+    var searchData = newValue.map((eachData, index) => eachData.name);
+    var filteredList = this.state.aspirationCollegeList
+      .map((eachElement, index) => {
+        if (searchData.includes(eachElement.country.name)) {
+          return eachElement;
+        }
+      })
+      .filter((element) => element !== undefined);
+
+    this.setState({
+      filteredCollegeList: filteredList,
+    });
+
+    var newUniversityList = this.state.aspirationUniversities
+      .map((eachUniversity, index) => {
+        if (searchData.includes(eachUniversity.country.name)) {
+          return eachUniversity;
+        }
+      })
+      .filter((eachElement) => eachElement !== undefined);
+
+    this.setState({
+      aspirationCountries: newValue,
+      aspirationUniversities: newUniversityList,
+    });
+  };
 
   render() {
-    console.log(this.props.allTermList);
     const { choiceStyle } = style;
-    console.log("state.......................", this.state);
-    console.log("props.......................", this.props);
+
     return (
       <div style={{ padding: 25 }}>
         <ThemeProvider theme={theme}>
@@ -492,15 +605,18 @@ class AspirationDetails extends Component {
                   this.setState({ noOfSchool: e.target.value });
                 }}
               /> */}
-               <Autocomplete
-              id="tags-outlined"
-              options={this.noOfSchoolArr}
-              getOptionLabel={(option) => option}
-              value={this.state.noOfSchool}
-              renderInput={(params) => <TextField
-                {...params} label="Number Of Schools" />}
-              onChange={(e, newValue) => this.setState({ noOfSchool: newValue })}
-            />
+              <Autocomplete
+                id="tags-outlined"
+                options={this.noOfSchoolArr}
+                getOptionLabel={(option) => option}
+                value={this.state.noOfSchool}
+                renderInput={(params) => (
+                  <TextField {...params} label="Number Of Schools" />
+                )}
+                onChange={(e, newValue) =>
+                  this.setState({ noOfSchool: newValue })
+                }
+              />
             </Grid>
             <Grid item md={3}>
               <Autocomplete
@@ -542,6 +658,12 @@ class AspirationDetails extends Component {
                 id="combo-box-demo"
                 options={this.props.allBranchList}
                 getOptionLabel={(option) => option.name}
+                getOptionDisabled={(option) => {
+                  var feildOfStudyHolder = this.state.aspirationBranches.map(
+                    (el) => el.name
+                  );
+                  return feildOfStudyHolder.includes(option.name);
+                }}
                 disabled={this.state.disable}
                 renderInput={(params) => (
                   <TextField
@@ -550,63 +672,29 @@ class AspirationDetails extends Component {
                     variant="standard"
                   />
                 )}
-                onChange={(e, value) =>
-                  this.setState({ aspirationBranches: value })
-                }
+                onChange={this.handleFeildOfStudyChange}
                 value={this.state.aspirationBranches || []}
               />
             </Grid>
-
             <Grid item md={3}>
               <Autocomplete
                 multiple
                 popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                 id="combo-box-demo"
-                options={this.props.allCountry}
-                getOptionLabel={(option) => option.name}
-                disabled={this.state.disable}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Country of Dream Colleges"
-                    variant="standard"
-                  />
+                options={this.state.filteredAspirationSpecializationList.sort(
+                  (a, b) =>
+                    -b.aspirationBranch.name.localeCompare(
+                      a.aspirationBranch.name
+                    )
                 )}
-                onChange={(e, value) =>
-                  this.setState({ aspirationCountries: value })
-                }
-                value={this.state.aspirationCountries || []}
-              />
-            </Grid>
-
-            <Grid item md={3}>
-              <Autocomplete
-                multiple
-                popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                id="combo-box-demo"
-                options={this.props.allUniversityList}
                 getOptionLabel={(option) => option.name}
-                disabled={this.state.disable}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="List of Dream Graduate Colleges"
-                    variant="standard"
-                  />
-                )}
-                onChange={(e, value) =>
-                  this.setState({ aspirationUniversities: value })
-                }
-                value={this.state.aspirationUniversities || []}
-              />
-            </Grid>
-            <Grid item md={3}>
-              <Autocomplete
-                multiple
-                popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                id="combo-box-demo"
-                options={this.props.allSpeciaizationList}
-                getOptionLabel={(option) => option.name}
+                groupBy={(option) => option.aspirationBranch.name}
+                getOptionDisabled={(option) => {
+                  var specializationHolder = this.state.aspirationAreaOfSpecializations.map(
+                    (el) => el.name
+                  );
+                  return specializationHolder.includes(option.name);
+                }}
                 disabled={this.state.disable}
                 renderInput={(params) => (
                   <TextField
@@ -619,6 +707,62 @@ class AspirationDetails extends Component {
                   this.setState({ aspirationAreaOfSpecializations: value })
                 }
                 value={this.state.aspirationAreaOfSpecializations || []}
+              />
+            </Grid>
+            <Grid item md={3}>
+              <Autocomplete
+                multiple
+                popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                id="combo-box-demo"
+                options={this.props.allCountry}
+                getOptionLabel={(option) => option.name}
+                disabled={this.state.disable}
+                getOptionDisabled={(option) => {
+                  var countryHolder = this.state.aspirationCountries.map(
+                    (el) => el.name
+                  );
+                  return countryHolder.includes(option.name);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Country of Dream Colleges"
+                    variant="standard"
+                  />
+                )}
+                onChange={this.handleCountryChange}
+                value={this.state.aspirationCountries || []}
+              />
+            </Grid>
+
+            <Grid item md={3}>
+              <Autocomplete
+                multiple
+                popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                id="combo-box-demo"
+                options={this.state.filteredCollegeList.sort(
+                  (a, b) => -b.country.name.localeCompare(a.country.name)
+                )}
+                getOptionLabel={(option) => option.name}
+                getOptionDisabled={(option) => {
+                  var collegeHolder = this.state.aspirationUniversities.map(
+                    (el) => el.name
+                  );
+                  return collegeHolder.includes(option.name);
+                }}
+                groupBy={(option) => option.country.name}
+                disabled={this.state.disable}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="List of Dream Graduate Colleges"
+                    variant="standard"
+                  />
+                )}
+                onChange={(e, value) =>
+                  this.setState({ aspirationUniversities: value })
+                }
+                value={this.state.aspirationUniversities || []}
               />
             </Grid>
           </Grid>

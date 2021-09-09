@@ -1,23 +1,15 @@
-import React, { Component, forwardRef } from "react";
-import "../Asset/StudentData.css";
-import "bootstrap/dist/css/bootstrap.css";
-import axios from "axios";
-import MaterialTable from "material-table";
-import history from "./History";
 import {
-  isAlpha,
-  isEmailSpecialChar,
-  isEmptyString,
-  isNumber,
-  isSpecialCharacter,
-} from "./Validation";
+  Button, Checkbox, CircularProgress,
+  Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid,
+  TextField
+} from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
 import {
   createMuiTheme,
   MuiThemeProvider,
-  ThemeProvider,
+  ThemeProvider
 } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
 import ChevronLeft from "@material-ui/icons/ChevronLeft";
@@ -32,39 +24,24 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import {
-  getStudents,
-  getStudentPaginate,
-  postStudents,
-  mernStudentSignUp,
-  mernStudentEdit,
-} from "../Actions/Student";
-import { getAllColleges, getBranches } from "../Actions/College";
-import { updateLmsAccess } from "../Actions/AdminAction";
-import { connect } from "react-redux";
-import { URL } from "../Actions/URL";
-import { studentIdPath, productuserPunchingPath } from "./RoutePaths";
-import TableComponent from "./TableComponent/TableComponent";
-import {
-  CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Grid,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-} from "@material-ui/core";
-import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { studentPath } from "./RoutePaths";
-import BackButton from "../Asset/Images/backbutton.svg";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import { Breadcrumbs, Typography } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import "bootstrap/dist/css/bootstrap.css";
+import React, { Component, forwardRef } from "react";
+import { connect } from "react-redux";
+import { updateLmsAccess } from "../Actions/AdminAction";
+import { getAllColleges, getBranches } from "../Actions/College";
+import {
+  getStudentPaginate, getStudents, mernStudentEdit, mernStudentSignUp, postStudents
+} from "../Actions/Student";
+import "../Asset/StudentData.css";
+import { productuserPunchingPath, studentIdPath } from "./RoutePaths";
+import TableComponent from "./TableComponent/TableComponent";
 import Loader from "./Utils/controls/Loader";
+import {
+  isAlpha, isEmptyString,
+  isNumber
+} from "./Validation";
 export class Student extends Component {
   constructor(props) {
     super(props);
@@ -300,7 +277,7 @@ export class Student extends Component {
         college: this.state.college.id,
         department: this.state.department.id,
         roles: ["Student"],
-        password: this.state.password,
+        password: this.state.phone,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
         avatar: "",
@@ -402,7 +379,7 @@ export class Student extends Component {
         internshipAccess: this.state.internAccess === false ? "no" : "yes",
         lmsAccess: this.state.lmsAccess === false ? "false" : "true",
         provider: this.state.toogleButton === true ? "Google" : "Local",
-        password: this.state.password,
+        password: this.state.phone,
       };
       console.log(studentObj);
       this.props.mernStudentEdit(this.state.id, studentObj, (response) => {
@@ -799,7 +776,7 @@ export class Student extends Component {
                   variant="outlined"
                   size="small"
                   disabled
-                  value={this.state.password}
+                  value={this.state.phone || ""}
                   fullWidth
                   label="Password"
                 />

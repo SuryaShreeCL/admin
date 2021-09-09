@@ -3,7 +3,7 @@ import axios from "axios";
 import { URL } from "../Actions/URL";
 // For Aspiration Specialization
 
-export const getAllSpecialization = () => {
+export const getAllSpecialization = (callback) => {
   return (dispatch) => {
     let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -15,6 +15,7 @@ export const getAllSpecialization = () => {
         },
       })
       .then((result) => {
+        callback(result)
         dispatch({
           type: ASPIRATION.getAllSpecialization,
           payload: result.data,
@@ -499,7 +500,7 @@ export const deleteCountry = (id) => {
 
 // For Aspiration College
 
-export const getAllUniversity = () => {
+export const getAllUniversity = (callback) => {
   return (dispatch) => {
     let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -511,6 +512,7 @@ export const getAllUniversity = () => {
         },
       })
       .then((result) => {
+        callback(result)
         dispatch({ type: ASPIRATION.getAllUniversity, payload: result.data });
       })
       .catch((error) => {
