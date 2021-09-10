@@ -24,13 +24,13 @@ export function QuestionUploadWithProgress({
 
   return (
     <Grid item>
-      <FileProgress file={file} url={""} onDelete={onDelete} progress={progress} />
+      <FileProgress file={file} url={''} onDelete={onDelete} progress={progress} />
     </Grid>
   );
 }
 
 function uploadFile(file, onProgress, questionSetId, questionSectionId) {
-  const awsUrl = `${process.env.REACT_APP_API_URL}api/v1/testQuestionSet/6b8ecdf6-ef70-403a-8517-ff686890d490/questions/import?type=SINGLE_SELECT&testSectionId=${questionSectionId}`;
+  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${questionSetId}/questions/import?type=SINGLE_SELECT&testSectionId=${questionSectionId}`;
 
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();

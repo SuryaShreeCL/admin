@@ -13,8 +13,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
+    width: '100%',
     background: theme.palette.background.default,
-    height: theme.spacing(10),
+    height: theme.spacing(12),
     outline: 'none',
   },
   info: {
@@ -56,7 +57,8 @@ export function QuestionsUploadField({ name, questionSetId, questionSectionId, f
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'xlsx/*',
+    accept:
+      '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
     maxSize: 2000 * 1024, // 2Mb
   });
 
@@ -65,9 +67,9 @@ export function QuestionsUploadField({ name, questionSetId, questionSectionId, f
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
           <input {...getInputProps()} />
-          <p
-            style={{ marginBottom: '-2px' }}
-          >{`Drag & drop some ${fileType} here, or click to select ${fileType}`}</p>
+          <p style={{ marginBottom: '-2px' }}>
+            Drag & drop some excel sheets here, or click to select
+          </p>
         </div>
       </Grid>
       {files.map((fileWrapper) => (

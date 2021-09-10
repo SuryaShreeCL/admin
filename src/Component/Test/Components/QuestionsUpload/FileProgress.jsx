@@ -22,17 +22,12 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-export function FileProgress({ file, onDelete, url="", progress }) {
+export function FileProgress({ file, onDelete, url = '', progress }) {
   return (
     <FileHeaderContainer>
       <div className='img-container'>
         <img
-          src={
-            progress < 100
-              ? Spinner
-              : ((url?.includes('.mp4') || url?.includes('.mp3')) && Media) ||
-                `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${url}&type=image`
-          }
+          src='https://cdn-icons-png.flaticon.com/512/1205/1205526.png'
           alt='upload-img'
           width='60px'
         />

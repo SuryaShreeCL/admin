@@ -130,14 +130,15 @@ export const scheduleTest = (id, dates) => async (dispatch) => {
   }
 };
 
-export const updateTest = (post) => async (dispatch) => {
+export const updateTest = (test) => async (dispatch) => {
+  console.log('schema', test);
   try {
     dispatch({
       type: TEST.UPDATE_REQUEST,
     });
     const { data } = await axios.put(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
-      post,
+      `${process.env.REACT_APP_API_URL}/api/v1/testquestionsets`,
+      test,
       {
         crossDomain: true,
         headers: {
@@ -150,6 +151,7 @@ export const updateTest = (post) => async (dispatch) => {
       type: TEST.UPDATE_SUCCESS,
       payload: data,
     });
+    console.log('udate', data);
   } catch (error) {
     const message =
       error.response && error.response.data.message ? error.response.data.message : error.message;

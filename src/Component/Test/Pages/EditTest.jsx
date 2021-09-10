@@ -19,7 +19,7 @@ import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUpload
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
-import { createTest, getTestDetails } from '../../../Actions/TestActions';
+import { createTest, getTestDetails, updateTest } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { testPath, wallPath } from '../../RoutePaths';
@@ -91,8 +91,6 @@ const EditTest = () => {
     { id: '4', title: 40 },
   ];
 
-  const selectedEventTitle = [];
-
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -131,19 +129,20 @@ const EditTest = () => {
     caption: yup.string().required('caption is required'),
   });
 
-  const submitTestCreation = (test, status) => {
-    if (!test.id) dispatch(createTest({ ...test, status }));
+  const onTestUpdate = (test, status) => {
+    // dispatch(updateTest({ ...test, status, wallFiles: { ...(test.wallFilesUpdate ?? {}) } }));
+    dispatch(updateTest({ ...test, status }));
     setNotify({
       isOpen: true,
-      message: 'Created Successfully',
+      message: 'Updated Successfully',
       type: 'success',
     });
-    // setTimeout(() => {
-    //   history.push({
-    //     pathname: wallPath,
-    //     tab: state.isEvent ? 3 : 0,
-    //   });
-    // }, 1200);
+    setTimeout(() => {
+      history.push({
+        pathname: testPath,
+        tab: 0,
+      });
+    }, 1200);
   };
 
   const onDiscard = () => {
@@ -153,8 +152,8 @@ const EditTest = () => {
     });
     setTimeout(() => {
       history.push({
-        pathname: wallPath,
-        tab: state.isEvent ? 3 : 0,
+        pathname: testPath,
+        tab: 0,
       });
     }, 1200);
     setNotify({
@@ -166,7 +165,7 @@ const EditTest = () => {
 
   return (
     <>
-      {!loading && <BackHandler title={`Create New Test`} tab={0} path={testPath} />}
+      {!loading && <BackHandler title={`Edit Test`} tab={0} path={testPath} />}
       {loading && <Loader />}
       {error && <Alert severity='error'>{error}</Alert>}
       {!loading && (
@@ -176,8 +175,8 @@ const EditTest = () => {
             // validationSchema={validationSchema}
             onSubmit={(values, { resetForm }) => {
               // if (validate(values)) {
-              submitTestCreation(values, 'Draft');
-              resetForm();
+              onTestUpdate(values, 'Draft');
+              // resetForm();
               // }
             }}
             enableReinitialize
@@ -302,11 +301,14 @@ const EditTest = () => {
                       justify='space-between'
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
-                      <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                        {values.wallFiles?.map((media) => (
-                          <ExistingMedia media={media} wallFiles={values.wallFiles} />
-                        ))}
-                      </Grid>
+                      {values?.wallPost?.wallFiles.length > 0 && (
+                        <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
+                          {/* <MultipleFileUploadField name='wallFilesUpdate' fileType='image' /> */}
+                          {values?.wallPost?.wallFiles?.map((media) => (
+                            <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
+                          ))}
+                        </Grid>
+                      )}
                       <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                         <Controls.Input
                           label='Test instructions..'

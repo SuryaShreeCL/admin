@@ -35,10 +35,7 @@ const useStyles = makeStyles({
     },
   },
   wrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    alignItems: 'center',
+    width: '69%',
   },
   captionStyle: {
     width: '100%',
@@ -47,7 +44,7 @@ const useStyles = makeStyles({
     padding: '1rem',
     margin: '0 1rem',
     borderRadius: '5px',
-    width: '50%',
+    width: '100%',
     border: '1px solid gray',
   },
   spacer: {
@@ -244,24 +241,6 @@ const CreateTest = () => {
                     justify='space-between'
                     style={{ width: '100%', marginTop: '1.2rem' }}
                   >
-                    {/* <Grid item style={{ width: '30%' }}>
-                      <Controls.Select
-                        label='Number Of Questions'
-                        name='testSections.0.noOfQuestions'
-                        size='100%'
-                        onChange={handleChange}
-                        options={noOfQuestionsList}
-                      />
-                    </Grid> */}
-                    {/* <Grid item style={{ width: '30%' }}>
-                      <Controls.Select
-                        label='Duration'
-                        name='testSections.0.duration'
-                        size='100%'
-                        onChange={handleChange}
-                        options={durations}
-                      />
-                    </Grid> */}
                     <Grid item style={{ width: '30%' }}>
                       <Controls.Select
                         label='Score'
@@ -276,7 +255,10 @@ const CreateTest = () => {
                       render={(arrayHelpers) => (
                         <div className={classes.wrapper}>
                           {values.testSections.map((_, index) => (
-                            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                            <div
+                              key={index}
+                              style={{ display: 'flex', alignItems: 'center', width: '100%' }}
+                            >
                               <Field
                                 className={classes.inputField}
                                 placeholder='Duration'
@@ -302,14 +284,7 @@ const CreateTest = () => {
                     <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
                       <MultipleFileUploadField name='wallFiles' fileType='image' />
                     </Grid>
-                    <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                      <QuestionsUploadField
-                        name='wallFiles'
-                        fileType='image'
-                        questionSetId='e7a46a42-c8e1-46d8-8469-f1726930c58c'
-                        questionSectionId='f3c9536c-cea6-4b73-9731-f02c11cbc495'
-                      />
-                    </Grid>
+
                     <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                       <Controls.Input
                         label='Test instructions..'
@@ -329,10 +304,11 @@ const CreateTest = () => {
                     container
                     direction='row'
                     justify='space-between'
-                    style={{ width: '50%', marginTop: '1.5rem' }}
+                    style={{ width: '100%', marginTop: '1.5rem' }}
                   >
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                       <DateTimePicker
+                        style={{ width: '35%' }}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -352,6 +328,7 @@ const CreateTest = () => {
                     </MuiPickersUtilsProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                       <DateTimePicker
+                        style={{ width: '35%' }}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -369,9 +346,7 @@ const CreateTest = () => {
                         label='End Date & Time'
                       />
                     </MuiPickersUtilsProvider>
-                  </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
-                  <ButtonsContainer>
+
                     <Button
                       color='primary'
                       onClick={() => {
@@ -388,13 +363,23 @@ const CreateTest = () => {
                       Cancel
                     </Button>
                     <Controls.Button
-                      text='Submit'
+                      text='Save'
                       variant='contained'
                       color='primary'
                       style={{ borderRadius: '26px', marginLeft: 30 }}
                       type='submit'
                     />
-                  </ButtonsContainer>
+                  </Grid>
+                  <h6 style={{ marginTop: '2.2rem' }}>List Of Questions</h6>
+                  <Grid item style={{ width: '100%', marginTop: '1.2rem' }}>
+                    <QuestionsUploadField
+                      name='Questions'
+                      fileType='image'
+                      questionSetId='e7a46a42-c8e1-46d8-8469-f1726930c58c'
+                      questionSectionId='f3c9536c-cea6-4b73-9731-f02c11cbc495'
+                    />
+                  </Grid>
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                 </Form>
               </div>
             </>

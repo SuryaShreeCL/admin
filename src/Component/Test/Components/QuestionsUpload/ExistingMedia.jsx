@@ -41,7 +41,7 @@ const ErrorLinearProgress = withStyles((theme) => ({
 
 export function ExistingMedia(props, progress = 100) {
   const [isDeleted, setIsDeleted] = useState(false);
-  
+
   //Removing the file from aws based on id
   const deletePost = async (id) => {
     const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallfile/${id}`, {
@@ -59,11 +59,7 @@ export function ExistingMedia(props, progress = 100) {
     <FileHeaderContainer>
       <div className='img-container'>
         <img
-          src={
-            ((url?.includes('.mp4') || url?.includes('.mp3')) && Media) ||
-            `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${url}&type=image` ||
-            Spinner
-          }
+          src='https://cdn-icons-png.flaticon.com/512/1205/1205526.png'
           alt='upload-img'
           width='60px'
         />
