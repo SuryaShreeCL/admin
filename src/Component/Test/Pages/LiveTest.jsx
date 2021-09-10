@@ -136,7 +136,7 @@ export default function LiveTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Draft', 0, 10));
+      dispatch(listTests('Live', 0, 10));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -146,7 +146,7 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Draft', 0, 10));
+    dispatch(listTests('Live', 0, 10));
   }, [dispatch]);
 
   return (

@@ -66,6 +66,7 @@ const CreateTest = () => {
   const history = useHistory();
 
   const [state, setState] = useState({
+    wallCategory: [],
     name: '',
     type: 'EVENT',
     description: [],
@@ -74,9 +75,7 @@ const CreateTest = () => {
     nameDescription: '',
     startDateTime: new Date(),
     endDateTime: new Date(),
-    eventPost: { id: '' },
     score: 0,
-    wallCategories: [],
     wallFiles: [],
   });
 
@@ -85,13 +84,6 @@ const CreateTest = () => {
     { id: '2', title: 20 },
     { id: '3', title: 30 },
     { id: '4', title: 40 },
-  ];
-
-  const noOfQuestionsList = [
-    { id: '1', title: 10 },
-    { id: '2', title: 15 },
-    { id: '3', title: 20 },
-    { id: '4', title: 25 },
   ];
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -161,7 +153,7 @@ const CreateTest = () => {
 
   return (
     <>
-      <BackHandler title={`Create New Test`} tab={0} path={testPath} />
+      <BackHandler title={`Create New Test`} path={testPath} />
       <CreateTestContainer>
         <Formik
           initialValues={state}
@@ -193,19 +185,21 @@ const CreateTest = () => {
                       <FormControl className={classes.root} style={{ width: '100%' }}>
                         <Autocomplete
                           multiple
-                          name='wallCategories'
+                          id='wallCategory'
+                          name='wallCategory'
+                          disabled={values?.eventPost?.id.length > 1}
                           getOptionLabel={(option) => option?.name}
                           options={categories ?? []}
                           onChange={(e, value) => {
-                            setFieldValue('wallCategories', value !== null ? value : categories);
+                            setFieldValue('wallCategory', value !== null ? value : categories);
                           }}
-                          value={values.wallCategories}
+                          value={values.wallCategory}
                           renderInput={(params) => (
                             <TextField
                               {...params}
                               label='Select Category'
-                              name='wallCategories'
                               variant='outlined'
+                              name='wallCategory'
                               // error={
                               //   touched.wallCategories &&
                               //   Boolean(values.wallCategories.length === 0)
@@ -220,8 +214,7 @@ const CreateTest = () => {
                         options={posts}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
-                        disableClearable
-                        disabled={loading}
+                        disabled={loading || values.wallCategory.length > 0}
                         onChange={(e, value) => {
                           setFieldValue('eventPost.id', value !== null ? value.id : categories);
                         }}

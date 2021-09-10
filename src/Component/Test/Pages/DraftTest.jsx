@@ -16,12 +16,12 @@ import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useHistory } from 'react-router-dom';
-import { editPath, createPath } from '../../RoutePaths';
+import { testCreate, testEdit } from '../../RoutePaths';
 import moment from 'moment';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -30,8 +30,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
-import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
+import { listTests, deleteTest, getTestDetails } from '../../../Actions/TestActions';
 import { renderListCategory } from '../../Utils/Helpers';
+import ScheduleLater from '../Components/ScheduleLater';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -56,11 +57,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Drafted' },
-  { id: 'caption', label: 'Caption' },
-  { id: 'likes', label: 'Likes' },
-  { id: 'totalViews', label: 'Views' },
+  { id: 'testName', label: 'Test Name' },
+  { id: 'noOfQues', label: 'Questions' },
+  { id: 'duration', label: 'Duration' },
+  { id: 'created', label: 'Created On' },
+  { id: 'createdby', label: 'Created By' },
+  { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -68,6 +70,7 @@ export default function DraftTest() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
@@ -76,7 +79,10 @@ export default function DraftTest() {
     },
   });
 
-  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  const { loading, error, tests } = useSelector((state) => state.testListReducer);
+
+  const [scheduler, setScheduler] = useState(false);
+  const [data, setData] = useState('');
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -87,7 +93,7 @@ export default function DraftTest() {
   });
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    posts,
+    tests,
     headCells,
     filterFn
   );
@@ -107,25 +113,20 @@ export default function DraftTest() {
     setOpenDrawer(!openDrawer);
   };
 
-  const onPublish = (post, activeStatus) => {
-    dispatch(updateWallPost({ ...post, activeStatus }));
-    setNotify({
-      isOpen: true,
-      message: 'Post Published Successfully',
-      type: 'success',
-    });
-    setTimeout(() => {
-      dispatch(listWallPosts('Draft'));
-    }, 1200);
-  };
-
   const openInPage = (item) => {
+    console.log(item.id);
     history.push({
-      pathname: editPath,
-      recordForEdit: item,
+      pathname: testEdit,
+      testId: item.id,
       postType: 'Draft',
     });
+    setRecordForEdit(item);
     setOpenDrawer(false);
+  };
+
+  const onSchedule = (item) => {
+    setScheduler(true);
+    setData(item);
   };
 
   const onDelete = (id) => {
@@ -133,9 +134,9 @@ export default function DraftTest() {
       ...confirmDialog,
       isOpen: false,
     });
-    dispatch(deleteWallPost(id));
+    dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Draft', false));
+      dispatch(listTests('Draft', 0, 10));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -145,7 +146,7 @@ export default function DraftTest() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Draft', false));
+    dispatch(listTests('Draft', 0, 10));
   }, [dispatch]);
 
   return (
@@ -154,7 +155,7 @@ export default function DraftTest() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Drafts'
+            placeholder='Search Tests'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -172,37 +173,47 @@ export default function DraftTest() {
             className={classes.filterBtn}
           />
           <Controls.Button
-            text='Create New Post'
+            text='Create New Test'
             variant='contained'
             color='primary'
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push(createPath);
+              history.push({
+                pathname: testCreate,
+                type: false,
+              });
             }}
           />
         </Toolbar>
 
         <TblContainer>
           <TblHead />
-          {posts && (
+          {tests && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
-                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.totalLikes}</TableCell>
-                  <TableCell>{item.totalViews}</TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.noOfQuestions}</TableCell>
+                  <TableCell>{item.duration}</TableCell>
+                  <TableCell>{moment(item.createdAt).format('ll')}</TableCell>
+                  <TableCell>{item.createdBy}</TableCell>
+                  <TableCell>{item.status}</TableCell>
                   <TableCell>
-                    <Controls.ActionButton onClick={() => openInPopup(item)}>
-                      <VisibilityIcon fontSize='small' color='default' />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => onPublish(item, 'Live')}>
-                      <CloudUploadIcon fontSize='small' style={{ color: 'green' }} />
+                    <Controls.ActionButton
+                      // disabled={item.totalRegistrations === null}
+                      href={`${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${item.id}/report`}
+                    >
+                      <CloudDownloadIcon
+                        fontSize='small'
+                        style={{ color: `${item.duration && 'green'}` }}
+                      />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
-                      <EditOutlinedIcon fontSize='small' color='primary' />
+                      <EditOutlinedIcon fontSize='small' color='default' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton onClick={() => onSchedule(item)}>
+                      <ScheduleIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       onClick={() => {
@@ -264,6 +275,7 @@ export default function DraftTest() {
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ScheduleLater scheduler={scheduler} setScheduler={setScheduler} data={data} />
     </>
   );
 }
