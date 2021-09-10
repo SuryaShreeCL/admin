@@ -109,9 +109,6 @@ const EditTest = () => {
   const { test, loading, error } = useSelector((state) => state.testDetailsReducer);
   const filterEventFromId = posts?.filter((post) => post?.id === test?.wallPost?.linkedEvent?.id);
 
-  console.log(posts);
-  console.log('filer', filterEventFromId);
-
   const validate = (values) => {
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
       setNotify({

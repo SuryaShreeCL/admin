@@ -65,20 +65,12 @@ export function MultipleFileUploadField({ name, fileType }) {
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
           <input {...getInputProps()} />
-          <p
-            style={{ marginBottom: '-2px' }}
-          >{`Drag & drop some ${fileType} here, or click to select ${fileType}`}</p>
+          <p style={{ marginBottom: '-2px' }}>{`Drag & drop an ${fileType} here`}</p>
         </div>
         {fileType === 'image' && (
           <p {...getRootProps({ className: classes.info })}>
             (Supported format: jpeg, PNG only, max 2MB)
           </p>
-        )}
-        {fileType === 'video' && (
-          <p {...getRootProps({ className: classes.info })}>(Supported format: mp4, max 2MB)</p>
-        )}
-        {fileType === 'audio' && (
-          <p {...getRootProps({ className: classes.info })}>(Supported format: mp3, max 2MB)</p>
         )}
       </Grid>
       {files.map((fileWrapper) => (

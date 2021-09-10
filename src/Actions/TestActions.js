@@ -67,35 +67,70 @@ export const deleteTest = (id) => async (dispatch) => {
   }
 };
 
-export const createTest = (test) => async (dispatch) => {
-  try {
-    dispatch({
-      type: TEST.CREATE_REQUEST,
-    });
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`,
-      test,
-      {
-        crossDomain: true,
+export const createTest = (test) => {
+  return (dispatch) => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`, test, {
         headers: {
           admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
-      }
-    );
-    dispatch({
-      type: TEST.CREATE_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message ? error.response.data.message : error.message;
+      })
+      .then((result) => {
+        window.sessionStorage.setItem('questionSetId', JSON.stringify(result?.data?.data?.id));
+        window.sessionStorage.setItem(
+          'questionSectionId',
+          JSON.stringify(result?.data?.data?.testSection[0]?.id)
+        );
 
-    dispatch({
-      type: TEST.CREATE_FAIL,
-      payload: message,
-    });
-  }
+        dispatch({
+          type: TEST.CREATE_SUCCESS,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        const message =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+
+        dispatch({
+          type: TEST.CREATE_FAIL,
+          payload: message,
+        });
+      });
+  };
+  // try {
+  //   dispatch({
+  //     type: TEST.CREATE_REQUEST,
+  //   });
+  //   const { data } = await axios.post(
+  //     `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`,
+  //     test,
+  //     {
+  //       crossDomain: true,
+  //       headers: {
+  //         admin: 'yes',
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     }
+  //   );
+  //   console.log(data.id);
+  //   window.sessionStorage.setItem('questionSetId', JSON.stringify(data?.id));
+  //   window.sessionStorage.setItem('questionSectionId', JSON.stringify(data?.testSection?.id));
+  //   dispatch({
+  //     type: TEST.CREATE_SUCCESS,
+  //     payload: data,
+  //   });
+  // } catch (error) {
+  //   const message =
+  //     error.response && error.response.data.message ? error.response.data.message : error.message;
+
+  //   dispatch({
+  //     type: TEST.CREATE_FAIL,
+  //     payload: message,
+  //   });
+  // }
 };
 
 export const scheduleTest = (id, dates) => async (dispatch) => {

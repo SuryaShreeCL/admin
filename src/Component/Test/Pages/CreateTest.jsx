@@ -41,11 +41,11 @@ const useStyles = makeStyles({
     width: '100%',
   },
   inputField: {
-    padding: '1rem',
-    margin: '0 1rem',
-    borderRadius: '5px',
     width: '100%',
-    border: '1px solid gray',
+    margin: '0 1rem',
+    border: '1px solid rgba(0, 0, 0, 0.12)',
+    borderRadius: '4px',
+    padding: '1rem',
   },
   spacer: {
     width: '80%',
@@ -93,10 +93,13 @@ const CreateTest = () => {
   useEffect(() => {
     dispatch(getWallCategories('Live'));
     dispatch(listWallPosts('Live', true));
+    window.sessionStorage.removeItem('questionSetId');
+    window.sessionStorage.removeItem('questionSectionId');
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
@@ -115,13 +118,15 @@ const CreateTest = () => {
     caption: yup.string().required('caption is required'),
   });
 
-  const submitTestCreation = (test, status) => {
-    if (!test.id) dispatch(createTest({ ...test, status }));
+  const submitTestCreation = (testData, status) => {
+    dispatch(createTest({ ...testData, status }));
     setNotify({
       isOpen: true,
       message: 'Created Successfully',
       type: 'success',
     });
+    setTestCreated(true);
+
     // setTimeout(() => {
     //   history.push({
     //     pathname: wallPath,
@@ -363,7 +368,7 @@ const CreateTest = () => {
                       Cancel
                     </Button>
                     <Controls.Button
-                      text='Save'
+                      text='Save Test'
                       variant='contained'
                       color='primary'
                       style={{ borderRadius: '26px', marginLeft: 30 }}
@@ -375,8 +380,7 @@ const CreateTest = () => {
                     <QuestionsUploadField
                       name='Questions'
                       fileType='image'
-                      questionSetId='e7a46a42-c8e1-46d8-8469-f1726930c58c'
-                      questionSectionId='f3c9536c-cea6-4b73-9731-f02c11cbc495'
+                      testCreated={testCreated}
                     />
                   </Grid>
                   <pre>{JSON.stringify({ values }, null, 4)}</pre>

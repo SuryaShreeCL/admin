@@ -26,7 +26,7 @@ export default function Notification(props) {
     <Snackbar
       className={classes.root}
       open={notify.isOpen}
-      autoHideDuration={2000}
+      autoHideDuration={1200}
       onClose={handleClose}
     >
       <Alert severity={notify.type} onClose={handleClose}>

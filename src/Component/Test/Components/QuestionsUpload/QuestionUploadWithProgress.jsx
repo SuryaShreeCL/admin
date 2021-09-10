@@ -4,18 +4,12 @@ import { FileProgress } from './FileProgress';
 
 let accessToken = window.sessionStorage.getItem('accessToken');
 
-export function QuestionUploadWithProgress({
-  file,
-  onDelete,
-  onUpload,
-  questionSectionId,
-  questionSetId,
-}) {
+export function QuestionUploadWithProgress({ file, onDelete, onUpload }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async function upload() {
-      const data = await uploadFile(file, setProgress, questionSectionId, questionSetId);
+      const data = await uploadFile(file, setProgress);
       onUpload(file, data);
     }
 
@@ -24,13 +18,17 @@ export function QuestionUploadWithProgress({
 
   return (
     <Grid item>
-      <FileProgress file={file} url={''} onDelete={onDelete} progress={progress} />
+      <FileProgress file={file} onDelete={onDelete} progress={progress} />
     </Grid>
   );
 }
 
-function uploadFile(file, onProgress, questionSetId, questionSectionId) {
-  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${questionSetId}/questions/import?type=SINGLE_SELECT&testSectionId=${questionSectionId}`;
+function uploadFile(file, onProgress) {
+  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${JSON.parse(
+    window.sessionStorage.getItem('questionSetId')
+  )}/questions/import?type=SINGLE_SELECT&testSectionId=${JSON.parse(
+    window.sessionStorage.getItem('questionSectionId')
+  )}`;
 
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();

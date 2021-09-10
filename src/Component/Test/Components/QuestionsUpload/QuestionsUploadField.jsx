@@ -5,27 +5,28 @@ import { useDropzone } from 'react-dropzone';
 import { QuestionUploadWithProgress } from './QuestionUploadWithProgress';
 import { UploadError } from './UploadError';
 
-const useStyles = makeStyles((theme) => ({
-  dropzone: {
-    border: `2px dashed ${theme.palette.primary.main}`,
-    borderRadius: theme.shape.borderRadius,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    width: '100%',
-    background: theme.palette.background.default,
-    height: theme.spacing(12),
-    outline: 'none',
-  },
-  info: {
-    color: 'grey',
-    marginTop: 5,
-    marginBottom: 10,
-  },
-}));
+export function QuestionsUploadField({ name, testCreated }) {
+  const useStyles = makeStyles((theme) => ({
+    dropzone: {
+      border: `2px dashed ${theme.palette.primary.main}`,
+      borderRadius: theme.shape.borderRadius,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 5,
+      cursor: !testCreated && 'no-drop',
+      width: '100%',
+      background: theme.palette.background.default,
+      height: theme.spacing(12),
+      outline: 'none',
+    },
+    info: {
+      color: 'grey',
+      marginTop: 5,
+      marginBottom: 10,
+    },
+  }));
 
-export function QuestionsUploadField({ name, questionSetId, questionSectionId, fileType = 'xls' }) {
   const [_, __, helpers] = useField(name);
   const classes = useStyles();
 
@@ -66,21 +67,23 @@ export function QuestionsUploadField({ name, questionSetId, questionSectionId, f
     <React.Fragment>
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
-          <input {...getInputProps()} />
+          {testCreated && <input {...getInputProps()} />}
           <p style={{ marginBottom: '-2px' }}>
-            Drag & drop some excel sheets here, or click to select
+            {testCreated
+              ? 'Drag & drop some excel sheets here, or click to select'
+              : 'Please Save the Test Event first'}
           </p>
         </div>
       </Grid>
       {files.map((fileWrapper) => (
         <Grid item key={fileWrapper.file.name}>
-          {fileWrapper.errors.length ? null : (
+          {fileWrapper.errors.length ? (
+            <UploadError file={fileWrapper.file} errors={fileWrapper.errors} onDelete={onDelete} />
+          ) : (
             <QuestionUploadWithProgress
               onDelete={onDelete}
               onUpload={onUpload}
               file={fileWrapper.file}
-              questionSetId={questionSetId}
-              questionSectionId={questionSectionId}
             />
           )}
         </Grid>
