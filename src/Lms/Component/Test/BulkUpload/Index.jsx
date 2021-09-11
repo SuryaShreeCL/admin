@@ -28,19 +28,8 @@ import {
   getTopicList,
 } from '../../../Redux/Action/Test';
 import Alert from '@material-ui/lab/Alert';
-import { lmsTest } from '../../../../Component/RoutePaths';
+import { lmsTest, single_upload } from '../../../../Component/RoutePaths';
 import { lms_add_test } from '../../../../Component/RoutePaths';
-
-const radioData = {
-  name: 'Question Pattern',
-  activeValue: 2,
-  radioItemData: [
-    { id: 1, label: 'By Single Question' },
-    { id: 2, label: 'Bulk Upload' },
-  ],
-  handleRadioChange: () => console.log('hi'),
-  groupName: 'Question Pattern',
-};
 
 class Index extends Component {
   constructor(props) {
@@ -53,6 +42,7 @@ class Index extends Component {
       alertState: false,
       alertMsg: '',
       alertSeverity: '',
+      activeValue: 1,
     };
   }
 
@@ -207,6 +197,27 @@ class Index extends Component {
         handleCancelClick,
         handleTopicList,
       } = this;
+
+      const radioData = {
+        name: 'Question Pattern',
+        activeValue: 2,
+        radioItemData: [
+          { id: 1, label: 'By Single Question' },
+          { id: 2, label: 'Bulk Upload' },
+        ],
+        handleRadioChange: (event, name) => {
+          // console.log(name);
+          if (name === '1') {
+            console.log(name);
+            this.props.history.push(single_upload);
+          }
+          // this.setState({ activeValue: parseInt(name) });
+        },
+        groupName: 'Question Pattern',
+      };
+
+      // console.log(radioData);
+
       return (
         <React.Fragment>
           <C2>

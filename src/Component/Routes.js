@@ -80,6 +80,7 @@ import {
   lms_course_taken,
   lms_add_test,
   bulk_upload,
+  single_upload,
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -135,6 +136,7 @@ import TestLanding from '../Lms/Component/Test/Index';
 import CourseTaken from '../Lms/Component/Student/Index';
 import AddTest from '../Lms/Component/Test/AddTest/Add';
 import BulkUpload from '../Lms/Component/Test/BulkUpload/Index';
+import SingleUpload from '../Lms/Component/Test/SingleUpload/Index';
 
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
@@ -391,6 +393,7 @@ export default function Routes(props) {
         path={bulk_upload + '/:testQuestionSetId/:sectionId?/:type?'}
         component={BulkUpload}
       />
+      <Route export path={single_upload} component={SingleUpload} />
     </Switch>
   );
 }
