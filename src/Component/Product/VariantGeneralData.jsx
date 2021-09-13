@@ -110,7 +110,7 @@ class VariantGeneralData extends Component {
       sellingPrice: this.state.sellingPrice,
       updatedBy: window.sessionStorage.getItem("role"),
       productQuestionAnswers: faqid,
-      productFamily: { id: this.props.getvarientByidList.productFamily.id },
+      productFamily: { id: this.props.getvarientByidList.productFamily ? this.props.getvarientByidList.productFamily.id : '' },
     };
     this.props.updategeneraldata(obj);
     this.setState({
