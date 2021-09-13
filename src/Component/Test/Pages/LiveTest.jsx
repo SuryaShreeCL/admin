@@ -108,11 +108,6 @@ export default function LiveTest() {
     });
   };
 
-  const openInPopup = (item) => {
-    setViewData(item);
-    setOpenDrawer(!openDrawer);
-  };
-
   const openInPage = (item) => {
     console.log(item.id);
     history.push({
@@ -122,11 +117,6 @@ export default function LiveTest() {
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
-  };
-
-  const onSchedule = (item) => {
-    setScheduler(true);
-    setData(item);
   };
 
   const onDelete = (id) => {

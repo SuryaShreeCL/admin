@@ -69,7 +69,7 @@ export default function ScheduleLater(props) {
         </Typography>
         <Formik
           initialValues={data || []}
-          onSubmit={(values, { resetForm }) => {
+          onSubmit={(values) => {
             let scheduleDate = {
               startDateTime: values.startDateTime,
               endDateTime: values.endDateTime,
@@ -78,7 +78,7 @@ export default function ScheduleLater(props) {
           }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
+          {({ handleSubmit, values, setFieldValue }) => (
             <>
               <div className='CreateTest'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>

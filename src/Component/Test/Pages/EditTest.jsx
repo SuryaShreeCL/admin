@@ -16,6 +16,7 @@ import { Grid } from '@material-ui/core';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
+import { ExistingMedia } from '../../Wall/Components/Upload/ExistingMedia';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
@@ -64,7 +65,7 @@ const EditTest = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const { testId } = location;
+  const { testId, testType } = location;
 
   const [state, setState] = useState({
     wallCategory: [],
@@ -157,6 +158,7 @@ const EditTest = () => {
       type: 'warning',
     });
   };
+
   return (
     <>
       {!loading && <BackHandler title={`Edit Test`} tab={1} path={testPath} />}
@@ -168,7 +170,8 @@ const EditTest = () => {
             initialValues={test || state}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              onTestUpdate(values, 'Draft');
+              // onTestUpdate({ ...values, testType, wallFiles: [...(values.wallFilesUpdate ?? [])] });
+              onTestUpdate(values, testType);
             }}
             enableReinitialize
           >
@@ -289,7 +292,10 @@ const EditTest = () => {
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
                       <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                        <MultipleFileUploadField name='wallFiles' fileType='image' />
+                        {/* <MultipleFileUploadField name='wallFilesUpdate' fileType='image' /> */}
+                        {values?.wallPost?.wallFiles?.map((media) => (
+                          <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
+                        ))}
                       </Grid>
 
                       <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
@@ -373,7 +379,6 @@ const EditTest = () => {
                         text='Update'
                         variant='contained'
                         color='primary'
-                        disabled={questionID}
                         style={{ borderRadius: '26px', marginLeft: 30 }}
                         type='submit'
                       />
@@ -396,31 +401,33 @@ const EditTest = () => {
                         />
                       </Grid>
                     )}
-                    <Controls.Button
-                      text='Schedule It'
-                      variant='contained'
-                      color='primary'
-                      disabled={!values.questions?.length > 0}
-                      onClick={() => {
-                        onTestUpdate(values, 'Scheduled');
-                        setNotify({
-                          isOpen: true,
-                          message: 'Scheduled Successfully',
-                          type: 'success',
-                        });
-                        setTimeout(() => {
-                          history.push({
-                            pathname: testPath,
-                            tab: 2,
+                    {testType === 'Draft' && (
+                      <Controls.Button
+                        text='Schedule It'
+                        variant='contained'
+                        color='primary'
+                        disabled={!values.questions?.length > 0}
+                        onClick={() => {
+                          onTestUpdate(values, 'Scheduled');
+                          setNotify({
+                            isOpen: true,
+                            message: 'Scheduled Successfully',
+                            type: 'success',
                           });
-                        }, 1200);
-                      }}
-                      style={{
-                        borderRadius: '26px',
-                        marginTop: 20,
-                        marginLeft: '45%',
-                      }}
-                    />
+                          setTimeout(() => {
+                            history.push({
+                              pathname: testPath,
+                              tab: 2,
+                            });
+                          }, 1200);
+                        }}
+                        style={{
+                          borderRadius: '26px',
+                          marginTop: 20,
+                          marginLeft: '45%',
+                        }}
+                      />
+                    )}
                     {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
                 </div>

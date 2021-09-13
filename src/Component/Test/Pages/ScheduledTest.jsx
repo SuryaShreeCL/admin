@@ -108,17 +108,12 @@ export default function ScheduledTest() {
     });
   };
 
-  const openInPopup = (item) => {
-    setViewData(item);
-    setOpenDrawer(!openDrawer);
-  };
-
   const openInPage = (item) => {
     console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
-      postType: 'Scheduled',
+      testType: 'Scheduled',
     });
     setRecordForEdit(item);
     setOpenDrawer(false);

@@ -118,7 +118,7 @@ export default function DraftTest() {
     history.push({
       pathname: testEdit,
       testId: item.id,
-      postType: 'Draft',
+      testType: 'Draft',
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
