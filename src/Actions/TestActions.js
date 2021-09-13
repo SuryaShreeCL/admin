@@ -103,12 +103,11 @@ export const createTest = (test) => {
 };
 
 export const scheduleTest = (id, dates) => async (dispatch) => {
-  console.log(dates);
   try {
     dispatch({
       type: TEST.SCHEDULE_REQUEST,
     });
-    const { data } = await axios.post(
+    const { data } = await axios.put(
       `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${id}/schedule`,
       dates,
       {

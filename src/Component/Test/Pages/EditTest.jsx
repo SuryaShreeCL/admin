@@ -161,7 +161,9 @@ const EditTest = () => {
 
   return (
     <>
-      {!loading && <BackHandler title={`Edit Test`} tab={1} path={testPath} />}
+      {!loading && (
+        <BackHandler title={`Edit Test`} tab={testType === 'Draft' ? 1 : 2} path={testPath} />
+      )}
       {loading && <Loader />}
       {error && <Alert severity='error'>{error}</Alert>}
       {!loading && (
@@ -292,7 +294,7 @@ const EditTest = () => {
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
                       <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                        {/* <MultipleFileUploadField name='wallFilesUpdate' fileType='image' /> */}
+                        <MultipleFileUploadField name='wallFilesUpdate' fileType='image' />
                         {values?.wallPost?.wallFiles?.map((media) => (
                           <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
                         ))}
@@ -311,78 +313,7 @@ const EditTest = () => {
                         />
                       </Grid>
                     </Grid>
-                    <h6>Schedule Details</h6>
-                    <Grid
-                      item
-                      container
-                      direction='row'
-                      justify='space-between'
-                      style={{ width: '100%', marginTop: '1.5rem' }}
-                    >
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DateTimePicker
-                          style={{ width: '30%' }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <EventIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={values.startDateTime}
-                          disablePast
-                          name='startDateTime'
-                          inputVariant='outlined'
-                          onChange={(val) => {
-                            setFieldValue('startDateTime', val);
-                          }}
-                          label='Start Date & Time'
-                        />
-                      </MuiPickersUtilsProvider>
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DateTimePicker
-                          style={{ width: '30%' }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <ScheduleIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={values.endDateTime}
-                          disablePast
-                          name='endDateTime'
-                          inputVariant='outlined'
-                          onChange={(val) => {
-                            setFieldValue('endDateTime', val);
-                          }}
-                          label='End Date & Time'
-                        />
-                      </MuiPickersUtilsProvider>
 
-                      <Button
-                        color='primary'
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: 'Are you sure to discard this post?',
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              onDiscard();
-                            },
-                          });
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                      <Controls.Button
-                        text='Update'
-                        variant='contained'
-                        color='primary'
-                        style={{ borderRadius: '26px', marginLeft: 30 }}
-                        type='submit'
-                      />
-                    </Grid>
                     <h6 style={{ marginTop: '2.2rem' }}>
                       {!values.questions?.length > 0
                         ? 'List Of Questions'
@@ -401,33 +332,68 @@ const EditTest = () => {
                         />
                       </Grid>
                     )}
-                    {testType === 'Draft' && (
+                    <Grid
+                      item
+                      container
+                      direction='row'
+                      style={{
+                        width: '100%',
+                        marginTop: '1.5rem',
+                        alignItems: 'center',
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                      }}
+                    >
                       <Controls.Button
-                        text='Schedule It'
-                        variant='contained'
+                        variant='outlined'
+                        style={{ borderRadius: '26px' }}
                         color='primary'
-                        disabled={!values.questions?.length > 0}
+                        text='Cancel'
                         onClick={() => {
-                          onTestUpdate(values, 'Scheduled');
-                          setNotify({
+                          setConfirmDialog({
                             isOpen: true,
-                            message: 'Scheduled Successfully',
-                            type: 'success',
+                            title: 'Are you sure to discard this post?',
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              onDiscard();
+                            },
                           });
-                          setTimeout(() => {
-                            history.push({
-                              pathname: testPath,
-                              tab: 2,
-                            });
-                          }, 1200);
-                        }}
-                        style={{
-                          borderRadius: '26px',
-                          marginTop: 20,
-                          marginLeft: '45%',
                         }}
                       />
-                    )}
+
+                      {testType === 'Draft' && (
+                        <Controls.Button
+                          text='Schedule It'
+                          variant='contained'
+                          color='primary'
+                          disabled={!values.Questions?.success}
+                          onClick={() => {
+                            onTestUpdate(values, 'Scheduled');
+                            setNotify({
+                              isOpen: true,
+                              message: 'Scheduled Successfully',
+                              type: 'success',
+                            });
+                            setTimeout(() => {
+                              history.push({
+                                pathname: testPath,
+                                tab: 2,
+                              });
+                            }, 1200);
+                          }}
+                          style={{
+                            borderRadius: '26px',
+                          }}
+                        />
+                      )}
+                      <Controls.Button
+                        text='Update'
+                        variant='outlined'
+                        color='primary'
+                        style={{ borderRadius: '26px' }}
+                        type='submit'
+                      />
+                    </Grid>
                     {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
                 </div>

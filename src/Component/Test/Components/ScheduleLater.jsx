@@ -17,6 +17,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import { scheduleTest } from '../../../Actions/TestActions';
+import Notification from '../../Utils/Notification';
 import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
@@ -52,96 +53,107 @@ export default function ScheduleLater(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+
   const onSubmit = (id, dates) => {
     dispatch(scheduleTest(id, dates));
+    setScheduler(false);
+    setNotify({
+      isOpen: true,
+      message: 'Schedule Updated',
+      type: 'success',
+    });
   };
 
   return (
-    <Dialog open={scheduler} classes={{ paper: classes.dialog }}>
-      <DialogTitle className={classes.dialogTitle}>
-        <IconButton disableRipple className={classes.titleIcon}>
-          <ScheduleIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent className={classes.dialogContent}>
-        <Typography variant='h6' style={{ marginBottom: '2rem' }}>
-          Schedule this test for later
-        </Typography>
-        <Formik
-          initialValues={data || []}
-          onSubmit={(values) => {
-            let scheduleDate = {
-              startDateTime: values.startDateTime,
-              endDateTime: values.endDateTime,
-            };
-            onSubmit(values.id, scheduleDate);
-          }}
-          enableReinitialize
-        >
-          {({ handleSubmit, values, setFieldValue }) => (
-            <>
-              <div className='CreateTest'>
-                <Form onSubmit={handleSubmit} autoComplete='off'>
-                  <Grid
-                    item
-                    container
-                    direction='row'
-                    justify='space-around'
-                    style={{ width: '100%' }}
-                  >
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DateTimePicker
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position='start'>
-                              <EventIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={values.startDateTime}
-                        name='startDateTime'
-                        inputVariant='outlined'
-                        label='Start Date & Time'
-                        onChange={(val) => {
-                          setFieldValue('startDateTime', val);
-                        }}
+    <>
+      <Dialog open={scheduler} classes={{ paper: classes.dialog }}>
+        <DialogTitle className={classes.dialogTitle}>
+          <IconButton disableRipple className={classes.titleIcon}>
+            <ScheduleIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent className={classes.dialogContent}>
+          <Typography variant='h6' style={{ marginBottom: '2rem' }}>
+            Schedule this test for later
+          </Typography>
+          <Formik
+            initialValues={data || []}
+            onSubmit={(values) => {
+              let scheduleDate = {
+                startDateTime: values.startDateTime,
+                endDateTime: values.endDateTime,
+              };
+              onSubmit(values.id, scheduleDate);
+            }}
+            enableReinitialize
+          >
+            {({ handleSubmit, values, setFieldValue }) => (
+              <>
+                <div className='CreateTest'>
+                  <Form onSubmit={handleSubmit} autoComplete='off'>
+                    <Grid
+                      item
+                      container
+                      direction='row'
+                      justify='space-around'
+                      style={{ width: '100%' }}
+                    >
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DateTimePicker
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <EventIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={values.startDateTime}
+                          name='startDateTime'
+                          inputVariant='outlined'
+                          label='Start Date & Time'
+                          onChange={(val) => {
+                            setFieldValue('startDateTime', val);
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DateTimePicker
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <EventIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={values.endDateTime}
+                          style={{ marginLeft: '1.5rem' }}
+                          name='endDateTime'
+                          inputVariant='outlined'
+                          label='End Date & Time'
+                          onChange={(val) => {
+                            setFieldValue('endDateTime', val);
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </Grid>
+                    <DialogActions className={classes.dialogAction}>
+                      <Controls.Button
+                        variant='outlined'
+                        text='Cancel'
+                        color='primary'
+                        onClick={() => setScheduler(false)}
                       />
-                    </MuiPickersUtilsProvider>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DateTimePicker
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position='start'>
-                              <EventIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={values.endDateTime}
-                        style={{ marginLeft: '1.5rem' }}
-                        name='endDateTime'
-                        inputVariant='outlined'
-                        label='End Date & Time'
-                        onChange={(val) => {
-                          setFieldValue('endDateTime', val);
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-                  <DialogActions className={classes.dialogAction}>
-                    <Controls.Button
-                      variant='outlined'
-                      text='Cancel'
-                      color='primary'
-                      onClick={() => setScheduler(false)}
-                    />
-                    <Controls.Button text='Submit' type='submit' color='primary' />
-                  </DialogActions>
-                </Form>
-              </div>
-            </>
-          )}
-        </Formik>
-      </DialogContent>
-    </Dialog>
+                      <Controls.Button text='Submit' type='submit' color='primary' />
+                    </DialogActions>
+                  </Form>
+                </div>
+              </>
+            )}
+          </Formik>
+        </DialogContent>
+      </Dialog>
+      <Notification notify={notify} setNotify={setNotify} />
+    </>
   );
 }

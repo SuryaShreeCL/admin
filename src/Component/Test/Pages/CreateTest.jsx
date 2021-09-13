@@ -128,7 +128,7 @@ const CreateTest = () => {
     dispatch(createTest({ ...testData, status }));
     setNotify({
       isOpen: true,
-      message: 'Created Successfully',
+      message: 'Saved Successfully',
       type: 'success',
     });
     setTestCreated(true);
