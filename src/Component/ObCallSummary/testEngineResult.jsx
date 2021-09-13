@@ -31,6 +31,7 @@ import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/Admin
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
+import { ErrorMessage } from "../Validation";
 
 
 class TestEngineResult extends Component {
@@ -113,7 +114,23 @@ class TestEngineResult extends Component {
     });
     this.props.viewresettest(
       this.props.match.params.studentId,
-      this.state.testExeId
+      this.state.testExeId,(response => {
+        if(response.status === 200){
+          this.setState({
+            snackMsg : "Test Reseted Successfully",
+            snackVariant : "success",
+            snackOpen : true
+          })
+          this.props.viewscoredetails(this.props.match.params.studentId);
+        }
+        else{
+          this.setState({
+            snackMsg : ErrorMessage.NetworkError,
+            snackVariant : "error",
+            snackOpen : true
+          })
+        }
+      })
     );
   };
 

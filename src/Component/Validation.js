@@ -37,6 +37,9 @@ export const isValdAlpNumSpcUdscrHyph = value => {
 	return value !== undefined && value !== null && value.match(/^\w+([\s-_]\w+)*$/)
 }
 
+export const ErrorMessage = {
+	NetworkError : "Network Error"
+}
 
 export const isValidation = (value,fieldName) =>{
 	if(value === undefined || value === null || value.trim() === ''){

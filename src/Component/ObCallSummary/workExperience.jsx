@@ -358,6 +358,7 @@ class workExperience extends Component {
                               renderInput={(params) => (
                                   <TextField {...params}
                                    label="Employment Type"
+                                   disabled={this.state.disable}
                                    variant="standard" 
                                    contentEditable={this.state.disable === false } 
                                   //  value={item.employmentType || ''}
@@ -370,6 +371,7 @@ class workExperience extends Component {
                     <Grid item md={3}>
                       <TextField
                         id="standard-basic"
+                        disabled={this.state.disable}
                         label="Organisation"
                         value={item.organization || ""}
                         error={this.state.organizationErr.length > 0}
@@ -388,6 +390,7 @@ class workExperience extends Component {
                     <Grid item md={3}>
                       <KeyboardDatePicker
                         disableFuture
+                        disabled={this.state.disable}
                         margin="normal"
                         id="date-picker-dialog"
                         label="Start Date"
@@ -415,6 +418,7 @@ class workExperience extends Component {
                       <KeyboardDatePicker
                         disableFuture
                         margin="normal"
+                        disabled={this.state.disable}
                         id="date-picker-dialog"
                         label="End Date"
                         format="MM/yyyy"
@@ -437,6 +441,7 @@ class workExperience extends Component {
                       <TextField
                         id="standard-multiline-static"
                         label="Designation"
+                        disabled={this.state.disable}
                         value={item.role || ""}
                         onChange={(e) =>this.state.disable === false && this.onChange({target:{name:"role",value:e.target.value}},index)} 
                         error={this.state.roleErr.length > 0}
@@ -455,6 +460,7 @@ class workExperience extends Component {
                         id="standard-multiline-static"
                         label="Job Description"
                         multiline
+                        disabled={this.state.disable}
                         value={item.description || ""}
                         contentEditable={this.state.disable}
                         onChange={(e) =>this.onChange({target:{name:"description",value:e.target.value}},index)} 

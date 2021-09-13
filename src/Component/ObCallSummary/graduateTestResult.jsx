@@ -164,6 +164,20 @@ class GraduateTestResult extends Component {
     this.props.viewStudentStatus(this.props.match.params.studentId);
 
   }
+  analyticalArr = [
+    {title : "0.5"},
+    {title : "1.0"},
+    {title : "1.5"},
+    {title : "2.0"},
+    {title : "2.5"},
+    {title : "3.0"},
+    {title : "3.5"},
+    {title : "4.0"},
+    {title : "4.5"},
+    {title : "5.0"},
+    {title : "5.5"},
+    {title : "6.0"},
+  ];
   componentDidUpdate(prevProps,prevState){
     if(this.props.fileuploadGATList !== prevProps.fileuploadGATList){
       this.props.getgrescore(this.props.match.params.studentId)
@@ -313,7 +327,7 @@ class GraduateTestResult extends Component {
       gredate: data.completedExamDate,
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
-      greanalytic: data.analyticalWriting,
+      greanalytic: {title : data.analyticalWriting.toString()},
       gretotal: data.score,
       greid : data.id,
       greindex : index+1
@@ -335,7 +349,7 @@ class GraduateTestResult extends Component {
       gmatverb: data.verbalReasoning,
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
-      gmatanalytic: data.analyticalAssessment,
+      gmatanalytic: {title : data.analyticalAssessment.toString()},
       gmatdate: data.completedExamDate,
       gmatid : data.id
     });
@@ -408,35 +422,35 @@ class GraduateTestResult extends Component {
       let year = new Date(this.state.gredate).getFullYear()
       let time = new Date(this.state.gredate).toLocaleTimeString()
       console.log(time)
-      let obj = {
-        "attempt": this.state.greattempt.title,
-        "expectedExamDate": null,
-        "verbalReasoning":this.state.greverbal,
-        "quantitativeReasoning": this.state.grequan,
-        "analyticalWriting":this.state.greanalytic,
-        "score":this.state.gretotal,
-        "completedExamDate":this.state.gredate
-    }
-    console.log(obj)
-    this.props.updategrescore(this.state.greid,obj)
-    const d = new FormData();
-    d.append('file', this.state.finalFile);
-    console.log(d);
-    this.props.fileuploadGAT(this.props.match.params.studentId,"gre",this.state.greid,d);
-    this.setState({
-      snackmsg  : "Updated Successfully",
-      snackVariant : "Success",
-      snackopen : true,
-      show : false
-    })
+        let obj = {
+          "attempt": this.state.greattempt && this.state.greattempt.title,
+          "expectedExamDate": null,
+          "verbalReasoning":this.state.greverbal,
+          "quantitativeReasoning": this.state.grequan,
+          "analyticalWriting":this.state.greanalytic && this.state.greanalytic.title,
+          "score":this.state.gretotal,
+          "completedExamDate":this.state.gredate
+      }
+      console.log(obj)
+      this.props.updategrescore(this.state.greid,obj)
+      const d = new FormData();
+      d.append('file', this.state.finalFile);
+      console.log(d);
+      this.props.fileuploadGAT(this.props.match.params.studentId,"gre",this.state.greid,d);
+      this.setState({
+        snackmsg  : "Updated Successfully",
+        snackVariant : "Success",
+        snackopen : true,
+        show : false
+      })
     }
     if(data === "GMAT"){
-      let obj ={
-          "attempt": this.state.gmatattempt.title,
+        let obj ={
+          "attempt": this.state.gmatattempt && this.state.gmatattempt.title,
           "expectedExamDate": null ,
           "quantitativeReasoning": this.state.gmatquan,
           "integratedReasoning":this.state.gmatint,
-          "analyticalAssessment":this.state.gmatanalytic,
+          "analyticalAssessment":this.state.gmatanalytic.title,
           "score":this.state.gmatscore,
           "completedExamDate": this.state.gmatdate,
           "verbalReasoning":this.state.gmatverb,
@@ -456,52 +470,52 @@ class GraduateTestResult extends Component {
           })
     }
     if(data === "TOEFL"){
-      let obj = {
-        "attempt": this.state.toeflattempt.title,
-        "reading":this.state.toeflread,
-        "listening":this.state.toefllis,
-        "writing":this.state.toeflwrite,
-        "speaking":this.state.toeflspeak,
-        "score":this.state.toeflscore,
-        "completedExamDate":this.state.toefldate,
-        "expectedExamDate": null
-    }
-    console.log(obj)
-    this.props.updatetoeflscore(this.state.toeflid,obj)
-    const d = new FormData();
-    d.append('file', this.state.toeflfinalFile);
-    console.log(d);
-    this.props.fileuploadGAT(this.props.match.params.studentId,"tofel",this.state.toeflid,d);
-    this.setState({
-      snackmsg  : "Updated Successfully",
-      snackVariant : "Success",
-      snackopen : true,
-      toeflshow :false
-    })
+        let obj = {
+          "attempt": this.state.toeflattempt && this.state.toeflattempt.title,
+          "reading":this.state.toeflread,
+          "listening":this.state.toefllis,
+          "writing":this.state.toeflwrite,
+          "speaking":this.state.toeflspeak,
+          "score":this.state.toeflscore,
+          "completedExamDate":this.state.toefldate,
+          "expectedExamDate": null
+      }
+      console.log(obj)
+      this.props.updatetoeflscore(this.state.toeflid,obj)
+      const d = new FormData();
+      d.append('file', this.state.toeflfinalFile);
+      console.log(d);
+      this.props.fileuploadGAT(this.props.match.params.studentId,"tofel",this.state.toeflid,d);
+      this.setState({
+        snackmsg  : "Updated Successfully",
+        snackVariant : "Success",
+        snackopen : true,
+        toeflshow :false
+      })
     }
     if(data === "IELTS"){
-      let obj ={
-        "attempt": this.state.ieltsattempt.title,
-        "readingScore":this.state.ieltsread,
-        "listeningScore":this.state.ieltslis,
-        "speakingScore":this.state.ieltsspeak,
-        "writingScore":this.state.ieltswrite,
-        "totalScore":this.state.ieltsscore,
-        "completedExamDate":this.state.ieltsdate,
-        "expectedExamDate":null
-    }
-    console.log(obj)
-    this.props.updateieltsscore(this.state.ieltsid,obj)
-    const d = new FormData();
-    d.append('file', this.state.ieltsfinalFile);
-    console.log(this.state.ieltsfinalFile);
-    this.props.fileuploadGAT(this.props.match.params.studentId,"ielts",this.state.ieltsid,d);
-    this.setState({
-      snackmsg  : "Updated Successfully",
-      snackVariant : "Success",
-      snackopen : true,
-      ieltsshow : false
-    })
+        let obj ={
+          "attempt": this.state.ieltsattempt && this.state.ieltsattempt.title,
+          "readingScore":this.state.ieltsread,
+          "listeningScore":this.state.ieltslis,
+          "speakingScore":this.state.ieltsspeak,
+          "writingScore":this.state.ieltswrite,
+          "totalScore":this.state.ieltsscore,
+          "completedExamDate":this.state.ieltsdate,
+          "expectedExamDate":null
+      }
+      console.log(obj)
+      this.props.updateieltsscore(this.state.ieltsid,obj)
+      const d = new FormData();
+      d.append('file', this.state.ieltsfinalFile);
+      console.log(this.state.ieltsfinalFile);
+      this.props.fileuploadGAT(this.props.match.params.studentId,"ielts",this.state.ieltsid,d);
+      this.setState({
+        snackmsg  : "Updated Successfully",
+        snackVariant : "Success",
+        snackopen : true,
+        ieltsshow : false
+      })
     }
   };
   attempt = [
@@ -1826,44 +1840,65 @@ class GraduateTestResult extends Component {
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Quantative Reasoning"
+                      label="Quantative Reasoning (Max Score 170)"
                       fullWidth
                       value={this.state.grequan}
                       onChange={(e) =>
-                        this.setState({
-                          grequan: e.target.value,
-                        })
+                        {
+                          if(parseInt(e.target.value) > 170){
+                            e.preventDefault();
+                          }
+                          else{
+                            this.setState({
+                              grequan: e.target.value,
+                            })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Verbal Reasoning "
+                      label="Verbal Reasoning (Max Score 170)"
                       fullWidth
                       value={this.state.greverbal}
                       onChange={(e) =>
-                        this.setState({
-                          greverbal: e.target.value,
-                        })
+                        {
+                          if(parseInt(e.target.value) > 170){
+                            e.preventDefault();
+                          }
+                          else{
+                            this.setState({
+                              greverbal: e.target.value,
+                            })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Total"
+                      label="Total (Max Score 340)"
                       fullWidth
                       value={this.state.gretotal}
                       onChange={(e) =>
-                        this.setState({
-                          gretotal: e.target.value,
-                        })
+                        {
+                          if(parseInt(e.target.value) > 340){
+                            e.preventDefault();
+                          }
+                          else{
+                            this.setState({
+                              gretotal: e.target.value,
+                            })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
-                    <TextField
+                    {/* <TextField
                       type="number"
                       label="Analytical Writing"
                       fullWidth
@@ -1873,6 +1908,27 @@ class GraduateTestResult extends Component {
                           greanalytic: e.target.value,
                         })
                       }
+                    /> */}
+                    <Autocomplete
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      id="combo-box-demo"
+                      fullWidth
+                      options={this.analyticalArr}
+                      value={this.state.greanalytic}
+                      onChange={(e, newValue) =>
+                        this.setState({ greanalytic : newValue })
+                      }
+                      getOptionLabel={(option) => {
+                        console.log(option);
+                        return option.title;
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Analytical Writing (Max Score 6)"
+                          variant="standard"
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
@@ -2008,16 +2064,23 @@ class GraduateTestResult extends Component {
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Quantative Reasoning"
+                      label="Quantative Reasoning (Max Score 60)"
                       fullWidth
                       value={this.state.gmatquan}
                       onChange={(e) =>
-                        this.setState({ gmatquan: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 60){
+                            e.preventDefault();
+                          }
+                          else{
+                            this.setState({ gmatquan: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
-                    <TextField
+                    {/* <TextField
                       type="number"
                       label="Analytical Writing Assessment"
                       fullWidth
@@ -2025,40 +2088,84 @@ class GraduateTestResult extends Component {
                       onChange={(e) =>
                         this.setState({ gmatanalytic: e.target.value })
                       }
+                    /> */}
+                    <Autocomplete
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      id="combo-box-demo"
+                      fullWidth
+                      options={this.analyticalArr}
+                      value={this.state.gmatanalytic}
+                      onChange={(e, newValue) =>
+                        this.setState({ gmatanalytic : newValue })
+                      }
+                      getOptionLabel={(option) => {
+                        console.log(option);
+                        return option.title;
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Analytical Writing Assessment (Max Score 6)"
+                          variant="standard"
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Integrated Reasoning"
+                      label="Integrated Reasoning (Max Score 8)"
                       fullWidth
                       value={this.state.gmatint}
                       onChange={(e) =>
-                        this.setState({ gmatint: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 8){
+                            e.preventDefault();
+                          }
+                          else{
+                            this.setState({ gmatint: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
-                  <Grid item md={3}>
+                  <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Verbal Reasoning"
+                      label="Verbal Reasoning (Max Score 60)"
                       fullWidth
                       value={this.state.gmatverb}
                       onChange={(e) =>
-                        this.setState({ gmatverb: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 60){
+                            e.preventDefault();
+                          }
+                          else{
+                            this.setState({ gmatverb: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
-                  <Grid item md={3}>
+                  <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Total"
+                      label="Total (Max Score 800)"
                       fullWidth
                       value={this.state.gmatscore}
                       onChange={(e) =>
-                        this.setState({ gmatscore: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 800){
+                            e.preventDefault();
+                          }
+                          else{
+                            this.setState({ gmatscore: e.target.value })
+                          }
+                        }
                       }
                     />
+                  </Grid>
+                  <Grid item md={6}>
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
                   <Dropzone onDrop={this.gmatonDrop}>
@@ -2193,58 +2300,95 @@ class GraduateTestResult extends Component {
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Reading"
+                      label="Reading (Max Score 30)"
                       fullWidth
                       value={this.state.toeflread}
                       onChange={(e) =>
-                        this.setState({ toeflread: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 30){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ toeflread: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Writing"
+                      label="Writing (Max Score 30)"
                       fullWidth
                       value={this.state.toeflwrite}
                       onChange={(e) =>
-                        this.setState({ toeflwrite: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 30){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ toeflwrite: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Speaking"
+                      label="Speaking (Max Score 30)"
                       fullWidth
                       value={this.state.toeflspeak}
                       onChange={(e) =>
-                        this.setState({ toeflspeak: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 30){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ toeflspeak: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
-                  <Grid item md={3}>
+                  <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Listening"
+                      label="Listening (Max Score 30)"
                       fullWidth
                       value={this.state.toefllis}
                       onChange={(e) =>
-                        this.setState({ toefllis: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 30){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ toefllis: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
-                  <Grid item md={3}>
+                  <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Total"
+                      label="Total (Max Score 120)"
                       fullWidth
                       value={this.state.toeflscore}
                       onChange={(e) =>
-                        this.setState({ toeflscore: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 120){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ toeflscore: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
+                  <Grid item md={6}>
+                    </Grid>
                   <Grid item md={6} sm={5} xs={5}>
                   <Dropzone onDrop={this.toeflonDrop}>
                   {({ getRootProps, getInputProps }) => (
@@ -2387,58 +2531,94 @@ class GraduateTestResult extends Component {
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Reading"
+                      label="Reading (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsread}
                       onChange={(e) =>
-                        this.setState({ ieltsread: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 9){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ ieltsread: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Writing"
+                      label="Writing (Max Score 9)"
                       fullWidth
                       value={this.state.ieltswrite}
                       onChange={(e) =>
-                        this.setState({ ieltswrite: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 9){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ ieltswrite: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Speaking"
+                      label="Speaking (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsspeak}
                       onChange={(e) =>
-                        this.setState({ ieltsspeak: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 9){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ ieltsspeak: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
-                  <Grid item md={3}>
+                  <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Listening"
+                      label="Listening (Max Score 9)"
                       fullWidth
                       value={this.state.ieltslis}
                       onChange={(e) =>
-                        this.setState({ ieltslis: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 9){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ ieltslis: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
-                  <Grid item md={3}>
+                  <Grid item md={6}>
                     <TextField
                       type="number"
-                      label="Total"
+                      label="Total (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsscore}
                       onChange={(e) =>
-                        this.setState({ ieltsscore: e.target.value })
+                        {
+                          if(parseInt(e.target.value) > 9){
+                            e.preventDefault()
+                          }
+                          else{
+                            this.setState({ ieltsscore: e.target.value })
+                          }
+                        }
                       }
                     />
                   </Grid>
+                  <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
                   <Dropzone onDrop={this.ieltsonDrop}>
                   {({ getRootProps, getInputProps }) => (

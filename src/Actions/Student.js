@@ -549,7 +549,7 @@ export const getAcademicInfo = (id) =>{
     }
 }
 
-export const updateAcademicInfo=(id,data)=>{
+export const updateAcademicInfo=(id,data,callback)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch =>{
@@ -562,9 +562,11 @@ export const updateAcademicInfo=(id,data)=>{
         })
             .then(result => {
                 dispatch({type:STUDENT.updateAcademicInfo,payload:result.data})
+                callback(result)
             })
             .catch(error => {
                 console.log(error);
+                callback(error)
             });
     }
 }
@@ -625,7 +627,7 @@ export const getDocumentList = (studentId,productId) =>{
     }
 }
 
-export const deleteDocument=(id,fileName)=>{    
+export const deleteDocument=(id,fileName,callback)=>{    
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch =>{
@@ -638,9 +640,11 @@ export const deleteDocument=(id,fileName)=>{
         })
             .then(result => {                                                
                 dispatch({type:STUDENT.deleteDocument,deletedFileResponse:result.data})
+                callback(result)
             })
             .catch(error => {
                 console.log(error);
+                callback(error)
             });
     }
 }
