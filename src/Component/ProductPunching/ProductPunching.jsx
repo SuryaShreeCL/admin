@@ -166,7 +166,7 @@ class ProductPunching extends Component {
           });
       }else{
         this.setState({
-          snackMsg: "Please fill all the feilds",
+          snackMsg: "Please fill the required fields",
           snackOpen: true,
           snackVariant: "error",
         });
@@ -174,7 +174,7 @@ class ProductPunching extends Component {
       
     }else{
       this.setState({
-        snackMsg: "Please fill all the feilds",
+        snackMsg: "Please fill the required fields",
         snackOpen: true,
         snackVariant: "error",
       })
