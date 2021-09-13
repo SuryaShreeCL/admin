@@ -65,6 +65,16 @@ export default class TableComponent extends Component {
     }
   }
 
+  hasAccess = () =>{
+    var role = window.sessionStorage.getItem("role") 
+    console.log(role)
+    if(role === "SUPER ADMIN" || role === "LMSCHECKER" || role === "LMSEDITOR"){
+      return false
+    }else{
+      return true
+    }
+  }
+
   paginationTheme = () =>
     createMuiTheme({
       overrides: {
@@ -114,9 +124,7 @@ export default class TableComponent extends Component {
               variant="contained"
               color="primary"
               disabled={
-                window.sessionStorage.getItem("role") !== "SUPER ADMIN"
-                  ? true
-                  : false
+                this.hasAccess()
               }
               name="action"
               onClick={(e) => {
@@ -136,9 +144,7 @@ export default class TableComponent extends Component {
             <Button
               variant="contained"
               disabled={
-                window.sessionStorage.getItem("role") !== "SUPER ADMIN"
-                  ? true
-                  : false
+               this.hasAccess()
               }
               color="secondary"
               onClick={(e) => {
@@ -293,9 +299,7 @@ export default class TableComponent extends Component {
                     variant="contained"
                     color="primary"
                     disabled={
-                      window.sessionStorage.getItem("role") !== "SUPER ADMIN"
-                        ? true
-                        : false
+                      this.hasAccess()
                     }
                     onClick={(e) =>
                       typeof this.props.onAddClick === "function"

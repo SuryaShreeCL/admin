@@ -9,10 +9,6 @@ import Login from "./Component/Login";
 import RootContainer from "./Component/RootContainer";
 import { rootLoginPath, rootPath } from "./Component/RoutePaths";
 import ReduxStore from "./Redux/Store";
-//import RengineV2Route from './Component/RengineVersion2/RengineV2Route';
-// import PersonalityTest from './Component/RengineLiteUpgrade/PersonalityTest';
-//import Login from './component/Login'
-//import Button from '@material-ui/core/Button';
 
 function App(props) {
   React.useEffect(() => {
@@ -32,7 +28,7 @@ function App(props) {
     //   console.log(e);
     // }
   }, []);
-  console.log(props);
+  console.log = () => {};
   console.warn = () => {};
   console.error = () => {};
   return (
@@ -49,7 +45,7 @@ function App(props) {
 
 ReactDOM.render(
   <Provider store={ReduxStore}>
-    <App />{" "}
+    <App />
   </Provider>,
   document.getElementById("app")
 );

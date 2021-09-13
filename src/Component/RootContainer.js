@@ -61,6 +61,10 @@ import {
   collegePath,
   coursePath,
   departmentPath,
+  lmsTest,
+  lms_course_landing,
+  lms_course_taken,
+  lms_study_plans,
   notificationPath,
   obOperationPath,
   productPath,
@@ -331,7 +335,7 @@ function RootContainer(props) {
       mounted.current = true;
       let accessToken = window.sessionStorage.getItem("accessToken");
       if (accessToken === null) {
-        console.log("access token no need to come here......", accessToken);
+        // 
         window.sessionStorage.clear();
         props.history.push(rootLoginPath);
       } else {
@@ -341,7 +345,7 @@ function RootContainer(props) {
       // do componentDidUpdate logic
 
       if (props.tokenStatus !== null && props.tokenStatus.expired) {
-        console.log("Token status checked.........", props.tokenStatus);
+        // 
         window.sessionStorage.clear();
         props.history.push(rootLoginPath);
       }
@@ -359,7 +363,7 @@ function RootContainer(props) {
   const prevProps = usePrevious(props);
 
   useEffect(() => {
-    console.log(props.adminLinkedProductDetails);
+    // 
 
     if (
       props.adminLinkedProductDetails.length !== 0 &&
@@ -372,7 +376,7 @@ function RootContainer(props) {
         props.adminLinkedProductDetails.products[0].productFamily.id
       );
     }
-    console.log(props.getProductByFamilyIdList);
+    // 
     // let newListArr = []
     // props.getProductByFamilyIdList.map((eachItem,index)=>{
     //  newListArr.push({
@@ -399,7 +403,7 @@ function RootContainer(props) {
             eachProd.variantSKU === "ACS_MBA"
         )
         .map((eachItem, index) => {
-          console.log(eachItem);
+          
           myArr.push({
             title: eachItem.shortName,
             path: obOperationPath + "/" + eachItem.id,
@@ -571,7 +575,7 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    } else if (props.adminLinkedProductDetails.department === "SUPERADMIN") {
+    }else if (props.adminLinkedProductDetails.department === "SUPERADMIN") {
       setSideNav([
         {
           icon: <HomeOutlinedIcon />,
@@ -580,11 +584,38 @@ function RootContainer(props) {
           items: [],
         },
       ]);
+    } else {
+      setSideNav([
+        {
+          icon: <></>,
+          title: "Student",
+          path: studentPath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Course Material",
+          path: lms_course_landing,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Study plan",
+          path: lms_study_plans,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Test",
+          path: lmsTest,
+          items: [],
+        },
+      ]);
     }
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
 
-  console.log("........props", props);
-  console.log("sidenav..............", sideNav);
+  // 
+  // 
 
   const MenuItem = ({ item }) => {
     const Component = hasChildren(item) ? MultiLevel : SingleLevel;
@@ -608,9 +639,9 @@ function RootContainer(props) {
   const MultiLevel = ({ item }) => {
     const { items: children } = item;
     const [menuOpen, setMenuOpen] = useState(true);
-    console.log("single Item menu open......", menuOpen);
+    
     const handleClick = () => {
-      console.log("Menu1clicked");
+      
       setMenuOpen((prev) => !prev);
     };
 
@@ -656,7 +687,7 @@ function RootContainer(props) {
     return true;
   };
 
-  console.log("Root container props.......", props);
+  
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
