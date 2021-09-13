@@ -27,6 +27,8 @@ import { SECTION } from "../../Constant/Variables";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import Model from "../Utils/SectionModel";
 import Status from "../Utils/Status";
+import MySnack from '../MySnackBar'
+
 
 const theme = createMuiTheme({
   overrides: {
@@ -78,6 +80,9 @@ class AspirationDetails extends Component {
       countryCollege: "INDIA, USA",
       listOfDreamCollege: "College1",
       listOfDreamBusinessCollege: "College1",
+      snackMsg  : "",
+      snackVariant : "",
+      snackOpen : false,
 
       testQuestionModels: [
         {
@@ -142,7 +147,7 @@ class AspirationDetails extends Component {
           answerModel: response.testQuestionModels.filter(
             (el) => el.question.name !== "AspirationQ2"
           ),
-          ...response,
+          ...response ? response : [],
           noOfSchool: response.noOfSchool && response.noOfSchool.toString(),
         });
       },
@@ -258,6 +263,12 @@ class AspirationDetails extends Component {
       this.props.match.params.studentId,
       this.props.getAspirationQuestionList.id
     );
+    this.setState({
+      snackMsg  : "Updated Successfully",
+      snackVariant : "Success",
+      snackOpen : true,
+      show : false
+    })
   };
 
   getStatus = (sectionName) => {
@@ -785,6 +796,12 @@ class AspirationDetails extends Component {
               Save Changes
             </PrimaryButton>
           </div>
+          <MySnack
+           snackMsg={this.state.snackMsg}
+           snackVariant={this.state.snackVariant}
+           snackOpen={this.state.snackOpen}
+           onClose={() => this.setState({ snackOpen: false })}
+        /> 
           {this.renderModel()}
         </ThemeProvider>
       </div>

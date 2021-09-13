@@ -4,6 +4,7 @@ import {deleteDocument, getDocumentList, deleteDocumentGraduate, getStudentsById
 import { getgmatscore, getgrescore, getieltsscore, gettoeflscore} from "../../Actions/Calldetails";
 import {connect} from "react-redux"
 import Mysnack from "../MySnackBar";
+import { ErrorMessage } from "../Validation";
 class DoccumentCard extends Component {
   constructor(){
     super();
@@ -34,14 +35,29 @@ class DoccumentCard extends Component {
     }
     if(!this.props.category){
       console.log(this.props)
-        this.props.deleteDocument(this.props.studentid,this.props.path)
+        this.props.deleteDocument(this.props.studentid,this.props.path,(response => {
+          if(response.status === 200){
+            this.setState({
+              snackmsg : "Document Deleted",
+              snackopen : true,
+              snackvariant: "success"
+            })
+          }
+          else {
+            this.setState({
+              snackmsg : ErrorMessage.NetworkError,
+              snackopen : true,
+              snackvariant: "error"
+            })
+          }
+        }))
     }
       
-      this.setState({
-          snackmsg : "Document Deleted",
-          snackopen : true,
-          snackvariant: "success"
-        })
+      // this.setState({
+      //     snackmsg : "Document Deleted",
+      //     snackopen : true,
+      //     snackvariant: "success"
+      //   })
         this.props.getDocumentList(this.props.studentid) 
         event.stopPropagation();
 
