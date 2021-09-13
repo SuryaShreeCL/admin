@@ -405,23 +405,23 @@ const CreateTest = () => {
                     />
                   </Grid>
                   <Controls.Button
-                    text='Submit'
+                    text='Done'
                     variant='contained'
                     color='primary'
+                    disabled={!values.Questions?.success}
                     onClick={() => {
                       history.push({
                         pathname: testPath,
                         tab: 2,
                       });
                     }}
-                    disabled={!questionID}
                     style={{
                       borderRadius: '26px',
                       marginTop: 20,
                       marginLeft: '45%',
                     }}
                   />
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                 </Form>
               </div>
             </>
