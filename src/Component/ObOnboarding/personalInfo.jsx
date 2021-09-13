@@ -155,7 +155,8 @@ export class personalInfo extends Component {
        this.setState({
          snackMsg:"Updated Successfully",
          snackVariant:"success",
-         snackOpen:true
+         snackOpen:true,
+         show: false
        })
     }
   }
@@ -937,6 +938,8 @@ export class personalInfo extends Component {
           snackMsg={this.state.snackMsg}
           snackVariant={this.state.snackVariant}
           snackOpen={this.state.snackOpen}
+          onClose={() => this.setState({ snackOpen: false })}
+
           />
         </ThemeProvider>
       </div>

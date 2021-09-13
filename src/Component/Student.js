@@ -163,6 +163,18 @@ export class Student extends Component {
         this.props.getStudentPaginate(0, 20);
       }
     }
+
+    if(prevState.dialogopen !== this.state.dialoopen){
+      this.setState({
+        firstNameHelperText: "",
+      lastNameHelperText: "",
+      emailHelperText: "",
+      collegeHelperText: "",
+      departmentHelperText: "",
+      phoneHelperText: "",
+      studentIdHelperText: ""
+      })
+    }
   }
   rowClick = (rowData) => {
     window.sessionStorage.setItem("student", rowData);
@@ -623,7 +635,7 @@ export class Student extends Component {
                     shrink: this.state.eMail !== null ? true : false,
                   }}
                   fullWidth
-                  label="Username"
+                  label="UserName"
                 />
               </Grid>
               <Grid item md={6}>

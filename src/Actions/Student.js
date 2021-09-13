@@ -299,8 +299,8 @@ export const mernStudentSignUp=(data,callback)=>{
         .catch(error=>{
             console.log(error)
             // console.log(error.response.data);                
-                dispatch({type:STUDENT.catchSignUpError,signUpError:error.response.data})
-                callback(error.response.data);
+                // dispatch({type:STUDENT.catchSignUpError,signUpError:error.response.data})
+                // callback(error);
             
         })
     }
@@ -549,7 +549,7 @@ export const getAcademicInfo = (id) =>{
     }
 }
 
-export const updateAcademicInfo=(id,data)=>{
+export const updateAcademicInfo=(id,data,callback)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch =>{
@@ -560,14 +560,19 @@ export const updateAcademicInfo=(id,data)=>{
                 "admin" : "yes"
             }
         })
+        
             .then(result => {
                 dispatch({type:STUDENT.updateAcademicInfo,payload:result.data})
+                callback(result.data);
             })
             .catch(error => {
                 console.log(error);
+                callback(error.message);
+
             });
     }
 }
+
 export const proofUplaod=(studentId,data)=>{  
     let accessToken = window.sessionStorage.getItem("accessToken")
   

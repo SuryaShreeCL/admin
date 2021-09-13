@@ -209,13 +209,9 @@ export class academicInfo extends Component {
         })
     }
     } 
-    if(this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList){
-     this.setState({
-       snackMsg:"Uploaded Successfully",
-       snackOpen:true,
-       snackVariant:"success"
-     })
-    }
+    // if(this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList){
+     
+    // }
     if(this.state.tenthEndDate !== prevState.tenthEndDate ) {
       if(this.state.tenthStartDate === this.state.tenthEndDate){
         this.setState({
@@ -610,7 +606,14 @@ export class academicInfo extends Component {
           type: "diploma",
         },
       ];
-      this.props.updateAcademicInfo(this.props.match.params.studentId, obj)
+      this.props.updateAcademicInfo(this.props.match.params.studentId, obj,(response)=>{
+        this.setState({
+          snackMsg:"Updated Successfully",
+          snackOpen:true,
+          snackVariant:"success"
+        })
+        console.log(response);
+      })
     }
   };
 
