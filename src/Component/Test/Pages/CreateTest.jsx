@@ -15,7 +15,7 @@ import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
-import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
+import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
