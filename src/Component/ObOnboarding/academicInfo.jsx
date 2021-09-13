@@ -46,6 +46,7 @@ import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
+import { ErrorMessage } from "../Validation";
 
 const theme = createMuiTheme({
   overrides: {
@@ -162,7 +163,7 @@ export class academicInfo extends Component {
         data: null,
         sectionName: "",
       },
-      documentedit : false
+      documentedit : true
     };
     
   }
@@ -209,9 +210,13 @@ export class academicInfo extends Component {
         })
     }
     } 
-    // if(this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList){
-     
-    // }
+    if(this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList){
+     this.setState({
+       snackMsg:"Updated Successfully",
+       snackOpen:true,
+       snackVariant:"success"
+     })
+    }
     if(this.state.tenthEndDate !== prevState.tenthEndDate ) {
       if(this.state.tenthStartDate === this.state.tenthEndDate){
         this.setState({
@@ -556,15 +561,19 @@ export class academicInfo extends Component {
         {
           college: {
             id: this.state.ugCollege.id,
+            name:this.state.ugCollege.name
           },
           department: {
             id: this.state.ugDepartment.id,
+            name:this.state.ugDepartment.name
           },
           university: {
             id: this.state.ugUniversity.id,
+            name:this.state.ugUniversity.name
           },
           degree: {
             id: this.state.ugDegree.id,
+            name:this.state.ugDegree.name
           },
           startDate: new Date(this.state.ugStartDate),
           endDate: new Date(this.state.ugEndDate),
@@ -575,15 +584,19 @@ export class academicInfo extends Component {
         {
           college: {
             id: this.state.pgCollege.id,
+            name:this.state.pgCollege.name
           },
           department: {
             id: this.state.pgDepartment.id,
+            name:this.state.pgDepartment.name
           },
           university: {
             id: this.state.pgUniversity.id,
+            name:this.state.pgUniversity.name
           },
           degree: {
             id: this.state.pgDegree.id,
+            name:this.state.pgDegree.name
           },
           startDate: new Date(this.state.pgStartDate),
           endDate: new Date(this.state.pgEndDate),
@@ -594,9 +607,11 @@ export class academicInfo extends Component {
         {
           college: {
             id: this.state.diplomaCollege.id,
+            name:this.state.diplomaCollege.name
           },
           university: {
             id: this.state.diplomoUniversity.id,
+            name:this.state.diplomoUniversity.name
           },
           startDate: new Date(this.state.diplomostartDate),
           endDate: new Date(this.state.diplomoEndDate),
@@ -606,14 +621,22 @@ export class academicInfo extends Component {
           type: "diploma",
         },
       ];
-      this.props.updateAcademicInfo(this.props.match.params.studentId, obj,(response)=>{
-        this.setState({
-          snackMsg:"Updated Successfully",
-          snackOpen:true,
-          snackVariant:"success"
-        })
-        console.log(response);
-      })
+      this.props.updateAcademicInfo(this.props.match.params.studentId, obj,(response => {
+        if(response.status === 200){
+          this.setState({
+            snackMsg:"Updated Successfully",
+            snackOpen:true,
+            snackVariant:"success"
+          })
+        }
+        else {
+          this.setState({
+            snackMsg:ErrorMessage.NetworkError,
+            snackOpen:true,
+            snackVariant:"error"
+          })
+        }
+      }))
     }
   };
 
@@ -764,6 +787,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.pgCollegeErr.length > 0}
                                 helperText={this.state.pgCollegeErr}
                                 label="College Name"
@@ -790,6 +814,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.pgUniversityErr.length > 0}
                                 helperText={this.state.pgUniversityErr}
                                 label="University Name"
@@ -816,6 +841,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.pgDepartmentErr.length > 0}
                                 helperText={this.state.pgDepartmentErr}
                                 label="Department"
@@ -842,6 +868,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.pgDegreeErr.length > 0}
                                 label="Degree"
                                 margin="normal"
@@ -868,6 +895,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.pgCgpaScaleErr.length > 0}
                                 helperText={this.state.pgCgpaScaleErr}
                                 label="CGPA Scale"
@@ -878,6 +906,7 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <TextField
                             id="standard-basic"
+                            disabled={this.state.documentedit}
                             label="CGPA"
                             onChange={(e) =>
                               this.setState({
@@ -895,6 +924,7 @@ export class academicInfo extends Component {
                             // disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
+                            disabled={this.state.documentedit}
                             format="dd/MM/yyyy"
                             inputProps={{ readOnly: true }}
                             value={this.state.pgStartDate}
@@ -918,9 +948,9 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             label="End Date"
+                            disabled={this.state.documentedit}
                             format="dd/MM/yyyy"
                             inputProps={{ readOnly: true }}
-                            disabled={this.state.pgStartDate === null}
                             minDate={this.state.pgStartDate}
                             value={this.state.pgEndDate}
                             onChange={(newValue) =>
@@ -984,6 +1014,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.ugCollegeErr.length > 0}
                                 helperText={this.state.ugCollegeErr}
                                 label="College Name"
@@ -1010,6 +1041,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.ugUniversityErr.length > 0}
                                 helperText={this.state.ugUniversityErr}
                                 label="University Name"
@@ -1036,6 +1068,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.ugDepartmentErr.length > 0}
                                 helperText={this.state.ugDepartmentErr}
                                 label="Department"
@@ -1066,6 +1099,7 @@ export class academicInfo extends Component {
                                 {...params}
                                 label="Degree"
                                 margin="normal"
+                                disabled={this.state.documentedit}
                               />
                             )}
                           />
@@ -1089,6 +1123,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.ugCgpaScaleErr.length > 0}
                                 helperText={this.state.ugCgpaScaleErr}
                                 label="CGPA Scale"
@@ -1100,6 +1135,7 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <TextField
                             id="standard-basic"
+                            disabled={this.state.documentedit}
                             label="CGPA"
                             value={this.state.ugCgpa}
                             onChange={(e) =>
@@ -1128,6 +1164,7 @@ export class academicInfo extends Component {
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            disabled={this.state.documentedit}
                             inputProps={{ readOnly: true }}
                             error={this.state.ugStartDateErr.length > 0}
                             helperText={this.state.ugStartDateErr}
@@ -1139,7 +1176,6 @@ export class academicInfo extends Component {
                             label="End Date"
                             format="dd/MM/yyyy"
                             inputProps={{ readOnly: true }}
-                            disabled={this.state.ugStartDate === null}
                             minDate={this.state.ugStartDate}
                             value={this.state.ugEndDate}
                             onChange={(newValue) =>
@@ -1154,6 +1190,7 @@ export class academicInfo extends Component {
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            disabled={this.state.documentedit}
                             error={this.state.ugEndDateErr.length > 0}
                             helperText={this.state.ugEndDateErr}
                           />
@@ -1206,6 +1243,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.diplomaCollegeErr.length > 0}
                                 helperText={this.state.diplomaCollegeErr}
                                 label="College Name"
@@ -1247,6 +1285,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={
                                   this.state.diplomoUniversityErr.length > 0
                                 }
@@ -1275,6 +1314,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={
                                   this.state.diplomoDepartmentErr.length > 0
                                 }
@@ -1309,6 +1349,7 @@ export class academicInfo extends Component {
                                 helperText={this.state.diplomoCgpaScaleErr}
                                 label="CGPA Scale"
                                 margin="normal"
+                                disabled={this.state.documentedit}
                               />
                             )}
                           />
@@ -1325,6 +1366,7 @@ export class academicInfo extends Component {
                             }
                             InputLabelProps={{ shrink: true }}
                             label="CGPA"
+                            disabled={this.state.documentedit}
                             error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr}
                           />
@@ -1354,6 +1396,7 @@ export class academicInfo extends Component {
                               shrink: true,
                             }}
                             format="dd/MM/yyyy"
+                            disabled={this.state.documentedit}
                           />
                         </Grid>
                         <Grid item md={3}>
@@ -1373,6 +1416,7 @@ export class academicInfo extends Component {
                                 diplomoEndDateErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             error={
                               this.state.diplomoEndDateErr.length > 0
                             }
@@ -1426,6 +1470,7 @@ export class academicInfo extends Component {
                                 twelthSchoolErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                           />
                         </Grid>
                         <Grid item md={4}>
@@ -1445,6 +1490,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.twelthExamBoardErr.length > 0}
                                 helperText={this.state.twelthExamBoardErr}
                                 label="Exam Board"
@@ -1496,6 +1542,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.twelthCgpaScaleErr.length > 0}
                                 helperText={this.state.twelthCgpaScaleErr}
                                 label="CGPA Scale"
@@ -1508,6 +1555,7 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             label="CGPA"
+                            disabled={this.state.documentedit}
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
@@ -1526,6 +1574,7 @@ export class academicInfo extends Component {
                             id="date-picker-dialog"
                             label="Start Date"
                             format="dd/MM/yyyy"
+                            disabled={this.state.documentedit}
                             value={this.state.twelthStartDate || ""}
                             onChange={(newValue) =>
                               this.setState({
@@ -1550,8 +1599,8 @@ export class academicInfo extends Component {
                             label="End Date"
                             format="dd/MM/yyyy"
                             label="End Date"
+                            disabled={this.state.documentedit}
                             inputProps={{ readOnly: true }}
-                            disabled={this.state.twelthStartDate === null}
                             minDate={this.state.twelthStartDate}
                             value={this.state.twelthEndDate || ""}
                             onChange={(newValue) =>
@@ -1601,6 +1650,7 @@ export class academicInfo extends Component {
                             error={this.state.tenthSchoolErr.length > 0}
                             helperText={this.state.tenthSchoolErr}
                             label="School Name"
+                            disabled={this.state.documentedit}
                             margin="normal"
                             value={this.state.tenthSchool}
                             onChange={(e) =>
@@ -1628,6 +1678,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.tenthExamBoardErr.length > 0}
                                 helperText={this.state.tenthExamBoardErr}
                                 label="Exam Board"
@@ -1654,6 +1705,7 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                disabled={this.state.documentedit}
                                 error={this.state.tenthCgpaScaleErr.length > 0}
                                 helperText={this.state.tenthCgpaScaleErr}
                                 label="CGPA Scale"
@@ -1665,6 +1717,7 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             type="number"
+                            disabled={this.state.documentedit}
                             label="CGPA"
                             error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr}
@@ -1682,6 +1735,7 @@ export class academicInfo extends Component {
                             // disableFuture
                             id="date-picker-dialog"
                             label="Start Date"
+                            disabled={this.state.documentedit}
                             value={this.state.tenthStartDate}
                             onChange={(newValue) =>
                               this.setState({
@@ -1705,7 +1759,7 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             inputProps={{ readOnly: true }}
-                            disabled={this.state.tenthStartDate === null}
+                            disabled={this.state.documentedit}
                             minDate={this.state.tenthStartDate}
                             value={this.state.tenthEndDate}
                             onChange={(newValue) =>

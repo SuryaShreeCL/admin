@@ -19,7 +19,7 @@ export const viewstudentmarkdetails=(id)=>{
             });
     }
 }
-export const viewresettest=(id,executionid)=>{
+export const viewresettest=(id,executionid,callback)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch => {
         axios.get(URL+"/api/v1/student/"+id+"/testexecution/"+executionid+"/resettest", {
@@ -30,10 +30,12 @@ export const viewresettest=(id,executionid)=>{
             }
         })
             .then(result => {
+                callback(result)
                dispatch({type:STUDENTMARKDETAILS. viewResetTest,viewReseTestList:result.data})
             })
             .catch(error => {
                 console.log(error); 
+                callback(error)
             });
     }
 }
