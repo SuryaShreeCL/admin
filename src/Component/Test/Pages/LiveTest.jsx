@@ -118,7 +118,7 @@ export default function LiveTest() {
     history.push({
       pathname: testEdit,
       testId: item.id,
-      postType: 'Post',
+      postType: 'Test',
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
@@ -208,12 +208,6 @@ export default function LiveTest() {
                         fontSize='small'
                         style={{ color: `${item.duration && 'green'}` }}
                       />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => openInPage(item)}>
-                      <EditOutlinedIcon fontSize='small' color='default' />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => onSchedule(item)}>
-                      <ScheduleIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       onClick={() => {

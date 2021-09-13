@@ -19,14 +19,14 @@ import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUpload
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
-import { createTest, getTestDetails, updateTest } from '../../../Actions/TestActions';
+import { updateTest, getTestDetails } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
-import { testPath, wallPath } from '../../RoutePaths';
-import ConfirmDialog from '../../Utils/ConfirmDialog';
-import { ExistingMedia } from '../../Wall/Components/Upload/ExistingMedia';
+import { testPath } from '../../RoutePaths';
 import Loader from '../../Utils/controls/Loader';
 import { Alert } from '@material-ui/lab';
+import ConfirmDialog from '../../Utils/ConfirmDialog';
+import { QuestionsUploadField } from '../Components/QuestionsUpload/QuestionsUploadField';
 
 const useStyles = makeStyles({
   root: {
@@ -37,20 +37,17 @@ const useStyles = makeStyles({
     },
   },
   wrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    alignItems: 'center',
+    width: '69%',
   },
   captionStyle: {
     width: '100%',
   },
   inputField: {
-    padding: '1rem',
+    width: '100%',
     margin: '0 1rem',
-    borderRadius: '5px',
-    width: '50%',
-    border: '1px solid gray',
+    border: '1px solid rgba(0, 0, 0, 0.12)',
+    borderRadius: '4px',
+    padding: '1rem',
   },
   spacer: {
     width: '80%',
@@ -70,19 +67,21 @@ const EditTest = () => {
   const { testId } = location;
 
   const [state, setState] = useState({
+    wallCategory: [],
     name: '',
     type: 'EVENT',
     description: [],
+    testSection: [{ duration: '', noOfQuestions: '' }],
     descriptionTitle: '',
     nameDescription: '',
     startDateTime: new Date(),
     endDateTime: new Date(),
-    eventPost: { id: '' },
     score: 0,
-    wallCategory: [],
     wallFiles: [],
-    testSection: [{ duration: '', noOfQuestions: '' }],
   });
+
+  let questionID = window.sessionStorage.getItem('questionSetId');
+  const [testCreated, setTestCreated] = useState(false);
 
   const durations = [
     { id: '1', title: 10 },
@@ -110,7 +109,7 @@ const EditTest = () => {
   const filterEventFromId = posts?.filter((post) => post?.id === test?.wallPost?.linkedEvent?.id);
 
   const validate = (values) => {
-    if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
+    if (values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
         message: 'Please upload image(s)',
@@ -123,11 +122,10 @@ const EditTest = () => {
   };
 
   const validationSchema = yup.object({
-    caption: yup.string().required('caption is required'),
+    nameDescription: yup.string().required('test instructions required'),
   });
 
   const onTestUpdate = (test, status) => {
-    // dispatch(updateTest({ ...test, status, wallFiles: { ...(test.wallFilesUpdate ?? {}) } }));
     dispatch(updateTest({ ...test, status }));
     setNotify({
       isOpen: true,
@@ -159,22 +157,18 @@ const EditTest = () => {
       type: 'warning',
     });
   };
-
   return (
     <>
-      {!loading && <BackHandler title={`Edit Test`} tab={0} path={testPath} />}
+      {!loading && <BackHandler title={`Edit Test`} tab={1} path={testPath} />}
       {loading && <Loader />}
       {error && <Alert severity='error'>{error}</Alert>}
       {!loading && (
         <CreateTestContainer>
           <Formik
             initialValues={test || state}
-            // validationSchema={validationSchema}
-            onSubmit={(values, { resetForm }) => {
-              // if (validate(values)) {
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
               onTestUpdate(values, 'Draft');
-              // resetForm();
-              // }
             }}
             enableReinitialize
           >
@@ -214,10 +208,6 @@ const EditTest = () => {
                                 label='Select Category'
                                 name='wallCategory'
                                 variant='outlined'
-                                // error={
-                                //   touched.wallCategories &&
-                                //   Boolean(values.wallCategories.length === 0)
-                                // }
                               />
                             )}
                           />
@@ -298,21 +288,17 @@ const EditTest = () => {
                       justify='space-between'
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
-                      {values?.wallPost?.wallFiles.length > 0 && (
-                        <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                          {/* <MultipleFileUploadField name='wallFilesUpdate' fileType='image' /> */}
-                          {values?.wallPost?.wallFiles?.map((media) => (
-                            <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
-                          ))}
-                        </Grid>
-                      )}
+                      <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
+                        <MultipleFileUploadField name='wallFiles' fileType='image' />
+                      </Grid>
+
                       <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                         <Controls.Input
                           label='Test instructions..'
                           value={values.nameDescription}
                           name='nameDescription'
                           onChange={handleChange}
-                          // error={touched.caption && Boolean(errors.caption)}
+                          error={touched.nameDescription && Boolean(errors.nameDescription)}
                           multiline
                           className={classes.captionStyle}
                           rows={8}
@@ -325,10 +311,11 @@ const EditTest = () => {
                       container
                       direction='row'
                       justify='space-between'
-                      style={{ width: '50%', marginTop: '1.5rem' }}
+                      style={{ width: '100%', marginTop: '1.5rem' }}
                     >
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DateTimePicker
+                          style={{ width: '30%' }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
@@ -348,6 +335,7 @@ const EditTest = () => {
                       </MuiPickersUtilsProvider>
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DateTimePicker
+                          style={{ width: '30%' }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
@@ -365,9 +353,7 @@ const EditTest = () => {
                           label='End Date & Time'
                         />
                       </MuiPickersUtilsProvider>
-                    </Grid>
-                    <pre>{JSON.stringify({ values }, null, 4)}</pre>
-                    <ButtonsContainer>
+
                       <Button
                         color='primary'
                         onClick={() => {
@@ -384,13 +370,58 @@ const EditTest = () => {
                         Cancel
                       </Button>
                       <Controls.Button
-                        text='Submit'
+                        text='Update'
                         variant='contained'
                         color='primary'
+                        disabled={questionID}
                         style={{ borderRadius: '26px', marginLeft: 30 }}
                         type='submit'
                       />
-                    </ButtonsContainer>
+                    </Grid>
+                    <h6 style={{ marginTop: '2.2rem' }}>
+                      {!values.questions?.length > 0
+                        ? 'List Of Questions'
+                        : 'Questions Uploaded Successfully'}
+                    </h6>
+                    {!values.questions?.length > 0 && (
+                      <Grid item style={{ width: '100%', marginTop: '1.2rem' }}>
+                        <QuestionsUploadField
+                          name='Questions'
+                          fileType='image'
+                          testCreated={!testCreated}
+                          questionUpload={{
+                            id: values?.id,
+                            questionSectionId: values?.testSection?.map((id) => id.id),
+                          }}
+                        />
+                      </Grid>
+                    )}
+                    <Controls.Button
+                      text='Schedule It'
+                      variant='contained'
+                      color='primary'
+                      disabled={!values.questions?.length > 0}
+                      onClick={() => {
+                        onTestUpdate(values, 'Scheduled');
+                        setNotify({
+                          isOpen: true,
+                          message: 'Scheduled Successfully',
+                          type: 'success',
+                        });
+                        setTimeout(() => {
+                          history.push({
+                            pathname: testPath,
+                            tab: 2,
+                          });
+                        }, 1200);
+                      }}
+                      style={{
+                        borderRadius: '26px',
+                        marginTop: 20,
+                        marginLeft: '45%',
+                      }}
+                    />
+                    {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
                 </div>
               </>

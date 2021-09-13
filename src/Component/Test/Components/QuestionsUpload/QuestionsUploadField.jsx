@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { QuestionUploadWithProgress } from './QuestionUploadWithProgress';
 import { UploadError } from './UploadError';
 
-export function QuestionsUploadField({ name, testCreated }) {
+export function QuestionsUploadField({ name, testCreated, questionUpload }) {
   const useStyles = makeStyles((theme) => ({
     dropzone: {
       border: `2px dashed ${theme.palette.primary.main}`,
@@ -84,6 +84,7 @@ export function QuestionsUploadField({ name, testCreated }) {
               onDelete={onDelete}
               onUpload={onUpload}
               file={fileWrapper.file}
+              questionUpload={questionUpload}
             />
           )}
         </Grid>

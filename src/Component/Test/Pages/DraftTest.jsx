@@ -200,15 +200,6 @@ export default function DraftTest() {
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>
-                    <Controls.ActionButton
-                      // disabled={item.totalRegistrations === null}
-                      href={`${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${item.id}/report`}
-                    >
-                      <CloudDownloadIcon
-                        fontSize='small'
-                        style={{ color: `${item.duration && 'green'}` }}
-                      />
-                    </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='default' />
                     </Controls.ActionButton>

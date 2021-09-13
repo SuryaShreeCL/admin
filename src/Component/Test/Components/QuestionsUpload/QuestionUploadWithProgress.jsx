@@ -4,12 +4,12 @@ import { FileProgress } from './FileProgress';
 
 let accessToken = window.sessionStorage.getItem('accessToken');
 
-export function QuestionUploadWithProgress({ file, onDelete, onUpload }) {
+export function QuestionUploadWithProgress({ file, onDelete, onUpload, questionUpload }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async function upload() {
-      const data = await uploadFile(file, setProgress);
+      const data = await uploadFile(file, setProgress, questionUpload);
       onUpload(file, data);
     }
 
@@ -23,12 +23,8 @@ export function QuestionUploadWithProgress({ file, onDelete, onUpload }) {
   );
 }
 
-function uploadFile(file, onProgress) {
-  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${JSON.parse(
-    window.sessionStorage.getItem('questionSetId')
-  )}/questions/import?type=SINGLE_SELECT&testSectionId=${JSON.parse(
-    window.sessionStorage.getItem('questionSectionId')
-  )}`;
+function uploadFile(file, onProgress, questionUpload) {
+  const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${questionUpload.id}/questions/import?type=SINGLE_SELECT&testSectionId=${questionUpload.questionSectionId}`;
 
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();

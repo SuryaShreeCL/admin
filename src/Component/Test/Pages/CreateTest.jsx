@@ -67,7 +67,7 @@ const CreateTest = () => {
     name: '',
     type: 'EVENT',
     description: [],
-    testSections: [{ duration: '', noOfQuestions: '' }],
+    testSection: [{ duration: '', noOfQuestions: '' }],
     descriptionTitle: '',
     nameDescription: '',
     startDateTime: new Date(),
@@ -75,6 +75,12 @@ const CreateTest = () => {
     score: 0,
     wallFiles: [],
   });
+
+  let questionID = window.sessionStorage.getItem('questionSetId');
+  let questionUpload = {
+    id: JSON.parse(window.sessionStorage.getItem('questionSetId')),
+    questionSectionId: JSON.parse(window.sessionStorage.getItem('questionSectionId')),
+  };
 
   const durations = [
     { id: '1', title: 10 },
@@ -102,7 +108,7 @@ const CreateTest = () => {
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
-    if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
+    if (values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
         message: 'Please upload image(s)',
@@ -115,7 +121,7 @@ const CreateTest = () => {
   };
 
   const validationSchema = yup.object({
-    caption: yup.string().required('caption is required'),
+    nameDescription: yup.string().required('test instructions required'),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -126,13 +132,21 @@ const CreateTest = () => {
       type: 'success',
     });
     setTestCreated(true);
+  };
 
-    // setTimeout(() => {
-    //   history.push({
-    //     pathname: wallPath,
-    //     tab: state.isEvent ? 3 : 0,
-    //   });
-    // }, 1200);
+  const draftTest = (testData, status) => {
+    dispatch(createTest({ ...testData, status }));
+    setNotify({
+      isOpen: true,
+      message: 'Drafted Successfully',
+      type: 'success',
+    });
+    setTimeout(() => {
+      history.push({
+        pathname: testPath,
+        tab: 1,
+      });
+    }, 1200);
   };
 
   const onDiscard = () => {
@@ -155,16 +169,15 @@ const CreateTest = () => {
 
   return (
     <>
-      <BackHandler title={`Create New Test`} path={testPath} />
+      <BackHandler title={`Create New Test`} tab={1} path={testPath} />
       <CreateTestContainer>
         <Formik
           initialValues={state}
-          // validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) => {
-            // if (validate(values)) {
-            submitTestCreation(values, 'Draft');
-            // resetForm();
-            // }
+          validationSchema={validationSchema}
+          onSubmit={(values) => {
+            if (validate(values)) {
+              submitTestCreation(values, 'Scheduled');
+            }
           }}
           enableReinitialize
         >
@@ -256,23 +269,20 @@ const CreateTest = () => {
                       />
                     </Grid>
                     <FieldArray
-                      name='testSections'
+                      name='testSection'
                       render={(arrayHelpers) => (
                         <div className={classes.wrapper}>
-                          {values.testSections.map((_, index) => (
-                            <div
-                              key={index}
-                              style={{ display: 'flex', alignItems: 'center', width: '100%' }}
-                            >
+                          {values?.testSection?.map((_, index) => (
+                            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                               <Field
                                 className={classes.inputField}
                                 placeholder='Duration'
-                                name={`testSections.${index}.duration`}
+                                name={`testSection.${index}.duration`}
                               />
                               <Field
                                 className={classes.inputField}
                                 placeholder='No Of Questions'
-                                name={`testSections.${index}.noOfQuestions`}
+                                name={`testSection.${index}.noOfQuestions`}
                               />
                             </div>
                           ))}
@@ -296,7 +306,7 @@ const CreateTest = () => {
                         value={values.nameDescription}
                         name='nameDescription'
                         onChange={handleChange}
-                        // error={touched.caption && Boolean(errors.caption)}
+                        error={touched.nameDescription && Boolean(errors.nameDescription)}
                         multiline
                         className={classes.captionStyle}
                         rows={8}
@@ -313,7 +323,7 @@ const CreateTest = () => {
                   >
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                       <DateTimePicker
-                        style={{ width: '35%' }}
+                        style={{ width: '30%' }}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -333,7 +343,7 @@ const CreateTest = () => {
                     </MuiPickersUtilsProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                       <DateTimePicker
-                        style={{ width: '35%' }}
+                        style={{ width: '30%' }}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -357,7 +367,7 @@ const CreateTest = () => {
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
-                          title: 'Are you sure to discard this post?',
+                          title: 'Are you sure to discard this test?',
                           subTitle: "You can't undo this operation",
                           onConfirm: () => {
                             onDiscard();
@@ -367,13 +377,23 @@ const CreateTest = () => {
                     >
                       Cancel
                     </Button>
+
                     <Controls.Button
                       text='Save Test'
                       variant='contained'
                       color='primary'
+                      disabled={questionID}
                       style={{ borderRadius: '26px', marginLeft: 30 }}
                       type='submit'
                     />
+                    <Button
+                      color='primary'
+                      onClick={() => {
+                        if (validate(values)) draftTest(values, 'Draft');
+                      }}
+                    >
+                      Save as Draft
+                    </Button>
                   </Grid>
                   <h6 style={{ marginTop: '2.2rem' }}>List Of Questions</h6>
                   <Grid item style={{ width: '100%', marginTop: '1.2rem' }}>
@@ -381,9 +401,27 @@ const CreateTest = () => {
                       name='Questions'
                       fileType='image'
                       testCreated={testCreated}
+                      questionUpload={questionUpload}
                     />
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  <Controls.Button
+                    text='Submit'
+                    variant='contained'
+                    color='primary'
+                    onClick={() => {
+                      history.push({
+                        pathname: testPath,
+                        tab: 2,
+                      });
+                    }}
+                    disabled={!questionID}
+                    style={{
+                      borderRadius: '26px',
+                      marginTop: 20,
+                      marginLeft: '45%',
+                    }}
+                  />
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                 </Form>
               </div>
             </>

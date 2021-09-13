@@ -100,37 +100,6 @@ export const createTest = (test) => {
         });
       });
   };
-  // try {
-  //   dispatch({
-  //     type: TEST.CREATE_REQUEST,
-  //   });
-  //   const { data } = await axios.post(
-  //     `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`,
-  //     test,
-  //     {
-  //       crossDomain: true,
-  //       headers: {
-  //         admin: 'yes',
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     }
-  //   );
-  //   console.log(data.id);
-  //   window.sessionStorage.setItem('questionSetId', JSON.stringify(data?.id));
-  //   window.sessionStorage.setItem('questionSectionId', JSON.stringify(data?.testSection?.id));
-  //   dispatch({
-  //     type: TEST.CREATE_SUCCESS,
-  //     payload: data,
-  //   });
-  // } catch (error) {
-  //   const message =
-  //     error.response && error.response.data.message ? error.response.data.message : error.message;
-
-  //   dispatch({
-  //     type: TEST.CREATE_FAIL,
-  //     payload: message,
-  //   });
-  // }
 };
 
 export const scheduleTest = (id, dates) => async (dispatch) => {
@@ -166,7 +135,6 @@ export const scheduleTest = (id, dates) => async (dispatch) => {
 };
 
 export const updateTest = (test) => async (dispatch) => {
-  console.log('schema', test);
   try {
     dispatch({
       type: TEST.UPDATE_REQUEST,
@@ -186,7 +154,6 @@ export const updateTest = (test) => async (dispatch) => {
       type: TEST.UPDATE_SUCCESS,
       payload: data,
     });
-    console.log('udate', data);
   } catch (error) {
     const message =
       error.response && error.response.data.message ? error.response.data.message : error.message;
