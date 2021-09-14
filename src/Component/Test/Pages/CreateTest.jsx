@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonsContainer, CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
+import {  CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
 import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -21,7 +21,7 @@ import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
 import { createTest } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { testPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import { QuestionsUploadField } from '../Components/QuestionsUpload/QuestionsUploadField';
@@ -59,7 +59,6 @@ const useStyles = makeStyles({
 const CreateTest = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const location = useLocation();
   const history = useHistory();
 
   const [state, setState] = useState({
@@ -83,10 +82,10 @@ const CreateTest = () => {
   };
 
   const durations = [
-    { id: '1', title: 10 },
-    { id: '2', title: 20 },
-    { id: '3', title: 30 },
-    { id: '4', title: 40 },
+    { id: '1', title: 20 },
+    { id: '2', title: 30 },
+    { id: '3', title: 40 },
+    { id: '4', title: 50 },
   ];
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -169,7 +168,7 @@ const CreateTest = () => {
 
   return (
     <>
-      <BackHandler title={`Create New Test`} tab={1} path={testPath} />
+      <BackHandler title={`Create New Test`} tab={0} path={testPath} />
       <CreateTestContainer>
         <Formik
           initialValues={state}
@@ -215,16 +214,12 @@ const CreateTest = () => {
                               label='Select Category'
                               variant='outlined'
                               name='wallCategory'
-                              // error={
-                              //   touched.wallCategories &&
-                              //   Boolean(values.wallCategories.length === 0)
-                              // }
                             />
                           )}
                         />
                       </FormControl>
                     </Grid>
-                    <Grid item style={{ width: '30%', zIndex: '77' }}>
+                    <Grid item style={{ width: '30%', zIndex: '77', cursor: 'no-drop' }}>
                       <Autocomplete
                         options={posts}
                         getOptionLabel={(option) => option.eventTitle}

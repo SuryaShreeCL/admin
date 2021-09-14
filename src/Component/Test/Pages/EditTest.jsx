@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonsContainer, CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
+import {  CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
-import { DateTimePicker } from '@material-ui/pickers';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import EventIcon from '@material-ui/icons/Event';
-import MomentUtils from '@date-io/moment';
 import { Formik, Form, FieldArray, Field } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
-import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import { ExistingMedia } from '../../Wall/Components/Upload/ExistingMedia';
@@ -81,16 +74,14 @@ const EditTest = () => {
     wallFiles: [],
   });
 
-  let questionID = window.sessionStorage.getItem('questionSetId');
   const [testCreated, setTestCreated] = useState(false);
 
   const durations = [
-    { id: '1', title: 10 },
-    { id: '2', title: 20 },
-    { id: '3', title: 30 },
-    { id: '4', title: 40 },
+    { id: '1', title: 20 },
+    { id: '2', title: 30 },
+    { id: '3', title: 40 },
+    { id: '4', title: 50 },
   ];
-
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -162,7 +153,7 @@ const EditTest = () => {
   return (
     <>
       {!loading && (
-        <BackHandler title={`Edit Test`} tab={testType === 'Draft' ? 1 : 2} path={testPath} />
+        <BackHandler title={`Edit Test`} tab={testType === 'Live' ? 0 : 2} path={testPath} />
       )}
       {loading && <Loader />}
       {error && <Alert severity='error'>{error}</Alert>}

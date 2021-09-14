@@ -12,25 +12,22 @@ import {
 import useTable from '../../Utils/useTable';
 import Controls from '../../Utils/controls/Controls';
 import { Search } from '@material-ui/icons';
-import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
-import { testCreate, testEdit } from '../../RoutePaths';
+import {  testEdit } from '../../RoutePaths';
 import moment from 'moment';
 import Loader from '../../Utils/controls/Loader';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
-import { listTests, deleteTest, getTestDetails } from '../../../Actions/TestActions';
+import { listTests, deleteTest } from '../../../Actions/TestActions';
 import { renderListCategory } from '../../Utils/Helpers';
 import ScheduleLater from '../Components/ScheduleLater';
 
@@ -42,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   searchInput: {
-    width: '65%',
+    width: '100%',
   },
   filterBtn: {
     position: 'absolute',
@@ -58,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'testName', label: 'Test Name' },
-  { id: 'noOfQues', label: 'Questions' },
+  { id: 'category', label: 'Category' },
   { id: 'duration', label: 'Duration' },
   { id: 'created', label: 'Created On' },
   { id: 'createdby', label: 'Created By' },
@@ -103,14 +100,9 @@ export default function DraftTest() {
     setFilterFn({
       fn: (items) => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+        else return items.filter((x) => x.name.toLowerCase().includes(target.value));
       },
     });
-  };
-
-  const openInPopup = (item) => {
-    setViewData(item);
-    setOpenDrawer(!openDrawer);
   };
 
   const openInPage = (item) => {
@@ -165,7 +157,7 @@ export default function DraftTest() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
@@ -184,7 +176,7 @@ export default function DraftTest() {
                 type: false,
               });
             }}
-          />
+          /> */}
         </Toolbar>
 
         <TblContainer>
@@ -194,9 +186,9 @@ export default function DraftTest() {
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.noOfQuestions}</TableCell>
+                  <TableCell>{renderListCategory(item.wallCategory)}</TableCell>
                   <TableCell>{item.duration}</TableCell>
-                  <TableCell>{moment(item.createdAt).format('ll')}</TableCell>
+                  <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>

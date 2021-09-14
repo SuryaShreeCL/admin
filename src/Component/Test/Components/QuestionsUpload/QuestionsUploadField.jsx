@@ -71,7 +71,7 @@ export function QuestionsUploadField({ name, testCreated, questionUpload }) {
           <p style={{ marginBottom: '-2px' }}>
             {testCreated
               ? 'Drag & drop some excel sheets here, or click to select'
-              : 'Please Save the Test Event first'}
+              : 'Please Save the Test Event to upload the questions'}
           </p>
         </div>
       </Grid>
