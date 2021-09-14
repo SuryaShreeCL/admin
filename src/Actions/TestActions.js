@@ -137,7 +137,7 @@ export const updateTest = (test) => async (dispatch) => {
     dispatch({
       type: TEST.UPDATE_REQUEST,
     });
-    const { data } = await axios.put(
+    const { data } = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/v1/testquestionsets`,
       test,
       {

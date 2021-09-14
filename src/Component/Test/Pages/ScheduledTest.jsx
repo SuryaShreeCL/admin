@@ -222,6 +222,7 @@ export default function ScheduledTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
+          {!loading && tests.length === 0 && <Alert severity='info'>0 Scheduled Tests Found</Alert>}
         </div>
         <TblPagination />
       </Paper>
@@ -259,7 +260,13 @@ export default function ScheduledTest() {
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
-      <ScheduleLater scheduler={scheduler} setScheduler={setScheduler} data={data} />
+      <ScheduleLater
+        scheduler={scheduler}
+        setScheduler={setScheduler}
+        data={data}
+        type={'Scheduled'}
+        listTests={listTests}
+      />
     </>
   );
 }

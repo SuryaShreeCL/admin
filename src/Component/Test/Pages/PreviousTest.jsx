@@ -13,23 +13,21 @@ import useTable from '../../Utils/useTable';
 import Controls from '../../Utils/controls/Controls';
 import { Search } from '@material-ui/icons';
 import Drawer from '@material-ui/core/Drawer';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { testEdit } from '../../RoutePaths';
 import moment from 'moment';
 import Loader from '../../Utils/controls/Loader';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import MuiAlert from '@material-ui/lab/Alert';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
+import MuiAlert from '@material-ui/lab/Alert';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
 import { renderListCategory } from '../../Utils/Helpers';
-import ScheduleLater from '../Components/ScheduleLater';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -59,11 +57,12 @@ const headCells = [
   { id: 'duration', label: 'Duration' },
   { id: 'created', label: 'Created On' },
   { id: 'createdby', label: 'Created By' },
+  { id: 'attempted', label: 'Attempted' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function DraftTest() {
+export default function PreviousTest() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -77,9 +76,6 @@ export default function DraftTest() {
   });
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
-
-  const [scheduler, setScheduler] = useState(false);
-  const [data, setData] = useState('');
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -110,15 +106,10 @@ export default function DraftTest() {
     history.push({
       pathname: testEdit,
       testId: item.id,
-      testType: 'Draft',
+      testType: 'Expired',
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
-  };
-
-  const onSchedule = (item) => {
-    setScheduler(true);
-    setData(item);
   };
 
   const onDelete = (id) => {
@@ -128,7 +119,7 @@ export default function DraftTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Draft'));
+      dispatch(listTests('Expired'));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -138,7 +129,7 @@ export default function DraftTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Draft'));
+    dispatch(listTests('Expired'));
   }, [dispatch]);
 
   return (
@@ -157,26 +148,6 @@ export default function DraftTest() {
             }}
             onChange={handleSearch}
           />
-          {/* <Controls.Button
-            text='Filter'
-            variant='outlined'
-            color='default'
-            startIcon={<FilterListIcon />}
-            className={classes.filterBtn}
-          />
-          <Controls.Button
-            text='Create New Test'
-            variant='contained'
-            color='primary'
-            startIcon={<AddIcon />}
-            className={classes.newButton}
-            onClick={() => {
-              history.push({
-                pathname: testCreate,
-                type: false,
-              });
-            }}
-          /> */}
         </Toolbar>
 
         <TblContainer>
@@ -190,13 +161,19 @@ export default function DraftTest() {
                   <TableCell>{item.duration}</TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
+                  <TableCell>{item.attemptedStudents}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>
-                    <Controls.ActionButton onClick={() => openInPage(item)}>
-                      <EditOutlinedIcon fontSize='small' color='default' />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => onSchedule(item)}>
-                      <ScheduleIcon fontSize='small' color='primary' />
+                    <Controls.ActionButton
+                      disabled={!item.attemptedStudents}
+                      href={`${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${item.id}/report`}
+                    >
+                      <CloudDownloadIcon
+                        fontSize='small'
+                        style={{
+                          color: item.attemptedStudents ? 'green' : 'gray',
+                        }}
+                      />
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       onClick={() => {
@@ -221,7 +198,7 @@ export default function DraftTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests.length === 0 && <Alert severity='info'>0 Draft Tests Found</Alert>}
+          {!loading && tests.length === 0 && <Alert severity='info'>0 Previous Tests Found</Alert>}
         </div>
         <TblPagination />
       </Paper>
@@ -259,13 +236,6 @@ export default function DraftTest() {
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
-      <ScheduleLater
-        scheduler={scheduler}
-        setScheduler={setScheduler}
-        data={data}
-        type={'Draft'}
-        listTests={listTests}
-      />
     </>
   );
 }

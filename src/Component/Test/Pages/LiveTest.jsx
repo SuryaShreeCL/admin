@@ -19,6 +19,7 @@ import { useHistory } from 'react-router-dom';
 import { testCreate, testEdit } from '../../RoutePaths';
 import moment from 'moment';
 import Loader from '../../Utils/controls/Loader';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
@@ -77,6 +78,11 @@ export default function LiveTest() {
       return items;
     },
   });
+
+  const onSchedule = (item) => {
+    setScheduler(true);
+    setData(item);
+  };
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
 
@@ -201,6 +207,9 @@ export default function LiveTest() {
                         }}
                       />
                     </Controls.ActionButton>
+                    <Controls.ActionButton onClick={() => onSchedule(item)}>
+                      <ScheduleIcon fontSize='small' color='primary' />
+                    </Controls.ActionButton>
                     <Controls.ActionButton
                       onClick={() => {
                         setConfirmDialog({
@@ -224,6 +233,7 @@ export default function LiveTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
+          {!loading && tests.length === 0 && <Alert severity='info'>0 Live Tests Found</Alert>}
         </div>
         <TblPagination />
       </Paper>
@@ -261,7 +271,13 @@ export default function LiveTest() {
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
-      <ScheduleLater scheduler={scheduler} setScheduler={setScheduler} data={data} />
+      <ScheduleLater
+        scheduler={scheduler}
+        setScheduler={setScheduler}
+        data={data}
+        type={'Live'}
+        listTests={listTests}
+      />
     </>
   );
 }

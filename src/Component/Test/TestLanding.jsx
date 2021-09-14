@@ -5,6 +5,7 @@ import DraftTest from './Pages/DraftTest';
 import ScheduledTest from './Pages/ScheduledTest';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import { useLocation } from 'react-router-dom';
+import PreviousTest from './Pages/PreviousTest';
 
 const TestLanding = () => {
   let location = useLocation();
@@ -18,6 +19,8 @@ const TestLanding = () => {
         return <DraftTest />;
       } else if (value === 2) {
         return <ScheduledTest />;
+      } else if (value === 3) {
+        return <PreviousTest />;
       }
     } catch (error) {
       console.log(error);
@@ -37,6 +40,7 @@ const TestLanding = () => {
             <TopTab label='Live Tests' />
             <TopTab label='Draft Tests' />
             <TopTab label='Scheduled Tests' />
+            <TopTab label='Previous Tests' />
           </TopTabs>
         </Grid>
         <Grid item md={12}>

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ScheduleLater(props) {
-  const { scheduler, setScheduler, data } = props;
+  const { scheduler, setScheduler, data, type, listTests } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -63,6 +63,9 @@ export default function ScheduleLater(props) {
       message: 'Schedule Updated',
       type: 'success',
     });
+    setTimeout(() => {
+      dispatch(listTests(type));
+    }, 1200);
   };
 
   return (
