@@ -101,6 +101,35 @@ export const createTest = (test) => {
   };
 };
 
+export const updateTest = (test) => {
+  return (dispatch) => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`, test, {
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: TEST.UPDATE_SUCCESS,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        const message =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+
+        dispatch({
+          type: TEST.UPDATE_FAIL,
+          payload: message,
+        });
+      });
+  };
+};
+
 export const scheduleTest = (id, dates) => async (dispatch) => {
   try {
     dispatch({
@@ -127,36 +156,6 @@ export const scheduleTest = (id, dates) => async (dispatch) => {
 
     dispatch({
       type: TEST.SCHEDULE_FAIL,
-      payload: message,
-    });
-  }
-};
-
-export const updateTest = (test) => async (dispatch) => {
-  try {
-    dispatch({
-      type: TEST.UPDATE_REQUEST,
-    });
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/v1/testquestionsets`,
-      test,
-      {
-        crossDomain: true,
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    dispatch({
-      type: TEST.UPDATE_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message ? error.response.data.message : error.message;
-    dispatch({
-      type: TEST.UPDATE_FAIL,
       payload: message,
     });
   }

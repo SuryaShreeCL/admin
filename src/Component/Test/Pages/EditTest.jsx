@@ -90,6 +90,7 @@ const EditTest = () => {
   });
 
   const [testCreated, setTestCreated] = useState(false);
+  let payload = {};
 
   const durations = [
     { id: '1', title: 20 },
@@ -132,8 +133,8 @@ const EditTest = () => {
     nameDescription: yup.string().required('test instructions required'),
   });
 
-  const onTestUpdate = (test, status) => {
-    dispatch(updateTest({ ...test, status }));
+  const onTestUpdate = (data, status) => {
+    dispatch(updateTest(data));
     setNotify({
       isOpen: true,
       message: 'Updated Successfully',
@@ -178,8 +179,22 @@ const EditTest = () => {
             initialValues={test || state}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              // onTestUpdate({ ...values, testType, wallFiles: [...(values.wallFilesUpdate ?? [])] });
-              onTestUpdate(values, testType);
+              payload = {
+                id: values.id,
+                name: values.name,
+                type: 'EVENT',
+                description: values.description,
+                descriptionTitle: values.descriptionTitle,
+                nameDescription: values.nameDescription,
+                startDateTime: values.startDateTime,
+                endDateTime: values.endDateTime,
+                score: values.score,
+                wallCategory:
+                  values?.wallPost?.linkedEvent?.wallCategories || values.wallPost?.wallCategories,
+                wallFiles: values.wallFilesUpdate,
+                testSections: values.testSection,
+              };
+              onTestUpdate(payload, testType);
             }}
             enableReinitialize
           >
@@ -281,12 +296,7 @@ const EditTest = () => {
                         />
                       </Grid>
                     </Grid>
-                    <Grid
-                      container
-                      direction='row'
-                      justify='space-between'
-                      alignItems='center'
-                    >
+                    <Grid container direction='row' justify='space-between' alignItems='center'>
                       <Grid item style={{ width: '30%' }}>
                         <Controls.Select
                           label='Score'
@@ -399,7 +409,6 @@ const EditTest = () => {
                           color='primary'
                           disabled={!values.Questions?.success}
                           onClick={() => {
-                            // onTestUpdate(values, 'Scheduled');
                             setNotify({
                               isOpen: true,
                               message: 'Scheduled Successfully',

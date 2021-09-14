@@ -224,7 +224,7 @@ export default function ScheduledTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests.length === 0 && <Alert severity='info'>0 Scheduled Tests Found</Alert>}
+          {!loading && tests?.length === 0 && <Alert severity='info'>0 Scheduled Tests Found</Alert>}
         </div>
         <TblPagination />
       </Paper>
