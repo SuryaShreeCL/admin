@@ -17,7 +17,7 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import Loader from "../Testimonials/components/controls/Loader";
+import Loader from '../Utils/controls/Loader';
 import {
   updateStudentContact,
   updateVerificationStatus,
@@ -41,6 +41,12 @@ export class ContactDetails extends Component {
       altPhoneHelperTxt: "",
       linkedInProfile: null,
       linkedInHelperTxt: "",
+      facebookProfile: null,
+      facebookHelperTxt: "",
+      address: null,
+      addressHelperTxt: "",
+      twitterProfile : "",
+      twitterHelperTxt : "",
       city: null,
       cityHelperTxt: "",
       status: this.status[1],
@@ -67,12 +73,12 @@ export class ContactDetails extends Component {
   }
 
     var findObj = this.props.studentStatusResponse.find(
-      (res) => res.section.name === "contactdetails"
+      (res) => res.section && res.section.name === "Contact Details"
     );
     console.log(findObj);
 
     if(findObj !== undefined){
-      if(findObj.section.name === "contactdetails"){
+      if(findObj.section.name === "Contact Details"){
         if(this.flag === false && findObj.status === "verified"){
           this.setState({status : this.status[0]}) 
           this.flag = true
@@ -99,6 +105,9 @@ export class ContactDetails extends Component {
         phoneNumber: this.props.StudentDetails.phoneNumber,
         linkedInProfile: this.props.StudentDetails.linkedInProfile,
         city: this.props.StudentDetails.city,
+        facebookProfile:this.props.StudentDetails.faceBookUrl,
+        twitterProfile:this.props.StudentDetails.twitterUrl,
+        address:this.props.StudentDetails.address
       });
     }
     if (this.props.contactDataResponse !== prevProps.contactDataResponse) {
@@ -145,6 +154,7 @@ export class ContactDetails extends Component {
   // Submit Handler
 
   handleSubmit = () => {
+    console.log(this.state)
     let helperTxt = "Please Fill The Required Feild";
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({ eMailHelperTxt: helperTxt })
@@ -158,11 +168,20 @@ export class ContactDetails extends Component {
     this.state.altPhoneNumber === null || this.state.altPhoneNumber.length === 0
       ? this.setState({ altPhoneHelperTxt: helperTxt })
       : this.setState({ altPhoneHelperTxt: "" });
-    this.state.linkedInProfile === null ||
+    this.state.linkedInProfile === "" ||
     this.state.linkedInProfile.length === 0
       ? this.setState({ linkedInHelperTxt: helperTxt })
       : this.setState({ linkedInHelperTxt: "" });
-    this.state.city === null
+      this.state.facebookProfile.length === 0
+      ? this.setState({ facebookHelperTxt: helperTxt })
+      : this.setState({ facebookHelperTxt: "" });
+      this.state.twitterProfile.length === 0
+      ? this.setState({ twitterHelperTxt: helperTxt })
+      : this.setState({ twitterHelperTxt: "" });
+      this.state.address.length === 0
+      ? this.setState({ addressHelperTxt: helperTxt })
+      : this.setState({ addressHelperTxt: "" });
+      this.state.city === null
       ? this.setState({ cityHelperTxt: helperTxt })
       : this.setState({ cityHelperTxt: "" });
     if (
@@ -176,6 +195,12 @@ export class ContactDetails extends Component {
       this.state.altPhoneNumber.length !== 0 &&
       this.state.linkedInProfile !== null &&
       this.state.linkedInProfile.length !== 0 &&
+      this.state.facebookProfile !== null &&
+      this.state.facebookProfile.length !== 0 &&
+      this.state.twitterProfile !== null &&
+      this.state.twitterProfile.length !== 0 &&
+      this.state.address !== null &&
+      this.state.address.length !== 0 &&
       this.state.city !== null
     ) {
       let obj = {
@@ -184,6 +209,9 @@ export class ContactDetails extends Component {
         phoneNumber: this.state.phoneNumber,
         altPhoneNumber: this.state.altPhoneNumber,
         linkedInProfile: this.state.linkedInProfile,
+        faceBookUrl: this.state.facebookProfile,
+        twitterUrl: this.state.twitterProfile,
+        address: this.state.address,
         city: {
           id: this.state.city.id,
         },
@@ -199,7 +227,7 @@ export class ContactDetails extends Component {
           id: this.props.id,
         },
         section: {
-          name: "contactdetails",
+          name: "Contact Details",
         },
         remark: this.state.misMatchDetails,
         status: this.state.status.value,
@@ -408,6 +436,63 @@ export class ContactDetails extends Component {
                       variant="outlined"
                     />
                   )}
+                />
+              </Grid>
+              <Grid item md={6} style={divStyle} justify="space-between">
+                <Typography
+                  color="primary"
+                  style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Facebook Profile:"}
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  helperText={this.state.facebookHelperTxt}
+                  onChange={(e) => this.handleChange(e)}
+                  name={"facebookProfile"}
+                  disabled={this.state.letEdit === false ? true : false}
+                  label="Facebook Profile"
+                  value={this.state.facebookProfile}
+                />
+              </Grid>
+              <Grid item md={6} style={divStyle} justify="space-between">
+                <Typography
+                  color="primary"
+                  style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Twitter Profile:"}
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  helperText={this.state.twitterHelperTxt}
+                  onChange={(e) => this.handleChange(e)}
+                  name={"twitterProfile"}
+                  disabled={this.state.letEdit === false ? true : false}
+                  label="Twitter Profile"
+                  value={this.state.twitterProfile}
+                />
+              </Grid>
+              <Grid item md={6} style={divStyle} justify="space-between">
+                <Typography
+                  color="primary"
+                  style={textStyle}
+                  variant="subtitle1"
+                >
+                  {"Address:"}
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  helperText={this.state.addressHelperTxt}
+                  onChange={(e) => this.handleChange(e)}
+                  name={"address"}
+                  disabled={this.state.letEdit === false ? true : false}
+                  label="Address"
+                  value={this.state.address}
                 />
               </Grid>
               <Grid item md={12} style={divStyle} justify="flex-end">

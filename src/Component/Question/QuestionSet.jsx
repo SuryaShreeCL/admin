@@ -23,11 +23,14 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    FormHelperText,
  } from '@material-ui/core';
  import CloseIcon from "@material-ui/icons/Close";
  import AddIcon from "@material-ui/icons/Add";
  import TableComponent from "../TableComponent/TableComponent";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { isEmptyString } from '../Validation';
+import MySnackBar from '../MySnackBar';
 export class QuestionSet extends Component {
     constructor(props) {
         super(props)
@@ -37,10 +40,21 @@ export class QuestionSet extends Component {
              type : "",
              show : false,
              update : null,
+             nameErr:"",
+             typeErr:"",
+             snackMsg: "",
+            snackVariant: "",
+            snackOpen: false,
+
         }
     }
     componentDidMount(){
         this.props.viewQuestionSet()
+    }
+    componentDidUpdate(prevProps,prevState){
+       if(prevProps.addQuestionSetList !== this.props.addQuestionSetList || prevProps.updateQuestionSetList !== this.props.updateQuestionSetList){
+        this.props.viewQuestionSet()
+       }
     }
     // Model Theme
   modeltheme = () =>
@@ -150,21 +164,29 @@ export class QuestionSet extends Component {
  
     deleteHandler = (data) =>{      
         // this.props.deleteQuestionSet(data.id)
-        this.props.viewQuestionSet()
+        // this.props.viewQuestionSet()
       }
       // Add Question Set
       addQuestionSet() {
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "Please Fill the Required Field"
+        isEmptyString(this.state.name) ? this.setState({ nameErr : hlptxt }) : this.setState ({ nameErr : ""})
+        isEmptyString(this.state.type) ? this.setState({ typeErr : hlptxt }) : this.setState ({ typeErr : ""})
         let questionSetObj = {
           name: this.state.name,
           type : this.state.type,
         };
-        if (this.state.name.length !== 0) {
+        if (this.state.name.length !== 0 &&
+            !isEmptyString(this.state.type)
+          ) {
           this.props.addQuestionSet(questionSetObj);
           this.setState({
             id: "",
             name: "",
             type : "",
+            snackMsg:"Added Successfully",
+            snackOpen:true,
+            snackVariant:"success",
           });
         }
         this.props.viewQuestionSet()
@@ -177,13 +199,18 @@ export class QuestionSet extends Component {
       name: this.state.name,
       type : this.state.type,
     };
-    if (this.state.name.length !== 0) {
+    if (this.state.name.length !== 0 &&
+      !isEmptyString(this.state.type)
+      ) {
       this.props.updateQuestionSet(newQuestionObj);
       this.setState({
         id: "",
         name: "",
         type : "",
         update: true,
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success",
       });      
     }
     this.props.viewQuestionSet()
@@ -263,11 +290,13 @@ export class QuestionSet extends Component {
                   color="primary"
                   label="Enter Question Set Name"
                   fullWidth
+                  error={this.state.nameErr.length > 0 }
+                  helperText={this.state.nameErr}
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
                 />
-                <FormControl variant="outlined" fullWidth>
+                <FormControl variant="outlined" fullWidth  error={this.state.typeErr.length > 0}>
         <InputLabel id="demo-simple-select-outlined-label">Question Set Type</InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
@@ -279,6 +308,7 @@ export class QuestionSet extends Component {
           <MenuItem value={"SURVEY"}>SURVEY</MenuItem>
           <MenuItem value={"EVALUATION"}>EVALUATION</MenuItem>
         </Select>
+        <FormHelperText>{this.state.typeErr}</FormHelperText>
       </FormControl>
               </DialogContent>
               <DialogActions>
@@ -297,6 +327,12 @@ export class QuestionSet extends Component {
               </DialogActions>
             </Dialog>
           </ThemeProvider>
+          <MySnackBar 
+            snackMsg={this.state.snackMsg}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
+            onClose={() => this.setState({ snackOpen: false })}
+          />
             </div>
             </ThemeProvider>
         )
@@ -308,6 +344,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
     return {
         viewQuestionSetList: state.QuestionSetReducer.viewQuestionSetList,
+        updateQuestionSetList : state.QuestionSetReducer.updateQuestionSetList,
+        addQuestionSetList : state.QuestionSetReducer.addQuestionSetList
     }
 }
 export default connect(mapStateToProps,{viewQuestionSet,addQuestionSet,updateQuestionSet,deleteQuestionSet,viewQuestion})(QuestionSet)

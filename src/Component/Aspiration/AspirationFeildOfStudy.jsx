@@ -25,6 +25,10 @@ import IconButton from "@material-ui/core/IconButton";
   import DeleteIcon from "@material-ui/icons/Delete";
   import {connect} from 'react-redux';
 import { data } from 'jquery';
+import MySnackBar from '../MySnackBar';
+import { isEmptyString } from '../Validation';
+import Loader from '../Utils/controls/Loader'
+
 export class AspirationFeildOfStudy extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +36,11 @@ export class AspirationFeildOfStudy extends Component {
             show : false,
             id : "",
             name : "",
+            nameErr:"",
             update : false,
+            snackMsg: "",
+            snackVariant: "",
+            snackOpen: false,
         }
     }
     // Component Theme
@@ -152,9 +160,16 @@ export class AspirationFeildOfStudy extends Component {
     componentDidMount(){
         this.props.viewFeild(0, 20, null);
         }
+        componentDidUpdate(prevProps,prevState){
+          if(this.props.updateFeildList !== prevProps.updateFeildList || this.props.addFeildList !== prevProps.addFeildList) {
+            this.props.viewFeild(0, 20, null);
+          }
+        }
     // Add term
     addFeild(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "please fill the required field"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
         let newFeildObj = {
           name: this.state.name,
         };
@@ -163,13 +178,18 @@ export class AspirationFeildOfStudy extends Component {
           this.setState({
             id: "",
             name: "",
+            snackMsg:"Added Successfully",
+            snackOpen:true,
+            snackVariant:"success",
           });
         }
         this.props.viewFeild(0, 20, null);
     }
     // Update Term
     updateFeild(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "please fill the required field"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
     let newFeildObj = {
       id : this.state.id,
       name: this.state.name,
@@ -180,6 +200,9 @@ export class AspirationFeildOfStudy extends Component {
         id: "",
         name: "",
         update: true,
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success",
       });      
     }
     this.props.viewFeild(0, 20, null);
@@ -221,12 +244,13 @@ export class AspirationFeildOfStudy extends Component {
                   alignItems: "center",
                   height: "65vh",
             }}>
-          <CircularProgress
+          {/* <CircularProgress
          color="primary"
           variant="indeterminate"
           size = "3rem"
           thickness="3"
-           />
+           /> */}
+           <Loader />
            </div>
           </ThemeProvider>
           )}
@@ -257,6 +281,8 @@ export class AspirationFeildOfStudy extends Component {
                   label="Enter Feild Of Study"
                   fullWidth
                   value={this.state.name}
+                  error={this.state.nameErr.length > 0}
+                  helperText={this.state.nameErr}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
                 />
@@ -279,6 +305,12 @@ export class AspirationFeildOfStudy extends Component {
             </Dialog>
           </ThemeProvider>
                 </ThemeProvider>
+                <MySnackBar 
+                snackMsg={this.state.snackMsg}
+                snackVariant={this.state.snackVariant}
+                snackOpen={this.state.snackOpen}
+                onClose={() => this.setState({ snackOpen: false })}
+                />
             </div>
         )
     }
@@ -289,6 +321,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
   return {
     viewFeildList: state.AspirationReducer.viewFeildList,
+    addFeildList : state.AspirationReducer.addFeildList,
+    updateFeildList : state.AspirationReducer.updateFeildList
 
   }
 }

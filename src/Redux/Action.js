@@ -34,6 +34,7 @@ export const COLLEGES = {
   // Selva
   getPaginateCollege: 'getPaginateCollege',
   getPaginateUniversity: 'getPaginateUniversity',
+  getPGDegrees:"getPGDegrees"
 };
 
 export const STUDENT = {
@@ -48,9 +49,9 @@ export const STUDENT = {
   getAnswer: 'getAnswer',
   getStudentPaginate: 'getStudentPaginate',
   viewDocumet: 'viewDocumet',
-  editDocument : 'editDocument',
+  editDocument: 'editDocument',
   downloadDocument: 'downloadDocument',
-  deleteDocument : 'deleteDocument',
+  deleteDocument: 'deleteDocument',
   mernStudentSignUp: 'mernStudentSignUp',
   mernStudentEdit: 'mernStudentEdit',
   getBlackListedUser: 'getBlackListedUser',
@@ -58,8 +59,21 @@ export const STUDENT = {
   getMernUser: 'getMernUser',
   getManualUser: 'getManualUser',
   catchSignUpError: 'catchSignUpError',
-  viewAllCity : 'viewAllCity',
-  getAspirationById : 'getAspirationById'
+  viewAllCity: 'viewAllCity',
+  getAspirationById: 'getAspirationById',
+  getTempPersonalData: 'getTempPersonalData',
+  verifyNewPersonalData: 'verifyNewPersonalData',
+  updateUserData: 'updateUserData',
+  getAcademicInfo: 'getAcademicInfo',
+  updateAcademicInfo: 'updateAcademicInfo',
+  uploadFile:"uploadFile",
+  sscexamboard: "sscexamboard",
+  getDocumentList: 'getDocumentList',
+  deleteDocument: 'deleteDocument',
+  deleteDocumentGraduate: 'deleteDocumentGraduate',
+  filterStageBaseUsers : "filterStageBaseUsers",
+  searchStudentInStages : "searchStudentInStages"
+
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -73,11 +87,11 @@ export const DEPARTMENT = {
 
 // Selva
 export const ASPIRATION = {
-  getAllSpecialization : 'getAllSpecialization',
-  getAllDegree : 'getAllDegree',
-  getAllBranch : 'getAllBranch',
-  getAllUniversity : 'getAllUniversity',
-  getAllTerms : 'getAllTerms',
+  getAllSpecialization: 'getAllSpecialization',
+  getAllDegree: 'getAllDegree',
+  getAllBranch: 'getAllBranch',
+  getAllUniversity: 'getAllUniversity',
+  getAllTerms: 'getAllTerms',
   viewSpecialization: 'viewSpecialization',
   addSpecialization: 'addSpecialization',
   updateSpecialization: 'updateSpecialization',
@@ -107,6 +121,8 @@ export const ASPIRATION = {
   addCity: 'addCity',
   updateCity: 'updateCity',
   deleteCity: 'deleteCity',
+  getallcountry:"getallcountry",
+  getAspirationQuestion: "getAspirationQuestion"
 };
 
 export const QUESTIONSET = {
@@ -138,6 +154,46 @@ export const PRODUCT = {
   deleteProduct: 'deleteProduct',
   viewProductToStudent: 'viewProductToStudent',
   addProductToStudent: 'addProductToStudent',
+  getAllProductFamily : "getAllProductFamily",
+  getProductByFamilyId : "getProductByFamilyId",
+  postproductfamily:"postproductfamily",
+  getProductVarient : "getProductVarient",
+  postProductVarient : "postProductVarient",
+  updateProductVarient : "updateProductVarient",
+  getAllProductImages : "getAllProductImages",
+  getAllProductVideos : "getAllProductVideos",
+  getAllProductQuesAns : "getAllProductQuesAns",
+  updateproductfamily : "updateproductfamily",
+  postProductVideos : "postProductVideos",
+  updateProductVideos : "updateProductVideos",
+  postvarientimage : "postvarientimage",
+  updatevarientimage : "updatevarientimage",
+  updatefamily : "updatefamily",
+  deletefamily : "deletefamily",
+  postgeneraldetails : "postgeneraldetails",
+  deleteproductvarient : "deleteproductvarient",
+  getFaq : 'getFaq',
+  updateFaq : 'updateFaq',
+  postFaq : 'postFaq',
+  getvarientByid : "getvarientByid",
+  updateProductPunching : "updateProductPunching",
+  addproductcombo : "addproductcombo",
+  getproductcombo : "getproductcombo",
+  isVariantCreated : "isVariantCreated",
+  updateProductOnelinerAndDesc : "updateProductOnelinerAndDesc",
+  addProductPunching : "addProductPunching",
+  publishvarient : "publishvarient",
+  comboexcel:"comboexcel",
+  varientexcel:"varientexcel",
+  getpunchingdata:"getpunchingdata",
+  postpunchingdata:"postpunchingdata",
+  putproductstructure : "putproductstructure",
+  getproductstructure : "getproductstructure",
+  postproductstructure : "postproductstructure",
+  getUserDataAcademicInfo: 'getUserDataAcademicInfo',
+  getproductsteps:"getproductsteps",
+  searchProductActivationList : "searchProductActivationList",
+  getVariantStepsById : "getVariantStepsById",
 };
 
 export const ADMIN = {
@@ -153,14 +209,50 @@ export const ADMIN = {
   viewStudentStatus : 'viewStudentStatus',
   updateVerificationStatus : 'updateVerificationStatus',
   getAllMentor : "getAllMentor",
-  alocateMentor : "alocateMentor"
+  alocateMentor : "alocateMentor",
+  updateLmsAccess : "updateLmsAccess",
+  getAwaitingUsersByAdminId : "getAwaitingUsersByAdminId",
+  activateStudentProduct : "activateStudentProduct",
+  getAdminLinkedProduct : "getAdminLinkedProduct", 
+  checkTokenStatus : "checkTokenStatus",
+  getStudentsByStages : "getStudentsByStages",
+  getAllAdminUsers : "getAllAdminUsers"
 };
 
 export const MENTORSCHEDULELIST={
-  viewSchedule : "viewSchedule"
+  viewSchedule : "viewSchedule",
+  getstudentMapping : "getstudentMapping",
+  getproductdetails : "getproductdetails",
+  updateallocatementor : "updateallocatementor",
+  addmentor : "addmentor",
+  updatementor : "updatementor",
+  getmentor : "getmentor"
 }
-
-
+export const CALL_DETAILS={
+  updateclientdetails : "updateclientdetails",
+  updateQuestions : "updateQuestions",
+  updateRating : "updateRating",
+  academicdetails : "academicdetails",
+  getPersonalInfo: "getPersonalInfo",
+  updatePersonalInfo: "updatePersonalInfo",
+  academicdetails : "academicdetails",
+  updateworkexp : "updateworkexp",
+  getworkexp : "getworkexp",
+  getClientInfo : "getClientInfo",
+  getAspirationDetails: "getAspirationDetails",
+  getgrescore : "getgrescore",
+  getgmatscore : "getgmatscore",
+  gettoeflscore : "gettoeflscore",
+  getieltsscore : "getieltsscore",
+  updategrescore : "updategrescore",
+  updategmatscore : "updategmatscore",
+  updatetoeflscore : "updatetoeflscore",
+  updateieltsscore : "updateieltsscore",
+  downloadGAT : "downloadGAT",
+  fileuploadGAT:"fileuploadGAT",
+  completecall:"completecall",
+  // getsearchlist:"getsearchlist"
+}
 
 export const CAREER_TRACK = {
   addCareerTrack: 'addCareerTrack',
@@ -170,44 +262,80 @@ export const CAREER_TRACK = {
 };
 
 export const NOTIFICATION = {
-	viewNotification : "viewNotification",
-	addNotification : "addNotification",
-	updateNotification : "updateNotification",
-	deleteNotification : "deleteNotification"
-}
+  viewNotification: 'viewNotification',
+  addNotification: 'addNotification',
+  updateNotification: 'updateNotification',
+  deleteNotification: 'deleteNotification',
+};
 
 export const REPORTS = {
-	viewTermsAndConReport : "viewTermsAndConReport",
-	viewCvReport : "viewCvReport",
-	viewMarksheetReport : "viewMarksheetReport",
-	viewMyDetailsReport : "viewMyDetailsReport",
-  viewTechTestMechReport : "viewTechTestMechReport",
-  viewTechTestCseReport:"viewTechTestCseReport",
-  viewTestRating : "viewTestRating",
-  viewTechTestElectronics : "viewTechTestElectronics",
-  viewDiagTestReport : 'viewDiagTestReport',
-  viewCareerExpoTest : 'viewCareerExpoTest'
-}
+  viewTermsAndConReport: 'viewTermsAndConReport',
+  viewCvReport: 'viewCvReport',
+  viewMarksheetReport: 'viewMarksheetReport',
+  viewMyDetailsReport: 'viewMyDetailsReport',
+  viewTechTestMechReport: 'viewTechTestMechReport',
+  viewTechTestCseReport: 'viewTechTestCseReport',
+  viewTestRating: 'viewTestRating',
+  viewTechTestElectronics: 'viewTechTestElectronics',
+  viewDiagTestReport: 'viewDiagTestReport',
+  viewCareerExpoTest: 'viewCareerExpoTest',
+};
 
-export const STUDENTMARKDETAILS={
-  viewStudentMarkDetails :"viewStudentMarkDetails",
-  viewResetTest :"viewResetTest",
-  viewAnswers :"viewAnswers"
-}
-export const SCOREDETAILS={
-  viewScoreDetails :"viewScoreDetails"
-}
+export const STUDENTMARKDETAILS = {
+  viewStudentMarkDetails: 'viewStudentMarkDetails',
+  viewResetTest: 'viewResetTest',
+  viewAnswers: 'viewAnswers',
+};
+export const SCOREDETAILS = {
+  viewScoreDetails: 'viewScoreDetails',
+};
 
 export const PGA = {
-  getScoreDetails : "getScoreDetails",
-  getCareerInterest : "getCareerInterest",
-  postAcademicData : "postAcademicData",
-  getPgaAcademicData : "getPgaAcademicData",
-  getChoosenTrack : "getChoosenTrack",
-  postGenralDetails : "postGenralDetails"
+  getScoreDetails: 'getScoreDetails',
+  getCareerInterest: 'getCareerInterest',
+  postAcademicData: 'postAcademicData',
+  getPgaAcademicData: 'getPgaAcademicData',
+  getChoosenTrack: 'getChoosenTrack',
+  postGenralDetails: 'postGenralDetails',
+  getPgaCvAndPpga: 'getPgaCvAndPpga',
+  postPgaCvAndPpga: 'postPgaCvAndPpga',
+  getppgaques: 'getppgaques',
+  postcvandppga: 'postcvandppga',
+  getcvandppga: 'getcvandppga',
+  getppgaques: 'getppgaques',
+  getcvques: 'getcvques',
+  getAllEnrollmentPeriod: 'getAllEnrollmentPeriod',
+  getQuarterPlan: 'getQuarterPlan',
+  getAllStarterPack: 'getAllStarterPack',
+  getPackageByStudentId: 'getPackageByStudentId',
+  getAllQuarterPlan: 'getAllQuarterPlan',
+  postCommentsAndPoints: 'postCommentsAndPoints',
+  getAdditionalPoints: 'getAdditionalPoints',
+  postAditionalPoints: 'postAditionalPoints',
+  getQuarterPlanByType: 'getQuarterPlanByType',
+  getPbChoosenTrack: 'getPbChoosenTrack',
+  getStudentGrade: 'getStudentGrade',
+  getAllSpecialization: 'getAllSpecialization',
+  postPgaPlanCareerTrack: 'postPgaPlanCareerTrack',
+  postQuarterPgaPlan: 'postQuarterPgaPlan',
+  getallcourse: 'getallcourse',
+  newenroll: 'newenroll',
+  getenroll: 'getenroll',
+  unenroll: 'unenroll',
+  getAllEnroll: 'getAllEnroll',
+  getFilteredCourseForEnroll: 'getFilteredCourseForEnroll',
+  clearNewEnroll: 'clearNewEnroll',
+  clearUnEnroll: 'clearUnEnroll',
+  uploadfile : 'uploadfile',
+  getallfiles : "getallfiles",
+  downlaodfiles : "downlaodfiles",
+  deletefiles : "deletefiles",
+  viewfiles:"viewfiles"
+};
+
+export const HELPER = {
+  storeItInState : "storeItInState"
 }
-
-
 
 //MOHAMMED
 export const TESTIMONIAL = {
@@ -232,4 +360,32 @@ export const TESTIMONIAL = {
   UPDATE_SUCCESS: 'UPDATE_SUCCESS',
   UPDATE_FAIL: 'UPDATE_FAIL',
   UPDATE_RESET: 'UPDATE_RESET',
+};
+
+export const WALL = {
+  LIST_REQUEST: 'WALL_LIST_REQUESTED',
+  LIST_SUCCESS: 'WALL_LIST_SUCCESSFUL',
+  LIST_FAIL: 'WALL_LIST_FAILED',
+
+  DETAILS_REQUEST: 'WALL_DETAILS_REQUEST',
+  DETAILS_SUCCESS: 'WALL_DETAILS_SUCCESS',
+  DETAILS_FAIL: 'WALL_DETAILS_FAIL',
+
+  WALL_CATEGORIES_REQUEST: 'WALL_CATEGORIES_REQUEST',
+  WALL_CATEGORIES_SUCCESS: 'WALL_CATEGORIES_SUCCESS',
+  WALL_CATEGORIES_FAIL: 'WALL_CATEGORIES_FAIL',
+
+  DELETE_REQUEST: 'WALL_DELETE_REQUEST',
+  DELETE_SUCCESS: 'WALL_DELETE_SUCCESS',
+  DELETE_FAIL: 'WALL_DELETE_FAIL',
+
+  CREATE_REQUEST: 'WALL_CREATE_REQUEST',
+  CREATE_SUCCESS: 'WALL_CREATE_SUCCESS',
+  CREATE_FAIL: 'WALL_CREATE_FAIL',
+  CREATE_RESET: 'WALL_CREATE_RESET',
+
+  UPDATE_REQUEST: 'WALL_UPDATE_REQUEST',
+  UPDATE_SUCCESS: 'WALL_UPDATE_SUCCESS',
+  UPDATE_FAIL: 'WALL_UPDATE_FAIL',
+  UPDATE_RESET: 'WALL_UPDATE_RESET',
 };

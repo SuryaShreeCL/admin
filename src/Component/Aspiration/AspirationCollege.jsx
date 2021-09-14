@@ -25,6 +25,10 @@ import IconButton from "@material-ui/core/IconButton";
   import DeleteIcon from "@material-ui/icons/Delete";
   import {connect} from 'react-redux';
   import {viewCollege, addCollege, updateCollege, deleteCollege, viewCountry, viewCountryForSelect} from "../../Actions/Aspiration"
+import { isEmptyString } from '../Validation';
+import MySnackBar from '../MySnackBar';
+import Loader from '../Utils/controls/Loader'
+
 export class AspirationCollege extends Component {
     constructor(props) {
         super(props);
@@ -34,6 +38,12 @@ export class AspirationCollege extends Component {
             name : "",
             countryForUniv : "",
             update : false,
+            nameErr:"",
+            countryErr:"",
+            snackMsg: "",
+            snackVariant: "",
+            snackOpen: false,
+
         }
     }
     // Component Theme
@@ -159,27 +169,44 @@ export class AspirationCollege extends Component {
         this.props.viewCollege(0, 20, null);
         this.props.viewCountryForSelect()
         }
+        componentDidUpdate(prevProps,prevState){
+         if(prevProps.addCollegeList !== this.props.addCollegeList || prevProps.updateCollegeList !== this.props.updateCollegeList){
+          this.props.viewCollege(0, 20, null);
+          this.props.viewCountryForSelect()
+         }
+        }
     // Add term
     addCollege(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "Please fill the Required Field"
+        isEmptyString(this.state.name) ? this.setState({ nameErr : hlptxt }) : this.setState ({ nameErr : "" });
+         this.state.countryForUniv === "" ? this.setState ({countryErr : hlptxt }) : this.setState({ countryErr : ""})
         let newCollegeObj = {
           name: this.state.name,
           country : {
             id : this.state.countryForUniv.id
           }
         };
-        if (this.state.name.length !== 0) {
+        if (this.state.name.length !== 0 
+          //  isEmptyString(this.state.countryForUniv)
+          ) {
           this.props.addCollege(newCollegeObj);
           this.setState({
             id: "",
             name: "",
+            snackMsg:"Added Successfully",
+            snackOpen:true,
+            snackVariant:"success",
           });
         }
         this.props.viewCollege(0, 20, null);
     }
     // Update Term
     updateCollege(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "Please fill the Required Field"
+        isEmptyString(this.state.name) ? this.setState({ nameErr : hlptxt }) : this.setState ({ nameErr : "" });
+        isEmptyString( this.state.countryForUniv) ? this.setState ({countryErr : hlptxt }) : this.setState({ countryErr : ""})
     let newCollegeObj = {
       id : this.state.id,
       name: this.state.name,
@@ -187,12 +214,17 @@ export class AspirationCollege extends Component {
         id : this.state.countryForUniv.id
       }
     };
-    if (this.state.name.length !== 0) {
+    if (this.state.name.length !== 0 
+      // isEmptyString(this.state.countryForUniv)
+      ) {
       this.props.updateCollege(this.state.id, newCollegeObj);
       this.setState({
         id: "",
         name: "",
         update: true,
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success",
       });      
     }
     this.props.viewCollege(0, 20, null);
@@ -234,12 +266,13 @@ export class AspirationCollege extends Component {
                   alignItems: "center",
                   height: "65vh",
             }}>
-          <CircularProgress
+          {/* <CircularProgress
          color="primary"
           variant="indeterminate"
           size = "3rem"
           thickness="3"
-           />
+           /> */}
+           <Loader />
            </div>
           </ThemeProvider>
           )}
@@ -270,6 +303,8 @@ export class AspirationCollege extends Component {
                   color="primary"
                   label="Enter College Name"
                   fullWidth
+                  error={this.state.nameErr.length > 0 }
+                  helperText={this.state.nameErr}
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
@@ -283,6 +318,8 @@ export class AspirationCollege extends Component {
                   {...params} 
                   label="Select Country"
                   fullWidth
+                  error={this.state.countryErr.length > 0}
+                  helperText={this.state.countryErr}
                    variant="outlined" />}
               />
                        
@@ -304,6 +341,12 @@ export class AspirationCollege extends Component {
             </Dialog>
           </ThemeProvider>
                 </ThemeProvider>
+                <MySnackBar
+              snackMsg={this.state.snackMsg}
+              snackVariant={this.state.snackVariant}
+              snackOpen={this.state.snackOpen}
+              onClose={() => this.setState({ snackOpen: false })}
+            />
             </div>
         )
     }
@@ -316,7 +359,8 @@ const mapStateToProps=(state)=>{
     viewCollegeList: state.AspirationReducer.viewCollegeList,
     viewCountryList: state.AspirationReducer.viewCountryList,
     viewCountryForSelectList : state.AspirationReducer.viewCountryForSelectList,
-
+    addCollegeList : state.AspirationReducer.addCollegeList,
+    updateCollegeList : state.AspirationReducer.updateCollegeList
   }
 }
 export default connect(mapStateToProps,{viewCollege, addCollege, updateCollege, deleteCollege ,viewCountry, viewCountryForSelect})(AspirationCollege)

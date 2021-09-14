@@ -29,11 +29,14 @@ const initialState = {
   updateCityList: [],
   deleteCity: [],
   viewCityList: [],
-  allDegreeList : [],
-  allUniversityList : [],
-  allBranchList : [],
-  allSpeciaizationList : [],
-  allTermList : [],
+  allDegreeList: [],
+  allUniversityList: [],
+  allBranchList: [],
+  allSpeciaizationList: [],
+  allTermList: [],
+  getallcountry: [],
+  allCountry:[],
+  getAspirationQuestion: []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -182,31 +185,43 @@ export default (state = initialState, action) => {
         ...state,
         deleteCity: action.deleteCity,
       };
-      case ASPIRATION.getAllSpecialization:
-        return {
-          ...state,
-          allSpeciaizationList: action.payload,
-        };
-        case ASPIRATION.getAllUniversity:
-          return {
-            ...state,
-            allUniversityList: action.payload,
-          };
-          case ASPIRATION.getAllBranch:
-            return {
-              ...state,
-              allBranchList: action.payload,
-            };
-            case ASPIRATION.getAllDegree:
-              return {
-                ...state,
-                allDegreeList: action.payload,
-              };
-              case ASPIRATION.getAllTerms:
-                return {
-                  ...state,
-                  allTermList: action.payload,
-                };
+    case ASPIRATION.getAllSpecialization:
+      return {
+        ...state,
+        allSpeciaizationList: action.payload,
+      };
+    case ASPIRATION.getAllUniversity:
+      return {
+        ...state,
+        allUniversityList: action.payload,
+      };
+    case ASPIRATION.getAllBranch:
+      return {
+        ...state,
+        allBranchList: action.payload,
+      };
+    case ASPIRATION.getAllDegree:
+      return {
+        ...state,
+        allDegreeList: action.payload,
+      };
+    case ASPIRATION.getAllTerms:
+      return {
+        ...state,
+        allTermList: action.payload,
+      };
+    case ASPIRATION.getallcountry:      
+      return {
+        ...state,
+        allCountry:action.payload,
+        getallcountry: action.payload,
+      };
+      case ASPIRATION.getAspirationQuestion:      
+      return {
+        ...state,
+        getAspirationQuestion:action.payload,
+        // getallcountry: action.payload,
+      };
 
     default:
       break;

@@ -5,7 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Pagination from "@material-ui/lab/Pagination";
 import TablePagination from "@material-ui/core/TablePagination";
-import { createMuiTheme, Hidden, ThemeProvider } from "@material-ui/core";
+import {
+  createMuiTheme,
+  Hidden,
+  ThemeProvider,
+  IconButton,
+} from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -13,9 +18,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit"
+import EditIcon from "@material-ui/icons/Edit";
 import Spinner from "./Utils/Spinner";
-
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 export default class TableComponent extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +30,7 @@ export default class TableComponent extends Component {
       searchKeyword: "",
       tableColumn: null,
       tableData: null,
+      eventTrigger: false,
     };
     this.flag = false;
   }
@@ -56,6 +62,16 @@ export default class TableComponent extends Component {
         this.state.rowCount,
         this.state.searchKeyword
       );
+    }
+  }
+
+  hasAccess = () =>{
+    var role = window.sessionStorage.getItem("role") 
+    console.log(role)
+    if(role === "SUPER ADMIN" || role === "LMSCHECKER" || role === "LMSEDITOR"){
+      return false
+    }else{
+      return true
     }
   }
 
@@ -107,15 +123,16 @@ export default class TableComponent extends Component {
             <Button
               variant="contained"
               color="primary"
-              disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
-              name='action'
-              onClick={(e) =>{
+              disabled={
+                this.hasAccess()
+              }
+              name="action"
+              onClick={(e) => {
                 e.stopPropagation();
-                  if(typeof this.props.onEditClick === "function"){
-                  this.props.onEditClick(data)
+                if (typeof this.props.onEditClick === "function") {
+                  this.props.onEditClick(data);
                 }
-              }
-              }
+              }}
               startIcon={<EditIcon />}
             >
               Edit
@@ -126,15 +143,16 @@ export default class TableComponent extends Component {
           <td style={body.td}>
             <Button
               variant="contained"
-              disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
+              disabled={
+               this.hasAccess()
+              }
               color="secondary"
-              onClick={(e) =>{
+              onClick={(e) => {
                 e.stopPropagation();
-                  if(typeof this.props.onDeleteClick === "function"){
-                  this.props.onDeleteClick(data)
+                if (typeof this.props.onDeleteClick === "function") {
+                  this.props.onDeleteClick(data);
                 }
-              }
-              }
+              }}
               startIcon={<DeleteIcon />}
             >
               Delete
@@ -152,8 +170,7 @@ export default class TableComponent extends Component {
         <tr
           key={index}
           onClick={(e) => {
-            if(this.props.onRowClick!==undefined)
-            this.props.onRowClick(row)
+            if (this.props.onRowClick !== undefined) this.props.onRowClick(row);
           }}
           style={body.tr}
         >
@@ -230,7 +247,7 @@ export default class TableComponent extends Component {
 
   render() {
     const { header, spacer, footer, body } = table;
-    var spin=true    
+    var spin = true;
     return (
       <div>
         {/* paper Container */}
@@ -248,20 +265,42 @@ export default class TableComponent extends Component {
                 <TextField
                   variant="outlined"
                   size="small"
+                  onKeyUp={this.props.onKeyUp}
                   color="primary"
                   label="search"
                   value={this.state.searchKeyword}
                   onChange={(e) =>
                     this.setState({ searchKeyword: e.target.value })
                   }
+                  // onKeyUp={
+                  //   (e)=>{
+                  //     if(e.keyCode===13){
+                  //       e.preventDefault();
+                  //       this.setState({eventTrigger:!this.state.eventTrigger})
+                  //     }
+                  //   }
+                  // }
                 />
+                {this.props.needSearch && (
+                  <IconButton
+                    style={{ marginLeft: "8px" }}
+                    onClick={this.props.onSearchClick}
+                    color="primary"
+                    id={"search"}
+                    aria-label="search"
+                  >
+                    <SearchRoundedIcon />
+                  </IconButton>
+                )}
               </div>
               {this.props.add ? (
                 <div style={header.search.button}>
                   <Button
                     variant="contained"
                     color="primary"
-                    disabled={window.sessionStorage.getItem("role") !== "SUPER ADMIN" ? true : false}
+                    disabled={
+                      this.hasAccess()
+                    }
                     onClick={(e) =>
                       typeof this.props.onAddClick === "function"
                         ? this.props.onAddClick(e)
@@ -287,8 +326,8 @@ export default class TableComponent extends Component {
                     </thead>
                     <tbody>{this.renderTableData()}</tbody>
                   </>
-                ) : (                                    
-                  <Spinner visible={spin} />                                                                      
+                ) : (
+                  <Spinner visible={spin} />
                 )}
               </table>
             </Grid>

@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import MaterialTable from "material-table";
 import history from "./History";
-import {isAlpha, isEmailSpecialChar, isNumber, isSpecialCharacter} from "./Validation"
+import {isAlpha, isEmailSpecialChar, isEmptyString, isNumber, isSpecialCharacter} from "./Validation"
 import { createMuiTheme, MuiThemeProvider, ThemeProvider } from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -42,6 +42,7 @@ import {CircularProgress,
   FormControlLabel,
   Checkbox
 } from "@material-ui/core"
+import Loader from "./Utils/controls/Loader";
 export class MernUsers extends Component {
   constructor(props) {
     super(props);
@@ -72,6 +73,11 @@ export class MernUsers extends Component {
       phoneHelperText : null,
       studentIdHelperText : null,
       internAccess : false,
+      search: {
+        page: 0,
+        size: "",
+        keyword: "",
+      },
     };
   }
 
@@ -91,7 +97,7 @@ export class MernUsers extends Component {
     { title: "Full Name", fieldName: "fullName" },
     { title: "Email Id", fieldName: "emailId" },
     { title: "Phone", fieldName: "phoneNumber" },
-    { title: "Department", fieldName: "department.name" },
+    // { title: "Department", fieldName: "department.name" },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
@@ -157,6 +163,12 @@ export class MernUsers extends Component {
       }) 
       this.props.getMernUser(0, 20);
     } 
+     // TO search users when the input feild for search is empty
+     if (this.state.search.keyword !== prevState.search.keyword) {
+      if (isEmptyString(this.state.search.keyword)) {
+        this.props.getMernUser(0, 20);
+      }
+    }
   }
 
   rowClick = (rowData) => {
@@ -183,7 +195,20 @@ export class MernUsers extends Component {
       }
     });
   paginate = (page, size, keyword) => {
-    this.props.getMernUser(page, size, keyword);
+    var tempSearchHolder = { ...this.state.search };
+    tempSearchHolder.page = page;
+    tempSearchHolder.size = size;
+    tempSearchHolder.keyword = keyword;
+    console.log(tempSearchHolder);
+    this.setState({
+      search: tempSearchHolder,
+    });
+    if (
+      // this.state.search.page !== 0 &&
+      this.state.search.page !== page
+    ) {
+      this.props.getMernUser(page, size, keyword);
+    }
   };
   handleSubmit = (e) =>{
     this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : null})
@@ -286,6 +311,15 @@ export class MernUsers extends Component {
     })
   }
   }
+   // Function that handle search
+   handleSearch = () => {
+    // this.state.search.page
+    this.props.getMernUser(
+      0,
+      this.state.search.size,
+      this.state.search.keyword
+    );
+  };
   render() {  
     console.log("State............",this.state)
     return (
@@ -356,7 +390,14 @@ export class MernUsers extends Component {
               }}
               cols={this.stu_header}
               onRowClick={this.rowClick}
-              onSearch={this.paginate}
+              needSearch
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  e.preventDefault();
+                  document.getElementById("search").click();
+                }
+              }}
+              onSearchClick={this.handleSearch}
               paginate={this.paginate}
               totalCount={this.props.mernUserDetails.totalElements}
               title={"Student"}
@@ -370,12 +411,13 @@ export class MernUsers extends Component {
                       alignItems: "center",
                       height: "65vh",
                 }}>
-              <CircularProgress
+              {/* <CircularProgress
              color="primary"
               variant="indeterminate"
               size = "3rem"
               thickness="3"
-               />
+               /> */}
+               <Loader />
                </div>
               </ThemeProvider>
           )}

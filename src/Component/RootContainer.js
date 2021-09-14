@@ -1,81 +1,151 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import HomeIcon from '@material-ui/icons/Home';
-import PeopleIcon from '@material-ui/icons/People';
-import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Avatar from '@material-ui/core/Avatar';
-import { Link } from 'react-router-dom';
-import Content from './Content';
-import history from './History';
-import { rootPath, rootLoginPath } from './RoutePaths';
-import GoogleBtn from './GoogleBtn';
-import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
-import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
-import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
-import SchoolRoundedIcon from '@material-ui/icons/SchoolRounded';
-import SportsHandballRoundedIcon from '@material-ui/icons/SportsHandballRounded';
-import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
-import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
-import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
-import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded';
-import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import CallIcon from '@material-ui/icons/Call';
+import { Badge, Breadcrumbs } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import {
+  createMuiTheme,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core/styles";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import AddShoppingCartRoundedIcon from "@material-ui/icons/AddShoppingCartRounded";
+import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
+import CallIcon from "@material-ui/icons/Call";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import DnsRoundedIcon from "@material-ui/icons/DnsRounded";
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import HelpRoundedIcon from "@material-ui/icons/HelpRounded";
+import HomeIcon from "@material-ui/icons/Home";
+import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import LocationCityRoundedIcon from "@material-ui/icons/LocationCityRounded";
+import MenuBookRoundedIcon from "@material-ui/icons/MenuBookRounded";
+// import MenuIcon from '@material-ui/icons/Menu';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
+import PeopleIcon from "@material-ui/icons/People";
+import RateReviewRoundedIcon from "@material-ui/icons/RateReviewRounded";
+import SchoolRoundedIcon from "@material-ui/icons/SchoolRounded";
+import SportsHandballRoundedIcon from "@material-ui/icons/SportsHandballRounded";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import TrendingUpRoundedIcon from "@material-ui/icons/TrendingUpRounded";
+import VideocamRoundedIcon from "@material-ui/icons/VideocamRounded";
+import clsx from "clsx";
+import React, { useEffect, useRef, useState } from "react";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 
+import { connect } from "react-redux";
+import { checkTokenStatus } from "../Actions/AdminAction";
+import BackButton from "../Asset/Images/backbutton.svg";
+import MenuIcon from "../Asset/Images/menu.svg";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import StarBorder from "@material-ui/icons/StarBorder";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import SendIcon from "@material-ui/icons/Send";
+import {
+  aspirationPath,
+  callSchedulePath,
+  careerTrackPath,
+  cityPath,
+  collegePath,
+  coursePath,
+  departmentPath,
+  lmsTest,
+  lms_course_landing,
+  lms_course_taken,
+  lms_study_plans,
+  notificationPath,
+  obOperationPath,
+  productPath,
+  productPunchingPath,
+  questionSetPath,
+  reportsPath,
+  rootLoginPath,
+  studentPath,
+  testimonialsPath,
+  universityPath,
+  videoPath,
+  wallPath,
+  webinarPath,
+} from "./RoutePaths";
+import Routes from "./Routes";
+import TreeView from "@material-ui/lab/TreeView";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import TreeItem from "@material-ui/lab/TreeItem";
+import { menu } from "../Constant/Variables";
+import { getAdminLinkedProduct } from "../Actions/AdminAction";
+import { getProductByFamilyId } from "../Actions/ProductAction";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import LandingAdmin from "./LandingAdmin";
 
 const drawerWidth = 240;
 const NavbarList = [
-      {id: 'courses', icon: <MenuBookRoundedIcon />, title: 'Courses' },
-      {id: 'students', icon: <PeopleIcon />, title: 'Students' },
-      {id: 'departments', icon: <DnsRoundedIcon />, title: 'Departments' },    
-      {id: 'college', icon:<AccountBalanceRoundedIcon />, title:'Colleges'},
-      {id: 'university', icon:<SchoolRoundedIcon />, title:'University'},
-      {id: 'city', icon:<LocationCityRoundedIcon />, title:'City'},
-      {id: 'aspiration', icon:<SportsHandballRoundedIcon />, title:'Aspiration'},
-      {id: 'questionSet', icon:<HelpRoundedIcon />, title:'Question Set'},
-      {id: 'video', icon:<VideocamRoundedIcon />, title:'Video'},
-      {id: 'product', icon:<AddShoppingCartRoundedIcon />, title:'Product'},
-      {id: 'webinar', icon:<SupervisorAccountIcon />, title:'Webinar'},
-      {id: 'career-track', icon:<TrendingUpRoundedIcon />, title:'Career Track'},
-      {id: 'notification', icon:<NotificationsIcon /> , title:'Notification'},
-       { id: 'testimonials', icon: <RateReviewRoundedIcon />, title: 'Testimonials' },
-      {id: 'reports', icon:<AssessmentRoundedIcon />, title:'Reports'},
-      {id:'schedule',icon:<CallIcon/>,title:'Call Schedule'}
-      
-    ];
-
+  { id: coursePath, icon: <MenuBookRoundedIcon />, title: "Courses" },
+  { id: studentPath, icon: <PeopleIcon />, title: "Students" },
+  { id: departmentPath, icon: <DnsRoundedIcon />, title: "Departments" },
+  { id: collegePath, icon: <AccountBalanceRoundedIcon />, title: "Colleges" },
+  { id: universityPath, icon: <SchoolRoundedIcon />, title: "University" },
+  { id: cityPath, icon: <LocationCityRoundedIcon />, title: "City" },
+  {
+    id: aspirationPath,
+    icon: <SportsHandballRoundedIcon />,
+    title: "Aspiration",
+  },
+  { id: questionSetPath, icon: <HelpRoundedIcon />, title: "Question Set" },
+  { id: videoPath, icon: <VideocamRoundedIcon />, title: "Video" },
+  { id: productPath, icon: <AddShoppingCartRoundedIcon />, title: "Product" },
+  { id: webinarPath, icon: <SupervisorAccountIcon />, title: "Webinar" },
+  { id: wallPath, icon: <InstagramIcon />, title: "Wall" },
+  {
+    id: careerTrackPath,
+    icon: <TrendingUpRoundedIcon />,
+    title: "Career Track",
+  },
+  { id: notificationPath, icon: <NotificationsIcon />, title: "Notification" },
+  {
+    id: testimonialsPath,
+    icon: <RateReviewRoundedIcon />,
+    title: "Testimonials",
+  },
+  { id: reportsPath, icon: <AssessmentRoundedIcon />, title: "Reports" },
+  { id: "schedule", icon: <CallIcon />, title: "Call Schedule" },
+  {
+    id: productPunchingPath,
+    icon: <SupervisorAccountIcon />,
+    title: "Product Punching",
+  },
+  {
+    id: obOperationPath,
+    icon: <SupervisorAccountIcon />,
+    title: "OB Operation",
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
   },
   homelogo: {
-    height: '3.1rem',
+    height: "3.1rem",
   },
   appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -83,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -92,10 +162,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   arrowButton: {
-    color: 'unset',
+    color: "unset",
   },
   hide: {
-    display: 'none',
+    display: "none",
   },
   drawer: {
     width: drawerWidth,
@@ -103,36 +173,36 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    color: 'rgba(255, 255, 255, 0.7)',
-    backgroundColor: '#18202c',
+    color: "rgba(255, 255, 255, 0.7)",
+    backgroundColor: "#18202c",
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
-    boxShadow: '0 -1px 0 #404854 inset',
+    boxShadow: "0 -1px 0 #404854 inset",
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: '#232f3e',
+    backgroundColor: "#232f3e",
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: 0,
     marginTop: 55,
-    background: '#eaeff1',
+    background: "#fff",
     flex: 1,
-    padding: theme.spacing(6, 4),
+    padding: theme.spacing(4, 4),
   },
   contentShift: {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -140,11 +210,11 @@ const useStyles = makeStyles((theme) => ({
   },
   ListItemIcon: {
     minWidth: 42,
-    color: 'unset',
+    color: "unset",
   },
   footer: {
     padding: theme.spacing(2),
-    background: '#eaeff1',
+    background: "#eaeff1",
   },
   spacer: {
     flex: 1,
@@ -154,22 +224,33 @@ const useStyles = makeStyles((theme) => ({
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#63ccff',
-      main: '#009be5',
-      dark: '#006db3',
+      light: "#63ccff",
+      main: "#009be5",
+      dark: "#006db3",
     },
   },
   overrides: {
-    MuiListItem : {
-      root : {
-        "&$selected" : {
-          backgroundColor : '#009be5'
+    MuiBadge: {
+      colorPrimary: {
+        backgroundColor: "#FDBF44",
+      },
+    },
+    MuiFormControl: {
+      marginNormal: {
+        marginTop: 0,
+        marginBottom: 0,
+      },
+    },
+    MuiListItem: {
+      root: {
+        "&$selected": {
+          backgroundColor: "#009be5",
         },
       },
     },
     MuiDrawer: {
       paper: {
-        backgroundColor: '#18202c',
+        backgroundColor: "#18202c",
       },
     },
     MuiToolbar: {
@@ -179,25 +260,25 @@ const theme = createMuiTheme({
     },
     MuiButton: {
       label: {
-        textTransform: 'none',
+        textTransform: "none",
       },
       contained: {
-        boxShadow: 'none',
-        '&:active': {
-          boxShadow: 'none',
+        boxShadow: "none",
+        "&:active": {
+          boxShadow: "none",
         },
       },
     },
     MuiDivider: {
       root: {
-        backgroundColor: '#404854',
+        backgroundColor: "#404854",
       },
     },
     MuiListItemIcon: {
       root: {
-        color: 'inherit',
+        color: "inherit",
         marginRight: 0,
-        '& svg': {
+        "& svg": {
           fontSize: 20,
         },
       },
@@ -210,7 +291,7 @@ const theme = createMuiTheme({
     },
     MuiTypography: {
       body1: {
-        fontSize: 'unset',
+        fontSize: "unset",
       },
     },
     MuiSvgIcon: {
@@ -221,11 +302,13 @@ const theme = createMuiTheme({
   },
 });
 
-export default function RootContainer(props) {
+function RootContainer(props) {
   const classes = useStyles();
   //const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [selectedMenu, setSelectedMenu] = React.useState(null)
+  const [selectedMenu, setSelectedMenu] = React.useState(null);
+  const [state, setState] = React.useState({ open: {} });
+  const [sideNav, setSideNav] = React.useState([]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -235,52 +318,432 @@ export default function RootContainer(props) {
   };
 
   const logout = () => {
-    window.sessionStorage.setItem('token', 'false');
+    window.sessionStorage.setItem("token", "false");
     window.sessionStorage.clear();
-    props.history.push(rootLoginPath);
+    window.location.pathname = "/admin/login";
+    // props.history.push(rootLoginPath);
   };
 
-  console.log("........",history)
+  const mounted = useRef();
 
+  var flag = false;
+
+  useEffect(() => {
+    if (!mounted.current) {
+      // do componentDidMount logic
+      props.getAdminLinkedProduct();
+      mounted.current = true;
+      let accessToken = window.sessionStorage.getItem("accessToken");
+      if (accessToken === null) {
+        // 
+        window.sessionStorage.clear();
+        props.history.push(rootLoginPath);
+      } else {
+        props.checkTokenStatus();
+      }
+    } else {
+      // do componentDidUpdate logic
+
+      if (props.tokenStatus !== null && props.tokenStatus.expired) {
+        // 
+        window.sessionStorage.clear();
+        props.history.push(rootLoginPath);
+      }
+    }
+  });
+
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
+  const prevProps = usePrevious(props);
+
+  useEffect(() => {
+    // 
+
+    if (
+      props.adminLinkedProductDetails.length !== 0 &&
+      props.getProductByFamilyIdList.length === 0 &&
+      props.adminLinkedProductDetails.department !== "sales" &&
+      props.adminLinkedProductDetails.department !== "elev8" &&
+      props.adminLinkedProductDetails.department !== "SUPERADMIN"
+    ) {
+      props.getProductByFamilyId(
+        props.adminLinkedProductDetails.products[0].productFamily.id
+      );
+    }
+    // 
+    // let newListArr = []
+    // props.getProductByFamilyIdList.map((eachItem,index)=>{
+    //  newListArr.push({
+    //   id: eachItem.id,
+    //   key: eachItem.id,
+    //   label : eachItem.shortName,
+    //   icon: StarBorder
+    //  })
+    // })
+    // setSideNav([{
+    //   id: "1",
+    //   key: "operations",
+    //   icon: InboxIcon,
+    //   label : "Operations",
+    //   items: newListArr,
+    // }])
+
+    if (props.adminLinkedProductDetails.department === "Acsoperations") {
+      let myArr = [];
+      props.getProductByFamilyIdList
+        .filter(
+          (eachProd) =>
+            eachProd.variantSKU === "ACS_MS" ||
+            eachProd.variantSKU === "ACS_MBA"
+        )
+        .map((eachItem, index) => {
+          
+          myArr.push({
+            title: eachItem.shortName,
+            path: obOperationPath + "/" + eachItem.id,
+          });
+        });
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Operations",
+          items: myArr,
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Aspiration",
+          path: aspirationPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Templates",
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Master Grad list",
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Call Scheduler",
+          path: callSchedulePath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Reports",
+          path: reportsPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Notification",
+          path: notificationPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Career Track",
+          path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Resources",
+          items: [
+            {
+              title: "Webinar",
+              path: webinarPath,
+            },
+            {
+              title: "Testmonial",
+              path: testimonialsPath,
+            },
+            {
+              title: "Role Videos",
+              path: videoPath,
+            },
+          ],
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === "Pboperations") {
+      let myArr = [];
+      props.getProductByFamilyIdList
+        .filter((prodItems) => prodItems.variantSKU === "PBP")
+        .map((eachItem, index) => {
+          myArr.push({
+            title: eachItem.shortName,
+            path: obOperationPath + "/" + eachItem.id,
+          });
+        });
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Aspiration",
+          path: aspirationPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Career Track",
+          path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Reports",
+          path: reportsPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Notification",
+          path: notificationPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Operations",
+          items: myArr,
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Resources",
+          items: [
+            {
+              title: "Webinar",
+              path: webinarPath,
+            },
+            {
+              title: "Testmonial",
+              path: testimonialsPath,
+            },
+            {
+              title: "Role Videos",
+              path: videoPath,
+            },
+          ],
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === "sales") {
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "City",
+          path: cityPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Product Punching",
+          path: productPunchingPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Products",
+          path: productPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Student",
+          path: studentPath,
+          items: [],
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === "elev8") {
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Wall",
+          path: wallPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Career Track",
+          path: careerTrackPath,
+          items: [],
+        },
+      ]);
+    }else if (props.adminLinkedProductDetails.department === "SUPERADMIN") {
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Testmonial",
+          path: testimonialsPath,
+          items: [],
+        },
+      ]);
+    } else {
+      setSideNav([
+        {
+          icon: <></>,
+          title: "Student",
+          path: studentPath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Course Material",
+          path: lms_course_landing,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Study plan",
+          path: lms_study_plans,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Test",
+          path: lmsTest,
+          items: [],
+        },
+      ]);
+    }
+  }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
+
+  // 
+  // 
+
+  const MenuItem = ({ item }) => {
+    const Component = hasChildren(item) ? MultiLevel : SingleLevel;
+    return <Component item={item} />;
+  };
+
+  const SingleLevel = ({ item }) => {
+    return (
+      <ListItem
+        button
+        onClick={(e) => {
+          props.history.push(item.path);
+        }}
+      >
+        <ListItemIcon>{""}</ListItemIcon>
+        <ListItemText primary={item.title} />
+      </ListItem>
+    );
+  };
+
+  const MultiLevel = ({ item }) => {
+    const { items: children } = item;
+    const [menuOpen, setMenuOpen] = useState(true);
+    
+    const handleClick = () => {
+      
+      setMenuOpen((prev) => !prev);
+    };
+
+    return (
+      <React.Fragment>
+        <ListItem button onClick={handleClick}>
+          <ListItemIcon>
+            {menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </ListItemIcon>
+          <ListItemText primary={item.title} />
+        </ListItem>
+        <Collapse
+          style={{ minHeight: "70px" }}
+          in={menuOpen}
+          timeout="auto"
+          unmountOnExit
+        >
+          <List style={{ marginLeft: "14px" }} component="div" disablePadding>
+            {children.map((child, key) => (
+              <MenuItem key={key} item={child} />
+            ))}
+          </List>
+        </Collapse>
+      </React.Fragment>
+    );
+  };
+
+  const hasChildren = (item) => {
+    const { items: children } = item;
+
+    if (children === undefined) {
+      return false;
+    }
+
+    if (children.constructor !== Array) {
+      return false;
+    }
+
+    if (children.length === 0) {
+      return false;
+    }
+
+    return true;
+  };
+
+  
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
-          position='fixed'
+          position="fixed"
+          color="default"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
         >
           <Toolbar>
             <IconButton
-              color='inherit'
-              aria-label='open drawer'
+              color="inherit"
+              aria-label="open drawer"
               onClick={handleDrawerOpen}
-              edge='start'
+              edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
-              <MenuIcon />
+              {/* <MenuIcon /> */}
+              <img src={MenuIcon}></img>
             </IconButton>
-            <img
+            {/* <img
               className={classes.homelogo}
               src='https://mernlmsassets.s3.ap-south-1.amazonaws.com/img/Careerlabs.png'
               alt='CareerLabs'
-            />
+            /> */}
             <div className={classes.spacer}></div>
-            <IconButton color='inherit'>
-              <NotificationsIcon />
+            <IconButton color="primary" style={{ marginRight: "10px" }}>
+              <Badge color="primary">
+                <NotificationsNoneOutlinedIcon />
+              </Badge>
             </IconButton>
+            <Divider
+              style={{ height: "30px", backgroundColor: "#cacaca" }}
+              orientation="vertical"
+            />
             {/* <GoogleBtn {...props} />       */}
-            <IconButton color='inherit' onClick={logout}>
+            <IconButton color="primary" style={{ marginRight: "10px" }}>
+              <Badge color="primary">
+                <InsertInvitationOutlinedIcon />
+              </Badge>
+            </IconButton>
+            <Divider
+              style={{ height: "30px", backgroundColor: "#cacaca" }}
+              orientation="vertical"
+            />
+            <IconButton color="primary" onClick={logout}>
               <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
           className={classes.drawer}
-          variant='persistent'
-          anchor='left'
+          variant="persistent"
+          anchor="left"
           open={open}
           classes={{
             paper: classes.drawerPaper,
@@ -289,39 +752,74 @@ export default function RootContainer(props) {
           <div className={classes.drawerHeader}>
             <ListItem button>
               <ListItemIcon className={classes.ListItemIcon}>
-                <HomeIcon />
+                {/* <HomeIcon /> */}
               </ListItemIcon>
-              <ListItemText>Overview</ListItemText>
+              <ListItemText>CareerLabs</ListItemText>
             </ListItem>
-            <IconButton onClick={handleDrawerClose} className={classes.arrowButton}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            <IconButton
+              onClick={handleDrawerClose}
+              className={classes.arrowButton}
+            >
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
           </div>
           <Divider />
-          <List>
-            {NavbarList.map((Item,index) => (
+
+          {/* <List>
+            {NavbarList.map((Item, index) => (
               <ListItem
-              selected={selectedMenu === index}
+                selected={selectedMenu === index}
                 button
                 key={Item.id}
                 onClick={() => {
-                  setSelectedMenu(index)
-                  history.push(rootPath.concat('/', Item.id));
+                  setSelectedMenu(index);
+                  props.history.push(Item.id);
                 }}
               >
-                <ListItemIcon  className={classes.ListItemIcon}>{Item.icon}</ListItemIcon>
+                <ListItemIcon className={classes.ListItemIcon}>
+                  {Item.icon}
+                </ListItemIcon>
                 <ListItemText primary={Item.title} />
               </ListItem>
             ))}
-          </List>
-          <Divider />
+          </List> */}
+          {sideNav.map((item, key) => (
+            <MenuItem key={key} item={item} />
+          ))}
+
+          {/* <Divider /> */}
         </Drawer>
         <main
           className={clsx(classes.content, {
             [classes.contentShift]: open,
           })}
         >
-          <Content />
+          {/* <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "20px",
+            }}
+          >
+            <img
+              src={BackButton}
+              style={{ marginRight: "20px", cursor: "pointer" }}
+            ></img>
+            <Breadcrumbs
+              separator={<NavigateNextIcon fontSize="small" color="primary" />}
+              aria-label="breadcrumb"
+            >
+              <Typography style={{ cursor: "pointer" }}>Home</Typography>
+              <Typography style={{ cursor: "pointer" }}>Product</Typography>
+            </Breadcrumbs>
+          </div> */}
+
+          <Routes {...props} />
+          {/* <LandingAdmin {...props} /> */}
         </main>
         <footer className={classes.footer}>
           <Copyright />
@@ -333,11 +831,25 @@ export default function RootContainer(props) {
 
 function Copyright() {
   return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      {new Date().getFullYear() + ' '}
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      {new Date().getFullYear() + " "}
       CareerLabs
-      {'.'}
+      {"."}
     </Typography>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tokenStatus: state.AdminReducer.tokenStatus,
+    adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,
+    getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
+  };
+};
+
+export default connect(mapStateToProps, {
+  checkTokenStatus,
+  getAdminLinkedProduct,
+  getProductByFamilyId,
+})(RootContainer);

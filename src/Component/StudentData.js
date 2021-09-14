@@ -1,31 +1,24 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import HigherEducation from "./HigherEducation";
-import DiagnosticTestPerformance from "./DiagnosticTestPerformance";
-import CareerInterestSurveyResults from "./CareerInterestSurveyResults";
-import CareerPathOptions from "./CareerPathOptions";
-import Other_data from "./OtherData";
-import { postStudentAccess } from "../Actions/AdminAction";
-import Recommendation from "./Recommendation";
-import "../Asset/StudentData.css";
-import ProfileInfo from "./Table/StudentDetail/ProfileInfo";
-import CollapseContainer from "./Table/StudentDetail/Utils/CollapseContainerHeader";
-import Product from "./Product";
+import { makeStyles } from "@material-ui/core/styles";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import Typography from "@material-ui/core/Typography";
+import PropTypes from "prop-types";
+import React from "react";
 import { connect } from "react-redux";
-import { Grid, FormControlLabel, Switch } from "@material-ui/core";
-import StudentDocuments from "./StudentDocuments";
-import SubStudentTab from "./SubStudentTab";
-import StudentMarkDetails from "./StudentMarkDetails";
-import AllocateMentor from "./AllocateMentor"
-import ScoreDetails from "./ScoreDetails";
-import {viewStudentStatus} from "../Actions/AdminAction"
+import { postStudentAccess, viewStudentStatus } from "../Actions/AdminAction";
+import "../Asset/StudentData.css";
+import AllocateMentor from "./AllocateMentor";
+import CareerInterestSurveyResults from "./CareerInterestSurveyResults";
 import PgaTab from "./Pga/PgaTab";
+import Product from "./Product";
+import StarterPackTable from "./ProductBased/StarterPackTable";
+import Recommendation from "./Recommendation";
+import ScoreDetails from "./ScoreDetails";
+import StudentDocuments from "./StudentDocuments";
+import StudentMarkDetails from "./StudentMarkDetails";
+import SubStudentTab from "./SubStudentTab";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -83,11 +76,7 @@ export function Student_data(props) {
   console.log(props.studentStatusResponse)
   return (
     <div className={classes.root}>
-      <>
-        <div>
-         
-          {/* <ProfileInfo id={props.match.params.id} /> */}
-        </div>
+ 
         <AppBar position="sticky" color="default">
           <Tabs
             value={value}
@@ -108,6 +97,7 @@ export function Student_data(props) {
             <Tab label="ScoreDetails" {...a11yProps(7)} />
             <Tab label="Mentor Allocation" {...a11yProps(8)} />
             <Tab label="PGA" {...a11yProps(9)} />
+            <Tab label="Starter Pack" {...a11yProps(10)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -138,8 +128,10 @@ export function Student_data(props) {
         <TabPanel value={value} index={8}>
           <PgaTab id={props.match.params.id} />
         </TabPanel>
+        <TabPanel value={value} index={9}>
+          <StarterPackTable id={props.match.params.id} />
+        </TabPanel>
 
-      </>
     </div>
   );
 }

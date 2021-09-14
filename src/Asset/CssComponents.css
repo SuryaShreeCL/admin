@@ -36,8 +36,8 @@ td{padding: 10px;}
 input[type="checkbox"]{
     cursor: pointer;    
     box-sizing: border-box;   
-    width: 23px;
-    height: 20px;
+    /* width: 23px;
+    height: 20px; */
    
 }
 ._label,._value{

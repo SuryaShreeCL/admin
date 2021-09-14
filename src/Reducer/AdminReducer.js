@@ -12,7 +12,14 @@ const initialState = {
   updateAccStatusResponse: [],
   mentorList :[],
   mentorAllocationResponse : [],
-  internAccessResponse : []
+  internAccessResponse : [],
+  updateLmsAccess : [],
+  awaitingUsersForActivationList : [],
+  productActivationResponse : [],
+  adminLinkedProductDetails : [],
+  tokenStatus : null,
+  studentsByStagesList : [],
+  adminUserList : []
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -81,6 +88,42 @@ export default (state = initialState, action) => {
         ...state,
         internAccessResponse : action.payload
       }
+      case ADMIN.updateLmsAccess : 
+      return {
+        ...state,
+        updateLmsAccess : action.payload
+      }
+      case ADMIN.getAwaitingUsersByAdminId : 
+      return {
+        ...state,
+        awaitingUsersForActivationList : action.payload
+      }
+      case ADMIN.activateStudentProduct : 
+      return {
+        ...state,
+        productActivationResponse : action.payload
+      }
+      case ADMIN.getAdminLinkedProduct : 
+      return {
+        ...state,
+        adminLinkedProductDetails : action.payload
+      }
+      case ADMIN.checkTokenStatus : 
+      return {
+        ...state,
+        tokenStatus : action.payload
+      }
+      case ADMIN.getStudentsByStages : 
+      return {
+        ...state,
+        studentsByStagesList : action.payload
+      }
+      case ADMIN.getAllAdminUsers : 
+      return {
+        ...state,
+        adminUserList : action.payload
+      }
+
     default:
       break;
   }

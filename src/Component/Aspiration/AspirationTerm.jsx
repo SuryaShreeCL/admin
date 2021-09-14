@@ -24,6 +24,9 @@ import IconButton from "@material-ui/core/IconButton";
   import DeleteIcon from "@material-ui/icons/Delete";
   import {connect} from 'react-redux';
   import {viewTerm,addTerm,updateTerm,deleteTerm} from "../../Actions/Aspiration"
+import MySnackBar from '../MySnackBar';
+import { isEmptyString } from '../Validation';
+import Loader from '../Utils/controls/Loader'
 export class AspirationTerm extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +34,11 @@ export class AspirationTerm extends Component {
             show : false,
             id : "",
             name : "",
+            nameErr:"",
             update : false,
+            snackMsg: "",
+            snackVariant: "",
+            snackOpen: false,
         }
     }
     // Component Theme
@@ -148,9 +155,16 @@ export class AspirationTerm extends Component {
     componentDidMount(){
         this.props.viewTerm(0, 20, null);
         }
+    componentDidUpdate(prevProps , prevState){
+      if(this.props.addTermList !== prevProps.addTermList || this.props.updateTermList !== prevProps.updateTermList){
+        this.props.viewTerm(0, 20, null);
+      }
+    }
     // Add term
     addTerm(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+       let hlptxt = "please fill the required field"
+       isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
         let newTermObj = {
           name: this.state.name,
         };
@@ -159,13 +173,18 @@ export class AspirationTerm extends Component {
           this.setState({
             id: "",
             name: "",
+            snackMsg:"Added Successfully",
+          snackOpen:true,
+          snackVariant:"success",
           });
         }
         this.props.viewTerm(0, 20, null);
     }
     // Update Term
     updateTerm(){
-        this.setState({ show: false });
+        // this.setState({ show: false });
+        let hlptxt = "please fill the required field"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlptxt}) : this.setState({nameErr : ""})
     let newTermObj = {
       id : this.state.id,
       name: this.state.name,
@@ -176,6 +195,10 @@ export class AspirationTerm extends Component {
         id: "",
         name: "",
         update: true,
+        snackMsg:"Updated Successfully",
+        snackOpen:true,
+        snackVariant:"success",
+
       });      
     }
     this.props.viewTerm(0, 20, null);
@@ -216,12 +239,13 @@ export class AspirationTerm extends Component {
                   alignItems: "center",
                   height: "65vh",
             }}>
-          <CircularProgress
+          {/* <CircularProgress
          color="primary"
           variant="indeterminate"
           size = "3rem"
           thickness="3"
-           />
+           /> */}
+           <Loader />
            </div>
           </ThemeProvider>
           )}
@@ -251,6 +275,8 @@ export class AspirationTerm extends Component {
                   color="primary"
                   label="Enter Term Name"
                   fullWidth
+                  error={this.state.nameErr.length > 0 }
+                  helperText={this.state.nameErr}
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
@@ -274,6 +300,12 @@ export class AspirationTerm extends Component {
             </Dialog>
           </ThemeProvider>
                 </ThemeProvider>
+                <MySnackBar 
+                snackMsg={this.state.snackMsg}
+                snackVariant={this.state.snackVariant}
+                snackOpen={this.state.snackOpen}
+                onClose={() => this.setState({ snackOpen: false })}
+                />
             </div>
         )
     }
@@ -284,6 +316,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const mapStateToProps=(state)=>{
   return {
     viewTermList: state.AspirationReducer.viewTermList,
+    addTermList : state.AspirationReducer.addTermList,
+    updateTermList : state.AspirationReducer.updateTermList
   }
 }
 export default connect(mapStateToProps,{viewTerm, addTerm, updateTerm,deleteTerm})(AspirationTerm)

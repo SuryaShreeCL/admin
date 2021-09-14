@@ -4,6 +4,10 @@ import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import axios from "axios";
 import "./Webinar.css";
+import {studentPath } from "../RoutePaths";
+import BackButton from '../../Asset/Images/backbutton.svg';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { Breadcrumbs,Typography} from '@material-ui/core'
 
 export default class Webinar extends Component {
   render() {
@@ -827,6 +831,22 @@ export default class Webinar extends Component {
     }
   }
     return (
+      <div>
+        <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Webinar
+              </Typography>
+            </Breadcrumbs>
+            </div>
       <div className="flexColumn">
         <h2 className="heading">Webinars Lead Automation</h2>
         <form className="form">
@@ -898,6 +918,7 @@ export default class Webinar extends Component {
             </button>
           </div>
         </form>
+      </div>
       </div>
     );
   }

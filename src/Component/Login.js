@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
 import "../Asset/Login.css";
 import GoogleBtn from "./GoogleBtn";
-import { rootPath, studentPath } from "./RoutePaths";
+import { landingAdminPath, rootPath, studentPath } from "./RoutePaths";
 import {connect} from 'react-redux';
 import history from "./History";
 import Visibility from "@material-ui/icons/Visibility";
@@ -14,49 +14,55 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import {adminLogin} from "../Actions/AdminAction"
+import { isEmptyString } from "./Validation";
+import MySnackBar from "./MySnackBar";
 export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: null,
+      userNameErr : "",
       password: null,
+      passwordErr : "",
       error: "",
+      snackMsg:"",
+      snackOpen:false,
+      snackVariant:""
     };
   }
   componentDidMount() {
     // sessionStorage.setItem('token','false');
   }
   handleLogin = (e) => {
-    if(this.state.username !== null && this.state.password !== null){
+    let hlpTxt = "Please fill the required field"
+    isEmptyString(this.state.username) ? this.setState({userNameErr : hlpTxt}) : this.setState({userNameErr : ""})
+    isEmptyString(this.state.password) ? this.setState({passwordErr : hlpTxt}) : this.setState({passwordErr : ""})
+    if(!isEmptyString(this.state.username) && !isEmptyString(this.state.password)){
       let loginObj = {
         userName: this.state.username,
         password: this.state.password,
       };
       this.props.adminLogin(loginObj)
     }
-    // if (
-    //   this.state.username === "admin" &&
-    //   this.state.password === "423uK6LmxG9f2w"
-    // ) {
-    //   sessionStorage.setItem("token", "true");
-    //   this.props.history.push(rootPath + "/");
-    // } else {
-    //   sessionStorage.setItem("token", "false");
-    //   this.setState({ error: "Invalid Username or Password" });
-    // }
   };
   componentDidUpdate(prevProps){
+    // console.log(this.state.adminLoginDetails)
     if(prevProps.adminLoginDetails !== this.props.adminLoginDetails){
-      if(this.props.adminLoginDetails.message !== "Invalid Credential"){
+      console.log(this.state.adminLoginDetails)
+      if(this.props.adminLoginDetails.status === 500){
+        this.setState({ snackMsg: "Invalid Username or Password" ,snackOpen:true,snackVariant:"error"});
+        console.log("fail........",this.props.adminLoginDetails)
+      }else{
         window.sessionStorage.setItem("token", "true");
         window.sessionStorage.setItem("accessToken",this.props.adminLoginDetails.accessToken);
         window.sessionStorage.setItem("refreshToken",this.props.adminLoginDetails.refreshToken);
         window.sessionStorage.setItem("role", this.props.adminLoginDetails.role);
          window.sessionStorage.setItem("mentor",JSON.stringify(this.props.adminLoginDetails.Mentor))
-        this.props.history.push(rootPath + "/"); 
-      }else{
-         this.setState({ error: "Invalid Username or Password" });
+        window.sessionStorage.setItem("adminUserId",this.props.adminLoginDetails.AdminUsers)
+         this.props.history.push(landingAdminPath); 
+        console.log("success.......",this.props.adminLoginDetails)
       }
+        
     }
   }
   render() {
@@ -81,13 +87,15 @@ export class Login extends Component {
                 </div>
                 <div className="login__body">
                   <div className="error">
-                    {this.state.error !== "" ? this.state.error : null}{" "}
+                    {this.state.error.length !== 0 ? this.state.error : null}
                   </div>
                   <div className="login__text__box">
                     <TextField
                       id="Username"
-                      label="Email"
+                      label="Username"
                       variant="outlined"
+                      helperText={this.state.userNameErr}
+                      error={this.state.userNameErr.length > 0}
                       fullWidth
                       size="medium"
                       value={this.state.username}
@@ -97,7 +105,7 @@ export class Login extends Component {
                     />
                   </div>
                   <div className="login__text__box">                   
-                     <FormControl variant="outlined" fullWidth>
+                     <FormControl error={this.state.passwordErr.length > 0}  variant="outlined" fullWidth>
                       <InputLabel htmlFor="outlined-adornment-password">
                         Password
                       </InputLabel>
@@ -136,6 +144,7 @@ export class Login extends Component {
                         }
                         labelWidth={70}
                       />
+                      <FormHelperText>{this.state.passwordErr}</FormHelperText>
                     </FormControl>
                   </div>
                 </div>
@@ -150,17 +159,23 @@ export class Login extends Component {
                       Sign in
                     </Button>
                   </div>
-                  <div className="login__footer__label">
+                  {/* <div className="login__footer__label">
                     <label className="text-secondary">
                       Sign in with Other?
                     </label>
                   </div>
-                  <GoogleBtn {...this.props} />
+                  <GoogleBtn {...this.props} /> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <MySnackBar 
+          snackOpen={this.state.snackOpen}
+          snackVariant={this.state.snackVariant}
+          snackMsg={this.state.snackMsg}
+          onClose={()=>this.setState({snackOpen : false})}
+        />
       </div>
     );
   }

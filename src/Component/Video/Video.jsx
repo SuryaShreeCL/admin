@@ -23,21 +23,32 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    Typography
  } from '@material-ui/core';
  import CloseIcon from "@material-ui/icons/Close";
  import AddIcon from "@material-ui/icons/Add";
+ import { isEmptyString } from "../Validation"
  import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
  import TableComponent from "../TableComponent/TableComponent";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {studentPath } from "../RoutePaths";
+import BackButton from '../../Asset/Images/backbutton.svg';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { Breadcrumbs} from '@material-ui/core'
+import Loader from '../Utils/controls/Loader';
 export class Video extends Component {
     constructor(props) {
         super(props)
         this.state = {
              id : "",
              name : "",
+             nameErr : "",
              branch : "",
+             branchErr : "",
              tags : "",
-             videos : [],
+             tagsErr : "",
+             videos : null,
+             videoErr : "",
              show : false,
              update : null,
         }
@@ -159,7 +170,17 @@ export class Video extends Component {
       }
       // Add Video
       addVideo() {
-        this.setState({ show: false });
+        let hlpTxt = "Please fill the required feild"
+          isEmptyString(this.state.name) ? this.setState({nameErr : hlpTxt}) : this.setState({nameErr : ""})
+          isEmptyString(this.state.branch) ? this.setState({branchErr : hlpTxt}) : this.setState({branchErr : ""})
+          isEmptyString(this.state.tags) ? this.setState({tagsErr : hlpTxt}) : this.setState({tagsErr : ""})
+          isEmptyString(this.state.videos) ? this.setState({videoErr : hlpTxt}) : this.setState({videoErr : ""})
+       if(
+        !isEmptyString(this.state.name) &&
+        !isEmptyString(this.state.branch) &&
+        !isEmptyString(this.state.tags) &&
+        !isEmptyString(this.state.videos) 
+       ){
         let videoObj = {
           name: this.state.name,
           branch : this.state.branch,
@@ -171,35 +192,53 @@ export class Video extends Component {
           this.setState({
             id : "",
           name : "",
+          show: false,
           branch : "",
           tags : "",
           videos : "",
           });
         }
         this.props.viewVideo()
+       }
+         
       }
       // Update Video
       updateVideo(){
-        this.setState({ show: false });
-        let videoObj = {
-          id : this.state.id,
-          name: this.state.name,
-          branch : this.state.branch,
-          tags : this.state.tags,
-          videos : this.state.videos
-        };
-    if (this.state.name.length !== 0) {
-      this.props.updateVideo(videoObj);
-      this.setState({
-        id : "",
-        name : "",
-        branch : "",
-        tags : "",
-        videos : "",
-        update: true,
-      });      
-    }
-    this.props.viewVideo()
+
+        let hlpTxt = "Please fill the required feild"
+        isEmptyString(this.state.name) ? this.setState({nameErr : hlpTxt}) : this.setState({nameErr : ""})
+        isEmptyString(this.state.branch) ? this.setState({branchErr : hlpTxt}) : this.setState({branchErr : ""})
+        isEmptyString(this.state.tags) ? this.setState({tagsErr : hlpTxt}) : this.setState({tagsErr : ""})
+        isEmptyString(this.state.videos) ? this.setState({videoErr : hlpTxt}) : this.setState({videoErr : ""})
+        
+        if(
+          !isEmptyString(this.state.name) &&
+          !isEmptyString(this.state.branch) &&
+          !isEmptyString(this.state.tags) &&
+          !isEmptyString(this.state.videos) 
+        ){
+          let videoObj = {
+            id : this.state.id,
+            name: this.state.name,
+            branch : this.state.branch,
+            tags : this.state.tags,
+            videos : this.state.videos
+          };
+      if (this.state.name.length !== 0) {
+        this.props.updateVideo(videoObj);
+        this.setState({
+          id : "",
+          name : "",
+          branch : "",
+          tags : "",
+          videos : "",
+          update: true,
+          show: false,
+        });      
+      }
+      this.props.viewVideo()
+        }
+ 
   }
   render() {
     const videoOption = [
@@ -211,6 +250,21 @@ export class Video extends Component {
     ]
         return (
             <ThemeProvider theme={this.getmuitheme()}>
+               <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Video
+              </Typography>
+            </Breadcrumbs>
+            </div>
             <div>
                 <Grid container>
                 
@@ -243,12 +297,13 @@ export class Video extends Component {
                       height: "65vh",
                     }}
                   >
-                    <CircularProgress
+                    {/* <CircularProgress
                       color="primary"
                       variant="indeterminate"
                       size="3rem"
                       thickness="3"
-                    />
+                    /> */}
+                    <Loader />
                   </div>
                 </ThemeProvider>
               )}
@@ -284,6 +339,8 @@ export class Video extends Component {
                   color="primary"
                   label="Enter The Name"
                   fullWidth
+                  helperText={this.state.nameErr}
+                  error={this.state.nameErr.length > 0}
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   multiline
@@ -292,6 +349,8 @@ export class Video extends Component {
                   variant="outlined"
                   color="primary"
                   label="Enter Branch"
+                  helperText={this.state.branchErr}
+                  error={this.state.branchErr.length > 0}
                   fullWidth
                   value={this.state.branch}
                   onChange={(e) => this.setState({ branch: e.target.value })}
@@ -301,26 +360,23 @@ export class Video extends Component {
                   variant="outlined"
                   color="primary"
                   label="Enter Tags"
+                  helperText={this.state.tagsErr}
+                  error={this.state.tagsErr.length > 0}
                   fullWidth
                   value={this.state.tags}
                   onChange={(e) => this.setState({ tags: e.target.value })}
                   multiline
                 />
-                     <Autocomplete
-                multiple
-                id="tags-filled"
-                options={videoOption.map((option) => option.title)}
-                freeSolo
-                onChange={(event,value)=>this.setState({videos : value})}
-                renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                ))
-                }
-                renderInput={(params) => (
-                <TextField {...params} variant="outlined" label="Enter Video Url" />
-                )}
-                 />
+                      <TextField
+                  variant="outlined"
+                  color="primary"
+                  label="Video URL"
+                  helperText={this.state.videoErr}
+                  error={this.state.videoErr.length > 0}
+                  fullWidth
+                  value={this.state.videos}
+                  onChange={(e) => this.setState({ videos: e.target.value })}
+                />
               </DialogContent>
               <DialogActions>
                 <Button

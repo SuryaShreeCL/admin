@@ -2,7 +2,7 @@ import React from 'react'
 import {useState,useEffect} from "react"
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
-import {viewProduct,addProductToStudent,viewProductToStudent} from "../Actions/ProductAction"
+import {viewProduct,addProductToStudent,viewProductToStudent, getAllProductFamily, getProductByFamilyId} from "../Actions/ProductAction"
 import { VscChevronUp, VscChevronDown } from "react-icons/vsc";
 import {Grid, 
     TextField, 
@@ -26,10 +26,17 @@ import {Grid,
     } from "@material-ui/core"
     import { connect } from "react-redux";
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import MySnackBar from './MySnackBar';
 function Product(props) {
     const [dialogOpen,setDialogOpen] = useState(false)
-    const [product,setProduct] = useState(null)
+    const [productFamily,setProductFamily] = useState(null)
+    const [currentDate] = useState(new Date())
     const [collapse,setCollapse] = useState(false)
+    const [snack,setSnack] = useState({
+        snackOpen : false,
+        snackMsg : "",
+        snackColor : "",
+    })
     const dialogTheme = createMuiTheme({
         overrides : {
             MuiDialog: {
@@ -44,20 +51,53 @@ function Product(props) {
        
       });
       const classes = useStyles()
+
       useEffect(()=>{
-        props.viewProduct()
         props.viewProductToStudent(props.id)
+        props.getAllProductFamily()
       },[])
+
+      useEffect(()=>{
+          if(props.addProductToStudentResponse.length !== 0){
+            setSnack({
+                snackColor : "success",
+                snackMsg : "Product alocated successfully",
+                snackOpen : true
+            })
+            props.viewProductToStudent(props.id)
+          }
+        
+      },[props.addProductToStudentResponse])
+
       
-      const submitHandler = (event) =>{
-          console.log(event)
+      const submitHandler = (value) =>{
+          console.log(value)
         let obj = {
-          studentId: props.id,
-          product: product
+          student: {
+            id: props.id,
+          },
+          product: {
+            id: value.id,
+          },
+          enrollmentDate: currentDate,
         };
+        console.log(obj)
         props.addProductToStudent(obj)
         setDialogOpen(false)
       }
+
+      const productFamilyChangeHandler = (value) =>{
+        console.log(value)
+        if(value !== null){
+            props.getProductByFamilyId(value.id)
+            setProductFamily(value)
+        }
+       
+      }
+      console.log(props.studentProductList)
+      console.log(props.productFamilyList)
+      console.log(props.productVariantList)
+
     return (
         <div>
             <Grid container spacing={3}>
@@ -72,16 +112,16 @@ function Product(props) {
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                            {props.viewProductToStudentList !== undefined ? 
-                            props.viewProductToStudentList.map(singleProduct=>{
+                            {props.studentProductList.length !== 0 ? 
+                            props.studentProductList.map(singleProduct=>{
                                 return(
                                     <>
                                     <TableRow>
                                         <TableCell>
-                                        {singleProduct.id}
+                                        {singleProduct.product.id}
                                         </TableCell>
                                         <TableCell>
-                                        {singleProduct.name}
+                                        {singleProduct.product.name}
                                         </TableCell>
                                     </TableRow>
                                     </>
@@ -108,42 +148,66 @@ function Product(props) {
                     <Typography>Choose Product </Typography>
                     </DialogTitle>
                     <DialogContent>
-                    <Autocomplete
-                        multiple
+                        <Grid container spacing={2}>
+                            <Grid item md={12} sm={12} xs={12}>
+                            <Autocomplete
                         id="tags-outlined"
-                        options={props.viewProductList}
-                        getOptionLabel={(option) => option.name}
+                        options={props.productFamilyList !== undefined ? props.productFamilyList : []}
+                        getOptionLabel={(option) => option.productName === null ? "" : option.productName}
                         filterSelectedOptions
-                        onChange={(event,newValue)=>setProduct(newValue)}
+                        onChange={(event,newValue)=>productFamilyChangeHandler(newValue)}
                         renderInput={(params) => (
                         <TextField
                             {...params}
                             fullWidth
                             variant="outlined"
-                            label="Product"
+                            label="Select the product family"
                         />
                         )}
                     />
+                            </Grid>
+                            {props.productVariantList !== undefined && props.productVariantList.map((eachProduct,index)=>{
+                                return (
+                                    <>
+                            <Grid item md={8} sm={8} xs={8}>
+                                <Typography>{eachProduct.name}</Typography>
+                            </Grid>
+                            <Grid item md={4} sm={4} xs={4}>
+                                <Button fullWidth size="small" onClick={()=>submitHandler(eachProduct)} variant="contained" color={"primary"}>Allocate Product</Button>
+                            </Grid>
+                                    </>
+                                )
+                            })}
+
+                        </Grid>
+                   
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                        size="small"
-                        onClick={(e)=>submitHandler()}
-                         variant="contained" 
-                         color="primary"
-                         >
-                             Add product
-                             </Button>
+                        
                     </DialogActions>
             </Dialog>
             </ThemeProvider>
+            <MySnackBar
+            snackColor={snack.snackColor}
+            snackMsg={snack.snackMsg}
+            snackOpen={snack.snackOpen}
+            onClose={()=>setSnack({
+                snackColor : "",
+                snackOpen : false,
+                snackMsg : ""
+            })}
+            />
         </div>
     )
 }
 const mapStateToProps=(state)=>{
+    console.log(state.ProductReducer)
     return {
         viewProductList: state.ProductReducer.viewProductList,
-        viewProductToStudentList : state.ProductReducer.viewProductToStudentList,
+        studentProductList : state.ProductReducer.studentProductList,
+        productFamilyList : state.ProductReducer.getAllProductFamily,
+        productVariantList : state.ProductReducer.getProductByFamilyId,
+        addProductToStudentResponse : state.ProductReducer.addProductToStudentResponse
     }
 }
-export default connect(mapStateToProps,{viewProduct,addProductToStudent,viewProductToStudent})(Product)
+export default connect(mapStateToProps,{viewProduct,addProductToStudent,viewProductToStudent,getAllProductFamily,getProductByFamilyId})(Product)

@@ -11,15 +11,18 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField,Breadcrumbs,Typography } from "@material-ui/core";
 import {getCourses} from "../../Actions/Course";
 import {getBranches} from "../../Actions/College"
 import {viewAllCareerTrack,addCareerTrack ,updateCareerTrack} from "../../Actions/CareerTrackAction"
-import { careerTrackPath, careerTrackVideoSetPath } from "../RoutePaths";
+import { careerTrackPath, careerTrackVideoSetPath,studentPath } from "../RoutePaths";
 import history from '../History'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from "axios";
 import {connect} from 'react-redux';
+import { isEmptyString } from "../Validation";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from '../../Asset/Images/backbutton.svg'
 export class Index extends Component {
   constructor(props) {
     super(props);
@@ -36,10 +39,15 @@ export class Index extends Component {
       ],
       openModel: false,
       name: "",
+      nameErr : "",
       courseId: null,
+      courseErr : "",
       departmentId: null,
+      deptErr : "",
       displayImageURL: "",
+      imgUrlErr : "",
       type: "",
+      typeErr : "",
       label: "",
       id:"",
     };
@@ -54,11 +62,22 @@ export class Index extends Component {
   ];
 
   openCreateModel = () => {
-    this.setState({ openModel: true, label: "Create" ,name:'' ,type :'' ,departmentId :null,courseId :null });
+    this.setState({ openModel: true,
+       label: "Create" ,
+       name:'' ,type :'' ,
+       departmentId :null,
+       courseId :null,
+       displayImageURL : "",
+       nameErr : "",
+       deptErr : "",
+       courseErr : "",
+       imgUrlErr : ""
+       });
   };
 
   openUpdateModel=(data)=>{
       // Update Model
+      console.log(data)
       this.setState({
           openModel:true,          
           name:data.name,
@@ -89,6 +108,8 @@ export class Index extends Component {
                 {/* Name */}
                 <TextField
                   label={"Name"}
+                  helperText={this.state.nameErr}
+                  error={this.state.nameErr.length > 0}
                   variant={"outlined"}
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
@@ -100,10 +121,19 @@ export class Index extends Component {
                 <Autocomplete
                 id="combo-box-demo"
                 options={this.props.courseList}
-                onChange={(e,newValue)=>this.setState({courseId : newValue.id})}
+                onChange={(e,newValue)=>
+                  // this.setState({courseId : newValue.id})
+                // console.log(newValue)
+                this.setState({courseId : newValue !== null ? newValue.id : null})
+                }
                 getOptionLabel={(option) => option.name}
                 fullWidth
-                renderInput={(params) => <TextField {...params} label="Course Name" variant="outlined" />}
+                renderInput={(params) => <TextField 
+                  {...params} 
+                  helperText={this.state.courseErr}
+                  error={this.state.courseErr.length > 0}
+                  label="Course Name" 
+                  variant="outlined" />}
               />
               </Grid>             
               <Grid item xs={12} sm={6} md={6}>
@@ -111,10 +141,15 @@ export class Index extends Component {
                 <Autocomplete
                 id="combo-box-demo"
                 options={this.props.departmentList}
-                onChange={(e,newValue)=>this.setState({departmentId : newValue.id})}
+                onChange={(e,newValue)=>this.setState({departmentId : newValue !== null ? newValue.id : null})}
                 getOptionLabel={(option) => option.name}
                 fullWidth
-                renderInput={(params) => <TextField {...params} label="Department Name" variant="outlined" />}
+                renderInput={(params) => <TextField
+                   {...params}
+                    label="Department Name" 
+                    helperText={this.state.deptErr}
+                    error={this.state.deptErr.length > 0}
+                    variant="outlined" />}
               />
               </Grid>             
 
@@ -122,6 +157,8 @@ export class Index extends Component {
                 {/* Type */}
                 <TextField
                   label={"Type"}
+                  helperText={this.state.typeErr}
+                  error={this.state.typeErr.length > 0}
                   variant={"outlined"}
                   value={this.state.type}
                   onChange={(e) => this.setState({ type: e.target.value })}
@@ -134,6 +171,8 @@ export class Index extends Component {
                 <TextField
                   label={"Display Image URL"}
                   variant={"outlined"}
+                  helperText={this.state.imgUrlErr}
+                  error={this.state.imgUrlErr.length > 0}
                   value={this.state.displayImageURL}
                   onChange={(e) => this.setState({ displayImageURL: e.target.value })}
                   fullWidth
@@ -163,44 +202,79 @@ export class Index extends Component {
 
   doCreateCareerTrackApp=()=>{      
       //Create Career Track      
-      const {name,type,courseId,departmentId,displayImageURL} = this.state
-      let obj = {
-        name: name,
-        courseId: courseId,
-        belongsTo: {
-          departmentId: departmentId,
-        },
-        displayImageURL:
-          displayImageURL,
-        type: type,
-      };
-      this.props.addCareerTrack(obj)
-      this.props.viewAllCareerTrack()
-      this.setState({openModel:false})
 
+      const {name,type,courseId,departmentId,displayImageURL} = this.state
+      let hlpTxt = "Please Fill The Required Feild"
+      isEmptyString(name) ? this.setState({nameErr : hlpTxt}) : this.setState({nameErr : ""})
+      isEmptyString(type) ? this.setState({typeErr : hlpTxt}) : this.setState({typeErr : ""})
+      isEmptyString(courseId) ? this.setState({courseErr : hlpTxt}) : this.setState({courseErr : ""})
+      isEmptyString(departmentId) ? this.setState({deptErr : hlpTxt}) : this.setState({deptErr : ""})
+      isEmptyString(displayImageURL) ? this.setState({imgUrlErr : hlpTxt}) : this.setState({imgUrlErr : ""})
+      
+      if(
+        !isEmptyString(name) &&
+        !isEmptyString(type) &&
+        !isEmptyString(courseId) &&
+        !isEmptyString(departmentId) &&
+        !isEmptyString(displayImageURL)
+      ){
+        let obj = {
+          name: name,
+          courseId: courseId,
+          belongsTo: {
+            departmentId: departmentId,
+          },
+          displayImageURL:
+            displayImageURL,
+          type: type,
+        };
+        this.props.addCareerTrack(obj)
+        this.props.viewAllCareerTrack()
+        this.setState({openModel:false})
+  
+      }
+
+     
   }
 
   doUpdateCareerTrackApp=()=>{
       // Update Career Track App
       const {name,type,courseId,departmentId,displayImageURL,id} = this.state
-      let obj={        
-        name:name,
-        type:type,
-        courseId:courseId,
-        belongsTo: {
-          departmentId:departmentId
-      },
-        displayImageURL:displayImageURL,   
-        id:id
+      let hlpTxt = "Please Fill The Required Feild"
+      isEmptyString(name) ? this.setState({nameErr : hlpTxt}) : this.setState({nameErr : ""})
+      isEmptyString(type) ? this.setState({typeErr : hlpTxt}) : this.setState({typeErr : ""})
+      isEmptyString(courseId) ? this.setState({courseErr : hlpTxt}) : this.setState({courseErr : ""})
+      isEmptyString(departmentId) ? this.setState({deptErr : hlpTxt}) : this.setState({deptErr : ""})
+      isEmptyString(displayImageURL) ? this.setState({imgUrlErr : hlpTxt}) : this.setState({imgUrlErr : ""})
+     
+      if(
+        !isEmptyString(name) &&
+        !isEmptyString(type) &&
+        !isEmptyString(courseId) &&
+        !isEmptyString(departmentId) &&
+        !isEmptyString(displayImageURL)
+      ){
+        let obj={        
+          name:name,
+          type:type,
+          courseId:courseId,
+          belongsTo: {
+            departmentId:departmentId
+        },
+          displayImageURL:displayImageURL,   
+          id:id
+        }
+        this.props.updateCareerTrack(obj,(response)=>{
+          this.props.viewAllCareerTrack()
+          this.setState({openModel:false})
+        })
       }
-      this.props.updateCareerTrack(obj,(response)=>{
-        this.props.viewAllCareerTrack()
-        this.setState({openModel:false})
-      })
+
+      
   }
 
   handleRowClick=(rowData)=>{
-    history.push(careerTrackPath+`/${rowData.id}`+careerTrackVideoSetPath)
+    this.props.history.push(careerTrackVideoSetPath+rowData.id)
   }
 
   componentDidMount(){
@@ -210,11 +284,27 @@ export class Index extends Component {
   }
 
 
-  render() {            
+  render() {           
+    console.log(this.state) 
     const { careerTrackList } = this.props;
     const { column, openCreateModel ,openUpdateModel ,handleRowClick} = this;
     return (
       <div>        
+         <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => this.props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Career Track
+              </Typography>
+            </Breadcrumbs>
+            </div>
         <TableComponent
           title={"Career Track"}
           data={careerTrackList.length !== 0 ? careerTrackList : null}

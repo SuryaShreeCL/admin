@@ -23,7 +23,7 @@ import {updateAspirationData, updateVerificationStatus} from "../../Actions/Admi
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import Loader from "../Testimonials/components/controls/Loader";
+import Loader from '../Utils/controls/Loader';
 import { DatePicker } from "@material-ui/pickers";
 export class AspirationDetails extends Component {
   constructor(props) {
@@ -72,12 +72,12 @@ export class AspirationDetails extends Component {
   }
 
     var findObj = this.props.studentStatusResponse.find(
-      (res) => res.section.name === "aspirationdetails"
+      (res) => res.section && res.section.name === "Aspiration Details"
     );
     console.log(findObj);
 
     if(findObj !== undefined){
-      if(findObj.section.name === "aspirationdetails"){
+      if(findObj.section.name === "Aspiration Details"){
         if(this.flag === false && findObj.status === "verified"){
           this.setState({status : this.status[0]}) 
           this.flag = true
@@ -104,7 +104,7 @@ export class AspirationDetails extends Component {
         specialization : this.props.aspirationDetails.specializations,
         university : this.props.aspirationDetails.universities,
         noOfSchool : this.props.aspirationDetails.noOfSchool,
-        year : {title : this.props.aspirationDetails.year.toString(), value : this.props.aspirationDetails.year} 
+        year : {title : this.props.aspirationDetails.year && this.props.aspirationDetails.year.toString(), value : this.props.aspirationDetails.year && this.props.aspirationDetails.year} 
       });
     }
     if (
@@ -190,7 +190,7 @@ export class AspirationDetails extends Component {
           id: this.props.id,
         },
         section: {
-          name: "aspirationdetails",
+          name: "Aspiration Details",
         },
         remark: this.state.misMatchDetails,
         status: this.state.status.value,

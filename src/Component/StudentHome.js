@@ -10,7 +10,11 @@ import  Student  from './Student';
 import  ActiveStudents  from './ActiveStudents';
 import  BlackListedStudents  from './BlackListedStudent';
 import  MernUsers  from './MernUsers';
-import ManualUsers from "./ManualUsers"
+import ManualUsers from "./ManualUsers";
+import {studentPath } from "./RoutePaths";
+import BackButton from '../Asset/Images/backbutton.svg';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { Breadcrumbs} from '@material-ui/core'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -51,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StudentHome() {
+export default function StudentHome(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -61,6 +65,18 @@ export default function StudentHome() {
 
   return (
     <div className={classes.root}>
+       <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
+          <img
+            src={BackButton}
+            style={{ cursor: "pointer",marginTop:"-10px" }}
+            onClick={() => props.history.goBack()}
+             />
+               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>props.history.push(studentPath)}>
+                Home
+              </Typography>
+            </Breadcrumbs>
+            </div>
       <AppBar position="static" color="default">
         <Tabs value={value} variant="fullWidth" onChange={handleChange} aria-label="simple tabs example">
           <Tab label="All Users" {...a11yProps(0)} />
@@ -71,19 +87,19 @@ export default function StudentHome() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Student />
+        <Student {...props} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ActiveStudents />
+        <ActiveStudents {...props} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <BlackListedStudents />
+        <BlackListedStudents {...props} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <MernUsers />
+        <MernUsers {...props} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <ManualUsers />
+        <ManualUsers {...props} />
       </TabPanel>
     </div>
   );

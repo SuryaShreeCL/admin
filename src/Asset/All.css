@@ -363,6 +363,20 @@ input[type=checkbox]:checked + label {
     
   }
 
-
-/* Rengine Version Two */
-
+  .rating__item >img{
+    /* Default Style */  
+    filter: grayscale(1);
+  }
+  
+  .rating__item >img:hover {
+    /* Hover Style */
+    transform: scale(1.1);
+    transition: 0.5s;
+    filter: grayscale(0);
+  }
+  
+  .rating__item__active {
+    /* Active Style */
+    transform: scale(1.5);
+    transition: 0.1s;  
+  }

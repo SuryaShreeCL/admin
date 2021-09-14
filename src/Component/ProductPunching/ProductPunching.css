@@ -1,0 +1,14 @@
+.landing_heading {
+    color: #052A4E;
+}
+.user_data_heading {
+    color: #0081FF;
+}
+::-webkit-scrollbar{
+    display: "flex";
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #c9cfd1; 
+  }

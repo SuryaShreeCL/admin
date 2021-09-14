@@ -4,11 +4,11 @@ import {
     Grid, Paper,Dialog, DialogTitle , Typography, Checkbox, FormControlLabel, CircularProgress ,TextField, IconButton, createMuiTheme, ThemeProvider, Tooltip, Button, DialogContent, DialogActions
 } from "@material-ui/core"
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Loader from '../Testimonials/components/controls/Loader';
+import Loader from '../Utils/controls/Loader';
 import {getStudentsById} from "../../Actions/Student"
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import {updateAccountStatus, updateVerificationStatus, updateInternAccess} from "../../Actions/AdminAction"
+import {updateAccountStatus, updateVerificationStatus, updateInternAccess,updateLmsAccess} from "../../Actions/AdminAction"
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 export class AccountStatus extends Component {
     constructor(props){
@@ -26,6 +26,7 @@ export class AccountStatus extends Component {
             snackVariant: null,
             dialogOpen : false,
             internAccess : false,
+            lmsAccess : false
         }
     }
     componentDidMount() {
@@ -43,12 +44,12 @@ export class AccountStatus extends Component {
     }
   
       var findObj = this.props.studentStatusResponse.find(
-        (res) => res.section.name === "accountstatus"
+        (res) => res.section && res.section.name === "Account Status"
       );
       console.log(findObj);
   
       if(findObj !== undefined){
-        if(findObj.section.name === "accountstatus"){
+        if(findObj.section.name === "Account Status"){
           if(this.flag === false && findObj.status === "verified"){
             this.setState({status : this.status[0]}) 
             this.flag = true
@@ -71,7 +72,9 @@ export class AccountStatus extends Component {
                 StudentDetails : this.props.StudentDetails,
                isActive : this.props.StudentDetails.isactive,
                provider : this.props.StudentDetails.provider !== null ? {title : this.props.StudentDetails.provider, value : this.props.StudentDetails.provider} : null,
-               internAccess : this.props.StudentDetails.oldUser === "yes" ? true : false
+               internAccess : this.props.StudentDetails.oldUser === "yes" ? true : false,
+               lmsAccess : this.props.StudentDetails.isLMSUser === true ? true : false
+
              })
          }
          if(this.props.updateAccStatusResponse !== prevProps.updateAccStatusResponse){
@@ -133,10 +136,15 @@ export class AccountStatus extends Component {
             provider: this.state.provider.value,
             isActive: this.state.isActive,
           };
+          let obj1 = {
+            provider: this.state.provider.value,
+            isActive: this.state.isActive,
+            isLMSUser: this.state.lmsAccess === false ? "false" : "true"
+          }
           this.props.updateAccountStatus(this.props.id,obj)
-         
+          this.props.updateLmsAccess(this.props.id,obj1)  
        }
-       this.props.updateInternAccess(this.props.id,this.state.internAccess === false ? "no" : "yes")
+       this.props.updateInternAccess(this.props.id,this.state.internAccess === false ? "no" : "yes")    
    }
 
    // Status Update
@@ -148,7 +156,7 @@ export class AccountStatus extends Component {
               id: this.props.id,
             },
             section: {
-              name: "accountstatus",
+              name: "Account Status",
             },
             remark: this.state.misMatchDetails,
             status: this.state.status.value,
@@ -228,7 +236,7 @@ export class AccountStatus extends Component {
                 </Tooltip>
               </Grid>
             
-               <Grid item md={4} style={divStyle} alignItems="center" justify="center">
+               <Grid item md={3} style={divStyle} alignItems="center" justify="center">
                 <FormControlLabel
                     control={
                     <Checkbox
@@ -242,7 +250,7 @@ export class AccountStatus extends Component {
                     label="Is Active"
                 />
                 </Grid>
-                <Grid item md={4} style={divStyle} justify="space-between">
+                <Grid item md={3} style={divStyle} justify="space-between">
                 <Typography color="primary" style={textStyle} variant="subtitle1">{"Provider:"}</Typography>
                 <Autocomplete
                   id="combo-box-demo"
@@ -265,9 +273,8 @@ export class AccountStatus extends Component {
                     />
                   )}
                 />
-            
                 </Grid>
-                <Grid item md={4} align="center">
+                <Grid item md={3} align="center">
                 <FormControlLabel
                     control={
                       <Checkbox
@@ -279,6 +286,20 @@ export class AccountStatus extends Component {
                       />
                     }
                     label="Internship Access"
+                  />
+                </Grid>
+                <Grid item md={3} align="center" >
+                <FormControlLabel style={{marginLeft:"-18%"}}
+                    control={
+                      <Checkbox 
+                        checked={this.state.lmsAccess}
+                        disabled={this.state.letEdit === false ? true : false}
+                        onChange={(e)=>this.setState({lmsAccess : e.target.checked})}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="LMS Access"
                   />
                 </Grid>
                 <Grid item md={12} style={divStyle} justify="flex-end">
@@ -344,9 +365,10 @@ const mapStateToProps = (state) => {
       updateAccStatusResponse : state.AdminReducer.updateAccStatusResponse,
       updateVerificationResponse : state.AdminReducer.updateVerificationResponse,
       studentStatusResponse: state.AdminReducer.studentStatusResponse,
-      internAccessResponse : state.AdminReducer.internAccessResponse
+      internAccessResponse : state.AdminReducer.internAccessResponse,
+      updateLmsAccessResponse : state.AdminReducer.updateLmsAccess
     };
   };
   
-  export default connect(mapStateToProps, { getStudentsById, updateAccountStatus, updateVerificationStatus, updateInternAccess })(AccountStatus);
+  export default connect(mapStateToProps, { getStudentsById, updateAccountStatus, updateLmsAccess, updateVerificationStatus, updateInternAccess })(AccountStatus);
   

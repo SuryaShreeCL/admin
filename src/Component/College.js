@@ -52,9 +52,12 @@ export class College extends Component {
     this.props.getPaginateCollege(0, 20, null);
   }
   handleEdit = (data) => {
+    console.log(data)
     this.setState({
       id : data.id,
       name : data.name,
+      logoURL : data.logoURL,
+      description : data.description,
       show : true,
     })
 };
@@ -199,6 +202,7 @@ createMuiTheme({
     this.props.getAllColleges();
   }
   render() {   
+    
     console.log(this.props.paginateCollegeList)
     return (
       <ThemeProvider theme={this.tableTheme()}>
