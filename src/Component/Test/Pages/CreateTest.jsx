@@ -42,6 +42,7 @@ const useStyles = makeStyles({
   inputWrapper: {
     width: '100%',
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
   },
   captionStyle: {
@@ -55,8 +56,8 @@ const useStyles = makeStyles({
     padding: '1rem',
   },
   inputFieldTwo: {
-    width: '100%',
-    margin: '1rem 1rem 1rem 0',
+    width: 250,
+    margin: '1rem .5rem 1rem 0',
     border: '1px solid rgba(0, 0, 0, 0.12)',
     borderRadius: '4px',
     padding: '1rem',
@@ -262,7 +263,7 @@ const CreateTest = () => {
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid container direction='row'>
+                  <Grid container>
                     <Grid item>
                       <FieldArray
                         name='description'
@@ -292,7 +293,8 @@ const CreateTest = () => {
                     container
                     direction='row'
                     justify='space-between'
-                    style={{ width: '100%', marginTop: '1.2rem' }}
+                    alignItems='center'
+                    style={{ marginTop: '1rem' }}
                   >
                     <Grid item style={{ width: '30%' }}>
                       <Controls.Select
@@ -456,7 +458,7 @@ const CreateTest = () => {
                       marginLeft: '45%',
                     }}
                   />
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                 </Form>
               </div>
             </>
