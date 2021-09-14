@@ -58,7 +58,8 @@ const headCells = [
   { id: 'testName', label: 'Test Name' },
   { id: 'category', label: 'Category' },
   { id: 'duration', label: 'Duration' },
-  { id: 'created', label: 'Created On' },
+  { id: 'created', label: 'Created' },
+  { id: 'scheduled', label: 'Scheduled' },
   { id: 'createdby', label: 'Created By' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
@@ -190,6 +191,7 @@ export default function ScheduledTest() {
                   <TableCell>{renderListCategory(item.wallCategory)}</TableCell>
                   <TableCell>{item.duration}</TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
+                  <TableCell>{moment(item.startDateTime).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>

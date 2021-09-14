@@ -447,10 +447,17 @@ const CreateTest = () => {
                     color='primary'
                     disabled={!values.Questions?.success}
                     onClick={() => {
-                      history.push({
-                        pathname: testPath,
-                        tab: 2,
+                      setNotify({
+                        isOpen: true,
+                        message: 'Scheduled Successfully',
+                        type: 'success',
                       });
+                      setTimeout(() => {
+                        history.push({
+                          pathname: testPath,
+                          tab: 2,
+                        });
+                      }, 1200);
                     }}
                     style={{
                       borderRadius: '26px',

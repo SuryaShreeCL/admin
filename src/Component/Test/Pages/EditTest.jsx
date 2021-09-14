@@ -392,7 +392,6 @@ const EditTest = () => {
                           });
                         }}
                       />
-
                       {testType === 'Draft' && (
                         <Controls.Button
                           text='Schedule It'
@@ -400,7 +399,7 @@ const EditTest = () => {
                           color='primary'
                           disabled={!values.Questions?.success}
                           onClick={() => {
-                            onTestUpdate(values, 'Scheduled');
+                            // onTestUpdate(values, 'Scheduled');
                             setNotify({
                               isOpen: true,
                               message: 'Scheduled Successfully',

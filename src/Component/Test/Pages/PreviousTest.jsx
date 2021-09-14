@@ -55,7 +55,7 @@ const headCells = [
   { id: 'testName', label: 'Test Name' },
   { id: 'category', label: 'Category' },
   { id: 'duration', label: 'Duration' },
-  { id: 'created', label: 'Created On' },
+  { id: 'created', label: 'Created' },
   { id: 'createdby', label: 'Created By' },
   { id: 'attempted', label: 'Attempted' },
   { id: 'status', label: 'Status' },
