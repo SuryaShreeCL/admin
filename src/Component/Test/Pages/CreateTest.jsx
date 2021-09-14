@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {  CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
+import { CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
 import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { Formik, Form, FieldArray, Field } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { useSelector, useDispatch } from 'react-redux';
@@ -37,12 +39,24 @@ const useStyles = makeStyles({
   wrapper: {
     width: '69%',
   },
+  inputWrapper: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+  },
   captionStyle: {
     width: '100%',
   },
   inputField: {
     width: '100%',
     margin: '0 1rem',
+    border: '1px solid rgba(0, 0, 0, 0.12)',
+    borderRadius: '4px',
+    padding: '1rem',
+  },
+  inputFieldTwo: {
+    width: '100%',
+    margin: '1rem 1rem 1rem 0',
     border: '1px solid rgba(0, 0, 0, 0.12)',
     borderRadius: '4px',
     padding: '1rem',
@@ -65,7 +79,7 @@ const CreateTest = () => {
     wallCategory: [],
     name: '',
     type: 'EVENT',
-    description: [],
+    description: [''],
     testSection: [{ duration: '', noOfQuestions: '' }],
     descriptionTitle: '',
     nameDescription: '',
@@ -241,12 +255,38 @@ const CreateTest = () => {
                   </Grid>
                   <Grid item>
                     <Controls.Input
-                      label='Description'
+                      label='Description Title'
                       name='descriptionTitle'
                       style={{ width: '100%', marginTop: '1.2rem', marginBottom: '10px' }}
                       value={values.descriptionTitle}
                       onChange={handleChange}
                     />
+                  </Grid>
+                  <Grid container direction='row'>
+                    <Grid item>
+                      <FieldArray
+                        name='description'
+                        render={(arrayHelpers) => (
+                          <div className={classes.inputWrapper}>
+                            {values.description.map((_, index) => (
+                              <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                                <Field
+                                  className={classes.inputFieldTwo}
+                                  placeholder='Description Point'
+                                  name={`description.${index}`}
+                                />
+                                <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
+                                  <RemoveCircleIcon color='secondary' fontSize='large' />
+                                </Controls.ActionButton>
+                              </div>
+                            ))}
+                            <Controls.ActionButton onClick={() => arrayHelpers.push()}>
+                              <AddBoxIcon color='primary' fontSize='large' />
+                            </Controls.ActionButton>
+                          </div>
+                        )}
+                      />
+                    </Grid>
                   </Grid>
                   <Grid
                     container
@@ -416,7 +456,7 @@ const CreateTest = () => {
                       marginLeft: '45%',
                     }}
                   />
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                 </Form>
               </div>
             </>

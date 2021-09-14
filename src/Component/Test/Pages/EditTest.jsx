@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {  CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
+import { CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
 import { Formik, Form, FieldArray, Field } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
@@ -33,12 +35,24 @@ const useStyles = makeStyles({
   wrapper: {
     width: '69%',
   },
+  inputWrapper: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+  },
   captionStyle: {
     width: '100%',
   },
   inputField: {
     width: '100%',
     margin: '0 1rem',
+    border: '1px solid rgba(0, 0, 0, 0.12)',
+    borderRadius: '4px',
+    padding: '1rem',
+  },
+  inputFieldTwo: {
+    width: '100%',
+    margin: '1rem 1rem 1rem 0',
     border: '1px solid rgba(0, 0, 0, 0.12)',
     borderRadius: '4px',
     padding: '1rem',
@@ -153,7 +167,7 @@ const EditTest = () => {
   return (
     <>
       {!loading && (
-        <BackHandler title={`Edit Test`} tab={testType === 'Live' ? 0 : 2} path={testPath} />
+        <BackHandler title={`Edit Test`} tab={testType === 'Draft' ? 1 : 2} path={testPath} />
       )}
       {loading && <Loader />}
       {error && <Alert severity='error'>{error}</Alert>}
@@ -239,6 +253,32 @@ const EditTest = () => {
                         value={values.descriptionTitle}
                         onChange={handleChange}
                       />
+                    </Grid>
+                    <Grid container direction='row'>
+                      <Grid item>
+                        <FieldArray
+                          name='description'
+                          render={(arrayHelpers) => (
+                            <div className={classes.inputWrapper}>
+                              {values?.description?.map((_, index) => (
+                                <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                                  <Field
+                                    className={classes.inputFieldTwo}
+                                    placeholder='Description Point'
+                                    name={`description.${index}`}
+                                  />
+                                  <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
+                                    <RemoveCircleIcon color='secondary' fontSize='large' />
+                                  </Controls.ActionButton>
+                                </div>
+                              ))}
+                              <Controls.ActionButton onClick={() => arrayHelpers.push()}>
+                                <AddBoxIcon color='primary' fontSize='large' />
+                              </Controls.ActionButton>
+                            </div>
+                          )}
+                        />
+                      </Grid>
                     </Grid>
                     <Grid
                       container

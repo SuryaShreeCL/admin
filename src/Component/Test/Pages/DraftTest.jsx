@@ -16,7 +16,7 @@ import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
-import {  testEdit } from '../../RoutePaths';
+import { testEdit } from '../../RoutePaths';
 import moment from 'moment';
 import Loader from '../../Utils/controls/Loader';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -128,7 +128,7 @@ export default function DraftTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Draft', 0, 10));
+      dispatch(listTests('Draft'));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -138,7 +138,7 @@ export default function DraftTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Draft', 0, 10));
+    dispatch(listTests('Draft'));
   }, [dispatch]);
 
   return (

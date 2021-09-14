@@ -3,7 +3,7 @@ import axios from 'axios';
 
 let accessToken = window.sessionStorage.getItem('accessToken');
 
-export const listTests = (status, page, size) => async (dispatch) => {
+export const listTests = (status) => async (dispatch) => {
   try {
     dispatch({ type: TEST.LIST_REQUEST });
 
@@ -16,8 +16,7 @@ export const listTests = (status, page, size) => async (dispatch) => {
         Authorization: `Bearer ${accessToken}`,
       },
       data: {
-        page: page,
-        size: size,
+        search: '',
         testType: 'EVENT',
         status: status,
       },
@@ -25,7 +24,7 @@ export const listTests = (status, page, size) => async (dispatch) => {
 
     dispatch({
       type: TEST.LIST_SUCCESS,
-      payload: data?.data.content,
+      payload: data,
     });
   } catch (error) {
     dispatch({

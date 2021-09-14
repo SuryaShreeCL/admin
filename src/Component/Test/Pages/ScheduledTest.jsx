@@ -129,7 +129,7 @@ export default function ScheduledTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Scheduled', 0, 10));
+      dispatch(listTests('Scheduled'));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -139,7 +139,7 @@ export default function ScheduledTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Scheduled', 0, 10));
+    dispatch(listTests('Scheduled'));
   }, [dispatch]);
 
   return (
