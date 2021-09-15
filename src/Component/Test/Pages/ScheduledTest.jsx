@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'testName', label: 'Test Name' },
-  { id: 'category', label: 'Category' },
   { id: 'duration', label: 'Duration' },
   { id: 'created', label: 'Created' },
   { id: 'scheduled', label: 'Scheduled' },
@@ -188,7 +187,6 @@ export default function ScheduledTest() {
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{renderListCategory(item.wallCategory)}</TableCell>
                   <TableCell>{item.duration}</TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{moment(item.startDateTime).calendar()}</TableCell>

@@ -32,6 +32,7 @@ import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
 import { renderListCategory } from '../../Utils/Helpers';
 import ScheduleLater from '../Components/ScheduleLater';
+import ClevertapReact from 'clevertap-react';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -57,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'testName', label: 'Test Name' },
-  { id: 'category', label: 'Category' },
   { id: 'duration', label: 'Duration' },
   { id: 'created', label: 'Created' },
   { id: 'createdby', label: 'Created By' },
@@ -141,6 +141,7 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
+    ClevertapReact.event('Admin Viewed');
     dispatch(listTests('Live'));
   }, [dispatch]);
 
@@ -189,7 +190,6 @@ export default function LiveTest() {
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{renderListCategory(item.wallCategory)}</TableCell>
                   <TableCell>{item.duration}</TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>

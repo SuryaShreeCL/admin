@@ -30,7 +30,6 @@ function uploadFile(file, onProgress, questionUpload) {
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', awsUrl);
-    xhr.open('PUT', scheduleIt);
     xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
     xhr.setRequestHeader('admin', 'yes');
 
