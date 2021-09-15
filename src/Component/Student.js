@@ -371,6 +371,7 @@ export class Student extends Component {
               products: this.state.product.map((item) => ({
                 productId: item.product.id,
                 expirationDate: item.expirationDate,
+                stage: item.product.stage ? "Active" : "NotActive",
               })),
             },
             () => {}
@@ -545,6 +546,7 @@ export class Student extends Component {
       arr.push({
         product: {
           id: null,
+          stage:true,
         },
         expirationDate: "",
       });
