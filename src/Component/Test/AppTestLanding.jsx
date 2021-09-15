@@ -7,7 +7,7 @@ import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import { useLocation } from 'react-router-dom';
 import PreviousTest from './Pages/PreviousTest';
 
-const TestLanding = () => {
+const AppTestLanding = () => {
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
 
@@ -51,4 +51,4 @@ const TestLanding = () => {
   );
 };
 
-export default TestLanding;
+export default AppTestLanding;

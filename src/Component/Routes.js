@@ -143,7 +143,7 @@ import AddTest from '../Lms/Component/Test/AddTest/Add';
 import BulkUpload from '../Lms/Component/Test/BulkUpload/Index';
 import SingleUpload from '../Lms/Component/Test/SingleUpload/Index';
 
-import TestLanding from './Test/TestLanding';
+import AppTestLanding from './Test/AppTestLanding';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -165,7 +165,7 @@ export default function Routes(props) {
       <Route exact path={wallPath} render={(props) => <WallLanding {...props} />} />
       <Route exact path={createPath} render={(props) => <CreatePost {...props} />} />
       <Route exact path={editPath} render={(props) => <EditPost {...props} />} />
-      <Route exact path={testPath} render={(props) => <TestLanding {...props} />} />
+      <Route exact path={testPath} render={(props) => <AppTestLanding {...props} />} />
       <Route exact path={testCreate} render={(props) => <CreateTest {...props} />} />
       <Route exact path={testEdit} render={(props) => <EditTest {...props} />} />
       <Route
