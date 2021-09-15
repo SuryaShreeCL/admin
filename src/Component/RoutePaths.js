@@ -37,6 +37,9 @@ export const careerTrackVideoPath = rootPath.concat(
 );
 export const callSchedulePath = rootPath.concat('/schedule');
 export const productBasedPath = rootPath.concat('/based');
+export const testPath = rootPath.concat('/tests');
+export const testCreate = rootPath.concat('/tests/create');
+export const testEdit = rootPath.concat('/tests/edit');
 export const wallPath = rootPath.concat('/wall');
 export const createPath = rootPath.concat('/wall/create');
 export const editPath = rootPath.concat('/wall/edit');
