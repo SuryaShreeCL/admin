@@ -30,9 +30,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
-import { renderListCategory } from '../../Utils/Helpers';
 import ScheduleLater from '../Components/ScheduleLater';
-import ClevertapReact from 'clevertap-react';
+
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -141,7 +140,6 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
-    ClevertapReact.event('Admin Viewed');
     dispatch(listTests('Live'));
   }, [dispatch]);
 

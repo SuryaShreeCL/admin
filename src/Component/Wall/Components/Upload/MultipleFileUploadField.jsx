@@ -5,26 +5,27 @@ import { useDropzone } from 'react-dropzone';
 import { SingleFileUploadWithProgress } from './SingleFileUploadWithProgress';
 import { UploadError } from './UploadError';
 
-const useStyles = makeStyles((theme) => ({
-  dropzone: {
-    border: `2px dashed ${theme.palette.primary.main}`,
-    borderRadius: theme.shape.borderRadius,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    background: theme.palette.background.default,
-    height: theme.spacing(10),
-    outline: 'none',
-  },
-  info: {
-    color: 'grey',
-    marginTop: 5,
-    marginBottom: 10,
-  },
-}));
+export function MultipleFileUploadField({ name, fileType, disable }) {
+  const useStyles = makeStyles((theme) => ({
+    dropzone: {
+      border: `2px dashed ${theme.palette.primary.main}`,
+      borderRadius: theme.shape.borderRadius,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 5,
+      cursor: disable && 'no-drop',
+      background: theme.palette.background.default,
+      height: theme.spacing(10),
+      outline: 'none',
+    },
+    info: {
+      color: 'grey',
+      marginTop: 5,
+      marginBottom: 10,
+    },
+  }));
 
-export function MultipleFileUploadField({ name, fileType }) {
   const [_, __, helpers] = useField(name);
   const classes = useStyles();
 
@@ -64,7 +65,7 @@ export function MultipleFileUploadField({ name, fileType }) {
     <React.Fragment>
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
-          <input {...getInputProps()} />
+          {!disable && <input {...getInputProps()} />}
           <p
             style={{ marginBottom: '-2px' }}
           >{`Drag & drop some ${fileType} here, or click to select ${fileType}`}</p>

@@ -191,7 +191,7 @@ const EditTest = () => {
                 score: values.score,
                 wallCategory:
                   values?.wallPost?.linkedEvent?.wallCategories || values.wallPost?.wallCategories,
-                wallFiles: values.wallFilesUpdate,
+                wallFiles: values?.wallPost?.wallFiles,
                 testSections: values.testSection,
               };
               onTestUpdate(payload, testType);
@@ -336,7 +336,7 @@ const EditTest = () => {
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
                       <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                        <MultipleFileUploadField name='wallFilesUpdate' fileType='image' />
+                        <MultipleFileUploadField name='wallFilesUpdate' fileType='image' disable={true}/>
                         {values?.wallPost?.wallFiles?.map((media) => (
                           <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
                         ))}
