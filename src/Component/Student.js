@@ -383,6 +383,7 @@ export class Student extends Component {
               products: this.state.product.map((item) => ({
                 productId: item.product.id,
                 expirationDate: item.expirationDate,
+                stage: item.stage ? "Active" : "NotActive",
               })),
             },
             () => {}
@@ -507,7 +508,7 @@ export class Student extends Component {
             this.state.product.map((item) => ({
               productId: item.product.id,
               expirationDate: item.expirationDate,
-              stage: item.product.stage ? "Active" : "NotActive",
+              stage: item.stage ? "Active" : "NotActive",
             })),
         },
         () => {}
@@ -559,6 +560,8 @@ export class Student extends Component {
           id: null,
         },
         expirationDate: "",
+        stage: true,
+        product_Id: null,
       });
       this.setState({ product: arr });
     }
@@ -583,19 +586,10 @@ export class Student extends Component {
   onChange = (name, value, idx) => {
     let arr = this.state.product;
     let each = {};
-    if (name === "stage")
-      each = {
-        ...this.state.product[idx],
-        product: {
-          ...this.state.product[idx].product,
-          stage: value,
-        },
-      };
-    else
-      each = {
-        ...this.state.product[idx],
-        [name]: value,
-      };
+    each = {
+      ...this.state.product[idx],
+      [name]: value,
+    };
     arr[idx] = each;
     this.setState({ product: arr });
   };
@@ -619,7 +613,7 @@ export class Student extends Component {
                     : []
                 }
                 value={item.product || null}
-                disabled={item.product.id === null ? false : true}
+                disabled={item.product_Id === null ? false : true}
                 getOptionLabel={(option) => option.title}
                 onChange={(e, newValue) => {
                   if (newValue) {
@@ -680,7 +674,7 @@ export class Student extends Component {
               />
             </Grid>
             <Grid item sm={1} md={1}>
-              {this.state.studentId === null ? (
+              {this.state.id === null ? (
                 <IconButton
                   onClick={() => {
                     this.removeProduct(idx);
@@ -693,7 +687,7 @@ export class Student extends Component {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={item.product.stage}
+                      checked={item.stage}
                       onChange={(e) => {
                         this.onChange("stage", e.target.checked, idx);
                       }}
@@ -812,14 +806,15 @@ export class Student extends Component {
                       courseId: "",
                       id: item.id,
                       title: item.productName,
-                      stage: item.stage === "Active",
                     };
                     let expiryDate = item.expiryDate;
                     let stage = item.stage === "Active";
+                    let product_Id = item.id;
                     arr.push({
                       product: product,
                       expirationDate: expiryDate,
                       stage: stage,
+                      product_Id: product_Id,
                     });
                     selectedProductArr.push(product);
                   });

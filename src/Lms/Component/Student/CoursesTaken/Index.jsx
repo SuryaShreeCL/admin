@@ -24,7 +24,7 @@ import { withRouter } from "react-router-dom";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
-  { tabLabel: "Strength & Weekness" },
+  { tabLabel: "Strength & Weakness" },
   { tabLabel: "Study Plan" },
   { tabLabel: "Calibration Test" },
   { tabLabel: "Topic Test" },
