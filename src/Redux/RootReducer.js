@@ -27,12 +27,18 @@ import {
   wallPostListReducer,
   getWallCategoriesReducer,
 } from '../Reducer/WallReducer';
+import {
+  testCreateReducer,
+  testDeleteReducer,
+  testUpdateReducer,
+  testListReducer,
+  testDetailsReducer,
+} from '../Reducer/TestReducer';
 import StudentMarkDetailReducer from '../Reducer/MarkReducer';
 import ScoreDetailsReducer from '../Reducer/ScoreReducer';
 import MentorReducer from '../Reducer/MentorReducer';
-import PgaReducer from "../Reducer/PgaReducer";
+import PgaReducer from '../Reducer/PgaReducer';
 import CallReducer from '../Reducer/CallReducer';
-
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -52,16 +58,24 @@ export default combineReducers({
   StudentMarkDetailReducer: StudentMarkDetailReducer,
   ScoreReducer: ScoreDetailsReducer,
   MentorReducer: MentorReducer,
-  PgaReducer: PgaReducer,
-  testimonialCreateReducer: testimonialCreateReducer,
-  testimonialDeleteReducer: testimonialDeleteReducer,
-  testimonialUpdateReducer: testimonialUpdateReducer,
-  testimonialListReducer: testimonialListReducer,
   CallReducer: CallReducer,
-  wallPostCreateReducer: wallPostCreateReducer,
-  wallPostDeleteReducer: wallPostDeleteReducer,
-  wallPostUpdateReducer: wallPostUpdateReducer,
-  wallPostListReducer: wallPostListReducer,
-  getWallCategoriesReducer: getWallCategoriesReducer,
+  PgaReducer: PgaReducer,
+  //TESTIMONIAL
+  testimonialCreateReducer,
+  testimonialDeleteReducer,
+  testimonialUpdateReducer,
+  testimonialListReducer,
+  //WALL
+  wallPostCreateReducer,
+  wallPostDeleteReducer,
+  wallPostUpdateReducer,
+  wallPostListReducer,
+  getWallCategoriesReducer,
+  //TESTS
+  testCreateReducer,
+  testDeleteReducer,
+  testDetailsReducer,
+  testUpdateReducer,
+  testListReducer,
   HelperReducer: HelperReducer,
 });

@@ -2,10 +2,10 @@ import { Grid, makeStyles } from '@material-ui/core';
 import { useField } from 'formik';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { SingleFileUploadWithProgress } from './SingleFileUploadWithProgress';
+import { QuestionUploadWithProgress } from './QuestionUploadWithProgress';
 import { UploadError } from './UploadError';
 
-export function MultipleFileUploadField({ name, fileType, disable }) {
+export function QuestionsUploadField({ name, testCreated, questionUpload }) {
   const useStyles = makeStyles((theme) => ({
     dropzone: {
       border: `2px dashed ${theme.palette.primary.main}`,
@@ -14,9 +14,10 @@ export function MultipleFileUploadField({ name, fileType, disable }) {
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 5,
-      cursor: disable && 'no-drop',
+      cursor: !testCreated && 'no-drop',
+      width: '100%',
       background: theme.palette.background.default,
-      height: theme.spacing(10),
+      height: theme.spacing(12),
       outline: 'none',
     },
     info: {
@@ -37,7 +38,7 @@ export function MultipleFileUploadField({ name, fileType, disable }) {
   }, []);
 
   useEffect(() => {
-    helpers.setValue(files);
+    helpers.setValue(...files);
   }, [files]);
 
   function onUpload(file, data) {
@@ -57,7 +58,8 @@ export function MultipleFileUploadField({ name, fileType, disable }) {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: [`${fileType}/*`],
+    accept:
+      '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
     maxSize: 2000 * 1024, // 2Mb
   });
 
@@ -65,39 +67,24 @@ export function MultipleFileUploadField({ name, fileType, disable }) {
     <React.Fragment>
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
-          {!disable && <input {...getInputProps()} />}
-          <p
-            style={{ marginBottom: '-2px' }}
-          >{`Drag & drop some ${fileType} here, or click to select ${fileType}`}</p>
-        </div>
-        {fileType === 'image' && (
-          <p {...getRootProps({ className: classes.info })}>
-            (Supported format: jpeg, PNG only, max 2MB)
+          {testCreated && <input {...getInputProps()} />}
+          <p style={{ marginBottom: '-2px' }}>
+            {testCreated
+              ? 'Drag & drop some excel sheets here, or click to select'
+              : 'Please Save the Test Event to upload the questions'}
           </p>
-        )}
-        {fileType === 'video' && (
-          <p {...getRootProps({ className: classes.info })}>(Supported format: mp4, max 2MB)</p>
-        )}
-        {fileType === 'audio' && (
-          <p {...getRootProps({ className: classes.info })}>(Supported format: mp3, max 2MB)</p>
-        )}
+        </div>
       </Grid>
       {files.map((fileWrapper) => (
         <Grid item key={fileWrapper.file.name}>
           {fileWrapper.errors.length ? (
-            <UploadError
-              file={fileWrapper.file}
-              errors={fileWrapper.errors}
-              onDelete={onDelete}
-              url={fileWrapper.url}
-            />
+            <UploadError file={fileWrapper.file} errors={fileWrapper.errors} onDelete={onDelete} />
           ) : (
-            <SingleFileUploadWithProgress
+            <QuestionUploadWithProgress
               onDelete={onDelete}
               onUpload={onUpload}
               file={fileWrapper.file}
-              url={fileWrapper.url}
-              fileType={fileType}
+              questionUpload={questionUpload}
             />
           )}
         </Grid>
