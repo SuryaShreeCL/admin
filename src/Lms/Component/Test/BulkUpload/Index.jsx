@@ -206,17 +206,15 @@ class Index extends Component {
           { id: 2, label: 'Bulk Upload' },
         ],
         handleRadioChange: (event, name) => {
-          // console.log(name);
           if (name === '1') {
             console.log(name);
-            this.props.history.push(single_upload);
+            this.props.history.push(
+              `${single_upload}/${this.props.match.params.courseId}`
+            );
           }
-          // this.setState({ activeValue: parseInt(name) });
         },
         groupName: 'Question Pattern',
       };
-
-      // console.log(radioData);
 
       return (
         <React.Fragment>
