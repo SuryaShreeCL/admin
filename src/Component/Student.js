@@ -507,10 +507,18 @@ export class Student extends Component {
             this.state.product.map((item) => ({
               productId: item.product.id,
               expirationDate: item.expirationDate,
+              stage: item.product.stage ? "Active" : "NotActive",
             })),
         },
         () => {}
       );
+
+      let lmsobj = {
+        isActive: this.state.isActive,
+        provider: this.state.toogleButton === true ? "Google" : "Local",
+        isLMSUser: this.state.lmsAccess === false ? "false" : "true",
+      };
+      this.props.updateLmsAccess(this.state.id, lmsobj);
 
       this.props.mernStudentEdit(this.state.id, studentObj, (response) => {
         this.setState({
@@ -534,6 +542,7 @@ export class Student extends Component {
         provider: "",
         studentId: null,
         isLoading: false,
+        lmsAccess: false,
       });
     }
   };
@@ -547,7 +556,7 @@ export class Student extends Component {
     ) {
       arr.push({
         product: {
-          id: "",
+          id: null,
         },
         expirationDate: "",
       });
@@ -573,10 +582,20 @@ export class Student extends Component {
 
   onChange = (name, value, idx) => {
     let arr = this.state.product;
-    let each = {
-      ...this.state.product[idx],
-      [name]: value,
-    };
+    let each = {};
+    if (name === "stage")
+      each = {
+        ...this.state.product[idx],
+        product: {
+          ...this.state.product[idx].product,
+          stage: value,
+        },
+      };
+    else
+      each = {
+        ...this.state.product[idx],
+        [name]: value,
+      };
     arr[idx] = each;
     this.setState({ product: arr });
   };
@@ -600,6 +619,7 @@ export class Student extends Component {
                     : []
                 }
                 value={item.product || null}
+                disabled={item.product.id === null ? false : true}
                 getOptionLabel={(option) => option.title}
                 onChange={(e, newValue) => {
                   if (newValue) {
@@ -660,14 +680,29 @@ export class Student extends Component {
               />
             </Grid>
             <Grid item sm={1} md={1}>
-              <IconButton
-                onClick={() => {
-                  this.removeProduct(idx);
-                  this.removeSelectedItem(item.product.id);
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
+              {this.state.studentId === null ? (
+                <IconButton
+                  onClick={() => {
+                    this.removeProduct(idx);
+                    this.removeSelectedItem(item.product.id);
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              ) : (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={item.product.stage}
+                      onChange={(e) => {
+                        this.onChange("stage", e.target.checked, idx);
+                      }}
+                      name="stage"
+                      color="primary"
+                    />
+                  }
+                />
+              )}
             </Grid>
           </>
         );
@@ -777,11 +812,14 @@ export class Student extends Component {
                       courseId: "",
                       id: item.id,
                       title: item.productName,
+                      stage: item.stage === "Active",
                     };
                     let expiryDate = item.expiryDate;
+                    let stage = item.stage === "Active";
                     arr.push({
                       product: product,
                       expirationDate: expiryDate,
+                      stage: stage,
                     });
                     selectedProductArr.push(product);
                   });
