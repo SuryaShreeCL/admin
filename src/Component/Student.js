@@ -506,7 +506,7 @@ export class Student extends Component {
         provider: this.state.toogleButton === true ? "Google" : "Local",
         isLMSUser: this.state.lmsAccess === false ? "false" : "true",
       };
-      this.props.updateLmsAccess(this.state.studentId, lmsobj);
+      this.props.updateLmsAccess(this.state.id, lmsobj);
 
       this.props.mernStudentEdit(this.state.id, studentObj, (response) => {
         this.setState({
