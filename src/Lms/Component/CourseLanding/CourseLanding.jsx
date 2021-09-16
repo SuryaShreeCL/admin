@@ -187,7 +187,6 @@ class CourseLanding extends Component {
   };
 
   handleOptions = (text, topicName, topicId) => {
-    // console.log(text);
     if (text === 'Edit') {
       this.props.history.push(lms_add_topic + '?topic_id=' + topicId);
     } else if (text === 'Archive') {
@@ -221,7 +220,6 @@ class CourseLanding extends Component {
       };
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
     } else if (text === 'Approve') {
-      console.log('hi');
       const dialogContent = {
         type: 'approve',
         icon: <ThumbUpIcon style={{ fontSize: '48px', fill: '#1093ff' }} />,
@@ -331,10 +329,9 @@ class CourseLanding extends Component {
       handleOptions,
       handleSearch,
     } = this;
-    const { courses, subjects, concepts, topics } = this.props;
+    const { courses, subjects, concepts, topics, totalPageNo } = this.props;
     return (
       <Container>
-        {/* <ThemeProvider theme={ColorScheme}> */}
         <Grid style={{ minWidth: 0 }} container spacing={3}>
           <Grid
             item
@@ -392,9 +389,9 @@ class CourseLanding extends Component {
             />
           </Box>
         </Grid>
-        {topics !== undefined && (
+        {topics !== null && (
           <PaginationComponent
-            pageCount={topics.data.totalPages}
+            pageCount={totalPageNo}
             onPageChange={handlePageChange}
           />
         )}
@@ -426,6 +423,7 @@ const mapStateToProps = state => {
     subjects: state.CourseMaterialReducer.subjects,
     concepts: state.CourseMaterialReducer.concepts,
     topics: state.CourseMaterialReducer.topics,
+    totalPageNo: state.CourseMaterialReducer.totalPageNo,
   };
 };
 

@@ -279,6 +279,7 @@ class Add extends Component {
   };
 
   handleAddQuestion = () => {
+    console.log(this.props.testQuestionSet.data.productId);
     const {
       testQuestionSetId,
       sectionId,
@@ -290,7 +291,8 @@ class Add extends Component {
     if (testQuestionSetId !== null) {
       if (type === 'QUESTIONBANK') {
         this.props.history.push(
-          bulk_upload + `/${testQuestionSetId}/${courseId}`
+          bulk_upload +
+            `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}`
         );
       } else {
         if (type === 'CALIBRATION') {
@@ -304,7 +306,7 @@ class Add extends Component {
                 '';
               this.props.history.push(
                 bulk_upload +
-                  `/${testQuestionSetId}/${courseId}/${calibrationSectionId}/${type}`
+                  `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}/${calibrationSectionId}/${type}`
               );
             } else {
               this.setState({
@@ -322,7 +324,8 @@ class Add extends Component {
           }
         } else {
           this.props.history.push(
-            bulk_upload + `/${testQuestionSetId}/${courseId}/${sectionId}`
+            bulk_upload +
+              `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}/${sectionId}`
           );
         }
       }

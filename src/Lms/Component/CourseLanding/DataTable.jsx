@@ -51,17 +51,6 @@ const getDateFormat = dateString => {
   return day + ' ' + month + ' ' + year;
 };
 
-// const openHandle = (itemId, popUpId, role, status) => {
-//   // console.log(status);
-//   // console.log(role === 'LMSEDITOR' && status === 'Live');
-//   if (
-//     role === 'LMSEDITOR' &&
-//     (status === 'Live' || status === 'In Review' || status === 'Approved')
-//   )
-//     return false;
-//   else return itemId === popUpId;
-// };
-
 const handleShowThreeDot = (role, status) => {
   return !(
     role === 'LMSEDITOR' &&
@@ -80,9 +69,8 @@ export default function DataTable(props) {
     role,
     handleOptions,
   } = props;
-  // if (props.topics !== undefined) {
-  //   console.log(topics.data);
-  // }
+
+  // console.log(topics);
 
   return (
     <React.Fragment>
@@ -102,8 +90,8 @@ export default function DataTable(props) {
           </TableRow>
         </Head>
         <TableBody>
-          {topics !== undefined &&
-            topics.data.content.map((item, index) => {
+          {topics !== null &&
+            topics.map((item, index) => {
               return (
                 <TableRow key={index} style={{ border: '0 0 0 0' }}>
                   <BodyCell className={'table_center_align'}>

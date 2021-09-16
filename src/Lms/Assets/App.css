@@ -168,3 +168,9 @@
   justify-content: center;
   padding: 32px;
 }
+
+.single_select_divider {
+  opacity: 0.2;
+  background-color: #000128 !important;
+  margin-top: 24px !important;
+}

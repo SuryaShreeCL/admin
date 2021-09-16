@@ -181,9 +181,7 @@ class Index extends Component {
 
   handleTopicList = () => {
     const { testQuestionSetId } = this.props.match.params;
-    this.props.getTopicList(testQuestionSetId, response => {
-      console.log(response);
-    });
+    this.props.getTopicList(testQuestionSetId, response => {});
   };
 
   render() {
@@ -207,7 +205,6 @@ class Index extends Component {
         ],
         handleRadioChange: (event, name) => {
           if (name === '1') {
-            console.log(name);
             this.props.history.push(
               `${single_upload}/${this.props.match.params.courseId}`
             );
