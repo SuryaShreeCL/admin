@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { withStyles, Switch as MuiSwitch } from '@material-ui/core';
+import {
+  withStyles,
+  Switch as MuiSwitch,
+  Radio as MuiRadio,
+  IconButton as MuiIconButton,
+  // Checkbox as MuiCheckBox,
+} from '@material-ui/core';
 
 export const H1 = styled.div`
   font-style: normal;
@@ -61,3 +67,50 @@ export const Switch = withStyles(theme => ({
   },
   checked: {},
 }))(MuiSwitch);
+
+export const Div2 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const AnswerDiv = styled.div`
+  margin-top: 34px;
+`;
+
+export const Radio = withStyles({
+  colorPrimary: {
+    color: '#646464',
+  },
+  checked: {
+    color: '#1093ff',
+  },
+})(MuiRadio);
+
+export const Label = styled.div`
+  font-style: normal;
+  font-weight: ${props => (props.active ? 600 : 'normal')};
+  font-size: 16px;
+  line-height: 20px;
+  color: ${props => (props.active ? ' #052A4E' : '#646464')};
+`;
+
+export const T1 = styled.div`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 114.7%;
+  color: #000000;
+  padding: 8px;
+  background: #f6f6f6;
+  border-radius: 5px;
+  margin-right: 16px;
+`;
+
+export const C1 = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 50px;
+  margin: 6px;
+`;

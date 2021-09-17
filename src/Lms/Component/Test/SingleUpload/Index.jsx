@@ -20,6 +20,10 @@ export class Index extends Component {
       activeLevel: '',
       expectedTime: '',
       checked: false,
+      activeTab: 0,
+      bucketArray: [{ tabLabel: 'Bucket 1' }],
+      answerType: '',
+      noOfChoices: 1,
     };
   }
 
@@ -91,9 +95,22 @@ export class Index extends Component {
     this.setState({ checked: !this.state.checked });
   };
 
-  render() {
-    // console.log(this.state);
+  handleTabChange = value => {
+    this.setState({ activeTab: value });
+  };
 
+  handleAddBucket = () => {
+    let arr = this.state.bucketArray;
+    let count = this.state.bucketArray.length + 1;
+    arr.push({ tabLabel: 'Bucket ' + count });
+    this.setState({ bucketArray: arr, activeTab: count - 1 });
+  };
+
+  handleRadioChange = e => {
+    this.setState({ answerType: e.target.value });
+  };
+
+  render() {
     const { subjects, concepts, topics } = this.props;
 
     const {
@@ -103,6 +120,10 @@ export class Index extends Component {
       activeLevel,
       expectedTime,
       checked,
+      activeTab,
+      bucketArray,
+      answerType,
+      noOfChoices,
     } = this.state;
 
     const {
@@ -111,6 +132,9 @@ export class Index extends Component {
       handleTopicChange,
       handleInputChange,
       handleSwitch,
+      handleTabChange,
+      handleAddBucket,
+      handleRadioChange,
     } = this;
 
     const difficulty = [
@@ -138,6 +162,13 @@ export class Index extends Component {
     let answerProps = {
       checked,
       handleSwitch,
+      activeTab,
+      handleTabChange,
+      handleAddBucket,
+      bucketArray,
+      handleRadioChange,
+      answerType,
+      noOfChoices,
     };
 
     // console.log(topics);

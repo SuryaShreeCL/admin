@@ -2,8 +2,8 @@ import { COURSE_MATERIAL } from '../Action';
 
 const initialState = {
   courses: [],
-  subjects: null,
-  concepts: null,
+  subjects: [],
+  concepts: [],
   topics: null,
   createorUpdateTopicResponse: [],
   topicsDetails: [],
