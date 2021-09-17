@@ -1,4 +1,14 @@
-import { Grid, TextField, Icon, IconButton, Button, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  Icon,
+  IconButton,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import React, { Component } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -6,36 +16,42 @@ import IndeterminateCheckBoxRoundedIcon from "@material-ui/icons/IndeterminateCh
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoints,postAdditionalPoints} from "../../Actions/PgaAction"
- class commentandpoints extends Component {
+import {
+  getQuarterPlan,
+  getAllQuarterPlan,
+  postCommentsAndPoints,
+  getAdditionalPoints,
+  postAdditionalPoints,
+} from "../../Actions/PgaAction";
+class commentandpoints extends Component {
   constructor(props) {
     super(props);
     this.state = {
       count: 1,
-      focusId1 : null,
-      focusId2 : null,
-      focusId3 : null,
-      focusId4 : null,
-      focus1 : null,
-      focus2 : null,
-      focus3 : null,
-      focus4 : null,
-      description1 : null,
-      description2 : null,
-      description3 : null,
-      description4 : null,
-      catRemark1 : null,
-      catRemark2 : null,
-      catRemark3 : null,
-      catRemark4 : null,
-      status1 : null,
-      status2 : null,
-      status3 : null,
-      status4 : null,
-      period1 : null,
-      period2 : null,
-      period3 : null,
-      period4 : null,
+      focusId1: null,
+      focusId2: null,
+      focusId3: null,
+      focusId4: null,
+      focus1: null,
+      focus2: null,
+      focus3: null,
+      focus4: null,
+      description1: null,
+      description2: null,
+      description3: null,
+      description4: null,
+      catRemark1: null,
+      catRemark2: null,
+      catRemark3: null,
+      catRemark4: null,
+      status1: null,
+      status2: null,
+      status3: null,
+      status4: null,
+      period1: null,
+      period2: null,
+      period3: null,
+      period4: null,
       snackOpen: false,
       snackMessage: null,
       snackVariant: null,
@@ -60,29 +76,31 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
       myArr.push({
         category: (
           <FormControl size="small" fullWidth variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">{"Category ".concat(i)}</InputLabel>
-          <Select
-          fullWidth
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            label={"Category ".concat(i)}
-            value={this.state.["aditionalCat".concat(i)]}
-            name={"aditionalCat".concat(i)}
-            onChange={this.handleChange}
-          >
-            {this.props.allQuarterPlan.map(eachPlan=>{
-              return(
-                <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>
+            <InputLabel id="demo-simple-select-outlined-label">
+              {"Category ".concat(i)}
+            </InputLabel>
+            <Select
+              fullWidth
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              label={"Category ".concat(i)}
+              value={this.state["aditionalCat".concat(i)]}
+              name={"aditionalCat".concat(i)}
+              onChange={this.handleChange}
+            >
+              {this.props.allQuarterPlan.map((eachPlan) => {
+                return (
+                  <MenuItem value={eachPlan.name}>{eachPlan.name}</MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         ),
         remark: (
           <TextField
             fullWidth
             name={"additionalRemark".concat(i)}
-            value={this.state.["additionalRemark".concat(i)]}
+            value={this.state["additionalRemark".concat(i)]}
             onChange={this.handleChange}
             variant="outlined"
             size="small"
@@ -117,30 +135,35 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
   };
 
   componentDidMount() {
-    this.props.getQuarterPlan(this.props.id)
-    this.props.getAllQuarterPlan()
-    this.props.getAdditionalPoints(this.props.id)
+    this.props.getQuarterPlan(this.props.id);
+    this.props.getAllQuarterPlan();
+    this.props.getAdditionalPoints(this.props.id);
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
-    if(this.props.quarterPlanDetails !== prevProps.quarterPlanDetails){
-      this.props.quarterPlanDetails.map((eachData,index)=>{
+    if (this.props.quarterPlanDetails !== prevProps.quarterPlanDetails) {
+      this.props.quarterPlanDetails.map((eachData, index) => {
         this.setState({
-         ["focus".concat(index+1)] : eachData.quarterPlanCourse,
-         ["description".concat(index+1)] : eachData.quarterPlanCourse.description,
-         ["catRemark".concat(index+1)] : eachData.remark,
-         ["status".concat(index+1)] : eachData.status !== null ? {title : eachData.status} :  null ,
-         ["period".concat(index+1)] : eachData.enrollmentPeriod,
-          ["focusId".concat(index+1)] : eachData.id
-        })
-      })
+          ["focus".concat(index + 1)]: eachData.quarterPlanCourse,
+          ["description".concat(index + 1)]: eachData.quarterPlanCourse
+            .description,
+          ["catRemark".concat(index + 1)]: eachData.remark,
+          ["status".concat(index + 1)]:
+            eachData.status !== null ? { title: eachData.status } : null,
+          ["period".concat(index + 1)]: eachData.enrollmentPeriod,
+          ["focusId".concat(index + 1)]: eachData.id,
+        });
+      });
     }
-    if(this.props.postCommentsAndPointsResponse !== prevProps.postCommentsAndPointsResponse){
+    if (
+      this.props.postCommentsAndPointsResponse !==
+      prevProps.postCommentsAndPointsResponse
+    ) {
       this.setState({
-        snackMessage : "Data Saved Successfully",
-        snackVariant : "success",
-        snackOpen : true
-      })
+        snackMessage: "Data Saved Successfully",
+        snackVariant: "success",
+        snackOpen: true,
+      });
     }
     // if(this.props.additionalPointsDetails !== prevProps.additionalPointsDetails){
     //   if(this.props.additionalPointsDetails.length !== 0){
@@ -153,50 +176,53 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
     //           ["additionalRemark".concat(i+1)] : this.props.additionalPointsDetails[i].remark
     //         })
     //       }
-            
-    //     } 
+
+    //     }
     //   }
     // }
   }
-  
-  handleChange = (e) =>{
+
+  handleChange = (e) => {
     this.setState({
-      [e.target.name] : e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  handleSave = () =>{
-    let postArr = []
-    for(let i = 1; i<=4 ; i++){
+  handleSave = () => {
+    let postArr = [];
+    for (let i = 1; i <= 4; i++) {
       postArr.push({
-        id : this.state.["focusId".concat(i)],
-        enrollmentPeriod : this.state.["period".concat(i)],
-        quarterPlanCourse : this.state.["focus".concat(i)],
-        student : {id : this.props.id},
-        remark : this.state.["catRemark".concat(i)],
-        status : this.state.["status".concat(i)] !== null ? this.state.["status".concat(i)].title : null,
-      })
+        id: this.state["focusId".concat(i)],
+        enrollmentPeriod: this.state["period".concat(i)],
+        quarterPlanCourse: this.state["focus".concat(i)],
+        student: { id: this.props.id },
+        remark: this.state["catRemark".concat(i)],
+        status:
+          this.state["status".concat(i)] !== null
+            ? this.state["status".concat(i)].title
+            : null,
+      });
     }
 
-    let postAdditionalPointsArr = []
+    let postAdditionalPointsArr = [];
 
-    for(let i=1; i<=this.state.count; i++){
+    for (let i = 1; i <= this.state.count; i++) {
       postAdditionalPointsArr.push({
-        category : this.state.["aditionalCat".concat(i)],
-        remark : this.state.["additionalRemark".concat(i)]
-      })
+        category: this.state["aditionalCat".concat(i)],
+        remark: this.state["additionalRemark".concat(i)],
+      });
     }
 
-    console.log(postAdditionalPointsArr)
-    this.props.postAdditionalPoints(this.props.id,postAdditionalPointsArr)
-    this.props.postCommentsAndPoints(postArr)
-    console.log(postArr)
-  }
- 
+    console.log(postAdditionalPointsArr);
+    this.props.postAdditionalPoints(this.props.id, postAdditionalPointsArr);
+    this.props.postCommentsAndPoints(postArr);
+    console.log(postArr);
+  };
+
   render() {
-    console.log(this.props.quarterPlanDetails)
-    console.log(this.props.allQuarterPlan)
-    console.log(this.state)
+    console.log(this.props.quarterPlanDetails);
+    console.log(this.props.allQuarterPlan);
+    console.log(this.state);
     return (
       <div>
         <h6 style={{ padding: "1%" }}>
@@ -213,7 +239,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               getOptionLabel={(option) => option.name}
               value={this.state.focus1}
               fullWidth
-              onChange={(e,newValue)=>this.setState({focus1 : newValue})}
+              onChange={(e, newValue) => this.setState({ focus1: newValue })}
               size="small"
               renderInput={(params) => (
                 <TextField
@@ -230,7 +256,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               variant="outlined"
               multiline
               disabled
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               rows={4}
               value={this.state.description1}
               name={"description1"}
@@ -245,7 +271,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               size="small"
               value={this.state.catRemark1}
               name="catRemark1"
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               onChange={this.handleChange}
               label="Category Remark"
             />
@@ -257,7 +283,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               getOptionLabel={(option) => option.title}
               value={this.state.status1}
               fullWidth
-              onChange={(e,newValue)=>this.setState({status1 : newValue})}
+              onChange={(e, newValue) => this.setState({ status1: newValue })}
               size="small"
               renderInput={(params) => (
                 <TextField
@@ -279,7 +305,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               getOptionLabel={(option) => option.name}
               value={this.state.focus2}
               fullWidth
-              onChange={(e,newValue)=>this.setState({focus2 : newValue})}
+              onChange={(e, newValue) => this.setState({ focus2: newValue })}
               size="small"
               renderInput={(params) => (
                 <TextField
@@ -295,7 +321,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             <TextField
               variant="outlined"
               value={this.state.description2}
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               rows={4}
               multiline
               disabled
@@ -308,7 +334,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
           <Grid item md={3}>
             <TextField
               variant="outlined"
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               value={this.state.catRemark2}
               onChange={this.handleChange}
               name={"catRemark2"}
@@ -322,7 +348,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               options={this.status}
               getOptionLabel={(option) => option.title}
               value={this.state.status2}
-              onChange={(e,newValue)=>this.setState({status2 : newValue})}
+              onChange={(e, newValue) => this.setState({ status2: newValue })}
               fullWidth
               size="small"
               renderInput={(params) => (
@@ -345,7 +371,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               getOptionLabel={(option) => option.name}
               value={this.state.focus3}
               fullWidth
-              onChange={(e,newValue)=>this.setState({focus3 : newValue})}
+              onChange={(e, newValue) => this.setState({ focus3: newValue })}
               size="small"
               renderInput={(params) => (
                 <TextField
@@ -361,7 +387,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             <TextField
               variant="outlined"
               name={"description3"}
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               rows={4}
               multiline
               disabled
@@ -376,7 +402,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               variant="outlined"
               size="small"
               name={"catRemark3"}
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               value={this.state.catRemark3}
               onChange={this.handleChange}
               label="Category Remark"
@@ -388,7 +414,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               options={this.status}
               getOptionLabel={(option) => option.title}
               value={this.state.status3}
-              onChange={(e,newValue)=>this.setState({status3 : newValue})}
+              onChange={(e, newValue) => this.setState({ status3: newValue })}
               fullWidth
               size="small"
               renderInput={(params) => (
@@ -408,7 +434,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             <Autocomplete
               id="combo-box-demo"
               value={this.state.focus4}
-              onChange={(e,newValue)=>this.setState({focus4 : newValue})}
+              onChange={(e, newValue) => this.setState({ focus4: newValue })}
               options={this.props.allQuarterPlan}
               getOptionLabel={(option) => option.name}
               fullWidth
@@ -428,7 +454,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
               variant="outlined"
               name={"description4"}
               disabled
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               rows={4}
               multiline
               value={this.state.description4}
@@ -441,7 +467,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             <TextField
               variant="outlined"
               name={"catRemark4"}
-              InputLabelProps={{shrink : true}}
+              InputLabelProps={{ shrink: true }}
               value={this.state.catRemark4}
               onChange={this.handleChange}
               size="small"
@@ -452,7 +478,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             <Autocomplete
               id="combo-box-demo"
               value={this.state.status4}
-              onChange={(e,newValue)=>this.setState({status4 : newValue})}
+              onChange={(e, newValue) => this.setState({ status4: newValue })}
               options={this.status}
               getOptionLabel={(option) => option.title}
               fullWidth
@@ -477,7 +503,12 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             </Grid>
           </Grid>
 
-          <Grid item md={1} align={"left"} style={{display : "flex", alignItems : "flex-end"}}>
+          <Grid
+            item
+            md={1}
+            align={"left"}
+            style={{ display: "flex", alignItems: "flex-end" }}
+          >
             <IconButton
               onClick={() => this.setState({ count: this.state.count + 1 })}
             >
@@ -487,9 +518,13 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             </IconButton>
           </Grid>
           <Grid item md={12}>
-                <Button onClick={this.handleSave} variant="contained" color="primary">
-                  Save
-                </Button>
+            <Button
+              onClick={this.handleSave}
+              variant="contained"
+              color="primary"
+            >
+              Save
+            </Button>
           </Grid>
         </Grid>
         <Snackbar
@@ -510,20 +545,26 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
   }
 }
 
-
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
- const mapStateToProps = (state) =>{
-   console.log(state)
+const mapStateToProps = (state) => {
+  console.log(state);
   return {
-    quarterPlanDetails : state.PgaReducer.quarterPlan,
-    allQuarterPlan : state.PgaReducer.allQuarterPlan,
-    postCommentsAndPointsResponse : state.PgaReducer.postCommentsAndPointsResponse,
-    additionalPointsDetails : state.PgaReducer.additionalPointsDetails,
-    postAdditionalPointsResponse : state.PgaReducer.postAdditionalPointsResponse
-  }
-}
+    quarterPlanDetails: state.PgaReducer.quarterPlan,
+    allQuarterPlan: state.PgaReducer.allQuarterPlan,
+    postCommentsAndPointsResponse:
+      state.PgaReducer.postCommentsAndPointsResponse,
+    additionalPointsDetails: state.PgaReducer.additionalPointsDetails,
+    postAdditionalPointsResponse: state.PgaReducer.postAdditionalPointsResponse,
+  };
+};
 
-export default connect(mapStateToProps, {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoints,postAdditionalPoints})(commentandpoints)
+export default connect(mapStateToProps, {
+  getQuarterPlan,
+  getAllQuarterPlan,
+  postCommentsAndPoints,
+  getAdditionalPoints,
+  postAdditionalPoints,
+})(commentandpoints);

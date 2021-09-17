@@ -17,7 +17,10 @@ import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import { ExpandMore } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import DoccumentCard from "../Utils/DoccumentCard";
-import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import {
+  viewStudentStatus,
+  updateVerificationStatus,
+} from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
@@ -39,7 +42,7 @@ import {
   updateAcademicInfo,
   getStudentsById,
   sscexamboard,
-  getDocumentList
+  getDocumentList,
 } from "../../Actions/Student";
 import Pencil from "../../Asset/Images/pencil.png";
 import Warning from "../../Asset/Images/warningImg.png";
@@ -67,9 +70,9 @@ export class academicInfo extends Component {
     super(props);
 
     this.state = {
-      snackMsg:"",
-      snackOpen:false,
-      snackVariant:"",
+      snackMsg: "",
+      snackOpen: false,
+      snackVariant: "",
       expanded: "panel1",
       open: false,
       ugCollege: "",
@@ -163,172 +166,187 @@ export class academicInfo extends Component {
         data: null,
         sectionName: "",
       },
-      documentedit : true
+      documentedit: true,
     };
-    
   }
 
   componentDidMount() {
     this.props.getBranches();
     this.props.getDegree();
-    this.props.getPGDegree()
+    this.props.getPGDegree();
     this.props.getAllColleges();
     this.props.getUniversity();
     this.props.sscexamboard();
     this.props.getAcademicInfo(this.props.match.params.studentId);
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.pgEndDate !== prevState.pgEndDate ) {
-      if(this.state.pgStartDate === this.state.pgEndDate){
+    if (this.state.pgEndDate !== prevState.pgEndDate) {
+      if (this.state.pgStartDate === this.state.pgEndDate) {
         this.setState({
-          pgEndDateErr : "Please Choose the Valid date"
-        })
+          pgEndDateErr: "Please Choose the Valid date",
+        });
+      }
     }
+    if (this.state.ugEndDate !== prevState.ugEndDate) {
+      if (this.state.ugStartDate === this.state.ugEndDate) {
+        this.setState({
+          ugEndDateErr: "Please Choose the Valid date",
+        });
+      }
     }
-    if(this.state.ugEndDate !== prevState.ugEndDate ) {
-      if(this.state.ugStartDate === this.state.ugEndDate){
+    if (this.state.diplomoEndDate !== prevState.diplomoEndDate) {
+      if (this.state.diplomostartDate === this.state.diplomoEndDate) {
         this.setState({
-          ugEndDateErr : "Please Choose the Valid date"
-        })
+          diplomoEndDateErr: "Please Choose the Valid date",
+        });
+      }
     }
-    }  
-    if(this.state.diplomoEndDate !== prevState.diplomoEndDate ) {
-      if(this.state.diplomostartDate === this.state.diplomoEndDate){
+    if (this.state.twelthEndDate !== prevState.twelthEndDate) {
+      if (this.state.twelthStartDate === this.state.twelthEndDate) {
         this.setState({
-          diplomoEndDateErr : "Please Choose the Valid date"
-        })
+          twelthEndDateErr: "Please Choose the Valid date",
+        });
+      }
     }
-    }  
-    if(this.state.twelthEndDate !== prevState.twelthEndDate ) {
-      if(this.state.twelthStartDate === this.state.twelthEndDate){
-        this.setState({
-          twelthEndDateErr : "Please Choose the Valid date"
-        })
+    if (
+      this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList
+    ) {
+      this.setState({
+        snackMsg: "Updated Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+      });
     }
-    } 
-    if(this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList){
-     this.setState({
-       snackMsg:"Updated Successfully",
-       snackOpen:true,
-       snackVariant:"success"
-     })
+    if (this.state.tenthEndDate !== prevState.tenthEndDate) {
+      if (this.state.tenthStartDate === this.state.tenthEndDate) {
+        this.setState({
+          tenthEndDateErr: "Please Choose the Valid date",
+        });
+      }
     }
-    if(this.state.tenthEndDate !== prevState.tenthEndDate ) {
-      if(this.state.tenthStartDate === this.state.tenthEndDate){
+    if (
+      this.props.getAcademicInfoList.length > 0 &&
+      this.props.getAcademicInfoList !== prevProps.getAcademicInfoList
+    ) {
+      const { scoreScale } = this.props.getAcademicInfoList;
+      let ugDetails = null;
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "ug") {
+          ugDetails = data;
+        }
+      });
+      if (ugDetails) {
+        var ugScale = ugDetails.scoreScale;
         this.setState({
-          tenthEndDateErr : "Please Choose the Valid date"
-        })
+          ugCollege: ugDetails.college,
+          ugUniversity: ugDetails.university,
+          ugDepartment: ugDetails.department,
+          ugDegree: ugDetails.degree,
+          ugSemester: ugDetails.currentSem,
+          ugCgpaScale: { title: ugScale.toString(), value: ugScale },
+          ugCgpa: ugDetails.score,
+          ugStartDate: ugDetails.startDate,
+          ugEndDate: ugDetails.endDate,
+        });
+      }
+      let pgDetails = null;
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "pg") {
+          pgDetails = data;
+        }
+      });
+      if (pgDetails) {
+        var pgScale = pgDetails.scoreScale;
+        this.setState({
+          pgCollege: pgDetails.college,
+          pgUniversity: pgDetails.university,
+          pgDepartment: pgDetails.department,
+          pgDegree: pgDetails.degree,
+          pgCgpa: pgDetails.score,
+          pgCgpaScale: { title: pgScale.toString(), value: pgScale },
+          pgStartDate: pgDetails.startDate,
+          pgEndDate: pgDetails.endDate,
+        });
+      }
+      let diplomaDetails = null;
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "diploma") {
+          diplomaDetails = data;
+        }
+      });
+      if (diplomaDetails) {
+        const { diplomaType } = diplomaDetails;
+        console.log(diplomaDetails);
+        var diplomoScale = diplomaDetails.scoreScale;
+        this.setState({
+          diplomaCollege: diplomaDetails.college,
+          diplomoUniversity: diplomaDetails.university,
+          diplomoDepartment: { title: diplomaType },
+          diplomoDegree: diplomaDetails.degree,
+          diplomoEndDate: diplomaDetails.endDate,
+          diplomostartDate: diplomaDetails.startDate,
+          diplomoCgpaScale: {
+            title: diplomoScale.toString(),
+            value: diplomoScale,
+          },
+          diplomoCgpa: diplomaDetails.score,
+        });
+      }
+      let tenthDetails = null;
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "ssc") {
+          tenthDetails = data;
+        }
+      });
+      if (tenthDetails) {
+        var tenthScale = tenthDetails.scoreScale;
+        this.setState({
+          tenthSchool: tenthDetails.schoolName,
+          tenthExamBoard: tenthDetails.examBoard,
+          tenthCgpaScale: { title: tenthScale.toString(), value: tenthScale },
+          tenthStartDate: tenthDetails.startDate,
+          tenthEndDate: tenthDetails.endDate,
+          tenthCgpa: tenthDetails.score,
+        });
+      }
+
+      let twelthDetails = null;
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "hsc") {
+          twelthDetails = data;
+        }
+      });
+      console.log(twelthDetails);
+      if (twelthDetails) {
+        var twelthScale = twelthDetails.scoreScale;
+        this.setState({
+          twelthSchool: twelthDetails.schoolName,
+          twelthExamBoard: twelthDetails.examBoard,
+          twelthStartDate: twelthDetails.startDate,
+          twelthEndDate: twelthDetails.endDate,
+          twelthCgpa: twelthDetails.score,
+          twelthCgpaScale: {
+            title: twelthScale.toString(),
+            value: twelthScale,
+          },
+        });
+      }
     }
-    } 
-     if(this.props.getAcademicInfoList.length > 0 && this.props.getAcademicInfoList !== prevProps.getAcademicInfoList){
-       const{scoreScale} = this.props.getAcademicInfoList
-       let ugDetails = null
-       this.props.getAcademicInfoList.map(data => {
-           if (data.type === "ug"){
-            ugDetails = data
-           }
-       })       
-       if(ugDetails){
-        var ugScale = ugDetails.scoreScale
-        this.setState ({
-         ugCollege: ugDetails.college,
-         ugUniversity: ugDetails.university,
-         ugDepartment: ugDetails.department,
-         ugDegree: ugDetails.degree,
-         ugSemester: ugDetails.currentSem,
-         ugCgpaScale: {title:ugScale.toString(), value : ugScale},
-         ugCgpa: ugDetails.score ,
-         ugStartDate: ugDetails.startDate,
-         ugEndDate: ugDetails.endDate,
-        })
-       }       
-       let pgDetails = null
-       this.props.getAcademicInfoList.map(data => {
-           if (data.type === "pg"){
-            pgDetails = data
-           }
-       })
-       if(pgDetails){
-        var pgScale = pgDetails.scoreScale
-        this.setState({
-         pgCollege: pgDetails.college,
-         pgUniversity: pgDetails.university,
-         pgDepartment: pgDetails.department,
-         pgDegree: pgDetails.degree,
-         pgCgpa: pgDetails.score,
-         pgCgpaScale: {title:pgScale.toString(), value:pgScale},
-         pgStartDate: pgDetails.startDate,
-         pgEndDate: pgDetails.endDate,
-        })
-       }       
-       let diplomaDetails = null
-       this.props.getAcademicInfoList.map(data => {
-           if (data.type === "diploma"){
-            diplomaDetails = data
-           }
-       })
-       if(diplomaDetails){
-        const {diplomaType}  = diplomaDetails
-        console.log(diplomaDetails)
-        var diplomoScale = diplomaDetails.scoreScale
-        this.setState({
-         diplomaCollege: diplomaDetails.college ,
-         diplomoUniversity: diplomaDetails.university,
-         diplomoDepartment: {title:diplomaType},
-         diplomoDegree: diplomaDetails.degree,
-         diplomoEndDate: diplomaDetails.endDate,
-         diplomostartDate: diplomaDetails.startDate,
-         diplomoCgpaScale: {title:diplomoScale.toString(), value: diplomoScale},
-         diplomoCgpa: diplomaDetails.score
-        })
-       }       
-       let tenthDetails = null
-       this.props.getAcademicInfoList.map(data => {
-           if (data.type === "ssc"){
-            tenthDetails = data
-           }
-       })
-       if(tenthDetails){
-        var tenthScale = tenthDetails.scoreScale
-        this.setState ({
-         tenthSchool: tenthDetails.schoolName,
-         tenthExamBoard: tenthDetails.examBoard,
-         tenthCgpaScale: {title:tenthScale.toString(), value: tenthScale},
-         tenthStartDate: tenthDetails.startDate,
-         tenthEndDate: tenthDetails.endDate,
-         tenthCgpa: tenthDetails.score,
-        })
-       }       
-       
-       let twelthDetails = null
-       this.props.getAcademicInfoList.map(data => {
-           if (data.type === "hsc"){
-            twelthDetails = data
-           }
-       })
-       console.log(twelthDetails)
-       if(twelthDetails){
-        var twelthScale = twelthDetails.scoreScale
-        this.setState({
-         twelthSchool: twelthDetails.schoolName,
-         twelthExamBoard: twelthDetails.examBoard,
-         twelthStartDate: twelthDetails.startDate,
-         twelthEndDate: twelthDetails.endDate,
-         twelthCgpa: twelthDetails.score,
-         twelthCgpaScale: {title:twelthScale.toString(), value: twelthScale},
-        })
-       }      
-     }
   }
-  documentClick = (data) =>{
-    console.log(data)
+  documentClick = (data) => {
+    console.log(data);
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
-    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
-  }
+    window.open(
+      URL +
+        "/api/v1/files/download/" +
+        this.props.match.params.studentId +
+        "/" +
+        data.path
+    );
+  };
 
   handleChange = (panel) => (event, newExpanded) => {
     console.log(panel, newExpanded);
@@ -535,7 +553,7 @@ export class academicInfo extends Component {
     //   ? this.setState({ twelthCgpaScaleErr: hlptxt })
     //   : this.setState({ twelthCgpaScaleErr: "" });
     {
-    let obj = [
+      let obj = [
         {
           examBoard: {
             id: this.state.tenthExamBoard.id,
@@ -543,13 +561,13 @@ export class academicInfo extends Component {
           schoolName: this.state.tenthSchool,
           score: this.state.tenthCgpa,
           scoreScale: this.state.tenthCgpaScale.title,
-          startDate: new Date (this.state.tenthStartDate),
-          endDate: new Date (this.state.tenthEndDate),
+          startDate: new Date(this.state.tenthStartDate),
+          endDate: new Date(this.state.tenthEndDate),
           type: "ssc",
         },
         {
           examBoard: {
-            id:this.state.twelthExamBoard.id,
+            id: this.state.twelthExamBoard.id,
           },
           schoolName: this.state.twelthSchool,
           score: this.state.twelthCgpa,
@@ -561,19 +579,19 @@ export class academicInfo extends Component {
         {
           college: {
             id: this.state.ugCollege.id,
-            name:this.state.ugCollege.name
+            name: this.state.ugCollege.name,
           },
           department: {
             id: this.state.ugDepartment.id,
-            name:this.state.ugDepartment.name
+            name: this.state.ugDepartment.name,
           },
           university: {
             id: this.state.ugUniversity.id,
-            name:this.state.ugUniversity.name
+            name: this.state.ugUniversity.name,
           },
           degree: {
             id: this.state.ugDegree.id,
-            name:this.state.ugDegree.name
+            name: this.state.ugDegree.name,
           },
           startDate: new Date(this.state.ugStartDate),
           endDate: new Date(this.state.ugEndDate),
@@ -584,19 +602,19 @@ export class academicInfo extends Component {
         {
           college: {
             id: this.state.pgCollege.id,
-            name:this.state.pgCollege.name
+            name: this.state.pgCollege.name,
           },
           department: {
             id: this.state.pgDepartment.id,
-            name:this.state.pgDepartment.name
+            name: this.state.pgDepartment.name,
           },
           university: {
             id: this.state.pgUniversity.id,
-            name:this.state.pgUniversity.name
+            name: this.state.pgUniversity.name,
           },
           degree: {
             id: this.state.pgDegree.id,
-            name:this.state.pgDegree.name
+            name: this.state.pgDegree.name,
           },
           startDate: new Date(this.state.pgStartDate),
           endDate: new Date(this.state.pgEndDate),
@@ -607,11 +625,11 @@ export class academicInfo extends Component {
         {
           college: {
             id: this.state.diplomaCollege.id,
-            name:this.state.diplomaCollege.name
+            name: this.state.diplomaCollege.name,
           },
           university: {
             id: this.state.diplomoUniversity.id,
-            name:this.state.diplomoUniversity.name
+            name: this.state.diplomoUniversity.name,
           },
           startDate: new Date(this.state.diplomostartDate),
           endDate: new Date(this.state.diplomoEndDate),
@@ -621,22 +639,25 @@ export class academicInfo extends Component {
           type: "diploma",
         },
       ];
-      this.props.updateAcademicInfo(this.props.match.params.studentId, obj,(response => {
-        if(response.status === 200){
-          this.setState({
-            snackMsg:"Updated Successfully",
-            snackOpen:true,
-            snackVariant:"success"
-          })
+      this.props.updateAcademicInfo(
+        this.props.match.params.studentId,
+        obj,
+        (response) => {
+          if (response.status === 200) {
+            this.setState({
+              snackMsg: "Updated Successfully",
+              snackOpen: true,
+              snackVariant: "success",
+            });
+          } else {
+            this.setState({
+              snackMsg: ErrorMessage.NetworkError,
+              snackOpen: true,
+              snackVariant: "error",
+            });
+          }
         }
-        else {
-          this.setState({
-            snackMsg:ErrorMessage.NetworkError,
-            snackOpen:true,
-            snackVariant:"error"
-          })
-        }
-      }))
+      );
     }
   };
 
@@ -662,13 +683,10 @@ export class academicInfo extends Component {
   ];
 
   getStatus = (sectionName) => {
-    if (
-      this.props.studentStatus &&
-      this.props.studentStatus.length !== 0
-    ) {
-      const { studentStatus } = this.props;         
+    if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
+      const { studentStatus } = this.props;
       return studentStatus.find((item) => item.sectionName === sectionName);
-    } 
+    }
   };
 
   renderModel = () => (
@@ -685,10 +703,10 @@ export class academicInfo extends Component {
       section={this.state.sectionStatus}
       {...this.props}
     />
-  );  
+  );
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     console.log(this.props.getAcademicInfoList);
 
     const { HeadStyle, title, ans, secondary, GridStyle } = style;
@@ -722,25 +740,29 @@ export class academicInfo extends Component {
                         style={{ position: "realative", top: 5 }}
                       /> */}
                       <Status
-                      onClick={() => {
-                        this.setState({
-                          sectionStatus: {
-                            model: true,
-                            data: this.getStatus(SECTION.educationDetail),
-                            sectionName: SECTION.educationDetail,
-                          },
-                        });
-                      }}
-                      status={
-                        this.getStatus(SECTION.educationDetail)
-                          ? this.getStatus(SECTION.educationDetail).status
-                          : "notVerified"
-                      }
-                    />
+                        onClick={() => {
+                          this.setState({
+                            sectionStatus: {
+                              model: true,
+                              data: this.getStatus(SECTION.educationDetail),
+                              sectionName: SECTION.educationDetail,
+                            },
+                          });
+                        }}
+                        status={
+                          this.getStatus(SECTION.educationDetail)
+                            ? this.getStatus(SECTION.educationDetail).status
+                            : "notVerified"
+                        }
+                      />
                     </div>
-                    <IconButton onClick={()=>  this.setState({
-      documentedit : !this.state.documentedit
-    })}>
+                    <IconButton
+                      onClick={() =>
+                        this.setState({
+                          documentedit: !this.state.documentedit,
+                        })
+                      }
+                    >
                       <img src={Pencil} height={17} width={17} />
                     </IconButton>
                   </div>
@@ -1139,7 +1161,10 @@ export class academicInfo extends Component {
                             label="CGPA"
                             value={this.state.ugCgpa}
                             onChange={(e) =>
-                              this.setState({ ugCgpa: e.target.value, ugCgpaErr: "" })
+                              this.setState({
+                                ugCgpa: e.target.value,
+                                ugCgpaErr: "",
+                              })
                             }
                             error={this.state.ugCgpaErr.length > 0}
                             helperText={this.state.ugCgpaErr}
@@ -1226,7 +1251,7 @@ export class academicInfo extends Component {
                     <AccordionDetails>
                       <Grid container spacing={3}>
                         <Grid item md={3}>
-                        <Autocomplete
+                          <Autocomplete
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
@@ -1383,9 +1408,7 @@ export class academicInfo extends Component {
                               })
                             }
                             label="Start Date"
-                            error={
-                              this.state.diplomostartDateErr.length > 0
-                            }
+                            error={this.state.diplomostartDateErr.length > 0}
                             helperText={this.state.diplomostartDateErr}
                             format="MM/dd/yyyy"
                             KeyboardButtonProps={{
@@ -1405,9 +1428,7 @@ export class academicInfo extends Component {
                             format="dd/MM/yyyy"
                             label="End Date"
                             inputProps={{ readOnly: true }}
-                            disabled={
-                              this.state.diplomostartDate === null
-                            }
+                            disabled={this.state.diplomostartDate === null}
                             minDate={this.state.diplomostartDate}
                             value={this.state.diplomoEndDate}
                             onChange={(e, newValue) =>
@@ -1417,9 +1438,7 @@ export class academicInfo extends Component {
                               })
                             }
                             disabled={this.state.documentedit}
-                            error={
-                              this.state.diplomoEndDateErr.length > 0
-                            }
+                            error={this.state.diplomoEndDateErr.length > 0}
                             helperText={this.state.diplomoEndDateErr}
                             format="dd/MM/yyyy"
                             KeyboardButtonProps={{
@@ -1780,119 +1799,176 @@ export class academicInfo extends Component {
                             }}
                           />
                         </Grid>
-                        <Grid item md={12}
-                        
-                        ></Grid>
+                        <Grid item md={12}></Grid>
                       </Grid>
                     </AccordionDetails>
                   </Accordion>
+                  <Grid item md={12}>
+                    <p style={HeadStyle}>Documents Received</p>
+                  </Grid>
+                  {this.props.getAllDocumentList["PG Degree"] &&
+                    this.props.getAllDocumentList["PG Degree"].length !== 0 && (
                       <Grid item md={12}>
-                      <p style={HeadStyle}>Documents Received</p>
+                        <Grid item md={12} direction="column">
+                          <p style={GridStyle}>PG Degree</p>
+                        </Grid>
+                        <Grid item={12} container>
+                          {this.props.getAllDocumentList["PG Degree"]
+                            ? this.props.getAllDocumentList["PG Degree"].map(
+                                (data) => (
+                                  <Grid
+                                    item
+                                    md={4}
+                                    direction="row"
+                                    onClick={() => this.documentClick(data)}
+                                  >
+                                    <DoccumentCard
+                                      certificate={data.name}
+                                      date={data.date}
+                                      path={data.path}
+                                      studentid={
+                                        this.props.match.params.studentId
+                                      }
+                                      status={this.state.documentedit}
+                                    />
+                                  </Grid>
+                                )
+                              )
+                            : null}
+                        </Grid>
                       </Grid>
-                      {this.props.getAllDocumentList.["PG Degree"] && this.props.getAllDocumentList.["PG Degree"].length !== 0 &&
-                <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>PG Degree</p> 
-                  </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.["PG Degree"] ? this.props.getAllDocumentList.["PG Degree"].map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
-                  </Grid>
-                  </Grid>
-  }
+                    )}
 
-   {this.props.getAllDocumentList.["UG Degree"] && this.props.getAllDocumentList.["UG Degree"].length !== 0 &&
-                <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>UG Degree</p> 
-                  </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.["UG Degree"] ? this.props.getAllDocumentList.["UG Degree"].map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
-                  </Grid>
-                  </Grid>
-  }
+                  {this.props.getAllDocumentList["UG Degree"] &&
+                    this.props.getAllDocumentList["UG Degree"].length !== 0 && (
+                      <Grid item md={12}>
+                        <Grid item md={12} direction="column">
+                          <p style={GridStyle}>UG Degree</p>
+                        </Grid>
+                        <Grid item={12} container>
+                          {this.props.getAllDocumentList["UG Degree"]
+                            ? this.props.getAllDocumentList["UG Degree"].map(
+                                (data) => (
+                                  <Grid
+                                    item
+                                    md={4}
+                                    direction="row"
+                                    onClick={() => this.documentClick(data)}
+                                  >
+                                    <DoccumentCard
+                                      certificate={data.name}
+                                      date={data.date}
+                                      path={data.path}
+                                      studentid={
+                                        this.props.match.params.studentId
+                                      }
+                                      status={this.state.documentedit}
+                                    />
+                                  </Grid>
+                                )
+                              )
+                            : null}
+                        </Grid>
+                      </Grid>
+                    )}
 
-               
-   {this.props.getAllDocumentList.Diploma && this.props.getAllDocumentList.Diploma.length !== 0 &&
-                <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>Diploma</p> 
-                  </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.Diploma ? this.props.getAllDocumentList.Diploma.map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
-                  </Grid>
-                  </Grid>
-  }
+                  {this.props.getAllDocumentList.Diploma &&
+                    this.props.getAllDocumentList.Diploma.length !== 0 && (
+                      <Grid item md={12}>
+                        <Grid item md={12} direction="column">
+                          <p style={GridStyle}>Diploma</p>
+                        </Grid>
+                        <Grid item={12} container>
+                          {this.props.getAllDocumentList.Diploma
+                            ? this.props.getAllDocumentList.Diploma.map(
+                                (data) => (
+                                  <Grid
+                                    item
+                                    md={4}
+                                    direction="row"
+                                    onClick={() => this.documentClick(data)}
+                                  >
+                                    <DoccumentCard
+                                      certificate={data.name}
+                                      date={data.date}
+                                      path={data.path}
+                                      studentid={
+                                        this.props.match.params.studentId
+                                      }
+                                      status={this.state.documentedit}
+                                    />
+                                  </Grid>
+                                )
+                              )
+                            : null}
+                        </Grid>
+                      </Grid>
+                    )}
 
-  {this.props.getAllDocumentList.["XII Grade"] && this.props.getAllDocumentList.["XII Grade"].length !== 0 &&
-                <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>XII Grade</p> 
-                  </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.["XII Grade"] ? this.props.getAllDocumentList.["XII Grade"].map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  status={this.state.documentedit}
-                  studentid = {this.props.match.params.studentId}
-                  />
-                   </Grid>
-                  ) : null}
-                  </Grid>
-                  </Grid>
-  }
-{this.props.getAllDocumentList.["X Grade"] && this.props.getAllDocumentList.["X Grade"].length !== 0 &&
-                <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>X Grade</p> 
-                  </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.["X Grade"] ? this.props.getAllDocumentList.["X Grade"].map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
-                  </Grid>
-                  </Grid>
-  }
+                  {this.props.getAllDocumentList["XII Grade"] &&
+                    this.props.getAllDocumentList["XII Grade"].length !== 0 && (
+                      <Grid item md={12}>
+                        <Grid item md={12} direction="column">
+                          <p style={GridStyle}>XII Grade</p>
+                        </Grid>
+                        <Grid item={12} container>
+                          {this.props.getAllDocumentList["XII Grade"]
+                            ? this.props.getAllDocumentList["XII Grade"].map(
+                                (data) => (
+                                  <Grid
+                                    item
+                                    md={4}
+                                    direction="row"
+                                    onClick={() => this.documentClick(data)}
+                                  >
+                                    <DoccumentCard
+                                      certificate={data.name}
+                                      date={data.date}
+                                      path={data.path}
+                                      status={this.state.documentedit}
+                                      studentid={
+                                        this.props.match.params.studentId
+                                      }
+                                    />
+                                  </Grid>
+                                )
+                              )
+                            : null}
+                        </Grid>
+                      </Grid>
+                    )}
+                  {this.props.getAllDocumentList["X Grade"] &&
+                    this.props.getAllDocumentList["X Grade"].length !== 0 && (
+                      <Grid item md={12}>
+                        <Grid item md={12} direction="column">
+                          <p style={GridStyle}>X Grade</p>
+                        </Grid>
+                        <Grid item={12} container>
+                          {this.props.getAllDocumentList["X Grade"]
+                            ? this.props.getAllDocumentList["X Grade"].map(
+                                (data) => (
+                                  <Grid
+                                    item
+                                    md={4}
+                                    direction="row"
+                                    onClick={() => this.documentClick(data)}
+                                  >
+                                    <DoccumentCard
+                                      certificate={data.name}
+                                      date={data.date}
+                                      path={data.path}
+                                      studentid={
+                                        this.props.match.params.studentId
+                                      }
+                                      status={this.state.documentedit}
+                                    />
+                                  </Grid>
+                                )
+                              )
+                            : null}
+                        </Grid>
+                      </Grid>
+                    )}
 
                   <Grid
                     item
@@ -1920,11 +1996,11 @@ export class academicInfo extends Component {
               </ThemeProvider>
             </Card>
             {this.renderModel()}
-            <MySnackBar 
+            <MySnackBar
               snackMsg={this.state.snackMsg}
               snackVariant={this.state.snackVariant}
               snackOpen={this.state.snackOpen}
-              onClose={()=>this.setState({snackOpen:false})} 
+              onClose={() => this.setState({ snackOpen: false })}
             />
           </ThemeProvider>
         </MuiPickersUtilsProvider>
@@ -1935,7 +2011,7 @@ export class academicInfo extends Component {
 
 const style = {
   HeadStyle: {
-    paddingTop : "18px",
+    paddingTop: "18px",
     fontStyle: "Poppins",
     fontWeight: "600",
     fontStyle: "normal",
@@ -1991,8 +2067,7 @@ const mapStateToProps = (state) => {
     sscexamboardList: state.StudentReducer.sscexamboard,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getAllDocumentList: state.StudentReducer.getDocumentList,
-    getPGDegreesList : state.CollegeReducer.getPGDegrees
-
+    getPGDegreesList: state.CollegeReducer.getPGDegrees,
   };
 };
 
@@ -2008,5 +2083,5 @@ export default connect(mapStateToProps, {
   viewStudentStatus,
   updateVerificationStatus,
   getDocumentList,
-  getPGDegree
+  getPGDegree,
 })(academicInfo);

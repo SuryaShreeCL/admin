@@ -8,8 +8,11 @@ import {
   withStyles,
   createMuiTheme,
 } from "@material-ui/core";
-import { getStudentsById ,getDocumentList} from "../../Actions/Student";
-import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import { getStudentsById, getDocumentList } from "../../Actions/Student";
+import {
+  viewStudentStatus,
+  updateVerificationStatus,
+} from "../../Actions/AdminAction";
 import { connect } from "react-redux";
 import {
   getPersonalInfo,
@@ -24,7 +27,7 @@ import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
-import {URL} from '../../Actions/URL'
+import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
 const theme = createMuiTheme({
   overrides: {
@@ -60,9 +63,9 @@ export class personalInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      snackMsg:"",
-      snackOpen:false,
-      snackVariant:"",
+      snackMsg: "",
+      snackOpen: false,
+      snackVariant: "",
       personalDisable: true,
       addressDisable: true,
       mediaDisable: true,
@@ -100,7 +103,7 @@ export class personalInfo extends Component {
       twitter: "",
       twitterErr: "",
       pincodeDetails: [],
-      documentedit : false,
+      documentedit: false,
       sectionStatus: {
         model: false,
         data: null,
@@ -111,7 +114,10 @@ export class personalInfo extends Component {
   componentDidMount() {
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
-    this.props.getDocumentList(this.props.match.params.studentId,this.props.match.params.productId)
+    this.props.getDocumentList(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -144,20 +150,22 @@ export class personalInfo extends Component {
           address2: this.props.getStudentsByIdList.address.streetAddressTwo,
           landmark: this.props.getStudentsByIdList.address.landMark,
           pincode: this.props.getStudentsByIdList.address.pincode,
-          city : this.props.getStudentsByIdList.address.city,
+          city: this.props.getStudentsByIdList.address.city,
           twitter: this.props.getStudentsByIdList.twitterUrl,
           facebook: this.props.getStudentsByIdList.faceBookUrl,
           linkedIn: this.props.getStudentsByIdList.linkedInProfile,
-          state:this.props.getStudentsByIdList.address.state
+          state: this.props.getStudentsByIdList.address.state,
         });
     }
-    if(this.props.updatePersonalInfoList !== prevProps.updatePersonalInfoList){
-       this.setState({
-         snackMsg:"Updated Successfully",
-         snackVariant:"success",
-         snackOpen:true,
-         show: false
-       })
+    if (
+      this.props.updatePersonalInfoList !== prevProps.updatePersonalInfoList
+    ) {
+      this.setState({
+        snackMsg: "Updated Successfully",
+        snackVariant: "success",
+        snackOpen: true,
+        show: false,
+      });
     }
   }
 
@@ -166,19 +174,19 @@ export class personalInfo extends Component {
     this.setState({ addressDisable: !this.state.addressDisable });
     this.setState({ mediaDisable: !this.state.mediaDisable });
     this.setState({
-      documentedit : true
-    })
+      documentedit: true,
+    });
   }
 
   // handleAddressClick(e) {
-   
+
   // }
 
   // handleSocialClick(e) {
-  
+
   // }
   // handleEdit=()=>{
-     
+
   // }
   handleSave = () => {
     let hlptxt = "Please fill the required field";
@@ -213,7 +221,7 @@ export class personalInfo extends Component {
       ? this.setState({ cityErr: hlptxt })
       : this.setState({ cityErr: "" });
 
-    if(
+    if (
       !isEmptyString(this.state.firstName) &&
       !isEmptyString(this.state.lastName) &&
       !isEmptyString(this.state.fullName) &&
@@ -224,8 +232,7 @@ export class personalInfo extends Component {
       !isEmptyString(this.state.pincode) &&
       !isEmptyString(this.state.state) &&
       !isEmptyString(this.state.city)
-    )
-    {
+    ) {
       let obj = {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -252,13 +259,10 @@ export class personalInfo extends Component {
   };
 
   getStatus = (sectionName) => {
-    if (
-      this.props.studentStatus &&
-      this.props.studentStatus.length !== 0
-    ) {
-      const { studentStatus } = this.props;         
+    if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
+      const { studentStatus } = this.props;
       return studentStatus.find((item) => item.sectionName === sectionName);
-    } 
+    }
   };
 
   renderModel = () => (
@@ -275,14 +279,20 @@ export class personalInfo extends Component {
       section={this.state.sectionStatus}
       {...this.props}
     />
-  );  
-  documentClick = (data) =>{
-    console.log(data)
+  );
+  documentClick = (data) => {
+    console.log(data);
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
-    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
-  }
+    window.open(
+      URL +
+        "/api/v1/files/download/" +
+        this.props.match.params.studentId +
+        "/" +
+        data.path
+    );
+  };
 
-  render() {    
+  render() {
     const { HeadStyle, GridStyle } = style;
     return (
       <div>
@@ -400,7 +410,7 @@ export class personalInfo extends Component {
                   label="Email Address"
                   disabled={true}
                   value={this.state.email}
-                /> 
+                />
               </Grid>
 
               <Grid item md={3}>
@@ -694,14 +704,14 @@ export class personalInfo extends Component {
                   </IconButton> */}
                 </div>
               </Grid>
-{/* 
-              {this.props.getAllDocumentList.["PG Degree"] && this.props.getAllDocumentList.["PG Degree"].length !== 0 &&
+              {/* 
+              {this.props.getAllDocumentList["PG Degree"] && this.props.getAllDocumentList["PG Degree"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>PG Degree</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["PG Degree"] ? this.props.getAllDocumentList.["PG Degree"].map(data =>
+                  {this.props.getAllDocumentList["PG Degree"] ? this.props.getAllDocumentList["PG Degree"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
@@ -716,13 +726,13 @@ export class personalInfo extends Component {
                   </Grid>
   }
 
-   {this.props.getAllDocumentList.["UG Degree"] && this.props.getAllDocumentList.["UG Degree"].length !== 0 &&
+   {this.props.getAllDocumentList["UG Degree"] && this.props.getAllDocumentList["UG Degree"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>UG Degree</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["UG Degree"] ? this.props.getAllDocumentList.["UG Degree"].map(data =>
+                  {this.props.getAllDocumentList["UG Degree"] ? this.props.getAllDocumentList["UG Degree"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
@@ -759,13 +769,13 @@ export class personalInfo extends Component {
                   </Grid>
   }
 
-  {this.props.getAllDocumentList.["XII Grade"] && this.props.getAllDocumentList.["XII Grade"].length !== 0 &&
+  {this.props.getAllDocumentList["XII Grade"] && this.props.getAllDocumentList["XII Grade"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>XII Grade</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["XII Grade"] ? this.props.getAllDocumentList.["XII Grade"].map(data =>
+                  {this.props.getAllDocumentList["XII Grade"] ? this.props.getAllDocumentList["XII Grade"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
@@ -779,13 +789,13 @@ export class personalInfo extends Component {
                   </Grid>
                   </Grid>
   }
-{this.props.getAllDocumentList.["X Grade"] && this.props.getAllDocumentList.["X Grade"].length !== 0 &&
+{this.props.getAllDocumentList["X Grade"] && this.props.getAllDocumentList["X Grade"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>X Grade</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["X Grade"] ? this.props.getAllDocumentList.["X Grade"].map(data =>
+                  {this.props.getAllDocumentList["X Grade"] ? this.props.getAllDocumentList["X Grade"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
@@ -934,12 +944,11 @@ export class personalInfo extends Component {
             </Grid>
           </Card>
           {this.renderModel()}
-          <MySnackBar 
-          snackMsg={this.state.snackMsg}
-          snackVariant={this.state.snackVariant}
-          snackOpen={this.state.snackOpen}
-          onClose={() => this.setState({ snackOpen: false })}
-
+          <MySnackBar
+            snackMsg={this.state.snackMsg}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
+            onClose={() => this.setState({ snackOpen: false })}
           />
         </ThemeProvider>
       </div>
@@ -987,5 +996,5 @@ export default connect(mapStateToProps, {
   getPincodeDetails,
   viewStudentStatus,
   updateVerificationStatus,
-  getDocumentList
+  getDocumentList,
 })(personalInfo);
