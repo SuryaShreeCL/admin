@@ -337,7 +337,7 @@ export const getAwaitingUsersByAdminId = () =>{
 
 // TO Activate Student Product
 
-export const activateStudentProduct = (data) =>{
+export const activateStudentProduct = (data,callback) =>{
     let accessToken = window.sessionStorage.getItem("accessToken")  
     let id = window.sessionStorage.getItem("adminUserId")
     return dispatch =>{
@@ -349,9 +349,11 @@ export const activateStudentProduct = (data) =>{
         })
         .then(result=>{
             dispatch({type : ADMIN.activateStudentProduct, payload : result.data})
+            callback(result)
         })
         .catch(error=>{
             console.log(error)
+            callback(error)
         })
     }
 }

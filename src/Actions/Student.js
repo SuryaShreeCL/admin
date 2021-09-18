@@ -283,7 +283,7 @@ export const mernStudentSignUp=(data,callback)=>{
     // let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch=>{                
         console.log(data)
-        axios.post(AUTH_URL+"/api/v1/auth/signup",data,{crossDomain:true,
+        axios.post(AUTH_URL+"/auth/signup",data,{crossDomain:true,
             headers : {
                 "Access-Control-Allow-Origin": "*"
             }
@@ -310,7 +310,7 @@ export const mernStudentEdit=(id,data,callback)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch=>{                
         console.log(data)
-        axios.put(AUTH_URL+"/api/v1/auth/students/"+id,data,{crossDomain:true,
+        axios.put(AUTH_URL+"/auth/students/"+id,data,{crossDomain:true,
         headers : {
             "x-access-token" : accessToken
         }
