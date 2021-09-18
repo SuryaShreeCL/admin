@@ -32,6 +32,7 @@ export default class TestResults extends Component {
         <div style={{ margin: "10px" }}>
           <Accordion>
             <AccordionSummary
+              style={{ flexDirection: "row-reverse" }}
               expandIcon={<ExpandMoreIcon />}
               aria-label="Expand"
               aria-controls="additional-actions1-content"
@@ -40,9 +41,9 @@ export default class TestResults extends Component {
               Diagnostics Tests
             </AccordionSummary>
             <AccordionDetails>
-              <Grid container spacing={3}>
-                <Grid item md={1}></Grid>
-                <Grid item md={3}>
+              <Grid container spacing={1}>
+                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
+                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                   <Autocomplete
                     id="debug"
                     // onChange={(e, newValue) =>
@@ -66,7 +67,8 @@ export default class TestResults extends Component {
                     )}
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item md={2} xs={2} sm={2} xl={2} lg={2}></Grid>
+                <Grid item md={4} md={4} xs={4} sm={4} xl={4} lg={4}>
                   <Autocomplete
                     id="debug"
                     // onChange={(e, newValue) =>
@@ -90,9 +92,9 @@ export default class TestResults extends Component {
                     )}
                   />
                 </Grid>
-                <Grid item md={5}></Grid>
-                <Grid item md={1}></Grid>
-                <Grid item md={3}>
+                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
+                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
+                <Grid item md={4} md={4} xs={4} sm={4} xl={4} lg={4}>
                   <Autocomplete
                     id="debug"
                     // onChange={(e, newValue) =>
@@ -116,7 +118,8 @@ export default class TestResults extends Component {
                     )}
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item md={2} xs={2} sm={2} xl={2} lg={2}></Grid>
+                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                   <Autocomplete
                     id="debug"
                     // onChange={(e, newValue) =>
@@ -148,6 +151,7 @@ export default class TestResults extends Component {
         <div style={{ margin: "10px" }}>
           <Accordion>
             <AccordionSummary
+              style={{ flexDirection: "row-reverse" }}
               expandIcon={<ExpandMoreIcon />}
               aria-label="Expand"
               aria-controls="additional-actions1-content"
@@ -156,9 +160,9 @@ export default class TestResults extends Component {
               Personality Test
             </AccordionSummary>
             <AccordionDetails>
-              <Grid container spacing={3}>
-                <Grid item md={1}></Grid>
-                <Grid item md={3}>
+              <Grid container spacing={1}>
+                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
+                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                   <Autocomplete
                     id="debug"
                     // onChange={(e, newValue) =>
@@ -189,14 +193,8 @@ export default class TestResults extends Component {
         <div style={{ margin: "10px" }}>
           <Accordion>
             <AccordionSummary
-            //   InputProps={{
-            //     startAdornment: (
-            //       <InputAdornment position="start">
-            //         expandIcon={<ExpandMoreIcon />}{" "}
-            //       </InputAdornment>
-            //     ),
-            //   }}
-                expandIcon={<ExpandMoreIcon/>}
+              style={{ flexDirection: "row-reverse",display:"flex" }}
+              expandIcon={<ExpandMoreIcon />}
               aria-label="Expand"
               aria-controls="additional-actions1-content"
               id="additional-actions1-header"
@@ -204,9 +202,9 @@ export default class TestResults extends Component {
               Technical Test
             </AccordionSummary>
             <AccordionDetails>
-              <Grid container spacing={3}>
-                <Grid item md={1}></Grid>
-                <Grid item md={3}>
+              <Grid container spacing={1}>
+                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
+                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                   <Autocomplete
                     id="debug"
                     // onChange={(e, newValue) =>
@@ -238,3 +236,29 @@ export default class TestResults extends Component {
     );
   }
 }
+
+
+
+
+
+// [
+//     {
+//         title : "diagnostic",
+//         score: [
+//             {
+//             title:"logicalReasoning",
+//             value: ""
+//             }
+//         ]
+//     },
+//     {
+//         title : "diagnostic",
+//         score: [
+//             {
+//             title:"logicalReasoning",
+//             value: ""
+//             }
+//         ]
+//     },
+
+// ]

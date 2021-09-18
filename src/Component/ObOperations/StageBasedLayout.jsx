@@ -17,6 +17,7 @@ import ProfileGapAnalysisTab from '../ProfileGapAnalysisTab';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from '../../Asset/Images/backbutton.svg'
 import {studentPath } from '../RoutePaths';
+import ProfileGapRoot from '../ProfileGapAnalysis/Root';
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -176,7 +177,8 @@ componentDidUpdate(prevProps, prevState) {
                <Grid item md={12}>
                    {Page !== undefined && this.state.tabCount === 0 && this.state.selectedItem !== "Others" && <Page {...this.props} />  }  
                    {this.state.tabCount === 0 && this.state.selectedItem === "Others" && <AdmissionServices {...this.props}/>}    
-                   {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }       
+                   {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
+                   {this.state.tabCount === 1 && <ProfileGapRoot {...this.props}/> }       
                </Grid>
          </Grid>
          </div>
