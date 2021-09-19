@@ -485,3 +485,28 @@ export const draftTopic = (topicId, callback) => {
       });
   };
 };
+
+export const putImage = (file, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  // {{DEV-LMS}}/api/v1/
+  return () =>
+    axios
+      .post(
+        `${DEV_LMS}/api/v1/files/upload/test/question/image`,
+        file,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+};

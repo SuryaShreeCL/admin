@@ -4,7 +4,8 @@ import {
   Switch as MuiSwitch,
   Radio as MuiRadio,
   IconButton as MuiIconButton,
-  // Checkbox as MuiCheckBox,
+  Checkbox as MuiCheckBox,
+  FormControlLabel as MuiFormControlLable,
 } from '@material-ui/core';
 
 export const H1 = styled.div`
@@ -114,3 +115,15 @@ export const C1 = styled.div`
   height: 50px;
   margin: 6px;
 `;
+
+export const Checkbox = withStyles({
+  root: {
+    backgroundColor: 'inherit !important',
+  },
+})(MuiCheckBox);
+
+export const FormControlLabel = withStyles({
+  root: {
+    marginLeft: '37px',
+  },
+})(MuiFormControlLable);

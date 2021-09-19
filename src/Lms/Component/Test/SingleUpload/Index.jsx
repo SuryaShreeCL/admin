@@ -6,6 +6,7 @@ import {
   getSubjects,
   getConcepts,
   getTopics2,
+  putImage,
 } from '../../../Redux/Action/CourseMaterial';
 import Answer from './Answer';
 
@@ -21,9 +22,19 @@ export class Index extends Component {
       expectedTime: '',
       checked: false,
       activeTab: 0,
-      bucketArray: [{ tabLabel: 'Bucket 1' }],
+      bucketArray: [
+        {
+          tabLabel: 'Bucket 1',
+          choices: [{ text: '', image: null, selected: false }],
+        },
+        {
+          tabLabel: 'Bucket 2',
+          choices: [{ text: '', image: null, selected: false }],
+        },
+      ],
       answerType: '',
-      noOfChoices: 1,
+      noOfChoices: [{ text: '', image: null, selected: false }],
+      anchorEl: null,
     };
   }
 
@@ -92,7 +103,17 @@ export class Index extends Component {
   };
 
   handleSwitch = () => {
-    this.setState({ checked: !this.state.checked });
+    if (!this.state.checked) {
+      this.setState({
+        checked: !this.state.checked,
+        answerType: 'singleChoice',
+      });
+    } else {
+      this.setState({
+        checked: !this.state.checked,
+        answerType: '',
+      });
+    }
   };
 
   handleTabChange = value => {
@@ -102,12 +123,84 @@ export class Index extends Component {
   handleAddBucket = () => {
     let arr = this.state.bucketArray;
     let count = this.state.bucketArray.length + 1;
-    arr.push({ tabLabel: 'Bucket ' + count });
+    arr.push({
+      tabLabel: 'Bucket ' + count,
+
+      choices: [{ text: '', image: null, selected: false }],
+    });
     this.setState({ bucketArray: arr, activeTab: count - 1 });
   };
 
   handleRadioChange = e => {
     this.setState({ answerType: e.target.value });
+  };
+
+  handleCheckBoxes = e => {
+    const { activeTab } = this.state;
+    if (this.state.answerType === 'singleChoice') {
+      let arr = this.state.bucketArray;
+      if (arr[activeTab].choices[e.target.value].selected) {
+        arr[activeTab].choices[e.target.value].selected = false;
+        this.setState({ bucketArray: arr });
+      } else {
+        arr[activeTab].choices.map(item => (item.selected = false));
+        arr[activeTab].choices[e.target.value].selected = true;
+        this.setState({ bucketArray: arr });
+      }
+    }
+    if (this.state.answerType === 'multiChoice') {
+      let arr = this.state.bucketArray;
+
+      arr[activeTab].choices[e.target.value].selected = !arr[activeTab].choices[
+        e.target.value
+      ].selected;
+      this.setState({ bucketArray: arr });
+    }
+  };
+
+  handleAddOption = () => {
+    if (this.state.bucketArray[this.state.activeTab].choices.length < 5) {
+      let arr = this.state.bucketArray;
+      arr[this.state.activeTab].choices.push({
+        text: '',
+        image: null,
+        selected: false,
+      });
+      this.setState({ bucketArray: arr });
+    }
+  };
+
+  handleImageUpload = e => {
+    this.setState({
+      selectedFile: e.target.files[0],
+    });
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    this.props.putImage(formData, response => {
+      console.log(response);
+    });
+  };
+
+  handleThreeDotClick = e => {
+    this.setState({
+      anchorEl: e.currentTarget,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleDelete = () => {
+    let arr = this.state.bucketArray;
+    if (arr.length > 2) {
+      arr.pop();
+      this.setState({
+        activeTab: this.state.activeTab - 1,
+        bucketArray: arr,
+        anchorEl: null,
+      });
+    }
   };
 
   render() {
@@ -124,6 +217,7 @@ export class Index extends Component {
       bucketArray,
       answerType,
       noOfChoices,
+      anchorEl,
     } = this.state;
 
     const {
@@ -135,6 +229,12 @@ export class Index extends Component {
       handleTabChange,
       handleAddBucket,
       handleRadioChange,
+      handleCheckBoxes,
+      handleAddOption,
+      handleImageUpload,
+      handleThreeDotClick,
+      handleClose,
+      handleDelete,
     } = this;
 
     const difficulty = [
@@ -169,9 +269,15 @@ export class Index extends Component {
       handleRadioChange,
       answerType,
       noOfChoices,
+      handleCheckBoxes,
+      handleAddOption,
+      handleImageUpload,
+      handleThreeDotClick,
+      anchorEl,
+      handleClose,
+      handleDelete,
     };
-
-    // console.log(topics);
+    // console.log(this.state);
 
     return (
       <C2>
@@ -195,4 +301,5 @@ export default connect(mapStateToProps, {
   getSubjects,
   getConcepts,
   getTopics2,
+  putImage,
 })(Index);
