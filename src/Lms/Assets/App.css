@@ -178,3 +178,20 @@
 .radio_group_style {
   margin-top: 34px !important;
 }
+
+.display-selected-image-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 48px;
+  width: 100%;
+}
+
+.choice-image-style {
+  padding: 8px 20px;
+  height: 48px;
+  /* flex-grow: 1; */
+}

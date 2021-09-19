@@ -170,14 +170,25 @@ export class Index extends Component {
     }
   };
 
-  handleImageUpload = e => {
-    this.setState({
-      selectedFile: e.target.files[0],
-    });
+  handleImageUpload = (e, index) => {
+    // console.log(e.target.id);
+    // this.setState({
+    //   selectedFile: e.target.files[0],
+    // });
+    // console.log(
+    //   this.state.bucketArray[this.state.activeTab].choices[e.target.id].image
+    // );
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
     this.props.putImage(formData, response => {
       console.log(response);
+      if (response.success) {
+        let arr = this.state.bucketArray;
+        console.log(response);
+        arr[this.state.activeTab].choices[index].image = response.data;
+        this.setState({ bucketArray: arr });
+      }
+      // console.log(response);
     });
   };
 
@@ -201,6 +212,13 @@ export class Index extends Component {
         anchorEl: null,
       });
     }
+  };
+
+  handleDeleteIconClick = index => {
+    let arr = this.state.bucketArray;
+    // console.log(this.state.bucketArray[this.state.activeTab].choices[index]);
+    arr[this.state.activeTab].choices[index].image = null;
+    this.setState({ bucketArray: arr });
   };
 
   render() {
@@ -235,6 +253,7 @@ export class Index extends Component {
       handleThreeDotClick,
       handleClose,
       handleDelete,
+      handleDeleteIconClick,
     } = this;
 
     const difficulty = [
@@ -276,8 +295,9 @@ export class Index extends Component {
       anchorEl,
       handleClose,
       handleDelete,
+      handleDeleteIconClick,
     };
-    // console.log(this.state);
+    console.log(this.state);
 
     return (
       <C2>

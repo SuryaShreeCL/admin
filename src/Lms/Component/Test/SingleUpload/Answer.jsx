@@ -24,6 +24,7 @@ function Answer(props) {
     anchorEl,
     handleClose,
     handleDelete,
+    handleDeleteIconClick,
   } = props;
 
   let tabCompProps = {
@@ -50,6 +51,7 @@ function Answer(props) {
     handleImageUpload,
     bucketArray,
     activeTab,
+    handleDeleteIconClick,
   };
   return (
     <React.Fragment>

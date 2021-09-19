@@ -7,7 +7,6 @@ import { Label } from '../../../Assets/StyledTest';
 
 function RadioButtons(props) {
   let { checked, handleRadioChange, answerType } = props;
-  console.log(answerType === 'singleChoice');
   return (
     <FormControl className='radio_group_style' component='fieldset'>
       <RadioGroup

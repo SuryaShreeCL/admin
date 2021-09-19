@@ -2,11 +2,12 @@ import React from 'react';
 // import { TextField } from '@material-ui/core';
 import { OutlinedInput, InputAdornment, IconButton } from '@material-ui/core';
 import ImageIcon from '../../../Assets/icons/Image.svg';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function InputBox(props) {
-  const { boxType, inputValue, handleInputChange, handleImageUpload } = props;
-  // console.log(handleImageUpload);
-  if (boxType === 'text')
+  const { image, handleImageUpload, index, handleDeleteIconClick } = props;
+  // console.log(handleDeleteIconClick);
+  if (image === null)
     return (
       <OutlinedInput
         style={{ height: '48px  ' }}
@@ -15,33 +16,34 @@ function InputBox(props) {
           <InputAdornment position='end'>
             <IconButton
               aria-label='toggle password visibility'
-              //   onClick={handleClickShowPassword}
-              //   onMouseDown={handleMouseDownPassword}
               edge='end'
               component='label'
             >
               <img src={ImageIcon} alt='Image icon' />
               <input
-                // accept='image/*'
                 hidden
-                // style={{ display: 'none' }}
-                // id='contained-button-file'
                 type='file'
-                onChange={e => handleImageUpload(e)}
-                // disabled={
-                //   this.props.monthResponse &&
-                //   this.props.monthResponse.data.filter(
-                //     item => !item.studyPlanCreated
-                //   ).length === 0
-                // }
+                onChange={e => handleImageUpload(e, index)}
               />
             </IconButton>
           </InputAdornment>
         }
       />
     );
-  else if (boxType === 'image') return <div></div>;
-  else return null;
+  else
+    return (
+      <div className='display-selected-image-div'>
+        <img src={image.imageUrl} className='choice-image-style' />
+        <span>
+          <IconButton>
+            <DeleteIcon
+              style={{ fill: ' #FF3511' }}
+              onClick={() => handleDeleteIconClick(index)}
+            />
+          </IconButton>
+        </span>
+      </div>
+    );
 }
 
 export default InputBox;

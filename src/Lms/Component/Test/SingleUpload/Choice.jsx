@@ -18,6 +18,7 @@ function Choice(props) {
     handleImageUpload,
     bucketArray,
     activeTab,
+    handleDeleteIconClick,
   } = props;
   return (
     <div>
@@ -25,7 +26,13 @@ function Choice(props) {
         return (
           <C1>
             <T1>{LETTERS[index]}</T1>
-            <InputBox boxType='text' handleImageUpload={handleImageUpload} />
+            <InputBox
+              boxType='text'
+              image={choice.image}
+              handleImageUpload={handleImageUpload}
+              index={index}
+              handleDeleteIconClick={handleDeleteIconClick}
+            />
             <FormControlLabel
               disabledRipple
               control={
