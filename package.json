@@ -44,6 +44,7 @@
     "react-scripts": "3.4.0",
     "react-select": "^4.3.1",
     "react-slick": "^0.27.10",
+    "react-tinymce": "^0.7.0",
     "reactstrap": "8.4.1",
     "redux": "4.0.5",
     "redux-devtools-extension": "^2.13.9",
@@ -65,7 +66,7 @@
     "prettier": "1.19.1"
   },
   "scripts": {
-    "start": "PORT=8001 react-scripts start ",
+    "start": "PORT=8000 react-scripts start ",
     "build": "env-cmd -f .env.production react-scripts --max_old_space_size=4096 build",
     "build:development": "env-cmd -f .env.development react-scripts --max_old_space_size=4096 build",
     "build:lms": "env-cmd -f .env.lms react-scripts --max_old_space_size=4096 build",

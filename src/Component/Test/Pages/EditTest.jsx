@@ -15,7 +15,7 @@ import { ExistingMedia } from '../../Wall/Components/Upload/ExistingMedia';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
-import { updateTest, getTestDetails } from '../../../Actions/TestActions';
+import { updateTest, getTestDetails, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { testPath } from '../../RoutePaths';
@@ -336,7 +336,11 @@ const EditTest = () => {
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
                       <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                        <MultipleFileUploadField name='wallFilesUpdate' fileType='image' disable={true}/>
+                        <MultipleFileUploadField
+                          name='wallFilesUpdate'
+                          fileType='image'
+                          disable={true}
+                        />
                         {values?.wallPost?.wallFiles?.map((media) => (
                           <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
                         ))}
@@ -409,6 +413,7 @@ const EditTest = () => {
                           color='primary'
                           disabled={!values.Questions?.success}
                           onClick={() => {
+                            scheduleIt(values.id);
                             setNotify({
                               isOpen: true,
                               message: 'Scheduled Successfully',

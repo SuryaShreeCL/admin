@@ -227,7 +227,17 @@ class ProductActivation extends Component {
         },
       ],
     };
-    this.props.activateStudentProduct(obj);
+    this.props.activateStudentProduct(obj,(response => {
+      console.log(response)
+      if(response.data === "updated")
+      this.setState({
+        snackOpen: true,
+        snackColor: "success",
+        snackMsg: "Product activated successfully",
+        show: false,
+        isLoading: false,
+      })
+    }));
   };
 
   // To handle search

@@ -189,3 +189,17 @@ export const getTestDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+export const scheduleIt = (id) => {
+  axios({
+    method: 'put',
+    url: `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${id}/status/Scheduled`,
+    crossDomain: true,
+    headers: {
+      admin: 'yes',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then(function(response) {
+    console.log(response);
+  });
+};
