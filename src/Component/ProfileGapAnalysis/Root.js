@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import TestResults from "./TestResults";
 import TestResultsGraph from "./TestResultsGraph";
 import CvViewer from "./CvViewer";
+import InterestDetail from "./InterestDetail";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,9 +41,9 @@ class ProfileGapRoot extends Component {
 
 
   renderRightContainer = () =>{
-    if(this.state.value === 2){
+    if(this.state.value === 3){
       return <TestResultsGraph/>
-    }else if(this.state.value === 3){
+    }else if(this.state.value === 4){
      return <CvViewer />
     }
   }
@@ -98,10 +99,10 @@ class ProfileGapRoot extends Component {
              <GeneralDetails {...this.props}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
-            <TestResults />
-            </TabPanel>
+           <InterestDetail/>
+           </TabPanel>
             <TabPanel value={this.state.value} index={3}>
-              Item Three
+            <TestResults />
             </TabPanel>
             <TabPanel value={this.state.value} index={4}>
               Item Four
