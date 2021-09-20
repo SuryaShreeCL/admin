@@ -5,13 +5,22 @@ import ImageIcon from '../../../Assets/icons/Image.svg';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 function InputBox(props) {
-  const { image, handleImageUpload, index, handleDeleteIconClick } = props;
+  const {
+    image,
+    handleImageUpload,
+    index,
+    handleDeleteIconClick,
+    choice,
+    handleTextChange,
+  } = props;
   // console.log(handleDeleteIconClick);
-  if (image === null)
+  if (choice.image === null)
     return (
       <OutlinedInput
         style={{ height: '48px  ' }}
         fullWidth
+        value={choice.text}
+        onChange={e => handleTextChange(e, index)}
         endAdornment={
           <InputAdornment position='end'>
             <IconButton
@@ -33,7 +42,7 @@ function InputBox(props) {
   else
     return (
       <div className='display-selected-image-div'>
-        <img src={image.imageUrl} className='choice-image-style' />
+        <img src={choice.image.imageUrl} className='choice-image-style' />
         <span>
           <IconButton>
             <DeleteIcon

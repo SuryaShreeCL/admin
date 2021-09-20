@@ -9,6 +9,11 @@ import {
   putImage,
 } from '../../../Redux/Action/CourseMaterial';
 import Answer from './Answer';
+import Explanation from './Explanation';
+import Buttons from './Buttons';
+import QueryString from 'qs';
+import { capitalize } from '@material-ui/core';
+// import CKEditor from 'react-ckeditor-component';
 
 export class Index extends Component {
   constructor(props) {
@@ -22,19 +27,11 @@ export class Index extends Component {
       expectedTime: '',
       checked: false,
       activeTab: 0,
-      bucketArray: [
-        {
-          tabLabel: 'Bucket 1',
-          choices: [{ text: '', image: null, selected: false }],
-        },
-        {
-          tabLabel: 'Bucket 2',
-          choices: [{ text: '', image: null, selected: false }],
-        },
-      ],
+      bucketArray: [],
       answerType: '',
-      noOfChoices: [{ text: '', image: null, selected: false }],
       anchorEl: null,
+      text: '',
+      url: '',
     };
   }
 
@@ -106,7 +103,17 @@ export class Index extends Component {
     if (!this.state.checked) {
       this.setState({
         checked: !this.state.checked,
-        answerType: 'singleChoice',
+        answerType: 'BUNDLE',
+        bucketArray: [
+          {
+            tabLabel: 'Bucket 1',
+            choices: [{ text: '', image: null, selected: false }],
+          },
+          {
+            tabLabel: 'Bucket 2',
+            choices: [{ text: '', image: null, selected: false }],
+          },
+        ],
       });
     } else {
       this.setState({
@@ -132,12 +139,32 @@ export class Index extends Component {
   };
 
   handleRadioChange = e => {
-    this.setState({ answerType: e.target.value });
+    if (e.target.value === 'SUBJECTIVE') {
+      // let arr = this.state.bucketArray;
+      // arr[0].choices[0].selected = true;
+
+      this.setState({
+        answerType: e.target.value,
+        bucketArray: [
+          {
+            choices: [{ text: '', image: null, selected: true }],
+          },
+        ],
+      });
+    } else
+      this.setState({
+        answerType: e.target.value,
+        bucketArray: [
+          {
+            choices: [{ text: '', image: null, selected: false }],
+          },
+        ],
+      });
   };
 
   handleCheckBoxes = e => {
     const { activeTab } = this.state;
-    if (this.state.answerType === 'singleChoice') {
+    if (this.state.answerType === 'SINGLE_SELECT') {
       let arr = this.state.bucketArray;
       if (arr[activeTab].choices[e.target.value].selected) {
         arr[activeTab].choices[e.target.value].selected = false;
@@ -148,7 +175,7 @@ export class Index extends Component {
         this.setState({ bucketArray: arr });
       }
     }
-    if (this.state.answerType === 'multiChoice') {
+    if (this.state.answerType === 'MULTI_CHOICE') {
       let arr = this.state.bucketArray;
 
       arr[activeTab].choices[e.target.value].selected = !arr[activeTab].choices[
@@ -221,7 +248,55 @@ export class Index extends Component {
     this.setState({ bucketArray: arr });
   };
 
+  handleTextChange = (e, index) => {
+    let arr = this.state.bucketArray;
+    // console.log(this.state.bucketArray[this.state.activeTab].choices[index]);
+    arr[this.state.activeTab].choices[index].text = e.target.value;
+    this.setState({ bucketArray: arr });
+  };
+
+  handleExpTextChange = e => {
+    this.setState({ text: e.target.value });
+  };
+
+  handleUrlChange = e => {
+    this.setState({
+      url: e.target.value,
+    });
+  };
+
+  handleSaveClick = () => {
+    const obj = {
+      id: null,
+      type: this.getType(),
+      difficultyLevel: this.state.activeLevel.toUpperCase(),
+    };
+    console.log(obj);
+  };
+
+  handleCancelClick = () => {
+    // if (this.state.checked) {
+    //   console.log(this.state.checked);
+    //   // return
+    // }
+  };
+
+  getType = () => {
+    console.log('hi');
+    // return 'null';
+    console.log(this.state.checked);
+    if (this.state.checked) {
+      return 'BUNDLE';
+    } else return this.state.answerType;
+  };
+
   render() {
+    const { testQuestionSetId, type } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
     const { subjects, concepts, topics } = this.props;
 
     const {
@@ -234,8 +309,9 @@ export class Index extends Component {
       activeTab,
       bucketArray,
       answerType,
-      noOfChoices,
       anchorEl,
+      text,
+      url,
     } = this.state;
 
     const {
@@ -254,6 +330,11 @@ export class Index extends Component {
       handleClose,
       handleDelete,
       handleDeleteIconClick,
+      handleTextChange,
+      handleExpTextChange,
+      handleUrlChange,
+      handleSaveClick,
+      handleCancelClick,
     } = this;
 
     const difficulty = [
@@ -287,7 +368,6 @@ export class Index extends Component {
       bucketArray,
       handleRadioChange,
       answerType,
-      noOfChoices,
       handleCheckBoxes,
       handleAddOption,
       handleImageUpload,
@@ -296,15 +376,32 @@ export class Index extends Component {
       handleClose,
       handleDelete,
       handleDeleteIconClick,
+      handleTextChange,
     };
-    console.log(this.state);
+
+    const explanationProps = {
+      text,
+      url,
+      handleExpTextChange,
+      handleUrlChange,
+    };
+
+    const buttonsProps = {
+      handleSaveClick,
+      handleCancelClick,
+    };
+    // console.log(capitalize('sssssss'));
 
     return (
-      <C2>
-        <H1>Add new Question</H1>
-        <DropDownRack {...dropDownRackProps} />
-        <Answer {...answerProps} />
-      </C2>
+      <div>
+        <C2>
+          <H1>Add new Question</H1>
+          <DropDownRack {...dropDownRackProps} />
+          <Answer {...answerProps} />
+          <Explanation {...explanationProps} />
+        </C2>
+        <Buttons {...buttonsProps} />
+      </div>
     );
   }
 }

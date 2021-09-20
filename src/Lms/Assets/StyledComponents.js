@@ -19,7 +19,7 @@ export const C2 = styled.div`
   flex-direction: column;
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
-  border-radius: 16px;
+  border-radius: 16px 16px 0px 0px;
   padding: 24px 20px;
 `;
 

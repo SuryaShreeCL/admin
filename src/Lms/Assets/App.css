@@ -177,6 +177,9 @@
 
 .radio_group_style {
   margin-top: 34px !important;
+  flex-direction: row !important;
+  /* align-items: center; */
+  justify-content: space-between;
 }
 
 .display-selected-image-div {

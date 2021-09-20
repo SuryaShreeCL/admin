@@ -16,7 +16,6 @@ function Answer(props) {
     handleAddBucket,
     handleRadioChange,
     answerType,
-    noOfChoices,
     handleCheckBoxes,
     handleAddOption,
     handleImageUpload,
@@ -25,6 +24,7 @@ function Answer(props) {
     handleClose,
     handleDelete,
     handleDeleteIconClick,
+    handleTextChange,
   } = props;
 
   let tabCompProps = {
@@ -36,6 +36,7 @@ function Answer(props) {
     anchorEl,
     handleClose,
     handleDelete,
+    answerType,
   };
 
   let radioButtonProps = {
@@ -45,13 +46,14 @@ function Answer(props) {
   };
 
   const choiceProps = {
-    noOfChoices,
     handleCheckBoxes,
     handleAddOption,
     handleImageUpload,
     bucketArray,
     activeTab,
     handleDeleteIconClick,
+    handleTextChange,
+    answerType,
   };
   return (
     <React.Fragment>
@@ -68,7 +70,7 @@ function Answer(props) {
       </Div2>
       <TabComp {...tabCompProps} />
       <RadioButtons {...radioButtonProps} />
-      {answerType && <Choice {...choiceProps} />}
+      <Choice {...choiceProps} />
     </React.Fragment>
   );
 }

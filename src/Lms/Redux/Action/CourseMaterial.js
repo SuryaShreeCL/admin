@@ -510,3 +510,30 @@ export const putImage = (file, callback) => {
         console.log(error);
       });
 };
+
+export const postQuestions = (testQuestionSetId, data, callback) => {
+  const accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .post(
+        // {{DEV-LMS}}/api/v1/lms/questions/testQuestionSet/{{TESTQUESTIONSETID}}
+        `${DEV_LMS}/api/v1/questions/testQuestionSet/${testQuestionSetId}`,
+        data,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        // dispatch;
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};

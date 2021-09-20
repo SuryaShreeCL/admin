@@ -12,54 +12,60 @@ const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
 function Choice(props) {
   const {
-    noOfChoices,
     handleCheckBoxes,
     handleAddOption,
     handleImageUpload,
     bucketArray,
     activeTab,
     handleDeleteIconClick,
+    handleTextChange,
+    answerType,
   } = props;
-  return (
-    <div>
-      {bucketArray[activeTab].choices.map((choice, index) => {
-        return (
-          <C1>
-            <T1>{LETTERS[index]}</T1>
-            <InputBox
-              boxType='text'
-              image={choice.image}
-              handleImageUpload={handleImageUpload}
-              index={index}
-              handleDeleteIconClick={handleDeleteIconClick}
-            />
-            <FormControlLabel
-              disabledRipple
-              control={
-                <Checkbox
-                  value={index}
-                  checked={choice.selected}
-                  onChange={e => handleCheckBoxes(e)}
-                  disableRipple
-                  icon={<img src={UnCheckedIcon} alt='' />}
-                  checkedIcon={<img src={CheckedIcon} alt='' />}
-                />
-              }
-            />
-          </C1>
-        );
-      })}
-      <ThemeProvider theme={buttonTheme}>
-        <Button
-          variant='text'
-          startIcon={<AddRounded />}
-          onClick={handleAddOption}
-        >
-          Add Option
-        </Button>
-      </ThemeProvider>
-    </div>
-  );
+  if (answerType) {
+    return (
+      <div>
+        {bucketArray[activeTab].choices.map((choice, index) => {
+          return (
+            <C1>
+              {answerType !== 'subjective' && <T1>{LETTERS[index]}</T1>}
+              <InputBox
+                choice={choice}
+                image={choice.image}
+                handleImageUpload={handleImageUpload}
+                index={index}
+                handleDeleteIconClick={handleDeleteIconClick}
+                handleTextChange={handleTextChange}
+              />
+              <FormControlLabel
+                disabledRipple
+                control={
+                  <Checkbox
+                    value={index}
+                    checked={choice.selected}
+                    onChange={e => handleCheckBoxes(e)}
+                    disableRipple
+                    icon={<img src={UnCheckedIcon} alt='' />}
+                    checkedIcon={<img src={CheckedIcon} alt='' />}
+                  />
+                }
+              />
+            </C1>
+          );
+        })}
+        {answerType !== 'subjective' && (
+          <ThemeProvider theme={buttonTheme}>
+            <Button
+              variant='text'
+              startIcon={<AddRounded />}
+              onClick={handleAddOption}
+            >
+              Add Option
+            </Button>
+          </ThemeProvider>
+        )}
+      </div>
+    );
+  } else return null;
 }
 
 const buttonTheme = createTheme({

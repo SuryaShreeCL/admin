@@ -96,7 +96,7 @@ function DropDownRack(props) {
                   id='expectedTime'
                   value={expectedTime}
                   name='expectedTime'
-                  placeholder='Expected time for completion'
+                  // placeholder='Expected time for completion'
                   onChange={handleInputChange}
                   endAdornment={
                     <InputAdornment position='end'>minutes</InputAdornment>

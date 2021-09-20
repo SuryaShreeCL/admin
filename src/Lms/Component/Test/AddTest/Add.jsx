@@ -279,7 +279,7 @@ class Add extends Component {
   };
 
   handleAddQuestion = () => {
-    console.log(this.props.testQuestionSet.data.productId);
+    // console.log(this.props.testQuestionSet.data.productId);
     const {
       testQuestionSetId,
       sectionId,

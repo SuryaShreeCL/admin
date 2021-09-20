@@ -2,13 +2,17 @@ import React from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import { Radio } from '../../../Assets/StyledTest';
+import { Radio, T2 } from '../../../Assets/StyledTest';
 import { Label } from '../../../Assets/StyledTest';
 
 function RadioButtons(props) {
   let { checked, handleRadioChange, answerType } = props;
   return (
-    <FormControl className='radio_group_style' component='fieldset'>
+    <FormControl
+      className='radio_group_style'
+      component='fieldset'
+      // style={{ background: 'purple' }}
+    >
       <RadioGroup
         row
         aria-label='choice'
@@ -17,33 +21,34 @@ function RadioButtons(props) {
         value={answerType}
       >
         <FormControlLabel
-          value='singleChoice'
+          value='SINGLE_SELECT'
           control={<Radio color='primary' />}
           label={
-            <Label active={answerType === 'singleChoice'}>Single Choice</Label>
+            <Label active={answerType === 'SINGLE_SELECT'}>Single Choice</Label>
           }
         />
         {!checked && (
           <>
             <FormControlLabel
-              value='multiChoice'
+              value='MULTI_CHOICE'
               control={<Radio color='primary' />}
               label={
-                <Label active={answerType === 'multiChoice'}>
+                <Label active={answerType === 'MULTI_CHOICE'}>
                   Multi Choice
                 </Label>
               }
             />
             <FormControlLabel
-              value='subjective'
+              value='SUBJECTIVE'
               control={<Radio color='primary' />}
               label={
-                <Label active={answerType === 'subjective'}>Subjective</Label>
+                <Label active={answerType === 'SUBJECTIVE'}>Subjective</Label>
               }
             />
           </>
         )}
       </RadioGroup>
+      {answerType && <T2>Correct Answer</T2>}
     </FormControl>
   );
 }
