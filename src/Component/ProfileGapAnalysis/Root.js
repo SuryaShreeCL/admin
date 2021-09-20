@@ -9,6 +9,8 @@ import GeneralDetails from "./GeneralDetails";
 import { connect } from "react-redux";
 import TestResults from "./TestResults";
 import TestResultsGraph from "./TestResultsGraph";
+import CvViewer from "./CvViewer";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -101,6 +103,12 @@ class ProfileGapRoot extends Component {
   //         {this.renderFunction()}
   //       </Grid>
   //     </Grid>
+  renderRightContainer = () =>{
+    if(this.state.value === 3){
+     return <CvViewer />
+    }
+  }
+
   render() {
     return (
       <div>
@@ -109,7 +117,7 @@ class ProfileGapRoot extends Component {
             item
             md={8}
             style={{
-              margin: "5px",
+              // margin: "5px",
               borderStyle: "groove",
               borderRadius: "10px",
             }}
@@ -158,7 +166,9 @@ class ProfileGapRoot extends Component {
               Item Six
             </TabPanel>
           </Grid>
-          <Grid item md={4}></Grid>
+          <Grid item md={4} xs={4} sm={4}>
+            {this.renderRightContainer()}
+          </Grid>
         </Grid>
       </div>
     );
