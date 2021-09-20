@@ -54,6 +54,7 @@ class ProfileGapRoot extends Component {
                 onChange={(e, newValue) => this.setState({ value: newValue })}
                 variant="scrollable"
               >
+                <Tab label="Dashboard" style={{ textTransform: "none" }} />
                 <Tab
                   label="General Details"
                   style={{ textTransform: "none" }}
@@ -68,25 +69,31 @@ class ProfileGapRoot extends Component {
                   label="PPGA Call Notes"
                   style={{ textTransform: "none" }}
                 />
-                <Tab label="Academic Details" style={{ textTransform: "none" }} />
+                <Tab
+                  label="Academic Details"
+                  style={{ textTransform: "none" }}
+                />
               </Tabs>
             </Paper>
             <TabPanel value={this.state.value} index={0}>
-              <GeneralDetails />
+              Item one
             </TabPanel>
             <TabPanel value={this.state.value} index={1}>
-              Item Two
+             <GeneralDetails {...this.props}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
-              Item Three
+              Item Two
             </TabPanel>
             <TabPanel value={this.state.value} index={3}>
-              Item Four
+              Item Three
             </TabPanel>
             <TabPanel value={this.state.value} index={4}>
-              Item Five
+              Item Four
             </TabPanel>
             <TabPanel value={this.state.value} index={5}>
+              Item Five
+            </TabPanel>
+            <TabPanel value={this.state.value} index={6}>
               Item Six
             </TabPanel>
           </Grid>
