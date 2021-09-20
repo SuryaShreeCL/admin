@@ -379,7 +379,7 @@ class GeneralDetails extends Component {
           </div>
           <Grid
             container
-            spacing={3}
+            spacing={2}
             style={{ padding: "25px", marginTop: "-30px" }}
           >
             <Grid item md={4}>
@@ -602,56 +602,65 @@ class GeneralDetails extends Component {
             spacing={3}
             style={{ padding: "25px", marginTop: "-30px" }}
           >
-            {this.renderhigherdetails()}
+            <Grid item md={12} style={{ marginLeft: "25px" }}>
+              {this.renderhigherdetails()}
+            </Grid>
           </Grid>
           <Typography style={{ marginLeft: "20px" }}>
             Package Details
           </Typography>
           <Grid
             container
-            spacing={3}
+            spacing={2}
             style={{ padding: "25px", marginTop: "-30px" }}
           >
-            <Grid item md={4}>
-              <TextField disabled name="package" label="Package Purchased" />
-            </Grid>
-            <Grid item md={4}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disabled
-                  margin="normal"
-                  label="Enrollment Period"
-                  format="dd/MM/yyyy"
-                  // value={selectedDate}
-                  // onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </MuiPickersUtilsProvider>
-            </Grid>
-            <Grid item md={4}></Grid>
-            <Grid item md={4}>
-              <TextField name="product" disabled label="Product" />
-            </Grid>
-            <Grid item md={4}>
-              <Autocomplete
-                // options={top100Films}
-                disabled
-                renderInput={(params) => (
+            <Grid item md={12} style={{marginLeft: "25px"}}>
+              <Grid container spacing={2}>
+                <Grid item md={4}>
                   <TextField
-                    {...params}
-                    name="intake"
                     disabled
-                    label="Intake"
+                    name="package"
+                    label="Package Purchased"
                   />
-                )}
-              />
-              {/* <TextField name="intake" disabled label="Intake" /> */}
+                </Grid>
+                <Grid item md={4}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      disabled
+                      margin="normal"
+                      label="Enrollment Period"
+                      format="dd/MM/yyyy"
+                      // value={selectedDate}
+                      // onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </Grid>
+                <Grid item md={4}></Grid>
+                <Grid item md={4}>
+                  <TextField name="product" disabled label="Product" />
+                </Grid>
+                <Grid item md={4}>
+                  <Autocomplete
+                    // options={top100Films}
+                    disabled
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="intake"
+                        disabled
+                        label="Intake"
+                      />
+                    )}
+                  />
+                  {/* <TextField name="intake" disabled label="Intake" /> */}
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item md={4}></Grid>
           </Grid>
-          <Grid container spacing={2} style={{ padding: "10px" }}>
+          <Grid container spacing={1} style={{ padding: "10px" }}>
             <Grid item md={12}>
               <hr />
             </Grid>
