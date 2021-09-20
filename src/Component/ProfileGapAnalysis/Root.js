@@ -9,6 +9,7 @@ import GeneralDetails from "./GeneralDetails";
 import { connect } from "react-redux";
 import TestResults from "./TestResults";
 import TestResultsGraph from "./TestResultsGraph";
+import CV from "./CV";
 import CvViewer from "./CvViewer";
 import InterestDetail from "./InterestDetail";
 
@@ -105,7 +106,7 @@ class ProfileGapRoot extends Component {
             <TestResults />
             </TabPanel>
             <TabPanel value={this.state.value} index={4}>
-              Item Four
+             <CV {...this.props}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={5}>
               Item Five
