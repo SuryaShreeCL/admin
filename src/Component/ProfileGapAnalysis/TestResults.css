@@ -1,0 +1,98 @@
+/* GRAPH-1 */
+
+.graph1_title{
+    margin-top: 10px;
+}
+.graph1_label_main_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+   
+}
+.graph1_label1_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 85px;
+}
+.graph1_label1{
+    height: 15px;
+    width: 15px;
+    background-color: pink;
+    border-radius: 50%;
+}
+.graph1_label1_text{
+    display: flex;
+    align-items: center;
+    margin-top: 13px;
+}
+.graph1_label2_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 85px;
+    margin-left: 10px;
+
+}
+.graph1_label2{
+    height: 15px;
+    width: 15px;
+    background-color: red;
+    border-radius: 50%;              
+}
+.graph1_label2_text{
+    display: flex;
+    align-items: center;
+    margin-top: 13px;
+}
+
+/* GRAPH-2 */
+.graph2_title{
+   margin-top: 25PX;
+}
+.graph2_label_main_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.graph2_label1_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 85px;
+}
+.graph2_label1{
+    height: 15px;
+    width: 15px;
+    background-color: pink;
+    border-radius: 50%;
+}
+.graph2_label1_text{
+    display: flex;
+    align-items: center;
+    margin-top: 13px;
+}
+.graph2_label2_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 85px;
+    margin-left: 10px;
+}
+.graph2_label2{
+    height: 15px;
+    width: 15px;
+    background-color: red;
+    border-radius: 50%;
+}
+.graph2_label2_text{
+    display: flex;
+    align-items: center;
+    margin-top: 13px;
+}
