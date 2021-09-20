@@ -4,39 +4,43 @@ import "./TestResults.css";
 import { Line } from "react-chartjs-2";
 
 const data = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  labels: ["overAllAptitude", "numericalAbility", "logicalReasoning", "verbalReasoning"],
   datasets: [
     {
       label: "First dataset",
-      data: [9, 11, 20, 17, 8,3],
+      data: [1,5,10,15,20],
       fill: false,
-      backgroundColor: "rgba(75,192,192,0.2)",
-      borderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor : "#6495ED",
+      // backgroundColor: "rgba(75,192,192,0.2)",
+      borderColor: "#6495ED",
     },
     {
       label: "Second dataset",
       data: [10, 12, 25, 33, 36, 40],
       fill: false,
-      borderColor: "#742774",
+      pointBackgroundColor : "#F08080",
+      borderColor: "#F08080",
     },
   ],
 };
 
 const data1 = {
-  labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  labels: ["technicalTest"],
   datasets: [
     {
       label: "First dataset",
       data: [3, 15, 26, 31, 35, 37],
       fill: false,
-      backgroundColor: "rgba(75,192,192,0.2)",
-      borderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor : "#6495ED",
+      // backgroundColor: "rgba(75,192,192,0.2)",
+      borderColor: "#6495ED",
     },
     {
       label: "Second dataset",
       data: [33, 25, 35, 51, 54, 76],
       fill: false,
-      borderColor: "#742774",
+      pointBackgroundColor : "#F08080",
+      borderColor: "#F08080",
     },
   ],
 };
@@ -51,7 +55,8 @@ const options = {
   scales: {
     y:{
       grid:{
-        borderColor:'#fff',        
+        borderColor:'#fff',   
+            
       }
     },
     // { yAxes: [{ display: false }] }
@@ -60,6 +65,7 @@ const options = {
     //     ticks: {
     //       beginAtZero: true,
     //       display: false,
+         
     //     },
     //     grid: {
     //       drawBorder: false,
@@ -118,7 +124,7 @@ export default function App() {
       <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
       <div className={"graph2_title"}>
         <div>
-          <p>Diagnostic Test</p>
+          <p>Technical Test</p>
         </div>
         <Line data={data1} options={options} />
 

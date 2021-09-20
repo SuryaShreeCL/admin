@@ -104,17 +104,19 @@ class ProfileGapRoot extends Component {
   render() {
     return (
       <div>
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid
             item
-            md={8}
+            md={7}
             style={{
-              margin: "5px",
+              // margin: "5px",
               borderStyle: "groove",
               borderRadius: "10px",
             }}
           >
-            <Paper square style={{ margin: "10px" }}>
+            <Paper square style={{ 
+              // margin: "10px"
+               }}>
               <Tabs
                 value={this.state.value}
                 indicatorColor="none"
@@ -146,7 +148,7 @@ class ProfileGapRoot extends Component {
               Item Two
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
-              Item Three
+            <TestResults />
             </TabPanel>
             <TabPanel value={this.state.value} index={3}>
               Item Four
@@ -158,7 +160,9 @@ class ProfileGapRoot extends Component {
               Item Six
             </TabPanel>
           </Grid>
-          <Grid item md={4}></Grid>
+          <Grid item md={5}>
+            {this.renderFunction()}
+          </Grid>
         </Grid>
       </div>
     );
