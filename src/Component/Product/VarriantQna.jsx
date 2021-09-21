@@ -23,7 +23,12 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import { getFaq, updateFaq, postFaq, getvarientByid } from "../../Actions/ProductAction";
+import {
+  getFaq,
+  updateFaq,
+  postFaq,
+  getvarientByid,
+} from "../../Actions/ProductAction";
 
 class VariantQna extends Component {
   constructor(props) {
@@ -42,20 +47,19 @@ class VariantQna extends Component {
 
   componentDidMount() {
     this.props.getFaq();
-    this.props.getvarientByid(this.props.match.params.id)
-    
+    this.props.getvarientByid(this.props.match.params.id);
   }
-  componentDidUpdate(prevProps,prevState){
-    if(prevProps.postFaqList !== this.props.postFaqList){
-      this.props.getvarientByid(this.props.match.params.id)
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.postFaqList !== this.props.postFaqList) {
+      this.props.getvarientByid(this.props.match.params.id);
     }
-    if(prevProps.updateFaqList !== this.props.updateFaqList){
-      this.props.getvarientByid(this.props.match.params.id)
+    if (prevProps.updateFaqList !== this.props.updateFaqList) {
+      this.props.getvarientByid(this.props.match.params.id);
     }
   }
 
   handleChange = (panel) => (event, newExpanded) => {
-    console.log(panel, newExpanded)
+    console.log(panel, newExpanded);
     this.setState({ expanded: newExpanded ? panel : false });
   };
 
@@ -101,9 +105,14 @@ class VariantQna extends Component {
   }))(MuiAccordionDetails);
 
   handleClickOpen = (item) => {
-    this.setState({ open: true, question : item.question , answer : item.answer, id : item.id });
+    this.setState({
+      open: true,
+      question: item.question,
+      answer: item.answer,
+      id: item.id,
+    });
 
-    console.log(item)
+    console.log(item);
   };
 
   handleClose = () => {
@@ -129,8 +138,8 @@ class VariantQna extends Component {
         id: this.props.match.params.id,
       },
     };
-    this.props.postFaq(obj)
-    console.log(this.props.match.params.id)
+    this.props.postFaq(obj);
+    console.log(this.props.match.params.id);
 
     this.setState({ open: false });
   };
@@ -153,16 +162,15 @@ class VariantQna extends Component {
         id: this.props.match.params.id,
       },
     };
-    
-    this.props.updateFaq(obj)
-    console.log(this.props.match.params.id)
-    this.setState({ open :false, question: null, answer: null, id: null });
+
+    this.props.updateFaq(obj);
+    console.log(this.props.match.params.id);
+    this.setState({ open: false, question: null, answer: null, id: null });
     this.props.getFaq();
   };
 
   render() {
-   
-    console.log(this.props.getvarientByidList.productQuestionAnswers)
+    console.log(this.props.getvarientByidList.productQuestionAnswers);
     console.log(this.state);
     const { classes } = this.props;
     return (
@@ -176,52 +184,54 @@ class VariantQna extends Component {
             Create new FAQ
           </PrimaryButton>
         </Grid>
-        {this.props.getvarientByidList.productQuestionAnswers.length !== 0 && this.props.getvarientByidList.productQuestionAnswers.map((item,index) => (
-            <div style={{ marginTop: 20 }}>
-              <Accordion
-                square
-                expanded={this.state.["expanded"] === "panel"+index}
-                onChange={this.handleChange("panel"+index)}
-              >
-                <AccordionSummary
-                  aria-controls="panel2d-content"
-                  id="panel2d-header"
+        {this.props.getvarientByidList.productQuestionAnswers.length !== 0 &&
+          this.props.getvarientByidList.productQuestionAnswers.map(
+            (item, index) => (
+              <div style={{ marginTop: 20 }}>
+                <Accordion
+                  square
+                  expanded={this.state["expanded"] === "panel" + index}
+                  onChange={this.handleChange("panel" + index)}
                 >
-                  <div
-                    style={{
-                      flexDirection: "row",
-                      display: "flex",
-                      width: "100%",
-                    }}
+                  <AccordionSummary
+                    aria-controls="panel2d-content"
+                    id="panel2d-header"
                   >
-                    <Grid container direction="row" justify="flex-start">
-                      <p className={classes.title}>{item.question}</p>
-                    </Grid>
-                    <Grid container direction="row" justify="flex-end">
-                      <Button onClick={() => this.handleClickOpen(item)}>
-                        <EditRoundedIcon />
-                      </Button>
-                      <Button>
-                        <DeleteIcon />
-                      </Button>
-                    </Grid>
-                  </div>
-                </AccordionSummary>
-                <Divider
-                  style={{ backgroundColor: "#686868" }}
-                  variant="middle"
-                />
-                <AccordionDetails>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <p className={classes.ans}>Answer</p>
-                    <p className={classes.secondary}>{item.answer}</p>
-                  </div>
-                </AccordionDetails>
-                <Divider
-                  style={{ backgroundColor: "#686868" }}
-                  variant="middle"
-                />
-                {/* <div
+                    <div
+                      style={{
+                        flexDirection: "row",
+                        display: "flex",
+                        width: "100%",
+                      }}
+                    >
+                      <Grid container direction="row" justify="flex-start">
+                        <p className={classes.title}>{item.question}</p>
+                      </Grid>
+                      <Grid container direction="row" justify="flex-end">
+                        <Button onClick={() => this.handleClickOpen(item)}>
+                          <EditRoundedIcon />
+                        </Button>
+                        <Button>
+                          <DeleteIcon />
+                        </Button>
+                      </Grid>
+                    </div>
+                  </AccordionSummary>
+                  <Divider
+                    style={{ backgroundColor: "#686868" }}
+                    variant="middle"
+                  />
+                  <AccordionDetails>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <p className={classes.ans}>Answer</p>
+                      <p className={classes.secondary}>{item.answer}</p>
+                    </div>
+                  </AccordionDetails>
+                  <Divider
+                    style={{ backgroundColor: "#686868" }}
+                    variant="middle"
+                  />
+                  {/* <div
                   style={{
                     alignSelf: "center",
                     padding: 19,
@@ -238,9 +248,10 @@ class VariantQna extends Component {
                     SAVE FAQ
                   </PrimaryButton>
                 </div> */}
-              </Accordion>
-            </div>
-)) }
+                </Accordion>
+              </div>
+            )
+          )}
         <Dialog
           onClose={this.handleClose}
           aria-labelledby="customized-dialog-title"
@@ -307,15 +318,11 @@ class VariantQna extends Component {
                 style={{ width: "104px", alignSelf: "center" }}
                 startIcon={<AddIcon />}
                 variant="contained"
-                onClick={
-                  this.state.id 
-                    ? this.handleUpdate
-                    : this.handleAdd
-                }
+                onClick={this.state.id ? this.handleUpdate : this.handleAdd}
                 color="primary"
                 size="medium"
               >
-                {this.state.id  ? "Update" : "Add"}
+                {this.state.id ? "Update" : "Add"}
               </Button>
             </div>
           </DialogContent>
@@ -358,10 +365,12 @@ const mapStateToProps = (state) => {
     updateFaqList: state.ProductReducer.updateFaq,
     postFaqList: state.ProductReducer.postFaq,
     getvarientByidList: state.ProductReducer.getvarientByid,
-
   };
 };
 
-export default connect(mapStateToProps, { getFaq, updateFaq, postFaq, getvarientByid })(
-  withStyles(useStyles)(VariantQna)
-);
+export default connect(mapStateToProps, {
+  getFaq,
+  updateFaq,
+  postFaq,
+  getvarientByid,
+})(withStyles(useStyles)(VariantQna));

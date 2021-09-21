@@ -203,16 +203,16 @@ export class Student extends Component {
       }
     }
 
-    if(prevState.dialogopen !== this.state.dialoopen){
+    if (prevState.dialogopen !== this.state.dialoopen) {
       this.setState({
         firstNameHelperText: "",
-      lastNameHelperText: "",
-      emailHelperText: "",
-      collegeHelperText: "",
-      departmentHelperText: "",
-      phoneHelperText: "",
-      studentIdHelperText: ""
-      })
+        lastNameHelperText: "",
+        emailHelperText: "",
+        collegeHelperText: "",
+        departmentHelperText: "",
+        phoneHelperText: "",
+        studentIdHelperText: "",
+      });
     }
   }
 
@@ -274,7 +274,7 @@ export class Student extends Component {
   };
 
   isEmail = (email) => {
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\[0-9]{1,3}\[0-9]{1,3}\[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
 
