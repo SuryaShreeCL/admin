@@ -559,6 +559,7 @@ function RootContainer(props) {
           path: wallPath,
           items: [],
         },
+        { icon: <AssignmentIcon />, title: 'Tests', path: testPath, items: [] },
         {
           icon: <AssignmentIcon />,
           title: 'Tests',

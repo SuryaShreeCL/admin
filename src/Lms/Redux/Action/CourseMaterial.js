@@ -126,7 +126,37 @@ export const getTopics = (conceptId, pageNo, searchString, callback) => {
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.viewTopics,
-          payload: response.data,
+          payload: response.data.data.content,
+          payload2: response.data.data.totalPages,
+        });
+
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getTopics2 = (conceptId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        `${DEV_LMS}/api/v1/lms/concept/${conceptId}/topics`,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        dispatch({
+          type: COURSE_MATERIAL.viewTopics,
+          payload: response.data.data,
         });
         callback(response.data);
       })
@@ -448,6 +478,58 @@ export const draftTopic = (topicId, callback) => {
         }
       )
       .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const putImage = (file, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  // {{DEV-LMS}}/api/v1/
+  return () =>
+    axios
+      .post(
+        `${DEV_LMS}/api/v1/files/upload/test/question/image`,
+        file,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+};
+
+export const postQuestions = (testQuestionSetId, data, callback) => {
+  const accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .post(
+        // {{DEV-LMS}}/api/v1/lms/questions/testQuestionSet/{{TESTQUESTIONSETID}}
+        `${DEV_LMS}/api/v1/questions/testQuestionSet/${testQuestionSetId}`,
+        data,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        // dispatch;
         callback(response.data);
       })
       .catch(error => {

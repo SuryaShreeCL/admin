@@ -181,12 +181,11 @@ class Index extends Component {
 
   handleTopicList = () => {
     const { testQuestionSetId } = this.props.match.params;
-    this.props.getTopicList(testQuestionSetId, response => {
-      console.log(response);
-    });
+    this.props.getTopicList(testQuestionSetId, response => {});
   };
 
   render() {
+    const { testQuestionSetId, type } = this.props.match.params;
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
       const { selectedType } = this.state;
@@ -206,17 +205,19 @@ class Index extends Component {
           { id: 2, label: 'Bulk Upload' },
         ],
         handleRadioChange: (event, name) => {
-          // console.log(name);
           if (name === '1') {
-            console.log(name);
-            this.props.history.push(single_upload);
+            if (type !== undefined)
+              this.props.history.push(
+                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}&type=${type}`
+              );
+            else
+              this.props.history.push(
+                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}`
+              );
           }
-          // this.setState({ activeValue: parseInt(name) });
         },
         groupName: 'Question Pattern',
       };
-
-      // console.log(radioData);
 
       return (
         <React.Fragment>

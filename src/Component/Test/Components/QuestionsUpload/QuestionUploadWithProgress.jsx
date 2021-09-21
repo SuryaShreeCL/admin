@@ -25,7 +25,6 @@ export function QuestionUploadWithProgress({ file, onDelete, onUpload, questionU
 
 function uploadFile(file, onProgress, questionUpload) {
   const awsUrl = `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${questionUpload.id}/questions/import?type=SINGLE_SELECT&testSectionId=${questionUpload.questionSectionId}`;
-  const scheduleIt = `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${questionUpload.id}/status/Scheduled`;
 
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();
@@ -36,9 +35,6 @@ function uploadFile(file, onProgress, questionUpload) {
     xhr.onload = () => {
       const resp = JSON.parse(xhr.responseText);
       res(resp);
-      xhr.open('PUT', scheduleIt);
-      xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-      xhr.setRequestHeader('admin', 'yes');
     };
     xhr.onerror = (evt) => rej(evt);
     xhr.upload.onprogress = (event) => {

@@ -16,13 +16,6 @@ const DropDownIcon = withStyles({
     fill: '#323232',
   },
 })(ArrowDropDownIcon);
-// export const ButtonIcon = withStyles({
-//   root: {
-//     padding: '8px',
-//     borderRadius: '4px',
-//     // background: '#aqua',
-//   },
-// })(IconButton);
 
 const selectTheme = createTheme({
   overrides: {
@@ -73,43 +66,6 @@ const selectTheme = createTheme({
         color: '#052A4E',
       },
     },
-
-    // MuiListItem:{
-    //   button:{
-    //     '&:hover':{
-    //       backgroundColor:'rgba(16, 147, 255, 0.4)'
-    //       // rgba(, 1)
-
-    //     }
-    //   },
-    //   // root:{
-    //   //   selected:{
-    //   //     backgroundColor:'blue',
-    //   //     // backgroundColor:'rgba(16, 147, 255, 0.8)'
-    //   //   },
-    //   // },
-    //   root:{
-    //     backgroundColor:'blue',
-
-    //     // '& .Mui-selected':{
-    //     //   backgroundColor:'rgba(5, 42, 78, 0.8)'
-    //     //   // '&:hover':{
-
-    //     //   // }
-    //     // }
-    //   }
-    // }
-    // MuiInputLabel: {
-    //   FormControl: {
-    //     // top: '-6px',
-    //     // left: '12px',
-    //   },
-    // },
-    // MuiFormLabel: {
-    //   root: {
-    //     bottom: '6px !important',
-    //   },
-    // },
   },
 });
 export default function DropDown(props) {

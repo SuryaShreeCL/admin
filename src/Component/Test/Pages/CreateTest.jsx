@@ -21,7 +21,7 @@ import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFi
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
-import { createTest } from '../../../Actions/TestActions';
+import { createTest, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { testPath } from '../../RoutePaths';
@@ -447,6 +447,7 @@ const CreateTest = () => {
                     color='primary'
                     disabled={!values.Questions?.success}
                     onClick={() => {
+                      scheduleIt(questionUpload.id);
                       setNotify({
                         isOpen: true,
                         message: 'Scheduled Successfully',

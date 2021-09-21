@@ -1,9 +1,10 @@
-import { COURSE_MATERIAL } from "../Action";
+import { COURSE_MATERIAL } from '../Action';
 
 const initialState = {
   courses: [],
   subjects: [],
   concepts: [],
+  topics: null,
   createorUpdateTopicResponse: [],
   topicsDetails: [],
   taskDetails: [],
@@ -12,6 +13,7 @@ const initialState = {
   fileUpload: [],
   monthlyCourse: null,
   monthlyPlan: null,
+  totalPageNo: 0,
 };
 
 const CourseMaterialReducer = (state = initialState, action) => {
@@ -41,6 +43,7 @@ const CourseMaterialReducer = (state = initialState, action) => {
       return {
         ...state,
         topics: action.payload,
+        totalPageNo: action.payload2,
       };
     }
 
