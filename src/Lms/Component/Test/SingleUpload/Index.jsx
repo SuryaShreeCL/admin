@@ -14,6 +14,8 @@ import Buttons from './Buttons';
 import Question from './Question';
 import QueryString from 'qs';
 import { postQuestions } from '../../../Redux/Action/Test';
+import { lms_add_test } from '../../../../Component/RoutePaths';
+import PopUps from './PopUps';
 
 export class Index extends Component {
   constructor(props) {
@@ -31,37 +33,44 @@ export class Index extends Component {
       answerType: '',
       anchorEl: null,
       text: '',
+      question: '',
+      description: '',
       url: '',
+      alert: null,
     };
   }
 
   componentDidMount() {
-    this.props.getSubjects(
-      this.props.match.params.courseId,
-      subjectResponse => {
-        if (subjectResponse.success) {
-          this.props.getConcepts(
-            subjectResponse.data[0].id,
-            conceptResponse => {
-              if (conceptResponse.success) {
-                this.props.getTopics2(
-                  conceptResponse.data[0].id,
-                  topicsResponse => {
-                    if (topicsResponse.success) {
-                      this.setState({
-                        activeSubject: subjectResponse.data[0].id,
-                        activeConcept: conceptResponse.data[0].id,
-                        activeTopic: topicsResponse.data[0].id,
-                      });
-                    }
-                  }
-                );
-              }
-            }
-          );
-        }
+    // console.log()
+    const { testQuestionSetId, courseId, sectionId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
       }
     );
+    // const { courseId } = QueryString.parse(this.props.location.search, {
+    //   ignoreQueryPrefix: true,
+    // });
+    this.props.getSubjects(courseId, subjectResponse => {
+      if (subjectResponse.success) {
+        this.props.getConcepts(subjectResponse.data[0].id, conceptResponse => {
+          if (conceptResponse.success) {
+            this.props.getTopics2(
+              conceptResponse.data[0].id,
+              topicsResponse => {
+                if (topicsResponse.success) {
+                  this.setState({
+                    activeSubject: subjectResponse.data[0].id,
+                    activeConcept: conceptResponse.data[0].id,
+                    activeTopic: topicsResponse.data[0].id,
+                  });
+                }
+              }
+            );
+          }
+        });
+      }
+    });
   }
 
   handleSubjectChange = event => {
@@ -260,11 +269,15 @@ export class Index extends Component {
 
   handleSaveClick = () => {
     const {
+      bucketArray,
       activeLevel,
       expectedTime,
       activeTopic,
       question,
       description,
+      answerType,
+      text,
+      url,
     } = this.state;
     const { sectionId, testQuestionSetId } = QueryString.parse(
       this.props.location.search,
@@ -272,36 +285,62 @@ export class Index extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    const obj = {
-      name: 'question',
-      id: null,
-      type: this.getType(),
-      difficultyLevel: activeLevel.toUpperCase(),
-      expectedTime: expectedTime,
-      topic: { id: activeTopic },
-      testSection: { id: sectionId },
-      question,
-      description,
-      choices: this.getChoices(),
-      answerKeys: this.getAnswerKeys(),
-    };
-    this.props.postQuestions(testQuestionSetId, obj, response => {
-      console.log(response);
-    });
-    // console.log(obj);
+    if (
+      activeLevel.length === 0 ||
+      expectedTime.length === 0 ||
+      question.length === 0 ||
+      description.length === 0 ||
+      answerType.length === 0 ||
+      this.choiceEmptyCheck() ||
+      text.length === 0 ||
+      url.length === 0 ||
+      this.choicesSelectEmptyCheck()
+    ) {
+      this.setState({
+        alert: {
+          severity: 'error',
+          msg: 'Please fill the required fields',
+        },
+      });
+    } else {
+      const obj = {
+        name: '',
+        id: null,
+        type: this.getType(),
+        difficultyLevel: activeLevel.toUpperCase(),
+        expectedTime: expectedTime,
+        topic: { id: activeTopic },
+        testSection: { id: sectionId },
+        question,
+        description,
+        choices: this.getChoices(),
+        answerKeys:
+          this.getType() !== 'SUBJECTIVE' ? this.getAnswerKeys() : null,
+        answer:
+          this.getType() === 'SUBJECTIVE'
+            ? bucketArray[0].choices[0].text
+            : null,
+      };
+      this.props.postQuestions(testQuestionSetId, obj, response => {
+        if (response.success) {
+          this.props.history.push(
+            lms_add_test + '?testQuestionSetId=' + testQuestionSetId
+          );
+        }
+      });
+    }
   };
 
   handleCancelClick = () => {
-    // if (this.state.checked) {
-    //   console.log(this.state.checked);
-    //   // return
-    // }
-  };
-
-  getType = () => {
-    if (this.state.checked) {
-      return 'BUNDLE';
-    } else return this.state.answerType;
+    const { testQuestionSetId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
+    this.props.history.push(
+      lms_add_test + '?testQuestionSetId=' + testQuestionSetId
+    );
   };
 
   handleQuestionChange = (e, editor) => {
@@ -312,6 +351,16 @@ export class Index extends Component {
   handleDescriptionChange = (e, editor) => {
     const data = editor.getData();
     this.setState({ description: data });
+  };
+
+  handlePopUpClose = () => {
+    this.setState({ alert: null });
+  };
+
+  getType = () => {
+    if (this.state.checked) {
+      return 'BUNDLE';
+    } else return this.state.answerType;
   };
 
   getChoices = () => {
@@ -357,13 +406,43 @@ export class Index extends Component {
     return choices;
   };
 
+  choiceEmptyCheck = () => {
+    let arr = this.state.bucketArray;
+    let choices = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].choices.length; j++) {
+        if (
+          arr[i].choices[j].text.length === 0 &&
+          arr[i].choices[j].image === null
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  choicesSelectEmptyCheck = () => {
+    let arr = this.state.bucketArray;
+    let choices = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].choices.length; j++) {
+        if (arr[i].choices[j].selected) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   render() {
-    const { testQuestionSetId, type } = QueryString.parse(
+    const { testQuestionSetId, courseId, sectionId } = QueryString.parse(
       this.props.location.search,
       {
         ignoreQueryPrefix: true,
       }
     );
+    // console.log(testQuestionSetId, courseId, sectionId);
     const { subjects, concepts, topics } = this.props;
 
     const {
@@ -381,6 +460,7 @@ export class Index extends Component {
       url,
       question,
       description,
+      alert,
     } = this.state;
 
     const {
@@ -406,6 +486,7 @@ export class Index extends Component {
       handleCancelClick,
       handleQuestionChange,
       handleDescriptionChange,
+      handlePopUpClose,
     } = this;
 
     const difficulty = [
@@ -468,6 +549,11 @@ export class Index extends Component {
       question,
       description,
     };
+
+    const popUpProps = {
+      handlePopUpClose,
+      alert,
+    };
     console.log(this.state);
 
     return (
@@ -480,6 +566,7 @@ export class Index extends Component {
           <Explanation {...explanationProps} />
         </C2>
         <Buttons {...buttonsProps} />
+        <PopUps {...popUpProps} />
       </div>
     );
   }

@@ -27,7 +27,11 @@ import { connect } from 'react-redux';
 import QueryString from 'qs';
 import { SnackBar } from '../../../Utils/SnackBar';
 import { withRouter } from 'react-router-dom';
-import { bulk_upload, lmsTest } from '../../../../Component/RoutePaths';
+import {
+  bulk_upload,
+  lmsTest,
+  single_upload,
+} from '../../../../Component/RoutePaths';
 import DialogComponent from '../../../Utils/DialogComponent';
 import { DeleteRounded } from '@material-ui/icons';
 
@@ -106,6 +110,7 @@ class Add extends Component {
                   this.setState({
                     courseId: response.data[0].courseId,
                     topicId: topicResponse.data[0].id,
+                    courseIdValue: response.data[0].id,
                   });
                 }
               }
@@ -158,6 +163,7 @@ class Add extends Component {
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
           questions: questionSet.questions,
+          courseIdValue: questionSet.productId,
         });
       }
 
@@ -172,6 +178,7 @@ class Add extends Component {
           topicTestSections: questionSet.testSection[0],
           sectionId: questionSet.testSection[0].id,
           questions: questionSet.questions,
+          courseIdValue: questionSet.productId,
         });
       }
 
@@ -182,6 +189,7 @@ class Add extends Component {
           type: questionSet.type,
           topicId: questionSet.topic,
           questions: questionSet.questions,
+          courseIdValue: questionSet.productId,
         });
       }
 
@@ -279,7 +287,6 @@ class Add extends Component {
   };
 
   handleAddQuestion = () => {
-    // console.log(this.props.testQuestionSet.data.productId);
     const {
       testQuestionSetId,
       sectionId,
@@ -287,13 +294,11 @@ class Add extends Component {
       calibrationActiveSectionTab,
       calibrationTestData,
       courseId,
+      courseIdValue,
     } = this.state;
     if (testQuestionSetId !== null) {
       if (type === 'QUESTIONBANK') {
-        this.props.history.push(
-          bulk_upload +
-            `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}`
-        );
+        this.props.history.push(bulk_upload + `/${testQuestionSetId}`);
       } else {
         if (type === 'CALIBRATION') {
           if (calibrationTestData.length !== 0) {
@@ -306,7 +311,7 @@ class Add extends Component {
                 '';
               this.props.history.push(
                 bulk_upload +
-                  `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}/${calibrationSectionId}/${type}`
+                  `/${testQuestionSetId}/${calibrationSectionId}/${courseIdValue}`
               );
             } else {
               this.setState({
@@ -323,10 +328,7 @@ class Add extends Component {
             });
           }
         } else {
-          this.props.history.push(
-            bulk_upload +
-              `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}`
-          );
+          this.props.history.push(bulk_upload + `/${testQuestionSetId}`);
         }
       }
     } else {
@@ -573,8 +575,14 @@ class Add extends Component {
     this.setState({ anchorEl: null, popUpId: null, sectionAnchorEl: null });
   };
 
-  handleDelete = () => {
-    this.setState({ dialogStatus: true, dialogContent: dialogContent });
+  handleDelete = type => {
+    if (type === 'Delete')
+      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+    else {
+      this.props.history.push(
+        single_upload + '?questionId=' + this.state.popUpId
+      );
+    }
   };
 
   handleSectionThreeDotClick = event => {

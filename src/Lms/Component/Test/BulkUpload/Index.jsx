@@ -185,8 +185,8 @@ class Index extends Component {
   };
 
   render() {
-    // console.log(this.props.match.params);
-    const { testQuestionSetId, type, sectionId } = this.props.match.params;
+    console.log(this.props.match.params);
+    const { testQuestionSetId, courseId, sectionId } = this.props.match.params;
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
       const { selectedType } = this.state;
@@ -207,13 +207,13 @@ class Index extends Component {
         ],
         handleRadioChange: (event, name) => {
           if (name === '1') {
-            if (type !== undefined)
+            if (sectionId)
               this.props.history.push(
-                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}&type=${type}&sectionId=${sectionId}`
+                `${single_upload}?testQuestionSetId=${testQuestionSetId}&sectionId=${sectionId}&courseId=${courseId}`
               );
             else
               this.props.history.push(
-                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}&sectionId=${sectionId}`
+                `${single_upload}?testQuestionSetId=${testQuestionSetId}`
               );
           }
         },
@@ -237,7 +237,7 @@ class Index extends Component {
               <Link onClick={handleTemplateClick} className={'link_text'}>
                 Preview Template
               </Link>
-              {this.props.match.params.type === 'CALIBRATION' && (
+              {this.props.match.params.courseId && (
                 <Link
                   onClick={handleTopicList}
                   className={'link_text padding_left'}

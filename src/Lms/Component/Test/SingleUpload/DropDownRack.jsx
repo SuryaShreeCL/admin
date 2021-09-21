@@ -23,43 +23,42 @@ function DropDownRack(props) {
     handleTopicChange,
     difficulty,
     activeLevel,
-    handleDifficultyLevel,
     handleInputChange,
     expectedTime,
   } = props;
-
-  if (subjects !== null && concepts !== null && topics !== null) {
-    // console.log(topics);
+  if (subjects !== null && concepts !== null) {
     return (
       <React.Fragment>
-        <DropDownDiv>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={4}>
-              <DropDown
-                label='Subject'
-                items={subjects.data}
-                value={activeSubject}
-                onChange={handleSubjectChange}
-              />
+        {topics !== null && (
+          <DropDownDiv>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={4}>
+                <DropDown
+                  label='Subject'
+                  items={subjects.data}
+                  value={activeSubject}
+                  onChange={handleSubjectChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <DropDown
+                  label='Concept'
+                  items={concepts.data}
+                  value={activeConcept}
+                  onChange={handleConceptChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <DropDown
+                  label='Topic'
+                  items={topics}
+                  value={activeTopic}
+                  onChange={handleTopicChange}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <DropDown
-                label='Concept'
-                items={concepts.data}
-                value={activeConcept}
-                onChange={handleConceptChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <DropDown
-                label='Topic'
-                items={topics}
-                value={activeTopic}
-                onChange={handleTopicChange}
-              />
-            </Grid>
-          </Grid>
-        </DropDownDiv>
+          </DropDownDiv>
+        )}
         <DropDownDiv>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={4}>
