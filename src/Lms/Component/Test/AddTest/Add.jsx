@@ -325,7 +325,7 @@ class Add extends Component {
         } else {
           this.props.history.push(
             bulk_upload +
-              `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}/${sectionId}`
+              `/${testQuestionSetId}/${this.props.testQuestionSet.data.productId}`
           );
         }
       }

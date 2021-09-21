@@ -27,7 +27,7 @@ function Choice(props) {
         {bucketArray[activeTab].choices.map((choice, index) => {
           return (
             <C1>
-              {answerType !== 'subjective' && <T1>{LETTERS[index]}</T1>}
+              {answerType !== 'SUBJECTIVE' && <T1>{LETTERS[index]}</T1>}
               <InputBox
                 choice={choice}
                 image={choice.image}
@@ -52,7 +52,7 @@ function Choice(props) {
             </C1>
           );
         })}
-        {answerType !== 'subjective' && (
+        {answerType !== 'SUBJECTIVE' && (
           <ThemeProvider theme={buttonTheme}>
             <Button
               variant='text'

@@ -1,6 +1,13 @@
 import React from 'react';
-import { C2, T4, useStyle, textFieldTheme } from '../../../Assets/StyledTest';
+import {
+  C2,
+  T4,
+  useStyle,
+  textFieldTheme,
+  EditorBox,
+} from '../../../Assets/StyledTest';
 import { TextField, ThemeProvider } from '@material-ui/core';
+import TextEditor from '../../../Utils/TextEditor';
 
 function Explanation(props) {
   const classes = useStyle();
@@ -8,8 +15,18 @@ function Explanation(props) {
   return (
     <C2>
       <T4>Explanatory Answer</T4>
-      <ThemeProvider theme={textFieldTheme}>
-        <TextField
+      <EditorBox>
+        <TextEditor
+          onChange={(event, editor) => handleExpTextChange(event, editor)}
+          data={text}
+          // onChange={(event, editor) => {
+          //   const data = editor.getData();
+          //   console.log({ event, editor, data });
+          //   this.setState({ data });
+          // }}
+        />
+      </EditorBox>
+      {/* <TextField
           style={{ marginTop: '24px' }}
           variant='outlined'
           label='Answer in detail'
@@ -20,7 +37,8 @@ function Explanation(props) {
           }}
           value={text}
           onChange={handleExpTextChange}
-        />
+        /> */}
+      <ThemeProvider theme={textFieldTheme}>
         <TextField
           style={{ marginTop: '24px' }}
           variant='outlined'

@@ -11,9 +11,9 @@ import {
 import Answer from './Answer';
 import Explanation from './Explanation';
 import Buttons from './Buttons';
+import Question from './Question';
 import QueryString from 'qs';
-import { capitalize } from '@material-ui/core';
-// import CKEditor from 'react-ckeditor-component';
+import { postQuestions } from '../../../Redux/Action/Test';
 
 export class Index extends Component {
   constructor(props) {
@@ -103,7 +103,7 @@ export class Index extends Component {
     if (!this.state.checked) {
       this.setState({
         checked: !this.state.checked,
-        answerType: 'BUNDLE',
+        answerType: 'SINGLE_SELECT',
         bucketArray: [
           {
             tabLabel: 'Bucket 1',
@@ -119,6 +119,8 @@ export class Index extends Component {
       this.setState({
         checked: !this.state.checked,
         answerType: '',
+        bucketArray: [],
+        activeTab: 0,
       });
     }
   };
@@ -198,13 +200,6 @@ export class Index extends Component {
   };
 
   handleImageUpload = (e, index) => {
-    // console.log(e.target.id);
-    // this.setState({
-    //   selectedFile: e.target.files[0],
-    // });
-    // console.log(
-    //   this.state.bucketArray[this.state.activeTab].choices[e.target.id].image
-    // );
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
     this.props.putImage(formData, response => {
@@ -215,7 +210,6 @@ export class Index extends Component {
         arr[this.state.activeTab].choices[index].image = response.data;
         this.setState({ bucketArray: arr });
       }
-      // console.log(response);
     });
   };
 
@@ -243,20 +237,19 @@ export class Index extends Component {
 
   handleDeleteIconClick = index => {
     let arr = this.state.bucketArray;
-    // console.log(this.state.bucketArray[this.state.activeTab].choices[index]);
     arr[this.state.activeTab].choices[index].image = null;
     this.setState({ bucketArray: arr });
   };
 
   handleTextChange = (e, index) => {
     let arr = this.state.bucketArray;
-    // console.log(this.state.bucketArray[this.state.activeTab].choices[index]);
     arr[this.state.activeTab].choices[index].text = e.target.value;
     this.setState({ bucketArray: arr });
   };
 
-  handleExpTextChange = e => {
-    this.setState({ text: e.target.value });
+  handleExpTextChange = (e, editor) => {
+    const data = editor.getData();
+    this.setState({ text: data });
   };
 
   handleUrlChange = e => {
@@ -266,12 +259,36 @@ export class Index extends Component {
   };
 
   handleSaveClick = () => {
+    const {
+      activeLevel,
+      expectedTime,
+      activeTopic,
+      question,
+      description,
+    } = this.state;
+    const { sectionId, testQuestionSetId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
     const obj = {
+      name: 'question',
       id: null,
       type: this.getType(),
-      difficultyLevel: this.state.activeLevel.toUpperCase(),
+      difficultyLevel: activeLevel.toUpperCase(),
+      expectedTime: expectedTime,
+      topic: { id: activeTopic },
+      testSection: { id: sectionId },
+      question,
+      description,
+      choices: this.getChoices(),
+      answerKeys: this.getAnswerKeys(),
     };
-    console.log(obj);
+    this.props.postQuestions(testQuestionSetId, obj, response => {
+      console.log(response);
+    });
+    // console.log(obj);
   };
 
   handleCancelClick = () => {
@@ -282,12 +299,62 @@ export class Index extends Component {
   };
 
   getType = () => {
-    console.log('hi');
-    // return 'null';
-    console.log(this.state.checked);
     if (this.state.checked) {
       return 'BUNDLE';
     } else return this.state.answerType;
+  };
+
+  handleQuestionChange = (e, editor) => {
+    const data = editor.getData();
+    this.setState({ question: data });
+  };
+
+  handleDescriptionChange = (e, editor) => {
+    const data = editor.getData();
+    this.setState({ description: data });
+  };
+
+  getChoices = () => {
+    let arr = this.state.bucketArray;
+    let choices = [];
+
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].choices.length; j++) {
+        choices.push({
+          id: null,
+          type: arr[i].choices[j].text.length === 0 ? 'IMAGE' : 'TEXT',
+          text:
+            arr[i].choices[j].text.length !== 0
+              ? arr[i].choices[j].text
+              : arr[i].choices[j].image.fileName,
+          orderNo: j + 1,
+          bundleNo: arr.length > 1 ? i + 1 : null,
+        });
+      }
+    }
+    return choices;
+  };
+
+  getAnswerKeys = () => {
+    let arr = this.state.bucketArray;
+    let choices = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].choices.length; j++) {
+        if (arr[i].choices[j].selected) {
+          choices.push({
+            id: null,
+            type: arr[i].choices[j].text.length === 0 ? 'IMAGE' : 'TEXT',
+            text:
+              arr[i].choices[j].text.length !== 0
+                ? arr[i].choices[j].text
+                : arr[i].choices[j].image.fileName,
+            orderNo: j + 1,
+            bundleNo: arr.length > 1 ? i + 1 : null,
+          });
+        }
+      }
+    }
+    return choices;
   };
 
   render() {
@@ -312,6 +379,8 @@ export class Index extends Component {
       anchorEl,
       text,
       url,
+      question,
+      description,
     } = this.state;
 
     const {
@@ -335,6 +404,8 @@ export class Index extends Component {
       handleUrlChange,
       handleSaveClick,
       handleCancelClick,
+      handleQuestionChange,
+      handleDescriptionChange,
     } = this;
 
     const difficulty = [
@@ -390,13 +461,21 @@ export class Index extends Component {
       handleSaveClick,
       handleCancelClick,
     };
-    // console.log(capitalize('sssssss'));
+
+    const questionProps = {
+      handleQuestionChange,
+      handleDescriptionChange,
+      question,
+      description,
+    };
+    console.log(this.state);
 
     return (
       <div>
         <C2>
           <H1>Add new Question</H1>
           <DropDownRack {...dropDownRackProps} />
+          <Question {...questionProps} />
           <Answer {...answerProps} />
           <Explanation {...explanationProps} />
         </C2>
@@ -419,4 +498,5 @@ export default connect(mapStateToProps, {
   getConcepts,
   getTopics2,
   putImage,
+  postQuestions,
 })(Index);

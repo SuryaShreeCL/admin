@@ -36,7 +36,6 @@ function Answer(props) {
     anchorEl,
     handleClose,
     handleDelete,
-    answerType,
   };
 
   let radioButtonProps = {

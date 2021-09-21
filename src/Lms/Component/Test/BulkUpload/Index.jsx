@@ -185,7 +185,8 @@ class Index extends Component {
   };
 
   render() {
-    const { testQuestionSetId, type } = this.props.match.params;
+    // console.log(this.props.match.params);
+    const { testQuestionSetId, type, sectionId } = this.props.match.params;
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
       const { selectedType } = this.state;
@@ -208,11 +209,11 @@ class Index extends Component {
           if (name === '1') {
             if (type !== undefined)
               this.props.history.push(
-                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}&type=${type}`
+                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}&type=${type}&sectionId=${sectionId}`
               );
             else
               this.props.history.push(
-                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}`
+                `${single_upload}/${this.props.match.params.courseId}?testQuestionSetId=${testQuestionSetId}&sectionId=${sectionId}`
               );
           }
         },

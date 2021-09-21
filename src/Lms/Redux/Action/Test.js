@@ -420,3 +420,29 @@ export const draftTest = (testQuestionSetId, callback) => {
       });
   };
 };
+
+export const postQuestions = (testQuestionSetId, data, callback) => {
+  const accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .post(
+        `${URL}/api/v1/lms/questions/testQuestionSet/${testQuestionSetId}`,
+        data,
+
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        // dispatch;
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
