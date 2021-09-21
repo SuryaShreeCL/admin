@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { connect } from "react-redux";
+import "./CV.css"
+
 class CV extends Component {
   constructor() {
     super();
@@ -39,11 +41,14 @@ class CV extends Component {
             <Grid item md={12}>
               <TextField label="Section Name" />
             </Grid>
-            <Grid item md={10}>
+            <Grid item md={10} className={"textField_grid"}>
               <TextField fullWidth label="Editor/Mentor's Comment" />
             </Grid>
-            <Grid item md={2} style={{ display: "flex",alignItems:"end" }}>
-              <div style={{ display: "flex" }}>
+            <Grid item md={2} className={"icon_div"}
+            //  style={{ display: "flex",alignItems:"end",marginTop:"24px" }}
+            >
+            
+              {/* <div style={{ display: "flex" }}> */}
                 <AddCircleOutlineIcon
                   color="primary"
                   onClick={() => {
@@ -56,7 +61,7 @@ class CV extends Component {
                     this.handleDelete(index);
                   }}
                 />
-              </div>
+              {/* </div> */}
             </Grid>
           </Grid>
         ))}
