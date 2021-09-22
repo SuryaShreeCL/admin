@@ -4,8 +4,6 @@ import { URL } from '../../../Actions/URL';
 
 const DEV_LMS = URL;
 
-const pageSize = 10;
-
 export const getCourses = callback => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
@@ -112,21 +110,17 @@ export const getConcepts = (subjectId, callback) => {
   };
 };
 
-export const getTopics = (conceptId, pageNo, searchString, callback) => {
+export const getTopics = (conceptId, data, callback) => {
   let accessToken = sessionStorage.getItem('accessToken');
   return dispatch => {
     axios
-      .get(
-        `${DEV_LMS}/api/v1/topics/concept/${conceptId}?page=${pageNo}&size=${pageSize}&search=${searchString}`,
-
-        {
-          crossDomain: true,
-          headers: {
-            admin: 'yes',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
+      .post(`${DEV_LMS}/api/v1/topics/concept/${conceptId}`, data, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.viewTopics,

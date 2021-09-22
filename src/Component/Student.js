@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
+  Switch,
   TextField,
 } from "@material-ui/core";
 
@@ -600,7 +601,7 @@ export class Student extends Component {
       this.state.product.map((item, idx) => {
         return (
           <>
-            <Grid item sm={6} md={6}>
+            <Grid item sm={5} md={5}>
               <Autocomplete
                 options={
                   Object.keys(this.props.lmsProducts).length !== 0
@@ -635,7 +636,7 @@ export class Student extends Component {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={5} md={5}>
+            <Grid item sm={4} md={4} className={"product__date"}>
               <TextField
                 type={"date"}
                 color={"primary"}
@@ -659,6 +660,7 @@ export class Student extends Component {
                 label={"expiry Date"}
                 InputLabelProps={{
                   shrink: true,
+                  className: "label_pad",
                 }}
                 InputProps={{
                   inputProps: {
@@ -668,13 +670,14 @@ export class Student extends Component {
                       .split("-")
                       .join("-"),
                   },
+                  className: "product__date__style",
                 }}
                 fullWidth
                 disablePast
               />
             </Grid>
-            <Grid item sm={1} md={1}>
-              {this.state.id === null ? (
+            <Grid item sm={3} md={3} className={"switch__style"}>
+              {item.product_Id === null ? (
                 <IconButton
                   onClick={() => {
                     this.removeProduct(idx);
@@ -685,8 +688,9 @@ export class Student extends Component {
                 </IconButton>
               ) : (
                 <FormControlLabel
+                  className={"switch__style"}
                   control={
-                    <Checkbox
+                    <Switch
                       checked={item.stage}
                       onChange={(e) => {
                         this.onChange("stage", e.target.checked, idx);
@@ -695,6 +699,7 @@ export class Student extends Component {
                       color="primary"
                     />
                   }
+                  label="isActive"
                 />
               )}
             </Grid>
