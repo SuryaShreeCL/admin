@@ -1,11 +1,12 @@
 @font-face {
-    font-family: 'MyWebFont';
-    src: url('./Fonts/proxima nova font/PROXIMANOVA-REG-WEBFONT.TTF') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
-  }  
-*{
-    font-family: 'proxima-nova',sans-serif;
-letter-spacing: 0px;
-opacity: 1;
+  font-family: "MyWebFont";
+  src: url("./Fonts/proxima nova font/PROXIMANOVA-REG-WEBFONT.TTF")
+    format("truetype"); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+* {
+  font-family: "proxima-nova", sans-serif;
+  letter-spacing: 0px;
+  opacity: 1;
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -15,368 +16,382 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
-.left-side-img{
-    width: 100%;
-    height: 100%;
+.left-side-img {
+  width: 100%;
+  height: 100%;
 }
-.right-header{
-    text-align: center;
+.right-header {
+  text-align: center;
 }
-.right-header > label{
-    display: block;
-    font-size: 21px;   
+.right-header > label {
+  display: block;
+  font-size: 21px;
 }
-.right-header-label{
-    font-size: 27px !important;
-    font-weight: bold;
-    color:#3f51b5;
-    margin-bottom: 8vh;
-
+.right-header-label {
+  font-size: 27px !important;
+  font-weight: bold;
+  color: #3f51b5;
+  margin-bottom: 8vh;
 }
-.right-header-label-1{
-    margin-bottom: 5px !important;
+.right-header-label-1 {
+  margin-bottom: 5px !important;
 }
-.right-header-label-2{
-    font-size: 14px !important;
-    margin-bottom: 40px !important;
-}
-
-.rec-input{
-    margin-bottom: 10px;
-}
-.right-btn-box{
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-}
-.right-header-label-21{
-    font-size: 16px !important;
-    text-align: left;
-}
-.career-option-img{
-    width: 88px;
-    margin-top: -10px;
-}
-.career-option-label{
-    font-size: smaller;
-    line-height: 15px;
+.right-header-label-2 {
+  font-size: 14px !important;
+  margin-bottom: 40px !important;
 }
 
-.selectable{
-    border-color: #3f51b5 !important;
+.rec-input {
+  margin-bottom: 10px;
 }
-.card-btn{
-    background: none;
-    border: none;
+.right-btn-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
-.cbox{
-    display: none;
+.right-header-label-21 {
+  font-size: 16px !important;
+  text-align: left;
 }
-.prograss-bar-body{
-    display: block;
-    background-color: #80808082;
-    border-radius: 20px;
+.career-option-img {
+  width: 88px;
+  margin-top: -10px;
 }
-.prograss-bar{
-    display: block;
-    width:5%;
-    background: #00AEFF 0% 0% no-repeat padding-box;
-    height: 3vh;
-    border-radius: 10px;
-    transition: 1s;
-}
-.prograss-value{
-    display: block;
-    text-align: end;
-    padding-right: 10px;
-    color: white;
-    font-weight: bold;
-}
-.active{
-    display: block !important;
-}
-.item{
-    display: none;
-}
-.item-container{
-    padding-left: 10vh;
-    margin-top: 15vh;
-    padding-right: 20vh;
-}
-.career-interest-options{
-    display: none;
-}
-input[type=checkbox]:checked + label {
-     background-color: #3f51b5;
-     color: white;
-}
-.career-interest-option-label{
-    border: 1px solid ;
-    /* width: 100px; */
-    border-radius: 25px;
-    text-align: center;
-    padding: 7px;
-    background: #FFFFFF0A 0% 0% no-repeat padding-box;
-    border-radius: 48px;
-    opacity: 1;
-    border-color: #3f51b5;
-    color: #3f51b5;
-    margin-left: 15px;
-    margin-top: 20px;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+.career-option-label {
+  font-size: smaller;
+  line-height: 15px;
 }
 
-.career-interest-card-img{
-    width: 50%;
+.selectable {
+  border-color: #3f51b5 !important;
+}
+.card-btn {
+  background: none;
+  border: none;
+}
+.cbox {
+  display: none;
+}
+.prograss-bar-body {
+  display: block;
+  background-color: #80808082;
+  border-radius: 20px;
+}
+.prograss-bar {
+  display: block;
+  width: 5%;
+  background: #00aeff 0% 0% no-repeat padding-box;
+  height: 3vh;
+  border-radius: 10px;
+  transition: 1s;
+}
+.prograss-value {
+  display: block;
+  text-align: end;
+  padding-right: 10px;
+  color: white;
+  font-weight: bold;
+}
+.active {
+  display: block !important;
+}
+.item {
+  display: none;
+}
+.item-container {
+  padding-left: 10vh;
+  margin-top: 15vh;
+  padding-right: 20vh;
+}
+.career-interest-options {
+  display: none;
+}
+input[type="checkbox"]:checked + label {
+  background-color: #3f51b5;
+  color: white;
+}
+.career-interest-option-label {
+  border: 1px solid;
+  /* width: 100px; */
+  border-radius: 25px;
+  text-align: center;
+  padding: 7px;
+  background: #ffffff0a 0% 0% no-repeat padding-box;
+  border-radius: 48px;
+  opacity: 1;
+  border-color: #3f51b5;
+  color: #3f51b5;
+  margin-left: 15px;
+  margin-top: 20px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
+.career-interest-card-img {
+  width: 50%;
+}
 
 /* Second Edition */
-.item-header{
-    text-align: center;
-    height: 25vh;
-    margin-bottom:10px;
+.item-header {
+  text-align: center;
+  height: 25vh;
+  margin-bottom: 10px;
 }
-.item-header > label{
-    display: block;
-    font-size: 18px;
+.item-header > label {
+  display: block;
+  font-size: 18px;
 }
-.item-header-label{
-    font-size: 27px !important;
-    font-weight: bold;
-    color:#3f51b5;
-    margin-bottom: 5vh;
-    padding-top: 3vh;
+.item-header-label {
+  font-size: 27px !important;
+  font-weight: bold;
+  color: #3f51b5;
+  margin-bottom: 5vh;
+  padding-top: 3vh;
 }
-.item-header-label-1{
-    margin-bottom: 10px !important;
+.item-header-label-1 {
+  margin-bottom: 10px !important;
 }
-.item-header-feedback-label{
-    margin-bottom: 20px !important;
-}
-
-.item-header-label-2{
-    font-size: 14px !important;
-    margin-bottom: 40px !important;
-}
-.item-header-question{
-    text-align: left;
-    font-weight: bold;
-}
-.item-input-box{
-    margin-bottom: 13px !important;
-}
-.item-body{
-    height: 30vh !important;
-    /* overflow: overlay; */
-}
-.item-footer-{
-    text-align: center;
-    margin-top: 40px;
-}
-.item-img{
-    text-align: center;
-}
-.item-img > img{
-    height: 13vh;
-}
-.career-img{
-    padding-top: 10px;
-}
-.card-body{
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 !important;
-}
-.cardview{
-    display:flex;
-    padding: '10px';
-}
-.cardview-footer{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-.card-footer-content{
-    text-align: center;
-}
-.card-footer-content > label{
-    font-weight: bold;
-    display: block;
-    margin-bottom: 30px;
-}
-.card-btn{
-    outline: none !important;
-}
-.item-btn{
-    margin-right: 10px !important;
-}
-.p-card-active{
-    border: 1px solid !important;
-    border-color: blue !important;
-}
-.career-interest-body{
-    display: flex;
-}
-.career-interest-message{
-    font-size:11px !important;
-    color: #212121 !important;
-}
-.career-interest-img-container{
-    margin-top: 15px;
-    height: 10vh;
-}
-.career-interest-content{
-    font-size: 12px;
-    padding: 0;
-    text-align: center;
-    padding-top: 10px;
-}
-.page-component-main{
-    position: fixed;
-}
-.item-feedback-body{
-    height:45vh !important;
-}
-.item-feedback-header{
-    height:20vh !important;
-}
-.feedback-container{
-    margin-top: -15vh;
-}
-.logo{
-    height: 6vh;
-    margin-left: 5vh;
-}
-.main-container{
-    padding: 0 !important;
-}
-.clg-label{
-    padding-top: 10vh !important;
-}
-.item-body > .css-2b097c-container{
-    width: 100%;
-    margin-bottom: 10px;
-}
-.fieldOfstudy-item-body{
-    margin-top: 15px !important;
-}
-.card-button{
-    padding-top: 10px;
-    text-align: center;
-    margin: 10px;
-
-}
-.react-select-label{
-    position: absolute;
-    z-index: 1;
-    left: 10px;
-}
-.react-select-label-focused{
-    transform: translate(-8px, -17px) scale(0.85) !important;
-    position: absolute;
-    z-index: 1;
-    top: 8px;
-    left: 25px;
-    transition: 0.5s;
+.item-header-feedback-label {
+  margin-bottom: 20px !important;
 }
 
-.focused{
-    transform-origin: left;
-    transform: translate(10px, -30px) scale(0.75) !important;
-    background-color: #fafafa;
-    transition: 0.5s;
+.item-header-label-2 {
+  font-size: 14px !important;
+  margin-bottom: 40px !important;
+}
+.item-header-question {
+  text-align: left;
+  font-weight: bold;
+}
+.item-input-box {
+  margin-bottom: 13px !important;
+}
+.item-body {
+  height: 30vh !important;
+  /* overflow: overlay; */
+}
+.item-footer- {
+  text-align: center;
+  margin-top: 40px;
+}
+.item-img {
+  text-align: center;
+}
+.item-img > img {
+  height: 13vh;
+}
+.career-img {
+  padding-top: 10px;
+}
+.card-body {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 !important;
+}
+.cardview {
+  display: flex;
+  padding: "10px";
+}
+.cardview-footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.card-footer-content {
+  text-align: center;
+}
+.card-footer-content > label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 30px;
+}
+.card-btn {
+  outline: none !important;
+}
+.item-btn {
+  margin-right: 10px !important;
+}
+.p-card-active {
+  border: 1px solid !important;
+  border-color: blue !important;
+}
+.career-interest-body {
+  display: flex;
+}
+.career-interest-message {
+  font-size: 11px !important;
+  color: #212121 !important;
+}
+.career-interest-img-container {
+  margin-top: 15px;
+  height: 10vh;
+}
+.career-interest-content {
+  font-size: 12px;
+  padding: 0;
+  text-align: center;
+  padding-top: 10px;
+}
+.page-component-main {
+  position: fixed;
+}
+.item-feedback-body {
+  height: 45vh !important;
+}
+.item-feedback-header {
+  height: 20vh !important;
+}
+.feedback-container {
+  margin-top: -15vh;
+}
+.logo {
+  height: 6vh;
+  margin-left: 5vh;
+}
+.main-container {
+  padding: 0 !important;
+}
+.clg-label {
+  padding-top: 10vh !important;
+}
+.item-body > .css-2b097c-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.fieldOfstudy-item-body {
+  margin-top: 15px !important;
+}
+.card-button {
+  padding-top: 10px;
+  text-align: center;
+  margin: 10px;
+}
+.react-select-label {
+  position: absolute;
+  z-index: 1;
+  left: 10px;
+}
+.react-select-label-focused {
+  transform: translate(-8px, -17px) scale(0.85) !important;
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  left: 25px;
+  transition: 0.5s;
+}
+
+.focused {
+  transform-origin: left;
+  transform: translate(10px, -30px) scale(0.75) !important;
+  background-color: #fafafa;
+  transition: 0.5s;
 }
 
 /* .college-select__placeholder{
     transform: translate(-30px, -30px) scale(0.75) !important;
     background-color: #ffffffad;
 } */
-.college-select1__value-container{
-    overflow: visible !important;
+.college-select1__value-container {
+  overflow: visible !important;
 }
-.college-select2__value-container{
-    overflow: visible !important;
+.college-select2__value-container {
+  overflow: visible !important;
 }
 .MuiToolbar-regular {
-    min-height: unset !important;
+  min-height: unset !important;
 }
 /* Mobile Screen */
 @media only screen and (max-width: 600px) {
-    
-    .item-container{
-        padding-left: 0px;
-        padding-right: 0px;
-        margin-top: 0px;
-    }
-    .item-header{
-        height: unset;
-    }
-    .bottom-footer-{
-        margin-top: 0;
-        display: block;
-        width: 100%;
-        position: fixed;
-        bottom: 15px;
-        background-color: white;
-    }
-    .page-container{
-        height: 60vh;
-    }
-    .page-component-main{
-        position: unset;
-        padding: 20px;
-        overflow: scroll !important;
-        height: 80vh;
-    }
-    .item-header > label{
-        font-size: 17px;
-    }
-    .card-button {
-        margin: 15px;
-        text-align: center;
-        padding-top: 10px;
-        width: 20vh !important;
-    }
-    .card-body{
-        justify-content: center;
-    }
-    .career-interest-body{
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .career-interest-card-button{
-        margin: 10px;
-        width: 21vh !important;
-    }
-    .career-interest-content{
-        padding: 4px !important;
-        font-size: 14px;
-        text-align: left;
-    }
-    .feedback-container {
-        margin-top: -5vh;
-    }
-    
+  .item-container {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 0px;
   }
+  .item-header {
+    height: unset;
+  }
+  .bottom-footer- {
+    margin-top: 0;
+    display: block;
+    width: 100%;
+    position: fixed;
+    bottom: 15px;
+    background-color: white;
+  }
+  .page-container {
+    height: 60vh;
+  }
+  .page-component-main {
+    position: unset;
+    padding: 20px;
+    overflow: scroll !important;
+    height: 80vh;
+  }
+  .item-header > label {
+    font-size: 17px;
+  }
+  .card-button {
+    margin: 15px;
+    text-align: center;
+    padding-top: 10px;
+    width: 20vh !important;
+  }
+  .card-body {
+    justify-content: center;
+  }
+  .career-interest-body {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .career-interest-card-button {
+    margin: 10px;
+    width: 21vh !important;
+  }
+  .career-interest-content {
+    padding: 4px !important;
+    font-size: 14px;
+    text-align: left;
+  }
+  .feedback-container {
+    margin-top: -5vh;
+  }
+}
 
-  .rating__item >img{
-    /* Default Style */  
-    filter: grayscale(1);
-  }
-  
-  .rating__item >img:hover {
-    /* Hover Style */
-    transform: scale(1.1);
-    transition: 0.5s;
-    filter: grayscale(0);
-  }
-  
-  .rating__item__active {
-    /* Active Style */
-    transform: scale(1.5);
-    transition: 0.1s;  
-  }
+.rating__item > img {
+  /* Default Style */
+  filter: grayscale(1);
+}
+
+.rating__item > img:hover {
+  /* Hover Style */
+  transform: scale(1.1);
+  transition: 0.5s;
+  filter: grayscale(0);
+}
+
+.rating__item__active {
+  /* Active Style */
+  transform: scale(1.5);
+  transition: 0.1s;
+}
+
+.product__date {
+  padding-right: 0 !important;
+  padding-left: 2px !important;
+}
+
+.product__date__style {
+  font-size: 15px !important;
+  height: 56px !important;
+}
+
+.switch__style {
+  margin: auto !important;
+}
+
+.label_pad {
+  padding-right: 8px !important;
+  background: #ffffff;
+}
