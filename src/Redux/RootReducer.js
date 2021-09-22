@@ -14,6 +14,7 @@ import CareerTrackReducer from '../Reducer/CareerTrackReducer';
 import NotificationReducer from '../Reducer/NotificationReducer';
 import HelperReducer from '../Reducer/HelperReducer';
 import ReportReducer from '../Reducer/ReportReducer';
+import ProfileGapAnalysisReducer from '../Reducer/ProfileGapAnalysisReducer';
 import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
@@ -64,4 +65,5 @@ export default combineReducers({
   wallPostListReducer: wallPostListReducer,
   getWallCategoriesReducer: getWallCategoriesReducer,
   HelperReducer: HelperReducer,
+  ProfileGapAnalysisReducer : ProfileGapAnalysisReducer
 });

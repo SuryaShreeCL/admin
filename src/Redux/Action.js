@@ -17,6 +17,12 @@ export const COURSES = {
 export const QUESTIONS = {
   getQuestions: 'getQuestions',
 };
+export const PROFILE_GAP_ANALYSIS = {
+  getgeneraldetails : "getgeneraldetails",
+  getstatus : "getstatus",
+  getcommenthistory : "getcommenthistory",
+  updatestatus:"updatestatus"
+}
 
 export const COLLEGES = {
   getCollege: 'getCollege',
