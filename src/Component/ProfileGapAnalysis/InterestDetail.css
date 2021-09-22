@@ -1,0 +1,43 @@
+.main_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.textField_align{
+    /* width: 450px; */
+    bottom: 40px;
+    margin-left: 30px;
+
+}
+
+.icon_div{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin-left: 30px;
+    
+}
+
+.icon_div:hover {
+    display: block;
+    margin-top: -13px;
+
+}
+
+.grid{
+    display: flex;
+    margin-left: 30px;
+}
+.grid:hover + .icon_div {
+   display: block;
+   margin-top: -13px;
+
+}
+/* ppga cal notes */
+.ppgaTextField_align {
+    bottom: 30px;
+
+}
+
+

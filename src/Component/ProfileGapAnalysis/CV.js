@@ -3,7 +3,12 @@ import React, { Component } from "react";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { connect } from "react-redux";
+<<<<<<< HEAD
 import PrimaryButton from "../../Utils/PrimaryButton";
+=======
+import "./CV.css"
+
+>>>>>>> 75bd2191e9fd4e620dff7c103f78a222aa63c99f
 class CV extends Component {
   constructor() {
     super();

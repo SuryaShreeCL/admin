@@ -59,6 +59,7 @@ export default class TestResults extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
+                    bottom: "20px"
                   }}
                   id="standard-basic"
                   label="overAllAptitude"
@@ -82,6 +83,7 @@ export default class TestResults extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
+                    bottom: "20px"
                   }}
                   id="standard-basic"
                   label="numericalAbility"
@@ -106,6 +108,7 @@ export default class TestResults extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
+                    bottom: "15px"
                   }}
                   id="standard-basic"
                   label="logicalReasoning"
@@ -129,6 +132,7 @@ export default class TestResults extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
+                    bottom: "15px"
                   }}
                   id="standard-basic"
                   label="verbalReasoning"
@@ -171,6 +175,7 @@ export default class TestResults extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
+                    bottom: "20px"
                   }}
                   id="standard-basic"
                   label="personalityCode"
@@ -213,6 +218,7 @@ export default class TestResults extends Component {
                     fontStyle: "Montserrat",
                     fontWeight: "700",
                     fontStyle: "normal",
+                    bottom: "20px"
                   }}
                   id="standard-basic"
                   label="technicalTest"
