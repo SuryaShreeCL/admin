@@ -11,14 +11,28 @@ import {
   DialogActions,
   withStyles,
   Popover,
+  Menu,
+  MenuItem,
 } from "@material-ui/core";
 import {
   getAllColleges,
   getDegree,
   getBranches,
+  getPGDegree,
+  getUniversity,
 } from "./../../Actions/College";
 import { Autocomplete } from "@material-ui/lab";
 import DateFnsUtils from "@date-io/date-fns";
+import {
+  getgeneraldetails,
+  getstatus,
+  getcommenthistory,
+  updatestatus,
+} from "../../Actions/ProfileGapAction";
+import {
+  getAllSpecialization,
+  getAllUniversity,
+} from "../../Actions/Aspiration";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -78,13 +92,133 @@ class GeneralDetails extends Component {
       anchorEl: null,
       messageopen: true,
       commentdialogopen: false,
+      specialisation: [],
+      university: [],
+      workexp: "",
+      pgdegree: "",
+      pgcollege: "",
+      pguniversity: "",
+      round: "",
+      choosenprogram: "",
+      enrollmentdate: null,
+      verificationstatus: [],
+      field: "",
+      commentshistory: [],
     };
   }
+  // commentshistory(name, value) {
+  //   let arr = [];
+  //   arr.push({
+  //     fieldname: "",
+  //     oldvalue: "",
+  //     newvalue: "",
+  //     comments: "",
+  //   });
+  // }
   componentDidMount() {
     this.props.getAllColleges();
     this.props.getDegree();
     this.props.getBranches();
+    this.props.getPGDegree();
+    this.props.getUniversity();
+    this.props.getAllSpecialization((response) => {
+      if (response.status === 200) {
+        this.setState({
+          specialisation: response.data,
+        });
+      }
+    });
+    this.props.getAllUniversity((response) => {
+      if (response.status === 200) {
+        this.setState({
+          university: response.data,
+        });
+      }
+    });
+    this.props.getstatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({ verificationstatus: response.data });
+        }
+      }
+    );
+    this.props.getcommenthistory(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+      }
+    );
+    this.props.getgeneraldetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+        if (response.status === 200) {
+          this.setState({
+            clsid: response.data.studentDetails.clsId,
+            firstname: response.data.studentDetails.firstName,
+            lastname: response.data.studentDetails.lastName,
+            phone: response.data.studentDetails.phoneNumber,
+            email: response.data.studentDetails.emailId,
+            workexp: response.data.studentDetails.workExperience,
+            pgcollege: response.data.studentDetails.postGraduateCollege,
+            pgdegree: response.data.studentDetails.postGraduateDegree,
+            pguniversity: response.data.studentDetails.postGraduateUniversity,
+            college: response.data.studentDetails.college,
+            degree: response.data.studentDetails.degree,
+            fieldofstudy: response.data.studentDetails.fieldOfStudy,
+            sem: response.data.studentDetails.currentSem,
+            areaofspecialisation:
+              response.data.aspirationDetails.aspirationAreaOfSpecializations,
+            package: response.data.packageDetails.productFamily,
+            product: response.data.packageDetails.productVarient,
+            intake: response.data.packageDetails.intake,
+            enrollmentdate: response.data.packageDetails.enrollmentDate,
+            prefschool: response.data.aspirationDetails.aspirationUniversities,
+          });
+        }
+      }
+    );
   }
+  handlestatus = (status) => {
+    console.log("Hello");
+    let obj = {
+      fieldName: this.state.field,
+      verificationStatus: status,
+    };
+    console.log(obj);
+    this.props.updatestatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      obj,
+      (response) => {
+        if (response.status === 200) {
+          this.props.getstatus(
+            this.props.match.params.studentId,
+            this.props.match.params.productId,
+            (getresponse) => {
+              if (response.status === 200) {
+                this.setState({ verificationstatus: getresponse.data });
+              }
+            }
+          );
+        }
+      }
+    );
+    this.setState({
+      popOpen: false,
+    });
+  };
+  verifiedstatus(name) {
+    let obj = this.state.verificationstatus.find(
+      (data) => data.fieldName === name
+    );
+    return obj;
+  }
+
   handleopen = () => {
     this.setState({
       dialog: true,
@@ -96,11 +230,22 @@ class GeneralDetails extends Component {
       anchorEl: null,
     });
   };
-  handleClick = (event) => {
-    console.log("jijiojo", event.currentTarget);
+  handlechange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+  handleDropChange = (e, data) => {
+    this.setState({
+      [e.target.name]: data,
+    });
+  };
+  handleClick = (event, name) => {
+    console.log("jijiojo", event.currentTarget, name);
     this.setState({
       popOpen: true,
       anchorEl: event.currentTarget,
+      field: name,
     });
   };
   handleChat = () => {
@@ -109,7 +254,7 @@ class GeneralDetails extends Component {
     });
   };
   renderstudentdetails() {
-    if (this.props.variantStepList.codeName === "ACS_MS") {
+    if (this.props.variantStepList.codeName === "ACS_MBA") {
       return (
         <Grid container spacing={3}>
           <Grid item md={4}>
@@ -122,21 +267,31 @@ class GeneralDetails extends Component {
             >
               <div
                 style={{
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   display: "flex",
                 }}
-                onClick={(e) => this.handleClick(e)}
+                onClick={(e) => this.handleClick(e, "pgDegree")}
               >
-                <Dot color={"green"} />
+                <Dot
+                  color={
+                    this.state.verificationstatus.length > 0 &&
+                    this.verifiedstatus("pgDegree").verificationStatus ===
+                      "Verified"
+                      ? "green"
+                      : "orange"
+                  }
+                />
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
-                  // options={this.props.getAllCollegesList}
-                  // getOptionLabel={(option) => option.name}
+                  options={this.props.getPGDegreeList}
+                  getOptionLabel={(option) => option.name}
+                  value={this.state.pgdegree}
+                  onChange={(e, newValue) => this.handleDropChange(e, newValue)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      name="college"
+                      name="pgdegree"
                       label="Post Graduate Degree"
                     />
                   )}
@@ -154,21 +309,31 @@ class GeneralDetails extends Component {
             >
               <div
                 style={{
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   display: "flex",
                 }}
-                onClick={(e) => this.handleClick(e)}
+                onClick={(e) => this.handleClick(e, "pgCollege")}
               >
-                <Dot color={"green"} />
+                <Dot
+                  color={
+                    this.state.verificationstatus.length > 0 &&
+                    this.verifiedstatus("pgCollege").verificationStatus ===
+                      "Verified"
+                      ? "green"
+                      : "orange"
+                  }
+                />
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
-                  // options={this.props.getAllCollegesList}
-                  // getOptionLabel={(option) => option.name}
+                  options={this.props.getAllCollegesList}
+                  getOptionLabel={(option) => option.name}
+                  value={this.state.pgcollege}
+                  onChange={(e, newValue) => this.handleDropChange(e, newValue)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      name="college"
+                      name="pgcollege"
                       label="Post Graduate College"
                     />
                   )}
@@ -187,21 +352,31 @@ class GeneralDetails extends Component {
             >
               <div
                 style={{
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   display: "flex",
                 }}
-                onClick={(e) => this.handleClick(e)}
+                onClick={(e) => this.handleClick(e, "pgUniversity")}
               >
-                <Dot color={"green"} />
+                <Dot
+                  color={
+                    this.state.verificationstatus.length > 0 &&
+                    this.verifiedstatus("pgUniversity").verificationStatus ===
+                      "Verified"
+                      ? "green"
+                      : "orange"
+                  }
+                />
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
-                  // options={this.props.getAllCollegesList}
-                  // getOptionLabel={(option) => option.name}
+                  options={this.props.getpguniversity}
+                  getOptionLabel={(option) => option.name}
+                  value={this.state.pguniversity}
+                  onChange={(e, newValue) => this.handleDropChange(e, newValue)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      name="college"
+                      name="pguniversity"
                       label="Post Graduate University"
                     />
                   )}
@@ -219,7 +394,7 @@ class GeneralDetails extends Component {
             >
               <div
                 style={{
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   display: "flex",
                 }}
                 onClick={(e) => this.handleClick(e)}
@@ -227,7 +402,12 @@ class GeneralDetails extends Component {
                 <Dot color={"green"} />
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
-                <TextField label="Work Experience" />
+                <TextField
+                  name="workexp"
+                  label="Work Experience"
+                  value={this.state.workexp}
+                  onChange={(e) => this.handlechange(e)}
+                />
               </div>
             </div>
           </Grid>
@@ -245,15 +425,28 @@ class GeneralDetails extends Component {
           >
             <div
               style={{
-                alignItems: "center",
+                alignItems: "flex-start",
                 display: "flex",
               }}
-              onClick={(e) => this.handleClick(e)}
+              onClick={(e) => this.handleClick(e, "sem")}
             >
-              <Dot color={"orange"} />
+              <Dot
+                color={
+                  this.state.verificationstatus.length > 0 &&
+                  this.verifiedstatus("CurrentSem").verificationStatus ===
+                    "Verified"
+                    ? "green"
+                    : "orange"
+                }
+              />
             </div>
             <div style={{ paddingLeft: "10px" }}>
-              <TextField name="sem" label="Current Semester" />
+              <TextField
+                name="sem"
+                label="Current Semester"
+                value={this.state.sem}
+                onChange={(e) => this.handlechange(e)}
+              />
             </div>
           </div>
         </Grid>
@@ -261,35 +454,81 @@ class GeneralDetails extends Component {
     }
   }
   renderhigherdetails() {
-    if (this.props.variantStepList.codeName === "ACS_MS") {
+    if (this.props.variantStepList.codeName === "ACS_MBA") {
       return (
         <Grid container spacing={3}>
           <Grid item md={4}>
-            <TextField label="Round" />
+            <TextField
+              disabled
+              label="Round"
+              name="round"
+              value={this.state.round}
+              onChange={(e) => this.handlechange(e)}
+            />
           </Grid>
           <Grid item md={4}>
             <Autocomplete
               disabled
               renderInput={(params) => (
-                <TextField {...params} label="Choosen Program" />
+                <TextField
+                  {...params}
+                  name="choosenprogram"
+                  label="Choosen Program"
+                  value={this.state.choosenprogram}
+                  onChange={(e) => this.handlechange(e)}
+                />
               )}
             />
           </Grid>
           <Grid item md={4}></Grid>
           <Grid item md={4}>
             <Autocomplete
+              multiple
               disabled
+              id="tags-outlined"
+              options={this.state.specialisation}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.specialization.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.areaofspecialisation || []}
               renderInput={(params) => (
-                <TextField {...params} label="Area of Specialisation" />
+                <TextField
+                  {...params}
+                  name="areaofspecialisation"
+                  label="Area of specialization"
+                />
               )}
+              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
             />
           </Grid>
           <Grid item md={4}>
             <Autocomplete
+              multiple
               disabled
+              id="tags-outlined"
+              options={this.state.university}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.university.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.prefschool || []}
               renderInput={(params) => (
-                <TextField {...params} label="Preferred Grad School" />
+                <TextField
+                  {...params}
+                  name="prefschool"
+                  label="Preferred Grad School"
+                />
               )}
+              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
             />
           </Grid>
         </Grid>
@@ -302,6 +541,8 @@ class GeneralDetails extends Component {
               options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
               disabled
+              value={this.state.degree}
+              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
               renderInput={(params) => (
                 <TextField {...params} name="degree" label="Degree Type" />
               )}
@@ -311,6 +552,8 @@ class GeneralDetails extends Component {
             <Autocomplete
               options={this.props.getBranchesList}
               getOptionLabel={(option) => option.name}
+              value={this.state.fieldofstudy}
+              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
               disabled
               renderInput={(params) => (
                 <TextField
@@ -326,32 +569,53 @@ class GeneralDetails extends Component {
               disabled
               name="choosespe"
               label="Choosen Specialisation"
+              value={this.state.choosespe}
+              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
             />
           </Grid>
           <Grid item md={4}>
             <Autocomplete
-              // options={top100Films}
+              multiple
               disabled
+              options={this.state.specialisation}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.specialization.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.areaofspecialisation || []}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   name="areaofspecialisation"
-                  label="Area Of Specialisation"
+                  label="Area of specialization"
                 />
               )}
+              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
             />
           </Grid>
           <Grid item md={4}>
             <Autocomplete
-              // options={top100Films}
+              multiple
               disabled
+              id="tags-outlined"
+              options={this.state.university}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.university.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.prefschool || []}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  name="prefschool"
-                  label="Preferred Grad School"
-                />
+                <TextField {...params} label="Preferred Grad School" />
               )}
+              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
             />
           </Grid>
         </Grid>
@@ -360,7 +624,8 @@ class GeneralDetails extends Component {
   }
 
   render() {
-    console.log(this.props.variantStepList.codeName);
+    console.log(this.props);
+    console.log(this.state);
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -392,15 +657,32 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "clsid")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("ClsId").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
-                  <TextField disabled name="clsid" label="CLS ID" />
+                  <TextField
+                    disabled
+                    name="clsid"
+                    label="CLS ID"
+                    value={this.state.clsid}
+                    onChange={(e) => {
+                      // this.commentshistory("clsId",e.target.value)
+                      this.handlechange(e);
+                    }}
+                  />
                 </div>
               </div>
             </Grid>
@@ -414,15 +696,28 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "FirstName")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("FirstName").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
-                  <TextField name="firstname" label="First Name" />
+                  <TextField
+                    name="firstname"
+                    label="First Name"
+                    value={this.state.firstname}
+                    onChange={(e) => this.handlechange(e)}
+                  />
                 </div>
               </div>
             </Grid>
@@ -436,15 +731,28 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "LastName")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("LastName").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
-                  <TextField name="lastname" label="Last Name" />
+                  <TextField
+                    name="lastname"
+                    label="Last Name"
+                    value={this.state.lastname}
+                    onChange={(e) => this.handlechange(e)}
+                  />
                 </div>
               </div>
             </Grid>
@@ -458,15 +766,29 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "PhoneNumber")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("PhoneNumber").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
-                  <TextField name="phone" disabled label="Phone Number" />
+                  <TextField
+                    name="phone"
+                    disabled
+                    label="Phone Number"
+                    value={this.state.phone}
+                    onChange={(e) => this.handlechange(e)}
+                  />
                 </div>
               </div>
             </Grid>
@@ -480,15 +802,29 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "EmailId")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("EmailId").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
-                  <TextField disabled name="email" label="Email Address" />
+                  <TextField
+                    disabled
+                    name="email"
+                    label="Email Address"
+                    value={this.state.email}
+                    onChange={(e) => this.handlechange(e)}
+                  />
                 </div>
               </div>
             </Grid>
@@ -503,18 +839,30 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "ugDegree")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("ugDegree").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
                     fullWidth
                     options={this.props.getDegreeList}
                     getOptionLabel={(option) => option.name}
+                    value={this.state.degree}
+                    onChange={(e, newValue) =>
+                      this.setState({ degree: newValue })
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -536,17 +884,29 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "ugDepartment")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("ugDepartment").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
                     options={this.props.getBranchesList}
                     getOptionLabel={(option) => option.name}
+                    value={this.state.fieldofstudy}
+                    onChange={(e, newValue) =>
+                      this.handleDropChange(e, newValue)
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -568,17 +928,29 @@ class GeneralDetails extends Component {
               >
                 <div
                   style={{
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
+                  onClick={(e) => this.handleClick(e, "ugCollege")}
                 >
-                  <Dot color={"green"} />
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("ugCollege").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
                     options={this.props.getAllCollegesList}
                     getOptionLabel={(option) => option.name}
+                    value={this.state.college}
+                    onChange={(e, newValue) =>
+                      this.handleDropChange(e, newValue)
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -614,24 +986,27 @@ class GeneralDetails extends Component {
             spacing={2}
             style={{ padding: "25px", marginTop: "-30px" }}
           >
-            <Grid item md={12} style={{marginLeft: "25px"}}>
+            <Grid item md={12} style={{ marginLeft: "25px" }}>
               <Grid container spacing={2}>
                 <Grid item md={4}>
                   <TextField
-                    disabled
                     name="package"
                     label="Package Purchased"
+                    value={this.state.package}
+                    onChange={(e) => this.handlechange(e)}
                   />
                 </Grid>
                 <Grid item md={4}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
-                      disabled
+                      name="enrollmentdate"
                       margin="normal"
                       label="Enrollment Period"
-                      format="dd/MM/yyyy"
-                      // value={selectedDate}
-                      // onChange={handleDateChange}
+                      format="dd-MM-yyyy"
+                      value={this.state.enrollmentdate}
+                      onChange={(e, newValue) =>
+                        this.setState({ enrollmentdate: newValue })
+                      }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
@@ -640,20 +1015,19 @@ class GeneralDetails extends Component {
                 </Grid>
                 <Grid item md={4}></Grid>
                 <Grid item md={4}>
-                  <TextField name="product" disabled label="Product" />
+                  <TextField
+                    value={this.state.product}
+                    onChange={(e) => this.handlechange(e)}
+                    name="product"
+                    label="Product"
+                  />
                 </Grid>
                 <Grid item md={4}>
-                  <Autocomplete
-                    // options={top100Films}
-                    disabled
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        name="intake"
-                        disabled
-                        label="Intake"
-                      />
-                    )}
+                  <TextField
+                    name="intake"
+                    value={this.state.intake}
+                    onChange={(e) => this.handlechange(e)}
+                    label="Intake"
                   />
                   {/* <TextField name="intake" disabled label="Intake" /> */}
                 </Grid>
@@ -1024,29 +1398,23 @@ class GeneralDetails extends Component {
               </Grid>
             </DialogActions>
           </Dialog>
-          <Popover
+          <Menu
+            id="basic-menu"
             anchorEl={this.state.anchorEl}
             open={this.state.popOpen}
             onClose={this.handleClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "10px",
-              }}
-            >
+            <MenuItem onClick={() => this.handlestatus("Not Verified")}>
+              {" "}
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div
                   style={{
                     alignItems: "center",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e)}
                 >
                   <Dot color={"orange"} />
                 </div>
@@ -1062,6 +1430,9 @@ class GeneralDetails extends Component {
                   </Typography>
                 </div>
               </div>
+            </MenuItem>
+            <MenuItem onClick={() => this.handlestatus("Verified")}>
+              {" "}
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div
                   style={{
@@ -1084,8 +1455,8 @@ class GeneralDetails extends Component {
                   </Typography>
                 </div>
               </div>
-            </div>
-          </Popover>
+            </MenuItem>
+          </Menu>
         </ThemeProvider>
       </div>
     );
@@ -1098,10 +1469,26 @@ const mapStateToProps = (state) => {
     getAllCollegesList: state.CollegeReducer.allCollegeList,
     getDegreeList: state.CollegeReducer.Degree,
     getBranchesList: state.CollegeReducer.BranchList,
+    getgeneraldetailsList: state.ProfileGapAnalysisReducer.getgeneraldetails,
+    getallspeList: state.AspirationReducer.viewSpecializationList,
+    getalluniversityList: state.AspirationReducer.viewCollegeList,
+    getPGDegreeList: state.CollegeReducer.getPGDegrees,
+    getpguniversity: state.CollegeReducer.University,
+    getstatusList: state.ProfileGapAnalysisReducer.getstatus,
+    getcommenthistoryList: state.ProfileGapAnalysisReducer.getcommenthistory,
+    updatestatusList: state.ProfileGapAnalysisReducer.updatestatus,
   };
 };
 export default connect(mapStateToProps, {
   getAllColleges,
   getDegree,
   getBranches,
+  getgeneraldetails,
+  getAllSpecialization,
+  getAllUniversity,
+  getPGDegree,
+  getUniversity,
+  getstatus,
+  updatestatus,
+  getcommenthistory,
 })(withStyles(useStyles)(GeneralDetails));

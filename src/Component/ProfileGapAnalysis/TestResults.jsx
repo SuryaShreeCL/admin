@@ -6,155 +6,98 @@ import {
   Typography,
   Grid,
   TextField,
-  InputAdornment
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { getTestResults } from "../../Actions/ProfileGapAction";
+import { connect } from "react-redux";
 
-
-export default class TestResults extends Component {
+class TestResults extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      data: [],
       overAllAptitude: "",
-      overAllAptitudeErr : "",
+      overAllAptitudeErr: "",
       numericalAbility: "",
-      numericalAbilityErr : "",
+      numericalAbilityErr: "",
       logicalReasoning: "",
-      logicalReasoningErr : "",
+      logicalReasoningErr: "",
       verbalReasoning: "",
-      verbalReasoningErr : "",
+      verbalReasoningErr: "",
       personalityCode: "",
-      personalityCodeErr : "",
+      personalityCodeErr: "",
       technicalTest: "",
-      technicalTestErr : "",
-      diagnosticTestDisable : true,
-      personalityTestDisable : true,
-      technicalTestDisable : true
+      technicalTestErr: "",
+      diagnosticTestDisable: true,
+      personalityTestDisable: true,
+      technicalTestDisable: true,
     };
   }
 
+  componentDidMount() {
+    this.props.getTestResults(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+        this.setState({
+          data: response.data,
+        });
+      }
+    );
+  }
+
   render() {
+    // console.log(this.props.testResponse+"testresponse")
     return (
       <>
-        <div style={{ margin: "10px" }}>
-          <Accordion>
-            <AccordionSummary
-              style={{ flexDirection: "row-reverse" }}
-              expandIcon={<ExpandMoreIcon />}
-              aria-label="Expand"
-              aria-controls="additional-actions1-content"
-              id="additional-actions1-header"
-            >
-              Diagnostics Tests
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={1}>
-                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
-                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  style={{
-                    color: "red",
-                    fontStyle: "Montserrat",
-                    fontWeight: "700",
-                    fontStyle: "normal",
-                    bottom: "20px"
-                  }}
-                  id="standard-basic"
-                  label="overAllAptitude"
-                  disabled={this.state.diagnosticTestDisable}
-                  value={this.state.overAllAptitude}
-                  onChange={(e) =>
-                    this.setState({
-                      overAllAptitude: e.target.value,
-                      overAllAptitudeErr: "",
-                    })
-                  }
-                  error={this.state.overAllAptitudeErr.length > 0}
-                  helperText={this.state.overAllAptitudeErr}
-                />
+        {this.state.data.map((item) => (
+          <div style={{ margin: "10px" }}>
+            <Accordion>
+              <AccordionSummary
+                style={{ flexDirection: "row-reverse" }}
+                expandIcon={<ExpandMoreIcon />}
+                aria-label="Expand"
+                aria-controls="additional-actions1-content"
+                id="additional-actions1-header"
+              >
+                {item.testName}
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={1}>
+                  {item.sectionScoreModels.map((data) => (
+                  
+                    <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
+                    <TextField
+                      style={{
+                        color: "red",
+                        fontStyle: "Montserrat",
+                        fontWeight: "700",
+                        fontStyle: "normal",
+                        bottom: "20px",
+                      }}
+                      id="standard-basic"
+                      label={data.sectionName}
+                      disabled={this.state.diagnosticTestDisable}
+                      value={data.studentScore}
+                      // onChange={(e) =>
+                      //   this.setState({
+                      //     overAllAptitude: e.target.value,
+                      //     overAllAptitudeErr: "",
+                      //   })
+                      // }
+                    />
+                  </Grid>
+                  ))}
                 </Grid>
-                <Grid item md={2} xs={2} sm={2} xl={2} lg={2}></Grid>
-                <Grid item md={4} md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  style={{
-                    color: "red",
-                    fontStyle: "Montserrat",
-                    fontWeight: "700",
-                    fontStyle: "normal",
-                    bottom: "20px"
-                  }}
-                  id="standard-basic"
-                  label="numericalAbility"
-                  disabled={this.state.diagnosticTestDisable}
-                  value={this.state.numericalAbility}
-                  onChange={(e) =>
-                    this.setState({
-                      numericalAbility: e.target.value,
-                      numericalAbilityErr: "",
-                    })
-                  }
-                  error={this.state.numericalAbilityErr.length > 0}
-                  helperText={this.state.numericalAbilityErr}
-                />
-                </Grid>
-                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
-                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
-                <Grid item md={4} md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  style={{
-                    color: "red",
-                    fontStyle: "Montserrat",
-                    fontWeight: "700",
-                    fontStyle: "normal",
-                    bottom: "15px"
-                  }}
-                  id="standard-basic"
-                  label="logicalReasoning"
-                  disabled={this.state.diagnosticTestDisable}
-                  value={this.state.logicalReasoning}
-                  onChange={(e) =>
-                    this.setState({
-                      logicalReasoning: e.target.value,
-                      logicalReasoningErr: "",
-                    })
-                  }
-                  error={this.state.logicalReasoningErr.length > 0}
-                  helperText={this.state.logicalReasoningErr}
-                />
-                </Grid>
-                <Grid item md={2} xs={2} sm={2} xl={2} lg={2}></Grid>
-                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  style={{
-                    color: "red",
-                    fontStyle: "Montserrat",
-                    fontWeight: "700",
-                    fontStyle: "normal",
-                    bottom: "15px"
-                  }}
-                  id="standard-basic"
-                  label="verbalReasoning"
-                  disabled={this.state.diagnosticTestDisable}
-                  value={this.state.verbalReasoning}
-                  onChange={(e) =>
-                    this.setState({
-                      verbalReasoning: e.target.value,
-                      verbalReasoningErr: "",
-                    })
-                  }
-                  error={this.state.verbalReasoningErr.length > 0}
-                  helperText={this.state.verbalReasoningErr}
-                />
-                </Grid>
-              </Grid>
-            </AccordionDetails>
-         </Accordion>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        ))}
 
-          {/* personality test */}
-        </div>
-        <div style={{ margin: "10px" }}>
+        {/* personality test */}
+        {/* <div style={{ margin: "10px" }}>
           <Accordion>
             <AccordionSummary
               style={{ flexDirection: "row-reverse" }}
@@ -178,7 +121,7 @@ export default class TestResults extends Component {
                     bottom: "20px"
                   }}
                   id="standard-basic"
-                  label="personalityCode"
+                  label="Personality Code"
                   disabled={this.state.personalityTestDisable}
                   value={this.state.personalityCode}
                   onChange={(e) =>
@@ -194,10 +137,10 @@ export default class TestResults extends Component {
               </Grid>
             </AccordionDetails>
           </Accordion>
+           </div> */}
 
-          {/* technical test */}
-        </div>
-        <div style={{ margin: "10px" }}>
+        {/* technical test */}
+        {/* <div style={{ margin: "10px" }}>
           <Accordion>
             <AccordionSummary
               style={{ flexDirection: "row-reverse",display:"flex" }}
@@ -221,7 +164,7 @@ export default class TestResults extends Component {
                     bottom: "20px"
                   }}
                   id="standard-basic"
-                  label="technicalTest"
+                  label="Technical Test"
                   disabled={this.state.technicalTestDisable}
                   value={this.state.technicalTest}
                   onChange={(e) =>
@@ -237,34 +180,18 @@ export default class TestResults extends Component {
               </Grid>
             </AccordionDetails>
           </Accordion>
-        </div>
+        </div> */}
       </>
     );
   }
 }
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    testResponse: state.ProfileGapAnalysisReducer.testResults,
+  };
+};
+export default connect(mapStateToProps, {
+  getTestResults,
+})(TestResults);
 
-
-
-
-
-// [
-//     {
-//         title : "diagnostic",
-//         score: [
-//             {
-//             title:"logicalReasoning",
-//             value: ""
-//             }
-//         ]
-//     },
-//     {
-//         title : "diagnostic",
-//         score: [
-//             {
-//             title:"logicalReasoning",
-//             value: ""
-//             }
-//         ]
-//     },
-
-// ]

@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { TextField, Grid, Divider, Typography } from "@material-ui/core";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import "./InterestDetail.css";
+import { getPpgaCallNotes } from '../../Actions/ProfileGapAction'
+import { connect } from "react-redux";
 
-export default class PpgaCallNotes extends Component {
+
+class PpgaCallNotes extends Component {
 
   constructor(props) {
     super(props)
@@ -89,6 +92,10 @@ export default class PpgaCallNotes extends Component {
       },
 
     };
+  }
+
+  componentDidMount(){
+      this.props.getPpgaCallNotes(this.props.match.params.studentId,this.props.match.params.productId)
   }
   
   render() {
@@ -491,3 +498,14 @@ export default class PpgaCallNotes extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    ppgaResponse: state.ProfileGapAnalysisReducer.ppgaCallNotes
+
+  };
+};
+export default connect(mapStateToProps, {
+ getPpgaCallNotes
+})(PpgaCallNotes);
