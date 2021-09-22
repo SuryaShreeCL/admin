@@ -106,6 +106,16 @@ const CourseMaterialReducer = (state = initialState, action) => {
       };
     }
 
+    case TEST.cleanEditData: {
+      console.log(action);
+      return {
+        ...state,
+        subjects: [],
+        concepts: [],
+        topics: null,
+      };
+    }
+
     default:
       break;
   }

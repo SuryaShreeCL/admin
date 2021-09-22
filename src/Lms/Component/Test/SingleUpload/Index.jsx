@@ -13,7 +13,11 @@ import Explanation from './Explanation';
 import Buttons from './Buttons';
 import Question from './Question';
 import QueryString from 'qs';
-import { postQuestions, getQuestions } from '../../../Redux/Action/Test';
+import {
+  postQuestions,
+  getQuestions,
+  cleanEditData,
+} from '../../../Redux/Action/Test';
 import { lms_add_test } from '../../../../Component/RoutePaths';
 import PopUps from './PopUps';
 
@@ -111,6 +115,10 @@ export class Index extends Component {
         }
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.cleanEditData();
   }
 
   handleSubjectChange = event => {
@@ -256,6 +264,7 @@ export class Index extends Component {
       if (response.success) {
         let arr = this.state.bucketArray;
         arr[this.state.activeTab].choices[index].image = response.data;
+        arr[this.state.activeTab].choices[index].text = null;
         this.setState({ bucketArray: arr });
       }
     });
@@ -359,7 +368,8 @@ export class Index extends Component {
         type: this.getType(),
         difficultyLevel: activeLevel.toUpperCase(),
         expectedTime: expectedTime,
-        topic: { id: activeTopic },
+        topic: { id: activeTopic.length === 0 ? null : activeTopic },
+        // topic: { id: activeTopic },
         testSection: { id: sectionId },
         question,
         description,
@@ -367,6 +377,7 @@ export class Index extends Component {
         answerKeys: this.getAnswerKeys(),
         // answerKeys: this.getAnswerKeys,
       };
+      // console.log(obj);
 
       this.props.postQuestions(testQuestionSetId, obj, response => {
         if (response.success) {
@@ -412,29 +423,29 @@ export class Index extends Component {
   };
 
   getChoices = () => {
-    let arr = this.state.bucketArray;
-    let choices = [];
-
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr[i].choices.length; j++) {
-        choices.push({
-          id: arr[i].choices[j].id,
-          type:
-            arr[i].choices[j].text === null ||
-            arr[i].choices[j].text.length === 0
-              ? 'IMAGE'
-              : 'TEXT',
-          text:
-            arr[i].choices[j].text === null ||
-            arr[i].choices[j].text.length !== 0
-              ? arr[i].choices[j].text
-              : arr[i].choices[j].image.fileName,
-          orderNo: j + 1,
-          bundleNo: arr.length > 1 ? i + 1 : null,
-        });
+    if (this.getType() === 'SUBJECTIVE') {
+      return null;
+    } else {
+      let arr = this.state.bucketArray;
+      let choices = [];
+      console.log(arr);
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].choices.length; j++) {
+          choices.push({
+            id: arr[i].choices[j].id,
+            type: arr[i].choices[j].text === null ? 'IMAGE' : 'TEXT',
+            text:
+              arr[i].choices[j].text === null
+                ? // || arr[i].choices[j].text.length !== 0
+                  arr[i].choices[j].image.fileName
+                : arr[i].choices[j].text,
+            orderNo: j + 1,
+            bundleNo: arr.length > 1 ? i + 1 : null,
+          });
+        }
       }
+      return choices;
     }
-    return choices;
   };
 
   getAnswerKeys = () => {
@@ -448,7 +459,7 @@ export class Index extends Component {
           choices.push({
             id:
               this.props.editData !== null
-                ? this.props.editData.data.answerKeys[0].id
+                ? this.props.editData.data.answerKeys[i].id
                 : null,
             answer:
               this.getType() === 'SUBJECTIVE' ? arr[0].choices[0].text : null,
@@ -511,14 +522,9 @@ export class Index extends Component {
   };
 
   render() {
-    // const { testQuestionSetId, courseId, sectionId } = QueryString.parse(
-    //   this.props.location.search,
-    //   {
-    //     ignoreQueryPrefix: true,
-    //   }
-    // );
     const { subjects, concepts, topics, editData } = this.props;
 
+    console.log(subjects, concepts, topics);
     const {
       activeSubject,
       activeConcept,
@@ -630,8 +636,8 @@ export class Index extends Component {
       alert,
     };
 
-    console.log(this.state);
-    console.log(this.props.editData);
+    // console.log(this.state);
+    // console.log(this.props.editData);
 
     return (
       <div>
@@ -665,4 +671,5 @@ export default connect(mapStateToProps, {
   putImage,
   postQuestions,
   getQuestions,
+  cleanEditData,
 })(Index);

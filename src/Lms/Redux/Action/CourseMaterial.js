@@ -70,13 +70,10 @@ export const getSubjects = (courseId, callback) => {
         },
       })
       .then(response => {
-        dispatch(
-          {
-            type: COURSE_MATERIAL.viewSubjects,
-            payload: response.data,
-          },
-          { type: TEST.cleanEditData }
-        );
+        dispatch({
+          type: COURSE_MATERIAL.viewSubjects,
+          payload: response.data,
+        });
         callback(response.data);
       })
       .catch(error => {

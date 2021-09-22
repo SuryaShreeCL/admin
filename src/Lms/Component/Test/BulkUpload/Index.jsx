@@ -207,9 +207,13 @@ class Index extends Component {
         ],
         handleRadioChange: (event, name) => {
           if (name === '1') {
-            if (sectionId)
+            if (sectionId && courseId)
               this.props.history.push(
                 `${single_upload}?testQuestionSetId=${testQuestionSetId}&sectionId=${sectionId}&courseId=${courseId}`
+              );
+            else if (sectionId)
+              this.props.history.push(
+                `${single_upload}?testQuestionSetId=${testQuestionSetId}&sectionId=${sectionId}`
               );
             else
               this.props.history.push(

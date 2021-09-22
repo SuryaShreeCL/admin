@@ -472,3 +472,9 @@ export const getQuestions = (questionId, callback) => {
       .catch(error => console.log(error));
   };
 };
+
+export const cleanEditData = () => {
+  return dispatch => {
+    dispatch({ type: TEST.cleanEditData });
+  };
+};
