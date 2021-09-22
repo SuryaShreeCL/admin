@@ -6,7 +6,8 @@ import { Radio, T2 } from '../../../Assets/StyledTest';
 import { Label } from '../../../Assets/StyledTest';
 
 function RadioButtons(props) {
-  let { checked, handleRadioChange, answerType } = props;
+  let { checked, handleRadioChange, answerType, editData } = props;
+  // console.log(editData);
   return (
     <FormControl
       className='radio_group_style'
@@ -26,6 +27,7 @@ function RadioButtons(props) {
           label={
             <Label active={answerType === 'SINGLE_SELECT'}>Single Choice</Label>
           }
+          disabled={editData}
         />
         {!checked && (
           <>
@@ -37,6 +39,7 @@ function RadioButtons(props) {
                   Multi Choice
                 </Label>
               }
+              disabled={editData}
             />
             <FormControlLabel
               value='SUBJECTIVE'
@@ -44,6 +47,7 @@ function RadioButtons(props) {
               label={
                 <Label active={answerType === 'SUBJECTIVE'}>Subjective</Label>
               }
+              disabled={editData}
             />
           </>
         )}

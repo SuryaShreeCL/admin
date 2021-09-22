@@ -1,4 +1,4 @@
-import { COURSE_MATERIAL } from '../Action';
+import { COURSE_MATERIAL, TEST } from '../Action';
 
 const initialState = {
   courses: [],
@@ -94,6 +94,15 @@ const CourseMaterialReducer = (state = initialState, action) => {
       return {
         ...state,
         monthlyPlan: action.payload,
+      };
+    }
+
+    case TEST.getQuestions: {
+      return {
+        ...state,
+        subjects: { data: [{ ...action.payload.data.subject }] },
+        concepts: { data: [{ ...action.payload.data.concept }] },
+        topics: [{ ...action.payload.data._topic }],
       };
     }
 

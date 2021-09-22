@@ -293,9 +293,9 @@ class Add extends Component {
       type,
       calibrationActiveSectionTab,
       calibrationTestData,
-      courseId,
       courseIdValue,
     } = this.state;
+
     if (testQuestionSetId !== null) {
       if (type === 'QUESTIONBANK') {
         this.props.history.push(bulk_upload + `/${testQuestionSetId}`);
@@ -328,7 +328,13 @@ class Add extends Component {
             });
           }
         } else {
-          this.props.history.push(bulk_upload + `/${testQuestionSetId}`);
+          // var calibrationSectionId =
+          //   (calibrationTestData.length !== 0 &&
+          //     calibrationTestData[calibrationActiveSectionTab - 1].id) ||
+          //   '';
+          this.props.history.push(
+            bulk_upload + `/${testQuestionSetId}/${sectionId}`
+          );
         }
       }
     } else {

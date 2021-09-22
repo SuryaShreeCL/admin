@@ -25,6 +25,7 @@ function Answer(props) {
     handleDelete,
     handleDeleteIconClick,
     handleTextChange,
+    editData,
   } = props;
 
   let tabCompProps = {
@@ -42,6 +43,7 @@ function Answer(props) {
     checked,
     handleRadioChange,
     answerType,
+    editData,
   };
 
   const choiceProps = {
@@ -60,7 +62,11 @@ function Answer(props) {
       <Div2>
         <Div1>
           <H2 checked={!checked}>Default answer</H2>
-          <Switch checked={checked} onChange={handleSwitch} />
+          <Switch
+            disabled={editData}
+            checked={checked}
+            onChange={handleSwitch}
+          />
           <H2 checked={checked}>Bucket answer</H2>
         </Div1>
         {checked && (

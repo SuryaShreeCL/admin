@@ -446,3 +446,29 @@ export const postQuestions = (testQuestionSetId, data, callback) => {
       });
   };
 };
+
+export const getQuestions = (questionId, callback) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        // {{DEV-LMS}}/api/v1/lms/questions/c7719662-16ea-4263-9833-36867a48248f
+        `${URL}/api/v1/lms/questions/${questionId}`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        dispatch({
+          type: TEST.getQuestions,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch(error => console.log(error));
+  };
+};

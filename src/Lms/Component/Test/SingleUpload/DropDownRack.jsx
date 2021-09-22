@@ -26,6 +26,7 @@ function DropDownRack(props) {
     handleInputChange,
     expectedTime,
   } = props;
+  // console.log(topics);
   if (subjects !== null && concepts !== null) {
     return (
       <React.Fragment>
@@ -38,6 +39,7 @@ function DropDownRack(props) {
                   items={subjects.data}
                   value={activeSubject}
                   onChange={handleSubjectChange}
+                  disabled={subjects.data.length < 2}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -46,6 +48,7 @@ function DropDownRack(props) {
                   items={concepts.data}
                   value={activeConcept}
                   onChange={handleConceptChange}
+                  disabled={concepts.data.length < 2}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -54,6 +57,7 @@ function DropDownRack(props) {
                   items={topics}
                   value={activeTopic}
                   onChange={handleTopicChange}
+                  disabled={topics.length < 2}
                 />
               </Grid>
             </Grid>
@@ -98,7 +102,7 @@ function DropDownRack(props) {
                   // placeholder='Expected time for completion'
                   onChange={handleInputChange}
                   endAdornment={
-                    <InputAdornment position='end'>minutes</InputAdornment>
+                    <InputAdornment position='end'>seconds</InputAdornment>
                   }
                 />
               </FormControl>

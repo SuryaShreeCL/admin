@@ -9,6 +9,7 @@ const initialState = {
   topics: [],
   template: [],
   subjects: [],
+  editData: null,
 };
 
 const TestReducer = (state = initialState, action) => {
@@ -62,6 +63,19 @@ const TestReducer = (state = initialState, action) => {
         testQuestionSet: action.payload,
       };
     }
+    case TEST.getQuestions: {
+      return {
+        ...state,
+        editData: action.payload,
+      };
+    }
+    case TEST.cleanEditData: {
+      return {
+        ...state,
+        editData: null,
+      };
+    }
+
     default:
       break;
   }

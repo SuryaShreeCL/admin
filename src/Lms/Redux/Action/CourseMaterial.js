@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { COURSE_MATERIAL } from '../Action';
+import { COURSE_MATERIAL, TEST } from '../Action';
 import { URL } from '../../../Actions/URL';
 
 const DEV_LMS = URL;
@@ -72,13 +72,17 @@ export const getSubjects = (courseId, callback) => {
         },
       })
       .then(response => {
-        dispatch({
-          type: COURSE_MATERIAL.viewSubjects,
-          payload: response.data,
-        });
+        dispatch(
+          {
+            type: COURSE_MATERIAL.viewSubjects,
+            payload: response.data,
+          },
+          { type: TEST.cleanEditData }
+        );
         callback(response.data);
       })
       .catch(error => {
+        dispatch({ type: TEST.cleanEditData });
         console.log(error);
       });
   };
