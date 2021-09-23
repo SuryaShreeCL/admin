@@ -1282,11 +1282,14 @@ class GeneralDetails extends Component {
                       label="Enrollment Period"
                       format="dd-MM-yyyy"
                       value={this.state.enrollmentdate}
-                      onChange={(e, newValue) =>
+                      onChange={(newValue) =>
                         this.setState({ enrollmentdate: newValue })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
+                      }}
+                      InputLabelProps={{
+                        shrink:true
                       }}
                     />
                   </MuiPickersUtilsProvider>
