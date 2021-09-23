@@ -8,13 +8,15 @@ import { connect } from "react-redux";
 class TestResultsGraph extends Component {
 
  constructor(props) {
-   super(props)
- 
+   super(props);
+
    this.state = {
     data: [],
-    diagnosticTest : [],
+    diagnosticTest : {testName : null, sectionScoreModels : []},
     technicalTest : [],
-    // label : []
+ 
+    diagnosticDataModel : {}
+    
    }
  }
 
@@ -27,54 +29,42 @@ class TestResultsGraph extends Component {
       this.setState({
         data: response.data,
         diagnosticTest : response.data.find((item)=>(item.testName === "Diagnostic Test")),
-        technicalTest : response.data.find((item)=>(item.testName === "Technical Test"))
-
+        technicalTest : response.data.find((item)=>(item.testName === "Technical Test")),
       });
+      const diagnosticLabel = response.data.find((item)=>(item.testName === "Diagnostic Test")).sectionScoreModels.map((item)=>(item.sectionName))
+      const diagnosticStudentScore = response.data.find((item)=>(item.testName === "Diagnostic Test")).sectionScoreModels.map((item)=>(item.studentScore))
+      const diagnosticAvgScore = response.data.find((item)=>(item.testName === "Diagnostic Test")).sectionScoreModels.map((item)=>(item.averageScore))
+      const data = {
+        labels: 
+        diagnosticLabel
+        ,
+        datasets: [
+          {
+            label: "First dataset",
+            data: diagnosticStudentScore,
+            fill: false,
+            pointBackgroundColor: "#6495ED",
+            // backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "#6495ED",
+          },
+          {
+            label: "Second dataset",
+            data: diagnosticAvgScore,
+            fill: false,
+            pointBackgroundColor: "#F08080",
+            borderColor: "#F08080",
+          },
+        ],
+      }
+      this.setState({
+        diagnosticDataModel : data
+      })
     }
   );
  }
 
-//  getLabel = () => {
-  
-//     // let label = response.data.map((item)=>(item.testName))
-//     // return label;
-  
-//  }
 
- getStudentScore = () => {
-   
- }
 
- getAverageScore = () => {
-    
- }
- 
-
-  data = {
-    labels: [
-      "overAllAptitude",
-      "numericalAbility",
-      "logicalReasoning",
-      "verbalReasoning",
-    ],
-    datasets: [
-      {
-        label: "First dataset",
-        data: [1, 5, 10, 15, 20],
-        fill: false,
-        pointBackgroundColor: "#6495ED",
-        // backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "#6495ED",
-      },
-      {
-        label: "Second dataset",
-        data: [10, 12, 25, 33, 36, 40],
-        fill: false,
-        pointBackgroundColor: "#F08080",
-        borderColor: "#F08080",
-      },
-    ],
-  };
 
   data1 = {
     labels: ["technicalTest"],
@@ -132,7 +122,7 @@ class TestResultsGraph extends Component {
                 <div className={"graph1_title"}>
                   <p>Diagnostic Test</p>
                 </div>
-                <Line data={this.data} options={this.options} />
+                <Line data={this.state.diagnosticDataModel} options={this.options} />
                 <div className={"graph1_label_main_div"}>
                   <div className={"graph1_label1_div"}>
                     <div>

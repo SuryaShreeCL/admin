@@ -198,10 +198,10 @@ export class Onboarding extends Component {
         <Chip
           onClick={() => {
             this.props.history.push(
-              callSummaryLayoutPath +
-                obCallStatus.studentId +
-                "/product/" +
-                this.props.productId
+              stagedTabsPath +
+              obCallStatus.studentId +
+              "/" +
+              this.props.match.params.productId+"?render=pga"
             );
           }}
           label={obCallStatus.obCallStatus}
@@ -213,10 +213,10 @@ export class Onboarding extends Component {
         <Chip
           onClick={() => {
             this.props.history.push(
-              callSummaryLayoutPath +
-                obCallStatus.studentId +
-                "/product/" +
-                this.props.productId
+              stagedTabsPath +
+              obCallStatus.studentId +
+              "/" +
+              this.props.match.params.productId+"?render=pga"
             );
           }}
           label={"Pending"}
@@ -228,10 +228,10 @@ export class Onboarding extends Component {
         <Chip
           onClick={() => {
             this.props.history.push(
-              callSummaryLayoutPath +
-                obCallStatus.studentId +
-                "/product/" +
-                this.props.productId
+              stagedTabsPath +
+              obCallStatus.studentId +
+              "/" +
+              this.props.match.params.productId+"?render=pga"
             );
           }}
           label={obCallStatus.obCallStatus}
@@ -253,10 +253,10 @@ export class Onboarding extends Component {
         <img
           onClick={() =>
             this.props.history.push(
-              callSummaryLayoutPath +
+               stagedTabsPath +
                 eachItem.studentId +
-                "/product/" +
-                this.props.productId
+                "/" +
+                this.props.match.params.productId+"?render=pga"
             )
           }
           src={Call}
