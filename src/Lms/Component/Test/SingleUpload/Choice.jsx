@@ -35,6 +35,7 @@ function Choice(props) {
                 index={index}
                 handleDeleteIconClick={handleDeleteIconClick}
                 handleTextChange={handleTextChange}
+                answerType={answerType}
               />
               <FormControlLabel
                 disabledRipple

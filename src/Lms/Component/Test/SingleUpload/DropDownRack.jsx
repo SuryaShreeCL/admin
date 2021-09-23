@@ -26,7 +26,7 @@ function DropDownRack(props) {
     handleInputChange,
     expectedTime,
   } = props;
-  // console.log(topics);
+
   if (subjects !== null && concepts !== null) {
     return (
       <React.Fragment>
@@ -96,6 +96,10 @@ function DropDownRack(props) {
                     },
                   }}
                   type={'number'}
+                  onKeyDown={e =>
+                    (e.keyCode === 69 || e.keyCode === 190) &&
+                    e.preventDefault()
+                  }
                   id='expectedTime'
                   value={expectedTime}
                   name='expectedTime'

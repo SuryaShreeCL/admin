@@ -6,14 +6,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 function InputBox(props) {
   const {
-    image,
     handleImageUpload,
     index,
     handleDeleteIconClick,
     choice,
     handleTextChange,
+    answerType,
   } = props;
-  // console.log(handleDeleteIconClick);
   if (choice.image === null)
     return (
       <OutlinedInput
@@ -22,20 +21,22 @@ function InputBox(props) {
         value={choice.text}
         onChange={e => handleTextChange(e, index)}
         endAdornment={
-          <InputAdornment position='end'>
-            <IconButton
-              aria-label='toggle password visibility'
-              edge='end'
-              component='label'
-            >
-              <img src={ImageIcon} alt='Image icon' />
-              <input
-                hidden
-                type='file'
-                onChange={e => handleImageUpload(e, index)}
-              />
-            </IconButton>
-          </InputAdornment>
+          answerType !== 'SUBJECTIVE' && (
+            <InputAdornment position='end'>
+              <IconButton
+                aria-label='toggle password visibility'
+                edge='end'
+                component='label'
+              >
+                <img src={ImageIcon} alt='Image icon' />
+                <input
+                  hidden
+                  type='file'
+                  onChange={e => handleImageUpload(e, index)}
+                />
+              </IconButton>
+            </InputAdornment>
+          )
         }
       />
     );
