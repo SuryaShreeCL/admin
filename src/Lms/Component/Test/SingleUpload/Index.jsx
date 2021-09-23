@@ -60,6 +60,7 @@ export class Index extends Component {
     );
 
     if (questionId) {
+      console.log(questionId);
       this.props.getQuestions(questionId, response => {
         if (response.success) {
           const {
@@ -81,16 +82,18 @@ export class Index extends Component {
             checked: type === 'BUNDLE' ? true : false,
             answerType: type === 'BUNDLE' ? 'SINGLE_SELECT' : type,
             bucketArray: response.data.questionChoices,
-            text: response.data.answerKeys[0].explanation,
-            url: response.data.answerKeys[0].explanationVideo,
-            activeSubject: subject.id,
-            activeConcept: concept.id,
-            activeTopic: topic.id,
+            text: response.data.explanation,
+            url: response.data.explanationVideo,
+            activeSubject: subject !== null ? subject.id : null,
+            activeConcept: concept !== null ? concept.id : null,
+            activeTopic: topic !== null ? topic.id : null,
             // editableData: { response },
           });
         }
       });
     } else {
+      // console.log(questionId);
+
       this.props.getSubjects(courseId, subjectResponse => {
         if (subjectResponse.success) {
           this.props.getConcepts(
@@ -164,11 +167,17 @@ export class Index extends Component {
         bucketArray: [
           {
             tabLabel: 'Bucket 1',
-            choices: [{ id: null, text: '', image: null, selected: false }],
+            choices: [
+              { id: null, text: '', image: null, selected: false },
+              { id: null, text: '', image: null, selected: false },
+            ],
           },
           {
             tabLabel: 'Bucket 2',
-            choices: [{ id: null, text: '', image: null, selected: false }],
+            choices: [
+              { id: null, text: '', image: null, selected: false },
+              { id: null, text: '', image: null, selected: false },
+            ],
           },
         ],
       });
@@ -215,7 +224,10 @@ export class Index extends Component {
         answerType: e.target.value,
         bucketArray: [
           {
-            choices: [{ id: null, text: '', image: null, selected: false }],
+            choices: [
+              { id: null, text: '', image: null, selected: false },
+              { id: null, text: '', image: null, selected: false },
+            ],
           },
         ],
       });
@@ -351,7 +363,9 @@ export class Index extends Component {
       question.length === 0 ||
       answerType.length === 0 ||
       this.choiceEmptyCheck() ||
+      text === null ||
       text.length === 0 ||
+      url === null ||
       url.length === 0 ||
       this.choicesSelectEmptyCheck()
     ) {
@@ -359,6 +373,13 @@ export class Index extends Component {
         alert: {
           severity: 'error',
           msg: 'Please fill the required fields',
+        },
+      });
+    } else if (this.hasDuplicates()) {
+      this.setState({
+        alert: {
+          severity: 'error',
+          msg: 'Please change duplicate options',
         },
       });
     } else {
@@ -369,15 +390,13 @@ export class Index extends Component {
         difficultyLevel: activeLevel.toUpperCase(),
         expectedTime: expectedTime,
         topic: { id: activeTopic.length === 0 ? null : activeTopic },
-        // topic: { id: activeTopic },
         testSection: { id: sectionId },
         question,
         description,
         choices: this.getChoices(),
-        answerKeys: this.getAnswerKeys(),
-        // answerKeys: this.getAnswerKeys,
+        explanation: this.state.text,
+        explanationVideo: this.state.url,
       };
-      // console.log(obj);
 
       this.props.postQuestions(testQuestionSetId, obj, response => {
         if (response.success) {
@@ -423,69 +442,23 @@ export class Index extends Component {
   };
 
   getChoices = () => {
-    if (this.getType() === 'SUBJECTIVE') {
-      return null;
-    } else {
-      let arr = this.state.bucketArray;
-      let choices = [];
-      console.log(arr);
-      for (let i = 0; i < arr.length; i++) {
-        for (let j = 0; j < arr[i].choices.length; j++) {
-          choices.push({
-            id: arr[i].choices[j].id,
-            type: arr[i].choices[j].text === null ? 'IMAGE' : 'TEXT',
-            text:
-              arr[i].choices[j].text === null
-                ? // || arr[i].choices[j].text.length !== 0
-                  arr[i].choices[j].image.fileName
-                : arr[i].choices[j].text,
-            orderNo: j + 1,
-            bundleNo: arr.length > 1 ? i + 1 : null,
-          });
-        }
-      }
-      return choices;
-    }
-  };
-
-  getAnswerKeys = () => {
     let arr = this.state.bucketArray;
-
     let choices = [];
-
+    console.log(arr);
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr[i].choices.length; j++) {
-        if (arr[i].choices[j].selected) {
-          choices.push({
-            id:
-              this.props.editData !== null
-                ? this.props.editData.data.answerKeys[i].id
-                : null,
-            answer:
-              this.getType() === 'SUBJECTIVE' ? arr[0].choices[0].text : null,
-            explanation: this.state.text,
-            explanationVideo: this.state.url,
-            bundleNo: arr.length > 1 ? i + 1 : null,
-            questionChoice:
-              this.getType() !== 'SUBJECTIVE'
-                ? {
-                    id: arr[i].choices[j].id,
-                    type:
-                      arr[i].choices[j].text === null ||
-                      arr[i].choices[j].text.length === 0
-                        ? 'IMAGE'
-                        : 'TEXT',
-                    text:
-                      arr[i].choices[j].text === null ||
-                      arr[i].choices[j].text.length !== 0
-                        ? arr[i].choices[j].text
-                        : arr[i].choices[j].image.fileName,
-                    orderNo: j + 1,
-                    bundleNo: arr.length > 1 ? i + 1 : null,
-                  }
-                : null,
-          });
-        }
+        choices.push({
+          id: arr[i].choices[j].id,
+          type: arr[i].choices[j].text === null ? 'IMAGE' : 'TEXT',
+          text:
+            arr[i].choices[j].text === null
+              ? // || arr[i].choices[j].text.length !== 0
+                arr[i].choices[j].image.fileName
+              : arr[i].choices[j].text,
+          orderNo: j + 1,
+          bundleNo: arr.length > 1 ? i + 1 : null,
+          correctChoice: arr[i].choices[j].selected,
+        });
       }
     }
     return choices;
@@ -511,20 +484,44 @@ export class Index extends Component {
   choicesSelectEmptyCheck = () => {
     let arr = this.state.bucketArray;
     let choices = [];
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr[i].choices.length; j++) {
-        if (arr[i].choices[j].selected) {
-          return false;
+
+    if (this.getType() === 'BUNDLE') {
+      for (let i = 0; i < arr.length; i++) {
+        // console.log(i);
+        for (let j = 0; j < arr[i].choices.length; j++) {
+          if (arr[i].choices[j].selected) {
+            // console.log(arr[i].choices[j].text);
+            break;
+          } else return true;
         }
       }
-    }
+      return false;
+    } else
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].choices.length; j++) {
+          if (arr[i].choices[j].selected) {
+            return false;
+          }
+        }
+      }
     return true;
+  };
+
+  hasDuplicates = () => {
+    let arr = this.state.bucketArray;
+    let choices = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].choices.length; j++) {
+        choices.push(arr[i].choices[j].text);
+      }
+    }
+    return new Set(choices).size !== choices.length;
   };
 
   render() {
     const { subjects, concepts, topics, editData } = this.props;
 
-    console.log(subjects, concepts, topics);
+    // console.log(this.state.answerType);
     const {
       activeSubject,
       activeConcept,
@@ -637,7 +634,9 @@ export class Index extends Component {
     };
 
     // console.log(this.state);
-    // console.log(this.props.editData);
+    // console.log(this.props.subjects);
+    // console.log(this.props.concepts);
+    // console.log(this.props.topics);
 
     return (
       <div>

@@ -98,16 +98,25 @@ const CourseMaterialReducer = (state = initialState, action) => {
     }
 
     case TEST.getQuestions: {
+      console.log();
       return {
         ...state,
-        subjects: { data: [{ ...action.payload.data.subject }] },
-        concepts: { data: [{ ...action.payload.data.concept }] },
-        topics: [{ ...action.payload.data._topic }],
+        subjects:
+          action.payload.data.subject !== null
+            ? { data: [{ ...action.payload.data.subject }] }
+            : [],
+        concepts:
+          action.payload.data.concept !== null
+            ? { data: [{ ...action.payload.data.concept }] }
+            : [],
+        topics:
+          action.payload.data._topic !== null
+            ? [{ ...action.payload.data._topic }]
+            : null,
       };
     }
 
     case TEST.cleanEditData: {
-      console.log(action);
       return {
         ...state,
         subjects: [],
