@@ -18,7 +18,9 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from '../../Asset/Images/backbutton.svg'
 import {studentPath } from '../RoutePaths';
 import ProfileGapRoot from '../ProfileGapAnalysis/Root';
-
+import CallSummaryLayout from '../ObCallSummary/CallSummaryLayout';
+import QueryString from "querystring"
+import  qs from "qs"
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
   
@@ -62,11 +64,7 @@ class StageBasedLayout extends Component {
 
   
 componentDidMount() {
-    // this.props.getvarientByid("fd08541f-d7e8-4497-8fbc-ae5128e16315")
-    // this.props.getAdminLinkedProduct()
-    // this.setState({
-    //     selectedItem : ProdDetails.steps[0].steps[0]
-    // })
+    
     this.props.getVariantStepsById(this.props.match.params.productId)
 
 }
@@ -85,9 +83,13 @@ componentDidUpdate(prevProps, prevState) {
             it.steps.sort((c,d)=>c.rank - d.rank)
         })
         console.log(sortedArr)
+        const { render } =  qs.parse(this.props.location.search, {
+          ignoreQueryPrefix: true,
+        })
+       
         this.setState({
             productDetails : sortedArr,
-            selectedItem : sortedArr[0].steps[0]
+            selectedItem : render ? "CallSummaryLayout" : sortedArr[0].steps[0]
         })
     }
 }   
@@ -101,6 +103,7 @@ componentDidUpdate(prevProps, prevState) {
             "Aspiration Details" : "AspirationDetails",
             "Graduate Admission Test" : "GraduateTestResult",
             "Tests and Survey" : "TestAndSurvey",
+            "OB Call Summary" : "CallSummaryLayout",
             "Others" : "AdmissionServices"
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
@@ -111,6 +114,7 @@ componentDidUpdate(prevProps, prevState) {
             AspirationDetails : AspirationDetails,
             GraduateTestResult : GraduateTestResult,
             TestAndSurvey : TestAndSurvey,
+            CallSummaryLayout : CallSummaryLayout,
             Others : AdmissionServices
         }
         var selectedComponent = this.state.selectedItem !== null && componentList.[this.state.selectedItem.stepName]
@@ -168,15 +172,24 @@ componentDidUpdate(prevProps, prevState) {
                })
                
                }
+                 <ThemedTab 
+               textColor="primary"
+               value={"CallSummaryLayout"}
+               label={"Ob Call Summary"}/>
+
                <ThemedTab 
                textColor="primary"
                value={"Others"}
                label={"Others"}/>
-               </ThemedTabs>}
+
+               </ThemedTabs>
+               
+               }
                </Grid>
                <Grid item md={12}>
                    {Page !== undefined && this.state.tabCount === 0 && this.state.selectedItem !== "Others" && <Page {...this.props} />  }  
                    {this.state.tabCount === 0 && this.state.selectedItem === "Others" && <AdmissionServices {...this.props}/>}    
+                   {this.state.tabCount === 0 && this.state.selectedItem === "CallSummaryLayout" && <CallSummaryLayout hasBreadCrumbs={false} {...this.props} />}
                    {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
                    {this.state.tabCount === 1 && <ProfileGapRoot {...this.props}/> }       
                </Grid>
