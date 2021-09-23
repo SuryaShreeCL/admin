@@ -18,7 +18,6 @@ class TestAddButtonCard extends Component {
     handleThreeDotClick,
     handleClose,
     anchorEl,
-    popUpId,
     handleDelete
   ) => {
     if (questions !== null && questions.length !== 0) {
