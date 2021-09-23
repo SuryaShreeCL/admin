@@ -3,13 +3,13 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Typography,
   Grid,
   TextField,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { getTestResults } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
+import { replace } from "formik";
 
 class TestResults extends Component {
   constructor(props) {
@@ -49,7 +49,6 @@ class TestResults extends Component {
   }
 
   render() {
-    // console.log(this.props.testResponse+"testresponse")
     return (
       <>
         {this.state.data.map((item) => (
@@ -67,7 +66,8 @@ class TestResults extends Component {
               <AccordionDetails>
                 <Grid container spacing={1}>
                   {item.sectionScoreModels.map((data) => (
-                  
+                    <>
+                  <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
                     <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                     <TextField
                       style={{
@@ -76,9 +76,10 @@ class TestResults extends Component {
                         fontWeight: "700",
                         fontStyle: "normal",
                         bottom: "20px",
+                        whiteSpace:"nowrap"
                       }}
                       id="standard-basic"
-                      label={data.sectionName}
+                      label={data.sectionName.replace("_"," ")}
                       disabled={this.state.diagnosticTestDisable}
                       value={data.studentScore}
                       // onChange={(e) =>
@@ -89,6 +90,8 @@ class TestResults extends Component {
                       // }
                     />
                   </Grid>
+                  <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
+                  </>
                   ))}
                 </Grid>
               </AccordionDetails>
@@ -96,91 +99,7 @@ class TestResults extends Component {
           </div>
         ))}
 
-        {/* personality test */}
-        {/* <div style={{ margin: "10px" }}>
-          <Accordion>
-            <AccordionSummary
-              style={{ flexDirection: "row-reverse" }}
-              expandIcon={<ExpandMoreIcon />}
-              aria-label="Expand"
-              aria-controls="additional-actions1-content"
-              id="additional-actions1-header"
-            >
-              Personality Test
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={1}>
-                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
-                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  style={{
-                    color: "red",
-                    fontStyle: "Montserrat",
-                    fontWeight: "700",
-                    fontStyle: "normal",
-                    bottom: "20px"
-                  }}
-                  id="standard-basic"
-                  label="Personality Code"
-                  disabled={this.state.personalityTestDisable}
-                  value={this.state.personalityCode}
-                  onChange={(e) =>
-                    this.setState({
-                      personalityCode: e.target.value,
-                      personalityCodeErr: "",
-                    })
-                  }
-                  error={this.state.personalityCodeErr.length > 0}
-                  helperText={this.state.personalityCodeErr}
-                />
-                </Grid>
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-           </div> */}
-
-        {/* technical test */}
-        {/* <div style={{ margin: "10px" }}>
-          <Accordion>
-            <AccordionSummary
-              style={{ flexDirection: "row-reverse",display:"flex" }}
-              expandIcon={<ExpandMoreIcon />}
-              aria-label="Expand"
-              aria-controls="additional-actions1-content"
-              id="additional-actions1-header"
-            >
-              Technical Test
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={1}>
-                <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
-                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  style={{
-                    color: "red",
-                    fontStyle: "Montserrat",
-                    fontWeight: "700",
-                    fontStyle: "normal",
-                    bottom: "20px"
-                  }}
-                  id="standard-basic"
-                  label="Technical Test"
-                  disabled={this.state.technicalTestDisable}
-                  value={this.state.technicalTest}
-                  onChange={(e) =>
-                    this.setState({
-                      technicalTest: e.target.value,
-                      technicalTestErr: "",
-                    })
-                  }
-                  error={this.state.technicalTestErr.length > 0}
-                  helperText={this.state.technicalTestErr}
-                />
-                </Grid>
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-        </div> */}
+      
       </>
     );
   }

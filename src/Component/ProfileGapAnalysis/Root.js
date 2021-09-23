@@ -44,7 +44,7 @@ class ProfileGapRoot extends Component {
 
   renderRightContainer = () =>{
     if(this.state.value === 3){
-      return <TestResultsGraph/>
+      return <TestResultsGraph {...this.props}/>
     }else if(this.state.value === 4){
      return <CvViewer />
     }
