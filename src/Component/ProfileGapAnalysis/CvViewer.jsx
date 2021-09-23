@@ -11,7 +11,6 @@ function CvViewer(props) {
     const studentId = props.match.params.studentId
     const productId = props.match.params.productId
 
-
     useEffect(()=>{
         getLatestCv(studentId, productId)
         .then(response=>{

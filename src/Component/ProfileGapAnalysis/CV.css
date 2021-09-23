@@ -1,0 +1,14 @@
+.textField_grid{
+    display: flex;
+}
+
+.icon_div{
+  display: flex;
+  align-items: flex-end;
+}
+
+
+.textField_grid:hover +.icon_div{
+    display: block;
+    align-items: flex-end;
+}
