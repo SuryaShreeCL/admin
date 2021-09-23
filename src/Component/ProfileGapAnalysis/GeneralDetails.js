@@ -118,7 +118,6 @@ class GeneralDetails extends Component {
   commentshistory(name, value) {
     console.log(value);
     let arr = this.state.commentshistory;
-    if(arr.length > 0){
       let filterarr = arr && arr.filter((el) => el.fieldName !== name);
       filterarr.push({
         fieldName: name,
@@ -130,8 +129,6 @@ class GeneralDetails extends Component {
       this.setState({
         commentshistory: filterarr,
       });
-    }
-    
   }
   componentDidMount() {
     this.props.getAllColleges();
