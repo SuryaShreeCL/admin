@@ -86,7 +86,7 @@ export const updatestatus=(studentId,productId,data,callback)=>{
             });
     }
 }
-export const updategeneraldetails=(studentId,productId,data,)=>{    
+export const updategeneraldetails=(studentId,productId,data,callback)=>{    
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
@@ -97,10 +97,12 @@ export const updategeneraldetails=(studentId,productId,data,)=>{
                 admin : "yes"
             }
         })
-            .then(result => {     
+            .then(result => {  
+                callback(result)   
                 dispatch({type:PROFILE_GAP_ANALYSIS.updategeneraldetails,payload:result.data})
             })
             .catch(error => {
+                callback(error)
                 console.log(error);
             });
     }
