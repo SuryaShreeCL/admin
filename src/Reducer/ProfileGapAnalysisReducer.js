@@ -6,6 +6,8 @@ const initialState = {
   getcommenthistory: [],
   updatestatus: [],
   updategeneraldetails: [],
+  ppgaCallNotes : [],
+  testResults : []
 };
 
 export default (state = initialState, action) => {
@@ -35,6 +37,16 @@ export default (state = initialState, action) => {
         ...state,
         updategeneraldetails: action.payload,
       };
+      case PROFILE_GAP_ANALYSIS.getPpgaCallNotes :
+        return{
+            ...state,
+            ppgaCallNotes:action.payload,
+        };    
+        case PROFILE_GAP_ANALYSIS.getTestResults :
+        return{
+            ...state,
+            testResults:action.payload,
+        };   
     default:
       return state;
   }

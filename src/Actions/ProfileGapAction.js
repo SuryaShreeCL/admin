@@ -105,3 +105,47 @@ export const updategeneraldetails=(studentId,productId,data,)=>{
             });
     }
 }
+// ppgaCallNotes
+export const getPpgaCallNotes=(studentId,productId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/ppgacallnotes",{
+            crossDomain: true,
+            headers : {
+                "Authorization" :` Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.getPpgaCallNotes,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error.message)
+                console.log(error);
+            });
+    }
+}
+
+export const getTestResults=(studentId,productId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/testscore",{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.getTestResults,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error.message)
+                console.log(error);
+            });
+    }
+}

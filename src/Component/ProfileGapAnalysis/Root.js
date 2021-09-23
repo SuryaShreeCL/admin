@@ -44,7 +44,7 @@ class ProfileGapRoot extends Component {
 
   renderRightContainer = () =>{
     if(this.state.value === 3){
-      return <TestResultsGraph/>
+      return <TestResultsGraph {...this.props}/>
     }else if(this.state.value === 4){
      return <CvViewer />
     }
@@ -104,13 +104,13 @@ class ProfileGapRoot extends Component {
            <InterestDetail/>
            </TabPanel>
             <TabPanel value={this.state.value} index={3}>
-            <TestResults />
+            <TestResults {...this.props}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={4}>
              <CV {...this.props}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={5}>
-             <PpgaCallNotes/>
+             <PpgaCallNotes {...this.props}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={6}>
               Item Six
