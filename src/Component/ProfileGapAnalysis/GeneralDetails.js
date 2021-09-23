@@ -42,7 +42,6 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import { connect } from "react-redux";
 import Dot from "../../Utils/Dot";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import { isEmptyString } from "../../Component/Validation";
 import Mysnack from "./../MySnackBar";
 const theme = createTheme({
   overrides: {
@@ -103,7 +102,7 @@ class GeneralDetails extends Component {
       pguniversity: "",
       round: "",
       choosenprogram: "",
-      enrollmentdate: null,
+      enrollmentdate: "",
       verificationstatus: [],
       field: "",
       commentshistory: [],
@@ -119,17 +118,20 @@ class GeneralDetails extends Component {
   commentshistory(name, value) {
     console.log(value);
     let arr = this.state.commentshistory;
-    let filterarr = arr && arr.filter((el) => el.fieldName !== name);
-    filterarr.push({
-      fieldName: name,
-      oldValue: this.props.getgeneraldetailsList.studentDetails[name],
-      newValue: value,
-      comments: "",
-    });
-    console.log(arr);
-    this.setState({
-      commentshistory: filterarr,
-    });
+    if(arr.length > 0){
+      let filterarr = arr && arr.filter((el) => el.fieldName !== name);
+      filterarr.push({
+        fieldName: name,
+        oldValue: this.props.getgeneraldetailsList.studentDetails[name] && this.props.getgeneraldetailsList.studentDetails[name],
+        newValue: value,
+        comments: "",
+      });
+      console.log(arr);
+      this.setState({
+        commentshistory: filterarr,
+      });
+    }
+    
   }
   componentDidMount() {
     this.props.getAllColleges();
@@ -902,7 +904,7 @@ class GeneralDetails extends Component {
             <Typography>Student Details</Typography>
             <ChatBubbleOutlineIcon
               style={{ marginLeft: "10px" }}
-              onClick={() => this.handleChat()}
+              onClick={() => this.state.commentlist.length > 0 && this.handleChat()}
             />
           </div>
           <Grid
