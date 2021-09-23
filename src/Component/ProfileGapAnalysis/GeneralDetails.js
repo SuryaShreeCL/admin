@@ -28,6 +28,7 @@ import {
   getstatus,
   getcommenthistory,
   updatestatus,
+  updategeneraldetails,
 } from "../../Actions/ProfileGapAction";
 import {
   getAllSpecialization,
@@ -41,6 +42,8 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import { connect } from "react-redux";
 import Dot from "../../Utils/Dot";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import { isEmptyString } from "../../Component/Validation";
+import Mysnack from "./../MySnackBar";
 const theme = createTheme({
   overrides: {
     MuiGrid: {
@@ -104,17 +107,27 @@ class GeneralDetails extends Component {
       verificationstatus: [],
       field: "",
       commentshistory: [],
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
+      commentlist: [],
     };
   }
-  // commentshistory(name, value) {
-  //   let arr = [];
-  //   arr.push({
-  //     fieldname: "",
-  //     oldvalue: "",
-  //     newvalue: "",
-  //     comments: "",
-  //   });
-  // }
+  commentshistory(name, value) {
+    console.log(value);
+    let arr = this.state.commentshistory;
+    let filterarr = arr && arr.filter((el) => el.fieldName !== name);
+    filterarr.push({
+      fieldName: name,
+      oldValue: this.props.getgeneraldetailsList.studentDetails[name],
+      newValue: value,
+      comments: "",
+    });
+    console.log(arr);
+    this.setState({
+      commentshistory: filterarr,
+    });
+  }
   componentDidMount() {
     this.props.getAllColleges();
     this.props.getDegree();
@@ -149,6 +162,9 @@ class GeneralDetails extends Component {
       this.props.match.params.productId,
       (response) => {
         console.log(response);
+        this.setState({
+          commentlist: response.data,
+        });
       }
     );
     this.props.getgeneraldetails(
@@ -213,9 +229,11 @@ class GeneralDetails extends Component {
     });
   };
   verifiedstatus(name) {
+    console.log(name)
     let obj = this.state.verificationstatus.find(
       (data) => data.fieldName === name
     );
+    console.log(obj)
     return obj;
   }
 
@@ -253,6 +271,15 @@ class GeneralDetails extends Component {
       commentdialogopen: true,
     });
   };
+  handlecomments = (commentindex, value) => {
+    console.log(commentindex, value);
+    let i = commentindex;
+    let tempArr = this.state.commentshistory;
+    tempArr[commentindex] = { ...tempArr[commentindex], comments: value };
+    this.setState({
+      commentshistory: tempArr,
+    });
+  };
   renderstudentdetails() {
     if (this.props.variantStepList.codeName === "ACS_MBA") {
       return (
@@ -287,7 +314,10 @@ class GeneralDetails extends Component {
                   options={this.props.getPGDegreeList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.pgdegree}
-                  onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+                  onChange={(e, newValue) => {
+                    this.commentshistory("pgdegree", newValue);
+                    this.setState({ pgdegree: newValue });
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -329,7 +359,10 @@ class GeneralDetails extends Component {
                   options={this.props.getAllCollegesList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.pgcollege}
-                  onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+                  onChange={(e, newValue) => {
+                    this.commentshistory("pgcollege", newValue);
+                    this.setState({ pgcollege: newValue });
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -372,7 +405,10 @@ class GeneralDetails extends Component {
                   options={this.props.getpguniversity}
                   getOptionLabel={(option) => option.name}
                   value={this.state.pguniversity}
-                  onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+                  onChange={(e, newValue) => {
+                    this.commentshistory("pguniversity", newValue);
+                    this.setState({ pguniversity: newValue });
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -397,16 +433,27 @@ class GeneralDetails extends Component {
                   alignItems: "flex-start",
                   display: "flex",
                 }}
-                onClick={(e) => this.handleClick(e)}
+                onClick={(e) => this.handleClick(e,"workExperience")}
               >
-                <Dot color={"green"} />
+                <Dot
+                  color={
+                    this.state.verificationstatus.length > 0 &&
+                    this.verifiedstatus("workExperience").verificationStatus ===
+                      "Verified"
+                      ? "green"
+                      : "orange"
+                  }
+                />
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <TextField
                   name="workexp"
                   label="Work Experience"
                   value={this.state.workexp}
-                  onChange={(e) => this.handlechange(e)}
+                  onChange={(e) => {
+                    this.commentshistory("workexp", e.target.value);
+                    this.handlechange(e);
+                  }}
                 />
               </div>
             </div>
@@ -428,7 +475,7 @@ class GeneralDetails extends Component {
                 alignItems: "flex-start",
                 display: "flex",
               }}
-              onClick={(e) => this.handleClick(e, "sem")}
+              onClick={(e) => this.handleClick(e, "CurrentSem")}
             >
               <Dot
                 color={
@@ -442,10 +489,13 @@ class GeneralDetails extends Component {
             </div>
             <div style={{ paddingLeft: "10px" }}>
               <TextField
-                name="sem"
+                name="currentSem"
                 label="Current Semester"
                 value={this.state.sem}
-                onChange={(e) => this.handlechange(e)}
+                onChange={(e) => {
+                  this.commentshistory("currentSem", e.target.value);
+                  this.handlechange(e);
+                }}
               />
             </div>
           </div>
@@ -503,7 +553,7 @@ class GeneralDetails extends Component {
                   label="Area of specialization"
                 />
               )}
-              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+              onChange={(e, newValue) => this.setState({ e, newValue })}
             />
           </Grid>
           <Grid item md={4}>
@@ -528,7 +578,9 @@ class GeneralDetails extends Component {
                   label="Preferred Grad School"
                 />
               )}
-              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+              onChange={(e, newValue) =>
+                this.setState({ prefschool: newValue })
+              }
             />
           </Grid>
         </Grid>
@@ -542,7 +594,7 @@ class GeneralDetails extends Component {
               getOptionLabel={(option) => option.name}
               disabled
               value={this.state.degree}
-              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+              onChange={(e, newValue) => this.setState({ degree: newValue })}
               renderInput={(params) => (
                 <TextField {...params} name="degree" label="Degree Type" />
               )}
@@ -553,7 +605,9 @@ class GeneralDetails extends Component {
               options={this.props.getBranchesList}
               getOptionLabel={(option) => option.name}
               value={this.state.fieldofstudy}
-              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+              onChange={(e, newValue) =>
+                this.setState({ fieldofstudy: newValue })
+              }
               disabled
               renderInput={(params) => (
                 <TextField
@@ -565,13 +619,13 @@ class GeneralDetails extends Component {
             />
           </Grid>
           <Grid item md={4}>
-            <TextField
+            {/* <TextField
               disabled
               name="choosespe"
               label="Choosen Specialisation"
               value={this.state.choosespe}
-              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
-            />
+              onChange={(e, newValue) => this.setState({choosespe : newValue})}
+            /> */}
           </Grid>
           <Grid item md={4}>
             <Autocomplete
@@ -594,7 +648,9 @@ class GeneralDetails extends Component {
                   label="Area of specialization"
                 />
               )}
-              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+              onChange={(e, newValue) =>
+                this.setState({ areaofspecialisation: newValue })
+              }
             />
           </Grid>
           <Grid item md={4}>
@@ -615,13 +671,98 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField {...params} label="Preferred Grad School" />
               )}
-              onChange={(e, newValue) => this.handleDropChange(e, newValue)}
+              onChange={(e, newValue) =>
+                this.setState({ prefschool: newValue })
+              }
             />
           </Grid>
         </Grid>
       );
     }
   }
+  handlesaved = () => {
+    if (this.props.variantStepList.codeName === "ACS_MBA") {
+      console.log("true");
+      let pgadataarr = [];
+      this.state.commentshistory.map((eachdata)=>{
+        pgadataarr.push({
+          fieldName : eachdata.fieldName,
+          oldValue : typeof eachdata.oldValue === "object" ? eachdata.oldValue.id : eachdata.oldValue,
+          newValue : typeof eachdata.newValue === "object" ? eachdata.newValue.id : eachdata.newValue,
+          comments : eachdata.comments
+        })
+      })
+      console.log(pgadataarr)
+      let obj = {
+        firstName: this.state.firstname,
+        lastName: this.state.lastname,
+        degree: {
+          id: this.state.degree.id,
+        },
+        fieldOfStudy: {
+          id: this.state.fieldofstudy.id,
+        },
+        college: {
+          id: this.state.college.id,
+        },
+        postGraduateCollege: {
+          id: this.state.pgcollege.id,
+        },
+        postGraduateDegree: {
+          id: this.state.pgdegree.id,
+        },
+        postGraduateUniversity: {
+          id: this.state.pguniversity.id,
+        },
+        updatedBy: {
+          id: window.sessionStorage.getItem("adminUserId"),
+        },
+        pgaDataChangeLogs: pgadataarr,
+        workExperience: this.state.workexp,
+      };
+      console.log(obj);
+      this.props.updategeneraldetails(
+        this.props.match.params.studentId,
+        this.props.match.params.productId,
+        obj
+      );
+    } else {
+      let pgadataarr = [];
+      this.state.commentshistory.map((eachdata)=>{
+        pgadataarr.push({
+          fieldName : eachdata.fieldName,
+          oldValue : typeof eachdata.oldValue === "object" ? eachdata.oldValue.id : eachdata.oldValue,
+          newValue : typeof eachdata.newValue === "object" ? eachdata.newValue.id : eachdata.newValue,
+          comments : eachdata.comments
+        })
+      })
+      console.log(pgadataarr)
+      let obj = {
+        firstName: this.state.firstname,
+        lastName: this.state.lastname,
+        currentSem: this.state.sem,
+        degree: {
+          id: this.state.degree.id,
+        },
+        fieldOfStudy: {
+          id: this.state.fieldofstudy.id,
+        },
+        college: {
+          id: this.state.college.id,
+        },
+        updatedBy: {
+          id: window.sessionStorage.getItem("adminUserId"),
+        },
+        pgaDataChangeLogs: pgadataarr,
+      };
+      console.log(obj);
+      this.props.updategeneraldetails(
+        this.props.match.params.studentId,
+        this.props.match.params.productId,
+        obj
+      );
+    }
+  };
 
   render() {
     console.log(this.props);
@@ -660,7 +801,7 @@ class GeneralDetails extends Component {
                     alignItems: "flex-start",
                     display: "flex",
                   }}
-                  onClick={(e) => this.handleClick(e, "clsid")}
+                  onClick={(e) => this.handleClick(e, "ClsId")}
                 >
                   <Dot
                     color={
@@ -674,12 +815,11 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
-                    disabled
                     name="clsid"
                     label="CLS ID"
                     value={this.state.clsid}
                     onChange={(e) => {
-                      // this.commentshistory("clsId",e.target.value)
+                      this.commentshistory("clsId", e.target.value);
                       this.handlechange(e);
                     }}
                   />
@@ -716,7 +856,10 @@ class GeneralDetails extends Component {
                     name="firstname"
                     label="First Name"
                     value={this.state.firstname}
-                    onChange={(e) => this.handlechange(e)}
+                    onChange={(e) => {
+                      this.commentshistory("firstName", e.target.value);
+                      this.handlechange(e);
+                    }}
                   />
                 </div>
               </div>
@@ -751,7 +894,10 @@ class GeneralDetails extends Component {
                     name="lastname"
                     label="Last Name"
                     value={this.state.lastname}
-                    onChange={(e) => this.handlechange(e)}
+                    onChange={(e) => {
+                      this.commentshistory("lastName", e.target.value);
+                      this.handlechange(e);
+                    }}
                   />
                 </div>
               </div>
@@ -784,10 +930,12 @@ class GeneralDetails extends Component {
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
                     name="phone"
-                    disabled
                     label="Phone Number"
                     value={this.state.phone}
-                    onChange={(e) => this.handlechange(e)}
+                    onChange={(e) => {
+                      this.commentshistory("phoneNumber", e.target.value);
+                      this.handlechange(e);
+                    }}
                   />
                 </div>
               </div>
@@ -819,11 +967,13 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
-                    disabled
                     name="email"
                     label="Email Address"
                     value={this.state.email}
-                    onChange={(e) => this.handlechange(e)}
+                    onChange={(e) => {
+                      this.commentshistory("emailId", e.target.value);
+                      this.handlechange(e);
+                    }}
                   />
                 </div>
               </div>
@@ -860,9 +1010,10 @@ class GeneralDetails extends Component {
                     options={this.props.getDegreeList}
                     getOptionLabel={(option) => option.name}
                     value={this.state.degree}
-                    onChange={(e, newValue) =>
-                      this.setState({ degree: newValue })
-                    }
+                    onChange={(e, newValue) => {
+                      this.commentshistory("degree", newValue);
+                      this.setState({ degree: newValue });
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -904,9 +1055,10 @@ class GeneralDetails extends Component {
                     options={this.props.getBranchesList}
                     getOptionLabel={(option) => option.name}
                     value={this.state.fieldofstudy}
-                    onChange={(e, newValue) =>
-                      this.handleDropChange(e, newValue)
-                    }
+                    onChange={(e, newValue) => {
+                      this.commentshistory("fieldOfStudy", newValue);
+                      this.setState({ fieldofstudy: newValue });
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -948,9 +1100,10 @@ class GeneralDetails extends Component {
                     options={this.props.getAllCollegesList}
                     getOptionLabel={(option) => option.name}
                     value={this.state.college}
-                    onChange={(e, newValue) =>
-                      this.handleDropChange(e, newValue)
-                    }
+                    onChange={(e, newValue) => {
+                      this.commentshistory("college", newValue);
+                      this.setState({ college: newValue });
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -1043,7 +1196,11 @@ class GeneralDetails extends Component {
                 color={"primary"}
                 variant={"contained"}
                 style={{ width: "100px", marginTop: "-20px" }}
-                onClick={() => this.handleopen()}
+                onClick={() => {
+                  this.state.commentshistory.length > 0
+                    ? this.handleopen()
+                    : this.handlesaved();
+                }}
               >
                 Save
               </PrimaryButton>
@@ -1065,60 +1222,53 @@ class GeneralDetails extends Component {
             </DialogTitle>
             <DialogContent>
               <Grid container spacing={2}>
-                <Grid item md={12}>
-                  <Typography>
-                    We see that you have made changes to Student Name ,Would you
-                    like to comment?
-                  </Typography>
-                </Grid>
-                <Grid item md={12}>
-                  <Typography>Old Name</Typography>
-                </Grid>
-                <Grid item md={6} style={{ color: "grey" }}>
-                  Enter Student Name
-                </Grid>
-                <Grid item md={6} style={{ fontWeight: "bold" }}>
-                  Venkat
-                </Grid>
-                <Grid item md={12}>
-                  New Name
-                </Grid>
-                <Grid item md={6} style={{ color: "grey" }}>
-                  Enter Student Name
-                </Grid>
-                <Grid item md={6} style={{ fontWeight: "bold" }}>
-                  Venkat
-                </Grid>
-                <Grid item md={12}>
-                  <TextField fullWidth label="Comments" name="comments" />
-                </Grid>
-                <Grid item md={12}>
-                  <Typography>
-                    We see that you have made changes to Student Name ,Would you
-                    like to comment?
-                  </Typography>
-                </Grid>
-                <Grid item md={12}>
-                  <Typography>Old Name</Typography>
-                </Grid>
-                <Grid item md={6} style={{ color: "grey" }}>
-                  Enter Student Name
-                </Grid>
-                <Grid item md={6} style={{ fontWeight: "bold" }}>
-                  Venkat
-                </Grid>
-                <Grid item md={12}>
-                  New Name
-                </Grid>
-                <Grid item md={6} style={{ color: "grey" }}>
-                  Enter Student Name
-                </Grid>
-                <Grid item md={6} style={{ fontWeight: "bold" }}>
-                  Venkat
-                </Grid>
-                <Grid item md={12}>
-                  <TextField fullWidth label="Comments" name="comments" />
-                </Grid>
+                {this.state.commentshistory.map((data, index) => {
+                  return (
+                    <>
+                      <Grid item md={12}>
+                        <Typography>
+                          We see that you have made changes to {data.fieldName}{" "}
+                          ,Would you like to comment?
+                        </Typography>
+                      </Grid>
+                      <Grid item md={12}>
+                        <Typography>Old Name</Typography>
+                      </Grid>
+                      <Grid item md={6} style={{ color: "grey" }}>
+                        {data.fieldName}
+                      </Grid>
+                      <Grid item md={6} style={{ fontWeight: "bold" }}>
+                        {data.oldValue !== null &&
+                        typeof data.oldValue === "object"
+                          ? data.oldValue.name
+                          : data.oldValue}
+                      </Grid>
+                      <Grid item md={12}>
+                        New Name
+                      </Grid>
+                      <Grid item md={6} style={{ color: "grey" }}>
+                        {data.fieldName}
+                      </Grid>
+                      <Grid item md={6} style={{ fontWeight: "bold" }}>
+                        {data.newValue !== null &&
+                        typeof data.newValue === "string"
+                          ? data.newValue
+                          : data.newValue.name}
+                      </Grid>
+                      <Grid item md={12}>
+                        <TextField
+                          fullWidth
+                          label="Comments"
+                          name="comments"
+                          value={this.state.comments}
+                          onChange={(e) => {
+                            this.handlecomments(index, e.target.value);
+                          }}
+                        />
+                      </Grid>
+                    </>
+                  );
+                })}
               </Grid>
             </DialogContent>
             <DialogActions>
@@ -1131,6 +1281,7 @@ class GeneralDetails extends Component {
                         style={{ width: "100px" }}
                         color="primary"
                         variant="contained"
+                        onClick={() => this.handlesaved()}
                       >
                         Add
                       </PrimaryButton>
@@ -1160,228 +1311,91 @@ class GeneralDetails extends Component {
               <Typography>Comments</Typography>
             </DialogTitle>
             <DialogContent>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  borderStyle: "groove",
-                  borderRadius: "10px",
-                  padding: "10px",
-                  margin: "5px",
-                }}
-              >
-                <Grid item md={12}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography>09 Sept 2021</Typography>
-                    <div style={{ display: "flex" }}>
-                      <Typography
-                        style={{ color: "grey", marginRight: "10px" }}
+              {this.state.commentlist &&
+                this.state.commentlist.map((data) => {
+                  let date = new Date(data.updatedAt).getDate()
+                  let month = new Date(data.updatedAt).getMonth()
+                  let year = new Date(data.updatedAt).getFullYear()
+                  var monthtext = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sept","Oct","Nov","Dec"];
+                  let monthname = monthtext[month]
+                  let finaldate = date+" "+monthname+" "+year
+                  return (
+                    <>
+                      <Grid
+                        container
+                        spacing={2}
+                        style={{
+                          borderStyle: "groove",
+                          borderRadius: "10px",
+                          padding: "10px",
+                          margin: "5px",
+                        }}
                       >
-                        Changed by
-                      </Typography>
-                      <Typography>Jai Kumar</Typography>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item md={6}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12}>
-                      <Typography style={{ color: "grey" }} k>
-                        Previous
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography style={{ color: "grey" }}>
-                        Enter Student Name
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography>Venkat</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item md={6}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12}>
-                      <Typography style={{ color: "grey" }}>
-                        Change to
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography style={{ color: "grey" }}>
-                        Enter Student Name
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography>Venkat</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item md={12}>
-                  <Typography style={{ color: "grey" }}>Comments</Typography>
-                </Grid>
-                <Grid item md={12} style={{ marginTop: "-15px" }}>
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s,
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  borderStyle: "groove",
-                  borderRadius: "10px",
-                  padding: "10px",
-                  margin: "5px",
-                }}
-              >
-                <Grid item md={12}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography>09 Sept 2021</Typography>
-                    <div style={{ display: "flex" }}>
-                      <Typography
-                        style={{ color: "grey", marginRight: "10px" }}
-                      >
-                        Changed by
-                      </Typography>
-                      <Typography>Jai Kumar</Typography>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item md={6}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12}>
-                      <Typography style={{ color: "grey" }} k>
-                        Previous
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography style={{ color: "grey" }}>
-                        Enter Student Name
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography>Venkat</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item md={6}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12}>
-                      <Typography style={{ color: "grey" }}>
-                        Change to
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography style={{ color: "grey" }}>
-                        Enter Student Name
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography>Venkat</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item md={12}>
-                  <Typography style={{ color: "grey" }}>Comments</Typography>
-                </Grid>
-                <Grid item md={12} style={{ marginTop: "-15px" }}>
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s,
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  borderStyle: "groove",
-                  borderRadius: "10px",
-                  padding: "10px",
-                  margin: "5px",
-                }}
-              >
-                <Grid item md={12}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography>09 Sept 2021</Typography>
-                    <div style={{ display: "flex" }}>
-                      <Typography
-                        style={{ color: "grey", marginRight: "10px" }}
-                      >
-                        Changed by
-                      </Typography>
-                      <Typography>Jai Kumar</Typography>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item md={6}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12}>
-                      <Typography style={{ color: "grey" }} k>
-                        Previous
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography style={{ color: "grey" }}>
-                        Enter Student Name
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography>Venkat</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item md={6}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12}>
-                      <Typography style={{ color: "grey" }}>
-                        Change to
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography style={{ color: "grey" }}>
-                        Enter Student Name
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography>Venkat</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item md={12}>
-                  <Typography style={{ color: "grey" }}>Comments</Typography>
-                </Grid>
-                <Grid item md={12} style={{ marginTop: "-15px" }}>
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s,
-                  </p>
-                </Grid>
-              </Grid>
+                        <Grid item md={12}>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Typography>{finaldate}</Typography>
+                            <div style={{ display: "flex" }}>
+                              <Typography
+                                style={{ color: "grey", marginRight: "10px" }}
+                              >
+                                Changed by
+                              </Typography>
+                              <Typography>{data.updatedBy}</Typography>
+                            </div>
+                          </div>
+                        </Grid>
+                        <Grid item md={6}>
+                          <Grid container spacing={1}>
+                            <Grid item md={12}>
+                              <Typography style={{ color: "grey" }} k>
+                                Previous
+                              </Typography>
+                            </Grid>
+                            <Grid item md={7}>
+                              <Typography style={{ color: "grey" }}>
+                                Enter {data.fieldName}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={5}>
+                              <Typography>{data.oldValue}</Typography>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item md={6}>
+                          <Grid container spacing={1}>
+                            <Grid item md={12}>
+                              <Typography style={{ color: "grey" }}>
+                                Change to
+                              </Typography>
+                            </Grid>
+                            <Grid item md={7}>
+                              <Typography style={{ color: "grey" }}>
+                                Enter {data.fieldName}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={5}>
+                              <Typography>{data.newValue}</Typography>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item md={12}>
+                          <Typography style={{ color: "grey" }}>
+                            Comments
+                          </Typography>
+                        </Grid>
+                        <Grid item md={12} style={{ marginTop: "-15px" }}>
+                          <p>{data.comments}</p>
+                        </Grid>
+                      </Grid>
+                    </>
+                  );
+                })}
             </DialogContent>
             <DialogActions>
               <Grid container>
@@ -1457,6 +1471,12 @@ class GeneralDetails extends Component {
               </div>
             </MenuItem>
           </Menu>
+          <Mysnack
+            snackMsg={this.state.snackMsg}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
+            onClose={() => this.setState({ snackOpen: false })}
+          />
         </ThemeProvider>
       </div>
     );
@@ -1477,6 +1497,8 @@ const mapStateToProps = (state) => {
     getstatusList: state.ProfileGapAnalysisReducer.getstatus,
     getcommenthistoryList: state.ProfileGapAnalysisReducer.getcommenthistory,
     updatestatusList: state.ProfileGapAnalysisReducer.updatestatus,
+    updategeneraldetailsList:
+      state.ProfileGapAnalysisReducer.updategeneraldetails,
   };
 };
 export default connect(mapStateToProps, {
@@ -1491,4 +1513,5 @@ export default connect(mapStateToProps, {
   getstatus,
   updatestatus,
   getcommenthistory,
+  updategeneraldetails,
 })(withStyles(useStyles)(GeneralDetails));

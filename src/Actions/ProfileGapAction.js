@@ -86,3 +86,22 @@ export const updatestatus=(studentId,productId,data,callback)=>{
             });
     }
 }
+export const updategeneraldetails=(studentId,productId,data,)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.put(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/generaldetails",data,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                dispatch({type:PROFILE_GAP_ANALYSIS.updategeneraldetails,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
