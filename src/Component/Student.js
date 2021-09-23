@@ -97,6 +97,7 @@ export class Student extends Component {
       internAccess: false,
       lmsAccess: false,
       prevEmail: null,
+      product: [],
       search: {
         page: 0,
         size: "",
@@ -115,10 +116,22 @@ export class Student extends Component {
   //   // { title: 'UGGPA', field: 'uggpa' },
   // ];
 
+  hasLmsAccess = () => {
+    var role = window.sessionStorage.getItem("role");
+    if (role === "LMSCHECKER" || role === "LMSEDITOR") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   stu_header = [
     { title: "ID", fieldName: "studentID" },
     // { title: 'Last Name', field: 'lastName' },
-    { title: "Full Name", fieldName: "fullName" },
+    {
+      title: "Full Name",
+      fieldName: "fullName",
+    },
     { title: "Email Id", fieldName: "emailId" },
     { title: "College", fieldName: "college.name" },
     { title: "Department", fieldName: "department.name" },
@@ -169,7 +182,7 @@ export class Student extends Component {
 
   componentDidMount() {
     // this.props.getStudents();
-    this.props.getAllLmsProduct(() => {});
+    this.hasLmsAccess() && this.props.getAllLmsProduct(() => {});
     this.props.getStudentPaginate(0, 20);
     this.props.getAllColleges();
     this.props.getBranches();
@@ -279,6 +292,35 @@ export class Student extends Component {
     return re.test(email);
   };
 
+  isTime = (date) => {
+    return new Date(date).getTime() ? true : false;
+  };
+
+  lmsProductSetState = (lmsProduct) => {
+    var errorMessage = "Please fill the required feild";
+    lmsProduct.map((item, index) => {
+      let arr = lmsProduct;
+      !this.isTime(item.expirationDate)
+        ? (arr[index]["expirationDateHelperText"] = errorMessage)
+        : (arr[index]["expirationDateHelperText"] = "");
+      item.product.id === null
+        ? (arr[index]["productNameHelperText"] = errorMessage)
+        : (arr[index]["productNameHelperText"] = "");
+      this.setState({ product: arr });
+    });
+  };
+
+  lmsProductValidation = (lmsProduct) => {
+    if (this.hasLmsAccess() && lmsProduct && lmsProduct.length !== 0) {
+      var productValidation = lmsProduct.map(
+        (item) => this.isTime(item.expirationDate) && item.product.id !== null
+      );
+      if (productValidation.includes(false))
+        this.setState({ isLoading: false });
+      return !productValidation.includes(false);
+    } else return true;
+  };
+
   handleSubmit = (e) => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
@@ -342,6 +384,13 @@ export class Student extends Component {
     }
 
     if (
+      this.hasLmsAccess() &&
+      this.state.product &&
+      this.state.product.length !== 0
+    )
+      this.lmsProductSetState(this.state.product);
+
+    if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&
       this.state.lastName !== null &&
@@ -356,7 +405,8 @@ export class Student extends Component {
       this.state.department.length !== 0 &&
       this.state.studentId !== null &&
       this.state.studentId.length !== 0 &&
-      this.isEmail(this.state.eMail)
+      this.isEmail(this.state.eMail) &&
+      this.lmsProductValidation(this.state.product)
     ) {
       let studentObj = {
         firstName: this.state.firstName,
@@ -378,17 +428,22 @@ export class Student extends Component {
       };
       this.props.mernStudentSignUp(studentObj, (response) => {
         if (response.auth) {
-          this.props.postStudentLmsProduct(
-            response.studentInfo.id,
-            {
-              products: this.state.product.map((item) => ({
-                productId: item.product.id,
-                expirationDate: item.expirationDate,
-                stage: item.stage ? "Active" : "NotActive",
-              })),
-            },
-            () => {}
-          );
+          if (
+            this.hasLmsAccess() &&
+            this.state.product &&
+            this.state.product.length !== 0
+          )
+            this.props.postStudentLmsProduct(
+              response.studentInfo.id,
+              {
+                products: this.state.product.map((item) => ({
+                  productId: item.product.id,
+                  expirationDate: item.expirationDate,
+                  stage: item.stage ? "Active" : "NotActive",
+                })),
+              },
+              () => {}
+            );
           this.setState({
             isLoading: false,
             snackMessage: "Student Registered Successfully",
@@ -470,6 +525,14 @@ export class Student extends Component {
           isLoading: false,
         })
       : this.setState({ studentIdHelperText: "" });
+
+    if (
+      this.hasLmsAccess() &&
+      this.state.product &&
+      this.state.product.length !== 0
+    )
+      this.lmsProductSetState(this.state.product);
+
     if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&
@@ -484,7 +547,8 @@ export class Student extends Component {
       this.state.department !== null &&
       this.state.department.length !== 0 &&
       this.state.studentId !== null &&
-      this.state.studentId.length !== 0
+      this.state.studentId.length !== 0 &&
+      this.lmsProductValidation(this.state.product)
     ) {
       let studentObj = {
         firstName: this.state.firstName,
@@ -501,19 +565,24 @@ export class Student extends Component {
         password: this.state.password,
       };
 
-      this.props.postStudentLmsProduct(
-        this.state.id,
-        {
-          products:
-            this.state.product &&
-            this.state.product.map((item) => ({
-              productId: item.product.id,
-              expirationDate: item.expirationDate,
-              stage: item.stage ? "Active" : "NotActive",
-            })),
-        },
-        () => {}
-      );
+      if (
+        this.hasLmsAccess() &&
+        this.state.product &&
+        this.state.product.length !== 0
+      )
+        this.props.postStudentLmsProduct(
+          this.state.id,
+          {
+            products:
+              this.state.product &&
+              this.state.product.map((item) => ({
+                productId: item.product.id,
+                expirationDate: item.expirationDate,
+                stage: item.stage ? "Active" : "NotActive",
+              })),
+          },
+          () => {}
+        );
 
       let lmsobj = {
         isActive: this.state.isActive,
@@ -553,6 +622,7 @@ export class Student extends Component {
     let arr = this.state.product;
 
     if (
+      this.props.lmsProducts &&
       Object.keys(this.props.lmsProducts).length &&
       this.props.lmsProducts.data.length > this.state.product.length
     ) {
@@ -563,6 +633,8 @@ export class Student extends Component {
         expirationDate: "",
         stage: true,
         product_Id: null,
+        expirationDateHelperText: "",
+        productNameHelperText: "",
       });
       this.setState({ product: arr });
     }
@@ -620,7 +692,9 @@ export class Student extends Component {
                   if (newValue) {
                     this.onChange("product", newValue, idx);
                     let arr = this.state.selectedProduct.filter(
-                      (item) => item.id !== newValue.id
+                      (item, index) =>
+                        item.id !== newValue &&
+                        index < this.state.product.length - 1
                     );
                     arr.push(newValue);
                     this.setState({ selectedProduct: arr });
@@ -631,6 +705,8 @@ export class Student extends Component {
                     {...params}
                     label="Product Name"
                     variant="outlined"
+                    error={item.productNameHelperText.length !== 0}
+                    helperText={item.productNameHelperText}
                   />
                 )}
                 fullWidth
@@ -649,7 +725,7 @@ export class Student extends Component {
                   );
                 }}
                 value={
-                  item.expirationDate
+                  item.expirationDate && new Date(item.expirationDate).getTime()
                     ? new Date(item.expirationDate)
                         .toISOString()
                         .replace(/T.*/, "")
@@ -672,17 +748,30 @@ export class Student extends Component {
                   },
                   className: "product__date__style",
                 }}
+                error={item.expirationDateHelperText.length !== 0}
+                helperText={item.expirationDateHelperText}
                 fullWidth
                 disablePast
               />
             </Grid>
-            <Grid item sm={3} md={3} className={"switch__style"}>
+            <Grid
+              item
+              sm={3}
+              md={3}
+              className={
+                item.expirationDateHelperText.length !== 0 ||
+                item.productNameHelperText.length !== 0
+                  ? "switch__overlaps__style"
+                  : "switch__style"
+              }
+            >
               {item.product_Id === null ? (
                 <IconButton
                   onClick={() => {
                     this.removeProduct(idx);
                     this.removeSelectedItem(item.product.id);
                   }}
+                  className={"switch__style"}
                 >
                   <CloseIcon />
                 </IconButton>
@@ -802,32 +891,35 @@ export class Student extends Component {
               }
               onEdit={true}
               onEditClick={(rowdata) => {
-                this.props.getStudentProducts(rowdata.id, (response) => {
-                  // expiryDate
-                  let arr = [];
-                  let selectedProductArr = [];
-                  response.data.map((item) => {
-                    let product = {
-                      courseId: "",
-                      id: item.id,
-                      title: item.productName,
-                    };
-                    let expiryDate = item.expiryDate;
-                    let stage = item.stage === "Active";
-                    let product_Id = item.id;
-                    arr.push({
-                      product: product,
-                      expirationDate: expiryDate,
-                      stage: stage,
-                      product_Id: product_Id,
+                this.hasLmsAccess() &&
+                  this.props.getStudentProducts(rowdata.id, (response) => {
+                    // expiryDate
+                    let arr = [];
+                    let selectedProductArr = [];
+                    response.data.map((item) => {
+                      let product = {
+                        courseId: "",
+                        id: item.id,
+                        title: item.productName,
+                      };
+                      let expiryDate = item.expiryDate;
+                      let stage = item.stage === "Active";
+                      let product_Id = item.id;
+                      arr.push({
+                        product: product,
+                        expirationDate: expiryDate,
+                        stage: stage,
+                        product_Id: product_Id,
+                        expirationDateHelperText: "",
+                        productNameHelperText: "",
+                      });
+                      selectedProductArr.push(product);
                     });
-                    selectedProductArr.push(product);
+                    this.setState({
+                      product: arr,
+                      selectedProduct: selectedProductArr,
+                    });
                   });
-                  this.setState({
-                    product: arr,
-                    selectedProduct: selectedProductArr,
-                  });
-                });
                 this.setState({
                   id: rowdata.id,
                   firstName: rowdata.firstName,
@@ -892,7 +984,7 @@ export class Student extends Component {
         </div>
         <Dialog
           open={this.state.dialogOpen}
-          onClose={(e) => this.setState({ dialogOpen: false })}
+          onClose={(e) => this.setState({ dialogOpen: false, product: [] })}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -910,7 +1002,7 @@ export class Student extends Component {
                   onKeyPress={(evt) => {
                     if (isAlpha(evt)) evt.preventDefault();
                   }}
-                  value={this.state.firstName}
+                  value={this.state.firstName || null}
                   onChange={(e) => this.setState({ firstName: e.target.value })}
                   label="First Name"
                 />
@@ -926,7 +1018,7 @@ export class Student extends Component {
                   onKeyPress={(evt) => {
                     if (isAlpha(evt)) evt.preventDefault();
                   }}
-                  value={this.state.lastName}
+                  value={this.state.lastName || null}
                   onChange={(e) => this.setState({ lastName: e.target.value })}
                   label="Last Name"
                 />
@@ -937,8 +1029,9 @@ export class Student extends Component {
                   size="small"
                   error={this.state.emailHelperText.length !== 0}
                   helperText={this.state.emailHelperText}
-                  value={this.state.eMail}
+                  value={this.state.eMail || null}
                   onChange={(e) => this.setState({ eMail: e.target.value })}
+                  disabled={this.state.id}
                   fullWidth
                   label="E-Mail"
                 />
@@ -948,7 +1041,7 @@ export class Student extends Component {
                   variant="outlined"
                   size="small"
                   disabled
-                  value={this.state.eMail}
+                  value={this.state.eMail || ""}
                   InputLabelProps={{
                     shrink: this.state.eMail !== null ? true : false,
                   }}
@@ -1017,8 +1110,9 @@ export class Student extends Component {
                   onKeyPress={(evt) => {
                     if (isNumber(evt)) evt.preventDefault();
                   }}
-                  value={this.state.phone}
+                  value={this.state.phone || null}
                   onChange={(e) => this.setState({ phone: e.target.value })}
+                  disabled={this.state.id}
                   fullWidth
                   label="Phone Number"
                   inputProps={{
@@ -1033,7 +1127,7 @@ export class Student extends Component {
                   size="small"
                   error={this.state.studentIdHelperText.length !== 0}
                   helperText={this.state.studentIdHelperText}
-                  value={this.state.studentId}
+                  value={this.state.studentId || null}
                   onChange={(e) => this.setState({ studentId: e.target.value })}
                   fullWidth
                   label="Student ID"

@@ -391,6 +391,10 @@ input[type="checkbox"]:checked + label {
   margin: auto !important;
 }
 
+.switch__overlaps__style {
+  margin-top: 8px !important;
+}
+
 .label_pad {
   padding-right: 8px !important;
   background: #ffffff;
