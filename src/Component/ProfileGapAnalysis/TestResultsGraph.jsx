@@ -6,68 +6,65 @@ import { getTestResults } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
 
 class TestResultsGraph extends Component {
+  constructor(props) {
+    super(props);
 
- constructor(props) {
-   super(props)
- 
-   this.state = {
-    data: [],
-    diagnosticTest : [],
-    technicalTest : [],
-    // label : []
-   }
- }
+    this.state = {
+      data: [],
+      diagnosticTest: [],
+      technicalTest: [],
+      // label : []
+    };
+  }
 
- componentDidMount(){
-  this.props.getTestResults(
-    this.props.match.params.studentId,
-    this.props.match.params.productId,
-    (response) => {
-      console.log(response);
-      this.setState({
-        data: response.data,
-        diagnosticTest : response.data.find((item)=>(item.testName === "Diagnostic Test")),
-        technicalTest : response.data.find((item)=>(item.testName === "Technical Test"))
+  componentDidMount() {
+    this.props.getTestResults(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+        this.setState({
+          data: response.data && response.data,
+          diagnosticTest: response.data.find(
+            (item) => item.testName === "Diagnostic Test"
+          ),
+          technicalTest: response.data.find(
+            (item) => item.testName === "Technical Test"
+          ),
+        });
+      }
+    );
+  }
 
-      });
-    }
-  );
- }
+  getLabel() {
+    console.log("labellll")
+    let label = this.state.diagnosticTest && this.state.diagnosticTest.sectionScoreModels.map((item)=>(item.sectionName));
+    return label;
 
-//  getLabel = () => {
-  
-//     // let label = response.data.map((item)=>(item.testName))
-//     // return label;
-  
-//  }
+  };
 
- getStudentScore = () => {
-   
- }
+  getStudentScore = () => {
+    let studentScore = this.state.data && this.state.data.map((item)=>(item.sectionScoreModels.map((response)=>(response.studentScore)))) ;
+     return studentScore;
+  };
 
- getAverageScore = () => {
-    
- }
- 
+
+  getAverageScore = () => {
+    let averageScore = this.state.data && this.state.data.map((item)=>(item.sectionScoreModels.map((response)=>(response.averageScore)))) ;
+    return averageScore;
+  };
 
   data = {
-    labels: [
-      "overAllAptitude",
-      "numericalAbility",
-      "logicalReasoning",
-      "verbalReasoning",
-    ],
+    labels: this.getLabel,
     datasets: [
       {
-        label: "First dataset",
-        data: [1, 5, 10, 15, 20],
+        // data: this.getStudentScore,
         fill: false,
         pointBackgroundColor: "#6495ED",
         // backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "#6495ED",
       },
       {
-        label: "Second dataset",
         data: [10, 12, 25, 33, 36, 40],
         fill: false,
         pointBackgroundColor: "#F08080",
@@ -120,8 +117,11 @@ class TestResultsGraph extends Component {
   };
 
   render() {
-    console.log(this.state)
-    
+    console.log(this.state);
+    console.log(this.getLabel());
+    console.log(this.getStudentScore());
+    console.log(this.getAverageScore());
+
     return (
       <div>
         <>
