@@ -42,7 +42,6 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import { connect } from "react-redux";
 import Dot from "../../Utils/Dot";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import { isEmptyString } from "../../Component/Validation";
 import Mysnack from "./../MySnackBar";
 const theme = createTheme({
   overrides: {
@@ -103,7 +102,7 @@ class GeneralDetails extends Component {
       pguniversity: "",
       round: "",
       choosenprogram: "",
-      enrollmentdate: null,
+      enrollmentdate: "",
       verificationstatus: [],
       field: "",
       commentshistory: [],
@@ -111,22 +110,28 @@ class GeneralDetails extends Component {
       snackVariant: "",
       snackOpen: false,
       commentlist: [],
+      emailErr: "",
+      aspdegree : "",
+      aspfieldofstudy : "",
     };
   }
   commentshistory(name, value) {
     console.log(value);
     let arr = this.state.commentshistory;
-    let filterarr = arr && arr.filter((el) => el.fieldName !== name);
-    filterarr.push({
-      fieldName: name,
-      oldValue: this.props.getgeneraldetailsList.studentDetails[name],
-      newValue: value,
-      comments: "",
-    });
-    console.log(arr);
-    this.setState({
-      commentshistory: filterarr,
-    });
+    if(arr.length > 0){
+      let filterarr = arr && arr.filter((el) => el.fieldName !== name);
+      filterarr.push({
+        fieldName: name,
+        oldValue: this.props.getgeneraldetailsList.studentDetails[name] && this.props.getgeneraldetailsList.studentDetails[name],
+        newValue: value,
+        comments: "",
+      });
+      console.log(arr);
+      this.setState({
+        commentshistory: filterarr,
+      });
+    }
+    
   }
   componentDidMount() {
     this.props.getAllColleges();
@@ -189,15 +194,32 @@ class GeneralDetails extends Component {
             sem: response.data.studentDetails.currentSem,
             areaofspecialisation:
               response.data.aspirationDetails.aspirationAreaOfSpecializations,
-            package: response.data.packageDetails.productFamily,
-            product: response.data.packageDetails.productVarient,
-            intake: response.data.packageDetails.intake,
+            package: response.data.packageDetails.packagedPurchased,
+            product: response.data.packageDetails.pgaProduct,
+            intake: response.data.packageDetails.pgaIntake,
             enrollmentdate: response.data.packageDetails.enrollmentDate,
             prefschool: response.data.aspirationDetails.aspirationUniversities,
+            round: response.data.packageDetails.round,
+            aspdegree : response.data.aspirationDetails.aspirationDegrees,
+            aspfieldofstudy : response.data.aspirationDetails.aspirationBranches
           });
         }
       }
     );
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.email !== prevState.email) {
+      let regx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!regx.test(this.state.email)) {
+        this.setState({
+          emailErr: "Please Enter the Valid Email Id",
+        });
+      } else {
+        this.setState({
+          emailErr: "",
+        });
+      }
+    }
   }
   handlestatus = (status) => {
     console.log("Hello");
@@ -229,18 +251,35 @@ class GeneralDetails extends Component {
     });
   };
   verifiedstatus(name) {
-    console.log(name)
+    console.log(name);
     let obj = this.state.verificationstatus.find(
       (data) => data.fieldName === name
     );
-    console.log(obj)
+    console.log(obj);
     return obj;
   }
 
   handleopen = () => {
-    this.setState({
-      dialog: true,
-    });
+    if (
+      this.state.clsid !== undefined &&
+      this.state.firstname !== "" &&
+      this.state.lastname !== "" &&
+      this.state.phone !== undefined &&
+      this.state.email !== undefined &&
+      this.state.degree !== null &&
+      this.state.college !== null &&
+      this.state.fieldofstudy !== null
+    ) {
+      this.setState({
+        dialog: true,
+      });
+    } else {
+      this.setState({
+        snackMsg: "Please Fill the Required Field",
+        snackOpen: true,
+        snackVariant: "error",
+      });
+    }
   };
   handleClose = () => {
     this.setState({
@@ -433,7 +472,7 @@ class GeneralDetails extends Component {
                   alignItems: "flex-start",
                   display: "flex",
                 }}
-                onClick={(e) => this.handleClick(e,"workExperience")}
+                onClick={(e) => this.handleClick(e, "workExperience")}
               >
                 <Dot
                   color={
@@ -489,7 +528,7 @@ class GeneralDetails extends Component {
             </div>
             <div style={{ paddingLeft: "10px" }}>
               <TextField
-                name="currentSem"
+                name="sem"
                 label="Current Semester"
                 value={this.state.sem}
                 onChange={(e) => {
@@ -517,7 +556,7 @@ class GeneralDetails extends Component {
             />
           </Grid>
           <Grid item md={4}>
-            <Autocomplete
+            {/* <Autocomplete
               disabled
               renderInput={(params) => (
                 <TextField
@@ -528,9 +567,54 @@ class GeneralDetails extends Component {
                   onChange={(e) => this.handlechange(e)}
                 />
               )}
+            /> */}
+              <Autocomplete
+              multiple
+              disabled
+              id="tags-outlined"
+              options={this.state.aspdegree}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.specialization.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.aspdegree || []}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Degree"
+                />
+              )}
+              onChange={(e, newValue) => this.setState({ e, newValue })}
             />
           </Grid>
-          <Grid item md={4}></Grid>
+          <Grid item md={4}>
+          <Autocomplete
+              multiple
+              disabled
+              id="tags-outlined"
+              options={this.state.aspfieldofstudy}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.specialization.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.aspfieldofstudy || []}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Field of Study"
+                />
+              )}
+              onChange={(e, newValue) => this.setState({ e, newValue })}
+            />
+          </Grid>
           <Grid item md={4}>
             <Autocomplete
               multiple
@@ -684,15 +768,21 @@ class GeneralDetails extends Component {
     if (this.props.variantStepList.codeName === "ACS_MBA") {
       console.log("true");
       let pgadataarr = [];
-      this.state.commentshistory.map((eachdata)=>{
+      this.state.commentshistory.map((eachdata) => {
         pgadataarr.push({
-          fieldName : eachdata.fieldName,
-          oldValue : typeof eachdata.oldValue === "object" ? eachdata.oldValue.id : eachdata.oldValue,
-          newValue : typeof eachdata.newValue === "object" ? eachdata.newValue.id : eachdata.newValue,
-          comments : eachdata.comments
-        })
-      })
-      console.log(pgadataarr)
+          fieldName: eachdata.fieldName,
+          oldValue:
+            typeof eachdata.oldValue === "object"
+              ? eachdata.oldValue.id
+              : eachdata.oldValue,
+          newValue:
+            typeof eachdata.newValue === "object"
+              ? eachdata.newValue.id
+              : eachdata.newValue,
+          comments: eachdata.comments,
+        });
+      });
+      console.log(pgadataarr);
       let obj = {
         firstName: this.state.firstname,
         lastName: this.state.lastname,
@@ -717,6 +807,11 @@ class GeneralDetails extends Component {
         updatedBy: {
           id: window.sessionStorage.getItem("adminUserId"),
         },
+        round: this.state.round,
+        packagedPurchase: this.state.package,
+        pgaProduct: this.state.product,
+        pgaIntake: this.state.intake,
+        enrollmentDate: this.state.enrollmentdate,
         pgaDataChangeLogs: pgadataarr,
         workExperience: this.state.workexp,
       };
@@ -727,40 +822,69 @@ class GeneralDetails extends Component {
         obj
       );
     } else {
-      let pgadataarr = [];
-      this.state.commentshistory.map((eachdata)=>{
-        pgadataarr.push({
-          fieldName : eachdata.fieldName,
-          oldValue : typeof eachdata.oldValue === "object" ? eachdata.oldValue.id : eachdata.oldValue,
-          newValue : typeof eachdata.newValue === "object" ? eachdata.newValue.id : eachdata.newValue,
-          comments : eachdata.comments
-        })
-      })
-      console.log(pgadataarr)
-      let obj = {
-        firstName: this.state.firstname,
-        lastName: this.state.lastname,
-        currentSem: this.state.sem,
-        degree: {
-          id: this.state.degree.id,
-        },
-        fieldOfStudy: {
-          id: this.state.fieldofstudy.id,
-        },
-        college: {
-          id: this.state.college.id,
-        },
-        updatedBy: {
-          id: window.sessionStorage.getItem("adminUserId"),
-        },
-        pgaDataChangeLogs: pgadataarr,
-      };
-      console.log(obj);
-      this.props.updategeneraldetails(
-        this.props.match.params.studentId,
-        this.props.match.params.productId,
-        obj
-      );
+      if (
+        this.state.clsid !== undefined &&
+        this.state.firstname !== "" &&
+        this.state.lastname !== "" &&
+        this.state.phone !== undefined &&
+        this.state.email !== undefined &&
+        this.state.degree !== null &&
+        this.state.college !== null &&
+        this.state.fieldofstudy !== null
+      ) {
+        let pgadataarr = [];
+        this.state.commentshistory.map((eachdata) => {
+          pgadataarr.push({
+            fieldName: eachdata.fieldName,
+            oldValue:
+              eachdata.oldValue !== null &&
+              typeof eachdata.oldValue === "object"
+                ? eachdata.oldValue.id
+                : eachdata.oldValue,
+            newValue:
+              typeof eachdata.newValue === "object"
+                ? eachdata.newValue.id
+                : eachdata.newValue,
+            comments: eachdata.comments,
+          });
+        });
+        console.log(pgadataarr);
+        let obj = {
+          firstName: this.state.firstname,
+          lastName: this.state.lastname,
+          currentSem: this.state.sem,
+          degree: {
+            id: this.state.degree.id,
+          },
+          fieldOfStudy: {
+            id: this.state.fieldofstudy.id,
+          },
+          college: {
+            id: this.state.college.id,
+          },
+          updatedBy: {
+            id: window.sessionStorage.getItem("adminUserId"),
+          },
+          pgaDataChangeLogs: pgadataarr,
+          packagedPurchase: this.state.package,
+          pgaProduct: this.state.product,
+          pgaIntake: this.state.intake,
+          enrollmentDate: this.state.enrollmentdate,
+        };
+        console.log(obj);
+        this.props.updategeneraldetails(
+          this.props.match.params.studentId,
+          this.props.match.params.productId,
+          obj
+        );
+        this.setState({ dialog: false });
+      } else {
+        this.setState({
+          snackMsg: "Please Fill the Required Field",
+          snackOpen: true,
+          snackVariant: "error",
+        });
+      }
     }
   };
 
@@ -780,7 +904,7 @@ class GeneralDetails extends Component {
             <Typography>Student Details</Typography>
             <ChatBubbleOutlineIcon
               style={{ marginLeft: "10px" }}
-              onClick={() => this.handleChat()}
+              onClick={() => this.state.commentlist.length > 0 && this.handleChat()}
             />
           </div>
           <Grid
@@ -936,6 +1060,9 @@ class GeneralDetails extends Component {
                       this.commentshistory("phoneNumber", e.target.value);
                       this.handlechange(e);
                     }}
+                    inputProps={{
+                      maxLength: 10,
+                    }}
                   />
                 </div>
               </div>
@@ -974,6 +1101,7 @@ class GeneralDetails extends Component {
                       this.commentshistory("emailId", e.target.value);
                       this.handlechange(e);
                     }}
+                    error={this.state.emailErr.length > 0}
                   />
                 </div>
               </div>
@@ -1251,9 +1379,9 @@ class GeneralDetails extends Component {
                       </Grid>
                       <Grid item md={6} style={{ fontWeight: "bold" }}>
                         {data.newValue !== null &&
-                        typeof data.newValue === "string"
-                          ? data.newValue
-                          : data.newValue.name}
+                        typeof data.newValue === "object"
+                          ? data.newValue.name
+                          : data.newValue}
                       </Grid>
                       <Grid item md={12}>
                         <TextField
@@ -1313,12 +1441,25 @@ class GeneralDetails extends Component {
             <DialogContent>
               {this.state.commentlist &&
                 this.state.commentlist.map((data) => {
-                  let date = new Date(data.updatedAt).getDate()
-                  let month = new Date(data.updatedAt).getMonth()
-                  let year = new Date(data.updatedAt).getFullYear()
-                  var monthtext = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sept","Oct","Nov","Dec"];
-                  let monthname = monthtext[month]
-                  let finaldate = date+" "+monthname+" "+year
+                  let date = new Date(data.updatedAt).getDate();
+                  let month = new Date(data.updatedAt).getMonth();
+                  let year = new Date(data.updatedAt).getFullYear();
+                  var monthtext = [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sept",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                  ];
+                  let monthname = monthtext[month];
+                  let finaldate = date + " " + monthname + " " + year;
                   return (
                     <>
                       <Grid
