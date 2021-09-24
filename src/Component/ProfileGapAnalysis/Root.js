@@ -46,7 +46,7 @@ class ProfileGapRoot extends Component {
     if(this.state.value === 3){
       return <TestResultsGraph {...this.props}/>
     }else if(this.state.value === 4){
-     return <CvViewer />
+     return <CvViewer {...this.props} />
     }
   }
 

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { TextField, Grid, Divider, Typography } from "@material-ui/core";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import "./InterestDetail.css";
-import { getPpgaCallNotes } from '../../Actions/ProfileGapAction'
+import { getPpgaCallNotes, savePpgaNotes, updatePpgaCallNotes } from '../../Actions/ProfileGapAction';
+import {isEmptyString} from "../../Component/Validation"
 import { connect } from "react-redux";
 
 
@@ -12,95 +13,223 @@ class PpgaCallNotes extends Component {
     super(props)
   
     this.state = {
-      tenthTwelfthGrades: {
+      title : "",
+      data : [],
+     ppgaArr : [
+      {
         fieldTitle: "10th and 12th Details | School-Board-Grades",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      ugGrades: {
+       {
         fieldTitle: "UG | School-Board-Grades",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      interestedSubject: {
+       {
         fieldTitle: "Interested Subjects",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      confirmPackage: {
+       {
         fieldTitle: "Confirm package (Placements/Masters)",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      higherEducationReadiness: {
+       {
         fieldTitle: "Higher Education Readiness (program, areas of study/specialization, location)",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      masterBackUp: {
+       {
         fieldTitle: "Back-up options for Master’s",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      specializationTrack: {
+       {
         fieldTitle: "Suggest a Specialization Track",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      endGoal: {
+       {
         fieldTitle: "Ask the reason for the Job. Why now? What is the end goal?",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      careerInterest: {
+       {
         fieldTitle: "Ask about career interest. Clear? Suggest suitable courses. Unclear? Walk through steps options available",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      workExperience: {
+      {
         fieldTitle: "Relevant work experience",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      gapInAcademics: {
+       {
         fieldTitle: "If gap in academics/career. Ask for reason. Will it affect chances?",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      researchExperience: {
+      {
         fieldTitle: "Relevant research experience",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
       },
-      backlogReason: {
+      {
         fieldTitle: "If Backlogs.Ask for a reason. Cleared? If pending, when are they clearing?",
         ppgaNotes: "",
+        ppgaNotesErr : false,
+        ppgaNotesMsg : "",
         postPpgaNotes: "",
+        postPpgaNotesErr : false,
+        postPpgaNotesMsg : "",
         mentorNotes: "",
-      },
+        mentorNotesErr : false,
+        mentorNotesMsg : ""
+      }
+    ]
 
     };
   }
 
+  handleChange = (e,index) => {
+    let items = [...this.state.ppgaArr];
+    // 2. Make a shallow copy of the item you want to mutate
+    let item = {...items[index]};
+    // 3. Replace the property you're intested in
+    item[e.target.name] = e.target.value;
+    // 4. Put it back into our array. N.B. we are mutating the array here, but that's why we made a copy first
+    items[index] = item;
+    // 5. Set the state to our new copy
+    this.setState({ppgaArr : items});
+  };
+
   componentDidMount(){
-      this.props.getPpgaCallNotes(this.props.match.params.studentId,this.props.match.params.productId)
+      this.props.getPpgaCallNotes(this.props.match.params.studentId,this.props.match.params.productId,(response)=>{
+        console.log(response);
+        this.setState({
+          data : response.data
+        })
+     
+      })
+  }
+
+  handleSave = () => {
+
+  let data = this.state.ppgaArr.map((item)=>(item))
+  console.log(data)
+   if(isEmptyString(data.ppgaNotes)){
+     this.setState({
+       ppgaNotesErr: true,
+       ppgaNotesMsg : "please fill the Required field"
+     })
+
+   }
+   if(isEmptyString(data.postPpgaNotes)){
+    this.setState({
+      postPpgaNotesErr: true,
+      postPpgaNotesMsg : "please fill the Required field"
+    })
+
+  }
+  if(isEmptyString(data.mentorNotes)){
+    this.setState({
+      mentorNotesErr: true,
+      mentorNotesMsg : "please fill the Required field"
+    })
+
+  }
   }
   
   render() {
+    console.log(this.state)
+    console.log(this.props.saveResponse);
     return (
-
       <div>
         <Grid container spacing={3} style={{ height: "100vh" }}>
           <Grid
@@ -112,343 +241,48 @@ class PpgaCallNotes extends Component {
             lg={12}
             style={{ maxHeight: "92%", overflowY: "scroll", padding: "15px" }}
           >
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>10th and 12th Details | School-Board-Grades</p>
+            {this.state.ppgaArr.map((item,index) => (
+              <Grid container spacing={3}>
+                <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
+                  <p>{item.fieldTitle}</p>
+                </Grid>
+                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
+                  <TextField
+                    label="PPGA Notes"
+                    name="ppgaNotes"
+                    value={item.ppgaNotes}
+                    onChange={(e) => this.handleChange(e,index)}
+                    className="ppgaTextField_align"
+                    error={item.ppgaNotesErr}
+                    helperText={item.ppgaNotesMsg}
+                  ></TextField>
+                </Grid>
+                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
+                  <TextField
+                    className="ppgaTextField_align"
+                    name="postPpgaNotes"
+                    value={item.postPpgaNotes}
+                    error={item.postPpgaNotesErr}
+                    helperText={item.postPpgaNotesMsg}
+                    onChange={(e) => this.handleChange(e,index)}
+                    label="Post PPGA Notes"
+                  ></TextField>
+                </Grid>
+                <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
+                  <TextField
+                    className="ppgaTextField_align"
+                    name="mentorNotes"
+                    error={item.mentorNotesErr}
+                    helperText={item.mentorNotesMsg}
+                    onChange={(e) => this.handleChange(e,index)}
+                    value={item.mentorNotes}
+                    label="Mentor Notes"
+                  ></TextField>
+                </Grid>
               </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
+            ))}
 
-            {/* UG | School-Board-Grades */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>UG | School-Board-Grades</p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Interested Subjects */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>Interested Subjects</p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Confirm package (Placements/Masters) */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>Confirm package (Placements/Masters)</p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Higher Education Readiness (program, areas of study/specialization, location) */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>
-                  Higher Education Readiness (program, areas of
-                  study/specialization, location)
-                </p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Back-up options for Master’s */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>Back-up options for Master’s</p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/*Suggest a Specialization Track  */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>Suggest a Specialization Track</p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Ask the reason for the Job. Why now? What is the end goal? */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>
-                  Ask the reason for the Job. Why now? What is the end goal?
-                </p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Ask about career interest. Clear? Suggest suitable courses. Unclear? Walk through steps options available*/}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>
-                  Ask about career interest. Clear? Suggest suitable courses.
-                  Unclear? Walk through steps options available
-                </p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Relevant work experience.  */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>Relevant work experience. </p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* If gap in academics/career. Ask for reason. Will it affect chances?  */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>
-                  If gap in academics/career. Ask for reason. Will it affect
-                  chances?{" "}
-                </p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* Relevant research experience.  */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>Relevant research experience. </p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
-
-            {/* If Backlogs.Ask for a reason. Cleared? If pending, when are they clearing? */}
-            <Grid container spacing={3}>
-              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <p>
-                  If Backlogs.Ask for a reason. Cleared? If pending, when are
-                  they clearing?
-                </p>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  label="PPGA Notes"
-                  className="ppgaTextField_align"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Post PPGA Notes"
-                ></TextField>
-              </Grid>
-              <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-                <TextField
-                  className="ppgaTextField_align"
-                  label="Mentor Notes"
-                ></TextField>
-              </Grid>
-            </Grid>
+           
           </Grid>
 
           {/* button */}
@@ -482,6 +316,7 @@ class PpgaCallNotes extends Component {
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
+                  onClick={this.handleSave}
                   style={{
                     width: "100px",
                     display: "flex",
@@ -502,10 +337,15 @@ class PpgaCallNotes extends Component {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    ppgaResponse: state.ProfileGapAnalysisReducer.ppgaCallNotes
+    ppgaResponse: state.ProfileGapAnalysisReducer.ppgaCallNotes,
+    saveResponse: state.ProfileGapAnalysisReducer.ppgaNotes,
+
+
 
   };
 };
 export default connect(mapStateToProps, {
- getPpgaCallNotes
+ getPpgaCallNotes,
+ updatePpgaCallNotes,
+ savePpgaNotes
 })(PpgaCallNotes);

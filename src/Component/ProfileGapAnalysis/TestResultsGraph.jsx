@@ -6,72 +6,95 @@ import { getTestResults } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
 
 class TestResultsGraph extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      data: [],
-      diagnosticTest: [],
-      technicalTest: [],
-      // label : []
-    };
-  }
+ constructor(props) {
+   super(props);
 
-  componentDidMount() {
-    this.props.getTestResults(
-      this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {
-        console.log(response);
-        this.setState({
-          data: response.data && response.data,
-          diagnosticTest: response.data.find(
-            (item) => item.testName === "Diagnostic Test"
-          ),
-          technicalTest: response.data.find(
-            (item) => item.testName === "Technical Test"
-          ),
-        });
+   this.state = {
+    data: [],
+    diagnosticTest : {testName : null, sectionScoreModels : []},
+    technicalTest : {testName : null, sectionScoreModels : []},
+    diagnosticDataModel : {},
+    technicalDataModel : {}
+
+    
+   }
+ }
+
+ componentDidMount(){
+  this.props.getTestResults(
+    this.props.match.params.studentId,
+    this.props.match.params.productId,
+    (response) => {
+      console.log(response);
+      this.setState({
+        data: response.data,
+        diagnosticTest : response.data.find((item)=>(item.testName === "Diagnostic Test")),
+        technicalTest : response.data.find((item)=>(item.testName === "Technical Test")),
+      });
+      const diagnosticLabel = response.data.find((item)=>(item.testName === "Diagnostic Test")).sectionScoreModels.map((item)=>(item.sectionName))
+      const diagnosticStudentScore = response.data.find((item)=>(item.testName === "Diagnostic Test")).sectionScoreModels.map((item)=>(item.studentScore))
+      const diagnosticAvgScore = response.data.find((item)=>(item.testName === "Diagnostic Test")).sectionScoreModels.map((item)=>(item.averageScore))
+      const data = {
+        labels: 
+        ["Quant", "Verbal", "Logical","Psychometric"]
+        ,
+        datasets: [
+          {
+            label: "First dataset",
+            data: diagnosticStudentScore,
+            fill: false,
+            pointBackgroundColor: "#6495ED",
+            // backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "#6495ED",
+          },
+          {
+            label: "Second dataset",
+            data: diagnosticAvgScore,
+            fill: false,
+            pointBackgroundColor: "#F08080",
+            borderColor: "#F08080",
+          },
+        ],
       }
-    );
-  }
+      this.setState({
+        diagnosticDataModel : data
+      })
+      // technical test
+      const technicalLabel = response.data.find((item)=>(item.testName === "Technical Test")).sectionScoreModels.map((item)=>(item.sectionName.replace("_"," ")))
+      const technicalStudentScore = response.data.find((item)=>(item.testName === "Technical Test")).sectionScoreModels.map((item)=>(item.studentScore))
+      const technicalAvgScore = response.data.find((item)=>(item.testName === "Technical Test")).sectionScoreModels.map((item)=>(item.averageScore))
+      const item = {
+        labels: 
+        technicalLabel
+        ,
+        datasets: [
+          {
+            label: "First dataset",
+            data: technicalStudentScore,
+            fill: false,
+            pointBackgroundColor: "#6495ED",
+            // backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "#6495ED",
+          },
+          {
+            label: "Second dataset",
+            data: technicalAvgScore,
+            fill: false,
+            pointBackgroundColor: "#F08080",
+            borderColor: "#F08080",
+          },
+        ],
+      }
+      this.setState({
+        technicalDataModel : item
+      })
+    }
+  );
+ }
 
-  getLabel() {
-    console.log("labellll")
-    let label = this.state.diagnosticTest && this.state.diagnosticTest.sectionScoreModels.map((item)=>(item.sectionName));
-    return label;
-
-  };
-
-  getStudentScore = () => {
-    let studentScore = this.state.data && this.state.data.map((item)=>(item.sectionScoreModels.map((response)=>(response.studentScore)))) ;
-     return studentScore;
-  };
 
 
-  getAverageScore = () => {
-    let averageScore = this.state.data && this.state.data.map((item)=>(item.sectionScoreModels.map((response)=>(response.averageScore)))) ;
-    return averageScore;
-  };
-
-  data = {
-    labels: this.getLabel,
-    datasets: [
-      {
-        // data: this.getStudentScore,
-        fill: false,
-        pointBackgroundColor: "#6495ED",
-        // backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "#6495ED",
-      },
-      {
-        data: [10, 12, 25, 33, 36, 40],
-        fill: false,
-        pointBackgroundColor: "#F08080",
-        borderColor: "#F08080",
-      },
-    ],
-  };
 
   data1 = {
     labels: ["technicalTest"],
@@ -95,16 +118,21 @@ class TestResultsGraph extends Component {
   };
 
   options = {
+   
+
     plugins: {
       legend: {
         display: false,
       },
+      
     },
     scales: {
       y: {
         grid: {
           borderColor: "#fff",
+          
         },
+       
       },
 
       x: {
@@ -112,16 +140,15 @@ class TestResultsGraph extends Component {
           display: false,
           Border: false,
         },
+        
       },
+     
+     
     },
   };
-
-  render() {
-    console.log(this.state);
-    console.log(this.getLabel());
-    console.log(this.getStudentScore());
-    console.log(this.getAverageScore());
-
+render() {
+    console.log(this.state)
+    
     return (
       <div>
         <>
@@ -132,7 +159,7 @@ class TestResultsGraph extends Component {
                 <div className={"graph1_title"}>
                   <p>Diagnostic Test</p>
                 </div>
-                <Line data={this.data} options={this.options} />
+                <Line data={this.state.diagnosticDataModel} options={this.options} />
                 <div className={"graph1_label_main_div"}>
                   <div className={"graph1_label1_div"}>
                     <div>
@@ -159,7 +186,7 @@ class TestResultsGraph extends Component {
                 <div>
                   <p>Technical Test</p>
                 </div>
-                <Line data={this.data1} options={this.options} />
+                <Line data={this.state.technicalDataModel} options={this.options} />
 
                 <div className={"graph2_label_main_div"}>
                   <div className={"graph2_label1_div"}>
@@ -197,3 +224,4 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getTestResults,
 })(TestResultsGraph);
+

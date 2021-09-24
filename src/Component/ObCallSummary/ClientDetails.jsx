@@ -206,12 +206,12 @@ class ClientDetails extends Component {
           this.props.getStudentsByIdList.lastName,
         number: this.props.getStudentsByIdList.phoneNumber,
         email: this.props.getStudentsByIdList.emailId,
-        sem: this.props.getStudentsByIdList.currentSem,
+        // sem: isEmptyString(this.state.sem) && this.props.getStudentsByIdList.currentSem,
         department: this.props.getStudentsByIdList.department,
         collegename: this.props.getStudentsByIdList.college,
         // ugdegree: this.props.getStudentsByIdList.ugDegree,
-        cgpa: this.props.getStudentsByIdList.uggpa,
-        activebacklogs: this.props.getStudentsByIdList.noOfBacklogs,
+        // cgpa: isEmptyString(this.state.cgpa) && this.props.getStudentsByIdList.uggpa,
+        // activebacklogs: isEmptyString(this.state.activebacklogs) && this.props.getStudentsByIdList.noOfBacklogs,
         clsid: this.props.getStudentsByIdList.studentID,
       });
     }
@@ -228,15 +228,15 @@ class ClientDetails extends Component {
      
       }
       if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
-        console.log('huhoihoijijo')
-        console.log(this.props.getClientInfoList)
+        
+        
         const {
           collegeId,
           degreeId,
           departmentId,
           clientName,
           presentSem,
-          backlogs,
+          activeBacklogs,
           cgpa,
           ameyoId,
           callBackTime,
@@ -264,7 +264,7 @@ class ClientDetails extends Component {
           collegename: collegeId,
           department: departmentId,
           sem: presentSem,
-          activebacklogs: backlogs,
+          activebacklogs: activeBacklogs,
           cgpa: cgpa,
           ameyoid: ameyoId,
           calldate: obCallDate,
@@ -341,7 +341,7 @@ class ClientDetails extends Component {
     { title:"Trainee"}
   ];
   handleSaved = () => {
-    console.log(this.state);
+    
     let hlptxt = "Please Fill the Required Field";
     isEmptyString(this.state.name)
       ? this.setState({ nameErr: hlptxt })
@@ -448,7 +448,7 @@ class ClientDetails extends Component {
       this.state.intakeyear && this.state.intakeyear.title === undefined
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
-    console.log(this.state)
+    
     if(
       !isEmptyString(this.state.name) &&
       !isEmptyString(this.state.number) &&
@@ -566,9 +566,9 @@ class ClientDetails extends Component {
 
   render() {
     const filter = createFilterOptions();
-    console.log(this.props.match.params.studentId);
-    console.log(this.state);
-    console.log("clent details props........",this.props);
+    
+    
+    
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -853,21 +853,21 @@ class ClientDetails extends Component {
               <Grid item md={4}>
                 <KeyboardDateTimePicker
                   ampm={false}
-                  variant="dialog"
+                  variant={"dialog"}
                   margin="normal"
                   // id="time-picker"
                   label="OB Call Time"
                   value={this.state.calltime}
                   error={this.state.calltimeErr.length > 0}
                   helperText={this.state.calltimeErr}
-                  onChange={(e, newValue) => {
+                  onChange={(newValue) => {
                     this.setState({ calltime: newValue });
-                    // console.log(newValue)
+                    // 
                   }}
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
-                  format="dd/MM/yyyy HH:mm"
+                  // format="dd/MM/yyyy HH:mm"
                 />
               </Grid>
               <Grid item md={4}>
@@ -964,7 +964,7 @@ class ClientDetails extends Component {
                     label="Specific Time to be Contacted?"
                     value={this.state.spetime}
                     onChange={(newValue) => {
-                      console.log(newValue)
+                      
                       this.setState({ spetime: newValue })
                     }}
                     KeyboardButtonProps={{
@@ -1001,7 +1001,7 @@ class ClientDetails extends Component {
                   value={this.state.enrolldate}
                   error={this.state.enrolldateErr.length > 0}
                   helperText={this.state.enrolldateErr}
-                  onChange={(e, newValue) =>
+                  onChange={(newValue) =>
                     this.setState({ enrolldate: newValue })
                   }
                   KeyboardButtonProps={{
@@ -1019,7 +1019,7 @@ class ClientDetails extends Component {
                   getOptionLabel={(option) => option.name}
                   value={this.state.appdegree}
                   onChange={(e, newValue) => {
-                    console.log(newValue);
+                    
                     this.setState({ appdegree: newValue });
                   }}
                   renderInput={(params) => (
@@ -1121,7 +1121,7 @@ class ClientDetails extends Component {
                   options={this.package}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
-                    console.log(filtered)
+                    
                     // Suggest the creation of a new value
                     if (params.inputValue !== '') {
                       filtered.push({
@@ -1422,7 +1422,7 @@ class ClientDetails extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log(state);
+  
   return {
     getBranchesList: state.CollegeReducer.BranchList,
     getCollegesList: state.CollegeReducer.allCollegeList,
