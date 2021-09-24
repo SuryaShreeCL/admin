@@ -12,7 +12,8 @@ function CvViewer(props) {
     const productId = props.match.params.productId
 
     useEffect(()=>{
-        getLatestCv(studentId, productId)
+        if(props.doctype === "cv"){
+            getLatestCv(studentId, productId)
         .then(response=>{
             if(response.status === 200){
                 setLatestCv(response.data)
@@ -21,6 +22,8 @@ function CvViewer(props) {
                 }
             }
         })
+        }
+        
     }, [])
     return (
 
