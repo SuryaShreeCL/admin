@@ -154,7 +154,7 @@ export const updatePpgaCallNotes=(studentId,productId,data,)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.post(URL+"/api/v1/pga/"+studentId+"/product/"+productId+"/ppgacallnotes",data,{
+        axios.put(URL+"/api/v1/pga/"+studentId+"/product/"+productId+"/ppgacallnotes",data,{
             crossDomain: true,
             headers : {
                 "Authorization" : `Bearer ${accessToken}`,

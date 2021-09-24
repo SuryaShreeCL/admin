@@ -229,6 +229,7 @@ class PpgaCallNotes extends Component {
   render() {
     console.log(this.state)
     console.log(this.props.saveResponse);
+    console.log(this.props.updateResponse)
     return (
       <div>
         <Grid container spacing={3} style={{ height: "100vh" }}>
@@ -339,6 +340,7 @@ const mapStateToProps = (state) => {
   return {
     ppgaResponse: state.ProfileGapAnalysisReducer.ppgaCallNotes,
     saveResponse: state.ProfileGapAnalysisReducer.ppgaNotes,
+    updateResponse : state.ProfileGapAnalysisReducer.ppgaCall
 
 
 
