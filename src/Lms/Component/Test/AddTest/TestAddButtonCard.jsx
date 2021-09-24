@@ -61,7 +61,6 @@ class TestAddButtonCard extends Component {
       handleThreeDotClick,
       handleClose,
       anchorEl,
-      popUpId,
       handleDelete,
       sectionData,
       tabValue,
@@ -110,7 +109,6 @@ class TestAddButtonCard extends Component {
           handleThreeDotClick,
           handleClose,
           anchorEl,
-          popUpId,
           handleDelete
         )}
       </>
