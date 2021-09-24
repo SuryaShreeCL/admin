@@ -207,20 +207,6 @@ class GeneralDetails extends Component {
       }
     );
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.email !== prevState.email) {
-      let regx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!regx.test(this.state.email)) {
-        this.setState({
-          emailErr: "Please Enter the Valid Email Id",
-        });
-      } else {
-        this.setState({
-          emailErr: "",
-        });
-      }
-    }
-  }
   handlestatus = (status) => {
     console.log("Hello");
     let obj = {
@@ -1176,7 +1162,6 @@ class GeneralDetails extends Component {
                       this.commentshistory("emailId", e.target.value);
                       this.handlechange(e);
                     }}
-                    error={this.state.emailErr.length > 0}
                   />
                 </div>
               </div>
