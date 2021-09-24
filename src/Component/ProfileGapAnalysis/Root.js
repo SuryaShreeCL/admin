@@ -41,31 +41,37 @@ class ProfileGapRoot extends Component {
     };
   }
 
-
-  renderRightContainer = () =>{
-    if(this.state.value === 3){
-      return <TestResultsGraph {...this.props}/>
-    }else if(this.state.value === 4){
-     return <CvViewer {...this.props} />
+  renderRightContainer = () => {
+    if (this.state.value === 1) {
+      return <CvViewer {...this.props} />;
+    } else if (this.state.value === 3) {
+      return <TestResultsGraph {...this.props} />;
+    } else if (this.state.value === 4) {
+      return <CvViewer {...this.props} />;
     }
-  }
+  };
 
   render() {
     return (
       <div>
-        <Grid container spacing={2} style={{marginTop:"10px"}}>
-          <Grid item  
-           
-           md={this.state.value===5 ? 12 : 7}
+        <Grid container spacing={2} style={{ marginTop: "10px" }}>
+          <Grid
+            item
+            md={this.state.value === 5 ? 12 : 7}
             style={{
               // margin: "5px",
               borderStyle: "groove",
               borderRadius: "10px",
             }}
           >
-            <Paper square style={{ 
-              // margin: "10px"
-               }}>
+            <Paper
+              square
+              style={
+                {
+                  // margin: "10px"
+                }
+              }
+            >
               <Tabs
                 value={this.state.value}
                 indicatorColor="none"
@@ -98,25 +104,25 @@ class ProfileGapRoot extends Component {
               Item one
             </TabPanel>
             <TabPanel value={this.state.value} index={1}>
-             <GeneralDetails {...this.props}/>
+              <GeneralDetails {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
-           <InterestDetail/>
-           </TabPanel>
+              <InterestDetail {...this.props} />
+            </TabPanel>
             <TabPanel value={this.state.value} index={3}>
-            <TestResults {...this.props}/>
+              <TestResults {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={4}>
-             <CV {...this.props}/>
+              <CV {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={5}>
-             <PpgaCallNotes {...this.props}/>
+              <PpgaCallNotes {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={6}>
               Item Six
             </TabPanel>
           </Grid>
-          <Grid item md={this.state.value===5 ? 0 : 5} xs={5} sm={5}>
+          <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
           </Grid>
         </Grid>
