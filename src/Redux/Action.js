@@ -25,6 +25,7 @@ export const PROFILE_GAP_ANALYSIS = {
   getTestResults : "getTestResults",
   getPpgaCallNotes: "getPpgaCallNotes",
   updatePpgaCallNotes : "updatePpgaCallNotes",
+  savePpgaNotes : "savePpgaNotes",
   getcvresult:"getcvresult",
   deletecvresult : "deletecvresult",
   updatecvresult : "updatecvresult"

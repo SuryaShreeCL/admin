@@ -130,6 +130,46 @@ export const getPpgaCallNotes=(studentId,productId,callback)=>{
     }
 }
 
+export const savePpgaNotes=(studentId,productId,data,)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.post(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/ppgacallnotes",data,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                dispatch({type:PROFILE_GAP_ANALYSIS.savePpgaNotes,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const updatePpgaCallNotes=(studentId,productId,data,)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.post(URL+"/api/v1/pga/"+studentId+"/product/"+productId+"/ppgacallnotes",data,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                dispatch({type:PROFILE_GAP_ANALYSIS.updatePpgaCallNotes,payload:result.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
 export const getTestResults=(studentId,productId,callback)=>{    
     let accessToken = window.sessionStorage.getItem("accessToken")
 

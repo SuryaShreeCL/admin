@@ -13,9 +13,10 @@ class TestResultsGraph extends Component {
    this.state = {
     data: [],
     diagnosticTest : {testName : null, sectionScoreModels : []},
-    technicalTest : [],
- 
-    diagnosticDataModel : {}
+    technicalTest : {testName : null, sectionScoreModels : []},
+    diagnosticDataModel : {},
+    technicalDataModel : {}
+
     
    }
  }
@@ -36,7 +37,7 @@ class TestResultsGraph extends Component {
       const diagnosticAvgScore = response.data.find((item)=>(item.testName === "Diagnostic Test")).sectionScoreModels.map((item)=>(item.averageScore))
       const data = {
         labels: 
-        diagnosticLabel
+        ["Quant", "Verbal", "Logical","Psychometric"]
         ,
         datasets: [
           {
@@ -58,6 +59,35 @@ class TestResultsGraph extends Component {
       }
       this.setState({
         diagnosticDataModel : data
+      })
+      // technical test
+      const technicalLabel = response.data.find((item)=>(item.testName === "Technical Test")).sectionScoreModels.map((item)=>(item.sectionName.replace("_"," ")))
+      const technicalStudentScore = response.data.find((item)=>(item.testName === "Technical Test")).sectionScoreModels.map((item)=>(item.studentScore))
+      const technicalAvgScore = response.data.find((item)=>(item.testName === "Technical Test")).sectionScoreModels.map((item)=>(item.averageScore))
+      const item = {
+        labels: 
+        technicalLabel
+        ,
+        datasets: [
+          {
+            label: "First dataset",
+            data: technicalStudentScore,
+            fill: false,
+            pointBackgroundColor: "#6495ED",
+            // backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "#6495ED",
+          },
+          {
+            label: "Second dataset",
+            data: technicalAvgScore,
+            fill: false,
+            pointBackgroundColor: "#F08080",
+            borderColor: "#F08080",
+          },
+        ],
+      }
+      this.setState({
+        technicalDataModel : item
       })
     }
   );
@@ -88,16 +118,21 @@ class TestResultsGraph extends Component {
   };
 
   options = {
+   
+
     plugins: {
       legend: {
         display: false,
       },
+      
     },
     scales: {
       y: {
         grid: {
           borderColor: "#fff",
+          
         },
+       
       },
 
       x: {
@@ -105,11 +140,13 @@ class TestResultsGraph extends Component {
           display: false,
           Border: false,
         },
+        
       },
+     
+     
     },
   };
-
-  render() {
+render() {
     console.log(this.state)
     
     return (
@@ -149,7 +186,7 @@ class TestResultsGraph extends Component {
                 <div>
                   <p>Technical Test</p>
                 </div>
-                <Line data={this.data1} options={this.options} />
+                <Line data={this.state.technicalDataModel} options={this.options} />
 
                 <div className={"graph2_label_main_div"}>
                   <div className={"graph2_label1_div"}>
@@ -187,3 +224,4 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getTestResults,
 })(TestResultsGraph);
+
