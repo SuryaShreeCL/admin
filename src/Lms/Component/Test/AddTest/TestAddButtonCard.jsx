@@ -27,7 +27,10 @@ class TestAddButtonCard extends Component {
             return (
               <Question id={question.id}>
                 <div style={{ flex: 1 }}>
-                  {index + 1}. {question.question}
+                  {index + 1}.{' '}
+                  <span
+                    dangerouslySetInnerHTML={{ __html: question.question }}
+                  />
                 </div>
                 <IconButton
                   style={{ padding: '3px', height: '30px', margin: 'auto 0px' }}
