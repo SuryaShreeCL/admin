@@ -102,7 +102,7 @@ class GeneralDetails extends Component {
       pguniversity: "",
       round: "",
       choosenprogram: "",
-      enrollmentdate: "",
+      enrollmentdate: null,
       verificationstatus: [],
       field: "",
       commentshistory: [],
@@ -111,24 +111,26 @@ class GeneralDetails extends Component {
       snackOpen: false,
       commentlist: [],
       emailErr: "",
-      aspdegree : "",
-      aspfieldofstudy : "",
+      aspdegree: "",
+      aspfieldofstudy: "",
     };
   }
   commentshistory(name, value) {
     console.log(value);
     let arr = this.state.commentshistory;
-      let filterarr = arr && arr.filter((el) => el.fieldName !== name);
-      filterarr.push({
-        fieldName: name,
-        oldValue: this.props.getgeneraldetailsList.studentDetails[name] && this.props.getgeneraldetailsList.studentDetails[name],
-        newValue: value,
-        comments: "",
-      });
-      console.log(arr);
-      this.setState({
-        commentshistory: filterarr,
-      });
+    let filterarr = arr && arr.filter((el) => el.fieldName !== name);
+    filterarr.push({
+      fieldName: name,
+      oldValue:
+        this.props.getgeneraldetailsList.studentDetails[name] &&
+        this.props.getgeneraldetailsList.studentDetails[name],
+      newValue: value,
+      comments: "",
+    });
+    console.log(arr);
+    this.setState({
+      commentshistory: filterarr,
+    });
   }
   componentDidMount() {
     this.props.getAllColleges();
@@ -193,12 +195,12 @@ class GeneralDetails extends Component {
               response.data.aspirationDetails.aspirationAreaOfSpecializations,
             package: response.data.packageDetails.packagedPurchased,
             product: response.data.packageDetails.pgaProduct,
-            intake: response.data.packageDetails.pgaIntake,
+            intake: response.data.packageDetails.pgaIntake &&{title : response.data.packageDetails.pgaIntake},
             enrollmentdate: response.data.packageDetails.enrollmentDate,
             prefschool: response.data.aspirationDetails.aspirationUniversities,
             round: response.data.packageDetails.round,
-            aspdegree : response.data.aspirationDetails.aspirationDegrees,
-            aspfieldofstudy : response.data.aspirationDetails.aspirationBranches
+            aspdegree: response.data.aspirationDetails.aspirationDegrees,
+            aspfieldofstudy: response.data.aspirationDetails.aspirationBranches,
           });
         }
       }
@@ -257,26 +259,54 @@ class GeneralDetails extends Component {
   }
 
   handleopen = () => {
-    if (
-      this.state.clsid !== undefined &&
-      this.state.firstname !== "" &&
-      this.state.lastname !== "" &&
-      this.state.phone !== undefined &&
-      this.state.email !== undefined &&
-      this.state.degree !== null &&
-      this.state.college !== null &&
-      this.state.fieldofstudy !== null
-    ) {
-      this.setState({
-        dialog: true,
-      });
-    } else {
-      this.setState({
-        snackMsg: "Please Fill the Required Field",
-        snackOpen: true,
-        snackVariant: "error",
-      });
+    if(this.props.variantStepList.codeName === "ACS_MBA"){
+      if (
+        this.state.firstname !== "" &&
+        this.state.lastname !== "" &&
+        this.state.degree !== null &&
+        this.state.college !== null &&
+        this.state.fieldofstudy !== null &&
+        this.state.intake !== null &&
+        this.state.sem !== "" &&
+        this.state.round !== "" &&
+        this.state.pgcollege !== null &&
+        this.state.pgdegree !== null &&
+        this.state.pguniversity !== null &&
+        this.state.workexp !== ""
+      ) {
+        this.setState({
+          dialog: true,
+        });
+      } else {
+        this.setState({
+          snackMsg: "Please Fill the Required Field",
+          snackOpen: true,
+          snackVariant: "error",
+        });
+      }
     }
+    else{
+      if (
+        this.state.firstname !== "" &&
+        this.state.lastname !== "" &&
+        this.state.degree !== null &&
+        this.state.college !== null &&
+        this.state.fieldofstudy !== null &&
+        this.state.sem !== "" &&
+        this.state.intake !== null
+      ) {
+        this.setState({
+          dialog: true,
+        });
+      } else {
+        this.setState({
+          snackMsg: "Please Fill the Required Field",
+          snackOpen: true,
+          snackVariant: "error",
+        });
+      }
+    }
+    
   };
   handleClose = () => {
     this.setState({
@@ -351,7 +381,7 @@ class GeneralDetails extends Component {
                   getOptionLabel={(option) => option.name}
                   value={this.state.pgdegree}
                   onChange={(e, newValue) => {
-                    this.commentshistory("pgdegree", newValue);
+                    this.commentshistory("postGraduateDegree", newValue);
                     this.setState({ pgdegree: newValue });
                   }}
                   renderInput={(params) => (
@@ -396,7 +426,7 @@ class GeneralDetails extends Component {
                   getOptionLabel={(option) => option.name}
                   value={this.state.pgcollege}
                   onChange={(e, newValue) => {
-                    this.commentshistory("pgcollege", newValue);
+                    this.commentshistory("postGraduateCollege", newValue);
                     this.setState({ pgcollege: newValue });
                   }}
                   renderInput={(params) => (
@@ -442,7 +472,7 @@ class GeneralDetails extends Component {
                   getOptionLabel={(option) => option.name}
                   value={this.state.pguniversity}
                   onChange={(e, newValue) => {
-                    this.commentshistory("pguniversity", newValue);
+                    this.commentshistory("postGraduateUniversity", newValue);
                     this.setState({ pguniversity: newValue });
                   }}
                   renderInput={(params) => (
@@ -553,19 +583,7 @@ class GeneralDetails extends Component {
             />
           </Grid>
           <Grid item md={4}>
-            {/* <Autocomplete
-              disabled
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  name="choosenprogram"
-                  label="Choosen Program"
-                  value={this.state.choosenprogram}
-                  onChange={(e) => this.handlechange(e)}
-                />
-              )}
-            /> */}
-              <Autocomplete
+            <Autocomplete
               multiple
               disabled
               id="tags-outlined"
@@ -579,17 +597,12 @@ class GeneralDetails extends Component {
                 return specializationHolder.includes(option.name);
               }}
               value={this.state.aspdegree || []}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Degree"
-                />
-              )}
+              renderInput={(params) => <TextField {...params} label="Degree" />}
               onChange={(e, newValue) => this.setState({ e, newValue })}
             />
           </Grid>
           <Grid item md={4}>
-          <Autocomplete
+            <Autocomplete
               multiple
               disabled
               id="tags-outlined"
@@ -604,10 +617,7 @@ class GeneralDetails extends Component {
               }}
               value={this.state.aspfieldofstudy || []}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Field of Study"
-                />
+                <TextField {...params} label="Field of Study" />
               )}
               onChange={(e, newValue) => this.setState({ e, newValue })}
             />
@@ -805,29 +815,56 @@ class GeneralDetails extends Component {
           id: window.sessionStorage.getItem("adminUserId"),
         },
         round: this.state.round,
-        packagedPurchase: this.state.package,
-        pgaProduct: this.state.product,
-        pgaIntake: this.state.intake,
-        enrollmentDate: this.state.enrollmentdate,
+        pgaIntake: this.state.intake && this.state.intake.title,
         pgaDataChangeLogs: pgadataarr,
         workExperience: this.state.workexp,
       };
       console.log(obj);
-      this.props.updategeneraldetails(
-        this.props.match.params.studentId,
-        this.props.match.params.productId,
-        obj
-      );
-    } else {
       if (
-        this.state.clsid !== undefined &&
         this.state.firstname !== "" &&
         this.state.lastname !== "" &&
-        this.state.phone !== undefined &&
-        this.state.email !== undefined &&
         this.state.degree !== null &&
         this.state.college !== null &&
-        this.state.fieldofstudy !== null
+        this.state.fieldofstudy !== null &&
+        this.state.intake !== null &&
+        this.state.sem !== "" &&
+        this.state.round !== "" &&
+        this.state.pgcollege !== null &&
+        this.state.pgdegree !== null &&
+        this.state.pguniversity !== null &&
+        this.state.workexp !== ""
+      ) {
+        this.props.updategeneraldetails(
+          this.props.match.params.studentId,
+          this.props.match.params.productId,
+          obj,((response)=>{
+            if(response.status === 200){
+              this.setState({
+                snackMsg: "Updated Successfully",
+                snackOpen: true,
+                snackVariant: "success",
+              })
+            }
+          })
+        );
+        this.setState({ dialog: false });
+
+      } else {
+        this.setState({
+          snackMsg: "Please Fill the Required Field",
+          snackOpen: true,
+          snackVariant: "error",
+        });
+      }
+    } else {
+      if (
+        this.state.firstname !== "" &&
+        this.state.lastname !== "" &&
+        this.state.degree !== null &&
+        this.state.college !== null &&
+        this.state.fieldofstudy !== null &&
+        this.state.intake !== null &&
+        this.state.sem !== ""
       ) {
         let pgadataarr = [];
         this.state.commentshistory.map((eachdata) => {
@@ -863,18 +900,39 @@ class GeneralDetails extends Component {
             id: window.sessionStorage.getItem("adminUserId"),
           },
           pgaDataChangeLogs: pgadataarr,
-          packagedPurchase: this.state.package,
-          pgaProduct: this.state.product,
-          pgaIntake: this.state.intake,
-          enrollmentDate: this.state.enrollmentdate,
+          pgaIntake: this.state.intake && this.state.intake.title,
         };
         console.log(obj);
-        this.props.updategeneraldetails(
-          this.props.match.params.studentId,
-          this.props.match.params.productId,
-          obj
-        );
-        this.setState({ dialog: false });
+        if (
+          this.state.firstname !== "" &&
+          this.state.lastname !== "" &&
+          this.state.degree !== null &&
+          this.state.college !== null &&
+          this.state.fieldofstudy !== null &&
+          this.state.intake !== null &&
+          this.state.sem !== ""
+        ) {
+          this.props.updategeneraldetails(
+            this.props.match.params.studentId,
+            this.props.match.params.productId,
+            obj,((response)=>{
+              if(response.status === 200){
+                this.setState({
+                  snackMsg: "Updated Successfully",
+                  snackOpen: true,
+                  snackVariant: "success",
+                })
+              }
+            })
+          );
+          this.setState({ dialog: false });
+        } else {
+          this.setState({
+            snackMsg: "Please Fill the Required Field",
+            snackOpen: true,
+            snackVariant: "error",
+          });
+        }
       } else {
         this.setState({
           snackMsg: "Please Fill the Required Field",
@@ -884,7 +942,19 @@ class GeneralDetails extends Component {
       }
     }
   };
-
+  intakevalue = [
+    { title: "Fall 2020" },
+    { title: "Spring 2021" },
+    { title: "Fall 2021" },
+    { title: "Spring 2022" },
+    { title: "Fall 2022" },
+    { title: "Spring 2023" },
+    { title: "Fall 2023" },
+    { title: "Spring 2024" },
+    { title: "Fall 2024" },
+    { title: "Spring 2025" },
+    { title: "Fall 2025" },
+  ];
   render() {
     console.log(this.props);
     console.log(this.state);
@@ -901,7 +971,9 @@ class GeneralDetails extends Component {
             <Typography>Student Details</Typography>
             <ChatBubbleOutlineIcon
               style={{ marginLeft: "10px" }}
-              onClick={() => this.state.commentlist.length > 0 && this.handleChat()}
+              onClick={() =>
+                this.state.commentlist.length > 0 && this.handleChat()
+              }
             />
           </div>
           <Grid
@@ -936,6 +1008,7 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
+                    disabled
                     name="clsid"
                     label="CLS ID"
                     value={this.state.clsid}
@@ -975,6 +1048,7 @@ class GeneralDetails extends Component {
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
                     name="firstname"
+                    type="text"
                     label="First Name"
                     value={this.state.firstname}
                     onChange={(e) => {
@@ -1013,6 +1087,7 @@ class GeneralDetails extends Component {
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
                     name="lastname"
+                    type="text"
                     label="Last Name"
                     value={this.state.lastname}
                     onChange={(e) => {
@@ -1051,6 +1126,7 @@ class GeneralDetails extends Component {
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
                     name="phone"
+                    disabled
                     label="Phone Number"
                     value={this.state.phone}
                     onChange={(e) => {
@@ -1092,6 +1168,7 @@ class GeneralDetails extends Component {
                 <div style={{ paddingLeft: "10px" }}>
                   <TextField
                     name="email"
+                    disabled
                     label="Email Address"
                     value={this.state.email}
                     onChange={(e) => {
@@ -1268,6 +1345,7 @@ class GeneralDetails extends Component {
               <Grid container spacing={2}>
                 <Grid item md={4}>
                   <TextField
+                    disabled
                     name="package"
                     label="Package Purchased"
                     value={this.state.package}
@@ -1277,16 +1355,20 @@ class GeneralDetails extends Component {
                 <Grid item md={4}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
+                      disabled
                       name="enrollmentdate"
                       margin="normal"
                       label="Enrollment Period"
                       format="dd-MM-yyyy"
                       value={this.state.enrollmentdate}
-                      onChange={(e, newValue) =>
+                      onChange={(newValue) =>
                         this.setState({ enrollmentdate: newValue })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
+                      }}
+                      InputLabelProps={{
+                        shrink: true,
                       }}
                     />
                   </MuiPickersUtilsProvider>
@@ -1294,6 +1376,7 @@ class GeneralDetails extends Component {
                 <Grid item md={4}></Grid>
                 <Grid item md={4}>
                   <TextField
+                    disabled
                     value={this.state.product}
                     onChange={(e) => this.handlechange(e)}
                     name="product"
@@ -1301,12 +1384,26 @@ class GeneralDetails extends Component {
                   />
                 </Grid>
                 <Grid item md={4}>
-                  <TextField
+                  <Autocomplete
+                    options={this.intakevalue}
+                    getOptionLabel={(option) => option.title}
+                    name="intake"
+                    value={this.state.intake}
+                    onChange={(e, newValue) => {
+                      this.setState({
+                        intake: newValue,
+                      });
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} name="intake" label="Intake" />
+                    )}
+                  />
+                  {/* <TextField
                     name="intake"
                     value={this.state.intake}
                     onChange={(e) => this.handlechange(e)}
                     label="Intake"
-                  />
+                  /> */}
                   {/* <TextField name="intake" disabled label="Intake" /> */}
                 </Grid>
               </Grid>

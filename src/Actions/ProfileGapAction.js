@@ -86,7 +86,7 @@ export const updatestatus=(studentId,productId,data,callback)=>{
             });
     }
 }
-export const updategeneraldetails=(studentId,productId,data,)=>{    
+export const updategeneraldetails=(studentId,productId,data,callback)=>{    
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
@@ -97,10 +97,12 @@ export const updategeneraldetails=(studentId,productId,data,)=>{
                 admin : "yes"
             }
         })
-            .then(result => {     
+            .then(result => {  
+                callback(result)   
                 dispatch({type:PROFILE_GAP_ANALYSIS.updategeneraldetails,payload:result.data})
             })
             .catch(error => {
+                callback(error)
                 console.log(error);
             });
     }
@@ -120,28 +122,6 @@ export const getPpgaCallNotes=(studentId,productId,callback)=>{
             .then(result => {     
                 callback(result)           
                 dispatch({type:PROFILE_GAP_ANALYSIS.getPpgaCallNotes,payload:result.data})
-            })
-            .catch(error => {
-                // callback(error.message)
-                console.log(error);
-            });
-    }
-}
-
-export const getTestResults=(studentId,productId,callback)=>{    
-    let accessToken = window.sessionStorage.getItem("accessToken")
-
-    return dispatch => {
-        axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/testscore",{
-            crossDomain: true,
-            headers : {
-                "Authorization" : `Bearer ${accessToken}`,
-                admin : "yes"
-            }
-        })
-            .then(result => {     
-                callback(result)           
-                dispatch({type:PROFILE_GAP_ANALYSIS.getTestResults,payload:result.data})
             })
             .catch(error => {
                 // callback(error.message)
@@ -185,6 +165,93 @@ export const updatePpgaCallNotes=(studentId,productId,data,)=>{
                 dispatch({type:PROFILE_GAP_ANALYSIS.updatePpgaCallNotes,payload:result.data})
             })
             .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+export const getTestResults=(studentId,productId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/testscore",{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.getTestResults,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error.message)
+                console.log(error);
+            });
+    }
+}
+
+export const getcvresult=(studentId,productId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/cvComments",{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.getcvresult,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
+                console.log(error);
+            });
+    }
+}
+export const deletecvresult=(id,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.delete(URL+"/api/v1/pga/cvComments/"+id,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.deletecvresult,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
+                console.log(error);
+            });
+    }
+}
+
+export const updatecvresult=(studentId,productId,data,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.put(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/cvComments",data,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.updatecvresult,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
                 console.log(error);
             });
     }
