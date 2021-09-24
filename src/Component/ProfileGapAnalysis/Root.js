@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, withStyles } from "@material-ui/core";
+import { Grid, Menu, MenuItem, withStyles } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -13,6 +13,8 @@ import CV from "./CV";
 import CvViewer from "./CvViewer";
 import InterestDetail from "./InterestDetail";
 import PpgaCallNotes from "./PpgaCallNotes";
+import { Button } from "bootstrap";
+import { ArrowDropDown } from "@material-ui/icons";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,6 +40,8 @@ class ProfileGapRoot extends Component {
     super();
     this.state = {
       value: 0,
+      open: false,
+      anchorEl: null,
     };
   }
 
@@ -49,6 +53,18 @@ class ProfileGapRoot extends Component {
     } else if (this.state.value === 4) {
       return <CvViewer {...this.props} />;
     }
+  };
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+  menuOpen = (event) => {
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
   };
 
   render() {
@@ -64,14 +80,7 @@ class ProfileGapRoot extends Component {
               borderRadius: "10px",
             }}
           >
-            <Paper
-              square
-              style={
-                {
-                  // margin: "10px"
-                }
-              }
-            >
+            <Paper square>
               <Tabs
                 value={this.state.value}
                 indicatorColor="none"
@@ -96,7 +105,8 @@ class ProfileGapRoot extends Component {
                 />
                 <Tab
                   label="Academic Details"
-                  style={{ textTransform: "none" }}
+                  style={{ textTransform: "none"}}
+                  onClick={(e) => this.menuOpen(e)}
                 />
               </Tabs>
             </Paper>
@@ -126,6 +136,18 @@ class ProfileGapRoot extends Component {
             {this.renderRightContainer()}
           </Grid>
         </Grid>
+        <Menu
+          anchorEl={this.state.anchorEl}
+          open={this.state.open}
+          onClose={this.handleClose}
+        >
+          <MenuItem onClick={this.handleClose}>10th</MenuItem>
+          <MenuItem onClick={this.handleClose}>12th</MenuItem>
+          <MenuItem onClick={this.handleClose}>Diploma</MenuItem>
+          <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
+          <MenuItem onClick={this.handleClose}>Postgraduate</MenuItem>
+          <MenuItem onClick={this.handleClose}>Academic Summary</MenuItem>
+        </Menu>
       </div>
     );
   }

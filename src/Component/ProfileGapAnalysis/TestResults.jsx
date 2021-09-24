@@ -9,7 +9,6 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { getTestResults } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
-import { replace } from "formik";
 
 class TestResults extends Component {
   constructor(props) {
@@ -40,7 +39,6 @@ class TestResults extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        console.log(response);
         this.setState({
           data: response.data,
         });
@@ -105,7 +103,6 @@ class TestResults extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     testResponse: state.ProfileGapAnalysisReducer.testResults,
   };
