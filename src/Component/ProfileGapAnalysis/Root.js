@@ -46,7 +46,9 @@ class ProfileGapRoot extends Component {
   }
 
   renderRightContainer = () => {
-    if (this.state.value === 3) {
+    if (this.state.value === 1) {
+      return <CvViewer {...this.props} />;
+    } else if (this.state.value === 3) {
       return <TestResultsGraph {...this.props} />;
     } else if (this.state.value === 4) {
       return <CvViewer {...this.props} />;
@@ -115,7 +117,7 @@ class ProfileGapRoot extends Component {
               <GeneralDetails {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
-              <InterestDetail />
+              <InterestDetail {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={3}>
               <TestResults {...this.props} />
