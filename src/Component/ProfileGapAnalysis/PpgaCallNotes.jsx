@@ -8,6 +8,8 @@ import {
 } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
 import MySnackBar from "../MySnackBar";
+import CommentDialog from './CommentDialog';
+import { getcommenthistory } from "../../Actions/ProfileGapAction";
 
 class PpgaCallNotes extends Component {
   constructor(props) {
@@ -19,6 +21,10 @@ class PpgaCallNotes extends Component {
       snackOpen: false,
       snackColor: "",
       snackMsg: "",
+      commentDialogOpen: false,
+      commentList: [],
+
+
     };
   }
 
@@ -45,6 +51,22 @@ class PpgaCallNotes extends Component {
         });
       }
     );
+    this.props.getcommenthistory(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+        this.setState({
+          commentList: response.data,
+        });
+      }
+    );
+  }
+
+  handleClick = () => {
+    this.setState({
+      commentDialogOpen: true,
+    });
   }
 
   handleSave = () => {
@@ -102,7 +124,7 @@ class PpgaCallNotes extends Component {
   };
 
   render() {
-    console.log(this.state);
+    console.log(this.props.getcommenthistoryList);
 
     return (
       <div>
@@ -176,9 +198,17 @@ class PpgaCallNotes extends Component {
               }}
             >
               <div>
-                <Typography className={"footer_text"}>
+                <Typography 
+                onClick={this.handleClick}
+                className={"footer_text"}>
                   PPGA Call - Verification/Change Details
                 </Typography>
+                <CommentDialog 
+        open={this.state.commentDialogOpen}
+        data={this.state.commentList}
+        onClose={()=>this.setState({commentDialogOpen : false})}
+        />
+                
               </div>
               <div className={"button_div"}>
                 <PrimaryButton
@@ -213,9 +243,12 @@ const mapStateToProps = (state) => {
   return {
     ppgaResponse: state.ProfileGapAnalysisReducer.ppgaCallNotes,
     updateResponse: state.ProfileGapAnalysisReducer.ppgaCall,
+    getcommenthistoryList: state.ProfileGapAnalysisReducer.getcommenthistory,
+
   };
 };
 export default connect(mapStateToProps, {
   getPpgaCallNotes,
   updatePpgaCallNotes,
+  getcommenthistory
 })(PpgaCallNotes);
