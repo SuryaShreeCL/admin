@@ -98,6 +98,7 @@ export class Student extends Component {
       lmsAccess: false,
       prevEmail: null,
       product: [],
+      oldStudentId: null,
       search: {
         page: 0,
         size: "",
@@ -450,32 +451,30 @@ export class Student extends Component {
             snackColor: "success",
             snackOpen: true,
             dialogOpen: false,
+            firstName: null,
+            lastName: null,
+            eMail: null,
+            phone: null,
+            college: null,
+            department: null,
+            isActive: true,
+            toogleButton: false,
+            provider: "",
+            internAccess: false,
+            studentId: null,
+            selectedProduct: [],
           });
         } else {
           this.setState({
-            isLoading: false,
-            snackMessage: response,
+            snackMessage: response.message,
             snackColor: "error",
             snackOpen: true,
-            dialogOpen: false,
           });
         }
       });
 
       this.setState({
-        firstName: null,
         isLoading: false,
-        lastName: null,
-        eMail: null,
-        phone: null,
-        college: null,
-        department: null,
-        isActive: true,
-        toogleButton: false,
-        provider: "",
-        internAccess: false,
-        studentId: null,
-        selectedProduct: [],
       });
     } else {
       this.setState({ isLoading: false });
@@ -950,6 +949,7 @@ export class Student extends Component {
                   provider: rowdata.provider,
                   toogleButton: rowdata.provider === "Google" ? true : false,
                   studentId: rowdata.studentID,
+                  oldStudentId: rowdata.studentID,
                   dialogOpen: true,
                 });
               }}
@@ -998,6 +998,7 @@ export class Student extends Component {
                   variant="outlined"
                   size="small"
                   fullWidth
+                  error={this.state.firstNameHelperText.length !== 0}
                   helperText={this.state.firstNameHelperText}
                   onKeyPress={(evt) => {
                     if (isAlpha(evt)) evt.preventDefault();
@@ -1129,6 +1130,7 @@ export class Student extends Component {
                   helperText={this.state.studentIdHelperText}
                   value={this.state.studentId || null}
                   onChange={(e) => this.setState({ studentId: e.target.value })}
+                  disabled={this.state.oldStudentId}
                   fullWidth
                   label="Student ID"
                 />

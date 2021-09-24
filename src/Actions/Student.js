@@ -365,12 +365,13 @@ export const mernStudentSignUp = (data, callback) => {
           signUpResponse: result.data,
         });
         callback(result.data);
+        console.log(result.data);
       })
       .catch((error) => {
         console.log(error);
-        // console.log(error.response.data);
+        // console.log({ auth: false, message: error.response.data });
         // dispatch({type:STUDENT.catchSignUpError,signUpError:error.response.data})
-        // callback(error);
+        callback({ auth: false, message: error.response.data });
       });
   };
 };
