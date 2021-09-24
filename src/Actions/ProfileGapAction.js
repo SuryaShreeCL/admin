@@ -151,3 +151,68 @@ export const getTestResults=(studentId,productId,callback)=>{
             });
     }
 }
+
+export const getcvresult=(studentId,productId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/cvComments",{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.getcvresult,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
+                console.log(error);
+            });
+    }
+}
+export const deletecvresult=(id,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.delete(URL+"/api/v1/pga/cvComments/"+id,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.deletecvresult,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
+                console.log(error);
+            });
+    }
+}
+
+export const updatecvresult=(studentId,productId,data,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.put(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/cvComments",data,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.updatecvresult,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
+                console.log(error);
+            });
+    }
+}

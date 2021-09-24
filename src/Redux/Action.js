@@ -24,7 +24,10 @@ export const PROFILE_GAP_ANALYSIS = {
   updatestatus:"updatestatus",
   getTestResults : "getTestResults",
   getPpgaCallNotes: "getPpgaCallNotes",
-  updatePpgaCallNotes : "updatePpgaCallNotes"
+  updatePpgaCallNotes : "updatePpgaCallNotes",
+  getcvresult:"getcvresult",
+  deletecvresult : "deletecvresult",
+  updatecvresult : "updatecvresult"
 }
 
 export const COLLEGES = {

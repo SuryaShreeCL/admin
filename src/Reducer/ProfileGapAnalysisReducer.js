@@ -7,7 +7,10 @@ const initialState = {
   updatestatus: [],
   updategeneraldetails: [],
   ppgaCallNotes : [],
-  testResults : []
+  testResults : [],
+  getcvresult:[],
+  deletecvresult:[],
+  updatecvresult:[],
 };
 
 export default (state = initialState, action) => {
@@ -46,7 +49,22 @@ export default (state = initialState, action) => {
         return{
             ...state,
             testResults:action.payload,
-        };   
+        }; 
+        case PROFILE_GAP_ANALYSIS.getcvresult :
+        return{
+            ...state,
+            getcvresult:action.payload,
+        }; 
+        case PROFILE_GAP_ANALYSIS.deletecvresult :
+          return{
+              ...state,
+              deletecvresult:action.payload,
+          }; 
+          case PROFILE_GAP_ANALYSIS.updatecvresult :
+            return{
+                ...state,
+                updatecvresult:action.payload,
+            }; 
     default:
       return state;
   }
