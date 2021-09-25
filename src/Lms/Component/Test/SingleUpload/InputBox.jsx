@@ -31,6 +31,7 @@ function InputBox(props) {
                 <img src={ImageIcon} alt='Image icon' />
                 <input
                   hidden
+                  accept='image/x-png,image/gif,image/jpeg'
                   type='file'
                   onChange={e => handleImageUpload(e, index)}
                 />

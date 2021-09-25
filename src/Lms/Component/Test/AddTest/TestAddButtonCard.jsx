@@ -26,8 +26,8 @@ class TestAddButtonCard extends Component {
           {questions.map((question, index) => {
             return (
               <Question id={question.id}>
-                <div style={{ flex: 1 }}>
-                  {index + 1}.{' '}
+                <div className='flex-filler'>
+                  {index + 1}. &nbsp;&nbsp;
                   <span
                     dangerouslySetInnerHTML={{ __html: question.question }}
                   />
