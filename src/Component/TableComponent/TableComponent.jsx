@@ -1,25 +1,25 @@
-import { createMuiTheme, IconButton, ThemeProvider } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import Pagination from '@material-ui/lab/Pagination';
-import React, { Component } from 'react';
-import Spinner from './Utils/Spinner';
+import { createMuiTheme, IconButton, ThemeProvider } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
+import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import Pagination from "@material-ui/lab/Pagination";
+import React, { Component } from "react";
+import Spinner from "./Utils/Spinner";
 export default class TableComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       rowCount: 20,
       pageCount: 0,
-      searchKeyword: '',
+      searchKeyword: "",
       tableColumn: null,
       tableData: null,
       eventTrigger: false,
@@ -58,11 +58,11 @@ export default class TableComponent extends Component {
   }
 
   hasAccess = () => {
-    var role = window.sessionStorage.getItem('role');
+    var role = window.sessionStorage.getItem("role");
     if (
-      role === 'SUPER ADMIN' ||
-      role === 'LMSCHECKER' ||
-      role === 'LMSEDITOR'
+      role === "SUPER ADMIN" ||
+      role === "LMSCHECKER" ||
+      role === "LMSEDITOR"
     ) {
       return false;
     } else {
@@ -75,13 +75,13 @@ export default class TableComponent extends Component {
       overrides: {
         MuiSvgIcon: {
           root: {
-            color: 'black',
+            color: "black",
           },
         },
       },
       palette: {
         primary: {
-          main: '#009be5',
+          main: "#009be5",
         },
       },
     });
@@ -90,7 +90,7 @@ export default class TableComponent extends Component {
     const { body } = table;
     return (
       <>
-        {this.state.tableColumn.map(col => {
+        {this.state.tableColumn.map((col) => {
           return (
             <>
               <th style={body.th}>{col.title}</th>
@@ -109,20 +109,20 @@ export default class TableComponent extends Component {
     );
   };
 
-  renderAction = data => {
+  renderAction = (data) => {
     const { body } = table;
     return (
       <>
         {this.props.onEdit ? (
           <td style={body.td}>
             <Button
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               disabled={this.hasAccess()}
-              name='action'
-              onClick={e => {
+              name="action"
+              onClick={(e) => {
                 e.stopPropagation();
-                if (typeof this.props.onEditClick === 'function') {
+                if (typeof this.props.onEditClick === "function") {
                   this.props.onEditClick(data);
                 }
               }}
@@ -135,12 +135,12 @@ export default class TableComponent extends Component {
         {this.props.onDelete ? (
           <td style={body.td}>
             <Button
-              variant='contained'
+              variant="contained"
               disabled={this.hasAccess()}
-              color='secondary'
-              onClick={e => {
+              color="secondary"
+              onClick={(e) => {
                 e.stopPropagation();
-                if (typeof this.props.onDeleteClick === 'function') {
+                if (typeof this.props.onDeleteClick === "function") {
                   this.props.onDeleteClick(data);
                 }
               }}
@@ -160,22 +160,25 @@ export default class TableComponent extends Component {
       return (
         <tr
           key={index}
-          onClick={e => {
+          onClick={(e) => {
             if (this.props.onRowClick !== undefined) this.props.onRowClick(row);
           }}
           style={body.tr}
         >
-          {this.tableColumn.map(col => {
-            var split = '';
-            if (col.fieldName.indexOf('.') !== -1) {
-              var split = col.fieldName.split('.', 1);
+          {this.tableColumn.map((col) => {
+            var split = "";
+            if (col.fieldName.indexOf(".") !== -1) {
+              var split = col.fieldName.split(".", 1);
             }
             return (
               <td style={body.td}>
-                {split === ''
-                  ? eval('row' + '.' + col.fieldName.toString())
-                  : eval('row' + '.' + split[0]) !== null
-                  ? eval('row' + '.' + col.fieldName.toString())
+                {split === ""
+                  ? col.fieldName.toString() === "fullName" &&
+                    row.fullName === null
+                    ? `${row.firstName} ${row.lastName}`
+                    : eval("row" + "." + col.fieldName.toString())
+                  : eval("row" + "." + split[0]) !== null
+                  ? eval("row" + "." + col.fieldName.toString())
                   : null}
               </td>
             );
@@ -191,12 +194,12 @@ export default class TableComponent extends Component {
       <Pagination
         count={
           this.props.pageCount === undefined ||
-          this.props.pageCount === '' ||
+          this.props.pageCount === "" ||
           this.props.pageCount === null
             ? parseInt(this.props.totalCount / this.state.rowCount)
             : this.props.pageCount
         }
-        color={'primary'}
+        color={"primary"}
         // onChange={(e,page)=>this.setState({pageNumberCount:page})}
         onChange={(e, page) => this.setState({ pageCount: page - 1 })}
         showFirstButton
@@ -220,10 +223,10 @@ export default class TableComponent extends Component {
           <label style={footer.perPageLabel}>Rows per page:</label>
           <FormControl>
             <Select
-              labelId='demo-simple-select-autowidth-label'
-              id='demo-simple-select-autowidth'
+              labelId="demo-simple-select-autowidth-label"
+              id="demo-simple-select-autowidth"
               value={this.state.rowCount}
-              onChange={e => this.setState({ rowCount: e.target.value })}
+              onChange={(e) => this.setState({ rowCount: e.target.value })}
               autoWidth
             >
               <MenuItem value={5}>5</MenuItem>
@@ -244,7 +247,7 @@ export default class TableComponent extends Component {
         {/* paper Container */}
         <Paper
           elevation={3}
-          style={{ overflowY: 'hidden', position: 'relative' }}
+          style={{ overflowY: "hidden", position: "relative" }}
         >
           {/* Table Header */}
           <Grid container>
@@ -254,13 +257,13 @@ export default class TableComponent extends Component {
               </div>
               <div>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   onKeyUp={this.props.onKeyUp}
-                  color='primary'
-                  label='search'
+                  color="primary"
+                  label="search"
                   value={this.state.searchKeyword}
-                  onChange={e =>
+                  onChange={(e) =>
                     this.setState({ searchKeyword: e.target.value })
                   }
                   // onKeyUp={
@@ -274,11 +277,11 @@ export default class TableComponent extends Component {
                 />
                 {this.props.needSearch && (
                   <IconButton
-                    style={{ marginLeft: '8px' }}
+                    style={{ marginLeft: "8px" }}
                     onClick={this.props.onSearchClick}
-                    color='primary'
-                    id={'search'}
-                    aria-label='search'
+                    color="primary"
+                    id={"search"}
+                    aria-label="search"
                   >
                     <SearchRoundedIcon />
                   </IconButton>
@@ -287,11 +290,11 @@ export default class TableComponent extends Component {
               {this.props.add ? (
                 <div style={header.search.button}>
                   <Button
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     disabled={this.hasAccess()}
-                    onClick={e =>
-                      typeof this.props.onAddClick === 'function'
+                    onClick={(e) =>
+                      typeof this.props.onAddClick === "function"
                         ? this.props.onAddClick(e)
                         : null
                     }
@@ -305,7 +308,7 @@ export default class TableComponent extends Component {
 
             {/* Table Body */}
             <Grid item md={12} style={body.container}>
-              <table border='1px solid' style={body.table} cellPadding='10px'>
+              <table border="1px solid" style={body.table} cellPadding="10px">
                 {this.state.tableData !== null ? (
                   <>
                     <thead style={body.thead}>
@@ -330,14 +333,14 @@ export default class TableComponent extends Component {
                     <div style={footer.totalCount}>
                       <label style={footer.totalCountLabel}>
                         Total No of record
-                      </label>{' '}
+                      </label>{" "}
                       : {this.props.totalCount}
                     </div>
                     {this.renderRowPerPage()}
                     <div>{this.renderPageNavigator()}</div>
                   </>
                 ) : (
-                  ''
+                  ""
                 )}
               </ThemeProvider>
             </Grid>
@@ -351,8 +354,8 @@ export default class TableComponent extends Component {
 const table = {
   header: {
     container: {
-      display: 'flex',
-      alignItems: 'center',
+      display: "flex",
+      alignItems: "center",
       padding: 10,
     },
     title: {
@@ -368,21 +371,21 @@ const table = {
   },
   footer: {
     container: {
-      display: 'flex',
+      display: "flex",
       padding: 10,
     },
     totalCount: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: '0px 10px',
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: "0px 10px",
     },
     totalCountLabel: {
-      margin: '0px',
+      margin: "0px",
     },
     perPage: {
-      display: 'flex',
-      alignItems: 'flex-end',
+      display: "flex",
+      alignItems: "flex-end",
       paddingRight: 10,
     },
     perPageLabel: {
@@ -398,25 +401,25 @@ const table = {
     },
     table: {
       minWidth: 300,
-      maxWidth: '100%',
-      border: 'none',
+      maxWidth: "100%",
+      border: "none",
     },
     thead: {
-      border: 'none',
+      border: "none",
     },
     th: {
-      textAlign: 'center',
-      border: 'none',
-      borderBottom: '1px solid rgba(224, 224, 224, 1',
+      textAlign: "center",
+      border: "none",
+      borderBottom: "1px solid rgba(224, 224, 224, 1",
       fontSize: 16,
     },
     tr: {
-      cursor: 'pointer',
+      cursor: "pointer",
     },
     td: {
-      border: 'none',
-      borderBottom: '1px solid rgba(224, 224, 224, 1',
-      padding: '20px',
+      border: "none",
+      borderBottom: "1px solid rgba(224, 224, 224, 1",
+      padding: "20px",
     },
   },
 };

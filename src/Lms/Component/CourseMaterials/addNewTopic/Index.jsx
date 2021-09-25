@@ -82,30 +82,32 @@ class Index extends Component {
       ignoreQueryPrefix: true,
     });
     var newtopicId = topic_id;
-    this.props.getCourses((response) => {
-      if (response.success) {
-        this.props.getSubjects(response.data[0].id, (subjectResponse) => {
-          if (subjectResponse.success) {
-            this.props.getConcepts(
-              subjectResponse.data[0].id,
-              (conceptResponse) => {
-                if (conceptResponse.success) {
-                  if (
-                    newtopicId !== undefined &&
-                    newtopicId !== null &&
-                    newtopicId.trim().length > 10
-                  ) {
-                    this.props.getTopicDetails(
-                      newtopicId,
-                      (newtopicResponse) => {
-                        if (newtopicResponse.success) {
-                          const { data } = this.props.topicsDetails;
-                          this.props.getSubjects(data.course.id, {});
-                          this.props.getConcepts(data.subject.id, {});
-                        }
-                      }
-                    );
-                  } else {
+    if (
+      newtopicId !== undefined &&
+      newtopicId !== null &&
+      newtopicId.trim().length > 10
+    ) {
+      this.props.getTopicDetails(newtopicId, (newtopicResponse) => {
+        if (newtopicResponse.success) {
+          const { data } = this.props.topicsDetails;
+          this.props.getCourses(() => {});
+          this.props.getSubjects(data.course.id, (res) => {
+            this.setState({ subjectValue: data.subject.id });
+          });
+          this.props.getConcepts(data.subject.id, (res) => {
+            this.setState({ conceptValue: data.concept.id });
+          });
+        }
+      });
+    } else {
+      this.props.getCourses((response) => {
+        if (response.success) {
+          this.props.getSubjects(response.data[0].id, (subjectResponse) => {
+            if (subjectResponse.success) {
+              this.props.getConcepts(
+                subjectResponse.data[0].id,
+                (conceptResponse) => {
+                  if (conceptResponse.success) {
                     this.setState({
                       courseValue: response.data[0].id,
                       subjectValue: subjectResponse.data[0].id,
@@ -113,12 +115,12 @@ class Index extends Component {
                     });
                   }
                 }
-              }
-            );
-          }
-        });
-      }
-    });
+              );
+            }
+          });
+        }
+      });
+    }
     const { snackOpen } = this.state;
     if (snackOpen === true) {
       this.setState({ snackOpen: false });

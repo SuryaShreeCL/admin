@@ -211,7 +211,7 @@ export class Student extends Component {
       console.log(this.props.editStudentResponse);
       this.props.getStudentPaginate(0, 20);
     }
-    // TO search users when the input feild for search is empty
+    // TO search users when the input field for search is empty
     if (this.state.search.keyword !== prevState.search.keyword) {
       if (isEmptyString(this.state.search.keyword)) {
         this.props.getStudentPaginate(0, 20);
@@ -298,7 +298,7 @@ export class Student extends Component {
   };
 
   lmsProductSetState = (lmsProduct) => {
-    var errorMessage = "Please fill the required feild";
+    var errorMessage = "Please fill the required field";
     lmsProduct.map((item, index) => {
       let arr = lmsProduct;
       !this.isTime(item.expirationDate)
@@ -326,37 +326,37 @@ export class Student extends Component {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({
-          firstNameHelperText: "Please fill the required feild",
+          firstNameHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
       ? this.setState({
-          lastNameHelperText: "Please fill the required feild",
+          lastNameHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({
-          emailHelperText: "Please fill the required feild",
+          emailHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ emailHelperText: "" });
     this.state.college === null || this.state.college.length === 0
       ? this.setState({
-          collegeHelperText: "Please fill the required feild",
+          collegeHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ collegeHelperText: "" });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
-          departmentHelperText: "Please fill the required feild",
+          departmentHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
       ? this.setState({
-          studentIdHelperText: "Please fill the required feild",
+          studentIdHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ studentIdHelperText: "" });
@@ -370,7 +370,7 @@ export class Student extends Component {
     }
     if (isEmptyString(this.state.phone)) {
       this.setState({
-        phoneHelperText: "Please fill the required feild",
+        phoneHelperText: "Please fill the required field",
         isLoading: false,
       });
     } else if (this.state.phone.length !== 10) {
@@ -484,43 +484,43 @@ export class Student extends Component {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({
-          firstNameHelperText: "Please fill the required feild",
+          firstNameHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
       ? this.setState({
-          lastNameHelperText: "Please fill the required feild",
+          lastNameHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({
-          emailHelperText: "Please fill the required feild",
+          emailHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ emailHelperText: "" });
     this.state.phone === null || this.state.phone.length === 0
       ? this.setState({
-          phoneHelperText: "Please fill the required feild",
+          phoneHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ phoneHelperText: "" });
     this.state.college === null || this.state.college.length === 0
       ? this.setState({
-          collegeHelperText: "Please fill the required feild",
+          collegeHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ collegeHelperText: "" });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
-          departmentHelperText: "Please fill the required feild",
+          departmentHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
       ? this.setState({
-          studentIdHelperText: "Please fill the required feild",
+          studentIdHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ studentIdHelperText: "" });
@@ -597,22 +597,22 @@ export class Student extends Component {
           snackColor: "success",
           snackOpen: true,
           dialogOpen: false,
+          firstName: null,
+          lastName: null,
+          eMail: null,
+          phone: null,
+          college: null,
+          department: null,
+          isActive: true,
+          toogleButton: false,
+          internshipAccess: false,
+          provider: "",
+          studentId: null,
+          lmsAccess: false,
         });
       });
       this.setState({
-        firstName: null,
-        lastName: null,
-        eMail: null,
-        phone: null,
-        college: null,
-        department: null,
-        isActive: true,
-        toogleButton: false,
-        internshipAccess: false,
-        provider: "",
-        studentId: null,
         isLoading: false,
-        lmsAccess: false,
       });
     }
   };
@@ -806,6 +806,38 @@ export class Student extends Component {
       this.state.search.keyword
     );
   };
+
+  handleDialogClose = () => {
+    this.setState({
+      dialogOpen: false,
+      firstNameHelperText: "",
+      lastNameHelperText: "",
+      emailHelperText: "",
+      collegeHelperText: "",
+      departmentHelperText: "",
+      phoneHelperText: "",
+      studentIdHelperText: "",
+    });
+    this.hasLmsAccess() &&
+      this.setState({
+        internAccess: false,
+        toogleButton: false,
+        internshipAccess: false,
+        provider: "",
+        isActive: true,
+        studentId: null,
+        isLoading: false,
+        lmsAccess: false,
+        firstName: null,
+        lastName: null,
+        eMail: null,
+        userName: null,
+        college: null,
+        department: null,
+        phone: null,
+        product: [],
+      });
+  };
   render() {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
@@ -984,7 +1016,7 @@ export class Student extends Component {
         </div>
         <Dialog
           open={this.state.dialogOpen}
-          onClose={(e) => this.setState({ dialogOpen: false, product: [] })}
+          onClose={this.handleDialogClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -1107,6 +1139,7 @@ export class Student extends Component {
                 <TextField
                   variant="outlined"
                   size="small"
+                  error={this.state.phoneHelperText.length !== 0}
                   helperText={this.state.phoneHelperText}
                   onKeyPress={(evt) => {
                     if (isNumber(evt)) evt.preventDefault();

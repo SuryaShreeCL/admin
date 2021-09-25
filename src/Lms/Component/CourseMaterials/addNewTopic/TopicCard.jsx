@@ -36,6 +36,8 @@ export class TopicCard extends Component {
       topicValid,
       topicNameValidate,
     } = this.props.data;
+    console.log(subjects, concepts, courses);
+    console.log(courseId, subjectId, conceptId);
     return (
       <InputCard>
         <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
@@ -46,7 +48,7 @@ export class TopicCard extends Component {
               items={courses}
               value={courseId}
               onhandleChange={handleChange}
-              disabled={topicId}
+              disabled={Boolean(topicId)}
             />
           </Grid>
         </Grid>
@@ -64,7 +66,7 @@ export class TopicCard extends Component {
               items={subjects}
               value={subjectId}
               onhandleChange={handleChange}
-              disabled={topicId}
+              disabled={Boolean(topicId)}
             />
           </Grid>
           <Grid item xs={12} md={4}>
@@ -74,7 +76,7 @@ export class TopicCard extends Component {
               items={concepts}
               value={conceptId}
               onhandleChange={handleChange}
-              disabled={topicId}
+              disabled={Boolean(topicId)}
             />
           </Grid>
           <Grid item xs={12} md={4}>
