@@ -375,6 +375,7 @@ class GeneralDetails extends Component {
                       {...params}
                       name="pgdegree"
                       label="Post Graduate Degree"
+                      InputLabelProps={{ shrink: true }}
                     />
                   )}
                 />
@@ -420,6 +421,7 @@ class GeneralDetails extends Component {
                       {...params}
                       name="pgcollege"
                       label="Post Graduate College"
+                      InputLabelProps={{ shrink: true }}
                     />
                   )}
                 />
@@ -466,6 +468,8 @@ class GeneralDetails extends Component {
                       {...params}
                       name="pguniversity"
                       label="Post Graduate University"
+                      InputLabelProps={{ shrink: true }}
+
                     />
                   )}
                 />
@@ -506,6 +510,7 @@ class GeneralDetails extends Component {
                     this.commentshistory("workexp", e.target.value);
                     this.handlechange(e);
                   }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
             </div>
@@ -548,6 +553,7 @@ class GeneralDetails extends Component {
                   this.commentshistory("currentSem", e.target.value);
                   this.handlechange(e);
                 }}
+                InputLabelProps={{ shrink: true }}
               />
             </div>
           </div>
@@ -653,6 +659,7 @@ class GeneralDetails extends Component {
                   {...params}
                   name="prefschool"
                   label="Preferred Grad School"
+                  InputLabelProps={{ shrink: true }}
                 />
               )}
               onChange={(e, newValue) =>
@@ -673,7 +680,7 @@ class GeneralDetails extends Component {
               value={this.state.degree}
               onChange={(e, newValue) => this.setState({ degree: newValue })}
               renderInput={(params) => (
-                <TextField {...params} name="degree" label="Degree Type" />
+                <TextField {...params} name="degree" label="Degree Type" InputLabelProps={{ shrink: true }} />
               )}
             />
           </Grid>
@@ -691,6 +698,7 @@ class GeneralDetails extends Component {
                   {...params}
                   name="fieldofstudy"
                   label="Field Of Study"
+                  InputLabelProps={{ shrink: true }}
                 />
               )}
             />
@@ -825,6 +833,16 @@ class GeneralDetails extends Component {
           this.props.match.params.productId,
           obj,((response)=>{
             if(response.status === 200){
+              this.props.getcommenthistory(
+                this.props.match.params.studentId,
+                this.props.match.params.productId,
+                (response) => {
+                  console.log(response);
+                  this.setState({
+                    commentlist: response.data,
+                  });
+                }
+              );
               this.setState({
                 snackMsg: "Updated Successfully",
                 snackOpen: true,
@@ -998,6 +1016,7 @@ class GeneralDetails extends Component {
                     name="clsid"
                     label="CLS ID"
                     value={this.state.clsid}
+                    InputLabelProps={{ shrink: true }}
                     onChange={(e) => {
                       this.commentshistory("clsId", e.target.value);
                       this.handlechange(e);
@@ -1035,6 +1054,7 @@ class GeneralDetails extends Component {
                   <TextField
                     name="firstname"
                     type="text"
+                    InputLabelProps={{ shrink: true }}
                     label="First Name"
                     value={this.state.firstname}
                     onChange={(e) => {
@@ -1076,6 +1096,7 @@ class GeneralDetails extends Component {
                     type="text"
                     label="Last Name"
                     value={this.state.lastname}
+                    InputLabelProps={{ shrink: true }}
                     onChange={(e) => {
                       this.commentshistory("lastName", e.target.value);
                       this.handlechange(e);
@@ -1113,6 +1134,7 @@ class GeneralDetails extends Component {
                   <TextField
                     name="phone"
                     disabled
+                    InputLabelProps={{ shrink: true }}
                     label="Phone Number"
                     value={this.state.phone}
                     onChange={(e) => {
@@ -1156,6 +1178,7 @@ class GeneralDetails extends Component {
                     name="email"
                     disabled
                     label="Email Address"
+                    InputLabelProps={{ shrink: true }}
                     value={this.state.email}
                     onChange={(e) => {
                       this.commentshistory("emailId", e.target.value);
@@ -1206,6 +1229,7 @@ class GeneralDetails extends Component {
                         {...params}
                         name="degree"
                         label="Degree Type"
+                        InputLabelProps={{ shrink: true }}
                       />
                     )}
                   />
@@ -1251,6 +1275,7 @@ class GeneralDetails extends Component {
                         {...params}
                         name="fieldofstudy"
                         label="Field Of Study"
+                        InputLabelProps={{ shrink: true }}
                       />
                     )}
                   />
@@ -1296,6 +1321,7 @@ class GeneralDetails extends Component {
                         {...params}
                         name="college"
                         label="College Name"
+                        InputLabelProps={{ shrink: true }}
                       />
                     )}
                   />

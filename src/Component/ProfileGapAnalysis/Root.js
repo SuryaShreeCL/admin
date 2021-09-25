@@ -15,6 +15,7 @@ import InterestDetail from "./InterestDetail";
 import PpgaCallNotes from "./PpgaCallNotes";
 import { Button } from "bootstrap";
 import { ArrowDropDown } from "@material-ui/icons";
+import Dashboard from "./Dashboard";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -111,7 +112,7 @@ class ProfileGapRoot extends Component {
               </Tabs>
             </Paper>
             <TabPanel value={this.state.value} index={0}>
-              Item one
+              <Dashboard {...this.props}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={1}>
               <GeneralDetails {...this.props} />
