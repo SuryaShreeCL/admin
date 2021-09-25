@@ -8,7 +8,6 @@ const initialState = {
   updategeneraldetails: [],
   ppgaCallNotes : [],
   ppgaCall : [],
-  ppgaNotes : [],
   testResults : [],
   testResults : [],
   getcvresult:[],
@@ -59,11 +58,7 @@ export default (state = initialState, action) => {
               ...state,
               ppgaCall:action.payload,
           }; 
-          case PROFILE_GAP_ANALYSIS.savePpgaNotes :
-            return{
-                ...state,
-                ppgaNotes:action.payload,
-            };     
+          
         
         case PROFILE_GAP_ANALYSIS.getcvresult :
         return{

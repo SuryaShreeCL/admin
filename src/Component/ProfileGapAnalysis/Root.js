@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Menu, MenuItem, withStyles } from "@material-ui/core";
+import { Grid, Menu, MenuItem, withStyles, createTheme, ThemeProvider } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -16,6 +16,7 @@ import PpgaCallNotes from "./PpgaCallNotes";
 import { Button } from "bootstrap";
 import { ArrowDropDown } from "@material-ui/icons";
 import Dashboard from "./Dashboard";
+import TenthForm from "./TenthForm";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,11 +49,11 @@ class ProfileGapRoot extends Component {
 
   renderRightContainer = () => {
     if (this.state.value === 1) {
-      return <CvViewer {...this.props} />;
+      return <CvViewer doctype={"cv"} {...this.props} />;
     } else if (this.state.value === 3) {
       return <TestResultsGraph {...this.props} />;
     } else if (this.state.value === 4) {
-      return <CvViewer {...this.props} />;
+      return <CvViewer doctype={"cv"} {...this.props} />;
     }
   };
 
@@ -65,8 +66,22 @@ class ProfileGapRoot extends Component {
     this.setState({
       open: true,
       anchorEl: event.currentTarget,
+      value : 6
     });
   };
+
+  tabTheme = createTheme({
+    overrides : {
+    
+      MuiTab : {
+        wrapper : {
+          display : "flex",
+          flexDirection : "row-reverse",
+          gridGap : "5px"
+        },
+      }
+    }
+  })
 
   render() {
     return (
@@ -104,11 +119,15 @@ class ProfileGapRoot extends Component {
                   label="PPGA Call Notes"
                   style={{ textTransform: "none" }}
                 />
+                <ThemeProvider theme={this.tabTheme}>
                 <Tab
                   label="Academic Details"
+                  icon={<ArrowDropDown />}
                   style={{ textTransform: "none"}}
                   onClick={(e) => this.menuOpen(e)}
                 />
+                </ThemeProvider>
+               
               </Tabs>
             </Paper>
             <TabPanel value={this.state.value} index={0}>
@@ -130,7 +149,7 @@ class ProfileGapRoot extends Component {
               <PpgaCallNotes {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={6}>
-              Item Six
+              <TenthForm {...this.props} />
             </TabPanel>
           </Grid>
           <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
@@ -142,7 +161,7 @@ class ProfileGapRoot extends Component {
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>10th</MenuItem>
+          <MenuItem onClick={()=>this.setState({value : 6, open : false})}>10th</MenuItem>
           <MenuItem onClick={this.handleClose}>12th</MenuItem>
           <MenuItem onClick={this.handleClose}>Diploma</MenuItem>
           <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
