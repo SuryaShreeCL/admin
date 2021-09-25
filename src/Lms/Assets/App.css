@@ -198,3 +198,8 @@
   height: 48px;
   /* flex-grow: 1; */
 }
+
+.flex-filler {
+  display: flex;
+  flex-grow: 1;
+}
