@@ -272,14 +272,23 @@ export class Index extends Component {
   handleImageUpload = (e, index) => {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
-    this.props.putImage(formData, response => {
-      if (response.success) {
-        let arr = this.state.bucketArray;
-        arr[this.state.activeTab].choices[index].image = response.data;
-        arr[this.state.activeTab].choices[index].text = null;
-        this.setState({ bucketArray: arr });
-      }
-    });
+    console.log(e.target.files[0].name);
+    if (e.target.files[0].name.match(/.(png|svg|jpeg|jpg)$/i)) {
+      this.props.putImage(formData, response => {
+        if (response.success) {
+          let arr = this.state.bucketArray;
+          arr[this.state.activeTab].choices[index].image = response.data;
+          arr[this.state.activeTab].choices[index].text = null;
+          this.setState({ bucketArray: arr });
+        }
+      });
+    } else
+      this.setState({
+        alert: {
+          severity: 'error',
+          msg: 'Please select a valid image (.jpeg | .png | .jpg | .svg )',
+        },
+      });
   };
 
   handleThreeDotClick = e => {
@@ -365,8 +374,6 @@ export class Index extends Component {
       this.choiceEmptyCheck() ||
       text === null ||
       text.length === 0 ||
-      url === null ||
-      url.length === 0 ||
       this.choicesSelectEmptyCheck()
     ) {
       this.setState({
@@ -397,6 +404,8 @@ export class Index extends Component {
         explanation: this.state.text,
         explanationVideo: this.state.url,
       };
+
+      // console.log(obj);
 
       this.props.postQuestions(testQuestionSetId, obj, response => {
         if (response.success) {
@@ -486,16 +495,27 @@ export class Index extends Component {
     let choices = [];
 
     if (this.getType() === 'BUNDLE') {
+      let value = 0;
+
       for (let i = 0; i < arr.length; i++) {
         // console.log(i);
         for (let j = 0; j < arr[i].choices.length; j++) {
+          // console.log(arr[i].choices[j].selected);
           if (arr[i].choices[j].selected) {
             // console.log(arr[i].choices[j].text);
-            break;
-          } else return true;
+            // break;
+            value++;
+          }
+          // else {
+          //   console.log('hey you dont want to see me');
+          //   return true;
+          // }
         }
       }
-      return false;
+
+      return !(arr.length === value);
+
+      // return false;
     } else
       for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[i].choices.length; j++) {
