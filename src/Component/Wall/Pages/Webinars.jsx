@@ -1,85 +1,85 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
-import BackHandler from '../Components/BackHandler';
-import Preview from '../Components/Preview';
-import Switch from '@material-ui/core/Switch';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { DateTimePicker } from '@material-ui/pickers';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import EventIcon from '@material-ui/icons/Event';
-import MomentUtils from '@date-io/moment';
-import { Formik, Form } from 'formik';
+import {
+  Paper,
+  makeStyles,
+  TableBody,
+  TableRow,
+  TableCell,
+  Toolbar,
+  InputAdornment,
+  IconButton,
+} from '@material-ui/core';
+import useTable from '../../Utils/useTable';
 import Controls from '../../Utils/controls/Controls';
-import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-import * as yup from 'yup';
-import { Grid } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
+import { Search } from '@material-ui/icons';
+import AddIcon from '@material-ui/icons/Add';
+import Drawer from '@material-ui/core/Drawer';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
-import { useHistory, useLocation } from 'react-router-dom';
-import { wallPath } from '../../RoutePaths';
+import { useHistory } from 'react-router-dom';
+import { editPath, createPath } from '../../RoutePaths';
+import moment from 'moment';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import Loader from '../../Utils/controls/Loader';
+import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import { useSelector, useDispatch } from 'react-redux';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import Preview from '../Components/Preview';
+import { DrawerContainer } from '../Assets/Styles/WallStyles';
+import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
+import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
+import { renderListCategory } from '../../Utils/Helpers';
 
-const useStyles = makeStyles({
-  root: {
-    '& .MuiSelect-root': {
-      border: '1px solid rgba(0, 0, 0, 0.12)',
-      borderRadius: '4px',
-      padding: '1rem',
-    },
-  },
-  captionStyle: {
-    width: '80%',
-    marginTop: 20,
-    marginBottom: 15,
-  },
-  spacer: {
-    width: '80%',
-    marginTop: '10px',
-  },
-});
+const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
-const CreatePost = () => {
+const useStyles = makeStyles((theme) => ({
+  pageContent: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(2),
+  },
+  searchInput: {
+    width: '65%',
+  },
+  filterBtn: {
+    position: 'absolute',
+    right: '250px',
+    borderRadius: '26px',
+  },
+  newButton: {
+    position: 'absolute',
+    right: '20px',
+    borderRadius: '26px',
+  },
+}));
+
+const headCells = [
+  { id: 'category', label: 'Category' },
+  { id: 'date', label: 'Published' },
+  { id: 'caption', label: 'Caption' },
+  { id: 'likes', label: 'Likes' },
+  { id: 'totalViews', label: 'Views' },
+  { id: 'actions', label: 'Actions', disableSorting: true },
+];
+
+export default function Webinars() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const location = useLocation();
   const history = useHistory();
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
-  const [state, setState] = useState({
-    wallCategories: [],
-    caption: '',
-    isEvent: location.type ?? false,
-    supportingMedia: 'image',
-    wallFiles: [],
-    canComment: false,
-    totalViews: 0,
-    totalLikes: 0,
-    eventTitle: '',
-    redirectionUrl: '',
-    buttonText: '',
-    createdBy: window.sessionStorage.getItem('department') || '',
-    eventDate: new Date(),
-    resumeNeeded: false,
-    eventEndDate: new Date(),
-    selectedDate: new Date(),
-    isScheduled: false,
-    isVideoUrlEnabled: false,
-    videoUrl: '',
-    activeStatus: 'Live',
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
   });
 
-  const [errorSchema, setErrorSchema] = useState({
-    isVideoLink: false,
-  });
+  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
 
+  const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -87,446 +87,174 @@ const CreatePost = () => {
     subTitle: '',
   });
 
-  useEffect(() => {
-    dispatch(getWallCategories('Live'));
-  }, [dispatch]);
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
+    posts,
+    headCells,
+    filterFn
+  );
 
-  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
-
-  const validate = (values) => {
-    if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload image(s)',
-        type: 'error',
-      });
-      return false;
-    }
-    if (
-      !values.isVideoUrlEnabled &&
-      values.supportingMedia === 'video' &&
-      values.wallFiles.length === 0
-    ) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload a video',
-        type: 'error',
-      });
-      return false;
-    }
-    if (values.supportingMedia === 'audio' && values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload an audio',
-        type: 'error',
-      });
-      return false;
-    }
-
-    if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
-      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
-      return false;
-    }
-
-    return true;
-  };
-
-  const handlePostType = () => {
-    setState((s) => ({ ...s, isEvent: !state.isEvent }));
-  };
-
-  const validationSchema = yup.object({
-    caption: yup.string().required('caption is required'),
-  });
-
-  const createPost = (post, activeStatus) => {
-    if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
-    setNotify({
-      isOpen: true,
-      message: 'Created Successfully',
-      type: 'success',
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == '') return items;
+        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+      },
     });
-    setTimeout(() => {
-      history.push({
-        pathname: wallPath,
-        tab: state.isEvent ? 3 : 0,
-      });
-    }, 1200);
   };
 
-  const onDiscard = () => {
+  const openInPopup = (item) => {
+    setViewData(item);
+    setOpenDrawer(!openDrawer);
+  };
+
+  const openInPage = (item) => {
+    history.push({
+      pathname: editPath,
+      recordForEdit: item,
+      postType: 'Webinar',
+    });
+    setRecordForEdit(item);
+    setOpenDrawer(false);
+  };
+
+  const onDelete = (id) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     });
+    dispatch(deleteWallPost(id));
     setTimeout(() => {
-      history.push({
-        pathname: wallPath,
-        tab: state.isEvent ? 3 : 0,
-      });
+      dispatch(listWallPosts('Live', false));
     }, 1200);
     setNotify({
       isOpen: true,
-      message: 'Discarded',
-      type: 'warning',
+      message: 'Deleted Successfully',
+      type: 'error',
     });
   };
 
+  useEffect(() => {
+    dispatch(listWallPosts('Live', false));
+  }, [dispatch]);
+
   return (
     <>
-      <BackHandler
-        title={`Create New ${location?.type ? 'Event' : 'Post'}`}
-        tab={state.isEvent ? 3 : 0}
-      />
-      <CreatePostContainer>
-        <Formik
-          initialValues={state || []}
-          validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) => {
-            if (validate(values)) {
-              createPost(values, 'Live');
-              resetForm();
-            }
-          }}
-          enableReinitialize
-        >
-          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
-            <>
-              <div className='CreatePost'>
-                <Form onSubmit={handleSubmit} autoComplete='off'>
-                  <h6>Post Type</h6>
-                  <Grid component='label' container alignItems='center' spacing={1}>
-                    <Grid item>Wall Post</Grid>
-                    <Grid item>
-                      <Switch
-                        checked={state.isEvent}
-                        onChange={handlePostType}
-                        name={values.isEvent}
-                        disabled
-                        color='primary'
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                      />
-                    </Grid>
-                    <Grid item>Event</Grid>
-                  </Grid>
-                  <RadioGroup
-                    style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
-                    aria-label='type'
-                    name='supportingMedia'
-                    value={values.supportingMedia}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value='video'
-                      control={<Radio color='primary' />}
-                      label='Video'
-                    />
-                    <FormControlLabel
-                      value='image'
-                      control={<Radio color='primary' />}
-                      label='Image'
-                    />
-                    <FormControlLabel
-                      value='text'
-                      control={<Radio color='primary' />}
-                      label='Text'
-                    />
-                    <FormControlLabel
-                      value='audio'
-                      control={<Radio color='primary' />}
-                      label='Audio'
-                    />
-                  </RadioGroup>
-                  <FormControl className={classes.root} style={{ width: '80%' }}>
-                    <Autocomplete
-                      multiple
-                      id='wallCategories'
-                      name='wallCategories'
-                      getOptionLabel={(option) => option?.name}
-                      options={categories ?? []}
-                      onChange={(e, value) => {
-                        setFieldValue('wallCategories', value !== null ? value : categories);
-                      }}
-                      value={values.wallCategories}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label='Select Category'
-                          name='wallCategories'
-                          variant='outlined'
-                          error={
-                            touched.wallCategories && Boolean(values.wallCategories.length === 0)
-                          }
-                        />
-                      )}
-                    />
-                  </FormControl>
-                  {values.isEvent && (
-                    <Grid item>
-                      <Controls.Input
-                        label='Enter Event Title'
-                        name='eventTitle'
-                        style={{ width: '80%', marginTop: '18px' }}
-                        value={values.eventTitle}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                  )}
-                  <Grid item>
-                    <Controls.Input
-                      label='Type caption here..'
-                      value={values.caption}
-                      name='caption'
-                      onChange={handleChange}
-                      error={touched.caption && Boolean(errors.caption)}
-                      multiline
-                      className={classes.captionStyle}
-                      rows={6}
-                    />
-                  </Grid>
-                  {values.supportingMedia === 'video' && (
-                    <Grid item>
-                      <span style={{ fontSize: '1rem' }}>
-                        Video URL Available
-                        <Switch
-                          checked={values.isVideoUrlEnabled}
-                          name='isVideoUrlEnabled'
-                          onChange={handleChange}
-                          color='primary'
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                        />
-                      </span>
-                    </Grid>
-                  )}
-                  {values.supportingMedia === 'video' && values.isVideoUrlEnabled && (
-                    <Grid item>
-                      <Controls.Input
-                        label='Paste Video URL'
-                        name='videoUrl'
-                        style={{ width: '80%', marginTop: '10px', marginBottom: '10px' }}
-                        value={values.videoUrl}
-                        error={errorSchema.isVideoLink}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                  )}
-                  {!values.isEvent && (
-                    <>
-                      <Grid item>
-                        <Controls.Input
-                          label='Paste the Redirection Link'
-                          name='redirectionUrl'
-                          className={classes.spacer}
-                          value={values.redirectionUrl}
-                          onChange={handleChange}
-                          error={
-                            values.redirectionUrl.length > 5 &&
-                            !values.redirectionUrl.includes('http')
-                          }
-                          helperText={
-                            values.redirectionUrl.length > 5 &&
-                            !values.redirectionUrl.includes('http') &&
-                            'Enter Full link Ex:https://www.example.com/'
-                          }
-                        />
-                      </Grid>
-                      <Grid item>
-                        <Controls.Input
-                          label='Enter Button Text Here'
-                          name='buttonText'
-                          error={
-                            values.redirectionUrl?.length > 1 &&
-                            values.buttonText?.length < 1 &&
-                            Boolean(true)
-                          }
-                          style={{ width: '80%', marginTop: '18px', marginBottom: '14px' }}
-                          value={values.buttonText}
-                          onChange={handleChange}
-                        />
-                      </Grid>
-                    </>
-                  )}
-                  <Grid container direction='column' style={{ width: '80%' }}>
-                    {values.supportingMedia === 'image' && (
-                      <MultipleFileUploadField name='wallFiles' fileType='image' />
-                    )}
-                    {values.supportingMedia === 'video' && !values.isVideoUrlEnabled && (
-                      <MultipleFileUploadField name='wallFiles' fileType='video' />
-                    )}
-                    {values.supportingMedia === 'audio' && (
-                      <MultipleFileUploadField name='wallFiles' fileType='audio' />
-                    )}
-                  </Grid>
-                  {!values.isEvent && (
-                    <Grid
-                      container
-                      direction='row'
-                      justify='space-between'
-                      className={classes.spacer}
-                    >
-                      <Grid item>
-                        <h6 style={{ fontSize: '1rem' }}>
-                          Schedule Post for Later
-                          <Switch
-                            checked={values.isScheduled}
-                            onChange={handleChange}
-                            name='isScheduled'
-                            color='primary'
-                            inputProps={{ 'aria-label': 'primary checkbox' }}
-                          />
-                        </h6>
-                      </Grid>
-                      <Grid item>
-                        <h6 style={{ fontSize: '1rem' }}>
-                          Disable Comments
-                          <Switch
-                            checked={values.canComment}
-                            onChange={handleChange}
-                            name='canComment'
-                            color='primary'
-                            inputProps={{ 'aria-label': 'primary checkbox' }}
-                          />
-                        </h6>
-                      </Grid>
-                    </Grid>
-                  )}
-                  {values.isEvent && (
-                    <Grid item>
-                      <h6 style={{ fontSize: '1rem' }}>
-                         Resume Required?
-                        <Switch
-                          checked={values.resumeNeeded}
-                          onChange={handleChange}
-                          name='resumeNeeded'
-                          color='primary'
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                        />
-                      </h6>
-                    </Grid>
-                  )}
-                  {values.isEvent && (
-                    <Grid
-                      container
-                      direction='row'
-                      justify='space-between'
-                      className={classes.spacer}
-                    >
-                      <Grid item>
-                        <h6 style={{ fontSize: '1rem' }}>Event Start Date </h6>
-                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                          <DateTimePicker
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position='start'>
-                                  <EventIcon />
-                                </InputAdornment>
-                              ),
-                            }}
-                            value={values.eventDate}
-                            style={{ width: '100%', margin: '10px 0px' }}
-                            disablePast
-                            name='eventDate'
-                            inputVariant='outlined'
-                            onChange={(val) => {
-                              setFieldValue('eventDate', val);
-                            }}
-                          />
-                        </MuiPickersUtilsProvider>
-                      </Grid>
-                      <Grid item>
-                        <h6 style={{ fontSize: '1rem' }}>Event End Date </h6>
-                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                          <DateTimePicker
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position='start'>
-                                  <EventIcon />
-                                </InputAdornment>
-                              ),
-                            }}
-                            value={values.eventEndDate}
-                            style={{ width: '100%', margin: '10px 0px' }}
-                            disablePast
-                            name='eventEndDate'
-                            inputVariant='outlined'
-                            onChange={(val) => {
-                              setFieldValue('eventEndDate', val);
-                            }}
-                          />
-                        </MuiPickersUtilsProvider>
-                      </Grid>
-                    </Grid>
-                  )}
-                  <Grid item>
-                    {values.isScheduled && (
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DateTimePicker
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <EventIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={values.selectedDate}
-                          style={{ width: '80%', margin: '10px 0px' }}
-                          disablePast
-                          name='selectedDate'
-                          inputVariant='outlined'
-                          onChange={(val) => {
-                            setFieldValue('selectedDate', val);
-                          }}
-                          label='Schedule Data & Time'
-                        />
-                      </MuiPickersUtilsProvider>
-                    )}
-                  </Grid>
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
-                  <ButtonsContainer>
-                    <Button
-                      color='primary'
+      <Paper className={classes.pageContent}>
+        <Toolbar>
+          <Controls.RoundedInput
+            className={classes.searchInput}
+            placeholder='Search Posts'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+          <Controls.Button
+            text='Filter'
+            variant='outlined'
+            color='default'
+            startIcon={<FilterListIcon />}
+            className={classes.filterBtn}
+          />
+          <Controls.Button
+            text='Create New Webinar'
+            variant='contained'
+            color='primary'
+            startIcon={<AddIcon />}
+            className={classes.newButton}
+            onClick={() => {
+              history.push({
+                pathname: createPath,
+                type: false,
+              });
+            }}
+          />
+        </Toolbar>
+
+        <TblContainer>
+          <TblHead />
+          {posts && (
+            <TableBody>
+              {recordsAfterPagingAndSorting().map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
+                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
+                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
+                  <TableCell>{item.totalLikes}</TableCell>
+                  <TableCell>{item.totalViews}</TableCell>
+                  <TableCell>
+                    <Controls.ActionButton onClick={() => openInPopup(item)}>
+                      <VisibilityIcon fontSize='small' color='default' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton onClick={() => openInPage(item)}>
+                      <EditOutlinedIcon fontSize='small' color='primary' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
-                          title: 'Are you sure to discard this post?',
+                          title: 'Are you sure to delete this post?',
                           subTitle: "You can't undo this operation",
                           onConfirm: () => {
-                            onDiscard();
+                            onDelete(item.id);
                           },
                         });
                       }}
                     >
-                      Discard Post
-                    </Button>
-                    <Controls.Button
-                      text='Post'
-                      variant='contained'
-                      color='primary'
-                      style={{ borderRadius: '26px' }}
-                      type='submit'
-                    />
-                    {!values.isEvent && (
-                      <Button
-                        color='primary'
-                        onClick={() => {
-                          if (validate(values)) createPost(values, 'Draft');
-                        }}
-                      >
-                        Save as Draft
-                      </Button>
-                    )}
-                  </ButtonsContainer>
-                </Form>
-              </div>
-              <Preview state={values} />
-            </>
+                      <DeleteIcon fontSize='small' color='secondary' />
+                    </Controls.ActionButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
           )}
-        </Formik>
-      </CreatePostContainer>
+        </TblContainer>
+        <div style={{ margin: '2rem auto', width: '60%' }}>
+          {loading && <Loader />}
+          {error && <Alert severity='error'>{error}</Alert>}
+        </div>
+        <TblPagination />
+      </Paper>
+
+      <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+        <DrawerContainer>
+          <Preview state={viewData} />
+          <ButtonsContainerTwo>
+            <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
+              <IconButton aria-label='edit'>
+                <EditIcon color='primary' size='large' />
+              </IconButton>
+              Edit
+            </span>
+            <span
+              style={{ fontSize: '1rem' }}
+              onClick={() => {
+                setOpenDrawer(false);
+                setConfirmDialog({
+                  isOpen: true,
+                  title: 'Are you sure to delete this post?',
+                  subTitle: "You can't undo this operation",
+                  onConfirm: () => {
+                    onDelete(viewData.id);
+                  },
+                });
+              }}
+            >
+              <IconButton aria-label='remove'>
+                <DeleteIcon color='secondary' size='large' />
+              </IconButton>
+              Remove
+            </span>
+          </ButtonsContainerTwo>
+        </DrawerContainer>
+      </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </>
   );
-};
-
-export default CreatePost;
+}
