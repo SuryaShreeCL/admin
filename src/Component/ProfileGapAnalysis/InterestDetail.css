@@ -36,18 +36,22 @@
 }
 /* ppga cal notes */
 .ppgaTextField_align {
-    bottom: 30px;
+    bottom: 10px;
 
 }
 .button_div{
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
+    /* margin-right: 7px;
+    margin-bottom: 12px; */
 }
 .footer_text{
     color: #1093FF;
-    margin-left: 8px;
     cursor: pointer;
 }
+/* .MuiBox-root {
+    padding : 0px 0px !important
+} */
 
 

@@ -226,7 +226,7 @@ class CV extends Component {
                   style={{ display: "flex", alignItems: "end" }}
                 >
                   <div style={{ display: "flex" }}>
-                    <AddCircleOutlineIcon
+                    <AddCircleOutlineIcon style={{marginRight:"8px"}}
                       color="primary"
                       onClick={() => {
                         this.handleAdd();
@@ -243,7 +243,7 @@ class CV extends Component {
               </Grid>
             ))}
           </Grid>
-          <Grid
+          {/* <Grid
             item
             md={12}
             style={{
@@ -264,7 +264,7 @@ class CV extends Component {
             >
               Save
             </PrimaryButton>
-          </Grid>
+          </Grid> */}
         </Grid>
         <MySnackBar
           onClose={() => this.setState({ snackOpen: false })}

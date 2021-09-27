@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { isAlpha } from "../Validation";
 import {
   createTheme,
   Dialog,
@@ -13,6 +14,7 @@ import {
   Popover,
   Menu,
   MenuItem,
+  Card
 } from "@material-ui/core";
 import {
   getAllColleges,
@@ -44,8 +46,12 @@ import Dot from "../../Utils/Dot";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import Mysnack from "./../MySnackBar";
 import CommentDialog from "./CommentDialog";
+import CvViewer from "./CvViewer";
+import { ExpandMore } from "@material-ui/icons";
+
 const theme = createTheme({
   overrides: {
+  
     MuiGrid: {
       "spacing-xs-2": {
         width: "100%",
@@ -69,6 +75,7 @@ const theme = createTheme({
         },
       },
     },
+    
   },
 });
 class GeneralDetails extends Component {
@@ -364,6 +371,10 @@ class GeneralDetails extends Component {
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
+                //  popupIcon={
+                //   <ExpandMore style={{ color: "#1093FF" }} />
+                // }
+                expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   options={this.props.getPGDegreeList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.pgdegree}
@@ -526,6 +537,8 @@ class GeneralDetails extends Component {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
+              marginTop:"15px"
+
             }}
           >
             <div
@@ -675,18 +688,27 @@ class GeneralDetails extends Component {
         <Grid container spacing={3}>
           <Grid item md={4}>
             <Autocomplete
+            popupIcon={<ExpandMore 
+              style={{ color: "black" }} />}
               options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
               disabled
               value={this.state.degree}
               onChange={(e, newValue) => this.setState({ degree: newValue })}
               renderInput={(params) => (
-                <TextField {...params} name="degree" label="Degree Type" InputLabelProps={{ shrink: true }} />
+                <TextField
+                  {...params}
+                  name="degree"
+                  label="Degree Type"
+                  InputLabelProps={{ shrink: true }}
+                />
               )}
             />
           </Grid>
           <Grid item md={4}>
             <Autocomplete
+            popupIcon={<ExpandMore 
+              style={{ color: "black" }} />}
               options={this.props.getBranchesList}
               getOptionLabel={(option) => option.name}
               value={this.state.fieldofstudy}
@@ -715,6 +737,8 @@ class GeneralDetails extends Component {
           </Grid>
           <Grid item md={4}>
             <Autocomplete
+            popupIcon={<ExpandMore 
+              style={{ color: "black" }} />}
               multiple
               disabled
               options={this.state.specialisation}
@@ -741,6 +765,8 @@ class GeneralDetails extends Component {
           </Grid>
           <Grid item md={4}>
             <Autocomplete
+            popupIcon={<ExpandMore 
+              style={{ color: "black" }} />}
               multiple
               disabled
               id="tags-outlined"
@@ -965,17 +991,22 @@ class GeneralDetails extends Component {
     console.log(this.state);
     return (
       <div>
-        <ThemeProvider theme={theme}>
+       <Grid container>
+
+         {/*left container  */}
+         <Grid item md={7}>
+         <ThemeProvider theme={theme}>
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               marginLeft: "20px",
+              marginTop:"5px"
             }}
           >
             <Typography>Student Details</Typography>
             <ChatBubbleOutlineIcon
-              style={{ marginLeft: "10px" }}
+              style={{ marginLeft: "24px" }}
               onClick={() =>
                 this.state.commentlist.length > 0 && this.handleChat()
               }
@@ -983,7 +1014,7 @@ class GeneralDetails extends Component {
           </div>
           <Grid
             container
-            spacing={2}
+            // spacing={2}
             style={{ padding: "25px", marginTop: "-30px" }}
           >
             <Grid item md={4}>
@@ -992,6 +1023,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  // backgroundColor:"green",
+                  marginTop:"15px"
                 }}
               >
                 <div
@@ -1032,6 +1065,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  marginTop:"15px"
+
                 }}
               >
                 <div
@@ -1062,6 +1097,11 @@ class GeneralDetails extends Component {
                       this.commentshistory("firstName", e.target.value);
                       this.handlechange(e);
                     }}
+                    onKeyPress={(evt) => {
+                      if (isAlpha(evt)) {
+                        evt.preventDefault();
+                      }
+                    }}
                   />
                 </div>
               </div>
@@ -1072,6 +1112,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  marginTop:"15px"
+
                 }}
               >
                 <div
@@ -1102,6 +1144,11 @@ class GeneralDetails extends Component {
                       this.commentshistory("lastName", e.target.value);
                       this.handlechange(e);
                     }}
+                    onKeyPress={(evt) => {
+                      if (isAlpha(evt)) {
+                        evt.preventDefault();
+                      }
+                    }}
                   />
                 </div>
               </div>
@@ -1112,6 +1159,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  marginTop:"15px"
+
                 }}
               >
                 <div
@@ -1155,6 +1204,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  marginTop:"15px"
+
                 }}
               >
                 <div
@@ -1174,7 +1225,7 @@ class GeneralDetails extends Component {
                     }
                   />
                 </div>
-                <div style={{ paddingLeft: "10px" }}>
+                <div style={{ paddingLeft: "10px",paddingRight:"5px" }}>
                   <TextField
                     name="email"
                     disabled
@@ -1196,6 +1247,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "flex-start",
+                  marginTop:"15px"
+
                 }}
               >
                 <div
@@ -1217,6 +1270,8 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
+                  popupIcon={<ExpandMore 
+                    style={{ color: "black" }} />}
                     fullWidth
                     options={this.props.getDegreeList}
                     getOptionLabel={(option) => option.name}
@@ -1243,6 +1298,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "flex-start",
+                  marginTop:"15px"
+
                 }}
               >
                 <div
@@ -1264,6 +1321,8 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
+                  popupIcon={<ExpandMore 
+                    style={{ color: "black" }} />}
                     options={this.props.getBranchesList}
                     getOptionLabel={(option) => option.name}
                     value={this.state.fieldofstudy}
@@ -1289,6 +1348,8 @@ class GeneralDetails extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "flex-start",
+                  marginTop:"15px"
+
                 }}
               >
                 <div
@@ -1310,6 +1371,8 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
+                  popupIcon={<ExpandMore 
+                    style={{ color: "black" }} />}
                     options={this.props.getAllCollegesList}
                     getOptionLabel={(option) => option.name}
                     value={this.state.college}
@@ -1397,6 +1460,8 @@ class GeneralDetails extends Component {
                 </Grid>
                 <Grid item md={4}>
                   <Autocomplete
+                  popupIcon={<ExpandMore 
+                    style={{ color: "black" }} />}
                     options={this.intakevalue}
                     getOptionLabel={(option) => option.title}
                     name="intake"
@@ -1421,7 +1486,46 @@ class GeneralDetails extends Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container spacing={1} style={{ padding: "10px" }}>
+
+          {/* button */}
+          <Grid container style={{height:70, display:'flex', alignSelf:'flex-end'}}>
+            <Grid item md={12} >
+              <hr/>
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+              sm={12}
+              xl={12}
+              lg={12}
+              style={{
+                display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              // backgroundColor:"yellow"
+              }}
+            >
+             
+              
+              <div className={"button_div"}>
+                <PrimaryButton
+                  variant={"contained"}
+                  color={"primary"}
+                  onClick={this.handleSave}
+                  style={{
+                    width: "100px",
+                    display: "flex",
+                    marginRight: "10px"
+                    // alignItems: "flex-end",
+                  }}
+                >
+                  Save
+                </PrimaryButton>
+              </div>
+            </Grid>
+          </Grid>
+          {/* <Grid container spacing={1} style={{ padding: "10px" }}>
             <Grid item md={12}>
               <hr />
             </Grid>
@@ -1429,7 +1533,7 @@ class GeneralDetails extends Component {
               <PrimaryButton
                 color={"primary"}
                 variant={"contained"}
-                style={{ width: "100px", marginTop: "-20px" }}
+                style={{ width: "100px", marginTop: "5px" }}
                 onClick={() => {
                   this.state.commentshistory.length > 0
                     ? this.handleopen()
@@ -1439,7 +1543,7 @@ class GeneralDetails extends Component {
                 Save
               </PrimaryButton>
             </Grid>
-          </Grid>
+          </Grid> */}
           <Dialog
             open={this.state.dialog}
             onClose={() => this.setState({ dialog: false })}
@@ -1541,6 +1645,7 @@ class GeneralDetails extends Component {
         onClose={()=>this.setState({commentdialogopen : false})}
         />
           <Menu
+          style={{top:"25px"}}
             id="basic-menu"
             anchorEl={this.state.anchorEl}
             open={this.state.popOpen}
@@ -1606,6 +1711,15 @@ class GeneralDetails extends Component {
             onClose={() => this.setState({ snackOpen: false })}
           />
         </ThemeProvider>
+         </Grid>
+
+         {/* right container */}
+         <Grid item md={5}>
+           <Card>
+           <CvViewer {...this.props}/>
+           </Card>
+         </Grid>
+       </Grid>
       </div>
     );
   }
