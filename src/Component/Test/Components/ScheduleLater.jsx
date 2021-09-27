@@ -23,7 +23,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     position: 'absolute',
     top: theme.spacing(5),
   },
@@ -111,10 +111,12 @@ export default function ScheduleLater(props) {
                               </InputAdornment>
                             ),
                           }}
+                          style={{ width: '100%', marginBottom: '1rem' }}
                           value={values.startDateTime}
                           name='startDateTime'
                           inputVariant='outlined'
                           label='Start Date & Time'
+                          disablePast
                           onChange={(val) => {
                             setFieldValue('startDateTime', val);
                           }}
@@ -129,8 +131,9 @@ export default function ScheduleLater(props) {
                               </InputAdornment>
                             ),
                           }}
+                          disablePast
+                          style={{ width: '100%' }}
                           value={values.endDateTime}
-                          style={{ marginLeft: '1.5rem' }}
                           name='endDateTime'
                           inputVariant='outlined'
                           label='End Date & Time'
