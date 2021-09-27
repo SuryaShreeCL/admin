@@ -320,7 +320,7 @@ class CV extends Component {
         />
        </Grid>
        <Grid item md={5}>
-         <CvViewer {...this.props}/>
+         <CvViewer doctype={"cv"} {...this.props}/>
        </Grid>
       </Grid>
       </div>

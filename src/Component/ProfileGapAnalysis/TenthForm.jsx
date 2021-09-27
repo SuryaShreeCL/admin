@@ -1,4 +1,4 @@
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, makeStyles } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sscexamboard } from "../../Actions/Student";
@@ -7,6 +7,14 @@ import { Autocomplete } from "@material-ui/lab";
 import { isNumber } from "../Validation";
 import CvViewer from "./CvViewer";
 function TenthForm(props) {
+  const useStyles = makeStyles({
+    leftContainer : {
+      padding : "23px !important"
+    },
+    tableWrapper : {
+      marginTop : "40px"
+    }
+  })
  const choice = [
     { title: "10", value: 10 },
     { title: "7", value: 7 },
@@ -18,6 +26,7 @@ function TenthForm(props) {
   const [board, setBoard] = useState(null);
   const [gradeScale, setGradeScale] = useState(null);
   const [cgpa, setCgpa] = useState("");
+  const classes = useStyles()
   const examBoardList = useSelector(
     (state) => state.StudentReducer.sscexamboard
   );
@@ -27,7 +36,8 @@ function TenthForm(props) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={7} container spacing={2}>
+      <Grid item md={7} className={classes.leftContainer}>
+        <Grid container spacing={3}>
         <Grid item md={4}>
           <TextField
             label={"School Name"}
@@ -76,7 +86,9 @@ function TenthForm(props) {
             fullWidth
           />
         </Grid>
-        <Grid item md={12} sm={12} xs={12} lg={12} xl={12}>
+        </Grid>
+       
+        <Grid item md={12} sm={12} xs={12} lg={12} xl={12} className={classes.tableWrapper}>
           <FullFeaturedCrudGrid />
         </Grid>
       </Grid>

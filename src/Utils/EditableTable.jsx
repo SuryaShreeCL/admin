@@ -144,10 +144,13 @@ export default function Editable() {
 
   return (
     <MaterialTable
-      title="Editable Preview"
+      title=""
       columns={columns}
       icons={tableIcons}
       data={data}
+      options={{
+        actionsColumnIndex: -1
+      }}
       editable={{
         onRowAdd: newData =>
           new Promise((resolve, reject) => {

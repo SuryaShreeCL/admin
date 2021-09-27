@@ -1,23 +1,20 @@
-import React, { Component } from "react";
-import { Grid, Menu, MenuItem, withStyles, createTheme, ThemeProvider } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
+import { createTheme, Grid, Menu, MenuItem, ThemeProvider, withStyles, IconButton } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import GeneralDetails from "./GeneralDetails";
+import Paper from "@material-ui/core/Paper";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import TestResults from "./TestResults";
-import TestResultsGraph from "./TestResultsGraph";
 import CV from "./CV";
-import CvViewer from "./CvViewer";
+import Dashboard from "./Dashboard";
+import GeneralDetails from "./GeneralDetails";
 import InterestDetail from "./InterestDetail";
 import PpgaCallNotes from "./PpgaCallNotes";
-import { Button } from "bootstrap";
-import { ArrowDropDown } from "@material-ui/icons";
-import Dashboard from "./Dashboard";
 import TenthForm from "./TenthForm";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TestResults from "./TestResults";
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
+import './InterestDetail.css'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -32,7 +29,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -93,6 +90,8 @@ class ProfileGapRoot extends Component {
   
 
   render() {
+    const { classes } = this.props
+    console.log(classes, "///////////")
     return (
       <div>
         <Grid container style={{ marginTop: "10px" }}>
@@ -104,7 +103,7 @@ class ProfileGapRoot extends Component {
               borderRadius: "10px",
             }}
           >
-            <Paper square>
+            <Paper square className={classes.paperStyle}>
               <Tabs
                 value={this.state.value}
                 indicatorColor="none"
@@ -137,6 +136,9 @@ class ProfileGapRoot extends Component {
                 </ThemeProvider>
                
               </Tabs>
+              <IconButton className={classes.iconButtonStyle} color="primary" aria-label="add to shopping cart">
+              <AccountCircleRoundedIcon fontSize={"large"} />
+            </IconButton>
             </Paper>
             <TabPanel value={this.state.value} index={0}>
               <Dashboard {...this.props}/>
@@ -159,6 +161,7 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={6}>
               <TenthForm {...this.props} />
             </TabPanel>
+
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
@@ -183,7 +186,16 @@ class ProfileGapRoot extends Component {
     );
   }
 }
-const useStyles = (theme) => ({});
+const useStyles = (theme) => ({
+  paperStyle : {
+    position : "relative"
+  },
+  iconButtonStyle : {
+    position : "absolute",
+    top : "7px",
+    right : "0px"
+  }
+});
 const mapStateToProps = (state) => {
   return {};
 };

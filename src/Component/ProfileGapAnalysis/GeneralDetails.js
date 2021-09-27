@@ -1514,12 +1514,11 @@ class GeneralDetails extends Component {
                     this.state.commentshistory.length > 0
                       ? this.handleopen()
                       : this.handlesaved();
-                  }}
-                  style={{
+                  }}                  style={{
                     width: "100px",
                     display: "flex",
-                    marginRight: "10px",
-                    alignItems: "flex-end",
+                    marginRight: "10px"
+                    // alignItems: "flex-end",
                   }}
                 >
                   Save
@@ -1615,7 +1614,7 @@ class GeneralDetails extends Component {
               <Grid container>
                 <Grid item md={8}></Grid>
                 <Grid item md={4}>
-                  <div style={{ display: "flex", flexDirection: "row",justifyContent:"space-around" }}>
+                  <div style={{ display: "flex", flexDirection: "row"}}>
                     <div>
                       <PrimaryButton
                         style={{ width: "100px" }}
@@ -1726,7 +1725,9 @@ class GeneralDetails extends Component {
     );
   }
 }
-const useStyles = (theme) => ({});
+const useStyles = (theme) => ({
+  
+});
 const mapStateToProps = (state) => {
   console.log(state);
   return {
