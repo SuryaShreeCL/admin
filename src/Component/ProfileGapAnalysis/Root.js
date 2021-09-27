@@ -159,6 +159,7 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={6}>
               <TenthForm {...this.props} />
             </TabPanel>
+            
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
