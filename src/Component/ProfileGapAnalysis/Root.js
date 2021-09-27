@@ -18,6 +18,7 @@ import { ArrowDropDown } from "@material-ui/icons";
 import Dashboard from "./Dashboard";
 import TenthForm from "./TenthForm";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import './InterestDetail.css'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

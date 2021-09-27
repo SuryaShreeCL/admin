@@ -96,3 +96,12 @@
     align-items: center;
     margin-top: 13px;
 }
+.textField_label {
+   font-weight: 700;
+    font-style: normal;
+    bottom: 20px;
+    white-space: nowrap;
+}
+.accordion_div{
+    margin: 10px;
+}

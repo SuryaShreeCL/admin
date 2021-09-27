@@ -6,6 +6,7 @@ import {
   Card,
   Grid,
   TextField,
+  withStyles
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { getTestResults } from "../../Actions/ProfileGapAction";
@@ -49,6 +50,7 @@ class TestResults extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <>
         <Grid container>
@@ -56,10 +58,10 @@ class TestResults extends Component {
           {/* left container */}
           <Grid item md={7}>
           {this.state.data.map((item) => (
-          <div style={{ margin: "10px" }}>
+          <div className={"accordion_div"}>
             <Accordion>
               <AccordionSummary
-                style={{ flexDirection: "row-reverse" }}
+              className={classes.accordion}
                 expandIcon={<ExpandMoreIcon />}
                 aria-label="Expand"
                 aria-controls="additional-actions1-content"
@@ -74,14 +76,7 @@ class TestResults extends Component {
                   <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
                     <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                     <TextField
-                      style={{
-                        color: "red",
-                        fontStyle: "Montserrat",
-                        fontWeight: "700",
-                        fontStyle: "normal",
-                        bottom: "20px",
-                        whiteSpace:"nowrap"
-                      }}
+                      className={"textField_label"}
                       id="standard-basic"
                       label={data.sectionName.replace("_"," ")}
                       disabled={this.state.diagnosticTestDisable}
@@ -106,7 +101,7 @@ class TestResults extends Component {
 
         {/* right container - graph */}
           <Grid item md={5} justifyContent="flex-end">
-            <Card style={{padding:"8px",height:"100%"}}>
+            <Card className={classes.card}>
             <TestResultsGraph {...this.props}/>
             </Card>
           </Grid>
@@ -117,6 +112,17 @@ class TestResults extends Component {
     );
   }
 }
+
+const useStyles = (theme) => ({
+  accordion : {
+    flexDirection: "row-reverse" 
+  },
+  card : {
+    padding:"8px",
+    height:"100%"
+  }
+});
+
 const mapStateToProps = (state) => {
   return {
     testResponse: state.ProfileGapAnalysisReducer.testResults,
@@ -124,5 +130,5 @@ const mapStateToProps = (state) => {
 };
 export default connect(mapStateToProps, {
   getTestResults,
-})(TestResults);
+})(withStyles(useStyles)(TestResults));
 

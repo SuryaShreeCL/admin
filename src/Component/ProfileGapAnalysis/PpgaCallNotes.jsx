@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextField, Grid, Divider, Typography } from "@material-ui/core";
+import { TextField, Grid, Typography,withStyles } from "@material-ui/core";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import "./InterestDetail.css";
 import {
@@ -73,6 +73,7 @@ class PpgaCallNotes extends Component {
     const adminUserId = window.sessionStorage.getItem("adminUserId");
 
     const requestBody = this.state.data.map((eachItem, index) => {
+      
       if (eachItem.id === null) {
         return {
           ppgaNotes: eachItem.ppgaNotes,
@@ -87,7 +88,6 @@ class PpgaCallNotes extends Component {
         };
       } else {
         return {
-          id: eachItem.id,
           ppgaNotes: eachItem.ppgaNotes,
           postPpgaNotes: eachItem.postPpgaNotes,
           mentorNotes: eachItem.mentorNotes,
@@ -103,6 +103,7 @@ class PpgaCallNotes extends Component {
         };
       }
     });
+    console.log(requestBody);
     this.props.updatePpgaCallNotes(
       this.props.match.params.studentId,
       this.props.match.params.productId,
@@ -130,12 +131,13 @@ class PpgaCallNotes extends Component {
   };
 
   render() {
-    console.log(this.props.getcommenthistoryList);
+    const { classes } = this.props
+    // console.log(this.props.getcommenthistoryList);
     console.log(this.state);
 
     return (
       <div>
-        <Grid container spacing={3} style={{ height: "100vh" }}>
+        <Grid container spacing={3} className={classes.container}>
           <Grid
             item
             md={12}
@@ -143,14 +145,14 @@ class PpgaCallNotes extends Component {
             sm={12}
             xl={12}
             lg={12}
-            style={{ maxHeight: "85%", overflowY: "scroll", padding: "25px" }}
+            className={classes.topGrid}
           >
             {this.state.data &&
               this.state.data.map((item, index) => (
                 <Grid container spacing={3}>
                   <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
                     <p>{item.ppgaCallNotesTitle.text}</p>
-                    <hr/>
+                    <hr />
                   </Grid>
                   <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                     <TextField
@@ -165,7 +167,7 @@ class PpgaCallNotes extends Component {
                     <TextField
                       className="ppgaTextField_align"
                       name="postPpgaNotes"
-                      value={item.postPPgaNotes}
+                      value={item.postPpgaNotes}
                       onChange={(e) => this.handleChange(e, index)}
                       label="Post PPGA Notes"
                     ></TextField>
@@ -175,7 +177,7 @@ class PpgaCallNotes extends Component {
                       className="ppgaTextField_align"
                       name="mentorNotes"
                       onChange={(e) => this.handleChange(e, index)}
-                      value={item.mentorComments}
+                      value={item.mentorNotes}
                       label="Mentor Notes"
                     ></TextField>
                   </Grid>
@@ -185,8 +187,16 @@ class PpgaCallNotes extends Component {
 
           {/* button */}
           <Grid container>
-          <Grid item md={12} xs={12} sm={12} xl={12} lg={12} style={{width:"964px",marginLeft:"10px",marginRight:"11px"}}>
-              <hr style={{marginTop:"-16px"}}/>
+            <Grid
+              item
+              md={12}
+              xs={12}
+              sm={12}
+              xl={12}
+              lg={12}
+              className={classes.dividerDiv}
+            >
+              <hr className={"divider"} />
             </Grid>
             {/* button and text main div */}
             <Grid
@@ -196,40 +206,26 @@ class PpgaCallNotes extends Component {
               sm={12}
               xl={12}
               lg={12}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginTop: "-15px",
-                alignItems: "center",
-                padding: "5px",
-              }}
+             className={classes.buttonGrid}
             >
               <div>
-                <Typography style={{marginLeft:"21px",marginBottom:"18px"}}
-                onClick={this.handleClick}
-                className={"footer_text"}>
+                <Typography className={classes.bottomText}
+                  onClick={this.handleClick}
+                >
                   PPGA Call - Verification/Change Details
                 </Typography>
-                <CommentDialog 
-        open={this.state.commentDialogOpen}
-        data={this.state.commentList}
-        onClose={()=>this.setState({commentDialogOpen : false})}
-        />
-                
+                <CommentDialog
+                  open={this.state.commentDialogOpen}
+                  data={this.state.commentList}
+                  onClose={() => this.setState({ commentDialogOpen: false })}
+                />
               </div>
               <div className={"button_div"}>
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
                   onClick={this.handleSave}
-                  style={{
-                    width: "100px",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    marginRight:"24px",
-                    marginBottom:"25px"
-                  }}
+                  className={classes.button}
                 >
                   Save
                 </PrimaryButton>
@@ -248,6 +244,47 @@ class PpgaCallNotes extends Component {
   }
 }
 
+const useStyles = (theme) => ({
+  button: {
+    width: "100px",
+    display: "flex",
+    alignItems: "flex-end",
+    marginRight:"24px",
+    marginBottom:"25px"
+  },
+  container: {
+    height: "100vh",
+    padding:"15px"
+  },
+  topGrid : {
+    maxHeight: "85%", 
+    overflowY: "scroll", 
+    
+  },
+  buttonGrid : {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: "-15px",
+    alignItems: "center",
+    padding: "5px",
+
+  },
+  bottomText : {
+    marginLeft:"19px",
+    marginBottom:"18px",
+    cursor : "pointer",
+    color:"#1093FF"
+  },
+  dividerDiv : {
+    marginLeft: "0px",
+    marginRight: "0px",
+    marginTop:"27px"
+  }
+ 
+ 
+});
+
 const mapStateToProps = (state) => {
   console.log(state);
   return {
@@ -261,4 +298,4 @@ export default connect(mapStateToProps, {
   getPpgaCallNotes,
   updatePpgaCallNotes,
   getcommenthistory
-})(PpgaCallNotes);
+})(withStyles(useStyles)(PpgaCallNotes));
