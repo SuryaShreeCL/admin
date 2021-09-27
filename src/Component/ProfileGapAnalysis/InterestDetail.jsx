@@ -1,4 +1,4 @@
-import { TextField, Grid } from "@material-ui/core";
+import { TextField, Grid, Divider } from "@material-ui/core";
 import React, { Component } from "react";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -204,7 +204,7 @@ export default class InterestDetail extends Component {
             {this.state.interestArr.map((data, index) => (
               <Grid container spacing={3}>
                 <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                  <p>Area of Interest ({index + 1})</p>
+                  <p style={{padding:"18px"}}>Area of Interest ({index + 1})</p>
                 </Grid>
                 {/* textfield */}
                 <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
@@ -229,7 +229,7 @@ export default class InterestDetail extends Component {
                 </Grid>
 
                 <Grid item md={2} className={"icon_div"}>
-                  <AddCircleOutlineIcon
+                  <AddCircleOutlineIcon style={{marginRight:"8px"}}
                     color="primary"
                     onClick={() => this.handleAdd()}
                   />
@@ -243,7 +243,46 @@ export default class InterestDetail extends Component {
               </Grid>
             ))}
           </Grid>
-          <Grid
+
+           {/* button */}
+           <Grid container style={{height:70, display:'flex', alignSelf:'flex-end'}}>
+            <Grid item md={12} xs={12} sm={12} xl={12} lg={12} style={{width:"964px",marginLeft:"10px",marginRight:"11px"}}>
+              <hr/>
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+              sm={12}
+              xl={12}
+              lg={12}
+              style={{
+                display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              // backgroundColor:"yellow"
+              }}
+            >
+              <hr/>
+              <div className={"button_div"}>
+                <PrimaryButton
+                  variant={"contained"}
+                  color={"primary"}
+                  onClick={this.handleSave}
+                  style={{
+                    width: "100px",
+                    display: "flex",
+                    marginRight: "21px",
+                    marginBottom:"15px"
+                    // alignItems: "flex-end",
+                  }}
+                >
+                  Save
+                </PrimaryButton>
+              </div>
+            </Grid>
+          </Grid>
+          {/* <Grid
             item
             md={12}
             xs={12}
@@ -268,7 +307,7 @@ export default class InterestDetail extends Component {
             >
               Save
             </PrimaryButton>
-          </Grid>
+          </Grid> */}
         </Grid>
         <MySnackBar
           onClose={() => this.setState({ snackOpen: false })}

@@ -17,6 +17,7 @@ import { Button } from "bootstrap";
 import { ArrowDropDown } from "@material-ui/icons";
 import Dashboard from "./Dashboard";
 import TenthForm from "./TenthForm";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,15 +48,15 @@ class ProfileGapRoot extends Component {
     };
   }
 
-  renderRightContainer = () => {
-    if (this.state.value === 1) {
-      return <CvViewer doctype={"cv"} {...this.props} />;
-    } else if (this.state.value === 3) {
-      return <TestResultsGraph {...this.props} />;
-    } else if (this.state.value === 4) {
-      return <CvViewer doctype={"cv"} {...this.props} />;
-    }
-  };
+  // renderRightContainer = () => {
+  //   if (this.state.value === 1) {
+  //     return <CvViewer doctype={"cv"} {...this.props} />;
+  //   } else if (this.state.value === 3) {
+  //     return <TestResultsGraph {...this.props} />;
+  //   } else if (this.state.value === 4) {
+  //     return <CvViewer doctype={"cv"} {...this.props} />;
+  //   }
+  // };
 
   handleClose = () => {
     this.setState({
@@ -79,17 +80,24 @@ class ProfileGapRoot extends Component {
           flexDirection : "row-reverse",
           gridGap : "5px"
         },
+        root : {
+          "&.MuiTab-root" : {
+            padding : "5px"
+          }
+        }
       }
+      
     }
   })
+
+  
 
   render() {
     return (
       <div>
-        <Grid container spacing={2} style={{ marginTop: "10px" }}>
-          <Grid
-            item
-            md={this.state.value === 5 ? 12 : 7}
+        <Grid container style={{ marginTop: "10px" }}>
+          <Grid item md={12} 
+            // md={this.state.value === 5 ? 12 : 7}
             style={{
               // margin: "5px",
               borderStyle: "groove",
@@ -102,27 +110,27 @@ class ProfileGapRoot extends Component {
                 indicatorColor="none"
                 textColor="primary"
                 onChange={(e, newValue) => this.setState({ value: newValue })}
-                variant="scrollable"
+                // variant="scrollable"
               >
-                <Tab label="Dashboard" style={{ textTransform: "none" }} />
+                <Tab label="Dashboard" style={{ textTransform: "none",minWidth:"135px"}} />
                 <Tab
                   label="General Details"
-                  style={{ textTransform: "none" }}
+                  style={{ textTransform: "none",minWidth:"135px"}}
                 />
-                <Tab
+                <Tab 
                   label="Interest Details"
-                  style={{ textTransform: "none" }}
+                  style={{ textTransform: "none",minWidth:"135px"}}
                 />
-                <Tab label="Test Results" style={{ textTransform: "none" }} />
-                <Tab label="CV" style={{ textTransform: "none" }} />
-                <Tab
+                <Tab label="Test Results" style={{ textTransform: "none",minWidth:"135px",}} />
+                <Tab label="CV" style={{ textTransform: "none",minWidth:"135px"}} />
+                <Tab 
                   label="PPGA Call Notes"
-                  style={{ textTransform: "none" }}
+                  style={{ textTransform: "none",minWidth:"135px"}}
                 />
                 <ThemeProvider theme={this.tabTheme}>
-                <Tab
+                <Tab style={{ minWidth:"135px",paddingRight:"0px"}}
                   label="Academic Details"
-                  icon={<ArrowDropDown />}
+                  icon={<ExpandMoreIcon style={{color: "black",marginTop:"7px"}}/>}
                   style={{ textTransform: "none"}}
                   onClick={(e) => this.menuOpen(e)}
                 />
@@ -152,14 +160,17 @@ class ProfileGapRoot extends Component {
               <TenthForm {...this.props} />
             </TabPanel>
           </Grid>
-          <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
+          {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
-          </Grid>
+          </Grid> */}
         </Grid>
         <Menu
+          style={{top:"65px"}}
           anchorEl={this.state.anchorEl}
           open={this.state.open}
           onClose={this.handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
           <MenuItem onClick={()=>this.setState({value : 6, open : false})}>10th</MenuItem>
           <MenuItem onClick={this.handleClose}>12th</MenuItem>
