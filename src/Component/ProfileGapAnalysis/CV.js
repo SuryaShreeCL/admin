@@ -201,13 +201,12 @@ class CV extends Component {
     console.log(this.state);
     return (
       <div>
-      <Grid container spacing={2}  style={{height:"100%"}}>
-      <Grid item md={7}  style={{ maxHeight: "100%", overflowY: "scroll", padding: "15px" }}>
+      <Grid container>
+      <Grid item md={7}  style={{ maxHeight: "120vh", overflowY: "scroll"}}>
        <Grid container spacing={3} style={{height:"100%"}}>
           <Grid
             item
             md={12}
-            style={{ maxHeight: "92%", overflowY: "scroll", padding: "15px" }}
           >
             {this.state.cvarr.map((data, index) => (
               <Grid container spacing={1} style={{ padding: "20px" }}>
