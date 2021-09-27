@@ -113,6 +113,7 @@ export default function LivePost() {
       pathname: editPath,
       recordForEdit: item,
       postType: 'Post',
+      postTypeTab: 0,
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
@@ -171,6 +172,8 @@ export default function LivePost() {
               history.push({
                 pathname: createPath,
                 type: false,
+                postType: 'Post',
+                postTypeTab: 0,
               });
             }}
           />

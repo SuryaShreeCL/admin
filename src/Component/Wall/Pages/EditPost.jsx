@@ -125,7 +125,7 @@ const EditPost = () => {
     setTimeout(() => {
       history.push({
         pathname: wallPath,
-        tab: post.isEvent ? 3 : 0,
+        tab: location?.postTypeTab,
       });
     }, 1200);
   };
@@ -136,7 +136,7 @@ const EditPost = () => {
 
   return (
     <>
-      <BackHandler title={`Edit ${location.postType}`} tab={records.isEvent ? 3 : 0} />
+      <BackHandler title={`Edit ${location?.postType}`} tab={location?.postTypeTab} />
       <CreatePostContainer>
         <Formik
           initialValues={records || state}

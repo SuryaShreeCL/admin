@@ -175,8 +175,8 @@ const CreatePost = () => {
   return (
     <>
       <BackHandler
-        title={`Create New ${location?.type ? 'Event' : 'Post'}`}
-        tab={state.isEvent ? 3 : 0}
+        title={`Create New ${location?.postType ?? 'Post'}`}
+        tab={location?.postTypeTab}
       />
       <CreatePostContainer>
         <Formik
@@ -393,7 +393,7 @@ const CreatePost = () => {
                   {values.isEvent && (
                     <Grid item>
                       <h6 style={{ fontSize: '1rem' }}>
-                         Resume Required?
+                        Resume Required?
                         <Switch
                           checked={values.resumeNeeded}
                           onChange={handleChange}

@@ -179,7 +179,11 @@ export default function DraftPost() {
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push(createPath);
+              history.push({
+                pathname: createPath,
+                type: false,
+                postType: 'Post',
+              });
             }}
           />
         </Toolbar>

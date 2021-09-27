@@ -113,6 +113,7 @@ export default function Webinars() {
       pathname: editPath,
       recordForEdit: item,
       postType: 'Webinar',
+      postTypeTab: 4,
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
@@ -171,6 +172,8 @@ export default function Webinars() {
               history.push({
                 pathname: createPath,
                 type: false,
+                postType: 'Webinar',
+                postTypeTab: 4,
               });
             }}
           />
