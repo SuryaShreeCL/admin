@@ -136,13 +136,14 @@ class PpgaCallNotes extends Component {
             sm={12}
             xl={12}
             lg={12}
-            style={{ maxHeight: "92%", overflowY: "scroll", padding: "15px" }}
+            style={{ maxHeight: "85%", overflowY: "scroll", padding: "25px" }}
           >
             {this.state.data &&
               this.state.data.map((item, index) => (
                 <Grid container spacing={3}>
                   <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
                     <p>{item.ppgaCallNotesTitle.text}</p>
+                    <hr/>
                   </Grid>
                   <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                     <TextField
@@ -177,8 +178,8 @@ class PpgaCallNotes extends Component {
 
           {/* button */}
           <Grid container>
-            <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-              <hr />
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12} style={{width:"964px",marginLeft:"10px",marginRight:"11px"}}>
+              <hr style={{marginTop:"-16px"}}/>
             </Grid>
             {/* button and text main div */}
             <Grid
@@ -198,7 +199,7 @@ class PpgaCallNotes extends Component {
               }}
             >
               <div>
-                <Typography 
+                <Typography style={{marginLeft:"21px",marginBottom:"18px"}}
                 onClick={this.handleClick}
                 className={"footer_text"}>
                   PPGA Call - Verification/Change Details
@@ -219,6 +220,8 @@ class PpgaCallNotes extends Component {
                     width: "100px",
                     display: "flex",
                     alignItems: "flex-end",
+                    marginRight:"24px",
+                    marginBottom:"25px"
                   }}
                 >
                   Save

@@ -8,6 +8,7 @@ import { getVariantStepsById } from "../../Actions/ProductAction"
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from '../../Asset/Images/backbutton.svg'
 import {studentPath } from '../RoutePaths';
+import PgaStudentList from '../ProfileGapAnalysis/PgaStudentList';
 
 class ProductBasedUsers extends Component {
     constructor(props){
@@ -64,11 +65,12 @@ class ProductBasedUsers extends Component {
         console.log(this.state)
         var componentList = {
             "Onboarding" : "Onboarding",
+            "Profile Gap Analysis" : "Profile Gap Analysis"
         }
         console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
         var obj = {
             Onboarding : Onboarding,
-          
+            ["Profile Gap Analysis"] : PgaStudentList
         }
         var selectedComponent = this.state.selectedItem !== null && componentList[this.state.selectedItem.stepName]
         var Page = obj[selectedComponent];

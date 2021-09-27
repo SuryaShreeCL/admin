@@ -3,12 +3,14 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Card,
   Grid,
   TextField,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { getTestResults } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
+import TestResultsGraph from "./TestResultsGraph";
 
 class TestResults extends Component {
   constructor(props) {
@@ -49,7 +51,11 @@ class TestResults extends Component {
   render() {
     return (
       <>
-        {this.state.data.map((item) => (
+        <Grid container>
+
+          {/* left container */}
+          <Grid item md={7}>
+          {this.state.data.map((item) => (
           <div style={{ margin: "10px" }}>
             <Accordion>
               <AccordionSummary
@@ -96,6 +102,15 @@ class TestResults extends Component {
             </Accordion>
           </div>
         ))}
+          </Grid>
+
+        {/* right container - graph */}
+          <Grid item md={5} justifyContent="flex-end">
+            <Card style={{padding:"8px",height:"100%"}}>
+            <TestResultsGraph {...this.props}/>
+            </Card>
+          </Grid>
+        </Grid>
 
       
       </>

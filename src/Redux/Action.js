@@ -27,7 +27,8 @@ export const PROFILE_GAP_ANALYSIS = {
   updatePpgaCallNotes : "updatePpgaCallNotes",
   getcvresult:"getcvresult",
   deletecvresult : "deletecvresult",
-  updatecvresult : "updatecvresult"
+  updatecvresult : "updatecvresult",
+  getdashboarddetails : "getdashboarddetails"
 }
 
 export const COLLEGES = {
