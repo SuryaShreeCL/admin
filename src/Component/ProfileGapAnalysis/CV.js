@@ -172,7 +172,7 @@ class CV extends Component {
              }
            );
            this.setState({
-             snackMsg: "Updated Successfully",
+             snackMsg: "Saved Successfully",
              snackOpen: true,
              snackColor: "success",
            });
@@ -193,7 +193,7 @@ class CV extends Component {
     console.log(this.state);
     return (
       <div>
-        <Grid container spacing={3} style={{ height: "100vh" }}>
+        <Grid container spacing={3} style={{ height: "100vh",paddingLeft:"20px" }}>
           <Grid
             item
             md={12}

@@ -239,3 +239,24 @@ export const updatecvresult=(studentId,productId,data,callback)=>{
             });
     }
 }
+export const getdashboarddetails=(studentId,productId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/dashboarddetails",{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.getdashboarddetails,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
+                console.log(error);
+            });
+    }
+}

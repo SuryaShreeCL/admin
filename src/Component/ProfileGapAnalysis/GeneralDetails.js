@@ -693,7 +693,7 @@ class GeneralDetails extends Component {
               options={this.props.getDegreeList}
               getOptionLabel={(option) => option.name}
               disabled
-              value={this.state.degree}
+              value={this.state.aspdegree}
               onChange={(e, newValue) => this.setState({ degree: newValue })}
               renderInput={(params) => (
                 <TextField
@@ -711,7 +711,7 @@ class GeneralDetails extends Component {
               style={{ color: "black" }} />}
               options={this.props.getBranchesList}
               getOptionLabel={(option) => option.name}
-              value={this.state.fieldofstudy}
+              value={this.state.aspfieldofstudy}
               onChange={(e, newValue) =>
                 this.setState({ fieldofstudy: newValue })
               }
@@ -871,7 +871,7 @@ class GeneralDetails extends Component {
                 }
               );
               this.setState({
-                snackMsg: "Updated Successfully",
+                snackMsg: "Saved Successfully",
                 snackOpen: true,
                 snackVariant: "success",
               })
@@ -949,7 +949,7 @@ class GeneralDetails extends Component {
             obj,((response)=>{
               if(response.status === 200){
                 this.setState({
-                  snackMsg: "Updated Successfully",
+                  snackMsg: "Saved Successfully",
                   snackOpen: true,
                   snackVariant: "success",
                 })
