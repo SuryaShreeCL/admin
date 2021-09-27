@@ -13,6 +13,7 @@ const initialState = {
   getcvresult:[],
   deletecvresult:[],
   updatecvresult:[],
+  getdashboarddetails:[]
 };
 
 export default (state = initialState, action) => {
@@ -74,6 +75,11 @@ export default (state = initialState, action) => {
             return{
                 ...state,
                 updatecvresult:action.payload,
+            }; 
+          case PROFILE_GAP_ANALYSIS.getdashboarddetails:
+            return{
+                ...state,
+                getdashboarddetails:action.payload,
             }; 
     default:
       return state;
