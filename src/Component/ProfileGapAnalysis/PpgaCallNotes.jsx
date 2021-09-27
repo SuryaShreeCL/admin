@@ -88,6 +88,7 @@ class PpgaCallNotes extends Component {
         };
       } else {
         return {
+          id : eachItem.id,
           ppgaNotes: eachItem.ppgaNotes,
           postPpgaNotes: eachItem.postPpgaNotes,
           mentorNotes: eachItem.mentorNotes,
