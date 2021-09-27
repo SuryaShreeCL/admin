@@ -12,7 +12,6 @@ import {
 import useTable from '../../Utils/useTable';
 import Controls from '../../Utils/controls/Controls';
 import { Search } from '@material-ui/icons';
-import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
@@ -29,7 +28,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
-import { renderListCategory } from '../../Utils/Helpers';
 import ScheduleLater from '../Components/ScheduleLater';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -186,8 +184,15 @@ export default function ScheduledTest() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.duration}</TableCell>
+                  <TableCell style={{ color: '#1093FF' }}>{item.name}</TableCell>
+                  <TableCell>
+                    <ScheduleIcon
+                      fontSize='small'
+                      color='primary'
+                      style={{ marginRight: '5px', marginBottom: '3px' }}
+                    />
+                    {item.duration}
+                  </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{moment(item.startDateTime).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
@@ -222,7 +227,9 @@ export default function ScheduledTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests?.length === 0 && <Alert severity='info'>0 Scheduled Tests Found</Alert>}
+          {!loading && tests?.length === 0 && (
+            <Alert severity='info'>0 Scheduled Tests Found</Alert>
+          )}
         </div>
         <TblPagination />
       </Paper>

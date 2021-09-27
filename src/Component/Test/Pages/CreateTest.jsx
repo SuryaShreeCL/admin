@@ -297,12 +297,13 @@ const CreateTest = () => {
                     style={{ marginTop: '1rem' }}
                   >
                     <Grid item style={{ width: '30%' }}>
-                      <Controls.Select
+                      <Controls.Input
                         label='Score'
                         name='score'
-                        size='100%'
+                        type='number'
+                        style={{ width: '100%' }}
+                        value={values.score}
                         onChange={handleChange}
-                        options={durations}
                       />
                     </Grid>
                     <FieldArray
@@ -314,11 +315,13 @@ const CreateTest = () => {
                               <Field
                                 className={classes.inputField}
                                 placeholder='Duration'
+                                type='number'
                                 name={`testSection.${index}.duration`}
                               />
                               <Field
                                 className={classes.inputField}
                                 placeholder='No Of Questions'
+                                type='number'
                                 name={`testSection.${index}.noOfQuestions`}
                               />
                             </div>
