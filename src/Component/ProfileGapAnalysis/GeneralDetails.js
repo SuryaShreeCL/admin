@@ -1719,7 +1719,7 @@ class GeneralDetails extends Component {
          {/* right container */}
          <Grid item md={5}>
            <Card>
-           <CvViewer {...this.props}/>
+           <CvViewer doctype={"cv"} {...this.props}/>
            </Card>
          </Grid>
        </Grid>

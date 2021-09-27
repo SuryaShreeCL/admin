@@ -37,7 +37,7 @@ function TenthForm(props) {
   return (
     <Grid container spacing={2}>
       <Grid item md={7} className={classes.leftContainer}>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
         <Grid item md={4}>
           <TextField
             label={"School Name"}

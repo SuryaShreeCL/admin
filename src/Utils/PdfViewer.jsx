@@ -25,7 +25,7 @@ function PdfViewer(props) {
           border: "1px solid rgba(0, 0, 0, 0.3)",
           display: "flex",
           flexDirection: "column",
-          height: "79vh",
+          height: "82vh",
         }}
       >
         <div
