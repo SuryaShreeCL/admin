@@ -132,10 +132,10 @@ class GeneralDetails extends Component {
         }
         if(this.props.pgaScoreDetails !== prevProps.pgaScoreDetails){
           this.setState({
-            overallResult : this.props.pgaScoreDetails.["Overall Aptitude Score"],
-            numericalAbility : this.props.pgaScoreDetails.["Numerical Ability (Score Out of 100)"],
-            logicalReasoning : this.props.pgaScoreDetails.["Logical Reasoning (Score Out of 100)"],
-            verbalReasoning : this.props.pgaScoreDetails.["Verbal Reasoning (Score Out of 100)"],
+            overallResult : this.props.pgaScoreDetails["Overall Aptitude Score"],
+            numericalAbility : this.props.pgaScoreDetails["Numerical Ability (Score Out of 100)"],
+            logicalReasoning : this.props.pgaScoreDetails["Logical Reasoning (Score Out of 100)"],
+            verbalReasoning : this.props.pgaScoreDetails["Verbal Reasoning (Score Out of 100)"],
             personalityCode : this.props.pgaScoreDetails.personalitycode.replace("[","").replace("]",""),
 
           })

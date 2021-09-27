@@ -335,7 +335,7 @@ class Pgaplan extends Component {
           label="Select Option"
           value={
             // this.obj
-            this.state.["focus".concat(i+"-").concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[0])] : null
+            this.state["focus".concat(i+"-").concat(periodArr[0])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[0])] : null
           }
           name={"focus".concat(i+"-").concat(periodArr[0])}
           onChange={this.handleChange}
@@ -357,7 +357,7 @@ class Pgaplan extends Component {
         id="demo-simple-select-outlined"
         label="Select Option"
         value={
-          this.state.["focus".concat(i+"-").concat(periodArr[1])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[1])] : null}
+          this.state["focus".concat(i+"-").concat(periodArr[1])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[1])] : null}
           name={"focus".concat(i).concat(periodArr[1])}
         onChange={this.handleChange}
       >
@@ -378,7 +378,7 @@ class Pgaplan extends Component {
        id="demo-simple-select-outlined"
        label="Select Option"
        value={
-        this.state.["focus".concat(i+"-").concat(periodArr[2])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[2])] : null}
+        this.state["focus".concat(i+"-").concat(periodArr[2])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[2])] : null}
           name={"focus".concat(i).concat(periodArr[2])}
        onChange={this.handleChange}
      >
@@ -397,7 +397,7 @@ class Pgaplan extends Component {
       id="demo-simple-select-outlined"
       label="Select Option"
       value={
-        this.state.["focus".concat(i+"-").concat(periodArr[3])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[3])] : null}
+        this.state["focus".concat(i+"-").concat(periodArr[3])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[3])] : null}
       name={"focus".concat(i+"-").concat(periodArr[3])}
       onChange={this.handleChange}
     >
@@ -440,7 +440,7 @@ class Pgaplan extends Component {
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           label="Select Option"
-          value={this.state.["focus".concat(i+"-").concat(periodArr[0])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[0])] : null}
+          value={this.state["focus".concat(i+"-").concat(periodArr[0])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[0])] : null}
           name={"focus".concat(i+"-").concat(periodArr[0])}
           onChange={this.handleChange}
         >
@@ -459,7 +459,7 @@ class Pgaplan extends Component {
         id="demo-simple-select-outlined"
         label="Select Option"
         value={
-          this.state.["focus".concat(i+"-").concat(periodArr[1])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[1])] : null}
+          this.state["focus".concat(i+"-").concat(periodArr[1])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[1])] : null}
           name={"focus".concat(i+"-").concat(periodArr[1])}
         onChange={this.handleChange}
       >
@@ -478,7 +478,7 @@ class Pgaplan extends Component {
        id="demo-simple-select-outlined"
        label="Select Option"
        value={
-        this.state.["focus".concat(i+"-").concat(periodArr[2])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[2])] : null}
+        this.state["focus".concat(i+"-").concat(periodArr[2])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[2])] : null}
           name={"focus".concat(i+"-").concat(periodArr[2])}
        onChange={this.handleChange}
      >
@@ -497,7 +497,7 @@ class Pgaplan extends Component {
       id="demo-simple-select-outlined"
       label="Select Option"
       value={
-        this.state.["focus".concat(i+"-").concat(periodArr[3])] !== undefined ? this.state.["focus".concat(i+"-").concat(periodArr[3])] : null}
+        this.state["focus".concat(i+"-").concat(periodArr[3])] !== undefined ? this.state["focus".concat(i+"-").concat(periodArr[3])] : null}
       name={"focus".concat(i+"-").concat(periodArr[3])}
       onChange={this.handleChange}
     >

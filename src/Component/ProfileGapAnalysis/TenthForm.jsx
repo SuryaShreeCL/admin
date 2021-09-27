@@ -1,8 +1,9 @@
 import React from 'react'
+import FullFeaturedCrudGrid from '../../Utils/EditableTable'
 
 function TenthForm(props) {
     return (
-       <h1>I am tenth form</h1>
+      <FullFeaturedCrudGrid />
     )
 }
 

@@ -414,10 +414,10 @@ class AdmissionServices extends Component {
                     let expirymonth = new Date(eachdata.ExpiryDate).getMonth()
                     let expiryyear = new Date(eachdata.ExpiryDate).getFullYear()
                     let newexpiry = eachdata.ExpiryDate ? expirydate+"/"+expirymonth+"/"+expiryyear : null
-                    let eosdate = new Date(eachdata.["End Of service Date"]).getDate()
-                    let eosmonth = new Date(eachdata.["End Of service Date"]).getMonth()
-                    let eosyear = new Date(eachdata.["End Of service Date"]).getFullYear()
-                    let neweos = eachdata.["End Of service Date"] !== null ? eosdate+"/"+eosmonth+"/"+eosyear : null
+                    let eosdate = new Date(eachdata["End Of service Date"]).getDate()
+                    let eosmonth = new Date(eachdata["End Of service Date"]).getMonth()
+                    let eosyear = new Date(eachdata["End Of service Date"]).getFullYear()
+                    let neweos = eachdata["End Of service Date"] !== null ? eosdate+"/"+eosmonth+"/"+eosyear : null
                       return(
                         <TableRow>
                         <TableCell
@@ -515,7 +515,7 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                          {eachdata.["BDA Name"]}
+                          {eachdata["BDA Name"]}
                         </TableCell>
                       </TableRow>
 

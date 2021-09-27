@@ -168,7 +168,7 @@ class StarterPackTable extends Component {
     handleEdit = (data) => {
         console.log(data)
         this.setState({
-            clsId : data.["CLS id"],
+            clsId : data["CLS id"],
             enrollmentDate : data.enrollDate,
             courseid : data.courseId,
             studentId : data.studentId,
@@ -222,7 +222,7 @@ class StarterPackTable extends Component {
                                 return(
                                     <TableRow>
                                     <TableCell align="center">
-                                        {eachData.["CLS id"]}
+                                        {eachData["CLS id"]}
                                     </TableCell>
                                     <TableCell align="center">
                                         {eachData.name}

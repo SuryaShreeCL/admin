@@ -49,14 +49,14 @@ class AcademicData extends Component {
 
       for(let i=1; i<=this.state.semester; i++){
         arr.push({
-          semester :  parseInt(this.state.["sem"+i]),
-          top3Subjects : this.state.["sem"+i+"top3"],
-          activeBacklogs : parseInt(this.state.["sem".concat(i).concat("activeBacklog")]),
-          backlogSubjects : this.state.["sem".concat(i).concat("backlogSub")],
-          clearedBacklogs : parseInt(this.state.["sem".concat(i).concat("clearedBacklog")]) ,
-          scoreScale : this.state.["scoreScaleSem".concat(i)],
-          clearedBacklogSubjects : this.state.["sem".concat(i).concat("clearedSub")],
-          score : parseFloat(this.state.["sem".concat(i).concat("score")]) 
+          semester :  parseInt(this.state["sem"+i]),
+          top3Subjects : this.state["sem"+i+"top3"],
+          activeBacklogs : parseInt(this.state["sem".concat(i).concat("activeBacklog")]),
+          backlogSubjects : this.state["sem".concat(i).concat("backlogSub")],
+          clearedBacklogs : parseInt(this.state["sem".concat(i).concat("clearedBacklog")]) ,
+          scoreScale : this.state["scoreScaleSem".concat(i)],
+          clearedBacklogSubjects : this.state["sem".concat(i).concat("clearedSub")],
+          score : parseFloat(this.state["sem".concat(i).concat("score")]) 
         })
       }
   
@@ -84,15 +84,15 @@ class AcademicData extends Component {
 
       for(let i=1; i<=this.state.semester; i++){
         arr.push({
-          id : this.state.["sem".concat(i).concat("id")],
-          semester :  parseInt(this.state.["sem"+i]),
-          top3Subjects : this.state.["sem"+i+"top3"],
-          activeBacklogs : parseInt(this.state.["sem".concat(i).concat("activeBacklog")]),
-          backlogSubjects : this.state.["sem".concat(i).concat("backlogSub")],
-          clearedBacklogs : parseInt(this.state.["sem".concat(i).concat("clearedBacklog")]) ,
-          scoreScale : this.state.["scoreScaleSem".concat(i)],
-          clearedBacklogSubjects : this.state.["sem".concat(i).concat("clearedSub")],
-          score : parseFloat(this.state.["sem".concat(i).concat("score")]) 
+          id : this.state["sem".concat(i).concat("id")],
+          semester :  parseInt(this.state["sem"+i]),
+          top3Subjects : this.state["sem"+i+"top3"],
+          activeBacklogs : parseInt(this.state["sem".concat(i).concat("activeBacklog")]),
+          backlogSubjects : this.state["sem".concat(i).concat("backlogSub")],
+          clearedBacklogs : parseInt(this.state["sem".concat(i).concat("clearedBacklog")]) ,
+          scoreScale : this.state["scoreScaleSem".concat(i)],
+          clearedBacklogSubjects : this.state["sem".concat(i).concat("clearedSub")],
+          score : parseFloat(this.state["sem".concat(i).concat("score")]) 
         })
       }
       let Anobj = {
@@ -177,7 +177,7 @@ class AcademicData extends Component {
             <TextField
               variant={"outlined"}
               value={
-                this.state.["sem".concat(i)]
+                this.state["sem".concat(i)]
               }
               disabled
               InputLabelProps={{
@@ -198,7 +198,7 @@ class AcademicData extends Component {
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
             onChange={this.handleChange}
-            value={this.state.["scoreScaleSem".concat(i)] !== undefined ? this.state.["scoreScaleSem".concat(i)] : null}
+            value={this.state["scoreScaleSem".concat(i)] !== undefined ? this.state["scoreScaleSem".concat(i)] : null}
             label="Score Scale"
             name={"scoreScaleSem".concat(i)}
   
@@ -215,13 +215,13 @@ class AcademicData extends Component {
         </FormControl>
           ),
           score: (
-            <TextField type="number" error={this.state.["scoreScaleSem".concat(i)] < this.state.["sem".concat(i).concat("score")]} InputLabelProps={{shrink: true}} variant={"outlined"} name={"sem".concat(i).concat("score")} value={this.state.["sem".concat(i).concat("score")]} onChange={this.handleChange} label={"Score"} size={"small"} />
+            <TextField type="number" error={this.state["scoreScaleSem".concat(i)] < this.state["sem".concat(i).concat("score")]} InputLabelProps={{shrink: true}} variant={"outlined"} name={"sem".concat(i).concat("score")} value={this.state["sem".concat(i).concat("score")]} onChange={this.handleChange} label={"Score"} size={"small"} />
           ),
           topThreeSub: (
             <TextField
               variant={"outlined"}
               InputLabelProps={{shrink: true}}
-              value={this.state.["sem".concat(i).concat("top3")]}
+              value={this.state["sem".concat(i).concat("top3")]}
               name={"sem".concat(i).concat("top3")}
               onChange={this.handleChange}
               label={"Top 3 Subjects"}
@@ -232,7 +232,7 @@ class AcademicData extends Component {
             <TextField
               variant={"outlined"}
               InputLabelProps={{shrink: true}}
-              value={this.state.["sem".concat(i).concat("activeBacklog")]}
+              value={this.state["sem".concat(i).concat("activeBacklog")]}
               name={"sem".concat(i).concat("activeBacklog")}
               onChange={this.handleChange}
               label={"#Active Backlog"}
@@ -243,7 +243,7 @@ class AcademicData extends Component {
             <TextField
               variant={"outlined"}
               InputLabelProps={{shrink: true}}
-              value={this.state.["sem".concat(i).concat("backlogSub")]}
+              value={this.state["sem".concat(i).concat("backlogSub")]}
               name={"sem".concat(i).concat("backlogSub")}
               onChange={this.handleChange}
               label={"Backlog Subject"}
@@ -254,7 +254,7 @@ class AcademicData extends Component {
             <TextField
               variant={"outlined"}
               InputLabelProps={{shrink: true}}
-              value={this.state.["sem".concat(i).concat("clearedBacklog")]}
+              value={this.state["sem".concat(i).concat("clearedBacklog")]}
               name={"sem".concat(i).concat("clearedBacklog")}
               onChange={this.handleChange}
               label={"#Cleared Backlog"}
@@ -265,7 +265,7 @@ class AcademicData extends Component {
             <TextField
               variant={"outlined"}
               InputLabelProps={{shrink: true}}
-              value={this.state.["sem".concat(i).concat("clearedSub")]}
+              value={this.state["sem".concat(i).concat("clearedSub")]}
               name={"sem".concat(i).concat("clearedSub")}
               onChange={this.handleChange}
               label={"#Cleared Backlog Subject"}
@@ -320,7 +320,7 @@ class AcademicData extends Component {
               <TextField
                 variant={"outlined"}
                 value={
-                  this.state.["sem".concat(i)]
+                  this.state["sem".concat(i)]
                 }
                 disabled
                 InputLabelProps={{
@@ -341,7 +341,7 @@ class AcademicData extends Component {
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
               onChange={this.handleChange}
-              value={this.state.["scoreScaleSem".concat(i)] !== undefined ? this.state.["scoreScaleSem".concat(i)] : null}
+              value={this.state["scoreScaleSem".concat(i)] !== undefined ? this.state["scoreScaleSem".concat(i)] : null}
               label="Score Scale"
               name={"scoreScaleSem".concat(i)}
     
@@ -358,13 +358,13 @@ class AcademicData extends Component {
           </FormControl>
             ),
             score: (
-              <TextField type="number" error={this.state.["scoreScaleSem".concat(i)] < this.state.["sem".concat(i).concat("score")]} InputLabelProps={{shrink: true}} variant={"outlined"} name={"sem".concat(i).concat("score")} value={this.state.["sem".concat(i).concat("score")]} onChange={this.handleChange} label={"Score"} size={"small"} />
+              <TextField type="number" error={this.state["scoreScaleSem".concat(i)] < this.state["sem".concat(i).concat("score")]} InputLabelProps={{shrink: true}} variant={"outlined"} name={"sem".concat(i).concat("score")} value={this.state["sem".concat(i).concat("score")]} onChange={this.handleChange} label={"Score"} size={"small"} />
             ),
             topThreeSub: (
               <TextField
                 variant={"outlined"}
                 InputLabelProps={{shrink: true}}
-                value={this.state.["sem".concat(i).concat("top3")]}
+                value={this.state["sem".concat(i).concat("top3")]}
                 name={"sem".concat(i).concat("top3")}
                 onChange={this.handleChange}
                 label={"Top 3 Subjects"}
@@ -375,7 +375,7 @@ class AcademicData extends Component {
               <TextField
                 variant={"outlined"}
                 InputLabelProps={{shrink: true}}
-                value={this.state.["sem".concat(i).concat("activeBacklog")]}
+                value={this.state["sem".concat(i).concat("activeBacklog")]}
                 name={"sem".concat(i).concat("activeBacklog")}
                 onChange={this.handleChange}
                 label={"#Active Backlog"}
@@ -386,7 +386,7 @@ class AcademicData extends Component {
               <TextField
                 variant={"outlined"}
                 InputLabelProps={{shrink: true}}
-                value={this.state.["sem".concat(i).concat("backlogSub")]}
+                value={this.state["sem".concat(i).concat("backlogSub")]}
                 name={"sem".concat(i).concat("backlogSub")}
                 onChange={this.handleChange}
                 label={"Backlog Subject"}
@@ -397,7 +397,7 @@ class AcademicData extends Component {
               <TextField
                 variant={"outlined"}
                 InputLabelProps={{shrink: true}}
-                value={this.state.["sem".concat(i).concat("clearedBacklog")]}
+                value={this.state["sem".concat(i).concat("clearedBacklog")]}
                 name={"sem".concat(i).concat("clearedBacklog")}
                 onChange={this.handleChange}
                 label={"#Cleared Backlog"}
@@ -408,7 +408,7 @@ class AcademicData extends Component {
               <TextField
                 variant={"outlined"}
                 InputLabelProps={{shrink: true}}
-                value={this.state.["sem".concat(i).concat("clearedSub")]}
+                value={this.state["sem".concat(i).concat("clearedSub")]}
                 name={"sem".concat(i).concat("clearedSub")}
                 onChange={this.handleChange}
                 label={"#Cleared Backlog Subject"}

@@ -362,8 +362,8 @@ class workExperience extends Component {
                                    variant="standard" 
                                    contentEditable={this.state.disable === false } 
                                   //  value={item.employmentType || ''}
-                                  error={this.state.[`employmentTypeErr${index}`] !== undefined && this.state.[`employmentTypeErr${index}`] !== "" ? true :false}
-                                  helperText={this.state.[`employmentTypeErr${index}`]}
+                                  error={this.state[`employmentTypeErr${index}`] !== undefined && this.state[`employmentTypeErr${index}`] !== "" ? true :false}
+                                  helperText={this.state[`employmentTypeErr${index}`]}
                                   />
                               )}
                           />
@@ -377,9 +377,9 @@ class workExperience extends Component {
                         error={this.state.organizationErr.length > 0}
                         helperText={this.state.organizationErr}
                         contentEditable={this.state.disable}
-                        error={this.state.[`organizationErr${index}`] !== undefined && this.state.[`organizationErr${index}`] !== "" ? true :false}
+                        error={this.state[`organizationErr${index}`] !== undefined && this.state[`organizationErr${index}`] !== "" ? true :false}
                         onChange={(e) => this.state.disable === false && this.onChange({target:{name:"organization",value:e.target.value}},index)} 
-                        helperText={this.state.[`organizationErr${index}`]}
+                        helperText={this.state[`organizationErr${index}`]}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -403,8 +403,8 @@ class workExperience extends Component {
                         // onChange={(e, newValue) =>
                         //   this.setState({ startDate: newValue, startDateErr:'' })
                         // }
-                        error={this.state.[`startDateErr${index}`] !== undefined && this.state.[`startDateErr${index}`] !== "" ? true : false}
-                        helperText={this.state.[`startDateErr${index}`]}
+                        error={this.state[`startDateErr${index}`] !== undefined && this.state[`startDateErr${index}`] !== "" ? true : false}
+                        helperText={this.state[`startDateErr${index}`]}
                         onChange={(date) => this.state.disable === false && this.onChange({target:{name:"startDate",value:date}},index)}
                         InputLabelProps={{
                           shrink: true,
@@ -425,8 +425,8 @@ class workExperience extends Component {
                         views={["year", "month"]}
                         contentEditable={this.state.disable}
                         minDate={this.state.professional[index].startDate}
-                        error={this.state.[`endDateErr${index}`] !== undefined && this.state.[`endDateErr${index}`] !== "" ? true : false}
-                        helperText={this.state.[`endDateErr${index}`]}
+                        error={this.state[`endDateErr${index}`] !== undefined && this.state[`endDateErr${index}`] !== "" ? true : false}
+                        helperText={this.state[`endDateErr${index}`]}
                         value={item.endDate || ""}
                         onChange={(date) => this.state.disable === false && this.onChange({target:{name:"endDate",value:date}},index)}
                         InputLabelProps={{
@@ -446,9 +446,9 @@ class workExperience extends Component {
                         onChange={(e) =>this.state.disable === false && this.onChange({target:{name:"role",value:e.target.value}},index)} 
                         error={this.state.roleErr.length > 0}
                         helperText={this.state.roleErr}
-                        error={this.state.[`roleErr${index}`] !== undefined && this.state.[`roleErr${index}`] !== "" ? true :false}                        
+                        error={this.state[`roleErr${index}`] !== undefined && this.state[`roleErr${index}`] !== "" ? true :false}                        
                         // onChange={(e) =>this.onChange(e,index)}
-                        helperText={this.state.[`roleErr${index}`]}
+                        helperText={this.state[`roleErr${index}`]}
                         // value={item.role || ""}
                         InputLabelProps={{
                           shrink: true,
@@ -466,8 +466,8 @@ class workExperience extends Component {
                         onChange={(e) =>this.onChange({target:{name:"description",value:e.target.value}},index)} 
                         error={this.state.descriptionErr.length > 0}
                         helperText={this.state.descriptionErr}
-                        error={this.state.[`descriptionErr${index}`] !== undefined && this.state.[`descriptionErr${index}`] !== "" ? true :false}
-                        helperText={this.state.[`descriptionErr${index}`]}
+                        error={this.state[`descriptionErr${index}`] !== undefined && this.state[`descriptionErr${index}`] !== "" ? true :false}
+                        helperText={this.state[`descriptionErr${index}`]}
                         InputLabelProps={{
                           shrink: true,
                         }}

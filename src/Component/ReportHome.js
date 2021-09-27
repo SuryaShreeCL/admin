@@ -61,10 +61,10 @@ componentDidUpdate(prevProps, prevState) {
        
         let myObj = {}
         for(const property in eachReport ){
-            myObj.[property] =  typeof eachReport[property] === "object" ? "" : eachReport[property]
+            myObj[property] =  typeof eachReport[property] === "object" ? "" : eachReport[property]
             if(typeof eachReport[property] !== "string" &&  eachReport[property] !== null && Object.keys(eachReport[property]).length !== 0){
               for(const innerProperty in eachReport[property]){
-                myObj.[innerProperty] = eachReport[property].[innerProperty]
+                myObj[innerProperty] = eachReport[property][innerProperty]
               }
             }
         }
@@ -433,13 +433,13 @@ render(){
                         ></ExcelColumn>
                          <ExcelColumn
                           label="No.of Active Backlogs"
-                          value={(col)=>col.['No.of Active Backlogs'] === "100" ? "0" : col.['No.of Active Backlogs']}
+                          value={(col)=>col['No.of Active Backlogs'] === "100" ? "0" : col['No.of Active Backlogs']}
                             
                           // "No.of Active Backlogs"
                         ></ExcelColumn>
                          <ExcelColumn
                           label="No.of Cleared Backlogs"
-                          value={(col)=>col.['No.of Cleared Backlogs'] === "100" ? "0" : col.['No.of Cleared Backlogs']}
+                          value={(col)=>col['No.of Cleared Backlogs'] === "100" ? "0" : col['No.of Cleared Backlogs']}
                           
                         ></ExcelColumn>
                          <ExcelColumn
@@ -456,7 +456,7 @@ render(){
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Present Semester"
-                          value={(col)=>col.['Present Semester'] === "100" ? "0" : col.['Present Semester']}
+                          value={(col)=>col['Present Semester'] === "100" ? "0" : col['Present Semester']}
                         ></ExcelColumn>
                          <ExcelColumn
                           label="Expected Year of Graduation"
@@ -685,7 +685,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['The universal gas constant (or molar constant) of a gas is the product of:']
+                               return col.technicaltest['The universal gas constant (or molar constant) of a gas is the product of:']
                               }else{
                                 return null
                               }
@@ -697,7 +697,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['The value of bulk modulus of a fluid is required to determine']
+                               return col.technicaltest['The value of bulk modulus of a fluid is required to determine']
                               }else{
                                 return null
                               }
@@ -709,7 +709,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['The metacentric heights of two floating bodies A and B are 1 m and 1.5 m respectively. Select the correct statement.']
+                               return col.technicaltest['The metacentric heights of two floating bodies A and B are 1 m and 1.5 m respectively. Select the correct statement.']
                               }else{
                                 return null
                               }
@@ -720,7 +720,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['The acme threads are usually found on:']
+                               return col.technicaltest['The acme threads are usually found on:']
                               }else{
                                 return null
                               }
@@ -731,7 +731,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['When cut-off ratio is __________ the efficiency of Diesel cycle approaches to Otto cycle efficiency']
+                               return col.technicaltest['When cut-off ratio is __________ the efficiency of Diesel cycle approaches to Otto cycle efficiency']
                               }else{
                                 return null
                               }
@@ -743,7 +743,7 @@ render(){
                             (col)=>{
                               if(col.technicaltest !== null){
                                 return null
-                              //  return col.technicaltest.['']
+                              //  return col.technicaltest['']
                               }else{
                                 return null
                               }
@@ -755,7 +755,7 @@ render(){
                             (col)=>{
                               if(col.technicaltest !== null){
                                 return null
-                              //  return col.technicaltest.['']
+                              //  return col.technicaltest['']
                               }else{
                                 return null
                               }
@@ -767,7 +767,7 @@ render(){
                             (col)=>{
                               if(col.technicaltest !== null){
                                 return null
-                              //  return col.technicaltest.['']
+                              //  return col.technicaltest['']
                               }else{
                                 return null
                               }
@@ -778,7 +778,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['As per common design practice, the three types of hydraulic turbines, in descending order of flow rate, are:']
+                               return col.technicaltest['As per common design practice, the three types of hydraulic turbines, in descending order of flow rate, are:']
                               }else{
                                 return null
                               }
@@ -789,7 +789,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Consider an ideal vapor compression refrigeration cycle. If the throttling process is replaced by an isentropic expansion process, keeping all the other processes unchanged, which one of the following statements is true for the modified cycle?']
+                               return col.technicaltest['Consider an ideal vapor compression refrigeration cycle. If the throttling process is replaced by an isentropic expansion process, keeping all the other processes unchanged, which one of the following statements is true for the modified cycle?']
                               }else{
                                 return null
                               }
@@ -800,7 +800,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['" The length, width and thickness of a steel sample are 400 mm, 40 mm and 20 mm, respectively. Its thickness needs to be uniformly reduced by 2 mm in a single pass by using horizontal slab milling. The milling cutter (diameter: 100 mm, width: 50 mm) has 20 teeth and rotates at 1200 rpm. The feed per tooth is 0.05 mm. The feed direction is along the length of the sample. If the over-travel distance is the same as the approach distance, the approach distance and time taken to complete the required machining task are"']
+                               return col.technicaltest['" The length, width and thickness of a steel sample are 400 mm, 40 mm and 20 mm, respectively. Its thickness needs to be uniformly reduced by 2 mm in a single pass by using horizontal slab milling. The milling cutter (diameter: 100 mm, width: 50 mm) has 20 teeth and rotates at 1200 rpm. The feed per tooth is 0.05 mm. The feed direction is along the length of the sample. If the over-travel distance is the same as the approach distance, the approach distance and time taken to complete the required machining task are"']
                               }else{
                                 return null
                               }
@@ -811,7 +811,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['" What will be the change in specific entropy of an ideal gas when it is throttled from 10 bar,298 k to 4 bars? (approximately)(Tape R = 287 J/(kg-k)"']
+                               return col.technicaltest['" What will be the change in specific entropy of an ideal gas when it is throttled from 10 bar,298 k to 4 bars? (approximately)(Tape R = 287 J/(kg-k)"']
                               }else{
                                 return null
                               }
@@ -822,7 +822,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Which of the following is the correct statement of the second law of thermodynamics?']
+                               return col.technicaltest['Which of the following is the correct statement of the second law of thermodynamics?']
                               }else{
                                 return null
                               }
@@ -833,7 +833,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['During steady flow compression of a gas with mass flow rate of 2 kg/s, increase in specific enthalpy is 15 KJ/Kg and decrease in kinetic energy is 2 KJ/Kg . The rate of heat rejection to the environment is 3 kW. The power required to drive the compressor is __________.']
+                               return col.technicaltest['During steady flow compression of a gas with mass flow rate of 2 kg/s, increase in specific enthalpy is 15 KJ/Kg and decrease in kinetic energy is 2 KJ/Kg . The rate of heat rejection to the environment is 3 kW. The power required to drive the compressor is __________.']
                               }else{
                                 return null
                               }
@@ -844,7 +844,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['A thin steel rule (E = 200 GPa) having thickness 20 mm and it is bent by couples Mo at the ends into a circular arc of length 25 cm subtending a central angle of 60o. What is maximum stress in the beam __________ (MPa).']
+                               return col.technicaltest['A thin steel rule (E = 200 GPa) having thickness 20 mm and it is bent by couples Mo at the ends into a circular arc of length 25 cm subtending a central angle of 60o. What is maximum stress in the beam __________ (MPa).']
                               }else{
                                 return null
                               }
@@ -855,7 +855,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.[' Which of the following statements is/are true for mechanisms?']
+                               return col.technicaltest[' Which of the following statements is/are true for mechanisms?']
                               }else{
                                 return null
                               }
@@ -866,7 +866,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.[' A cycle consisting of one constant pressure, one constant volume and two isentropic processes is known as']
+                               return col.technicaltest[' A cycle consisting of one constant pressure, one constant volume and two isentropic processes is known as']
                               }else{
                                 return null
                               }
@@ -877,7 +877,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Which of the following factors increases hardenability of a metal?']
+                               return col.technicaltest['Which of the following factors increases hardenability of a metal?']
                               }else{
                                 return null
                               }
@@ -888,7 +888,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['The ratio of the actual damping coefficient to the critical damping coefficient is called damping factor.']
+                               return col.technicaltest['The ratio of the actual damping coefficient to the critical damping coefficient is called damping factor.']
                               }else{
                                 return null
                               }
@@ -899,7 +899,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.[' A shaft has an attached disc at the center of its length. The disc has its center of gravity located at a distance of 2 mm from the axis of the shaft. When the shaft is allowed to vibrate in its natural bow-shaped mode, it has a frequency of vibration of 10 rad/s. When the shaft is rotated at 300 r.p.m., it will whirl with a radius of']
+                               return col.technicaltest[' A shaft has an attached disc at the center of its length. The disc has its center of gravity located at a distance of 2 mm from the axis of the shaft. When the shaft is allowed to vibrate in its natural bow-shaped mode, it has a frequency of vibration of 10 rad/s. When the shaft is rotated at 300 r.p.m., it will whirl with a radius of']
                               }else{
                                 return null
                               }
@@ -963,7 +963,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ1']
+                               return col.technicaltest['technicalTestElectronicsQ1']
                               }else{
                                 return null
                               }
@@ -975,7 +975,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ2']
+                               return col.technicaltest['technicalTestElectronicsQ2']
                               }else{
                                 return null
                               }
@@ -988,7 +988,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ3']
+                               return col.technicaltest['technicalTestElectronicsQ3']
                               }else{
                                 return null
                               }
@@ -1001,7 +1001,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ4']
+                               return col.technicaltest['technicalTestElectronicsQ4']
                               }else{
                                 return null
                               }
@@ -1015,7 +1015,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ5']
+                               return col.technicaltest['technicalTestElectronicsQ5']
                               }else{
                                 return null
                               }
@@ -1028,7 +1028,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ6']
+                               return col.technicaltest['technicalTestElectronicsQ6']
                               }else{
                                 return null
                               }
@@ -1041,7 +1041,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ7']
+                               return col.technicaltest['technicalTestElectronicsQ7']
                               }else{
                                 return null
                               }
@@ -1054,7 +1054,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ8']
+                               return col.technicaltest['technicalTestElectronicsQ8']
                               }else{
                                 return null
                               }
@@ -1067,7 +1067,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ9']
+                               return col.technicaltest['technicalTestElectronicsQ9']
                               }else{
                                 return null
                               }
@@ -1080,7 +1080,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ10']
+                               return col.technicaltest['technicalTestElectronicsQ10']
                               }else{
                                 return null
                               }
@@ -1094,7 +1094,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ11']
+                               return col.technicaltest['technicalTestElectronicsQ11']
                               }else{
                                 return null
                               }
@@ -1107,7 +1107,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ12']
+                               return col.technicaltest['technicalTestElectronicsQ12']
                               }else{
                                 return null
                               }
@@ -1120,7 +1120,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ13']
+                               return col.technicaltest['technicalTestElectronicsQ13']
                               }else{
                                 return null
                               }
@@ -1133,7 +1133,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ14']
+                               return col.technicaltest['technicalTestElectronicsQ14']
                               }else{
                                 return null
                               }
@@ -1146,7 +1146,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ15']
+                               return col.technicaltest['technicalTestElectronicsQ15']
                               }else{
                                 return null
                               }
@@ -1159,7 +1159,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ16']
+                               return col.technicaltest['technicalTestElectronicsQ16']
                               }else{
                                 return null
                               }
@@ -1172,7 +1172,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ17']
+                               return col.technicaltest['technicalTestElectronicsQ17']
                               }else{
                                 return null
                               }
@@ -1185,7 +1185,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ18']
+                               return col.technicaltest['technicalTestElectronicsQ18']
                               }else{
                                 return null
                               }
@@ -1198,7 +1198,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ19']
+                               return col.technicaltest['technicalTestElectronicsQ19']
                               }else{
                                 return null
                               }
@@ -1211,7 +1211,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['technicalTestElectronicsQ20']
+                               return col.technicaltest['technicalTestElectronicsQ20']
                               }else{
                                 return null
                               }
@@ -1364,7 +1364,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Heap is an example of']
+                               return col.technicaltest['Heap is an example of']
                               }else{
                                 return null
                               }
@@ -1376,7 +1376,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['What is (void*)0?']
+                               return col.technicaltest['What is (void*)0?']
                               }else{
                                 return null
                               }
@@ -1388,7 +1388,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest!== null){
-                               return col.technicaltest.['Which of the following cannot be checked in a switch-case statement?']
+                               return col.technicaltest['Which of the following cannot be checked in a switch-case statement?']
                               }else{
                                 return null
                               }
@@ -1400,7 +1400,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest!== null){
-                               return col.technicaltest.['Which one of the below is not divide and conquer approach?']
+                               return col.technicaltest['Which one of the below is not divide and conquer approach?']
                               }else{
                                 return null
                               }
@@ -1412,7 +1412,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency.']
+                               return col.technicaltest['Six files Fl, F2, F3, F4, F5 and F6 have 100,200,50,80, 120, 150 number of records respectively. In what order should they be stored so as to optimize access time? Assume each file is accessed with the same frequency.']
                               }else{
                                 return null
                               }
@@ -1424,7 +1424,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['The concept of order (Big O) is important because']
+                               return col.technicaltest['The concept of order (Big O) is important because']
                               }else{
                                 return null
                               }
@@ -1437,7 +1437,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Which operator performs pattern matching']
+                               return col.technicaltest['Which operator performs pattern matching']
                               }else{
                                 return null
                               }
@@ -1449,7 +1449,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Which of the following can be used to add data to a database table?']
+                               return col.technicaltest['Which of the following can be used to add data to a database table?']
                               }else{
                                 return null
                               }
@@ -1461,7 +1461,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Which of the following are also known as “inner join”?']
+                               return col.technicaltest['Which of the following are also known as “inner join”?']
                               }else{
                                 return null
                               }
@@ -1473,7 +1473,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Hiding the complexity is known as”?']
+                               return col.technicaltest['Hiding the complexity is known as”?']
                               }else{
                                 return null
                               }
@@ -1486,7 +1486,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['For Cat and Animal class, correct way of inheritance is”?']
+                               return col.technicaltest['For Cat and Animal class, correct way of inheritance is”?']
                               }else{
                                 return null
                               }
@@ -1498,7 +1498,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['Which C++ oops feature is related to re-usability?']
+                               return col.technicaltest['Which C++ oops feature is related to re-usability?']
                               }else{
                                 return null
                               }
@@ -1510,7 +1510,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.["How many times will 'CareerLabs' get printed?"]
+                               return col.technicaltest["How many times will 'CareerLabs' get printed?"]
                               }else{
                                 return null
                               }
@@ -1522,7 +1522,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['How many times the while loop will get executed if a short int is 2 byte wide?']
+                               return col.technicaltest['How many times the while loop will get executed if a short int is 2 byte wide?']
                               }else{
                                 return null
                               }
@@ -1534,7 +1534,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['What does the following function do for a given Linked List with first node as head?']
+                               return col.technicaltest['What does the following function do for a given Linked List with first node as head?']
                               }else{
                                 return null
                               }
@@ -1547,7 +1547,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.["Stack is also called as "]
+                               return col.technicaltest["Stack is also called as "]
                               }else{
                                 return null
                               }
@@ -1559,7 +1559,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['________ is a pile in which items are added at one end and removed from the other']
+                               return col.technicaltest['________ is a pile in which items are added at one end and removed from the other']
                               }else{
                                 return null
                               }
@@ -1572,7 +1572,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['What is the output of this program?']
+                               return col.technicaltest['What is the output of this program?']
                               }else{
                                 return null
                               }
@@ -1584,7 +1584,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['A pointer is']
+                               return col.technicaltest['A pointer is']
                               }else{
                                 return null
                               }
@@ -1597,7 +1597,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.technicaltest !== null){
-                               return col.technicaltest.['If the two strings are identical, then strcmp() function returns']
+                               return col.technicaltest['If the two strings are identical, then strcmp() function returns']
                               }else{
                                 return null
                               }
@@ -1754,7 +1754,7 @@ render(){
                           <ExcelColumn
                           label="Personality Code"
                           value={
-                            (col)=>col.['Personality Code'].replaceAll(",","").replaceAll("[","").replaceAll("]","").replaceAll(" ","")
+                            (col)=>col['Personality Code'].replaceAll(",","").replaceAll("[","").replaceAll("]","").replaceAll(" ","")
                           }
                         ></ExcelColumn>
                       </ExcelSheet>
@@ -1820,7 +1820,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['Do you like your undergraduate field of study?']
+                               return col.TestAnswer['Do you like your undergraduate field of study?']
                               }else{
                                 return null
                               }
@@ -1832,7 +1832,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?']
+                               return col.TestAnswer['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?']
                               }else{
                                 return null
                               }
@@ -1844,7 +1844,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?Others']
+                               return col.TestAnswer['How did you choose your undergraduate field of study (Eg. mechanical engineering, computer science engineering, etc.)?Others']
                               }else{
                                 return null
                               }
@@ -1857,7 +1857,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['From the following, what is your first preference for a career option immediately after graduation?']
+                               return col.TestAnswer['From the following, what is your first preference for a career option immediately after graduation?']
                               }else{
                                 return null
                               }
@@ -1870,7 +1870,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['From the following, what is your first preference for a career option immediately after graduation?Others']
+                               return col.TestAnswer['From the following, what is your first preference for a career option immediately after graduation?Others']
                               }else{
                                 return null
                               }
@@ -1882,7 +1882,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['What would you look for in your ideal job?Pay']
+                               return col.TestAnswer['What would you look for in your ideal job?Pay']
                               }else{
                                 return null
                               }
@@ -1894,7 +1894,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['What would you look for in your ideal job?Growth']
+                               return col.TestAnswer['What would you look for in your ideal job?Growth']
                               }else{
                                 return null
                               }
@@ -1906,7 +1906,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['What would you look for in your ideal job?Applying what you studied']
+                               return col.TestAnswer['What would you look for in your ideal job?Applying what you studied']
                               }else{
                                 return null
                               }
@@ -1918,7 +1918,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['What would you look for in your ideal job?Working with people from different backgrounds']
+                               return col.TestAnswer['What would you look for in your ideal job?Working with people from different backgrounds']
                               }else{
                                 return null
                               }
@@ -1930,7 +1930,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['What would you look for in your ideal job?Others']
+                               return col.TestAnswer['What would you look for in your ideal job?Others']
                               }else{
                                 return null
                               }
@@ -1942,7 +1942,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Build a system to automatically recognise different food items']
+                               return col.TestAnswer['On a regular basis at work, what is it that you would really like to do?Build a system to automatically recognise different food items']
                               }else{
                                 return null
                               }
@@ -1954,7 +1954,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Recruit new employees and design employee benefit program']
+                               return col.TestAnswer['On a regular basis at work, what is it that you would really like to do?Recruit new employees and design employee benefit program']
                               }else{
                                 return null
                               }
@@ -1966,7 +1966,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Develop systems where multiple devices that talk to each other]']
+                               return col.TestAnswer['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Develop systems where multiple devices that talk to each other]']
                               }else{
                                 return null
                               }
@@ -1978,7 +1978,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Design User Interface and User experience for different web and mobile applications']
+                               return col.TestAnswer['On a regular basis at work, what is it that you would really like to do?Design User Interface and User experience for different web and mobile applications']
                               }else{
                                 return null
                               }
@@ -1990,7 +1990,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Generate more revenue for the bank by bringing in customers]']
+                               return col.TestAnswer['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Generate more revenue for the bank by bringing in customers]']
                               }else{
                                 return null
                               }
@@ -2002,7 +2002,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Use design software to model, test, and create products/assemblies']
+                               return col.TestAnswer['On a regular basis at work, what is it that you would really like to do?Use design software to model, test, and create products/assemblies']
                               }else{
                                 return null
                               }
@@ -2014,7 +2014,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Recognise and analyse patterns in large datasets']
+                               return col.TestAnswer['On a regular basis at work, what is it that you would really like to do?Recognise and analyse patterns in large datasets']
                               }else{
                                 return null
                               }
@@ -2026,7 +2026,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Help business grow by improving their sales']
+                               return col.TestAnswer['On a regular basis at work, what is it that you would really like to do?Help business grow by improving their sales']
                               }else{
                                 return null
                               }
@@ -2038,7 +2038,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Design and develop machines that replace humans for various activities.]']
+                               return col.TestAnswer['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Design and develop machines that replace humans for various activities.]']
                               }else{
                                 return null
                               }
@@ -2050,7 +2050,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Create my own 3D animated film like Kungfu Panda]']
+                               return col.TestAnswer['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Create my own 3D animated film like Kungfu Panda]']
                               }else{
                                 return null
                               }
@@ -2062,7 +2062,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Analyse stocks and forecast capital markets ]']
+                               return col.TestAnswer['On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Analyse stocks and forecast capital markets ]']
                               }else{
                                 return null
                               }
@@ -2074,7 +2074,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['On a regular basis at work, what is it that you would really like to do?Design machinery for large manufacturing companies']
+                               return col.TestAnswer['On a regular basis at work, what is it that you would really like to do?Design machinery for large manufacturing companies']
                               }else{
                                 return null
                               }
@@ -2086,7 +2086,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?1"]
+                               return col.TestAnswer["What are your top three favorite subjects in your undergraduate field of study?1"]
                               }else{
                                 return null
                               }
@@ -2098,7 +2098,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?2"]
+                               return col.TestAnswer["What are your top three favorite subjects in your undergraduate field of study?2"]
                               }else{
                                 return null
                               }
@@ -2110,7 +2110,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three favorite subjects in your undergraduate field of study?3"]
+                               return col.TestAnswer["What are your top three favorite subjects in your undergraduate field of study?3"]
                               }else{
                                 return null
                               }
@@ -2122,7 +2122,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?1"]
+                               return col.TestAnswer["What electives are you taking in the current semester or will be taking in the coming semester?1"]
                               }else{
                                 return null
                               }
@@ -2134,7 +2134,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?2"]
+                               return col.TestAnswer["What electives are you taking in the current semester or will be taking in the coming semester?2"]
                               }else{
                                 return null
                               }
@@ -2146,7 +2146,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What electives are you taking in the current semester or will be taking in the coming semester?3"]
+                               return col.TestAnswer["What electives are you taking in the current semester or will be taking in the coming semester?3"]
                               }else{
                                 return null
                               }
@@ -2158,7 +2158,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["Would you like to pursue a career in your undergraduate your field of study?"]
+                               return col.TestAnswer["Would you like to pursue a career in your undergraduate your field of study?"]
                               }else{
                                 return null
                               }
@@ -2170,7 +2170,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["How would you go about selecting your career paths?"]
+                               return col.TestAnswer["How would you go about selecting your career paths?"]
                               }else{
                                 return null
                               }
@@ -2182,7 +2182,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["How would you go about selecting your career paths?Others"]
+                               return col.TestAnswer["How would you go about selecting your career paths?Others"]
                               }else{
                                 return null
                               }
@@ -2194,7 +2194,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Develop captivating responsive websites and manage databases"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Develop captivating responsive websites and manage databases"]
                               }else{
                                 return null
                               }
@@ -2206,7 +2206,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Promote Products or Services to End Customer using different social media channels]"]
+                               return col.TestAnswer["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Promote Products or Services to End Customer using different social media channels]"]
                               }else{
                                 return null
                               }
@@ -2218,7 +2218,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Explore an interdisciplinary field which combines Mechanics,Electronics, Automation and Computers."]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Explore an interdisciplinary field which combines Mechanics,Electronics, Automation and Computers."]
                               }else{
                                 return null
                               }
@@ -2230,7 +2230,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Create an explosion scene for an action film]"]
+                               return col.TestAnswer["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Create an explosion scene for an action film]"]
                               }else{
                                 return null
                               }
@@ -2242,7 +2242,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Prevent fraudulent losses for business]"]
+                               return col.TestAnswer["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interestI would like to: [Prevent fraudulent losses for business]"]
                               }else{
                                 return null
                               }
@@ -2254,7 +2254,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Evaluate, analyze maintain boilers or turbo machinery"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Evaluate, analyze maintain boilers or turbo machinery"]
                               }else{
                                 return null
                               }
@@ -2266,7 +2266,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Take part in competitions and solve coding problems"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Take part in competitions and solve coding problems"]
                               }else{
                                 return null
                               }
@@ -2278,7 +2278,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Plan, organize, and direct the completion of specific projects for an organization"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Plan, organize, and direct the completion of specific projects for an organization"]
                               }else{
                                 return null
                               }
@@ -2290,7 +2290,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Design dedicated computer hardware and software for intelligent devices"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Design dedicated computer hardware and software for intelligent devices"]
                               }else{
                                 return null
                               }
@@ -2302,7 +2302,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Work on Augmented reality and Virtual Reality]"]
+                               return col.TestAnswer["Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Work on Augmented reality and Virtual Reality]"]
                               }else{
                                 return null
                               }
@@ -2314,7 +2314,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage wealth of high net worth individuals for their future needs]"]
+                               return col.TestAnswer["Great Progress so far!On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage wealth of high net worth individuals for their future needs]"]
                               }else{
                                 return null
                               }
@@ -2326,7 +2326,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Perform structural analysis using hand calculations and finite element analysis software"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Perform structural analysis using hand calculations and finite element analysis software"]
                               }else{
                                 return null
                               }
@@ -2338,7 +2338,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?"]
+                               return col.TestAnswer["What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?"]
                               }else{
                                 return null
                               }
@@ -2350,7 +2350,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?Others"]
+                               return col.TestAnswer["What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?Others"]
                               }else{
                                 return null
                               }
@@ -2362,7 +2362,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three hobbies?1"]
+                               return col.TestAnswer["What are your top three hobbies?1"]
                               }else{
                                 return null
                               }
@@ -2374,7 +2374,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three hobbies?2"]
+                               return col.TestAnswer["What are your top three hobbies?2"]
                               }else{
                                 return null
                               }
@@ -2386,7 +2386,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are your top three hobbies?3"]
+                               return col.TestAnswer["What are your top three hobbies?3"]
                               }else{
                                 return null
                               }
@@ -2398,7 +2398,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["My back up option is to"]
+                               return col.TestAnswer["My back up option is to"]
                               }else{
                                 return null
                               }
@@ -2410,7 +2410,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["My back up option is toOthers"]
+                               return col.TestAnswer["My back up option is toOthers"]
                               }else{
                                 return null
                               }
@@ -2422,7 +2422,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process analyse digital images that enable computers to see]"]
+                               return col.TestAnswer["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process analyse digital images that enable computers to see]"]
                               }else{
                                 return null
                               }
@@ -2434,7 +2434,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage the process that transforms inputs to outputs in an organisation]"]
+                               return col.TestAnswer["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Manage the process that transforms inputs to outputs in an organisation]"]
                               }else{
                                 return null
                               }
@@ -2446,7 +2446,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Build the next 8G network]"]
+                               return col.TestAnswer["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Build the next 8G network]"]
                               }else{
                                 return null
                               }
@@ -2458,7 +2458,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Be a part of developing PC or mobile games"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Be a part of developing PC or mobile games"]
                               }else{
                                 return null
                               }
@@ -2470,7 +2470,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process and settle financial transactions for trading desks]"]
+                               return col.TestAnswer["On a regular basis at work, what would you like to do? Select atleast one option that is closest to your interest.I would like to: [Process and settle financial transactions for trading desks]"]
                               }else{
                                 return null
                               }
@@ -2482,7 +2482,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["On a regular basis at work, what is it that you would really like to do?Develop numerical programs to drive NC and CNC tools"]
+                               return col.TestAnswer["On a regular basis at work, what is it that you would really like to do?Develop numerical programs to drive NC and CNC tools"]
                               }else{
                                 return null
                               }
@@ -2494,7 +2494,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What was your favourite subject in 11th /12th grade?"]
+                               return col.TestAnswer["What was your favourite subject in 11th /12th grade?"]
                               }else{
                                 return null
                               }
@@ -2506,7 +2506,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?1"]
+                               return col.TestAnswer["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?1"]
                               }else{
                                 return null
                               }
@@ -2518,7 +2518,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?2"]
+                               return col.TestAnswer["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?2"]
                               }else{
                                 return null
                               }
@@ -2530,7 +2530,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?3"]
+                               return col.TestAnswer["What are the Top 3 subjects you Hate in your undergraduate studies\nso far?3"]
                               }else{
                                 return null
                               }
@@ -2542,7 +2542,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['Do you like to code?']
+                               return col.TestAnswer['Do you like to code?']
                               }else{
                                 return null
                               }
@@ -2554,7 +2554,7 @@ render(){
                           value={
                             (col)=>{
                               if(col.TestAnswer !== null){
-                               return col.TestAnswer.['Do you like talking to people?']
+                               return col.TestAnswer['Do you like talking to people?']
                               }else{
                                 return null
                               }

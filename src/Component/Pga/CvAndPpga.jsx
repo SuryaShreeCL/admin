@@ -103,7 +103,7 @@ handleChange=(e)=>{
           size="small"
           label={"Factor From CV"}
           name={"cvfactor".concat(i)}
-          value={this.state.["cvfactor".concat(i)]}
+          value={this.state["cvfactor".concat(i)]}
           onChange={(e) => this.handleChange(e)}
           />
          
@@ -116,7 +116,7 @@ handleChange=(e)=>{
             type="number"
             size="small"
             name={"count".concat(i)}
-            value={this.state.["count".concat(i)]}
+            value={this.state["count".concat(i)]}
             onChange={(e) => this.handleChange(e)}
           />
         ),
@@ -127,7 +127,7 @@ handleChange=(e)=>{
           InputLabelProps={{ shrink: true }}
           size="small"
           name={"datafactor".concat(i)}
-          value={this.state.["datafactor".concat(i)]}
+          value={this.state["datafactor".concat(i)]}
           onChange={(e) => this.handleChange(e)}
           />
         ),
@@ -137,7 +137,7 @@ handleChange=(e)=>{
           InputLabelProps={{ shrink: true }}
           label="Mentor Comments"
           size="small" name={"mentorcomment".concat(i)}
-          value={this.state.["mentorcomment".concat(i)]}
+          value={this.state["mentorcomment".concat(i)]}
           onChange={(e) => this.handleChange(e)}
           />
         ),
@@ -174,7 +174,7 @@ handleChange=(e)=>{
           size="small"
           label="Question From Database"
           name={"ppgaquestion".concat(i)}
-          value={this.state.["ppgaquestion".concat(i)]}
+          value={this.state["ppgaquestion".concat(i)]}
           onChange={(e) => this.handleChange(e)}
 
         />
@@ -186,7 +186,7 @@ handleChange=(e)=>{
             fullWidth
             label="Notes Before PPGA "
             name={"notesbefore".concat(i)}
-            value={this.state.["notesbefore".concat(i)]}
+            value={this.state["notesbefore".concat(i)]}
             onChange={(e) => this.handleChange(e)}
           />
         ),
@@ -196,7 +196,7 @@ handleChange=(e)=>{
             size="small"
             label="Notes After PPGA "
             name={"notesafter".concat(i)}
-            value={this.state.["notesafter".concat(i)]}
+            value={this.state["notesafter".concat(i)]}
             onChange={(e) => this.handleChange(e)}
           />
         ),
@@ -230,12 +230,12 @@ if(
     let ppgaArr = []
       
       for(let i = 0; i<=13; i++){
-        // console.log(this.state.["notesbefore".concat(i)])
+        // console.log(this.state["notesbefore".concat(i)])
         ppgaArr.push({
-          "notes_before": this.state.["notesbefore".concat(i+1)],
-          "notes_after": this.state.["notesafter".concat(i+1)],
+          "notes_before": this.state["notesbefore".concat(i+1)],
+          "notes_after": this.state["notesafter".concat(i+1)],
           "ppgaQuestion": {
-            "id": this.state.["ppgaQuestion".concat(i+1)]
+            "id": this.state["ppgaQuestion".concat(i+1)]
         },
         // "student": {
         //     "id": this.props.id
@@ -248,11 +248,11 @@ if(
 
     for(let i=0; i<=13; i++){
        cvArr.push({
-        "mentorComments": this.state.["mentorcomment".concat(i+1)],
-        "dataOfFactor": this.state.["datafactor".concat(i+1)],
-        "count": this.state.["count".concat(i+1)],
+        "mentorComments": this.state["mentorcomment".concat(i+1)],
+        "dataOfFactor": this.state["datafactor".concat(i+1)],
+        "count": this.state["count".concat(i+1)],
         "cvFactors": {
-            "id": this.state.["cvQuestion".concat(i+1)]
+            "id": this.state["cvQuestion".concat(i+1)]
         },
         // "student": {
         //     "id": this.props.id
@@ -271,10 +271,10 @@ else{
   for(let i = 0; i<=13; i++){
     ppgaupdateArr.push({
       "id":ppgaid[i],
-      "notes_before": this.state.["notesbefore".concat(i+1)],
-      "notes_after": this.state.["notesafter".concat(i+1)],
+      "notes_before": this.state["notesbefore".concat(i+1)],
+      "notes_after": this.state["notesafter".concat(i+1)],
       "ppgaQuestion": {
-        "id": this.state.["ppgaQuestion".concat(i+1)]
+        "id": this.state["ppgaQuestion".concat(i+1)]
     },
     // "student": {
     //     "id": this.props.id
@@ -288,11 +288,11 @@ else{
   for(let i=0; i<=13 ; i++){
     cvupdateArr.push({
       "id":cvid[i],
-     "mentorComments": this.state.["mentorcomment".concat(i+1)],
-     "dataOfFactor": this.state.["datafactor".concat(i+1)],
-     "count": this.state.["count".concat(i+1)],
+     "mentorComments": this.state["mentorcomment".concat(i+1)],
+     "dataOfFactor": this.state["datafactor".concat(i+1)],
+     "count": this.state["count".concat(i+1)],
      "cvFactors": {
-         "id": this.state.["cvQuestion".concat(i+1)]
+         "id": this.state["cvQuestion".concat(i+1)]
      },
     //  "student": {
     //      "id": this.props.id
@@ -349,7 +349,7 @@ let obj2={
             type="number"
             size="small"
             name={"count".concat(index+1)}
-            value={this.state.["count".concat(index+1)]}
+            value={this.state["count".concat(index+1)]}
             onChange={(e) => this.handleChange(e)}
             />
           </Grid>
@@ -360,7 +360,7 @@ let obj2={
                InputLabelProps={{ shrink: true }}
                size="small"
                name={"datafactor".concat(index+1)}
-               value={this.state.["datafactor".concat(index+1)]}
+               value={this.state["datafactor".concat(index+1)]}
                onChange={(e) => this.handleChange(e)}
              />
           </Grid>
@@ -371,7 +371,7 @@ let obj2={
                InputLabelProps={{ shrink: true }}
                size="small"
                name={"mentorcomment".concat(index+1)}
-               value={this.state.["mentorcomment".concat(index+1)]}
+               value={this.state["mentorcomment".concat(index+1)]}
                onChange={(e) => this.handleChange(e)}
              />
           </Grid>
@@ -400,7 +400,7 @@ let obj2={
           type="number"
           size="small"
           name={"count".concat(index+1)}
-          value={this.state.["count".concat(index+1)]}
+          value={this.state["count".concat(index+1)]}
           onChange={(e) => this.handleChange(e)}
           />
         </Grid>
@@ -411,7 +411,7 @@ let obj2={
              InputLabelProps={{ shrink: true }}
              size="small"
              name={"datafactor".concat(index+1)}
-             value={this.state.["datafactor".concat(index+1)]}
+             value={this.state["datafactor".concat(index+1)]}
              onChange={(e) => this.handleChange(e)}
            />
         </Grid>
@@ -422,7 +422,7 @@ let obj2={
              InputLabelProps={{ shrink: true }}
              size="small"
              name={"mentorcomment".concat(index+1)}
-             value={this.state.["mentorcomment".concat(index+1)]}
+             value={this.state["mentorcomment".concat(index+1)]}
              onChange={(e) => this.handleChange(e)}
            />
         </Grid>
@@ -458,7 +458,7 @@ let obj2={
             InputLabelProps={{ shrink: true }}
             name={"notesbefore".concat(index+1)}
             fullWidth
-            value={this.state.["notesbefore".concat(index+1)]}
+            value={this.state["notesbefore".concat(index+1)]}
             onChange={(e) => this.handleChange(e)}
           />
             </Grid>
@@ -470,7 +470,7 @@ let obj2={
             label="Notes After PPGA "
             InputLabelProps={{ shrink: true }}
             name={"notesafter".concat(index+1)}
-            value={this.state.["notesafter".concat(index+1)]}
+            value={this.state["notesafter".concat(index+1)]}
             onChange={(e) => this.handleChange(e)}
                 />
             </Grid>
@@ -500,7 +500,7 @@ let obj2={
           InputLabelProps={{ shrink: true }}
           name={"notesbefore".concat(index+1)}
           fullWidth
-          value={this.state.["notesbefore".concat(index+1)]}
+          value={this.state["notesbefore".concat(index+1)]}
           onChange={(e) => this.handleChange(e)}
         />
           </Grid>
@@ -512,7 +512,7 @@ let obj2={
           label="Notes After PPGA "
           InputLabelProps={{ shrink: true }}
           name={"notesafter".concat(index+1)}
-          value={this.state.["notesafter".concat(index+1)]}
+          value={this.state["notesafter".concat(index+1)]}
           onChange={(e) => this.handleChange(e)}
               />
           </Grid>

@@ -1789,13 +1789,13 @@ export class academicInfo extends Component {
                       <Grid item md={12}>
                       <p style={HeadStyle}>Documents Received</p>
                       </Grid>
-                      {this.props.getAllDocumentList.["PG Degree"] && this.props.getAllDocumentList.["PG Degree"].length !== 0 &&
+                      {this.props.getAllDocumentList["PG Degree"] && this.props.getAllDocumentList["PG Degree"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>PG Degree</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["PG Degree"] ? this.props.getAllDocumentList.["PG Degree"].map(data =>
+                  {this.props.getAllDocumentList["PG Degree"] ? this.props.getAllDocumentList["PG Degree"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
@@ -1810,13 +1810,13 @@ export class academicInfo extends Component {
                   </Grid>
   }
 
-   {this.props.getAllDocumentList.["UG Degree"] && this.props.getAllDocumentList.["UG Degree"].length !== 0 &&
+   {this.props.getAllDocumentList["UG Degree"] && this.props.getAllDocumentList["UG Degree"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>UG Degree</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["UG Degree"] ? this.props.getAllDocumentList.["UG Degree"].map(data =>
+                  {this.props.getAllDocumentList["UG Degree"] ? this.props.getAllDocumentList["UG Degree"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
@@ -1853,13 +1853,13 @@ export class academicInfo extends Component {
                   </Grid>
   }
 
-  {this.props.getAllDocumentList.["XII Grade"] && this.props.getAllDocumentList.["XII Grade"].length !== 0 &&
+  {this.props.getAllDocumentList["XII Grade"] && this.props.getAllDocumentList["XII Grade"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>XII Grade</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["XII Grade"] ? this.props.getAllDocumentList.["XII Grade"].map(data =>
+                  {this.props.getAllDocumentList["XII Grade"] ? this.props.getAllDocumentList["XII Grade"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
@@ -1873,13 +1873,13 @@ export class academicInfo extends Component {
                   </Grid>
                   </Grid>
   }
-{this.props.getAllDocumentList.["X Grade"] && this.props.getAllDocumentList.["X Grade"].length !== 0 &&
+{this.props.getAllDocumentList["X Grade"] && this.props.getAllDocumentList["X Grade"].length !== 0 &&
                 <Grid item md={12}>
                 <Grid item md={12} direction="column">
                   <p style={GridStyle}>X Grade</p> 
                   </Grid>
                   <Grid item={12} container >
-                  {this.props.getAllDocumentList.["X Grade"] ? this.props.getAllDocumentList.["X Grade"].map(data =>
+                  {this.props.getAllDocumentList["X Grade"] ? this.props.getAllDocumentList["X Grade"].map(data =>
                    <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
                   <DoccumentCard 
                   certificate={data.name}
