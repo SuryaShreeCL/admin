@@ -113,94 +113,92 @@ class CV extends Component {
       //    eachItem.sectionName !== "" &&
       //    eachItem.comments !== ""
       //    ){
-          if (eachItem.id.length === 0) {
-            return {
-              sectionName: eachItem.sectionName,
-              comments: eachItem.comments,
-              updatedBy: {
-                id:
-                  eachItem.updatedBy.id.length === 0
-                    ? adminuserId
-                    : eachItem.updatedBy.id,
-              },
-            };
-          } else {
-            return {
-              id: eachItem.id,
-              sectionName: eachItem.sectionName,
-              comments: eachItem.comments,
-              updatedBy: {
-                id:
-                  eachItem.updatedBy.id.length === 0
-                    ? adminuserId
-                    : eachItem.updatedBy.id,
-              },
-            };
-          }
-        //  }
-        //  else {
-        //    this.setState({
-        //     snackMsg: "Please Fill the Required Field",
-        //     snackOpen: true,
-        //     snackColor: "error",
-        //    })
-        //  }
-     
+      if (eachItem.id.length === 0) {
+        return {
+          sectionName: eachItem.sectionName,
+          comments: eachItem.comments,
+          updatedBy: {
+            id:
+              eachItem.updatedBy.id.length === 0
+                ? adminuserId
+                : eachItem.updatedBy.id,
+          },
+        };
+      } else {
+        return {
+          id: eachItem.id,
+          sectionName: eachItem.sectionName,
+          comments: eachItem.comments,
+          updatedBy: {
+            id:
+              eachItem.updatedBy.id.length === 0
+                ? adminuserId
+                : eachItem.updatedBy.id,
+          },
+        };
+      }
+      //  }
+      //  else {
+      //    this.setState({
+      //     snackMsg: "Please Fill the Required Field",
+      //     snackOpen: true,
+      //     snackColor: "error",
+      //    })
+      //  }
     });
     let error = false;
-    for(let i = 0 ; i < obj.length ; i++){
-      if(obj[i].sectionName.length === 0  || obj[i].comments.length === 0){
+    for (let i = 0; i < obj.length; i++) {
+      if (obj[i].sectionName.length === 0 || obj[i].comments.length === 0) {
         error = true;
       }
     }
-    if(!error){
+    if (!error) {
       console.log(obj);
       this.props.updatecvresult(
-       this.props.match.params.studentId,
-       this.props.match.params.productId,
-       obj,
-       (response) => {
-         if (response.status === 200) {
-           this.props.getcvresult(
-             this.props.match.params.studentId,
-             this.props.match.params.productId,
-             (response) => {
-               console.log(response);
-               this.setState({
-                 cvarr: response.data,
-               });
-             }
-           );
-           this.setState({
-             snackMsg: "Saved Successfully",
-             snackOpen: true,
-             snackColor: "success",
-           });
-         }
-       }
-     );
-    }
-     else {
+        this.props.match.params.studentId,
+        this.props.match.params.productId,
+        obj,
+        (response) => {
+          if (response.status === 200) {
+            this.props.getcvresult(
+              this.props.match.params.studentId,
+              this.props.match.params.productId,
+              (response) => {
+                console.log(response);
+                this.setState({
+                  cvarr: response.data,
+                });
+              }
+            );
+            this.setState({
+              snackMsg: "Saved Successfully",
+              snackOpen: true,
+              snackColor: "success",
+            });
+          }
+        }
+      );
+    } else {
       this.setState({
-            snackMsg: "Please Fill the Required Field",
-            snackOpen: true,
-            snackColor: "error",
-           })
-     }
+        snackMsg: "Please Fill the Required Field",
+        snackOpen: true,
+        snackColor: "error",
+      });
+    }
   };
 
   render() {
     console.log(this.state);
     return (
       <div>
-        <Grid container spacing={3} style={{ height: "100vh",paddingLeft:"20px" }}>
+        <Grid container spacing={3} style={{ height: "100vh" }}>
           <Grid
             item
             md={12}
             style={{ maxHeight: "92%", overflowY: "scroll", padding: "15px" }}
           >
             {this.state.cvarr.map((data, index) => (
-              <Grid container spacing={1}>
+              <Grid container spacing={1} style={{ padding: "20px" }}>
                 <Grid item md={12}>
                   <TextField
                     label="Section Name"
@@ -226,7 +224,8 @@ class CV extends Component {
                   style={{ display: "flex", alignItems: "end" }}
                 >
                   <div style={{ display: "flex" }}>
-                    <AddCircleOutlineIcon style={{marginRight:"8px"}}
+                    <AddCircleOutlineIcon
+                      style={{ marginRight: "8px" }}
                       color="primary"
                       onClick={() => {
                         this.handleAdd();
@@ -252,19 +251,62 @@ class CV extends Component {
               justifyContent: "end",
             }}
           >
+            <div style={{}}>
+            <div style={{ borderBottom: "1px solid red", width: "100%" }}></div>
+            <div style={{display:"flex",alignItems:"flex-end",justifyContent:"flex-end",padding:"10px"}}>
             <PrimaryButton
               variant={"contained"}
               color={"primary"}
               style={{
                 width: "100px",
-                display: "flex",
-                alignItems: "flex-end",
+                // display: "flex",
+                // alignItems: "flex-end",
               }}
               onClick={() => this.handleSaved()}
             >
               Save
             </PrimaryButton>
+              </div>
+            </div>
           </Grid> */}
+          <Grid
+            item
+            md={12}
+            xs={12}
+            sm={12}
+            xl={12}
+            lg={12}
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              // backgroundColor:"yellow"
+            }}
+          >
+            <hr />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "flex-end",
+              }}
+            >
+              <PrimaryButton
+                variant={"contained"}
+                color={"primary"}
+                onClick={() => this.handleSaved()}
+                style={{
+                  width: "100px",
+                  display: "flex",
+                  marginRight: "21px",
+                  marginBottom: "15px",
+                  // alignItems: "flex-end",
+                }}
+              >
+                Save
+              </PrimaryButton>
+            </div>
+          </Grid>
         </Grid>
         <MySnackBar
           onClose={() => this.setState({ snackOpen: false })}
