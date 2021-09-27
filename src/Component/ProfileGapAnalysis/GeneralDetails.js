@@ -1506,9 +1506,7 @@ class GeneralDetails extends Component {
               // backgroundColor:"yellow"
               }}
             >
-             
-              
-              <div className={"button_div"}>
+              <div>
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
@@ -1520,7 +1518,8 @@ class GeneralDetails extends Component {
                   style={{
                     width: "100px",
                     display: "flex",
-                    marginRight: "10px"
+                    marginRight: "10px",
+                    alignItems: "flex-end",
                   }}
                 >
                   Save
@@ -1549,7 +1548,7 @@ class GeneralDetails extends Component {
           </Grid> */}
           <Dialog
             open={this.state.dialog}
-            onClose={() => this.setState({ dialog: false })}
+            // onClose={() => this.setState({ dialog: false })}
           >
             <DialogTitle>
               <Grid container>
@@ -1616,7 +1615,7 @@ class GeneralDetails extends Component {
               <Grid container>
                 <Grid item md={8}></Grid>
                 <Grid item md={4}>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{ display: "flex", flexDirection: "row",justifyContent:"space-around" }}>
                     <div>
                       <PrimaryButton
                         style={{ width: "100px" }}
@@ -1719,7 +1718,7 @@ class GeneralDetails extends Component {
          {/* right container */}
          <Grid item md={5}>
            <Card>
-           <CvViewer {...this.props}/>
+           <CvViewer doctype={"cv"} {...this.props}/>
            </Card>
          </Grid>
        </Grid>
