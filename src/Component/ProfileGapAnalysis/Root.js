@@ -14,7 +14,6 @@ import PpgaCallNotes from "./PpgaCallNotes";
 import TenthForm from "./TenthForm";
 import TestResults from "./TestResults";
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import './InterestDetail.css'
 
 function TabPanel(props) {
