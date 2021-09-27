@@ -245,7 +245,7 @@ export default class InterestDetail extends Component {
           </Grid>
 
            {/* button */}
-           <Grid container style={{height:70, display:'flex', alignSelf:'flex-end'}}>
+           <Grid container style={{height:"84px", display:'flex', alignSelf:'flex-end'}}>
             <Grid item md={12} xs={12} sm={12} xl={12} lg={12} style={{width:"964px",marginLeft:"10px",marginRight:"11px"}}>
               <hr/>
             </Grid>
@@ -264,7 +264,7 @@ export default class InterestDetail extends Component {
               }}
             >
               <hr/>
-              <div className={"button_div"}>
+              <div className={"save_button_div"}>
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
@@ -273,7 +273,7 @@ export default class InterestDetail extends Component {
                     width: "100px",
                     display: "flex",
                     marginRight: "21px",
-                    marginBottom:"15px"
+                    marginBottom:"24px"
                     // alignItems: "flex-end",
                   }}
                 >
