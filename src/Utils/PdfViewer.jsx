@@ -18,14 +18,14 @@ function PdfViewer(props) {
 
   const { ZoomInButton, ZoomOutButton, ZoomPopover } = zoomPluginInstance;
   return (
-    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+    <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js">
       <div
         className="rpv-core__viewer"
         style={{
           border: "1px solid rgba(0, 0, 0, 0.3)",
           display: "flex",
           flexDirection: "column",
-          height: "132vh",
+          height: "79vh",
         }}
       >
         <div
@@ -51,6 +51,7 @@ function PdfViewer(props) {
         >
           <Viewer
             {...props}
+            
             fileUrl={
               // SamplePdf
               props.cvUrl ? props.cvUrl : SamplePdf

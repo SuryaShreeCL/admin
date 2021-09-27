@@ -66,7 +66,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
             label={"Category ".concat(i)}
-            value={this.state.["aditionalCat".concat(i)]}
+            value={this.state["aditionalCat".concat(i)]}
             name={"aditionalCat".concat(i)}
             onChange={this.handleChange}
           >
@@ -82,7 +82,7 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
           <TextField
             fullWidth
             name={"additionalRemark".concat(i)}
-            value={this.state.["additionalRemark".concat(i)]}
+            value={this.state["additionalRemark".concat(i)]}
             onChange={this.handleChange}
             variant="outlined"
             size="small"
@@ -169,12 +169,12 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
     let postArr = []
     for(let i = 1; i<=4 ; i++){
       postArr.push({
-        id : this.state.["focusId".concat(i)],
-        enrollmentPeriod : this.state.["period".concat(i)],
-        quarterPlanCourse : this.state.["focus".concat(i)],
+        id : this.state["focusId".concat(i)],
+        enrollmentPeriod : this.state["period".concat(i)],
+        quarterPlanCourse : this.state["focus".concat(i)],
         student : {id : this.props.id},
-        remark : this.state.["catRemark".concat(i)],
-        status : this.state.["status".concat(i)] !== null ? this.state.["status".concat(i)].title : null,
+        remark : this.state["catRemark".concat(i)],
+        status : this.state["status".concat(i)] !== null ? this.state["status".concat(i)].title : null,
       })
     }
 
@@ -182,8 +182,8 @@ import {getQuarterPlan,getAllQuarterPlan,postCommentsAndPoints,getAdditionalPoin
 
     for(let i=1; i<=this.state.count; i++){
       postAdditionalPointsArr.push({
-        category : this.state.["aditionalCat".concat(i)],
-        remark : this.state.["additionalRemark".concat(i)]
+        category : this.state["aditionalCat".concat(i)],
+        remark : this.state["additionalRemark".concat(i)]
       })
     }
 

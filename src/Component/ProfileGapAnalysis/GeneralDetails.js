@@ -1512,12 +1512,15 @@ class GeneralDetails extends Component {
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
-                  onClick={this.handleSave}
+                  onClick={() => {
+                    this.state.commentshistory.length > 0
+                      ? this.handleopen()
+                      : this.handlesaved();
+                  }}
                   style={{
                     width: "100px",
                     display: "flex",
                     marginRight: "10px"
-                    // alignItems: "flex-end",
                   }}
                 >
                   Save

@@ -180,7 +180,7 @@ class VariantQna extends Component {
             <div style={{ marginTop: 20 }}>
               <Accordion
                 square
-                expanded={this.state.["expanded"] === "panel"+index}
+                expanded={this.state["expanded"] === "panel"+index}
                 onChange={this.handleChange("panel"+index)}
               >
                 <AccordionSummary

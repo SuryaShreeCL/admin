@@ -1,4 +1,4 @@
-import { TextField, Grid, withStyles } from "@material-ui/core";
+import { TextField, Grid, withStyles, createTheme,ThemeProvider } from "@material-ui/core";
 import React, { Component } from "react";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -10,6 +10,7 @@ import {
   updatecvresult,
 } from "../../Actions/ProfileGapAction";
 import MySnackBar from "../MySnackBar";
+import CvViewer from "./CvViewer";
 class CV extends Component {
   constructor() {
     super();
@@ -187,11 +188,22 @@ class CV extends Component {
     }
   };
 
+  theme = createTheme ({
+    overrides : {
+      MuiGrid : {
+        "spacing-xs-3" : {
+          padding : "0px"
+        }
+      }
+    }
+  })
   render() {
     console.log(this.state);
     return (
       <div>
-        <Grid container spacing={3} style={{ height: "100vh" }}>
+      <Grid container spacing={2}>
+      <Grid item md={7}>
+       <Grid container spacing={3} style={{height:"100%"}}>
           <Grid
             item
             md={12}
@@ -283,14 +295,8 @@ class CV extends Component {
               // backgroundColor:"yellow"
             }}
           >
-            <hr />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "flex-end",
-              }}
-            >
+              <hr />
+              <ThemeProvider theme={this.theme}>
               <PrimaryButton
                 variant={"contained"}
                 color={"primary"}
@@ -298,14 +304,12 @@ class CV extends Component {
                 style={{
                   width: "100px",
                   display: "flex",
-                  marginRight: "21px",
-                  marginBottom: "15px",
-                  // alignItems: "flex-end",
+                  alignItems: "flex-end",
                 }}
               >
                 Save
               </PrimaryButton>
-            </div>
+              </ThemeProvider>
           </Grid>
         </Grid>
         <MySnackBar
@@ -314,6 +318,11 @@ class CV extends Component {
           snackVariant={this.state.snackColor}
           snackMsg={this.state.snackMsg}
         />
+       </Grid>
+       <Grid item md={5}>
+         <CvViewer {...this.props}/>
+       </Grid>
+      </Grid>
       </div>
     );
   }

@@ -117,7 +117,7 @@ componentDidUpdate(prevProps, prevState) {
             CallSummaryLayout : CallSummaryLayout,
             Others : AdmissionServices
         }
-        var selectedComponent = this.state.selectedItem !== null && componentList.[this.state.selectedItem.stepName]
+        var selectedComponent = this.state.selectedItem !== null && componentList[this.state.selectedItem.stepName]
         var Page = obj[selectedComponent];
         console.log("state...........",this.state)
         console.log("props..................",this.props)
