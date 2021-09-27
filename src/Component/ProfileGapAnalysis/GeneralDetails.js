@@ -1506,9 +1506,7 @@ class GeneralDetails extends Component {
               // backgroundColor:"yellow"
               }}
             >
-             
-              
-              <div className={"button_div"}>
+              <div>
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
@@ -1516,11 +1514,11 @@ class GeneralDetails extends Component {
                     this.state.commentshistory.length > 0
                       ? this.handleopen()
                       : this.handlesaved();
-                  }}
-                  style={{
+                  }}                  style={{
                     width: "100px",
                     display: "flex",
                     marginRight: "10px"
+                    // alignItems: "flex-end",
                   }}
                 >
                   Save
@@ -1549,7 +1547,7 @@ class GeneralDetails extends Component {
           </Grid> */}
           <Dialog
             open={this.state.dialog}
-            onClose={() => this.setState({ dialog: false })}
+            // onClose={() => this.setState({ dialog: false })}
           >
             <DialogTitle>
               <Grid container>
@@ -1616,7 +1614,7 @@ class GeneralDetails extends Component {
               <Grid container>
                 <Grid item md={8}></Grid>
                 <Grid item md={4}>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{ display: "flex", flexDirection: "row"}}>
                     <div>
                       <PrimaryButton
                         style={{ width: "100px" }}
@@ -1727,7 +1725,9 @@ class GeneralDetails extends Component {
     );
   }
 }
-const useStyles = (theme) => ({});
+const useStyles = (theme) => ({
+  
+});
 const mapStateToProps = (state) => {
   console.log(state);
   return {

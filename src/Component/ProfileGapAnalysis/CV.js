@@ -201,8 +201,8 @@ class CV extends Component {
     console.log(this.state);
     return (
       <div>
-      <Grid container spacing={2}>
-      <Grid item md={7}>
+      <Grid container spacing={2}  style={{height:"100%"}}>
+      <Grid item md={7}  style={{ maxHeight: "100%", overflowY: "scroll", padding: "15px" }}>
        <Grid container spacing={3} style={{height:"100%"}}>
           <Grid
             item
