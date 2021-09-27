@@ -19,6 +19,7 @@ import { getStudentsById } from '../../Actions/Student';
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import { isEmptyString } from "../Validation";
+import { getdashboarddetails } from '../../Actions/ProfileGapAction'
 class AdmissionServices extends Component {
   constructor() {
     super();
@@ -32,7 +33,9 @@ class AdmissionServices extends Component {
       snackmsg :"",
       snackvariant : "",
       snackopen : false,
-      mentorname : ""
+      mentorname : "",
+      buttonstatus : false,
+      verifydetail : []
     };
   }
   handleClick(e) {
@@ -66,6 +69,13 @@ class AdmissionServices extends Component {
          mentor : this.props.getmentorList
        })
    }
+   if(this.state.verifydetail !== prevState.verifydetail){
+     for(let i=0;this.state.verifydetail[i].status === "NotVerified";i++){
+       this.setState({
+         buttonstatus : true
+       })
+     }
+   }
  }
   componentDidMount(){
     this.props.getAllMentors()
@@ -77,6 +87,15 @@ class AdmissionServices extends Component {
         })
     }
     this.props.getmentor(this.props.match.params.studentId)
+    this.props.getdashboarddetails(this.props.match.params.studentId,this.props.match.params.productId,(response => {
+      console.log(response.data)
+      if(response.status === 200)
+      {
+        this.setState({
+            verifydetail : response.data && response.data.onboardingVerificationStatus
+      })
+    }
+    }))
   }
   handleallocate=()=>{
     this.setState({ show: true })
@@ -210,6 +229,7 @@ class AdmissionServices extends Component {
                       borderRadius: 20,
                       textTransform: "none",
                     }}
+                    disabled={this.state.buttonstatus}
                     variant="contained"
                     color="primary"
                     onClick={() => this.handleallocate()}
@@ -633,10 +653,11 @@ const mapStateToProps = (state) => {
         getstudentMappingList : state.MentorReducer.getstudentMapping,
         getproductdetailsList : state.MentorReducer.getproductdetails,
         updateallocatementorList : state.MentorReducer.updateallocatementor,
-        getmentorList : state.MentorReducer.getmentor
+        getmentorList : state.MentorReducer.getmentor,
+        getdashboarddetailsList : state.ProfileGapAnalysisReducer.getdashboarddetails
     };
   };
   
   export default connect(mapStateToProps, {
-    getAllMentors,getStudentsById,getproductdetails,updateallocatementor,getmentor,updatementor
+    getAllMentors,getStudentsById,getproductdetails,updateallocatementor,getmentor,updatementor,getdashboarddetails
   })(AdmissionServices);

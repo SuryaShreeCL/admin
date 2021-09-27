@@ -1,4 +1,11 @@
-import { Grid, Paper, Typography, withStyles } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Typography,
+  withStyles,
+  ThemeProvider,
+  createTheme,
+} from "@material-ui/core";
 import React, { Component } from "react";
 import Dot from "../../Utils/Dot";
 import { connect } from "react-redux";
@@ -22,7 +29,7 @@ class Dashboard extends Component {
       this.props.match.params.productId,
       (response) => {
         console.log(response.data);
-        if(response.status === 200){
+        if (response.status === 200) {
           this.setState({
             verifydetails:
               response.data && response.data.onboardingVerificationStatus,
@@ -33,12 +40,21 @@ class Dashboard extends Component {
       }
     );
   }
+  theme = createTheme({
+    overrides: {
+      Dashboard: {
+        paper: {
+          padding: "5px",
+        },
+      },
+    },
+  });
   render() {
     const { classes } = this.props;
     return (
       <div>
         <Grid container className={classes.root} spacing={2}>
-          <Grid item md={5} style={{ paddingLeft: "3%" }}>
+          <Grid item md={5}>
             <Grid container spacing={1}>
               <Grid item md={12}>
                 <Typography className={classes.title}>
@@ -47,83 +63,28 @@ class Dashboard extends Component {
               </Grid>
               <Grid item md={12}>
                 <Grid container>
-                { this.state.verifydetails && this.state.verifydetails.map((data) => {
-                    return (
-                      <>
-                        <Grid item md={7}>
-                          <Typography className={classes.mentorrightcontent}>
-                            {data.sectionName}
-                          </Typography>
-                        </Grid>
-                        <Grid item md={5} align={"left"}>
-                          <img
-                            src={
-                              data.status === "Verified" ? GreenTick : Warning
-                            }
-                          />
-                        </Grid>
-                      </>
-                    );
-                  })}
-                  {/* <Grid item md={7}>
-                    <Typography className={classes.mentorrightcontent}>
-                      Academic Details
-                    </Typography>
-                  </Grid>
-                  <Grid item md={5} align={"left"}>
-                    <img src={GreenTick} />
-                  </Grid>
-                  <Grid item md={7}>
-                    <Typography className={classes.mentorrightcontent}>
-                      Work Experience
-                    </Typography>
-                  </Grid>
-                  <Grid item md={5} align={"left"}>
-                    <img src={GreenTick} />
-                  </Grid>
-                  <Grid item md={7}>
-                    <Typography className={classes.mentorrightcontent}>
-                      Aspiration Details
-                    </Typography>
-                  </Grid>
-                  <Grid item md={5} align={"left"}>
-                    <img src={GreenTick} />
-                  </Grid>
-                  <Grid item md={7}>
-                    <Typography className={classes.mentorrightcontent}>
-                      Work Experience
-                    </Typography>
-                  </Grid>
-                  <Grid item md={5} align={"left"}>
-                    <img src={GreenTick} />
-                  </Grid>
-                  <Grid item md={7}>
-                    <Typography className={classes.mentorrightcontent}>
-                      Graduate Admission Test
-                    </Typography>
-                  </Grid>
-                  <Grid item md={5} align={"left"}>
-                    <img src={GreenTick} />
-                  </Grid>
-                  <Grid item md={7}>
-                    <Typography className={classes.mentorrightcontent}>
-                      Test and Surveys
-                    </Typography>
-                  </Grid>
-                  <Grid item md={5} align={"left"}>
-                    <img src={GreenTick} />
-                  </Grid>
-                  <Grid item md={7}>
-                    <Typography className={classes.mentorrightcontent}>
-                      Others
-                    </Typography>
-                  </Grid>
-                  <Grid item md={5} align={"left"}>
-                    <img src={GreenTick} />
-                  </Grid> */}
+                  {this.state.verifydetails &&
+                    this.state.verifydetails.map((data) => {
+                      return (
+                        <>
+                          <Grid item md={7}>
+                            <Typography className={classes.mentorrightcontent}>
+                              {data.sectionName}
+                            </Typography>
+                          </Grid>
+                          <Grid item md={5} align={"left"}>
+                            <img
+                              src={
+                                data.status === "Verified" ? GreenTick : Warning
+                              }
+                            />
+                          </Grid>
+                        </>
+                      );
+                    })}
                 </Grid>
               </Grid>
-              <Grid item md={12} style={{ marginTop: "10%" }}>
+              <Grid item md={12} className={classes.mentorstyle}>
                 <Typography className={classes.title}>
                   Mentoring Details
                 </Typography>
@@ -137,7 +98,8 @@ class Dashboard extends Component {
                   </Grid>
                   <Grid item md={8}>
                     <Typography className={classes.mentorrightcontent}>
-                      {this.state.mentorname && this.state.mentorname.mentorName}
+                      {this.state.mentorname &&
+                        this.state.mentorname.mentorName}
                     </Typography>
                   </Grid>
                   <Grid item md={4}>
@@ -196,13 +158,7 @@ class Dashboard extends Component {
                             </Typography>
                           </Grid>
                           <Grid item md={9}>
-                            <Typography
-                              style={{
-                                color: "green",
-                                fontWeight: "bold",
-                                fontSize: "12px",
-                              }}
-                            >
+                            <Typography className={classes.callType}>
                               {data.callType}
                             </Typography>
                           </Grid>
@@ -240,14 +196,9 @@ class Dashboard extends Component {
                             </Typography>
                           </Grid>
                           <Grid item md={9}>
-                            <Typography  style={{
-                                color:
-                                  data.callStatus === "completed"
-                                    ? "green"
-                                    : "orange",
-                                fontSize: "11px",
-                                fontWeight: "bold",
-                              }}>
+                            <Typography
+                             className={data.callStatus === "completed" ? classes.completedstatus : classes.scheduledstatus}
+                            >
                               {data.callStatus}
                             </Typography>
                           </Grid>
@@ -263,138 +214,73 @@ class Dashboard extends Component {
                   let year = new Date(data.datetime).getFullYear();
                   return (
                     <Grid item md={6}>
-                      <Paper className={classes.paper}>
-                        <Grid container>
-                          <Grid item md={11} className={classes.namegrid}>
-                            <Typography className={classes.name}>
-                              {data.firstName + " " + data.lastName}
-                            </Typography>
+                      <ThemeProvider theme={this.theme}>
+                        <Paper className={classes.paper}>
+                          <Grid container>
+                            <Grid item md={11} className={classes.namegrid}>
+                              <Typography className={classes.name}>
+                                {data.firstName + " " + data.lastName}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={1}>
+                              <MoreVertIcon className={classes.icon} />
+                            </Grid>
+                            <Grid item md={3}>
+                              <Typography className={classes.paperleftfont}>
+                                Call Type :
+                              </Typography>
+                            </Grid>
+                            <Grid item md={9}>
+                              <Typography className={classes.callType}>
+                                {data.callType}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={3}>
+                              <Typography className={classes.paperleftfont}>
+                                Mentor :
+                              </Typography>
+                            </Grid>
+                            <Grid item md={9}>
+                              <Typography className={classes.paperrightfont}>
+                                {data.mentorName}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={6}>
+                              <Typography className={classes.paperleftfont}>
+                                Date and Time for Call :
+                              </Typography>
+                            </Grid>
+                            <Grid item md={6}>
+                              <Typography className={classes.paperrightfont}>
+                                {date +
+                                  "/" +
+                                  month +
+                                  "/" +
+                                  year +
+                                  " " +
+                                  data.time +
+                                  " " +
+                                  "IST"}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={3}>
+                              <Typography className={classes.paperleftfont}>
+                                Call Status:
+                              </Typography>
+                            </Grid>
+                            <Grid item md={9}>
+                              <Typography
+                              className={data.callStatus === "completed" ? classes.completedstatus : classes.scheduledstatus}
+                              >
+                                {data.callStatus}
+                              </Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item md={1}>
-                            <MoreVertIcon className={classes.icon} />
-                          </Grid>
-                          <Grid item md={3}>
-                            <Typography className={classes.paperleftfont}>
-                              Call Type :
-                            </Typography>
-                          </Grid>
-                          <Grid item md={9}>
-                            <Typography
-                              style={{
-                                color: "green",
-                                fontWeight: "bold",
-                                fontSize: "12px",
-                              }}
-                            >
-                              {data.callType}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={3}>
-                            <Typography className={classes.paperleftfont}>
-                              Mentor :
-                            </Typography>
-                          </Grid>
-                          <Grid item md={9}>
-                            <Typography className={classes.paperrightfont}>
-                              {data.mentorName}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={6}>
-                            <Typography className={classes.paperleftfont}>
-                              Date and Time for Call :
-                            </Typography>
-                          </Grid>
-                          <Grid item md={6}>
-                            <Typography className={classes.paperrightfont}>
-                              {date +
-                                "/" +
-                                month +
-                                "/" +
-                                year +
-                                " " +
-                                data.time +
-                                " " +
-                                "IST"}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={3}>
-                            <Typography className={classes.paperleftfont}>
-                              Call Status:
-                            </Typography>
-                          </Grid>
-                          <Grid item md={9}>
-                            <Typography
-                              style={{
-                                color:
-                                  data.callStatus === "completed"
-                                    ? "green"
-                                    : "orange",
-                                fontSize: "11px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {data.callStatus}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </Paper>
+                        </Paper>
+                      </ThemeProvider>
                     </Grid>
                   );
                 })}
-              {/* <Grid item md={6}>
-                <Paper className={classes.paper}>
-                  <Grid container>
-                    <Grid item md={11} className={classes.namegrid}>
-                      <Typography className={classes.name}>
-                        Atharva Unde
-                      </Typography>
-                    </Grid>
-                    <Grid item md={1}>
-                      <MoreVertIcon className={classes.icon} />
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography className={classes.paperleftfont}>
-                        Call Type :
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography className={classes.productstyle}>
-                        Preliminary Profile Gap Analysis
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography className={classes.paperleftfont}>
-                        Mentor :
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography className={classes.paperrightfont}>
-                        Krithika Srinivasan
-                      </Typography>
-                    </Grid>
-                    <Grid item md={6}>
-                      <Typography className={classes.paperleftfont}>
-                        Date and Time for Call :
-                      </Typography>
-                    </Grid>
-                    <Grid item md={6}>
-                      <Typography className={classes.paperrightfont}>
-                        09/07/2021 05:30 PM
-                      </Typography>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Typography className={classes.paperleftfont}>
-                        Call Status:
-                      </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                      <Typography className={classes.status}>
-                        Completed
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Grid> */}
             </Grid>
           </Grid>
         </Grid>
@@ -404,7 +290,7 @@ class Dashboard extends Component {
 }
 const useStyles = (theme) => ({
   root: {
-    padding: "5px",
+    padding: "3%",
   },
   title: {
     fontSize: "18px",
@@ -412,7 +298,7 @@ const useStyles = (theme) => ({
     fontWeight: "bolder",
   },
   paper: {
-    padding: "10px",
+    padding: "5px",
   },
   mentorleftcontent: {
     fontSize: "16px",
@@ -439,7 +325,7 @@ const useStyles = (theme) => ({
     alignItems: "center",
   },
   paper: {
-    padding: "11px",
+    padding: "5px",
   },
   name: {
     fontWeight: "bold",
@@ -448,6 +334,27 @@ const useStyles = (theme) => ({
   icon: {
     color: "#2f9be5",
   },
+  leftgrid: {
+    paddingLeft: "3%",
+  },
+  mentorstyle: {
+    marginTop: "10%",
+  },
+  callType: {
+    color: "green",
+    fontWeight: "bold",
+    fontSize: "12px",
+  },
+  completedstatus : {
+    fontSize: "11px",
+    fontWeight: "bold",
+    color:"green"
+  },
+  scheduledstatus : {
+    fontSize: "11px",
+    fontWeight: "bold",
+    color:"orange"
+  }
 });
 const mapStateToProps = (state) => {
   console.log(state);
