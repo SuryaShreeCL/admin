@@ -76,8 +76,11 @@ class PpgaCallNotes extends Component {
       if (eachItem.id === null) {
         return {
           ppgaNotes: eachItem.ppgaNotes,
-          postPPgaNotes: eachItem.postPpgaNotes,
-          mentorComments: eachItem.mentorNotes,
+          postPpgaNotes: eachItem.postPpgaNotes,
+          mentorNotes: eachItem.mentorNotes,
+          ppgaCallNotesTitle: {
+            id: eachItem.ppgaCallNotesTitle.id,
+          },
           updatedBy: {
             id: adminUserId,
           },
@@ -86,8 +89,11 @@ class PpgaCallNotes extends Component {
         return {
           id: eachItem.id,
           ppgaNotes: eachItem.ppgaNotes,
-          postPPgaNotes: eachItem.postPpgaNotes,
-          mentorComments: eachItem.mentorNotes,
+          postPpgaNotes: eachItem.postPpgaNotes,
+          mentorNotes: eachItem.mentorNotes,
+          ppgaCallNotesTitle: {
+            id: eachItem.ppgaCallNotesTitle.id,
+          },
           updatedBy: {
             id:
               eachItem.updatedBy.id.length === 0
@@ -125,6 +131,7 @@ class PpgaCallNotes extends Component {
 
   render() {
     console.log(this.props.getcommenthistoryList);
+    console.log(this.state);
 
     return (
       <div>
