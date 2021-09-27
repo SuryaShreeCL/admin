@@ -18,6 +18,7 @@ import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import { scheduleTest } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
+import CloseIcon from '@material-ui/icons/Close';
 import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
@@ -71,6 +72,11 @@ export default function ScheduleLater(props) {
   return (
     <>
       <Dialog open={scheduler} classes={{ paper: classes.dialog }}>
+        <CloseIcon
+          fontSize='medium'
+          onClick={() => setScheduler(false)}
+          style={{ position: 'relative', marginLeft: 'auto' }}
+        />
         <DialogTitle className={classes.dialogTitle}>
           <IconButton disableRipple className={classes.titleIcon}>
             <ScheduleIcon />
