@@ -141,7 +141,11 @@ const CreateTest = () => {
       return false;
     }
 
-    if (moment(values.endDateTime).isSameOrBefore(values.startDateTime)) {
+    if (
+      moment(values.endDateTime).isSameOrBefore(values.startDateTime) ||
+      moment(values.startDateTime).isBefore(moment()) ||
+      moment(values.endDateTime).isBefore(moment())
+    ) {
       setNotify({
         isOpen: true,
         message: 'Please add proper timing & date',
