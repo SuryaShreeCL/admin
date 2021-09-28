@@ -18,7 +18,7 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-export function FileProgress({ file, progress }) {
+export function FileProgress({ file, progress, message }) {
   return (
     <FileHeaderContainer>
       <div className='img-container'>
@@ -39,6 +39,11 @@ export function FileProgress({ file, progress }) {
           <Typography variant='caption' color='textSecondary'>
             {bytesToSize(file.size)}
           </Typography>
+          {!message?.success && (
+            <Typography variant='caption' style={{ color: 'red' }}>
+              {message.message}
+            </Typography>
+          )}
           {!isNaN(Math.round(progress)) && (
             <Typography variant='caption' color='textSecondary'>{`${Math.round(
               progress
