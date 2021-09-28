@@ -57,11 +57,15 @@ const CreatePost = () => {
     wallCategories: [],
     caption: '',
     isEvent: location.type ?? false,
-    supportingMedia: 'image',
+    supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
     wallFiles: [],
+    webinarTitle: '',
+    isWebinar: location?.postType === 'Webinar',
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
+    description: '',
+    webinarID: '',
     eventTitle: '',
     redirectionUrl: '',
     buttonText: '',
@@ -69,6 +73,8 @@ const CreatePost = () => {
     eventDate: new Date(),
     resumeNeeded: false,
     eventEndDate: new Date(),
+    webinarStartDate: new Date(),
+    webinarEndDate: new Date(),
     selectedDate: new Date(),
     isScheduled: false,
     isVideoUrlEnabled: false,
@@ -137,6 +143,7 @@ const CreatePost = () => {
 
   const validationSchema = yup.object({
     caption: yup.string().required('caption is required'),
+    description: yup.string().required('description is required'),
   });
 
   const createPost = (post, activeStatus) => {
@@ -212,6 +219,7 @@ const CreatePost = () => {
                   <RadioGroup
                     style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
                     aria-label='type'
+                    disabled
                     name='supportingMedia'
                     value={values.supportingMedia}
                     onChange={handleChange}
@@ -220,22 +228,33 @@ const CreatePost = () => {
                       value='video'
                       control={<Radio color='primary' />}
                       label='Video'
+                      disabled={values.isWebinar}
                     />
                     <FormControlLabel
                       value='image'
                       control={<Radio color='primary' />}
                       label='Image'
+                      disabled={values.isWebinar}
                     />
                     <FormControlLabel
                       value='text'
                       control={<Radio color='primary' />}
                       label='Text'
+                      disabled={values.isWebinar}
                     />
                     <FormControlLabel
                       value='audio'
                       control={<Radio color='primary' />}
                       label='Audio'
+                      disabled={values.isWebinar}
                     />
+                    {values.isWebinar && !values.isEvent && (
+                      <FormControlLabel
+                        value='webinar'
+                        control={<Radio color='primary' />}
+                        label='Webinar'
+                      />
+                    )}
                   </RadioGroup>
                   <FormControl className={classes.root} style={{ width: '80%' }}>
                     <Autocomplete
@@ -272,18 +291,45 @@ const CreatePost = () => {
                       />
                     </Grid>
                   )}
-                  <Grid item>
-                    <Controls.Input
-                      label='Type caption here..'
-                      value={values.caption}
-                      name='caption'
-                      onChange={handleChange}
-                      error={touched.caption && Boolean(errors.caption)}
-                      multiline
-                      className={classes.captionStyle}
-                      rows={6}
-                    />
-                  </Grid>
+                  {values.supportingMedia === 'webinar' ? (
+                    <Grid item>
+                      <Controls.Input
+                        label='Enter Webinar Title'
+                        name='webinarTitle'
+                        style={{ width: '80%', marginTop: '18px' }}
+                        value={values.webinarTitle}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                  ) : (
+                    <Grid item>
+                      <Controls.Input
+                        label='Type caption here..'
+                        value={values.caption}
+                        name='caption'
+                        onChange={handleChange}
+                        error={touched.caption && Boolean(errors.caption)}
+                        multiline
+                        className={classes.captionStyle}
+                        rows={6}
+                      />
+                    </Grid>
+                  )}
+
+                  {values.supportingMedia === 'webinar' && (
+                    <Grid item>
+                      <Controls.Input
+                        label='Type description here..'
+                        value={values.description}
+                        name='description'
+                        onChange={handleChange}
+                        error={touched.description && Boolean(errors.description)}
+                        multiline
+                        className={classes.captionStyle}
+                        rows={5}
+                      />
+                    </Grid>
+                  )}
                   {values.supportingMedia === 'video' && (
                     <Grid item>
                       <span style={{ fontSize: '1rem' }}>
@@ -310,7 +356,19 @@ const CreatePost = () => {
                       />
                     </Grid>
                   )}
-                  {!values.isEvent && (
+                  {values.isWebinar && (
+                    <Grid item>
+                      <Controls.Input
+                        label='Zoom Webinar ID'
+                        name='webinarID'
+                        // error={values.webinarID?.length < 1 && Boolean(true)}
+                        style={{ width: '80%', marginTop: '10px', marginBottom: '14px' }}
+                        value={values.webinarID}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                  )}
+                  {!values.isEvent && !values.isWebinar && (
                     <>
                       <Grid item>
                         <Controls.Input
@@ -357,7 +415,7 @@ const CreatePost = () => {
                       <MultipleFileUploadField name='wallFiles' fileType='audio' />
                     )}
                   </Grid>
-                  {!values.isEvent && (
+                  {!values.isEvent && !values.isWebinar && (
                     <Grid
                       container
                       direction='row'
@@ -457,6 +515,59 @@ const CreatePost = () => {
                       </Grid>
                     </Grid>
                   )}
+                  {values.isWebinar && (
+                    <Grid
+                      container
+                      direction='row'
+                      justify='space-between'
+                      className={classes.spacer}
+                    >
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>Webinar Start Date </h6>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position='start'>
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.webinarStartDate}
+                            style={{ width: '400px', margin: '10px 0px' }}
+                            disablePast
+                            name='webinarStartDate'
+                            inputVariant='outlined'
+                            onChange={(val) => {
+                              setFieldValue('webinarStartDate', val);
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                      <Grid item>
+                        <h6 style={{ fontSize: '1rem' }}>Webinar End Date </h6>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position='start'>
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.webinarEndDate}
+                            style={{ width: '400px', margin: '10px 0px' }}
+                            disablePast
+                            name='webinarEndDate'
+                            inputVariant='outlined'
+                            onChange={(val) => {
+                              setFieldValue('webinarEndDate', val);
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                    </Grid>
+                  )}
                   <Grid item>
                     {values.isScheduled && (
                       <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -505,7 +616,7 @@ const CreatePost = () => {
                       style={{ borderRadius: '26px' }}
                       type='submit'
                     />
-                    {!values.isEvent && (
+                    {!values.isWebinar && !values.isEvent && (
                       <Button
                         color='primary'
                         onClick={() => {
@@ -518,7 +629,7 @@ const CreatePost = () => {
                   </ButtonsContainer>
                 </Form>
               </div>
-              <Preview state={values} />
+              {values.supportingMedia === 'webinar' ? null : <Preview state={values} />}
             </>
           )}
         </Formik>
