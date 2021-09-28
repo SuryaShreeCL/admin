@@ -10,8 +10,8 @@ import {
 import PrimaryButton from "../../Utils/PrimaryButton";
 function CommentDialog(props) {
   return (
-    <Dialog open={props.open}>
-      <DialogTitle style={{ maxWidth: "lg" }}>
+    <Dialog open={props.open} maxWidth={"lg"}>
+      <DialogTitle>
         <Typography style={{fontSize:"18px"}}>Comments History</Typography>
         <hr />
         <Typography style={{fontSize:"14px"}}>Comments</Typography>

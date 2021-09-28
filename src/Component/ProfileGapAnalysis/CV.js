@@ -209,7 +209,7 @@ class CV extends Component {
             md={12}
           >
             {this.state.cvarr.map((data, index) => (
-              <Grid container spacing={1} style={{ padding: "20px" }}>
+              <Grid container spacing={3} style={{ padding: "20px" }}>
                 <Grid item md={12}>
                   <TextField
                     label="Section Name"

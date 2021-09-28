@@ -51,10 +51,10 @@ import { ExpandMore } from "@material-ui/icons";
 
 const theme = createTheme({
   overrides: {
-  
     MuiGrid: {
       "spacing-xs-2": {
         width: "100%",
+        padding:"4px"
       },
     },
     MuiFormControl: {
@@ -605,6 +605,7 @@ class GeneralDetails extends Component {
               value={this.state.aspdegree || []}
               renderInput={(params) => <TextField {...params} label="Degree" />}
               onChange={(e, newValue) => this.setState({ e, newValue })}
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item md={4}>
@@ -626,6 +627,7 @@ class GeneralDetails extends Component {
                 <TextField {...params} label="Field of Study" />
               )}
               onChange={(e, newValue) => this.setState({ e, newValue })}
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item md={4}>
@@ -643,6 +645,7 @@ class GeneralDetails extends Component {
                 return specializationHolder.includes(option.name);
               }}
               value={this.state.areaofspecialisation || []}
+              InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -668,6 +671,7 @@ class GeneralDetails extends Component {
                 return specializationHolder.includes(option.name);
               }}
               value={this.state.prefschool || []}
+              InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -695,6 +699,7 @@ class GeneralDetails extends Component {
               disabled
               value={this.state.aspdegree}
               onChange={(e, newValue) => this.setState({ degree: newValue })}
+              InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -756,6 +761,7 @@ class GeneralDetails extends Component {
                   {...params}
                   name="areaofspecialisation"
                   label="Area of specialization"
+                  InputLabelProps={{ shrink: true }}
                 />
               )}
               onChange={(e, newValue) =>
@@ -781,7 +787,7 @@ class GeneralDetails extends Component {
               }}
               value={this.state.prefschool || []}
               renderInput={(params) => (
-                <TextField {...params} label="Preferred Grad School" />
+                <TextField {...params} label="Preferred Grad School"   InputLabelProps={{ shrink: true }} />
               )}
               onChange={(e, newValue) =>
                 this.setState({ prefschool: newValue })
@@ -1423,6 +1429,7 @@ class GeneralDetails extends Component {
                     disabled
                     name="package"
                     label="Package Purchased"
+                    InputLabelProps={{ shrink: true }}
                     value={this.state.package}
                     onChange={(e) => this.handlechange(e)}
                   />
@@ -1436,6 +1443,7 @@ class GeneralDetails extends Component {
                       label="Enrollment Period"
                       format="dd-MM-yyyy"
                       value={this.state.enrollmentdate}
+                      InputLabelProps={{ shrink: true }}
                       onChange={(newValue) =>
                         this.setState({ enrollmentdate: newValue })
                       }
@@ -1456,6 +1464,7 @@ class GeneralDetails extends Component {
                     onChange={(e) => this.handlechange(e)}
                     name="product"
                     label="Product"
+                    InputLabelProps={{ shrink: true }}
                   />
                 </Grid>
                 <Grid item md={4}>
@@ -1466,6 +1475,7 @@ class GeneralDetails extends Component {
                     getOptionLabel={(option) => option.title}
                     name="intake"
                     value={this.state.intake}
+                    InputLabelProps={{ shrink: true }}
                     onChange={(e, newValue) => {
                       this.setState({
                         intake: newValue,
@@ -1547,12 +1557,13 @@ class GeneralDetails extends Component {
           </Grid> */}
           <Dialog
             open={this.state.dialog}
+            maxWidth={"sm"}
             // onClose={() => this.setState({ dialog: false })}
           >
             <DialogTitle>
               <Grid container>
                 <Grid item md={12} align="left">
-                  <Typography>Change Verification</Typography>
+                  <Typography style={{fontSize:"19px"}}>Change Verification</Typography>
                 </Grid>
                 <Grid item md={12}>
                   <hr />
@@ -1560,12 +1571,12 @@ class GeneralDetails extends Component {
               </Grid>
             </DialogTitle>
             <DialogContent>
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 {this.state.commentshistory.map((data, index) => {
                   return (
                     <>
                       <Grid item md={12}>
-                        <Typography>
+                        <Typography style={{color:"#595351",fontSize:"14px"}}>
                           We see that you have made changes to {data.fieldName}{" "}
                           ,Would you like to comment?
                         </Typography>
@@ -1574,7 +1585,7 @@ class GeneralDetails extends Component {
                         <Typography>Old Name</Typography>
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
-                        {data.fieldName}
+                       Enter {data.fieldName}
                       </Grid>
                       <Grid item md={6} style={{ fontWeight: "bold" }}>
                         {data.oldValue !== null &&
@@ -1586,7 +1597,7 @@ class GeneralDetails extends Component {
                         New Name
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
-                        {data.fieldName}
+                      Enter {data.fieldName}
                       </Grid>
                       <Grid item md={6} style={{ fontWeight: "bold" }}>
                         {data.newValue !== null &&
@@ -1600,6 +1611,7 @@ class GeneralDetails extends Component {
                           label="Comments"
                           name="comments"
                           value={this.state.comments}
+                          InputLabelProps={{ shrink: true }}
                           onChange={(e) => {
                             this.handlecomments(index, e.target.value);
                           }}
