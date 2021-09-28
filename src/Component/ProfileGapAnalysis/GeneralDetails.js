@@ -35,6 +35,8 @@ import {
 import {
   getAllSpecialization,
   getAllUniversity,
+  getAllBranch,
+  getAllDegree,
 } from "../../Actions/Aspiration";
 import {
   MuiPickersUtilsProvider,
@@ -122,8 +124,20 @@ class GeneralDetails extends Component {
       aspdegree: "",
       aspfieldofstudy: "",
       buttonStatus : false,
-      commentupdatelist: []                                                                                                                   
 
+      commentupdatelist : [],
+      fieldname : {
+        fieldOfStudy : "Field Of Study",
+        college : "College",
+        degree : "Degree",
+        postGraduateDegree : "PostGraduate Degree",
+        postGraduateUniversity : "PostGraduate Univeristy",
+        postGraduateCollege : "PostGraduate College",
+        firstName : "First Name",
+        lastName : "Last Name",
+        currentSem : "Current Semester",
+        workExperience : "Work Experience"
+      }
     };
   }
   commentshistory(name, value) {
@@ -136,7 +150,7 @@ class GeneralDetails extends Component {
         this.props.getgeneraldetailsList.studentDetails[name] &&
         this.props.getgeneraldetailsList.studentDetails[name],
       newValue: value,
-      comments: "",
+      comment: "",
     });
     console.log(arr);
     this.setState({
@@ -149,6 +163,8 @@ class GeneralDetails extends Component {
     this.props.getBranches();
     this.props.getPGDegree();
     this.props.getUniversity();
+    this.props.getAllBranch();
+    this.props.getAllDegree()
     this.props.getAllSpecialization((response) => {
       if (response.status === 200) {
         this.setState({
@@ -301,7 +317,7 @@ class GeneralDetails extends Component {
             enrollmentdate: response.data.packageDetails.enrollmentDate,
             prefschool: response.data.aspirationDetails.aspirationUniversities,
             round: response.data.packageDetails.round,
-            aspdegree: response.data.aspirationDetails.aspirationDegrees,
+            aspdegree : response.data.aspirationDetails.aspirationDegrees,
             aspfieldofstudy: response.data.aspirationDetails.aspirationBranches,
           });
         }
@@ -437,7 +453,7 @@ class GeneralDetails extends Component {
     console.log(commentindex, value);
     let i = commentindex;
     let tempArr = this.state.commentshistory;
-    tempArr[commentindex] = { ...tempArr[commentindex], comments: value };
+    tempArr[commentindex] = { ...tempArr[commentindex], comment: value };
     this.setState({
       commentshistory: tempArr,
     });
@@ -699,7 +715,7 @@ class GeneralDetails extends Component {
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
-                var specializationHolder = this.state.specialization.map(
+                var specializationHolder = this.state.aspdegree.map(
                   (el) => el.name
                 );
                 return specializationHolder.includes(option.name);
@@ -719,7 +735,7 @@ class GeneralDetails extends Component {
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
-                var specializationHolder = this.state.specialization.map(
+                var specializationHolder = this.state.aspfieldofstudy.map(
                   (el) => el.name
                 );
                 return specializationHolder.includes(option.name);
@@ -731,6 +747,7 @@ class GeneralDetails extends Component {
               onChange={(e, newValue) => this.setState({ e, newValue })}
               InputLabelProps={{ shrink: true }}
             />
+
           </Grid>
           <Grid item md={4}>
             <Autocomplete
@@ -746,7 +763,7 @@ class GeneralDetails extends Component {
                 );
                 return specializationHolder.includes(option.name);
               }}
-              value={this.state.areaofspecialisation || []}
+              value={this.state.specialization || []}
               InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
@@ -793,27 +810,35 @@ class GeneralDetails extends Component {
       return (
         <Grid container spacing={3}>
           <Grid item md={4}>
-            <Autocomplete
-            popupIcon={<ExpandMore 
-              style={{ color: "black" }} />}
-              options={this.props.getDegreeList}
-              getOptionLabel={(option) => option.name}
+             <Autocomplete
+              multiple
               disabled
-              value={this.state.aspdegree}
-              onChange={(e, newValue) => this.setState({ degree: newValue })}
+              popupIcon={<ExpandMore 
+                style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.state.aspdegree}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.aspdegree.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.aspdegree || []}
               InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name="degree"
+                  name="aspdegree"
                   label="Degree Type"
                   InputLabelProps={{ shrink: true }}
                 />
               )}
             />
           </Grid>
-          <Grid item md={4}>
-            <Autocomplete
+          <Grid item md={4}> 
+            {/* <Autocomplete
             popupIcon={<ExpandMore 
               style={{ color: "black" }} />}
               options={this.props.getBranchesList}
@@ -831,16 +856,35 @@ class GeneralDetails extends Component {
                   InputLabelProps={{ shrink: true }}
                 />
               )}
+            /> */}
+              <Autocomplete
+              multiple
+              disabled
+              popupIcon={<ExpandMore 
+                style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.state.aspfieldofstudy}
+              getOptionLabel={(option) => option.name}
+              groupBy={(option) => option.name}
+              getOptionDisabled={(option) => {
+                var specializationHolder = this.state.aspfieldofstudy.map(
+                  (el) => el.name
+                );
+                return specializationHolder.includes(option.name);
+              }}
+              value={this.state.aspfieldofstudy || []}
+              InputLabelProps={{ shrink: true }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="fieldofstudy"
+                  label="Field Of Study"
+                  InputLabelProps={{ shrink: true }}
+                />
+              )}
             />
           </Grid>
           <Grid item md={4}>
-            {/* <TextField
-              disabled
-              name="choosespe"
-              label="Choosen Specialisation"
-              value={this.state.choosespe}
-              onChange={(e, newValue) => this.setState({choosespe : newValue})}
-            /> */}
           </Grid>
           <Grid item md={4}>
             <Autocomplete
@@ -915,7 +959,7 @@ class GeneralDetails extends Component {
             typeof eachdata.newValue === "object"
               ? eachdata.newValue.id
               : eachdata.newValue,
-          comments: eachdata.comments,
+          comment: eachdata.comment,
         });
       });
       console.log(pgadataarr);
@@ -1018,7 +1062,7 @@ class GeneralDetails extends Component {
               typeof eachdata.newValue === "object"
                 ? eachdata.newValue.id
                 : eachdata.newValue,
-            comments: eachdata.comments,
+            comment: eachdata.comment,
           });
         });
         console.log(pgadataarr);
@@ -1119,7 +1163,7 @@ class GeneralDetails extends Component {
               display: "flex",
               flexDirection: "row",
               marginLeft: "20px",
-              marginTop:"5px"
+              marginTop:"15px"
             }}
           >
             <Typography>Student Details</Typography>
@@ -1127,7 +1171,7 @@ class GeneralDetails extends Component {
               <ChatBubbleOutlineIcon
               style={{ marginLeft: "24px" }}
               onClick={() =>
-                this.handleChat()
+               this.handleChat()
               }
             />
             ) : null}
@@ -1691,7 +1735,7 @@ class GeneralDetails extends Component {
                     <>
                       <Grid item md={12}>
                         <Typography style={{color:"#595351",fontSize:"14px"}}>
-                          We see that you have made changes to {data.fieldName}{" "}
+                          We see that you have made changes to { this.state.fieldname[data.fieldName]}{" "}
                           ,Would you like to comment?
                         </Typography>
                       </Grid>
@@ -1699,7 +1743,7 @@ class GeneralDetails extends Component {
                         <Typography>Old Name</Typography>
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
-                       Enter {data.fieldName}
+                       Enter { this.state.fieldname[data.fieldName]}
                       </Grid>
                       <Grid item md={6} style={{ fontWeight: "bold" }}>
                         {data.oldValue !== null &&
@@ -1711,7 +1755,7 @@ class GeneralDetails extends Component {
                         New Name
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
-                      Enter {data.fieldName}
+                      Enter { this.state.fieldname[data.fieldName]}
                       </Grid>
                       <Grid item md={6} style={{ fontWeight: "bold" }}>
                         {data.newValue !== null &&
@@ -1723,7 +1767,7 @@ class GeneralDetails extends Component {
                         <TextField
                           fullWidth
                           label="Comments"
-                          name="comments"
+                          name="comment"
                           value={this.state.comments}
                           InputLabelProps={{ shrink: true }}
                           onChange={(e) => {
@@ -1881,6 +1925,8 @@ const mapStateToProps = (state) => {
     updatestatusList: state.ProfileGapAnalysisReducer.updatestatus,
     updategeneraldetailsList:
       state.ProfileGapAnalysisReducer.updategeneraldetails,
+      getAllBranchList : state.AspirationReducer.allBranchList,
+    getAllDegreeList : state.AspirationReducer.allDegreeList,
   };
 };
 export default connect(mapStateToProps, {
@@ -1896,4 +1942,6 @@ export default connect(mapStateToProps, {
   updatestatus,
   getcommenthistory,
   updategeneraldetails,
+  getAllBranch,
+  getAllDegree,  
 })(withStyles(useStyles)(GeneralDetails));
