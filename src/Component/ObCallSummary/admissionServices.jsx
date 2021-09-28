@@ -229,7 +229,7 @@ class AdmissionServices extends Component {
                       borderRadius: 20,
                       textTransform: "none",
                     }}
-                    disabled={this.state.buttonstatus}
+                    // disabled={this.state.buttonstatus}
                     variant="contained"
                     color="primary"
                     onClick={() => this.handleallocate()}

@@ -51,10 +51,10 @@ import { ExpandMore } from "@material-ui/icons";
 
 const theme = createTheme({
   overrides: {
-  
     MuiGrid: {
       "spacing-xs-2": {
         width: "100%",
+        padding:"4px"
       },
     },
     MuiFormControl: {
@@ -121,6 +121,9 @@ class GeneralDetails extends Component {
       emailErr: "",
       aspdegree: "",
       aspfieldofstudy: "",
+      buttonStatus : false,
+      commentupdatelist: []                                                                                                                   
+
     };
   }
   commentshistory(name, value) {
@@ -174,11 +177,102 @@ class GeneralDetails extends Component {
       this.props.match.params.productId,
       (response) => {
         console.log(response);
+        if(response.data.length > 0){
+          this.setState({
+            buttonStatus:true
+          })
+        }
         this.setState({
           commentlist: response.data,
         });
+        let arr = [];
+        response.data && response.data.map((eachdata) => {
+            if (eachdata.fieldName === "college") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldCollege && eachdata.oldCollege.name,
+                newValue: eachdata.newCollege && eachdata.newCollege.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+              console.log(arr);
+            } else if (eachdata.fieldName === "degree") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldDegree && eachdata.oldDegree.name,
+                newValue: eachdata.newDegree && eachdata.newDegree.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "fieldOfStudy") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
+                newValue: eachdata.newPgDepartment && eachdata.newPgDepartment.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "postGraduateDegree") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgDegree && eachdata.oldPgDegree.name,
+                newValue: eachdata.newPgDegree && eachdata.newPgDegree.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "fieldOfStudy") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
+                newValue: eachdata.newPgDepartment && eachdata.newPgDepartment.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } 
+            else if (eachdata.fieldName === "postGraduateUniversity") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgUniversity && eachdata.oldPgUniversity.name,
+                newValue: eachdata.newPgUniversity && eachdata.newPgUniversity.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "postGraduateCollege") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgcollege && eachdata.oldPgcollege.name,
+                newValue: eachdata.newPgcollege && eachdata.newPgcollege.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldValue,
+                newValue: eachdata.newValue,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            }
+          });
+          console.log(arr)
+          this.setState({
+            commentupdatelist: arr,
+          });
       }
     );
+
+
+
+
     this.props.getgeneraldetails(
       this.props.match.params.studentId,
       this.props.match.params.productId,
@@ -214,6 +308,10 @@ class GeneralDetails extends Component {
       }
     );
   }
+ 
+  
+
+
   handlestatus = (status) => {
     console.log("Hello");
     let obj = {
@@ -231,8 +329,11 @@ class GeneralDetails extends Component {
             this.props.match.params.studentId,
             this.props.match.params.productId,
             (getresponse) => {
-              if (response.status === 200) {
+              if (getresponse.status === 200) {
+                console.log(getresponse.data)
                 this.setState({ verificationstatus: getresponse.data });
+               
+                
               }
             }
           );
@@ -243,6 +344,7 @@ class GeneralDetails extends Component {
       popOpen: false,
     });
   };
+
   verifiedstatus(name) {
     console.log(name);
     let obj = this.state.verificationstatus.find(
@@ -605,6 +707,7 @@ class GeneralDetails extends Component {
               value={this.state.aspdegree || []}
               renderInput={(params) => <TextField {...params} label="Degree" />}
               onChange={(e, newValue) => this.setState({ e, newValue })}
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item md={4}>
@@ -626,6 +729,7 @@ class GeneralDetails extends Component {
                 <TextField {...params} label="Field of Study" />
               )}
               onChange={(e, newValue) => this.setState({ e, newValue })}
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item md={4}>
@@ -643,6 +747,7 @@ class GeneralDetails extends Component {
                 return specializationHolder.includes(option.name);
               }}
               value={this.state.areaofspecialisation || []}
+              InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -668,6 +773,7 @@ class GeneralDetails extends Component {
                 return specializationHolder.includes(option.name);
               }}
               value={this.state.prefschool || []}
+              InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -695,6 +801,7 @@ class GeneralDetails extends Component {
               disabled
               value={this.state.aspdegree}
               onChange={(e, newValue) => this.setState({ degree: newValue })}
+              InputLabelProps={{ shrink: true }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -756,6 +863,7 @@ class GeneralDetails extends Component {
                   {...params}
                   name="areaofspecialisation"
                   label="Area of specialization"
+                  InputLabelProps={{ shrink: true }}
                 />
               )}
               onChange={(e, newValue) =>
@@ -781,7 +889,7 @@ class GeneralDetails extends Component {
               }}
               value={this.state.prefschool || []}
               renderInput={(params) => (
-                <TextField {...params} label="Preferred Grad School" />
+                <TextField {...params} label="Preferred Grad School"   InputLabelProps={{ shrink: true }} />
               )}
               onChange={(e, newValue) =>
                 this.setState({ prefschool: newValue })
@@ -1015,12 +1123,14 @@ class GeneralDetails extends Component {
             }}
           >
             <Typography>Student Details</Typography>
-            <ChatBubbleOutlineIcon
+            {this.state.buttonStatus  ? (
+              <ChatBubbleOutlineIcon
               style={{ marginLeft: "24px" }}
               onClick={() =>
-                this.state.commentlist.length > 0 && this.handleChat()
+                this.handleChat()
               }
             />
+            ) : null}
           </div>
           <Grid
             container
@@ -1433,6 +1543,7 @@ class GeneralDetails extends Component {
                     disabled
                     name="package"
                     label="Package Purchased"
+                    InputLabelProps={{ shrink: true }}
                     value={this.state.package}
                     onChange={(e) => this.handlechange(e)}
                   />
@@ -1446,6 +1557,7 @@ class GeneralDetails extends Component {
                       label="Enrollment Period"
                       format="dd-MM-yyyy"
                       value={this.state.enrollmentdate}
+                      InputLabelProps={{ shrink: true }}
                       onChange={(newValue) =>
                         this.setState({ enrollmentdate: newValue })
                       }
@@ -1466,6 +1578,7 @@ class GeneralDetails extends Component {
                     onChange={(e) => this.handlechange(e)}
                     name="product"
                     label="Product"
+                    InputLabelProps={{ shrink: true }}
                   />
                 </Grid>
                 <Grid item md={4}>
@@ -1476,6 +1589,7 @@ class GeneralDetails extends Component {
                     getOptionLabel={(option) => option.title}
                     name="intake"
                     value={this.state.intake}
+                    InputLabelProps={{ shrink: true }}
                     onChange={(e, newValue) => {
                       this.setState({
                         intake: newValue,
@@ -1516,9 +1630,7 @@ class GeneralDetails extends Component {
               // backgroundColor:"yellow"
               }}
             >
-             
-              
-              <div className={"button_div"}>
+              <div>
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
@@ -1559,12 +1671,13 @@ class GeneralDetails extends Component {
           </Grid> */}
           <Dialog
             open={this.state.dialog}
-            onClose={() => this.setState({ dialog: false })}
+            maxWidth={"sm"}
+            // onClose={() => this.setState({ dialog: false })}
           >
             <DialogTitle>
               <Grid container>
                 <Grid item md={12} align="left">
-                  <Typography>Change Verification</Typography>
+                  <Typography style={{fontSize:"19px"}}>Change Verification</Typography>
                 </Grid>
                 <Grid item md={12}>
                   <hr />
@@ -1572,12 +1685,12 @@ class GeneralDetails extends Component {
               </Grid>
             </DialogTitle>
             <DialogContent>
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 {this.state.commentshistory.map((data, index) => {
                   return (
                     <>
                       <Grid item md={12}>
-                        <Typography>
+                        <Typography style={{color:"#595351",fontSize:"14px"}}>
                           We see that you have made changes to {data.fieldName}{" "}
                           ,Would you like to comment?
                         </Typography>
@@ -1586,7 +1699,7 @@ class GeneralDetails extends Component {
                         <Typography>Old Name</Typography>
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
-                        {data.fieldName}
+                       Enter {data.fieldName}
                       </Grid>
                       <Grid item md={6} style={{ fontWeight: "bold" }}>
                         {data.oldValue !== null &&
@@ -1598,7 +1711,7 @@ class GeneralDetails extends Component {
                         New Name
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
-                        {data.fieldName}
+                      Enter {data.fieldName}
                       </Grid>
                       <Grid item md={6} style={{ fontWeight: "bold" }}>
                         {data.newValue !== null &&
@@ -1612,11 +1725,13 @@ class GeneralDetails extends Component {
                           label="Comments"
                           name="comments"
                           value={this.state.comments}
+                          InputLabelProps={{ shrink: true }}
                           onChange={(e) => {
                             this.handlecomments(index, e.target.value);
                           }}
                         />
                       </Grid>
+                     
                     </>
                   );
                 })}
@@ -1624,8 +1739,13 @@ class GeneralDetails extends Component {
             </DialogContent>
             <DialogActions>
               <Grid container>
+              <Grid item md={12}>
+                        <hr/>
+                      </Grid>
                 <Grid item md={8}></Grid>
+               
                 <Grid item md={4}>
+                 
                   <div style={{ display: "flex", flexDirection: "row",justifyContent:"space-between",marginLeft:"-10%"}}>
                     <div>
                       <PrimaryButton
@@ -1654,11 +1774,14 @@ class GeneralDetails extends Component {
               </Grid>
             </DialogActions>
           </Dialog>
-        <CommentDialog 
+          <CommentDialog 
         open={this.state.commentdialogopen}
-        data={this.state.commentlist}
+        data={this.state.commentupdatelist}
         onClose={()=>this.setState({commentdialogopen : false})}
+        fieldname={this.state.fieldname}
         />
+
+
           <Menu
           style={{top:"25px"}}
             id="basic-menu"
@@ -1732,8 +1855,7 @@ class GeneralDetails extends Component {
          <Grid item md={5}>
            <Card>
            <CvViewer doctype={"cv"} {...this.props}/>
-
-</Card>
+           </Card>
          </Grid>
        </Grid>
       </div>

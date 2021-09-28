@@ -10,15 +10,13 @@ import {
 import PrimaryButton from "../../Utils/PrimaryButton";
 function CommentDialog(props) {
   return (
-    <Dialog open={props.open} onClose={props.onClose} maxWidth="sm"
-
-    >
-      <DialogTitle style={{ maxWidth: "lg" }}>
-        <Typography>Comments History</Typography>
+    <Dialog open={props.open} maxWidth="sm">
+      <DialogTitle>
+        <Typography style={{fontSize:"18px"}}>Comments History</Typography>
         <hr />
-        <Typography>Comments</Typography>
+        <Typography style={{fontSize:"14px"}}>Comments</Typography>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent style={{display:"flex",alignItems:"center"}} >
         {props.data &&
           props.data.map((data) => {
             let date = new Date(data.updatedAt).getDate();
@@ -46,7 +44,7 @@ function CommentDialog(props) {
                   container
                   spacing={2}
                   style={{
-                    borderStyle: "groove",
+                    border: "1px solid #B5AEAD",
                     borderRadius: "10px",
                     padding: "10px",
                     margin: "5px",
@@ -128,6 +126,9 @@ function CommentDialog(props) {
       </DialogContent>
       <DialogActions>
         <Grid container>
+          <Grid item md={12}>
+            <hr/>
+            </Grid>
           <Grid item md={12} align={"right"}>
             <PrimaryButton
               variant={"outlined"}

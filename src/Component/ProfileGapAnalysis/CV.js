@@ -201,16 +201,15 @@ class CV extends Component {
     console.log(this.state);
     return (
       <div>
-      <Grid container spacing={2}>
-      <Grid item md={7}>
+      <Grid container>
+      <Grid item md={7}  style={{ maxHeight: "120vh", overflowY: "scroll"}}>
        <Grid container spacing={3} style={{height:"100%"}}>
           <Grid
             item
             md={12}
-            style={{ maxHeight: "92%", overflowY: "scroll", padding: "15px" }}
           >
             {this.state.cvarr.map((data, index) => (
-              <Grid container spacing={1} style={{ padding: "20px" }}>
+              <Grid container spacing={3} style={{ padding: "20px" }}>
                 <Grid item md={12}>
                   <TextField
                     label="Section Name"
@@ -281,7 +280,8 @@ class CV extends Component {
               </div>
             </div>
           </Grid> */}
-          <Grid
+
+          {/* <Grid
             item
             md={12}
             xs={12}
@@ -292,10 +292,10 @@ class CV extends Component {
               display: "flex",
               alignItems: "flex-end",
               justifyContent: "flex-end",
-              // backgroundColor:"yellow"
+              backgroundColor:"yellow"
             }}
           >
-              <hr />
+             
               <ThemeProvider theme={this.theme}>
               <PrimaryButton
                 variant={"contained"}
@@ -310,6 +310,50 @@ class CV extends Component {
                 Save
               </PrimaryButton>
               </ThemeProvider>
+          </Grid> */}
+          <Grid container style={{ height:"84px", 
+    display:'flex', 
+    alignSelf:'flex-end'}}>
+            <Grid item md={12} xs={12} sm={12} xl={12} lg={12} style={{ width:"964px",
+    marginLeft:"10px",
+    marginRight:"11px",
+    marginTop:"15px"}}>
+              <hr/>
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+              sm={12}
+              xl={12}
+              lg={12}
+            style={{ display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "flex-end",}}
+            >
+              <hr/>
+              <div style={{
+                display: "flex",
+                alignItems:"flex-start",
+                justifyContent:"flex-end",
+                marginTop:"-8px"
+                
+              }}>
+                <PrimaryButton
+                  variant={"contained"}
+                  color={"primary"}
+                  onClick={() => this.handleSaved()}
+                  style={{
+                    width: "100px",
+                    display: "flex",
+                    marginRight: "21px",
+                    marginBottom: "2px",
+                  }}
+                >
+                  Save
+                </PrimaryButton>
+              </div>
+            </Grid>
           </Grid>
         </Grid>
         <MySnackBar
