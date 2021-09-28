@@ -399,3 +399,7 @@ input[type="checkbox"]:checked + label {
   padding-right: 8px !important;
   background: #ffffff;
 }
+
+.wrs_toolbar{
+  display: unset !important;
+}
