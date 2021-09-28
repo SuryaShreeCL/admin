@@ -1,10 +1,10 @@
-import React from 'react';
-import { H1, H2, Div1, Switch, Div2 } from '../../../Assets/StyledTest';
+import React from "react";
+import { H1, H2, Div1, Switch, Div2 } from "../../../Assets/StyledTest";
 
-import PlusButton from '../../../Utils/PlusButton';
-import TabComp from './TabComp';
-import RadioButtons from './RadioButtons';
-import Choice from './Choice';
+import PlusButton from "../../../Utils/PlusButton";
+import TabComp from "./TabComp";
+import RadioButtons from "./RadioButtons";
+import Choice from "./Choice";
 
 function Answer(props) {
   const {
@@ -56,6 +56,7 @@ function Answer(props) {
     handleTextChange,
     answerType,
   };
+
   return (
     <React.Fragment>
       <H1>Answer</H1>
