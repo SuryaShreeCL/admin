@@ -948,6 +948,16 @@ class GeneralDetails extends Component {
             this.props.match.params.productId,
             obj,((response)=>{
               if(response.status === 200){
+                this.props.getcommenthistory(
+                  this.props.match.params.studentId,
+                  this.props.match.params.productId,
+                  (response) => {
+                    console.log(response);
+                    this.setState({
+                      commentlist: response.data,
+                    });
+                  }
+                );
                 this.setState({
                   snackMsg: "Saved Successfully",
                   snackOpen: true,
@@ -1616,7 +1626,7 @@ class GeneralDetails extends Component {
               <Grid container>
                 <Grid item md={8}></Grid>
                 <Grid item md={4}>
-                  <div style={{ display: "flex", flexDirection: "row"}}>
+                  <div style={{ display: "flex", flexDirection: "row",justifyContent:"space-between",marginLeft:"-10%"}}>
                     <div>
                       <PrimaryButton
                         style={{ width: "100px" }}
@@ -1627,6 +1637,7 @@ class GeneralDetails extends Component {
                         Add
                       </PrimaryButton>
                     </div>
+                   
                     <div>
                       <PrimaryButton
                         style={{ width: "100px" }}
@@ -1637,6 +1648,7 @@ class GeneralDetails extends Component {
                         Cancel
                       </PrimaryButton>
                     </div>
+                   
                   </div>
                 </Grid>
               </Grid>

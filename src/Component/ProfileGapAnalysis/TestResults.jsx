@@ -81,12 +81,7 @@ class TestResults extends Component {
                       label={data.sectionName.replace("_"," ")}
                       disabled={this.state.diagnosticTestDisable}
                       value={data.studentScore}
-                      // onChange={(e) =>
-                      //   this.setState({
-                      //     overAllAptitude: e.target.value,
-                      //     overAllAptitudeErr: "",
-                      //   })
-                      // }
+                     
                     />
                   </Grid>
                   <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
