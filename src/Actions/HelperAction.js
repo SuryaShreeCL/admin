@@ -6,3 +6,9 @@ export const storeItInState=(data)=>{
        dispatch({type : HELPER.storeItInState, payload : data})
     }
 }
+
+export const setPoperAnchorEl = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.setPopperAnchorEl, payload : data})
+    }
+}

@@ -4,10 +4,19 @@ import { tableIcons } from "./TableRefs";
 import AddIcon from "@material-ui/icons/AddAlarm";
 import { IconButton } from "@material-ui/core";
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import { makeStyles } from "@material-ui/core";
 export default function Editable() {
+
+  const useStyles = makeStyles((theme)=>({
+    actionButtonStyle : {
+      marginRight : "-23px"
+    },
+  }))
+
   const { useState } = React;
   const tableRef = React.createRef();
   const addActionRef = React.useRef();
+  const classes = useStyles()
 
   const [columns, setColumns] = useState([
     { title: 'Name', field: 'name' },
@@ -20,16 +29,16 @@ export default function Editable() {
       render: (rowData) =>
         rowData && (
           <IconButton
-            color="secondary"
+            style={{marginRight : "-23px"}}
+            color="primary"
             onClick={() => addActionRef.current.click()}
           >
             <AddCircleRoundedIcon />
           </IconButton>
         ),
-        // cellStyle: {
-        //   backgroundColor: '#039be5',
-        //   color: '#FFF'
-        // },
+        cellStyle: {
+         textAlign : "right",
+        },
     }
    
   ]);
@@ -39,8 +48,14 @@ export default function Editable() {
     { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017},
   ]);
 
+  const tableStyle = {
+    maxHeight : "450px",
+    overflowY : "scroll"
+  }
+
   return (
     <MaterialTable
+      style={tableStyle}
       title=""
       columns={columns}
       icons={tableIcons}
@@ -68,7 +83,6 @@ export default function Editable() {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               setData([...data, newData]);
-              
               resolve();
             }, 1000)
           }),
@@ -90,7 +104,6 @@ export default function Editable() {
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
               setData([...dataDelete]);
-              
               resolve()
             }, 1000)
           }),

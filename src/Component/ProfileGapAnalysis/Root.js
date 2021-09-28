@@ -1,9 +1,17 @@
-import { createTheme, Grid, Menu, MenuItem, ThemeProvider, withStyles, IconButton } from "@material-ui/core";
+import {
+  createTheme,
+  Grid,
+  Menu,
+  MenuItem,
+  ThemeProvider,
+  withStyles,
+  IconButton,
+} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CV from "./CV";
@@ -13,9 +21,9 @@ import InterestDetail from "./InterestDetail";
 import PpgaCallNotes from "./PpgaCallNotes";
 import TenthForm from "./TenthForm";
 import TestResults from "./TestResults";
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import './InterestDetail.css'
-
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import "./InterestDetail.css";
+import { setPoperAnchorEl } from "../../Actions/HelperAction";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -27,11 +35,7 @@ function TabPanel(props) {
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 }
@@ -64,38 +68,43 @@ class ProfileGapRoot extends Component {
     this.setState({
       open: true,
       anchorEl: event.currentTarget,
-      value : 6
+      value: 6,
     });
   };
 
   tabTheme = createTheme({
-    overrides : {
-    
-      MuiTab : {
-        wrapper : {
-          display : "flex",
-          flexDirection : "row-reverse",
-          gridGap : "5px"
+    overrides: {
+      MuiTab: {
+        wrapper: {
+          display: "flex",
+          flexDirection: "row-reverse",
+          gridGap: "5px",
         },
-        root : {
-          "&.MuiTab-root" : {
-            padding : "5px"
-          }
-        }
-      }
-      
-    }
-  })
+        root: {
+          "&.MuiTab-root": {
+            padding: "5px",
+          },
+        },
+      },
+    },
+  });
 
-  
+  handlePopupClick = (event) => {
+    this.props.setPoperAnchorEl(
+      this.props.popperAnchorEl ? null : event.currentTarget
+    );
+  };
 
   render() {
-    const { classes } = this.props
-    console.log(classes, "///////////")
+    const { classes } = this.props;
+    const open = Boolean(this.props.popperAnchorEl);
+    const id = open ? "simple-popper" : undefined;
     return (
       <div>
         <Grid container style={{ marginTop: "10px" }}>
-          <Grid item md={12} 
+          <Grid
+            item
+            md={12}
             // md={this.state.value === 5 ? 12 : 7}
             style={{
               // margin: "5px",
@@ -111,37 +120,56 @@ class ProfileGapRoot extends Component {
                 onChange={(e, newValue) => this.setState({ value: newValue })}
                 // variant="scrollable"
               >
-                <Tab label="Dashboard" style={{ textTransform: "none",minWidth:"135px"}} />
+                <Tab
+                  label="Dashboard"
+                  style={{ textTransform: "none", minWidth: "135px" }}
+                />
                 <Tab
                   label="General Details"
-                  style={{ textTransform: "none",minWidth:"135px"}}
+                  style={{ textTransform: "none", minWidth: "135px" }}
                 />
-                <Tab 
+                <Tab
                   label="Interest Details"
-                  style={{ textTransform: "none",minWidth:"135px"}}
+                  style={{ textTransform: "none", minWidth: "135px" }}
                 />
-                <Tab label="Test Results" style={{ textTransform: "none",minWidth:"135px",}} />
-                <Tab label="CV" style={{ textTransform: "none",minWidth:"135px"}} />
-                <Tab 
+                <Tab
+                  label="Test Results"
+                  style={{ textTransform: "none", minWidth: "135px" }}
+                />
+                <Tab
+                  label="CV"
+                  style={{ textTransform: "none", minWidth: "135px" }}
+                />
+                <Tab
                   label="PPGA Call Notes"
-                  style={{ textTransform: "none",minWidth:"135px"}}
+                  style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <ThemeProvider theme={this.tabTheme}>
-                <Tab style={{ minWidth:"135px",paddingRight:"0px"}}
-                  label="Academic Details"
-                  icon={<ExpandMoreIcon style={{color: "black",marginTop:"7px"}}/>}
-                  style={{ textTransform: "none"}}
-                  onClick={(e) => this.menuOpen(e)}
-                />
+                  <Tab
+                    style={{ minWidth: "135px", paddingRight: "0px" }}
+                    label="Academic Details"
+                    icon={
+                      <ExpandMoreIcon
+                        style={{ color: "black", marginTop: "7px" }}
+                      />
+                    }
+                    style={{ textTransform: "none" }}
+                    onClick={(e) => this.menuOpen(e)}
+                  />
                 </ThemeProvider>
-               
               </Tabs>
-              <IconButton className={classes.iconButtonStyle} color="primary" aria-label="add to shopping cart">
-              <AccountCircleRoundedIcon fontSize={"large"} />
-            </IconButton>
+              <IconButton
+                id={id}
+                onClick={this.handlePopupClick}
+                className={classes.iconButtonStyle}
+                color="primary"
+                aria-label="add to shopping cart"
+              >
+                <AccountCircleRoundedIcon fontSize={"large"} />
+              </IconButton>
             </Paper>
             <TabPanel value={this.state.value} index={0}>
-              <Dashboard {...this.props}/>
+              <Dashboard {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={1}>
               <GeneralDetails {...this.props} />
@@ -161,21 +189,22 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={6}>
               <TenthForm {...this.props} />
             </TabPanel>
-
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
           </Grid> */}
         </Grid>
         <Menu
-          style={{top:"65px"}}
+          style={{ top: "65px" }}
           anchorEl={this.state.anchorEl}
           open={this.state.open}
           onClose={this.handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <MenuItem onClick={()=>this.setState({value : 6, open : false})}>10th</MenuItem>
+          <MenuItem onClick={() => this.setState({ value: 6, open: false })}>
+            10th
+          </MenuItem>
           <MenuItem onClick={this.handleClose}>12th</MenuItem>
           <MenuItem onClick={this.handleClose}>Diploma</MenuItem>
           <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
@@ -187,19 +216,20 @@ class ProfileGapRoot extends Component {
   }
 }
 const useStyles = (theme) => ({
-  paperStyle : {
-    position : "relative"
+  paperStyle: {
+    position: "relative",
   },
-  iconButtonStyle : {
-    position : "absolute",
-    top : "7px",
-    right : "0px"
-  }
+  iconButtonStyle: {
+    position: "absolute",
+    top: "7px",
+    right: "0px",
+  },
 });
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    popperAnchorEl: state.HelperReducer.popperState.popperAnchorEl,
+  };
 };
-export default connect(
-  mapStateToProps,
-  {}
-)(withStyles(useStyles)(ProfileGapRoot));
+export default connect(mapStateToProps, { setPoperAnchorEl })(
+  withStyles(useStyles)(ProfileGapRoot)
+);

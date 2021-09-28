@@ -347,7 +347,8 @@ export const PGA = {
 };
 
 export const HELPER = {
-  storeItInState : "storeItInState"
+  storeItInState : "storeItInState",
+  setPopperAnchorEl : "setPopperAnchorEl"
 }
 
 //MOHAMMED
