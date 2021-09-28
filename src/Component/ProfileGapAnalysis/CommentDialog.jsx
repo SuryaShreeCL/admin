@@ -10,13 +10,17 @@ import {
 import PrimaryButton from "../../Utils/PrimaryButton";
 function CommentDialog(props) {
   return (
+<<<<<<< HEAD
+    <Dialog open={props.open} maxWidth="sm">
+=======
     <Dialog open={props.open}>
-      <DialogTitle style={{ maxWidth: "lg" }}>
+>>>>>>> 3d086b5016d3f46ad0c57f3bf6b512fd0d403114
+      <DialogTitle>
         <Typography style={{fontSize:"18px"}}>Comments History</Typography>
         <hr />
         <Typography style={{fontSize:"14px"}}>Comments</Typography>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent style={{display:"flex",alignItems:"center"}} >
         {props.data &&
           props.data.map((data) => {
             let date = new Date(data.updatedAt).getDate();
@@ -78,7 +82,7 @@ function CommentDialog(props) {
                       </Grid>
                       <Grid item md={7}>
                         <Typography style={{ color: "grey" }}>
-                          Enter {data.fieldName}
+                          Enter {props.fieldname[data.fieldName]}
                         </Typography>
                       </Grid>
                       <Grid item md={5}>
@@ -100,7 +104,7 @@ function CommentDialog(props) {
                       </Grid>
                       <Grid item md={7}>
                         <Typography style={{ color: "grey" }}>
-                          Enter {data.fieldName}
+                          Enter {props.fieldname[data.fieldName]}
                         </Typography>
                       </Grid>
                       <Grid item md={5}>
@@ -117,7 +121,7 @@ function CommentDialog(props) {
                     <Typography style={{ color: "grey" }}>Comments</Typography>
                   </Grid>
                   <Grid item md={12} style={{ marginTop: "-15px" }}>
-                    <p>{data.comments}</p>
+                    <p>{data.comment}</p>
                   </Grid>
                 </Grid>
               </>
