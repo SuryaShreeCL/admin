@@ -468,7 +468,7 @@ function RootContainer(props) {
     } else if (props.adminLinkedProductDetails.department === 'Pboperations') {
       let myArr = [];
       props.getProductByFamilyIdList
-        .filter((prodItems) => prodItems.variantSKU === 'PBP' || prodItems.variantSKU === "PBM")
+        .filter((prodItems) => prodItems.variantSKU === 'PBP' || prodItems.variantSKU === 'PBM')
         .map((eachItem, index) => {
           myArr.push({
             title: eachItem.shortName,
@@ -559,7 +559,6 @@ function RootContainer(props) {
           path: wallPath,
           items: [],
         },
-        { icon: <AssignmentIcon />, title: 'Tests', path: testPath, items: [] },
         {
           icon: <AssignmentIcon />,
           title: 'Tests',
