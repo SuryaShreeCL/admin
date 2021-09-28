@@ -3,22 +3,21 @@ import React from 'react';
 import { FileHeaderContainer } from '../../Assets/Styles/FileHeaderStyles';
 import { bytesToSize } from '../../../Utils/Helpers';
 
-const BorderLinearProgress = withStyles((theme) => ({
-  root: {
-    height: 10,
-    borderRadius: 5,
-    width: '100%',
-  },
-  colorPrimary: {
-    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
-  },
-  bar: {
-    borderRadius: 5,
-    backgroundColor: '#06a92c',
-  },
-}))(LinearProgress);
-
 export function FileProgress({ file, progress, message }) {
+  const BorderLinearProgress = withStyles((theme) => ({
+    root: {
+      height: 10,
+      borderRadius: 5,
+      width: '100%',
+    },
+    colorPrimary: {
+      backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+    },
+    bar: {
+      borderRadius: 5,
+      backgroundColor: !message.success ? '#ff2b2b' : '#06a92c',
+    },
+  }))(LinearProgress);
   return (
     <FileHeaderContainer>
       <div className='img-container'>

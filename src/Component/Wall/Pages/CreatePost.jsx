@@ -361,7 +361,7 @@ const CreatePost = () => {
                       <Controls.Input
                         label='Zoom Webinar ID'
                         name='webinarID'
-                        // error={values.webinarID?.length < 1 && Boolean(true)}
+                        type='number'
                         style={{ width: '80%', marginTop: '10px', marginBottom: '14px' }}
                         value={values.webinarID}
                         onChange={handleChange}
@@ -592,7 +592,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
                     <Button
                       color='primary'
