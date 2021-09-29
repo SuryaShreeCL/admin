@@ -260,3 +260,25 @@ export const getdashboarddetails=(studentId,productId,callback)=>{
             });
     }
 }
+
+export const getpgalist=(productId,data,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    let adminuserId = window.sessionStorage.getItem("adminUserId")
+    return dispatch => {
+        axios.get(URL+"/api/v1/pga/product/"+productId+"/admin/"+adminuserId+"/searchbystage?stage=PGA&page=0&size=20&q="+data,{
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.getpgalist,payload:result.data})
+            })
+            .catch(error => {
+                callback(error)
+                console.log(error);
+            });
+    }
+}
