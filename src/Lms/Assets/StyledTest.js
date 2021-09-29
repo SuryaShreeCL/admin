@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   withStyles,
   Switch as MuiSwitch,
@@ -9,7 +9,7 @@ import {
   OutlinedInput as MuiOutlinedInput,
   makeStyles,
   createTheme,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 export const H1 = styled.div`
   font-style: normal;
@@ -22,10 +22,10 @@ export const H1 = styled.div`
 
 export const H2 = styled.span`
   font-style: normal;
-  font-weight: ${props => (props.checked ? 600 : 'normal')};
+  font-weight: ${(props) => (props.checked ? 600 : "normal")};
   font-size: 18px;
   line-height: 22px;
-  color: ${props => (props.checked ? '#1093ff' : '#052A4E')};
+  color: ${(props) => (props.checked ? "#1093ff" : "#052A4E")};
 `;
 
 export const Div1 = styled.div`
@@ -36,38 +36,38 @@ export const Div1 = styled.div`
   grid-column-gap: 16px;
 `;
 
-export const Switch = withStyles(theme => ({
+export const Switch = withStyles((theme) => ({
   root: {
-    width: '32px',
-    height: '16px',
+    width: "32px",
+    height: "16px",
     padding: 0,
-    display: 'flex',
+    display: "flex",
   },
   switchBase: {
     padding: 2,
-    color: '#ffffff',
-    transform: 'translate(0px,-1px)',
+    color: "#ffffff",
+    transform: "translate(0px,-1px)",
 
-    '&$checked': {
-      transform: 'translate(14px,-1px)',
+    "&$checked": {
+      transform: "translate(14px,-1px)",
       color: theme.palette.common.white,
-      '& + $track': {
+      "& + $track": {
         opacity: 1,
-        backgroundColor: '#1093ff',
-        borderColor: '#1093ff',
+        backgroundColor: "#1093ff",
+        borderColor: "#1093ff",
       },
     },
   },
   thumb: {
-    width: '14px',
-    height: '14px',
-    boxShadow: 'none',
+    width: "14px",
+    height: "14px",
+    boxShadow: "none",
   },
   track: {
     border: `1px solid ${theme.palette.grey[500]}`,
     borderRadius: 16 / 2,
     opacity: 1,
-    backgroundColor: '#646464',
+    backgroundColor: "#646464",
   },
   checked: {},
 }))(MuiSwitch);
@@ -84,19 +84,19 @@ export const AnswerDiv = styled.div`
 
 export const Radio = withStyles({
   colorPrimary: {
-    color: '#646464',
+    color: "#646464",
   },
   checked: {
-    color: '#1093ff',
+    color: "#1093ff",
   },
 })(MuiRadio);
 
 export const Label = styled.div`
   font-style: normal;
-  font-weight: ${props => (props.active ? 600 : 'normal')};
+  font-weight: ${(props) => (props.active ? 600 : "normal")};
   font-size: 16px;
   line-height: 20px;
-  color: ${props => (props.active ? ' #052A4E' : '#646464')};
+  color: ${(props) => (props.active ? " #052A4E" : "#646464")};
 `;
 
 export const T1 = styled.div`
@@ -115,19 +115,19 @@ export const C1 = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 50px;
+  /* height: 50px; */
   margin: 6px;
 `;
 
 export const Checkbox = withStyles({
   root: {
-    backgroundColor: 'inherit !important',
+    backgroundColor: "inherit !important",
   },
 })(MuiCheckBox);
 
 export const FormControlLabel = withStyles({
   root: {
-    marginLeft: '37px',
+    marginLeft: "37px",
   },
 })(MuiFormControlLable);
 
@@ -168,12 +168,12 @@ export const T4 = styled.div`
 
 export const useStyle = makeStyles({
   textField: {
-    '& .MuiOutlinedInput': {
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '16px',
-      lineHeight: '30px',
-      color: '#052A4E',
+    "& .MuiOutlinedInput": {
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: "16px",
+      lineHeight: "30px",
+      color: "#052A4E",
     },
     // fontStyle: 'normal',
     // fontWeight: 'normal',
@@ -196,18 +196,18 @@ export const ButtonBox = styled.div`
 
 export const buttonTheme = createTheme({
   palette: {
-    primary: { main: '#1093ff' },
+    primary: { main: "#1093ff" },
   },
   overrides: {
     MuiButton: {
       root: {
-        textTransform: 'none',
-        fontStyle: 'normal',
-        fontWeight: '600',
-        fontSize: '16px',
-        lineHeight: '20px',
-        width: '162px',
-        height: '40px',
+        textTransform: "none",
+        fontStyle: "normal",
+        fontWeight: "600",
+        fontSize: "16px",
+        lineHeight: "20px",
+        width: "162px",
+        height: "40px",
       },
     },
   },
@@ -223,25 +223,25 @@ export const Div = styled.div`
 
 export const textFieldTheme = createTheme({
   palette: {
-    primary: { main: '#1093ff' },
+    primary: { main: "#1093ff" },
   },
   overrides: {
     MuiInputBase: {
       root: {
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: '16px',
-        lineHeight: '30px',
-        color: '#052A4E',
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "16px",
+        lineHeight: "30px",
+        color: "#052A4E",
       },
     },
     MuiFormLabel: {
       root: {
-        color: '#686868',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: '16px',
-        lineHeight: '15px',
+        color: "#686868",
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "16px",
+        lineHeight: "15px",
       },
     },
   },
