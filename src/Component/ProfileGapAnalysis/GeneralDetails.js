@@ -58,6 +58,9 @@ const theme = createTheme({
         width: "100%",
         padding:"4px"
       },
+      "spacing-xs-3": {
+        width: "100%",
+      },
     },
     MuiFormControl: {
       marginNormal: {
@@ -136,7 +139,7 @@ class GeneralDetails extends Component {
         firstName : "First Name",
         lastName : "Last Name",
         currentSem : "Current Semester",
-        workExperience : "Work Experience"
+        workexp : "Work Experience"
       }
     };
   }
@@ -461,7 +464,8 @@ class GeneralDetails extends Component {
   renderstudentdetails() {
     if (this.props.variantStepList.codeName === "ACS_MBA") {
       return (
-        <Grid container spacing={3}>
+        <ThemeProvider theme={theme}>
+         <Grid container spacing={3} style={{marginTop:"2%"}}>
           <Grid item md={4}>
             <div
               style={{
@@ -504,6 +508,7 @@ class GeneralDetails extends Component {
                     <TextField
                       {...params}
                       name="pgdegree"
+                      fullWidth
                       label="Post Graduate Degree"
                       InputLabelProps={{ shrink: true }}
                     />
@@ -550,6 +555,7 @@ class GeneralDetails extends Component {
                     <TextField
                       {...params}
                       name="pgcollege"
+                      fullWidth
                       label="Post Graduate College"
                       InputLabelProps={{ shrink: true }}
                     />
@@ -597,6 +603,7 @@ class GeneralDetails extends Component {
                     <TextField
                       {...params}
                       name="pguniversity"
+                      fullWidth
                       label="Post Graduate University"
                       InputLabelProps={{ shrink: true }}
 
@@ -635,6 +642,7 @@ class GeneralDetails extends Component {
                 <TextField
                   name="workexp"
                   label="Work Experience"
+                  fullWidth
                   value={this.state.workexp}
                   onChange={(e) => {
                     this.commentshistory("workexp", e.target.value);
@@ -646,6 +654,8 @@ class GeneralDetails extends Component {
             </div>
           </Grid>
         </Grid>
+        </ThemeProvider>
+        
       );
     } else {
       return (
@@ -952,7 +962,7 @@ class GeneralDetails extends Component {
         pgadataarr.push({
           fieldName: eachdata.fieldName,
           oldValue:
-            typeof eachdata.oldValue === "object"
+          eachdata.oldValue && typeof eachdata.oldValue === "object"
               ? eachdata.oldValue.id
               : eachdata.oldValue,
           newValue:
