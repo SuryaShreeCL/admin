@@ -66,7 +66,15 @@ class StageBasedLayout extends Component {
 componentDidMount() {
     
     this.props.getVariantStepsById(this.props.match.params.productId)
-
+    const { stage } =  qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    })
+   console.log(stage)
+   if(stage === "pga"){
+    this.setState({
+      tabCount  : 1
+    })
+   }
 }
 
 componentDidUpdate(prevProps, prevState) {    
@@ -74,7 +82,6 @@ componentDidUpdate(prevProps, prevState) {
     //     if(this.props.adminLinkedProductDetails.products.length > 0){
     //         this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
     //     }
-       
     // }
     if(this.props.variantStepList !== prevProps.variantStepList){
         var sortedArr =  this.props.variantStepList.steps.length > 0 && this.props.variantStepList.steps.sort((a,b) => a.rank-b.rank)
@@ -86,7 +93,6 @@ componentDidUpdate(prevProps, prevState) {
         const { render } =  qs.parse(this.props.location.search, {
           ignoreQueryPrefix: true,
         })
-       
         this.setState({
             productDetails : sortedArr,
             selectedItem : render ? "CallSummaryLayout" : sortedArr[0].steps[0]
@@ -95,7 +101,6 @@ componentDidUpdate(prevProps, prevState) {
 }   
     render() {
         console.log(this.state)
-        console.log(this.props.adminLinkedProductDetails)
         var componentList = {
             "Personal Information" : "PersonalInfo",
             "Academic Information" : "AcademicInfo",

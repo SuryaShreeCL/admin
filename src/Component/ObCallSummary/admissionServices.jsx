@@ -70,7 +70,7 @@ class AdmissionServices extends Component {
        })
    }
    if(this.state.verifydetail !== prevState.verifydetail){
-     for(let i=0;this.state.verifydetail[i].status === "NotVerified";i++){
+     for(let i=0; this.state.verifydetail[i] && this.state.verifydetail[i].status === "NotVerified";i++){
        this.setState({
          buttonstatus : true
        })
@@ -229,7 +229,7 @@ class AdmissionServices extends Component {
                       borderRadius: 20,
                       textTransform: "none",
                     }}
-                    // disabled={this.state.buttonstatus}
+                    disabled={this.state.buttonstatus}
                     variant="contained"
                     color="primary"
                     onClick={() => this.handleallocate()}

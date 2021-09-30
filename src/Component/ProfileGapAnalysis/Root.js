@@ -21,6 +21,7 @@ import InterestDetail from "./InterestDetail";
 import PpgaCallNotes from "./PpgaCallNotes";
 import TenthForm from "./TenthForm";
 import TestResults from "./TestResults";
+import DiplomaForm from "./DiplomaForm/Index";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import "./InterestDetail.css";
 import { setPoperAnchorEl } from "../../Actions/HelperAction";
@@ -193,6 +194,9 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={7}>
               <TwelthForm {...this.props} />
+              </TabPanel>
+            <TabPanel value={this.state.value} index={8}>
+              <DiplomaForm {...this.props} />
             </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
@@ -211,7 +215,7 @@ class ProfileGapRoot extends Component {
             10th
           </MenuItem>
           <MenuItem onClick={() => this.setState({ value: 7, open: false })}>12th</MenuItem>
-          <MenuItem onClick={this.handleClose}>Diploma</MenuItem>
+          <MenuItem onClick={() => this.setState({ value: 8, open: false })}>Diploma</MenuItem>
           <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
           <MenuItem onClick={this.handleClose}>Postgraduate</MenuItem>
           <MenuItem onClick={this.handleClose}>Academic Summary</MenuItem>

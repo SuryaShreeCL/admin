@@ -199,17 +199,18 @@ class CV extends Component {
   })
   render() {
     console.log(this.state);
+    const {classes} = this.props
     return (
       <div>
       <Grid container>
-      <Grid item md={7}  style={{ maxHeight: "120vh", overflowY: "scroll"}}>
-       <Grid container spacing={3} style={{height:"100%"}}>
+      <Grid item md={7} className={classes.cvmaingrid}>
+       <Grid container spacing={3} className={classes.cvinnergrid}>
           <Grid
             item
             md={12}
           >
             {this.state.cvarr.map((data, index) => (
-              <Grid container spacing={3} style={{ padding: "20px" }}>
+              <Grid container spacing={3} className={classes.cvarrgrid}>
                 <Grid item md={12}>
                   <TextField
                     label="Section Name"
@@ -232,11 +233,11 @@ class CV extends Component {
                 <Grid
                   item
                   md={2}
-                  style={{ display: "flex", alignItems: "end" }}
+                  className={classes.icongrid}
                 >
-                  <div style={{ display: "flex" }}>
+                  <div className={classes.icondiv}>
                     <AddCircleOutlineIcon
-                      style={{ marginRight: "8px" }}
+                      className={classes.addstyle}
                       color="primary"
                       onClick={() => {
                         this.handleAdd();
@@ -253,71 +254,8 @@ class CV extends Component {
               </Grid>
             ))}
           </Grid>
-          {/* <Grid
-            item
-            md={12}
-            style={{
-              display: "flex",
-              alignItems: "end",
-              justifyContent: "end",
-            }}
-          >
-            <div style={{}}>
-            <div style={{ borderBottom: "1px solid red", width: "100%" }}></div>
-            <div style={{display:"flex",alignItems:"flex-end",justifyContent:"flex-end",padding:"10px"}}>
-            <PrimaryButton
-              variant={"contained"}
-              color={"primary"}
-              style={{
-                width: "100px",
-                // display: "flex",
-                // alignItems: "flex-end",
-              }}
-              onClick={() => this.handleSaved()}
-            >
-              Save
-            </PrimaryButton>
-              </div>
-            </div>
-          </Grid> */}
-
-          {/* <Grid
-            item
-            md={12}
-            xs={12}
-            sm={12}
-            xl={12}
-            lg={12}
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "flex-end",
-              backgroundColor:"yellow"
-            }}
-          >
-             
-              <ThemeProvider theme={this.theme}>
-              <PrimaryButton
-                variant={"contained"}
-                color={"primary"}
-                onClick={() => this.handleSaved()}
-                style={{
-                  width: "100px",
-                  display: "flex",
-                  alignItems: "flex-end",
-                }}
-              >
-                Save
-              </PrimaryButton>
-              </ThemeProvider>
-          </Grid> */}
-          <Grid container style={{ height:"84px", 
-    display:'flex', 
-    alignSelf:'flex-end'}}>
-            <Grid item md={12} xs={12} sm={12} xl={12} lg={12} style={{ width:"964px",
-    marginLeft:"10px",
-    marginRight:"11px",
-    marginTop:"15px"}}>
+          <Grid container className={classes.bottommain}>
+            <Grid item md={12} xs={12} sm={12} xl={12} lg={12} className={classes.bottominnergrid}>
               <hr/>
             </Grid>
             <Grid
@@ -327,28 +265,15 @@ class CV extends Component {
               sm={12}
               xl={12}
               lg={12}
-            style={{ display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "flex-end",}}
+             className={classes.bottomsecondgrid}
             >
               <hr/>
-              <div style={{
-                display: "flex",
-                alignItems:"flex-start",
-                justifyContent:"flex-end",
-                marginTop:"-8px"
-                
-              }}>
+              <div className={classes.buttondiv}>
                 <PrimaryButton
                   variant={"contained"}
                   color={"primary"}
                   onClick={() => this.handleSaved()}
-                  style={{
-                    width: "100px",
-                    display: "flex",
-                    marginRight: "21px",
-                    marginBottom: "2px",
-                  }}
+                  className={classes.buttonstyle}
                 >
                   Save
                 </PrimaryButton>
@@ -371,7 +296,54 @@ class CV extends Component {
     );
   }
 }
-const useStyles = (theme) => ({});
+const useStyles = (theme) => ({
+  cvmaingrid : {
+    maxHeight: "120vh", overflowY: "scroll"
+  } ,
+  cvinnergrid : {
+    height:"100%"
+  },
+  cvarrgrid : {
+    padding: "20px"
+  },
+  icongrid : {
+    display: "flex", alignItems: "end"
+  },
+  icondiv : {
+    display: "flex" 
+  },
+  addstyle : {
+    marginRight: "8px"
+  },
+  bottommain : {
+    height:"84px", 
+    display:'flex', 
+    alignSelf:'flex-end'
+  },
+  bottominnergrid : {
+    width:"964px",
+    marginLeft:"10px",
+    marginRight:"11px",
+    marginTop:"15px"
+  },
+  bottomsecondgrid : {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "flex-end"
+  },
+  buttondiv : {
+    display: "flex",
+    alignItems:"flex-start",
+    justifyContent:"flex-end",
+    marginTop:"-8px"
+  },
+  buttonstyle : {
+    width: "100px",
+    display: "flex",
+    marginRight: "21px",
+    marginBottom: "2px",
+  }
+});
 const mapStateToProps = (state) => {
   console.log(state);
   return {

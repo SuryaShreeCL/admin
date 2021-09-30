@@ -28,7 +28,8 @@ export const PROFILE_GAP_ANALYSIS = {
   getcvresult:"getcvresult",
   deletecvresult : "deletecvresult",
   updatecvresult : "updatecvresult",
-  getdashboarddetails : "getdashboarddetails"
+  getdashboarddetails : "getdashboarddetails",
+  getpgalist:"getpgalist",
 }
 
 export const COLLEGES = {

@@ -4,6 +4,7 @@ import "./TestResults.css";
 import { Line } from "react-chartjs-2";
 import { getTestResults } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
+import {getStudentsById} from '../../Actions/Student';
 
 class TestResultsGraph extends Component {
 
@@ -147,7 +148,7 @@ class TestResultsGraph extends Component {
     },
   };
 render() {
-    console.log(this.state)
+    console.log(this.props.studentResponse);
     
     return (
       <div>
@@ -166,7 +167,7 @@ render() {
                       <div className={"graph1_label1"}></div>
                     </div>
                     <div className={"graph1_label1_text"}>
-                      <p>Legend 1</p>
+                      <p>Peers</p>
                     </div>
                   </div>
                   <div className={"graph1_label2_div"}>
@@ -174,7 +175,7 @@ render() {
                       <div className={"graph1_label2"}></div>
                     </div>
                     <div className={"graph1_label2_text"}>
-                      <p>Legend 2</p>
+                    <p>{this.props.studentResponse.firstName + " " + this.props.studentResponse.lastName}</p>
                     </div>
                   </div>
                 </div>
@@ -194,7 +195,7 @@ render() {
                       <div className={"graph2_label1"}></div>
                     </div>
                     <div className={"graph2_label1_text"}>
-                      <p>Legend 1</p>
+                      <p>Peers</p>
                     </div>
                   </div>
                   <div className={"graph2_label2_div"}>
@@ -202,7 +203,7 @@ render() {
                       <div className={"graph2_label2"}></div>
                     </div>
                     <div className={"graph2_label2_text"}>
-                      <p>Legend 2</p>
+                      <p>{this.props.studentResponse.firstName + " " + this.props.studentResponse.lastName}</p>
                     </div>
                   </div>
                 </div>
@@ -219,9 +220,11 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     testResponse: state.ProfileGapAnalysisReducer.testResults,
+    studentResponse : state.StudentReducer.StudentList
   };
 };
 export default connect(mapStateToProps, {
   getTestResults,
+  getStudentsById
 })(TestResultsGraph);
 
