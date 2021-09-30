@@ -535,6 +535,8 @@ class Add extends Component {
                     snackType: 'success',
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: calibrationTestResponse.data.id,
+                    courseIdValue: calibrationTestResponse.data.productId,
+
                     calibrationTestData: tempcalibrationTestData,
                   });
                 } else {
