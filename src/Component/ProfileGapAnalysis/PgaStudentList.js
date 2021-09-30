@@ -21,30 +21,34 @@ class PgaStudentList extends Component {
     this.state = {
       shrink: false,
       listOfusers: [],
-      search : ""
+      search : "",
+      status : {
+        pending : "Pending",
+        completed : "Completed"
+      }
     };
   }
   renderPgaChip = (pgaCallStatus) => {
      if (pgaCallStatus.pgaCallStatus === "Completed") {
       return (
         <Chip
-          label={pgaCallStatus.pgaCallStatus}
+          label={this.state.status[pgaCallStatus.pgaCallStatus]}
           color={"primary"}
         />
       );
     }
-    //  else if (pgaCallStatus.pgaCallStatus === null) {
-    //   return (
-    //     <Chip
-    //       label={"Pending"}
-    //       color={"secondary"}
-    //     />
-    //   );
-    // } 
+     else if (pgaCallStatus.pgaCallStatus === null) {
+      return (
+        <Chip
+          label={"Pending"}
+          color={"secondary"}
+        />
+      );
+    } 
     else {
       return (
         <Chip
-          label={pgaCallStatus.pgaCallStatus}
+          label={this.state.status[pgaCallStatus.pgaCallStatus]}
           color={"secondary"}
         />
       );
@@ -100,24 +104,9 @@ class PgaStudentList extends Component {
     }
      
   }
-  componentDidUpdate(prevState,prevProps){
-    if(this.state.search !== prevState.search){
-      if(isEmptyString(this.state.search)){
-        this.props.getpgalist(
-          this.props.match.params.productId,
-          "",(response=>{
-            if(response.status === 200){
-              this.setState({
-                listOfusers : response.data.content
-              })
-            }
-          })
-        );
-      }
-    }
-   }
   render() {
     const { HeadStyle, HeadDisplay } = style;
+    console.log(this.state)
     return (
       <div>
         <Grid container spacing={3}>
@@ -137,6 +126,16 @@ class PgaStudentList extends Component {
                   variant="outlined"
                   value={this.state.search}
                   onChange={(e) => {
+                    if(e.target.value.length === 0){
+                        this.props.getpgalist(
+                          this.props.match.params.productId,
+                          "",(response=>{
+                            this.setState({
+                              listOfusers : response.data.content
+                            })
+                          })
+                        )
+                    }
                     this.setState({ search: e.target.value });
                   }}
                   InputLabelProps={{
