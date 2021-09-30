@@ -208,9 +208,6 @@ export class Index extends Component {
 
   handleRadioChange = e => {
     if (e.target.value === 'SUBJECTIVE') {
-      // let arr = this.state.bucketArray;
-      // arr[0].choices[0].selected = true;
-
       this.setState({
         answerType: e.target.value,
         bucketArray: [
@@ -372,8 +369,6 @@ export class Index extends Component {
       question.length === 0 ||
       answerType.length === 0 ||
       this.choiceEmptyCheck() ||
-      text === null ||
-      text.length === 0 ||
       this.choicesSelectEmptyCheck()
     ) {
       this.setState({
