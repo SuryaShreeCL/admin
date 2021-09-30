@@ -24,6 +24,7 @@ import TestResults from "./TestResults";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import "./InterestDetail.css";
 import { setPoperAnchorEl } from "../../Actions/HelperAction";
+import TwelthForm from "./TwelthForm";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -68,13 +69,14 @@ class ProfileGapRoot extends Component {
     this.setState({
       open: true,
       anchorEl: event.currentTarget,
-      value: 6,
+      // value: 6,
     });
   };
 
   tabTheme = createTheme({
     overrides: {
       MuiTab: {
+        
         wrapper: {
           display: "flex",
           flexDirection: "row-reverse",
@@ -189,6 +191,9 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={6}>
               <TenthForm {...this.props} />
             </TabPanel>
+            <TabPanel value={this.state.value} index={7}>
+              <TwelthForm {...this.props} />
+            </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
@@ -205,7 +210,7 @@ class ProfileGapRoot extends Component {
           <MenuItem onClick={() => this.setState({ value: 6, open: false })}>
             10th
           </MenuItem>
-          <MenuItem onClick={this.handleClose}>12th</MenuItem>
+          <MenuItem onClick={() => this.setState({ value: 7, open: false })}>12th</MenuItem>
           <MenuItem onClick={this.handleClose}>Diploma</MenuItem>
           <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
           <MenuItem onClick={this.handleClose}>Postgraduate</MenuItem>
