@@ -73,6 +73,13 @@ class ProfileGapRoot extends Component {
       // value: 6,
     });
   };
+  menuClose = (event) => {
+    this.setState({
+      open: false,
+      anchorEl: null,
+      // value: 6,
+    });
+  };
 
   tabTheme = createTheme({
     overrides: {
@@ -151,6 +158,7 @@ class ProfileGapRoot extends Component {
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="Academic Details"
+                    onMouseOver={(e) => this.menuOpen(e)}
                     icon={
                       <ExpandMoreIcon
                         style={{ color: "black", marginTop: "7px" }}
@@ -161,15 +169,18 @@ class ProfileGapRoot extends Component {
                   />
                 </ThemeProvider>
               </Tabs>
-              <IconButton
-                id={id}
-                onClick={this.handlePopupClick}
-                className={classes.iconButtonStyle}
-                color="primary"
-                aria-label="add to shopping cart"
-              >
-                <AccountCircleRoundedIcon fontSize={"large"} />
-              </IconButton>
+             {this.state.value > 5 ? 
+             <IconButton
+             id={id}
+             onClick={this.handlePopupClick}
+             className={classes.iconButtonStyle}
+             color="primary"
+             aria-label="add to shopping cart"
+           >
+             <AccountCircleRoundedIcon fontSize={"large"} />
+           </IconButton> : null
+            } 
+              
             </Paper>
             <TabPanel value={this.state.value} index={0}>
               <Dashboard {...this.props} />

@@ -16,7 +16,8 @@ function CommentDialog(props) {
         <hr />
         <Typography style={{fontSize:"14px"}}>Comments</Typography>
       </DialogTitle>
-      <DialogContent style={{display:"flex",alignItems:"center"}} >
+      <DialogContent>
+        <Grid container>
         {props.data &&
           props.data.map((data) => {
             let date = new Date(data.updatedAt).getDate();
@@ -40,6 +41,7 @@ function CommentDialog(props) {
             let finaldate = date + " " + monthname + " " + year;
             return (
               <>
+              <Grid item md={12}>
                 <Grid
                   container
                   spacing={2}
@@ -76,12 +78,12 @@ function CommentDialog(props) {
                           Previous
                         </Typography>
                       </Grid>
-                      <Grid item md={7}>
+                      <Grid item md={6}>
                         <Typography style={{ color: "grey" }}>
                           Enter {props.fieldname[data.fieldName]}
                         </Typography>
                       </Grid>
-                      <Grid item md={5}>
+                      <Grid item md={4}>
                         <Typography>
                           {data.oldValue !== null &&
                           typeof data.oldValue === "object"
@@ -98,12 +100,12 @@ function CommentDialog(props) {
                           Change to
                         </Typography>
                       </Grid>
-                      <Grid item md={7}>
+                      <Grid item md={6}>
                         <Typography style={{ color: "grey" }}>
                           Enter {props.fieldname[data.fieldName]}
                         </Typography>
                       </Grid>
-                      <Grid item md={5}>
+                      <Grid item md={4}>
                         <Typography>
                           {data.newValue !== null &&
                           typeof data.newValue === "object"
@@ -116,13 +118,16 @@ function CommentDialog(props) {
                   <Grid item md={12}>
                     <Typography style={{ color: "grey" }}>Comments</Typography>
                   </Grid>
-                  <Grid item md={12} style={{ marginTop: "-15px" }}>
+                  <Grid item md={12} style={{ marginTop: "-15px",wordBreak : "break-word" }}>
                     <p>{data.comment}</p>
                   </Grid>
-                </Grid>
+                 </Grid>
+                 </Grid>
               </>
             );
           })}
+          </Grid>
+       
       </DialogContent>
       <DialogActions>
         <Grid container>

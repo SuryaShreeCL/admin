@@ -7,12 +7,10 @@ import {
   createTheme,
 } from "@material-ui/core";
 import React, { Component } from "react";
-import Dot from "../../Utils/Dot";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Warning from "../../Asset/Images/warningImg.png";
-
 import { getdashboarddetails } from "../../Actions/ProfileGapAction";
 class Dashboard extends Component {
   constructor() {
@@ -64,7 +62,7 @@ class Dashboard extends Component {
               <Grid item md={12}>
                 <Grid container>
                   {this.state.verifydetails &&
-                    this.state.verifydetails.map((data) => {
+                    this.state.verifydetails.sort((a,b)=>parseInt(a.orderNO)-parseInt(b.orderNO)).map((data) => {
                       return (
                         <>
                           <Grid item md={7}>
@@ -306,7 +304,7 @@ const useStyles = (theme) => ({
     fontWeight: "bolder",
   },
   mentorrightcontent: {
-    fontSize: "16px",
+    fontSize: "17px",
   },
   paperrightfont: {
     fontSize: "11px",

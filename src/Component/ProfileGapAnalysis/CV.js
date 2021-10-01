@@ -1,4 +1,10 @@
-import { TextField, Grid, withStyles, createTheme,ThemeProvider } from "@material-ui/core";
+import {
+  TextField,
+  Grid,
+  withStyles,
+  createTheme,
+  ThemeProvider,
+} from "@material-ui/core";
 import React, { Component } from "react";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -188,161 +194,167 @@ class CV extends Component {
     }
   };
 
-  theme = createTheme ({
-    overrides : {
-      MuiGrid : {
-        "spacing-xs-3" : {
-          padding : "0px"
-        }
-      }
-    }
-  })
+  theme = createTheme({
+    overrides: {
+      MuiGrid: {
+        "spacing-xs-3": {
+          padding: "0px",
+          width: "100%",
+        },
+      },
+    },
+  });
   render() {
     console.log(this.state);
-    const {classes} = this.props
+    const { classes } = this.props;
     return (
       <div>
-      <Grid container>
-      <Grid item md={7} className={classes.cvmaingrid}>
-       <Grid container spacing={3} className={classes.cvinnergrid}>
-          <Grid
-            item
-            md={12}
-          >
-            {this.state.cvarr.map((data, index) => (
-              <Grid container spacing={3} className={classes.cvarrgrid}>
-                <Grid item md={12}>
-                  <TextField
-                    label="Section Name"
-                    value={data.sectionName}
-                    onChange={(e) =>
-                      this.handleTextChange(e, index, "sectionName")
-                    }
-                  />
+        <ThemeProvider theme={this.theme}>
+          <Grid container>
+            <Grid item md={7} style={{marginTop : "10px"}}>
+              <Grid container spacing={1} className={classes.cvinnergrid}>
+                <Grid item md={12} className={classes.cvmaingrid}>
+                  {this.state.cvarr.map((data, index) => (
+                    <Grid container spacing={3} className={classes.cvarrgrid}>
+                      <Grid item md={12}>
+                        <TextField
+                          label="Section Name"
+                          value={data.sectionName}
+                          onChange={(e) =>
+                            this.handleTextChange(e, index, "sectionName")
+                          }
+                        />
+                      </Grid>
+                      <Grid item md={10}>
+                        <TextField
+                          fullWidth
+                          label="Editor/Mentor's Comment"
+                          value={data.comments}
+                          onChange={(e) =>
+                            this.handleTextChange(e, index, "comments")
+                          }
+                        />
+                      </Grid>
+                      <Grid item md={2} className={classes.icongrid}>
+                        <div className={classes.icondiv}>
+                          <AddCircleOutlineIcon
+                            className={classes.addstyle}
+                            color="primary"
+                            onClick={() => {
+                              this.handleAdd();
+                            }}
+                          />
+                          <DeleteOutlineIcon
+                            color="secondary"
+                            onClick={() => {
+                              this.handleDelete(data, index);
+                            }}
+                          />
+                        </div>
+                      </Grid>
+                    </Grid>
+                  ))}
                 </Grid>
-                <Grid item md={10}>
-                  <TextField
-                    fullWidth
-                    label="Editor/Mentor's Comment"
-                    value={data.comments}
-                    onChange={(e) =>
-                      this.handleTextChange(e, index, "comments")
-                    }
-                  />
-                </Grid>
-                <Grid
-                  item
-                  md={2}
-                  className={classes.icongrid}
-                >
-                  <div className={classes.icondiv}>
-                    <AddCircleOutlineIcon
-                      className={classes.addstyle}
-                      color="primary"
-                      onClick={() => {
-                        this.handleAdd();
-                      }}
-                    />
-                    <DeleteOutlineIcon
-                      color="secondary"
-                      onClick={() => {
-                        this.handleDelete(data, index);
-                      }}
-                    />
-                  </div>
+                <Grid container className={classes.bottommain}>
+                  <Grid
+                    item
+                    md={12}
+                    xs={12}
+                    sm={12}
+                    xl={12}
+                    lg={12}
+                    className={classes.bottominnergrid}
+                  >
+                    <hr />
+                  </Grid>
+                  <Grid
+                    item
+                    md={12}
+                    xs={12}
+                    sm={12}
+                    xl={12}
+                    lg={12}
+                    className={classes.bottomsecondgrid}
+                  >
+                    <hr />
+                    <div className={classes.buttondiv}>
+                      <PrimaryButton
+                        variant={"contained"}
+                        color={"primary"}
+                        onClick={() => this.handleSaved()}
+                        className={classes.buttonstyle}
+                      >
+                        Save
+                      </PrimaryButton>
+                    </div>
+                  </Grid>
                 </Grid>
               </Grid>
-            ))}
-          </Grid>
-          <Grid container className={classes.bottommain}>
-            <Grid item md={12} xs={12} sm={12} xl={12} lg={12} className={classes.bottominnergrid}>
-              <hr/>
+              <MySnackBar
+                onClose={() => this.setState({ snackOpen: false })}
+                snackOpen={this.state.snackOpen}
+                snackVariant={this.state.snackColor}
+                snackMsg={this.state.snackMsg}
+              />
             </Grid>
-            <Grid
-              item
-              md={12}
-              xs={12}
-              sm={12}
-              xl={12}
-              lg={12}
-             className={classes.bottomsecondgrid}
-            >
-              <hr/>
-              <div className={classes.buttondiv}>
-                <PrimaryButton
-                  variant={"contained"}
-                  color={"primary"}
-                  onClick={() => this.handleSaved()}
-                  className={classes.buttonstyle}
-                >
-                  Save
-                </PrimaryButton>
-              </div>
+            <Grid item md={5}>
+              <CvViewer doctype={"cv"} {...this.props} />
             </Grid>
           </Grid>
-        </Grid>
-        <MySnackBar
-          onClose={() => this.setState({ snackOpen: false })}
-          snackOpen={this.state.snackOpen}
-          snackVariant={this.state.snackColor}
-          snackMsg={this.state.snackMsg}
-        />
-       </Grid>
-       <Grid item md={5}>
-         <CvViewer doctype={"cv"} {...this.props}/>
-       </Grid>
-      </Grid>
+        </ThemeProvider>
       </div>
     );
   }
 }
 const useStyles = (theme) => ({
-  cvmaingrid : {
-    maxHeight: "120vh", overflowY: "scroll"
-  } ,
-  cvinnergrid : {
-    height:"100%"
+  cvmaingrid: {
+    maxHeight: "89vh",
+    overflowY: "scroll",
   },
-  cvarrgrid : {
-    padding: "20px"
+  cvinnergrid: {
+    height: "100%",
   },
-  icongrid : {
-    display: "flex", alignItems: "end"
+  cvarrgrid: {
+    padding: "20px",
   },
-  icondiv : {
-    display: "flex" 
+  icongrid: {
+    display: "flex",
+    alignItems: "end",
   },
-  addstyle : {
-    marginRight: "8px"
+  icondiv: {
+    display: "flex",
   },
-  bottommain : {
-    height:"84px", 
-    display:'flex', 
-    alignSelf:'flex-end'
+  addstyle: {
+    marginRight: "8px",
   },
-  bottominnergrid : {
-    width:"964px",
-    marginLeft:"10px",
-    marginRight:"11px",
-    marginTop:"15px"
+  bottommain: {
+    height: "84px",
+    display: "flex",
+    alignSelf: "flex-end",
   },
-  bottomsecondgrid : {
+  bottominnergrid: {
+    width: "964px",
+    marginLeft: "10px",
+    marginRight: "11px",
+    marginTop: "10px",
+  },
+  bottomsecondgrid: {
     display: "flex",
     alignItems: "flex-end",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
-  buttondiv : {
+  buttondiv: {
     display: "flex",
-    alignItems:"flex-start",
-    justifyContent:"flex-end",
-    marginTop:"-8px"
+    alignItems: "flex-start",
+    justifyContent: "flex-end",
+    marginTop: "-8px",
   },
-  buttonstyle : {
+  buttonstyle: {
     width: "100px",
     display: "flex",
     marginRight: "21px",
     marginBottom: "2px",
-  }
+  },
 });
 const mapStateToProps = (state) => {
   console.log(state);
