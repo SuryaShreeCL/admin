@@ -1,4 +1,4 @@
-import { TextField, Grid, withStyles } from "@material-ui/core";
+import { TextField, Grid, withStyles, createTheme,ThemeProvider } from "@material-ui/core";
 import React, { Component } from "react";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -33,7 +33,6 @@ class InterestDetail extends Component {
       snackMsg: "",
     };
   }
-
   // To get interest details
 
   getInterestDetails = () => {
@@ -61,6 +60,15 @@ class InterestDetail extends Component {
     });
   };
 
+  theme = createTheme({
+   overrides : {
+     MuiGrid : {
+       "spacing-xs-3" : {
+         padding : "1%"
+       }
+     }
+   }
+  })
   componentDidMount() {
     this.getInterestDetails();
   }
@@ -183,7 +191,7 @@ class InterestDetail extends Component {
     } else {
       this.setState({
         snackColor: "error",
-        snackMsg: "Please fill all the required fields !",
+        snackMsg: "Please fill the required field",
         snackOpen: true,
       });
     }
@@ -192,6 +200,7 @@ class InterestDetail extends Component {
     const { classes } = this.props
     return (
       <div>
+        <ThemeProvider theme={this.theme}>
         <Grid container spacing={3} className={classes.container}>
           <Grid
             item
@@ -205,17 +214,17 @@ class InterestDetail extends Component {
             {this.state.interestArr.map((data, index) => (
               <Grid container spacing={3}>
                 <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                  <p className={classes.text}>Area of Interest ({index + 1})</p>
+                  <p>Area of Interest ({index + 1})</p>
                 </Grid>
                 {/* textfield */}
                 <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
                 <Grid
                   item
-                  md={9}
-                  xs={9}
-                  sm={9}
-                  xl={9}
-                  lg={9}
+                  md={5}
+                  xs={5}
+                  sm={5}
+                  xl={5}
+                  lg={5}
                   className={"grid"}
                 >
                   <TextField
@@ -280,6 +289,7 @@ class InterestDetail extends Component {
           snackVariant={this.state.snackColor}
           snackMsg={this.state.snackMsg}
         />
+        </ThemeProvider>
       </div>
     );
   }
@@ -290,7 +300,7 @@ const useStyles = (theme) => ({
     width: "100px",
     display: "flex",
     marginRight: "21px",
-    marginBottom: "24px",
+    marginBottom: "10px",
   },
   buttonGrid: {
     display: "flex",
@@ -318,9 +328,6 @@ const useStyles = (theme) => ({
     overflowY: "scroll", 
     padding: "15px"
   },
-  text: {
-    padding:"18px"
-  }
 });
 
 

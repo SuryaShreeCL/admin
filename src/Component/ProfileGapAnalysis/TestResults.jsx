@@ -54,8 +54,7 @@ class TestResults extends Component {
     const { classes } = this.props;
     return (
       <>
-        <Grid container>
-
+        <Grid container className={classes.root}>
           {/* left container */}
           <Grid item md={7}>
           {this.state.data.map((item) => (
@@ -116,6 +115,9 @@ const useStyles = (theme) => ({
   card : {
     padding:"8px",
     height:"100%"
+  },
+  root : {
+    padding : "2%"
   }
 });
 

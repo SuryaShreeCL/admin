@@ -7,12 +7,10 @@ import {
   createTheme,
 } from "@material-ui/core";
 import React, { Component } from "react";
-import Dot from "../../Utils/Dot";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Warning from "../../Asset/Images/warningImg.png";
-
 import { getdashboarddetails } from "../../Actions/ProfileGapAction";
 class Dashboard extends Component {
   constructor() {
