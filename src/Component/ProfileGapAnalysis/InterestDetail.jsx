@@ -64,7 +64,9 @@ class InterestDetail extends Component {
    overrides : {
      MuiGrid : {
        "spacing-xs-3" : {
-         padding : "1%"
+         padding : "0%",
+         width : "100%",
+         margin : "0px"
        }
      }
    }

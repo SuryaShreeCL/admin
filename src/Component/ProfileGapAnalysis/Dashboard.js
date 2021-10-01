@@ -62,7 +62,7 @@ class Dashboard extends Component {
               <Grid item md={12}>
                 <Grid container>
                   {this.state.verifydetails &&
-                    this.state.verifydetails.map((data) => {
+                    this.state.verifydetails.sort((a,b)=>parseInt(a.orderNO)-parseInt(b.orderNO)).map((data) => {
                       return (
                         <>
                           <Grid item md={7}>
@@ -304,7 +304,7 @@ const useStyles = (theme) => ({
     fontWeight: "bolder",
   },
   mentorrightcontent: {
-    fontSize: "16px",
+    fontSize: "17px",
   },
   paperrightfont: {
     fontSize: "11px",
