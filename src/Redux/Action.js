@@ -17,6 +17,20 @@ export const COURSES = {
 export const QUESTIONS = {
   getQuestions: 'getQuestions',
 };
+export const PROFILE_GAP_ANALYSIS = {
+  getgeneraldetails : "getgeneraldetails",
+  getstatus : "getstatus",
+  getcommenthistory : "getcommenthistory",
+  updatestatus:"updatestatus",
+  getTestResults : "getTestResults",
+  getPpgaCallNotes: "getPpgaCallNotes",
+  updatePpgaCallNotes : "updatePpgaCallNotes",
+  getcvresult:"getcvresult",
+  deletecvresult : "deletecvresult",
+  updatecvresult : "updatecvresult",
+  getdashboarddetails : "getdashboarddetails",
+  getpgalist:"getpgalist",
+}
 
 export const COLLEGES = {
   getCollege: 'getCollege',
@@ -333,8 +347,10 @@ export const PGA = {
 };
 
 export const HELPER = {
-  storeItInState: 'storeItInState',
-};
+  storeItInState : "storeItInState",
+  setPopperAnchorEl : "setPopperAnchorEl",
+  setFilterAnchorEl : "setFilterAnchorEl"
+}
 
 //MOHAMMED
 export const TESTIMONIAL = {

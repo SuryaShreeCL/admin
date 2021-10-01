@@ -1,52 +1,41 @@
-import {
-  Button,
-  Divider,
-  Grid,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@material-ui/core";
+import { Button, Divider, Grid, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import React, { Component } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TransferWithinAStationSharp } from "@material-ui/icons";
-import {
-  postPgaAcademicData,
-  getPgaAcademicData,
-} from "../../Actions/PgaAction";
+import {postPgaAcademicData, getPgaAcademicData} from "../../Actions/PgaAction"
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import { isEmptyArray, isEmptyObject } from "../Validation";
+import MuiAlert from "@material-ui/lab/Alert"
+import {isEmptyArray, isEmptyObject} from "../Validation"
 
 class AcademicData extends Component {
   constructor(props) {
     super(props);
     this.state = {
       semester: 8,
-      tenthSclName: "",
-      tenthBoardName: "",
-      tenthScoreScale: "",
-      tenthScore: "",
-      twelthSclName: "",
-      twelthBoardName: "",
-      twelthScoreScale: "",
-      twelthScore: "",
-      snackColor: null,
-      snackMsg: null,
-      snackOpen: false,
-      sem1: 1,
-      sem2: 2,
-      sem3: 3,
-      sem4: 4,
-      sem5: 5,
-      sem6: 6,
-      sem7: 7,
-      sem8: 8,
+      tenthSclName : '',
+      tenthBoardName : '',
+      tenthScoreScale : '',
+      tenthScore : '',
+      twelthSclName : '',
+      twelthBoardName : '',
+      twelthScoreScale : '',
+      twelthScore : '',
+      snackColor : null,
+      snackMsg : null,
+      snackOpen : false,
+      sem1 : 1,
+      sem2 : 2,
+      sem3 : 3,
+      sem4 : 4,
+      sem5 : 5,
+      sem6 : 6,
+      sem7 : 7,
+      sem8 : 8,
     };
   }
 
+ 
   choice = [
     { title: "10", value: 10 },
     { title: "7", value: 7 },
@@ -55,186 +44,146 @@ class AcademicData extends Component {
   ];
 
   handleSaved = () => {
-    if (
-      this.props.pgaAcademicDetails.length !== 0 &&
-      this.props.pgaAcademicDetails.studentUg.length === 0
-    ) {
-      let arr = [];
+    if(this.props.pgaAcademicDetails.length !== 0 && this.props.pgaAcademicDetails.studentUg.length === 0){
+      let arr = []
 
-      for (let i = 1; i <= this.state.semester; i++) {
+      for(let i=1; i<=this.state.semester; i++){
         arr.push({
-          semester: parseInt(this.state["sem" + i]),
-          top3Subjects: this.state["sem" + i + "top3"],
-          activeBacklogs: parseInt(
-            this.state["sem".concat(i).concat("activeBacklog")]
-          ),
-          backlogSubjects: this.state["sem".concat(i).concat("backlogSub")],
-          clearedBacklogs: parseInt(
-            this.state["sem".concat(i).concat("clearedBacklog")]
-          ),
-          scoreScale: this.state["scoreScaleSem".concat(i)],
-          clearedBacklogSubjects: this.state[
-            "sem".concat(i).concat("clearedSub")
-          ],
-          score: parseFloat(this.state["sem".concat(i).concat("score")]),
-        });
+          semester :  parseInt(this.state["sem"+i]),
+          top3Subjects : this.state["sem"+i+"top3"],
+          activeBacklogs : parseInt(this.state["sem".concat(i).concat("activeBacklog")]),
+          backlogSubjects : this.state["sem".concat(i).concat("backlogSub")],
+          clearedBacklogs : parseInt(this.state["sem".concat(i).concat("clearedBacklog")]) ,
+          scoreScale : this.state["scoreScaleSem".concat(i)],
+          clearedBacklogSubjects : this.state["sem".concat(i).concat("clearedSub")],
+          score : parseFloat(this.state["sem".concat(i).concat("score")]) 
+        })
       }
-
-      let obj = {
-        studentSsc: {
-          schoolName: this.state.tenthSclName,
-          examBoardName: this.state.tenthBoardName,
-          scoreScale: this.state.tenthScoreScale.value,
+  
+    let obj = {
+  
+      studentSsc:{
+          schoolName:this.state.tenthSclName,
+          examBoardName:this.state.tenthBoardName,
+          scoreScale:this.state.tenthScoreScale.value,
           score: parseFloat(this.state.tenthScore),
-        },
-        studentHsc: {
-          schoolName: this.state.twelthSclName,
-          examBoardName: this.state.twelthBoardName,
-          scoreScale: this.state.twelthScoreScale.value,
-          score: parseFloat(this.state.twelthScore),
-        },
-        studentUg: arr,
-      };
+      },
+      studentHsc:{
+          schoolName:this.state.twelthSclName,
+          examBoardName:this.state.twelthBoardName,
+          scoreScale:this.state.twelthScoreScale.value,
+          score: parseFloat(this.state.twelthScore) 
+      },
+      studentUg: arr
+    }
+  
+  this.props.postPgaAcademicData(this.props.id,obj)
+  console.log(obj)
+    }else{
+      let arr = []
 
-      this.props.postPgaAcademicData(this.props.id, obj);
-      console.log(obj);
-    } else {
-      let arr = [];
-
-      for (let i = 1; i <= this.state.semester; i++) {
+      for(let i=1; i<=this.state.semester; i++){
         arr.push({
-          id: this.state["sem".concat(i).concat("id")],
-          semester: parseInt(this.state["sem" + i]),
-          top3Subjects: this.state["sem" + i + "top3"],
-          activeBacklogs: parseInt(
-            this.state["sem".concat(i).concat("activeBacklog")]
-          ),
-          backlogSubjects: this.state["sem".concat(i).concat("backlogSub")],
-          clearedBacklogs: parseInt(
-            this.state["sem".concat(i).concat("clearedBacklog")]
-          ),
-          scoreScale: this.state["scoreScaleSem".concat(i)],
-          clearedBacklogSubjects: this.state[
-            "sem".concat(i).concat("clearedSub")
-          ],
-          score: parseFloat(this.state["sem".concat(i).concat("score")]),
-        });
+          id : this.state["sem".concat(i).concat("id")],
+          semester :  parseInt(this.state["sem"+i]),
+          top3Subjects : this.state["sem"+i+"top3"],
+          activeBacklogs : parseInt(this.state["sem".concat(i).concat("activeBacklog")]),
+          backlogSubjects : this.state["sem".concat(i).concat("backlogSub")],
+          clearedBacklogs : parseInt(this.state["sem".concat(i).concat("clearedBacklog")]) ,
+          scoreScale : this.state["scoreScaleSem".concat(i)],
+          clearedBacklogSubjects : this.state["sem".concat(i).concat("clearedSub")],
+          score : parseFloat(this.state["sem".concat(i).concat("score")]) 
+        })
       }
       let Anobj = {
-        studentSsc: {
-          schoolName: this.state.tenthSclName,
-          examBoardName: this.state.tenthBoardName,
-          scoreScale: this.state.tenthScoreScale.value,
-          score: parseFloat(this.state.tenthScore),
+  
+        studentSsc:{
+            schoolName:this.state.tenthSclName,
+            examBoardName:this.state.tenthBoardName,
+            scoreScale:this.state.tenthScoreScale.value,
+            score: parseFloat(this.state.tenthScore),
         },
-        studentHsc: {
-          schoolName: this.state.twelthSclName,
-          examBoardName: this.state.twelthBoardName,
-          scoreScale: this.state.twelthScoreScale.value,
-          score: parseFloat(this.state.twelthScore),
+        studentHsc:{
+            schoolName:this.state.twelthSclName,
+            examBoardName:this.state.twelthBoardName,
+            scoreScale:this.state.twelthScoreScale.value,
+            score: parseFloat(this.state.twelthScore) 
         },
-        studentUg: arr,
-      };
-
-      this.props.postPgaAcademicData(this.props.id, Anobj);
-      console.log(Anobj);
+        studentUg: arr
+      }
+    
+    this.props.postPgaAcademicData(this.props.id,Anobj)
+    console.log(Anobj)
     }
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.props.academicDataPostResponse !== prevProps.academicDataPostResponse
-    ) {
-      this.setState({
-        snackColor: "success",
-        snackMsg: "Academic Data Updated Successfully",
-        snackOpen: true,
-      });
-    }
-    if (this.props.pgaAcademicDetails !== prevProps.pgaAcademicDetails) {
-      if (
-        this.props.pgaAcademicDetails.studentHsc !== null &&
-        this.props.pgaAcademicDetails.studentSsc !== null &&
-        this.props.pgaAcademicDetails.studentUg.length !== 0
-      )
-        this.setState({
-          tenthBoardName: this.props.pgaAcademicDetails.studentSsc
-            .examBoardName,
-          tenthSclName: this.props.pgaAcademicDetails.studentSsc.schoolName,
-          tenthScore: this.props.pgaAcademicDetails.studentSsc.score,
-          tenthScoreScale: {
-            title:
-              this.props.pgaAcademicDetails.studentSsc.scoreScale === "100"
-                ? "%"
-                : this.props.pgaAcademicDetails.studentSsc.scoreScale,
-            value: parseInt(
-              this.props.pgaAcademicDetails.studentSsc.scoreScale
-            ),
-          },
-          twelthBoardName: this.props.pgaAcademicDetails.studentHsc
-            .examBoardName,
-          twelthSclName: this.props.pgaAcademicDetails.studentHsc.schoolName,
-          twelthScore: this.props.pgaAcademicDetails.studentHsc.score,
-          twelthScoreScale: {
-            title:
-              this.props.pgaAcademicDetails.studentHsc.scoreScale === "100"
-                ? "%"
-                : this.props.pgaAcademicDetails.studentHsc.scoreScale,
-            value: parseInt(
-              this.props.pgaAcademicDetails.studentHsc.scoreScale
-            ),
-          },
-        });
-      this.props.pgaAcademicDetails.studentUg.map((eachData, index) => {
-        console.log(eachData);
-        this.setState({
-          ["sem" + eachData.semester]: eachData.semester,
-          ["scoreScaleSem" + eachData.semester]: parseInt(eachData.scoreScale),
-          ["sem" + eachData.semester + "score"]: eachData.score,
-          ["sem" + eachData.semester + "top3"]: eachData.top3Subjects,
-          ["sem" + eachData.semester + "backlogSub"]: eachData.backlogSubjects,
-          ["sem" +
-          eachData.semester +
-          "clearedBacklog"]: eachData.clearedBacklogs,
-          ["sem" +
-          eachData.semester +
-          "clearedSub"]: eachData.clearedBacklogSubjects,
-          ["sem" +
-          eachData.semester +
-          "activeBacklog"]: eachData.activeBacklogs,
-          ["sem" + eachData.semester + "id"]: eachData.id,
-        });
-      });
-    }
+   
   }
 
-  handleChange = (e, value) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.academicDataPostResponse !== prevProps.academicDataPostResponse){
+      this.setState({
+        snackColor : "success",
+        snackMsg : "Academic Data Updated Successfully",
+        snackOpen : true
+      })
+    } 
+    if(this.props.pgaAcademicDetails !== prevProps.pgaAcademicDetails){
+      if(this.props.pgaAcademicDetails.studentHsc !== null && this.props.pgaAcademicDetails.studentSsc !== null && this.props.pgaAcademicDetails.studentUg.length !== 0)
+      this.setState({
+        tenthBoardName : this.props.pgaAcademicDetails.studentSsc.examBoardName,
+        tenthSclName : this.props.pgaAcademicDetails.studentSsc.schoolName,
+        tenthScore : this.props.pgaAcademicDetails.studentSsc.score,
+        tenthScoreScale : {title : this.props.pgaAcademicDetails.studentSsc.scoreScale === "100" ? "%" : this.props.pgaAcademicDetails.studentSsc.scoreScale,value : parseInt(this.props.pgaAcademicDetails.studentSsc.scoreScale)} ,
+        twelthBoardName : this.props.pgaAcademicDetails.studentHsc.examBoardName,
+        twelthSclName : this.props.pgaAcademicDetails.studentHsc.schoolName,
+        twelthScore : this.props.pgaAcademicDetails.studentHsc.score,
+        twelthScoreScale : {title : this.props.pgaAcademicDetails.studentHsc.scoreScale === "100" ? "%" : this.props.pgaAcademicDetails.studentHsc.scoreScale, value : parseInt(this.props.pgaAcademicDetails.studentHsc.scoreScale) } ,
+      })
+      this.props.pgaAcademicDetails.studentUg.map((eachData,index)=>{
+        console.log(eachData)
+        this.setState({
+          ["sem"+eachData.semester] : eachData.semester,
+          ["scoreScaleSem"+eachData.semester] : parseInt(eachData.scoreScale),
+          ["sem"+eachData.semester+"score"] : eachData.score,
+          ["sem"+eachData.semester+"top3"] : eachData.top3Subjects,
+          ["sem"+eachData.semester+"backlogSub"] : eachData.backlogSubjects,
+          ["sem"+eachData.semester+"clearedBacklog"] : eachData.clearedBacklogs,
+          ["sem"+eachData.semester+"clearedSub"] : eachData. clearedBacklogSubjects,
+          ["sem"+eachData.semester+"activeBacklog"] : eachData.activeBacklogs,
+          ["sem"+eachData.semester+"id"] : eachData.id
+        })
+      })
+    }
+
+  }
+  
+
+  handleChange = (e,value) =>{
+   
+      this.setState({
+        [e.target.name] : e.target.value
+      })
+
+    
+  }
+
+
 
   renderUgDegreeDetails = () => {
     let myArr = [];
-    if (
-      this.props.pgaAcademicDetails.length !== 0 &&
-      this.props.pgaAcademicDetails.studentUg.length === 0
-    ) {
+    if(this.props.pgaAcademicDetails.length !== 0 && this.props.pgaAcademicDetails.studentUg.length === 0){
       for (let i = 1; i <= this.state.semester; i++) {
         myArr.push({
           sem: (
             <TextField
               variant={"outlined"}
-              value={this.state["sem".concat(i)]}
+              value={
+                this.state["sem".concat(i)]
+              }
               disabled
               InputLabelProps={{
-                shrink: true,
-                style: {
-                  maxWidth: "100%",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                },
-              }}
+                shrink : true,
+              style: { maxWidth: '100%', whiteSpace: 'nowrap', overflow: 'hidden',
+             }}}
               name={"sem".concat(i)}
               onChange={this.handleChange}
               label={"Semester"}
@@ -243,52 +192,35 @@ class AcademicData extends Component {
           ),
           scoreScale: (
             <FormControl size="small" fullWidth variant="outlined">
-              <InputLabel shrink={true} id="demo-simple-select-outlined-label">
-                Score Scale
-              </InputLabel>
-              <Select
-                fullWidth
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                onChange={this.handleChange}
-                value={
-                  this.state["scoreScaleSem".concat(i)] !== undefined
-                    ? this.state["scoreScaleSem".concat(i)]
-                    : null
-                }
-                label="Score Scale"
-                name={"scoreScaleSem".concat(i)}
-              >
-                {this.choice.map((eachChoice) => {
-                  return (
-                    <MenuItem value={eachChoice.value}>
-                      {eachChoice.title}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
+          <InputLabel shrink={true} id="demo-simple-select-outlined-label">Score Scale</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            onChange={this.handleChange}
+            value={this.state["scoreScaleSem".concat(i)] !== undefined ? this.state["scoreScaleSem".concat(i)] : null}
+            label="Score Scale"
+            name={"scoreScaleSem".concat(i)}
+  
+          >
+            
+            {this.choice.map(eachChoice=>{
+              return(
+                <MenuItem
+                 value={eachChoice.value}
+                 >{eachChoice.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>
           ),
           score: (
-            <TextField
-              type="number"
-              error={
-                this.state["scoreScaleSem".concat(i)] <
-                this.state["sem".concat(i).concat("score")]
-              }
-              InputLabelProps={{ shrink: true }}
-              variant={"outlined"}
-              name={"sem".concat(i).concat("score")}
-              value={this.state["sem".concat(i).concat("score")]}
-              onChange={this.handleChange}
-              label={"Score"}
-              size={"small"}
-            />
+            <TextField type="number" error={this.state["scoreScaleSem".concat(i)] < this.state["sem".concat(i).concat("score")]} InputLabelProps={{shrink: true}} variant={"outlined"} name={"sem".concat(i).concat("score")} value={this.state["sem".concat(i).concat("score")]} onChange={this.handleChange} label={"Score"} size={"small"} />
           ),
           topThreeSub: (
             <TextField
               variant={"outlined"}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{shrink: true}}
               value={this.state["sem".concat(i).concat("top3")]}
               name={"sem".concat(i).concat("top3")}
               onChange={this.handleChange}
@@ -299,7 +231,7 @@ class AcademicData extends Component {
           activeBackLog: (
             <TextField
               variant={"outlined"}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{shrink: true}}
               value={this.state["sem".concat(i).concat("activeBacklog")]}
               name={"sem".concat(i).concat("activeBacklog")}
               onChange={this.handleChange}
@@ -310,7 +242,7 @@ class AcademicData extends Component {
           backLogSub: (
             <TextField
               variant={"outlined"}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{shrink: true}}
               value={this.state["sem".concat(i).concat("backlogSub")]}
               name={"sem".concat(i).concat("backlogSub")}
               onChange={this.handleChange}
@@ -321,7 +253,7 @@ class AcademicData extends Component {
           clearBacklog: (
             <TextField
               variant={"outlined"}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{shrink: true}}
               value={this.state["sem".concat(i).concat("clearedBacklog")]}
               name={"sem".concat(i).concat("clearedBacklog")}
               onChange={this.handleChange}
@@ -332,7 +264,7 @@ class AcademicData extends Component {
           clearBacklogSub: (
             <TextField
               variant={"outlined"}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{shrink: true}}
               value={this.state["sem".concat(i).concat("clearedSub")]}
               name={"sem".concat(i).concat("clearedSub")}
               onChange={this.handleChange}
@@ -373,34 +305,28 @@ class AcademicData extends Component {
           </>
         );
       });
-    } else {
-      console.log(this.props.pgaAcademicDetails);
-      if (this.props.pgaAcademicDetails.length !== 0) {
-        for (
-          let i = 0;
-          i <= this.props.pgaAcademicDetails.studentUg.length;
-          i++
-        ) {
-          console.log("for loop".concat(i));
-          if (this.props.pgaAcademicDetails.studentUg[i] !== undefined) {
-            console.log(this.props.pgaAcademicDetails.studentUg[i]);
-            console.log(this.props.pgaAcademicDetails.studentUg[i].id);
+    }else{
+      console.log(this.props.pgaAcademicDetails)
+      if(this.props.pgaAcademicDetails.length !==0){
+        for (let i = 0; i <= this.props.pgaAcademicDetails.studentUg.length; i++) {
+          console.log("for loop".concat(i))
+          if(this.props.pgaAcademicDetails.studentUg[i] !== undefined){
+            console.log(this.props.pgaAcademicDetails.studentUg[i])
+            console.log(this.props.pgaAcademicDetails.studentUg[i].id)
           }
-
+        
           myArr.push({
             sem: (
               <TextField
                 variant={"outlined"}
-                value={this.state["sem".concat(i)]}
+                value={
+                  this.state["sem".concat(i)]
+                }
                 disabled
                 InputLabelProps={{
-                  shrink: true,
-                  style: {
-                    maxWidth: "100%",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  },
-                }}
+                  shrink : true,
+                style: { maxWidth: '100%', whiteSpace: 'nowrap', overflow: 'hidden',
+               }}}
                 name={"sem".concat(i)}
                 onChange={this.handleChange}
                 label={"Semester"}
@@ -409,55 +335,35 @@ class AcademicData extends Component {
             ),
             scoreScale: (
               <FormControl size="small" fullWidth variant="outlined">
-                <InputLabel
-                  shrink={true}
-                  id="demo-simple-select-outlined-label"
-                >
-                  Score Scale
-                </InputLabel>
-                <Select
-                  fullWidth
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  onChange={this.handleChange}
-                  value={
-                    this.state["scoreScaleSem".concat(i)] !== undefined
-                      ? this.state["scoreScaleSem".concat(i)]
-                      : null
-                  }
-                  label="Score Scale"
-                  name={"scoreScaleSem".concat(i)}
-                >
-                  {this.choice.map((eachChoice) => {
-                    return (
-                      <MenuItem value={eachChoice.value}>
-                        {eachChoice.title}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+            <InputLabel shrink={true} id="demo-simple-select-outlined-label">Score Scale</InputLabel>
+            <Select
+            fullWidth
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              onChange={this.handleChange}
+              value={this.state["scoreScaleSem".concat(i)] !== undefined ? this.state["scoreScaleSem".concat(i)] : null}
+              label="Score Scale"
+              name={"scoreScaleSem".concat(i)}
+    
+            >
+              
+              {this.choice.map(eachChoice=>{
+                return(
+                  <MenuItem
+                   value={eachChoice.value}
+                   >{eachChoice.title}</MenuItem>
+                )
+              })}
+            </Select>
+          </FormControl>
             ),
             score: (
-              <TextField
-                type="number"
-                error={
-                  this.state["scoreScaleSem".concat(i)] <
-                  this.state["sem".concat(i).concat("score")]
-                }
-                InputLabelProps={{ shrink: true }}
-                variant={"outlined"}
-                name={"sem".concat(i).concat("score")}
-                value={this.state["sem".concat(i).concat("score")]}
-                onChange={this.handleChange}
-                label={"Score"}
-                size={"small"}
-              />
+              <TextField type="number" error={this.state["scoreScaleSem".concat(i)] < this.state["sem".concat(i).concat("score")]} InputLabelProps={{shrink: true}} variant={"outlined"} name={"sem".concat(i).concat("score")} value={this.state["sem".concat(i).concat("score")]} onChange={this.handleChange} label={"Score"} size={"small"} />
             ),
             topThreeSub: (
               <TextField
                 variant={"outlined"}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={this.state["sem".concat(i).concat("top3")]}
                 name={"sem".concat(i).concat("top3")}
                 onChange={this.handleChange}
@@ -468,7 +374,7 @@ class AcademicData extends Component {
             activeBackLog: (
               <TextField
                 variant={"outlined"}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={this.state["sem".concat(i).concat("activeBacklog")]}
                 name={"sem".concat(i).concat("activeBacklog")}
                 onChange={this.handleChange}
@@ -479,7 +385,7 @@ class AcademicData extends Component {
             backLogSub: (
               <TextField
                 variant={"outlined"}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={this.state["sem".concat(i).concat("backlogSub")]}
                 name={"sem".concat(i).concat("backlogSub")}
                 onChange={this.handleChange}
@@ -490,7 +396,7 @@ class AcademicData extends Component {
             clearBacklog: (
               <TextField
                 variant={"outlined"}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={this.state["sem".concat(i).concat("clearedBacklog")]}
                 name={"sem".concat(i).concat("clearedBacklog")}
                 onChange={this.handleChange}
@@ -501,7 +407,7 @@ class AcademicData extends Component {
             clearBacklogSub: (
               <TextField
                 variant={"outlined"}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={this.state["sem".concat(i).concat("clearedSub")]}
                 name={"sem".concat(i).concat("clearedSub")}
                 onChange={this.handleChange}
@@ -511,8 +417,8 @@ class AcademicData extends Component {
             ),
           });
         }
-
-        return myArr.slice(1, myArr.length).map((eachData) => {
+      
+        return myArr.slice(1,myArr.length).map((eachData) => {
           return (
             <>
               <Grid item md={1}>
@@ -544,49 +450,25 @@ class AcademicData extends Component {
           );
         });
       }
+     
     }
+   
   };
 
   componentDidMount() {
-    this.props.getPgaAcademicData(this.props.id);
+    this.props.getPgaAcademicData(this.props.id)
   }
+  
 
   semesterResponse = [
-    {
-      sem: "1",
-      scoreScale: { title: "7", value: 7 },
-      score: "70",
-      top3: "sub1,sub2,sub3",
-      activeBack: "2",
-      backLogSub: "sub8",
-      clearBack: "1",
-      clearSub: "sub4",
-    },
-    {
-      sem: "2",
-      scoreScale: { title: "4", value: 4 },
-      score: "80",
-      top3: "sub1,sub2,sub3",
-      activeBack: "1",
-      backLogSub: "sub6",
-      clearBack: "2",
-      clearSub: "sub5",
-    },
-    {
-      sem: "3",
-      scoreScale: { title: "%", value: 100 },
-      score: "90",
-      top3: "sub1,sub2,sub3",
-      activeBack: "3",
-      backLogSub: "sub7",
-      clearBack: "1",
-      clearSub: "sub6",
-    },
-  ];
+    {sem : "1", scoreScale : {title : "7", value : 7}, score : "70", top3 : "sub1,sub2,sub3", activeBack : "2", backLogSub : "sub8", clearBack : "1", clearSub : "sub4" },
+    {sem : "2", scoreScale : {title : "4", value : 4}, score : "80", top3 : "sub1,sub2,sub3", activeBack : "1", backLogSub : "sub6", clearBack : "2", clearSub : "sub5"},
+    {sem : "3", scoreScale : {title : "%", value : 100}, score : "90", top3 : "sub1,sub2,sub3", activeBack : "3", backLogSub : "sub7", clearBack : "1", clearSub : "sub6"},
+  ]
 
   render() {
-    console.log("state.................", this.state);
-    console.log(this.props.pgaAcademicDetails);
+    console.log("state.................",this.state)
+    console.log(this.props.pgaAcademicDetails)
     return (
       <div>
         <h5 style={{ padding: "1%" }}>10th Details</h5>
@@ -595,7 +477,7 @@ class AcademicData extends Component {
             <TextField
               variant="outlined"
               value={this.state.tenthSclName}
-              name={"tenthSclName"}
+              name = {"tenthSclName"}
               onChange={this.handleChange}
               size="small"
               label="Name of the School(10th)"
@@ -605,7 +487,7 @@ class AcademicData extends Component {
             <TextField
               variant="outlined"
               value={this.state.tenthBoardName}
-              name={"tenthBoardName"}
+              name = {"tenthBoardName"}
               onChange={this.handleChange}
               size="small"
               label="Exam Board Name(10th)"
@@ -619,9 +501,7 @@ class AcademicData extends Component {
               // value={}
               fullWidth
               value={this.state.tenthScoreScale}
-              onChange={(e, newValue) =>
-                this.setState({ tenthScoreScale: newValue })
-              }
+              onChange={(e,newValue)=>this.setState({tenthScoreScale : newValue})}
               size="small"
               renderInput={(params) => (
                 <TextField
@@ -634,22 +514,13 @@ class AcademicData extends Component {
             />
           </Grid>
           <Grid item md={3}>
-            <TextField
-              type="number"
-              variant="outlined"
-              error={this.state.tenthScoreScale < this.state.tenthScore}
-              value={this.state.tenthScore}
-              name={"tenthScore"}
-              onChange={this.handleChange}
-              size="small"
-              label="Score"
-            />
+            <TextField type="number" variant="outlined" error={this.state.tenthScoreScale < this.state.tenthScore} value={this.state.tenthScore} name={"tenthScore"} onChange={this.handleChange} size="small" label="Score" />
           </Grid>
           <Grid item md={3}>
             <TextField
               variant="outlined"
               value={this.state.twelthSclName}
-              name={"twelthSclName"}
+              name = {"twelthSclName"}
               onChange={this.handleChange}
               size="small"
               label="Name of the School(12th)"
@@ -659,7 +530,7 @@ class AcademicData extends Component {
             <TextField
               variant="outlined"
               value={this.state.twelthBoardName}
-              name={"twelthBoardName"}
+              name = {"twelthBoardName"}
               onChange={this.handleChange}
               size="small"
               label="Exam Board Name(12th)"
@@ -670,9 +541,7 @@ class AcademicData extends Component {
               id="combo-box-demo"
               options={this.choice}
               value={this.state.twelthScoreScale}
-              onChange={(e, newValue) =>
-                this.setState({ twelthScoreScale: newValue })
-              }
+              onChange={(e,newValue)=>this.setState({twelthScoreScale : newValue})}
               getOptionLabel={(option) => option.title}
               // value={}
               fullWidth
@@ -688,22 +557,15 @@ class AcademicData extends Component {
             />
           </Grid>
           <Grid item md={3}>
-            <TextField
-              variant="outlined"
-              type="number"
-              error={this.state.twelthScoreScale < this.state.twelthScore}
-              value={this.state.twelthScore}
-              name={"twelthScore"}
-              onChange={this.handleChange}
-              size="small"
-              label="Score"
-            />
+            <TextField variant="outlined" type="number" error={this.state.twelthScoreScale < this.state.twelthScore} value={this.state.twelthScore} name={"twelthScore"} onChange={this.handleChange} size="small" label="Score" />
           </Grid>
         </Grid>
         <hr />
         <h5 style={{ padding: "1%" }}>UnderGraduate Degree Details</h5>
-        <Grid container spacing={2} style={{ padding: "1%" }}>
+        <Grid container spacing={2} style={{padding : "1%"}}>
+         
           {this.renderUgDegreeDetails()}
+         
         </Grid>
         <Grid style={{ padding: "1%" }}>
           <Button
@@ -736,14 +598,11 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const mapStateToProps = (state) => {
+export const mapStateToProps = (state) =>{
   return {
-    academicDataPostResponse: state.PgaReducer.academicDataPostResponse,
-    pgaAcademicDetails: state.PgaReducer.pgaAcademicDetails,
-  };
-};
+    academicDataPostResponse : state.PgaReducer.academicDataPostResponse,
+    pgaAcademicDetails : state.PgaReducer.pgaAcademicDetails
+  }
+}
 
-export default connect(mapStateToProps, {
-  postPgaAcademicData,
-  getPgaAcademicData,
-})(AcademicData);
+export default connect(mapStateToProps,{postPgaAcademicData, getPgaAcademicData})(AcademicData)

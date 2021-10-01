@@ -14,6 +14,7 @@ import CareerTrackReducer from '../Reducer/CareerTrackReducer';
 import NotificationReducer from '../Reducer/NotificationReducer';
 import HelperReducer from '../Reducer/HelperReducer';
 import ReportReducer from '../Reducer/ReportReducer';
+import ProfileGapAnalysisReducer from '../Reducer/ProfileGapAnalysisReducer';
 import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
@@ -65,6 +66,8 @@ export default combineReducers({
   MentorReducer: MentorReducer,
   CallReducer: CallReducer,
   PgaReducer: PgaReducer,
+  ProfileGapAnalysisReducer : ProfileGapAnalysisReducer,
+
   //TESTIMONIAL
   testimonialCreateReducer,
   testimonialDeleteReducer,
