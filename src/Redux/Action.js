@@ -349,7 +349,8 @@ export const PGA = {
 
 export const HELPER = {
   storeItInState : "storeItInState",
-  setPopperAnchorEl : "setPopperAnchorEl"
+  setPopperAnchorEl : "setPopperAnchorEl",
+  setFilterAnchorEl : "setFilterAnchorEl"
 }
 
 //MOHAMMED

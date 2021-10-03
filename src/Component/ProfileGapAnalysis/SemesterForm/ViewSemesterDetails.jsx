@@ -50,7 +50,9 @@ class ViewSemesterDetails extends Component {
     console.log(this.props.departmentResponse);
     return (
       <div>
-        <Grid container spacing={3} style={{ padding: "12px" }}>
+        <Grid container spacing={3} 
+        style={{ padding: "12px" }}
+        >
           {/* back icon design */}
           <Grid item md={12}>
             <div className={"diploma_header"}>

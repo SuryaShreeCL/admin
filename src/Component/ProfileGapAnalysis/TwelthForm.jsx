@@ -1,14 +1,6 @@
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  TextField,
-  Typography
-} from "@material-ui/core";
-import FormGroup from "@material-ui/core/FormGroup";
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sscexamboard } from "../../Actions/Student";
 import {
@@ -17,7 +9,7 @@ import {
   submitPga
 } from "../../AsyncApiCall/Ppga";
 import { HELPER_TEXT } from "../../Constant/Variables";
-import FullFeaturedCrudGrid from "../../Utils/EditableTable";
+import EditableTable from "../../Utils/EditableTable";
 import MySnackBar from "../MySnackBar";
 import {
   isEmptyObject,
@@ -28,15 +20,8 @@ import {
 import CvViewer from "./CvViewer";
 import { useStyles } from "./FormStyles";
 import SimilarityPopup from "./SimilarityPopup";
-function TenthForm(props) {
-  const choice = [
-    { title: "10", value: 10 },
-    { title: "7", value: 7 },
-    { title: "4", value: 4 },
-    { title: "%", value: 100 },
-  ];
-  const dispatch = useDispatch();
-  const addActionRef = useRef();
+
+function TwelthForm(props) {
   const [educationalDetailsId, setEducationalDetailsId] = useState("");
   const [schoolName, setSchoolName] = useState({
     name: "",
@@ -47,29 +32,32 @@ function TenthForm(props) {
     helperText: "",
   });
   const [gradeScale, setGradeScale] = useState({
-    name: { title: "", value: "" },
+    name: null,
     helperText: "",
   });
   const [cgpa, setCgpa] = useState({
     name: "",
     helperText: "",
   });
+  const [cumulativePercentage, setCumulativePercentage] = useState({
+    name: "",
+    helperText: "",
+  });
+  const [formulaEmployed, setFormulaEmployed] = useState({
+    name: "",
+    helperText: "",
+  });
+  const [cumulativeResult, setCumulativeResult] = useState({
+    name: "",
+    helperText: "",
+  });
+  const [snack, setSnack] = useState({
+    snackOpen: false,
+    snackVariant: "",
+    snackMsg: "",
+  });
   const [studentDocument, setStudentDocument] = useState("");
-  // const actionComponent = {
-  //   Action: (props) => {
-  //    // If isn't the add action
-  //     console.log(props.action);
-  //     if (
-  //       typeof props.action === typeof Function ||
-  //       props.action.tooltip !== "Add"
-  //     ) {
-  //       return <MTableAction {...props} />;
-  //     } else {
-  //       return <div ref={addActionRef} onClick={props.action.onClick} />;
-  //     }
-  //   }
-  // }
-
+  const [data, setData] = useState([]);
   const columns = [
     {
       title: "Id",
@@ -154,24 +142,26 @@ function TenthForm(props) {
       },
     },
   ];
-  // const [columns, setColumns] = useState();
-
-  const [data, setData] = useState([]);
 
   const classes = useStyles();
-  const [twelth, setTwelth] = useState(true);
-  const [diploma, setDiploma] = useState(false);
-  const [snack, setSnack] = useState({
-    snackOpen: false,
-    snackVariant: "",
-    snackMsg: "",
-  });
+  const dispatch = useDispatch();
+  const choice = [
+    { title: "10", value: 10 },
+    { title: "7", value: 7 },
+    { title: "4", value: 4 },
+    { title: "%", value: 100 },
+  ];
+
   const examBoardList = useSelector(
     (state) => state.StudentReducer.sscexamboard
   );
+  useEffect(() => {
+    getAndSetPgaDetails();
+    dispatch(sscexamboard());
+  }, []);
 
   const getAndSetPgaDetails = () => {
-    getStudentPgaByGrade(props.match.params.studentId, "ssc").then(
+    getStudentPgaByGrade(props.match.params.studentId, "hsc").then(
       (response) => {
         console.log(response, "..............");
         if (response.status === 200) {
@@ -210,21 +200,6 @@ function TenthForm(props) {
     );
   };
 
-  useEffect(() => {
-    dispatch(sscexamboard());
-    getAndSetPgaDetails();
-  }, []);
-
-  const handleHigherStudyChange = (type) => {
-    if (type === "diploma") {
-      setDiploma(true);
-      setTwelth(false);
-    } else {
-      setDiploma(false);
-      setTwelth(true);
-    }
-  };
-
   const handleSubmit = () => {
     isEmptyString(schoolName.name)
       ? setSchoolName((prevSchoolName) => ({
@@ -253,7 +228,33 @@ function TenthForm(props) {
           helperText: HELPER_TEXT.requiredField,
         }))
       : setGradeScale((prevGrade) => ({ ...prevGrade, helperText: "" }));
-
+    isEmptyString(cumulativePercentage.name)
+      ? setCumulativePercentage((prevCumlative) => ({
+          ...prevCumlative,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setCumulativePercentage((prevCumlative) => ({
+          ...prevCumlative,
+          helperText: "",
+        }));
+    isEmptyString(formulaEmployed.name)
+      ? setFormulaEmployed((prevFormula) => ({
+          ...prevFormula,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setFormulaEmployed((prevFormula) => ({
+          ...prevFormula,
+          helperText: "",
+        }));
+    isEmptyString(cumulativeResult.name)
+      ? setCumulativeResult((prevCumResult) => ({
+          ...prevCumResult,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setCumulativeResult((prevCumResult) => ({
+          ...prevCumResult,
+          helperText: "",
+        }));
     if (
       !isEmptyString(schoolName.name) &&
       !isEmptyObject(board.name) &&
@@ -271,7 +272,7 @@ function TenthForm(props) {
         studentSubjectDetails: data,
       };
 
-      submitPga(props.match.params.studentId, "ssc", requestBody).then(
+      submitPga(props.match.params.studentId, "hsc", requestBody).then(
         (response) => {
           if (response.status === 200) {
             getAndSetPgaDetails();
@@ -285,7 +286,6 @@ function TenthForm(props) {
       );
     }
   };
-
   const handleRowAdd = (newData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -329,33 +329,32 @@ function TenthForm(props) {
       });
     }
   };
-
   return (
     <Grid container spacing={2}>
       <Grid
         item
+        className={classes.leftContainer}
+        xs={7}
+        sm={7}
         md={7}
-        xs={12}
-        sm={12}
         lg={7}
         xl={7}
-        className={classes.leftContainer}
       >
         <Grid container spacing={3}>
           <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
-            <Typography variant={"h5"}>10th</Typography>
+            <Typography variant={"h5"}>12th</Typography>
           </Grid>
           <Grid item md={4} xl={4} lg={4} sm={12} xs={12}>
             <TextField
-              className={classes.root}
               label={"School Name"}
               value={schoolName.name}
-              onChange={(e) => {
+              className={classes.root}
+              onChange={(e) =>
                 setSchoolName({
                   name: e.target.value,
                   helperText: "",
-                });
-              }}
+                })
+              }
               fullWidth
               helperText={schoolName.helperText}
               error={schoolName.helperText.length > 0}
@@ -415,18 +414,9 @@ function TenthForm(props) {
             <TextField
               label={"CGPA / % Range"}
               value={cgpa.name}
-              helperText={
-                !isEmptyString(gradeScale.name.value) &&
-                gradeScale.name.value < parseInt(cgpa.name)
-                  ? "Invalid Input"
-                  : cgpa.helperText
-              }
-              error={
-                (!isEmptyString(gradeScale.name.title) &&
-                  gradeScale.name.value < parseInt(cgpa.name)) ||
-                cgpa.helperText.length > 0
-              }
               className={classes.root}
+              helperText={cgpa.helperText}
+              error={cgpa.helperText.length > 0}
               onChange={(e) =>
                 setCgpa({
                   name: e.target.value,
@@ -439,67 +429,75 @@ function TenthForm(props) {
               fullWidth
             />
           </Grid>
-        </Grid>
-
-        <Grid
-          item
-          md={12}
-          sm={12}
-          xs={12}
-          lg={12}
-          xl={12}
-          className={classes.tableWrapper}
-        >
-          <FullFeaturedCrudGrid
-            //  actionComponent={actionComponent}
-            //  addActionRef={addActionRef}
-            columns={columns}
-            data={data}
-            onRowDelete={handleRowDelete}
-            // onRowUpdate={handleRowUpdate}
-            onRowAdd={handleRowAdd}
-          />
-        </Grid>
-        <Grid
-          item
-          md={12}
-          sm={12}
-          xs={12}
-          lg={12}
-          xl={12}
-          container
-          spacing={1}
-          direction={"column"}
-          className={classes.nextStudies}
-        >
-          <Grid item md={12} sm={12} xs={12} lg={12} xl={12}>
-            <Typography>Next Education</Typography>
+          <Grid
+            item
+            md={12}
+            sm={12}
+            xs={12}
+            lg={12}
+            xl={12}
+            className={classes.tableWrapper}
+          >
+            <EditableTable
+              columns={columns}
+              data={data}
+              onRowDelete={handleRowDelete}
+              onRowAdd={handleRowAdd}
+            />
           </Grid>
-          <Grid item md={12} sm={12} xs={12} lg={12} xl={12}>
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={twelth}
-                    color={"primary"}
-                    onChange={() => handleHigherStudyChange("twelth")}
-                    name="twelth"
-                  />
+          <Grid
+            item
+            md={12}
+            xl={12}
+            lg={12}
+            xs={12}
+            sm={6}
+            container
+            spacing={2}
+            className={classes.twelthFieldBottomContainer}
+          >
+            <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
+              <TextField
+                fullWidth
+                className={classes.root}
+                value={cumulativePercentage.name}
+                helperText={cumulativePercentage.helperText}
+                error={cumulativePercentage.helperText.length > 0}
+                onChange={(e) =>
+                  setCumulativePercentage({
+                    name: e.target.value,
+                    helperText: "",
+                  })
                 }
-                label="12th"
+                label={"Cumulative Percentage Score"}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={diploma}
-                    onChange={() => handleHigherStudyChange("diploma")}
-                    name="diploma"
-                    color="primary"
-                  />
+            </Grid>
+            <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
+              <TextField
+                fullWidth
+                className={classes.root}
+                value={formulaEmployed.name}
+                helperText={formulaEmployed.helperText}
+                error={formulaEmployed.helperText.length > 0}
+                onChange={(e) =>
+                  setFormulaEmployed({ name: e.target.value, helperText: "" })
                 }
-                label="Diploma"
+                label={"Formula Employed"}
               />
-            </FormGroup>
+            </Grid>
+            <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
+              <TextField
+                fullWidth
+                className={classes.root}
+                value={cumulativeResult.name}
+                helperText={cumulativeResult.helperText}
+                error={cumulativeResult.helperText.length > 0}
+                onChange={(e) =>
+                  setCumulativeResult({ name: e.target.value, helperText: "" })
+                }
+                label={"Cumulative Result"}
+              />
+            </Grid>
           </Grid>
         </Grid>
         <div className={classes.bottomContainer}>
@@ -514,7 +512,7 @@ function TenthForm(props) {
           </Button>
         </div>
       </Grid>
-      <Grid item md={5} lg={5} xl={5} sm={12} xs={12}>
+      <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
         <CvViewer path={studentDocument} {...props} />
       </Grid>
       <SimilarityPopup />
@@ -534,4 +532,4 @@ function TenthForm(props) {
   );
 }
 
-export default TenthForm;
+export default TwelthForm;

@@ -12,3 +12,9 @@ export const setPoperAnchorEl = (data) =>{
         dispatch({type : HELPER.setPopperAnchorEl, payload : data})
     }
 }
+
+export const setFilterAnchorEl = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.setFilterAnchorEl, payload : data})
+    }
+}

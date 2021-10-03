@@ -1,5 +1,21 @@
 import React from 'react'
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, makeStyles } from "@material-ui/core"
+
+const mockData = [
+  {
+  name : "selva JR",
+  yearOfPass : 2020,
+  subjectDetails : [
+  {
+  subCode : "CODE",
+  subName : "Sub Name",
+  maxMarks : 939,
+  }
+  ]
+  }
+  ]
+
+
 function SubjectInfoTable() {
     const useStyles = makeStyles((theme)=>({
         tableRow : {
@@ -51,5 +67,6 @@ function SubjectInfoTable() {
       </TableContainer>
     )
 }
+
 
 export default SubjectInfoTable

@@ -26,6 +26,7 @@ import SemesterForm from "./SemesterForm/Index";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import "./InterestDetail.css";
 import { setPoperAnchorEl } from "../../Actions/HelperAction";
+import TwelthForm from "./TwelthForm";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -70,13 +71,21 @@ class ProfileGapRoot extends Component {
     this.setState({
       open: true,
       anchorEl: event.currentTarget,
-      value: 6,
+      // value: 6,
+    });
+  };
+  menuClose = (event) => {
+    this.setState({
+      open: false,
+      anchorEl: null,
+      // value: 6,
     });
   };
 
   tabTheme = createTheme({
     overrides: {
       MuiTab: {
+        
         wrapper: {
           display: "flex",
           flexDirection: "row-reverse",
@@ -150,6 +159,7 @@ class ProfileGapRoot extends Component {
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="Academic Details"
+                    onMouseOver={(e) => this.menuOpen(e)}
                     icon={
                       <ExpandMoreIcon
                         style={{ color: "black", marginTop: "7px" }}
@@ -160,15 +170,18 @@ class ProfileGapRoot extends Component {
                   />
                 </ThemeProvider>
               </Tabs>
-              <IconButton
-                id={id}
-                onClick={this.handlePopupClick}
-                className={classes.iconButtonStyle}
-                color="primary"
-                aria-label="add to shopping cart"
-              >
-                <AccountCircleRoundedIcon fontSize={"large"} />
-              </IconButton>
+             {this.state.value > 5 ? 
+             <IconButton
+             id={id}
+             onClick={this.handlePopupClick}
+             className={classes.iconButtonStyle}
+             color="primary"
+             aria-label="add to shopping cart"
+           >
+             <AccountCircleRoundedIcon fontSize={"large"} />
+           </IconButton> : null
+            } 
+              
             </Paper>
             <TabPanel value={this.state.value} index={0}>
               <Dashboard {...this.props} />
@@ -191,6 +204,9 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={6}>
               <TenthForm {...this.props} />
             </TabPanel>
+            <TabPanel value={this.state.value} index={7}>
+              <TwelthForm {...this.props} />
+              </TabPanel>
             <TabPanel value={this.state.value} index={8}>
               {/* <DiplomaForm {...this.props} /> */}
               <SemesterForm {...this.props} />
@@ -216,7 +232,7 @@ class ProfileGapRoot extends Component {
           <MenuItem onClick={() => this.setState({ value: 6, open: false })}>
             10th
           </MenuItem>
-          <MenuItem onClick={this.handleClose}>12th</MenuItem>
+          <MenuItem onClick={() => this.setState({ value: 7, open: false })}>12th</MenuItem>
           <MenuItem onClick={() => this.setState({ value: 8, open: false })}>Diploma</MenuItem>
           <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
           <MenuItem onClick={this.handleClose}>Postgraduate</MenuItem>

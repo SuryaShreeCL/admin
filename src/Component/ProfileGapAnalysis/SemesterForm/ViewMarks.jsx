@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Typography, Grid, TextField } from "@material-ui/core";
+import '../DiplomaForm/DiplomaForm.css';
 
 export default class ViewMarks extends Component {
+  
   //   setting state
   constructor(props) {
     super(props);
@@ -23,7 +25,9 @@ export default class ViewMarks extends Component {
 
   render() {
     return (
-      <Grid container spacing={3} style={{ padding: "12px" }}>
+      <Grid container spacing={3} 
+      style={{ padding: "12px" }}
+      >
         <Grid item md={3}>
           <TextField
             label="Semester GPA"

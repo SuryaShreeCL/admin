@@ -23,7 +23,19 @@ class PpgaCallNotes extends Component {
       snackMsg: "",
       commentDialogOpen: false,
       commentList: [],
-
+      fieldname : {
+        fieldOfStudy : "Field Of Study",
+        college : "College",
+        degree : "Degree",
+        postGraduateDegree : "PostGraduate Degree",
+        postGraduateUniversity : "PostGraduate Univeristy",
+        postGraduateCollege : "PostGraduate College",
+        firstName : "First Name",
+        lastName : "Last Name",
+        currentSem : "Current Semester",
+        workexp : "Work Experience"
+      },
+      commentupdatelist : [],
 
     };
   }
@@ -57,8 +69,90 @@ class PpgaCallNotes extends Component {
       (response) => {
         console.log(response);
         this.setState({
-          commentList: response.data,
+          commentlist: response.data,
         });
+        let arr = [];
+        response.data && response.data.map((eachdata) => {
+            if (eachdata.fieldName === "college") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldCollege && eachdata.oldCollege.name,
+                newValue: eachdata.newCollege && eachdata.newCollege.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+              console.log(arr);
+            } else if (eachdata.fieldName === "degree") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldDegree && eachdata.oldDegree.name,
+                newValue: eachdata.newDegree && eachdata.newDegree.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "fieldOfStudy") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
+                newValue: eachdata.newPgDepartment && eachdata.newPgDepartment.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "postGraduateDegree") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgDegree && eachdata.oldPgDegree.name,
+                newValue: eachdata.newPgDegree && eachdata.newPgDegree.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "fieldOfStudy") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
+                newValue: eachdata.newPgDepartment && eachdata.newPgDepartment.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } 
+            else if (eachdata.fieldName === "postGraduateUniversity") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgUniversity && eachdata.oldPgUniversity.name,
+                newValue: eachdata.newPgUniversity && eachdata.newPgUniversity.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else if (eachdata.fieldName === "postGraduateCollege") {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldPgcollege && eachdata.oldPgcollege.name,
+                newValue: eachdata.newPgcollege && eachdata.newPgcollege.name,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            } else {
+              arr.push({
+                fieldName: eachdata.fieldName,
+                oldValue: eachdata.oldValue,
+                newValue: eachdata.newValue,
+                comment: eachdata.comment,
+                updatedAt:eachdata.updatedAt,
+                updatedBy : eachdata.updatedBy
+              });
+            }
+          });
+          console.log(arr)
+          this.setState({
+            commentupdatelist: arr,
+          });
       }
     );
   }
@@ -159,6 +253,7 @@ class PpgaCallNotes extends Component {
                     <TextField
                       label="PPGA Notes"
                       name="ppgaNotes"
+                      InputLabelProps={{ shrink: true }}
                       value={item.ppgaNotes}
                       onChange={(e) => this.handleChange(e, index)}
                       className="ppgaTextField_align"
@@ -169,6 +264,7 @@ class PpgaCallNotes extends Component {
                       className="ppgaTextField_align"
                       name="postPpgaNotes"
                       value={item.postPpgaNotes}
+                      InputLabelProps={{ shrink: true }}
                       onChange={(e) => this.handleChange(e, index)}
                       label="Post PPGA Notes"
                     ></TextField>
@@ -179,6 +275,7 @@ class PpgaCallNotes extends Component {
                       name="mentorNotes"
                       onChange={(e) => this.handleChange(e, index)}
                       value={item.mentorNotes}
+                      InputLabelProps={{ shrink: true }}
                       label="Mentor Notes"
                     ></TextField>
                   </Grid>
@@ -217,8 +314,9 @@ class PpgaCallNotes extends Component {
                 </Typography>
                 <CommentDialog
                   open={this.state.commentDialogOpen}
-                  data={this.state.commentList}
+                  data={this.state.commentupdatelist}
                   onClose={() => this.setState({ commentDialogOpen: false })}
+                  fieldname={this.state.fieldname}
                 />
               </div>
               <div className={"button_div"}>

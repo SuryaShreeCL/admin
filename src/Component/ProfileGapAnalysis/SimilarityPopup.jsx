@@ -1,58 +1,137 @@
-import React from "react";
 import {
-  Popper,
-  Popover,
-  Typography,
+  Button,
   Grid,
   makeStyles,
-  Chip,
-  IconButton
+  Menu,
+  MenuItem,
+  Popover,
+  Typography,
+  TextField
 } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
-import { setPoperAnchorEl } from "../../Actions/HelperAction";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFilterAnchorEl,
+  setPoperAnchorEl,
+} from "../../Actions/HelperAction";
 import Accordian from "./Accordian";
 import { StyledTab, StyledTabs } from "./PopUpTabs";
-import FilterListRoundedIcon from '@material-ui/icons/FilterListRounded';
-import { withStyles } from "@material-ui/styles";
+import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded';
+import SubjectInfoTable from "./SubjectInfoTable";
+
 function SimilarityPopup(props) {
-  const StyledPopOver = withStyles({
-    paper : {
-      height : "70vh"
-    }
-  })(Popover)
   const dispatch = useDispatch();
   const useStyles = makeStyles((theme) => ({
     headingTypo: {
       padding: "16px 0px 10px 16px",
       fontWeight: 500,
     },
-    chipStyle : {
-      marginLeft : "2%"
+    popoverStyle: {
+      height: "70vh",
+      overflowY: "scroll",
+      borderRadius : "10px",
+      // "&:before" : {
+      //   content: '""',
+      //   height: "0",
+      //   position: "absolute",
+      //   width: "0",
+      //   left: "18px",
+      //   border: "10px solid transparent",
+      //   borderRightColor: "#DA362A",
+      // }
     },
-    filterBtnStyle : {
+    filterContainer: {
+      display: "flex",
+      alignItems: "center",
       marginRight : "2%"
     },
-    popoverStyle : {
-      height : "70vh",
-      overflowY : "scroll"
+    searchContainer : {
+      alignSelf : "flex-end",
+      marginBottom : "15px"
+    },
+    containerStyle : {
+      margin : "0px 20px 0px 20px"
     }
   }));
 
   const popperAnchorEl = useSelector(
     (state) => state.HelperReducer.popperState.popperAnchorEl
   );
+  const filterAnchorEl = useSelector(
+    (state) => state.HelperReducer.popperState.filterAnchorEl
+  );
   const popperOpen = Boolean(popperAnchorEl);
+  const filterOpen = Boolean(filterAnchorEl);
+
   const id = popperOpen ? "simple-popper" : undefined;
+
   const [value, setValue] = React.useState(0);
   const classes = useStyles();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleFilterOpen = (event) => {
+    dispatch(setFilterAnchorEl(event.currentTarget));
+  };
   
+  const renderTabContent = () =>{
+    if(value === 0){
+      return (
+        <Grid
+          item
+          md={12}
+          xs={12}
+          sm={12}
+          lg={12}
+          xl={12}
+          container
+          alignItems={"center"}
+          justifyContent={"flex-end"}
+        >
+          <div className={classes.filterContainer}>
+            <Typography color={"textSecondary"}>Filter By : </Typography>
+            <Button
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              endIcon={<KeyboardArrowDownRoundedIcon />}
+              onClick={handleFilterOpen}
+            >
+              Year
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={filterAnchorEl}
+              keepMounted
+              open={filterOpen}
+              onClose={() => dispatch(setFilterAnchorEl(null))}
+            >
+              <MenuItem>2015</MenuItem>
+              <MenuItem>2016</MenuItem>
+            </Menu>
+          </div>
+        </Grid>
+
+      )
+    }else if(value === 1){
+      return (
+        <Grid className={classes.containerStyle} container spacing={2} direction={"column"}>
+          <div className={classes.searchContainer}>
+          <TextField
+          variant={"standard"}  
+          label={"Search"}
+          />
+          </div>
+          <SubjectInfoTable />
+        </Grid>
+      )
+    }
+  }
+
   return (
     <Popover
       id={id}
-      classes={{paper : classes.popoverStyle}}
+      classes={{ paper: classes.popoverStyle }}
       open={popperOpen}
       anchorEl={popperAnchorEl}
       onClose={() => dispatch(setPoperAnchorEl(null))}
@@ -81,26 +160,12 @@ function SimilarityPopup(props) {
             <StyledTab label="Distinct Match" />
           </StyledTabs>
         </Grid>
-        <Grid
-          item
-          md={12}
-          xs={12}
-          sm={12}
-          lg={12}
-          xl={12}
-          container
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-         <Chip className={classes.chipStyle} color={"primary"} label="2021 - 2022" onDelete={()=>console.log("delete...")} />
-         <IconButton className={classes.filterBtnStyle} color="primary" aria-label="add to shopping cart">
-        <FilterListRoundedIcon />
-      </IconButton>
-        </Grid>
+        {renderTabContent()}
       </Grid>
+      {value === 0 &&
+       <Accordian />
 
-      <Accordian />
-      <Accordian /> 
+      }
     </Popover>
   );
 }

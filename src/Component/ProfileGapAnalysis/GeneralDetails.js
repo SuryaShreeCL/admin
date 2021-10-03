@@ -493,9 +493,8 @@ class GeneralDetails extends Component {
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
-                //  popupIcon={
-                //   <ExpandMore style={{ color: "#1093FF" }} />
-                // }
+                  popupIcon={<ExpandMore 
+                    style={{ color: "black" }} />}
                 expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   options={this.props.getPGDegreeList}
                   getOptionLabel={(option) => option.name}
@@ -544,6 +543,8 @@ class GeneralDetails extends Component {
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
+                 popupIcon={<ExpandMore 
+                  style={{ color: "black" }} />}
                   options={this.props.getAllCollegesList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.pgcollege}
@@ -592,6 +593,8 @@ class GeneralDetails extends Component {
               </div>
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
+                 popupIcon={<ExpandMore 
+                  style={{ color: "black" }} />}
                   options={this.props.getpguniversity}
                   getOptionLabel={(option) => option.name}
                   value={this.state.pguniversity}
@@ -659,6 +662,57 @@ class GeneralDetails extends Component {
       );
     } else {
       return (
+      <Grid container>
+          <Grid item md={4}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  marginTop:"15px"
+
+                }}
+              >
+                <div
+                  style={{
+                    alignItems: "flex-start",
+                    display: "flex",
+                  }}
+                  onClick={(e) => this.handleClick(e, "ugCollege")}
+                >
+                  <Dot
+                    color={
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("ugCollege").verificationStatus ===
+                        "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
+                </div>
+                <div style={{ paddingLeft: "10px", width: "100%" }}>
+                  <Autocomplete
+                  popupIcon={<ExpandMore 
+                    style={{ color: "black" }} />}
+                    options={this.props.getAllCollegesList}
+                    getOptionLabel={(option) => option.name}
+                    value={this.state.college}
+                    onChange={(e, newValue) => {
+                      this.commentshistory("college", newValue);
+                      this.setState({ college: newValue });
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="college"
+                        label="College Name"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+            </Grid>
         <Grid item md={4}>
           <div
             style={{
@@ -700,9 +754,11 @@ class GeneralDetails extends Component {
             </div>
           </div>
         </Grid>
+      </Grid>
       );
     }
   }
+  
   renderhigherdetails() {
     if (this.props.variantStepList.codeName === "ACS_MBA") {
       return (
@@ -719,6 +775,8 @@ class GeneralDetails extends Component {
           <Grid item md={4}>
             <Autocomplete
               multiple
+              popupIcon={<ExpandMore 
+                style={{ color: "black" }} />}
               disabled
               id="tags-outlined"
               options={this.state.aspdegree}
@@ -740,6 +798,8 @@ class GeneralDetails extends Component {
             <Autocomplete
               multiple
               disabled
+              popupIcon={<ExpandMore 
+                style={{ color: "black" }} />}
               id="tags-outlined"
               options={this.state.aspfieldofstudy}
               getOptionLabel={(option) => option.name}
@@ -763,6 +823,8 @@ class GeneralDetails extends Component {
             <Autocomplete
               multiple
               disabled
+              popupIcon={<ExpandMore 
+                style={{ color: "black" }} />}
               id="tags-outlined"
               options={this.state.specialisation}
               getOptionLabel={(option) => option.name}
@@ -789,6 +851,8 @@ class GeneralDetails extends Component {
             <Autocomplete
               multiple
               disabled
+              popupIcon={<ExpandMore 
+                style={{ color: "black" }} />}
               id="tags-outlined"
               options={this.state.university}
               getOptionLabel={(option) => option.name}
@@ -1161,19 +1225,21 @@ class GeneralDetails extends Component {
   render() {
     console.log(this.props);
     console.log(this.state);
+    const { classes } = this.props
     return (
       <div>
-       <Grid container>
+       <Grid container className={classes.root}>
 
          {/*left container  */}
          <Grid item md={7}>
          <ThemeProvider theme={theme}>
+           <div className={classes.leftcontainer}>
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               marginLeft: "20px",
-              marginTop:"15px"
+              marginTop:"30px"
             }}
           >
             <Typography>Student Details</Typography>
@@ -1184,7 +1250,7 @@ class GeneralDetails extends Component {
                this.handleChat()
               }
             />
-            ) : null}
+            ) : null} 
           </div>
           <Grid
             container
@@ -1516,6 +1582,7 @@ class GeneralDetails extends Component {
                 </div>
               </div>
             </Grid>
+           { this.props.variantStepList.codeName === "ACS_MBA" &&
             <Grid item md={4}>
               <div
                 style={{
@@ -1565,7 +1632,7 @@ class GeneralDetails extends Component {
                   />
                 </div>
               </div>
-            </Grid>
+            </Grid>}
             <Grid item md={12}>
               {this.renderstudentdetails()}
             </Grid>
@@ -1664,7 +1731,7 @@ class GeneralDetails extends Component {
               </Grid>
             </Grid>
           </Grid>
-
+</div>
           {/* button */}
           <Grid container style={{height:70, display:'flex', alignSelf:'flex-end'}}>
             <Grid item md={12} >
@@ -1704,29 +1771,9 @@ class GeneralDetails extends Component {
               </div>
             </Grid>
           </Grid>
-          {/* <Grid container spacing={1} style={{ padding: "10px" }}>
-            <Grid item md={12}>
-              <hr />
-            </Grid>
-            <Grid item md={12} align={"right"}>
-              <PrimaryButton
-                color={"primary"}
-                variant={"contained"}
-                style={{ width: "100px", marginTop: "5px" }}
-                onClick={() => {
-                  this.state.commentshistory.length > 0
-                    ? this.handleopen()
-                    : this.handlesaved();
-                }}
-              >
-                Save
-              </PrimaryButton>
-            </Grid>
-          </Grid> */}
           <Dialog
             open={this.state.dialog}
             maxWidth={"sm"}
-            // onClose={() => this.setState({ dialog: false })}
           >
             <DialogTitle>
               <Grid container>
@@ -1740,16 +1787,19 @@ class GeneralDetails extends Component {
             </DialogTitle>
             <DialogContent>
               <Grid container spacing={1}>
-                {this.state.commentshistory.map((data, index) => {
-                  return (
-                    <>
-                      <Grid item md={12}>
+                 <Grid item md={12}>
                         <Typography style={{color:"#595351",fontSize:"14px"}}>
-                          We see that you have made changes to { this.state.fieldname[data.fieldName]}{" "}
-                          ,Would you like to comment?
+                          We see that you have made changes to { this.state.commentshistory.map((data, index) => {
+                          return this.state.fieldname[data.fieldName]+","
+                          })}
+                         {" "}
+                          Would you like to comment?
                         </Typography>
                       </Grid>
-                      <Grid item md={12}>
+                {this.state.commentshistory.map((data, index) => {
+                  return (
+                    <>  
+                      <Grid item md={12} style={{marginTop :"15px"}}>
                         <Typography>Old Name</Typography>
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
@@ -1761,7 +1811,7 @@ class GeneralDetails extends Component {
                           ? data.oldValue.name
                           : data.oldValue}
                       </Grid>
-                      <Grid item md={12}>
+                      <Grid item md={12} style={{marginTop:"15px"}}>
                         New Name
                       </Grid>
                       <Grid item md={6} style={{ color: "grey" }}>
@@ -1773,7 +1823,7 @@ class GeneralDetails extends Component {
                           ? data.newValue.name
                           : data.newValue}
                       </Grid>
-                      <Grid item md={12}>
+                      <Grid item md={12} style={{marginTop :"12px"}}>
                         <TextField
                           fullWidth
                           label="Comments"
@@ -1917,7 +1967,15 @@ class GeneralDetails extends Component {
   }
 }
 const useStyles = (theme) => ({
-  
+  root : {
+    paddingLeft:"10px"
+  },
+  leftcontainer : {
+    height : "89vh",overflowY : "scroll",
+    [theme.breakpoints.only("lg")] : {
+      height : "95vh"
+    }
+  }
 });
 const mapStateToProps = (state) => {
   console.log(state);

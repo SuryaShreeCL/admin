@@ -3,6 +3,7 @@ const initialState = {
   tempState: {},
   popperState: {
     popperAnchorEl: null,
+    filterAnchorEl : null
   },
 };
 
@@ -20,6 +21,14 @@ export default (state = initialState, action) => {
           popperAnchorEl: action.payload,
         },
       };
+      case HELPER.setFilterAnchorEl:
+        return {
+          ...state,
+          popperState: {
+            ...state.popperState,
+            filterAnchorEl : action.payload
+          },
+        };
     default:
       break;
   }

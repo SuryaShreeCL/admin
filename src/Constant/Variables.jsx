@@ -21,6 +21,10 @@ socialMedia:"Social Media",
 
 export {SECTION};
 
+export const HELPER_TEXT = {
+  requiredField : "Please Fill The Required Field"
+}
+
 export const menu = [
   {
     icon: <HomeOutlinedIcon />,

@@ -2,29 +2,24 @@ import { Paper, Typography } from "@material-ui/core";
 import React, { Component } from "react";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import "./DiplomaForm.css";
-import SemesterForm from '../SemesterForm/Index'
+import SemesterForm from "../SemesterForm/Index";
 
 export default class MarkSheetUpload extends Component {
-
-
   //  handleClick function to view the semesterForm
   handleClick = () => {
-    console.log("click")
-    return(
-      <SemesterForm/>
-
-    )
-    
-  }
+    console.log("click");
+    return <SemesterForm />;
+  };
 
   render() {
     return (
       <div>
         {/* markSheet card */}
-        <Paper 
-          variant="outlined" 
-          className={"markSheet_card"} 
-          onClick={this.handleClick}>
+        <Paper
+          variant="outlined"
+          className={"markSheet_card"}
+          onClick={this.handleClick}
+        >
           {/* card 1st div */}
           <div className={"div"}>
             <div>

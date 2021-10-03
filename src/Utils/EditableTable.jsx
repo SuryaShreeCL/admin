@@ -5,7 +5,7 @@ import AddIcon from "@material-ui/icons/AddAlarm";
 import { IconButton } from "@material-ui/core";
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import { makeStyles } from "@material-ui/core";
-export default function Editable() {
+export default function Editable(props) {
 
   const useStyles = makeStyles((theme)=>({
     actionButtonStyle : {
@@ -26,16 +26,24 @@ export default function Editable() {
       title: "",
       field: "internal_action",
       editable: false,
-      render: (rowData) =>
-        rowData && (
-          <IconButton
-            style={{marginRight : "-23px"}}
-            color="primary"
-            onClick={() => addActionRef.current.click()}
-          >
-            <AddCircleRoundedIcon />
-          </IconButton>
-        ),
+      render: (rowData) =>{
+        if(rowData){
+          if(rowData.tableData.id + 1 === data.length){
+            console.log(rowData, "-------------")
+           return (
+            <IconButton
+              style={{marginRight : "-23px"}}
+              color="primary"
+              onClick={() => addActionRef.current.click()}
+            >
+              <AddCircleRoundedIcon />
+            </IconButton>
+          )
+          }
+          
+        }
+      },
+        
         cellStyle: {
          textAlign : "right",
         },
@@ -46,6 +54,10 @@ export default function Editable() {
   const [data, setData] = useState([
     { name: 'Mehmet', surname: 'Baran', birthYear: 1987 },
     { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017},
+    { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017},
+    { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017},
+    { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017},
+
   ]);
 
   const tableStyle = {
@@ -57,36 +69,50 @@ export default function Editable() {
     <MaterialTable
       style={tableStyle}
       title=""
-      columns={columns}
+      columns={props.columns}
       icons={tableIcons}
-      components={{
-        Action: (props) => {
-          //If isn't the add action
-          console.log(props.action);
-          if (
-            typeof props.action === typeof Function ||
-            props.action.tooltip !== "Add"
-          ) {
-            return <MTableAction {...props} />;
-          } else {
-            return <div ref={addActionRef} onClick={props.action.onClick} />;
-          }
-        }
-      }}
-      data={data}
+      components={
+        props.actionComponent
+      //   {
+      //   Action: (props) => {
+      //     //If isn't the add action
+      //     console.log(props.action);
+      //     if (
+      //       typeof props.action === typeof Function ||
+      //       props.action.tooltip !== "Add"
+      //     ) {
+      //       return <MTableAction {...props} />;
+      //     } else {
+      //       return <div ref={addActionRef} onClick={props.action.onClick} />;
+      //     }
+      //   }
+      // }
+    }
+      data={props.data}
       options={{
         actionsColumnIndex: -1,
         search : false,
+        rowStyle :  rowData => {
+          if(rowData.tableData.id %2 === 0) {
+            return {backgroundColor: '#f1f1f1'};
+          }
+          return {};
+        },
+        paging : false
       }}
       editable={{
-        onRowAdd: newData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              setData([...data, newData]);
-              resolve();
-            }, 1000)
-          }),
-        // onRowUpdate: (newData, oldData) =>
+        onRowAdd:
+         props.onRowAdd,
+        // newData =>
+        //   new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       setData([...data, newData]);
+        //       resolve();
+        //     }, 1000)
+        //   }),
+        onRowUpdate: 
+        props.onRowUpdate,
+        // (newData, oldData) =>
         //   new Promise((resolve, reject) => {
         //     setTimeout(() => {
         //       const dataUpdate = [...data];
@@ -97,16 +123,18 @@ export default function Editable() {
         //       resolve();
         //     }, 1000)
         //   }),
-        onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataDelete = [...data];
-              const index = oldData.tableData.id;
-              dataDelete.splice(index, 1);
-              setData([...dataDelete]);
-              resolve()
-            }, 1000)
-          }),
+        onRowDelete: 
+        props.onRowDelete,
+        // oldData =>
+        //   new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       const dataDelete = [...data];
+        //       const index = oldData.tableData.id;
+        //       dataDelete.splice(index, 1);
+        //       setData([...dataDelete]);
+        //       resolve()
+        //     }, 1000)
+        //   }),
       }}
     />
   )
