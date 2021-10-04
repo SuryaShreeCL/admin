@@ -52,8 +52,6 @@ export function QuestionsUploadField({ name, testCreated, questionUpload }) {
     );
   }
 
-  console.log('file', files);
-
   function onDelete(file) {
     setFiles((curr) => curr.filter((fw) => fw.file !== file));
   }

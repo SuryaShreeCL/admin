@@ -13,6 +13,7 @@ import EventIcon from '@material-ui/icons/Event';
 import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
+import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
@@ -59,27 +60,22 @@ const CreatePost = () => {
     isEvent: location.type ?? false,
     supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
     wallFiles: [],
-    webinarTitle: '',
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
-    description: '',
-    webinarID: '',
     eventTitle: '',
     redirectionUrl: '',
+    zoomLink: '',
     buttonText: '',
     createdBy: window.sessionStorage.getItem('department') || '',
     eventDate: new Date(),
     resumeNeeded: false,
     eventEndDate: new Date(),
-    webinarStartDate: new Date(),
-    webinarEndDate: new Date(),
     selectedDate: new Date(),
     isScheduled: false,
     isVideoUrlEnabled: false,
     videoUrl: '',
-    activeStatus: 'Live',
   });
 
   const [errorSchema, setErrorSchema] = useState({
@@ -129,6 +125,19 @@ const CreatePost = () => {
       return false;
     }
 
+    if (
+      moment(values.endDateTime).isSameOrBefore(values.startDateTime) ||
+      moment(values.startDateTime).isBefore(moment()) ||
+      moment(values.endDateTime).isBefore(moment())
+    ) {
+      setNotify({
+        isOpen: true,
+        message: 'Please add proper timing & date',
+        type: 'error',
+      });
+      return false;
+    }
+
     if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
       setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
@@ -143,7 +152,8 @@ const CreatePost = () => {
 
   const validationSchema = yup.object({
     caption: yup.string().required('caption is required'),
-    description: yup.string().required('description is required'),
+    eventTitle: yup.string().required('title is required'),
+    zoomLink: yup.string().required('zoom id is required'),
   });
 
   const createPost = (post, activeStatus) => {
@@ -169,7 +179,7 @@ const CreatePost = () => {
     setTimeout(() => {
       history.push({
         pathname: wallPath,
-        tab: state.isEvent ? 3 : 0,
+        tab: location?.postTypeTab,
       });
     }, 1200);
     setNotify({
@@ -191,7 +201,7 @@ const CreatePost = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
-              createPost(values, 'Live');
+              createPost(values, location?.postType === 'Webinar' ? 'Scheduled' : 'Live');
               resetForm();
             }
           }}
@@ -295,9 +305,10 @@ const CreatePost = () => {
                     <Grid item>
                       <Controls.Input
                         label='Enter Webinar Title'
-                        name='webinarTitle'
+                        name='eventTitle'
+                        error={touched.eventTitle && Boolean(errors.eventTitle)}
                         style={{ width: '80%', marginTop: '18px' }}
-                        value={values.webinarTitle}
+                        value={values.eventTitle}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -320,10 +331,10 @@ const CreatePost = () => {
                     <Grid item>
                       <Controls.Input
                         label='Type description here..'
-                        value={values.description}
-                        name='description'
+                        value={values.caption}
+                        name='caption'
                         onChange={handleChange}
-                        error={touched.description && Boolean(errors.description)}
+                        error={touched.caption && Boolean(errors.caption)}
                         multiline
                         className={classes.captionStyle}
                         rows={5}
@@ -360,10 +371,11 @@ const CreatePost = () => {
                     <Grid item>
                       <Controls.Input
                         label='Zoom Webinar ID'
-                        name='webinarID'
+                        name='zoomLink'
                         type='number'
+                        error={touched.zoomLink && Boolean(errors.zoomLink)}
                         style={{ width: '80%', marginTop: '10px', marginBottom: '14px' }}
-                        value={values.webinarID}
+                        value={values.zoomLink}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -533,13 +545,13 @@ const CreatePost = () => {
                                 </InputAdornment>
                               ),
                             }}
-                            value={values.webinarStartDate}
+                            value={values.eventDate}
                             style={{ width: '400px', margin: '10px 0px' }}
                             disablePast
-                            name='webinarStartDate'
+                            name='eventDate'
                             inputVariant='outlined'
                             onChange={(val) => {
-                              setFieldValue('webinarStartDate', val);
+                              setFieldValue('eventDate', val);
                             }}
                           />
                         </MuiPickersUtilsProvider>
@@ -555,13 +567,13 @@ const CreatePost = () => {
                                 </InputAdornment>
                               ),
                             }}
-                            value={values.webinarEndDate}
+                            value={values.eventEndDate}
                             style={{ width: '400px', margin: '10px 0px' }}
                             disablePast
-                            name='webinarEndDate'
+                            name='eventEndDate'
                             inputVariant='outlined'
                             onChange={(val) => {
-                              setFieldValue('webinarEndDate', val);
+                              setFieldValue('eventEndDate', val);
                             }}
                           />
                         </MuiPickersUtilsProvider>
