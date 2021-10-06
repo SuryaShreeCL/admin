@@ -109,7 +109,7 @@ class ProductBasedUsers extends Component {
            </ThemedTabs>
                </Grid>
                <Grid item md={12}>
-               {Page !== undefined && <Page productId={this.state.adminUserDetails.products[0].id} stageDetails={this.state.selectedItem} {...this.props} />  }             
+               {Page !== undefined && <Page productId={this.state.adminUserDetails && this.state.adminUserDetails.products[0].id} stageDetails={this.state.selectedItem} {...this.props} />  }             
                </Grid>
            </Grid>
            </div>
