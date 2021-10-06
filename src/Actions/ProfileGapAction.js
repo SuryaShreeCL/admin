@@ -282,3 +282,50 @@ export const getpgalist=(productId,data,callback)=>{
             });
     }
 }
+
+// academic form (ug,pg,diploma) 
+export const viewAcademicDetails=(studentId,type,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/get/student/educationDetails/"+studentId+"/type?type="+type,{           
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.viewAcademicDetails,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error)
+                console.log(error);
+            });
+    }
+}
+
+export const viewSemesterDetails=(studentId,semesterId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/students/"+studentId+"/pga/college/"+semesterId,{
+           
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.viewSemesterDetails,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error)
+                console.log(error);
+            });
+    }
+}
+

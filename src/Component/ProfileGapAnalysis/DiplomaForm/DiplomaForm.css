@@ -82,5 +82,7 @@
 /* .MuiFormLabel-root {
     font-size: 12px !important;
 } */
-
+.viewDetails_title{
+    text-transform: capitalize;
+}
 

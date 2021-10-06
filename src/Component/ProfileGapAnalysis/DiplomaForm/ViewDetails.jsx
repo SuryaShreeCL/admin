@@ -4,6 +4,9 @@ import "./DiplomaForm.css";
 
 export default class ViewDetails extends Component {
   render() {
+    const { item } = this.props;
+    console.log(new Date(item.startDate).getFullYear())
+    console.log(item)
     return (
       <div>
         {/* grid container */}
@@ -20,7 +23,7 @@ export default class ViewDetails extends Component {
             display="flex"
             style={{ padding: "19px" }}
           >
-            <Typography variant={"h6"}>Diploma</Typography>
+            <Typography className={"viewDetails_title"} variant={"h6"}>{item.type}</Typography>
           </Grid>
 
           {/* empty grid */}
@@ -50,7 +53,7 @@ export default class ViewDetails extends Component {
                 </Typography>
               </div>
               <div>
-                <Typography color="textSecondary">University</Typography>
+                <Typography color="textSecondary">University Name</Typography>
               </div>
             </div>
 
@@ -58,11 +61,11 @@ export default class ViewDetails extends Component {
             <div className={"main_div1"}>
               <div>
                 <Typography className={"center_text_line_height"}>
-                  Computer Science
+                  {item.college && item.college.name}
                 </Typography>
               </div>
               <div>
-                <Typography>2021-2024</Typography>
+                <Typography>{item.university && item.university.name}</Typography>
               </div>
             </div>
           </Grid>
@@ -99,11 +102,13 @@ export default class ViewDetails extends Component {
             <div className={"main_div1"}>
               <div>
                 <Typography className={"text_line_height"}>
-                  Computer Science
+                  {item.department && item.department.name}
                 </Typography>
               </div>
               <div>
-                <Typography>2021-2024</Typography>
+                <Typography>
+                 {new Date(item.startDate).getFullYear()} - {new Date(item.endDate).getFullYear()}
+                </Typography>
               </div>
             </div>
           </Grid>
@@ -121,7 +126,7 @@ export default class ViewDetails extends Component {
                 </Typography>
               </div>
               <div>
-                <Typography className={"text_line_height"}>60%</Typography>
+                <Typography className={"text_line_height"}>{item.score}%</Typography>
               </div>
             </div>
           </Grid>

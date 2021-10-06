@@ -1,25 +1,26 @@
 import React, { Component } from "react";
 import ViewMarks from "./ViewMarks";
 import ViewSemesterDetails from "./ViewSemesterDetails";
-import { Grid } from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
 import BottomButton from "../BottomButton";
 import CvViewer from "../CvViewer";
 import TableGrid from "../../../Utils/EditableTable";
+import { connect } from "react-redux";
+import { useStyles } from "../../../Asset/DiplomaStyles";
+import { viewSemesterDetails } from '../../../Actions/ProfileGapAction';
+import { isClickedSem } from "../../../Actions/HelperAction";
 
-// import { useStyles } from "../../../Asset/DiplomaStyles";
 
-
-
-export default class Index extends Component {
-
+class Index extends Component {
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-      studentDocument : "",
-      data : []
-    }
+      studentDocument: "",
+      data: [],
+      semesterData : []
+    };
   }
 
   columns = [
@@ -30,147 +31,59 @@ export default class Index extends Component {
     },
     {
       title: "Subject Code",
-      field: "subjectDetails.language",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.language : "",
-      // validate: (rowData) => {
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isEmptyString(rowData.subjectDetails.language)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
+     
     },
     {
       title: "Subject Name",
-      field: "subjectDetails.subjectCode",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.subjectCode : "",
-      // validate: (rowData) => {
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
+     
     },
     {
       title: "Grade Points",
-      field: "subjectDetails.subjectName",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.subjectName : "",
-      // validate: (rowData) => {
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isEmptyString(rowData.subjectDetails.subjectName)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
+     
     },
     {
       title: "Credit",
-      field: "subjectDetails.maximumMarks",
-      type: "numeric",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
-      // validate: (rowData) => {
-      //   // if (!isEmptyObject(rowData)) {
-      //   //   if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
-      //   //     return true;
-      //   //   } else {
-      //   //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //   //   }
-      //   // }
-      // },
+     
     },
     {
       title: "Type",
-      field: "score",
-      type: "numeric",
-
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
+     
     },
     {
       title: "Result",
-      field: "score",
-      type: "numeric",
-
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
+     
     },
     {
       title: "Pass/Fail",
-      field: "score",
-      type: "numeric",
-
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
+     
     },
     {
       title: "Type",
-      field: "score",
-      type: "numeric",
-
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
+     
     },
   ];
 
-
   handleRowAdd = (newData) => {
-   console.log(newData)
+    console.log(newData);
   };
 
   handleRowDelete = (oldData) => {
     console.log(oldData);
- 
   };
 
-
-  
+  componentDidMount () {
+    this.props.viewSemesterDetails(this.props.match.params.studentId,this.props.clickedSem,(response)=>{
+      console.log(response)
+        this.setState({
+         semesterData : response.data
+        })
+      
+    })
+  }
 
   render() {
-   
-    // const { classes } = useStyles();
+    const {classes}  = this.props;
+    console.log(this.state);
 
     return (
       <div>
@@ -178,11 +91,11 @@ export default class Index extends Component {
           {/*  left container*/}
 
           {/* semester details */}
-          <Grid item md={7}>
+          <Grid item md={7} xs={7} sm={7} xl={7} lg={7}>
             <Grid container>
               <Grid
                 item
-                md={12}
+                md={12} xs={12} sm={12} xl={12} lg={12}
                 // className={classes.container}
                 style={{
                   height: "95vh",
@@ -191,9 +104,8 @@ export default class Index extends Component {
                   width: "100%",
                 }}
               >
-                <ViewSemesterDetails />
+                <ViewSemesterDetails data={this.state.semesterData}/>
 
-                 <Grid item md={12}></Grid>
                 <TableGrid
                   columns={this.columns}
                   data={this.state.data}
@@ -203,15 +115,14 @@ export default class Index extends Component {
                 <ViewMarks />
               </Grid>
 
-             <Grid item md={12}></Grid>
-              <Grid item md={12}>
+              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
                 <BottomButton />
               </Grid>
             </Grid>
           </Grid>
 
           {/* right container - markSheet */}
-          <Grid item md={5}>
+          <Grid item md={5} xs={5} sm={5} xl={5} lg={5}>
             <CvViewer path={this.state.studentDocument} {...this.props} />
           </Grid>
         </Grid>
@@ -219,3 +130,18 @@ export default class Index extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    clickedSem: state.HelperReducer.clickedSem,
+
+
+  };
+};
+
+
+export default connect(mapStateToProps, {
+  viewSemesterDetails,
+  isClickedSem
+})(withStyles(useStyles)(Index));

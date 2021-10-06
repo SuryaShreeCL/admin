@@ -1,9 +1,12 @@
 import { HELPER } from "../Redux/Action";
 const initialState = {
   tempState: {},
+  academicType : null,
+  clickedSem : null,
   popperState: {
     popperAnchorEl: null,
-    filterAnchorEl : null
+    filterAnchorEl : null,
+    
   },
 };
 
@@ -29,6 +32,17 @@ export default (state = initialState, action) => {
             filterAnchorEl : action.payload
           },
         };
+        case HELPER.getAcademicType:
+        return {
+          ...state,
+          academicType : action.payload
+        };
+        case HELPER.isClickedSem:
+        return {
+          ...state,
+          clickedSem : action.payload
+        };
+
     default:
       break;
   }

@@ -344,13 +344,18 @@ export const PGA = {
   getallfiles : "getallfiles",
   downlaodfiles : "downlaodfiles",
   deletefiles : "deletefiles",
-  viewfiles:"viewfiles"
+  viewfiles:"viewfiles",
+  viewAcademicDetails : "viewAcademicDetails",
+  viewSemesterDetails : "viewSemesterDetails",
+  // fileDownload : "fileDownload"
 };
 
 export const HELPER = {
   storeItInState : "storeItInState",
   setPopperAnchorEl : "setPopperAnchorEl",
-  setFilterAnchorEl : "setFilterAnchorEl"
+  setFilterAnchorEl : "setFilterAnchorEl",
+  getAcademicType : "getAcademicType",
+  isClickedSem : "isClickedSem"
 }
 
 //MOHAMMED
