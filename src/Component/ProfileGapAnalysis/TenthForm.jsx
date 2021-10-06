@@ -4,17 +4,20 @@ import {
   FormControlLabel,
   Grid,
   TextField,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import FormGroup from "@material-ui/core/FormGroup";
 import { Autocomplete } from "@material-ui/lab";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { saveCopyData } from "../../Actions/HelperAction";
 import { sscexamboard } from "../../Actions/Student";
 import {
   deleteSubjectDetailsById,
+  getDistinctSubjects,
+  getSimilarStudentsByGrade,
   getStudentPgaByGrade,
-  submitPga
+  submitPga,
 } from "../../AsyncApiCall/Ppga";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import FullFeaturedCrudGrid from "../../Utils/EditableTable";
@@ -23,7 +26,7 @@ import {
   isEmptyObject,
   isEmptyString,
   isNanAndEmpty,
-  isNumber
+  isNumber,
 } from "../Validation";
 import CvViewer from "./CvViewer";
 import { useStyles } from "./FormStyles";
@@ -37,6 +40,7 @@ function TenthForm(props) {
   ];
   const dispatch = useDispatch();
   const addActionRef = useRef();
+  const [ filterYear, setFilterYear ] = useState("");
   const [educationalDetailsId, setEducationalDetailsId] = useState("");
   const [schoolName, setSchoolName] = useState({
     name: "",
@@ -58,7 +62,7 @@ function TenthForm(props) {
   // const actionComponent = {
   //   Action: (props) => {
   //    // If isn't the add action
-  //     console.log(props.action);
+  //
   //     if (
   //       typeof props.action === typeof Function ||
   //       props.action.tooltip !== "Add"
@@ -76,21 +80,21 @@ function TenthForm(props) {
       field: "id",
       hidden: true,
     },
-    {
-      title: "Language",
-      field: "subjectDetails.language",
-      render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.language : "",
-      validate: (rowData) => {
-        if (!isEmptyObject(rowData)) {
-          if (!isEmptyString(rowData.subjectDetails.language)) {
-            return true;
-          } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          }
-        }
-      },
-    },
+    // {
+    //   title: "Language",
+    //   field: "subjectDetails.language",
+    //   render: (rowData, renderType) =>
+    //     renderType === "row" ? rowData.subjectDetails.language : "",
+    //   validate: (rowData) => {
+    //     if (!isEmptyObject(rowData)) {
+    //       if (!isEmptyString(rowData.subjectDetails.language)) {
+    //         return true;
+    //       } else {
+    //         return { isValid: false, helperText: HELPER_TEXT.requiredField };
+    //       }
+    //     }
+    //   },
+    // },
     {
       title: "Subject Code",
       field: "subjectDetails.subjectCode",
@@ -143,7 +147,6 @@ function TenthForm(props) {
       type: "numeric",
 
       validate: (rowData) => {
-        console.log(";;;;;", rowData);
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
             return true;
@@ -157,10 +160,12 @@ function TenthForm(props) {
   // const [columns, setColumns] = useState();
 
   const [data, setData] = useState([]);
-
+  const [ studentMatch, setStudentMatch ] = useState([])
+  const [ distinctMatch, setDistinctMatch ] = useState([])
   const classes = useStyles();
   const [twelth, setTwelth] = useState(true);
   const [diploma, setDiploma] = useState(false);
+  const [ search, setSearch ] = useState("")
   const [snack, setSnack] = useState({
     snackOpen: false,
     snackVariant: "",
@@ -169,11 +174,11 @@ function TenthForm(props) {
   const examBoardList = useSelector(
     (state) => state.StudentReducer.sscexamboard
   );
+  const { copiedData } = useSelector((state) => state.HelperReducer);
 
   const getAndSetPgaDetails = () => {
     getStudentPgaByGrade(props.match.params.studentId, "ssc").then(
       (response) => {
-        console.log(response, "..............");
         if (response.status === 200) {
           const data =
             response.data.data.length !== 0 ? response.data.data[0] : [];
@@ -194,7 +199,10 @@ function TenthForm(props) {
             setGradeScale((prevGrade) => ({
               ...prevGrade,
               name: {
-                title: data.scoreScale.toString(),
+                title:
+                  data.scoreScale.toString() === "100"
+                    ? "%"
+                    : data.scoreScale.toString(),
                 value: data.scoreScale,
               },
             }));
@@ -210,10 +218,52 @@ function TenthForm(props) {
     );
   };
 
+  const getAndSetStudentMatch = (year) =>{
+    getSimilarStudentsByGrade(props.match.params.studentId,"ssc",year)
+    .then(response=>{
+      if(response.status === 200){
+        setStudentMatch(response.data.data)
+      }
+    })
+  }
+
+  const getAndSetDistinctMatch = (query) =>{
+    getDistinctSubjects(props.match.params.studentId,"ssc",query)
+    .then(response=>{
+      if(response.status === 200){
+        setDistinctMatch(response.data.data)
+      }
+    })
+    
+  }
+
   useEffect(() => {
     dispatch(sscexamboard());
     getAndSetPgaDetails();
+    getAndSetStudentMatch("")
+    getAndSetDistinctMatch("")
   }, []);
+
+  useEffect(() => {
+    if (typeof copiedData !== "string") {
+      if (!Array.isArray(copiedData)) {
+        if (
+          data.filter(
+            (el) =>
+              el.subjectDetails.subjectCode ===
+              copiedData.subjectDetails.subjectCode
+          ).length === 0
+        ) {
+          var joinedData = data.concat(copiedData);
+          setData(joinedData);
+          dispatch(saveCopyData(""));
+        }
+      } else {
+        setData(copiedData);
+        dispatch(saveCopyData(""));
+      }
+    }
+  }, [copiedData]);
 
   const handleHigherStudyChange = (type) => {
     if (type === "diploma") {
@@ -253,12 +303,12 @@ function TenthForm(props) {
           helperText: HELPER_TEXT.requiredField,
         }))
       : setGradeScale((prevGrade) => ({ ...prevGrade, helperText: "" }));
-
     if (
       !isEmptyString(schoolName.name) &&
       !isEmptyObject(board.name) &&
       !isEmptyString(cgpa.name) &&
-      !isEmptyObject(gradeScale.name)
+      !isEmptyObject(gradeScale.name) &&
+      gradeScale.name.value > parseInt(cgpa.name)
     ) {
       let requestBody = {
         examBoard: {
@@ -296,7 +346,6 @@ function TenthForm(props) {
   };
 
   const handleRowDelete = (oldData) => {
-    console.log(oldData);
     if (oldData.subjectDetails.id) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -304,7 +353,6 @@ function TenthForm(props) {
             props.match.params.studentId,
             oldData.subjectDetails.id
           ).then((response) => {
-            console.log(response);
             if (response.status === 200) {
               getAndSetPgaDetails();
               setSnack({
@@ -329,6 +377,33 @@ function TenthForm(props) {
       });
     }
   };
+
+  const handleRowUpdate = (newData, oldData) =>{
+    return new Promise((resolve, reject) => {
+     setTimeout(() => {
+       const dataUpdate = [...data];
+       const index = oldData.tableData.id;
+       dataUpdate[index] = newData;
+       setData([...dataUpdate]);
+       resolve();
+     }, 1000)
+   })
+ }
+
+ const searchHandler = (e) =>{ 
+   if(e.target.value.length !== 0){
+    getAndSetDistinctMatch("&q="+e.target.value)
+   }else{
+    getAndSetDistinctMatch("")
+   }
+  setSearch(e.target.value)
+
+ }
+
+ const onYearClick = (year) =>{
+  getAndSetStudentMatch("&q="+year)
+  setFilterYear(year)
+ }
 
   return (
     <Grid container spacing={2}>
@@ -416,13 +491,15 @@ function TenthForm(props) {
               label={"CGPA / % Range"}
               value={cgpa.name}
               helperText={
+                gradeScale.name !== null &&
                 !isEmptyString(gradeScale.name.value) &&
                 gradeScale.name.value < parseInt(cgpa.name)
                   ? "Invalid Input"
                   : cgpa.helperText
               }
               error={
-                (!isEmptyString(gradeScale.name.title) &&
+                (gradeScale.name !== null &&
+                  !isEmptyString(gradeScale.name.title) &&
                   gradeScale.name.value < parseInt(cgpa.name)) ||
                 cgpa.helperText.length > 0
               }
@@ -451,12 +528,10 @@ function TenthForm(props) {
           className={classes.tableWrapper}
         >
           <FullFeaturedCrudGrid
-            //  actionComponent={actionComponent}
-            //  addActionRef={addActionRef}
             columns={columns}
             data={data}
             onRowDelete={handleRowDelete}
-            // onRowUpdate={handleRowUpdate}
+            onRowUpdate={handleRowUpdate}
             onRowAdd={handleRowAdd}
           />
         </Grid>
@@ -517,7 +592,7 @@ function TenthForm(props) {
       <Grid item md={5} lg={5} xl={5} sm={12} xs={12}>
         <CvViewer path={studentDocument} {...props} />
       </Grid>
-      <SimilarityPopup />
+      <SimilarityPopup handleYearClick={onYearClick} searchValue={search} searchHandler={searchHandler} distinctMatch={distinctMatch} data={studentMatch} />
       <MySnackBar
         onClose={() =>
           setSnack({

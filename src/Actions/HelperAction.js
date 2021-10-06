@@ -18,3 +18,9 @@ export const setFilterAnchorEl = (data) =>{
         dispatch({type : HELPER.setFilterAnchorEl, payload : data})
     }
 }
+
+export const saveCopyData = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.saveCopyData, payload : data})
+    }
+}

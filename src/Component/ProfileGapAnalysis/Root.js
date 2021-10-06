@@ -26,6 +26,7 @@ import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import "./InterestDetail.css";
 import { setPoperAnchorEl } from "../../Actions/HelperAction";
 import TwelthForm from "./TwelthForm";
+import Index from "./AcademicSummary/Index";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -209,6 +210,9 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={8}>
               <DiplomaForm {...this.props} />
             </TabPanel>
+            <TabPanel value={this.state.value} index={11}>
+              <Index {...this.props} />
+            </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
@@ -229,7 +233,7 @@ class ProfileGapRoot extends Component {
           <MenuItem onClick={() => this.setState({ value: 8, open: false })}>Diploma</MenuItem>
           <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
           <MenuItem onClick={this.handleClose}>Postgraduate</MenuItem>
-          <MenuItem onClick={this.handleClose}>Academic Summary</MenuItem>
+          <MenuItem onClick={() => this.setState({ value: 11, open: false })}>Academic Summary</MenuItem>
         </Menu>
       </div>
     );

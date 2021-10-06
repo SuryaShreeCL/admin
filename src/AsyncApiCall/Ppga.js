@@ -2,8 +2,14 @@ import axios from "axios"
 import { URL } from "../Actions/URL"
 
 export const getStudentPgaByGrade = async (studentId, grade) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
     try {
-        const response = axios.get(URL+"/api/v1/students/"+studentId+"/pga?grade="+grade)
+        const response = await axios.get(URL+"/api/v1/students/"+studentId+"/pga?grade="+grade, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -11,9 +17,15 @@ export const getStudentPgaByGrade = async (studentId, grade) => {
 }
 
 
-export const getSimilarStudentsByYear = async (studentId, grade, year) => {
+export const getSimilarStudentsByGrade = async (studentId, grade, year) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
     try {
-        const response = axios.get(URL+"/api/v1/students/"+studentId+"/pga/similarStudent?grade="+grade+"&year="+year)
+        const response = await axios.get(URL+"/api/v1/students/"+studentId+"/pga/similarStudent?grade="+grade+year, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -21,8 +33,15 @@ export const getSimilarStudentsByYear = async (studentId, grade, year) => {
 }
 
 export const submitPga = async (studentId, grade,data) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     try {
-        const response = axios.put(URL+"/api/v1/students/"+studentId+"/pga?grade="+grade,data)
+        const response = await axios.put(URL+"/api/v1/students/"+studentId+"/school/pga?grade="+grade,data, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -30,8 +49,99 @@ export const submitPga = async (studentId, grade,data) => {
 }
 
 export const deleteSubjectDetailsById = async (studentId, subjectDetailId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
     try {
-        const response = axios.delete(URL+"/api/v1/students/"+studentId+"/pga/subjectDetails/"+subjectDetailId)
+        const response = await axios.delete(URL+"/api/v1/students/"+studentId+"/pga/subjectDetails/"+subjectDetailId,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+
+// To Get Distinct Subject
+
+export const getDistinctSubjects = async (studentId, grade, query) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    try {
+        const response = await axios.get(URL+"/api/v1/students/"+studentId+"/pga/distinctSubject?grade="+grade+query, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+
+// To get the populated dropdown values
+
+export const getFilterListForDropDown = async (studentId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    try {
+        const response = await axios.get(URL+"/api/v1/students/"+studentId+"/pga/academicSummary", {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+
+// To get academic summary details
+
+export const getAcademicSummary = async (studentId, grade, subCategory) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    try {
+        const response = await axios.get(URL+"/api/v1/students/"+studentId+"/pga/academicSummary?grade="+grade+"&subjectCategory="+subCategory, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+
+// Create Student Backlog Semester Details
+
+export const createBacklogSemDetails = async (studentId, grade, data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    try {
+        const response = await axios.put(URL+"/api/v1/students/"+studentId+"/pga/academicSummary/backlog?grade="+grade,data, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+
+// Delete Student backlog Semester Details
+
+export const deleteStudentBacklogSem = async (backlogSemId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    try {
+        const response = await axios.delete(URL+"/api/v1/pga/student/backlog/"+backlogSemId,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message

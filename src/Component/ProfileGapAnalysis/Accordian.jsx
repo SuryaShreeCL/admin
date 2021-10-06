@@ -6,6 +6,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Typography, makeStyles, Grid, Divider } from "@material-ui/core";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import SubjectInfoTable from "./SubjectInfoTable";
+import { useDispatch, useSelector } from "react-redux"
+import { saveCopyData } from "../../Actions/HelperAction";
 function Accordian(props) {
   const useStyles = makeStyles((theme) => ({
     titleContainer: {
@@ -47,6 +49,12 @@ function Accordian(props) {
     }
   }));
   const classes = useStyles();
+  const dispatch = useDispatch()
+  const handleUseTemplate = (e) =>{
+    e.stopPropagation()
+    console.log(props.data)
+    dispatch(saveCopyData(props.data.studentSubjectDetails))
+  }
   return (
     <Accordion classes={{root : classes.accordianSummaryStyle}}>
       <AccordionSummary
@@ -56,20 +64,20 @@ function Accordian(props) {
       >
         <div className={classes.headerContainer}>
           <div className={classes.leftHeader}>
-            <Typography className={classes.userName}>My Name</Typography>
+            <Typography className={classes.userName}>{props.data.fullName}</Typography>
             <div className={classes.innerContainer}>
                 <Typography color={"textSecondary"}>Yearof pass</Typography>
-                <Typography>2016 - 2017</Typography>
+                <Typography>{props.data.year}</Typography>
             </div>
           </div>
           <div className={classes.rightContainer}>
-              <PrimaryButton onClick={(e)=>e.stopPropagation()} size={"small"} variant={"outlined"} color={"primary"}>Use Template</PrimaryButton>
+              <PrimaryButton onClick={handleUseTemplate} size={"small"} variant={"outlined"} color={"primary"}>Use Template</PrimaryButton>
           </div>
         </div>
       </AccordionSummary>
       <hr className={classes.dividerStyle} />
       <AccordionDetails>
-       <SubjectInfoTable />
+       <SubjectInfoTable studentSubjectDetails={props.data.studentSubjectDetails} />
       </AccordionDetails>
     </Accordion>
   );
