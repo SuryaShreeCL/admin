@@ -153,13 +153,13 @@ export default function Events() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-          />
+          /> */}
           <Controls.Button
             text='Create New Event'
             variant='contained'

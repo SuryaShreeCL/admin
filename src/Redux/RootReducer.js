@@ -26,6 +26,7 @@ import {
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  wallWebinarListReducer,
 } from '../Reducer/WallReducer';
 import {
   testCreateReducer,
@@ -71,6 +72,7 @@ export default combineReducers({
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  wallWebinarListReducer,
   //TESTS
   testCreateReducer,
   testDeleteReducer,

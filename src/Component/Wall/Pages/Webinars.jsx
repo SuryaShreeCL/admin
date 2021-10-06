@@ -18,8 +18,6 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
-import moment from 'moment';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
@@ -30,7 +28,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
+import { listWallWebinars, deleteWallPost } from '../../../Actions/WallActions';
 import { renderListCategory } from '../../Utils/Helpers';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -57,10 +55,10 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Published' },
+  { id: 'title', label: 'Title' },
   { id: 'caption', label: 'Caption' },
-  { id: 'likes', label: 'Likes' },
-  { id: 'totalViews', label: 'Views' },
+  { id: 'registerations', label: 'Registered' },
+  { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -77,7 +75,10 @@ export default function Webinars() {
     },
   });
 
-  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  const { loading, error, webinars } = useSelector((state) => state.wallWebinarListReducer);
+
+  //fitering out archived webinars
+  let filteredWebinars = webinars.filter((webinar) => webinar.activeStatus !== 'Archive');
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -88,7 +89,7 @@ export default function Webinars() {
   });
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    posts,
+    filteredWebinars,
     headCells,
     filterFn
   );
@@ -98,14 +99,9 @@ export default function Webinars() {
     setFilterFn({
       fn: (items) => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+        else return items.filter((x) => x.eventTitle.toLowerCase().includes(target.value));
       },
     });
-  };
-
-  const openInPopup = (item) => {
-    setViewData(item);
-    setOpenDrawer(!openDrawer);
   };
 
   const openInPage = (item) => {
@@ -126,7 +122,7 @@ export default function Webinars() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', false));
+      dispatch(listWallWebinars());
     }, 1200);
     setNotify({
       isOpen: true,
@@ -136,7 +132,7 @@ export default function Webinars() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live', false));
+    dispatch(listWallWebinars());
   }, [dispatch]);
 
   return (
@@ -145,7 +141,7 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Posts'
+            placeholder='Search Webinars'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -155,13 +151,13 @@ export default function Webinars() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-          />
+          /> */}
           <Controls.Button
             text='Create New Webinar'
             variant='contained'
@@ -181,19 +177,16 @@ export default function Webinars() {
 
         <TblContainer>
           <TblHead />
-          {posts && (
+          {filteredWebinars && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
-                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
+                  <TableCell>{`${item.eventTitle}`}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.totalLikes}</TableCell>
-                  <TableCell>{item.totalViews}</TableCell>
+                  <TableCell>{item.studentWallWebinar.length}</TableCell>
+                  <TableCell>{item.activeStatus}</TableCell>
                   <TableCell>
-                    <Controls.ActionButton onClick={() => openInPopup(item)}>
-                      <VisibilityIcon fontSize='small' color='default' />
-                    </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>

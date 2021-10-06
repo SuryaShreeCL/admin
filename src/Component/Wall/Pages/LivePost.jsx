@@ -79,6 +79,9 @@ export default function LivePost() {
 
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
 
+  //Filtering out the webinar posts
+  let filteredPosts = posts.filter((post) => post.isWebinar !== true);
+
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
@@ -88,7 +91,7 @@ export default function LivePost() {
   });
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    posts,
+    filteredPosts,
     headCells,
     filterFn
   );
@@ -155,13 +158,13 @@ export default function LivePost() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-          />
+          /> */}
           <Controls.Button
             text='Create New Post'
             variant='contained'
@@ -181,7 +184,7 @@ export default function LivePost() {
 
         <TblContainer>
           <TblHead />
-          {posts && (
+          {filteredPosts && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>

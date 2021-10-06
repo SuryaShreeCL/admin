@@ -126,9 +126,9 @@ const CreatePost = () => {
     }
 
     if (
-      moment(values.endDateTime).isSameOrBefore(values.startDateTime) ||
-      moment(values.startDateTime).isBefore(moment()) ||
-      moment(values.endDateTime).isBefore(moment())
+      moment(values.eventEndDate).isSameOrBefore(values.eventDate) ||
+      moment(values.eventDate).isBefore(moment()) ||
+      moment(values.eventEndDate).isBefore(moment())
     ) {
       setNotify({
         isOpen: true,
@@ -604,7 +604,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button
                       color='primary'
