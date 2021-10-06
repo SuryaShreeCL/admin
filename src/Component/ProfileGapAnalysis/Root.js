@@ -22,6 +22,7 @@ import PpgaCallNotes from "./PpgaCallNotes";
 import TenthForm from "./TenthForm";
 import TestResults from "./TestResults";
 import DiplomaForm from "./DiplomaForm/Index";
+import SemesterForm from "./SemesterForm/Index";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import "./InterestDetail.css";
 import { setPoperAnchorEl } from "../../Actions/HelperAction";
@@ -208,7 +209,13 @@ class ProfileGapRoot extends Component {
               <TwelthForm {...this.props} />
               </TabPanel>
             <TabPanel value={this.state.value} index={8}>
-              <DiplomaForm {...this.props} />
+              {/* <DiplomaForm {...this.props} /> */}
+              <SemesterForm {...this.props} />
+
+            </TabPanel>
+            {/* common semester form */}
+            <TabPanel value={this.state.value} index={9}>
+              <SemesterForm {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={11}>
               <Index {...this.props} />

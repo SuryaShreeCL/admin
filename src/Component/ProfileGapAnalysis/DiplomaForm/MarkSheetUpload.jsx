@@ -1,74 +1,64 @@
-import { Card, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import React, { Component } from "react";
-import { Grid } from "@material-ui/core";
-import PublishIcon from "@material-ui/icons/Publish";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import "./DiplomaForm.css";
+import SemesterForm from "../SemesterForm/Index";
 
 export default class MarkSheetUpload extends Component {
+  //  handleClick function to view the semesterForm
+  handleClick = () => {
+    console.log("click");
+    return <SemesterForm />;
+  };
+
   render() {
     return (
       <div>
-        <Grid container spacing={3} style={{ padding: "15px" }}>
-          <Grid item container md={12}>
-            <Card style={{ width: "100%", padding: "15px" }}>
-              {/* card 1st div */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
-                  <Typography style={{ lineHeight: "25px"}}>
-                    Computer Science
-                  </Typography>
-                </div>
-                <div>
-                  <Typography style={{ lineHeight: "25px" }}>
-                    1st Sem
-                  </Typography>
-                </div>
-              </div>
-              {/* card 2nd div */}
+        {/* markSheet card */}
+        <Paper
+          variant="outlined"
+          className={"markSheet_card"}
+          onClick={this.handleClick}
+        >
+          {/* card 1st div */}
+          <div className={"div"}>
+            <div>
+              <Typography className={"card_header_left"}>
+                Computer Science
+              </Typography>
+            </div>
+            <div>
+              <Typography className={"card_header_right"}>1st Sem</Typography>
+            </div>
+          </div>
+
+          {/* card 2nd div */}
+          <div>
+            <Typography className={"line_spacing"}>
+              Savitribai phule Pune University
+            </Typography>
+          </div>
+
+          {/* card 3rd div */}
+          <div className={"div"}>
+            {/* 1st sem markSheet and icon (div) */}
+            <div className={"div"}>
               <div>
-                <Typography style={{ lineHeight: "43px" }}>
-                  Savitribai phule Pune University
+                <Typography className={"card_header_right"}>
+                  1st Sem marksheet
                 </Typography>
               </div>
-              {/* card 3rd div */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div>
-                    <Typography style={{ lineHeight: "25px" }}>
-                      1st Sem marksheet
-                    </Typography>
-                  </div>
-                  <div style={{ marginLeft: "10px" }}>
-                  </div>
-                </div>
-
-                <div>
-                  <Typography style={{ lineHeight: "25px" }}>
-                    SGPA 90%
-                  </Typography>
-                </div>
+              <div className={"icon"}>
+                <GetAppIcon />
               </div>
-            </Card>
-          </Grid>
-        </Grid>
+            </div>
+
+            {/* 90% div */}
+            <div>
+              <Typography className={"card_header_right"}>SGPA 90%</Typography>
+            </div>
+          </div>
+        </Paper>
       </div>
     );
   }
