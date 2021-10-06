@@ -196,7 +196,7 @@ class GeneralDetails extends Component {
       this.props.match.params.productId,
       (response) => {
         console.log(response);
-        if(response.data.length > 0){
+        if(response.data && response.data.length > 0){
           this.setState({
             buttonStatus:true
           })
@@ -820,12 +820,11 @@ class GeneralDetails extends Component {
 
           </Grid>
           <Grid item md={4}>
-            <Autocomplete
+          <Autocomplete
+            popupIcon={<ExpandMore 
+              style={{ color: "black" }} />}
               multiple
               disabled
-              popupIcon={<ExpandMore 
-                style={{ color: "black" }} />}
-              id="tags-outlined"
               options={this.state.specialisation}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -835,16 +834,18 @@ class GeneralDetails extends Component {
                 );
                 return specializationHolder.includes(option.name);
               }}
-              value={this.state.specialization || []}
-              InputLabelProps={{ shrink: true }}
+              value={this.state.areaofspecialisation || []}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   name="areaofspecialisation"
                   label="Area of specialization"
+                  InputLabelProps={{ shrink: true }}
                 />
               )}
-              onChange={(e, newValue) => this.setState({ e, newValue })}
+              onChange={(e, newValue) =>
+                this.setState({ areaofspecialisation: newValue })
+              }
             />
           </Grid>
           <Grid item md={4}>
@@ -1783,11 +1784,7 @@ class GeneralDetails extends Component {
                 <Grid item md={12}>
                   <hr />
                 </Grid>
-              </Grid>
-            </DialogTitle>
-            <DialogContent>
-              <Grid container spacing={1}>
-                 <Grid item md={12}>
+                <Grid item md={12}>
                         <Typography style={{color:"#595351",fontSize:"14px"}}>
                           We see that you have made changes to { this.state.commentshistory.map((data, index) => {
                           return this.state.fieldname[data.fieldName]+","
@@ -1796,6 +1793,10 @@ class GeneralDetails extends Component {
                           Would you like to comment?
                         </Typography>
                       </Grid>
+              </Grid>
+            </DialogTitle>
+            <DialogContent>
+              <Grid container spacing={1}>
                 {this.state.commentshistory.map((data, index) => {
                   return (
                     <>  

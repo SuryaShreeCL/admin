@@ -368,9 +368,9 @@ console.log(data)
       rows = {this.props.getAllProductFamilyList} 
       filterItems = {
         [
-          { columnField: 'productName', operatorValue: 'contains' },
-          { columnField: 'shortName', operatorValue: 'contains' },
-          { columnField: 'codeName', operatorValue: 'contains' },
+          { id : "", columnField: 'productName', operatorValue: 'contains' },
+          { id : "", columnField: 'shortName', operatorValue: 'contains' },
+          { id : "", columnField: 'codeName', operatorValue: 'contains' },
         ]
       }
       />

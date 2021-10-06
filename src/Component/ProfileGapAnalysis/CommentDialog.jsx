@@ -71,8 +71,8 @@ function CommentDialog(props) {
                       </div>
                     </div>
                   </Grid>
-                  <Grid item md={6}>
-                    <Grid container spacing={1}>
+                  {/* <Grid item md={6}>
+                    <Grid container spacing={1}> */}
                       <Grid item md={12}>
                         <Typography style={{ color: "grey" }} k>
                           Previous
@@ -83,7 +83,7 @@ function CommentDialog(props) {
                           Enter {props.fieldname[data.fieldName]}
                         </Typography>
                       </Grid>
-                      <Grid item md={4}>
+                      <Grid item md={6}>
                         <Typography>
                           {data.oldValue !== null &&
                           typeof data.oldValue === "object"
@@ -91,10 +91,10 @@ function CommentDialog(props) {
                             : data.oldValue}
                         </Typography>
                       </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={6}>
-                    <Grid container spacing={1}>
+                    {/* </Grid>
+                  </Grid> */}
+                  {/* <Grid item md={6}>
+                    <Grid container spacing={1}> */}
                       <Grid item md={12}>
                         <Typography style={{ color: "grey" }}>
                           Change to
@@ -105,7 +105,7 @@ function CommentDialog(props) {
                           Enter {props.fieldname[data.fieldName]}
                         </Typography>
                       </Grid>
-                      <Grid item md={4}>
+                      <Grid item md={6}>
                         <Typography>
                           {data.newValue !== null &&
                           typeof data.newValue === "object"
@@ -113,8 +113,8 @@ function CommentDialog(props) {
                             : data.newValue}
                         </Typography>
                       </Grid>
-                    </Grid>
-                  </Grid>
+                    {/* </Grid>
+                  </Grid> */}
                   <Grid item md={12}>
                     <Typography style={{ color: "grey" }}>Comments</Typography>
                   </Grid>
