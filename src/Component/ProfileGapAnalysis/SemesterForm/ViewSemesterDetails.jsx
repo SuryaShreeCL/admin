@@ -10,6 +10,8 @@ import {
   getBranches,
 } from "../../../Actions/College";
 import { connect } from "react-redux";
+import { getAcademicType } from "../../../Actions/HelperAction";
+
 
 class ViewSemesterDetails extends Component {
   //  setting state
@@ -47,8 +49,8 @@ class ViewSemesterDetails extends Component {
   }
 
   render() {
+    const { collegeName, universityName,departmentName,gpa } = this.props;
     console.log(this.props);
-    const { data } = this.props;
     return (
       <div>
         <Grid container spacing={3} 
@@ -68,9 +70,14 @@ class ViewSemesterDetails extends Component {
 
           {/* diploma title */}
           <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
-            <Typography variant={"h6"} className={"semester_title"}>
-              5th Sem | Diploma
+           <div className={'semester_title_div'}>
+           <Typography variant={"h6"} className={"semester_title"}>
+              5th Sem | 
             </Typography>
+            <Typography variant={"h6"} className={"semester_title1"}>
+            {this.props.academicTypes}
+            </Typography>
+           </div>
           </Grid>
 
           <Grid item md={4}  xs={4} sm={4} xl={4} lg={4}>
@@ -79,7 +86,7 @@ class ViewSemesterDetails extends Component {
               id="College Name"
               disabled
               options={this.props.collegeResponse}
-              value={this.state.collegeName}
+              value={collegeName}
               onChange={(e, newValue) =>
                 this.setState({
                   collegeName: newValue,
@@ -92,6 +99,7 @@ class ViewSemesterDetails extends Component {
                   label="College Name"
                   variant="standard"
                   name="College Name"
+                  value={gpa}
                 />
               )}
             />
@@ -103,7 +111,7 @@ class ViewSemesterDetails extends Component {
               id="universityName"
               disabled
               options={this.props.universityResponse}
-              value={this.state.universityName}
+              value={universityName}
               onChange={(e, newValue) =>
                 this.setState({
                   universityName: newValue,
@@ -137,7 +145,7 @@ class ViewSemesterDetails extends Component {
               id="departmentName"
               disabled
               options={this.department}
-              value={this.props.departmentResponse}
+              value={departmentName}
               onChange={(e, newValue) =>
                 this.setState({
                   departmentName: newValue,
@@ -176,6 +184,8 @@ const mapStateToProps = (state) => {
     collegeResponse: state.CollegeReducer.allCollegeList,
     universityResponse: state.CollegeReducer.University,
     departmentResponse: state.CollegeReducer.BranchList,
+    academicTypes: state.HelperReducer.academicType,
+
   };
 };
 
@@ -183,4 +193,5 @@ export default connect(mapStateToProps, {
   getAllColleges,
   getUniversity,
   getBranches,
+  getAcademicType
 })(ViewSemesterDetails);

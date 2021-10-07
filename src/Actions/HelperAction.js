@@ -30,3 +30,8 @@ export const isClickedSem = (data) =>{
         dispatch({type : HELPER.isClickedSem, payload : data})
     }
 }
+export const saveCopyData = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.saveCopyData, payload : data})
+    }
+}

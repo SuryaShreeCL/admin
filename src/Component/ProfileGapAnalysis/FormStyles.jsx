@@ -34,5 +34,35 @@ export const useStyles = makeStyles((theme)=>({
    [theme.breakpoints.up("md")] : {
     marginTop : "10%"
    }
+ },
+ tableRowColor : {
+   backgroundColor : "#f1f1f1"
+ },
+ cardContainer : {
+   display : "flex",
+   flexDirection : "column",
+   height : "280px",
+   border : "2px solid #f1f1f1",
+   borderRadius : "8px",
+   padding : "7px"
+ },
+ cardTitle : {
+   display : "flex",
+   justifyContent : "center",
+   alignItems : "center"
+ },
+ cardTableContainer : {
+   display : "flex",
+   justifyContent : "center",
+   alignItems : "center"
+ },
+ semTitle : {
+   padding : "7px 0px",
+ },
+ containerSpacing : {
+   padding : "10px"
+ },
+ tabStyle : {
+   borderBottom : "1px solid #f1f1f1"
  }
 }));

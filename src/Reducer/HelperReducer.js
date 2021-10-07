@@ -7,7 +7,9 @@ const initialState = {
     popperAnchorEl: null,
     filterAnchorEl : null,
     
+    filterAnchorEl: null,
   },
+  copiedData: "",
 };
 
 export default (state = initialState, action) => {
@@ -43,6 +45,19 @@ export default (state = initialState, action) => {
           clickedSem : action.payload
         };
 
+    case HELPER.setFilterAnchorEl:
+      return {
+        ...state,
+        popperState: {
+          ...state.popperState,
+          filterAnchorEl: action.payload,
+        },
+      };
+    case HELPER.saveCopyData:
+      return {
+        ...state,
+        copiedData: action.payload,
+      };
     default:
       break;
   }

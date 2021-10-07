@@ -2,9 +2,12 @@ import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { saveCopyData } from "../../Actions/HelperAction";
 import { sscexamboard } from "../../Actions/Student";
 import {
   deleteSubjectDetailsById,
+  getDistinctSubjects,
+  getSimilarStudentsByGrade,
   getStudentPgaByGrade,
   submitPga
 } from "../../AsyncApiCall/Ppga";
@@ -58,27 +61,32 @@ function TwelthForm(props) {
   });
   const [studentDocument, setStudentDocument] = useState("");
   const [data, setData] = useState([]);
+  const [ studentMatch, setStudentMatch ] = useState([])
+  const [ distinctMatch, setDistinctMatch ] = useState([])
+  const { copiedData } = useSelector((state) => state.HelperReducer);
+  const [ search, setSearch ] = useState("")
+
   const columns = [
     {
       title: "Id",
       field: "id",
       hidden: true,
     },
-    {
-      title: "Language",
-      field: "subjectDetails.language",
-      render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.language : "",
-      validate: (rowData) => {
-        if (!isEmptyObject(rowData)) {
-          if (!isEmptyString(rowData.subjectDetails.language)) {
-            return true;
-          } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          }
-        }
-      },
-    },
+    // {
+    //   title: "Language",
+    //   field: "subjectDetails.language",
+    //   render: (rowData, renderType) =>
+    //     renderType === "row" ? rowData.subjectDetails.language : "",
+    //   validate: (rowData) => {
+    //     if (!isEmptyObject(rowData)) {
+    //       if (!isEmptyString(rowData.subjectDetails.language)) {
+    //         return true;
+    //       } else {
+    //         return { isValid: false, helperText: HELPER_TEXT.requiredField };
+    //       }
+    //     }
+    //   },
+    // },
     {
       title: "Subject Code",
       field: "subjectDetails.subjectCode",
@@ -155,10 +163,44 @@ function TwelthForm(props) {
   const examBoardList = useSelector(
     (state) => state.StudentReducer.sscexamboard
   );
+
   useEffect(() => {
     getAndSetPgaDetails();
+    getAndSetStudentMatch("");
+    getAndSetDistinctMatch("")
     dispatch(sscexamboard());
   }, []);
+
+  useEffect(() => {
+    if (typeof copiedData !== "string") {
+      if (!Array.isArray(copiedData)) {
+        if (
+          data.filter(
+            (el) =>
+              el.subjectDetails.subjectCode ===
+              copiedData.subjectDetails.subjectCode
+          ).length === 0
+        ) {
+          var joinedData = data.concat(copiedData);
+          setData(joinedData);
+          dispatch(saveCopyData(""));
+        }
+      } else {
+        setData(copiedData);
+        dispatch(saveCopyData(""));
+      }
+    }
+  }, [copiedData]);
+
+  const getAndSetStudentMatch = (year) =>{
+    getSimilarStudentsByGrade(props.match.params.studentId,"hsc", year)
+    .then(response=>{
+      if(response.status === 200){
+        setStudentMatch(response.data.data)
+      }
+    })
+  }
+
 
   const getAndSetPgaDetails = () => {
     getStudentPgaByGrade(props.match.params.studentId, "hsc").then(
@@ -199,6 +241,16 @@ function TwelthForm(props) {
       }
     );
   };
+
+  const getAndSetDistinctMatch = (query) =>{
+    getDistinctSubjects(props.match.params.studentId,"hsc",query)
+    .then(response=>{
+      if(response.status === 200){
+        setDistinctMatch(response.data.data)
+      }
+    })
+    
+  }
 
   const handleSubmit = () => {
     isEmptyString(schoolName.name)
@@ -259,7 +311,8 @@ function TwelthForm(props) {
       !isEmptyString(schoolName.name) &&
       !isEmptyObject(board.name) &&
       !isEmptyString(cgpa.name) &&
-      !isEmptyObject(gradeScale.name)
+      !isEmptyObject(gradeScale.name) &&
+      gradeScale.name.value > parseInt(cgpa.name)
     ) {
       let requestBody = {
         examBoard: {
@@ -329,6 +382,29 @@ function TwelthForm(props) {
       });
     }
   };
+
+  const handleRowUpdate = (newData, oldData) =>{
+     return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataUpdate = [...data];
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        setData([...dataUpdate]);
+        resolve();
+      }, 1000)
+    })
+  }
+
+  const searchHandler = (e) =>{ 
+    if(e.target.value.length !== 0){
+     getAndSetDistinctMatch("&q="+e.target.value)
+    }else{
+     getAndSetDistinctMatch("")
+    }
+   setSearch(e.target.value)
+ 
+  }
+ 
   return (
     <Grid container spacing={2}>
       <Grid
@@ -415,8 +491,19 @@ function TwelthForm(props) {
               label={"CGPA / % Range"}
               value={cgpa.name}
               className={classes.root}
-              helperText={cgpa.helperText}
-              error={cgpa.helperText.length > 0}
+              helperText={
+                gradeScale.name !== null &&
+                !isEmptyString(gradeScale.name.value) &&
+                gradeScale.name.value < parseInt(cgpa.name)
+                  ? "Invalid Input"
+                  : cgpa.helperText
+              }
+              error={
+                (gradeScale.name !== null &&
+                  !isEmptyString(gradeScale.name.title) &&
+                  gradeScale.name.value < parseInt(cgpa.name)) ||
+                cgpa.helperText.length > 0
+              }
               onChange={(e) =>
                 setCgpa({
                   name: e.target.value,
@@ -441,6 +528,7 @@ function TwelthForm(props) {
             <EditableTable
               columns={columns}
               data={data}
+              onRowUpdate={handleRowUpdate}
               onRowDelete={handleRowDelete}
               onRowAdd={handleRowAdd}
             />
@@ -515,7 +603,7 @@ function TwelthForm(props) {
       <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
         <CvViewer path={studentDocument} {...props} />
       </Grid>
-      <SimilarityPopup />
+      <SimilarityPopup searchValue={search} searchHandler={searchHandler} distinctMatch={distinctMatch} data={studentMatch} />
       <MySnackBar
         onClose={() =>
           setSnack({

@@ -283,7 +283,7 @@ export const getpgalist=(productId,data,callback)=>{
     }
 }
 
-// academic form (ug,pg,diploma) 
+// academic form (ug,pg,diploma) => (get)
 export const viewAcademicDetails=(studentId,type,callback)=>{    
     let accessToken = window.sessionStorage.getItem("accessToken")
 
@@ -306,6 +306,7 @@ export const viewAcademicDetails=(studentId,type,callback)=>{
     }
 }
 
+// view semester details(get)
 export const viewSemesterDetails=(studentId,semesterId,callback)=>{    
     let accessToken = window.sessionStorage.getItem("accessToken")
 
@@ -321,6 +322,54 @@ export const viewSemesterDetails=(studentId,semesterId,callback)=>{
             .then(result => {     
                 callback(result)           
                 dispatch({type:PROFILE_GAP_ANALYSIS.viewSemesterDetails,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error)
+                console.log(error);
+            });
+    }
+}
+
+// update semesterDetails
+export const saveSemesterDetails=(studentId,type,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.get(URL+"/api/v1/students/"+studentId+"/college/pga?grade="+type,{
+           
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.saveSemesterDetails,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error)
+                console.log(error);
+            });
+    }
+}
+
+// delete semester details
+export const deleteSemesterDetails=(studentId,subjectDetailId,semesterId,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.delete(URL+"/api/v1/students/"+studentId+"/pga/college/subjectDetails/"+subjectDetailId+"/"+semesterId,{
+           
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.deleteSemesterDetails,payload:result.data})
             })
             .catch(error => {
                 // callback(error)

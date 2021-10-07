@@ -1,39 +1,24 @@
 import React from 'react'
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, makeStyles } from "@material-ui/core"
+import { useSelector, useDispatch } from "react-redux"
+import { saveCopyData } from '../../Actions/HelperAction';
 
-const mockData = [
-  {
-  name : "selva JR",
-  yearOfPass : 2020,
-  subjectDetails : [
-  {
-  subCode : "CODE",
-  subName : "Sub Name",
-  maxMarks : 939,
-  }
-  ]
-  }
-  ]
+  function SubjectInfoTable(props) {
+    const useStyles = makeStyles((theme) => ({
+      tableRow: {
+        backgroundColor: "#f1f1f1",
+      },
+    }));
 
-
-function SubjectInfoTable() {
-    const useStyles = makeStyles((theme)=>({
-        tableRow : {
-            backgroundColor : "#f1f1f1"
-        }
-    }))
-    function createData(subCode, subName, maxMarks) {
-        return { subCode, subName, maxMarks };
-      }
-      
-      const rows = [
-        createData( "159", 'Frozen yoghurt',4),
-        createData("159", 'Frozen yoghurt',4),
-        createData("159", 'Frozen yoghurt',4),
-      ];
-      const classes = useStyles()
+    const { copiedData }  = useSelector(state => state.HelperReducer)
+    const classes = useStyles();
+    const dispatch = useDispatch()
+    const handleCopy = (data) =>{
+      dispatch(saveCopyData(data))
+    }
+    console.log(props, "____________________-")
     return (
-        <TableContainer>
+      <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -44,29 +29,26 @@ function SubjectInfoTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow className={index % 2 !== 0 && classes.tableRow } key={row.subCode}>
+            {props.studentSubjectDetails.map((row, index) => (
+              <TableRow
+                className={index % 2 !== 0 && classes.tableRow}
+                key={row.subjectDetails.subjectCode}
+              >
+                <TableCell align={"center"}>{row.subjectDetails.subjectCode}</TableCell>
+                <TableCell align={"center"}>{row.subjectDetails.subjectName}</TableCell>
+                <TableCell align={"center"}>{row.subjectDetails.maximumMarks}</TableCell>
                 <TableCell align={"center"}>
-                  {row.subCode}
-                </TableCell>
-                <TableCell align={"center"}>{row.subName}</TableCell>
-                <TableCell align={"center"}>{row.maxMarks}</TableCell>
-                <TableCell align={"center"}>
-                    <Button
-                    size={"small"}
-                    variant={"outlined"}
-                    color={"primary"}
-                    >
+                  <Button size={"small"} variant={"outlined"} onClick={()=>handleCopy(row)} color={"primary"}>
                     Copy
-                    </Button>
-                    </TableCell>
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    )
-}
+    );
+  };
 
 
 export default SubjectInfoTable

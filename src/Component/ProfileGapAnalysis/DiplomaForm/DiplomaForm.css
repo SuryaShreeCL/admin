@@ -79,6 +79,16 @@
     margin-top: -10px !important;
     margin-bottom: -11px !important;
 }
+.semester_title1{
+    margin-left: 5px !important;
+    margin-top: -10px !important;
+    margin-bottom: -11px !important;
+    text-transform: capitalize;
+}
+.semester_title_div{
+    display: flex;
+    flex-direction: row;
+}
 /* .MuiFormLabel-root {
     font-size: 12px !important;
 } */

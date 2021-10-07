@@ -17,6 +17,8 @@ const initialState = {
   getpgalist:[],
   academicView : [],
   semesterDetails : [],
+  updateSemesterDetails : [],
+  removeSemesterDetails : []
   // download : []
 };
 
@@ -100,11 +102,16 @@ export default (state = initialState, action) => {
                   ...state,
                   semesterDetails:action.payload,
               }; 
-              // case PROFILE_GAP_ANALYSIS.fileDownload:
-              // return{
-              //     ...state,
-              //     download:action.payload,
-              // }; 
+              case PROFILE_GAP_ANALYSIS.saveSemesterDetails:
+              return{
+                  ...state,
+                  updateSemesterDetails:action.payload,
+              }; 
+              case PROFILE_GAP_ANALYSIS.deleteSemesterDetails:
+                return{
+                    ...state,
+                    removeSemesterDetails:action.payload,
+                }; 
     default:
       return state;
   }

@@ -347,6 +347,8 @@ export const PGA = {
   viewfiles:"viewfiles",
   viewAcademicDetails : "viewAcademicDetails",
   viewSemesterDetails : "viewSemesterDetails",
+  saveSemesterDetails : "saveSemesterDetails",
+  deleteSemesterDetails : "deleteSemesterDetails"
   // fileDownload : "fileDownload"
 };
 
@@ -355,7 +357,8 @@ export const HELPER = {
   setPopperAnchorEl : "setPopperAnchorEl",
   setFilterAnchorEl : "setFilterAnchorEl",
   getAcademicType : "getAcademicType",
-  isClickedSem : "isClickedSem"
+  isClickedSem : "isClickedSem",
+  saveCopyData : "saveCopyData"
 }
 
 //MOHAMMED
