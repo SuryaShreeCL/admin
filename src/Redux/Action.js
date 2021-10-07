@@ -344,13 +344,20 @@ export const PGA = {
   getallfiles : "getallfiles",
   downlaodfiles : "downlaodfiles",
   deletefiles : "deletefiles",
-  viewfiles:"viewfiles"
+  viewfiles:"viewfiles",
+  viewAcademicDetails : "viewAcademicDetails",
+  viewSemesterDetails : "viewSemesterDetails",
+  saveSemesterDetails : "saveSemesterDetails",
+  deleteSemesterDetails : "deleteSemesterDetails"
+  // fileDownload : "fileDownload"
 };
 
 export const HELPER = {
   storeItInState : "storeItInState",
   setPopperAnchorEl : "setPopperAnchorEl",
   setFilterAnchorEl : "setFilterAnchorEl",
+  getAcademicType : "getAcademicType",
+  isClickedSem : "isClickedSem",
   saveCopyData : "saveCopyData"
 }
 

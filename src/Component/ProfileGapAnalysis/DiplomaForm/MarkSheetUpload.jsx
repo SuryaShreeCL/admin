@@ -1,21 +1,27 @@
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography,Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import "./DiplomaForm.css";
 import SemesterForm from "../SemesterForm/Index";
 
+
 export default class MarkSheetUpload extends Component {
-  //  handleClick function to view the semesterForm
-  handleClick = () => {
-    console.log("click");
-    return <SemesterForm />;
-  };
+
+  // handleClick = (data) => {
+  //   console.log(data)
+  //   window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data)
+  // }
+ 
 
   render() {
+    const { department,university,semester,markSheet,score } = this.props;
     return (
-      <div>
+      <div  onClick={this.props.handleChange}>
         {/* markSheet card */}
-        <Paper
+        <Grid container>
+          <Grid item md={12}>
+            {/* paper */}
+            <Paper
           variant="outlined"
           className={"markSheet_card"}
           onClick={this.handleClick}
@@ -24,18 +30,18 @@ export default class MarkSheetUpload extends Component {
           <div className={"div"}>
             <div>
               <Typography className={"card_header_left"}>
-                Computer Science
+                {department}
               </Typography>
             </div>
             <div>
-              <Typography className={"card_header_right"}>1st Sem</Typography>
+              <Typography className={"card_header_right"}>{semester}st Sem</Typography>
             </div>
           </div>
 
           {/* card 2nd div */}
           <div>
             <Typography className={"line_spacing"}>
-              Savitribai phule Pune University
+             {university}
             </Typography>
           </div>
 
@@ -45,21 +51,26 @@ export default class MarkSheetUpload extends Component {
             <div className={"div"}>
               <div>
                 <Typography className={"card_header_right"}>
-                  1st Sem marksheet
+                 {markSheet}
                 </Typography>
               </div>
               <div className={"icon"}>
-                <GetAppIcon />
+                <GetAppIcon 
+                onClick={this.props.handleDownloadClick}
+                />
               </div>
             </div>
 
             {/* 90% div */}
             <div>
-              <Typography className={"card_header_right"}>SGPA 90%</Typography>
+              <Typography className={"card_header_right"}>SGPA {score}%</Typography>
             </div>
           </div>
         </Paper>
-      </div>
+          </Grid>
+        </Grid>
+          
+       </div>
     );
   }
 }

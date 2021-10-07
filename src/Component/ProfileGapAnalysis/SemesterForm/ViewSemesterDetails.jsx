@@ -10,6 +10,8 @@ import {
   getBranches,
 } from "../../../Actions/College";
 import { connect } from "react-redux";
+import { getAcademicType } from "../../../Actions/HelperAction";
+
 
 class ViewSemesterDetails extends Component {
   //  setting state
@@ -47,14 +49,15 @@ class ViewSemesterDetails extends Component {
   }
 
   render() {
-    console.log(this.props.departmentResponse);
+    const { collegeName, universityName,departmentName,gpa } = this.props;
+    console.log(this.props);
     return (
       <div>
         <Grid container spacing={3} 
         style={{ padding: "12px" }}
         >
           {/* back icon design */}
-          <Grid item md={12}>
+          <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
             <div className={"diploma_header"}>
               <div>
                 <ArrowBackIosIcon className={"back_icon"} />
@@ -66,18 +69,24 @@ class ViewSemesterDetails extends Component {
           </Grid>
 
           {/* diploma title */}
-          <Grid item md={12}>
-            <Typography variant={"h6"} className={"semester_title"}>
-              5th Sem | Diploma
+          <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
+           <div className={'semester_title_div'}>
+           <Typography variant={"h6"} className={"semester_title"}>
+              5th Sem | 
             </Typography>
+            <Typography variant={"h6"} className={"semester_title1"}>
+            {this.props.academicTypes}
+            </Typography>
+           </div>
           </Grid>
 
-          <Grid item md={4}>
+          <Grid item md={4}  xs={4} sm={4} xl={4} lg={4}>
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="College Name"
+              disabled
               options={this.props.collegeResponse}
-              value={this.state.collegeName}
+              value={collegeName}
               onChange={(e, newValue) =>
                 this.setState({
                   collegeName: newValue,
@@ -90,6 +99,7 @@ class ViewSemesterDetails extends Component {
                   label="College Name"
                   variant="standard"
                   name="College Name"
+                  value={gpa}
                 />
               )}
             />
@@ -99,8 +109,9 @@ class ViewSemesterDetails extends Component {
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="universityName"
+              disabled
               options={this.props.universityResponse}
-              value={this.state.universityName}
+              value={universityName}
               onChange={(e, newValue) =>
                 this.setState({
                   universityName: newValue,
@@ -121,6 +132,7 @@ class ViewSemesterDetails extends Component {
           <Grid item md={4}>
             <TextField
               label="GPA"
+              disabled
               value={this.state.gpa}
               onChange={(e) => this.handleChange(e)}
               fullWidth
@@ -131,8 +143,9 @@ class ViewSemesterDetails extends Component {
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="departmentName"
+              disabled
               options={this.department}
-              value={this.props.departmentResponse}
+              value={departmentName}
               onChange={(e, newValue) =>
                 this.setState({
                   departmentName: newValue,
@@ -153,6 +166,7 @@ class ViewSemesterDetails extends Component {
           <Grid item md={4}>
             <TextField
               label="Passing Year"
+              disabled
               value={this.state.passingYear}
               onChange={(e) => this.handleChange(e)}
               fullWidth
@@ -170,6 +184,8 @@ const mapStateToProps = (state) => {
     collegeResponse: state.CollegeReducer.allCollegeList,
     universityResponse: state.CollegeReducer.University,
     departmentResponse: state.CollegeReducer.BranchList,
+    academicTypes: state.HelperReducer.academicType,
+
   };
 };
 
@@ -177,4 +193,5 @@ export default connect(mapStateToProps, {
   getAllColleges,
   getUniversity,
   getBranches,
+  getAcademicType
 })(ViewSemesterDetails);

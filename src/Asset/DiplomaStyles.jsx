@@ -7,7 +7,7 @@ export const useStyles = makeStyles((theme)=>({
     }
   },
   container: {
-    height: "80vh",
+    height: "95vh",
     overflowY: "scroll",
     overflowX: "hidden",
     width: "100%",

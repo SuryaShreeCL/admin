@@ -19,6 +19,17 @@ export const setFilterAnchorEl = (data) =>{
     }
 }
 
+export const getAcademicType = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.getAcademicType, payload : data})
+    }
+}
+// semester card click function
+export const isClickedSem = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.isClickedSem, payload : data})
+    }
+}
 export const saveCopyData = (data) =>{
     return dispatch =>{
         dispatch({type : HELPER.saveCopyData, payload : data})
