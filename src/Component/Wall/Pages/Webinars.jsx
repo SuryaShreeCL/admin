@@ -78,7 +78,7 @@ export default function Webinars() {
   const { loading, error, webinars } = useSelector((state) => state.wallWebinarListReducer);
 
   //fitering out archived webinars
-  let filteredWebinars = webinars.filter((webinar) => webinar.activeStatus !== 'Archive');
+  let filteredWebinars = webinars?.filter((webinar) => webinar.activeStatus !== 'Archive');
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -213,6 +213,9 @@ export default function Webinars() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
+          {!loading && filteredWebinars?.length === 0 && (
+            <Alert severity='info'>0 Webinars Found</Alert>
+          )}
         </div>
         <TblPagination />
       </Paper>

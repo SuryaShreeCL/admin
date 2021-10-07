@@ -110,7 +110,7 @@ const EditPost = () => {
     setTimeout(() => {
       history.push({
         pathname: wallPath,
-        tab: 1,
+        tab: location?.postTypeTab,
       });
     }, 1200);
   };

@@ -158,13 +158,13 @@ export default function LiveTest() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-          />
+          /> */}
           <Controls.Button
             text='Create New Test'
             variant='contained'

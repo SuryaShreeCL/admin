@@ -232,6 +232,7 @@ export default function DraftPost() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
+          {!loading && posts?.length === 0 && <Alert severity='info'>0 Draft Posts Found</Alert>}
         </div>
         <TblPagination />
       </Paper>
