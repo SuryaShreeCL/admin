@@ -6,6 +6,7 @@ import ScheduledPost from './Pages/ScheduledPost';
 import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import Events from './Pages/Events';
 import { useLocation } from 'react-router-dom';
+import Webinars from './Pages/Webinars';
 
 const WallLanding = () => {
   let location = useLocation();
@@ -21,6 +22,8 @@ const WallLanding = () => {
         return <ScheduledPost />;
       } else if (value === 3) {
         return <Events />;
+      } else if (value === 4) {
+        return <Webinars />;
       }
     } catch (error) {
       console.log(error);
@@ -41,6 +44,7 @@ const WallLanding = () => {
             <TopTab label='Draft Posts' />
             <TopTab label='Scheduled Posts' />
             <TopTab label='Events' />
+            <TopTab label='Webinars' />
           </TopTabs>
         </Grid>
         <Grid item md={12}>

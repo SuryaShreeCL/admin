@@ -30,6 +30,33 @@ export const listWallPosts = (status, type) => async (dispatch) => {
     });
   }
 };
+export const listWallWebinars = () => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=20`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: WALL.WEBINAR_LIST_SUCCESS,
+      payload: data.content,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.WEBINAR_LIST_FAIL,
+      payload:
+        error.response && error.response.message ? error.response.data.message : error.message,
+    });
+  }
+};
 
 export const getWallCategories = (status) => async (dispatch) => {
   try {

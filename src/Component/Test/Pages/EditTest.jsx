@@ -298,13 +298,12 @@ const EditTest = () => {
                     </Grid>
                     <Grid container direction='row' justify='space-between' alignItems='center'>
                       <Grid item style={{ width: '30%' }}>
-                        <Controls.Select
+                        <Controls.Input
                           label='Score'
                           name='score'
-                          size='100%'
+                          style={{ width: '100%' }}
                           value={values.score}
                           onChange={handleChange}
-                          options={durations}
                         />
                       </Grid>
                       <FieldArray

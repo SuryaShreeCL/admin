@@ -84,6 +84,7 @@ export function QuestionsUploadField({ name, testCreated, questionUpload }) {
               onDelete={onDelete}
               onUpload={onUpload}
               file={fileWrapper.file}
+              message={fileWrapper}
               questionUpload={questionUpload}
             />
           )}
