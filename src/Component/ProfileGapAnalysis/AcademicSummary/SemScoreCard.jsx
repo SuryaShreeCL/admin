@@ -9,11 +9,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
 function SemScoreCard(props) {
+  // Styles for this component
   const classes = useStyles();
   return (
     <div className={classes.cardContainer}>
       <div className={classes.cardTitle}>
-        <Typography className={classes.semTitle}>Semester 1</Typography>
+        <Typography className={classes.semTitle}>
+          Semester {props.semNumber}
+        </Typography>
       </div>
       <div className={classes.cardTableContainer}>
         <TableContainer>
@@ -25,13 +28,14 @@ function SemScoreCard(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row, index) => (
+              {/* Rendering subject details and score */}
+              {props.subjectDetails.map((row, index) => (
                 <TableRow
                   key={row.subjectName}
                   className={index % 2 === 0 && classes.tableRowColor}
                 >
                   <TableCell align={"center"}>{row.subjectName}</TableCell>
-                  <TableCell align="center">{row.score}</TableCell>
+                  <TableCell align="center">{row.result}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -41,10 +45,5 @@ function SemScoreCard(props) {
     </div>
   );
 }
-
-const data = [
-  { subjectName: "Maths", score: "3" },
-  { subjectName: "Science", score: "2" },
-];
 
 export default SemScoreCard;
