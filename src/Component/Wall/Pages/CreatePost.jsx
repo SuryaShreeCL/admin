@@ -125,17 +125,19 @@ const CreatePost = () => {
       return false;
     }
 
-    if (
-      moment(values.eventEndDate).isSameOrBefore(values.eventDate) ||
-      moment(values.eventDate).isBefore(moment()) ||
-      moment(values.eventEndDate).isBefore(moment())
-    ) {
-      setNotify({
-        isOpen: true,
-        message: 'Please add proper timing & date',
-        type: 'error',
-      });
-      return false;
+    if (values.isWebinar || values.isEvent) {
+      if (
+        moment(values.eventEndDate).isSameOrBefore(values.eventDate) ||
+        moment(values.eventDate).isBefore(moment()) ||
+        moment(values.eventEndDate).isBefore(moment())
+      ) {
+        setNotify({
+          isOpen: true,
+          message: 'Please add proper timing & date',
+          type: 'error',
+        });
+        return false;
+      }
     }
 
     if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
@@ -166,7 +168,7 @@ const CreatePost = () => {
     setTimeout(() => {
       history.push({
         pathname: wallPath,
-        tab: state.isEvent ? 3 : 0,
+        tab: location?.postTypeTab,
       });
     }, 1200);
   };
@@ -198,7 +200,7 @@ const CreatePost = () => {
       <CreatePostContainer>
         <Formik
           initialValues={state || []}
-          validationSchema={validationSchema}
+          validationSchema={state.isWebinar && validationSchema}
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
               createPost(values, location?.postType === 'Webinar' ? 'Scheduled' : 'Live');
