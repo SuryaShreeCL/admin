@@ -1,329 +1,513 @@
-import { Box, createMuiTheme, Grid, withStyles,Breadcrumbs,Typography,ThemeProvider,createTheme,Button } from '@material-ui/core';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { getAdminLinkedProduct,updateVerificationStatus } from "../../Actions/AdminAction";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import TextField from '@material-ui/core/TextField'
+import {
+  createTheme,
+  ThemeProvider,
+  withStyles,
+} from "@material-ui/core/styles";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Typography from "@material-ui/core/Typography";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  getAdminLinkedProduct,
+  updateVerificationStatus,
+} from "../../Actions/AdminAction";
 import { getvarientByid } from "../../Actions/ProductAction";
-import AdmissionServices from '../ObCallSummary/admissionServices';
+import AdmissionServices from "../ObCallSummary/admissionServices";
 import AspirationDetails from "../ObCallSummary/aspirationDetails";
 import GraduateTestResult from "../ObCallSummary/graduateTestResult";
 import TestAndSurvey from "../ObCallSummary/testEngineResult";
 import WorkExperience from "../ObCallSummary/workExperience";
 import AcademicInfo from "../ObOnboarding/academicInfo";
 import PersonalInfo from "../ObOnboarding/personalInfo";
-import { ThemedTab, ThemedTabs } from '../Utils/ThemedComponents';
-import SubLayoutTab from './SubLayoutTab';
-import { getVariantStepsById } from "../../Actions/ProductAction"
-import ProfileGapAnalysisTab from '../ProfileGapAnalysisTab';
+import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
+import SubLayoutTab from "./SubLayoutTab";
+import { getVariantStepsById } from "../../Actions/ProductAction";
+import ProfileGapAnalysisTab from "../ProfileGapAnalysisTab";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import BackButton from '../../Asset/Images/backbutton.svg'
-import {studentPath } from '../RoutePaths';
-import ProfileGapRoot from '../ProfileGapAnalysis/Root';
-import CallSummaryLayout from '../ObCallSummary/CallSummaryLayout';
-import LockIcon from '@material-ui/icons/Lock';
-import QueryString from "querystring"
-import  qs from "qs"
-import { classNames } from '@react-pdf-viewer/core';
-import NotupdateDialog from '../../OnboardingRevamp/NotUpdateDialog';
-import CompleteDialog from '../../OnboardingRevamp/CompleteDialog';
+import BackButton from "../../Asset/Images/backbutton.svg";
+import { studentPath } from "../RoutePaths";
+import ProfileGapRoot from "../ProfileGapAnalysis/Root";
+import CallSummaryLayout from "../ObCallSummary/CallSummaryLayout";
+import LockIcon from "@material-ui/icons/Lock";
+import QueryString from "querystring";
+import qs from "qs";
+import MySnackBar from "../MySnackBar";
+import Dot from "../../Utils/Dot";
+import "../../Asset/All.css";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import RevampDialog from "../../OnboardingRevamp/RevampDialog";
 const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box p={3}>
-            {children}
-          </Box>
-        )}
-      </div>
-    );
-  }
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+};
 
 class StageBasedLayout extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            tabCount : 0,
-            stepTabCount : 0,
-            productDetails : null,
-            selectedItem : null,
-            open : false,
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabCount: 0,
+      stepTabCount: 0,
+      productDetails: null,
+      selectedItem: null,
+      open: false,
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
+      stepname: {
+        "Personal Information": "Personal Details",
+        "Academic Information": "Educational Details",
+        "Work Experience": "Work Experience",
+        "Aspiration Details": "Aspiration Details",
+        "Graduate Admission Test": "Graduate Details",
+        "Tests and Survey": "Test Details",
+      },
+    };
+  }
 
-    renderContent = (count) =>{
-        try {
-            if(count === 0){
-                return <SubLayoutTab {...this.props} />
-            }
-        } catch (error) {
-            
-        }
-    }
+  renderContent = (count) => {
+    try {
+      if (count === 0) {
+        return <SubLayoutTab {...this.props} />;
+      }
+    } catch (error) {}
+  };
+  renderdialogcontent(){
+    if (true) {
+         return (
 
-  
-componentDidMount() {
-    
-    this.props.getVariantStepsById(this.props.match.params.productId)
-    const { stage } =  qs.parse(this.props.location.search, {
-      ignoreQueryPrefix: true,
-    })
-   console.log(stage)
-   if(stage === "pga"){
-    this.setState({
-      tabCount  : 1
-    })
+        // complete
+
+          <Grid container>
+          <Grid item md={12}>
+            <Typography className={"dialog_title"}>Confirmation</Typography>
+          </Grid>
+          <Grid item md={12}>
+            <hr />
+          </Grid>
+          <Grid item md={12}>
+            <Typography>Your marking Onboarding complete</Typography>
+          </Grid>
+        </Grid>
+
+
+        //not update
+
+      //   <Grid container spacing={1}>
+      //   <Grid item md={12}>
+      //     <Typography>Not Updated</Typography>
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <hr />
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <Typography className={"incomplete_text"}>
+      //       Below Mentioned sections status are not updated
+      //     </Typography>
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <ul>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //     </ul>
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <TextField label="Add Comments" fullWidth />
+      //   </Grid>
+      // </Grid>
+
+
+        // incomplete
+
+
+      //   <Grid container spacing={1}>
+      //   <Grid item md={12}>
+      //     <Typography>Incomplete</Typography>
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <hr />
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <Typography style={{display:"flex"}}>
+      //       Below Mentioned sections status are marked{this.handletext()}
+      //     </Typography>
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <ul>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //       <li>Work Experience</li>
+      //     </ul>
+      //   </Grid>
+      //   <Grid item md={12}>
+      //     <TextField label="Add Comments" fullWidth />
+      //   </Grid>
+      // </Grid>
+         )
+    }
+  };
+  handletext() {
+    return(
+     <Typography className={"incomplete_text"}>incomplete</Typography>
+    )
    }
-}
+   renderdialogaction(){
+       if(true){
+          return(
+            //notupdated
 
-tabTheme = createTheme({
-  overrides: {
-    MuiTab: {
-      wrapper: {
-        display: "flex",
-        flexDirection: "row-reverse",
-        gridGap: "5px",
+            // <Button color={"primary"} variant={"contained"}>
+            // Onboarding Incomplete
+            // </Button>
+
+            //complete
+            <PrimaryButton color={"primary"} variant={"contained"} className={'button'}>
+            Onboarding Complete
+          </PrimaryButton>
+          )
+       }
+   }
+  componentDidMount() {
+    this.props.getVariantStepsById(this.props.match.params.productId);
+    const { stage } = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    console.log(stage);
+    if (stage === "pga") {
+      this.setState({
+        tabCount: 1,
+      });
+    }
+  }
+
+  tabTheme = createTheme({
+    overrides: {
+      MuiTab: {
+        wrapper: {
+          display: "flex",
+          flexDirection: "row-reverse",
+          gridGap: "5px",
+        },
+      },
+      MuiButton: {
+        label: {
+          textTransform: "none",
+        },
+        containedPrimary: {
+          backgroundColor: "#1c8ab7",
+          "&:hover": {
+            backgroundColor: "#1c8ab7",
+          },
+        },
+        outlinedPrimary: {
+          color: "#1c8ab7",
+        },
       },
     },
-  },
-});
+  });
 
-componentDidUpdate(prevProps, prevState) {    
+  componentDidUpdate(prevProps, prevState) {
     // if(this.props.adminLinkedProductDetails !== prevProps.adminLinkedProductDetails){
     //     if(this.props.adminLinkedProductDetails.products.length > 0){
     //         this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
     //     }
     // }
-    if(this.props.variantStepList !== prevProps.variantStepList){
-        var sortedArr =  this.props.variantStepList.steps.length > 0 && this.props.variantStepList.steps.sort((a,b) => a.rank-b.rank)
-        console.log(sortedArr)
-        sortedArr !== false && sortedArr.map((it,ix)=>{
-            it.steps.sort((c,d)=>c.rank - d.rank)
-        })
-        console.log(sortedArr)
-        const { render } =  qs.parse(this.props.location.search, {
-          ignoreQueryPrefix: true,
-        })
-        this.setState({
-            productDetails : sortedArr,
-            selectedItem : render ? "CallSummaryLayout" : sortedArr[0].steps[0]
-        })
+    if (this.props.variantStepList !== prevProps.variantStepList) {
+      var sortedArr =
+        this.props.variantStepList.steps.length > 0 &&
+        this.props.variantStepList.steps.sort((a, b) => a.rank - b.rank);
+      console.log(sortedArr);
+      sortedArr !== false &&
+        sortedArr.map((it, ix) => {
+          it.steps.sort((c, d) => c.rank - d.rank);
+        });
+      console.log(sortedArr);
+      const { render } = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+      this.setState({
+        productDetails: sortedArr,
+        selectedItem: render ? "CallSummaryLayout" : sortedArr[0].steps[0],
+      });
     }
-}   
-handleOBComplete = () => {
-  this.setState({
-    open  :true
-  })
-}
-handleCompleted = (event) => {
-  console.log(event)
-}
-handleIncomplete = (event) => {
-console.log(event)
-}
-    render() {
-        console.log(this.state)
-        const {classes} = this.props
-        var componentList = {
-            "Personal Information" : "PersonalInfo",
-            "Academic Information" : "AcademicInfo",
-            "Work Experience" : "WorkExperience",
-            "Aspiration Details" : "AspirationDetails",
-            "Graduate Admission Test" : "GraduateTestResult",
-            "Tests and Survey" : "TestAndSurvey",
-            "OB Call Summary" : "CallSummaryLayout",
-            "Others" : "AdmissionServices"
-        }
-        console.log(this.state.selectedItem !== null && this.state.selectedItem.stepName)
-        var obj = {
-            PersonalInfo : PersonalInfo,
-            AcademicInfo : AcademicInfo,
-            WorkExperience : WorkExperience,
-            AspirationDetails : AspirationDetails,
-            GraduateTestResult : GraduateTestResult,
-            TestAndSurvey : TestAndSurvey,
-            CallSummaryLayout : CallSummaryLayout,
-            Others : AdmissionServices
-        }
-        var selectedComponent = this.state.selectedItem !== null && componentList[this.state.selectedItem.stepName]
-        var Page = obj[selectedComponent];
-        console.log("state...........",this.state)
-        console.log("props..................",this.props)
-        return (
-          <div>
-            <div
-              style={{ display: "flex", flexDirection: "row", margin: "10px" }}
-            >
-              <img
-                src={BackButton}
-                style={{ cursor: "pointer", marginTop: "-10px" }}
-                onClick={() => this.props.history.goBack()}
-              />
-              <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
-                <Typography
-                  style={{
-                    cursor: "pointer",
-                    fontWeight: "600",
-                    marginLeft: "10px",
-                  }}
-                  onClick={() => this.props.history.push(studentPath)}
-                >
-                  Home
-                </Typography>
-                <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
-                  Manage Client
-                </Typography>
-              </Breadcrumbs>
-            </div>
-            <Grid container>
-              <Grid item md={8}>
+  }
+  handleOBComplete = () => {
+    this.setState({
+      open: true,
+    });
+  };
+  handleCompleted = (event, status) => {
+    let obj = {
+      student: {
+        id: this.props.match.params.studentId,
+      },
+      section: {
+        name: this.state.stepname[event.stepName],
+      },
+      remark: "",
+      status: status,
+      updatedDate: new Date(),
+    };
+    this.props.updateVerificationStatus(obj, (response) => {
+      console.log(response);
+      if (response.status === 200) {
+        this.setState({
+          snackMsg: "Status Updated",
+          snackVariant: "success",
+          snackOpen: true,
+        });
+      }
+    });
+  };
+  render() {
+    var componentList = {
+      "Personal Information": "PersonalInfo",
+      "Academic Information": "AcademicInfo",
+      "Work Experience": "WorkExperience",
+      "Aspiration Details": "AspirationDetails",
+      "Graduate Admission Test": "GraduateTestResult",
+      "Tests and Survey": "TestAndSurvey",
+      "OB Call Summary": "CallSummaryLayout",
+      Others: "AdmissionServices",
+    };
+    var obj = {
+      PersonalInfo: PersonalInfo,
+      AcademicInfo: AcademicInfo,
+      WorkExperience: WorkExperience,
+      AspirationDetails: AspirationDetails,
+      GraduateTestResult: GraduateTestResult,
+      TestAndSurvey: TestAndSurvey,
+      CallSummaryLayout: CallSummaryLayout,
+      Others: AdmissionServices,
+    };
+    var selectedComponent =
+      this.state.selectedItem !== null &&
+      componentList[this.state.selectedItem.stepName];
+    var Page = obj[selectedComponent];
+    console.log("state...........", this.state);
+    console.log("props..................", this.props);
+    return (
+      <div>
+        <ThemeProvider theme={this.tabTheme}>
+          <div
+            style={{ display: "flex", flexDirection: "row", margin: "10px" }}
+          >
+            <img
+              src={BackButton}
+              style={{ cursor: "pointer", marginTop: "-10px" }}
+              onClick={() => this.props.history.goBack()}
+            />
+            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography
+                style={{
+                  cursor: "pointer",
+                  fontWeight: "600",
+                  marginLeft: "10px",
+                }}
+                onClick={() => this.props.history.push(studentPath)}
+              >
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Manage Client
+              </Typography>
+            </Breadcrumbs>
+          </div>
+          <Grid container>
+            <Grid item md={8}>
+              <ThemedTabs
+                value={this.state.tabCount}
+                textColor={"inherit"}
+                onChange={(e, value) => this.setState({ tabCount: value })}
+                aria-label="ant example"
+                variant="scrollable"
+              >
+                {this.state.productDetails !== null &&
+                  this.state.productDetails.map((item, index) => {
+                    return (
+                      <ThemedTab
+                        label={item.stepName}
+                        disabled={item.disabled}
+                        icon={
+                          item.disabled ? (
+                            <LockIcon className={"icon_style"} />
+                          ) : null
+                        }
+                      />
+                    );
+                  })}
+              </ThemedTabs>
+            </Grid>
+            <Grid item md={4} align="right" className={"button_grid"}>
+              <PrimaryButton
+                color={"primary"}
+                variant={"contained"}
+                onClick={() => this.handleOBComplete()}
+                className={"button"}
+              >
+                Onboarding Complete
+              </PrimaryButton>
+              <PrimaryButton
+                color={"primary"}
+                variant={"outlined"}
+                className={"flex_button"}
+              >
+                Audit Trail
+              </PrimaryButton>
+            </Grid>
+            <Grid item md={12}>
+              {this.state.tabCount === 0 && (
                 <ThemedTabs
-                  value={this.state.tabCount}
-                  textColor={"inherit"}
-                  onChange={(e, value) => this.setState({ tabCount: value })}
-                  aria-label="ant example"
+                  value={this.state.selectedItem}
                   variant="scrollable"
+                  textColor={"inherit"}
+                  onChange={(e, value) =>
+                    this.setState({ selectedItem: value })
+                  }
+                  aria-label="ant example"
                 >
                   {this.state.productDetails !== null &&
-                    this.state.productDetails.map((item, index) => {
-                      return (
-                        <ThemedTab
-                          label={item.stepName}
-                          disabled={item.disabled}
-                          icon={
-                            item.disabled ? (
-                              <LockIcon className={classes.iconstyle} />
-                            ) : null
-                          }
-                        />
-                      );
-                    })}
-                </ThemedTabs>
-              </Grid>
-              <Grid item md={4} align="right" className={classes.buttongrid}>
-                <Button
-                  color={"primary"}
-                  variant={"contained"}
-                  style={{ textTransform: "none" }}
-                  onClick={(e)=>this.handleOBComplete(e)}
-                >
-                  Onboarding Complete
-                </Button>
-                <Button
-                  color={"primary"}
-                  variant={"outlined"}
-                  style={{ textTransform: "none", marginLeft: "10px" }}
-                >
-                  Audit Trail
-                </Button>
-              </Grid>
-              <Grid item md={12}>
-                {this.state.tabCount === 0 && (
-                  <ThemedTabs
-                    value={this.state.selectedItem}
-                    variant="scrollable"
-                    textColor={"inherit"}
-                    onChange={(e, value) =>
-                      this.setState({ selectedItem: value })
-                    }
-                    aria-label="ant example"
-                  >
-                    {this.state.productDetails !== null &&
-                      this.state.productDetails
-                        .filter((it, ix) => ix === this.state.tabCount)
-                        .map((item, index) => {
-                          return item.steps.map((stepItem, stepIndex) => {
-                            return (
-                              <ThemedTab
-                                value={stepItem}
-                                label={stepItem.stepName}
-                              />
-                            );
-                          });
-                        })}
-                    <ThemedTab
-                      textColor="primary"
-                      value={"CallSummaryLayout"}
-                      label={"Ob Call Summary"}
-                    />
+                    this.state.productDetails
+                      .filter((it, ix) => ix === this.state.tabCount)
+                      .map((item, index) => {
+                        return item.steps.map((stepItem, stepIndex) => {
+                          return (
+                            <ThemedTab
+                              value={stepItem}
+                              label={stepItem.stepName}
+                              icon={<Dot className={"dotstyle"} color={"green"} />}
+                            />
+                          );
+                        });
+                      })}
+                  <ThemedTab
+                    textColor="primary"
+                    value={"CallSummaryLayout"}
+                    label={"Ob Call Summary"}
+                  />
 
-                    <ThemedTab
-                      textColor="primary"
-                      value={"Others"}
-                      label={"Others"}
-                    />
-                  </ThemedTabs>
-                )}
-              </Grid>
-              <Grid item md={12}>
-                <Grid container>
-                  <Grid item md={12} className={classes.componentgrid}>
-                    {Page !== undefined &&
-                      this.state.tabCount === 0 &&
-                      this.state.selectedItem !== "Others" && (
-                        <Page {...this.props} />
-                      )}
-                    {this.state.tabCount === 0 &&
-                      this.state.selectedItem === "Others" && (
-                        <AdmissionServices {...this.props} />
-                      )}
-                    {this.state.tabCount === 0 &&
-                      this.state.selectedItem === "CallSummaryLayout" && (
-                        <CallSummaryLayout
-                          hasBreadCrumbs={false}
-                          {...this.props}
-                        />
-                      )}
-                    {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
-                    {this.state.tabCount === 1 && (
-                      <ProfileGapRoot {...this.props} />
+                  <ThemedTab
+                    textColor="primary"
+                    value={"Others"}
+                    label={"Allocate Mentor"}
+                    icon={<Dot color={"green"} />}
+                  />
+                </ThemedTabs>
+              )}
+            </Grid>
+            <Grid item md={12}>
+              <Grid container>
+                <Grid item md={12} className={"component_grid"}>
+                  {Page !== undefined &&
+                    this.state.tabCount === 0 &&
+                    this.state.selectedItem !== "Others" && (
+                      <Page {...this.props} />
                     )}
-                  </Grid>
-                  <Grid item md={12}>
-                    <hr />
-                  </Grid>
-                  <Grid item md={12} align={"right"}>
-                    <Button color={"secondary"} variant={"text" } onClick={()=>this.handleIncomplete(this.state.selectedItem)}>Incomplete</Button>
-                    <Button color={"primary"} variant={"contained"} onClick={()=>this.handleCompleted(this.state.selectedItem)}>Completed</Button>
-                  </Grid>
+                  {this.state.tabCount === 0 &&
+                    this.state.selectedItem === "Others" && (
+                      <AdmissionServices {...this.props} />
+                    )}
+                  {this.state.tabCount === 0 &&
+                    this.state.selectedItem === "CallSummaryLayout" && (
+                      <CallSummaryLayout
+                        hasBreadCrumbs={false}
+                        {...this.props}
+                      />
+                    )}
+                  {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
+                  {this.state.tabCount === 1 && (
+                    <ProfileGapRoot {...this.props} />
+                  )}
+                </Grid>
+                <Grid item md={12}>
+                  <hr />
+                </Grid>
+                <Grid item md={12} align={"right"}>
+                  <PrimaryButton
+                    color={"secondary"}
+                    variant={"text"}
+                    onClick={() =>
+                      this.handleCompleted(
+                        this.state.selectedItem,
+                        "Mismatched"
+                      )
+                    }
+                    className={"button"}
+                  >
+                    Incomplete
+                  </PrimaryButton>
+                  <PrimaryButton
+                    color={"primary"}
+                    variant={"contained"}
+                    onClick={() =>
+                      this.handleCompleted(this.state.selectedItem, "Verified")
+                    }
+                    className={"completed_button"}
+                  >
+                    Completed
+                  </PrimaryButton>
                 </Grid>
               </Grid>
-              <Grid item md={12}></Grid>
             </Grid>
-            <NotupdateDialog open={this.state.open} onClose={()=>this.setState({open : false})} {...this.props}/>
-            {/* <CompleteDialog open={this.state.open} onClose={()=>this.setState({open : false})} {...this.props}/> */}
-           </div>
-        );
-    }
+            <Grid item md={12}></Grid>
+          </Grid>
+          <RevampDialog
+            open={this.state.open}
+            onClose={() => this.setState({ open: false })}
+            action={this.renderdialogaction()}
+            {...this.props}
+          >
+            {this.renderdialogcontent()}
+          </RevampDialog>
+          <MySnackBar
+            snackMsg={this.state.snackMsg}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
+            onClose={() => this.setState({ snackOpen: false })}
+          />
+        </ThemeProvider>
+      </div>
+    );
+  }
 }
 
+const mapStateToProps = (state) => ({
+  getvarientByidData: state.ProductReducer.getvarientByid,
+  adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,
+  variantStepList: state.ProductReducer.variantStepList,
+  updateVerificationStatus: state.AdminReducer.updateVerificationResponse,
+});
 
-const mapStateToProps = (state) =>({
-    getvarientByidData : state.ProductReducer.getvarientByid,
-    adminLinkedProductDetails : state.AdminReducer.adminLinkedProductDetails,
-    variantStepList : state.ProductReducer.variantStepList,
-    updateVerificationStatus : state.AdminReducer.updateVerificationResponse
+const useStyles = (theme) => ({});
 
-})
-
-const useStyles = (theme) =>({
-  iconstyle : {
-    color: "#007ef5", marginTop: "7px"
-  },
-  buttongrid : {
-    display : "flex",
-    alignItems : "center",
-    justifyContent : "center"
-  },
-  componentgrid : {
-    height : "106vh",overflowY:"scroll"
-  }
-})
-
-export default connect(mapStateToProps,{ getvarientByid, getAdminLinkedProduct, getVariantStepsById,updateVerificationStatus })(withStyles(useStyles)(StageBasedLayout))
+export default connect(mapStateToProps, {
+  getvarientByid,
+  getAdminLinkedProduct,
+  getVariantStepsById,
+  updateVerificationStatus,
+})(withStyles(useStyles)(StageBasedLayout));

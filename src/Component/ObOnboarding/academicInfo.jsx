@@ -696,7 +696,7 @@ export class academicInfo extends Component {
       <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <ThemeProvider theme={theme}>
-            <Card style={{ padding: 50 }}>
+            <Card style={{ padding: 20 }}>
               <Grid container>
                 <Grid item md={12}>
                   <div

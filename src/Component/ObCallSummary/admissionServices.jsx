@@ -21,6 +21,7 @@ import MySnackBar from "../MySnackBar";
 import { isEmptyString } from "../Validation";
 import { getdashboarddetails } from '../../Actions/ProfileGapAction';
 import '../../Asset/All.css'
+import DeleteIcon from '@material-ui/icons/Delete';
 class AdmissionServices extends Component {
   constructor() {
     super();
@@ -87,7 +88,14 @@ class AdmissionServices extends Component {
             mentorname : this.props.studentDetails.mentor
         })
     }
-    this.props.getmentor(this.props.match.params.studentId)
+    this.props.getmentor(this.props.match.params.studentId,(response => {
+      console.log(response)
+     if(response.status === 200){
+      this.setState({
+        mentor : response.data
+      })
+     }
+    }))
     this.props.getdashboarddetails(this.props.match.params.studentId,this.props.match.params.productId,(response => {
       console.log(response.data)
       if(response.status === 200)
@@ -121,115 +129,117 @@ class AdmissionServices extends Component {
       console.log(this.state)
     return (
       <div style={{ padding: 25 }}>
-           {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.studentMapping.length > 0 &&
-        <div
-          style={{
-            color: "#0081FF",
-            fontSize: 18,
-            fontWeight: 600,
-            fontFamily: "Poppins",
-          }}
-        >
-          CareerLabs - Student Mapping
-        </div>
-  }
+        {this.props.getproductdetailsList.length !== 0 &&
+          this.props.getproductdetailsList.studentMapping.length > 0 && (
+            <div
+              style={{
+                color: "#0081FF",
+                fontSize: 18,
+                fontWeight: 600,
+                fontFamily: "Poppins",
+              }}
+            >
+              CareerLabs - Student Mapping
+            </div>
+          )}
         <TableContainer>
           <Table>
             <TableHead>
-                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.studentMapping.length > 0 &&
-              <TableRow>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  No
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Role
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Employee Name
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Allocated By
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Allocated At
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                ></TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                ></TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                ></TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                ></TableCell>
-                {/* <TableCell
+              {this.props.getproductdetailsList.length !== 0 &&
+                this.props.getproductdetailsList.studentMapping.length > 0 && (
+                  <TableRow>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      No
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Role
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Employee Name
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Allocated By
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Allocated At
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    ></TableCell>
+                    {/* <TableCell
                   align="center"
                   style={{
                     color: "#000000",
@@ -253,83 +263,91 @@ class AdmissionServices extends Component {
                     Allocate Mentor
                   </Button>
                 </TableCell> */}
-              </TableRow>
-               }
+                  </TableRow>
+                )}
             </TableHead>
             <TableBody>
-                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.studentMapping.length > 0 && this.props.getproductdetailsList.studentMapping.map((eachdata,index)=>{
-                  let date = new Date(eachdata.allocatedAt).getDate()
-                  let month = new Date(eachdata.allocatedAt).getMonth()+1
-                  let year = new Date(eachdata.allocatedAt).getFullYear()
-                  let time = new Date(eachdata.allocatedAt).toLocaleTimeString()
-                  let newallocatedat = new Date(eachdata.allocatedAt) !== null ? date+"/"+month+"/"+year+" "+time : ""
-                  return(
-                    <TableRow>
-                    <TableCell
-                      align="center"
-                      style={{
-                        color: "#000000",
-                        fontWeight: 400,
-                        fontSize: 14,
-                        fontFamily: "Montserrat",
-                        borderBottom: "none",
-                      }}
-                    >
-                      {index+1}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        color: "#000000",
-                        fontWeight: 400,
-                        fontSize: 14,
-                        fontFamily: "Montserrat",
-                        borderBottom: "none",
-                      }}
-                    >
-                     {eachdata.Role}
-                    </TableCell>
-    
-                    <TableCell
-                      align="center"
-                      style={{
-                        color: "#000000",
-                        fontWeight: 400,
-                        fontSize: 14,
-                        fontFamily: "Montserrat",
-                        borderBottom: "none",
-                      }}
-                    >
-                     {eachdata.Name}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        color: "#000000",
-                        fontWeight: 400,
-                        fontSize: 14,
-                        fontFamily: "Montserrat",
-                        borderBottom: "none",
-                      }}
-                    >
-                      {eachdata.allocatedBy}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        color: "#000000",
-                        fontWeight: 400,
-                        fontSize: 14,
-                        fontFamily: "Montserrat",
-                        borderBottom: "none",
-                      }}
-                    >
-                      {newallocatedat}
-                    </TableCell>
-                  </TableRow>  
-                  )
-                } 
-                    )}
+              {this.props.getproductdetailsList.length !== 0 &&
+                this.props.getproductdetailsList.studentMapping.length > 0 &&
+                this.props.getproductdetailsList.studentMapping.map(
+                  (eachdata, index) => {
+                    let date = new Date(eachdata.allocatedAt).getDate();
+                    let month = new Date(eachdata.allocatedAt).getMonth() + 1;
+                    let year = new Date(eachdata.allocatedAt).getFullYear();
+                    let time = new Date(
+                      eachdata.allocatedAt
+                    ).toLocaleTimeString();
+                    let newallocatedat =
+                      new Date(eachdata.allocatedAt) !== null
+                        ? date + "/" + month + "/" + year + " " + time
+                        : "";
+                    return (
+                      <TableRow>
+                        <TableCell
+                          align="center"
+                          style={{
+                            color: "#000000",
+                            fontWeight: 400,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            borderBottom: "none",
+                          }}
+                        >
+                          {index + 1}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          style={{
+                            color: "#000000",
+                            fontWeight: 400,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            borderBottom: "none",
+                          }}
+                        >
+                          {eachdata.Role}
+                        </TableCell>
+
+                        <TableCell
+                          align="center"
+                          style={{
+                            color: "#000000",
+                            fontWeight: 400,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            borderBottom: "none",
+                          }}
+                        >
+                          {eachdata.Name}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          style={{
+                            color: "#000000",
+                            fontWeight: 400,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            borderBottom: "none",
+                          }}
+                        >
+                          {eachdata.allocatedBy}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          style={{
+                            color: "#000000",
+                            fontWeight: 400,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            borderBottom: "none",
+                          }}
+                        >
+                          {newallocatedat}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  }
+                )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -346,116 +364,144 @@ class AdmissionServices extends Component {
         <TableContainer>
           <Table>
             <TableHead>
-                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.product.length !== 0 &&
-              <TableRow>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  No
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Order ID
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Product Family
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Product Variant
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Enrollment Date
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  Expiry Date
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  End of Service
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#000000",
-                    fontWeight: 400,
-                    fontSize: 14,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  BDA Name
-                </TableCell>
-              </TableRow>
-  }
+              {this.props.getproductdetailsList.length !== 0 &&
+                this.props.getproductdetailsList.product.length !== 0 && (
+                  <TableRow>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      No
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Order ID
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Product Family
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Product Variant
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Enrollment Date
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      Expiry Date
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      End of Service
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#000000",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      BDA Name
+                    </TableCell>
+                  </TableRow>
+                )}
             </TableHead>
             <TableBody>
-                {this.props.getproductdetailsList.length !== 0 && this.props.getproductdetailsList.product.length !== 0 && this.props.getproductdetailsList.product.map((eachdata,index)=>
-                  { 
-                    let enrollmentdate = new Date(eachdata.EnrollmentDate).getDate()
-                    let enrollmentmonth = new Date(eachdata.EnrollmentDate).getMonth()+1
-                    let enrollmentyear =  new Date(eachdata.EnrollmentDate).getFullYear()
-                    let enrollment = eachdata.EnrollmentDate !== null ? enrollmentdate+"/"+enrollmentmonth+"/"+enrollmentyear : null
-                    let expirydate = new Date(eachdata.ExpiryDate).getDate()
-                    let expirymonth = new Date(eachdata.ExpiryDate).getMonth()
-                    let expiryyear = new Date(eachdata.ExpiryDate).getFullYear()
-                    let newexpiry = eachdata.ExpiryDate ? expirydate+"/"+expirymonth+"/"+expiryyear : null
-                    let eosdate = new Date(eachdata["End Of service Date"]).getDate()
-                    let eosmonth = new Date(eachdata["End Of service Date"]).getMonth()
-                    let eosyear = new Date(eachdata["End Of service Date"]).getFullYear()
-                    let neweos = eachdata["End Of service Date"] !== null ? eosdate+"/"+eosmonth+"/"+eosyear : null
-                      return(
-                        <TableRow>
+              {this.props.getproductdetailsList.length !== 0 &&
+                this.props.getproductdetailsList.product.length !== 0 &&
+                this.props.getproductdetailsList.product.map(
+                  (eachdata, index) => {
+                    let enrollmentdate = new Date(
+                      eachdata.EnrollmentDate
+                    ).getDate();
+                    let enrollmentmonth =
+                      new Date(eachdata.EnrollmentDate).getMonth() + 1;
+                    let enrollmentyear = new Date(
+                      eachdata.EnrollmentDate
+                    ).getFullYear();
+                    let enrollment =
+                      eachdata.EnrollmentDate !== null
+                        ? enrollmentdate +
+                          "/" +
+                          enrollmentmonth +
+                          "/" +
+                          enrollmentyear
+                        : null;
+                    let expirydate = new Date(eachdata.ExpiryDate).getDate();
+                    let expirymonth = new Date(eachdata.ExpiryDate).getMonth();
+                    let expiryyear = new Date(
+                      eachdata.ExpiryDate
+                    ).getFullYear();
+                    let newexpiry = eachdata.ExpiryDate
+                      ? expirydate + "/" + expirymonth + "/" + expiryyear
+                      : null;
+                    let eosdate = new Date(
+                      eachdata["End Of service Date"]
+                    ).getDate();
+                    let eosmonth = new Date(
+                      eachdata["End Of service Date"]
+                    ).getMonth();
+                    let eosyear = new Date(
+                      eachdata["End Of service Date"]
+                    ).getFullYear();
+                    let neweos =
+                      eachdata["End Of service Date"] !== null
+                        ? eosdate + "/" + eosmonth + "/" + eosyear
+                        : null;
+                    return (
+                      <TableRow>
                         <TableCell
                           align="center"
                           style={{
@@ -466,7 +512,7 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                          {index+1}
+                          {index + 1}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -480,7 +526,7 @@ class AdmissionServices extends Component {
                         >
                           {eachdata.OrderId}
                         </TableCell>
-        
+
                         <TableCell
                           align="center"
                           style={{
@@ -491,7 +537,7 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                         {eachdata.ProductFamily}
+                          {eachdata.ProductFamily}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -503,7 +549,7 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                         {eachdata.ProductVariant}
+                          {eachdata.ProductVariant}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -554,30 +600,42 @@ class AdmissionServices extends Component {
                           {eachdata["BDA Name"]}
                         </TableCell>
                       </TableRow>
-
-                      )
+                    );
                   }
-                     
-                    )}
+                )}
             </TableBody>
           </Table>
         </TableContainer>
         <div>
           <Typography className={"blue_heading"}>Mentor Details</Typography>
-           <Button
-              style={{
-                margin : 10,
-                height : 120,
-                width: 380,
-                textTransform: "none",
-              }}
+          {/* {this.state.mentor === null ? ( */}
+            <PrimaryButton
               disabled={this.state.buttonstatus}
               variant="outlined"
               color="primary"
               onClick={() => this.handleallocate()}
+              className={"mentorbutton"}
             >
               Allocate Mentor
-            </Button>
+            </PrimaryButton>
+          {/* ) : (
+            <Table>
+              <TableHead>
+                <TableCell>Role</TableCell>
+                <TableCell>Mentor Name</TableCell>
+                <TableCell>Allocated By</TableCell>
+                <TableCell>Allocated At</TableCell>
+                <TableCell></TableCell>
+              </TableHead>
+              <TableBody>
+                <TableCell>Mentor</TableCell>
+                <TableCell>Mentor Name</TableCell>
+                <TableCell>Admin</TableCell>
+                <TableCell>07/10/2021 12:30:34 AM</TableCell>
+                <TableCell>{<DeleteIcon color={"secondary"} />}</TableCell>
+              </TableBody>
+            </Table>
+          )} */}
         </div>
         <div
           style={{
@@ -598,8 +656,7 @@ class AdmissionServices extends Component {
               <div
                 className="model-close-button"
                 style={{ display: "flex", justifyContent: "flex-end" }}
-              >
-              </div>
+              ></div>
             </DialogTitle>
             <DialogContent>
               <Typography
@@ -619,7 +676,7 @@ class AdmissionServices extends Component {
                   id="combo-box-demo"
                   value={this.state.mentor}
                   onChange={(e, newValue) => {
-                      console.log(newValue)
+                    console.log(newValue);
                     this.setState({ mentor: newValue });
                   }}
                   options={this.props.mentorList}
@@ -669,11 +726,11 @@ class AdmissionServices extends Component {
             </DialogContent>
           </Dialog>
         </div>
-        <MySnackBar 
-        snackMsg={this.state.snackmsg}
-        snackVariant={this.state.snackvariant}
-        snackOpen={this.state.snackopen}
-        onClose={() => this.setState({ snackopen: false })}
+        <MySnackBar
+          snackMsg={this.state.snackmsg}
+          snackVariant={this.state.snackvariant}
+          snackOpen={this.state.snackopen}
+          onClose={() => this.setState({ snackopen: false })}
         />
       </div>
     );

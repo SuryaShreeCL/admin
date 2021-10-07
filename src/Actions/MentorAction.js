@@ -103,7 +103,7 @@ export const updateallocatementor = (data) => {
             });
     }
 }
-export const getmentor = (studentId) => {
+export const getmentor = (studentId,callback) => {
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
@@ -115,9 +115,11 @@ export const getmentor = (studentId) => {
             }
         })
             .then(result => {
+                callback(result)
                 dispatch({type:MENTORSCHEDULELIST.getmentor,payload:result.data})
             })
             .catch(error => {
+                callback(error)
                 console.log(error);
             });
     }

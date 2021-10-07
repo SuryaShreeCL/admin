@@ -410,3 +410,48 @@ input[type="checkbox"]:checked + label {
   font-weight: 600 !important;
   font-family: "Poppins" !important;
 }
+
+.incomplete_text{
+  color : red !important;
+}
+.dialog_title {
+  font-size: 18px !important; 
+}
+.flex_button {
+margin-left: 10px !important;
+text-transform: none !important;
+width: 100px !important;
+}
+.button_grid {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important; 
+  background-color: white !important;
+}
+.icon_style {
+  color: #007ef5 !important;
+  margin-top: 7px !important;
+}
+.component_grid {
+  height: "106vh" !important;
+  overflow-y: "scroll" !important;
+}
+.completed_button {
+  width: 150px !important;
+  text-transform: none !important;
+}
+.button{
+  text-transform: none !important;
+}
+.dotstyle{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.mentorbutton {
+  height: 120px !important;
+  width: 380px !important;
+  text-transform: none !important;
+  margin: 10px !important;
+  border-radius: 10px !important;
+}
