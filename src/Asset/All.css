@@ -403,3 +403,10 @@ input[type="checkbox"]:checked + label {
 .wrs_toolbar{
   display: unset !important;
 }
+
+.blue_heading{
+  color: #0081FF !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  font-family: "Poppins" !important;
+}

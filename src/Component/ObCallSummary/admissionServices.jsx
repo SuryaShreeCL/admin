@@ -1,10 +1,10 @@
 import {
-  Button, Table,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, TextField, Typography
+  TableRow, TextField, Typography,Button
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -19,7 +19,8 @@ import { getStudentsById } from '../../Actions/Student';
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import { isEmptyString } from "../Validation";
-import { getdashboarddetails } from '../../Actions/ProfileGapAction'
+import { getdashboarddetails } from '../../Actions/ProfileGapAction';
+import '../../Asset/All.css'
 class AdmissionServices extends Component {
   constructor() {
     super();
@@ -228,7 +229,7 @@ class AdmissionServices extends Component {
                     fontFamily: "Montserrat",
                   }}
                 ></TableCell>
-                <TableCell
+                {/* <TableCell
                   align="center"
                   style={{
                     color: "#000000",
@@ -251,7 +252,7 @@ class AdmissionServices extends Component {
                   >
                     Allocate Mentor
                   </Button>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
                }
             </TableHead>
@@ -561,6 +562,23 @@ class AdmissionServices extends Component {
             </TableBody>
           </Table>
         </TableContainer>
+        <div>
+          <Typography className={"blue_heading"}>Mentor Details</Typography>
+           <Button
+              style={{
+                margin : 10,
+                height : 120,
+                width: 380,
+                textTransform: "none",
+              }}
+              disabled={this.state.buttonstatus}
+              variant="outlined"
+              color="primary"
+              onClick={() => this.handleallocate()}
+            >
+              Allocate Mentor
+            </Button>
+        </div>
         <div
           style={{
             display: "flex",

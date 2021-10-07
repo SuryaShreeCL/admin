@@ -581,7 +581,7 @@ class AspirationDetails extends Component {
               >
                 Aspiration Details
               </p>
-              <Status
+              {/* <Status
                 onClick={() => {
                   this.setState({
                     sectionStatus: {
@@ -596,7 +596,7 @@ class AspirationDetails extends Component {
                     ? this.getStatus(SECTION.aspirationDetail).status
                     : "notVerified"
                 }
-              />
+              /> */}
             </div>
             <IconButton onClick={this.handleClick.bind(this)}>
               <img src={Pencil} height={17} width={17} />

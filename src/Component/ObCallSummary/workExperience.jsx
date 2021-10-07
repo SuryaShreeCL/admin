@@ -292,7 +292,7 @@ class workExperience extends Component {
                 width={17}
                 style={{ position: "realative", top: 5 }}
               /> */}
-               <Status
+               {/* <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -307,7 +307,7 @@ class workExperience extends Component {
                           ? this.getStatus(SECTION.workExperience).status
                           : "notVerified"
                       }
-                    />
+                    /> */}
             </div>
             <IconButton onClick={this.handleClick.bind(this)}>
               <img src={Pencil} height={17} width={17} />

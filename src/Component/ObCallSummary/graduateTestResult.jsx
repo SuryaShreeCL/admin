@@ -621,7 +621,7 @@ class GraduateTestResult extends Component {
                 width={17}
                 style={{ position: "realative", top: 5 }}
               /> */}
-              <Status
+              {/* <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -636,7 +636,7 @@ class GraduateTestResult extends Component {
                           ? this.getStatus(SECTION.graduateDetail).status
                           : "notVerified"
                       }
-                    />
+                    /> */}
             </div>
             <div
               style={{
