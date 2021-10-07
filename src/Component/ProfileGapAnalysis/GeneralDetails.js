@@ -1105,8 +1105,7 @@ class GeneralDetails extends Component {
             }
           })
         );
-        this.setState({ dialog: false });
-
+          this.setState({ dialog: false, commenthistory : []});
       } else {
         this.setState({
           snackMsg: "Please Fill the Required Field",
@@ -1193,7 +1192,8 @@ class GeneralDetails extends Component {
               }
             })
           );
-          this.setState({ dialog: false });
+          this.setState({ dialog: false,commentshistory: [] });
+
         } else {
           this.setState({
             snackMsg: "Please Fill the Required Field",
