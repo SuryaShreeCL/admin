@@ -65,6 +65,7 @@ function TwelthForm(props) {
   const [ distinctMatch, setDistinctMatch ] = useState([])
   const { copiedData } = useSelector((state) => state.HelperReducer);
   const [ search, setSearch ] = useState("")
+  const [ filterYear, setFilterYear ] = useState("");
 
   const columns = [
     {
@@ -405,6 +406,11 @@ function TwelthForm(props) {
  
   }
  
+  const onYearClick = (year) =>{
+    getAndSetStudentMatch("&q="+year)
+    setFilterYear(year)
+   }
+
   return (
     <Grid container spacing={2}>
       <Grid
@@ -603,7 +609,7 @@ function TwelthForm(props) {
       <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
         <CvViewer path={studentDocument} {...props} />
       </Grid>
-      <SimilarityPopup searchValue={search} searchHandler={searchHandler} distinctMatch={distinctMatch} data={studentMatch} />
+      <SimilarityPopup handleYearClick={onYearClick} searchValue={search} searchHandler={searchHandler} distinctMatch={distinctMatch} data={studentMatch} />
       <MySnackBar
         onClose={() =>
           setSnack({
