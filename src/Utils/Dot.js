@@ -5,8 +5,8 @@ export default class Dot extends Component {
         return (
             <div
             style={{
-              height: "15px",
-              width: "15px",
+              height: "11px",
+              width: "11px",
               backgroundColor: this.props.color,
               borderRadius: "50%",
             }}
