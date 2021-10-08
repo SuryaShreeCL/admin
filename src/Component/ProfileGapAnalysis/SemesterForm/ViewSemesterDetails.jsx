@@ -57,7 +57,18 @@ class ViewSemesterDetails extends Component {
         style={{ padding: "12px" }}
         >
           {/* back icon design */}
-          
+          <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
+            <div
+            onClick={this.props.backHandler} 
+            className={"diploma_header"}>
+              <div>
+                <ArrowBackIosIcon className={"back_icon"} />
+              </div>
+              <div>
+                <Typography className={"back_text"}>Back</Typography>
+              </div>
+            </div>
+          </Grid>
 
           {/* diploma title */}
           <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
