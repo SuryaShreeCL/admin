@@ -1,45 +1,148 @@
-import React, { useEffect, useState } from "react";
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, Button, Typography } from "@material-ui/core";
-import CvViewer from "./CvViewer";
-import { TextField } from "@material-ui/core";
-import { useStyles } from "./FormStyles";
-import { isEmptyObject, isEmptyString, isNumber } from "../Validation";
 import { sscexamboard } from "../../Actions/Student";
-import EditableTable from "../../Utils/EditableTable";
-import SimilarityPopup from "./SimilarityPopup";
+import {
+  deleteSubjectDetailsById,
+  getStudentPgaByGrade,
+  submitPga
+} from "../../AsyncApiCall/Ppga";
 import { HELPER_TEXT } from "../../Constant/Variables";
+import EditableTable from "../../Utils/EditableTable";
+import MySnackBar from "../MySnackBar";
+import {
+  isEmptyObject,
+  isEmptyString,
+  isNanAndEmpty,
+  isNumber
+} from "../Validation";
+import CvViewer from "./CvViewer";
+import { useStyles } from "./FormStyles";
+import SimilarityPopup from "./SimilarityPopup";
 
 function TwelthForm(props) {
-    const [schoolName, setSchoolName] = useState({
-        name: "",
-        helperText: "",
-      });
-      const [board, setBoard] = useState({
-        name: null,
-        helperText: "",
-      });
-      const [gradeScale, setGradeScale] = useState({
-        name: null,
-        helperText: "",
-      });
-      const [cgpa, setCgpa] = useState({
-        name: "",
-        helperText: "",
-      });
+  const [educationalDetailsId, setEducationalDetailsId] = useState("");
+  const [schoolName, setSchoolName] = useState({
+    name: "",
+    helperText: "",
+  });
+  const [board, setBoard] = useState({
+    name: null,
+    helperText: "",
+  });
+  const [gradeScale, setGradeScale] = useState({
+    name: null,
+    helperText: "",
+  });
+  const [cgpa, setCgpa] = useState({
+    name: "",
+    helperText: "",
+  });
   const [cumulativePercentage, setCumulativePercentage] = useState({
-      name : '',
-      helperText : ''
+    name: "",
+    helperText: "",
   });
   const [formulaEmployed, setFormulaEmployed] = useState({
-    name : '',
-    helperText : ''
-});
+    name: "",
+    helperText: "",
+  });
   const [cumulativeResult, setCumulativeResult] = useState({
-    name : '',
-    helperText : ''
-});
+    name: "",
+    helperText: "",
+  });
+  const [snack, setSnack] = useState({
+    snackOpen: false,
+    snackVariant: "",
+    snackMsg: "",
+  });
+  const [studentDocument, setStudentDocument] = useState("");
+  const [data, setData] = useState([]);
+  const columns = [
+    {
+      title: "Id",
+      field: "id",
+      hidden: true,
+    },
+    {
+      title: "Language",
+      field: "subjectDetails.language",
+      render: (rowData, renderType) =>
+        renderType === "row" ? rowData.subjectDetails.language : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.subjectDetails.language)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+    },
+    {
+      title: "Subject Code",
+      field: "subjectDetails.subjectCode",
+      render: (rowData, renderType) =>
+        renderType === "row" ? rowData.subjectDetails.subjectCode : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+    },
+    {
+      title: "Subject Name",
+      field: "subjectDetails.subjectName",
+      render: (rowData, renderType) =>
+        renderType === "row" ? rowData.subjectDetails.subjectName : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.subjectDetails.subjectName)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+    },
+    {
+      title: "Maximum Marks",
+      field: "subjectDetails.maximumMarks",
+      type: "numeric",
+      render: (rowData, renderType) =>
+        renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+    },
+    {
+      title: "Score",
+      field: "score",
+      type: "numeric",
+
+      validate: (rowData) => {
+        console.log(";;;;;", rowData);
+        if (!isEmptyObject(rowData)) {
+          if (!isNanAndEmpty(rowData.score)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+    },
+  ];
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const choice = [
@@ -53,18 +156,179 @@ function TwelthForm(props) {
     (state) => state.StudentReducer.sscexamboard
   );
   useEffect(() => {
+    getAndSetPgaDetails();
     dispatch(sscexamboard());
   }, []);
 
-  const handleSubmit = () =>{
-    isEmptyString(schoolName.name) ? setSchoolName((prevSchoolName)=>({...prevSchoolName,helperText : HELPER_TEXT.requiredField})) :  setSchoolName((prevSchoolName)=>({...prevSchoolName,helperText : ''}))
-    isEmptyObject(board.name) ? setBoard((prevBoard)=>({...prevBoard, helperText : HELPER_TEXT.requiredField})) : setBoard((prevBoard)=>({...prevBoard, helperText : ""}))
-    isEmptyString(cgpa.name) ? setCgpa((prevCgpa)=>({...prevCgpa, helperText : HELPER_TEXT.requiredField})) : setCgpa((prevCgpa)=>({...prevCgpa, helperText : ""}))
-    isEmptyObject(gradeScale.name) ? setGradeScale((prevGrade)=>({...prevGrade, helperText : HELPER_TEXT.requiredField})) : setGradeScale((prevGrade)=>({...prevGrade, helperText : ""}))
-    isEmptyString(cumulativePercentage.name) ? setCumulativePercentage((prevCumlative)=>({...prevCumlative, helperText : HELPER_TEXT.requiredField})) : setCumulativePercentage((prevCumlative)=>({...prevCumlative, helperText : ""}))
-    isEmptyString(formulaEmployed.name) ? setFormulaEmployed((prevFormula)=>({...prevFormula, helperText : HELPER_TEXT.requiredField})) : setFormulaEmployed((prevFormula)=>({...prevFormula, helperText : ""}))
-    isEmptyString(cumulativeResult.name) ? setCumulativeResult((prevCumResult)=>({...prevCumResult, helperText : HELPER_TEXT.requiredField})) : setCumulativeResult((prevCumResult)=>({...prevCumResult, helperText : ""}))
-}
+  const getAndSetPgaDetails = () => {
+    getStudentPgaByGrade(props.match.params.studentId, "hsc").then(
+      (response) => {
+        console.log(response, "..............");
+        if (response.status === 200) {
+          const data =
+            response.data.data.length !== 0 ? response.data.data[0] : [];
+          if (typeof data === "object") {
+            setEducationalDetailsId(data.id);
+            setSchoolName((prevSchoolName) => ({
+              ...prevSchoolName,
+              name: data.schoolName,
+            }));
+            setBoard((prevBoard) => ({
+              ...prevBoard,
+              name: data.examBoard,
+            }));
+            setCgpa((prevCgpa) => ({
+              ...prevCgpa,
+              name: data.score,
+            }));
+            setGradeScale((prevGrade) => ({
+              ...prevGrade,
+              name: {
+                title: data.scoreScale.toString(),
+                value: data.scoreScale,
+              },
+            }));
+            setData(
+              data.studentSubjectDetails ? data.studentSubjectDetails : []
+            );
+            if (data.studentDocument.length > 0) {
+              setStudentDocument(data.studentDocument[0].path);
+            }
+          }
+        }
+      }
+    );
+  };
+
+  const handleSubmit = () => {
+    isEmptyString(schoolName.name)
+      ? setSchoolName((prevSchoolName) => ({
+          ...prevSchoolName,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setSchoolName((prevSchoolName) => ({
+          ...prevSchoolName,
+          helperText: "",
+        }));
+    isEmptyObject(board.name)
+      ? setBoard((prevBoard) => ({
+          ...prevBoard,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setBoard((prevBoard) => ({ ...prevBoard, helperText: "" }));
+    isEmptyString(cgpa.name)
+      ? setCgpa((prevCgpa) => ({
+          ...prevCgpa,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setCgpa((prevCgpa) => ({ ...prevCgpa, helperText: "" }));
+    isEmptyObject(gradeScale.name)
+      ? setGradeScale((prevGrade) => ({
+          ...prevGrade,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setGradeScale((prevGrade) => ({ ...prevGrade, helperText: "" }));
+    isEmptyString(cumulativePercentage.name)
+      ? setCumulativePercentage((prevCumlative) => ({
+          ...prevCumlative,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setCumulativePercentage((prevCumlative) => ({
+          ...prevCumlative,
+          helperText: "",
+        }));
+    isEmptyString(formulaEmployed.name)
+      ? setFormulaEmployed((prevFormula) => ({
+          ...prevFormula,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setFormulaEmployed((prevFormula) => ({
+          ...prevFormula,
+          helperText: "",
+        }));
+    isEmptyString(cumulativeResult.name)
+      ? setCumulativeResult((prevCumResult) => ({
+          ...prevCumResult,
+          helperText: HELPER_TEXT.requiredField,
+        }))
+      : setCumulativeResult((prevCumResult) => ({
+          ...prevCumResult,
+          helperText: "",
+        }));
+    if (
+      !isEmptyString(schoolName.name) &&
+      !isEmptyObject(board.name) &&
+      !isEmptyString(cgpa.name) &&
+      !isEmptyObject(gradeScale.name)
+    ) {
+      let requestBody = {
+        examBoard: {
+          id: board.name.id,
+          name: board.name.name,
+        },
+        schoolName: schoolName.name,
+        score: cgpa.name,
+        scoreScale: gradeScale.name.value.toString(),
+        studentSubjectDetails: data,
+      };
+
+      submitPga(props.match.params.studentId, "hsc", requestBody).then(
+        (response) => {
+          if (response.status === 200) {
+            getAndSetPgaDetails();
+            setSnack({
+              snackMsg: "Saved Successfully",
+              snackVariant: "success",
+              snackOpen: true,
+            });
+          }
+        }
+      );
+    }
+  };
+  const handleRowAdd = (newData) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        setData([...data, newData]);
+        resolve();
+      }, 1000);
+    });
+  };
+
+  const handleRowDelete = (oldData) => {
+    console.log(oldData);
+    if (oldData.subjectDetails.id) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          deleteSubjectDetailsById(
+            props.match.params.studentId,
+            oldData.subjectDetails.id
+          ).then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+              getAndSetPgaDetails();
+              setSnack({
+                snackMsg: "Deleted Successfully",
+                snackVariant: "success",
+                snackOpen: true,
+              });
+            }
+            resolve();
+          });
+        }, 1000);
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const dataDelete = [...data];
+          const index = oldData.tableData.id;
+          dataDelete.splice(index, 1);
+          setData([...dataDelete]);
+          resolve();
+        }, 1000);
+      });
+    }
+  };
   return (
     <Grid container spacing={2}>
       <Grid
@@ -81,7 +345,7 @@ function TwelthForm(props) {
             <Typography variant={"h5"}>12th</Typography>
           </Grid>
           <Grid item md={4} xl={4} lg={4} sm={12} xs={12}>
-          <TextField
+            <TextField
               label={"School Name"}
               value={schoolName.name}
               className={classes.root}
@@ -97,9 +361,9 @@ function TwelthForm(props) {
             />
           </Grid>
           <Grid item md={4} xl={4} lg={4} sm={12} xs={12}>
-          <Autocomplete
+            <Autocomplete
               id="boardName"
-              options={examBoardList || []}
+              options={examBoardList.filter((el) => el.name !== null) || []}
               value={board.name}
               getOptionLabel={(option) => option.name}
               onChange={(e, newValue) =>
@@ -122,7 +386,7 @@ function TwelthForm(props) {
             />
           </Grid>
           <Grid item md={2} xl={4} lg={2} sm={6} xs={6}>
-          <Autocomplete
+            <Autocomplete
               id="combo-box-demo"
               options={choice}
               getOptionLabel={(option) => option.title}
@@ -147,7 +411,7 @@ function TwelthForm(props) {
             />
           </Grid>
           <Grid item md={2} xl={4} lg={2} sm={6} xs={6}>
-          <TextField
+            <TextField
               label={"CGPA / % Range"}
               value={cgpa.name}
               className={classes.root}
@@ -174,50 +438,72 @@ function TwelthForm(props) {
             xl={12}
             className={classes.tableWrapper}
           >
-            <EditableTable />
-          </Grid>
-          <Grid item md={12} xl={12} lg={12} xs={12} sm={6} container spacing={2} className={classes.twelthFieldBottomContainer}>
-          <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
-            <TextField
-              fullWidth
-              className={classes.root}
-              value={cumulativePercentage.name}
-              helperText={cumulativePercentage.helperText}
-              error={cumulativePercentage.helperText.length > 0}
-              onChange={(e) => setCumulativePercentage({name : e.target.value, helperText : ''})}
-              label={"Cumulative Percentage Score"}
+            <EditableTable
+              columns={columns}
+              data={data}
+              onRowDelete={handleRowDelete}
+              onRowAdd={handleRowAdd}
             />
           </Grid>
-          <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
-            <TextField
-              fullWidth
-              className={classes.root}
-              value={formulaEmployed.name}
-              helperText={formulaEmployed.helperText}
-              error={formulaEmployed.helperText.length > 0}
-              onChange={(e) => setFormulaEmployed({name : e.target.value, helperText : ""})}
-              label={"Formula Employed"}
-            />
+          <Grid
+            item
+            md={12}
+            xl={12}
+            lg={12}
+            xs={12}
+            sm={6}
+            container
+            spacing={2}
+            className={classes.twelthFieldBottomContainer}
+          >
+            <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
+              <TextField
+                fullWidth
+                className={classes.root}
+                value={cumulativePercentage.name}
+                helperText={cumulativePercentage.helperText}
+                error={cumulativePercentage.helperText.length > 0}
+                onChange={(e) =>
+                  setCumulativePercentage({
+                    name: e.target.value,
+                    helperText: "",
+                  })
+                }
+                label={"Cumulative Percentage Score"}
+              />
+            </Grid>
+            <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
+              <TextField
+                fullWidth
+                className={classes.root}
+                value={formulaEmployed.name}
+                helperText={formulaEmployed.helperText}
+                error={formulaEmployed.helperText.length > 0}
+                onChange={(e) =>
+                  setFormulaEmployed({ name: e.target.value, helperText: "" })
+                }
+                label={"Formula Employed"}
+              />
+            </Grid>
+            <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
+              <TextField
+                fullWidth
+                className={classes.root}
+                value={cumulativeResult.name}
+                helperText={cumulativeResult.helperText}
+                error={cumulativeResult.helperText.length > 0}
+                onChange={(e) =>
+                  setCumulativeResult({ name: e.target.value, helperText: "" })
+                }
+                label={"Cumulative Result"}
+              />
+            </Grid>
           </Grid>
-          <Grid item md={4} xs={12} sm={6} lg={4} xl={4}>
-            <TextField
-              fullWidth
-              className={classes.root}
-              value={cumulativeResult.name}
-              helperText={cumulativeResult.helperText}
-              error={cumulativeResult.helperText.length > 0}
-              onChange={(e) => setCumulativeResult({name : e.target.value, helperText : ""})}
-              label={"Cumulative Result"}
-            />
-          </Grid>
-          </Grid>
-         
-         
         </Grid>
         <div className={classes.bottomContainer}>
           <hr />
           <Button
-          onClick={handleSubmit}
+            onClick={handleSubmit}
             className={classes.bottomBtn}
             variant={"contained"}
             color={"primary"}
@@ -227,9 +513,21 @@ function TwelthForm(props) {
         </div>
       </Grid>
       <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
-        <CvViewer {...props} />
+        <CvViewer path={studentDocument} {...props} />
       </Grid>
       <SimilarityPopup />
+      <MySnackBar
+        onClose={() =>
+          setSnack({
+            snackOpen: false,
+            snackMsg: "",
+            snackVariant: "",
+          })
+        }
+        snackOpen={snack.snackOpen}
+        snackVariant={snack.snackVariant}
+        snackMsg={snack.snackMsg}
+      />
     </Grid>
   );
 }

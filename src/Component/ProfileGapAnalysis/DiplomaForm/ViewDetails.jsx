@@ -1,101 +1,63 @@
 import React, { Component } from "react";
 import { Grid, Typography } from "@material-ui/core";
-import './DiplomaForm.css';
+import "./DiplomaForm.css";
 
 export default class ViewDetails extends Component {
   render() {
     return (
       <div>
-        <Grid container style={{ display: "flex", flexDirection: "row" }}>
+        {/* grid container */}
+        <Grid container display="flex" direction="row">
+          {/* title grid */}
+          <Grid
+            item
+            // container
+            md={12}
+            xs={12}
+            sm={12}
+            xl={12}
+            lg={12}
+            display="flex"
+            style={{ padding: "19px" }}
+          >
+            <Typography variant={"h6"}>Diploma</Typography>
+          </Grid>
+
+          {/* empty grid */}
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
+
+          {/* 1st grid item  */}
           <Grid
             item
             container
-            md={12}
-            style={{ display: "flex", padding: "19px" }}
-          >
-            <Typography>Diploma</Typography>
-          </Grid>
-          <Grid item md={12}></Grid>
-
-          <Grid
-            item
             md={4}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4}
+            display="flex"
+            direction="row"
+            justify="space-around"
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
-            >
+            {/* college name and university (div) */}
+            <div className={"main_div1"}>
               <div>
-                <Typography color="textSecondary" style={{ lineHeight: "37px", }}>
+                <Typography
+                  color="textSecondary"
+                  className={"text_line_height"}
+                >
                   College Name
                 </Typography>
               </div>
               <div>
-                <Typography>Computer Science</Typography>
+                <Typography color="textSecondary">University</Typography>
               </div>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
-            >
+            {/* computer science and year (div) */}
+            <div className={"main_div1"}>
               <div>
-                <Typography style={{ lineHeight: "37px" }}>
-                  University Name
-                </Typography>
-              </div>
-              <div>
-                <Typography>2021-2024</Typography>
-              </div>
-            </div>
-          </Grid>
-
-          <Grid
-            item
-            md={4}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
-            >
-              <div>
-                <Typography style={{ lineHeight: "40px" }}>
-                  Department
-                </Typography>
-              </div>
-              <div>
-                <Typography>Batch</Typography>
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
-            >
-              <div>
-                <Typography style={{ lineHeight: "40px" }}>
+                <Typography className={"center_text_line_height"}>
                   Computer Science
                 </Typography>
               </div>
@@ -105,30 +67,67 @@ export default class ViewDetails extends Component {
             </div>
           </Grid>
 
-          <Grid item md={4}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-              }}
-            >
+          {/* 2nd grid item */}
+          <Grid
+            item
+            container
+            md={4}
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4}
+            display="flex"
+            direction="row"
+            justify="space-around"
+          >
+            {/* department and batch (div) */}
+            <div className={"main_div1"}>
               <div>
-                <Typography style={{ lineHeight: "40px" }}>
-                  Cumulative CGPA
+                <Typography
+                  color="textSecondary"
+                  className={"text_line_height"}
+                >
+                  Department
                 </Typography>
               </div>
               <div>
-                <Typography style={{ lineHeight: "40px" }}>60%</Typography>
+                <Typography color="textSecondary">Batch</Typography>
+              </div>
+            </div>
+
+            {/* computer science and year (div) */}
+            <div className={"main_div1"}>
+              <div>
+                <Typography className={"text_line_height"}>
+                  Computer Science
+                </Typography>
+              </div>
+              <div>
+                <Typography>2021-2024</Typography>
               </div>
             </div>
           </Grid>
 
-          <Grid item md={12}></Grid>
-
-          <Grid item md={12}>
-            <hr style={{ width: "96%" }} />
+          {/* 3rd grid item */}
+          <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
+            {/* CGPA and 60% (div) */}
+            <div className={"main_grid"}>
+              <div>
+                <Typography
+                  color="textSecondary"
+                  className={"text_line_height"}
+                >
+                  Cumulative CGPA
+                </Typography>
+              </div>
+              <div>
+                <Typography className={"text_line_height"}>60%</Typography>
+              </div>
+            </div>
           </Grid>
+
+          {/* empty grid */}
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
         </Grid>
       </div>
     );
