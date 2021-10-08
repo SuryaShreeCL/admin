@@ -1,29 +1,15 @@
 import React, { Component } from "react";
 import { Typography, Grid, TextField } from "@material-ui/core";
 import '../DiplomaForm/DiplomaForm.css';
+// import { isNumber } from '../../Validation';
 
 export default class ViewMarks extends Component {
   
-  //   setting state
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      semesterGpa: "",
-      cgpa: "",
-      formulaEmployed: "",
-      percentage: "",
-    };
-  }
-
-  // function to handle the textField
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+  
 
   render() {
+    const { semesterGpa, cgpa, formulaEmployed, percentage, gpaError, cgpaError, formulaError, percentageError } = this.props;
+    console.log(this.props);
     return (
       <Grid container spacing={3} 
       style={{ padding: "12px" }}
@@ -31,36 +17,49 @@ export default class ViewMarks extends Component {
         <Grid item md={3}>
           <TextField
             label="Semester GPA"
-            value={this.state.semesterGpa}
-            onChange={(e) => this.handleChange(e)}
+            name="semesterGpa"
+            value={semesterGpa}
+            onChange={this.props.handleChange}
             fullWidth
+            error={gpaError.length > 0}
+            helperText={gpaError}
+
           />
         </Grid>
 
         <Grid item md={3}>
           <TextField
             label="CGPA"
-            value={this.state.cgpa}
-            onChange={(e) => this.handleChange(e)}
+            value={cgpa}
+            name="cgpa"
+            onChange={this.props.handleChange}
             fullWidth
+            error={cgpaError.length > 0}
+            helperText={cgpaError}
           />
         </Grid>
 
         <Grid item md={3}>
           <TextField
             label="Formula Employed"
-            value={this.state.formulaEmployed}
-            onChange={(e) => this.handleChange(e)}
+            value={formulaEmployed}
+            name="formulaEmployed"
+            onChange={this.props.handleChange}
             fullWidth
+            error={formulaError.length > 0}
+            helperText={formulaError}
           />
         </Grid>
 
         <Grid item md={3}>
           <TextField
             label="Percentage"
-            value={this.state.percentage}
-            onChange={(e) => this.handleChange(e)}
+            value={percentage}
+            name="percentage"
+            onChange={this.props.handleChange}
             fullWidth
+            error={percentageError.length > 0}
+            helperText={percentageError}
           />
         </Grid>
       </Grid>

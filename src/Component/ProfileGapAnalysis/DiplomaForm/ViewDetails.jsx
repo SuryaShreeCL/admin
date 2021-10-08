@@ -30,7 +30,7 @@ export default class ViewDetails extends Component {
           <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
 
           {/* 1st grid item  */}
-          <Grid
+          {/* <Grid
             item
             container
             md={4}
@@ -41,9 +41,9 @@ export default class ViewDetails extends Component {
             display="flex"
             direction="row"
             justify="space-around"
-          >
+          > */}
             {/* college name and university (div) */}
-            <div className={"main_div1"}>
+            {/* <div className={"main_div1"}>
               <div>
                 <Typography
                   color="textSecondary"
@@ -55,10 +55,37 @@ export default class ViewDetails extends Component {
               <div>
                 <Typography color="textSecondary">University Name</Typography>
               </div>
+            </div> */}
+             <Grid item  
+             md={4}
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4} 
+            display='flex'>
+            <div style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}>
+             <div style={{display:"flex",gridGap:'60px'}}>
+               <Typography  color="textSecondary">
+               College Name
+               </Typography>
+               <Typography>
+               {item.college && item.college.name}
+               </Typography>
+             </div>
+             <div style={{display:"flex",gridGap:"60px"}}>
+                <Typography  color="textSecondary">
+                University Name
+                </Typography>
+                <Typography>
+                {item.university && item.university.name}
+                </Typography>
+             </div>
             </div>
+          {/* </Grid> */}
+
 
             {/* computer science and year (div) */}
-            <div className={"main_div1"}>
+            {/* <div className={"main_div1"}>
               <div>
                 <Typography className={"center_text_line_height"}>
                   {item.college && item.college.name}
@@ -67,69 +94,58 @@ export default class ViewDetails extends Component {
               <div>
                 <Typography>{item.university && item.university.name}</Typography>
               </div>
-            </div>
+            </div> */}
           </Grid>
 
           {/* 2nd grid item */}
-          <Grid
-            item
-            container
-            md={4}
+          <Grid item  
+             md={4}
             xs={4}
             sm={4}
             xl={4}
-            lg={4}
-            display="flex"
-            direction="row"
-            justify="space-around"
-          >
-            {/* department and batch (div) */}
-            <div className={"main_div1"}>
-              <div>
-                <Typography
-                  color="textSecondary"
-                  className={"text_line_height"}
-                >
-                  Department
+            lg={4} 
+            display='flex'>
+            <div style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}>
+             <div style={{display:"flex",gridGap:'60px'}}>
+               <Typography  color="textSecondary">
+               Department
+               </Typography>
+               <Typography  >
+               {item.department && item.department.name}
+             
+               </Typography>
+             </div>
+             <div style={{display:"flex",gridGap:"102px"}}>
+                <Typography color="textSecondary">
+                Batch
                 </Typography>
-              </div>
-              <div>
-                <Typography color="textSecondary">Batch</Typography>
-              </div>
-            </div>
-
-            {/* computer science and year (div) */}
-            <div className={"main_div1"}>
-              <div>
-                <Typography className={"text_line_height"}>
-                  {item.department && item.department.name}
-                </Typography>
-              </div>
-              <div>
                 <Typography>
-                 {new Date(item.startDate).getFullYear()} - {new Date(item.endDate).getFullYear()}
+                {new Date(item.startDate).getFullYear()} - {new Date(item.endDate).getFullYear()}
                 </Typography>
-              </div>
+             </div>
             </div>
-          </Grid>
+            </Grid>
 
           {/* 3rd grid item */}
-          <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-            {/* CGPA and 60% (div) */}
-            <div className={"main_grid"}>
-              <div>
-                <Typography
-                  color="textSecondary"
-                  className={"text_line_height"}
-                >
-                  Cumulative CGPA
-                </Typography>
-              </div>
-              <div>
-                <Typography className={"text_line_height"}>{item.score}%</Typography>
-              </div>
+          <Grid item  
+             md={4}
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4} 
+            display='flex'>
+            <div style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}>
+             <div style={{display:"flex",gridGap:'60px'}}>
+               <Typography  color="textSecondary">
+               Cumulative CGPA               
+               </Typography>
+               <Typography>
+               {item.score}%
+               </Typography>
+             </div>
+             
             </div>
-          </Grid>
+            </Grid>
 
           {/* empty grid */}
           <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>

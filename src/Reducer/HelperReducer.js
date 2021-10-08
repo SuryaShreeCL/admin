@@ -58,6 +58,7 @@ export default (state = initialState, action) => {
         ...state,
         copiedData: action.payload,
       };
+      
     default:
       break;
   }

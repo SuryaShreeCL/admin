@@ -358,7 +358,7 @@ export const HELPER = {
   setFilterAnchorEl : "setFilterAnchorEl",
   getAcademicType : "getAcademicType",
   isClickedSem : "isClickedSem",
-  saveCopyData : "saveCopyData"
+  saveCopyData : "saveCopyData",
 }
 
 //MOHAMMED

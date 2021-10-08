@@ -331,11 +331,11 @@ export const viewSemesterDetails=(studentId,semesterId,callback)=>{
 }
 
 // update semesterDetails
-export const saveSemesterDetails=(studentId,type,callback)=>{    
+export const saveSemesterDetails=(studentId,type,data,callback)=>{    
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.get(URL+"/api/v1/students/"+studentId+"/college/pga?grade="+type,{
+        axios.put(URL+"/api/v1/students/"+studentId+"/college/pga?grade="+type,data,{
            
             crossDomain: true,
             headers : {

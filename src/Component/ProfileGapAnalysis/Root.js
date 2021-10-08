@@ -106,23 +106,60 @@ class ProfileGapRoot extends Component {
     );
   };
 
-  // academic handling
-  handleAcademicClick = () => {
+  // diploma handling
+  handleDiplomaClick = () => {
+    console.log("diploma")
     this.setState({ value: 8, open: false });
     this.props.getAcademicType("diploma");
   };
+  
+  // ug handling
+  handleUgClick = () => {
+    console.log("ug")
+    this.setState({ 
+      value : 8, open : false
+    })
+    this.props.getAcademicType("ug")
+  }
+
+  // pg handling
+  handlePgClick = () => {
+    console.log("pg")
+    this.setState({ 
+      value : 8, open : false
+    })
+    this.props.getAcademicType("pg")
+  }
+
 
   componentDidUpdate(prevProps,prevState){
+    console.log(this.props,prevProps)
     if(this.props.clickedSem !== prevProps.clickedSem){
       this.setState({
         value : 9
       })
     }
+    // if(this.props.clickedBack !== prevProps.clickedBack){
+      
+      // this.setState({
+      //   value : 8
+      // })
+    // }
+
+    
+  }
+
+  backHandler = () => {
+    this.setState({
+      value : 8
+    })
   }
 
   render() {
+    
     const { classes } = this.props;
-    console.log(this.props.academicTypes)
+    console.log(this.props.clickedBack)
+    // console.log(object)
     const open = Boolean(this.props.popperAnchorEl);
     const id = open ? "simple-popper" : undefined;
     return (
@@ -227,7 +264,9 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             {/* common semester form */}
             <TabPanel value={this.state.value} index={9}>
-              <SemesterForm {...this.props} />
+              <SemesterForm 
+              backHandler = {this.backHandler}
+              {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={11}>
               <Index {...this.props} />
@@ -251,9 +290,9 @@ class ProfileGapRoot extends Component {
           <MenuItem onClick={() => this.setState({ value: 7, open: false })}>
             12th
           </MenuItem>
-          <MenuItem onClick={this.handleAcademicClick}>Diploma</MenuItem>
-          <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
-          <MenuItem onClick={this.handleClose}>Postgraduate</MenuItem>
+          <MenuItem onClick={this.handleDiplomaClick}>Diploma</MenuItem>
+          <MenuItem onClick={this.handleUgClick}>Undergraduate</MenuItem>
+          <MenuItem onClick={this.handlePgClick}>Postgraduate</MenuItem>
           <MenuItem onClick={() => this.setState({ value: 11, open: false })}>Academic Summary</MenuItem>
         </Menu>
       </div>
@@ -276,10 +315,11 @@ const mapStateToProps = (state) => {
     academicTypes: state.HelperReducer.academicType,
     clickedSem: state.HelperReducer.clickedSem,
 
+
   };
 };
 export default connect(mapStateToProps, {
   setPoperAnchorEl,
   getAcademicType,
-  isClickedSem
+  isClickedSem,
 })(withStyles(useStyles)(ProfileGapRoot));
