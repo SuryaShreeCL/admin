@@ -900,3 +900,24 @@ export const searchStudentInStages = (keyword) => {
       });
   };
 };
+export const StudentStepDetails = (studentId, productId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        URL + "/api/v1/students/"+studentId+"/product/"+productId+"/verificationStatus",
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({ type: STUDENT.StudentStepDetails, payload: result.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};

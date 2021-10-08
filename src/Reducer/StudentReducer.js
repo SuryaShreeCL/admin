@@ -30,7 +30,8 @@ const initialState = {
   deleteDocument : [],
   deleteDocumentGraduate: [],
   filteredStageBasedUsers : [],
-  searchedList : []
+  searchedList : [],
+  StudentStepDetails  : []
 };
 
 export default (state = initialState, action) => {
@@ -217,6 +218,11 @@ export default (state = initialState, action) => {
                   ...state,
                   searchedList: action.payload,
                 };
+                case STUDENT.StudentStepDetails:
+                  return {
+                    ...state,
+                    StudentStepDetails: action.payload,
+                  };
   
     default:
       break;

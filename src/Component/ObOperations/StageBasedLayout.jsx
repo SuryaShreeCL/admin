@@ -32,6 +32,7 @@ import BackButton from "../../Asset/Images/backbutton.svg";
 import { studentPath } from "../RoutePaths";
 import ProfileGapRoot from "../ProfileGapAnalysis/Root";
 import CallSummaryLayout from "../ObCallSummary/CallSummaryLayout";
+import {StudentStepDetails} from '../../Actions/Student'
 import LockIcon from "@material-ui/icons/Lock";
 import QueryString from "querystring";
 import qs from "qs";
@@ -68,14 +69,8 @@ class StageBasedLayout extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
-      stepname: {
-        "Personal Information": "Personal Details",
-        "Academic Information": "Educational Details",
-        "Work Experience": "Work Experience",
-        "Aspiration Details": "Aspiration Details",
-        "Graduate Admission Test": "Graduate Details",
-        "Tests and Survey": "Test Details",
-      },
+      othersstatus: "",
+      stagelist: [],
     };
   }
 
@@ -86,114 +81,117 @@ class StageBasedLayout extends Component {
       }
     } catch (error) {}
   };
-  renderdialogcontent(){
-    if (true) {
-         return (
-
+  renderdialogcontent() {
+    if (this.state.othersstatus === "NotVerified") {
+      return (
         // complete
 
-          <Grid container>
+       
+
+        //not update
+
+        <Grid container spacing={1}>
           <Grid item md={12}>
-            <Typography className={"dialog_title"}>Confirmation</Typography>
+            <Typography>Not Updated</Typography>
           </Grid>
           <Grid item md={12}>
             <hr />
           </Grid>
           <Grid item md={12}>
-            <Typography>Your marking Onboarding complete</Typography>
+            <Typography className={"incomplete_text"}>
+              Below Mentioned sections status are not updated
+            </Typography>
+          </Grid>
+          <Grid item md={12}>
+            {this.state.stagelist.map((data) => {
+              return (
+                <ul>
+                  <li>{data.stepName}</li>
+                </ul>
+              );
+            })}
+          </Grid>
+          <Grid item md={12}>
+            {this.state.othersstatus === "Mismatched" &&  <TextField label="Add Comments" fullWidth /> }
+          </Grid>
+        </Grid>      
+      );
+    }
+    else if(this.state.othersstatus === "Mismatched"){
+   return (
+    <Grid container spacing={1}>
+          <Grid item md={12}>
+            <Typography>Incomplete</Typography>
+          </Grid>
+          <Grid item md={12}>
+            <hr />
+          </Grid>
+          <Grid item md={12}>
+            <Typography style={{display:"flex"}}>
+              Below Mentioned sections status are marked{this.handletext()}
+            </Typography>
+          </Grid>
+          <Grid item md={12}>
+            {this.state.stagelist.map(data => {
+              return (
+                <ul>
+                <li>{data.stepName}</li>
+              </ul>
+              )
+            })}
+          </Grid>
+          <Grid item md={12}>
+            <TextField label="Add Comments" fullWidth />
           </Grid>
         </Grid>
-
-
-        //not update
-
-      //   <Grid container spacing={1}>
-      //   <Grid item md={12}>
-      //     <Typography>Not Updated</Typography>
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <hr />
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <Typography className={"incomplete_text"}>
-      //       Below Mentioned sections status are not updated
-      //     </Typography>
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <ul>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //     </ul>
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <TextField label="Add Comments" fullWidth />
-      //   </Grid>
-      // </Grid>
-
-
-        // incomplete
-
-
-      //   <Grid container spacing={1}>
-      //   <Grid item md={12}>
-      //     <Typography>Incomplete</Typography>
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <hr />
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <Typography style={{display:"flex"}}>
-      //       Below Mentioned sections status are marked{this.handletext()}
-      //     </Typography>
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <ul>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //       <li>Work Experience</li>
-      //     </ul>
-      //   </Grid>
-      //   <Grid item md={12}>
-      //     <TextField label="Add Comments" fullWidth />
-      //   </Grid>
-      // </Grid>
-         )
+   )
     }
-  };
+    else {
+     return (
+      <Grid container>
+      <Grid item md={12}>
+        <Typography className={"dialog_title"}>Confirmation</Typography>
+      </Grid>
+      <Grid item md={12}>
+        <hr />
+      </Grid>
+      <Grid item md={12}>
+        <Typography>Your marking Onboarding complete</Typography>
+      </Grid>
+    </Grid>
+     )
+    }
+  }
   handletext() {
-    return(
-     <Typography className={"incomplete_text"}>incomplete</Typography>
-    )
-   }
-   renderdialogaction(){
-       if(true){
-          return(
-            //notupdated
-
-            // <Button color={"primary"} variant={"contained"}>
-            // Onboarding Incomplete
-            // </Button>
-
-            //complete
-            <PrimaryButton color={"primary"} variant={"contained"} className={'button'}>
+    return <Typography className={"incomplete_text"}>{" incomplete"}</Typography>;
+  }
+  renderdialogaction() {
+    if (this.state.othersstatus !== "NotVerified") {
+      if (this.state.othersstatus === "Mismatched") {
+        return (
+          <Button color={"primary"} variant={"contained"}>
+            Onboarding Incomplete
+          </Button>
+        );
+      } else {
+        return (
+          <PrimaryButton
+            color={"primary"}
+            variant={"contained"}
+            className={"button"}
+          >
             Onboarding Complete
           </PrimaryButton>
-          )
-       }
-   }
+        );
+      }
+    }
+  }
   componentDidMount() {
     this.props.getVariantStepsById(this.props.match.params.productId);
+    this.props.StudentStepDetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
     const { stage } = qs.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
@@ -237,10 +235,16 @@ class StageBasedLayout extends Component {
     //         this.props.getVariantStepsById(this.props.adminLinkedProductDetails.products[0].id)
     //     }
     // }
-    if (this.props.variantStepList !== prevProps.variantStepList) {
+    if (
+      this.props.StudentStepDetailsList !== prevProps.StudentStepDetailsList
+    ) {
+      let stage = this.props.StudentStepDetailsList.steps.find(
+        (el) => el.stepName === "Onboarding"
+      );
+      console.log(stage);
       var sortedArr =
-        this.props.variantStepList.steps.length > 0 &&
-        this.props.variantStepList.steps.sort((a, b) => a.rank - b.rank);
+        this.props.StudentStepDetailsList.steps.length > 0 &&
+        this.props.StudentStepDetailsList.steps.sort((a, b) => a.rank - b.rank);
       console.log(sortedArr);
       sortedArr !== false &&
         sortedArr.map((it, ix) => {
@@ -254,6 +258,42 @@ class StageBasedLayout extends Component {
         productDetails: sortedArr,
         selectedItem: render ? "CallSummaryLayout" : sortedArr[0].steps[0],
       });
+     
+      let incompletearr = stage.steps.filter(
+        (el) => el.verificationStatus === "Mismatched"
+      );
+      this.setState({
+        stagelist: incompletearr,
+      });
+      for (let i = 0; i < stage.steps.length; i++) {
+        if (
+          stage.steps[i] &&
+          stage.steps[i].verificationStatus === "NotVerified"
+        ) {
+          let arr = stage.steps.filter(
+            (el) => el.verificationStatus === "NotVerified"
+          );
+          this.setState({
+            stagelist: arr,
+          });
+          return this.setState({
+            othersstatus: "NotVerified",
+          });
+        }
+        else if(
+          stage.steps[i] &&
+          stage.steps[i].verificationStatus === "Mismatched"
+        ){
+          return this.setState({
+            othersstatus: "Mismatched",
+          });
+        }
+        else {
+          this.setState({
+            othersstatus: "Verified",
+          });
+        }
+      }
     }
   }
   handleOBComplete = () => {
@@ -261,13 +301,25 @@ class StageBasedLayout extends Component {
       open: true,
     });
   };
+  handleStatus(data) {
+    if (data.verificationStatus === "NotVerified") {
+      return "orange";
+    }
+    if (data.verificationStatus === "Verified") {
+      return "green";
+    }
+    if (data.verificationStatus === "Mismatched") {
+      return "red";
+    }
+  }
+
   handleCompleted = (event, status) => {
     let obj = {
       student: {
         id: this.props.match.params.studentId,
       },
       section: {
-        name: this.state.stepname[event.stepName],
+        name: event.stepName,
       },
       remark: "",
       status: status,
@@ -275,6 +327,10 @@ class StageBasedLayout extends Component {
     };
     this.props.updateVerificationStatus(obj, (response) => {
       console.log(response);
+      this.props.StudentStepDetails(
+        this.props.match.params.studentId,
+        this.props.match.params.productId
+      );
       if (response.status === 200) {
         this.setState({
           snackMsg: "Status Updated",
@@ -285,6 +341,7 @@ class StageBasedLayout extends Component {
     });
   };
   render() {
+    console.log(this.state);
     var componentList = {
       "Personal Information": "PersonalInfo",
       "Academic Information": "AcademicInfo",
@@ -400,7 +457,12 @@ class StageBasedLayout extends Component {
                             <ThemedTab
                               value={stepItem}
                               label={stepItem.stepName}
-                              icon={<Dot className={"dotstyle"} color={"green"} />}
+                              icon={
+                                <Dot
+                                  className={"icon_style"}
+                                  color={this.handleStatus(stepItem)}
+                                />
+                              }
                             />
                           );
                         });
@@ -415,7 +477,12 @@ class StageBasedLayout extends Component {
                     textColor="primary"
                     value={"Others"}
                     label={"Allocate Mentor"}
-                    icon={<Dot color={"green"} />}
+                    disabled={ this.state.othersstatus === "NotVerified" || this.state.othersstatus === "Mismatched"}
+                    icon={
+                      this.state.othersstatus === "NotVerified" || this.state.othersstatus === "Mismatched" ? (
+                        <LockIcon className={"icon_style"} />
+                      ) : null
+                    }
                   />
                 </ThemedTabs>
               )}
@@ -501,6 +568,8 @@ const mapStateToProps = (state) => ({
   adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,
   variantStepList: state.ProductReducer.variantStepList,
   updateVerificationStatus: state.AdminReducer.updateVerificationResponse,
+  StudentStepDetailsList : state.StudentReducer.StudentStepDetails,
+
 });
 
 const useStyles = (theme) => ({});
@@ -510,4 +579,5 @@ export default connect(mapStateToProps, {
   getAdminLinkedProduct,
   getVariantStepsById,
   updateVerificationStatus,
+  StudentStepDetails
 })(withStyles(useStyles)(StageBasedLayout));

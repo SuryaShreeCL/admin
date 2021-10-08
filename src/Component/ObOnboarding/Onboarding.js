@@ -25,6 +25,7 @@ import {
   filterStageBaseUsers,
   searchStudentInStages,
   viewAllCities,
+  StudentStepDetails
 } from "../../Actions/Student";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import Call from "../../Asset/Images/callImg.png";
@@ -83,7 +84,16 @@ export class Onboarding extends Component {
     this.props.viewAllCities();
     this.props.getAllAdminUsers();
   }
-
+  handleManage = (eachItem) => {
+    console.log("Hello")
+    this.props.StudentStepDetails(eachItem.studentId,this.props.match.params.productId)
+    this.props.history.push(
+      stagedTabsPath +
+        eachItem.studentId +
+        "/" +
+        this.props.match.params.productId
+    )
+  }
   componentDidUpdate(prevProps, prevState) {
     // Setting the users in state
     if (this.props.studentsByStagesList !== prevProps.studentsByStagesList) {
@@ -268,12 +278,7 @@ export class Onboarding extends Component {
         />
         <PrimaryButton
           onClick={() =>
-            this.props.history.push(
-              stagedTabsPath +
-                eachItem.studentId +
-                "/" +
-                this.props.match.params.productId
-            )
+            this.handleManage(eachItem)
           }
           variant={"contained"}
           color={"primary"}
@@ -664,6 +669,7 @@ const mapStateToProps = (state) => {
     filteredStageBasedUsers: state.StudentReducer.filteredStageBasedUsers,
     searchedList: state.StudentReducer.searchedList,
     // getsearchlistresponse : state.CallReducer.getsearchlist
+    StudentStepDetailsList : state.StudentReducer.StudentStepDetails
   };
 };
 
@@ -676,4 +682,5 @@ export default connect(mapStateToProps, {
   getAllAdminUsers,
   filterStageBaseUsers,
   searchStudentInStages,
+  StudentStepDetails
 })(Onboarding);
