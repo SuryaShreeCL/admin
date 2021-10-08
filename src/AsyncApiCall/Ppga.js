@@ -1,6 +1,8 @@
 import axios from "axios"
 import { URL } from "../Actions/URL"
 
+// Get Student PGA By Grade
+
 export const getStudentPgaByGrade = async (studentId, grade) => {
     let accessToken = window.sessionStorage.getItem("accessToken")
     try {
@@ -16,6 +18,7 @@ export const getStudentPgaByGrade = async (studentId, grade) => {
     }
 }
 
+// Get Similar Student Details By grade 
 
 export const getSimilarStudentsByGrade = async (studentId, grade, year) => {
     let accessToken = window.sessionStorage.getItem("accessToken")
@@ -32,6 +35,8 @@ export const getSimilarStudentsByGrade = async (studentId, grade, year) => {
     }
 }
 
+// Submit PGA by grade 
+
 export const submitPga = async (studentId, grade,data) => {
     let accessToken = window.sessionStorage.getItem("accessToken")
 
@@ -47,6 +52,8 @@ export const submitPga = async (studentId, grade,data) => {
         return error.response && error.response.data.message ? error.response.data.message : error.message
     }
 }
+
+// To delete subject details by its id 
 
 export const deleteSubjectDetailsById = async (studentId, subjectDetailId) =>{
     let accessToken = window.sessionStorage.getItem("accessToken")
