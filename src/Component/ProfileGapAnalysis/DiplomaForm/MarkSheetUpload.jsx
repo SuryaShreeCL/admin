@@ -16,7 +16,7 @@ export default class MarkSheetUpload extends Component {
   render() {
     const { department,university,semester,markSheet,score } = this.props;
     return (
-      <div  onClick={this.props.handleChange}>
+      <div onClick={this.props.handleChange}>
         {/* markSheet card */}
         <Grid container>
           <Grid item md={12}>

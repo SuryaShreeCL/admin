@@ -50,6 +50,7 @@ class Index extends Component {
   render() {
     console.log(this.state);
     console.log(this.props.clickedSem);
+    console.log(this.props.academicTypes)
     return (
       <div>
         <Grid container position="relative" height="100vh">

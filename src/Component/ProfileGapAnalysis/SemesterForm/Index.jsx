@@ -8,8 +8,8 @@ import CvViewer from "../CvViewer";
 import TableGrid from "../../../Utils/EditableTable";
 import { connect } from "react-redux";
 import { useStyles } from "../../../Asset/DiplomaStyles";
-import { viewSemesterDetails, deleteSemesterDetails } from '../../../Actions/ProfileGapAction';
-import { isClickedSem } from "../../../Actions/HelperAction";
+import { viewSemesterDetails, deleteSemesterDetails, saveSemesterDetails } from '../../../Actions/ProfileGapAction';
+import { isClickedSem, getAcademicType } from "../../../Actions/HelperAction";
 import {
   isEmptyObject,
   isEmptyString,
@@ -17,6 +17,8 @@ import {
   isNumber,
 } from "../../Validation";
 import { HELPER_TEXT } from "../../../Constant/Variables";
+import Mysnack from "../../MySnackBar";
+
 
 
 
@@ -26,137 +28,31 @@ class Index extends Component {
 
     this.state = {
       pdfViewer: "",
-      data: null,
-      semesterData : [],
+      data: "",
+      semesterData : "",
       collegeDetails : "",
       university : "",
+      year : "",
       department : "",
       score : "",
-      subjectDetails : ""
+      subjectDetails : "",
+      // viewMarks
+      semesterGpa: "",
+      semesterGpaErr : "",
+      cgpa: "",
+      cgpaErr : "",
+      formulaEmployed: "",
+      formulaEmployedErr : "",
+      percentage: "",
+      percentageErr : "",
+      // snack message
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
     };
   }
 
-  columns = [
-    {
-      title: "Id",
-      field: "id",
-      hidden: true,
-    },
-    {
-      title: "Subject Code",
-      field : "subjectDetailsUgPgDiploma.subjectCode",
-      render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetailsUgPgDiploma.subjectCode : "",
-      validate: (rowData) => {
-        if (!isEmptyObject(rowData)) {
-          if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectCode)) {
-            return true;
-          } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          }
-        }
-      },
-     
-    },
-    {
-      title: "Subject Name",
-      field : "subjectDetailsUgPgDiploma.subjectName",
-      render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetailsUgPgDiploma.subjectName : "",
-      validate: (rowData) => {
-        if (!isEmptyObject(rowData)) {
-          if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectName)) {
-            return true;
-          } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          }
-        }
-      },
-
-     
-    },
-    {
-      title: "Grade Points",
-      field : "gradePoints",
-      render: (rowData, renderType) =>
-      renderType === "row" ? rowData.gradePoints : "",
-    validate: (rowData) => {
-      if (!isEmptyObject(rowData)) {
-        if (!isEmptyString(rowData.gradePoints)) {
-          return true;
-        } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
-        }
-      }
-    },
-     
-    },
-    {
-      title: "Credit",
-      field : "credit",
-      render: (rowData, renderType) =>
-      renderType === "row" ? rowData.credit : "",
-    validate: (rowData) => {
-      if (!isEmptyObject(rowData)) {
-        if (!isEmptyString(rowData.credit)) {
-          return true;
-        } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
-        }
-      }
-    },
-     
-    },
-    {
-      title: "Type",
-      field : "subjectDetailsUgPgDiploma.type",
-      render: (rowData, renderType) =>
-      renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
-    validate: (rowData) => {
-      if (!isEmptyObject(rowData)) {
-        if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.type)) {
-          return true;
-        } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
-        }
-      }
-    },
-
-    },
-    {
-      title: "Result",
-      field : "result",
-      render: (rowData, renderType) =>
-      renderType === "row" ? rowData.result : "",
-    validate: (rowData) => {
-      if (!isEmptyObject(rowData)) {
-        if (!isEmptyString(rowData.result)) {
-          return true;
-        } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
-        }
-      }
-    },
-    },
-    {
-      title: "Pass/Fail",
-      field : "subjectDetailsUgPgDiploma.passOrFail",
-      render: (rowData, renderType) =>
-      renderType === "row" ? rowData.subjectDetailsUgPgDiploma.passOrFail : "",
-    validate: (rowData) => {
-      if (!isEmptyObject(rowData)) {
-        if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.passOrFail)) {
-          return true;
-        } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
-        }
-      }
-    },
-
-    },
-   
-    
-  ];
+ 
 
   handleRowAdd = (newData) => {
     console.log(newData);
@@ -181,7 +77,12 @@ class Index extends Component {
           this.props.clickedSem,
            (response)=>{
            if(response.status === 200){
-             this.props.viewSemesterDetails(this.props.match.params.studentId, this.props.clickedSem,(response))
+             this.props.viewSemesterDetails(this.props.match.params.studentId, this.props.clickedSem,(response)=>{
+               this.setState({
+                semesterData :  response.data.data[0].studentSubjectDetails,
+
+               })
+             })
            }
          })
            
@@ -229,22 +130,211 @@ class Index extends Component {
           semesterData :  response.data.data[0].studentSubjectDetails,
           score :  response.data.data[0].studentSemesterDetails.score,
           collegeDetails : response.data.data[0].college,
+          degreeDetails : response.data.data[0].degree,
           university : response.data.data[0].university,
           department : response.data.data[0].department,
-          subjectDetails : response.data.data[0].studentSemesterDetails[0],
+          subjectDetails : response.data.data[0].studentSemesterDetails,
           pdfViewer : response.data.data[0].studentDocument[0].path,
-
-
-          data: response.data
+          data: response.data,
+          year : response.data.data[0].year
         })
       
     })
   }
 
+  handleSaveClick = () =>{
+    console.log("click")
+    let hlpTxt = "Please fill the required field"
+    isEmptyString(this.state.semesterGpa) ? this.setState({semesterGpaErr : hlpTxt}) : this.setState({semesterGpaErr : ""})
+    isEmptyString(this.state.cgpa) ? this.setState({cgpaErr : hlpTxt}) : this.setState({cgpaErr : ""})
+    isEmptyString(this.state.formulaEmployed) ? this.setState({formulaEmployedErr : hlpTxt}) : this.setState({formulaEmployedErr : ""})
+    isEmptyString(this.state.percentage) ? this.setState({percentageErr : hlpTxt}) : this.setState({percentageErr : ""})
+
+    if(
+      !isEmptyString(this.state.semesterGpa) &&
+      !isEmptyString(this.state.cgpa) &&
+      !isEmptyString(this.state.formulaEmployed) &&
+      !isEmptyString(this.state.percentage) 
+      
+    ){
+       let requestBody = {
+        studentSemesterDetails: {
+          id: this.state.subjectDetails.id,
+          semester: this.state.subjectDetails.semester,
+          score: this.state.subjectDetails.score,
+          scoreScale: this.state.subjectDetails.scoreScale,
+          semesterGpa : this.state.semesterGpa,
+          cgpa : this.state.cgpa,
+          formulaEmployed : this.state.formulaEmployed,
+          percentage : this.state.percentage,
+
+          college: {
+              id: this.state.collegeDetails.id
+          },
+          // degree: {
+          //     id: this.state.degree.id
+          // },
+          department: {
+              id: this.state.department.id
+          },
+          university: {
+              id: this.state.university.id
+          }
+      },
+      studentSubjectDetails: this.state.semesterData
+
+     
+       }
+       this.props.saveSemesterDetails(this.props.match.params.studentId,this.props.academicTypes,requestBody,(response)=>{
+         console.log(response)
+          this.setState({
+           snackMsg: "Saved Successfully",
+           snackVariant: "success",
+           snackOpen: true,
+          })
+       })
+      
+       console.log(requestBody)
+    }
+
+  }
+
+  handleScoreChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleBackClick = () => {
+    this.props.isClickedBack(true)
+    console.log("object----------------")
+  }
+
   render() {
     const {classes}  = this.props;
     console.log(this.state);
-    console.log(this.state.semesterData)
+    const  columns = [
+      {
+        title: "Id",
+        field: "id",
+        hidden: true,
+      },
+      {
+        title: "Subject Code",
+        field : "subjectDetailsUgPgDiploma.subjectCode",
+        render: (rowData, renderType) =>
+          renderType === "row" ? rowData.subjectDetailsUgPgDiploma.subjectCode : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectCode)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+       
+      },
+      {
+        title: "Subject Name",
+        field : "subjectDetailsUgPgDiploma.subjectName",
+        render: (rowData, renderType) =>
+          renderType === "row" ? rowData.subjectDetailsUgPgDiploma.subjectName : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectName)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+  
+       
+      },
+      {
+        title: "Grade Points",
+        field : "gradePoints",
+        render: (rowData, renderType) =>
+        renderType === "row" ? rowData.gradePoints : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.gradePoints)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+       
+      },
+      {
+        title: "Credit",
+        field : "credit",
+        render: (rowData, renderType) =>
+        renderType === "row" ? rowData.credit : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.credit)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+       
+      },
+      {
+        title: "Type",
+        field : "subjectDetailsUgPgDiploma.type",
+        render: (rowData, renderType) =>
+        renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.type)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+  
+      },
+      {
+        title: "Result",
+        field : "result",
+        render: (rowData, renderType) =>
+        renderType === "row" ? rowData.result : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.result)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+      },
+      {
+        title: "Pass/Fail",
+        field : "subjectDetailsUgPgDiploma.passOrFail",
+        render: (rowData, renderType) =>
+        renderType === "row" ? rowData.subjectDetailsUgPgDiploma.passOrFail : "",
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.passOrFail)) {
+            return true;
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
+        }
+      },
+  
+      },
+     
+      
+    ];
+    
 
     return (
       <div>
@@ -252,6 +342,12 @@ class Index extends Component {
           {/*  left container*/}
 
           {/* semester details */}
+          <Mysnack
+            snackMsg={this.state.snackMsg}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
+            onClose={() => this.setState({ snackOpen: false })}
+          />
           <Grid item md={7} xs={7} sm={7} xl={7} lg={7}>
             <Grid container>
               <Grid
@@ -270,23 +366,39 @@ class Index extends Component {
                 collegeName = {this.state.collegeDetails}
                 universityName = {this.state.university}
                 departmentName = {this.state.department}
-                gpa = {this.state.score}
-
+                score = {this.state.score}
+                semName = {this.state.subjectDetails.semName}
+                year = { this.state.year}
+                backHandler = {this.props.backHandler}
 
                 />
 
                 <TableGrid
-                  columns={this.columns}
-                  data={this.state.semesterData}
+                  columns={columns}
+                  // data={this.state.semesterData}
                   onRowDelete={this.handleRowDelete}
                   onRowUpdate={this.handleRowUpdate}
                   onRowAdd={this.handleRowAdd}
                 />
-                <ViewMarks />
+                <ViewMarks 
+                semesterGpa = {this.state.semesterGpa}
+                gpaError = {this.state.semesterGpaErr}
+                cgpa = {this.state.cgpa}
+                cgpaError = {this.state.cgpaErr}
+                formulaEmployed = {this.state.formulaEmployed}
+                formulaError = {this.state.formulaEmployedErr}
+                percentage = {this.state.percentage}
+                percentageError = {this.state.percentageErr}
+                handleChange = {(e) => this.handleScoreChange(e)}
+                />
               </Grid>
+             
 
               <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <BottomButton />
+                <BottomButton 
+                  handleChange={() => this.handleSaveClick()}
+
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -305,6 +417,8 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     clickedSem: state.HelperReducer.clickedSem,
+    academicTypes: state.HelperReducer.academicType,
+
 
 
   };
@@ -314,5 +428,8 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   viewSemesterDetails,
   isClickedSem,
-  deleteSemesterDetails
+  deleteSemesterDetails,
+  saveSemesterDetails,
+  getAcademicType,
+  
 })(withStyles(useStyles)(Index));

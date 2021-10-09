@@ -49,7 +49,7 @@ class ViewSemesterDetails extends Component {
   }
 
   render() {
-    const { collegeName, universityName,departmentName,gpa } = this.props;
+    const { collegeName, universityName,departmentName,score,semName, year } = this.props;
     console.log(this.props);
     return (
       <div>
@@ -58,7 +58,9 @@ class ViewSemesterDetails extends Component {
         >
           {/* back icon design */}
           <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
-            <div className={"diploma_header"}>
+            <div
+            onClick={this.props.backHandler} 
+            className={"diploma_header"}>
               <div>
                 <ArrowBackIosIcon className={"back_icon"} />
               </div>
@@ -72,14 +74,14 @@ class ViewSemesterDetails extends Component {
           <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
            <div className={'semester_title_div'}>
            <Typography variant={"h6"} className={"semester_title"}>
-              5th Sem | 
+              {semName} |
             </Typography>
             <Typography variant={"h6"} className={"semester_title1"}>
             {this.props.academicTypes}
             </Typography>
            </div>
           </Grid>
-
+         
           <Grid item md={4}  xs={4} sm={4} xl={4} lg={4}>
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
@@ -99,7 +101,7 @@ class ViewSemesterDetails extends Component {
                   label="College Name"
                   variant="standard"
                   name="College Name"
-                  value={gpa}
+                  value={collegeName}
                 />
               )}
             />
@@ -132,8 +134,10 @@ class ViewSemesterDetails extends Component {
           <Grid item md={4}>
             <TextField
               label="GPA"
+              name="score"
               disabled
-              value={this.state.gpa}
+              value={score}
+
               onChange={(e) => this.handleChange(e)}
               fullWidth
             />
@@ -167,7 +171,8 @@ class ViewSemesterDetails extends Component {
             <TextField
               label="Passing Year"
               disabled
-              value={this.state.passingYear}
+              name="year"
+              value={year}
               onChange={(e) => this.handleChange(e)}
               fullWidth
             />

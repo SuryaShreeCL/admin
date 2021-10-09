@@ -8,7 +8,12 @@ export default class BottomButton extends Component {
       <div>
         {/* divider and button */}
         <hr className={"bottom_divider"} />
-        <Button className={"button"} variant={"contained"} color={"primary"}>
+        <Button 
+        className={"button"} 
+        variant={"contained"} 
+        color={"primary"}
+        onClick={this.props.handleChange}
+        >
           Save
         </Button>
       </div>
