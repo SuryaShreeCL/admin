@@ -18,20 +18,22 @@ const initialState = {
   signUpError: [],
   cityList: [],
   aspirationDetails: [],
-  tempPersonalData : [],
-  updateNewPersonalResponse : [],
+  tempPersonalData: [],
+  updateNewPersonalResponse: [],
   getUserDataAcademicInfo: [],
-  updateUserData : [],
+  updateUserData: [],
   getAcademicInfo: [],
-  updateAcademicInfo:[],
-  uploadFile:[],
-  sscexamboard : [],
-  getDocumentList : [],
-  deleteDocument : [],
+  updateAcademicInfo: [],
+  uploadFile: [],
+  sscexamboard: [],
+  getDocumentList: [],
+  deleteDocument: [],
   deleteDocumentGraduate: [],
-  filteredStageBasedUsers : [],
-  searchedList : [],
-  StudentStepDetails  : []
+  filteredStageBasedUsers: [],
+  searchedList: [],
+  StudentStepDetails: [],
+  ObComplete: [],
+  ObIncomplete: [],
 };
 
 export default (state = initialState, action) => {
@@ -151,79 +153,89 @@ export default (state = initialState, action) => {
         ...state,
         editDocumentResponse: action.editDocumentResponse,
       };
-      case STUDENT.getTempPersonalData:
+    case STUDENT.getTempPersonalData:
       return {
         ...state,
         tempPersonalData: action.payload,
       };
-      case STUDENT.verifyNewPersonalData:
-        return {
-          ...state,
-          updateNewPersonalResponse: action.payload,
-        };
-        case STUDENT.getUserDataAcademicInfo:
-        return {
-          ...state,
-          getUserDataAcademicInfo: action.payload,
-        };
-        case STUDENT.updateUserData:
-          return {
-            ...state,
-            updateUserData: action.payload,
-          };
-          case STUDENT.getAcademicInfo:
-        return {
-          ...state,
-          getAcademicInfo: action.payload,
-        };
-        case STUDENT.updateAcademicInfo:
-          return {
-            ...state,
-            updateAcademicInfo: action.payload,
-          };
-         
-          case STUDENT.uploadFile:
-            return {
-              ...state,
-              uploadFile: action.payload,
-            };
-          case STUDENT.sscexamboard:
-          return {
-            ...state,
-            sscexamboard: action.payload,
-          };
-          case STUDENT.getDocumentList:
-            return {
-              ...state,
-              getDocumentList: action.payload,
-            };
-            case STUDENT.deleteDocument:
-            return {
-              ...state,
-              deleteDocument: action.payload,
-            };
-            case STUDENT.deleteDocumentGraduate:
-            return {
-              ...state,
-              deleteDocumentGraduate: action.payload,
-            };
+    case STUDENT.verifyNewPersonalData:
+      return {
+        ...state,
+        updateNewPersonalResponse: action.payload,
+      };
+    case STUDENT.getUserDataAcademicInfo:
+      return {
+        ...state,
+        getUserDataAcademicInfo: action.payload,
+      };
+    case STUDENT.updateUserData:
+      return {
+        ...state,
+        updateUserData: action.payload,
+      };
+    case STUDENT.getAcademicInfo:
+      return {
+        ...state,
+        getAcademicInfo: action.payload,
+      };
+    case STUDENT.updateAcademicInfo:
+      return {
+        ...state,
+        updateAcademicInfo: action.payload,
+      };
 
-            case STUDENT.filterStageBaseUsers:
-              return {
-                ...state,
-                filteredStageBasedUsers: action.payload,
-              };
-              case STUDENT.searchStudentInStages:
-                return {
-                  ...state,
-                  searchedList: action.payload,
-                };
-                case STUDENT.StudentStepDetails:
-                  return {
-                    ...state,
-                    StudentStepDetails: action.payload,
-                  };
-  
+    case STUDENT.uploadFile:
+      return {
+        ...state,
+        uploadFile: action.payload,
+      };
+    case STUDENT.sscexamboard:
+      return {
+        ...state,
+        sscexamboard: action.payload,
+      };
+    case STUDENT.getDocumentList:
+      return {
+        ...state,
+        getDocumentList: action.payload,
+      };
+    case STUDENT.deleteDocument:
+      return {
+        ...state,
+        deleteDocument: action.payload,
+      };
+    case STUDENT.deleteDocumentGraduate:
+      return {
+        ...state,
+        deleteDocumentGraduate: action.payload,
+      };
+
+    case STUDENT.filterStageBaseUsers:
+      return {
+        ...state,
+        filteredStageBasedUsers: action.payload,
+      };
+    case STUDENT.searchStudentInStages:
+      return {
+        ...state,
+        searchedList: action.payload,
+      };
+    case STUDENT.StudentStepDetails:
+      return {
+        ...state,
+        StudentStepDetails: action.payload,
+      };
+    case STUDENT.ObIncomplete:
+      return {
+        ...state,
+        ObIncomplete: action.payload,
+      };
+    case STUDENT.ObComplete:
+      return {
+        ...state,
+        ObComplete: action.payload,
+      };
+
     default:
       break;
   }

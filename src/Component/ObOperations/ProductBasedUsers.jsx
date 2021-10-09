@@ -104,13 +104,7 @@ class ProductBasedUsers extends Component {
             
                {this.state.productDetails && this.state.productDetails.map((item,index)=>{
                    return (
-                    <ThemedTab value={item} label={item.stepName}
-                     disabled={item.disabled}
-                    icon={
-                       item.disabled ? (
-                         <LockIcon className={"icon_style"} />
-                       ) : null
-                     }/>
+                    <ThemedTab value={item} label={item.stepName}/>
                    )    
                })}
          

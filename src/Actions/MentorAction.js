@@ -124,7 +124,7 @@ export const getmentor = (studentId,callback) => {
             });
     }
 }
-export const updatementor = (studentId,productId ,data) => {
+export const updatementor = (studentId,productId ,data,callback) => {
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
@@ -136,9 +136,11 @@ export const updatementor = (studentId,productId ,data) => {
             }
         })
             .then(result => {
+                callback(result)
                 dispatch({type:MENTORSCHEDULELIST.updatementor,payload:result.data})
             })
             .catch(error => {
+                callback(error)
                 console.log(error);
             });
     }

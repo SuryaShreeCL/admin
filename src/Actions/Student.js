@@ -921,3 +921,53 @@ export const StudentStepDetails = (studentId, productId) => {
       });
   };
 };
+
+export const ObComplete = (studentId, productId,callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .put(
+        URL + "/api/v1/students/"+studentId+"/product/"+productId+"/onBoardingCompleteCall?field=admin",{},
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        callback(result)
+        dispatch({ type: STUDENT.ObComplete, payload: result.data });
+      })
+      .catch((error) => {
+        callback(error)
+        console.log(error);
+      });
+  };
+};
+
+
+export const ObIncomplete = (studentId, productId,data,callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  console.log(data)
+  return (dispatch) => {
+    axios
+      .put(
+        URL + "/api/v1/pga/students/"+studentId+"/adminUser/"+productId+"/incompleteMail",data,
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        callback(result)
+        dispatch({ type: STUDENT.ObIncomplete, payload: result.data });
+      })
+      .catch((error) => {
+        callback(error)
+        console.log(error);
+      });
+  };
+};
