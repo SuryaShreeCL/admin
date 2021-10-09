@@ -259,6 +259,27 @@ class Index extends Component {
             snackVariant: "success",
             snackOpen: true,
           });
+          this.props.viewSemesterDetails(
+            this.props.match.params.studentId,
+            this.props.clickedSem,
+            (response) => {
+              this.setState({
+                semesterData:
+                  response.data.data[0].studentSubjectDetails !== null
+                    ? response.data.data[0].studentSubjectDetails
+                    : [],
+                score: response.data.data[0].studentSemesterDetails.score,
+                collegeDetails: response.data.data[0].college,
+                degreeDetails: response.data.data[0].degree,
+                university: response.data.data[0].university,
+                department: response.data.data[0].department,
+                subjectDetails: response.data.data[0].studentSemesterDetails,
+                pdfViewer: response.data.data[0].studentDocument[0].path,
+                data: response.data,
+                year: response.data.data[0].year,
+              });
+            }
+          );
         }
       );
 
