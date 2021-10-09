@@ -13,6 +13,8 @@ import {
 } from "../../../AsyncApiCall/Ppga";
 import { isEmptyObject, isEmptyString, isNanAndEmpty } from "../../Validation";
 import { HELPER_TEXT } from "../../../Constant/Variables";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import PrimaryButton from "../../../Utils/PrimaryButton";
 function Index(props) {
   // Defining column and config for CRUD Table
   const columns = [
@@ -203,6 +205,7 @@ function Index(props) {
       return (
         <TopSubjects
           subjects={subjects}
+          degreeType={degreeType}
           subjectTableFields={subjectTableFields}
           semester={semester}
         />
@@ -265,7 +268,7 @@ function Index(props) {
     <Grid container spacing={2} className={classes.containerSpacing}>
       {/* Title */}
       <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
-        <Typography variant={"h6"}>Academic Summary</Typography>
+        <Typography variant={"h6"}>Academics Summary</Typography>
       </Grid>
       <Grid item md={6} xs={6} sm={6} lg={6} xl={6}>
         <Grid container spacing={2}>
@@ -276,6 +279,7 @@ function Index(props) {
               fullWidth
               size={"small"}
               value={degreeType}
+              popupIcon={<ExpandMore color={"inherit"} />}
               onChange={(e, newValue) => handleDegreeTypeChange(newValue)}
               options={dropDownValue}
               getOptionLabel={(option) => option.title}
@@ -296,6 +300,7 @@ function Index(props) {
               id="combo-box-demo"
               fullWidth
               size={"small"}
+              popupIcon={<ExpandMore color={"inherit"} />}
               disabled={degreeType === null}
               value={subCategory}
               onChange={(e, newValue) => {
@@ -327,14 +332,17 @@ function Index(props) {
         container
         justifyContent={"flex-end"}
       >
-        <Button
+        <PrimaryButton
           onClick={handleGetData}
           size={"small"}
           variant={"contained"}
           color={"primary"}
         >
           Get Data
-        </Button>
+        </PrimaryButton>
+      </Grid>
+      <Grid item md={12}>
+      <hr />
       </Grid>
       <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
         <Tabs
@@ -345,11 +353,11 @@ function Index(props) {
           onChange={handleChange}
         >
           {tabLabel.map((eachItem, index) => {
-            return <Tab disabled={handleTabDisabled(index)} label={eachItem} />;
+            return <Tab classes={{root : classes.tabTextStyle}} disabled={handleTabDisabled(index)} label={eachItem} />;
           })}
         </Tabs>
       </Grid>
-      <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
+      <Grid item md={12} xs={12} sm={12} lg={12} xl={12} className={classes.academicSummaryLayout}>
         {renderTabContent()}
       </Grid>
     </Grid>

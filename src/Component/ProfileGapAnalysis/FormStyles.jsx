@@ -30,10 +30,8 @@ export const useStyles = makeStyles((theme)=>({
      }
   },
  twelthFieldBottomContainer : {
-  //  marginTop : "260px",
-   [theme.breakpoints.up("md")] : {
-    marginTop : "10%"
-   }
+  position : "absolute",
+  bottom : "13%"
  },
  tableRowColor : {
    backgroundColor : "#f1f1f1"
@@ -100,6 +98,13 @@ export const useStyles = makeStyles((theme)=>({
   width: "15px",
   backgroundColor: "#F08080",
   borderRadius: "50%",
+ },
+ tabTextStyle : {
+   textTransform : "inherit"
+ },
+ academicSummaryLayout : {
+   height : "70vh",
+   overflow : "auto"
  }
 
 }));

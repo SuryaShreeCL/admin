@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { saveCopyData } from "../../Actions/HelperAction";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import SubjectInfoTable from "./SubjectInfoTable";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { useSelector } from "react-redux"
 function Accordian(props) {
   // Setting up initial styles for this component
   const useStyles = makeStyles((theme) => ({
@@ -47,8 +49,21 @@ function Accordian(props) {
         margin: "16px 16px",
       },
     },
+    accordianSummary : {
+      flexDirection : "row-reverse",
+    },
+    expandIconStyle : {
+      marginRight : "3px"
+    },
+    buttonStyle : {
+        color : "#4CA24A",
+        border : "1px solid #4CA24A"
+    
+    }
   }));
   const classes = useStyles();
+  const { templateData }  = useSelector(state => state.HelperReducer)
+
   // Setting up dispatch for making API calls
   const dispatch = useDispatch();
   // This function copies the template of a student and pass the data to the student subject details table
@@ -56,16 +71,19 @@ function Accordian(props) {
     e.stopPropagation();
     dispatch(saveCopyData(props.data.studentSubjectDetails));
   };
+console.log(props.data, "props data---------")
+console.log(templateData, "template data---------")
+
   return (
     <Accordion classes={{ root: classes.accordianSummaryStyle }}>
-      <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
+      <AccordionSummary classes={{ root : classes.accordianSummary, expandIcon : classes.expandIconStyle  }} aria-controls="panel1a-content" id="panel1a-header" expandIcon={<ExpandMoreIcon />}>
         <div className={classes.headerContainer}>
           <div className={classes.leftHeader}>
             <Typography className={classes.userName}>
               {props.data.fullName}
             </Typography>
             <div className={classes.innerContainer}>
-              <Typography color={"textSecondary"}>Yearof pass</Typography>
+              <Typography color={"textSecondary"}>Year of pass</Typography>
               <Typography>{props.data.year}</Typography>
             </div>
           </div>
@@ -73,10 +91,11 @@ function Accordian(props) {
             <PrimaryButton
               onClick={handleUseTemplate}
               size={"small"}
+              className={props.data.studentSubjectDetails === templateData && classes.buttonStyle}
               variant={"outlined"}
               color={"primary"}
             >
-              Use Template
+              {props.data.studentSubjectDetails === templateData ? "Copied Template" : "Use Template"}
             </PrimaryButton>
           </div>
         </div>
