@@ -1,134 +1,170 @@
 import React, { Component } from "react";
 import { Grid, Typography } from "@material-ui/core";
-import './DiplomaForm.css';
+import "./DiplomaForm.css";
 
 export default class ViewDetails extends Component {
   render() {
+    const { item } = this.props;
+    console.log(new Date(item.startDate).getFullYear())
+    console.log(item)
     return (
       <div>
-        <Grid container style={{ display: "flex", flexDirection: "row" }}>
+        {/* grid container */}
+        <Grid container display="flex" direction="row">
+          {/* title grid */}
           <Grid
+            item
+            // container
+            md={12}
+            xs={12}
+            sm={12}
+            xl={12}
+            lg={12}
+            display="flex"
+            style={{ padding: "19px" }}
+          >
+            <Typography className={"viewDetails_title"} variant={"h6"}>{item.type}</Typography>
+          </Grid>
+
+          {/* empty grid */}
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
+
+          {/* 1st grid item  */}
+          {/* <Grid
             item
             container
-            md={12}
-            style={{ display: "flex", padding: "19px" }}
-          >
-            <Typography>Diploma</Typography>
-          </Grid>
-          <Grid item md={12}></Grid>
-
-          <Grid
-            item
             md={4}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
-            >
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4}
+            display="flex"
+            direction="row"
+            justify="space-around"
+          > */}
+            {/* college name and university (div) */}
+            {/* <div className={"main_div1"}>
               <div>
-                <Typography color="textSecondary" style={{ lineHeight: "37px", }}>
+                <Typography
+                  color="textSecondary"
+                  className={"text_line_height"}
+                >
                   College Name
                 </Typography>
               </div>
               <div>
-                <Typography>Computer Science</Typography>
+                <Typography color="textSecondary">University Name</Typography>
               </div>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
+            </div> */}
+             <Grid item  
+             md={4}
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4} 
+            display='flex'>
+            <div className={"grid_item1_div"}
+            // style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}
             >
+             <div className={"collegeName_div"}
+            //  style={{display:"flex",gridGap:'60px'}}
+             >
+               <Typography  color="textSecondary">
+               College Name
+               </Typography>
+               <Typography>
+               {item.college && item.college.name}
+               </Typography>
+             </div>
+             <div className={"collegeName_div"}
+            //  style={{display:"flex",gridGap:"60px"}}
+             >
+                <Typography  color="textSecondary">
+                University Name
+                </Typography>
+                <Typography>
+                {item.university && item.university.name}
+                </Typography>
+             </div>
+            </div>
+          {/* </Grid> */}
+
+
+            {/* computer science and year (div) */}
+            {/* <div className={"main_div1"}>
               <div>
-                <Typography style={{ lineHeight: "37px" }}>
-                  University Name
+                <Typography className={"center_text_line_height"}>
+                  {item.college && item.college.name}
                 </Typography>
               </div>
               <div>
-                <Typography>2021-2024</Typography>
+                <Typography>{item.university && item.university.name}</Typography>
               </div>
-            </div>
+            </div> */}
           </Grid>
 
-          <Grid
-            item
-            md={4}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
+          {/* 2nd grid item */}
+          <Grid item  
+             md={4}
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4} 
+            display='flex'>
+            <div className={"grid_item1_div"}
+            // style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}
             >
-              <div>
-                <Typography style={{ lineHeight: "40px" }}>
-                  Department
+             <div className={"collegeName_div"}
+            //  style={{display:"flex",gridGap:'60px'}}
+             >
+               <Typography  color="textSecondary">
+               Department
+               </Typography>
+               <Typography  >
+               {item.department && item.department.name}
+             
+               </Typography>
+             </div>
+             <div className={"batch_div"}
+            //  style={{display:"flex",gridGap:"102px"}}
+             >
+                <Typography color="textSecondary">
+                Batch
                 </Typography>
-              </div>
-              <div>
-                <Typography>Batch</Typography>
-              </div>
+                <Typography>
+                {new Date(item.startDate).getFullYear()} - {new Date(item.endDate).getFullYear()}
+                </Typography>
+             </div>
             </div>
+            </Grid>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
+          {/* 3rd grid item */}
+          <Grid item  
+             md={4}
+            xs={4}
+            sm={4}
+            xl={4}
+            lg={4} 
+            display='flex'>
+            <div className={"grid_item1_div"}
+            // style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}
             >
-              <div>
-                <Typography style={{ lineHeight: "40px" }}>
-                  Computer Science
-                </Typography>
-              </div>
-              <div>
-                <Typography>2021-2024</Typography>
-              </div>
+             <div className={"grid_item3_div"}
+            //  style={{display:"flex",gridGap:'60px'}}
+             >
+               <Typography  color="textSecondary">
+               Cumulative CGPA               
+               </Typography>
+               <Typography>
+               {item.score}%
+               </Typography>
+             </div>
+             
             </div>
-          </Grid>
+            </Grid>
 
-          <Grid item md={4}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-              }}
-            >
-              <div>
-                <Typography style={{ lineHeight: "40px" }}>
-                  Cumulative CGPA
-                </Typography>
-              </div>
-              <div>
-                <Typography style={{ lineHeight: "40px" }}>60%</Typography>
-              </div>
-            </div>
-          </Grid>
-
-          <Grid item md={12}></Grid>
-
-          <Grid item md={12}>
-            <hr style={{ width: "96%" }} />
-          </Grid>
+          {/* empty grid */}
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
         </Grid>
       </div>
     );

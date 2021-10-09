@@ -74,7 +74,7 @@ class TestResults extends Component {
                       <Grid container spacing={1}>
                         {item.sectionScoreModels.map((data) => (
                           <>
-                            <Grid
+                          <Grid
                               item
                               md={1}
                               xs={1}

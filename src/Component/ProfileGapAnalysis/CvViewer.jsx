@@ -23,11 +23,11 @@ function CvViewer(props) {
             }
         })
         }
-        
+      
     }, [])
     return (
 
-     <PdfViewer cvUrl={cvUrl} />
+     <PdfViewer cvUrl={cvUrl ? cvUrl : URL+"/api/v1/files/download/"+studentId+"/"+props.path} />
     )
 }
 

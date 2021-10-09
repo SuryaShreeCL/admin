@@ -339,17 +339,26 @@ export const PGA = {
   getFilteredCourseForEnroll: 'getFilteredCourseForEnroll',
   clearNewEnroll: 'clearNewEnroll',
   clearUnEnroll: 'clearUnEnroll',
-  uploadfile: 'uploadfile',
-  getallfiles: 'getallfiles',
-  downlaodfiles: 'downlaodfiles',
-  deletefiles: 'deletefiles',
-  viewfiles: 'viewfiles',
+  uploadfile : 'uploadfile',
+  getallfiles : "getallfiles",
+  downlaodfiles : "downlaodfiles",
+  deletefiles : "deletefiles",
+  viewfiles:"viewfiles",
+  viewAcademicDetails : "viewAcademicDetails",
+  viewSemesterDetails : "viewSemesterDetails",
+  saveSemesterDetails : "saveSemesterDetails",
+  deleteSemesterDetails : "deleteSemesterDetails"
+  // fileDownload : "fileDownload"
 };
 
 export const HELPER = {
   storeItInState : "storeItInState",
   setPopperAnchorEl : "setPopperAnchorEl",
-  setFilterAnchorEl : "setFilterAnchorEl"
+  setFilterAnchorEl : "setFilterAnchorEl",
+  getAcademicType : "getAcademicType",
+  isClickedSem : "isClickedSem",
+  saveCopyData : "saveCopyData",
+  saveTemplate : "saveTemplate"
 }
 
 //MOHAMMED

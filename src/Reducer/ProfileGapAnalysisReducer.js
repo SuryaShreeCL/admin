@@ -15,6 +15,11 @@ const initialState = {
   updatecvresult:[],
   getdashboarddetails:[],
   getpgalist:[],
+  academicView : [],
+  semesterDetails : [],
+  updateSemesterDetails : [],
+  removeSemesterDetails : []
+  // download : []
 };
 
 export default (state = initialState, action) => {
@@ -87,6 +92,26 @@ export default (state = initialState, action) => {
                 ...state,
                 getpgalist:action.payload,
             }; 
+            case PROFILE_GAP_ANALYSIS.viewAcademicDetails:
+              return{
+                  ...state,
+                  academicView:action.payload,
+              }; 
+              case PROFILE_GAP_ANALYSIS.viewSemesterDetails:
+              return{
+                  ...state,
+                  semesterDetails:action.payload,
+              }; 
+              case PROFILE_GAP_ANALYSIS.saveSemesterDetails:
+              return{
+                  ...state,
+                  updateSemesterDetails:action.payload,
+              }; 
+              case PROFILE_GAP_ANALYSIS.deleteSemesterDetails:
+                return{
+                    ...state,
+                    removeSemesterDetails:action.payload,
+                }; 
     default:
       return state;
   }

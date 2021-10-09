@@ -6,7 +6,7 @@ import {
   MenuItem,
   Popover,
   Typography,
-  TextField
+  TextField,
 } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,11 +16,13 @@ import {
 } from "../../Actions/HelperAction";
 import Accordian from "./Accordian";
 import { StyledTab, StyledTabs } from "./PopUpTabs";
-import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded';
+import KeyboardArrowDownRoundedIcon from "@material-ui/icons/KeyboardArrowDownRounded";
 import SubjectInfoTable from "./SubjectInfoTable";
 
 function SimilarityPopup(props) {
+  // Setting up dispatch for making an API calls
   const dispatch = useDispatch();
+  // Setting up styles for this component
   const useStyles = makeStyles((theme) => ({
     headingTypo: {
       padding: "16px 0px 10px 16px",
@@ -29,31 +31,23 @@ function SimilarityPopup(props) {
     popoverStyle: {
       height: "70vh",
       overflowY: "scroll",
-      borderRadius : "10px",
-      // "&:before" : {
-      //   content: '""',
-      //   height: "0",
-      //   position: "absolute",
-      //   width: "0",
-      //   left: "18px",
-      //   border: "10px solid transparent",
-      //   borderRightColor: "#DA362A",
-      // }
+      borderRadius: "10px",
+      width: "700px",
     },
     filterContainer: {
       display: "flex",
       alignItems: "center",
-      marginRight : "2%"
+      marginRight: "2%",
     },
-    searchContainer : {
-      alignSelf : "flex-end",
-      marginBottom : "15px"
+    searchContainer: {
+      alignSelf: "flex-end",
+      marginBottom: "15px",
     },
-    containerStyle : {
-      margin : "0px 20px 0px 20px"
-    }
+    containerStyle: {
+      margin: "0px 20px 0px 20px",
+    },
   }));
-
+  // Declaring variables for this component
   const popperAnchorEl = useSelector(
     (state) => state.HelperReducer.popperState.popperAnchorEl
   );
@@ -66,17 +60,32 @@ function SimilarityPopup(props) {
   const id = popperOpen ? "simple-popper" : undefined;
 
   const [value, setValue] = React.useState(0);
+  // Initiating style variable for this component
   const classes = useStyles();
+  // This function handles the tab change
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  // This function handle the filter open
   const handleFilterOpen = (event) => {
     dispatch(setFilterAnchorEl(event.currentTarget));
   };
-  
-  const renderTabContent = () =>{
-    if(value === 0){
+  // Setting you values for the year dropdown (logic : start year - Current year and end year ten years before start year )
+  const years = () => {
+    let endYear = new Date().getFullYear();
+    let startYear = endYear - 10;
+
+    let yearArr = [];
+    for (let i = startYear; i <= endYear; i++) {
+      yearArr.push(i);
+    }
+    return yearArr;
+  };
+
+  // This function returns the tab content based on index
+  const renderTabContent = () => {
+    console.log(years(), ".................");
+    if (value === 0) {
       return (
         <Grid
           item
@@ -102,32 +111,54 @@ function SimilarityPopup(props) {
             <Menu
               id="simple-menu"
               anchorEl={filterAnchorEl}
-              keepMounted
+              getContentAnchorEl={null}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              transformOrigin={{ vertical: "top", horizontal: "center" }}              keepMounted
               open={filterOpen}
               onClose={() => dispatch(setFilterAnchorEl(null))}
             >
-              <MenuItem>2015</MenuItem>
-              <MenuItem>2016</MenuItem>
+              {years().map((item, index) => {
+                return (
+                  <MenuItem
+                    onClick={() => {
+                      // This function will return student match data based on year
+                      props.handleYearClick(item);
+                      dispatch(setFilterAnchorEl(null));
+                    }}
+                  >
+                    {item}
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </div>
         </Grid>
-
-      )
-    }else if(value === 1){
+      );
+    } else if (value === 1) {
       return (
-        <Grid className={classes.containerStyle} container spacing={2} direction={"column"}>
+        <Grid
+          className={classes.containerStyle}
+          container
+          spacing={2}
+          direction={"column"}
+        >
+          {/* Search field */}
           <div className={classes.searchContainer}>
-          <TextField
-          variant={"standard"}  
-          label={"Search"}
-          />
+            <TextField
+              variant={"standard"}
+              size={"small"}
+              value={props.searchValue}
+              onChange={props.searchHandler}
+              label={"Search"}
+            />
           </div>
-          <SubjectInfoTable />
+          {/* Subject info table */}
+          <SubjectInfoTable studentSubjectDetails={props.distinctMatch} />
         </Grid>
-      )
+      );
     }
-  }
-
+  };
+  console.log(props.data)
   return (
     <Popover
       id={id}
@@ -162,10 +193,12 @@ function SimilarityPopup(props) {
         </Grid>
         {renderTabContent()}
       </Grid>
+      {/* Render list of accordians based on the data that is passed */}
       {value === 0 &&
-       <Accordian />
-
-      }
+        props.data.map((data, index) => {
+          console.log(data)
+          return <Accordian data={data} />;
+        })}
     </Popover>
   );
 }

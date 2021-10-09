@@ -2,8 +2,14 @@ import axios from "axios"
 import { URL } from "../Actions/URL"
 
 export const getLatestCv = async (studentId, productId) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
     try {
-        const response = axios.get(URL+"/api/v1/cv/upload/"+studentId+"/"+productId)
+        const response = await axios.get(URL+"/api/v1/cv/upload/"+studentId+"/"+productId,{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -11,8 +17,15 @@ export const getLatestCv = async (studentId, productId) => {
 }
 
 export const saveInterestDetails = async (studentId, productId, data) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     try {
-        const response = axios.put(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/areaofinterest", data);
+        const response = await axios.put(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/areaofinterest", data, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        });
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -20,8 +33,15 @@ export const saveInterestDetails = async (studentId, productId, data) =>{
 }
 
 export const getInterestDetails = async (studentId, productId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     try {
-        const response = axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/areaofinterest");
+        const response = await axios.get(URL+"/api/v1/pga/students/"+studentId+"/product/"+productId+"/areaofinterest",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        });
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -29,8 +49,15 @@ export const getInterestDetails = async (studentId, productId) =>{
 }
 
 export const deleteInterestDetails = async (interestId) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
     try {
-        const response = axios.delete(URL+"/api/v1/pga/areaofintesrest/"+interestId);
+        const response = await axios.delete(URL+"/api/v1/pga/areaofintesrest/"+interestId, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        });
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message

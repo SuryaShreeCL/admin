@@ -22,10 +22,12 @@ import PpgaCallNotes from "./PpgaCallNotes";
 import TenthForm from "./TenthForm";
 import TestResults from "./TestResults";
 import DiplomaForm from "./DiplomaForm/Index";
+import SemesterForm from "./SemesterForm/Index";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import "./InterestDetail.css";
-import { setPoperAnchorEl } from "../../Actions/HelperAction";
+import { setPoperAnchorEl, getAcademicType, isClickedSem} from "../../Actions/HelperAction";
 import TwelthForm from "./TwelthForm";
+import Index from "./AcademicSummary/Index";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -61,9 +63,10 @@ class ProfileGapRoot extends Component {
   //   }
   // };
 
-  handleClose = () => {
+  handleClose = (event) => {
     this.setState({
       open: false,
+      anchorEl : null
     });
   };
   menuOpen = (event) => {
@@ -84,7 +87,6 @@ class ProfileGapRoot extends Component {
   tabTheme = createTheme({
     overrides: {
       MuiTab: {
-        
         wrapper: {
           display: "flex",
           flexDirection: "row-reverse",
@@ -105,8 +107,69 @@ class ProfileGapRoot extends Component {
     );
   };
 
+  // diploma handling
+  handleDiplomaClick = () => {
+    console.log("diploma")
+    this.setState({ value: 8, open: false });
+    this.props.getAcademicType("diploma");
+  };
+  
+  // ug handling
+  handleUgClick = () => {
+    console.log("ug")
+    this.setState({ 
+      value : 9, open : false
+    })
+    this.props.getAcademicType("ug")
+  }
+
+  // pg handling
+  handlePgClick = () => {
+    console.log("pg")
+    this.setState({ 
+      value : 10, open : false
+    })
+    this.props.getAcademicType("pg")
+  }
+
+
+  componentDidUpdate(prevProps,prevState){
+    console.log(this.props,prevProps)
+    if(this.props.clickedSem !== prevProps.clickedSem){
+      this.setState({
+        value : 12
+      })
+    }
+    // if(this.props.clickedBack !== prevProps.clickedBack){
+      
+      // this.setState({
+      //   value : 8
+      // })
+    // }
+
+    
+  }
+
+  backHandler = () => {
+    this.setState({
+      value : 8
+    })
+  }
+
+  menus = [
+    { label : "10th", value : 6, handler : ()=>this.setState({ value: 6, open: false })},
+    { label : "12th", value : 7, handler : ()=>this.setState({ value: 7, open: false })},
+    { label : "Diploma", value : 8, handler : ()=>this.handleDiplomaClick()},
+    { label : "Undergraduate", value : 9, handler : ()=>this.handleUgClick()},
+    { label : "Postgraduate", value : 10, handler : ()=>this.handlePgClick()},
+    { label : "Academics Summary", value : 11, handler : ()=>this.setState({ value: 11, open: false })},
+  ]
+
   render() {
+    
     const { classes } = this.props;
+    console.log(this.props.clickedBack)
+    // console.log(object)
     const open = Boolean(this.props.popperAnchorEl);
     const id = open ? "simple-popper" : undefined;
     return (
@@ -158,7 +221,14 @@ class ProfileGapRoot extends Component {
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="Academic Details"
-                    onMouseOver={(e) => this.menuOpen(e)}
+                    onMouseEnter={(e) =>{
+                      console.log("Mouse is entering")
+                      this.menuOpen(e)
+                    }
+                      }
+                    onMouseLeave={(e)=>{
+                     
+                    }}
                     icon={
                       <ExpandMoreIcon
                         style={{ color: "black", marginTop: "7px" }}
@@ -169,18 +239,17 @@ class ProfileGapRoot extends Component {
                   />
                 </ThemeProvider>
               </Tabs>
-             {this.state.value > 5 ? 
-             <IconButton
-             id={id}
-             onClick={this.handlePopupClick}
-             className={classes.iconButtonStyle}
-             color="primary"
-             aria-label="add to shopping cart"
-           >
-             <AccountCircleRoundedIcon fontSize={"large"} />
-           </IconButton> : null
-            } 
-              
+              {this.state.value > 5 ? (
+                <IconButton
+                  id={id}
+                  onClick={this.handlePopupClick}
+                  className={classes.iconButtonStyle}
+                  color="primary"
+                  aria-label="add to shopping cart"
+                >
+                  <AccountCircleRoundedIcon fontSize={"large"} />
+                </IconButton>
+              ) : null}
             </Paper>
             <TabPanel value={this.state.value} index={0}>
               <Dashboard {...this.props} />
@@ -205,9 +274,31 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={7}>
               <TwelthForm {...this.props} />
-              </TabPanel>
+            </TabPanel>
             <TabPanel value={this.state.value} index={8}>
               <DiplomaForm {...this.props} />
+              {/* <SemesterForm {...this.props} /> */}
+            </TabPanel>
+            {/* common semester form */}
+            <TabPanel value={this.state.value} index={9}>
+            <DiplomaForm {...this.props} />
+
+              {/* <SemesterForm 
+              backHandler = {this.backHandler}
+              {...this.props} /> */}
+            </TabPanel>
+            <TabPanel value={this.state.value} index={10}>
+              <DiplomaForm {...this.props} />
+              {/* <SemesterForm {...this.props} /> */}
+            </TabPanel>
+            <TabPanel value={this.state.value} index={11}>
+              <Index {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={12}>
+
+              <SemesterForm 
+              backHandler = {this.backHandler}
+              {...this.props} />
             </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
@@ -215,21 +306,19 @@ class ProfileGapRoot extends Component {
           </Grid> */}
         </Grid>
         <Menu
-          style={{ top: "65px" }}
           anchorEl={this.state.anchorEl}
           open={this.state.open}
           onClose={this.handleClose}
+          getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <MenuItem onClick={() => this.setState({ value: 6, open: false })}>
-            10th
-          </MenuItem>
-          <MenuItem onClick={() => this.setState({ value: 7, open: false })}>12th</MenuItem>
-          <MenuItem onClick={() => this.setState({ value: 8, open: false })}>Diploma</MenuItem>
-          <MenuItem onClick={this.handleClose}>Undergraduate</MenuItem>
-          <MenuItem onClick={this.handleClose}>Postgraduate</MenuItem>
-          <MenuItem onClick={this.handleClose}>Academic Summary</MenuItem>
+          {this.menus.map((eachMenu, index)=>{
+            return (
+              <MenuItem classes={{selected : classes.menuItemStyle}} selected={eachMenu.value === this.state.value}  onClick={eachMenu.handler}>{eachMenu.label}</MenuItem>
+            )
+          })}
+         
         </Menu>
       </div>
     );
@@ -244,12 +333,22 @@ const useStyles = (theme) => ({
     top: "7px",
     right: "0px",
   },
+  menuItemStyle : {
+    backgroundColor : "#ffffff !important",
+    color : "#009be5"
+  }
 });
 const mapStateToProps = (state) => {
   return {
     popperAnchorEl: state.HelperReducer.popperState.popperAnchorEl,
+    academicTypes: state.HelperReducer.academicType,
+    clickedSem: state.HelperReducer.clickedSem,
+
+
   };
 };
-export default connect(mapStateToProps, { setPoperAnchorEl })(
-  withStyles(useStyles)(ProfileGapRoot)
-);
+export default connect(mapStateToProps, {
+  setPoperAnchorEl,
+  getAcademicType,
+  isClickedSem,
+})(withStyles(useStyles)(ProfileGapRoot));
