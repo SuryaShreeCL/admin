@@ -96,3 +96,24 @@
     text-transform: capitalize;
 }
 
+.grid_item1_div {
+    /* display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px" */
+    display: flex;
+    flex-direction: column;
+    grid-gap: 15px;
+    padding: 19px;
+}
+.grid_item3_div {
+    display: flex;
+    grid-gap: 60px;
+}
+.collegeName_div {
+    /* display:"flex",gridGap:'60px' */
+    display: flex;
+    grid-gap: 60px;
+}
+.batch_div {
+    display: flex;
+    grid-gap: 102px;
+}
+

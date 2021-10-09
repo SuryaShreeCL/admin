@@ -56,6 +56,7 @@ function Accordian(props) {
     e.stopPropagation();
     dispatch(saveCopyData(props.data.studentSubjectDetails));
   };
+  console.log(props)
   return (
     <Accordion classes={{ root: classes.accordianSummaryStyle }}>
       <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
@@ -84,7 +85,7 @@ function Accordian(props) {
       <hr className={classes.dividerStyle} />
       <AccordionDetails>
         <SubjectInfoTable
-          studentSubjectDetails={props.data.studentSubjectDetails}
+          studentSubjectDetails={props.data.studentSubjectDetails ? props.data.studentSubjectDetails : []}
         />
       </AccordionDetails>
     </Accordion>

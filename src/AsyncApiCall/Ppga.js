@@ -154,3 +154,40 @@ export const deleteStudentBacklogSem = async (backlogSemId) =>{
         return error.response && error.response.data.message ? error.response.data.message : error.message
     }
 }
+
+
+// ug,pg,diploma filter
+
+// similar student
+export const getSimilarStudentsByAcademic = async (studentId, grade, year) => {
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    try {
+        const response = await axios.get(URL+"/api/v1/students/"+studentId+"/pga/college/similarStudent?grade="+grade+year, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+
+// distinct student
+
+export const getDistinctSubjectsByAcademic = async (studentId, grade, query) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+    try {
+        const response = await axios.get(URL+"/api/v1/students/"+studentId+"/pga/college/distinctSubject?grade="+grade+query, {
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            }
+        })
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+

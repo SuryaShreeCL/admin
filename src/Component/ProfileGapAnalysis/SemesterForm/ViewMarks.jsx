@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Typography, Grid, TextField } from "@material-ui/core";
+import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import '../DiplomaForm/DiplomaForm.css';
-// import { isNumber } from '../../Validation';
 
-export default class ViewMarks extends Component {
+class ViewMarks extends Component {
   
   
 
   render() {
+    const { classes} = this.props;
+    console.log(classes)
     const { semesterGpa, cgpa, formulaEmployed, percentage, gpaError, cgpaError, formulaError, percentageError } = this.props;
     console.log(this.props);
     return (
@@ -19,6 +20,8 @@ export default class ViewMarks extends Component {
             label="Semester GPA"
             name="semesterGpa"
             value={semesterGpa}
+            classes={{root:classes.textRoot}}
+
             onChange={this.props.handleChange}
             fullWidth
             error={gpaError.length > 0}
@@ -32,6 +35,8 @@ export default class ViewMarks extends Component {
             label="CGPA"
             value={cgpa}
             name="cgpa"
+            classes={{root:classes.textRoot}}
+
             onChange={this.props.handleChange}
             fullWidth
             error={cgpaError.length > 0}
@@ -44,6 +49,8 @@ export default class ViewMarks extends Component {
             label="Formula Employed"
             value={formulaEmployed}
             name="formulaEmployed"
+            classes={{root:classes.textRoot}}
+
             onChange={this.props.handleChange}
             fullWidth
             error={formulaError.length > 0}
@@ -56,6 +63,8 @@ export default class ViewMarks extends Component {
             label="Percentage"
             value={percentage}
             name="percentage"
+            classes={{root:classes.textRoot}}
+
             onChange={this.props.handleChange}
             fullWidth
             error={percentageError.length > 0}
@@ -66,3 +75,14 @@ export default class ViewMarks extends Component {
     );
   }
 }
+
+const useStyles = (theme) => ({
+  textRoot: {
+    "& .MuiFormLabel-root": {
+      fontSize: "12px !important" ,
+      whiteSpace : "no-wrap"
+    }  },
+});
+
+export default (withStyles(useStyles)(ViewMarks));
+

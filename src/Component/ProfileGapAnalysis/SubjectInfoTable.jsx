@@ -29,14 +29,14 @@ import { saveCopyData } from '../../Actions/HelperAction';
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.studentSubjectDetails.map((row, index) => (
+            {props.studentSubjectDetails && props.studentSubjectDetails.map((row, index) => (
               <TableRow
                 className={index % 2 !== 0 && classes.tableRow}
-                key={row.subjectDetails.subjectCode}
+                // key={row.subjectDetails && row.subjectDetails.subjectCode}
               >
-                <TableCell align={"center"}>{row.subjectDetails.subjectCode}</TableCell>
-                <TableCell align={"center"}>{row.subjectDetails.subjectName}</TableCell>
-                <TableCell align={"center"}>{row.subjectDetails.maximumMarks}</TableCell>
+                <TableCell align={"center"}>{row.subjectDetails && row.subjectDetails.subjectCode}</TableCell>
+                <TableCell align={"center"}>{row.subjectDetails && row.subjectDetails.subjectName}</TableCell>
+                <TableCell align={"center"}>{row.subjectDetails && row.subjectDetails.maximumMarks}</TableCell>
                 <TableCell align={"center"}>
                   <Button size={"small"} variant={"outlined"} onClick={()=>handleCopy(row)} color={"primary"}>
                     Copy

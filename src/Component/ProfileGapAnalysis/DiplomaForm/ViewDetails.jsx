@@ -63,8 +63,12 @@ export default class ViewDetails extends Component {
             xl={4}
             lg={4} 
             display='flex'>
-            <div style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}>
-             <div style={{display:"flex",gridGap:'60px'}}>
+            <div className={"grid_item1_div"}
+            // style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}
+            >
+             <div className={"collegeName_div"}
+            //  style={{display:"flex",gridGap:'60px'}}
+             >
                <Typography  color="textSecondary">
                College Name
                </Typography>
@@ -72,7 +76,9 @@ export default class ViewDetails extends Component {
                {item.college && item.college.name}
                </Typography>
              </div>
-             <div style={{display:"flex",gridGap:"60px"}}>
+             <div className={"collegeName_div"}
+            //  style={{display:"flex",gridGap:"60px"}}
+             >
                 <Typography  color="textSecondary">
                 University Name
                 </Typography>
@@ -105,8 +111,12 @@ export default class ViewDetails extends Component {
             xl={4}
             lg={4} 
             display='flex'>
-            <div style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}>
-             <div style={{display:"flex",gridGap:'60px'}}>
+            <div className={"grid_item1_div"}
+            // style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}
+            >
+             <div className={"collegeName_div"}
+            //  style={{display:"flex",gridGap:'60px'}}
+             >
                <Typography  color="textSecondary">
                Department
                </Typography>
@@ -115,7 +125,9 @@ export default class ViewDetails extends Component {
              
                </Typography>
              </div>
-             <div style={{display:"flex",gridGap:"102px"}}>
+             <div className={"batch_div"}
+            //  style={{display:"flex",gridGap:"102px"}}
+             >
                 <Typography color="textSecondary">
                 Batch
                 </Typography>
@@ -134,8 +146,12 @@ export default class ViewDetails extends Component {
             xl={4}
             lg={4} 
             display='flex'>
-            <div style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}>
-             <div style={{display:"flex",gridGap:'60px'}}>
+            <div className={"grid_item1_div"}
+            // style={{display:'flex',flexDirection:"column",gridGap:"15px",padding:"19px"}}
+            >
+             <div className={"grid_item3_div"}
+            //  style={{display:"flex",gridGap:'60px'}}
+             >
                <Typography  color="textSecondary">
                Cumulative CGPA               
                </Typography>

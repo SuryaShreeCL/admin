@@ -1,4 +1,4 @@
-import { Typography, Grid, TextField } from "@material-ui/core";
+import { Typography, Grid, TextField,withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -137,7 +137,6 @@ class ViewSemesterDetails extends Component {
               name="score"
               disabled
               value={score}
-
               onChange={(e) => this.handleChange(e)}
               fullWidth
             />
@@ -182,6 +181,7 @@ class ViewSemesterDetails extends Component {
     );
   }
 }
+
 
 const mapStateToProps = (state) => {
   console.log(state);

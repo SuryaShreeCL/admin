@@ -156,7 +156,7 @@ function SimilarityPopup(props) {
       );
     }
   };
-
+  console.log(props.data)
   return (
     <Popover
       id={id}
@@ -194,6 +194,7 @@ function SimilarityPopup(props) {
       {/* Render list of accordians based on the data that is passed */}
       {value === 0 &&
         props.data.map((data, index) => {
+          console.log(data)
           return <Accordian data={data} />;
         })}
     </Popover>
