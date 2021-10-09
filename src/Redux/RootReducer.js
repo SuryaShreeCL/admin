@@ -27,6 +27,7 @@ import {
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  wallWebinarListReducer,
 } from '../Reducer/WallReducer';
 import StudentMarkDetailReducer from '../Reducer/MarkReducer';
 import ScoreDetailsReducer from '../Reducer/ScoreReducer';
@@ -79,6 +80,7 @@ export default combineReducers({
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  wallWebinarListReducer,
   //TESTS
   testCreateReducer,
   testDeleteReducer,

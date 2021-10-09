@@ -91,8 +91,23 @@ class AdmissionServices extends Component {
       console.log(response.data)
       if(response.status === 200)
       {
+      for(let i=0; i < response.data.onboardingVerificationStatus.length ;i++){
+        console.log(response.data.onboardingVerificationStatus[i].status)
+       if(response.data.onboardingVerificationStatus[i] && response.data.onboardingVerificationStatus[i].status === "NotVerified"){
+       return (
         this.setState({
-            verifydetail : response.data && response.data.onboardingVerificationStatus
+          buttonstatus : true
+        })
+       )
+       }
+      }
+    }
+    else { 
+      this.setState({
+        snackmsg : "Something Went Wrong",
+        snackvariant : "error",
+        snackopen : true,
+        buttonstatus : true
       })
     }
     }))

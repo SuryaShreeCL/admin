@@ -18,12 +18,13 @@ import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
 import { scheduleTest } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
+import CloseIcon from '@material-ui/icons/Close';
 import { DateTimePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     position: 'absolute',
     top: theme.spacing(5),
   },
@@ -71,6 +72,11 @@ export default function ScheduleLater(props) {
   return (
     <>
       <Dialog open={scheduler} classes={{ paper: classes.dialog }}>
+        <CloseIcon
+          fontSize='medium'
+          onClick={() => setScheduler(false)}
+          style={{ position: 'relative', marginLeft: 'auto' }}
+        />
         <DialogTitle className={classes.dialogTitle}>
           <IconButton disableRipple className={classes.titleIcon}>
             <ScheduleIcon />
@@ -111,10 +117,12 @@ export default function ScheduleLater(props) {
                               </InputAdornment>
                             ),
                           }}
+                          style={{ width: '100%', marginBottom: '1rem' }}
                           value={values.startDateTime}
                           name='startDateTime'
                           inputVariant='outlined'
                           label='Start Date & Time'
+                          disablePast
                           onChange={(val) => {
                             setFieldValue('startDateTime', val);
                           }}
@@ -129,8 +137,9 @@ export default function ScheduleLater(props) {
                               </InputAdornment>
                             ),
                           }}
+                          disablePast
+                          style={{ width: '100%' }}
                           value={values.endDateTime}
-                          style={{ marginLeft: '1.5rem' }}
                           name='endDateTime'
                           inputVariant='outlined'
                           label='End Date & Time'

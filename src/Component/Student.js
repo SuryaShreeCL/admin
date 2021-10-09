@@ -84,7 +84,7 @@ export class Student extends Component {
       phone: null,
       provider: "",
       toogleButton: false,
-      password: "123456",
+      password: "",
       studentId: null,
       isActive: true,
       firstNameHelperText: "",
@@ -418,7 +418,7 @@ export class Student extends Component {
         college: this.state.college.id,
         department: this.state.department.id,
         roles: ["Student"],
-        password: this.state.password,
+        password: this.state.phone,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
         avatar: "",
@@ -506,13 +506,13 @@ export class Student extends Component {
           isLoading: false,
         })
       : this.setState({ phoneHelperText: "" });
-    this.state.college === null || this.state.college.length === 0
+    this.state.college === null || this.state.college.length === 0 || this.state.college.id === null
       ? this.setState({
           collegeHelperText: "Please fill the required field",
           isLoading: false,
         })
       : this.setState({ collegeHelperText: "" });
-    this.state.department === null || this.state.department.length === 0
+    this.state.department === null || this.state.department.length === 0 || this.state.department.id === null
       ? this.setState({
           departmentHelperText: "Please fill the required field",
           isLoading: false,
@@ -543,6 +543,8 @@ export class Student extends Component {
       this.state.phone.length !== 0 &&
       this.state.college !== null &&
       this.state.college.length !== 0 &&
+      this.state.college.id !== null && 
+      this.state.department.id !== null &&
       this.state.department !== null &&
       this.state.department.length !== 0 &&
       this.state.studentId !== null &&
@@ -561,7 +563,7 @@ export class Student extends Component {
         internshipAccess: this.state.internAccess === false ? "no" : "yes",
         lmsAccess: this.state.lmsAccess === false ? "false" : "true",
         provider: this.state.toogleButton === true ? "Google" : "Local",
-        password: this.state.password,
+        password: this.state.phone,
       };
 
       if (
@@ -1235,7 +1237,7 @@ export class Student extends Component {
                   variant="outlined"
                   size="small"
                   disabled
-                  value={this.state.password || ""}
+                  value={this.state.phone || ""}
                   fullWidth
                   label="Password"
                 />

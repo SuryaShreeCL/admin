@@ -32,7 +32,6 @@ import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
 import ScheduleLater from '../Components/ScheduleLater';
 
-
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
 const useStyles = makeStyles((theme) => ({
@@ -159,13 +158,13 @@ export default function LiveTest() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-          />
+          /> */}
           <Controls.Button
             text='Create New Test'
             variant='contained'
@@ -187,8 +186,15 @@ export default function LiveTest() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.duration}</TableCell>
+                  <TableCell style={{ color: '#1093FF' }}>{item.name}</TableCell>
+                  <TableCell>
+                    <ScheduleIcon
+                      fontSize='small'
+                      color='primary'
+                      style={{ marginRight: '5px', marginBottom: '3px' }}
+                    />
+                    {item.duration}
+                  </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.attemptedStudents}</TableCell>

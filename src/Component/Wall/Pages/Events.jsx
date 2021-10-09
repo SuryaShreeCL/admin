@@ -112,6 +112,7 @@ export default function Events() {
       pathname: editPath,
       recordForEdit: item,
       postType: 'Event',
+      postTypeTab: 3,
     });
     setOpenDrawer(false);
   };
@@ -152,13 +153,13 @@ export default function Events() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-          />
+          /> */}
           <Controls.Button
             text='Create New Event'
             variant='contained'
@@ -169,6 +170,8 @@ export default function Events() {
               history.push({
                 pathname: createPath,
                 type: true,
+                postType: 'Event',
+                postTypeTab: 3,
               });
             }}
           />

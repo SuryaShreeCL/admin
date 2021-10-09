@@ -28,7 +28,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
-import { renderListCategory } from '../../Utils/Helpers';
 import ScheduleLater from '../Components/ScheduleLater';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -184,8 +183,15 @@ export default function DraftTest() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.duration}</TableCell>
+                  <TableCell style={{ color: '#1093FF' }}>{item.name}</TableCell>
+                  <TableCell>
+                    <ScheduleIcon
+                      fontSize='small'
+                      color='primary'
+                      style={{ marginRight: '5px', marginBottom: '3px' }}
+                    />
+                    {item.duration}
+                  </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.status}</TableCell>
