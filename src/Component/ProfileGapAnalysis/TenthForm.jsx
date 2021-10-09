@@ -7,10 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import FormGroup from "@material-ui/core/FormGroup";
+import { ExpandMore } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveCopyData } from "../../Actions/HelperAction";
+import { saveCopyData, saveTemplate } from "../../Actions/HelperAction";
 import { sscexamboard } from "../../Actions/Student";
 import {
   deleteSubjectDetailsById,
@@ -21,6 +22,7 @@ import {
 } from "../../AsyncApiCall/Ppga";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import FullFeaturedCrudGrid from "../../Utils/EditableTable";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import {
   isEmptyObject,
@@ -69,6 +71,15 @@ function TenthForm(props) {
       hidden: true,
     },
     {
+      title: "Sequence No",
+      field: "",
+      cellStyle : {
+        textAlign : "center"
+      },
+      render: (rowData, renderType) =>
+      renderType === "row" ? rowData.tableData.id + 1 : ""
+    },
+    {
       title: "Subject Code",
       field: "subjectDetails.subjectCode",
       render: (rowData, renderType) =>
@@ -78,7 +89,7 @@ function TenthForm(props) {
           if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
             return true;
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -93,7 +104,7 @@ function TenthForm(props) {
           if (!isEmptyString(rowData.subjectDetails.subjectName)) {
             return true;
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -101,16 +112,23 @@ function TenthForm(props) {
     {
       title: "Maximum Marks",
       field: "subjectDetails.maximumMarks",
+      cellStyle : {
+        textAlign : "center"
+      },
       type: "numeric",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
-            return true;
+            if(rowData.subjectDetails.maximumMarks <= 100){
+              return true
+            }else{
+              return { isValid: false, helperText: "It should be less than 100" };
+            }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          }
+            return { isValid: false};
+          } 
         }
       },
     },
@@ -118,13 +136,19 @@ function TenthForm(props) {
       title: "Score",
       field: "score",
       type: "numeric",
-
+      cellStyle : {
+        textAlign : "right"
+      },
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
-            return true;
+            if(rowData.score <= 100){
+              return true
+            }else{
+              return { isValid: false, helperText: "It should be less than 100" };
+            }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -148,6 +172,7 @@ function TenthForm(props) {
   );
   // Getting Copied data from the reducer
   const { copiedData } = useSelector((state) => state.HelperReducer);
+
   // Getting and setting SSC data for the table and form
   const getAndSetPgaDetails = () => {
     getStudentPgaByGrade(props.match.params.studentId, "ssc").then(
@@ -190,15 +215,23 @@ function TenthForm(props) {
       }
     );
   };
+
   // Getting and setting student match list in state
+
   const getAndSetStudentMatch = (year) => {
     getSimilarStudentsByGrade(props.match.params.studentId, "ssc", year).then(
       (response) => {
         if (response.status === 200) {
           setStudentMatch(response.data.data);
+        }else{
+          setSnack({
+            snackMsg : response,
+            snackVariant : "error",
+            snackOpen : true
+          })
         }
       }
-    );
+    )
   };
 
   // Getting and setting distinct match list in state
@@ -237,6 +270,7 @@ function TenthForm(props) {
         }
       } else {
         setData(copiedData);
+        dispatch(saveTemplate(copiedData))
         dispatch(saveCopyData(""));
       }
     }
@@ -286,7 +320,7 @@ function TenthForm(props) {
       !isEmptyObject(board.name) &&
       !isEmptyString(cgpa.name) &&
       !isEmptyObject(gradeScale.name) &&
-      gradeScale.name.value > parseInt(cgpa.name)
+      gradeScale.name.value >= parseInt(cgpa.name)
     ) {
       let requestBody = {
         examBoard: {
@@ -383,7 +417,7 @@ function TenthForm(props) {
   };
   // This function handles the filter based on year
   const onYearClick = (year) => {
-    getAndSetStudentMatch("&q=" + year);
+    getAndSetStudentMatch("&year=" + year);
     setFilterYear(year);
   };
 
@@ -425,6 +459,7 @@ function TenthForm(props) {
               id="boardName"
               options={examBoardList.filter((el) => el.name !== null) || []}
               value={board.name}
+              popupIcon={<ExpandMore color={"inherit"} />}
               getOptionLabel={(option) => option.name}
               onChange={(e, newValue) =>
                 setBoard({
@@ -450,6 +485,7 @@ function TenthForm(props) {
             <Autocomplete
               id="combo-box-demo"
               options={choice}
+              popupIcon={<ExpandMore color={"inherit"} />}
               getOptionLabel={(option) => option.title}
               value={gradeScale.name}
               onChange={(e, newValue) =>
@@ -517,6 +553,7 @@ function TenthForm(props) {
           <FullFeaturedCrudGrid
             columns={columns}
             data={data}
+            localization={{ body: { editRow: { deleteText: 'Are you sure Want to Delete this Row' } } }}
             onRowDelete={handleRowDelete}
             onRowUpdate={handleRowUpdate}
             onRowAdd={handleRowAdd}
@@ -567,14 +604,14 @@ function TenthForm(props) {
         </Grid>
         <div className={classes.bottomContainer}>
           <hr />
-          <Button
+          <PrimaryButton
             onClick={handleSubmit}
             className={classes.bottomBtn}
             variant={"contained"}
             color={"primary"}
           >
             Save
-          </Button>
+          </PrimaryButton>
         </div>
       </Grid>
       <Grid item md={5} lg={5} xl={5} sm={12} xs={12}>

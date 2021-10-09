@@ -111,7 +111,9 @@ function SimilarityPopup(props) {
             <Menu
               id="simple-menu"
               anchorEl={filterAnchorEl}
-              keepMounted
+              getContentAnchorEl={null}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              transformOrigin={{ vertical: "top", horizontal: "center" }}              keepMounted
               open={filterOpen}
               onClose={() => dispatch(setFilterAnchorEl(null))}
             >

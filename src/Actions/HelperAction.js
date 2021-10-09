@@ -36,4 +36,8 @@ export const saveCopyData = (data) =>{
     }
 }
 
-
+export const saveTemplate = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.saveTemplate, payload : data})
+    }
+}

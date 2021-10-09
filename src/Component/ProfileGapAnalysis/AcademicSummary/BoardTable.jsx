@@ -16,7 +16,7 @@ function BoardTable(props) {
           <TableRow>
             {/* Dynamically rendering table column */}
             {props.subjectTableFields.map((eachItem, index) => {
-              return <TableCell align="center">{eachItem}</TableCell>;
+              return <TableCell align={index === 0 || props.subjectTableFields.length === index +1 ? "center" : "left"}>{eachItem}</TableCell>;
             })}
           </TableRow>
         </TableHead>
@@ -24,13 +24,12 @@ function BoardTable(props) {
           {/* Rendering subject details in table */}
           {props.subjects.map((row) => (
             <TableRow
-              key={row.classNameOrSemester}
               className={classes.tableRowColor}
             >
               <TableCell align={"center"}>{row.classNameOrSemester}</TableCell>
-              <TableCell align="center">{row.schoolOrCollegeName}</TableCell>
-              <TableCell align="center">{row.subjectName}</TableCell>
-              <TableCell align="center">{row.gradeFormat}</TableCell>
+              <TableCell align="left">{row.schoolOrCollegeName}</TableCell>
+              <TableCell align="left">{row.subjectName}</TableCell>
+              <TableCell align="left">{row.gradeFormat}</TableCell>
               <TableCell align="center">{row.cumulativeResult}</TableCell>
             </TableRow>
           ))}

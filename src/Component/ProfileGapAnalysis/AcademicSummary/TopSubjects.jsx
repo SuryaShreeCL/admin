@@ -57,6 +57,34 @@ function TopSubjects(props) {
     },
   };
 
+  // Render chart container
+
+  const renderChart = () =>{
+    if(props.degreeType !== null){
+      if(props.degreeType.id === "ug" || props.degreeType.id === "pg" || props.degreeType.id === "diploma"){
+        return (
+          <Grid item md={4}>
+          <div className={classes.chartContainer}>
+            <Line data={data} options={options} />
+            <div className={classes.chartLegendContainer}>
+              <div className={classes.dotContainer}>
+                {/* This div behaves like a blue dot */}
+                <div className={classes.blueDot}></div>
+                <Typography>CGPA</Typography>
+              </div>
+              <div className={classes.dotContainer}>
+                {/* This div behaves like a red dot */}
+                <div className={classes.redDot}></div>
+                <Typography>SGPA</Typography>
+              </div>
+            </div>
+          </div>
+        </Grid>
+        )
+      }
+      
+    }
+  }
   return (
     <Grid container spacing={2}>
       {/* Subject details table */}
@@ -81,23 +109,7 @@ function TopSubjects(props) {
           })}
         </Grid>
       </Grid>
-      <Grid item md={4}>
-        <div className={classes.chartContainer}>
-          <Line data={data} options={options} />
-          <div className={classes.chartLegendContainer}>
-            <div className={classes.dotContainer}>
-              {/* This div behaves like a blue dot */}
-              <div className={classes.blueDot}></div>
-              <Typography>CGPA</Typography>
-            </div>
-            <div className={classes.dotContainer}>
-              {/* This div behaves like a red dot */}
-              <div className={classes.redDot}></div>
-              <Typography>SGPA</Typography>
-            </div>
-          </div>
-        </div>
-      </Grid>
+      {renderChart()}
     </Grid>
   );
 }

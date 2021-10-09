@@ -2,14 +2,14 @@ import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveCopyData } from "../../Actions/HelperAction";
+import { saveCopyData, saveTemplate } from "../../Actions/HelperAction";
 import { sscexamboard } from "../../Actions/Student";
 import {
   deleteSubjectDetailsById,
   getDistinctSubjects,
   getSimilarStudentsByGrade,
   getStudentPgaByGrade,
-  submitPga
+  submitPga,
 } from "../../AsyncApiCall/Ppga";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import EditableTable from "../../Utils/EditableTable";
@@ -18,11 +18,13 @@ import {
   isEmptyObject,
   isEmptyString,
   isNanAndEmpty,
-  isNumber
+  isNumber,
 } from "../Validation";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import CvViewer from "./CvViewer";
 import { useStyles } from "./FormStyles";
 import SimilarityPopup from "./SimilarityPopup";
+import { ExpandMore } from "@material-ui/icons";
 
 function TwelthForm(props) {
   // Setting up initial state values
@@ -62,17 +64,26 @@ function TwelthForm(props) {
   });
   const [studentDocument, setStudentDocument] = useState("");
   const [data, setData] = useState([]);
-  const [ studentMatch, setStudentMatch ] = useState([])
-  const [ distinctMatch, setDistinctMatch ] = useState([])
+  const [studentMatch, setStudentMatch] = useState([]);
+  const [distinctMatch, setDistinctMatch] = useState([]);
   const { copiedData } = useSelector((state) => state.HelperReducer);
-  const [ search, setSearch ] = useState("")
-  const [ filterYear, setFilterYear ] = useState("");
-// Setting up column config for the table
+  const [search, setSearch] = useState("");
+  const [filterYear, setFilterYear] = useState("");
+  // Setting up column config for the table
   const columns = [
     {
       title: "Id",
       field: "id",
       hidden: true,
+    },
+    {
+      title: "Sequence No",
+      field: "",
+      cellStyle: {
+        textAlign: "center",
+      },
+      render: (rowData, renderType) =>
+        renderType === "row" ? rowData.tableData.id + 1 : "",
     },
     {
       title: "Subject Code",
@@ -84,7 +95,7 @@ function TwelthForm(props) {
           if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
             return true;
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -99,7 +110,7 @@ function TwelthForm(props) {
           if (!isEmptyString(rowData.subjectDetails.subjectName)) {
             return true;
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -108,14 +119,24 @@ function TwelthForm(props) {
       title: "Maximum Marks",
       field: "subjectDetails.maximumMarks",
       type: "numeric",
+      cellStyle: {
+        textAlign: "center",
+      },
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
-            return true;
+            if (rowData.subjectDetails.maximumMarks <= 100) {
+              return true;
+            } else {
+              return {
+                isValid: false,
+                helperText: "It should be less than 100",
+              };
+            }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -124,20 +145,29 @@ function TwelthForm(props) {
       title: "Score",
       field: "score",
       type: "numeric",
-
+      cellStyle: {
+        textAlign: "right",
+      },
       validate: (rowData) => {
         console.log(";;;;;", rowData);
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
-            return true;
+            if (rowData.score <= 100) {
+              return true;
+            } else {
+              return {
+                isValid: false,
+                helperText: "It should be less than 100",
+              };
+            }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
     },
   ];
-// Setting up styles 
+  // Setting up styles
   const classes = useStyles();
   // Setting up dispatch for doing api calls
   const dispatch = useDispatch();
@@ -147,15 +177,15 @@ function TwelthForm(props) {
     { title: "4", value: 4 },
     { title: "%", value: 100 },
   ];
-// Getting exam board list from the reducer 
+  // Getting exam board list from the reducer
   const examBoardList = useSelector(
     (state) => state.StudentReducer.sscexamboard
   );
-// Fetching required data that need from API 
+  // Fetching required data that need from API
   useEffect(() => {
     getAndSetPgaDetails();
     getAndSetStudentMatch("");
-    getAndSetDistinctMatch("")
+    getAndSetDistinctMatch("");
     dispatch(sscexamboard());
   }, []);
 
@@ -177,6 +207,7 @@ function TwelthForm(props) {
         }
       } else {
         setData(copiedData);
+        dispatch(saveTemplate(copiedData))
         dispatch(saveCopyData(""));
       }
     }
@@ -184,14 +215,15 @@ function TwelthForm(props) {
 
   // Getting and setting student match list in state
 
-  const getAndSetStudentMatch = (year) =>{
-    getSimilarStudentsByGrade(props.match.params.studentId,"hsc", year)
-    .then(response=>{
-      if(response.status === 200){
-        setStudentMatch(response.data.data)
+  const getAndSetStudentMatch = (year) => {
+    getSimilarStudentsByGrade(props.match.params.studentId, "hsc", year).then(
+      (response) => {
+        if (response.status === 200) {
+          setStudentMatch(response.data.data);
+        }
       }
-    })
-  }
+    );
+  };
 
   // Getting and setting HSC data for the table and form
 
@@ -234,17 +266,17 @@ function TwelthForm(props) {
       }
     );
   };
-// Get and set student distinct match list
-  const getAndSetDistinctMatch = (query) =>{
-    getDistinctSubjects(props.match.params.studentId,"hsc",query)
-    .then(response=>{
-      if(response.status === 200){
-        setDistinctMatch(response.data.data)
+  // Get and set student distinct match list
+  const getAndSetDistinctMatch = (query) => {
+    getDistinctSubjects(props.match.params.studentId, "hsc", query).then(
+      (response) => {
+        if (response.status === 200) {
+          setDistinctMatch(response.data.data);
+        }
       }
-    })
-    
-  }
-// This function handles submit 
+    );
+  };
+  // This function handles submit
   const handleSubmit = () => {
     // Validating whether all fields are filled or not
     isEmptyString(schoolName.name)
@@ -274,39 +306,39 @@ function TwelthForm(props) {
           helperText: HELPER_TEXT.requiredField,
         }))
       : setGradeScale((prevGrade) => ({ ...prevGrade, helperText: "" }));
-    isEmptyString(cumulativePercentage.name)
-      ? setCumulativePercentage((prevCumlative) => ({
-          ...prevCumlative,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setCumulativePercentage((prevCumlative) => ({
-          ...prevCumlative,
-          helperText: "",
-        }));
-    isEmptyString(formulaEmployed.name)
-      ? setFormulaEmployed((prevFormula) => ({
-          ...prevFormula,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setFormulaEmployed((prevFormula) => ({
-          ...prevFormula,
-          helperText: "",
-        }));
-    isEmptyString(cumulativeResult.name)
-      ? setCumulativeResult((prevCumResult) => ({
-          ...prevCumResult,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setCumulativeResult((prevCumResult) => ({
-          ...prevCumResult,
-          helperText: "",
-        }));
+    // isEmptyString(cumulativePercentage.name)
+    //   ? setCumulativePercentage((prevCumlative) => ({
+    //       ...prevCumlative,
+    //       helperText: HELPER_TEXT.requiredField,
+    //     }))
+    //   : setCumulativePercentage((prevCumlative) => ({
+    //       ...prevCumlative,
+    //       helperText: "",
+    //     }));
+    // isEmptyString(formulaEmployed.name)
+    //   ? setFormulaEmployed((prevFormula) => ({
+    //       ...prevFormula,
+    //       helperText: HELPER_TEXT.requiredField,
+    //     }))
+    //   : setFormulaEmployed((prevFormula) => ({
+    //       ...prevFormula,
+    //       helperText: "",
+    //     }));
+    // isEmptyString(cumulativeResult.name)
+    //   ? setCumulativeResult((prevCumResult) => ({
+    //       ...prevCumResult,
+    //       helperText: HELPER_TEXT.requiredField,
+    //     }))
+    //   : setCumulativeResult((prevCumResult) => ({
+    //       ...prevCumResult,
+    //       helperText: "",
+    //     }));
     if (
       !isEmptyString(schoolName.name) &&
       !isEmptyObject(board.name) &&
       !isEmptyString(cgpa.name) &&
       !isEmptyObject(gradeScale.name) &&
-      gradeScale.name.value > parseInt(cgpa.name)
+      gradeScale.name.value >= parseInt(cgpa.name)
     ) {
       let requestBody = {
         examBoard: {
@@ -369,9 +401,9 @@ function TwelthForm(props) {
           });
         }, 1000);
       });
-    } else
+    }
     // If the data is copied
-    {
+    else {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const dataDelete = [...data];
@@ -386,33 +418,32 @@ function TwelthForm(props) {
 
   // This function updates a row
 
-  const handleRowUpdate = (newData, oldData) =>{
-     return new Promise((resolve, reject) => {
+  const handleRowUpdate = (newData, oldData) => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
         const dataUpdate = [...data];
         const index = oldData.tableData.id;
         dataUpdate[index] = newData;
         setData([...dataUpdate]);
         resolve();
-      }, 1000)
-    })
-  }
+      }, 1000);
+    });
+  };
 
   // This function will handle the search when the user types in the search field
-  const searchHandler = (e) =>{ 
-    if(e.target.value.length !== 0){
-     getAndSetDistinctMatch("&q="+e.target.value)
-    }else{
-     getAndSetDistinctMatch("")
+  const searchHandler = (e) => {
+    if (e.target.value.length !== 0) {
+      getAndSetDistinctMatch("&q=" + e.target.value);
+    } else {
+      getAndSetDistinctMatch("");
     }
-   setSearch(e.target.value)
- 
-  }
-//  This function filter student match based on year
-  const onYearClick = (year) =>{
-    getAndSetStudentMatch("&q="+year)
-    setFilterYear(year)
-   }
+    setSearch(e.target.value);
+  };
+  //  This function filter student match based on year
+  const onYearClick = (year) => {
+    getAndSetStudentMatch("&year=" + year);
+    setFilterYear(year);
+  };
 
   return (
     <Grid container spacing={2}>
@@ -452,6 +483,7 @@ function TwelthForm(props) {
               id="boardName"
               options={examBoardList.filter((el) => el.name !== null) || []}
               value={board.name}
+              popupIcon={<ExpandMore color={"inherit"} />}
               getOptionLabel={(option) => option.name}
               onChange={(e, newValue) =>
                 setBoard({
@@ -479,6 +511,7 @@ function TwelthForm(props) {
               options={choice}
               getOptionLabel={(option) => option.title}
               value={gradeScale.name}
+              popupIcon={<ExpandMore color={"inherit"} />}
               onChange={(e, newValue) =>
                 setGradeScale({
                   name: newValue,
@@ -542,6 +575,13 @@ function TwelthForm(props) {
             <EditableTable
               columns={columns}
               data={data}
+              localization={{
+                body: {
+                  editRow: {
+                    deleteText: "Are you sure Want to Delete this Row",
+                  },
+                },
+              }}
               onRowUpdate={handleRowUpdate}
               onRowDelete={handleRowDelete}
               onRowAdd={handleRowAdd}
@@ -604,14 +644,14 @@ function TwelthForm(props) {
         </Grid>
         <div className={classes.bottomContainer}>
           <hr />
-          <Button
+          <PrimaryButton
             onClick={handleSubmit}
             className={classes.bottomBtn}
             variant={"contained"}
             color={"primary"}
           >
             Save
-          </Button>
+          </PrimaryButton>
         </div>
       </Grid>
       {/* CV viewer for hsc mark sheet */}
@@ -619,7 +659,13 @@ function TwelthForm(props) {
       <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
         <CvViewer path={studentDocument} {...props} />
       </Grid>
-      <SimilarityPopup handleYearClick={onYearClick} searchValue={search} searchHandler={searchHandler} distinctMatch={distinctMatch} data={studentMatch} />
+      <SimilarityPopup
+        handleYearClick={onYearClick}
+        searchValue={search}
+        searchHandler={searchHandler}
+        distinctMatch={distinctMatch}
+        data={studentMatch}
+      />
       <MySnackBar
         onClose={() =>
           setSnack({

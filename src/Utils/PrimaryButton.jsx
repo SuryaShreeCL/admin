@@ -9,7 +9,8 @@ function PrimaryButton(props) {
                 },
                 containedPrimary : {
                     backgroundColor : "#1093FF",
-                    width : "190px",
+                    textTransform : "inherit",
+                    padding : "7px 28px",
                     borderRadius : "30px",
                     "&:hover" : {
                         backgroundColor : "#1093FF",
@@ -34,6 +35,7 @@ function PrimaryButton(props) {
                outlinedPrimary : {
                    border : "1px solid #1093FF",
                    width : "146px",
+                   textTransform : "inherit",
                    color : "#1093FF",
                 borderRadius : "30px",
                 "&:hover" : {

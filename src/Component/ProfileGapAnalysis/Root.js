@@ -63,9 +63,10 @@ class ProfileGapRoot extends Component {
   //   }
   // };
 
-  handleClose = () => {
+  handleClose = (event) => {
     this.setState({
       open: false,
+      anchorEl : null
     });
   };
   menuOpen = (event) => {
@@ -155,6 +156,15 @@ class ProfileGapRoot extends Component {
     })
   }
 
+  menus = [
+    { label : "10th", value : 6, handler : ()=>this.setState({ value: 6, open: false })},
+    { label : "12th", value : 7, handler : ()=>this.setState({ value: 7, open: false })},
+    { label : "Diploma", value : 8, handler : ()=>this.handleDiplomaClick()},
+    { label : "Undergraduate", value : 9, handler : ()=>this.setState({ value: 9, open: false })},
+    { label : "Postgraduate", value : 10, handler : ()=>this.setState({ value: 10, open: false })},
+    { label : "Academics Summary", value : 11, handler : ()=>this.setState({ value: 11, open: false })},
+  ]
+
   render() {
     
     const { classes } = this.props;
@@ -211,7 +221,14 @@ class ProfileGapRoot extends Component {
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="Academic Details"
-                    onMouseOver={(e) => this.menuOpen(e)}
+                    onMouseEnter={(e) =>{
+                      console.log("Mouse is entering")
+                      this.menuOpen(e)
+                    }
+                      }
+                    onMouseLeave={(e)=>{
+                     
+                    }}
                     icon={
                       <ExpandMoreIcon
                         style={{ color: "black", marginTop: "7px" }}
@@ -277,23 +294,19 @@ class ProfileGapRoot extends Component {
           </Grid> */}
         </Grid>
         <Menu
-          style={{ top: "65px" }}
           anchorEl={this.state.anchorEl}
           open={this.state.open}
           onClose={this.handleClose}
+          getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <MenuItem onClick={() => this.setState({ value: 6, open: false })}>
-            10th
-          </MenuItem>
-          <MenuItem onClick={() => this.setState({ value: 7, open: false })}>
-            12th
-          </MenuItem>
-          <MenuItem onClick={this.handleDiplomaClick}>Diploma</MenuItem>
-          <MenuItem onClick={this.handleUgClick}>Undergraduate</MenuItem>
-          <MenuItem onClick={this.handlePgClick}>Postgraduate</MenuItem>
-          <MenuItem onClick={() => this.setState({ value: 11, open: false })}>Academic Summary</MenuItem>
+          {this.menus.map((eachMenu, index)=>{
+            return (
+              <MenuItem classes={{selected : classes.menuItemStyle}} selected={eachMenu.value === this.state.value}  onClick={eachMenu.handler}>{eachMenu.label}</MenuItem>
+            )
+          })}
+         
         </Menu>
       </div>
     );
@@ -308,6 +321,10 @@ const useStyles = (theme) => ({
     top: "7px",
     right: "0px",
   },
+  menuItemStyle : {
+    backgroundColor : "#ffffff !important",
+    color : "#009be5"
+  }
 });
 const mapStateToProps = (state) => {
   return {

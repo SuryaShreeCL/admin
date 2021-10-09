@@ -359,6 +359,7 @@ export const HELPER = {
   getAcademicType : "getAcademicType",
   isClickedSem : "isClickedSem",
   saveCopyData : "saveCopyData",
+  saveTemplate : "saveTemplate"
 }
 
 //MOHAMMED
