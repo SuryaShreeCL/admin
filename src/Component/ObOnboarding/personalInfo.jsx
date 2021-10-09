@@ -317,7 +317,7 @@ export class personalInfo extends Component {
                     }}
                   >
                     <p style={HeadStyle}>Personal Information</p>
-                    <Status
+                    {/* <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -332,7 +332,7 @@ export class personalInfo extends Component {
                           ? this.getStatus(SECTION.personalDetail).status
                           : "notVerified"
                       }
-                    />
+                    /> */}
                   </div>
                   <IconButton onClick={this.handlePersonalClick.bind(this)}>
                     <img src={Pencil} height={17} width={17} />

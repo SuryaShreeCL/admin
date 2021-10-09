@@ -9,7 +9,8 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from '../../Asset/Images/backbutton.svg'
 import {studentPath } from '../RoutePaths';
 import PgaStudentList from '../ProfileGapAnalysis/PgaStudentList';
-
+import LockIcon from '@material-ui/icons/Lock';
+import "../../Asset/All.css"
 class ProductBasedUsers extends Component {
     constructor(props){
         super(props);
@@ -63,6 +64,7 @@ class ProductBasedUsers extends Component {
     render() {
         console.log(this.props)
         console.log(this.state)
+        const {classes} = this.props
         var componentList = {
             "Onboarding" : "Onboarding",
             "Profile Gap Analysis" : "Profile Gap Analysis"
@@ -102,7 +104,7 @@ class ProductBasedUsers extends Component {
             
                {this.state.productDetails && this.state.productDetails.map((item,index)=>{
                    return (
-                    <ThemedTab value={item} label={item.stepName} />
+                    <ThemedTab value={item} label={item.stepName}/>
                    )    
                })}
          
@@ -122,8 +124,6 @@ class ProductBasedUsers extends Component {
     variantStepList : state.ProductReducer.variantStepList
 })
 
-const useStyles = () =>({
-
-})
+const useStyles = (theme) =>({})
 
 export default connect(mapStateToProps,{ getAdminLinkedProduct, getVariantStepsById })(withStyles(useStyles)(ProductBasedUsers))

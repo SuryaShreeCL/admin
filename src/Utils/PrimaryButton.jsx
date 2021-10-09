@@ -14,6 +14,10 @@ function PrimaryButton(props) {
     const buttonTheme = createMuiTheme({
         overrides : {
             MuiButton : {
+              root : {
+                textTransform : "inherit",
+
+              },
                 label : {
                     whiteSpace : "nowrap"
                 },

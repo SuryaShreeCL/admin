@@ -87,6 +87,9 @@ export const STUDENT = {
   deleteDocumentGraduate: 'deleteDocumentGraduate',
   filterStageBaseUsers: 'filterStageBaseUsers',
   searchStudentInStages: 'searchStudentInStages',
+  StudentStepDetails : "StudentStepDetails",
+  ObIncomplete : "ObIncomplete",
+  ObComplete : "ObComplete" ,
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',

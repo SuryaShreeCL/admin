@@ -696,7 +696,7 @@ export class academicInfo extends Component {
       <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <ThemeProvider theme={theme}>
-            <Card style={{ padding: 50 }}>
+            <Card style={{ padding: 20 }}>
               <Grid container>
                 <Grid item md={12}>
                   <div
@@ -721,7 +721,7 @@ export class academicInfo extends Component {
                         width={17}
                         style={{ position: "realative", top: 5 }}
                       /> */}
-                      <Status
+                      {/* <Status
                       onClick={() => {
                         this.setState({
                           sectionStatus: {
@@ -736,7 +736,7 @@ export class academicInfo extends Component {
                           ? this.getStatus(SECTION.educationDetail).status
                           : "notVerified"
                       }
-                    />
+                    /> */}
                     </div>
                     <IconButton onClick={()=>  this.setState({
       documentedit : !this.state.documentedit

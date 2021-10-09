@@ -49,6 +49,9 @@ export const ThemedTabs = withStyles({
       fontWeight:'bold',
        color:'#000 !important'  ,
        opacity: 1,
+       display: "flex",
+        flexDirection: "row-reverse",
+        gridGap: "5px",
     },
     selected: {
        
