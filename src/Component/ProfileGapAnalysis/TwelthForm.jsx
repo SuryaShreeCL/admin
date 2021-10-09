@@ -95,7 +95,7 @@ function TwelthForm(props) {
           if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
             return true;
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -110,7 +110,7 @@ function TwelthForm(props) {
           if (!isEmptyString(rowData.subjectDetails.subjectName)) {
             return true;
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -136,7 +136,7 @@ function TwelthForm(props) {
               };
             }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -161,7 +161,7 @@ function TwelthForm(props) {
               };
             }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
