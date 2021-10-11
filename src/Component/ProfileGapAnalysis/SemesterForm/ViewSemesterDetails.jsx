@@ -1,4 +1,4 @@
-import { Typography, Grid, TextField,withStyles } from "@material-ui/core";
+import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -11,7 +11,6 @@ import {
 } from "../../../Actions/College";
 import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
-
 
 class ViewSemesterDetails extends Component {
   //  setting state
@@ -49,18 +48,22 @@ class ViewSemesterDetails extends Component {
   }
 
   render() {
-    const { collegeName, universityName,departmentName,score,semName, year } = this.props;
+    const {
+      collegeName,
+      universityName,
+      departmentName,
+      score,
+      semName,
+      year,
+      item,
+    } = this.props;
     console.log(this.props);
     return (
       <div>
-        <Grid container spacing={3} 
-        style={{ padding: "12px" }}
-        >
+        <Grid container spacing={3} style={{ padding: "12px" }}>
           {/* back icon design */}
-          <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
-            <div
-            onClick={this.props.backHandler} 
-            className={"diploma_header"}>
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
+            <div onClick={this.props.backHandler} className={"diploma_header"}>
               <div>
                 <ArrowBackIosIcon className={"back_icon"} />
               </div>
@@ -71,117 +74,74 @@ class ViewSemesterDetails extends Component {
           </Grid>
 
           {/* diploma title */}
-          <Grid item md={12}  xs={12} sm={12} xl={12} lg={12}>
-           <div className={'semester_title_div'}>
-           <Typography variant={"h6"} className={"semester_title"}>
-              {semName} |
-            </Typography>
-            <Typography variant={"h6"} className={"semester_title1"}>
-            {this.props.academicTypes}
-            </Typography>
-           </div>
-          </Grid>
-         
-          <Grid item md={4}  xs={4} sm={4} xl={4} lg={4}>
-            <AutoCompleteDropDown
-              popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="College Name"
-              disabled
-              options={this.props.collegeResponse}
-              value={collegeName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  collegeName: newValue,
-                })
-              }
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="College Name"
-                  variant="standard"
-                  name="College Name"
-                  value={collegeName}
-                />
-              )}
-            />
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
+            <div className={"semester_title_div"}>
+              <Typography variant={"h6"} className={"semester_title"}>
+                {semName} |
+              </Typography>
+              <Typography variant={"h6"} className={"semester_title1"}>
+                {this.props.academicTypes}
+              </Typography>
+            </div>
           </Grid>
 
-          <Grid item md={4}>
-            <AutoCompleteDropDown
-              popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="universityName"
-              disabled
-              options={this.props.universityResponse}
-              value={universityName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  universityName: newValue,
-                })
-              }
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="university Name"
-                  variant="standard"
-                  name="universityName"
-                />
-              )}
-            />
+          {/* empty grid */}
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
+
+          {/* 1st grid item */}
+          <Grid item md={4} xs={4} sm={4} xl={4} lg={4} display="flex">
+            <div className={"grid_item1_div"}>
+              <div className={"collegeName_div"}>
+                <Typography color="textSecondary">College Name</Typography>
+                <Typography>
+                  {item && item.college && item.college.name}
+                </Typography>
+              </div>
+              <div className={"collegeName_div"}>
+                <Typography color="textSecondary">University Name</Typography>
+                <Typography>
+                  {item && item.university && item.university.name}
+                </Typography>
+              </div>
+            </div>
           </Grid>
 
-          <Grid item md={4}>
-            <TextField
-              label="GPA"
-              name="score"
-              disabled
-              value={score}
-              onChange={(e) => this.handleChange(e)}
-              fullWidth
-            />
+          {/* 2nd grid item */}
+          <Grid item md={4} xs={4} sm={4} xl={4} lg={4} display="flex">
+            <div className={"grid_item1_div"}>
+              <div className={"collegeName_div"}>
+                <Typography color="textSecondary">Department</Typography>
+                <Typography>
+                  {item && item.department && item.department.name}
+                </Typography>
+              </div>
+              <div className={"batch_div"}>
+                <Typography color="textSecondary">Batch</Typography>
+                <Typography>
+                  {new Date(item && item.startDate).getFullYear()} -{" "}
+                  {new Date(item && item.endDate).getFullYear()}
+                </Typography>
+              </div>
+            </div>
           </Grid>
 
-          <Grid item md={4}>
-            <AutoCompleteDropDown
-              popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="departmentName"
-              disabled
-              options={this.department}
-              value={departmentName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  departmentName: newValue,
-                })
-              }
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Department Name"
-                  variant="standard"
-                  name="departmentName"
-                />
-              )}
-            />
+          {/* 3rd grid item */}
+          <Grid item md={4} xs={4} sm={4} xl={4} lg={4} display="flex">
+            <div className={"grid_item1_div"}>
+              <div className={"grid_item3_div"}>
+                <Typography color="textSecondary">Cumulative CGPA</Typography>
+                <Typography>{item && item.score}%</Typography>
+              </div>
+            </div>
           </Grid>
 
-          <Grid item md={4}>
-            <TextField
-              label="Passing Year"
-              disabled
-              name="year"
-              value={year}
-              onChange={(e) => this.handleChange(e)}
-              fullWidth
-            />
-          </Grid>
+          {/* empty grid */}
+          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
         </Grid>
       </div>
     );
   }
 }
-
 
 const mapStateToProps = (state) => {
   console.log(state);
@@ -190,7 +150,6 @@ const mapStateToProps = (state) => {
     universityResponse: state.CollegeReducer.University,
     departmentResponse: state.CollegeReducer.BranchList,
     academicTypes: state.HelperReducer.academicType,
-
   };
 };
 
@@ -198,5 +157,5 @@ export default connect(mapStateToProps, {
   getAllColleges,
   getUniversity,
   getBranches,
-  getAcademicType
+  getAcademicType,
 })(ViewSemesterDetails);
