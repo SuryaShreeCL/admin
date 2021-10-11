@@ -38,7 +38,8 @@ class AdmissionServices extends Component {
       snackopen : false,
       mentorname : "",
       buttonstatus : false,
-      verifydetail : []
+      verifydetail : [],
+      mentordetails : {}
     };
   }
   handleClick(e) {
@@ -663,7 +664,7 @@ class AdmissionServices extends Component {
             maxWidth="xs"
             fullWidth={true}
             open={this.state.show}
-            onClose={() => this.setState({ show: false })}
+            // onClose={() => this.setState({ show: false })}
             aria-labelledby="customized-dialog-title"
           >
             <DialogTitle id="customized-dialog-title">
@@ -731,6 +732,7 @@ class AdmissionServices extends Component {
               >
                 <PrimaryButton
                   style={{ textTransform: "none" }}
+                  disabled={this.state.mentor.length === 0}
                   variant={"contained"}
                   color={"primary"}
                   onClick={() => this.allocate()}

@@ -949,11 +949,12 @@ export const ObComplete = (studentId, productId,callback) => {
 
 export const ObIncomplete = (studentId, productId,data,callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
+  let adminuserId = window.sessionStorage.getItem("adminUserId");
   console.log(data)
   return (dispatch) => {
     axios
       .put(
-        URL + "/api/v1/pga/students/"+studentId+"/adminUser/"+productId+"/incompleteMail",data,
+        URL + "/api/v1/pga/students/"+studentId+"/adminUser/"+adminuserId+"/incompleteMail",data,
         {
           headers: {
             admin: "yes",
