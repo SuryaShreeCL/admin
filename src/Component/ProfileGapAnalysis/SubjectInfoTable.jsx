@@ -28,7 +28,7 @@ import { isEmptyString } from '../Validation';
             <TableRow>
               <TableCell align={"center"}>Subject Code</TableCell>
               <TableCell align={"center"}>Subject Name</TableCell>
-              <TableCell align={"center"}>Max Marks</TableCell>
+              <TableCell align={"center"}>Maximum Marks</TableCell>
               <TableCell align={"center"}></TableCell>
             </TableRow>
           </TableHead>

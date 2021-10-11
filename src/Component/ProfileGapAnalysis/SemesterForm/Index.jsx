@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ViewMarks from "./ViewMarks";
 import ViewSemesterDetails from "./ViewSemesterDetails";
-import { Grid  ,withStyles } from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
 import BottomButton from "../BottomButton";
 import CvViewer from "../CvViewer";
@@ -21,7 +21,6 @@ import {
   getSimilarStudentsByAcademic,
   getDistinctSubjectsByAcademic,
 } from "../../../AsyncApiCall/Ppga";
-
 
 class Index extends Component {
   constructor(props) {
@@ -69,7 +68,7 @@ class Index extends Component {
       year
     ).then((response) => {
       this.setState({
-        studentMatch: response&&response.data && response.data.data || [],
+        studentMatch: (response && response.data && response.data.data) || [],
       });
     });
   };
@@ -82,7 +81,7 @@ class Index extends Component {
       query
     ).then((response) => {
       this.setState({
-        distinctMatch: response&&response.data && response.data.data || [],
+        distinctMatch: (response && response.data && response.data.data) || [],
       });
     });
   };
@@ -107,6 +106,7 @@ class Index extends Component {
     });
   };
 
+  // function to add the row in the table
   handleRowAdd = (newData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -118,6 +118,7 @@ class Index extends Component {
     });
   };
 
+  // function to delete the row in the table
   handleRowDelete = (oldData) => {
     if (oldData.subjectDetailsUgPgDiploma.id) {
       return new Promise((resolve, reject) => {
@@ -160,6 +161,7 @@ class Index extends Component {
     }
   };
 
+  // function to update the row in the table
   handleRowUpdate = (newData, oldData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -199,9 +201,9 @@ class Index extends Component {
     );
     this.getAndSetStudentMatch("");
     this.getAndSetDistinctMatch("");
- 
   }
 
+  // save button click function
   handleSaveClick = () => {
     let hlpTxt = "Please fill the required field";
     isEmptyString(this.state.semesterGpa)
@@ -282,24 +284,25 @@ class Index extends Component {
           );
         }
       );
-
     }
   };
 
+  // view marks - textfield handle function
   handleScoreChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
+  // function to handle the back button click
   handleBackClick = () => {
     this.props.isClickedBack(true);
-    console.log("object----------------");
   };
 
   render() {
-    const {classes} = this.props
-   
+    const { classes } = this.props;
+
+    // table columns
     const columns = [
       {
         title: "Id",
@@ -424,7 +427,6 @@ class Index extends Component {
         <Grid container position="relative" height="100vh">
           {/*  left container*/}
 
-          {/* semester details */}
           <Mysnack
             snackMsg={this.state.snackMsg}
             snackVariant={this.state.snackVariant}
@@ -455,13 +457,8 @@ class Index extends Component {
                 xl={12}
                 lg={12}
                 className={classes.container}
-                // style={{
-                //   height: "95vh",
-                //   overflowY: "scroll",
-                //   overflowX: "hidden",
-                //   width: "100%",
-                // }}
               >
+                {/* semester details - (above the table) */}
                 <ViewSemesterDetails
                   // data={this.state.semesterData}
                   collegeName={this.state.collegeDetails}
@@ -473,6 +470,7 @@ class Index extends Component {
                   backHandler={this.props.backHandler}
                 />
 
+                {/* table */}
                 <TableGrid
                   columns={columns}
                   data={this.state.semesterData || []}
@@ -480,6 +478,8 @@ class Index extends Component {
                   onRowUpdate={this.handleRowUpdate}
                   onRowAdd={this.handleRowAdd}
                 />
+
+                {/* view marks -( below the table) */}
                 <ViewMarks
                   semesterGpa={this.state.semesterGpa}
                   gpaError={this.state.semesterGpaErr}
@@ -493,6 +493,7 @@ class Index extends Component {
                 />
               </Grid>
 
+              {/* bottom - diver and save button grid */}
               <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
                 <BottomButton handleChange={() => this.handleSaveClick()} />
               </Grid>
@@ -509,21 +510,13 @@ class Index extends Component {
   }
 }
 
-
 const useStyles = (theme) => ({
-  root: {
-    "& .MuiFormLabel-root": {
-      fontSize: "13px !important",
-    },
-  },
   container: {
     height: "95vh",
     overflowY: "scroll",
     overflowX: "hidden",
     width: "100%",
   },
- 
- 
 });
 const mapStateToProps = (state) => {
   return {

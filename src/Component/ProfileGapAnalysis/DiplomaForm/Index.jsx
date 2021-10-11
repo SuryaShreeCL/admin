@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import MarkSheetUpload from "./MarkSheetUpload";
 import ViewDetails from "./ViewDetails";
-import { Grid, withStyles } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import "./DiplomaForm.css";
 import BottomButton from "../BottomButton";
 import { connect } from "react-redux";
 import { viewAcademicDetails } from "../../../Actions/ProfileGapAction";
 import { getAcademicType, isClickedSem } from "../../../Actions/HelperAction";
-// import { useStyles } from "../../../Asset/DiplomaStyles";
 import { URL } from "../../../Actions/URL";
 
 class Index extends Component {
@@ -33,7 +32,6 @@ class Index extends Component {
 
   //  markSheet(click) handle function
   handleCardClick = (data) => {
-    console.log(data);
     this.props.isClickedSem(data);
   };
 
@@ -48,9 +46,6 @@ class Index extends Component {
   };
 
   render() {
-    console.log(this.state);
-    console.log(this.props.clickedSem);
-    console.log(this.props.academicTypes)
     return (
       <div>
         <Grid container position="relative" height="100vh">
@@ -125,7 +120,6 @@ class Index extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     academicTypes: state.HelperReducer.academicType,
     clickedSem: state.HelperReducer.clickedSem,
