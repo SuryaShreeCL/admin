@@ -26,7 +26,7 @@ export default class MarkSheetUpload extends Component {
                 </div>
                 <div>
                   <Typography className={"card_header_right"}>
-                    {semester}st Sem
+                    {semester}
                   </Typography>
                 </div>
               </div>
