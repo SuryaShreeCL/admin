@@ -1,8 +1,6 @@
 import { WALL } from '../Redux/Action';
 import axios from 'axios';
 
-let accessToken = window.sessionStorage.getItem('accessToken');
-
 export const listWallPosts = (status, type) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
@@ -13,7 +11,7 @@ export const listWallPosts = (status, type) => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );
@@ -40,7 +38,7 @@ export const listWallWebinars = () => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );
@@ -68,7 +66,7 @@ export const getWallCategories = (status) => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );
@@ -96,7 +94,7 @@ export const deleteWallPost = (id) => async (dispatch) => {
       crossDomain: true,
       headers: {
         admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
     });
     dispatch({
@@ -123,7 +121,7 @@ export const createWallPost = (post) => async (dispatch) => {
       crossDomain: true,
       headers: {
         admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
     });
 
@@ -154,7 +152,7 @@ export const updateWallPost = (post) => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );

@@ -1,8 +1,6 @@
 import { TEST } from '../Redux/Action';
 import axios from 'axios';
 
-let accessToken = window.sessionStorage.getItem('accessToken');
-
 export const listTests = (status) => async (dispatch) => {
   try {
     dispatch({ type: TEST.LIST_REQUEST });
@@ -13,7 +11,7 @@ export const listTests = (status) => async (dispatch) => {
       crossDomain: true,
       headers: {
         admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
       data: {
         search: '',
@@ -47,7 +45,7 @@ export const deleteTest = (id) => async (dispatch) => {
       crossDomain: true,
       headers: {
         admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
     });
 
@@ -72,7 +70,7 @@ export const createTest = (test) => {
       .post(`${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`, test, {
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       })
       .then((result) => {
@@ -107,7 +105,7 @@ export const updateTest = (test) => {
       .post(`${process.env.REACT_APP_API_URL}/api/v1/testQuestionSets`, test, {
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       })
       .then((result) => {
@@ -142,7 +140,7 @@ export const scheduleTest = (id, dates) => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );
@@ -172,7 +170,7 @@ export const getTestDetails = (id) => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );
@@ -197,7 +195,7 @@ export const scheduleIt = (id) => {
     crossDomain: true,
     headers: {
       admin: 'yes',
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
     },
   }).then(function(response) {
     console.log(response);
