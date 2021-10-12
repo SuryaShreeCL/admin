@@ -5,6 +5,7 @@ import "../../../Asset/CareerRole.css";
 import Typography from "@material-ui/core/Typography";
 import CareerDetails from './CareerDetails';
 import GoalDetails from './GoalDetails'
+import StepperComponent from './Stepper'
 export default class Index extends Component {
   constructor() {
     super();
@@ -51,7 +52,7 @@ export default class Index extends Component {
             </div>
           </Grid>
           <Grid item md={4}>
-            Stepper
+            <StepperComponent/>
           </Grid>
         </Grid>
       </div>

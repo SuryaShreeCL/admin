@@ -21,3 +21,7 @@
     height: 100vh !important;
     overflow-y: scroll !important;
   }
+  .careericongrid {
+      display: flex !important;
+      align-items: flex-end !important;
+  }
