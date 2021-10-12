@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
 import { number } from "yup";
+import { isEmptyString } from "../../Validation";
 
 class ViewMarks extends Component {
 
@@ -15,8 +16,8 @@ class ViewMarks extends Component {
       percentage,
       gpaError,
       cgpaError,
-      formulaError,
-      percentageError,
+      // formulaError,
+      // percentageError,
     } = this.props;
         
     return (
@@ -25,22 +26,28 @@ class ViewMarks extends Component {
           <TextField
             label="Semester GPA"
             name="semesterGpa"
-            value={semesterGpa || ""}
-            // classes={{ root: classes.textRoot }}
+            value={semesterGpa}
+            classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
             error={gpaError.length > 0}
             helperText={gpaError}
-            type='number'
+            InputLabelProps={{
+              shrink: true,
+          }}
+            // type='number'
           />
         </Grid>
 
         <Grid item md={3}>
           <TextField
             label="CGPA"
-            value={cgpa || ""}
+            value={cgpa}
+            InputLabelProps={{
+              shrink: true,
+          }}
             name="cgpa"
-            // classes={{ root: classes.textRoot }}
+            classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
             error={cgpaError.length > 0}
@@ -52,13 +59,16 @@ class ViewMarks extends Component {
         <Grid item md={3}>
           <TextField
             label="Formula Employed"
-            value={formulaEmployed || ""}
+            value={formulaEmployed}
+            InputLabelProps={{
+              shrink: true,
+          }}
             name="formulaEmployed"
-            // classes={{ root: classes.textRoot }}
+            classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            error={formulaError.length > 0}
-            helperText={formulaError}
+            // error={formulaError.length > 0}
+            // helperText={formulaError}
             type='number'
           />
         </Grid>
@@ -66,13 +76,16 @@ class ViewMarks extends Component {
         <Grid item md={3}>
           <TextField
             label="Percentage"
-            value={percentage || ""}
+            value={percentage}
+            InputLabelProps={{
+              shrink: true,
+          }}
             name="percentage"
-            // classes={{ root: classes.textRoot }}
+            classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            error={percentageError.length > 0}
-            helperText={percentageError}  
+            // error={percentageError.length > 0}
+            // helperText={percentageError}  
             type='number'
           />
         </Grid>
@@ -90,4 +103,4 @@ const useStyles = (theme) => ({
   },
 });
 
-export default (ViewMarks);
+export default (withStyles(useStyles)(ViewMarks))

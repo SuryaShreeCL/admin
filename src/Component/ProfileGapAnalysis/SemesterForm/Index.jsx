@@ -43,9 +43,9 @@ class Index extends Component {
       cgpa: "",
       cgpaErr: "",
       formulaEmployed: "",
-      formulaEmployedErr: "",
+      // formulaEmployedErr: "",
       percentage: "",
-      percentageErr: "",
+      // percentageErr: "",
 
       // snack message
       snackMsg: "",
@@ -202,6 +202,10 @@ class Index extends Component {
           pdfViewer: response.data.data[0].studentDocument[0].path,
           data: response.data,
           year: response.data.data[0].year,
+          semesterGpa: response.data.data[0].studentSemesterDetails.semesterGpa,
+          cgpa: response.data.data[0].studentSemesterDetails.cgpa,
+          formulaEmployed: response.data.data[0].studentSemesterDetails.formulaEmployed,
+          percentage: response.data.data[0].studentSemesterDetails.percentage,
         });
       }
     );
@@ -212,35 +216,38 @@ class Index extends Component {
   // save button click function
   handleSaveClick = () => {
     let hlpTxt = "Please fill the required field";
-    isEmptyString(this.state.semesterGpa)
+    console.log(this.state)
+    isEmptyString(this.state.subjectDetails.semesterGpa)
       ? this.setState({ semesterGpaErr: hlpTxt })
       : this.setState({ semesterGpaErr: "" });
-    isEmptyString(this.state.cgpa)
+    isEmptyString(this.state.subjectDetails.cgpa)
       ? this.setState({ cgpaErr: hlpTxt })
       : this.setState({ cgpaErr: "" });
-    isEmptyString(this.state.formulaEmployed)
-      ? this.setState({ formulaEmployedErr: hlpTxt })
-      : this.setState({ formulaEmployedErr: "" });
-    isEmptyString(this.state.percentage)
-      ? this.setState({ percentageErr: hlpTxt })
-      : this.setState({ percentageErr: "" });
+    // isEmptyString(this.state.formulaEmployed)
+    //   ? this.setState({ formulaEmployedErr: hlpTxt })
+    //   : this.setState({ formulaEmployedErr: "" });
+    // isEmptyString(this.state.percentage)
+    //   ? this.setState({ percentageErr: hlpTxt })
+    //   : this.setState({ percentageErr: "" });
 
     if (
-      !isEmptyString(this.state.semesterGpa) &&
-      !isEmptyString(this.state.cgpa) &&
-      !isEmptyString(this.state.formulaEmployed) &&
-      !isEmptyString(this.state.percentage)
+      
+      !isEmptyString(this.state.subjectDetails.semesterGpa) &&
+      !isEmptyString(this.state.subjectDetails.cgpa)
+      // !isEmptyString(this.state.formulaEmployed) &&
+      // !isEmptyString(this.state.percentage)
     ) {
+      console.log("======================")
       let requestBody = {
         studentSemesterDetails: {
           id: this.state.subjectDetails.id,
           semester: this.state.subjectDetails.semester,
           score: this.state.subjectDetails.score,
           scoreScale: this.state.subjectDetails.scoreScale,
-          semesterGpa: this.state.semesterGpa,
-          cgpa: this.state.cgpa,
-          formulaEmployed: this.state.formulaEmployed,
-          percentage: this.state.percentage,
+          semesterGpa: this.state.subjectDetails.semesterGpa,
+          cgpa: this.state.subjectDetails.cgpa,
+          formulaEmployed: this.state.subjectDetails.formulaEmployed,
+          percentage: this.state.subjectDetails.percentage,
 
           college: {
             id: this.state.collegeDetails.id,
@@ -298,35 +305,15 @@ class Index extends Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState){
-    // if(this.state !== )
-    // this.props.viewSemesterDetails(
-    //   this.props.match.params.studentId,
-    //   this.props.clickedSem.data,
-    //   (response) => {
-    //     this.setState({
-    //       semesterData:
-    //         response.data.data[0].studentSubjectDetails !== null
-    //           ? response.data.data[0].studentSubjectDetails
-    //           : [],
-    //       score: response.data.data[0].studentSemesterDetails.score,
-    //       collegeDetails: response.data.data[0].college,
-    //       degreeDetails: response.data.data[0].degree,
-    //       university: response.data.data[0].university,
-    //       department: response.data.data[0].department,
-    //       subjectDetails: response.data.data[0].studentSemesterDetails,
-    //       pdfViewer: response.data.data[0].studentDocument[0].path,
-    //       data: response.data,
-    //       year: response.data.data[0].year,
-    //     });
-    //   }
-    // );
-  }
+  
 
   // view marks - textfield handle function
   handleScoreChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      subjectDetails:{
+        ...this.state.subjectDetails,
+        [e.target.name]: e.target.value
+      }
     });
   };
 
