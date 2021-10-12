@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ViewMarks from "./ViewMarks";
 import ViewSemesterDetails from "./ViewSemesterDetails";
-import { Grid  ,withStyles } from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
 import BottomButton from "../BottomButton";
 import CvViewer from "../CvViewer";
@@ -21,7 +21,6 @@ import {
   getSimilarStudentsByAcademic,
   getDistinctSubjectsByAcademic,
 } from "../../../AsyncApiCall/Ppga";
-
 
 class Index extends Component {
   constructor(props) {
@@ -44,9 +43,9 @@ class Index extends Component {
       cgpa: "",
       cgpaErr: "",
       formulaEmployed: "",
-      formulaEmployedErr: "",
+      // formulaEmployedErr: "",
       percentage: "",
-      percentageErr: "",
+      // percentageErr: "",
 
       // snack message
       snackMsg: "",
@@ -58,6 +57,12 @@ class Index extends Component {
       studentMatch: [],
       distinctMatch: [],
       filterYear: "",
+      // title
+      list : {
+        diploma : "Diploma",
+        ug : "Undergraduate",
+        pg : "Postgraduate"
+      }
     };
   }
 
@@ -69,7 +74,7 @@ class Index extends Component {
       year
     ).then((response) => {
       this.setState({
-        studentMatch: response&&response.data && response.data.data || [],
+        studentMatch: (response && response.data && response.data.data) || [],
       });
     });
   };
@@ -82,7 +87,7 @@ class Index extends Component {
       query
     ).then((response) => {
       this.setState({
-        distinctMatch: response&&response.data && response.data.data || [],
+        distinctMatch: (response && response.data && response.data.data) || [],
       });
     });
   };
@@ -107,6 +112,7 @@ class Index extends Component {
     });
   };
 
+  // function to add the row in the table
   handleRowAdd = (newData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -118,6 +124,7 @@ class Index extends Component {
     });
   };
 
+  // function to delete the row in the table
   handleRowDelete = (oldData) => {
     if (oldData.subjectDetailsUgPgDiploma.id) {
       return new Promise((resolve, reject) => {
@@ -125,12 +132,12 @@ class Index extends Component {
           this.props.deleteSemesterDetails(
             this.props.match.params.studentId,
             oldData.subjectDetailsUgPgDiploma.id,
-            this.props.clickedSem,
+            this.props.clickedSem.data,
             (response) => {
               if (response.status === 200) {
                 this.props.viewSemesterDetails(
                   this.props.match.params.studentId,
-                  this.props.clickedSem,
+                  this.props.clickedSem.data,
                   (response) => {
                     this.setState({
                       semesterData: response.data.data[0].studentSubjectDetails,
@@ -160,6 +167,7 @@ class Index extends Component {
     }
   };
 
+  // function to update the row in the table
   handleRowUpdate = (newData, oldData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -178,11 +186,11 @@ class Index extends Component {
   componentDidMount() {
     this.props.viewSemesterDetails(
       this.props.match.params.studentId,
-      this.props.clickedSem,
+      this.props.clickedSem.data,
       (response) => {
         this.setState({
           semesterData:
-            response.data.data[0].studentSubjectDetails !== null
+            response && response.data.data[0].studentSubjectDetails !== null
               ? response.data.data[0].studentSubjectDetails
               : [],
           score: response.data.data[0].studentSemesterDetails.score,
@@ -194,45 +202,52 @@ class Index extends Component {
           pdfViewer: response.data.data[0].studentDocument[0].path,
           data: response.data,
           year: response.data.data[0].year,
+          semesterGpa: response.data.data[0].studentSemesterDetails.semesterGpa,
+          cgpa: response.data.data[0].studentSemesterDetails.cgpa,
+          formulaEmployed: response.data.data[0].studentSemesterDetails.formulaEmployed,
+          percentage: response.data.data[0].studentSemesterDetails.percentage,
         });
       }
     );
     this.getAndSetStudentMatch("");
     this.getAndSetDistinctMatch("");
- 
   }
 
+  // save button click function
   handleSaveClick = () => {
     let hlpTxt = "Please fill the required field";
-    isEmptyString(this.state.semesterGpa)
+    console.log(this.state)
+    isEmptyString(this.state.subjectDetails.semesterGpa)
       ? this.setState({ semesterGpaErr: hlpTxt })
       : this.setState({ semesterGpaErr: "" });
-    isEmptyString(this.state.cgpa)
+    isEmptyString(this.state.subjectDetails.cgpa)
       ? this.setState({ cgpaErr: hlpTxt })
       : this.setState({ cgpaErr: "" });
-    isEmptyString(this.state.formulaEmployed)
-      ? this.setState({ formulaEmployedErr: hlpTxt })
-      : this.setState({ formulaEmployedErr: "" });
-    isEmptyString(this.state.percentage)
-      ? this.setState({ percentageErr: hlpTxt })
-      : this.setState({ percentageErr: "" });
+    // isEmptyString(this.state.formulaEmployed)
+    //   ? this.setState({ formulaEmployedErr: hlpTxt })
+    //   : this.setState({ formulaEmployedErr: "" });
+    // isEmptyString(this.state.percentage)
+    //   ? this.setState({ percentageErr: hlpTxt })
+    //   : this.setState({ percentageErr: "" });
 
     if (
-      !isEmptyString(this.state.semesterGpa) &&
-      !isEmptyString(this.state.cgpa) &&
-      !isEmptyString(this.state.formulaEmployed) &&
-      !isEmptyString(this.state.percentage)
+      
+      !isEmptyString(this.state.subjectDetails.semesterGpa) &&
+      !isEmptyString(this.state.subjectDetails.cgpa)
+      // !isEmptyString(this.state.formulaEmployed) &&
+      // !isEmptyString(this.state.percentage)
     ) {
+      console.log("======================")
       let requestBody = {
         studentSemesterDetails: {
           id: this.state.subjectDetails.id,
           semester: this.state.subjectDetails.semester,
           score: this.state.subjectDetails.score,
           scoreScale: this.state.subjectDetails.scoreScale,
-          semesterGpa: this.state.semesterGpa,
-          cgpa: this.state.cgpa,
-          formulaEmployed: this.state.formulaEmployed,
-          percentage: this.state.percentage,
+          semesterGpa: this.state.subjectDetails.semesterGpa,
+          cgpa: this.state.subjectDetails.cgpa,
+          formulaEmployed: this.state.subjectDetails.formulaEmployed,
+          percentage: this.state.subjectDetails.percentage,
 
           college: {
             id: this.state.collegeDetails.id,
@@ -261,7 +276,7 @@ class Index extends Component {
           });
           this.props.viewSemesterDetails(
             this.props.match.params.studentId,
-            this.props.clickedSem,
+            this.props.clickedSem.data,
             (response) => {
               this.setState({
                 semesterData:
@@ -277,29 +292,42 @@ class Index extends Component {
                 pdfViewer: response.data.data[0].studentDocument[0].path,
                 data: response.data,
                 year: response.data.data[0].year,
+                semesterGpa: response.data.data[0].studentSemesterDetails.semesterGpa,
+                cgpa: response.data.data[0].studentSemesterDetails.cgpa,
+                formulaEmployed: response.data.data[0].studentSemesterDetails.formulaEmployed,
+                percentage: response.data.data[0].studentSemesterDetails.percentage,
+
               });
             }
           );
         }
       );
-
     }
   };
 
+  
+
+  // view marks - textfield handle function
   handleScoreChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      subjectDetails:{
+        ...this.state.subjectDetails,
+        [e.target.name]: e.target.value
+      }
     });
   };
 
+  // function to handle the back button click
   handleBackClick = () => {
     this.props.isClickedBack(true);
-    console.log("object----------------");
   };
 
   render() {
-    const {classes} = this.props
-   
+    const { classes } = this.props;
+    console.log(this.state,
+      '--------------------------')
+
+    // table columns
     const columns = [
       {
         title: "Id",
@@ -424,7 +452,6 @@ class Index extends Component {
         <Grid container position="relative" height="100vh">
           {/*  left container*/}
 
-          {/* semester details */}
           <Mysnack
             snackMsg={this.state.snackMsg}
             snackVariant={this.state.snackVariant}
@@ -444,7 +471,6 @@ class Index extends Component {
               this.state.studentMatch !== null ? this.state.studentMatch : []
             }
           />
-
           <Grid item md={7} xs={7} sm={7} xl={7} lg={7}>
             <Grid container>
               <Grid
@@ -455,13 +481,8 @@ class Index extends Component {
                 xl={12}
                 lg={12}
                 className={classes.container}
-                // style={{
-                //   height: "95vh",
-                //   overflowY: "scroll",
-                //   overflowX: "hidden",
-                //   width: "100%",
-                // }}
               >
+                {/* semester details - (above the table) */}
                 <ViewSemesterDetails
                   // data={this.state.semesterData}
                   collegeName={this.state.collegeDetails}
@@ -471,8 +492,10 @@ class Index extends Component {
                   semName={this.state.subjectDetails.semName}
                   year={this.state.year}
                   backHandler={this.props.backHandler}
+                  list={this.state.list}
                 />
 
+                {/* table */}
                 <TableGrid
                   columns={columns}
                   data={this.state.semesterData || []}
@@ -480,19 +503,22 @@ class Index extends Component {
                   onRowUpdate={this.handleRowUpdate}
                   onRowAdd={this.handleRowAdd}
                 />
+
+                {/* view marks -( below the table) */}
                 <ViewMarks
-                  semesterGpa={this.state.semesterGpa}
+                  semesterGpa={this.state.subjectDetails.semesterGpa}
                   gpaError={this.state.semesterGpaErr}
-                  cgpa={this.state.cgpa}
+                  cgpa={this.state.subjectDetails.cgpa}
                   cgpaError={this.state.cgpaErr}
-                  formulaEmployed={this.state.formulaEmployed}
+                  formulaEmployed={this.state.subjectDetails.formulaEmployed}
                   formulaError={this.state.formulaEmployedErr}
-                  percentage={this.state.percentage}
+                  percentage={this.state.subjectDetails.percentage}
                   percentageError={this.state.percentageErr}
                   handleChange={(e) => this.handleScoreChange(e)}
                 />
               </Grid>
 
+              {/* bottom - diver and save button grid */}
               <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
                 <BottomButton handleChange={() => this.handleSaveClick()} />
               </Grid>
@@ -509,21 +535,13 @@ class Index extends Component {
   }
 }
 
-
 const useStyles = (theme) => ({
-  root: {
-    "& .MuiFormLabel-root": {
-      fontSize: "13px !important",
-    },
-  },
   container: {
     height: "95vh",
     overflowY: "scroll",
     overflowX: "hidden",
     width: "100%",
   },
- 
- 
 });
 const mapStateToProps = (state) => {
   return {

@@ -13,10 +13,10 @@ import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
 
 class ViewSemesterDetails extends Component {
-  //  setting state
   constructor(props) {
     super(props);
 
+    //  setting state
     this.state = {
       collegeName: "",
       collegeNameErr: "",
@@ -37,6 +37,7 @@ class ViewSemesterDetails extends Component {
   // department array
   department = [];
 
+  // function to handle the textfield
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -55,9 +56,9 @@ class ViewSemesterDetails extends Component {
       score,
       semName,
       year,
-      item,
+      list,
+      item
     } = this.props;
-    console.log(this.props);
     return (
       <div>
         <Grid container spacing={3} style={{ padding: "12px" }}>
@@ -80,63 +81,107 @@ class ViewSemesterDetails extends Component {
                 {semName} |
               </Typography>
               <Typography variant={"h6"} className={"semester_title1"}>
-                {this.props.academicTypes}
+              {list[this.props.academicTypes]}
               </Typography>
             </div>
           </Grid>
 
-          {/* empty grid */}
-          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
+          
 
-          {/* 1st grid item */}
-          <Grid item md={4} xs={4} sm={4} xl={4} lg={4} display="flex">
-            <div className={"grid_item1_div"}>
-              <div className={"collegeName_div"}>
-                <Typography color="textSecondary">College Name</Typography>
-                <Typography>
-                  {item && item.college && item.college.name}
-                </Typography>
-              </div>
-              <div className={"collegeName_div"}>
-                <Typography color="textSecondary">University Name</Typography>
-                <Typography>
-                  {item && item.university && item.university.name}
-                </Typography>
-              </div>
-            </div>
+          <Grid item md={4}  xs={4} sm={4} xl={4} lg={4}>
+            <AutoCompleteDropDown
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="College Name"
+              disabled
+              options={this.props.collegeResponse}
+              value={collegeName}
+              onChange={(e, newValue) =>
+                this.setState({
+                  collegeName: newValue,
+                })
+              }
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="College Name"
+                  variant="standard"
+                  name="College Name"
+                  value={collegeName}
+                />
+              )}
+            />
           </Grid>
 
-          {/* 2nd grid item */}
-          <Grid item md={4} xs={4} sm={4} xl={4} lg={4} display="flex">
-            <div className={"grid_item1_div"}>
-              <div className={"collegeName_div"}>
-                <Typography color="textSecondary">Department</Typography>
-                <Typography>
-                  {item && item.department && item.department.name}
-                </Typography>
-              </div>
-              <div className={"batch_div"}>
-                <Typography color="textSecondary">Batch</Typography>
-                <Typography>
-                  {new Date(item && item.startDate).getFullYear()} -{" "}
-                  {new Date(item && item.endDate).getFullYear()}
-                </Typography>
-              </div>
-            </div>
+          <Grid item md={4}>
+            <AutoCompleteDropDown
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="universityName"
+              disabled
+              options={this.props.universityResponse}
+              value={universityName}
+              onChange={(e, newValue) =>
+                this.setState({
+                  universityName: newValue,
+                })
+              }
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="university Name"
+                  variant="standard"
+                  name="universityName"
+                />
+              )}
+            />
           </Grid>
 
-          {/* 3rd grid item */}
-          <Grid item md={4} xs={4} sm={4} xl={4} lg={4} display="flex">
-            <div className={"grid_item1_div"}>
-              <div className={"grid_item3_div"}>
-                <Typography color="textSecondary">Cumulative CGPA</Typography>
-                <Typography>{item && item.score}%</Typography>
-              </div>
-            </div>
+          <Grid item md={4}>
+            <TextField
+              label="GPA"
+              name="score"
+              disabled
+              value={score}
+              onChange={(e) => this.handleChange(e)}
+              fullWidth
+            />
           </Grid>
 
-          {/* empty grid */}
-          <Grid item md={12} xs={12} sm={12} xl={12} lg={12}></Grid>
+          <Grid item md={4}>
+            <AutoCompleteDropDown
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="departmentName"
+              disabled
+              options={this.department}
+              value={departmentName}
+              onChange={(e, newValue) =>
+                this.setState({
+                  departmentName: newValue,
+                })
+              }
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Department Name"
+                  variant="standard"
+                  name="departmentName"
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item md={4}>
+            <TextField
+              label="Passing Year"
+              disabled
+              name="year"
+              value={year}
+              onChange={(e) => this.handleChange(e)}
+              fullWidth
+            />
+          </Grid>
         </Grid>
       </div>
     );
@@ -144,7 +189,6 @@ class ViewSemesterDetails extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     collegeResponse: state.CollegeReducer.allCollegeList,
     universityResponse: state.CollegeReducer.University,

@@ -140,14 +140,6 @@ const CreateTest = () => {
       });
       return false;
     }
-    if (values.wallCategory.length === 0 || values.eventPost?.id.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Category or Event Name is empty',
-        type: 'error',
-      });
-      return false;
-    }
 
     if (
       moment(values.endDateTime).isSameOrBefore(values.startDateTime) ||
