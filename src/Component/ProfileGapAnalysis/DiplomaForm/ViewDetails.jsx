@@ -2,7 +2,6 @@
 import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import "../DiplomaForm/DiplomaForm.css";
 import { ExpandMore } from "@material-ui/icons";
 import {
@@ -14,21 +13,6 @@ import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
 
 class ViewDetails extends Component {
-  //  setting state
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      collegeName: "",
-      collegeNameErr: "",
-      universityName: "",
-      gpa: "",
-      departmentName: "",
-      passingYear: "",
-      semester: "",
-    };
-  }
-
   //   college Array
   college = [];
 
