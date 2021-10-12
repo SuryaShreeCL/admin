@@ -53,6 +53,7 @@ class ProfileGapRoot extends Component {
     };
   }
 
+
   // renderRightContainer = () => {
   //   if (this.state.value === 1) {
   //     return <CvViewer doctype={"cv"} {...this.props} />;

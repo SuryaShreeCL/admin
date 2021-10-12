@@ -4,7 +4,8 @@ import "./DiplomaForm.css";
 
 export default class ViewDetails extends Component {
   render() {
-    const { item } = this.props;
+    const { item,list } = this.props;
+    console.log(item)
     return (
       <div>
         {/* grid container */}
@@ -22,7 +23,7 @@ export default class ViewDetails extends Component {
             style={{ padding: "19px" }}
           >
             <Typography className={"viewDetails_title"} variant={"h6"}>
-              {item.type}
+              {list[item.type]}
             </Typography>
           </Grid>
 

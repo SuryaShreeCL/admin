@@ -57,6 +57,12 @@ class Index extends Component {
       studentMatch: [],
       distinctMatch: [],
       filterYear: "",
+      // title
+      list : {
+        diploma : "Diploma",
+        ug : "Undergraduate",
+        pg : "Postgraduate"
+      }
     };
   }
 
@@ -126,12 +132,12 @@ class Index extends Component {
           this.props.deleteSemesterDetails(
             this.props.match.params.studentId,
             oldData.subjectDetailsUgPgDiploma.id,
-            this.props.clickedSem,
+            this.props.clickedSem.data,
             (response) => {
               if (response.status === 200) {
                 this.props.viewSemesterDetails(
                   this.props.match.params.studentId,
-                  this.props.clickedSem,
+                  this.props.clickedSem.data,
                   (response) => {
                     this.setState({
                       semesterData: response.data.data[0].studentSubjectDetails,
@@ -180,11 +186,11 @@ class Index extends Component {
   componentDidMount() {
     this.props.viewSemesterDetails(
       this.props.match.params.studentId,
-      this.props.clickedSem,
+      this.props.clickedSem.data,
       (response) => {
         this.setState({
           semesterData:
-            response.data.data[0].studentSubjectDetails !== null
+            response && response.data.data[0].studentSubjectDetails !== null
               ? response.data.data[0].studentSubjectDetails
               : [],
           score: response.data.data[0].studentSemesterDetails.score,
@@ -263,7 +269,7 @@ class Index extends Component {
           });
           this.props.viewSemesterDetails(
             this.props.match.params.studentId,
-            this.props.clickedSem,
+            this.props.clickedSem.data,
             (response) => {
               this.setState({
                 semesterData:
@@ -279,6 +285,11 @@ class Index extends Component {
                 pdfViewer: response.data.data[0].studentDocument[0].path,
                 data: response.data,
                 year: response.data.data[0].year,
+                semesterGpa: response.data.data[0].studentSemesterDetails.semesterGpa,
+                cgpa: response.data.data[0].studentSemesterDetails.cgpa,
+                formulaEmployed: response.data.data[0].studentSemesterDetails.formulaEmployed,
+                percentage: response.data.data[0].studentSemesterDetails.percentage,
+
               });
             }
           );
@@ -286,6 +297,31 @@ class Index extends Component {
       );
     }
   };
+
+  componentDidUpdate(prevProps, prevState){
+    // if(this.state !== )
+    // this.props.viewSemesterDetails(
+    //   this.props.match.params.studentId,
+    //   this.props.clickedSem.data,
+    //   (response) => {
+    //     this.setState({
+    //       semesterData:
+    //         response.data.data[0].studentSubjectDetails !== null
+    //           ? response.data.data[0].studentSubjectDetails
+    //           : [],
+    //       score: response.data.data[0].studentSemesterDetails.score,
+    //       collegeDetails: response.data.data[0].college,
+    //       degreeDetails: response.data.data[0].degree,
+    //       university: response.data.data[0].university,
+    //       department: response.data.data[0].department,
+    //       subjectDetails: response.data.data[0].studentSemesterDetails,
+    //       pdfViewer: response.data.data[0].studentDocument[0].path,
+    //       data: response.data,
+    //       year: response.data.data[0].year,
+    //     });
+    //   }
+    // );
+  }
 
   // view marks - textfield handle function
   handleScoreChange = (e) => {
@@ -301,6 +337,8 @@ class Index extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.state,
+      '--------------------------')
 
     // table columns
     const columns = [
@@ -446,7 +484,6 @@ class Index extends Component {
               this.state.studentMatch !== null ? this.state.studentMatch : []
             }
           />
-
           <Grid item md={7} xs={7} sm={7} xl={7} lg={7}>
             <Grid container>
               <Grid
@@ -468,6 +505,7 @@ class Index extends Component {
                   semName={this.state.subjectDetails.semName}
                   year={this.state.year}
                   backHandler={this.props.backHandler}
+                  list={this.state.list}
                 />
 
                 {/* table */}
@@ -481,13 +519,13 @@ class Index extends Component {
 
                 {/* view marks -( below the table) */}
                 <ViewMarks
-                  semesterGpa={this.state.semesterGpa}
+                  semesterGpa={this.state.subjectDetails.semesterGpa}
                   gpaError={this.state.semesterGpaErr}
-                  cgpa={this.state.cgpa}
+                  cgpa={this.state.subjectDetails.cgpa}
                   cgpaError={this.state.cgpaErr}
-                  formulaEmployed={this.state.formulaEmployed}
+                  formulaEmployed={this.state.subjectDetails.formulaEmployed}
                   formulaError={this.state.formulaEmployedErr}
-                  percentage={this.state.percentage}
+                  percentage={this.state.subjectDetails.percentage}
                   percentageError={this.state.percentageErr}
                   handleChange={(e) => this.handleScoreChange(e)}
                 />
