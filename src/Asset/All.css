@@ -455,3 +455,14 @@ width: 100px !important;
   margin: 10px !important;
   border-radius: 10px !important;
 }
+.careerLeftContainer {
+  padding : 10px !important;
+}
+.careerleftButton {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end !important;
+}
+.careerDetailButtonstyle{
+    width: 100px !important;
+}

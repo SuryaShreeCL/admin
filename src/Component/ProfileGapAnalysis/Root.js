@@ -28,6 +28,7 @@ import "./InterestDetail.css";
 import { setPoperAnchorEl, getAcademicType, isClickedSem} from "../../Actions/HelperAction";
 import TwelthForm from "./TwelthForm";
 import Index from "./AcademicSummary/Index";
+import CareerRoot from './CareerRole/CareerRoot'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -169,6 +170,7 @@ class ProfileGapRoot extends Component {
     
     const { classes } = this.props;
     console.log(this.props.clickedBack)
+    console.log(this.state)
     // console.log(object)
     const open = Boolean(this.props.popperAnchorEl);
     const id = open ? "simple-popper" : undefined;
@@ -238,6 +240,11 @@ class ProfileGapRoot extends Component {
                     onClick={(e) => this.menuOpen(e)}
                   />
                 </ThemeProvider>
+                <Tab
+                  label="Career Role"
+                  style={{ textTransform: "none", minWidth: "135px" }}
+                  value={13}
+                />
               </Tabs>
               {this.state.value > 5 ? (
                 <IconButton
@@ -299,6 +306,9 @@ class ProfileGapRoot extends Component {
               <SemesterForm 
               backHandler = {this.backHandler}
               {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={13}>
+              <CareerRoot {...this.props} />
             </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
