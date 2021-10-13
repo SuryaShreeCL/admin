@@ -36,5 +36,8 @@ export const useStyles = makeStyles((theme)=>({
    },
    autoCompleteStyle : {
        width : 300
+   },
+   deleteContentText : {
+       marginBottom : "10px"
    }
 }))

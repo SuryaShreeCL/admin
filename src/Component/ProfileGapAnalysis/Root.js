@@ -37,6 +37,7 @@ import AdditionalPointsForm from "../PgaReport/AdditionalPointsForm";
 import SpecializationTrack from "../PgaReport/SpecializationTrack";
 import PlanOfAction from "../PgaReport/PlanOfAction";
 import CriticalSuccessFactor from "../PgaReport/CriticalSuccessFactor";
+import { getPgaTabDropDown } from "../../AsyncApiCall/PgaReport/PgaReport";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -61,6 +62,7 @@ class ProfileGapRoot extends Component {
       anchorEl: null,
       pgaOpen: false,
       pgaAnchorEl: null,
+      pgaReportDropDown : []
     };
   }
 
@@ -164,6 +166,22 @@ class ProfileGapRoot extends Component {
     this.props.getAcademicType("pg");
   };
 
+  // Component Did Mount
+
+  componentDidMount() {
+    getPgaTabDropDown()
+    .then(response=>{
+      if(response.status === 200){
+        this.setState({
+          pgaReportDropDown : response.data.data
+        })
+      }
+    })
+  }
+  
+
+  // Component Did Update
+
   componentDidUpdate(prevProps, prevState) {
     console.log(this.props, prevProps);
     if (this.props.clickedSem !== prevProps.clickedSem) {
@@ -171,12 +189,7 @@ class ProfileGapRoot extends Component {
         value: 12,
       });
     }
-    // if(this.props.clickedBack !== prevProps.clickedBack){
 
-    // this.setState({
-    //   value : 8
-    // })
-    // }
   }
 
   backHandler = () => {
@@ -357,7 +370,7 @@ class ProfileGapRoot extends Component {
               <SemesterForm backHandler={this.backHandler} {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={13}>
-              <CriticalSuccessFactor {...this.props} />
+              <GeneralDetails {...this.props} />
             </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
@@ -395,14 +408,14 @@ class ProfileGapRoot extends Component {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          {this.pgaReportMenus.map((eachMenu, index) => {
+          {this.state.pgaReportDropDown.length > 0 && this.state.pgaReportDropDown.map((eachMenu, index) => {
             return (
               <MenuItem
                 classes={{ selected: classes.menuItemStyle }}
-                selected={eachMenu.value === this.state.value}
-                onClick={eachMenu.handler}
+                selected={eachMenu.orderNo === this.state.value}
+                onClick={()=>console.log(eachMenu, index, "------------")}
               >
-                {eachMenu.label}
+                {eachMenu.name}
               </MenuItem>
             );
           })}

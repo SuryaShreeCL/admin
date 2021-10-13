@@ -38,13 +38,14 @@ padding : 15px;
 export const DeleteContainer = styled.div`
 width : 100%;
 display : flex;
+padding : 15px;
 `;
 
 export const DeleteLeftWrapper = styled.div`
 flex : 1;
-display : flex;
 justify-content : center;
 align-items : center;
+border-bottom : 2px solid #f1f1f1;
 `;
 
 export const DeleteButtonWrapper = styled.div`
