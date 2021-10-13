@@ -62,7 +62,6 @@ const EditPost = () => {
     wallCategories: [],
     caption: '',
     isEvent: false,
-    supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
