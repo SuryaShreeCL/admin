@@ -142,7 +142,11 @@ const EditPost = () => {
           initialValues={records || state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            updatePost({ ...values, wallFiles: [...(values.wallFilesUpdate ?? [])] });
+            updatePost({
+              ...values,
+              activeStatus: values.isWebinar && 'Scheduled',
+              wallFiles: [...(values.wallFilesUpdate ?? [])],
+            });
             resetForm();
           }}
           enableReinitialize
