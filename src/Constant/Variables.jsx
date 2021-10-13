@@ -25,6 +25,13 @@ export const HELPER_TEXT = {
   requiredField : "Please Fill The Required Field"
 }
 
+export const colors = {
+  primaryColor : "#2f9be5",
+  ashColor : "#f1f1f1",
+  white : "#ffffff"
+}
+
+
 export const menu = [
   {
     icon: <HomeOutlinedIcon />,

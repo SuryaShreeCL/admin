@@ -16,7 +16,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import CV from "./CV";
 import Dashboard from "./Dashboard";
-import GeneralDetails from "./GeneralDetails";
 import InterestDetail from "./InterestDetail";
 import PpgaCallNotes from "./PpgaCallNotes";
 import TenthForm from "./TenthForm";
@@ -25,9 +24,19 @@ import DiplomaForm from "./DiplomaForm/Index";
 import SemesterForm from "./SemesterForm/Index";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import "./InterestDetail.css";
-import { setPoperAnchorEl, getAcademicType, isClickedSem} from "../../Actions/HelperAction";
+import {
+  setPoperAnchorEl,
+  getAcademicType,
+  isClickedSem,
+} from "../../Actions/HelperAction";
 import TwelthForm from "./TwelthForm";
 import Index from "./AcademicSummary/Index";
+import GeneralDetails from "../PgaReport/GeneralDetails";
+import SelectSchool from "../PgaReport/SelectSchool";
+import AdditionalPointsForm from "../PgaReport/AdditionalPointsForm";
+import SpecializationTrack from "../PgaReport/SpecializationTrack";
+import PlanOfAction from "../PgaReport/PlanOfAction";
+import CriticalSuccessFactor from "../PgaReport/CriticalSuccessFactor";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -50,6 +59,8 @@ class ProfileGapRoot extends Component {
       value: 0,
       open: false,
       anchorEl: null,
+      pgaOpen: false,
+      pgaAnchorEl: null,
     };
   }
 
@@ -66,21 +77,40 @@ class ProfileGapRoot extends Component {
   handleClose = (event) => {
     this.setState({
       open: false,
-      anchorEl : null
+      anchorEl: null,
     });
   };
   menuOpen = (event) => {
-    this.setState({
-      open: true,
-      anchorEl: event.currentTarget,
-      // value: 6,
-    });
+    if (this.state.anchorEl !== event.currentTarget) {
+      this.setState({
+        anchorEl: event.currentTarget,
+        // value: 6,
+      });
+    }
   };
   menuClose = (event) => {
     this.setState({
       open: false,
       anchorEl: null,
       // value: 6,
+    });
+  };
+
+  // While hovering pga menu
+
+  pgaMenuOpen = (e) => {
+    this.setState({
+      pgaOpen: true,
+      pgaAnchorEl: e.currentTarget,
+    });
+  };
+
+  // While closing pga menu
+
+  pgaMenuClose = (e) => {
+    this.setState({
+      pgaOpen: false,
+      pgaAnchorEl: null,
     });
   };
 
@@ -109,66 +139,86 @@ class ProfileGapRoot extends Component {
 
   // diploma handling
   handleDiplomaClick = () => {
-    console.log("diploma")
+    console.log("diploma");
     this.setState({ value: 8, open: false });
     this.props.getAcademicType("diploma");
   };
-  
+
   // ug handling
   handleUgClick = () => {
-    console.log("ug")
-    this.setState({ 
-      value : 9, open : false
-    })
-    this.props.getAcademicType("ug")
-  }
+    console.log("ug");
+    this.setState({
+      value: 9,
+      open: false,
+    });
+    this.props.getAcademicType("ug");
+  };
 
   // pg handling
   handlePgClick = () => {
-    console.log("pg")
-    this.setState({ 
-      value : 10, open : false
-    })
-    this.props.getAcademicType("pg")
-  }
+    console.log("pg");
+    this.setState({
+      value: 10,
+      open: false,
+    });
+    this.props.getAcademicType("pg");
+  };
 
-
-  componentDidUpdate(prevProps,prevState){
-    console.log(this.props,prevProps)
-    if(this.props.clickedSem !== prevProps.clickedSem){
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.props, prevProps);
+    if (this.props.clickedSem !== prevProps.clickedSem) {
       this.setState({
-        value : 12
-      })
+        value: 12,
+      });
     }
     // if(this.props.clickedBack !== prevProps.clickedBack){
-      
-      // this.setState({
-      //   value : 8
-      // })
-    // }
 
-    
+    // this.setState({
+    //   value : 8
+    // })
+    // }
   }
 
   backHandler = () => {
     this.setState({
-      value : 8
-    })
-  }
+      value: 8,
+    });
+  };
 
-  menus = [
-    { label : "10th", value : 6, handler : ()=>this.setState({ value: 6, open: false })},
-    { label : "12th", value : 7, handler : ()=>this.setState({ value: 7, open: false })},
-    { label : "Diploma", value : 8, handler : ()=>this.handleDiplomaClick()},
-    { label : "Undergraduate", value : 9, handler : ()=>this.handleUgClick()},
-    { label : "Postgraduate", value : 10, handler : ()=>this.handlePgClick()},
-    { label : "Academics Summary", value : 11, handler : ()=>this.setState({ value: 11, open: false })},
-  ]
+  academicMenus = [
+    {
+      label: "10th",
+      value: 6,
+      handler: () => this.setState({ value: 6, open: false }),
+    },
+    {
+      label: "12th",
+      value: 7,
+      handler: () => this.setState({ value: 7, open: false }),
+    },
+    { label: "Diploma", value: 8, handler: () => this.handleDiplomaClick() },
+    { label: "Undergraduate", value: 9, handler: () => this.handleUgClick() },
+    { label: "Postgraduate", value: 10, handler: () => this.handlePgClick() },
+    {
+      label: "Academics Summary",
+      value: 11,
+      handler: () => this.setState({ value: 11, open: false }),
+    },
+  ];
+
+  // Menu list for PGA Report
+
+  pgaReportMenus = [
+    {
+      label: "General Details",
+      value: 13,
+      handler: () => this.setState({ value: 13, pgaOpen: false }),
+    },
+  ];
 
   render() {
-    
     const { classes } = this.props;
-    console.log(this.props.clickedBack)
+    console.log(this.props.clickedBack);
     // console.log(object)
     const open = Boolean(this.props.popperAnchorEl);
     const id = open ? "simple-popper" : undefined;
@@ -221,13 +271,8 @@ class ProfileGapRoot extends Component {
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="Academic Details"
-                    onMouseEnter={(e) =>{
-                      console.log("Mouse is entering")
-                      this.menuOpen(e)
-                    }
-                      }
-                    onMouseLeave={(e)=>{
-                     
+                    onMouseOver={(e) => {
+                      this.menuOpen(e);
                     }}
                     icon={
                       <ExpandMoreIcon
@@ -236,6 +281,20 @@ class ProfileGapRoot extends Component {
                     }
                     style={{ textTransform: "none" }}
                     onClick={(e) => this.menuOpen(e)}
+                  />
+                  <Tab
+                    style={{ minWidth: "135px", paddingRight: "0px" }}
+                    label="PGA Report"
+                    onMouseEnter={(e) => {
+                      this.pgaMenuOpen(e);
+                    }}
+                    icon={
+                      <ExpandMoreIcon
+                        style={{ color: "black", marginTop: "7px" }}
+                      />
+                    }
+                    style={{ textTransform: "none" }}
+                    onClick={(e) => this.pgaMenuOpen(e)}
                   />
                 </ThemeProvider>
               </Tabs>
@@ -281,7 +340,7 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             {/* common semester form */}
             <TabPanel value={this.state.value} index={9}>
-            <DiplomaForm {...this.props} />
+              <DiplomaForm {...this.props} />
 
               {/* <SemesterForm 
               backHandler = {this.backHandler}
@@ -295,10 +354,10 @@ class ProfileGapRoot extends Component {
               <Index {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={12}>
-
-              <SemesterForm 
-              backHandler = {this.backHandler}
-              {...this.props} />
+              <SemesterForm backHandler={this.backHandler} {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={13}>
+              <CriticalSuccessFactor {...this.props} />
             </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
@@ -307,18 +366,46 @@ class ProfileGapRoot extends Component {
         </Grid>
         <Menu
           anchorEl={this.state.anchorEl}
-          open={this.state.open}
+          open={Boolean(this.state.anchorEl)}
           onClose={this.handleClose}
+          getContentAnchorEl={null}
+          MenuListProps={{ onMouseLeave: this.handleClose }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          transformOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          {this.academicMenus.map((eachMenu, index) => {
+            return (
+              <MenuItem
+                classes={{ selected: classes.menuItemStyle }}
+                selected={eachMenu.value === this.state.value}
+                onClick={eachMenu.handler}
+              >
+                {eachMenu.label}
+              </MenuItem>
+            );
+          })}
+        </Menu>
+        {/* Menu Items for PGA */}
+        <Menu
+          anchorEl={this.state.pgaAnchorEl}
+          open={Boolean(this.state.pgaAnchorEl)}
+          onClose={this.pgaMenuClose}
+          MenuListProps={{ onMouseLeave: this.pgaMenuClose }}
           getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          {this.menus.map((eachMenu, index)=>{
+          {this.pgaReportMenus.map((eachMenu, index) => {
             return (
-              <MenuItem classes={{selected : classes.menuItemStyle}} selected={eachMenu.value === this.state.value}  onClick={eachMenu.handler}>{eachMenu.label}</MenuItem>
-            )
+              <MenuItem
+                classes={{ selected: classes.menuItemStyle }}
+                selected={eachMenu.value === this.state.value}
+                onClick={eachMenu.handler}
+              >
+                {eachMenu.label}
+              </MenuItem>
+            );
           })}
-         
         </Menu>
       </div>
     );
@@ -333,18 +420,16 @@ const useStyles = (theme) => ({
     top: "7px",
     right: "0px",
   },
-  menuItemStyle : {
-    backgroundColor : "#ffffff !important",
-    color : "#009be5"
-  }
+  menuItemStyle: {
+    backgroundColor: "#ffffff !important",
+    color: "#009be5",
+  },
 });
 const mapStateToProps = (state) => {
   return {
     popperAnchorEl: state.HelperReducer.popperState.popperAnchorEl,
     academicTypes: state.HelperReducer.academicType,
     clickedSem: state.HelperReducer.clickedSem,
-
-
   };
 };
 export default connect(mapStateToProps, {
