@@ -24,7 +24,7 @@ function SemScoreCard(props) {
             <TableHead>
               <TableRow>
                 <TableCell align="center">Subject Name</TableCell>
-                <TableCell align="center">Score Name</TableCell>
+                <TableCell align="center">Score</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
