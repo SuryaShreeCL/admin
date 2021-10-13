@@ -142,20 +142,17 @@ export const createWallPost = (post) => async (dispatch) => {
 
 export const updateWallPost = (post) => async (dispatch) => {
   try {
+    // let putLink = post.isWebinar ? `/api/v1/wallpost/${post.id}`:'/api/v1/wallpost'
     dispatch({
       type: WALL.UPDATE_REQUEST,
     });
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
-      post,
-      {
-        crossDomain: true,
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
-        },
-      }
-    );
+    const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/wallpost`, post, {
+      crossDomain: true,
+      headers: {
+        admin: 'yes',
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+      },
+    });
     dispatch({
       type: WALL.UPDATE_SUCCESS,
       payload: data,
