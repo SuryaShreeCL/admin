@@ -151,10 +151,14 @@ function TenthForm(props) {
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
               if(rowData.subjectDetails){
-                if(rowData.score <= rowData.subjectDetails.maximumMarks){
-                  return true
+                if(rowData.score > 0){
+                  if(rowData.score <= rowData.subjectDetails.maximumMarks){
+                    return true
+                  }else{
+                    return { isValid: false, helperText: "Score should be less than maximum mark" };
+                  }
                 }else{
-                  return { isValid: false, helperText: "Score should be less than maximum mark" };
+                  return { isValid: false, helperText: "Score should not be negative value" };
                 }
               }else{
                 return { isValid : false }

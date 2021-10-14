@@ -90,34 +90,34 @@ function TwelthForm(props) {
       field: "subjectDetails.subjectCode",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.subjectDetails.subjectCode : "",
-        validate: (rowData) => {
-          if (!isEmptyObject(rowData)) {
-            if((rowData.subjectDetails)){
-              if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
-                return true;
-              } else {
-                return { isValid: false };
-              }
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (rowData.subjectDetails) {
+            if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
+              return true;
+            } else {
+              return { isValid: false };
             }
           }
-        },
+        }
+      },
     },
     {
       title: "Subject Name",
       field: "subjectDetails.subjectName",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.subjectDetails.subjectName : "",
-        validate: (rowData) => {
-          if (!isEmptyObject(rowData)) {
-            if((rowData.subjectDetails)){
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (rowData.subjectDetails) {
             if (!isEmptyString(rowData.subjectDetails.subjectName)) {
               return true;
             } else {
               return { isValid: false };
             }
           }
-          }
-        },
+        }
+      },
     },
     {
       title: "Maximum Marks",
@@ -128,23 +128,26 @@ function TwelthForm(props) {
       },
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
-        validate: (rowData) => {
-          if (!isEmptyObject(rowData)) {
-            if((rowData.subjectDetails)){
+      validate: (rowData) => {
+        if (!isEmptyObject(rowData)) {
+          if (rowData.subjectDetails) {
             if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
-              if(rowData.subjectDetails.maximumMarks > 0){
-                return true
-              }else{
-                return { isValid : false, helperText : "It cannot be zero or negative value" }
+              if (rowData.subjectDetails.maximumMarks > 0) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be zero or negative value",
+                };
               }
-            }else {
-              return { isValid : false }
-            }
             } else {
-              return { isValid: false};
-            } 
+              return { isValid: false };
+            }
+          } else {
+            return { isValid: false };
           }
-        },
+        }
+      },
     },
     {
       title: "Score",
@@ -156,15 +159,25 @@ function TwelthForm(props) {
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
-              if(rowData.subjectDetails){
-                if(rowData.score <= rowData.subjectDetails.maximumMarks){
-                  return true
-                }else{
-                  return { isValid: false, helperText: "Score should be less than maximum mark" };
+            if (rowData.subjectDetails) {
+              if (rowData.score > 0) {
+                if (rowData.score <= rowData.subjectDetails.maximumMarks) {
+                  return true;
+                } else {
+                  return {
+                    isValid: false,
+                    helperText: "Score should be less than maximum mark",
+                  };
                 }
-              }else{
-                return { isValid : false }
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "Score should not be negative value",
+                };
               }
+            } else {
+              return { isValid: false };
+            }
           } else {
             return { isValid: false };
           }
@@ -212,7 +225,7 @@ function TwelthForm(props) {
         }
       } else {
         setData(copiedData);
-        dispatch(saveTemplate(copiedData))
+        dispatch(saveTemplate(copiedData));
         dispatch(saveCopyData(""));
       }
     }
