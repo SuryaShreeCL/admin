@@ -246,7 +246,7 @@ class ProfileGapRoot extends Component {
                   value={13}
                 />
               </Tabs>
-              {this.state.value > 5 ? (
+              {this.state.value > 5 && this.state.value !== 13 ? (
                 <IconButton
                   id={id}
                   onClick={this.handlePopupClick}

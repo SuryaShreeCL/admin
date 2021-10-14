@@ -25,3 +25,10 @@
       display: flex !important;
       align-items: flex-end !important;
   }
+  .careerrightcontent {
+    margin-top: 10px !important;
+  }
+  .careerstepper{
+    display: flex !important;
+    flex-direction: row !important;
+  }
