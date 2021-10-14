@@ -121,16 +121,6 @@ class StageBasedLayout extends Component {
               );
             })}
           </Grid>
-          <Grid item md={12}>
-            {this.state.othersstatus === "Mismatched" && (
-              <TextField
-                label="Add Comments"
-                fullWidth
-                value={this.state.comments}
-                onChange={(e) => this.setState({ comments: e.target.value })}
-              />
-            )}
-          </Grid>
         </Grid>
       );
     } else if (this.state.othersstatus === "Mismatched") {
@@ -158,7 +148,10 @@ class StageBasedLayout extends Component {
             })}
           </Grid>
           <Grid item md={12}>
-            <TextField label="Add Comments" fullWidth />
+            <TextField label="Add Comments" 
+            fullWidth 
+            value={this.state.comments}
+            onChange={(e) => this.setState({ comments: e.target.value })}/>
           </Grid>
         </Grid>
       );
@@ -188,6 +181,7 @@ class StageBasedLayout extends Component {
     let obj = {
       comments: this.state.comments,
     };
+    console.log(obj)
     this.props.ObIncomplete(
       this.props.match.params.studentId,
       this.props.match.params.productId,

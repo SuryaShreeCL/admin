@@ -15,6 +15,11 @@ class Index extends Component {
 
     this.state = {
       data: "",
+      list : {
+        diploma : "Diploma",
+        ug : "Undergraduate",
+        pg : "Postgraduate"
+      }
     };
   }
 
@@ -24,18 +29,19 @@ class Index extends Component {
       this.props.academicTypes,
       (response) => {
         this.setState({
-          data: response.data && response.data,
+          data: response &&  response.data,
         });
       }
     );
   }
 
   //  markSheet(click) handle function
-  handleCardClick = (data) => {
-    this.props.isClickedSem(data);
+  handleCardClick = (data) => {   
+    this.props.isClickedSem({data:data,number:Math.random});
   };
 
   handleClick = (data) => {
+    console.log(data)
     window.open(
       URL +
         "/api/v1/files/download/" +
@@ -46,6 +52,7 @@ class Index extends Component {
   };
 
   render() {
+    console.log(this.state.data);
     return (
       <div>
         <Grid container position="relative" height="100vh">
@@ -53,7 +60,10 @@ class Index extends Component {
             <Grid container>
               {/* View details */}
               <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                <ViewDetails item={this.state.data} />
+                <ViewDetails 
+                item={this.state.data} 
+                list={this.state.list}
+                />
               </Grid>
 
               {/* divider grid */}
@@ -84,10 +94,13 @@ class Index extends Component {
                         this.state.data.university &&
                         this.state.data.university.name
                       }
-                      semester={item.semester}
+                      semester={item.semName}
                       markSheet={item.studentDocument.marksheetName}
                       score={item.score}
-                      handleChange={() => this.handleCardClick(item.id)}
+                      handleChange={() => {
+                        console.log("card click")
+                        this.handleCardClick(item.id)}
+                      }
                       handleDownloadClick={() =>
                         this.handleClick(item.studentDocument.path)
                       }
