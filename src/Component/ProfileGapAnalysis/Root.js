@@ -372,6 +372,18 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={13}>
               <GeneralDetails {...this.props} />
             </TabPanel>
+            <TabPanel value={this.state.value} index={14}>
+              <SelectSchool {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={15}>
+              <PlanOfAction {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={16}>
+              <CriticalSuccessFactor {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={17}>
+              <AdditionalPointsForm {...this.props} />
+            </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>
             {this.renderRightContainer()}
@@ -412,8 +424,8 @@ class ProfileGapRoot extends Component {
             return (
               <MenuItem
                 classes={{ selected: classes.menuItemStyle }}
-                selected={eachMenu.orderNo === this.state.value}
-                onClick={()=>console.log(eachMenu, index, "------------")}
+                selected={12+index+1 === this.state.value}
+                onClick={()=>this.setState({ value : 12+index+1 })}
               >
                 {eachMenu.name}
               </MenuItem>

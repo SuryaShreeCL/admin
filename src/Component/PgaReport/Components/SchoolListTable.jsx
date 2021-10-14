@@ -9,13 +9,6 @@ import { AddButton } from './StyledComponents';
 import { useStyles } from '../Styles/Index';
 function SchoolListTable(props) {
     const classes = useStyles()
-
-    const rows = [
-        {university : "hello", program : "world"},
-        {university : "hello", program : "world"},
-        {university : "hello", program : "world"},
-        {university : "hello", program : "world"},
-    ]
     return (
         <TableContainer>
         <Table aria-label="simple table">
@@ -28,10 +21,10 @@ function SchoolListTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {props.data.map((row, index) => (
                 <TableRow className={index % 2 === 0 && classes.tableRowColor}>
-                <TableCell>{row.university}</TableCell>
-                <TableCell align="center">{row.program}</TableCell>
+                <TableCell>{row.university.name}</TableCell>
+                <TableCell align="center">{row.program.name}</TableCell>
                 <TableCell align="center"> <AddButton>Add</AddButton> </TableCell>
               </TableRow>
             ))}

@@ -53,3 +53,11 @@ display : flex;
 justify-content : center;
 align-items : center;
 `;
+
+export const NoShoolContainer = styled.div`
+height: 35vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+`;

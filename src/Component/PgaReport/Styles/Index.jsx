@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme)=>({
         backgroundColor : colors.ashColor
     },
     leftContainer : {
-        padding : "20px"
+        padding : "20px",
     },
     containerStyle : {
         height : "80vh",
