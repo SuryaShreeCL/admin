@@ -8,11 +8,11 @@ export default class Form extends Component {
     this.state = {};
   }
   renderContent() {
-    if (this.props.type === "School") {
+    if (this.props.type === "X" || this.props.type === "XII") {
       return (
         <>
           <Grid item md={8}>
-            <TextField label="School Name" disabled />
+            <TextField label="School Name" disabled value={this.props.data.name}/>
           </Grid>
           <Grid item md={4}>
             <TextField label="Cumulative" disabled />
@@ -20,14 +20,14 @@ export default class Form extends Component {
         </>
       );
     }
-    if (this.props.type === "College") {
+    if (this.props.type === "Diploma" || this.props.type === "Undergraduate" || this.props.type === "Postgraduate") {
       return (
         <>
           <Grid item md={5}>
-            <TextField label="College Name" disabled />
+            <TextField label="College Name" disabled value={this.props.data.name}/>
           </Grid>
           <Grid item md={5}>
-            <TextField label="Degree" disabled />
+            <TextField label="Degree" disabled value={this.props.data.degreeName}/>
           </Grid>
           <Grid item md={2}>
             <TextField label="Cumulative" disabled />
@@ -39,7 +39,7 @@ export default class Form extends Component {
       return (
         <>
           <Grid item md={8}>
-            <TextField label="Job Role" disabled />
+            <TextField label="Job Role" disabled value={this.props.data.role}/>
           </Grid>
           <Grid item md={4}>
             <TextField label="Cumulative" disabled />
@@ -57,16 +57,16 @@ export default class Form extends Component {
           </Grid>
           {this.renderContent()}
           <Grid item md={3}>
-            <TextField label="Marks" disabled />
+            <TextField label="Marks" disabled value={this.props.data.score} />
           </Grid>
           <Grid item md={3}>
-            <TextField label="Start Month" disabled />
+            <TextField label="Start Month" disabled value={this.props.data.startDate}/>
           </Grid>
           <Grid item md={3}>
-            <TextField label="End Month" disabled />
+            <TextField label="End Month" disabled value={this.props.data.endDate}/>
           </Grid>
           <Grid item md={3}>
-            <TextField label="Duration" disabled />
+            <TextField label="Duration" disabled value={this.props.data.duration}/>
           </Grid>
         </Grid>
       </div>

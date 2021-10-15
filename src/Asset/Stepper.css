@@ -1,7 +1,7 @@
 .stepper_vertical {
     display: flex !important;
     flex-direction: row !important;
-    justify-content: space-evenly !important;
+    justify-content: center !important;
 }
 .stepper_vertical_center_content{
     display: flex !important;
@@ -17,7 +17,7 @@
 .stepper_circle_red {
     width: 20px !important;
     height: 20px !important;
-    border: 2px solid rgb(233, 16, 16) !important;
+    border: 2px solid red !important;
     border-radius: 50% !important;
 }
 .stepper_line_green {
@@ -31,4 +31,7 @@
     height: 50px !important;
     border: 1px solid red !important;
     margin: 10px; 
+}
+.stepper_title_div {
+    display: flex !important;
 }

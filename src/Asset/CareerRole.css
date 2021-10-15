@@ -18,7 +18,8 @@
      font-weight: 500 !important;
   }
   .leftdetails{
-    height: 100vh !important;
+    height: 93vh !important;
+    max-height: 93vh !important;
     overflow-y: scroll !important;
   }
   .careericongrid {
@@ -31,4 +32,8 @@
   .careerstepper{
     display: flex !important;
     flex-direction: row !important;
+  }
+  .goaldetails {
+    height: 85vh !important;
+    overflow-y: scroll !important;
   }
