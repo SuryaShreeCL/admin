@@ -63,6 +63,9 @@
     cursor: pointer;
     margin-left: -6px;
     margin-top: 3px;
+    /* background-color: #1093FF; */
+    margin-left: 1px;
+
 }
 .back_icon{
     height: 50% !important;
@@ -85,10 +88,13 @@
 .semester_title_div{
     display: flex;
     flex-direction: row;
+    /* background-color: aqua; */
+    margin-left: 6px;
 }
 
 .viewDetails_title{
     text-transform: capitalize;
+    margin-bottom: -20px !important;
 }
 
 .grid_item1_div {
@@ -108,5 +114,18 @@
 .batch_div {
     display: flex;
     grid-gap: 102px;
+}
+
+/* filter */
+.Submenu_submenu__1PCnm > ul  {
+      margin-left: 7%;
+}
+.searchIcon_field_div {
+   
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: -32px !important;
 }
 
