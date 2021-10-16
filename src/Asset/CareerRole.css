@@ -1,0 +1,42 @@
+.careerLeftContainer {
+    padding-left: 22px !important;
+    padding-top: 20px !important;
+  }
+  .careerleftButton {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+  .careergoalButtonstyle{
+      width: 100px !important;
+  }
+  .ttilebuttonstyle {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+  }
+  .title {
+     font-size: 18px !important;
+     font-weight: 500 !important;
+  }
+  .leftdetails{
+    height: 93vh !important;
+    max-height: 93vh !important;
+    overflow-y: scroll !important;
+  }
+  .careericongrid {
+      display: flex !important;
+      align-items: flex-end !important;
+  }
+  .careerrightcontent {
+    margin-top: 10px !important;
+  }
+  .careerstepper{
+    display: flex !important;
+    flex-direction: row !important;
+  }
+  .goaldetails {
+    height: 86vh !important;
+    max-height: 86vh !important;
+    overflow-y: scroll !important;
+  }
+  
