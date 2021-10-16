@@ -62,7 +62,6 @@ const EditPost = () => {
     wallCategories: [],
     caption: '',
     isEvent: false,
-    supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
@@ -142,7 +141,11 @@ const EditPost = () => {
           initialValues={records || state}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            updatePost({ ...values, wallFiles: [...(values.wallFilesUpdate ?? [])] });
+            updatePost({
+              ...values,
+              activeStatus: values.isWebinar ? 'Scheduled' : 'Live',
+              wallFiles: [...(values.wallFilesUpdate ?? [])],
+            });
             resetForm();
           }}
           enableReinitialize
@@ -566,7 +569,7 @@ const EditPost = () => {
                   </ButtonsContainer>
                 </Form>
               </div>
-              {values.supportingMedia === 'webinar' ? null : <Preview state={values} />}
+              {values.isWebinar ? null : <Preview state={values} />}
             </>
           )}
         </Formik>

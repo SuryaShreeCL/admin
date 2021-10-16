@@ -2,8 +2,6 @@ import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FileProgress } from './FileProgress';
 
-let accessToken = window.sessionStorage.getItem('accessToken');
-
 export function SingleFileUploadWithProgress({ file, onDelete, onUpload, url, fileType }) {
   const [progress, setProgress] = useState(0);
 
@@ -29,7 +27,7 @@ function uploadFile(file, onProgress, fileType) {
   return new Promise((res, rej) => {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', awsUrl);
-    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+    xhr.setRequestHeader('Authorization', `Bearer ${window.sessionStorage.getItem('accessToken')}`);
     xhr.setRequestHeader('admin', 'yes');
 
     xhr.onload = () => {
