@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Form from "./Form";
 import Grid from "@material-ui/core/Grid";
-export default class CareerDetails extends Component {
+import {Gridtheme} from './FormStyle'
+import { ThemeProvider, withStyles } from "@material-ui/core";
+class CareerDetails extends Component {
   constructor() {
     super();
     this.state = {};
@@ -9,12 +11,13 @@ export default class CareerDetails extends Component {
   render() {
     return (
       <div>
+        <ThemeProvider theme={Gridtheme}>
         <Grid container spacing={3}>
           {this.props.data.length !== 0 &&
             this.props.data.careerRoleEduDetails.map((el) => {
               return (
                 <Grid item md={12}>
-                  <Form type={el.type} title={el.type} data={el} />
+                  <Form type={el && el.type} title={el && el.type} data={el} />
                 </Grid>
               );
             })}
@@ -27,7 +30,9 @@ export default class CareerDetails extends Component {
               );
             })}
         </Grid>
+        </ThemeProvider>
       </div>
     );
   }
 }
+export default CareerDetails

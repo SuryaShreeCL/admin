@@ -11,6 +11,8 @@ import {
   getGraphDetails,
   getCareerDetails,
 } from "../../../Actions/CareerRoleGraph";
+import { ThemeProvider } from '@material-ui/core/styles'
+import {Gridtheme} from './FormStyle'
 class Index extends Component {
   constructor() {
     super();
@@ -71,9 +73,13 @@ class Index extends Component {
       </>
     );
   }
+  handleScroll = (event, data) => {
+    console.log(event, data);
+  };
   render() {
     return (
       <div>
+      <ThemeProvider theme={Gridtheme}>
         <Grid container spacing={1}>
           <Grid item md={8} className={"careerLeftContainer"}>
             <div className={"ttilebuttonstyle"}>
@@ -86,14 +92,14 @@ class Index extends Component {
               </div>
               <div className={"careerleftButton"}>
                 <Button
-                  variant={"contained"}
+                  variant={this.state.component === "Details" ? "contained" : "outlined"}
                   color={"primary"}
                   onClick={() => this.handleClick("Details")}
                 >
                   Details
                 </Button>
                 <Button
-                  variant={"outlined"}
+                  variant={this.state.component === "Details" ? "outlined" : "contained"}
                   color={"primary"}
                   onClick={() => this.handleClick("Goals")}
                 >
@@ -117,9 +123,12 @@ class Index extends Component {
               <Grid item md={12}>
                 <Typography className={"title"}>Career Graph</Typography>
               </Grid>
-              <Grid item md={11} className={"leftdetails"}>
+              <Grid item md={12} className={"leftdetails"}>
                 <CustomisedStepper
                   data={this.state.graphDetails}
+                  handleClick={(e,data) =>
+                    this.handleScroll(e, data)
+                  }
                   {...this.props}
                 />
               </Grid>
@@ -127,6 +136,7 @@ class Index extends Component {
             </Grid>
           </Grid>
         </Grid>
+        </ThemeProvider>
       </div>
     );
   }

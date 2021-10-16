@@ -15,7 +15,7 @@ export default class Form extends Component {
             <TextField label="School Name" disabled value={this.props.data.name}/>
           </Grid>
           <Grid item md={4}>
-            <TextField label="Cumulative" disabled />
+            {/* <TextField label="Cumulative" disabled /> */}
           </Grid>
         </>
       );
@@ -30,7 +30,7 @@ export default class Form extends Component {
             <TextField label="Degree" disabled value={this.props.data.degreeName}/>
           </Grid>
           <Grid item md={2}>
-            <TextField label="Cumulative" disabled />
+            {/* <TextField label="Cumulative" disabled /> */}
           </Grid>
         </>
       );

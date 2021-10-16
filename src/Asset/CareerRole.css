@@ -1,5 +1,6 @@
 .careerLeftContainer {
-    padding : 10px !important;
+    padding-left: 22px !important;
+    padding-top: 20px !important;
   }
   .careerleftButton {
     display: flex !important;
@@ -34,6 +35,8 @@
     flex-direction: row !important;
   }
   .goaldetails {
-    height: 85vh !important;
+    height: 86vh !important;
+    max-height: 86vh !important;
     overflow-y: scroll !important;
   }
+  

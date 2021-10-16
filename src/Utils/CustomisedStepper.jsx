@@ -8,7 +8,6 @@ export default class CustomisedStepper extends Component {
     this.state = {};
   }
   render() {
-    console.log(this.props);
     return (
       <div>
         {this.props.data && this.props.data.map((el,index) => {
@@ -20,8 +19,8 @@ export default class CustomisedStepper extends Component {
                 </Grid>
                 <Grid item md={1}>
                   <div className={"stepper_vertical_center_content"}>
-                    <div className={ el.title.indexOf("B") === -1 ? "stepper_circle_green" : "stepper_circle_red"}></div>
-                    { index < this.props.data.length - 1 && <div className={this.props.data[index+1].title.indexOf("B") === -1 ? "stepper_line_green" : "stepper_line_red"}></div>}
+                    <div onClick={(e)=>this.props.handleClick(e,el)} className={el && el.title.indexOf("Break") === -1 ? "stepper_circle_green" : "stepper_circle_red"}></div>
+                    { index < this.props.data.length - 1 && <div className={this.props.data && this.props.data[index+1].title.indexOf("Break") === -1 ? "stepper_line_green" : "stepper_line_red"}></div>}
                   </div>
                 </Grid>
               <Grid item md={7}>

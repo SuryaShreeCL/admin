@@ -62,7 +62,7 @@ export const deleteStudentGoals = (id,callback) =>{
         })
     }
 }
-export const getGoalsType = () =>{
+export const getGoalsType = (callback) =>{
     let accessToken = window.sessionStorage.getItem("accessToken")
     return dispatch =>{
         axios.get(URL+"/api/v1/pgacareerrolegraph/goals", {
@@ -72,10 +72,12 @@ export const getGoalsType = () =>{
             }
         })
         .then(result=>{
+            callback(result)
             dispatch({type:CAREER_ROLE_GRAPH.getGoalsType,payload:result.data})
             console.log(result)
         })
         .catch(error=>{
+            callback(error)
             console.log(error)
         })
     }

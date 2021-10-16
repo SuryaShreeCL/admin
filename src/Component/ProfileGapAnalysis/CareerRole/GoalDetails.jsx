@@ -14,11 +14,24 @@ import {
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import MySnackBar from "../../MySnackBar";
+import {Gridtheme} from './FormStyle'
+import {ThemeProvider} from '@material-ui/core/styles'
 class GoalDetails extends Component {
   constructor() {
     super();
     this.state = {
-      goalArr: [],
+      goalArr: [
+        {
+          id: "",
+          pgaCRGGoals: {
+            id: "",
+          },
+          role: "",
+          industry: "",
+          company: "",
+        },
+      ],
+      goallist: [],
       snackMsg: "",
       snackOpen: false,
       snackColor: "",
@@ -29,14 +42,20 @@ class GoalDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        if (response.status === 200) {
+        if (response.data.body.data.length > 0) {
           this.setState({
             goalArr: response.data.body.data,
           });
         }
       }
     );
-    this.props.getGoalsType();
+    this.props.getGoalsType((response) => {
+      if (response.status === 200) {
+        this.setState({
+          goallist: response.data.body.data,
+        });
+      }
+    });
   }
   handleAdd = () => {
     let arr = this.state.goalArr;
@@ -56,17 +75,16 @@ class GoalDetails extends Component {
   handleDelete = (data, index) => {
     if (this.state.goalArr.length > 1) {
       if (data.id.length > 0) {
-        this.props.deleteStudentGoals(data.id, (response => {
+        this.props.deleteStudentGoals(data.id, (response) => {
           if (response.status === 200) {
             this.props.getStudentGoals(
               this.props.match.params.studentId,
               this.props.match.params.productId,
-              (response => {
+              (response) => {
                 this.setState({
                   goalArr: response.data.body.data,
                 });
               }
-              )
             );
             this.setState({
               snackMsg: "Deleted SuccessFully",
@@ -74,7 +92,7 @@ class GoalDetails extends Component {
               snackColor: "success",
             });
           }
-        }));
+        });
       } else {
         if (this.state.goalArr.length > 1) {
           let delarr = this.state.goalArr;
@@ -167,14 +185,12 @@ class GoalDetails extends Component {
     }
   };
   render() {
+    console.log(this.props);
     return (
       <div>
+        <ThemeProvider theme={Gridtheme}>
         <Grid container spacing={2}>
-          <Grid
-            item
-            md={12}
-            className={"goaldetails"}
-          >
+          <Grid item md={12} className={"goaldetails"}>
             {this.state.goalArr &&
               this.state.goalArr.map((data, index) => (
                 <Grid container spacing={2}>
@@ -182,10 +198,7 @@ class GoalDetails extends Component {
                     <Autocomplete
                       popupIcon={<ExpandMore />}
                       id="combo-box-demo"
-                      options={
-                        this.props.getGoalsTypeList.body.data &&
-                        this.props.getGoalsTypeList.body.data
-                      }
+                      options={this.state.goallist}
                       getOptionLabel={(option) => option.name}
                       value={data.pgaCRGGoals}
                       onChange={(e, newValue) =>
@@ -261,6 +274,7 @@ class GoalDetails extends Component {
           snackVariant={this.state.snackColor}
           snackMsg={this.state.snackMsg}
         />
+        </ThemeProvider>
       </div>
     );
   }
