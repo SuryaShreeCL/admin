@@ -5,7 +5,7 @@ import { SaveContainer } from './Components/StyledComponents'
 function BottomContainer(props) {
     return (
         <SaveContainer>
-                <PrimaryButton variant={"contained"} color={"primary"}>Save</PrimaryButton>
+                <PrimaryButton variant={"contained"} onClick={props.onClick} color={"primary"}>Save</PrimaryButton>
                 </SaveContainer>
     )
 }

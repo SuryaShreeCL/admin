@@ -39,5 +39,12 @@ export const useStyles = makeStyles((theme)=>({
    },
    deleteContentText : {
        marginBottom : "10px"
+   },
+   noSchoolTypo : {
+       fontWeight : 500
+   },
+   quarterlyTypo : {
+    fontWeight : 600
+
    }
 }))

@@ -10,7 +10,8 @@ const initialState = {
     filterAnchorEl: null,
   },
   copiedData: "",
-  templateData : []
+  templateData : [],
+  addedSchool : null
 };
 
 export default (state = initialState, action) => {
@@ -64,6 +65,11 @@ export default (state = initialState, action) => {
           ...state,
           templateData: action.payload,
         };
+        case HELPER.saveSchool:
+          return {
+            ...state,
+            addedSchool: action.payload,
+          };
     default:
       break;
   }

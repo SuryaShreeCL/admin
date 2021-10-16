@@ -1,15 +1,17 @@
-import { Typography } from '@material-ui/core'
-import React from 'react'
-import { NoShoolContainer } from './StyledComponents'
+import { Typography } from "@material-ui/core";
+import React from "react";
+import { NoShoolContainer } from "./StyledComponents";
 import NoSchoolImg from "../../../Asset/Images/NoSchool.svg";
+import { useStyles } from "../Styles/Index";
 
 function NoSchool(props) {
-    return (
-            <NoShoolContainer>
-                    <img src={NoSchoolImg} />
-                    <Typography variant={"h5"}>{props.text}</Typography>
-                  </NoShoolContainer>
-    )
+  const classes = useStyles();
+  return (
+    <NoShoolContainer>
+      <img src={NoSchoolImg} />
+      <Typography className={classes.noSchoolTypo}>{props.text}</Typography>
+    </NoShoolContainer>
+  );
 }
 
-export default NoSchool
+export default NoSchool;

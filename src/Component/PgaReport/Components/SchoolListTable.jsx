@@ -7,8 +7,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { AddButton } from './StyledComponents';
 import { useStyles } from '../Styles/Index';
+import { useSelector, useDispatch } from 'react-redux';
+import { saveSchool } from '../../../Actions/HelperAction';
+import { colors } from '../../../Constant/Variables';
 function SchoolListTable(props) {
-    const classes = useStyles()
+    const classes = useStyles();
+    const dispatch = useDispatch()
+    const { addedSchool } = useSelector((state)=>state.HelperReducer)
+    const handleAddClick = (data) =>{
+      dispatch(saveSchool(data))
+    }
+    
     return (
         <TableContainer>
         <Table aria-label="simple table">
@@ -25,7 +34,7 @@ function SchoolListTable(props) {
                 <TableRow className={index % 2 === 0 && classes.tableRowColor}>
                 <TableCell>{row.university.name}</TableCell>
                 <TableCell align="center">{row.program.name}</TableCell>
-                <TableCell align="center"> <AddButton>Add</AddButton> </TableCell>
+                <TableCell align="center"> <AddButton color={ props.selectedSchool.filter(el=>el.id === row.id).length !== 0 ? colors.green : colors.primaryColor } onClick={()=>handleAddClick(row)}>{props.selectedSchool.filter(el=>el.id === row.id).length !== 0 ? "Added" : "Add"}</AddButton> </TableCell>
               </TableRow>
             ))}
           </TableBody>
