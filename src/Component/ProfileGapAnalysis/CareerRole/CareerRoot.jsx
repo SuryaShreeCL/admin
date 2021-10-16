@@ -74,7 +74,9 @@ class Index extends Component {
     );
   }
   handleScroll = (event, data) => {
-    console.log(event, data);
+    if(this.state.component === "Details"){
+      document.getElementById(data.title).scrollIntoView()
+    }
   };
   render() {
     return (

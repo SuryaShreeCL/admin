@@ -17,6 +17,18 @@ export default class Form extends Component {
           <Grid item md={4}>
             {/* <TextField label="Cumulative" disabled /> */}
           </Grid>
+          <Grid item md={3}>
+           <TextField label="Marks" disabled value={this.props.data.score} /> 
+          </Grid>
+          <Grid item md={3}>
+            <TextField label="Start Month" disabled value={this.props.data.startDate}/>
+          </Grid>
+          <Grid item md={3}>
+            <TextField label="End Month" disabled value={this.props.data.endDate}/>
+          </Grid>
+          <Grid item md={3}>
+            <TextField label="Duration" disabled value={this.props.data.duration}/>
+          </Grid>
         </>
       );
     }
@@ -26,11 +38,25 @@ export default class Form extends Component {
           <Grid item md={5}>
             <TextField label="College Name" disabled value={this.props.data.name}/>
           </Grid>
+          {this.props.type === "Diploma" ? null : 
           <Grid item md={5}>
             <TextField label="Degree" disabled value={this.props.data.degreeName}/>
           </Grid>
+    }
           <Grid item md={2}>
             {/* <TextField label="Cumulative" disabled /> */}
+          </Grid>
+           <Grid item md={3}>
+           <TextField label="Marks" disabled value={this.props.data.score} /> 
+          </Grid>
+          <Grid item md={3}>
+            <TextField label="Start Month" disabled value={this.props.data.startDate}/>
+          </Grid>
+          <Grid item md={3}>
+            <TextField label="End Month" disabled value={this.props.data.endDate}/>
+          </Grid>
+          <Grid item md={3}>
+            <TextField label="Duration" disabled value={this.props.data.duration}/>
           </Grid>
         </>
       );
@@ -42,22 +68,7 @@ export default class Form extends Component {
             <TextField label="Job Role" disabled value={this.props.data.role}/>
           </Grid>
           <Grid item md={4}>
-            <TextField label="Cumulative" disabled />
-          </Grid>
-        </>
-      );
-    }
-  }
-  render() {
-    return (
-      <div>
-        <Grid container spacing={2}>
-          <Grid item md={12}>
-            <Typography className={"title"}>{this.props.title}</Typography>
-          </Grid>
-          {this.renderContent()}
-          <Grid item md={3}>
-            <TextField label="Marks" disabled value={this.props.data.score} />
+            <TextField label="Cumulative" disabled value={this.props.data.cumulative}/>
           </Grid>
           <Grid item md={3}>
             <TextField label="Start Month" disabled value={this.props.data.startDate}/>
@@ -68,6 +79,18 @@ export default class Form extends Component {
           <Grid item md={3}>
             <TextField label="Duration" disabled value={this.props.data.duration}/>
           </Grid>
+        </>
+      );
+    }
+  }
+  render() {
+    return (
+      <div>
+        <Grid container spacing={2}>
+          <Grid item md={12} id={this.props.title}>
+            <Typography className={"title"}>{this.props.title}</Typography>
+          </Grid>
+          {this.renderContent()}
         </Grid>
       </div>
     );

@@ -14,10 +14,12 @@ export const Gridtheme = createTheme({
           },
           MuiButton : {
               containedPrimary : {
-                  backgroundColor : "#3eaff0"
+                  backgroundColor : "#3eaff0",
+                  textTransform : "none"
               },
               outlinedPrimary : {
                   color : "#3eaff0",
+                  textTransform : "none"
               }
           }
  }

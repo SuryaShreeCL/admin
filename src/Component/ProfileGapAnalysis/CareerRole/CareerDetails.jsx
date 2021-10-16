@@ -17,7 +17,7 @@ class CareerDetails extends Component {
             this.props.data.careerRoleEduDetails.map((el) => {
               return (
                 <Grid item md={12}>
-                  <Form type={el && el.type} title={el && el.type} data={el} />
+                  <Form id={el.type} type={el && el.type} title={el && el.type} data={el} />
                 </Grid>
               );
             })}
@@ -25,7 +25,7 @@ class CareerDetails extends Component {
             this.props.data.careerRoleEmployeeModels.map((el) => {
               return (
                 <Grid item md={12}>
-                  <Form type="Work" data={el} title={el.organization} />
+                  <Form id={el.organization} type="Work" data={el} title={el.organization} />
                 </Grid>
               );
             })}
