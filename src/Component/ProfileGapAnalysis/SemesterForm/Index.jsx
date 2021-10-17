@@ -20,7 +20,7 @@ import SimilarityPopup from "../SimilarityPopup";
 import {
   getSimilarStudentsByAcademic,
   getDistinctSubjectsByAcademic,
-  getDegreeByType
+  getDegreeByType,
 } from "../../../AsyncApiCall/Ppga";
 import {
   getAllColleges,
@@ -40,13 +40,15 @@ class Index extends Component {
       university: "",
       year: "",
       department: "",
-      score: "",
+      cgpaScale: "",
       subjectDetails: "",
       degreeResponse: "",
       filterFieldType: "",
       filterField: "",
       filterSubItem: "",
       degreeType: "",
+      cgpaPercentage: "",
+      degreeDetails: "",
 
       // viewMarks
       semesterGpa: "",
@@ -233,21 +235,29 @@ class Index extends Component {
             response && response.data.data[0].studentSubjectDetails !== null
               ? response.data.data[0].studentSubjectDetails
               : [],
-          score: response && response.data.data[0].studentSemesterDetails.score,
+          cgpaScale:
+            response && response.data.data[0].studentSemesterDetails.score,
+          cgpaPercentage:
+            response && response.data.data[0].studentSemesterDetails.scoreScale,
           collegeDetails: response && response.data.data[0].college,
           degreeDetails: response && response.data.data[0].degree,
           university: response && response.data.data[0].university,
           department: response && response.data.data[0].department,
-          subjectDetails: response && response.data.data[0].studentSemesterDetails,
+          subjectDetails:
+            response && response.data.data[0].studentSemesterDetails,
           pdfViewer: response && response.data.data[0].studentDocument[0].path,
           data: response && response.data,
           year: response && response.data.data[0].year,
-          semesterGpa: response && response.data.data[0].studentSemesterDetails.semesterGpa,
+          semesterGpa:
+            response &&
+            response.data.data[0].studentSemesterDetails.semesterGpa,
           cgpa: response && response.data.data[0].studentSemesterDetails.cgpa,
           formulaEmployed:
-          response && response.data.data[0].studentSemesterDetails.formulaEmployed,
-          percentage: response && response.data.data[0].studentSemesterDetails.percentage,
-          degreeType : response && response.data.data[0].diplomaType,
+            response &&
+            response.data.data[0].studentSemesterDetails.formulaEmployed,
+          percentage:
+            response && response.data.data[0].studentSemesterDetails.percentage,
+          degreeType: response && response.data.data[0].diplomaType,
         });
       }
     );
@@ -323,26 +333,39 @@ class Index extends Component {
             (response) => {
               this.setState({
                 semesterData:
-                response && response.data.data[0].studentSubjectDetails !== null
+                  response &&
+                  response.data.data[0].studentSubjectDetails !== null
                     ? response.data.data[0].studentSubjectDetails
                     : [],
-                score: response && response.data.data[0].studentSemesterDetails.score,
+                cgpaScale:
+                  response &&
+                  response.data.data[0].studentSemesterDetails.score,
+                cgpaPercentage:
+                  response &&
+                  response.data.data[0].studentSemesterDetails.scoreScale,
+
                 collegeDetails: response && response.data.data[0].college,
                 degreeDetails: response && response.data.data[0].degree,
                 university: response && response.data.data[0].university,
                 department: response && response.data.data[0].department,
-                degreeType : response && response.data.data[0].diplomaType,
-                subjectDetails: response && response.data.data[0].studentSemesterDetails,
-                pdfViewer: response && response.data.data[0].studentDocument[0].path,
+                degreeType: response && response.data.data[0].diplomaType,
+                subjectDetails:
+                  response && response.data.data[0].studentSemesterDetails,
+                pdfViewer:
+                  response && response.data.data[0].studentDocument[0].path,
                 data: response && response && response.data,
                 year: response.data.data[0].year,
                 semesterGpa:
-                response && response.data.data[0].studentSemesterDetails.semesterGpa,
-                cgpa: response && response.data.data[0].studentSemesterDetails.cgpa,
+                  response &&
+                  response.data.data[0].studentSemesterDetails.semesterGpa,
+                cgpa:
+                  response && response.data.data[0].studentSemesterDetails.cgpa,
                 formulaEmployed:
-                response && response.data.data[0].studentSemesterDetails.formulaEmployed,
+                  response &&
+                  response.data.data[0].studentSemesterDetails.formulaEmployed,
                 percentage:
-                response && response.data.data[0].studentSemesterDetails.percentage,
+                  response &&
+                  response.data.data[0].studentSemesterDetails.percentage,
               });
             }
           );
@@ -537,12 +560,14 @@ class Index extends Component {
                   collegeName={this.state.collegeDetails}
                   universityName={this.state.university}
                   departmentName={this.state.department}
-                  score={this.state.score}
+                  cgpaScale={this.state.cgpaScale}
+                  cgpaPercentage={this.state.cgpaPercentage}
                   semName={this.state.subjectDetails.semName}
                   year={this.state.year}
                   backHandler={this.props.backHandler}
                   list={this.state.list}
-                  degree = {this.state.degreeType}
+                  degree={this.state.degreeType}
+                  degreeType={this.state.degreeDetails}
                 />
 
                 {/* table */}
@@ -598,7 +623,6 @@ const mapStateToProps = (state) => {
     clickedSem: state.HelperReducer.clickedSem,
     academicTypes: state.HelperReducer.academicType,
     departmentResponse: state.CollegeReducer.BranchList,
-
   };
 };
 

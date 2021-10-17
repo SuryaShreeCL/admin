@@ -18,7 +18,8 @@ const initialState = {
   academicView : [],
   semesterDetails : [],
   updateSemesterDetails : [],
-  removeSemesterDetails : []
+  removeSemesterDetails : [],
+  academicDetails : []
   // download : []
 };
 
@@ -112,6 +113,11 @@ export default (state = initialState, action) => {
                     ...state,
                     removeSemesterDetails:action.payload,
                 }; 
+                case PROFILE_GAP_ANALYSIS.saveAcademicDetails:
+                  return{
+                      ...state,
+                      academicDetails:action.payload,
+                  }; 
     default:
       return state;
   }

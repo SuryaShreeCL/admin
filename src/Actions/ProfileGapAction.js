@@ -378,3 +378,29 @@ export const deleteSemesterDetails=(studentId,subjectDetailId,semesterId,callbac
     }
 }
 
+
+export const saveAcademicDetails=(studentId,type,data,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        axios.put(URL+"/api/v1/students/"+studentId+"/pga/academic?grade="+type,data,{
+           
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.saveAcademicDetails,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error)
+                console.log(error);
+            });
+    }
+}
+
+
+
