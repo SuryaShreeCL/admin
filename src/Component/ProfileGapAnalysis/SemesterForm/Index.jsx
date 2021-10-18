@@ -646,21 +646,4 @@ export default connect(mapStateToProps, {
   saveCopyData,
 })(withStyles(useStyles)(Index));
 
-const data = {
-  semesterData: [],
-  cgpaScale: 0,
-  cgpaPercentage: 0,
-  collegeDetails: {},
-  degreeDetails: {},
-  university: {},
-  department: {},
-  degreeType: {},
-  subjectDetails: {},
-  pdfViewer: {},
-  data: {},
-  year: {},
-  semesterGpa: {},
-  cgpa: 0,
-  formulaEmployed: 0,
-  percentage: 0,
-};
+
