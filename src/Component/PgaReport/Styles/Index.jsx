@@ -50,5 +50,9 @@ export const useStyles = makeStyles((theme)=>({
    generalDetailsHeading : {
     fontWeight : 600,
     marginTop : "10px"
+   },
+   schoolLeftContainer : {
+    padding : "20px",
+    borderRight : "2px solid #f1f1f1"
    }
 }))

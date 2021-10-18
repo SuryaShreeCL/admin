@@ -258,7 +258,7 @@ function GeneralDetails(props) {
             </Grid>
             <Grid item md={2} lg={2} xl={2}>
               <TextFieldComponent
-                value={currentSem.value}
+                value={currentSem.value || ""}
                 onKeyPress={(evt) => {
                   if (isNumber(evt)) evt.preventDefault();
                 }}
@@ -290,7 +290,7 @@ function GeneralDetails(props) {
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextFieldComponent
-                value={contextDesc.value}
+                value={contextDesc.value || ""}
                 onChange={(e) =>
                   setContextDesc({ value: e.target.value, helperText: "" })
                 }
@@ -347,7 +347,7 @@ function GeneralDetails(props) {
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextFieldComponent
-                value={timelineDesc.value}
+                value={timelineDesc.value || ""}
                 onChange={(e) =>
                   setTimelineDesc({ value: e.target.value, helperText: "" })
                 }

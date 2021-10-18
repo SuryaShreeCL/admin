@@ -124,7 +124,6 @@ function SelectSchool(props) {
   }, []);
 
   useEffect(() => {
-    console.log(addedSchool, "addedSchool..........");
     if (addedSchool) {
       if (
         selectedSchoolList.filter((el) => el.id === addedSchool.id).length === 0
@@ -235,7 +234,7 @@ function SelectSchool(props) {
             md={6}
             lg={6}
             xl={6}
-            className={classes.leftContainer}
+            className={classes.schoolLeftContainer}
           >
             <Grid container spacing={2}>
               <Grid item md={10}>
@@ -357,9 +356,13 @@ function SelectSchool(props) {
           <Grid item sm={12} xs={12} md={6} lg={6} xl={6}>
             <div className={classes.containerStyle}>
               <Grid container spacing={2}>
-                <Grid item md={12}>
-                  <Typography variant={"h5"}>Sample Schools</Typography>
-                </Grid>
+                {selectedSchoolList.length !== 0 && (
+                  <Grid item md={12}>
+                    <Typography variant={"h5"}>
+                      Sample Schools Section ({selectedSchoolList.length})
+                    </Typography>
+                  </Grid>
+                )}
                 <Grid item md={12}>
                   {selectedSchoolList.length !== 0 ? (
                     <Editable
