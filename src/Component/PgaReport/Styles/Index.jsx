@@ -46,5 +46,9 @@ export const useStyles = makeStyles((theme)=>({
    quarterlyTypo : {
     fontWeight : 600
 
+   },
+   generalDetailsHeading : {
+    fontWeight : 600,
+    marginTop : "10px"
    }
 }))

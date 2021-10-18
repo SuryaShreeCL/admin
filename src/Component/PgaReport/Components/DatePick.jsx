@@ -1,12 +1,16 @@
-import { DatePicker } from "@material-ui/pickers";
-import React from 'react'
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import React from "react";
 
 function DatePick(props) {
-    return (
-        <DatePicker
-       {...props}
-      />
-    )
+  return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <KeyboardDatePicker {...props} />
+    </MuiPickersUtilsProvider>
+  );
 }
 
-export default DatePick
+export default DatePick;
