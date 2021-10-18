@@ -123,7 +123,7 @@ class GoalDetails extends Component {
       if (eachItem.id.length === 0) {
         return {
           pgaCRGGoals: {
-            id: eachItem.pgaCRGGoals.id,
+            id: eachItem.pgaCRGGoals && eachItem.pgaCRGGoals.id,
           },
           role: eachItem.role,
           industry: eachItem.industry,
@@ -133,7 +133,7 @@ class GoalDetails extends Component {
         return {
           id: eachItem.id,
           pgaCRGGoals: {
-            id: eachItem.id,
+            id: eachItem.pgaCRGGoals && eachItem.pgaCRGGoals.id,
           },
           role: eachItem.role,
           industry: eachItem.industry,
@@ -144,7 +144,7 @@ class GoalDetails extends Component {
     let error = false;
     for (let i = 0; i < obj.length; i++) {
       if (
-        obj[i].pgaCRGGoals.length === 0 ||
+        obj[i].pgaCRGGoals.id === null ||
         obj[i].role.length === 0 ||
         obj[i].industry.length === 0 ||
         obj[i].company.length === 0

@@ -2,6 +2,8 @@ import Typography from "@material-ui/core/Typography";
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import {Gridtheme} from './FormStyle'
+import { ThemeProvider } from "@material-ui/core";
 export default class Form extends Component {
   constructor() {
     super();
@@ -38,11 +40,11 @@ export default class Form extends Component {
           <Grid item md={5}>
             <TextField label="College Name" disabled value={this.props.data.name}/>
           </Grid>
-          {this.props.type === "Diploma" ? null : 
+          {this.props.type === "Diploma" ? <Grid item md={5}></Grid> : 
           <Grid item md={5}>
             <TextField label="Degree" disabled value={this.props.data.degreeName}/>
           </Grid>
-    }
+           }
           <Grid item md={2}>
             {/* <TextField label="Cumulative" disabled /> */}
           </Grid>
@@ -86,12 +88,14 @@ export default class Form extends Component {
   render() {
     return (
       <div>
-        <Grid container spacing={2}>
+        <ThemeProvider theme={Gridtheme}>
+        <Grid container spacing={1}>
           <Grid item md={12} id={this.props.title}>
             <Typography className={"title"}>{this.props.title}</Typography>
           </Grid>
           {this.renderContent()}
         </Grid>
+        </ThemeProvider>
       </div>
     );
   }

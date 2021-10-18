@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Form from "./Form";
 import Grid from "@material-ui/core/Grid";
 import {Gridtheme} from './FormStyle'
-import { ThemeProvider, withStyles } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core/styles";
 class CareerDetails extends Component {
   constructor() {
     super();

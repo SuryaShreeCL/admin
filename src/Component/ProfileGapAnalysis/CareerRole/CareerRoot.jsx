@@ -85,8 +85,8 @@ class Index extends Component {
         <Grid container spacing={1}>
           <Grid item md={8} className={"careerLeftContainer"}>
             <div className={"ttilebuttonstyle"}>
-              <div className={"title"}>
-                <Typography>
+              <div className={"titlediv"}>
+                <Typography className={"title"}>
                   {this.state.component === "Details"
                     ? "Career Details"
                     : "Goal Details"}
@@ -134,7 +134,6 @@ class Index extends Component {
                   {...this.props}
                 />
               </Grid>
-              <Grid item md={1}></Grid>
             </Grid>
           </Grid>
         </Grid>
