@@ -13,6 +13,8 @@ import {
 } from "../../../Actions/CareerRoleGraph";
 import { ThemeProvider } from '@material-ui/core/styles'
 import {Gridtheme} from './FormStyle'
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+
 class Index extends Component {
   constructor() {
     super();
@@ -93,20 +95,19 @@ class Index extends Component {
                 </Typography>
               </div>
               <div className={"careerleftButton"}>
-                <Button
-                  variant={this.state.component === "Details" ? "contained" : "outlined"}
-                  color={"primary"}
+                <ToggleButtonGroup>
+                <ToggleButton className={this.state.component === "Details" ? "select" : "not-select"}
                   onClick={() => this.handleClick("Details")}
                 >
                   Details
-                </Button>
-                <Button
-                  variant={this.state.component === "Details" ? "outlined" : "contained"}
-                  color={"primary"}
-                  onClick={() => this.handleClick("Goals")}
-                >
+                </ToggleButton>
+                <ToggleButton 
+                 className={this.state.component === "Goals" ? "select" : "not-select"}
+                 onClick={() => this.handleClick("Goals")}
+                 >
                   Goals
-                </Button>
+                </ToggleButton>
+              </ToggleButtonGroup>
               </div>
             </div>
             <div className={"leftdetails"}>

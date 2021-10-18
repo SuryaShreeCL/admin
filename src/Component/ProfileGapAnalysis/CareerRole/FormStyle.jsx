@@ -16,13 +16,25 @@ export const Gridtheme = createTheme({
           MuiButton : {
               containedPrimary : {
                   backgroundColor : "#3eaff0",
-                  textTransform : "none"
+                  textTransform : "none",
+                  "&:hover": {
+                    backgroundColor: "#3eaff0",
+                  },
               },
               outlinedPrimary : {
                   color : "#3eaff0",
                   textTransform : "none",
-                  border : "1px solid #3eaff0"
+                  border : "1px solid #3eaff0",
+                  "&:hover": {
+                    color : "#3eaff0",
+                    border : "1px solid #3eaff0",
+                },
               }
+          },
+          MuiToggleButton : {
+            label : {
+                textTransform : "none",
+            },
           }
  }
 });

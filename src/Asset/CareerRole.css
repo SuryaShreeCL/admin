@@ -46,4 +46,12 @@
     align-items: center !important;
     justify-content: center !important;
   }
+  .select {
+    background:#3eaff0 !important;
+    color: white !important;
+}
+.not-select {
+  border: 1px solid #3eaff0 !important;
+  color: #3eaff0 !important;
   
+}
