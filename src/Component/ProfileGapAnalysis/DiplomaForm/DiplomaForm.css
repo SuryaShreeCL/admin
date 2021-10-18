@@ -61,7 +61,21 @@
     display: flex;
     flex-direction: row;
     cursor: pointer;
+    margin-left: 14px !important;
+    margin-top: 15px;
+    /* background-color:pink; */
+    margin-left: 1px;
 }
+
+.semester_title_div{
+    display: flex;
+    flex-direction: row;
+    /* background-color: aqua; */
+    margin-left: 20px !important;
+    margin-top: 16px;
+    margin-bottom: 25px;
+}
+
 .back_icon{
     height: 50% !important;
     color: #1093FF;
@@ -80,13 +94,27 @@
     margin-bottom: -11px !important;
     text-transform: capitalize;
 }
-.semester_title_div{
-    display: flex;
-    flex-direction: row;
+.field_wrap {
+    white-space: normal;
 }
+
+.college_field{
+    margin-left: 9px !important;
+}
+.university_field{
+    margin-left: 7px !important;
+}
+.percentage_field{
+    margin-left: -14px !important;
+}
+.scale_field{
+    margin-left: 33px !important;
+}
+
 
 .viewDetails_title{
     text-transform: capitalize;
+    margin-bottom: -20px !important;
 }
 
 .grid_item1_div {
@@ -106,5 +134,94 @@
 .batch_div {
     display: flex;
     grid-gap: 102px;
+}
+
+/* filter */
+.Submenu_submenu__1PCnm > ul  {
+      margin-left: 7%;
+}
+.searchIcon_field_div {
+   
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: -32px !important;
+}
+
+.semesterForm_semesterDetail_grid_item1 {
+    /* display: "flex",
+    flexDirection: "column",
+    marginLeft: "20px", */
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+.semesterForm_semesterDetail_grid_item2 {
+    /* display: "flex",
+    flexDirection: "column",
+    marginLeft: "20px", */
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+}
+.semesterForm_semesterDetail_grid_item3 {
+    /* display: "flex",
+    flexDirection: "column",
+    marginLeft: "20px", */
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+}
+.semesterForm_semesterDetail_grid_item4 {
+    
+    display: flex;
+    flex-direction: column;
+    margin-left: 35px;
+}
+.semesterForm_college_style{
+    margin-top: 10px !important;
+    margin-bottom: 25px !important;
+}
+.semesterForm_universityAndCgpa_style{
+    margin-top: 20px !important;
+    margin-bottom: 25px !important;
+}
+.semesterForm_degree_style{
+    margin-top: 15px !important;
+    margin-bottom: 25px !important;
+}
+.semesterForm_collegeField{
+    height: 60px !important;
+    margin-top: 12px !important;
+}
+.semesterForm_universityField{
+    height: 60px !important;
+    margin-top: 6px !important;
+}
+.semesterForm_percentageField{
+    height: 60px !important;
+    margin-top: 5px !important;
+}
+.semesterForm_degreeField{
+    height: 60px !important;
+    margin-top: 3px !important;
+}
+.semesterForm_departmentField{
+   margin-top: 10px !important;
+   margin-bottom: 25px !important;
+}
+.semesterForm_yearField{
+    margin-top: 1px !important;
+    margin-bottom: 25px !important;
+    
+
+  
+}
+.semesterForm_scaleField{
+    margin-top: 18px !important;
+    margin-bottom: 25px !important;
+
+  
 }
 

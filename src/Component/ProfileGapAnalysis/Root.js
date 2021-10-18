@@ -158,9 +158,22 @@ class ProfileGapRoot extends Component {
     })
   }
 
+  // tenth menu click function
+  handleTenthClick = () => {
+    this.setState({ value: 6, open: false })
+    this.props.getAcademicType("");
+  }
+
+  // 12th menu click function
+  handleTwelfthClick = () => {
+    this.setState({ value: 7, open: false })
+    this.props.getAcademicType("");
+
+  }
+
   menus = [
-    { label : "10th", value : 6, handler : ()=>this.setState({ value: 6, open: false })},
-    { label : "12th", value : 7, handler : ()=>this.setState({ value: 7, open: false })},
+    { label : "10th", value : 6, handler : ()=>this.handleTenthClick()},
+    { label : "12th", value : 7, handler : ()=>this.handleTwelfthClick()},
     { label : "Diploma", value : 8, handler : ()=>this.handleDiplomaClick()},
     { label : "Undergraduate", value : 9, handler : ()=>this.handleUgClick()},
     { label : "Postgraduate", value : 10, handler : ()=>this.handlePgClick()},

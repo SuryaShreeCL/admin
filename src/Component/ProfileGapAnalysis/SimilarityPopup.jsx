@@ -8,16 +8,22 @@ import {
   Typography,
   TextField,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFilterAnchorEl,
   setPoperAnchorEl,
+  getAcademicType,
 } from "../../Actions/HelperAction";
 import Accordian from "./Accordian";
 import { StyledTab, StyledTabs } from "./PopUpTabs";
 import KeyboardArrowDownRoundedIcon from "@material-ui/icons/KeyboardArrowDownRounded";
 import SubjectInfoTable from "./SubjectInfoTable";
+import { isEmptyString } from "../Validation";
+import Dropdown from "react-multilevel-dropdown";
+import InputBase from "@material-ui/core/InputBase";
+import SearchIcon from "@material-ui/icons/Search";
+import "../ProfileGapAnalysis/DiplomaForm/DiplomaForm.css";
 
 function SimilarityPopup(props) {
   // Setting up dispatch for making an API calls
@@ -46,6 +52,8 @@ function SimilarityPopup(props) {
     containerStyle: {
       margin: "0px 20px 0px 20px",
     },
+    
+   
   }));
   // Declaring variables for this component
   const popperAnchorEl = useSelector(
@@ -54,12 +62,118 @@ function SimilarityPopup(props) {
   const filterAnchorEl = useSelector(
     (state) => state.HelperReducer.popperState.filterAnchorEl
   );
+
+  const { department, degree,getStudentMatch } = props;
+
+  const [ searchTerm, setSearchTerm] = React.useState("")
+
+  console.log(getStudentMatch, "/////////////////////////");
+
+  // get academicType
+  const { academicType } = useSelector((state) => ({
+    academicType: state.HelperReducer.academicType,
+  }));
+
+  const semester = [
+    {
+      name: "Semester 1",
+      id : 1
+    },
+    {
+      name: "Semester 2",
+      id : 2
+    },
+    {
+      name: "Semester 3",
+      id : 3
+    },
+    {
+      name: "Semester 4",
+      id : 4
+    },
+    {
+      name: "Semester 5",
+      id : 5
+    },
+    {
+      name: "Semester 6",
+      id : 6
+    },
+    {
+      name: "Semester 7",
+      id : 7
+    },
+    {
+      name: "Semester 8",
+      id : 8
+    },
+    {
+      name: "Semester 9",
+      id : 9
+    },
+    {
+      name: "Semester 10",
+      id : 10
+    },
+  ];
+
+  const yearData = (type) => {
+    let endYear = new Date().getFullYear();
+    let startYear = endYear - 10;
+
+    let yearArr = [];
+    for (let i = startYear; i <= endYear; i++) {
+      yearArr.push({ 
+      name: i.toString(),
+     id : i.toString() });
+    }
+    console.log(yearArr);
+    return yearArr;
+  };
+
+  const menus = [
+    {
+      name: "Department",
+      children: [
+        // department
+        {
+          name: "department",
+          value : "Department",
+          children: department,
+        },
+        // degree
+        {
+          name: "degree",
+          value: "Degree",
+          children: degree,
+        },
+        // semester
+
+        {
+          name: "semester",
+          value : "Semester",
+          children: semester,
+        },
+        // year
+        {
+          name: "year",
+          value : "Year",
+          children: yearData(),
+        },
+      ],
+    },
+  ];
+
   const popperOpen = Boolean(popperAnchorEl);
   const filterOpen = Boolean(filterAnchorEl);
 
   const id = popperOpen ? "simple-popper" : undefined;
 
   const [value, setValue] = React.useState(0);
+
+  // const [filterFieldType, setFilterFieldType] = React.useState("");
+  // const [filterField, setFilterField] = React.useState("");
+
   // Initiating style variable for this component
   const classes = useStyles();
   // This function handles the tab change
@@ -79,9 +193,113 @@ function SimilarityPopup(props) {
     for (let i = startYear; i <= endYear; i++) {
       yearArr.push(i);
     }
+    console.log(yearArr);
     return yearArr;
   };
 
+  const renderFilterButton = () => {
+    if (isEmptyString(academicType)) {
+      console.log("empty");
+      return (
+        <Button
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          endIcon={<KeyboardArrowDownRoundedIcon />}
+          onClick={handleFilterOpen}
+        >
+          Year
+        </Button>
+      );
+    } else {
+      return (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {menus.map((menu) => (
+            <Dropdown
+              title={menu.name}
+              menuClassName="text-14 py-8 px-5 my-0 mx-16 border-b-1 border-solid border-blue hover:border-black"
+            >
+              {menu.children &&
+                menu.children.map((item) => (
+                  <Dropdown.Item>
+                    <div 
+                    
+                    // onMouseOver={() => setFilterFieldType(item.name)}
+                    onMouseOver={() =>props.onMouseOver(item.name)}
+                    >
+                      {item.value}
+                    </div>
+                    <Dropdown.Submenu 
+                    position="left"
+                    style={{backgroundColor : "blue"}}
+                    >
+                      <div className={classes.searchIcon_field_div}
+                       
+                      >
+                        
+                        <InputBase
+                          onChange={(event) =>{setSearchTerm(event.target.value)}}
+                          placeholder="Search…"
+                          classes={
+                            {
+                              // root: classes.inputRoot,
+                              // input: classes.inputInput,
+                            }
+                          }
+                          inputProps={{ 
+                            "aria-label": "search",
+                           }}
+                        />
+                      </div>
+                     
+                      {item.children &&
+                        item.children.filter((val)=>{
+                          if(searchTerm === ""){
+                            return val
+                          } else if(typeof val.name === "string" && val.name.toLowerCase().includes(searchTerm.toLowerCase())){
+                            return val
+                          }
+                        }).map((submenu) => (
+                          <div>
+                            <Dropdown.Item 
+                            className={classes.Submenu_submenu_1Pcnm}
+                            onClick={()=>getStudentMatch(submenu)}>
+                              <div 
+                              
+                                onClick = {() =>{
+                                  console.log(submenu)
+                                  props.handleSubMenuClick(submenu.id)
+                                }}
+                              >
+                                {submenu.name}
+                              </div>
+                            </Dropdown.Item>
+                            {item.children &&
+                              item.children.map((submenu) => (
+                                <Dropdown.Submenu position="right">
+                                  <Dropdown.Item>
+                                    <div>{submenu.name}</div>
+                                  </Dropdown.Item>
+                                </Dropdown.Submenu>
+                              ))}
+                          </div>
+                        ))}
+                    </Dropdown.Submenu>
+                  </Dropdown.Item>
+                ))}
+            </Dropdown>
+          ))}
+        </div>
+      );
+    }
+  };
+
+ 
   // This function returns the tab content based on index
   const renderTabContent = () => {
     console.log(years(), ".................");
@@ -100,20 +318,16 @@ function SimilarityPopup(props) {
         >
           <div className={classes.filterContainer}>
             <Typography color={"textSecondary"}>Filter By : </Typography>
-            <Button
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              endIcon={<KeyboardArrowDownRoundedIcon />}
-              onClick={handleFilterOpen}
-            >
-              Year
-            </Button>
+
+            {renderFilterButton()}
+
             <Menu
               id="simple-menu"
               anchorEl={filterAnchorEl}
               getContentAnchorEl={null}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              transformOrigin={{ vertical: "top", horizontal: "center" }}              keepMounted
+              transformOrigin={{ vertical: "top", horizontal: "center" }}
+              keepMounted
               open={filterOpen}
               onClose={() => dispatch(setFilterAnchorEl(null))}
             >
@@ -158,7 +372,7 @@ function SimilarityPopup(props) {
       );
     }
   };
-  console.log(props.data)
+  console.log(props.data);
   return (
     <Popover
       id={id}
@@ -196,7 +410,7 @@ function SimilarityPopup(props) {
       {/* Render list of accordians based on the data that is passed */}
       {value === 0 &&
         props.data.map((data, index) => {
-          console.log(data)
+          console.log(data);
           return <Accordian data={data} />;
         })}
     </Popover>
