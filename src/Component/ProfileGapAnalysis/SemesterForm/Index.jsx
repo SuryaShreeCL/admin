@@ -85,14 +85,12 @@ class Index extends Component {
   }
 
   handleSubItemClick = (subItem) => {
-    console.log(subItem, "sssssssssssssssssssssssss");
     this.setState({
       filterSubItem: subItem,
     });
   };
 
   onMouseOver = (item) => {
-    console.log(item, "vvvvvvvvvvvvvvvvvvvvvvvvv");
     this.setState({
       filterField: item,
     });
@@ -100,9 +98,7 @@ class Index extends Component {
 
   // Getting and setting student match list in state
   getAndSetStudentMatch = (submenu) => {
-    console.log(this.state);
-    console.log(this.state.filterField);
-    console.log(this.state.filterSubItem);
+   
 
     getSimilarStudentsByAcademic(
       this.props.match.params.studentId,
@@ -110,7 +106,6 @@ class Index extends Component {
       this.state.filterField,
       submenu.id
     ).then((response) => {
-      console.log(response);
       this.setState({
         studentMatch: (response && response.data.body.data) || [],
       });
@@ -132,7 +127,6 @@ class Index extends Component {
 
   getDegreeTypes = (type) => {
     getDegreeByType(type).then((response) => {
-      console.log(response);
       this.setState({
         degreeResponse: response && response.data,
       });
@@ -231,7 +225,6 @@ class Index extends Component {
   };
 
   fetchData = (response) => {
-    console.log(response.data)
     this.setState({
       semesterData:
         response && response.data.data.studentSubjectDetails !== null
@@ -273,7 +266,6 @@ class Index extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.data);
     if (this.props.copy !== prevProps.copy) {
       if (typeof this.props.copy !== "string") {
         if (!Array.isArray(this.props.copy)) {
@@ -309,7 +301,6 @@ class Index extends Component {
   // save button click function
   handleSaveClick = () => {
     let hlpTxt = "Please fill the required field";
-    console.log(this.state);
     isEmptyString(this.state.subjectDetails.semesterGpa)
       ? this.setState({ semesterGpaErr: hlpTxt })
       : this.setState({ semesterGpaErr: "" });
@@ -329,7 +320,6 @@ class Index extends Component {
       // !isEmptyString(this.state.formulaEmployed) &&
       // !isEmptyString(this.state.percentage)
     ) {
-      console.log("======================");
       let requestBody = {
         studentSemesterDetails: {
           id: this.state.subjectDetails.id,
@@ -393,8 +383,7 @@ class Index extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state, "--------------------------");
-    console.log(this.props.copy);
+   
 
     // table columns
     const columns = [
