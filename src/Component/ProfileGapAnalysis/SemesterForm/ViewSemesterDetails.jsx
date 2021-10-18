@@ -58,7 +58,7 @@ class ViewSemesterDetails extends Component {
       degreeType,
     } = this.props;
     console.log(this.props);
-    console.log(cgpaScale);
+    console.log(departmentName);
     return (
       <div>
         <Grid container>
@@ -86,7 +86,7 @@ class ViewSemesterDetails extends Component {
 
           {/* try */}
 
-          <Grid item md={3}>
+          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item1"}>
               <Typography
                 className={"semesterForm_college_style"}
@@ -112,7 +112,7 @@ class ViewSemesterDetails extends Component {
             </div>
           </Grid>
 
-          <Grid item md={3}>
+          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item2"}>
               <Typography className={"semesterForm_collegeField"}>
                 {collegeName.name}
@@ -127,7 +127,7 @@ class ViewSemesterDetails extends Component {
             </div>
           </Grid>
 
-          <Grid item md={3}>
+          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item3"}>
               <Typography
                 color="textSecondary"
@@ -151,10 +151,10 @@ class ViewSemesterDetails extends Component {
             </div>
           </Grid>
 
-          <Grid item md={3}>
+          <Grid item md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item4"}>
               <Typography className={"semesterForm_departmentField"}>
-                {departmentName.name}
+                {departmentName && departmentName.name}
               </Typography>
               <Typography className={"semesterForm_yearField"}>
                 {year}

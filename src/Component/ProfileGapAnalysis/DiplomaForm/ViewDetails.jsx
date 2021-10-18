@@ -4,22 +4,12 @@ import React, { Component } from "react";
 import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
 import "../DiplomaForm/DiplomaForm.css";
 import { ExpandMore } from "@material-ui/icons";
-import {
-  getAllColleges,
-  getUniversity,
-  getBranches,
-} from "../../../Actions/College";
+
 import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
 
 class ViewDetails extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      collegeName: "",
-    };
-  }
+  
 
   //   college Array
   college = [];
@@ -32,11 +22,7 @@ class ViewDetails extends Component {
 
   degree = [];
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+
 
   renderDegree = () => {
     if (this.props.item.degree) {
@@ -46,12 +32,8 @@ class ViewDetails extends Component {
             popupIcon={<ExpandMore style={{ color: "black" }} />}
             id="degreeName"
             options={this.degree}
-            value={this.props.degreeName.name}
-            onChange={(e, newValue) =>
-              this.setState({
-                degreeName: newValue,
-              })
-            }
+            value={this.props.degreeName}
+            onChange={this.props.handleDegreeChange}
             getOptionLabel={(option) => option.name}
             renderInput={(params) => (
               <TextField
@@ -77,7 +59,11 @@ class ViewDetails extends Component {
       score,
       list,
       degreeName,
+      collegeResponse,
+      departmentResponse,
+      universityResponse
     } = this.props;
+    
     console.log(collegeName);
     console.log(this.props.collegeResponse);
     return (
@@ -103,13 +89,9 @@ class ViewDetails extends Component {
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="collegeName"
-              options={this.props.collegeResponse}
+              options={collegeResponse}
               value={collegeName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  departmentName: newValue,
-                })
-              }
+              onChange={this.props.handleCollegeChange}
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
@@ -126,13 +108,9 @@ class ViewDetails extends Component {
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="departmentName"
-              options={this.props.departmentResponse}
+              options={departmentResponse}
               value={departmentName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  departmentName: newValue,
-                })
-              }
+              onChange={this.props.handleDepartmentChange}
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
@@ -159,13 +137,9 @@ class ViewDetails extends Component {
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="universityName"
-              options={this.props.universityResponse}
+              options={universityResponse}
               value={universityName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  universityName: newValue,
-                })
-              }
+              onChange={this.props.handleUniversityChange}
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
@@ -182,7 +156,7 @@ class ViewDetails extends Component {
             <TextField
               label="Batch"
               name="year"
-              value={new Date(item.startDate).getFullYear()}
+              value={`${new Date(item.startDate).getFullYear()} - ${new Date(item.endDate).getFullYear()}`}
               onChange={this.props.handleChange}
               fullWidth
             />
@@ -208,16 +182,11 @@ class ViewDetails extends Component {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    collegeResponse: state.CollegeReducer.allCollegeList,
-    universityResponse: state.CollegeReducer.University,
-    departmentResponse: state.CollegeReducer.BranchList,
     academicTypes: state.HelperReducer.academicType,
+
   };
 };
 
 export default connect(mapStateToProps, {
-  getAllColleges,
-  getUniversity,
-  getBranches,
-  getAcademicType,
+  getAcademicType
 })(ViewDetails);
