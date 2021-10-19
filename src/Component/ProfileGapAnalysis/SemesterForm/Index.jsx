@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ViewMarks from "./ViewMarks";
 import ViewSemesterDetails from "./ViewSemesterDetails";
-import { Grid, withStyles } from "@material-ui/core";
+import { Grid, withStyles, Button } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
 import BottomButton from "../BottomButton";
 import CvViewer from "../CvViewer";
@@ -18,7 +18,7 @@ import {
   saveTemplate,
   saveCopyData,
 } from "../../../Actions/HelperAction";
-import { isEmptyObject, isEmptyString } from "../../Validation";
+import { isEmptyObject, isEmptyString,isNanAndEmpty } from "../../Validation";
 import { HELPER_TEXT } from "../../../Constant/Variables";
 import Mysnack from "../../MySnackBar";
 import SimilarityPopup from "../SimilarityPopup";
@@ -98,17 +98,27 @@ class Index extends Component {
 
   // Getting and setting student match list in state
   getAndSetStudentMatch = (submenu) => {
-   
-
     getSimilarStudentsByAcademic(
       this.props.match.params.studentId,
       this.props.academicTypes,
       this.state.filterField,
       submenu.id
     ).then((response) => {
-      this.setState({
-        studentMatch: (response && response.data.body.data) || [],
-      });
+      console.log(response)
+      if(response.data.body.success){
+        this.setState({
+          studentMatch: (response && response.data.body.data) || [],
+        });
+      }
+      else {
+        console.log("data")
+        this.setState({
+            snackMsg : "The Given Filter is not Found",
+            snackVariant : "error",
+            snackOpen : true
+        })
+      }
+     
     });
   };
 
@@ -119,9 +129,13 @@ class Index extends Component {
       this.props.academicTypes,
       query
     ).then((response) => {
-      this.setState({
-        distinctMatch: (response && response.data.body.data) || [],
-      });
+      console.log(response)
+        if(response.status === 200){
+          this.setState({
+            distinctMatch: (response && response.data.body.data) || [],
+          });
+        
+      }
     });
   };
 
@@ -145,13 +159,6 @@ class Index extends Component {
       search: e.target.value,
     });
   };
-  // This function handles the filter based on year
-  // onYearClick = (year) => {
-  //   this.getAndSetStudentMatch("&q=" + year);
-  //   this.setState({
-  //     filterYear: year,
-  //   });
-  // };
 
   // function to add the row in the table
   handleRowAdd = (newData) => {
@@ -181,7 +188,7 @@ class Index extends Component {
                   this.props.clickedSem.data,
                   (response) => {
                     this.setState({
-                      semesterData: response.data.data[0].studentSubjectDetails,
+                      semesterData: response.data.data.studentSubjectDetails,
                     });
                   }
                 );
@@ -245,8 +252,7 @@ class Index extends Component {
         response && response.data.data.studentSemesterDetails.semesterGpa,
       cgpa: response && response.data.data.studentSemesterDetails.cgpa,
       formulaEmployed:
-        response &&
-        response.data.data.studentSemesterDetails.formulaEmployed,
+        response && response.data.data.studentSemesterDetails.formulaEmployed,
       percentage:
         response && response.data.data.studentSemesterDetails.percentage,
       degreeType: response && response.data.data.diplomaType,
@@ -269,18 +275,14 @@ class Index extends Component {
     if (this.props.copy !== prevProps.copy) {
       if (typeof this.props.copy !== "string") {
         if (!Array.isArray(this.props.copy)) {
-          
           if (
             this.state.semesterData.filter(
               (el) =>
                 el.subjectDetailsUgPgDiploma.subjectCode ===
                 this.props.copy.subjectDetailsUgPgDiploma.subjectCode
             ).length === 0
-          )
-         
-          {
+          ) {
             var joinedData = this.state.semesterData.concat(this.props.copy);
-            // setData(joinedData);
             this.setState({
               semesterData: joinedData,
             });
@@ -290,7 +292,6 @@ class Index extends Component {
           this.setState({
             semesterData: this.props.copy,
           });
-          // setData(this.props.copy);
           this.props.saveTemplate(this.props.copy);
           this.props.saveCopyData("");
         }
@@ -383,7 +384,6 @@ class Index extends Component {
 
   render() {
     const { classes } = this.props;
-   
 
     // table columns
     const columns = [
@@ -396,11 +396,15 @@ class Index extends Component {
         title: "Subject Code",
         field: "subjectDetailsUgPgDiploma.subjectCode",
         render: (rowData, renderType) =>
+        
           renderType === "row"
             ? rowData.subjectDetailsUgPgDiploma.subjectCode
             : "",
         validate: (rowData) => {
+          console.log(rowData)
           if (!isEmptyObject(rowData)) {
+            console.log(rowData);
+
             if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectCode)) {
               return true;
             } else {
@@ -429,31 +433,63 @@ class Index extends Component {
       {
         title: "Grade Points",
         field: "gradePoints",
+        // type : "numeric",
         render: (rowData, renderType) =>
           renderType === "row" ? rowData.gradePoints : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.gradePoints)) {
-              return true;
-            } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            if((rowData.gradePoints)){
+            if (!isNanAndEmpty(rowData.gradePoints)) {
+              if(rowData.gradePoints > 0){
+                return true
+              }else{
+                return { isValid : false, helperText : "It cannot be zero or negative value" }
+              }
+            }else {
+              return { isValid : false }
             }
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField};
+            } 
           }
+          // if (!isEmptyObject(rowData)) {
+          //   if (!isEmptyString(rowData.gradePoints)) {
+          //     return true;
+          //   } else {
+          //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          //   }
+          // }
         },
       },
       {
         title: "Credit",
         field: "credit",
+        // type : "numeric",
         render: (rowData, renderType) =>
           renderType === "row" ? rowData.credit : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.credit)) {
-              return true;
-            } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            if((rowData.credit)){
+            if (!isNanAndEmpty(rowData.credit)) {
+              if(rowData.credit > 0){
+                return true
+              }else{
+                return { isValid : false, helperText : "It cannot be zero or negative value" }
+              }
+            }else {
+              return { isValid : false }
             }
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField};
+            } 
           }
+          // if (!isEmptyObject(rowData)) {
+          //   if (!isEmptyString(rowData.credit)) {
+          //     return true;
+          //   } else {
+          //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          //   }
+          // }
         },
       },
       {
@@ -474,16 +510,32 @@ class Index extends Component {
       {
         title: "Result",
         field: "result",
+        // type : "numeric",
         render: (rowData, renderType) =>
           renderType === "row" ? rowData.result : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.result)) {
-              return true;
-            } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            if((rowData.result)){
+            if (!isNanAndEmpty(rowData.result)) {
+              if(rowData.result > 0){
+                return true
+              }else{
+                return { isValid : false, helperText : "It cannot be zero or negative value" }
+              }
+            }else {
+              return { isValid : false }
             }
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField};
+            } 
           }
+          // if (!isEmptyObject(rowData)) {
+          //   if (!isEmptyString(rowData.result)) {
+          //     return true;
+          //   } else {
+          //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          //   }
+          // }
         },
       },
       {
@@ -519,7 +571,6 @@ class Index extends Component {
 
           {/* filter */}
           <SimilarityPopup
-            // handleYearClick={this.onYearClick}
             searchValue={this.state.search}
             searchHandler={this.searchHandler}
             distinctMatch={
@@ -582,6 +633,27 @@ class Index extends Component {
                   percentageError={this.state.percentageErr}
                   handleChange={(e) => this.handleScoreChange(e)}
                 />
+
+                <div className={classes.buttonDiv}>
+                  <Button
+                    className={"button"}
+                    variant={"outlined"}
+                    color={"primary"}
+                    className={classes.sgpaButton}
+                    // onClick={this.props.handleChange}
+                  >
+                    Calculate SGPA
+                  </Button>
+                  <Button
+                    className={"button"}
+                    variant={"outlined"}
+                    color={"primary"}
+                    className={classes.cgpaButton}
+                    // onClick={this.props.handleChange}
+                  >
+                    Calculate CGPA
+                  </Button>
+                </div>
               </Grid>
 
               {/* bottom - diver and save button grid */}
@@ -607,6 +679,18 @@ const useStyles = (theme) => ({
     overflowY: "scroll",
     overflowX: "hidden",
     width: "100%",
+  },
+  buttonDiv: {
+    marginTop: "14px",
+    display: "flex",
+    marginLeft: "10px",
+  },
+  sgpaButton: {
+    borderRadius: "20px",
+    marginRight: "15px",
+  },
+  cgpaButton: {
+    borderRadius: "20px",
   },
 });
 const mapStateToProps = (state) => {
@@ -634,5 +718,3 @@ export default connect(mapStateToProps, {
   saveTemplate,
   saveCopyData,
 })(withStyles(useStyles)(Index));
-
-

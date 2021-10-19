@@ -12,6 +12,7 @@ export default class BottomButton extends Component {
         className={"button"} 
         variant={"contained"} 
         color={"primary"}
+        style={{borderRadius:"18px",width:"8%"}}
         onClick={this.props.handleChange}
         >
           Save

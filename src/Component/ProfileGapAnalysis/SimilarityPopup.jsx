@@ -52,8 +52,11 @@ function SimilarityPopup(props) {
     containerStyle: {
       margin: "0px 20px 0px 20px",
     },
-    
-   
+    menusDiv : {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }
   }));
   // Declaring variables for this component
   const popperAnchorEl = useSelector(
@@ -63,9 +66,9 @@ function SimilarityPopup(props) {
     (state) => state.HelperReducer.popperState.filterAnchorEl
   );
 
-  const { department, degree,getStudentMatch } = props;
+  const { department, degree, getStudentMatch } = props;
 
-  const [ searchTerm, setSearchTerm] = React.useState("")
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   console.log(getStudentMatch, "/////////////////////////");
 
@@ -77,43 +80,43 @@ function SimilarityPopup(props) {
   const semester = [
     {
       name: "Semester 1",
-      id : 1
+      id: 1,
     },
     {
       name: "Semester 2",
-      id : 2
+      id: 2,
     },
     {
       name: "Semester 3",
-      id : 3
+      id: 3,
     },
     {
       name: "Semester 4",
-      id : 4
+      id: 4,
     },
     {
       name: "Semester 5",
-      id : 5
+      id: 5,
     },
     {
       name: "Semester 6",
-      id : 6
+      id: 6,
     },
     {
       name: "Semester 7",
-      id : 7
+      id: 7,
     },
     {
       name: "Semester 8",
-      id : 8
+      id: 8,
     },
     {
       name: "Semester 9",
-      id : 9
+      id: 9,
     },
     {
       name: "Semester 10",
-      id : 10
+      id: 10,
     },
   ];
 
@@ -123,9 +126,10 @@ function SimilarityPopup(props) {
 
     let yearArr = [];
     for (let i = startYear; i <= endYear; i++) {
-      yearArr.push({ 
-      name: i.toString(),
-     id : i.toString() });
+      yearArr.push({
+        name: i.toString(),
+        id: i.toString(),
+      });
     }
     console.log(yearArr);
     return yearArr;
@@ -138,7 +142,7 @@ function SimilarityPopup(props) {
         // department
         {
           name: "department",
-          value : "Department",
+          value: "Department",
           children: department,
         },
         // degree
@@ -151,13 +155,13 @@ function SimilarityPopup(props) {
 
         {
           name: "semester",
-          value : "Semester",
+          value: "Semester",
           children: semester,
         },
         // year
         {
           name: "year",
-          value : "Year",
+          value: "Year",
           children: yearData(),
         },
       ],
@@ -171,8 +175,7 @@ function SimilarityPopup(props) {
 
   const [value, setValue] = React.useState(0);
 
-  // const [filterFieldType, setFilterFieldType] = React.useState("");
-  // const [filterField, setFilterField] = React.useState("");
+  
 
   // Initiating style variable for this component
   const classes = useStyles();
@@ -197,6 +200,8 @@ function SimilarityPopup(props) {
     return yearArr;
   };
 
+  
+
   const renderFilterButton = () => {
     if (isEmptyString(academicType)) {
       console.log("empty");
@@ -213,11 +218,7 @@ function SimilarityPopup(props) {
     } else {
       return (
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+         className={classes.menusDiv}
         >
           {menus.map((menu) => (
             <Dropdown
@@ -227,68 +228,67 @@ function SimilarityPopup(props) {
               {menu.children &&
                 menu.children.map((item) => (
                   <Dropdown.Item>
-                    <div 
-                    
-                    // onMouseOver={() => setFilterFieldType(item.name)}
-                    onMouseOver={() =>props.onMouseOver(item.name)}
+                    <div
+                      onMouseOver={() => props.onMouseOver(item.name)}
                     >
                       {item.value}
                     </div>
-                    <Dropdown.Submenu 
-                    position="left"
-                    style={{backgroundColor : "blue"}}
+                    <Dropdown.Submenu
+                      position="left"
+                      
                     >
-                      <div className={classes.searchIcon_field_div}
-                       
-                      >
-                        
+                      <div className={classes.searchIcon_field_div}>
                         <InputBase
-                          onChange={(event) =>{setSearchTerm(event.target.value)}}
+                          onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                          }}
                           placeholder="Search…"
-                          classes={
-                            {
-                              // root: classes.inputRoot,
-                              // input: classes.inputInput,
-                            }
-                          }
-                          inputProps={{ 
+                          inputProps={{
                             "aria-label": "search",
-                           }}
+                          }}
                         />
                       </div>
-                     
+
                       {item.children &&
-                        item.children.filter((val)=>{
-                          if(searchTerm === ""){
-                            return val
-                          } else if(typeof val.name === "string" && val.name.toLowerCase().includes(searchTerm.toLowerCase())){
-                            return val
-                          }
-                        }).map((submenu) => (
-                          <div>
-                            <Dropdown.Item 
-                            className={classes.Submenu_submenu_1Pcnm}
-                            onClick={()=>getStudentMatch(submenu)}>
-                              <div 
-                              
-                                onClick = {() =>{
-                                  console.log(submenu)
-                                  props.handleSubMenuClick(submenu.id)
-                                }}
+                        item.children
+                          .filter((val) => {
+                            if (searchTerm === "") {
+                              return val;
+                            } else if (
+                              typeof val.name === "string" &&
+                              val.name
+                                .toLowerCase()
+                                .includes(searchTerm.toLowerCase())
+                            ) {
+                              return val;
+                            }
+                          })
+                          .map((submenu) => (
+                            <div>
+                              <Dropdown.Item
+                                className={classes.Submenu_submenu_1Pcnm}
+                                //  onClick= { ()=> handleMenuClick(submenu)}
+                                onClick={() => getStudentMatch(submenu)}
                               >
-                                {submenu.name}
-                              </div>
-                            </Dropdown.Item>
-                            {item.children &&
-                              item.children.map((submenu) => (
-                                <Dropdown.Submenu position="right">
-                                  <Dropdown.Item>
-                                    <div>{submenu.name}</div>
-                                  </Dropdown.Item>
-                                </Dropdown.Submenu>
-                              ))}
-                          </div>
-                        ))}
+                                <div
+                                  onClick={() => {
+                                    console.log(submenu);
+                                    props.handleSubMenuClick(submenu.id);
+                                  }}
+                                >
+                                  {submenu.name}
+                                </div>
+                              </Dropdown.Item>
+                              {item.children &&
+                                item.children.map((submenu) => (
+                                  <Dropdown.Submenu position="right">
+                                    <Dropdown.Item>
+                                      <div>{submenu.name}</div>
+                                    </Dropdown.Item>
+                                  </Dropdown.Submenu>
+                                ))}
+                            </div>
+                          ))}
                     </Dropdown.Submenu>
                   </Dropdown.Item>
                 ))}
@@ -299,7 +299,6 @@ function SimilarityPopup(props) {
     }
   };
 
- 
   // This function returns the tab content based on index
   const renderTabContent = () => {
     console.log(years(), ".................");
