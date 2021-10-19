@@ -26,7 +26,7 @@ export default class CustomisedStepper extends Component {
               <Grid item md={7}>
                 <div>
                   <div className={"stepper_title_div"}>
-                  <Typography>{el.title}</Typography>
+                  <Typography onClick={(e)=>this.props.handleClick(e,el)}>{el.title}</Typography>
                   { el.duration !== null ?  <Typography>({el.duration})</Typography> : null}
                   </div>
                   <Typography>{el.subTitle}</Typography>
