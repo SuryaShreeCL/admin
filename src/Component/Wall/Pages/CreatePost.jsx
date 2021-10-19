@@ -28,6 +28,7 @@ import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { wallPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
+import PreprationContainer from '../Components/PreparationContainer';
 
 const useStyles = makeStyles({
   root: {
@@ -68,6 +69,7 @@ const CreatePost = () => {
     redirectionUrl: '',
     zoomLink: '',
     buttonText: '',
+    webinars: [],
     createdBy: window.sessionStorage.getItem('department') || '',
     eventDate: new Date(),
     resumeNeeded: false,
@@ -606,7 +608,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   <ButtonsContainer>
                     <Button
                       color='primary'
@@ -642,8 +644,16 @@ const CreatePost = () => {
                     )}
                   </ButtonsContainer>
                 </Form>
+                {values.isWebinar ? null : <Preview state={values} />}
               </div>
-              {values.isWebinar ? null : <Preview state={values} />}
+              {!values.isEvent && (
+                <PreprationContainer
+                  values={values}
+                  setFieldValue={setFieldValue}
+                  handleChange={handleChange}
+                  handleChange={handleChange}
+                />
+              )}
             </>
           )}
         </Formik>

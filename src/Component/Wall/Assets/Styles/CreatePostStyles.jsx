@@ -7,14 +7,20 @@ export const CreatePostContainer = styled.section`
   border-radius: 4px;
   display: flex;
   width: 100%;
+  flex-direction: column;
   justify-content: space-around;
 
   .CreatePost {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     height: 100%;
+    margin-bottom: 3rem;
+
+    form {
+      width: 100%;
+    }
 
     h5 {
       margin-top: 1.5rem;

@@ -68,3 +68,55 @@ export const DrawerContainer = styled.section`
   flex-direction: column;
   justify-content: center;
 `;
+
+export const WebinarTabContainer = styled.section`
+  padding: 2rem;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  .webinarCards {
+    display: flex;
+    flex-wrap: wrap;
+
+    .wcard {
+      background: #fff;
+      padding: 1rem;
+      box-shadow: 0px 0px 8px rgba(1, 20, 70, 0.1);
+      border-radius: 8px;
+      min-width: 30%;
+      max-width: 33%;
+      margin: 1rem 1.2rem 1rem 0;
+
+      h6 {
+        overflow-wrap: break-word;
+      }
+    }
+
+    .winfo {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        display: flex;
+        align-items: center;
+        p {
+          margin: 0.3rem;
+          color: '#6E7F8F';
+        }
+      }
+    }
+  }
+
+  .linkedContainer {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .linkedInput {
+      min-width: 46%;
+      margin-top: 1rem;
+    }
+  }
+`;
