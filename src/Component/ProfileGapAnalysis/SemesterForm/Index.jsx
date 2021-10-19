@@ -405,7 +405,7 @@ class Index extends Component {
           if (!isEmptyObject(rowData)) {
             console.log(rowData);
 
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectCode)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.subjectCode)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -422,7 +422,7 @@ class Index extends Component {
             : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectName)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.subjectName)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -499,7 +499,7 @@ class Index extends Component {
           renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.type)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.type)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -547,7 +547,7 @@ class Index extends Component {
             : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.passOrFail)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.passOrFail)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
