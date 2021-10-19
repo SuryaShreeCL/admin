@@ -232,6 +232,8 @@ class Index extends Component {
   };
 
   fetchData = (response) => {
+    console.log(response)
+   if(response.data.success){
     this.setState({
       semesterData:
         response && response.data.data.studentSubjectDetails !== null
@@ -257,6 +259,7 @@ class Index extends Component {
         response && response.data.data.studentSemesterDetails.percentage,
       degreeType: response && response.data.data.diplomaType,
     });
+   }
   };
 
   componentDidMount() {
@@ -382,8 +385,24 @@ class Index extends Component {
     this.props.isClickedBack(true);
   };
 
+  // function to calculate sgpa
+  handleSgpaClick = () => {
+    this.setState({
+      semesterGpa : "55"
+    })
+
+  }
+
+  // function to calculate cgpa
+  handleCgpaClick = () =>{
+      this.setState({
+        cgpa : "55"
+      })
+  }
+
   render() {
     const { classes } = this.props;
+    console.log(this.state)
 
     // table columns
     const columns = [
@@ -405,7 +424,7 @@ class Index extends Component {
           if (!isEmptyObject(rowData)) {
             console.log(rowData);
 
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectCode)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.subjectCode)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -422,7 +441,7 @@ class Index extends Component {
             : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectName)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.subjectName)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -499,7 +518,7 @@ class Index extends Component {
           renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.type)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.type)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -547,7 +566,7 @@ class Index extends Component {
             : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.passOrFail)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.passOrFail)) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -640,7 +659,7 @@ class Index extends Component {
                     variant={"outlined"}
                     color={"primary"}
                     className={classes.sgpaButton}
-                    // onClick={this.props.handleChange}
+                    onClick={this.handleSgpaClick}
                   >
                     Calculate SGPA
                   </Button>
@@ -649,7 +668,7 @@ class Index extends Component {
                     variant={"outlined"}
                     color={"primary"}
                     className={classes.cgpaButton}
-                    // onClick={this.props.handleChange}
+                    onClick={this.handleCgpaClick}
                   >
                     Calculate CGPA
                   </Button>
