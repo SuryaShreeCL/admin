@@ -62,7 +62,7 @@
     "sonarqube-scanner": "^2.8.0",
     "store": "2.0.12",
     "styled-components": "^5.3.0",
-    "xlsx": "^0.16.9",
+    "xlsx": "^0.17.3",
     "yup": "^0.32.9"
   },
   "devDependencies": {
@@ -82,7 +82,7 @@
     "build:qa": "env-cmd -f .env.qa react-scripts --max_old_space_size=4096 build",
     "build:new": "env-cmd -f .env.new react-scripts --max_old_space_size=4096 build",
     "start:dev": "PORT=8000 env-cmd -f .env.development react-scripts start",
-    "start:stage": "PORT=8000 env-cmd -f .env.staging react-scripts start",
+    "start:stage": "env-cmd -f .env.staging react-scripts start",
     "qa": "env-cmd -f .env.qa react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
