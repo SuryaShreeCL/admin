@@ -145,6 +145,7 @@ class GoalDetails extends Component {
     for (let i = 0; i < obj.length; i++) {
       if (
         obj[i].pgaCRGGoals.id === null ||
+        obj[i].pgaCRGGoals.id === "" ||
         obj[i].role.length === 0 ||
         obj[i].industry.length === 0 ||
         obj[i].company.length === 0
