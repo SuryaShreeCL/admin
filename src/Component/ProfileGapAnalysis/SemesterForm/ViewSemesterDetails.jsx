@@ -13,55 +13,55 @@ import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
 
 class ViewSemesterDetails extends Component {
-  constructor(props) {
-    super(props);
-
-    //  setting state
-    this.state = {
-      collegeName: "",
-      collegeNameErr: "",
-      universityName: "",
-      gpa: "",
-      departmentName: "",
-      passingYear: "",
-      semester: "",
-    };
-  }
-
-  //   college Array
-  college = [];
-
-  // university array
-  university = [];
-
-  // department array
-  department = [];
-
-  // function to handle the textfield
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+  renderDegree = () => {
+    if (this.props.degreeType) {
+      return (
+        <Typography
+          color="textSecondary"
+          className={"semesterForm_degree_style"}
+        >
+          Degree
+        </Typography>
+      );
+    } else {
+      return <div></div>;
+    }
   };
 
-  componentDidMount() {
-    this.props.getAllColleges();
-  }
+  renderDegreeField = () => {
+    if (this.props.degreeType) {
+      return (
+        <Typography
+          className={"semesterForm_degreeField"}
+          // style={{ height: "60px", marginTop: "3px" }}
+        >
+          {this.props.degreeType.name}
+        </Typography>
+      );
+    } else {
+      return <div></div>;
+    }
+  };
 
   render() {
     const {
       collegeName,
       universityName,
       departmentName,
-      score,
+      cgpaScale,
       semName,
       year,
-      list
+      list,
+      degree,
+      item,
+      cgpaPercentage,
+      degreeType,
     } = this.props;
+    console.log(this.props);
+    console.log(departmentName);
     return (
       <div>
-        <Grid container spacing={3} style={{ padding: "12px" }}>
-          {/* back icon design */}
+        <Grid container>
           <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
             <div onClick={this.props.backHandler} className={"diploma_header"}>
               <div>
@@ -72,7 +72,6 @@ class ViewSemesterDetails extends Component {
               </div>
             </div>
           </Grid>
-
           {/* diploma title */}
           <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
             <div className={"semester_title_div"}>
@@ -80,104 +79,90 @@ class ViewSemesterDetails extends Component {
                 {semName} |
               </Typography>
               <Typography variant={"h6"} className={"semester_title1"}>
-              {list[this.props.academicTypes]}
+                {list[this.props.academicTypes]}
               </Typography>
             </div>
           </Grid>
 
-          <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
-            <AutoCompleteDropDown
-              popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="College Name"
-              disabled
-              options={this.props.collegeResponse}
-              value={collegeName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  collegeName: newValue,
-                })
-              }
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="College Name"
-                  variant="standard"
-                  name="College Name"
-                  value={collegeName}
-                />
-              )}
-            />
+          {/* try */}
+
+          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
+            <div className={"semesterForm_semesterDetail_grid_item1"}>
+              <Typography
+                className={"semesterForm_college_style"}
+                color="textSecondary"
+              >
+                College Name
+              </Typography>
+
+              <Typography
+                className={"semesterForm_universityAndCgpa_style"}
+                color="textSecondary"
+              >
+                University Name
+              </Typography>
+
+              <Typography
+                color="textSecondary"
+                className={"semesterForm_universityAndCgpa_style"}
+              >
+                CGPA/Percentage
+              </Typography>
+              {this.renderDegree()}
+            </div>
           </Grid>
 
-          <Grid item md={4}>
-            <AutoCompleteDropDown
-              popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="universityName"
-              disabled
-              options={this.props.universityResponse}
-              value={universityName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  universityName: newValue,
-                })
-              }
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="university Name"
-                  variant="standard"
-                  name="universityName"
-                />
-              )}
-            />
+          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
+            <div className={"semesterForm_semesterDetail_grid_item2"}>
+              <Typography className={"semesterForm_collegeField"}>
+                {collegeName.name}
+              </Typography>
+              <Typography className={"semesterForm_universityField"}>
+                {universityName.name}
+              </Typography>
+              <Typography className={"semesterForm_percentageField"}>
+                {cgpaPercentage}
+              </Typography>
+              {this.renderDegreeField()}
+            </div>
           </Grid>
 
-          <Grid item md={4}>
-            <TextField
-              label="GPA"
-              name="score"
-              disabled
-              value={score}
-              onChange={(e) => this.handleChange(e)}
-              fullWidth
-            />
+          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
+            <div className={"semesterForm_semesterDetail_grid_item3"}>
+              <Typography
+                color="textSecondary"
+                className={"semesterForm_college_style"}
+              >
+                Department
+              </Typography>
+              <Typography
+                color="textSecondary"
+                className={"semesterForm_universityAndCgpa_style"}
+              >
+                Batch
+              </Typography>
+
+              <Typography
+                color="textSecondary"
+                className={"semesterForm_universityAndCgpa_style"}
+              >
+                CGPA Scale
+              </Typography>
+            </div>
           </Grid>
 
-          <Grid item md={4}>
-            <AutoCompleteDropDown
-              popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="departmentName"
-              disabled
-              options={this.department}
-              value={departmentName}
-              onChange={(e, newValue) =>
-                this.setState({
-                  departmentName: newValue,
-                })
-              }
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Department Name"
-                  variant="standard"
-                  name="departmentName"
-                />
-              )}
-            />
-          </Grid>
-
-          <Grid item md={4}>
-            <TextField
-              label="Passing Year"
-              disabled
-              name="year"
-              value={year}
-              onChange={(e) => this.handleChange(e)}
-              fullWidth
-            />
+          <Grid item md={3} xs={3} sm={3} xl={3} lg={3}>
+            <div className={"semesterForm_semesterDetail_grid_item4"}>
+              <Typography className={"semesterForm_departmentField"}>
+                {departmentName && departmentName.name}
+              </Typography>
+              <Typography className={"semesterForm_yearField"}>
+                {year}
+              </Typography>
+              <Typography className={"semesterForm_scaleField"}>
+                {cgpaScale}
+              </Typography>
+            </div>
           </Grid>
         </Grid>
       </div>
