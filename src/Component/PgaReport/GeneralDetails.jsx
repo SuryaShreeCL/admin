@@ -200,6 +200,12 @@ function GeneralDetails(props) {
             snackColor: "success",
             snackOpen: true,
           });
+        }else{
+          setSnack({
+            snackMsg: response,
+            snackColor: "error",
+            snackOpen: true,
+          });
         }
       });
     }

@@ -39,6 +39,7 @@ import SpecializationTrack from "../PgaReport/SpecializationTrack";
 import PlanOfAction from "../PgaReport/PlanOfAction";
 import CriticalSuccessFactor from "../PgaReport/CriticalSuccessFactor";
 import { getPgaTabDropDown } from "../../AsyncApiCall/PgaReport/PgaReport";
+import ProfileFit from "../PgaReport/ProfileFit";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -170,7 +171,7 @@ class ProfileGapRoot extends Component {
   // Component Did Mount
 
   componentDidMount() {
-    getPgaTabDropDown().then((response) => {
+    getPgaTabDropDown(this.props.match.params.productId).then((response) => {
       if (response.status === 200) {
         this.setState({
           pgaReportDropDown: response.data.data,
@@ -373,6 +374,12 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={"pgaAdditionalForm"}>
               <AdditionalPointsForm {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"suggestedSpecializationTracks"}>
+              <SpecializationTrack {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"preview"}>
+              <ProfileFit {...this.props} />
             </TabPanel>
           </Grid>
 

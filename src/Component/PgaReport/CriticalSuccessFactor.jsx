@@ -71,16 +71,16 @@ function CriticalSuccessFactor(props) {
   const handleSave = () => {
     let error = false;
     for (let index = 0; index < factors.length; index++) {
-      if(isEmptyObject(factors[index].pgaCSF)){
+      if (isEmptyObject(factors[index].pgaCSF)) {
         error = true;
         break;
       }
-      if(isEmptyString(factors[index].remark)){
+      if (isEmptyString(factors[index].remark)) {
         error = true;
         break;
       }
     }
-    if(!error){
+    if (!error) {
       saveCsf(
         props.match.params.studentId,
         props.match.params.productId,
@@ -89,20 +89,19 @@ function CriticalSuccessFactor(props) {
         if (response.status === 200) {
           getAndSetFactor();
           setSnack({
-            snackMsg : "Saved Successfully",
-            snackColor : "success",
-            snackOpen : true
-          })
+            snackMsg: "Saved Successfully",
+            snackColor: "success",
+            snackOpen: true,
+          });
         }
       });
-    }else{
+    } else {
       setSnack({
-        snackMsg : HELPER_TEXT.requiredField,
-        snackColor : "error",
-        snackOpen : true
-      })
+        snackMsg: HELPER_TEXT.requiredField,
+        snackColor: "error",
+        snackOpen: true,
+      });
     }
-   
   };
 
   const handleDelete = (index) => {
