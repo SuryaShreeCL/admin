@@ -15,6 +15,7 @@ import NotificationReducer from '../Reducer/NotificationReducer';
 import HelperReducer from '../Reducer/HelperReducer';
 import ReportReducer from '../Reducer/ReportReducer';
 import ProfileGapAnalysisReducer from '../Reducer/ProfileGapAnalysisReducer';
+import CRGReducer from '../Reducer/CRGReducer';
 import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
@@ -68,6 +69,7 @@ export default combineReducers({
   CallReducer: CallReducer,
   PgaReducer: PgaReducer,
   ProfileGapAnalysisReducer : ProfileGapAnalysisReducer,
+  CRGReducer : CRGReducer,
 
   //TESTIMONIAL
   testimonialCreateReducer,

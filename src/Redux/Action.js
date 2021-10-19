@@ -155,6 +155,14 @@ export const QUESTIONSET = {
   editChoice: 'editChoice',
   deleteChoice: 'deleteChoice',
 };
+export const CAREER_ROLE_GRAPH = {
+  getStudentGoals : "getStudentGoals",
+  deleteStudentGoals : "deleteStudentGoals",
+  updateStudentGoals : "updateStudentGoals",
+  getGoalsType : "getGoalsType",
+  getGraphDetails : "getGraphDetails",
+  getCareerDetails : "getCareerDetails"
+}
 
 export const VIDEO = {
   viewVideo: 'viewVideo',
@@ -350,7 +358,8 @@ export const PGA = {
   viewAcademicDetails : "viewAcademicDetails",
   viewSemesterDetails : "viewSemesterDetails",
   saveSemesterDetails : "saveSemesterDetails",
-  deleteSemesterDetails : "deleteSemesterDetails"
+  deleteSemesterDetails : "deleteSemesterDetails",
+  saveAcademicDetails : "saveAcademicDetails"
   // fileDownload : "fileDownload"
 };
 

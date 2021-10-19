@@ -28,6 +28,7 @@ import "./InterestDetail.css";
 import { setPoperAnchorEl, getAcademicType, isClickedSem} from "../../Actions/HelperAction";
 import TwelthForm from "./TwelthForm";
 import Index from "./AcademicSummary/Index";
+import CareerRoot from './CareerRole/CareerRoot'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -157,9 +158,22 @@ class ProfileGapRoot extends Component {
     })
   }
 
+  // tenth menu click function
+  handleTenthClick = () => {
+    this.setState({ value: 6, open: false })
+    this.props.getAcademicType("");
+  }
+
+  // 12th menu click function
+  handleTwelfthClick = () => {
+    this.setState({ value: 7, open: false })
+    this.props.getAcademicType("");
+
+  }
+
   menus = [
-    { label : "10th", value : 6, handler : ()=>this.setState({ value: 6, open: false })},
-    { label : "12th", value : 7, handler : ()=>this.setState({ value: 7, open: false })},
+    { label : "10th", value : 6, handler : ()=>this.handleTenthClick()},
+    { label : "12th", value : 7, handler : ()=>this.handleTwelfthClick()},
     { label : "Diploma", value : 8, handler : ()=>this.handleDiplomaClick()},
     { label : "Undergraduate", value : 9, handler : ()=>this.handleUgClick()},
     { label : "Postgraduate", value : 10, handler : ()=>this.handlePgClick()},
@@ -170,6 +184,7 @@ class ProfileGapRoot extends Component {
     
     const { classes } = this.props;
     console.log(this.props.clickedBack)
+    console.log(this.state)
     // console.log(object)
     const open = Boolean(this.props.popperAnchorEl);
     const id = open ? "simple-popper" : undefined;
@@ -239,8 +254,13 @@ class ProfileGapRoot extends Component {
                     onClick={(e) => this.menuOpen(e)}
                   />
                 </ThemeProvider>
+                <Tab
+                  label="Career Role"
+                  style={{ textTransform: "none", minWidth: "135px" }}
+                  value={13}
+                />
               </Tabs>
-              {this.state.value > 5 ? (
+              {this.state.value > 5 && this.state.value !== 13 ? (
                 <IconButton
                   id={id}
                   onClick={this.handlePopupClick}
@@ -300,6 +320,9 @@ class ProfileGapRoot extends Component {
               <SemesterForm 
               backHandler = {this.backHandler}
               {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={13}>
+              <CareerRoot {...this.props} />
             </TabPanel>
           </Grid>
           {/* <Grid item md={this.state.value === 5 ? 0 : 5} xs={5} sm={5}>

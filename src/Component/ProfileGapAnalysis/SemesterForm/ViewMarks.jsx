@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
-import { number } from "yup";
-import { isEmptyString } from "../../Validation";
+
 
 class ViewMarks extends Component {
 
