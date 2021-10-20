@@ -8,88 +8,88 @@ import { AddButton, PageWrapper } from "./Components/StyledComponents";
 import { useStyles } from "./Styles/Index";
 import DeleteOutlineRoundedIcon from "@material-ui/icons/DeleteOutlineRounded";
 import {
-  deleteAdditionalPoints,
-  getAllAdditionalPoints,
-  getStudentAdditionalPoints,
-  saveAdditionalPoints,
-} from "../../AsyncApiCall/PgaReport/AdditionalPoint";
+  deleteStudentProfileFit,
+  getPgaProfileFitList,
+  getStudentProfileFit,
+  savePgaProfileFit,
+} from "../../AsyncApiCall/PgaReport/ProfileFit";
 import MySnackBar from "../MySnackBar";
 import { isEmptyObject, isEmptyString } from "../Validation";
 function ProfileFit(props) {
   const classes = useStyles();
-  const [allAdditionalPointsList, setAllAdditionalPointsList] = useState([]);
-  const [studentAdditionalPoints, setStudentAdditionalPoints] = useState([]);
+  const [profileFitList, setProfileFitList] = useState([]);
+  const [studentProfileFit, setStudentProfileFit] = useState([]);
   const [snack, setSnack] = useState({
     snackOpen: false,
     snackMsg: "",
     snackColor: "",
   });
-  const getAndSetStudentAdditionalPoints = () => {
-    getStudentAdditionalPoints(
+  const getAndSetStudentProfileFit = () => {
+    getStudentProfileFit(
       props.match.params.studentId,
       props.match.params.productId
     ).then((response) => {
       if (response.status === 200) {
         if (response.data.data.length === 0) {
-          setStudentAdditionalPoints([
-            { id: null, pgaAdditionalPoint: null, remark: "" },
+          setStudentProfileFit([
+            { id: null, pgaProfileFit: null, description: "" },
           ]);
         } else {
-          setStudentAdditionalPoints(response.data.data);
+          setStudentProfileFit(response.data.data);
         }
       }
     });
   };
 
   useEffect(() => {
-    getAllAdditionalPoints().then((response) => {
+    getPgaProfileFitList().then((response) => {
       if (response.status === 200) {
-        setAllAdditionalPointsList(response.data.data);
+        setProfileFitList(response.data.data);
       }
     });
-    getAndSetStudentAdditionalPoints();
+    getAndSetStudentProfileFit();
   }, []);
 
   const handleAddClick = () => {
-    setStudentAdditionalPoints([
-      ...studentAdditionalPoints,
-      { id: null, pgaAdditionalPoint: null, remark: "" },
+    setStudentProfileFit([
+      ...studentProfileFit,
+      { id: null, pgaProfileFit: null, description: "" },
     ]);
   };
 
-  const handleAdditionalPointChange = (value, index) => {
-    let copyOf = [...studentAdditionalPoints];
-    copyOf[index].pgaAdditionalPoint = value;
-    copyOf[index].remark = value ? value.remark : "";
-    setStudentAdditionalPoints(copyOf);
+  const handleProfileFitChange = (value, index) => {
+    let copyOf = [...studentProfileFit];
+    copyOf[index].pgaProfileFit = value;
+    copyOf[index].description = value ? value.description : "";
+    setStudentProfileFit(copyOf);
   };
 
   const handleTextChange = (e, index) => {
-    let copyOf = [...studentAdditionalPoints];
+    let copyOf = [...studentProfileFit];
     copyOf[index][e.target.name] = e.target.value;
-    setStudentAdditionalPoints(copyOf);
+    setStudentProfileFit(copyOf);
   };
 
   const handleSave = () => {
     let error = false;
-    for (let index = 0; index < studentAdditionalPoints.length; index++) {
-      if (isEmptyObject(studentAdditionalPoints[index].pgaAdditionalPoint)) {
+    for (let index = 0; index < studentProfileFit.length; index++) {
+      if (isEmptyObject(studentProfileFit[index].pgaProfileFit)) {
         error = true;
         break;
       }
-      if (isEmptyString(studentAdditionalPoints[index].remark)) {
+      if (isEmptyString(studentProfileFit[index].description)) {
         error = true;
         break;
       }
     }
     if (!error) {
-      saveAdditionalPoints(
+      savePgaProfileFit(
         props.match.params.studentId,
         props.match.params.productId,
-        studentAdditionalPoints
+        studentProfileFit
       ).then((response) => {
         if (response.status === 200) {
-          getAndSetStudentAdditionalPoints();
+          getAndSetStudentProfileFit();
           setSnack({
             snackMsg: "Saved Successfully",
             snackColor: "success",
@@ -108,16 +108,16 @@ function ProfileFit(props) {
 
   const handleDelete = (item, index) => {
     if (item.id) {
-      deleteAdditionalPoints(item.id).then((response) => {
+      deleteStudentProfileFit(props.match.params.studentId, props.match.params.productId ,item.id).then((response) => {
         if (response.status === 200) {
-          getAndSetStudentAdditionalPoints();
+          getAndSetStudentProfileFit();
         }
       });
     } else {
-      let copyOf = [...studentAdditionalPoints];
+      let copyOf = [...studentProfileFit];
       if (copyOf.length !== 1) {
         copyOf.splice(index, 1);
-        setStudentAdditionalPoints(copyOf);
+        setStudentProfileFit(copyOf);
       }
     }
   };
@@ -134,17 +134,17 @@ function ProfileFit(props) {
                 Add
               </AddButton>
             </Grid>
-            {studentAdditionalPoints.map((eachItem, index) => {
+            {studentProfileFit.map((eachItem, index) => {
               return (
                 <>
                   <Grid item md={3}>
                     <DropDown
                       id="combo-box-demo"
-                      options={allAdditionalPointsList}
-                      getOptionLabel={(option) => option.name}
-                      value={eachItem.pgaAdditionalPoint}
+                      options={profileFitList}
+                      getOptionLabel={(option) => option.profileFit}
+                      value={eachItem.pgaProfileFit}
                       onChange={(e, value) =>
-                        handleAdditionalPointChange(value, index)
+                        handleProfileFitChange(value, index)
                       }
                       renderInput={(params) => (
                         <TextFieldComponent
@@ -158,11 +158,11 @@ function ProfileFit(props) {
                   <Grid item md={9}></Grid>
                   <Grid item md={11}>
                     <TextFieldComponent
-                      name={"remark"}
+                      name={"description"}
                       multiline
                       minRows={4}
                       onChange={(e) => handleTextChange(e, index)}
-                      value={eachItem.remark}
+                      value={eachItem.description}
                       label={"Description"}
                       fullWidth
                     />
