@@ -23,7 +23,6 @@ function Strengths(props) {
     snackColor: "",
   });
   const [selectedStrengths, setSelectedStrengths] = useState([
-    // { id: null, pgaStrength: null, strength: "" },
   ]);
   const classes = useStyles();
   const getAndSetSelectedStrength = () => {
@@ -121,7 +120,6 @@ function Strengths(props) {
             </Grid>
             <Grid item md={12} lg={12} xl={12}>
               {strengthList.map((eachStrength, index) => {
-                console.log(eachStrength, "-----------");
                 return (
                   <ListingContainer
                     addText={
