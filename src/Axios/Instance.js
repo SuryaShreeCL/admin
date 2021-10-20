@@ -6,7 +6,6 @@ const customAxios = axios.create({
 })
 
 const requestHandler = request => {
-    console.log(request, "request---------")
     let accessToken = window.sessionStorage.getItem('accessToken')
     request.headers.Authorization = `Bearer ${accessToken}`;
     request.headers.admin = 'yes';
@@ -14,7 +13,6 @@ const requestHandler = request => {
 };
 
 const responseHandler = response => {
-    console.log(response, "response---------")
     return response;
 };
 

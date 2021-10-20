@@ -40,6 +40,12 @@ import PlanOfAction from "../PgaReport/PlanOfAction";
 import CriticalSuccessFactor from "../PgaReport/CriticalSuccessFactor";
 import { getPgaTabDropDown } from "../../AsyncApiCall/PgaReport/PgaReport";
 import ProfileFit from "../PgaReport/ProfileFit";
+import Strengths from "../PgaReport/Strengths";
+import Concerns from "../PgaReport/Concerns";
+import ProgramInformation from "../PgaReport/ProgramInformation";
+import ActivitiesForGmat from "../PgaReport/ActivitiesForGmat";
+import AllRoundActivities from "../PgaReport/AllRoundActivities";
+import Preview from "../PgaReport/Preview";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -378,9 +384,27 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={"suggestedSpecializationTracks"}>
               <SpecializationTrack {...this.props} />
             </TabPanel>
-            <TabPanel value={this.state.value} index={"preview"}>
+            <TabPanel value={this.state.value} index={"profileFitGraph"}>
               <ProfileFit {...this.props} />
             </TabPanel>
+            <TabPanel value={this.state.value} index={"strengths"}>
+              <Strengths {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"concerns"}>
+              <Concerns {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"programInformation"}>
+              <ProgramInformation {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"activitiesAfterGmat"}>
+              <ActivitiesForGmat {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"allRoundActivities"}>
+              <AllRoundActivities {...this.props} />
+            </TabPanel> 
+            <TabPanel value={this.state.value} index={"preview"}>
+              <Preview {...this.props} />
+            </TabPanel> 
           </Grid>
 
         </Grid>

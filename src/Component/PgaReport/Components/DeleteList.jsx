@@ -6,19 +6,22 @@ import {
 } from "./StyledComponents";
 import DeleteOutlineRoundedIcon from "@material-ui/icons/DeleteOutlineRounded";
 import { IconButton, Typography } from "@material-ui/core";
-import { useStyles } from "../Styles/Index";
+import TextFieldComponent from "../../Controls/TextField";
 
 function DeleteList(props) {
-    const classes = useStyles()
   return (
     <DeleteContainer>
       <DeleteLeftWrapper>
-        <Typography className={classes.deleteContentText}>
-         {props.content}
-        </Typography>
+        <TextFieldComponent
+        fullWidth
+        minRows={2}
+        multiline
+        onChange={props.onChange}
+        value={props.value}
+        />
       </DeleteLeftWrapper>
       <DeleteButtonWrapper>
-        <IconButton>
+        <IconButton onClick={props.onDeleteClick}>
           <DeleteOutlineRoundedIcon color={"secondary"} />
         </IconButton>
       </DeleteButtonWrapper>

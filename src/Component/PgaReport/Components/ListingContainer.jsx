@@ -10,7 +10,7 @@ function ListingContainer(props) {
        {props.content}
       </div>
       <div className={classes.addContainer}>
-        <AddButton color={props.buttonColor}>Add</AddButton>
+        <AddButton onClick={props.handleAddClick} color={props.buttonColor}>{props.addText}</AddButton>
       </div>
     </ListingDiv>
   );

@@ -37,9 +37,6 @@ export const useStyles = makeStyles((theme)=>({
    autoCompleteStyle : {
        width : 300
    },
-   deleteContentText : {
-       marginBottom : "10px"
-   },
    noSchoolTypo : {
        fontWeight : 500
    },
@@ -54,5 +51,9 @@ export const useStyles = makeStyles((theme)=>({
    schoolLeftContainer : {
     padding : "20px",
     borderRight : "2px solid #f1f1f1"
+   },
+   columnDivider : {
+    borderRight : "2px solid #f1f1f1"
+
    }
 }))

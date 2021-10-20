@@ -15,6 +15,7 @@ padding: 2px 15px;
 border: 2px solid;
 border-color: ${props => props.color};
 border-radius: 5px;
+min-width : 80px;
 cursor: pointer;
 `;
 
