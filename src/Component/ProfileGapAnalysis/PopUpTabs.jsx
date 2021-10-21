@@ -1,7 +1,11 @@
 import React from "react"
 import { withStyles, Tabs, Tab } from "@material-ui/core"
 export const StyledTabs = withStyles({
+  root : {
+    borderBottom : "1px solid #f1f1f1"
+  },
     indicator: {
+      width : "160px !important",
       display: 'flex',
       justifyContent: 'center',
       height : "3px",

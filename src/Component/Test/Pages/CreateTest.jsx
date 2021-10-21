@@ -23,6 +23,7 @@ import TextField from '@material-ui/core/TextField';
 import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
 import { createTest, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
+import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import { testPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
@@ -86,7 +87,7 @@ const CreateTest = () => {
     nameDescription: '',
     startDateTime: new Date(),
     endDateTime: new Date(),
-    score: 0,
+    score: 10,
     wallFiles: [],
   });
 
@@ -95,13 +96,6 @@ const CreateTest = () => {
     id: JSON.parse(window.sessionStorage.getItem('questionSetId')),
     questionSectionId: JSON.parse(window.sessionStorage.getItem('questionSectionId')),
   };
-
-  const durations = [
-    { id: '1', title: 20 },
-    { id: '2', title: 30 },
-    { id: '3', title: 40 },
-    { id: '4', title: 50 },
-  ];
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
@@ -122,10 +116,39 @@ const CreateTest = () => {
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
+    if (values.name.length < 1) {
+      setNotify({
+        isOpen: true,
+        message: 'Test name cannot be empty',
+        type: 'error',
+      });
+      return false;
+    }
+    if (values.descriptionTitle.length < 1) {
+      setNotify({
+        isOpen: true,
+        message: 'Description title cannot be empty',
+        type: 'error',
+      });
+      return false;
+    }
     if (values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
         message: 'Please upload image(s)',
+        type: 'error',
+      });
+      return false;
+    }
+
+    if (
+      moment(values.endDateTime).isSameOrBefore(values.startDateTime) ||
+      moment(values.startDateTime).isBefore(moment()) ||
+      moment(values.endDateTime).isBefore(moment())
+    ) {
+      setNotify({
+        isOpen: true,
+        message: 'Please add proper timing & date',
         type: 'error',
       });
       return false;
@@ -297,12 +320,18 @@ const CreateTest = () => {
                     style={{ marginTop: '1rem' }}
                   >
                     <Grid item style={{ width: '30%' }}>
-                      <Controls.Select
+                      <Controls.Input
                         label='Score'
                         name='score'
-                        size='100%'
+                        type='number'
+                        style={{ width: '100%' }}
+                        value={values.score}
                         onChange={handleChange}
-                        options={durations}
+                        error={values.score < 1}
+                        helperText={values.score < 1 ? 'Enter Only Positive Values' : ''}
+                        inputProps={{
+                          pattern: '[0-9]*',
+                        }}
                       />
                     </Grid>
                     <FieldArray
@@ -314,11 +343,13 @@ const CreateTest = () => {
                               <Field
                                 className={classes.inputField}
                                 placeholder='Duration'
+                                type='number'
                                 name={`testSection.${index}.duration`}
                               />
                               <Field
                                 className={classes.inputField}
                                 placeholder='No Of Questions'
+                                type='number'
                                 name={`testSection.${index}.noOfQuestions`}
                               />
                             </div>

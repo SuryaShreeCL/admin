@@ -16,6 +16,22 @@ export const wallPostListReducer = (state = { posts: [] }, action) => {
   }
 };
 
+export const wallWebinarListReducer = (state = { webinars: [] }, action) => {
+  switch (action.type) {
+    case WALL.WEBINAR_LIST_REQUEST:
+      return { loading: true, webinars: [] };
+    case WALL.WEBINAR_LIST_SUCCESS:
+      return {
+        loading: false,
+        webinars: action.payload,
+      };
+    case WALL.WEBINAR_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const getWallCategoriesReducer = (state = { categories: [] }, action) => {
   switch (action.type) {
     case WALL.WALL_CATEGORIES_REQUEST:

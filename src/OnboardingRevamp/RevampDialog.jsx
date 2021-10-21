@@ -31,7 +31,6 @@ export default class RevampDialog extends Component {
                   color={"primary"}
                   variant={"text"}
                   onClick={this.props.onClose}
-                  className={"button"}
                 >
                   Cancel
                 </PrimaryButton>

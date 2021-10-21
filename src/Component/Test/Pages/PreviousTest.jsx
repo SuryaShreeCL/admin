@@ -27,7 +27,7 @@ import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import MuiAlert from '@material-ui/lab/Alert';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
-import { renderListCategory } from '../../Utils/Helpers';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -155,8 +155,15 @@ export default function PreviousTest() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.duration}</TableCell>
+                  <TableCell style={{ color: '#1093FF' }}>{item.name}</TableCell>
+                  <TableCell>
+                    <ScheduleIcon
+                      fontSize='small'
+                      color='primary'
+                      style={{ marginRight: '5px', marginBottom: '3px' }}
+                    />
+                    {item.duration}
+                  </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.attemptedStudents}</TableCell>

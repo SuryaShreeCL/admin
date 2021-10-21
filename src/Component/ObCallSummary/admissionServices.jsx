@@ -19,6 +19,7 @@ import { getStudentsById } from '../../Actions/Student';
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import { isEmptyString } from "../Validation";
+import { StudentStepDetails } from "../../Actions/Student";
 import { getdashboarddetails } from '../../Actions/ProfileGapAction';
 import '../../Asset/All.css'
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -37,7 +38,8 @@ class AdmissionServices extends Component {
       snackopen : false,
       mentorname : "",
       buttonstatus : false,
-      verifydetail : []
+      verifydetail : [],
+      mentordetails : {}
     };
   }
   handleClick(e) {
@@ -56,7 +58,19 @@ class AdmissionServices extends Component {
           "calendarId":this.state.mentor.calendarId
           }
           console.log(obj)
-      this.props.updatementor( this.props.match.params.studentId,this.props.match.params.productId,obj)
+      this.props.updatementor( this.props.match.params.studentId,this.props.match.params.productId,obj,(response => {
+        if(response.status === 200){
+          this.props.StudentStepDetails(this.props.match.params.studentId,this.props.match.params.productId)
+          this.props.getmentor(this.props.match.params.studentId,(response => {
+            console.log(response)
+           if(response.status === 200){
+            this.setState({
+              mentor : response.data
+            })
+           }
+          }))
+        }
+      }))
       this.setState({ 
           show: false,
           snackmsg : "Updated Successfully",
@@ -67,9 +81,11 @@ class AdmissionServices extends Component {
   };
  componentDidUpdate(prevProps,prevState){
    if(this.props.getmentorList !== prevProps.getmentorList){
-       this.setState({
-         mentor : this.props.getmentorList
-       })
+     if(this.props.getmentorList !== null || !isEmptyString(this.props.getmentorList)){
+      this.setState({
+        mentor : this.props.getmentorList
+      })
+     }
    }
    if(this.state.verifydetail !== prevState.verifydetail){
      for(let i=0; this.state.verifydetail[i] && this.state.verifydetail[i].status === "NotVerified";i++){
@@ -608,7 +624,7 @@ class AdmissionServices extends Component {
         </TableContainer>
         <div>
           <Typography className={"blue_heading"}>Mentor Details</Typography>
-          {/* {this.state.mentor === null ? ( */}
+          {this.state.mentor === null || isEmptyString(this.state.mentor)  ? (
             <PrimaryButton
               disabled={this.state.buttonstatus}
               variant="outlined"
@@ -618,7 +634,7 @@ class AdmissionServices extends Component {
             >
               Allocate Mentor
             </PrimaryButton>
-          {/* ) : (
+           ) : (
             <Table>
               <TableHead>
                 <TableCell>Role</TableCell>
@@ -628,14 +644,14 @@ class AdmissionServices extends Component {
                 <TableCell></TableCell>
               </TableHead>
               <TableBody>
-                <TableCell>Mentor</TableCell>
-                <TableCell>Mentor Name</TableCell>
+                <TableCell>{this.state.mentor.department}</TableCell>
+                <TableCell>{this.state.mentor.name}</TableCell>
                 <TableCell>Admin</TableCell>
                 <TableCell>07/10/2021 12:30:34 AM</TableCell>
                 <TableCell>{<DeleteIcon color={"secondary"} />}</TableCell>
               </TableBody>
             </Table>
-          )} */}
+          )} 
         </div>
         <div
           style={{
@@ -648,7 +664,7 @@ class AdmissionServices extends Component {
             maxWidth="xs"
             fullWidth={true}
             open={this.state.show}
-            onClose={() => this.setState({ show: false })}
+            // onClose={() => this.setState({ show: false })}
             aria-labelledby="customized-dialog-title"
           >
             <DialogTitle id="customized-dialog-title">
@@ -716,6 +732,7 @@ class AdmissionServices extends Component {
               >
                 <PrimaryButton
                   style={{ textTransform: "none" }}
+                  disabled={this.state.mentor.length === 0}
                   variant={"contained"}
                   color={"primary"}
                   onClick={() => this.allocate()}
@@ -744,10 +761,11 @@ const mapStateToProps = (state) => {
         getproductdetailsList : state.MentorReducer.getproductdetails,
         updateallocatementorList : state.MentorReducer.updateallocatementor,
         getmentorList : state.MentorReducer.getmentor,
-        getdashboarddetailsList : state.ProfileGapAnalysisReducer.getdashboarddetails
+        getdashboarddetailsList : state.ProfileGapAnalysisReducer.getdashboarddetails,
+        StudentStepDetailsList : state.StudentReducer.StudentStepDetails
     };
   };
   
   export default connect(mapStateToProps, {
-    getAllMentors,getStudentsById,getproductdetails,updateallocatementor,getmentor,updatementor,getdashboarddetails
+    getAllMentors,getStudentsById,getproductdetails,updateallocatementor,getmentor,updatementor,getdashboarddetails,StudentStepDetails
   })(AdmissionServices);

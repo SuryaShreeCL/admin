@@ -1,221 +1,561 @@
 import React, { Component } from "react";
 import ViewMarks from "./ViewMarks";
 import ViewSemesterDetails from "./ViewSemesterDetails";
-import { Grid } from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
 import BottomButton from "../BottomButton";
 import CvViewer from "../CvViewer";
 import TableGrid from "../../../Utils/EditableTable";
+import { connect } from "react-redux";
+import {
+  viewSemesterDetails,
+  deleteSemesterDetails,
+  saveSemesterDetails,
+} from "../../../Actions/ProfileGapAction";
+import { isClickedSem, getAcademicType } from "../../../Actions/HelperAction";
+import { isEmptyObject, isEmptyString } from "../../Validation";
+import { HELPER_TEXT } from "../../../Constant/Variables";
+import Mysnack from "../../MySnackBar";
+import SimilarityPopup from "../SimilarityPopup";
+import {
+  getSimilarStudentsByAcademic,
+  getDistinctSubjectsByAcademic,
+} from "../../../AsyncApiCall/Ppga";
 
-// import { useStyles } from "../../../Asset/DiplomaStyles";
-
-
-
-export default class Index extends Component {
-
+class Index extends Component {
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-      studentDocument : "",
-      data : []
-    }
+      pdfViewer: "",
+      data: "",
+      semesterData: "",
+      collegeDetails: "",
+      university: "",
+      year: "",
+      department: "",
+      score: "",
+      subjectDetails: "",
+
+      // viewMarks
+      semesterGpa: "",
+      semesterGpaErr: "",
+      cgpa: "",
+      cgpaErr: "",
+      formulaEmployed: "",
+      // formulaEmployedErr: "",
+      percentage: "",
+      // percentageErr: "",
+
+      // snack message
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
+
+      // filter
+      search: "",
+      studentMatch: [],
+      distinctMatch: [],
+      filterYear: "",
+      // title
+      list : {
+        diploma : "Diploma",
+        ug : "Undergraduate",
+        pg : "Postgraduate"
+      }
+    };
   }
 
-  columns = [
-    {
-      title: "Id",
-      field: "id",
-      hidden: true,
-    },
-    {
-      title: "Subject Code",
-      field: "subjectDetails.language",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.language : "",
-      // validate: (rowData) => {
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isEmptyString(rowData.subjectDetails.language)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
-    },
-    {
-      title: "Subject Name",
-      field: "subjectDetails.subjectCode",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.subjectCode : "",
-      // validate: (rowData) => {
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
-    },
-    {
-      title: "Grade Points",
-      field: "subjectDetails.subjectName",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.subjectName : "",
-      // validate: (rowData) => {
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isEmptyString(rowData.subjectDetails.subjectName)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
-    },
-    {
-      title: "Credit",
-      field: "subjectDetails.maximumMarks",
-      type: "numeric",
-      // render: (rowData, renderType) =>
-      //   renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
-      // validate: (rowData) => {
-      //   // if (!isEmptyObject(rowData)) {
-      //   //   if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
-      //   //     return true;
-      //   //   } else {
-      //   //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //   //   }
-      //   // }
-      // },
-    },
-    {
-      title: "Type",
-      field: "score",
-      type: "numeric",
+  // Getting and setting student match list in state
+  getAndSetStudentMatch = (year) => {
+    getSimilarStudentsByAcademic(
+      this.props.match.params.studentId,
+      this.props.academicTypes,
+      year
+    ).then((response) => {
+      this.setState({
+        studentMatch: (response && response.data && response.data.data) || [],
+      });
+    });
+  };
 
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
-    },
-    {
-      title: "Result",
-      field: "score",
-      type: "numeric",
+  // Getting and setting distinct match list in state
+  getAndSetDistinctMatch = (query) => {
+    getDistinctSubjectsByAcademic(
+      this.props.match.params.studentId,
+      this.props.academicTypes,
+      query
+    ).then((response) => {
+      this.setState({
+        distinctMatch: (response && response.data && response.data.data) || [],
+      });
+    });
+  };
 
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
-    },
-    {
-      title: "Pass/Fail",
-      field: "score",
-      type: "numeric",
+  // This function handles the search functionality
+  searchHandler = (e) => {
+    //  If the textbox is empty it will return all results
+    if (e.target.value.length !== 0) {
+      this.getAndSetDistinctMatch("&q=" + e.target.value);
+    } else {
+      this.getAndSetDistinctMatch("");
+    }
+    this.setState({
+      search: e.target.value,
+    });
+  };
+  // This function handles the filter based on year
+  onYearClick = (year) => {
+    this.getAndSetStudentMatch("&q=" + year);
+    this.setState({
+      filterYear: year,
+    });
+  };
 
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
-    },
-    {
-      title: "Type",
-      field: "score",
-      type: "numeric",
-
-      // validate: (rowData) => {
-      //   console.log(";;;;;", rowData);
-      //   if (!isEmptyObject(rowData)) {
-      //     if (!isNanAndEmpty(rowData.score)) {
-      //       return true;
-      //     } else {
-      //       return { isValid: false, helperText: HELPER_TEXT.requiredField };
-      //     }
-      //   }
-      // },
-    },
-  ];
-
-
+  // function to add the row in the table
   handleRowAdd = (newData) => {
-   console.log(newData)
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.setState({
+          semesterData: [...this.state.semesterData, newData],
+        });
+        resolve();
+      }, 1000);
+    });
   };
 
+  // function to delete the row in the table
   handleRowDelete = (oldData) => {
-    console.log(oldData);
- 
+    if (oldData.subjectDetailsUgPgDiploma.id) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.props.deleteSemesterDetails(
+            this.props.match.params.studentId,
+            oldData.subjectDetailsUgPgDiploma.id,
+            this.props.clickedSem.data,
+            (response) => {
+              if (response.status === 200) {
+                this.props.viewSemesterDetails(
+                  this.props.match.params.studentId,
+                  this.props.clickedSem.data,
+                  (response) => {
+                    this.setState({
+                      semesterData: response.data.data[0].studentSubjectDetails,
+                    });
+                  }
+                );
+              }
+            }
+          );
+
+          resolve();
+        }, 1000);
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const dataDelete = [...this.state.semesterData];
+          const index = oldData.tableData.id;
+          dataDelete.splice(index, 1);
+          // setData([...dataDelete]);
+          this.setState({
+            semesterData: [...dataDelete],
+          });
+          resolve();
+        }, 1000);
+      });
+    }
   };
 
+  // function to update the row in the table
+  handleRowUpdate = (newData, oldData) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataUpdate = [...this.state.semesterData];
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        // setData([...dataUpdate]);
+        this.setState({
+          semesterData: [...dataUpdate],
+        });
+        resolve();
+      }, 1000);
+    });
+  };
+
+  componentDidMount() {
+    this.props.viewSemesterDetails(
+      this.props.match.params.studentId,
+      this.props.clickedSem.data,
+      (response) => {
+        this.setState({
+          semesterData:
+            response && response.data.data[0].studentSubjectDetails !== null
+              ? response.data.data[0].studentSubjectDetails
+              : [],
+          score: response.data.data[0].studentSemesterDetails.score,
+          collegeDetails: response.data.data[0].college,
+          degreeDetails: response.data.data[0].degree,
+          university: response.data.data[0].university,
+          department: response.data.data[0].department,
+          subjectDetails: response.data.data[0].studentSemesterDetails,
+          pdfViewer: response.data.data[0].studentDocument[0].path,
+          data: response.data,
+          year: response.data.data[0].year,
+          semesterGpa: response.data.data[0].studentSemesterDetails.semesterGpa,
+          cgpa: response.data.data[0].studentSemesterDetails.cgpa,
+          formulaEmployed: response.data.data[0].studentSemesterDetails.formulaEmployed,
+          percentage: response.data.data[0].studentSemesterDetails.percentage,
+        });
+      }
+    );
+    this.getAndSetStudentMatch("");
+    this.getAndSetDistinctMatch("");
+  }
+
+  // save button click function
+  handleSaveClick = () => {
+    let hlpTxt = "Please fill the required field";
+    console.log(this.state)
+    isEmptyString(this.state.subjectDetails.semesterGpa)
+      ? this.setState({ semesterGpaErr: hlpTxt })
+      : this.setState({ semesterGpaErr: "" });
+    isEmptyString(this.state.subjectDetails.cgpa)
+      ? this.setState({ cgpaErr: hlpTxt })
+      : this.setState({ cgpaErr: "" });
+    // isEmptyString(this.state.formulaEmployed)
+    //   ? this.setState({ formulaEmployedErr: hlpTxt })
+    //   : this.setState({ formulaEmployedErr: "" });
+    // isEmptyString(this.state.percentage)
+    //   ? this.setState({ percentageErr: hlpTxt })
+    //   : this.setState({ percentageErr: "" });
+
+    if (
+      
+      !isEmptyString(this.state.subjectDetails.semesterGpa) &&
+      !isEmptyString(this.state.subjectDetails.cgpa)
+      // !isEmptyString(this.state.formulaEmployed) &&
+      // !isEmptyString(this.state.percentage)
+    ) {
+      console.log("======================")
+      let requestBody = {
+        studentSemesterDetails: {
+          id: this.state.subjectDetails.id,
+          semester: this.state.subjectDetails.semester,
+          score: this.state.subjectDetails.score,
+          scoreScale: this.state.subjectDetails.scoreScale,
+          semesterGpa: this.state.subjectDetails.semesterGpa,
+          cgpa: this.state.subjectDetails.cgpa,
+          formulaEmployed: this.state.subjectDetails.formulaEmployed,
+          percentage: this.state.subjectDetails.percentage,
+
+          college: {
+            id: this.state.collegeDetails.id,
+          },
+          // degree: {
+          //     id: this.state.degree.id
+          // },
+          department: {
+            id: this.state.department.id,
+          },
+          university: {
+            id: this.state.university.id,
+          },
+        },
+        studentSubjectDetails: this.state.semesterData,
+      };
+      this.props.saveSemesterDetails(
+        this.props.match.params.studentId,
+        this.props.academicTypes,
+        requestBody,
+        (response) => {
+          this.setState({
+            snackMsg: "Saved Successfully",
+            snackVariant: "success",
+            snackOpen: true,
+          });
+          this.props.viewSemesterDetails(
+            this.props.match.params.studentId,
+            this.props.clickedSem.data,
+            (response) => {
+              this.setState({
+                semesterData:
+                  response.data.data[0].studentSubjectDetails !== null
+                    ? response.data.data[0].studentSubjectDetails
+                    : [],
+                score: response.data.data[0].studentSemesterDetails.score,
+                collegeDetails: response.data.data[0].college,
+                degreeDetails: response.data.data[0].degree,
+                university: response.data.data[0].university,
+                department: response.data.data[0].department,
+                subjectDetails: response.data.data[0].studentSemesterDetails,
+                pdfViewer: response.data.data[0].studentDocument[0].path,
+                data: response.data,
+                year: response.data.data[0].year,
+                semesterGpa: response.data.data[0].studentSemesterDetails.semesterGpa,
+                cgpa: response.data.data[0].studentSemesterDetails.cgpa,
+                formulaEmployed: response.data.data[0].studentSemesterDetails.formulaEmployed,
+                percentage: response.data.data[0].studentSemesterDetails.percentage,
+
+              });
+            }
+          );
+        }
+      );
+    }
+  };
 
   
 
+  // view marks - textfield handle function
+  handleScoreChange = (e) => {
+    this.setState({
+      subjectDetails:{
+        ...this.state.subjectDetails,
+        [e.target.name]: e.target.value
+      }
+    });
+  };
+
+  // function to handle the back button click
+  handleBackClick = () => {
+    this.props.isClickedBack(true);
+  };
+
   render() {
-   
-    // const { classes } = useStyles();
+    const { classes } = this.props;
+    console.log(this.state,
+      '--------------------------')
+
+    // table columns
+    const columns = [
+      {
+        title: "Id",
+        field: "id",
+        hidden: true,
+      },
+      {
+        title: "Subject Code",
+        field: "subjectDetailsUgPgDiploma.subjectCode",
+        render: (rowData, renderType) =>
+          renderType === "row"
+            ? rowData.subjectDetailsUgPgDiploma.subjectCode
+            : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectCode)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+      },
+      {
+        title: "Subject Name",
+        field: "subjectDetailsUgPgDiploma.subjectName",
+        render: (rowData, renderType) =>
+          renderType === "row"
+            ? rowData.subjectDetailsUgPgDiploma.subjectName
+            : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.subjectName)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+      },
+      {
+        title: "Grade Points",
+        field: "gradePoints",
+        render: (rowData, renderType) =>
+          renderType === "row" ? rowData.gradePoints : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.gradePoints)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+      },
+      {
+        title: "Credit",
+        field: "credit",
+        render: (rowData, renderType) =>
+          renderType === "row" ? rowData.credit : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.credit)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+      },
+      {
+        title: "Type",
+        field: "subjectDetailsUgPgDiploma.type",
+        render: (rowData, renderType) =>
+          renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.type)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+      },
+      {
+        title: "Result",
+        field: "result",
+        render: (rowData, renderType) =>
+          renderType === "row" ? rowData.result : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.result)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+      },
+      {
+        title: "Pass/Fail",
+        field: "subjectDetailsUgPgDiploma.passOrFail",
+        render: (rowData, renderType) =>
+          renderType === "row"
+            ? rowData.subjectDetailsUgPgDiploma.passOrFail
+            : "",
+        validate: (rowData) => {
+          if (!isEmptyObject(rowData)) {
+            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma.passOrFail)) {
+              return true;
+            } else {
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
+          }
+        },
+      },
+    ];
 
     return (
       <div>
         <Grid container position="relative" height="100vh">
           {/*  left container*/}
 
-          {/* semester details */}
-          <Grid item md={7}>
+          <Mysnack
+            snackMsg={this.state.snackMsg}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
+            onClose={() => this.setState({ snackOpen: false })}
+          />
+
+          {/* filter */}
+          <SimilarityPopup
+            handleYearClick={this.onYearClick}
+            searchValue={this.state.search}
+            searchHandler={this.searchHandler}
+            distinctMatch={
+              this.state.distinctMatch !== null ? this.state.distinctMatch : []
+            }
+            data={
+              this.state.studentMatch !== null ? this.state.studentMatch : []
+            }
+          />
+          <Grid item md={7} xs={7} sm={7} xl={7} lg={7}>
             <Grid container>
               <Grid
                 item
                 md={12}
-                // className={classes.container}
-                style={{
-                  height: "95vh",
-                  overflowY: "scroll",
-                  overflowX: "hidden",
-                  width: "100%",
-                }}
+                xs={12}
+                sm={12}
+                xl={12}
+                lg={12}
+                className={classes.container}
               >
-                <ViewSemesterDetails />
+                {/* semester details - (above the table) */}
+                <ViewSemesterDetails
+                  // data={this.state.semesterData}
+                  collegeName={this.state.collegeDetails}
+                  universityName={this.state.university}
+                  departmentName={this.state.department}
+                  score={this.state.score}
+                  semName={this.state.subjectDetails.semName}
+                  year={this.state.year}
+                  backHandler={this.props.backHandler}
+                  list={this.state.list}
+                />
 
-                 <Grid item md={12}></Grid>
+                {/* table */}
                 <TableGrid
-                  columns={this.columns}
-                  data={this.state.data}
+                  columns={columns}
+                  data={this.state.semesterData || []}
                   onRowDelete={this.handleRowDelete}
+                  onRowUpdate={this.handleRowUpdate}
                   onRowAdd={this.handleRowAdd}
                 />
-                <ViewMarks />
+
+                {/* view marks -( below the table) */}
+                <ViewMarks
+                  semesterGpa={this.state.subjectDetails.semesterGpa}
+                  gpaError={this.state.semesterGpaErr}
+                  cgpa={this.state.subjectDetails.cgpa}
+                  cgpaError={this.state.cgpaErr}
+                  formulaEmployed={this.state.subjectDetails.formulaEmployed}
+                  formulaError={this.state.formulaEmployedErr}
+                  percentage={this.state.subjectDetails.percentage}
+                  percentageError={this.state.percentageErr}
+                  handleChange={(e) => this.handleScoreChange(e)}
+                />
               </Grid>
 
-             <Grid item md={12}></Grid>
-              <Grid item md={12}>
-                <BottomButton />
+              {/* bottom - diver and save button grid */}
+              <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
+                <BottomButton handleChange={() => this.handleSaveClick()} />
               </Grid>
             </Grid>
           </Grid>
 
           {/* right container - markSheet */}
-          <Grid item md={5}>
-            <CvViewer path={this.state.studentDocument} {...this.props} />
+          <Grid item md={5} xs={5} sm={5} xl={5} lg={5}>
+            <CvViewer path={this.state.pdfViewer} {...this.props} />
           </Grid>
         </Grid>
       </div>
     );
   }
 }
+
+const useStyles = (theme) => ({
+  container: {
+    height: "95vh",
+    overflowY: "scroll",
+    overflowX: "hidden",
+    width: "100%",
+  },
+});
+const mapStateToProps = (state) => {
+  return {
+    clickedSem: state.HelperReducer.clickedSem,
+    academicTypes: state.HelperReducer.academicType,
+  };
+};
+
+export default connect(mapStateToProps, {
+  viewSemesterDetails,
+  isClickedSem,
+  deleteSemesterDetails,
+  saveSemesterDetails,
+  getAcademicType,
+  getSimilarStudentsByAcademic,
+  getDistinctSubjectsByAcademic,
+})(withStyles(useStyles)(Index));

@@ -1,8 +1,6 @@
 import { WALL } from '../Redux/Action';
 import axios from 'axios';
 
-let accessToken = window.sessionStorage.getItem('accessToken');
-
 export const listWallPosts = (status, type) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
@@ -13,7 +11,7 @@ export const listWallPosts = (status, type) => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );
@@ -30,6 +28,33 @@ export const listWallPosts = (status, type) => async (dispatch) => {
     });
   }
 };
+export const listWallWebinars = () => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=20`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: WALL.WEBINAR_LIST_SUCCESS,
+      payload: data.content,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.WEBINAR_LIST_FAIL,
+      payload:
+        error.response && error.response.message ? error.response.data.message : error.message,
+    });
+  }
+};
 
 export const getWallCategories = (status) => async (dispatch) => {
   try {
@@ -41,7 +66,7 @@ export const getWallCategories = (status) => async (dispatch) => {
         crossDomain: true,
         headers: {
           admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
     );
@@ -69,7 +94,7 @@ export const deleteWallPost = (id) => async (dispatch) => {
       crossDomain: true,
       headers: {
         admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
     });
     dispatch({
@@ -96,7 +121,7 @@ export const createWallPost = (post) => async (dispatch) => {
       crossDomain: true,
       headers: {
         admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
     });
 
@@ -117,20 +142,17 @@ export const createWallPost = (post) => async (dispatch) => {
 
 export const updateWallPost = (post) => async (dispatch) => {
   try {
+    // let putLink = post.isWebinar ? `/api/v1/wallpost/${post.id}`:'/api/v1/wallpost'
     dispatch({
       type: WALL.UPDATE_REQUEST,
     });
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
-      post,
-      {
-        crossDomain: true,
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/wallpost`, post, {
+      crossDomain: true,
+      headers: {
+        admin: 'yes',
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+      },
+    });
     dispatch({
       type: WALL.UPDATE_SUCCESS,
       payload: data,

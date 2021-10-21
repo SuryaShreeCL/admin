@@ -2,11 +2,14 @@ import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { saveCopyData, saveTemplate } from "../../Actions/HelperAction";
 import { sscexamboard } from "../../Actions/Student";
 import {
   deleteSubjectDetailsById,
+  getDistinctSubjects,
+  getSimilarStudentsByGrade,
   getStudentPgaByGrade,
-  submitPga
+  submitPga,
 } from "../../AsyncApiCall/Ppga";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import EditableTable from "../../Utils/EditableTable";
@@ -15,13 +18,16 @@ import {
   isEmptyObject,
   isEmptyString,
   isNanAndEmpty,
-  isNumber
+  isNumber,
 } from "../Validation";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import CvViewer from "./CvViewer";
 import { useStyles } from "./FormStyles";
 import SimilarityPopup from "./SimilarityPopup";
+import { ExpandMore } from "@material-ui/icons";
 
 function TwelthForm(props) {
+  // Setting up initial state values
   const [educationalDetailsId, setEducationalDetailsId] = useState("");
   const [schoolName, setSchoolName] = useState({
     name: "",
@@ -58,6 +64,12 @@ function TwelthForm(props) {
   });
   const [studentDocument, setStudentDocument] = useState("");
   const [data, setData] = useState([]);
+  const [studentMatch, setStudentMatch] = useState([]);
+  const [distinctMatch, setDistinctMatch] = useState([]);
+  const { copiedData } = useSelector((state) => state.HelperReducer);
+  const [search, setSearch] = useState("");
+  const [filterYear, setFilterYear] = useState("");
+  // Setting up column config for the table
   const columns = [
     {
       title: "Id",
@@ -65,19 +77,13 @@ function TwelthForm(props) {
       hidden: true,
     },
     {
-      title: "Language",
-      field: "subjectDetails.language",
-      render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.language : "",
-      validate: (rowData) => {
-        if (!isEmptyObject(rowData)) {
-          if (!isEmptyString(rowData.subjectDetails.language)) {
-            return true;
-          } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          }
-        }
+      title: "Sequence No",
+      field: "",
+      cellStyle: {
+        textAlign: "center",
       },
+      render: (rowData, renderType) =>
+        renderType === "row" ? rowData.tableData.id + 1 : "",
     },
     {
       title: "Subject Code",
@@ -86,10 +92,12 @@ function TwelthForm(props) {
         renderType === "row" ? rowData.subjectDetails.subjectCode : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
-          if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
-            return true;
-          } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          if (rowData.subjectDetails) {
+            if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
+              return true;
+            } else {
+              return { isValid: false };
+            }
           }
         }
       },
@@ -101,10 +109,12 @@ function TwelthForm(props) {
         renderType === "row" ? rowData.subjectDetails.subjectName : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
-          if (!isEmptyString(rowData.subjectDetails.subjectName)) {
-            return true;
-          } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          if (rowData.subjectDetails) {
+            if (!isEmptyString(rowData.subjectDetails.subjectName)) {
+              return true;
+            } else {
+              return { isValid: false };
+            }
           }
         }
       },
@@ -113,14 +123,28 @@ function TwelthForm(props) {
       title: "Maximum Marks",
       field: "subjectDetails.maximumMarks",
       type: "numeric",
+      cellStyle: {
+        textAlign: "center",
+      },
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
-          if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
-            return true;
+          if (rowData.subjectDetails) {
+            if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
+              if (rowData.subjectDetails.maximumMarks > 0) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be zero or negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
+            }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
@@ -129,21 +153,41 @@ function TwelthForm(props) {
       title: "Score",
       field: "score",
       type: "numeric",
-
+      cellStyle: {
+        textAlign: "right",
+      },
       validate: (rowData) => {
-        console.log(";;;;;", rowData);
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
-            return true;
+            if (rowData.subjectDetails) {
+              if (rowData.score > 0) {
+                if (rowData.score <= rowData.subjectDetails.maximumMarks) {
+                  return true;
+                } else {
+                  return {
+                    isValid: false,
+                    helperText: "Score should be less than maximum mark",
+                  };
+                }
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "Score should not be negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
+            }
           } else {
-            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            return { isValid: false };
           }
         }
       },
     },
   ];
-
+  // Setting up styles
   const classes = useStyles();
+  // Setting up dispatch for doing api calls
   const dispatch = useDispatch();
   const choice = [
     { title: "10", value: 10 },
@@ -151,14 +195,55 @@ function TwelthForm(props) {
     { title: "4", value: 4 },
     { title: "%", value: 100 },
   ];
-
+  // Getting exam board list from the reducer
   const examBoardList = useSelector(
     (state) => state.StudentReducer.sscexamboard
   );
+  // Fetching required data that need from API
   useEffect(() => {
     getAndSetPgaDetails();
+    getAndSetStudentMatch("");
+    getAndSetDistinctMatch("");
     dispatch(sscexamboard());
   }, []);
+
+  // Spectating whether the user is copying the template or row  data from the filter list if he done that we are updating our table based on that !
+
+  useEffect(() => {
+    if (typeof copiedData !== "string") {
+      if (!Array.isArray(copiedData)) {
+        if (
+          data.filter(
+            (el) =>
+              el.subjectDetails.subjectCode ===
+              copiedData.subjectDetails.subjectCode
+          ).length === 0
+        ) {
+          var joinedData = data.concat(copiedData);
+          setData(joinedData);
+          dispatch(saveCopyData(""));
+        }
+      } else {
+        setData(copiedData);
+        dispatch(saveTemplate(copiedData));
+        dispatch(saveCopyData(""));
+      }
+    }
+  }, [copiedData]);
+
+  // Getting and setting student match list in state
+
+  const getAndSetStudentMatch = (year) => {
+    getSimilarStudentsByGrade(props.match.params.studentId, "hsc", year).then(
+      (response) => {
+        if (response.status === 200) {
+          setStudentMatch(response.data.data);
+        }
+      }
+    );
+  };
+
+  // Getting and setting HSC data for the table and form
 
   const getAndSetPgaDetails = () => {
     getStudentPgaByGrade(props.match.params.studentId, "hsc").then(
@@ -199,8 +284,19 @@ function TwelthForm(props) {
       }
     );
   };
-
+  // Get and set student distinct match list
+  const getAndSetDistinctMatch = (query) => {
+    getDistinctSubjects(props.match.params.studentId, "hsc", query).then(
+      (response) => {
+        if (response.status === 200) {
+          setDistinctMatch(response.data.data);
+        }
+      }
+    );
+  };
+  // This function handles submit
   const handleSubmit = () => {
+    // Validating whether all fields are filled or not
     isEmptyString(schoolName.name)
       ? setSchoolName((prevSchoolName) => ({
           ...prevSchoolName,
@@ -228,38 +324,39 @@ function TwelthForm(props) {
           helperText: HELPER_TEXT.requiredField,
         }))
       : setGradeScale((prevGrade) => ({ ...prevGrade, helperText: "" }));
-    isEmptyString(cumulativePercentage.name)
-      ? setCumulativePercentage((prevCumlative) => ({
-          ...prevCumlative,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setCumulativePercentage((prevCumlative) => ({
-          ...prevCumlative,
-          helperText: "",
-        }));
-    isEmptyString(formulaEmployed.name)
-      ? setFormulaEmployed((prevFormula) => ({
-          ...prevFormula,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setFormulaEmployed((prevFormula) => ({
-          ...prevFormula,
-          helperText: "",
-        }));
-    isEmptyString(cumulativeResult.name)
-      ? setCumulativeResult((prevCumResult) => ({
-          ...prevCumResult,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setCumulativeResult((prevCumResult) => ({
-          ...prevCumResult,
-          helperText: "",
-        }));
+    // isEmptyString(cumulativePercentage.name)
+    //   ? setCumulativePercentage((prevCumlative) => ({
+    //       ...prevCumlative,
+    //       helperText: HELPER_TEXT.requiredField,
+    //     }))
+    //   : setCumulativePercentage((prevCumlative) => ({
+    //       ...prevCumlative,
+    //       helperText: "",
+    //     }));
+    // isEmptyString(formulaEmployed.name)
+    //   ? setFormulaEmployed((prevFormula) => ({
+    //       ...prevFormula,
+    //       helperText: HELPER_TEXT.requiredField,
+    //     }))
+    //   : setFormulaEmployed((prevFormula) => ({
+    //       ...prevFormula,
+    //       helperText: "",
+    //     }));
+    // isEmptyString(cumulativeResult.name)
+    //   ? setCumulativeResult((prevCumResult) => ({
+    //       ...prevCumResult,
+    //       helperText: HELPER_TEXT.requiredField,
+    //     }))
+    //   : setCumulativeResult((prevCumResult) => ({
+    //       ...prevCumResult,
+    //       helperText: "",
+    //     }));
     if (
       !isEmptyString(schoolName.name) &&
       !isEmptyObject(board.name) &&
       !isEmptyString(cgpa.name) &&
-      !isEmptyObject(gradeScale.name)
+      !isEmptyObject(gradeScale.name) &&
+      gradeScale.name.value >= parseInt(cgpa.name)
     ) {
       let requestBody = {
         examBoard: {
@@ -276,6 +373,7 @@ function TwelthForm(props) {
         (response) => {
           if (response.status === 200) {
             getAndSetPgaDetails();
+            // If the call gets success it will set a success message
             setSnack({
               snackMsg: "Saved Successfully",
               snackVariant: "success",
@@ -286,6 +384,8 @@ function TwelthForm(props) {
       );
     }
   };
+  // This function adds a new row to a table
+
   const handleRowAdd = (newData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -295,8 +395,10 @@ function TwelthForm(props) {
     });
   };
 
+  // This function will delete a row from the table
+
   const handleRowDelete = (oldData) => {
-    console.log(oldData);
+    // If the data is from DB
     if (oldData.subjectDetails.id) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -317,7 +419,9 @@ function TwelthForm(props) {
           });
         }, 1000);
       });
-    } else {
+    }
+    // If the data is copied
+    else {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const dataDelete = [...data];
@@ -329,6 +433,36 @@ function TwelthForm(props) {
       });
     }
   };
+
+  // This function updates a row
+
+  const handleRowUpdate = (newData, oldData) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataUpdate = [...data];
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        setData([...dataUpdate]);
+        resolve();
+      }, 1000);
+    });
+  };
+
+  // This function will handle the search when the user types in the search field
+  const searchHandler = (e) => {
+    if (e.target.value.length !== 0) {
+      getAndSetDistinctMatch("&q=" + e.target.value);
+    } else {
+      getAndSetDistinctMatch("");
+    }
+    setSearch(e.target.value);
+  };
+  //  This function filter student match based on year
+  const onYearClick = (year) => {
+    getAndSetStudentMatch("&year=" + year);
+    setFilterYear(year);
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid
@@ -344,6 +478,7 @@ function TwelthForm(props) {
           <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
             <Typography variant={"h5"}>12th</Typography>
           </Grid>
+          {/* School name text field */}
           <Grid item md={4} xl={4} lg={4} sm={12} xs={12}>
             <TextField
               label={"School Name"}
@@ -360,11 +495,13 @@ function TwelthForm(props) {
               error={schoolName.helperText.length > 0}
             />
           </Grid>
+          {/* Exam board dropdown */}
           <Grid item md={4} xl={4} lg={4} sm={12} xs={12}>
             <Autocomplete
               id="boardName"
               options={examBoardList.filter((el) => el.name !== null) || []}
               value={board.name}
+              popupIcon={<ExpandMore color={"inherit"} />}
               getOptionLabel={(option) => option.name}
               onChange={(e, newValue) =>
                 setBoard({
@@ -385,12 +522,14 @@ function TwelthForm(props) {
               )}
             />
           </Grid>
+          {/* Grade scale dropdown */}
           <Grid item md={2} xl={4} lg={2} sm={6} xs={6}>
             <Autocomplete
               id="combo-box-demo"
               options={choice}
               getOptionLabel={(option) => option.title}
               value={gradeScale.name}
+              popupIcon={<ExpandMore color={"inherit"} />}
               onChange={(e, newValue) =>
                 setGradeScale({
                   name: newValue,
@@ -410,13 +549,25 @@ function TwelthForm(props) {
               )}
             />
           </Grid>
+          {/* CGPA scale dropdown */}
           <Grid item md={2} xl={4} lg={2} sm={6} xs={6}>
             <TextField
               label={"CGPA / % Range"}
               value={cgpa.name}
               className={classes.root}
-              helperText={cgpa.helperText}
-              error={cgpa.helperText.length > 0}
+              helperText={
+                gradeScale.name !== null &&
+                !isEmptyString(gradeScale.name.value) &&
+                gradeScale.name.value < parseInt(cgpa.name)
+                  ? "Invalid Input"
+                  : cgpa.helperText
+              }
+              error={
+                (gradeScale.name !== null &&
+                  !isEmptyString(gradeScale.name.title) &&
+                  gradeScale.name.value < parseInt(cgpa.name)) ||
+                cgpa.helperText.length > 0
+              }
               onChange={(e) =>
                 setCgpa({
                   name: e.target.value,
@@ -429,6 +580,7 @@ function TwelthForm(props) {
               fullWidth
             />
           </Grid>
+          {/* CRUD table */}
           <Grid
             item
             md={12}
@@ -441,6 +593,14 @@ function TwelthForm(props) {
             <EditableTable
               columns={columns}
               data={data}
+              localization={{
+                body: {
+                  editRow: {
+                    deleteText: "Are you sure Want to Delete this Row",
+                  },
+                },
+              }}
+              onRowUpdate={handleRowUpdate}
               onRowDelete={handleRowDelete}
               onRowAdd={handleRowAdd}
             />
@@ -502,20 +662,28 @@ function TwelthForm(props) {
         </Grid>
         <div className={classes.bottomContainer}>
           <hr />
-          <Button
+          <PrimaryButton
             onClick={handleSubmit}
             className={classes.bottomBtn}
             variant={"contained"}
             color={"primary"}
           >
             Save
-          </Button>
+          </PrimaryButton>
         </div>
       </Grid>
+      {/* CV viewer for hsc mark sheet */}
+
       <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
         <CvViewer path={studentDocument} {...props} />
       </Grid>
-      <SimilarityPopup />
+      <SimilarityPopup
+        handleYearClick={onYearClick}
+        searchValue={search}
+        searchHandler={searchHandler}
+        distinctMatch={distinctMatch}
+        data={studentMatch}
+      />
       <MySnackBar
         onClose={() =>
           setSnack({

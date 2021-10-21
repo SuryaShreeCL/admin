@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { getpgalist } from "../../Actions/ProfileGapAction";
 import { isEmptyString } from "../Validation";
-
+import {  StudentStepDetails } from "../../Actions/Student";
 class PgaStudentList extends Component {
   constructor() {
     super();
@@ -57,6 +57,16 @@ class PgaStudentList extends Component {
   renderPpgaChip = (ppgaCallStatus) => {
     return <Chip label={"Pending"} color={"secondary"} />;
   };
+  handleManage = (eachItem) => {
+    this.props.StudentStepDetails(eachItem.studentId,this.props.match.params.productId)
+    this.props.history.push(
+      stagedTabsPath +
+        eachItem.studentId +
+        "/" +
+        this.props.match.params.productId +
+        "?stage=pga"
+    )
+  }
   componentDidMount() {
     this.props.getpgalist(this.props.match.params.productId, "", (response) => {
       console.log(response);
@@ -70,15 +80,9 @@ class PgaStudentList extends Component {
   renderManageButton = (eachItem) => {
     return (
       <PrimaryButton
-        onClick={() =>
-          this.props.history.push(
-            stagedTabsPath +
-              eachItem.studentId +
-              "/" +
-              this.props.match.params.productId +
-              "?stage=pga"
-          )
-        }
+      onClick={() =>
+        this.handleManage(eachItem)
+      }
         variant={"contained"}
         color={"primary"}
         style={{ textTransform: "none", width: "100px" }}
@@ -160,7 +164,7 @@ class PgaStudentList extends Component {
                 </IconButton>
               </div>
             </div>
-            {this.state.listOfusers.length !== 0 ? (
+            {this.state.listOfusers && this.state.listOfusers.length !== 0 ? (
               <DataGrid
                 data={this.state.listOfusers}
                 pgaCallStatus={this.renderPgaChip}
@@ -194,9 +198,11 @@ const style = {
   },
 };
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    StudentStepDetailsList : state.StudentReducer.StudentStepDetails
+  };
 };
 
 export default connect(mapStateToProps, {
-  getpgalist,
+  getpgalist,StudentStepDetails
 })(PgaStudentList);

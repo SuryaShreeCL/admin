@@ -165,13 +165,13 @@ export default function DraftPost() {
             }}
             onChange={handleSearch}
           />
-          <Controls.Button
+          {/* <Controls.Button
             text='Filter'
             variant='outlined'
             color='default'
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
-          />
+          /> */}
           <Controls.Button
             text='Create New Post'
             variant='contained'
@@ -179,7 +179,11 @@ export default function DraftPost() {
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
-              history.push(createPath);
+              history.push({
+                pathname: createPath,
+                type: false,
+                postType: 'Post',
+              });
             }}
           />
         </Toolbar>
@@ -228,6 +232,7 @@ export default function DraftPost() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
+          {!loading && posts?.length === 0 && <Alert severity='info'>0 Draft Posts Found</Alert>}
         </div>
         <TblPagination />
       </Paper>

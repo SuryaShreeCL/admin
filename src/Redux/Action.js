@@ -48,7 +48,7 @@ export const COLLEGES = {
   // Selva
   getPaginateCollege: 'getPaginateCollege',
   getPaginateUniversity: 'getPaginateUniversity',
-  getPGDegrees:"getPGDegrees"
+  getPGDegrees: 'getPGDegrees',
 };
 
 export const STUDENT = {
@@ -87,6 +87,9 @@ export const STUDENT = {
   deleteDocumentGraduate: 'deleteDocumentGraduate',
   filterStageBaseUsers: 'filterStageBaseUsers',
   searchStudentInStages: 'searchStudentInStages',
+  StudentStepDetails : "StudentStepDetails",
+  ObIncomplete : "ObIncomplete",
+  ObComplete : "ObComplete" ,
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -339,17 +342,27 @@ export const PGA = {
   getFilteredCourseForEnroll: 'getFilteredCourseForEnroll',
   clearNewEnroll: 'clearNewEnroll',
   clearUnEnroll: 'clearUnEnroll',
-  uploadfile: 'uploadfile',
-  getallfiles: 'getallfiles',
-  downlaodfiles: 'downlaodfiles',
-  deletefiles: 'deletefiles',
-  viewfiles: 'viewfiles',
+  uploadfile : 'uploadfile',
+  getallfiles : "getallfiles",
+  downlaodfiles : "downlaodfiles",
+  deletefiles : "deletefiles",
+  viewfiles:"viewfiles",
+  viewAcademicDetails : "viewAcademicDetails",
+  viewSemesterDetails : "viewSemesterDetails",
+  saveSemesterDetails : "saveSemesterDetails",
+  deleteSemesterDetails : "deleteSemesterDetails"
+  // fileDownload : "fileDownload"
 };
 
 export const HELPER = {
   storeItInState : "storeItInState",
   setPopperAnchorEl : "setPopperAnchorEl",
-  setFilterAnchorEl : "setFilterAnchorEl"
+  setFilterAnchorEl : "setFilterAnchorEl",
+  getAcademicType : "getAcademicType",
+  isClickedSem : "isClickedSem",
+  saveCopyData : "saveCopyData",
+  saveTemplate : "saveTemplate",
+  saveSchool : "saveSchool"
 }
 
 //MOHAMMED
@@ -381,6 +394,10 @@ export const WALL = {
   LIST_REQUEST: 'WALL_LIST_REQUESTED',
   LIST_SUCCESS: 'WALL_LIST_SUCCESSFUL',
   LIST_FAIL: 'WALL_LIST_FAILED',
+
+  WEBINAR_LIST_REQUEST: 'WEBINAR_LIST_REQUESTED',
+  WEBINAR_LIST_SUCCESS: 'WEBINAR_LIST_SUCCESSFUL',
+  WEBINAR_LIST_FAIL: 'WEBINAR_LIST_FAILED',
 
   DETAILS_REQUEST: 'WALL_DETAILS_REQUEST',
   DETAILS_SUCCESS: 'WALL_DETAILS_SUCCESS',
