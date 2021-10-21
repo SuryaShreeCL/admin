@@ -164,7 +164,7 @@ class PgaStudentList extends Component {
                 </IconButton>
               </div>
             </div>
-            {this.state.listOfusers.length !== 0 ? (
+            {this.state.listOfusers && this.state.listOfusers.length !== 0 ? (
               <DataGrid
                 data={this.state.listOfusers}
                 pgaCallStatus={this.renderPgaChip}

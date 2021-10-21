@@ -97,8 +97,10 @@ function PlanOfAction(props) {
         }
       );
     } else {
-      copyOf[quarterIndex].pgaStudentPoaFocus.splice(focusIndex, 1);
-      setPlanOfAction(copyOf);
+        if( copyOf[quarterIndex].pgaStudentPoaFocus.length !== 1 ){
+          copyOf[quarterIndex].pgaStudentPoaFocus.splice(focusIndex, 1);
+          setPlanOfAction(copyOf);
+        }
     }
   };
 

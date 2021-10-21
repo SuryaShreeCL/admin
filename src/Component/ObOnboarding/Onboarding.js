@@ -480,7 +480,7 @@ export class Onboarding extends Component {
                 checkboxSelection
                 disableSelectionOnClick                                
               /> */}
-            {this.state.listOfusers.length !== 0 ? (
+            {this.state.listOfusers && this.state.listOfusers.length !== 0 ? (
               <DataGrid
                 data={this.state.listOfusers}
                 obCallStatus={this.renderChip}

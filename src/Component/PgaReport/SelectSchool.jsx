@@ -19,9 +19,10 @@ import SchoolListTable from "./Components/SchoolListTable";
 import NoSchool from "./Components/NoSchool";
 import { isEmptyObject } from "../Validation";
 import { HELPER_TEXT } from "../../Constant/Variables";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Editable from "../../Utils/EditableTable";
 import MySnackBar from "../MySnackBar";
+import { saveSchool } from "../../Actions/HelperAction";
 
 function SelectSchool(props) {
   const [category, setCategory] = useState([]);
@@ -49,6 +50,7 @@ function SelectSchool(props) {
     helperText: "",
   });
 
+  const dispatch = useDispatch()
   const { addedSchool } = useSelector((state) => state.HelperReducer);
 
   const columns = [
@@ -86,7 +88,7 @@ function SelectSchool(props) {
   const classes = useStyles();
 
   const getAndSetSearchSchoolList = (data) => {
-    searchSchool(data).then((response) => {
+    searchSchool("program", data).then((response) => {
       if (response.status === 200) {
         setSearchSchoolList(response.data.data);
       }
@@ -132,6 +134,7 @@ function SelectSchool(props) {
           ...prevSelectedSchool,
           addedSchool,
         ]);
+        dispatch(saveSchool(null))
       } else {
         setSnack({
           snackColor: "info",
@@ -213,6 +216,11 @@ function SelectSchool(props) {
       ).then((response) => {
         if (response.status === 200) {
           getAndSetAddedSchool();
+          setSnack({
+            snackMsg: "Saved Successfully",
+            snackColor: "success",
+            snackOpen: true,
+          });
         }
       });
     } else {

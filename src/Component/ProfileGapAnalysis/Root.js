@@ -46,6 +46,7 @@ import ProgramInformation from "../PgaReport/ProgramInformation";
 import ActivitiesForGmat from "../PgaReport/ActivitiesForGmat";
 import AllRoundActivities from "../PgaReport/AllRoundActivities";
 import Preview from "../PgaReport/Preview";
+import TopBSchool from "../PgaReport/TopBSchool";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -401,6 +402,9 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={"allRoundActivities"}>
               <AllRoundActivities {...this.props} />
+            </TabPanel> 
+            <TabPanel value={this.state.value} index={"pgaTopBSchoolByRegion"}>
+              <TopBSchool {...this.props} />
             </TabPanel> 
             <TabPanel value={this.state.value} index={"preview"}>
               <Preview {...this.props} />

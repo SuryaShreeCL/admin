@@ -393,7 +393,7 @@ function RootContainer(props) {
     if (props.adminLinkedProductDetails.department === 'Acsoperations') {
       let myArr = [];
       props.getProductByFamilyIdList
-        .filter((eachProd) => eachProd.variantSKU === 'ACS_MS' || eachProd.variantSKU === 'ACS_MBA')
+        .filter((eachProd) => eachProd.variantSKU === 'ACS_MS' || eachProd.variantSKU === 'ACS_MBA' || eachProd.variantSKU === 'ACS_MIM')
         .map((eachItem, index) => {
           myArr.push({
             title: eachItem.shortName,

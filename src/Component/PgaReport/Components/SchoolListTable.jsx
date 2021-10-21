@@ -7,13 +7,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { AddButton } from './StyledComponents';
 import { useStyles } from '../Styles/Index';
-import { useSelector, useDispatch } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 import { saveSchool } from '../../../Actions/HelperAction';
 import { colors } from '../../../Constant/Variables';
 function SchoolListTable(props) {
     const classes = useStyles();
     const dispatch = useDispatch()
-    const { addedSchool } = useSelector((state)=>state.HelperReducer)
     const handleAddClick = (data) =>{
       dispatch(saveSchool(data))
     }
