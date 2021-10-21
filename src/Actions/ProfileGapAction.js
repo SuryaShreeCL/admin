@@ -403,4 +403,31 @@ export const saveAcademicDetails=(studentId,type,data,callback)=>{
 }
 
 
+export const updateCalculation=(studentId,semester,type,data,callback)=>{    
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch => {
+        // {{RULES_API_URL}}api/v1/students/7b7bee59-e85f-4820-b4c1-8e3b75b4b404/sgpa/1?type=pg
+
+
+        axios.put(URL+"/api/v1/students/"+studentId+"/calculateSgpaAndCgpa/"+semester+"?type="+type,data,{
+           
+            crossDomain: true,
+            headers : {
+                "Authorization" : `Bearer ${accessToken}`,
+                admin : "yes"
+            }
+        })
+            .then(result => {     
+                callback(result)           
+                dispatch({type:PROFILE_GAP_ANALYSIS.updateCalculation,payload:result.data})
+            })
+            .catch(error => {
+                // callback(error)
+                console.log(error);
+            });
+    }
+}
+
+
 
