@@ -492,15 +492,15 @@ class Index extends Component {
       },
       {
         title: "Maximum Score",
-        field: "subjectDetailsUgPgDiploma.maximumMarks",
+        field: "maximumMarks",
         // type : "numeric",
         render: (rowData, renderType) =>
-          renderType === "row" ? rowData.subjectDetailsUgPgDiploma.maximumMarks : "",
+          renderType === "row" ? rowData.maximumMarks : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if((rowData.subjectDetailsUgPgDiploma.maximumMarks)){
-            if (!isNanAndEmpty(rowData.subjectDetailsUgPgDiploma.maximumMarks)) {
-              if(rowData.subjectDetailsUgPgDiploma.maximumMarks > 0){
+            if((rowData.maximumMarks)){
+            if (!isNanAndEmpty(rowData.maximumMarks)) {
+              if(rowData.maximumMarks > 0){
                 return true
               }else{
                 return { isValid : false, helperText : "It cannot be zero or negative value" }

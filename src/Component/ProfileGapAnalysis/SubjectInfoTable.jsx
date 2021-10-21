@@ -33,7 +33,7 @@ import { isEmptyString } from '../Validation';
             >
               <TableCell align={"center"}>{row.subjectDetailsUgPgDiploma && row.subjectDetailsUgPgDiploma.subjectCode}</TableCell>
               <TableCell align={"center"}>{row.subjectDetailsUgPgDiploma && row.subjectDetailsUgPgDiploma.subjectName}</TableCell>
-              <TableCell align={"center"}>{row.subjectDetailsUgPgDiploma && row.subjectDetailsUgPgDiploma.maximumMarks}</TableCell>
+              <TableCell align={"center"}>{row && row.maximumMarks}</TableCell>
               <TableCell align={"center"}>
                 <Button size={"small"} className={!isEmptyString(copiedData) && copiedData.id === row.id && classes.buttonStyle} variant={"outlined"} onClick={()=>handleCopy(row)} color={"primary"}>
                   {!isEmptyString(copiedData) && copiedData.id === row.id ? "Copied" : "Copy"}
