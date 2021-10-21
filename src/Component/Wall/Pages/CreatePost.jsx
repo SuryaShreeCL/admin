@@ -63,6 +63,7 @@ const CreatePost = () => {
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
+    selfPrep: [{ name: '', link: '' }],
     totalViews: 0,
     totalLikes: 0,
     eventTitle: '',
@@ -647,12 +648,7 @@ const CreatePost = () => {
                 {values.isWebinar ? null : <Preview state={values} />}
               </div>
               {!values.isEvent && (
-                <PreprationContainer
-                  values={values}
-                  setFieldValue={setFieldValue}
-                  handleChange={handleChange}
-                  handleChange={handleChange}
-                />
+                <PreprationContainer values={values} setFieldValue={setFieldValue} />
               )}
             </>
           )}

@@ -204,6 +204,7 @@ const CreateTest = () => {
     });
   };
 
+  console.log('fff');
   return (
     <>
       <BackHandler title={`Create New Test`} tab={0} path={testPath} />

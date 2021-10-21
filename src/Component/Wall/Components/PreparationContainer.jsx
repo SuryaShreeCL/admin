@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormControl, Grid, TextField } from '@material-ui/core';
 import { TopTab, TopTabs, WebinarTabContainer } from '../Assets/Styles/WallStyles';
 import { Autocomplete } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import Controls from '../../Utils/controls/Controls';
+import { FieldArray, Field } from 'formik';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
-const PreprationContainer = ({ values, setFieldValue, handleChange }) => {
+const useStyles = makeStyles({
+  input: {
+    display: 'flex',
+    gap: '2rem',
+    height: '20%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  spacer: {
+    width: '100%',
+    marginBottom: '1.2rem',
+    padding: '0.5rem',
+  },
+});
+
+const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   const [tabCount, setTabCount] = useState(0);
+  const classes = useStyles();
 
   const webinars = [
     {
@@ -21,6 +41,7 @@ const PreprationContainer = ({ values, setFieldValue, handleChange }) => {
   ];
 
   const WebinarTab = () => {
+    console.log('webb');
     return (
       <WebinarTabContainer>
         <FormControl style={{ width: '50%' }}>
@@ -35,13 +56,7 @@ const PreprationContainer = ({ values, setFieldValue, handleChange }) => {
             }}
             value={values.webinars}
             renderInput={(params) => (
-              <TextField
-                {...params}
-                label='Select Webinar(s)'
-                name='webinars'
-                variant='outlined'
-                // error={touched.wallCategories && Boolean(values.wallCategories.length === 0)}
-              />
+              <TextField {...params} label='Select Webinar(s)' name='webinars' variant='outlined' />
             )}
           />
         </FormControl>
@@ -78,30 +93,52 @@ const PreprationContainer = ({ values, setFieldValue, handleChange }) => {
       <WebinarTabContainer>
         <div className='linkedContainer'>
           <div className='linkedInput'>
-            <Controls.Input
-              label='Test Name'
-              name='eventTitle'
-              style={{ width: '100%' }}
-              onChange={handleChange}
-            />
+            <Controls.Input label='Test Name' style={{ width: '100%' }} />
           </div>
           <div className='linkedInput'>
-            <Controls.Input
-              label='Test Time'
-              name='eventTitle'
-              style={{ width: '100%' }}
-              onChange={handleChange}
-            />
+            <Controls.Input label='Test Time' style={{ width: '100%' }} />
           </div>
           <div className='linkedInput'>
-            <Controls.Input
-              label='Test Date'
-              name='eventTitle'
-              style={{ width: '100%' }}
-              onChange={handleChange}
-            />
+            <Controls.Input label='Test Date' style={{ width: '100%' }} />
           </div>
         </div>
+      </WebinarTabContainer>
+    );
+  };
+
+  const SelfPrepTab = () => {
+    console.log('self');
+    return (
+      <WebinarTabContainer>
+        <FieldArray
+          name='selfPrep'
+          render={(arrayHelpers) => (
+            <div>
+              {values.selfPrep.map((_, index) => (
+                <div key={index} className={classes.input}>
+                  <div style={{ width: '100%' }}>
+                    <h6 style={{ color: '#052A4E' }}>Video Name</h6>
+                    <Field
+                      defaultValue={`selfPrep.${index}.name`}
+                      className={classes.spacer}
+                      name={`selfPrep.${index}.name`}
+                    />
+                  </div>
+                  <div style={{ width: '100%' }}>
+                    <h6 style={{ color: '#052A4E' }}>Video Link</h6>
+                    <Field className={classes.spacer} name={`selfPrep.${index}.link`} />
+                  </div>
+                  <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
+                    <RemoveCircleIcon fontSize='large' color='secondary' />
+                  </Controls.ActionButton>
+                </div>
+              ))}
+              <Controls.ActionButton onClick={() => arrayHelpers.push({ name: '', link: '' })}>
+                <AddBoxIcon fontSize='large' color='primary' /> Add more videos
+              </Controls.ActionButton>
+            </div>
+          )}
+        />
       </WebinarTabContainer>
     );
   };
@@ -109,11 +146,12 @@ const PreprationContainer = ({ values, setFieldValue, handleChange }) => {
   const renderContent = (value) => {
     try {
       if (value === 0) {
-        return <WebinarTab />;
+        return WebinarTab();
       } else if (value === 1) {
-        return <LinkedTestTap />;
+        // Note: return a function (func()) not a component (<func/>) to avoid lose of input focus on each input.
+        return SelfPrepTab();
       } else if (value === 2) {
-        return <LinkedTestTap />;
+        return LinkedTestTap();
       }
     } catch (error) {
       console.log(error);
@@ -140,6 +178,6 @@ const PreprationContainer = ({ values, setFieldValue, handleChange }) => {
       </Grid>
     </Grid>
   );
-};
+});
 
 export default PreprationContainer;
