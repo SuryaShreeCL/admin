@@ -56,6 +56,7 @@ class ViewSemesterDetails extends Component {
       score,
       semName,
       year,
+      list
     } = this.props;
     return (
       <div>
@@ -79,7 +80,7 @@ class ViewSemesterDetails extends Component {
                 {semName} |
               </Typography>
               <Typography variant={"h6"} className={"semester_title1"}>
-                {this.props.academicTypes}
+              {list[this.props.academicTypes]}
               </Typography>
             </div>
           </Grid>
