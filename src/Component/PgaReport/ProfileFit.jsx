@@ -108,7 +108,11 @@ function ProfileFit(props) {
 
   const handleDelete = (item, index) => {
     if (item.id) {
-      deleteStudentProfileFit(props.match.params.studentId, props.match.params.productId ,item.id).then((response) => {
+      deleteStudentProfileFit(
+        props.match.params.studentId,
+        props.match.params.productId,
+        item.id
+      ).then((response) => {
         if (response.status === 200) {
           getAndSetStudentProfileFit();
         }
