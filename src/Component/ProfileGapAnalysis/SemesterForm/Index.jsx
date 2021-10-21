@@ -11,6 +11,7 @@ import {
   viewSemesterDetails,
   deleteSemesterDetails,
   saveSemesterDetails,
+  updateCalculation
 } from "../../../Actions/ProfileGapAction";
 import {
   isClickedSem,
@@ -32,6 +33,7 @@ import {
   getUniversity,
   getBranches,
 } from "../../../Actions/College";
+import { SentimentSatisfiedTwoTone } from "@material-ui/icons";
 
 class Index extends Component {
   constructor(props) {
@@ -56,9 +58,11 @@ class Index extends Component {
       degreeDetails: "",
 
       // viewMarks
-      semesterGpa: "",
-      semesterGpaErr: "",
-      cgpa: "",
+      // semesterGpa: "",
+      // semesterGpaErr: "",
+      sgpaErr : "",
+
+      // cgpa: "",
       cgpaErr: "",
       formulaEmployed: "",
       // formulaEmployedErr: "",
@@ -250,9 +254,9 @@ class Index extends Component {
       pdfViewer: response && response.data.data.studentDocument[0].path,
       data: response && response.data.data,
       year: response && response.data.data.year,
-      semesterGpa:
-        response && response.data.data.studentSemesterDetails.semesterGpa,
-      cgpa: response && response.data.data.studentSemesterDetails.cgpa,
+      // semesterGpa:
+      //   response && response.data.data.studentSemesterDetails.sgpa,
+      // cgpa: response && response.data.data.studentSemesterDetails.cgpa,
       formulaEmployed:
         response && response.data.data.studentSemesterDetails.formulaEmployed,
       percentage:
@@ -305,24 +309,17 @@ class Index extends Component {
   // save button click function
   handleSaveClick = () => {
     let hlpTxt = "Please fill the required field";
-    isEmptyString(this.state.subjectDetails.semesterGpa)
-      ? this.setState({ semesterGpaErr: hlpTxt })
-      : this.setState({ semesterGpaErr: "" });
+    isEmptyString(this.state.subjectDetails.sgpa)
+    ? this.setState({ sgpaErr: hlpTxt })
+    : this.setState({ sgpaErr: "" });
     isEmptyString(this.state.subjectDetails.cgpa)
       ? this.setState({ cgpaErr: hlpTxt })
       : this.setState({ cgpaErr: "" });
-    // isEmptyString(this.state.formulaEmployed)
-    //   ? this.setState({ formulaEmployedErr: hlpTxt })
-    //   : this.setState({ formulaEmployedErr: "" });
-    // isEmptyString(this.state.percentage)
-    //   ? this.setState({ percentageErr: hlpTxt })
-    //   : this.setState({ percentageErr: "" });
-
+   
     if (
-      !isEmptyString(this.state.subjectDetails.semesterGpa) &&
+      !isEmptyString(this.state.subjectDetails.sgpa) &&
       !isEmptyString(this.state.subjectDetails.cgpa)
-      // !isEmptyString(this.state.formulaEmployed) &&
-      // !isEmptyString(this.state.percentage)
+     
     ) {
       let requestBody = {
         studentSemesterDetails: {
@@ -330,7 +327,7 @@ class Index extends Component {
           semester: this.state.subjectDetails.semester,
           score: this.state.subjectDetails.score,
           scoreScale: this.state.subjectDetails.scoreScale,
-          semesterGpa: this.state.subjectDetails.semesterGpa,
+          sgpa: this.state.subjectDetails.sgpa,
           cgpa: this.state.subjectDetails.cgpa,
           formulaEmployed: this.state.subjectDetails.formulaEmployed,
           percentage: this.state.subjectDetails.percentage,
@@ -354,7 +351,9 @@ class Index extends Component {
         this.props.match.params.studentId,
         this.props.academicTypes,
         requestBody,
-        (response) => {
+       ( (response) => {
+          console.log(response)
+         if(response.data.success){
           this.setState({
             snackMsg: "Saved Successfully",
             snackVariant: "success",
@@ -365,18 +364,20 @@ class Index extends Component {
             this.props.clickedSem.data,
             this.fetchData
           );
-        }
+         }
+        })
       );
     }
   };
 
   // view marks - textfield handle function
-  handleScoreChange = (e) => {
+  handleScoreChange = (e) => {   
     this.setState({
       subjectDetails: {
         ...this.state.subjectDetails,
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.value,        
       },
+      [e.target.name+"Err"]:""
     });
   };
 
@@ -387,22 +388,62 @@ class Index extends Component {
 
   // function to calculate sgpa
   handleSgpaClick = () => {
-    this.setState({
-      semesterGpa : "55"
+    console.log(this.state.semesterData)
+    // this.setState({
+    //   subjectDetails : {   
+    //     ...this.state.subjectDetails,
+    //     semesterGpa : "55"     
+    //   }
+    // })
+    this.props.updateCalculation( this.props.match.params.studentId,this.state.subjectDetails.semester,this.props.academicTypes,this.state.semesterData,(response)=>{
+      console.log(response.data);
+
+      if(response.data.success){
+        this.setState({
+      subjectDetails : {   
+        ...this.state.subjectDetails,
+        sgpa : response.data.data.sgpa    
+      }
     })
+  
+      }
+    })
+   
+   
+
+    
+
 
   }
 
   // function to calculate cgpa
   handleCgpaClick = () =>{
-      this.setState({
-        cgpa : "55"
-      })
+    // this.setState({
+    //   subjectDetails : {   
+    //     ...this.state.subjectDetails,
+    //     cgpa : "10"     
+    //   }
+    // })
+    this.props.updateCalculation( this.props.match.params.studentId,this.state.subjectDetails.semester,this.props.academicTypes,this.state.semesterData,(response)=>{
+      console.log(response);
+
+      if(response.data.success){
+        console.log("true")
+        this.setState({
+      subjectDetails : {   
+        ...this.state.subjectDetails,
+        cgpa : response.data.data.cgpa    
+      }
+    })
+  
+      }
+    })
+  
   }
 
   render() {
     const { classes } = this.props;
-    console.log(this.state)
+    console.log(this.state.subjectDetails)
 
     // table columns
     const columns = [
@@ -450,16 +491,16 @@ class Index extends Component {
         },
       },
       {
-        title: "Grade Points",
-        field: "gradePoints",
+        title: "Maximum Score",
+        field: "subjectDetailsUgPgDiploma.maximumMarks",
         // type : "numeric",
         render: (rowData, renderType) =>
-          renderType === "row" ? rowData.gradePoints : "",
+          renderType === "row" ? rowData.subjectDetailsUgPgDiploma.maximumMarks : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if((rowData.gradePoints)){
-            if (!isNanAndEmpty(rowData.gradePoints)) {
-              if(rowData.gradePoints > 0){
+            if((rowData.subjectDetailsUgPgDiploma.maximumMarks)){
+            if (!isNanAndEmpty(rowData.subjectDetailsUgPgDiploma.maximumMarks)) {
+              if(rowData.subjectDetailsUgPgDiploma.maximumMarks > 0){
                 return true
               }else{
                 return { isValid : false, helperText : "It cannot be zero or negative value" }
@@ -527,16 +568,16 @@ class Index extends Component {
         },
       },
       {
-        title: "Result",
-        field: "result",
+        title: "obtained Score",
+        field: "score",
         // type : "numeric",
         render: (rowData, renderType) =>
-          renderType === "row" ? rowData.result : "",
+          renderType === "row" ? rowData.score : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if((rowData.result)){
-            if (!isNanAndEmpty(rowData.result)) {
-              if(rowData.result > 0){
+            if((rowData.score)){
+            if (!isNanAndEmpty(rowData.score)) {
+              if(rowData.score > 0){
                 return true
               }else{
                 return { isValid : false, helperText : "It cannot be zero or negative value" }
@@ -642,8 +683,8 @@ class Index extends Component {
 
                 {/* view marks -( below the table) */}
                 <ViewMarks
-                  semesterGpa={this.state.subjectDetails.semesterGpa}
-                  gpaError={this.state.semesterGpaErr}
+                  semesterGpa={this.state.subjectDetails.sgpa}
+                  sgpaError={this.state.sgpaErr}
                   cgpa={this.state.subjectDetails.cgpa}
                   cgpaError={this.state.cgpaErr}
                   formulaEmployed={this.state.subjectDetails.formulaEmployed}
@@ -736,4 +777,5 @@ export default connect(mapStateToProps, {
   getBranches,
   saveTemplate,
   saveCopyData,
+  updateCalculation
 })(withStyles(useStyles)(Index));

@@ -351,7 +351,8 @@ export const PGA = {
   viewSemesterDetails : "viewSemesterDetails",
   saveSemesterDetails : "saveSemesterDetails",
   deleteSemesterDetails : "deleteSemesterDetails",
-  saveAcademicDetails : "saveAcademicDetails"
+  saveAcademicDetails : "saveAcademicDetails",
+  updateCalculation : "updateCalculation"
   // fileDownload : "fileDownload"
 };
 

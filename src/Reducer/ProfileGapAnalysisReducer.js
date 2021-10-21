@@ -19,7 +19,8 @@ const initialState = {
   semesterDetails : [],
   updateSemesterDetails : [],
   removeSemesterDetails : [],
-  academicDetails : []
+  academicDetails : [],
+  calculation : []
   // download : []
 };
 
@@ -118,6 +119,11 @@ export default (state = initialState, action) => {
                       ...state,
                       academicDetails:action.payload,
                   }; 
+                  case PROFILE_GAP_ANALYSIS.updateCalculation:
+                    return{
+                        ...state,
+                        calculation:action.payload,
+                    }; 
     default:
       return state;
   }
