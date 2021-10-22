@@ -21,19 +21,37 @@ import { isEmptyString } from '../Validation';
     const handleCopy = (data) =>{
       dispatch(saveCopyData(data))
     }
-    return (
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align={"center"}>Subject Code</TableCell>
-              <TableCell align={"center"}>Subject Name</TableCell>
-              <TableCell align={"center"}>Maximum Marks</TableCell>
-              <TableCell align={"center"}></TableCell>
-            </TableRow>
-          </TableHead>
+
+    const renderBodyTable = () => {
+      if(props.studentSubjectDetails[0] && props.studentSubjectDetails[0].subjectDetailsUgPgDiploma) {
+        return(
           <TableBody>
+          {props.studentSubjectDetails && props.studentSubjectDetails.map((row, index) => (
+            
+            <TableRow
+              className={index % 2 !== 0 && classes.tableRow}
+            >
+              <TableCell align={"center"}>{row.subjectDetailsUgPgDiploma && row.subjectDetailsUgPgDiploma.subjectCode}</TableCell>
+              <TableCell align={"center"}>{row.subjectDetailsUgPgDiploma && row.subjectDetailsUgPgDiploma.subjectName}</TableCell>
+              <TableCell align={"center"}>{row && row.maximumMarks}</TableCell>
+              <TableCell align={"center"}>
+                <Button size={"small"} className={!isEmptyString(copiedData) && copiedData.id === row.id && classes.buttonStyle} variant={"outlined"} onClick={()=>handleCopy(row)} color={"primary"}>
+                  {!isEmptyString(copiedData) && copiedData.id === row.id ? "Copied" : "Copy"}
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+          
+         
+        )
+      }
+       else{
+         return(
+          <TableBody>
+            
             {props.studentSubjectDetails && props.studentSubjectDetails.map((row, index) => (
+              
               <TableRow
                 className={index % 2 !== 0 && classes.tableRow}
               >
@@ -47,7 +65,27 @@ import { isEmptyString } from '../Validation';
                 </TableCell>
               </TableRow>
             ))}
-          </TableBody>
+          </TableBody> 
+         )
+       }
+    }
+
+    return (
+      <TableContainer>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align={"center"}>Subject Code</TableCell>
+              <TableCell align={"center"}>Subject Name</TableCell>
+              <TableCell align={"center"}>Maximum Marks</TableCell>
+              <TableCell align={"center"}></TableCell>
+            </TableRow>
+          </TableHead>
+            {renderBodyTable()}
+          
+           
+         
+         
         </Table>
       </TableContainer>
     );

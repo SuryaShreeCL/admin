@@ -643,7 +643,7 @@ const CreatePost = () => {
                   </ButtonsContainer>
                 </Form>
               </div>
-              {values.supportingMedia === 'webinar' ? null : <Preview state={values} />}
+              {values.isWebinar ? null : <Preview state={values} />}
             </>
           )}
         </Formik>
