@@ -47,6 +47,7 @@ import ActivitiesForGmat from "../PgaReport/ActivitiesForGmat";
 import AllRoundActivities from "../PgaReport/AllRoundActivities";
 import Preview from "../PgaReport/Preview";
 import TopBSchool from "../PgaReport/TopBSchool";
+import CareerRoot from './CareerRole/CareerRoot'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -194,15 +195,26 @@ class ProfileGapRoot extends Component {
     console.log(this.props, prevProps);
     if (this.props.clickedSem !== prevProps.clickedSem) {
       this.setState({
-        value: 12,
+        value: "semForm",
       });
     }
   }
 
   backHandler = () => {
-    this.setState({
-      value: 8,
-    });
+    if(this.props.academicTypes === "ug"){
+      this.setState({
+        value: "ugForm",
+      });
+    }else if(this.props.academicTypes === "pg"){
+      this.setState({
+        value: "pgForm",
+      });
+    }else{
+      this.setState({
+        value: "diplomaForm",
+      });
+    }
+   
   };
 
   academicMenus = [
@@ -299,6 +311,7 @@ class ProfileGapRoot extends Component {
                     style={{ textTransform: "none" }}
                     onClick={(e) => this.menuOpen(e)}
                   />
+               
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="PGA Report"
@@ -315,8 +328,13 @@ class ProfileGapRoot extends Component {
                     onClick={(e) => this.pgaMenuOpen(e)}
                   />
                 </ThemeProvider>
+                <Tab
+                  label="Career Role"
+                  style={{ textTransform: "none", minWidth: "135px" }}
+                  value={"careerRole"}
+                />
               </Tabs>
-              {this.state.value > 5 ? (
+              {this.state.value > 5 && this.state.value !== 13 ? (
                 <IconButton
                   id={id}
                   onClick={this.handlePopupClick}
@@ -410,6 +428,9 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={"preview"}>
               <Preview {...this.props} />
             </TabPanel> 
+            <TabPanel value={this.state.value} index={"careerRole"}>
+              <CareerRoot {...this.props} />
+            </TabPanel>
           </Grid>
 
         </Grid>

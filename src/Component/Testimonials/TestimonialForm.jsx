@@ -43,6 +43,7 @@ const getProducts = () => [
   { id: '3', title: 'MBA Admissions' },
   { id: '4', title: 'Profile Builder' },
   { id: '5', title: 'MS Admissions' },
+  { id: '6', title: 'Placed' },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +79,9 @@ const initialValues = {
   gender: '',
   type: '',
   sector: '',
+  role:'',
+  ctc:'',
+  testimonialOriginLink:'',
   admitCollege: { name: '', logo: '', country: '🇺🇸', intake: 0 },
   interviewCallsFrom: [{ name: '', logo: '' }],
   companyCalls: [{ name: '', logo: '' }],
@@ -209,6 +213,12 @@ export default function TestimonialForm(props) {
                   value={values.testimonialOrigin}
                   onChange={handleChange}
                   options={getOrigin()}
+                />                
+                <Controls.Input
+                  label='Testimonial Origin Link'
+                  name='testimonialOriginLink'
+                  value={values.testimonialOriginLink}
+                  onChange={handleChange}
                 />
                 <Controls.Input
                   label='Company'
@@ -229,12 +239,25 @@ export default function TestimonialForm(props) {
                   value={values.company?.workExperience}
                   onChange={handleChange}
                 />
-
                 <Controls.Input
                   label='Sector'
                   name='sector'
                   style={{ width: '120px' }}
                   value={values.sector}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='Role'
+                  name='role'
+                  style={{ width: '120px' }}
+                  value={values.role}
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  label='CTC'
+                  name='ctc'
+                  style={{ width: '120px' }}
+                  value={values.ctc}
                   onChange={handleChange}
                 />
               </LabelledOutline>

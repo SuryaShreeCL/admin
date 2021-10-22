@@ -1,37 +1,36 @@
 import React, { Component } from "react";
 import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
-import { number } from "yup";
-import { isEmptyString } from "../../Validation";
+
 
 class ViewMarks extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(classes);
+    
     const {
       semesterGpa,
       cgpa,
       formulaEmployed,
       percentage,
-      gpaError,
+      sgpaError,
       cgpaError,
       // formulaError,
       // percentageError,
     } = this.props;
-        
+    console.log(this.props);
     return (
       <Grid container spacing={3} style={{ padding: "12px" }}>
         <Grid item md={3}>
           <TextField
             label="Semester GPA"
-            name="semesterGpa"
+            name="sgpa"
             value={semesterGpa}
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            error={gpaError.length > 0}
-            helperText={gpaError}
+            error={sgpaError.length > 0}
+            helperText={sgpaError}
             InputLabelProps={{
               shrink: true,
           }}
