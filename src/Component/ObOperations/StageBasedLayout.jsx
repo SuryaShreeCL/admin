@@ -409,8 +409,8 @@ class StageBasedLayout extends Component {
       Others: AdmissionServices,
     };
     var selectedComponent =
-      this.state.selectedItem !== null &&
-      componentList[this.state.selectedItem.stepName];
+      this.state.selectedItem !== null && typeof this.state.selectedItem === "object" ?  
+      componentList[this.state.selectedItem.stepName] : componentList[this.state.selectedItem] ;
     var Page = obj[selectedComponent];
     console.log("state...........", this.state);
     console.log("props..................", this.props);
