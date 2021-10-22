@@ -22,8 +22,7 @@ function Concerns(props) {
     snackMsg: "",
     snackColor: "",
   });
-  const [selectedConcerns, setSelectedConcerns] = useState([
-  ]);
+  const [selectedConcerns, setSelectedConcerns] = useState([]);
   const classes = useStyles();
   const getAndSetSelectedConcerns = () => {
     getStudentConcerns(
@@ -116,7 +115,7 @@ function Concerns(props) {
         <Grid item md={6} lg={6} xl={6} className={classes.columnDivider}>
           <Grid container spacing={2}>
             <Grid item md={12} lg={12} xl={12}>
-              <Typography variant={"h5"}>List Of Concerns</Typography>
+              <Typography variant={"h5"}>List of Concerns</Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>
               {concernList.map((eachConcern, index) => {
@@ -147,9 +146,18 @@ function Concerns(props) {
         </Grid>
         <Grid item md={6} lg={6} xl={6}>
           <Grid container spacing={2}>
-            <Grid item md={12} lg={12} xl={12}>
-              <Typography variant={"h5"}>
-                Selected Concerns ({selectedConcerns.length})
+            <Grid
+              item
+              md={12}
+              lg={12}
+              xl={12}
+              className={classes.sampleSchoolHeading}
+              container
+              alignItems={"center"}
+            >
+              <Typography variant={"h5"}>Selected Concerns</Typography>
+              <Typography color={"textSecondary"}>
+                ({selectedConcerns.length})
               </Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>

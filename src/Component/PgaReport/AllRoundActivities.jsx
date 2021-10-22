@@ -122,7 +122,7 @@ function AllRoundActivities(props) {
           <Grid container spacing={2}>
             <Grid item md={12} lg={12} xl={12}>
               <Typography variant={"h5"}>
-                List Of All Round Activities
+                List of All Round Activities
               </Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>
@@ -154,9 +154,20 @@ function AllRoundActivities(props) {
         </Grid>
         <Grid item md={6} lg={6} xl={6}>
           <Grid container spacing={2}>
-            <Grid item md={12} lg={12} xl={12}>
+            <Grid
+              item
+              md={12}
+              lg={12}
+              xl={12}
+              container
+              alignItems={"center"}
+              className={classes.sampleSchoolHeading}
+            >
               <Typography variant={"h5"}>
-                Selected All Round Activities ({selectedActivity.length})
+                Selected All Round Activities
+              </Typography>
+              <Typography color={"textSecondary"}>
+                ({selectedActivity.length})
               </Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>

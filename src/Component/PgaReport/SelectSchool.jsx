@@ -50,7 +50,7 @@ function SelectSchool(props) {
     helperText: "",
   });
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { addedSchool } = useSelector((state) => state.HelperReducer);
 
   const columns = [
@@ -134,7 +134,7 @@ function SelectSchool(props) {
           ...prevSelectedSchool,
           addedSchool,
         ]);
-        dispatch(saveSchool(null))
+        dispatch(saveSchool(null));
       } else {
         setSnack({
           snackColor: "info",
@@ -365,9 +365,18 @@ function SelectSchool(props) {
             <div className={classes.containerStyle}>
               <Grid container spacing={2}>
                 {selectedSchoolList.length !== 0 && (
-                  <Grid item md={12}>
+                  <Grid
+                    item
+                    md={12}
+                    container
+                    alignItems={"center"}
+                    className={classes.sampleSchoolHeading}
+                  >
                     <Typography variant={"h5"}>
-                      Sample Schools Section ({selectedSchoolList.length})
+                      Sample Schools Section
+                    </Typography>
+                    <Typography color={"textSecondary"}>
+                      ({selectedSchoolList.length})
                     </Typography>
                   </Grid>
                 )}
