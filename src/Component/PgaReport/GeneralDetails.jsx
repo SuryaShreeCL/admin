@@ -55,7 +55,7 @@ function GeneralDetails(props) {
       props.match.params.productId
     ).then((response) => {
       if (response.status === 200) {
-        if (response.data.data) {
+        if (!isEmptyObject(response.data.data)) {
           const {
             id,
             contextDescription,
