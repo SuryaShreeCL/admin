@@ -247,7 +247,8 @@ class ProfileGapRoot extends Component {
       this.state.value === "twelthForm" ||
       this.state.value === "diplomaForm" || 
       this.state.value === "ugForm" ||
-      this.state.value === "pgForm" 
+      this.state.value === "pgForm" ||
+      this.state.value === "semForm"
       ){
       return (
         <IconButton

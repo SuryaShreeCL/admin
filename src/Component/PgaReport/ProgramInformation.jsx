@@ -120,7 +120,7 @@ function ProgramInformation(props) {
           <Grid container spacing={2}>
             <Grid item md={12} lg={12} xl={12}>
               <Typography variant={"h5"}>
-                List Of Program Information
+                List of Program Information
               </Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>

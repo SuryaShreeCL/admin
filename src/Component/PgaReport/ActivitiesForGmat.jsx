@@ -122,7 +122,7 @@ function ActivitiesForGmat(props) {
           <Grid container spacing={2}>
             <Grid item md={12} lg={12} xl={12}>
               <Typography variant={"h5"}>
-                List Of Activities After GMAT
+                List of Activities After GMAT
               </Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>
@@ -164,7 +164,7 @@ function ActivitiesForGmat(props) {
               className={classes.sampleSchoolHeading}
             >
               <Typography variant={"h5"}>
-                Selected List Of Activities After GMAT
+                Selected List of Activities After GMAT
               </Typography>
               <Typography color={"textSecondary"}>
                 ({selectedActivity.length})
