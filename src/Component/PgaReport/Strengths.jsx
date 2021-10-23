@@ -22,8 +22,7 @@ function Strengths(props) {
     snackMsg: "",
     snackColor: "",
   });
-  const [selectedStrengths, setSelectedStrengths] = useState([
-  ]);
+  const [selectedStrengths, setSelectedStrengths] = useState([]);
   const classes = useStyles();
   const getAndSetSelectedStrength = () => {
     getStudentPgaStrength(
@@ -116,7 +115,7 @@ function Strengths(props) {
         <Grid item md={6} lg={6} xl={6} className={classes.columnDivider}>
           <Grid container spacing={2}>
             <Grid item md={12} lg={12} xl={12}>
-              <Typography variant={"h5"}>List Of Strengths</Typography>
+              <Typography variant={"h5"}>List of Strengths</Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>
               {strengthList.map((eachStrength, index) => {
@@ -147,9 +146,18 @@ function Strengths(props) {
         </Grid>
         <Grid item md={6} lg={6} xl={6}>
           <Grid container spacing={2}>
-            <Grid item md={12} lg={12} xl={12}>
-              <Typography variant={"h5"}>
-                Selected Strengths ({selectedStrengths.length})
+            <Grid
+              item
+              md={12}
+              lg={12}
+              xl={12}
+              className={classes.sampleSchoolHeading}
+              container
+              alignItems={"center"}
+            >
+              <Typography variant={"h5"}>Selected Strengths</Typography>
+              <Typography color={"textSecondary"}>
+                ({selectedStrengths.length})
               </Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>

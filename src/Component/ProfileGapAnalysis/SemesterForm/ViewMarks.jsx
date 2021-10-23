@@ -15,8 +15,8 @@ class ViewMarks extends Component {
       percentage,
       sgpaError,
       cgpaError,
-      // formulaError,
-      // percentageError,
+      formulaError,
+      percentageError,
     } = this.props;
     console.log(this.props);
     return (
@@ -66,8 +66,8 @@ class ViewMarks extends Component {
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            // error={formulaError.length > 0}
-            // helperText={formulaError}
+            error={formulaError.length > 0}
+            helperText={formulaError}
             type='number'
           />
         </Grid>
@@ -83,8 +83,8 @@ class ViewMarks extends Component {
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            // error={percentageError.length > 0}
-            // helperText={percentageError}  
+            error={percentageError.length > 0}
+            helperText={percentageError}  
             type='number'
           />
         </Grid>

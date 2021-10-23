@@ -155,7 +155,7 @@ function CriticalSuccessFactor(props) {
                     renderInput={(params) => (
                       <TextFieldComponent
                         {...params}
-                        label="Curriculum Vitae"
+                        label="Title"
                         variant="standard"
                       />
                     )}

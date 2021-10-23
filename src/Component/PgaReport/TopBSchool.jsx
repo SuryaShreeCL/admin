@@ -219,7 +219,7 @@ function SelectSchool(props) {
               <Grid item md={10}>
                 <Grid container spacing={2}>
                   <Grid item md={12}>
-                    <Typography variant={"h5"}>Top School By Region</Typography>
+                    <Typography variant={"h5"}>Top Schools By Regions</Typography>
                   </Grid>
 
                   <Grid item md={6}>
@@ -310,9 +310,20 @@ function SelectSchool(props) {
             <div className={classes.containerStyle}>
               <Grid container spacing={2}>
                 {selectedSchoolList.length !== 0 && (
-                  <Grid item md={12}>
+                  <Grid
+                    item
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    container
+                    className={classes.sampleSchoolHeading}
+                    alignItems={"center"}
+                  >
                     <Typography variant={"h5"}>
-                      Sample B-Schools Section ({selectedSchoolList.length})
+                      Sample B-Schools Section
+                    </Typography>
+                    <Typography color={"textSecondary"}>
+                      ({selectedSchoolList.length})
                     </Typography>
                   </Grid>
                 )}
