@@ -152,9 +152,18 @@ function ProgramInformation(props) {
         </Grid>
         <Grid item md={6} lg={6} xl={6}>
           <Grid container spacing={2}>
-            <Grid item md={12} lg={12} xl={12}>
-              <Typography variant={"h5"}>
-                Selected Program ({selectedProgram.length})
+            <Grid
+              item
+              md={12}
+              lg={12}
+              xl={12}
+              className={classes.sampleSchoolHeading}
+              container
+              alignItems={"center"}
+            >
+              <Typography variant={"h5"}>Selected Program</Typography>
+              <Typography color={"textSecondary"}>
+                ({selectedProgram.length})
               </Typography>
             </Grid>
             <Grid item md={12} lg={12} xl={12}>

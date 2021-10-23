@@ -171,7 +171,7 @@ function PlanOfAction(props) {
     <PageWrapper>
       <div className={classes.containerStyle}>
         <div className={classes.planOfActionContainer}>
-          <Typography variant={"h5"}>Quarterly Plan Of Action</Typography>
+          <Typography variant={"h5"}>Quarterly Plan of Action</Typography>
         </div>
         <Grid container spacing={2} className={classes.planOfActionContainer}>
           {planOfAction.map((eachPlan, quarterIndex) => {

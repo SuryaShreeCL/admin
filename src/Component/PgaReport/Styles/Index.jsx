@@ -38,7 +38,7 @@ export const useStyles = makeStyles((theme)=>({
        width : 300
    },
    noSchoolTypo : {
-       fontWeight : 500
+       fontWeight : "bolder"
    },
    quarterlyTypo : {
     fontWeight : 600
@@ -54,6 +54,8 @@ export const useStyles = makeStyles((theme)=>({
    },
    columnDivider : {
     borderRight : "2px solid #f1f1f1"
-
+   },
+   sampleSchoolHeading : {
+       gridGap : "5px"
    }
 }))
