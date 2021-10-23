@@ -34,7 +34,7 @@ class ViewMarks extends Component {
             InputLabelProps={{
               shrink: true,
           }}
-            // type='number'
+            type='number'
           />
         </Grid>
 

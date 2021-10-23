@@ -238,14 +238,37 @@ class ProfileGapRoot extends Component {
     },
   ];
 
+  renderIconButton = () =>{
+    const { classes } = this.props;
+    const open = Boolean(this.props.popperAnchorEl);
+    const id = open ? "simple-popper" : undefined;
+    if(
+      this.state.value === "tenthForm" ||
+      this.state.value === "twelthForm" ||
+      this.state.value === "diplomaForm" || 
+      this.state.value === "ugForm" ||
+      this.state.value === "pgForm" 
+      ){
+      return (
+        <IconButton
+        id={id}
+        onClick={this.handlePopupClick}
+        className={classes.iconButtonStyle}
+        color="primary"
+        aria-label="add to shopping cart"
+      >
+        <AccountCircleRoundedIcon fontSize={"large"} />
+      </IconButton>
+      )
+    }
+  }
 
 
   render() {
     const { classes } = this.props;
     console.log(this.props.clickedBack);
     // console.log(object)
-    const open = Boolean(this.props.popperAnchorEl);
-    const id = open ? "simple-popper" : undefined;
+   
     return (
       <div>
         <Grid container style={{ marginTop: "10px" }}>
@@ -334,17 +357,7 @@ class ProfileGapRoot extends Component {
                   value={"careerRole"}
                 />
               </Tabs>
-              {this.state.value > 5 && this.state.value !== 13 ? (
-                <IconButton
-                  id={id}
-                  onClick={this.handlePopupClick}
-                  className={classes.iconButtonStyle}
-                  color="primary"
-                  aria-label="add to shopping cart"
-                >
-                  <AccountCircleRoundedIcon fontSize={"large"} />
-                </IconButton>
-              ) : null}
+             {this.renderIconButton()}
             </Paper>
           
             <TabPanel value={this.state.value} index={"dashboard"}>
