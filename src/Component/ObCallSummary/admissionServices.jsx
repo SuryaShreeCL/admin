@@ -21,6 +21,7 @@ import MySnackBar from "../MySnackBar";
 import { isEmptyString } from "../Validation";
 import { StudentStepDetails } from "../../Actions/Student";
 import { getdashboarddetails } from '../../Actions/ProfileGapAction';
+import { getVariantStepsById } from '../../Actions/ProductAction'
 import '../../Asset/All.css'
 import DeleteIcon from '@material-ui/icons/Delete';
 class AdmissionServices extends Component {
@@ -61,6 +62,7 @@ class AdmissionServices extends Component {
       this.props.updatementor( this.props.match.params.studentId,this.props.match.params.productId,obj,(response => {
         if(response.status === 200){
           this.props.StudentStepDetails(this.props.match.params.studentId,this.props.match.params.productId)
+          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`);
           this.props.getmentor(this.props.match.params.studentId,(response => {
             console.log(response)
            if(response.status === 200){
@@ -762,10 +764,11 @@ const mapStateToProps = (state) => {
         updateallocatementorList : state.MentorReducer.updateallocatementor,
         getmentorList : state.MentorReducer.getmentor,
         getdashboarddetailsList : state.ProfileGapAnalysisReducer.getdashboarddetails,
-        StudentStepDetailsList : state.StudentReducer.StudentStepDetails
+        StudentStepDetailsList : state.StudentReducer.StudentStepDetails,
+        variantStepList : state.ProductReducer.variantStepList
     };
   };
   
   export default connect(mapStateToProps, {
-    getAllMentors,getStudentsById,getproductdetails,updateallocatementor,getmentor,updatementor,getdashboarddetails,StudentStepDetails
+    getAllMentors,getStudentsById,getproductdetails,getVariantStepsById,updateallocatementor,getmentor,updatementor,getdashboarddetails,StudentStepDetails
   })(AdmissionServices);

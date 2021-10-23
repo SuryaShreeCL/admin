@@ -149,7 +149,7 @@ function AdditionalPointsForm(props) {
                       renderInput={(params) => (
                         <TextFieldComponent
                           {...params}
-                          label="CGPA"
+                          label="Additional Point"
                           variant="standard"
                         />
                       )}
