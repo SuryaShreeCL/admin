@@ -258,15 +258,15 @@ class StageBasedLayout extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (
-      this.props.StudentStepDetailsList !== prevProps.StudentStepDetailsList
+      this.props.variantStepList !== prevProps.variantStepList
     ) {
-      let stage = this.props.StudentStepDetailsList.steps.find(
+      let stage = this.props.variantStepList.steps.find(
         (el) => el.stepName === "Onboarding"
       );
       console.log(stage);
       var sortedArr =
-        this.props.StudentStepDetailsList.steps.length > 0 &&
-        this.props.StudentStepDetailsList.steps.sort((a, b) => a.rank - b.rank);
+        this.props.variantStepList.steps.length > 0 &&
+        this.props.variantStepList.steps.sort((a, b) => a.rank - b.rank);
       console.log(sortedArr);
       sortedArr !== false &&
         sortedArr.map((it, ix) => {
