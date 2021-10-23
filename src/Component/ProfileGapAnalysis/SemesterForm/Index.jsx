@@ -11,7 +11,7 @@ import {
   viewSemesterDetails,
   deleteSemesterDetails,
   saveSemesterDetails,
-  updateCalculation
+  updateCalculation,
 } from "../../../Actions/ProfileGapAction";
 import {
   isClickedSem,
@@ -19,7 +19,7 @@ import {
   saveTemplate,
   saveCopyData,
 } from "../../../Actions/HelperAction";
-import { isEmptyObject, isEmptyString,isNanAndEmpty } from "../../Validation";
+import { isEmptyObject, isEmptyString, isNanAndEmpty } from "../../Validation";
 import { HELPER_TEXT } from "../../../Constant/Variables";
 import Mysnack from "../../MySnackBar";
 import SimilarityPopup from "../SimilarityPopup";
@@ -60,14 +60,14 @@ class Index extends Component {
       // viewMarks
       // semesterGpa: "",
       // semesterGpaErr: "",
-      sgpaErr : "",
+      sgpaErr: "",
 
       // cgpa: "",
       cgpaErr: "",
       formulaEmployed: "",
-      // formulaEmployedErr: "",
+      formulaEmployedErr: "",
       percentage: "",
-      // percentageErr: "",
+      percentageErr: "",
 
       // snack message
       snackMsg: "",
@@ -108,21 +108,19 @@ class Index extends Component {
       this.state.filterField,
       submenu.id
     ).then((response) => {
-      console.log(response)
-      if(response.data.body.success){
+      console.log(response);
+      if (response.data.body.success) {
         this.setState({
           studentMatch: (response && response.data.body.data) || [],
         });
-      }
-      else {
-        console.log("data")
+      } else {
+        console.log("data");
         this.setState({
-            snackMsg : "The Given Filter is not Found",
-            snackVariant : "error",
-            snackOpen : true
-        })
+          snackMsg: "The Given Filter is not Found",
+          snackVariant: "error",
+          snackOpen: true,
+        });
       }
-     
     });
   };
 
@@ -133,12 +131,11 @@ class Index extends Component {
       this.props.academicTypes,
       query
     ).then((response) => {
-      console.log(response)
-        if(response.status === 200){
-          this.setState({
-            distinctMatch: (response && response.data.body.data) || [],
-          });
-        
+      console.log(response);
+      if (response.status === 200) {
+        this.setState({
+          distinctMatch: (response && response.data.body.data) || [],
+        });
       }
     });
   };
@@ -236,34 +233,34 @@ class Index extends Component {
   };
 
   fetchData = (response) => {
-    console.log(response)
-   if(response.data.success){
-    this.setState({
-      semesterData:
-        response && response.data.data.studentSubjectDetails !== null
-          ? response.data.data.studentSubjectDetails
-          : [],
-      cgpaScale: response && response.data.data.studentSemesterDetails.score,
-      cgpaPercentage:
-        response && response.data.data.studentSemesterDetails.scoreScale,
-      collegeDetails: response && response.data.data.college,
-      degreeDetails: response && response.data.data.degree,
-      university: response && response.data.data.university,
-      department: response && response.data.data.department,
-      subjectDetails: response && response.data.data.studentSemesterDetails,
-      pdfViewer: response && response.data.data.studentDocument[0].path,
-      data: response && response.data.data,
-      year: response && response.data.data.year,
-      // semesterGpa:
-      //   response && response.data.data.studentSemesterDetails.sgpa,
-      // cgpa: response && response.data.data.studentSemesterDetails.cgpa,
-      formulaEmployed:
-        response && response.data.data.studentSemesterDetails.formulaEmployed,
-      percentage:
-        response && response.data.data.studentSemesterDetails.percentage,
-      degreeType: response && response.data.data.diplomaType,
-    });
-   }
+    console.log(response);
+    if (response.data.success) {
+      this.setState({
+        semesterData:
+          response && response.data.data.studentSubjectDetails !== null
+            ? response.data.data.studentSubjectDetails
+            : [],
+        cgpaScale: response && response.data.data.studentSemesterDetails.score,
+        cgpaPercentage:
+          response && response.data.data.studentSemesterDetails.scoreScale,
+        collegeDetails: response && response.data.data.college,
+        degreeDetails: response && response.data.data.degree,
+        university: response && response.data.data.university,
+        department: response && response.data.data.department,
+        subjectDetails: response && response.data.data.studentSemesterDetails,
+        pdfViewer: response && response.data.data.studentDocument[0].path,
+        data: response && response.data.data,
+        year: response && response.data.data.year,
+        // semesterGpa:
+        //   response && response.data.data.studentSemesterDetails.sgpa,
+        // cgpa: response && response.data.data.studentSemesterDetails.cgpa,
+        formulaEmployed:
+          response && response.data.data.studentSemesterDetails.formulaEmployed,
+        percentage:
+          response && response.data.data.studentSemesterDetails.percentage,
+        degreeType: response && response.data.data.diplomaType,
+      });
+    }
   };
 
   componentDidMount() {
@@ -310,16 +307,39 @@ class Index extends Component {
   handleSaveClick = () => {
     let hlpTxt = "Please fill the required field";
     isEmptyString(this.state.subjectDetails.sgpa)
-    ? this.setState({ sgpaErr: hlpTxt })
-    : this.setState({ sgpaErr: "" });
+      ? this.setState({ sgpaErr: hlpTxt })
+      : this.state.subjectDetails.sgpa <= 0
+      ? this.setState({ sgpaErr: "It cannot be zero or negative value" })
+      : this.setState({ sgpaErr: "" });
+    // this.setState({ sgpaErr: "" });
+
     isEmptyString(this.state.subjectDetails.cgpa)
       ? this.setState({ cgpaErr: hlpTxt })
+      : this.state.subjectDetails.cgpa <= 0
+      ? this.setState({ cgpaErr: "It cannot be zero or negative value" })
       : this.setState({ cgpaErr: "" });
-   
+    isEmptyString(this.state.subjectDetails.formulaEmployed)
+      ? this.setState({ formulaEmployedErr: hlpTxt })
+      : this.state.subjectDetails.formulaEmployed <= 0
+      ? this.setState({
+          formulaEmployedErr: "It cannot be zero or negative value",
+        })
+      : this.setState({ formulaEmployedErr: "" });
+    isEmptyString(this.state.subjectDetails.percentage)
+      ? this.setState({ percentageErr: hlpTxt })
+      : this.state.subjectDetails.percentage <= 0
+      ? this.setState({ percentageErr: "It cannot be zero or negative value" })
+      : this.setState({ percentageErr: "" });
+
     if (
       !isEmptyString(this.state.subjectDetails.sgpa) &&
-      !isEmptyString(this.state.subjectDetails.cgpa)
-     
+      !(this.state.subjectDetails.sgpa <= 0) &&
+      !isEmptyString(this.state.subjectDetails.cgpa) &&
+      !(this.state.subjectDetails.cgpa <= 0) &&
+      !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
+      !(this.state.subjectDetails.formulaEmployed <= 0) &&
+      !isEmptyString(this.state.subjectDetails.percentage) &&
+      !(this.state.subjectDetails.percentage <= 0)
     ) {
       let requestBody = {
         studentSemesterDetails: {
@@ -351,33 +371,33 @@ class Index extends Component {
         this.props.match.params.studentId,
         this.props.academicTypes,
         requestBody,
-       ( (response) => {
-          console.log(response)
-         if(response.data.success){
-          this.setState({
-            snackMsg: "Saved Successfully",
-            snackVariant: "success",
-            snackOpen: true,
-          });
-          this.props.viewSemesterDetails(
-            this.props.match.params.studentId,
-            this.props.clickedSem.data,
-            this.fetchData
-          );
-         }
-        })
+        (response) => {
+          console.log(response);
+          if (response.data.success) {
+            this.setState({
+              snackMsg: "Saved Successfully",
+              snackVariant: "success",
+              snackOpen: true,
+            });
+            this.props.viewSemesterDetails(
+              this.props.match.params.studentId,
+              this.props.clickedSem.data,
+              this.fetchData
+            );
+          }
+        }
       );
     }
   };
 
   // view marks - textfield handle function
-  handleScoreChange = (e) => {   
+  handleScoreChange = (e) => {
     this.setState({
       subjectDetails: {
         ...this.state.subjectDetails,
-        [e.target.name]: e.target.value,        
+        [e.target.name]: e.target.value,
       },
-      [e.target.name+"Err"]:""
+      [e.target.name + "Err"]: "",
     });
   };
 
@@ -388,62 +408,65 @@ class Index extends Component {
 
   // function to calculate sgpa
   handleSgpaClick = () => {
-    console.log(this.state.semesterData)
+    console.log(this.state.semesterData);
     // this.setState({
-    //   subjectDetails : {   
+    //   subjectDetails : {
     //     ...this.state.subjectDetails,
-    //     semesterGpa : "55"     
+    //     semesterGpa : "55"
     //   }
     // })
-    this.props.updateCalculation( this.props.match.params.studentId,this.state.subjectDetails.semester,this.props.academicTypes,this.state.semesterData,(response)=>{
-      console.log(response.data);
+    this.props.updateCalculation(
+      this.props.match.params.studentId,
+      this.state.subjectDetails.semester,
+      this.props.academicTypes,
+      this.state.semesterData,
+      (response) => {
+        console.log(response.data);
 
-      if(response.data.success){
-        this.setState({
-      subjectDetails : {   
-        ...this.state.subjectDetails,
-        sgpa : response.data.data.sgpa    
+        if (response.data.success) {
+          this.setState({
+            subjectDetails: {
+              ...this.state.subjectDetails,
+              sgpa: response.data.data.sgpa,
+            },
+          });
+        }
       }
-    })
-  
-      }
-    })
-   
-   
-
-    
-
-
-  }
+    );
+  };
 
   // function to calculate cgpa
-  handleCgpaClick = () =>{
+  handleCgpaClick = () => {
     // this.setState({
-    //   subjectDetails : {   
+    //   subjectDetails : {
     //     ...this.state.subjectDetails,
-    //     cgpa : "10"     
+    //     cgpa : "10"
     //   }
     // })
-    this.props.updateCalculation( this.props.match.params.studentId,this.state.subjectDetails.semester,this.props.academicTypes,this.state.semesterData,(response)=>{
-      console.log(response);
+    this.props.updateCalculation(
+      this.props.match.params.studentId,
+      this.state.subjectDetails.semester,
+      this.props.academicTypes,
+      this.state.semesterData,
+      (response) => {
+        console.log(response);
 
-      if(response.data.success){
-        console.log("true")
-        this.setState({
-      subjectDetails : {   
-        ...this.state.subjectDetails,
-        cgpa : response.data.data.cgpa    
+        if (response.data.success) {
+          console.log("true");
+          this.setState({
+            subjectDetails: {
+              ...this.state.subjectDetails,
+              cgpa: response.data.data.cgpa,
+            },
+          });
+        }
       }
-    })
-  
-      }
-    })
-  
-  }
+    );
+  };
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.subjectDetails)
+    console.log(this.state.subjectDetails);
 
     // table columns
     const columns = [
@@ -456,16 +479,20 @@ class Index extends Component {
         title: "Subject Code",
         field: "subjectDetailsUgPgDiploma.subjectCode",
         render: (rowData, renderType) =>
-        
           renderType === "row"
             ? rowData.subjectDetailsUgPgDiploma.subjectCode
             : "",
         validate: (rowData) => {
-          console.log(rowData)
+          console.log(rowData);
           if (!isEmptyObject(rowData)) {
             console.log(rowData);
 
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.subjectCode)) {
+            if (
+              !isEmptyString(
+                rowData.subjectDetailsUgPgDiploma &&
+                  rowData.subjectDetailsUgPgDiploma.subjectCode
+              )
+            ) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -482,7 +509,12 @@ class Index extends Component {
             : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.subjectName)) {
+            if (
+              !isEmptyString(
+                rowData.subjectDetailsUgPgDiploma &&
+                  rowData.subjectDetailsUgPgDiploma.subjectName
+              )
+            ) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -498,19 +530,22 @@ class Index extends Component {
           renderType === "row" ? rowData.maximumMarks : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if((rowData.maximumMarks)){
-            if (!isNanAndEmpty(rowData.maximumMarks)) {
-              if(rowData.maximumMarks > 0){
-                return true
-              }else{
-                return { isValid : false, helperText : "It cannot be zero or negative value" }
+            if (rowData.maximumMarks) {
+              if (!isNanAndEmpty(rowData.maximumMarks)) {
+                if (rowData.maximumMarks > 0) {
+                  return true;
+                } else {
+                  return {
+                    isValid: false,
+                    helperText: "It cannot be zero or negative value",
+                  };
+                }
+              } else {
+                return { isValid: false };
               }
-            }else {
-              return { isValid : false }
-            }
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField};
-            } 
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
           }
           // if (!isEmptyObject(rowData)) {
           //   if (!isEmptyString(rowData.gradePoints)) {
@@ -529,19 +564,22 @@ class Index extends Component {
           renderType === "row" ? rowData.credit : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if((rowData.credit)){
-            if (!isNanAndEmpty(rowData.credit)) {
-              if(rowData.credit > 0){
-                return true
-              }else{
-                return { isValid : false, helperText : "It cannot be zero or negative value" }
+            if (rowData.credit) {
+              if (!isNanAndEmpty(rowData.credit)) {
+                if (rowData.credit > 0) {
+                  return true;
+                } else {
+                  return {
+                    isValid: false,
+                    helperText: "It cannot be zero or negative value",
+                  };
+                }
+              } else {
+                return { isValid: false };
               }
-            }else {
-              return { isValid : false }
-            }
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField};
-            } 
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
           }
           // if (!isEmptyObject(rowData)) {
           //   if (!isEmptyString(rowData.credit)) {
@@ -559,7 +597,12 @@ class Index extends Component {
           renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.type)) {
+            if (
+              !isEmptyString(
+                rowData.subjectDetailsUgPgDiploma &&
+                  rowData.subjectDetailsUgPgDiploma.type
+              )
+            ) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -575,19 +618,22 @@ class Index extends Component {
           renderType === "row" ? rowData.score : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if((rowData.score)){
-            if (!isNanAndEmpty(rowData.score)) {
-              if(rowData.score > 0){
-                return true
-              }else{
-                return { isValid : false, helperText : "It cannot be zero or negative value" }
+            if (rowData.score) {
+              if (!isNanAndEmpty(rowData.score)) {
+                if (rowData.score > 0) {
+                  return true;
+                } else {
+                  return {
+                    isValid: false,
+                    helperText: "It cannot be zero or negative value",
+                  };
+                }
+              } else {
+                return { isValid: false };
               }
-            }else {
-              return { isValid : false }
-            }
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField};
-            } 
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+            }
           }
           // if (!isEmptyObject(rowData)) {
           //   if (!isEmptyString(rowData.result)) {
@@ -607,7 +653,12 @@ class Index extends Component {
             : "",
         validate: (rowData) => {
           if (!isEmptyObject(rowData)) {
-            if (!isEmptyString(rowData.subjectDetailsUgPgDiploma && rowData.subjectDetailsUgPgDiploma.passOrFail)) {
+            if (
+              !isEmptyString(
+                rowData.subjectDetailsUgPgDiploma &&
+                  rowData.subjectDetailsUgPgDiploma.passOrFail
+              )
+            ) {
               return true;
             } else {
               return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -777,5 +828,5 @@ export default connect(mapStateToProps, {
   getBranches,
   saveTemplate,
   saveCopyData,
-  updateCalculation
+  updateCalculation,
 })(withStyles(useStyles)(Index));
