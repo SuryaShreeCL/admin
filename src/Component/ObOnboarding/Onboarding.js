@@ -86,6 +86,7 @@ export class Onboarding extends Component {
   }
   handleManage = (eachItem) => {
     this.props.StudentStepDetails(eachItem.studentId,this.props.match.params.productId)
+    this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${eachItem.studentId}`);
     this.props.history.push(
       stagedTabsPath +
         eachItem.studentId +

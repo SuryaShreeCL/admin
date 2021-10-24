@@ -241,11 +241,11 @@ class StageBasedLayout extends Component {
     }
   }
   componentDidMount() {
-    this.props.getVariantStepsById(this.props.match.params.productId);
-    this.props.StudentStepDetails(
-      this.props.match.params.studentId,
-      this.props.match.params.productId
-    );
+    this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`);
+    // this.props.StudentStepDetails(
+    //   this.props.match.params.studentId,
+    //   this.props.match.params.productId
+    // );
     const { stage } = qs.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
@@ -309,6 +309,9 @@ class StageBasedLayout extends Component {
                 stagelist : mismatchArr,
               });
       }
+    }
+    if(this.props.StudentStepDetailsList !== prevProps.StudentStepDetailsList){
+      this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
     }
   }
   handleOBComplete = () => {
