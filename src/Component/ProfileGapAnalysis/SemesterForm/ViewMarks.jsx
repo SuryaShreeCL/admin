@@ -31,6 +31,7 @@ class ViewMarks extends Component {
             fullWidth
             error={sgpaError.length > 0}
             helperText={sgpaError}
+            type='number'
             InputLabelProps={{
               shrink: true,
           }}
