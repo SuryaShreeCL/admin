@@ -462,7 +462,7 @@ class GeneralDetails extends Component {
     });
   };
   renderstudentdetails() {
-    if (this.props.variantStepList.codeName === "ACS_MBA") {
+    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA") {
       return (
         <ThemeProvider theme={theme}>
          <Grid container spacing={3} style={{marginTop:"2%"}}>
@@ -760,7 +760,7 @@ class GeneralDetails extends Component {
   }
   
   renderhigherdetails() {
-    if (this.props.variantStepList.codeName === "ACS_MBA") {
+    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA") {
       return (
         <Grid container spacing={3}>
           <Grid item md={4}>
@@ -1020,7 +1020,7 @@ class GeneralDetails extends Component {
     }
   }
   handlesaved = () => {
-    if (this.props.variantStepList.codeName === "ACS_MBA") {
+    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA") {
       console.log("true");
       let pgadataarr = [];
       this.state.commentshistory.map((eachdata) => {
@@ -1583,7 +1583,7 @@ class GeneralDetails extends Component {
                 </div>
               </div>
             </Grid>
-           { this.props.variantStepList.codeName === "ACS_MBA" &&
+           { this.props.StudentStepDetailsList.codeName === "ACS_MBA" &&
             <Grid item md={4}>
               <div
                 style={{
