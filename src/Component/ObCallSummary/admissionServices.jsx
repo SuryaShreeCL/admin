@@ -734,7 +734,7 @@ class AdmissionServices extends Component {
               >
                 <PrimaryButton
                   style={{ textTransform: "none" }}
-                  disabled={this.state.mentor.length === 0}
+                  disabled={this.state.mentor === "" || this.state.mentor === null}
                   variant={"contained"}
                   color={"primary"}
                   onClick={() => this.allocate()}
