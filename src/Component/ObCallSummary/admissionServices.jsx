@@ -68,7 +68,7 @@ class AdmissionServices extends Component {
             console.log(response)
             if(response.data.success === true){
               this.setState({
-              mentor : response.data
+              mentor : response.data.data
             })
            }
            if(response.data.success === false) {
@@ -92,7 +92,7 @@ class AdmissionServices extends Component {
      if(this.props.getmentorList !== null || !isEmptyString(this.props.getmentorList)){
        if(this.props.getmentorList.success === true){
         this.setState({
-          mentor : this.props.getmentorList
+          mentor : this.props.getmentorList.data
         })
        }
      }
@@ -659,8 +659,8 @@ class AdmissionServices extends Component {
                 <TableCell></TableCell>
               </TableHead>
               <TableBody>
-                <TableCell>{this.state.mentor.data.department}</TableCell>
-                <TableCell>{this.state.mentor.data.name}</TableCell>
+                <TableCell>{this.state.mentor.department}</TableCell>
+                <TableCell>{this.state.mentor.name}</TableCell>
                 <TableCell>Admin</TableCell>
                 <TableCell>07/10/2021 12:30:34 AM</TableCell>
                 <TableCell>{<DeleteIcon color={"secondary"} />}</TableCell>
