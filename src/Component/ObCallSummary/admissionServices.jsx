@@ -24,6 +24,7 @@ import { getdashboarddetails } from '../../Actions/ProfileGapAction';
 import { getVariantStepsById } from '../../Actions/ProductAction'
 import '../../Asset/All.css'
 import DeleteIcon from '@material-ui/icons/Delete';
+import { isEmptyObject } from "jquery";
 class AdmissionServices extends Component {
   constructor() {
     super();
@@ -63,11 +64,16 @@ class AdmissionServices extends Component {
         if(response.status === 200){
           this.props.StudentStepDetails(this.props.match.params.studentId,this.props.match.params.productId)
           this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`);
-          this.props.getmentor(this.props.match.params.studentId,(response => {
+          this.props.getmentor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
             console.log(response)
-           if(response.status === 200){
-            this.setState({
+            if(response.data.success === true){
+              this.setState({
               mentor : response.data
+            })
+           }
+           if(response.data.success === false) {
+            this.setState({
+              mentor : {}
             })
            }
           }))
@@ -84,9 +90,11 @@ class AdmissionServices extends Component {
  componentDidUpdate(prevProps,prevState){
    if(this.props.getmentorList !== prevProps.getmentorList){
      if(this.props.getmentorList !== null || !isEmptyString(this.props.getmentorList)){
-      this.setState({
-        mentor : this.props.getmentorList
-      })
+       if(this.props.getmentorList.success === true){
+        this.setState({
+          mentor : this.props.getmentorList
+        })
+       }
      }
    }
    if(this.state.verifydetail !== prevState.verifydetail){
@@ -106,11 +114,16 @@ class AdmissionServices extends Component {
             mentorname : this.props.studentDetails.mentor
         })
     }
-    this.props.getmentor(this.props.match.params.studentId,(response => {
+    this.props.getmentor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
       console.log(response)
-     if(response.status === 200){
+     if(response.data.success === true){
       this.setState({
         mentor : response.data
+      })
+     }
+     if(response.data.success === false) {
+      this.setState({
+        mentor : {}
       })
      }
     }))
@@ -626,7 +639,7 @@ class AdmissionServices extends Component {
         </TableContainer>
         <div>
           <Typography className={"blue_heading"}>Mentor Details</Typography>
-          {this.state.mentor === null || isEmptyString(this.state.mentor)  ? (
+          {this.state.mentor === null || isEmptyString(this.state.mentor) || isEmptyObject(this.state.mentor) ? (
             <PrimaryButton
               disabled={this.state.buttonstatus}
               variant="outlined"
@@ -646,8 +659,8 @@ class AdmissionServices extends Component {
                 <TableCell></TableCell>
               </TableHead>
               <TableBody>
-                <TableCell>{this.state.mentor.department}</TableCell>
-                <TableCell>{this.state.mentor.name}</TableCell>
+                <TableCell>{this.state.mentor.data.department}</TableCell>
+                <TableCell>{this.state.mentor.data.name}</TableCell>
                 <TableCell>Admin</TableCell>
                 <TableCell>07/10/2021 12:30:34 AM</TableCell>
                 <TableCell>{<DeleteIcon color={"secondary"} />}</TableCell>

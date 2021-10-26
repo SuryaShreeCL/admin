@@ -103,11 +103,11 @@ export const updateallocatementor = (data) => {
             });
     }
 }
-export const getmentor = (studentId,callback) => {
+export const getmentor = (studentId,productId,callback) => {
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.get(URL+"/api/v1/mentor/"+studentId,{
+        axios.get(URL+"/api/v1/mentor/"+studentId+"/"+productId,{
             crossDomain: true,
             headers : {
                 "admin" : "yes",
