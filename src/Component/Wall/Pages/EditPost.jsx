@@ -68,8 +68,9 @@ const EditPost = () => {
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
+    linkedSelfPrepVideos: [{ videoName: '', videoLink: '' }],
     eventTitle: '',
-    webinars: [],
+    linkedWebinars: [],
     redirectionUrl: '',
     buttonText: '',
     createdBy: window.sessionStorage.getItem('department') || '',
@@ -539,7 +540,7 @@ const EditPost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button
                       color='primary'
@@ -573,11 +574,7 @@ const EditPost = () => {
                 {values.isWebinar ? null : <Preview state={values} />}
               </div>
               {values.isEvent && (
-                <PreprationContainer
-                  values={values}
-                  setFieldValue={setFieldValue}
-                  handleChange={handleChange}
-                />
+                <PreprationContainer values={values} isEdit={false} setFieldValue={setFieldValue} />
               )}
             </>
           )}

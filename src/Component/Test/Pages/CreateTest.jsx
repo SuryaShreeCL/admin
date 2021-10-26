@@ -268,12 +268,7 @@ const CreateTest = () => {
                           setFieldValue('eventPost.id', value !== null ? value.id : categories);
                         }}
                         renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            variant='outlined'
-                            label='Select Event'
-                            margin='normal'
-                          />
+                          <TextField {...params} variant='outlined' label='Select Event' />
                         )}
                       />
                     </Grid>
@@ -498,7 +493,7 @@ const CreateTest = () => {
                       marginLeft: '45%',
                     }}
                   />
-                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
                 </Form>
               </div>
             </>

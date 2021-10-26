@@ -9,6 +9,9 @@ import Controls from '../../Utils/controls/Controls';
 import { FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import { useDispatch, useSelector } from 'react-redux';
+import { listWallWebinars } from '../../../Actions/WallActions';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   input: {
@@ -18,6 +21,12 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  webinarInput: {
+    height: '20%',
+    display: 'flex',
+    width: '30%',
+    alignItems: 'center',
+  },
   spacer: {
     width: '100%',
     marginBottom: '1.2rem',
@@ -25,81 +34,122 @@ const useStyles = makeStyles({
   },
 });
 
-const PreprationContainer = React.memo(({ values, setFieldValue }) => {
+const PreprationContainer = React.memo(({ values, setFieldValue, isEdit = true }) => {
   const [tabCount, setTabCount] = useState(0);
+  const dispatch = useDispatch();
   const classes = useStyles();
 
-  const webinars = [
-    {
-      id: '1',
-      name: 'Webinar Presentation',
-      date: '24 October 2021',
-      time: '9 a.m. - 11 a.m.',
-    },
-    { id: '2', name: 'Webinar Presentation 02', date: '24 October 2021', time: '9 a.m. - 11 a.m.' },
-    { id: '3', name: 'Webinar Presentation 03', date: '24 October 2021', time: '9 a.m. - 11 a.m.' },
-  ];
+  useEffect(() => {
+    dispatch(listWallWebinars());
+  }, [dispatch]);
+
+  const { loading, error, webinars } = useSelector((state) => state.wallWebinarListReducer);
+
+  //fitering out archived webinars
+  let filteredWebinars = webinars?.filter((webinar) => webinar.activeStatus !== 'Archive');
+
+  //getting the webinar ids to filter out and show in the UI
+  let storeWebinarIds = values.linkedWebinars?.map((webinar) => webinar.webinarId);
 
   const WebinarTab = () => {
-    console.log('webb');
     return (
       <WebinarTabContainer>
-        <FormControl style={{ width: '50%' }}>
-          <Autocomplete
-            multiple
-            id='webinars'
-            name='webinars'
-            getOptionLabel={(option) => option?.name}
-            options={webinars ?? []}
-            onChange={(e, value) => {
-              setFieldValue('webinars', value !== null ? value : webinars);
-            }}
-            value={values.webinars}
-            renderInput={(params) => (
-              <TextField {...params} label='Select Webinar(s)' name='webinars' variant='outlined' />
-            )}
-          />
-        </FormControl>
+        {isEdit && (
+          <div style={{ display: 'flex', width: '100%' }}>
+            <FieldArray
+              name='linkedWebinars'
+              render={(arrayHelpers) => (
+                <>
+                  {values.linkedWebinars.map((_, index) => (
+                    <div key={index} className={classes.webinarInput}>
+                      <div style={{ width: '100%' }}>
+                        <Autocomplete
+                          disable={loading}
+                          onChange={(e, value) => {
+                            setFieldValue(
+                              `linkedWebinars.${index}.webinarId`,
+                              value !== null ? value.id : filteredWebinars
+                            );
+                          }}
+                          id='linkedWebinars'
+                          getOptionLabel={(option) => option?.eventTitle}
+                          options={filteredWebinars ?? []}
+                          // value={values.linkedWebinars}
+                          renderInput={(params) => (
+                            <TextField {...params} label='Select Webinar' variant='outlined' />
+                          )}
+                        />
+                      </div>
+                      <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
+                        <RemoveCircleIcon fontSize='large' color='secondary' />
+                      </Controls.ActionButton>
+                    </div>
+                  ))}
+                  <Controls.ActionButton onClick={() => arrayHelpers.push({ webinarId: '' })}>
+                    <AddBoxIcon fontSize='large' color='primary' />
+                  </Controls.ActionButton>
+                </>
+              )}
+            />
+          </div>
+        )}
 
-        <h6 style={{ marginTop: '1.2rem' }}>Webinar List</h6>
+        {storeWebinarIds.length > 0 && <h6 style={{ marginTop: '1.2rem' }}>Webinar List</h6>}
 
         <div className='webinarCards'>
-          {values.webinars?.map(({ name, date, time }) => {
-            return (
-              <div className='wcard'>
-                <h6>{name}</h6>
-                <div className='winfo'>
-                  <span>
-                    <CalendarTodayIcon color='primary' />
-                    <p> {date}</p>
-                  </span>
-                  <span>
-                    <ScheduleIcon color='primary' />
-                    <p> {time}</p>
-                  </span>
+          {/* filtering out webinars selected by the user */}
+          {filteredWebinars
+            ?.filter((webinar) => storeWebinarIds?.includes(webinar.id))
+            ?.map(({ eventTitle, eventDate, eventEndDate }) => {
+              return (
+                <div className='wcard'>
+                  <h6>{eventTitle}</h6>
+                  <div className='winfo'>
+                    <span>
+                      <CalendarTodayIcon color='primary' />
+                      <p> {moment(eventDate).format('Do MMMM YYYY')}</p>
+                    </span>
+                    <span>
+                      <ScheduleIcon color='primary' />
+                      <p>
+                        {`${moment(eventDate).format('LT')} - ${moment(eventEndDate).format('LT')}`}
+                      </p>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </WebinarTabContainer>
     );
   };
 
   const LinkedTestTap = () => {
-    if (values.linkedTest === null)
+    if (values?.linkedTest === null)
       return <h6 style={{ textAlign: 'center', marginTop: '3rem' }}>No Test Linked</h6>;
     return (
       <WebinarTabContainer>
         <div className='linkedContainer'>
           <div className='linkedInput'>
-            <Controls.Input label='Test Name' style={{ width: '100%' }} />
+            <Controls.Input
+              label='Test Name'
+              value={values.linkedTest.eventTitle ?? ''}
+              style={{ width: '100%' }}
+            />
           </div>
           <div className='linkedInput'>
-            <Controls.Input label='Test Time' style={{ width: '100%' }} />
+            <Controls.Input
+              label='Test Time'
+              value={values.linkedTest.eventDate ?? ''}
+              style={{ width: '100%' }}
+            />
           </div>
           <div className='linkedInput'>
-            <Controls.Input label='Test Date' style={{ width: '100%' }} />
+            <Controls.Input
+              label='Test Date'
+              value={values.linkedTest.eventEndDate ?? ''}
+              style={{ width: '100%' }}
+            />
           </div>
         </div>
       </WebinarTabContainer>
@@ -107,33 +157,36 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   };
 
   const SelfPrepTab = () => {
-    console.log('self');
     return (
       <WebinarTabContainer>
         <FieldArray
-          name='selfPrep'
+          name='linkedSelfPrepVideos'
           render={(arrayHelpers) => (
             <div>
-              {values.selfPrep.map((_, index) => (
+              {values?.linkedSelfPrepVideos?.map((_, index) => (
                 <div key={index} className={classes.input}>
                   <div style={{ width: '100%' }}>
                     <h6 style={{ color: '#052A4E' }}>Video Name</h6>
                     <Field
-                      defaultValue={`selfPrep.${index}.name`}
                       className={classes.spacer}
-                      name={`selfPrep.${index}.name`}
+                      name={`linkedSelfPrepVideos.${index}.videoName`}
                     />
                   </div>
                   <div style={{ width: '100%' }}>
                     <h6 style={{ color: '#052A4E' }}>Video Link</h6>
-                    <Field className={classes.spacer} name={`selfPrep.${index}.link`} />
+                    <Field
+                      className={classes.spacer}
+                      name={`linkedSelfPrepVideos.${index}.videoLink`}
+                    />
                   </div>
                   <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
                     <RemoveCircleIcon fontSize='large' color='secondary' />
                   </Controls.ActionButton>
                 </div>
               ))}
-              <Controls.ActionButton onClick={() => arrayHelpers.push({ name: '', link: '' })}>
+              <Controls.ActionButton
+                onClick={() => arrayHelpers.push({ videoName: '', videoLink: '' })}
+              >
                 <AddBoxIcon fontSize='large' color='primary' /> Add more videos
               </Controls.ActionButton>
             </div>

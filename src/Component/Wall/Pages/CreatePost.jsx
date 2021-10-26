@@ -63,14 +63,15 @@ const CreatePost = () => {
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
-    selfPrep: [{ name: '', link: '' }],
+    linkedSelfPrepVideos: [{ videoName: '', videoLink: '' }],
     totalViews: 0,
     totalLikes: 0,
+    linkedTest: null,
     eventTitle: '',
+    linkedWebinars: [],
     redirectionUrl: '',
     zoomLink: '',
     buttonText: '',
-    webinars: [],
     createdBy: window.sessionStorage.getItem('department') || '',
     eventDate: new Date(),
     resumeNeeded: false,
@@ -609,7 +610,7 @@ const CreatePost = () => {
                       </MuiPickersUtilsProvider>
                     )}
                   </Grid>
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   <ButtonsContainer>
                     <Button
                       color='primary'
@@ -647,7 +648,7 @@ const CreatePost = () => {
                 </Form>
                 {values.isWebinar ? null : <Preview state={values} />}
               </div>
-              {!values.isEvent && (
+              {values.isEvent && (
                 <PreprationContainer values={values} setFieldValue={setFieldValue} />
               )}
             </>
