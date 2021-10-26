@@ -34,7 +34,7 @@ const useStyles = makeStyles({
   },
 });
 
-const PreprationContainer = React.memo(({ values, setFieldValue, isEdit = true }) => {
+const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   const [tabCount, setTabCount] = useState(0);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -54,45 +54,42 @@ const PreprationContainer = React.memo(({ values, setFieldValue, isEdit = true }
   const WebinarTab = () => {
     return (
       <WebinarTabContainer>
-        {isEdit && (
-          <div style={{ display: 'flex', width: '100%' }}>
-            <FieldArray
-              name='linkedWebinars'
-              render={(arrayHelpers) => (
-                <>
-                  {values.linkedWebinars.map((_, index) => (
-                    <div key={index} className={classes.webinarInput}>
-                      <div style={{ width: '100%' }}>
-                        <Autocomplete
-                          disable={loading}
-                          onChange={(e, value) => {
-                            setFieldValue(
-                              `linkedWebinars.${index}.webinarId`,
-                              value !== null ? value.id : filteredWebinars
-                            );
-                          }}
-                          id='linkedWebinars'
-                          getOptionLabel={(option) => option?.eventTitle}
-                          options={filteredWebinars ?? []}
-                          // value={values.linkedWebinars}
-                          renderInput={(params) => (
-                            <TextField {...params} label='Select Webinar' variant='outlined' />
-                          )}
-                        />
-                      </div>
-                      <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
-                        <RemoveCircleIcon fontSize='large' color='secondary' />
-                      </Controls.ActionButton>
+        <div style={{ display: 'flex', width: '100%' }}>
+          <FieldArray
+            name='linkedWebinars'
+            render={(arrayHelpers) => (
+              <>
+                {values.linkedWebinars.map((_, index) => (
+                  <div key={index} className={classes.webinarInput}>
+                    <div style={{ width: '100%' }}>
+                      <Autocomplete
+                        disable={loading}
+                        onChange={(e, value) => {
+                          setFieldValue(
+                            `linkedWebinars.${index}.webinarId`,
+                            value !== null ? value.id : filteredWebinars
+                          );
+                        }}
+                        id='linkedWebinars'
+                        getOptionLabel={(option) => option?.eventTitle}
+                        options={filteredWebinars ?? []}
+                        renderInput={(params) => (
+                          <TextField {...params} label='Select Webinar' variant='outlined' />
+                        )}
+                      />
                     </div>
-                  ))}
-                  <Controls.ActionButton onClick={() => arrayHelpers.push({ webinarId: '' })}>
-                    <AddBoxIcon fontSize='large' color='primary' />
-                  </Controls.ActionButton>
-                </>
-              )}
-            />
-          </div>
-        )}
+                    <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
+                      <RemoveCircleIcon fontSize='large' color='secondary' />
+                    </Controls.ActionButton>
+                  </div>
+                ))}
+                <Controls.ActionButton onClick={() => arrayHelpers.push({ webinarId: '' })}>
+                  <AddBoxIcon fontSize='large' color='primary' />
+                </Controls.ActionButton>
+              </>
+            )}
+          />
+        </div>
 
         {storeWebinarIds.length > 0 && <h6 style={{ marginTop: '1.2rem' }}>Webinar List</h6>}
 
@@ -129,27 +126,21 @@ const PreprationContainer = React.memo(({ values, setFieldValue, isEdit = true }
       return <h6 style={{ textAlign: 'center', marginTop: '3rem' }}>No Test Linked</h6>;
     return (
       <WebinarTabContainer>
-        <div className='linkedContainer'>
-          <div className='linkedInput'>
-            <Controls.Input
-              label='Test Name'
-              value={values.linkedTest.eventTitle ?? ''}
-              style={{ width: '100%' }}
-            />
-          </div>
-          <div className='linkedInput'>
-            <Controls.Input
-              label='Test Time'
-              value={values.linkedTest.eventDate ?? ''}
-              style={{ width: '100%' }}
-            />
-          </div>
-          <div className='linkedInput'>
-            <Controls.Input
-              label='Test Date'
-              value={values.linkedTest.eventEndDate ?? ''}
-              style={{ width: '100%' }}
-            />
+        <div className='webinarCards'>
+          <div className='wcard'>
+            <h6>{values?.linkedTest.eventTitle}</h6>
+            <div className='winfo'>
+              <span>
+                <CalendarTodayIcon color='primary' />
+                <p> {moment(values?.linkedTest?.eventDate).format('Do MMMM YYYY')}</p>
+              </span>
+              <span>
+                <ScheduleIcon color='primary' />
+                <p>{`${moment(values?.linkedTest?.eventDate).format('LT')} - ${moment(
+                  values?.linkedTest.eventEndDate
+                ).format('LT')}`}</p>
+              </span>
+            </div>
           </div>
         </div>
       </WebinarTabContainer>

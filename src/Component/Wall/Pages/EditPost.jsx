@@ -574,7 +574,7 @@ const EditPost = () => {
                 {values.isWebinar ? null : <Preview state={values} />}
               </div>
               {values.isEvent && (
-                <PreprationContainer values={values} isEdit={false} setFieldValue={setFieldValue} />
+                <PreprationContainer values={values} setFieldValue={setFieldValue} />
               )}
             </>
           )}
