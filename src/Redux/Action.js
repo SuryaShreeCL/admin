@@ -372,7 +372,8 @@ export const HELPER = {
   isClickedSem : "isClickedSem",
   saveCopyData : "saveCopyData",
   saveTemplate : "saveTemplate",
-  saveSchool : "saveSchool"
+  saveSchool : "saveSchool",
+  saveCourse : "saveCourse"
 }
 
 //MOHAMMED

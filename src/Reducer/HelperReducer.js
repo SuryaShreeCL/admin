@@ -11,7 +11,8 @@ const initialState = {
   },
   copiedData: "",
   templateData : [],
-  addedSchool : null
+  addedSchool : null,
+  addedCourse : null,
 };
 
 export default (state = initialState, action) => {
@@ -70,6 +71,11 @@ export default (state = initialState, action) => {
             ...state,
             addedSchool: action.payload,
           };
+          case HELPER.saveCourse:
+            return {
+              ...state,
+              addedCourse: action.payload,
+            };
     default:
       break;
   }
