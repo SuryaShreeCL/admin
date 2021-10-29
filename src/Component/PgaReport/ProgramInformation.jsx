@@ -161,7 +161,7 @@ function ProgramInformation(props) {
               container
               alignItems={"center"}
             >
-              <Typography variant={"h5"}>Selected Program</Typography>
+              <Typography variant={"h5"}>Selected Program information</Typography>
               <Typography color={"textSecondary"}>
                 ({selectedProgram.length})
               </Typography>
