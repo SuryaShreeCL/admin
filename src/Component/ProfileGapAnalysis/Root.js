@@ -48,6 +48,7 @@ import AllRoundActivities from "../PgaReport/AllRoundActivities";
 import Preview from "../PgaReport/Preview";
 import TopBSchool from "../PgaReport/TopBSchool";
 import CareerRoot from './CareerRole/CareerRoot'
+import Edx from "../PgaReport/Edx";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -444,6 +445,9 @@ class ProfileGapRoot extends Component {
             </TabPanel> 
             <TabPanel value={this.state.value} index={"careerRole"}>
               <CareerRoot {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"pgaEdx"}>
+              <Edx {...this.props} />
             </TabPanel>
           </Grid>
 
