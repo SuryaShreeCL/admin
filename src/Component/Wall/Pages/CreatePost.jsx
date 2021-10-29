@@ -63,7 +63,7 @@ const CreatePost = () => {
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
-    linkedSelfPrepVideos: [{ videoName: '', videoLink: '' }],
+    linkedSelfPrepVideos: null,
     totalViews: 0,
     totalLikes: 0,
     linkedTest: null,

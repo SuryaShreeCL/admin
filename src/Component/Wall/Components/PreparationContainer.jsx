@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, Grid, TextField } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import { TopTab, TopTabs, WebinarTabContainer } from '../Assets/Styles/WallStyles';
 import { Autocomplete } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,7 +59,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
             name='linkedWebinars'
             render={(arrayHelpers) => (
               <>
-                {values.linkedWebinars.map((_, index) => (
+                {values.linkedWebinars?.map((_, index) => (
                   <div key={index} className={classes.webinarInput}>
                     <div style={{ width: '100%' }}>
                       <Autocomplete
