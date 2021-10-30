@@ -2,6 +2,7 @@ import { Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveCourse } from "../../Actions/HelperAction";
+import NoCourse from "../../Asset/Images/NoCourse.svg";
 import { getEdxCourseType } from "../../AsyncApiCall/PgaReport/Edx";
 import {
   deleteStudentEdxCourse,
@@ -304,7 +305,7 @@ function EdxSampleCourse(props) {
                     data={searchCourseList}
                   />
                 ) : (
-                  <NoSchool text={"No Sample School Found"} />
+                  <NoSchool image={NoCourse} text={"No Course Found"} />
                 )}
               </Grid>
             </Grid>
@@ -340,7 +341,7 @@ function EdxSampleCourse(props) {
                       onRowDelete={handleRowDelete}
                     />
                   ) : (
-                    <NoSchool text={"No Sample School Added"} />
+                    <NoSchool image={NoCourse} text={"No Course Added"} />
                   )}
                 </Grid>
               </Grid>
