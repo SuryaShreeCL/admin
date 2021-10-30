@@ -50,7 +50,7 @@ import Mysnack from "./../MySnackBar";
 import CommentDialog from "./CommentDialog";
 import CvViewer from "./CvViewer";
 import { ExpandMore } from "@material-ui/icons";
-
+import '../../Asset/ProfileGapAnalysis.css'
 const theme = createTheme({
   overrides: {
     MuiGrid: {
@@ -507,7 +507,7 @@ class GeneralDetails extends Component {
                     <TextField
                       {...params}
                       name="pgdegree"
-                      fullWidth
+                      className={"field_style"}
                       label="Post Graduate Degree"
                       InputLabelProps={{ shrink: true }}
                     />
@@ -556,7 +556,7 @@ class GeneralDetails extends Component {
                     <TextField
                       {...params}
                       name="pgcollege"
-                      fullWidth
+                      className={"field_style"}
                       label="Post Graduate College"
                       InputLabelProps={{ shrink: true }}
                     />
@@ -606,7 +606,7 @@ class GeneralDetails extends Component {
                     <TextField
                       {...params}
                       name="pguniversity"
-                      fullWidth
+                      className={"field_style"}
                       label="Post Graduate University"
                       InputLabelProps={{ shrink: true }}
 
@@ -645,7 +645,7 @@ class GeneralDetails extends Component {
                 <TextField
                   name="workexp"
                   label="Work Experience"
-                  fullWidth
+                  className={"work_style"}        
                   value={this.state.workexp}
                   onChange={(e) => {
                     this.commentshistory("workexp", e.target.value);
@@ -705,6 +705,7 @@ class GeneralDetails extends Component {
                       <TextField
                         {...params}
                         name="college"
+                        className={"field_style"}
                         label="College Name"
                         InputLabelProps={{ shrink: true }}
                       />
@@ -744,6 +745,7 @@ class GeneralDetails extends Component {
               <TextField
                 name="sem"
                 label="Current Semester"
+                className={"sem_style"}
                 value={this.state.sem}
                 onChange={(e) => {
                   this.commentshistory("currentSem", e.target.value);
@@ -789,7 +791,7 @@ class GeneralDetails extends Component {
                 return specializationHolder.includes(option.name);
               }}
               value={this.state.aspdegree || []}
-              renderInput={(params) => <TextField {...params} label="Degree" />}
+              renderInput={(params) => <TextField {...params} label="Degree" className={"field_style"}/>}
               onChange={(e, newValue) => this.setState({ e, newValue })}
               InputLabelProps={{ shrink: true }}
             />
@@ -804,6 +806,7 @@ class GeneralDetails extends Component {
               options={this.state.aspfieldofstudy}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
+              className={"package_style"}
               getOptionDisabled={(option) => {
                 var specializationHolder = this.state.aspfieldofstudy.map(
                   (el) => el.name
@@ -839,6 +842,7 @@ class GeneralDetails extends Component {
                 <TextField
                   {...params}
                   name="areaofspecialisation"
+                  className={"package_style"}
                   label="Area of specialization"
                   InputLabelProps={{ shrink: true }}
                 />
@@ -871,6 +875,7 @@ class GeneralDetails extends Component {
                   {...params}
                   name="prefschool"
                   label="Preferred Grad School"
+                  className={"package_style"}
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -907,6 +912,7 @@ class GeneralDetails extends Component {
                   {...params}
                   name="aspdegree"
                   label="Degree Type"
+                  className={"degree_style"}
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -953,6 +959,7 @@ class GeneralDetails extends Component {
                 <TextField
                   {...params}
                   name="fieldofstudy"
+                  className={"package_style"}
                   label="Field Of Study"
                   InputLabelProps={{ shrink: true }}
                 />
@@ -980,6 +987,7 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  className={"package_style"}
                   name="areaofspecialisation"
                   label="Area of specialization"
                   InputLabelProps={{ shrink: true }}
@@ -1008,7 +1016,8 @@ class GeneralDetails extends Component {
               }}
               value={this.state.prefschool || []}
               renderInput={(params) => (
-                <TextField {...params} label="Preferred Grad School"   InputLabelProps={{ shrink: true }} />
+                <TextField {...params} label="Preferred Grad School"               className={"package_style"}
+                InputLabelProps={{ shrink: true }} />
               )}
               onChange={(e, newValue) =>
                 this.setState({ prefschool: newValue })
@@ -1255,7 +1264,6 @@ class GeneralDetails extends Component {
           </div>
           <Grid
             container
-            // spacing={2}
             style={{ padding: "25px", marginTop: "-30px" }}
           >
             <Grid item md={4}>
@@ -1292,6 +1300,7 @@ class GeneralDetails extends Component {
                     label="CLS ID"
                     value={this.state.clsid}
                     InputLabelProps={{ shrink: true }}
+                    className={"clsid_style"}
                     onChange={(e) => {
                       this.commentshistory("clsId", e.target.value);
                       this.handlechange(e);
@@ -1333,6 +1342,7 @@ class GeneralDetails extends Component {
                     type="text"
                     InputLabelProps={{ shrink: true }}
                     label="First Name"
+                    className={"field_style"}
                     value={this.state.firstname}
                     onChange={(e) => {
                       this.commentshistory("firstName", e.target.value);
@@ -1381,6 +1391,7 @@ class GeneralDetails extends Component {
                     label="Last Name"
                     value={this.state.lastname}
                     InputLabelProps={{ shrink: true }}
+                    className={"field_style"}
                     onChange={(e) => {
                       this.commentshistory("lastName", e.target.value);
                       this.handlechange(e);
@@ -1427,6 +1438,7 @@ class GeneralDetails extends Component {
                     disabled
                     InputLabelProps={{ shrink: true }}
                     label="Phone Number"
+                    className={"field_style"}
                     value={this.state.phone}
                     onChange={(e) => {
                       this.commentshistory("phoneNumber", e.target.value);
@@ -1473,6 +1485,7 @@ class GeneralDetails extends Component {
                     label="Email Address"
                     InputLabelProps={{ shrink: true }}
                     value={this.state.email}
+                    className={"field_style"}
                     onChange={(e) => {
                       this.commentshistory("emailId", e.target.value);
                       this.handlechange(e);
@@ -1513,7 +1526,6 @@ class GeneralDetails extends Component {
                   <Autocomplete
                   popupIcon={<ExpandMore 
                     style={{ color: "black" }} />}
-                    fullWidth
                     options={this.props.getDegreeList}
                     getOptionLabel={(option) => option.name}
                     value={this.state.degree}
@@ -1525,6 +1537,7 @@ class GeneralDetails extends Component {
                       <TextField
                         {...params}
                         name="degree"
+                        className={"degree_style"}
                         label="Degree Type"
                         InputLabelProps={{ shrink: true }}
                       />
@@ -1575,6 +1588,7 @@ class GeneralDetails extends Component {
                       <TextField
                         {...params}
                         name="fieldofstudy"
+                        className={"field_style"}
                         label="Field Of Study"
                         InputLabelProps={{ shrink: true }}
                       />
@@ -1627,6 +1641,7 @@ class GeneralDetails extends Component {
                         {...params}
                         name="college"
                         label="College Name"
+                        className={"field_style"}
                         InputLabelProps={{ shrink: true }}
                       />
                     )}
@@ -1665,6 +1680,7 @@ class GeneralDetails extends Component {
                     disabled
                     name="package"
                     label="Package Purchased"
+                    className={"package_style"}
                     InputLabelProps={{ shrink: true }}
                     value={this.state.package}
                     onChange={(e) => this.handlechange(e)}
@@ -1677,6 +1693,7 @@ class GeneralDetails extends Component {
                       name="enrollmentdate"
                       margin="normal"
                       label="Enrollment Period"
+                      className={"package_style"}
                       format="dd-MM-yyyy"
                       value={this.state.enrollmentdate}
                       InputLabelProps={{ shrink: true }}
@@ -1700,6 +1717,7 @@ class GeneralDetails extends Component {
                     onChange={(e) => this.handlechange(e)}
                     name="product"
                     label="Product"
+                    className={"package_style"}
                     InputLabelProps={{ shrink: true }}
                   />
                 </Grid>
@@ -1718,7 +1736,7 @@ class GeneralDetails extends Component {
                       });
                     }}
                     renderInput={(params) => (
-                      <TextField {...params} name="intake" label="Intake" />
+                      <TextField {...params} name="intake" label="Intake" className={"work_style"} />
                     )}
                   />
                   {/* <TextField

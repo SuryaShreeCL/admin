@@ -210,7 +210,7 @@ function GeneralDetails(props) {
       });
     }
   };
-
+console.log(props)
   return (
     <PageWrapper>
       <Grid container className={classes.containerStyle}>
@@ -344,8 +344,8 @@ function GeneralDetails(props) {
                   <TextFieldComponent
                     {...params}
                     label="Round"
-                    helperText={round.helperText}
-                    error={round.helperText.length > 0}
+                    helperText={props.match.params.productId === "4" ? "" : round.helperText}
+                    error={props.match.params.productId === "4" ? false : round.helperText.length > 0}
                     variant="standard"
                   />
                 )}

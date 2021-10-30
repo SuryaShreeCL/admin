@@ -58,7 +58,7 @@ class TestResults extends Component {
           <Grid container className={classes.root}>
             {/* left container */}
             <Grid item md={7}>
-              {this.state.data.map((item) => (
+              {this.state.data && this.state.data.map((item) => (
                 <div className={"accordion_div"}>
                   <Accordion>
                     <AccordionSummary

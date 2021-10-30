@@ -108,13 +108,13 @@ class Index extends Component {
       this.state.filterField,
       submenu.id
     ).then((response) => {
-      console.log(response);
+      
       if (response.data.body.success) {
         this.setState({
           studentMatch: (response && response.data.body.data) || [],
         });
       } else {
-        console.log("data");
+        
         this.setState({
           snackMsg: "The Given Filter is not Found",
           snackVariant: "error",
@@ -131,7 +131,7 @@ class Index extends Component {
       this.props.academicTypes,
       query
     ).then((response) => {
-      console.log(response);
+      
       if (response.status === 200) {
         this.setState({
           distinctMatch: (response && response.data.body.data) || [],
@@ -233,7 +233,7 @@ class Index extends Component {
   };
 
   fetchData = (response) => {
-    console.log(response);
+    
     if (response.data.success) {
       this.setState({
         semesterData:
@@ -372,7 +372,7 @@ class Index extends Component {
         this.props.academicTypes,
         requestBody,
         (response) => {
-          console.log(response);
+          
           if (response.data.success) {
             this.setState({
               snackMsg: "Saved Successfully",
@@ -408,7 +408,7 @@ class Index extends Component {
 
   // function to calculate sgpa
   handleSgpaClick = () => {
-    console.log(this.state.semesterData);
+    
     // this.setState({
     //   subjectDetails : {
     //     ...this.state.subjectDetails,
@@ -421,7 +421,7 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
-        console.log(response.data);
+        
 
         if (response.data.success) {
           this.setState({
@@ -449,10 +449,10 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
-        console.log(response);
+        
 
         if (response.data.success) {
-          console.log("true");
+          
           this.setState({
             subjectDetails: {
               ...this.state.subjectDetails,
@@ -466,7 +466,7 @@ class Index extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.subjectDetails);
+    
 
     // table columns
     const columns = [
@@ -483,9 +483,9 @@ class Index extends Component {
             ? rowData.subjectDetailsUgPgDiploma.subjectCode
             : "",
         validate: (rowData) => {
-          console.log(rowData);
+          
           if (!isEmptyObject(rowData)) {
-            console.log(rowData);
+            
 
             if (
               !isEmptyString(
@@ -707,43 +707,51 @@ class Index extends Component {
                 lg={12}
                 className={classes.container}
               >
-                {/* semester details - (above the table) */}
-                <ViewSemesterDetails
-                  // data={this.state.semesterData}
-                  collegeName={this.state.collegeDetails}
-                  universityName={this.state.university}
-                  departmentName={this.state.department}
-                  cgpaScale={this.state.cgpaScale}
-                  cgpaPercentage={this.state.cgpaPercentage}
-                  semName={this.state.subjectDetails.semName}
-                  year={this.state.year}
-                  backHandler={this.props.backHandler}
-                  list={this.state.list}
-                  degree={this.state.degreeType}
-                  degreeType={this.state.degreeDetails}
-                />
-
-                {/* table */}
-                <TableGrid
-                  columns={columns}
-                  data={this.state.semesterData || []}
-                  onRowDelete={this.handleRowDelete}
-                  onRowUpdate={this.handleRowUpdate}
-                  onRowAdd={this.handleRowAdd}
-                />
-
-                {/* view marks -( below the table) */}
-                <ViewMarks
-                  semesterGpa={this.state.subjectDetails.sgpa}
-                  sgpaError={this.state.sgpaErr}
-                  cgpa={this.state.subjectDetails.cgpa}
-                  cgpaError={this.state.cgpaErr}
-                  formulaEmployed={this.state.subjectDetails.formulaEmployed}
-                  formulaError={this.state.formulaEmployedErr}
-                  percentage={this.state.subjectDetails.percentage}
-                  percentageError={this.state.percentageErr}
-                  handleChange={(e) => this.handleScoreChange(e)}
-                />
+                <Grid container spacing={2}>
+                  <Grid item md={12}>
+                    {/* semester details - (above the table) */}
+                    <ViewSemesterDetails
+                      // data={this.state.semesterData}
+                      collegeName={this.state.collegeDetails}
+                      universityName={this.state.university}
+                      departmentName={this.state.department}
+                      cgpaScale={this.state.cgpaScale}
+                      cgpaPercentage={this.state.cgpaPercentage}
+                      semName={this.state.subjectDetails.semName}
+                      year={this.state.year}
+                      backHandler={this.props.backHandler}
+                      list={this.state.list}
+                      degree={this.state.degreeType}
+                      degreeType={this.state.degreeDetails}
+                    />
+                  </Grid>
+                  <Grid item md={12}>
+                    {/* table */}
+                    <TableGrid
+                      columns={columns}
+                      data={this.state.semesterData || []}
+                      onRowDelete={this.handleRowDelete}
+                      onRowUpdate={this.handleRowUpdate}
+                      onRowAdd={this.handleRowAdd}
+                    />
+                  </Grid>
+                  <Grid item md={12}>
+                    {/* view marks -( below the table) */}
+                    <ViewMarks
+                      semesterGpa={this.state.subjectDetails.sgpa}
+                      sgpaError={this.state.sgpaErr}
+                      cgpa={this.state.subjectDetails.cgpa}
+                      cgpaError={this.state.cgpaErr}
+                      formulaEmployed={
+                        this.state.subjectDetails.formulaEmployed
+                      }
+                      formulaError={this.state.formulaEmployedErr}
+                      percentage={this.state.subjectDetails.percentage}
+                      percentageError={this.state.percentageErr}
+                      handleChange={(e) => this.handleScoreChange(e)}
+                    />
+                  </Grid>
+                </Grid>
 
                 <div className={classes.buttonDiv}>
                   <Button

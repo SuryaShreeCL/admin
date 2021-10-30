@@ -2,7 +2,7 @@ import {ADMIN} from "../Redux/Action"
 import axios from "axios"
 import {URL} from "../Actions/URL"
 
-export const adminLogin=(data)=>{
+export const adminLogin=(data,callback)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")  
     return dispatch => {
         axios
@@ -14,7 +14,8 @@ export const adminLogin=(data)=>{
             // }
           })
           .then((result) => {
-            console.log(result);
+            
+            callback(result)
             dispatch({ type: ADMIN.adminLogin, adminLoginDetails: result.data });
             // axios
             //   .get(URL + `/api/v1/adminusers/${result.data.AdminUsers}`, {
@@ -29,8 +30,9 @@ export const adminLogin=(data)=>{
             //   });
           })
           .catch((error) => {
+              callback(error)
             // dispatch({type:ADMIN.adminLogin,adminLoginDetails:error.response.data})
-            console.log(error);
+            
           });
     }
     
@@ -47,11 +49,11 @@ export const toRefreshToken=(data)=>{
         }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.refreshToken,refreshTokenDetails:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -69,11 +71,11 @@ export const postStudentAccess=(data)=>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.studentAccess,studentAccessResponse:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -90,11 +92,11 @@ export const updateStudentPersonal=(id,data)=>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.updatePersonalData,updatePersonalResponse:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -112,11 +114,11 @@ export const updateStudentEducation=(id,data)=>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.updateEducationalData,updateEducationalonalResponse:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -133,11 +135,11 @@ export const updateStudentContact=(id,data)=>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.updateContactData,contactDataResponse:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -154,11 +156,11 @@ export const updateAccountStatus=(id,data)=>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.updateAccountStatus,updateAccStatusResponse:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -174,11 +176,11 @@ export const updateInternAccess = (id,data) =>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.giveInternAccess,payload:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     } 
 }
@@ -193,11 +195,11 @@ export const updateLmsAccess = (id,data) =>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.updateLmsAccess,payload:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     } 
 }
@@ -215,11 +217,11 @@ export const updateAspirationData=(id,data)=>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.updateAspirationData,payload:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -239,11 +241,11 @@ export const viewStudentStatus=(id)=>{
             }
         })
             .then(result => {
-                console.log(result)
+                
                 dispatch({type:ADMIN.viewStudentStatus,studentStatusResponse:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -266,7 +268,7 @@ export const updateVerificationStatus=(data,callback)=>{
                 dispatch({type:ADMIN.updateVerificationStatus,updateVerificationResponse:result.data})
             })
             .catch(error => {
-                console.log(error);
+                
             });
     }
     
@@ -286,7 +288,7 @@ export const getAllMentors = () =>{
             dispatch({type : ADMIN.getAllMentor, payload : result.data})
         })
         .catch(error=>{
-            console.log(error)
+            
         })
     }
 } 
@@ -305,7 +307,7 @@ export const allocateMentor = (mentorId,studentId) =>{
             dispatch({type : ADMIN.alocateMentor, payload : result.data})
         })
         .catch(error=>{
-            console.log(error)
+            
         })
     }
 }
@@ -318,7 +320,7 @@ export const getAwaitingUsersByAdminId = () =>{
   let accessToken = window.sessionStorage.getItem("accessToken")  
 
   let productid = product.products[0].id
-  console.log(productid)
+  
     return dispatch =>{
         axios.get(URL+"/api/v1/product/"+productid+"/admin/"+adminUserId+"/search?page=0&size=20&q=",{
             headers : {
@@ -330,7 +332,7 @@ export const getAwaitingUsersByAdminId = () =>{
             dispatch({type : ADMIN.getAwaitingUsersByAdminId, payload : result.data})
         })
         .catch(error=>{
-            console.log(error)
+            
         })
     }
 } 
@@ -352,7 +354,7 @@ export const activateStudentProduct = (data,callback) =>{
             callback(result)
         })
         .catch(error=>{
-            console.log(error)
+            
             callback(error)
         })
     }
@@ -378,7 +380,7 @@ export const getAdminLinkedProduct = () =>{
             dispatch({type : ADMIN.getAdminLinkedProduct, payload : result.data})
         })
         .catch(error=>{
-            console.log(error)
+            
         })
     }
 } 
@@ -395,7 +397,7 @@ export const checkTokenStatus = () =>{
             dispatch({type : ADMIN.checkTokenStatus, payload : result.data})
         })
         .catch(error=>{
-            console.log(error)
+            
         })
     }
 } 
@@ -419,7 +421,7 @@ export const getStudentByStages = (productId,stageName,keyword,callback) =>{
 
         })
         .catch(error=>{
-            console.log(error)
+            
         })
     }
 } 
@@ -441,7 +443,7 @@ export const getAllAdminUsers = () =>{
             dispatch({type : ADMIN.getAllAdminUsers, payload : result.data})
         })
         .catch(error=>{
-            console.log(error)
+            
         })
     }
 } 

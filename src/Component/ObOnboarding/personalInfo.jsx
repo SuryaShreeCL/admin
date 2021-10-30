@@ -132,30 +132,29 @@ export class personalInfo extends Component {
       //     });
       //   }
       // );
-      this.props.getStudentsByIdList.address !== null &&
-        this.setState({
-          firstName: this.props.getStudentsByIdList.firstName,
-          lastName: this.props.getStudentsByIdList.lastName,
-          fullName:
-            this.props.getStudentsByIdList.firstName +
-            this.props.getStudentsByIdList.lastName,
-          number: this.props.getStudentsByIdList.phoneNumber,
-          email: this.props.getStudentsByIdList.emailId,
-          clsid: this.props.getStudentsByIdList.studentID,
-          altPhone: this.props.getStudentsByIdList.altPhoneNumber,
-          altEmail: this.props.getStudentsByIdList.altEmailId,
-          apartmentName: this.props.getStudentsByIdList.address
-            .suitNoApartmentNo,
-          address1: this.props.getStudentsByIdList.address.streetAddressOne,
-          address2: this.props.getStudentsByIdList.address.streetAddressTwo,
-          landmark: this.props.getStudentsByIdList.address.landMark,
-          pincode: this.props.getStudentsByIdList.address.pincode,
-          city: this.props.getStudentsByIdList.address.city,
-          twitter: this.props.getStudentsByIdList.twitterUrl,
-          facebook: this.props.getStudentsByIdList.faceBookUrl,
-          linkedIn: this.props.getStudentsByIdList.linkedInProfile,
-          state: this.props.getStudentsByIdList.address.state,
-        });
+      this.setState({
+        firstName: this.props.getStudentsByIdList.firstName,
+        lastName: this.props.getStudentsByIdList.lastName,
+        fullName:
+          this.props.getStudentsByIdList.firstName +
+          this.props.getStudentsByIdList.lastName,
+        number: this.props.getStudentsByIdList.phoneNumber,
+        email: this.props.getStudentsByIdList.emailId,
+        clsid: this.props.getStudentsByIdList.studentID,
+        altPhone: this.props.getStudentsByIdList.altPhoneNumber,
+        altEmail: this.props.getStudentsByIdList.altEmailId,
+        apartmentName:this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address
+          .suitNoApartmentNo : "",
+        address1: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.streetAddressOne : "",
+        address2: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.streetAddressTwo : "",
+        landmark: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.landMark : "",
+        pincode: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.pincode : "",
+        city:  this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.city : "",
+        twitter: this.props.getStudentsByIdList.twitterUrl,
+        facebook: this.props.getStudentsByIdList.faceBookUrl,
+        linkedIn: this.props.getStudentsByIdList.linkedInProfile,
+        state: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.state : "",
+      });
     }
     if (
       this.props.updatePersonalInfoList !== prevProps.updatePersonalInfoList
@@ -281,7 +280,7 @@ export class personalInfo extends Component {
     />
   );
   documentClick = (data) => {
-    console.log(data);
+    
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     window.open(
       URL +
