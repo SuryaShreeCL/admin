@@ -57,8 +57,8 @@ class ViewSemesterDetails extends Component {
       cgpaPercentage,
       degreeType,
     } = this.props;
-    console.log(this.props);
-    console.log(departmentName);
+    
+    
     return (
       <div>
         <Grid container>
@@ -85,8 +85,100 @@ class ViewSemesterDetails extends Component {
           </Grid>
 
           {/* try */}
-
-          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
+    
+          <Grid item md={12} className={"details_grid"}>
+            <Grid container>
+              <Grid item md={3}>
+              <Typography
+                color="textSecondary"
+              >
+                College Name
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography 
+              >
+                {collegeName.name}
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography
+                color="textSecondary"
+                // className={"semesterForm_college_style"}
+              >
+                Department
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography 
+              // className={"semesterForm_departmentField"}
+              >
+                {departmentName && departmentName.name}
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography
+                // className={"semesterForm_universityAndCgpa_style"}
+                color="textSecondary"
+              >
+                University Name
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography 
+              // className={"semesterForm_universityField"}
+              >
+                {universityName.name}
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography
+                color="textSecondary"
+                // className={"semesterForm_universityAndCgpa_style"}
+              >
+                Batch
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography 
+              // className={"semesterForm_yearField"}
+              >
+                {year}
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography
+                color="textSecondary"
+                // className={"semesterForm_universityAndCgpa_style"}
+              >
+                CGPA/Percentage
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography 
+              // className={"semesterForm_percentageField"}
+              >
+                {cgpaPercentage}
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography
+                color="textSecondary"
+                // className={"semesterForm_universityAndCgpa_style"}
+              >
+                CGPA Scale
+              </Typography>
+              </Grid>
+              <Grid item md={3}>
+              <Typography
+              //  className={"semesterForm_percentageField"}
+               >
+                {cgpaPercentage}
+              </Typography>
+              </Grid>
+            </Grid>
+            </Grid> 
+          {/* <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item1"}>
               <Typography
                 className={"semesterForm_college_style"}
@@ -110,9 +202,9 @@ class ViewSemesterDetails extends Component {
               </Typography>
               {this.renderDegree()}
             </div>
-          </Grid>
+          </Grid> */}
 
-          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
+          {/* <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item2"}>
               <Typography className={"semesterForm_collegeField"}>
                 {collegeName.name}
@@ -125,9 +217,9 @@ class ViewSemesterDetails extends Component {
               </Typography>
               {this.renderDegreeField()}
             </div>
-          </Grid>
+          </Grid> */}
 
-          <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
+          {/* <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item3"}>
               <Typography
                 color="textSecondary"
@@ -149,9 +241,9 @@ class ViewSemesterDetails extends Component {
                 CGPA Scale
               </Typography>
             </div>
-          </Grid>
+          </Grid> */}
 
-          <Grid item md={3} xs={3} sm={3} xl={3} lg={3}>
+          {/* <Grid item md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item4"}>
               <Typography className={"semesterForm_departmentField"}>
                 {departmentName && departmentName.name}
@@ -163,7 +255,7 @@ class ViewSemesterDetails extends Component {
                 {cgpaScale}
               </Typography>
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     );

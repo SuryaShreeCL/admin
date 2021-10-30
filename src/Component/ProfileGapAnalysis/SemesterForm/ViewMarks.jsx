@@ -18,7 +18,7 @@ class ViewMarks extends Component {
       formulaError,
       percentageError,
     } = this.props;
-    console.log(this.props);
+    
     return (
       <Grid container spacing={3} style={{ padding: "12px" }}>
         <Grid item md={3}>
@@ -67,8 +67,6 @@ class ViewMarks extends Component {
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            error={formulaError.length > 0}
-            helperText={formulaError}
             type='number'
           />
         </Grid>
@@ -84,8 +82,6 @@ class ViewMarks extends Component {
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            error={percentageError.length > 0}
-            helperText={percentageError}  
             type='number'
           />
         </Grid>

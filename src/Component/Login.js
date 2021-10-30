@@ -21,26 +21,26 @@ export class Login extends Component {
     super(props);
     this.state = {
       username: null,
-      userNameErr: '',
+      userNameErr: "",
       password: null,
-      passwordErr: '',
-      error: '',
-      snackMsg: '',
+      passwordErr: "",
+      error: "",
+      snackMsg: "",
       snackOpen: false,
-      snackVariant: '',
+      snackVariant: "",
     };
   }
   componentDidMount() {
     // sessionStorage.setItem('token','false');
   }
-  handleLogin = e => {
-    let hlpTxt = 'Please fill the required field';
+  handleLogin = (e) => {
+    let hlpTxt = "Please fill the required field";
     isEmptyString(this.state.username)
       ? this.setState({ userNameErr: hlpTxt })
-      : this.setState({ userNameErr: '' });
+      : this.setState({ userNameErr: "" });
     isEmptyString(this.state.password)
       ? this.setState({ passwordErr: hlpTxt })
-      : this.setState({ passwordErr: '' });
+      : this.setState({ passwordErr: "" });
     if (
       !isEmptyString(this.state.username) &&
       !isEmptyString(this.state.password)
@@ -49,119 +49,129 @@ export class Login extends Component {
         userName: this.state.username,
         password: this.state.password,
       };
-      this.props.adminLogin(loginObj);
+      this.props.adminLogin(loginObj, ((response) => {
+        
+        if (response.message === "Request failed with status code 500") {
+          this.setState({
+            snackMsg: "Invalid Username or Password",
+            snackOpen: true,
+            snackVariant: "error",
+          });
+        }
+      })
+      )
     }
   };
   componentDidUpdate(prevProps) {
-    // console.log(this.state.adminLoginDetails)
+    // 
     if (prevProps.adminLoginDetails !== this.props.adminLoginDetails) {
-      console.log(this.state.adminLoginDetails);
+      
       if (this.props.adminLoginDetails.status === 500) {
         this.setState({
-          snackMsg: 'Invalid Username or Password',
+          snackMsg: "Invalid Username or Password",
           snackOpen: true,
-          snackVariant: 'error',
+          snackVariant: "error",
         });
-        console.log('fail........', this.props.adminLoginDetails);
+        
       } else {
-        window.sessionStorage.setItem('token', 'true');
+        window.sessionStorage.setItem("token", "true");
         window.sessionStorage.setItem(
-          'accessToken',
+          "accessToken",
           this.props.adminLoginDetails.accessToken
         );
         window.sessionStorage.setItem(
-          'refreshToken',
+          "refreshToken",
           this.props.adminLoginDetails.refreshToken
         );
         window.sessionStorage.setItem(
-          'role',
+          "role",
           this.props.adminLoginDetails.role
         );
         window.sessionStorage.setItem(
-          'mentor',
+          "mentor",
           JSON.stringify(this.props.adminLoginDetails.Mentor)
         );
         window.sessionStorage.setItem(
-          'adminUserId',
+          "adminUserId",
           this.props.adminLoginDetails.AdminUsers
         );
         this.props.history.push(landingAdminPath);
-        console.log('success.......', this.props.adminLoginDetails);
+        
       }
     }
   }
   render() {
-    // console.log(this.props.adminLoginDetails)
-    // console.log(this.props)
+    // 
+    // 
     return (
       <div>
-        <div className='root__login'>
-          <div className='login__container'>
-            <div className='login__left__container'>
+        <div className="root__login">
+          <div className="login__container">
+            <div className="login__left__container">
               <img
-                src={require('../Asset/Images/ProfileBuilder.png')}
-                alt='not suppotted'
+                src={require("../Asset/Images/ProfileBuilder.png")}
+                alt="not suppotted"
               />
             </div>
-            <div className='login__right__container'>
-              <div className='login__inner__box'>
-                <div className='login__header'>
-                  <label className='login__header__label'>
+            <div className="login__right__container">
+              <div className="login__inner__box">
+                <div className="login__header">
+                  <label className="login__header__label">
                     Welcome to CareerLabs
                   </label>
                 </div>
-                <div className='login__body'>
-                  <div className='error'>
+                <div className="login__body">
+                  <div className="error">
                     {this.state.error.length !== 0 ? this.state.error : null}
                   </div>
-                  <div className='login__text__box'>
+                  <div className="login__text__box">
                     <TextField
-                      id='Username'
-                      label='Username'
-                      variant='outlined'
+                      id="Username"
+                      label="Username"
+                      variant="outlined"
                       helperText={this.state.userNameErr}
                       error={this.state.userNameErr.length > 0}
                       fullWidth
-                      size='medium'
+                      size="medium"
                       value={this.state.username}
-                      onChange={e =>
+                      onChange={(e) =>
                         this.setState({ username: e.target.value })
                       }
                     />
                   </div>
-                  <div className='login__text__box'>
+                  <div className="login__text__box">
                     <FormControl
                       error={this.state.passwordErr.length > 0}
-                      variant='outlined'
+                      variant="outlined"
                       fullWidth
                     >
-                      <InputLabel htmlFor='outlined-adornment-password'>
+                      <InputLabel htmlFor="outlined-adornment-password">
                         Password
                       </InputLabel>
                       <OutlinedInput
-                        id='outlined-adornment-password'
-                        type={this.state.visibile ? 'text' : 'password'}
+                        id="outlined-adornment-password"
+                        type={this.state.visibile ? "text" : "password"}
                         fullWidth
                         value={this.state.password}
-                        onChange={e =>
+                        onChange={(e) =>
                           this.setState({ password: e.target.value })
                         }
-                        onKeyUp={e => {
+                        onKeyUp={(e) => {
                           if (e.keyCode === 13) {
                             e.preventDefault();
-                            document.getElementById('login').click();
+                            document.getElementById("login").click();
                           }
                         }}
                         endAdornment={
-                          <InputAdornment position='end'>
+                          <InputAdornment position="end">
                             <IconButton
-                              aria-label='toggle password visibility'
-                              onClick={e =>
+                              aria-label="toggle password visibility"
+                              onClick={(e) =>
                                 this.setState({
                                   visibile: !this.state.visibile,
                                 })
                               }
-                              edge='end'
+                              edge="end"
                             >
                               {this.state.visibile ? (
                                 <Visibility />
@@ -177,12 +187,12 @@ export class Login extends Component {
                     </FormControl>
                   </div>
                 </div>
-                <div className='login__footer'>
-                  <div className='login__button'>
+                <div className="login__footer">
+                  <div className="login__button">
                     <Button
-                      id='login'
-                      variant='contained'
-                      color='primary'
+                      id="login"
+                      variant="contained"
+                      color="primary"
                       onClick={this.handleLogin.bind(this)}
                     >
                       Sign in
