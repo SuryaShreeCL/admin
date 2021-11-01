@@ -52,58 +52,51 @@ function EdxSampleCourse(props) {
       field: "courseTitle",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.courseTitle : "",
-        validate : ( rowData ) => {
-          if( !isEmptyString(rowData.courseTitle) ){
-            return true;
-          }else{
-            return { isValid  : false }
-          }
+      validate: (rowData) => {
+        if (!isEmptyString(rowData.courseTitle)) {
+          return true;
+        } else {
+          return { isValid: false };
         }
+      },
     },
     {
       title: "Level",
       field: "level",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.level : "",
-        validate : ( rowData ) => {
-          if( !isEmptyString(rowData.level) ){
-            return true;
-          }else{
-            return { isValid  : false }
-          }
+      validate: (rowData) => {
+        if (!isEmptyString(rowData.level)) {
+          return true;
+        } else {
+          return { isValid: false };
         }
+      },
     },
     {
       title: "Program Type",
       field: "programType",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.programType : "",
-        validate : ( rowData ) => {
-          if( !isEmptyString(rowData.programType) ){
-            return true;
-          }else{
-            return { isValid  : false }
-          }
+      validate: (rowData) => {
+        if (!isEmptyString(rowData.programType)) {
+          return true;
+        } else {
+          return { isValid: false };
         }
+      },
     },
     {
       title: "Course Type",
       field: "pgaEdxCourseType",
-      render: (rowData, renderType) =>{
-        if(renderType === "row"){
-          if(rowData.pgaEdxCourseType){
-            return rowData.pgaEdxCourseType.type
-          }else{
-            return ""
+      render: (rowData, renderType) => {
+        if (renderType === "row") {
+          if (rowData.pgaEdxCourseType) {
+            return rowData.pgaEdxCourseType.type;
+          } else {
+            return "";
           }
         }
-      },
-      validate : ( rowData )=>{
-          if(!isEmptyObject(rowData.pgaEdxCourseType)){
-            return true;
-          }else{
-            return { isValid : false }
-          } 
       },
       editComponent: (props) => {
         console.log(props);
@@ -115,7 +108,7 @@ function EdxSampleCourse(props) {
             value={props.rowData.pgaEdxCourseType}
             fullWidth
             onChange={(e, value) => {
-                console.log(value)
+              console.log(value);
               props.onChange(value);
             }}
             renderInput={(params) => (
@@ -204,10 +197,12 @@ function EdxSampleCourse(props) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         deleteStudentEdxCourse(
+          props.match.params.studentId,
+          props.match.params.productId,
           oldData.id
-        ).then((response) => {          
+        ).then((response) => {
           if (response.status === 200) {
-            if(response.data.success){
+            if (response.data.success) {
               getAndSetAddedCourse();
             } else {
               const dataDelete = [...selectedCourseList];
@@ -223,6 +218,7 @@ function EdxSampleCourse(props) {
   };
 
   const handleRowUpdate = (newData, oldData) => {
+    console.log( newData, "+++++++++==" )
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const dataUpdate = [...selectedCourseList];
@@ -236,27 +232,47 @@ function EdxSampleCourse(props) {
 
   const handleSaveClick = () => {
 
+    let error = false;
+
+    for (let i = 0; i < selectedCourseList.length; i++) {
+      if(isEmptyObject(selectedCourseList[i].pgaEdxCourseType)){
+        error = true;
+      }
+    }
+
     if (selectedCourseList.length !== 0) {
-      const selectedCourseListId = selectedCourseList.map(
-        (eachCourse, index) => {
-          return { pgaEdxCourse: {id : eachCourse.id}, pgaEdxCourseType : {id : eachCourse.pgaEdxCourseType.id} };
-        }
-      );
-      console.log(selectedCourseListId, "------")
-      saveEdxCourseCategory(
-        props.match.params.studentId,
-        props.match.params.productId,
-        selectedCourseListId
-      ).then((response) => {
-        if (response.status === 200) {
-          getAndSetAddedCourse();
-          setSnack({
-            snackMsg: "Saved Successfully",
-            snackColor: "success",
-            snackOpen: true,
-          });
-        }
-      });
+      if( !error ){
+        const selectedCourseListId = selectedCourseList.map(
+          (eachCourse, index) => {
+            return {
+              pgaEdxCourse: { id: eachCourse.id },
+              pgaEdxCourseType: { id: eachCourse.pgaEdxCourseType.id },
+            };
+          }
+        );
+        console.log(selectedCourseListId, "------");
+        saveEdxCourseCategory(
+          props.match.params.studentId,
+          props.match.params.productId,
+          selectedCourseListId
+        ).then((response) => {
+          if (response.status === 200) {
+            getAndSetAddedCourse();
+            setSnack({
+              snackMsg: "Saved Successfully",
+              snackColor: "success",
+              snackOpen: true,
+            });
+          }
+        });
+      }else{
+        setSnack({
+          snackMsg: HELPER_TEXT.requiredField,
+          snackColor: "error",
+          snackOpen: true,
+        });
+      }
+    
     } else {
       setSnack({
         snackMsg: "Please Add Course First",
@@ -265,7 +281,7 @@ function EdxSampleCourse(props) {
       });
     }
   };
-  console.log(selectedCourseList, "=========")
+  console.log(selectedCourseList, "=========");
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
@@ -284,7 +300,7 @@ function EdxSampleCourse(props) {
                 <Grid container spacing={2}>
                   <Grid item md={12}>
                     <Typography variant={"h5"}>
-                    edX Courses - Suggested sample edX courses for Client
+                      edX Courses - Suggested sample edX courses for Client
                     </Typography>
                   </Grid>
 
@@ -362,7 +378,7 @@ function EdxSampleCourse(props) {
                     alignItems={"center"}
                   >
                     <Typography variant={"h5"}>
-                    Selected sample course  
+                      Selected sample course
                     </Typography>
                     <Typography color={"textSecondary"}>
                       ({selectedCourseList.length})
@@ -372,7 +388,7 @@ function EdxSampleCourse(props) {
                 <Grid item md={12}>
                   {selectedCourseList.length !== 0 ? (
                     <Editable
-                    onRowUpdate={handleRowUpdate}
+                      onRowUpdate={handleRowUpdate}
                       data={selectedCourseList}
                       columns={columns}
                       onRowDelete={handleRowDelete}

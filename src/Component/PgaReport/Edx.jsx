@@ -288,7 +288,7 @@ function Edx(props) {
               fullWidth
             />
           </Grid>
-          <Grid item md={3} lg={3} xl={3}>
+          <Grid item md={4} lg={4} xl={4}>
             <TextFieldComponent
               value={data.descriptionTwo || ""}
               name={"descriptionTwo"}
@@ -297,7 +297,7 @@ function Edx(props) {
               fullWidth
             />
           </Grid>
-          <Grid item md={2} lg={2} xl={2}></Grid>
+          <Grid item md={1} lg={1} xl={1}></Grid>
           {data.quarterlyPlans.length !== 0 && (
             <Grid
               item

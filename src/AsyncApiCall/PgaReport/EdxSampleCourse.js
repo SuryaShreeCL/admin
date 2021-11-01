@@ -44,9 +44,9 @@ export const saveEdxCourseCategory = async ( studentId, productId, data ) => {
     }
   };
 
-  export const deleteStudentEdxCourse = async  ( edxCourseId ) => {
+  export const deleteStudentEdxCourse = async  ( studentId, productId, edxCourseId ) => {
     try {
-      const response = await customAxios.delete("/api/v1/pgaReport/edxCourse/"+edxCourseId);
+      const response = await customAxios.delete("/api/v1/students/"+ studentId +"/product/"+ productId +"/pgaReport/studentPgaEdxCourse/"+ edxCourseId);
       return response;
     } catch (error) {
       return error.response && error.response.data.message
