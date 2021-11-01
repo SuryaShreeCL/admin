@@ -394,8 +394,8 @@ class workExperience extends Component {
                         margin="normal"
                         id="date-picker-dialog"
                         label="Start Date"
-                        format="MM/yyyy"
-                        views={["year", "month"]}
+                        format="dd/MM/yyyy"
+                        // views={["year", "month"]}
                         inputProps={{ readOnly: true }}
                         error={this.state.startDateErr.length > 0}
                         helperText={this.state.startDateErr}
@@ -421,8 +421,8 @@ class workExperience extends Component {
                         disabled={this.state.disable}
                         id="date-picker-dialog"
                         label="End Date"
-                        format="MM/yyyy"
-                        views={["year", "month"]}
+                        format="dd/MM/yyyy"
+                        // views={["year", "month"]}
                         contentEditable={this.state.disable}
                         minDate={this.state.professional[index].startDate}
                         error={this.state[`endDateErr${index}`] !== undefined && this.state[`endDateErr${index}`] !== "" ? true : false}

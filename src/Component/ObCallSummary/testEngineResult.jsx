@@ -48,6 +48,8 @@ class TestEngineResult extends Component {
       snackVariant: "",
       snackOpen: false,
       examAttendDate : null,
+      testlist : [],
+      finaltestlist : [],
       sectionStatus: {
         model: false,
         data: null,
@@ -63,10 +65,22 @@ class TestEngineResult extends Component {
     // this.props.viewscoredetails(this.props.match.params.id);
     this.props.viewStudentStatus(this.props.match.params.studentId);
 
-    this.props.viewscoredetails(this.props.match.params.studentId);
+    this.props.viewscoredetails(this.props.match.params.studentId,(response => {
+      if(response.status === 200){
+        this.setState({
+          testlist : response.data
+        })
+      }
+    }));
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if(this.state.testlist !== prevState.testlist){
+      let arr = this.state.testlist && this.state.testlist.filter(eachItem => eachItem.questionSetName !== "AspirationACS")
+      this.setState({
+        finaltestlist : arr
+      })
+    }
     if (this.props.viewAnswersList !== prevProps.viewAnswersList) {
       if (typeof this.props.viewAnswersList === "object") {
         let quesAnsArr = [];
@@ -291,8 +305,8 @@ class TestEngineResult extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.viewScoreDetailsList.length !== 0 &&
-                this.props.viewScoreDetailsList.map((eachItem, index) => {
+              {this.state.finaltestlist.length !== 0 &&
+                this.state.finaltestlist.map((eachItem, index) => {
                   let date = new Date(eachItem.examDate).getDate();
                   let month = new Date(eachItem.examDate).getMonth()+1;
                   let year = new Date(eachItem.examDate).getFullYear();
