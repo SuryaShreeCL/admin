@@ -17,7 +17,7 @@ import { HELPER_TEXT } from "../../Constant/Variables";
 import Editable from "../../Utils/EditableTable";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
-import { isEmptyObject } from "../Validation";
+import { isEmptyObject, isEmptyString } from "../Validation";
 import BottomContainer from "./BottomContainer";
 import CourseListTable from "./Components/CourseListTable";
 import NoSchool from "./Components/NoSchool";
@@ -52,24 +52,59 @@ function EdxSampleCourse(props) {
       field: "courseTitle",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.courseTitle : "",
+        validate : ( rowData ) => {
+          if( !isEmptyString(rowData.courseTitle) ){
+            return true;
+          }else{
+            return { isValid  : false }
+          }
+        }
     },
     {
       title: "Level",
       field: "level",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.level : "",
+        validate : ( rowData ) => {
+          if( !isEmptyString(rowData.level) ){
+            return true;
+          }else{
+            return { isValid  : false }
+          }
+        }
     },
     {
       title: "Program Type",
       field: "programType",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.programType : "",
+        validate : ( rowData ) => {
+          if( !isEmptyString(rowData.programType) ){
+            return true;
+          }else{
+            return { isValid  : false }
+          }
+        }
     },
     {
       title: "Course Type",
-      field: "pgaEdxCourseCategory",
-      render: (rowData, renderType) =>
-        renderType === "row" ? rowData.pgaEdxCourseCategory.name : "",
+      field: "pgaEdxCourseType",
+      render: (rowData, renderType) =>{
+        if(renderType === "row"){
+          if(rowData.pgaEdxCourseType){
+            return rowData.pgaEdxCourseType.type
+          }else{
+            return ""
+          }
+        }
+      },
+      validate : ( rowData )=>{
+          if(!isEmptyObject(rowData.pgaEdxCourseType)){
+            return true;
+          }else{
+            return { isValid : false }
+          } 
+      },
       editComponent: (props) => {
         console.log(props);
         return (
@@ -77,7 +112,7 @@ function EdxSampleCourse(props) {
             id="combo-box-demo"
             options={courseTypeList}
             getOptionLabel={(option) => option.type}
-            value={props.rowData.pgaEdxCourseCategory}
+            value={props.rowData.pgaEdxCourseType}
             fullWidth
             onChange={(e, value) => {
                 console.log(value)
@@ -86,6 +121,7 @@ function EdxSampleCourse(props) {
             renderInput={(params) => (
               <TextFieldComponent
                 {...params}
+                error={isEmptyObject(props.rowData.pgaEdxCourseType)}
                 label="Course Type"
                 variant="standard"
               />
@@ -168,18 +204,17 @@ function EdxSampleCourse(props) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         deleteStudentEdxCourse(
-          props.match.params.studentId,
-          props.match.params.productId,
           oldData.id
-        ).then((response) => {
-            console.log(response, "-------")
-          if (response !== " Student Edx Course Not Found") {
-            getAndSetAddedCourse();
-          } else {
-            const dataDelete = [...selectedCourseList];
-            const index = oldData.tableData.id;
-            dataDelete.splice(index, 1);
-            setSelectedCourseList([...dataDelete]);
+        ).then((response) => {          
+          if (response.status === 200) {
+            if(response.data.success){
+              getAndSetAddedCourse();
+            } else {
+              const dataDelete = [...selectedCourseList];
+              const index = oldData.tableData.id;
+              dataDelete.splice(index, 1);
+              setSelectedCourseList([...dataDelete]);
+            }
           }
         });
         resolve();
@@ -200,12 +235,14 @@ function EdxSampleCourse(props) {
   };
 
   const handleSaveClick = () => {
+
     if (selectedCourseList.length !== 0) {
       const selectedCourseListId = selectedCourseList.map(
         (eachCourse, index) => {
-          return { id: eachCourse.id };
+          return { pgaEdxCourse: {id : eachCourse.id}, pgaEdxCourseType : {id : eachCourse.pgaEdxCourseType.id} };
         }
       );
+      console.log(selectedCourseListId, "------")
       saveEdxCourseCategory(
         props.match.params.studentId,
         props.match.params.productId,
