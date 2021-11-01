@@ -8,7 +8,7 @@ function NoSchool(props) {
   const classes = useStyles();
   return (
     <NoShoolContainer>
-      <img src={NoSchoolImg} />
+      <img src={props.image ? props.image : NoSchoolImg} />
       <Typography className={classes.noSchoolTypo}>{props.text}</Typography>
     </NoShoolContainer>
   );

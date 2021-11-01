@@ -57,5 +57,8 @@ export const useStyles = makeStyles((theme)=>({
    },
    sampleSchoolHeading : {
        gridGap : "5px"
+   },
+   suggestPlan : {
+       marginTop : "15px"
    }
 }))

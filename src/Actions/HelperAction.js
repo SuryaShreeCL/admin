@@ -47,3 +47,9 @@ export const saveSchool = (data) =>{
         dispatch({type : HELPER.saveSchool, payload : data})
     }
 }
+
+export const saveCourse = (data) =>{
+    return dispatch =>{
+        dispatch({type : HELPER.saveCourse, payload : data})
+    }
+}
