@@ -76,7 +76,7 @@ class TestEngineResult extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if(this.state.testlist !== prevState.testlist){
-      let arr = this.state.testlist && this.state.testlist.filter(eachItem => eachItem.questionSetName !== "AspirationACS")
+      let arr = this.state.testlist && this.state.testlist.filter(eachItem => eachItem.questionSetName !==  "AspirationACS" && eachItem.questionSetName !== "ProfileBuilder")
       this.setState({
         finaltestlist : arr
       })
