@@ -393,7 +393,7 @@ function RootContainer(props) {
     if (props.adminLinkedProductDetails.department === 'Acsoperations') {
       let myArr = [];
       props.getProductByFamilyIdList
-        .filter((eachProd) => eachProd.variantSKU === 'ACS_MS' || eachProd.variantSKU === 'ACS_MBA' || eachProd.variantSKU === 'ACS_MIM')
+        .filter((eachProd) => eachProd.variantSKU === 'ACS_MS' || eachProd.variantSKU === 'ACS_MBA' || eachProd.variantSKU === 'ACS_MIM' || eachProd.variantSKU === 'ACS_MBA_PB' || eachProd.variantSKU === 'ACS_MIM_PB')
         .map((eachItem, index) => {
           myArr.push({
             title: eachItem.shortName,
