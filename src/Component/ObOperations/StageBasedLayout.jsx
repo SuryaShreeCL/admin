@@ -28,6 +28,7 @@ import SubLayoutTab from "./SubLayoutTab";
 import { getVariantStepsById } from "../../Actions/ProductAction";
 import ProfileGapAnalysisTab from "../ProfileGapAnalysisTab";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import UploadCV from "../ObCallSummary/UploadCV";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import { studentPath } from "../RoutePaths";
 import ProfileGapRoot from "../ProfileGapAnalysis/Root";
@@ -85,6 +86,7 @@ class StageBasedLayout extends Component {
         "Graduate Admission Test": "GraduateTestResult",
         "Tests and Survey": "TestAndSurvey",
         "OB Call Summary": "CallSummaryLayout",
+        "Uplaod CV" : "UploadCV",
         Others: "AdmissionServices",
       }
     };
@@ -399,6 +401,7 @@ class StageBasedLayout extends Component {
       "Graduate Admission Test": "GraduateTestResult",
       "Tests and Survey": "TestAndSurvey",
       "OB Call Summary": "CallSummaryLayout",
+      "Upload CV" : "UploadCV",
       Others: "AdmissionServices",
     };
     var obj = {
@@ -410,6 +413,7 @@ class StageBasedLayout extends Component {
       TestAndSurvey: TestAndSurvey,
       CallSummaryLayout: CallSummaryLayout,
       Others: AdmissionServices,
+      UploadCV : UploadCV
     };
     var selectedComponent =
       this.state.selectedItem !== null && typeof this.state.selectedItem === "object" ?  
