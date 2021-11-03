@@ -52,6 +52,12 @@ function Concerns(props) {
         ...selectedConcerns,
         { id: null, pgaConcerns: { ...concern }, concern: concern.concern },
       ]);
+    }else{
+      setSnack({
+        snackOpen: true,
+        snackMsg: "Concern Already Added",
+        snackColor: "info",
+      })
     }
   };
   const handleChange = (e, index) => {

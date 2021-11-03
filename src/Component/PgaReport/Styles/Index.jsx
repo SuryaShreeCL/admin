@@ -60,5 +60,8 @@ export const useStyles = makeStyles((theme)=>({
    },
    suggestPlan : {
        marginTop : "15px"
+   },
+   dropDownStyle : {
+       width: "80%"
    }
 }))

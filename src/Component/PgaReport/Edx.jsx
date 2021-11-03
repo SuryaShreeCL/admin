@@ -245,7 +245,7 @@ function Edx(props) {
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Typography variant={"h5"}>edX Courses</Typography>
           </Grid>
-          <Grid item md={2} lg={2} xl={2}>
+          <Grid item md={1} lg={1} xl={1}>
             <DropDown
               id="combo-box-demo"
               options={batchList}
@@ -279,7 +279,7 @@ function Edx(props) {
               format="dd/MM/yyyy"
             />
           </Grid>
-          <Grid item md={3} lg={3} xl={3}>
+          <Grid item md={4} lg={4} xl={4}>
             <TextFieldComponent
               value={data.descriptionOne || ""}
               name={"descriptionOne"}
@@ -328,6 +328,7 @@ function Edx(props) {
                         id="combo-box-demo"
                         options={courseTypeList}
                         fullWidth
+                        className={classes.dropDownStyle}
                         value={eachPlan.pgaEdxCourseType}
                         onChange={(e, newValue) =>
                           handleQuarterCatTypeChange(index, newValue)

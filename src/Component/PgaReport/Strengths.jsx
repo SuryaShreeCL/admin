@@ -52,6 +52,12 @@ function Strengths(props) {
         ...selectedStrengths,
         { id: null, pgaStrength: { ...strength }, strength: strength.strength },
       ]);
+    }else{
+      setSnack({
+        snackOpen: true,
+        snackMsg: "This Strength Already Added",
+        snackColor: "info",
+      })
     }
   };
   const handleChange = (e, index) => {
