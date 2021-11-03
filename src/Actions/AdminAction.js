@@ -311,6 +311,24 @@ export const allocateMentor = (mentorId,studentId) =>{
         })
     }
 }
+export const deletementor = (studentId,productId,callback) =>{
+    let accessToken = window.sessionStorage.getItem("accessToken")  
+    return dispatch =>{
+        axios.delete(URL+"/api/v1/students/"+studentId+"/product/"+productId+"/mentor",{
+            headers : {
+                "admin" : "yes",
+                "Authorization" : `Bearer ${accessToken}`
+            },
+        })
+        .then(result=>{
+            callback(result)
+            dispatch({type : ADMIN.deletementor, payload : result.data})
+        })
+        .catch(error=>{
+            callback(error)
+        })
+    }
+}
 
 // For Getting List of users based on admin user Id
 

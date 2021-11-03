@@ -34,6 +34,7 @@ import {
   getBranches,
 } from "../../../Actions/College";
 import { SentimentSatisfiedTwoTone } from "@material-ui/icons";
+import MySnackBar from "../../MySnackBar";
 
 class Index extends Component {
   constructor(props) {
@@ -163,6 +164,7 @@ class Index extends Component {
 
   // function to add the row in the table
   handleRowAdd = (newData) => {
+    console.log(newData)
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         this.setState({
@@ -485,8 +487,6 @@ class Index extends Component {
         validate: (rowData) => {
           
           if (!isEmptyObject(rowData)) {
-            
-
             if (
               !isEmptyString(
                 rowData.subjectDetailsUgPgDiploma &&
@@ -495,7 +495,12 @@ class Index extends Component {
             ) {
               return true;
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+              // this.setState({
+              //   snackMsg : "Please fill the Required Field",
+              //   snackOpen : true,
+              //   snackVariant : "error"
+              // })
+              return { isValid: false};
             }
           }
         },
@@ -517,7 +522,12 @@ class Index extends Component {
             ) {
               return true;
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+              // this.setState({
+              //   snackMsg : "Please fill the Required Field",
+              //   snackOpen : true,
+              //   snackVariant : "error"
+              // })
+              return { isValid: false };
             }
           }
         },
@@ -535,16 +545,31 @@ class Index extends Component {
                 if (rowData.maximumMarks > 0) {
                   return true;
                 } else {
+                  // this.setState({
+                  //   snackMsg : "It cannot be zero or negative value",
+                  //   snackOpen : true,
+                  //   snackVariant : "error"
+                  // })
                   return {
                     isValid: false,
-                    helperText: "It cannot be zero or negative value",
+                    // helperText: "It cannot be zero or negative value",
                   };
                 }
               } else {
+                // this.setState({
+                //   snackMsg : "Please fill the Required Field",
+                //   snackOpen : true,
+                //   snackVariant : "error"
+                // })
                 return { isValid: false };
               }
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+              // this.setState({
+              //   snackMsg : "Please fill the Required Field",
+              //   snackOpen : true,
+              //   snackVariant : "error"
+              // })
+              return { isValid: false };
             }
           }
           // if (!isEmptyObject(rowData)) {
@@ -578,7 +603,12 @@ class Index extends Component {
                 return { isValid: false };
               }
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+              // this.setState({
+              //   snackMsg : "Please fill the Required Field",
+              //   snackOpen : true,
+              //   snackVariant : "error"
+              // })
+              return { isValid: false };
             }
           }
           // if (!isEmptyObject(rowData)) {
@@ -605,7 +635,12 @@ class Index extends Component {
             ) {
               return true;
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+              // this.setState({
+              //   snackMsg : "Please fill the Required Field",
+              //   snackOpen : true,
+              //   snackVariant : "error"
+              // })
+              return { isValid: false };
             }
           }
         },
@@ -623,16 +658,26 @@ class Index extends Component {
                 if (rowData.score > 0) {
                   return true;
                 } else {
+                  // this.setState({
+                  //   snackMsg : "It cannot be zero or negative value",
+                  //   snackOpen : true,
+                  //   snackVariant : "error"
+                  // })
                   return {
                     isValid: false,
-                    helperText: "It cannot be zero or negative value",
+                    // helperText: "It cannot be zero or negative value",
                   };
                 }
               } else {
                 return { isValid: false };
               }
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+              // this.setState({
+              //   snackMsg : "Please fill the Required Field",
+              //   snackOpen : true,
+              //   snackVariant : "error"
+              // })
+              return { isValid: false };
             }
           }
           // if (!isEmptyObject(rowData)) {
@@ -661,7 +706,12 @@ class Index extends Component {
             ) {
               return true;
             } else {
-              return { isValid: false, helperText: HELPER_TEXT.requiredField };
+              // this.setState({
+              //   snackMsg : "Please fill the Required Field",
+              //   snackOpen : true,
+              //   snackVariant : "error"
+              // })
+              return { isValid: false };
             }
           }
         },
@@ -787,6 +837,11 @@ class Index extends Component {
             <CvViewer path={this.state.pdfViewer} {...this.props} />
           </Grid>
         </Grid>
+        <MySnackBar
+        snackMsg={this.state.snackMsg}
+        snackOpen={this.state.snackOpen}
+        snackVariant={this.state.snackVariant}
+        />
       </div>
     );
   }

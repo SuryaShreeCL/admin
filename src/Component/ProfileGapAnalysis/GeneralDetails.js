@@ -374,7 +374,7 @@ class GeneralDetails extends Component {
   }
 
   handleopen = () => {
-    if(this.props.variantStepList.codeName === "ACS_MBA"){
+    if(this.props.variantStepList.codeName === "ACS_MBA" || this.props.StudentStepDetailsList.shortName === "ACS MIM"){
       if (
         this.state.firstname !== "" &&
         this.state.lastname !== "" &&
@@ -462,7 +462,7 @@ class GeneralDetails extends Component {
     });
   };
   renderstudentdetails() {
-    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA") {
+    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA" || this.props.StudentStepDetailsList.shortName === "ACS MIM") {
       return (
         <ThemeProvider theme={theme}>
          <Grid container spacing={3} style={{marginTop:"2%"}}>
@@ -762,7 +762,7 @@ class GeneralDetails extends Component {
   }
   
   renderhigherdetails() {
-    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA") {
+    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA" || this.props.StudentStepDetailsList.shortName === "ACS MIM") {
       return (
         <Grid container spacing={3}>
           <Grid item md={4}>
@@ -1029,7 +1029,7 @@ class GeneralDetails extends Component {
     }
   }
   handlesaved = () => {
-    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA") {
+    if (this.props.StudentStepDetailsList.codeName === "ACS_MBA" || this.props.StudentStepDetailsList.shortName === "ACS MIM") {
       console.log("true");
       let pgadataarr = [];
       this.state.commentshistory.map((eachdata) => {
@@ -1597,7 +1597,7 @@ class GeneralDetails extends Component {
                 </div>
               </div>
             </Grid>
-           { this.props.StudentStepDetailsList.codeName === "ACS_MBA" &&
+           { this.props.StudentStepDetailsList.codeName === "ACS_MBA" || this.props.StudentStepDetailsList.shortName === "ACS MIM" &&
             <Grid item md={4}>
               <div
                 style={{

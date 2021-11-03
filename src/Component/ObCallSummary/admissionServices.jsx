@@ -13,7 +13,7 @@ import { ExpandMore } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { getAllMentors } from "../../Actions/AdminAction";
+import { getAllMentors,deletementor } from "../../Actions/AdminAction";
 import { getmentor, getproductdetails, updateallocatementor, updatementor } from '../../Actions/MentorAction';
 import { getStudentsById } from '../../Actions/Student';
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -154,6 +154,29 @@ class AdmissionServices extends Component {
   }
   handleallocate=()=>{
     this.setState({ show: true })
+  }
+  handleDelete = () => {
+    this.props.deletementor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
+      if(response.status === 200){
+        this.setState({
+          snackMsg : response.message,
+          snackOpen : true,
+          snackVariant : "success"
+        })
+        this.props.getmentor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
+         if(response.data.success === true){
+          this.setState({
+            mentor : response.data
+          })
+         }
+         if(response.data.success === false) {
+          this.setState({
+            mentor : {}
+          })
+         }
+        }))
+      }
+    }))
   }
   render() {
       console.log(this.props)
@@ -663,7 +686,7 @@ class AdmissionServices extends Component {
                 <TableCell>{this.state.mentor.name}</TableCell>
                 <TableCell>Admin</TableCell>
                 <TableCell>07/10/2021 12:30:34 AM</TableCell>
-                <TableCell>{<DeleteIcon color={"secondary"} />}</TableCell>
+                <TableCell>{<DeleteIcon color={"secondary"} onClick={(e)=>this.handleDelete(e)} />}</TableCell>
               </TableBody>
             </Table>
           )} 
@@ -783,5 +806,5 @@ const mapStateToProps = (state) => {
   };
   
   export default connect(mapStateToProps, {
-    getAllMentors,getStudentsById,getproductdetails,getVariantStepsById,updateallocatementor,getmentor,updatementor,getdashboarddetails,StudentStepDetails
+    getAllMentors,getStudentsById,getproductdetails,getVariantStepsById,updateallocatementor,getmentor,updatementor,getdashboarddetails,StudentStepDetails,deletementor
   })(AdmissionServices);

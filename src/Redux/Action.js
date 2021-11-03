@@ -241,6 +241,7 @@ export const ADMIN = {
   checkTokenStatus: 'checkTokenStatus',
   getStudentsByStages: 'getStudentsByStages',
   getAllAdminUsers: 'getAllAdminUsers',
+  deletementor : "deletementor"
 };
 
 export const MENTORSCHEDULELIST = {

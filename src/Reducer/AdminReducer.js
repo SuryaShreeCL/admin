@@ -19,7 +19,8 @@ const initialState = {
   adminLinkedProductDetails : [],
   tokenStatus : null,
   studentsByStagesList : [],
-  adminUserList : []
+  adminUserList : [],
+  deletementor : [],
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -122,6 +123,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         adminUserList : action.payload
+      }
+      case ADMIN.deletementor : 
+      return {
+        ...state,
+        deletementorList : action.payload
       }
 
     default:
