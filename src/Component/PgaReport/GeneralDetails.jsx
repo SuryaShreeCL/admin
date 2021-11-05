@@ -173,8 +173,8 @@ function GeneralDetails(props) {
       selectedDate.value !== null &&
       !isEmptyObject(preferredProgram.value) &&
       !isEmptyObject(areaOfSpec.value) &&
-      !isEmptyObject(intake.value) &&
-      !isEmptyObject(round.value)
+      !isEmptyObject(intake.value) 
+      // !isEmptyObject(round.value)
     ) {
       let requestBody = {
         id: id,
