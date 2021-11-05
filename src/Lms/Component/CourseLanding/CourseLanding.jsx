@@ -27,13 +27,8 @@ import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
-// import { approveTopic } from "../../Redux/Action/Test";
-
 const INITIAL_PAGE_NO = 0;
 const INITIAL_SEARCH_TEXT = '';
-
-// field:["name","wkStatusValue","createdAt"]
-// order:["DESC","ASC","ASC"]
 
 class CourseLanding extends Component {
   constructor(props) {
