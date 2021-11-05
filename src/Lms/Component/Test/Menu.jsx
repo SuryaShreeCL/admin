@@ -51,7 +51,7 @@ export default function Menu(props) {
       return array.splice(4, 1);
     }
     if (status === 'Live') {
-      return array.splice(0, 2);
+      return array.splice(1, 1);
     }
     if (status === 'In Review') {
       array.splice(2, 1);
