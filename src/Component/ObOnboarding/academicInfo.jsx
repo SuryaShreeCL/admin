@@ -629,13 +629,6 @@ export class academicInfo extends Component {
             snackVariant:"success"
           })
         }
-        else {
-          this.setState({
-            snackMsg:ErrorMessage.NetworkError,
-            snackOpen:true,
-            snackVariant:"error"
-          })
-        }
       }))
     }
   };
