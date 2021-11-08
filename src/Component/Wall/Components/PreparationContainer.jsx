@@ -12,6 +12,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { useDispatch, useSelector } from 'react-redux';
 import { listWallWebinars } from '../../../Actions/WallActions';
 import moment from 'moment';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles({
   input: {
@@ -45,57 +46,93 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
 
   const { loading, webinars } = useSelector((state) => state.wallWebinarListReducer);
 
-  //fitering out archived webinars
-  let filteredWebinars = webinars?.filter((webinar) => webinar.activeStatus !== 'Archive');
+  //fitering out archived & expired webinars
+  let availableWebinars = webinars?.filter(
+    (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus !== 'Expired'
+  );
 
   //getting the webinar ids to filter out and show in the UI
   let storeWebinarIds = values.linkedWebinars?.map((webinar) => webinar.webinarId);
 
+  // Combining the availableWebinars with linkedWebinarsLists for ease
+  // of access to both the arrays& for validation
+  let combinedWebinars = [...availableWebinars, ...(values?.linkedWebinarsLists || [])];
+
   const WebinarTab = () => {
     return (
       <WebinarTabContainer>
-        <div style={{ display: 'flex', width: '100%' }}>
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+        >
           <FieldArray
             name='linkedWebinars'
             render={(arrayHelpers) => (
               <>
-                {values.linkedWebinars?.map((_, index) => (
-                  <div key={index} className={classes.webinarInput}>
-                    <div style={{ width: '100%' }}>
-                      <Autocomplete
-                        disable={loading}
-                        onChange={(e, value) => {
-                          setFieldValue(
-                            `linkedWebinars.${index}.webinarId`,
-                            value !== null ? value.id : filteredWebinars
-                          );
+                {availableWebinars.length > 0 &&
+                  values.linkedWebinars?.map((_, index) => (
+                    <div key={index} className={classes.webinarInput}>
+                      <div
+                        style={{
+                          width: '100%',
                         }}
-                        id='linkedWebinars'
-                        getOptionLabel={(option) => option?.eventTitle}
-                        options={filteredWebinars ?? []}
-                        renderInput={(params) => (
-                          <TextField {...params} label='Select Webinar' variant='outlined' />
-                        )}
-                      />
+                      >
+                        <Autocomplete
+                          disable={loading}
+                          onChange={(e, value) => {
+                            setFieldValue(
+                              `linkedWebinars.${index}.webinarId`,
+                              value !== null ? value.id : availableWebinars
+                            );
+                          }}
+                          id='linkedWebinars'
+                          getOptionLabel={(option) => option?.eventTitle}
+                          options={availableWebinars ?? []}
+                          renderInput={(params) => (
+                            <TextField {...params} label='Select Webinar' variant='outlined' />
+                          )}
+                        />
+                      </div>
+                      <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
+                        <RemoveCircleIcon fontSize='large' color='secondary' />
+                      </Controls.ActionButton>
                     </div>
-                    <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
-                      <RemoveCircleIcon fontSize='large' color='secondary' />
-                    </Controls.ActionButton>
-                  </div>
-                ))}
-                <Controls.ActionButton onClick={() => arrayHelpers.push({ webinarId: '' })}>
-                  <AddBoxIcon fontSize='large' color='primary' />
-                </Controls.ActionButton>
+                  ))}
+                {availableWebinars.length > 0 && (
+                  <Controls.ActionButton
+                    onClick={() =>
+                      arrayHelpers.push({
+                        webinarId: '',
+                      })
+                    }
+                  >
+                    <AddBoxIcon fontSize='large' color='primary' />
+                  </Controls.ActionButton>
+                )}
               </>
             )}
           />
         </div>
 
-        {storeWebinarIds.length > 0 && <h6 style={{ marginTop: '1.2rem' }}>Webinar List</h6>}
+        {availableWebinars.length === 0 && (
+          <Alert severity='warning'>No Live Or Scheduled Webinars were found to +Add!</Alert>
+        )}
+
+        {storeWebinarIds.length > 0 && (
+          <h6
+            style={{
+              marginTop: '1.2rem',
+            }}
+          >
+            Webinar List
+          </h6>
+        )}
 
         <div className='webinarCards'>
           {/* filtering out webinars selected by the user */}
-          {filteredWebinars
+          {combinedWebinars
             ?.filter((webinar) => storeWebinarIds?.includes(webinar.id))
             ?.map(({ eventTitle, eventDate, eventEndDate }) => {
               return (
@@ -123,7 +160,15 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
 
   const LinkedTestTap = () => {
     if (values?.linkedTest === null)
-      return <h6 style={{ textAlign: 'center', marginTop: '3rem' }}>No Test Linked</h6>;
+      return (
+        <div
+          style={{
+            marginTop: '2rem',
+          }}
+        >
+          <Alert severity='info'>No Linked Test!</Alert>
+        </div>
+      );
     return (
       <WebinarTabContainer>
         <div className='webinarCards'>
@@ -156,15 +201,35 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
             <div>
               {values?.linkedSelfPrepVideos?.map((_, index) => (
                 <div key={index} className={classes.input}>
-                  <div style={{ width: '100%' }}>
-                    <h6 style={{ color: '#052A4E' }}>Video Name</h6>
+                  <div
+                    style={{
+                      width: '100%',
+                    }}
+                  >
+                    <h6
+                      style={{
+                        color: '#052A4E',
+                      }}
+                    >
+                      Video Name
+                    </h6>
                     <Field
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoName`}
                     />
                   </div>
-                  <div style={{ width: '100%' }}>
-                    <h6 style={{ color: '#052A4E' }}>Video Link</h6>
+                  <div
+                    style={{
+                      width: '100%',
+                    }}
+                  >
+                    <h6
+                      style={{
+                        color: '#052A4E',
+                      }}
+                    >
+                      Video Link
+                    </h6>
                     <Field
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoLink`}
@@ -176,7 +241,12 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
                 </div>
               ))}
               <Controls.ActionButton
-                onClick={() => arrayHelpers.push({ videoName: '', videoLink: '' })}
+                onClick={() =>
+                  arrayHelpers.push({
+                    videoName: '',
+                    videoLink: '',
+                  })
+                }
               >
                 <AddBoxIcon fontSize='large' color='primary' /> Add more videos
               </Controls.ActionButton>
@@ -205,7 +275,13 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   return (
     <Grid container>
       <Grid item md={12}>
-        <h6 style={{ marginBottom: '1rem' }}>Add Preparation Content</h6>
+        <h6
+          style={{
+            marginBottom: '1rem',
+          }}
+        >
+          Add Preparation Content
+        </h6>
         <TopTabs
           value={tabCount}
           textColor={'inherit'}

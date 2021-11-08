@@ -368,10 +368,11 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.length !== 0 &&
       props.getProductByFamilyIdList.length === 0 &&
       props.adminLinkedProductDetails.department !== 'sales' &&
+      props.adminLinkedProductDetails.department !== 'elev8_super_admin' &&
       props.adminLinkedProductDetails.department !== 'elev8' &&
       props.adminLinkedProductDetails.department !== 'SUPERADMIN'
     ) {
-      props.getProductByFamilyId(props.adminLinkedProductDetails.products[0].productFamily.id);
+      props.getProductByFamilyId(props.adminLinkedProductDetails?.products[0]?.productFamily.id);
     }
     //
     // let newListArr = []
