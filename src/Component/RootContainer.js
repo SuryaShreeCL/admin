@@ -76,6 +76,7 @@ import {
   testPath,
   wallPath,
   webinarPath,
+  appVersion,
 } from './RoutePaths';
 import Routes from './Routes';
 import TreeView from '@material-ui/lab/TreeView';
@@ -569,6 +570,33 @@ function RootContainer(props) {
           icon: <HomeOutlinedIcon />,
           title: 'Career Track',
           path: careerTrackPath,
+          items: [],
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === 'elev8_super_admin') {
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: 'Wall',
+          path: wallPath,
+          items: [],
+        },
+        {
+          icon: <AssignmentIcon />,
+          title: 'Tests',
+          path: testPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: 'Career Track',
+          path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <TrendingUpRoundedIcon />,
+          title: 'App Version Change',
+          path: appVersion,
           items: [],
         },
       ]);
