@@ -43,7 +43,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
     dispatch(listWallWebinars());
   }, [dispatch]);
 
-  const { loading, error, webinars } = useSelector((state) => state.wallWebinarListReducer);
+  const { loading, webinars } = useSelector((state) => state.wallWebinarListReducer);
 
   //fitering out archived webinars
   let filteredWebinars = webinars?.filter((webinar) => webinar.activeStatus !== 'Archive');
@@ -128,7 +128,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
       <WebinarTabContainer>
         <div className='webinarCards'>
           <div className='wcard'>
-            <h6>{values?.linkedTest.eventTitle}</h6>
+            <h6>{values?.linkedTest.caption}</h6>
             <div className='winfo'>
               <span>
                 <CalendarTodayIcon color='primary' />

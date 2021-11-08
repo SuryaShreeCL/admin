@@ -6,7 +6,7 @@ export const listWallPosts = (status, type) => async (dispatch) => {
     dispatch({ type: WALL.LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?isEvent=${type}&activeStatus=${status}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?isEvent=${type}&activeStatus=${status}&page=0&size=10000`,
       {
         crossDomain: true,
         headers: {
@@ -15,7 +15,6 @@ export const listWallPosts = (status, type) => async (dispatch) => {
         },
       }
     );
-
     dispatch({
       type: WALL.LIST_SUCCESS,
       payload: data.content,
@@ -33,7 +32,7 @@ export const listWallWebinars = () => async (dispatch) => {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=20`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=50000`,
       {
         crossDomain: true,
         headers: {
