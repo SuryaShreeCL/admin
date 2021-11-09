@@ -57,6 +57,10 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   // Combining the availableWebinars with linkedWebinarsLists for ease
   // of access to both the arrays& for validation
   let combinedWebinars = [...availableWebinars, ...(values?.linkedWebinarsLists || [])];
+  // Removing duplicates by ids if any.
+  let uniqueCombinedWebinars = [
+    ...new Map(combinedWebinars?.map((item) => [item['id'], item])).values(),
+  ];
 
   const WebinarTab = () => {
     return (
@@ -132,7 +136,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
 
         <div className='webinarCards'>
           {/* filtering out webinars selected by the user */}
-          {combinedWebinars
+          {uniqueCombinedWebinars
             ?.filter((webinar) => storeWebinarIds?.includes(webinar.id))
             ?.map(({ eventTitle, eventDate, eventEndDate }) => {
               return (
