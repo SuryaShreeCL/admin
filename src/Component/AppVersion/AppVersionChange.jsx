@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CreatePostContainer, ButtonsContainer } from '../Wall/Assets/Styles/CreatePostStyles';
+import { CreatePostContainer } from '../Wall/Assets/Styles/CreatePostStyles';
 import { Formik, Form } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +9,10 @@ import { Grid } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
 import Controls from '../Utils/controls/Controls';
 import ConfirmDialog from '../Utils/ConfirmDialog';
+import ConfirmSubmit from '../Utils/ConfirmSubmit';
 import Notification from '../Utils/Notification';
+import { getCurrentAppVersion } from '../../Actions/AppVersionAction';
+import { wallPath } from '../RoutePaths';
 
 const useStyles = makeStyles({
   root: {
@@ -43,51 +46,58 @@ const AppVersionChange = () => {
   const history = useHistory();
 
   const [state, setState] = useState({
-    wallCategories: [],
-    caption: '',
-    isEvent: location.type ?? false,
-    supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
-    wallFiles: [],
-    isWebinar: location?.postType === 'Webinar',
-    canComment: false,
-    linkedSelfPrepVideos: null,
-    totalViews: 0,
-    totalLikes: 0,
-    linkedTest: null,
-    eventTitle: '',
-    linkedWebinars: [],
-    redirectionUrl: '',
-    zoomLink: '',
-    buttonText: '',
-    createdBy: window.sessionStorage.getItem('department') || '',
-    eventDate: new Date(),
-    resumeNeeded: false,
-    eventEndDate: new Date(),
-    selectedDate: new Date(),
-    isScheduled: false,
-    isVideoUrlEnabled: false,
-    videoUrl: '',
-  });
-
-  const [errorSchema, setErrorSchema] = useState({
-    isVideoLink: false,
+    latestVersion: '1.1.6',
+    iosUrl: '',
+    playUrl: '',
+    currentLatestVersion: '',
+    currentHardUpdate: '',
+    hardUpdate: '1.1.5',
   });
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: '',
     subTitle: '',
   });
 
-  // useEffect(() => {
-  //   dispatch(getWallCategories('Live'));
-  // }, [dispatch]);
+  const [confirmSubmit, setConfirmSubmit] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+  });
+
+  useEffect(() => {
+    dispatch(getCurrentAppVersion());
+  }, [dispatch]);
+
+  //Checks for version number which contains 2 dots and 3 integers (Ex: 1.2.1)
+  const versionRegex = /^(\d{1}.\d{1}.\d{1}$)/;
 
   const validationSchema = yup.object({
-    caption: yup.string().required('caption is required'),
-    eventTitle: yup.string().required('title is required'),
-    zoomLink: yup.string().required('zoom id is required'),
+    latestVersion: yup
+      .string()
+      .test(
+        'validAppVersion',
+        'version must be valid & greater than current version',
+        (latestVersion) => versionRegex.test(latestVersion) && latestVersion > '1.1.4'
+      ),
+    hardUpdate: yup
+      .string()
+      .test(
+        'validAppVersion',
+        'version must be valid & greater than hard update below version',
+        (hardUpdate) => versionRegex.test(hardUpdate) && hardUpdate > '1.1.1'
+      ),
+    iosUrl: yup
+      .string()
+      .url()
+      .required(),
+    playUrl: yup
+      .string()
+      .url()
+      .required(),
   });
 
   // const createPost = (post, activeStatus) => {
@@ -110,16 +120,26 @@ const AppVersionChange = () => {
       ...confirmDialog,
       isOpen: false,
     });
-    // setTimeout(() => {
-    //   history.push({
-    //     pathname: wallPath,
-    //     tab: location?.postTypeTab,
-    //   });
-    // }, 1200);
+    setTimeout(() => {
+      history.push({
+        pathname: wallPath,
+      });
+    }, 1200);
     setNotify({
       isOpen: true,
       message: 'Cancelled',
       type: 'warning',
+    });
+  };
+  const onSubmit = () => {
+    setConfirmSubmit({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    setNotify({
+      isOpen: true,
+      message: 'Version Updated',
+      type: 'success',
     });
   };
 
@@ -128,26 +148,42 @@ const AppVersionChange = () => {
       <CreatePostContainer>
         <Formik
           initialValues={state || []}
-          validationSchema={state.isWebinar && validationSchema}
-          // onSubmit={(values, { resetForm }) => {
-          //   if (validate(values)) {
-          //     createPost(values, location?.postType === 'Webinar' ? 'Scheduled' : 'Live');
-          //     resetForm();
-          //   }
-          // }}
+          validationSchema={validationSchema}
+          onSubmit={(values, { resetForm }) => {
+            setConfirmSubmit({
+              isOpen: true,
+              title: 'Confirm Submission',
+              subTitle: 'Are you sure you want to submit this data?',
+              onConfirm: () => {
+                onSubmit();
+                resetForm();
+              },
+            });
+          }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
+          {({ handleSubmit, errors, handleChange, values, touched }) => (
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
+                  <div>
+                    <h6>
+                      Current App Version: <mark>1.1.1</mark>
+                    </h6>
+                    <h6>
+                      Current Hard Update Below Version: <mark>1.1.4</mark>
+                    </h6>
+                  </div>
+                  <hr />
                   <h6>App Version Change Details</h6>
                   <Grid item>
                     <Controls.Input
                       label='Enter Latest Version'
                       name='latestVersion'
                       className={classes.spacer}
-                      value={values.eventTitle}
+                      value={values.latestVersion}
+                      helperText={touched.latestVersion && errors.latestVersion}
+                      error={touched.latestVersion && Boolean(errors.latestVersion)}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -156,26 +192,32 @@ const AppVersionChange = () => {
                       label='Hard Update Below Version'
                       name='hardUpdate'
                       className={classes.spacer}
-                      value={values.eventTitle}
+                      value={values.hardUpdate}
                       onChange={handleChange}
+                      helperText={touched.hardUpdate && errors.hardUpdate}
+                      error={touched.hardUpdate && Boolean(errors.hardUpdate)}
                     />
                   </Grid>
                   <Grid item>
                     <Controls.Input
                       label='iOS Store URL'
-                      name='iosurl'
+                      name='iosUrl'
                       className={classes.spacer}
-                      value={values.eventTitle}
+                      value={values.iosUrl}
                       onChange={handleChange}
+                      helperText={touched.iosUrl && errors.iosUrl}
+                      error={touched.iosUrl && Boolean(errors.iosUrl)}
                     />
                   </Grid>
                   <Grid item>
                     <Controls.Input
-                      label='PlayStore Url'
-                      name='playurl'
+                      label='Play Store Url'
+                      name='playUrl'
                       className={classes.spacer}
-                      value={values.eventTitle}
+                      value={values.playUrl}
                       onChange={handleChange}
+                      helperText={touched.playUrl && errors.playUrl}
+                      error={touched.playUrl && Boolean(errors.playUrl)}
                     />
                   </Grid>
 
@@ -212,6 +254,7 @@ const AppVersionChange = () => {
       </CreatePostContainer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmSubmit confirmSubmit={confirmSubmit} setConfirmSubmit={setConfirmSubmit} />
     </>
   );
 };
