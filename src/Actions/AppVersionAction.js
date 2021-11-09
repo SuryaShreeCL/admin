@@ -16,10 +16,9 @@ export const getCurrentAppVersion = () => async (dispatch) => {
       }
     );
 
-    console.log(data);
     dispatch({
       type: APPVERSION.SUCCESS,
-      payload: data,
+      payload: data.data,
     });
   } catch (error) {
     dispatch({

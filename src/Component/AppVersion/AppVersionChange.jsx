@@ -11,8 +11,10 @@ import Controls from '../Utils/controls/Controls';
 import ConfirmDialog from '../Utils/ConfirmDialog';
 import ConfirmSubmit from '../Utils/ConfirmSubmit';
 import Notification from '../Utils/Notification';
+import Loader from '../Utils/controls/Loader';
 import { getCurrentAppVersion } from '../../Actions/AppVersionAction';
 import { wallPath } from '../RoutePaths';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles({
   root: {
@@ -46,13 +48,13 @@ const AppVersionChange = () => {
   const history = useHistory();
 
   const [state, setState] = useState({
-    latestVersion: '1.1.6',
-    iosUrl: '',
-    playUrl: '',
-    currentLatestVersion: '',
-    currentHardUpdate: '',
-    hardUpdate: '1.1.5',
+    latestVersion: '',
+    iosStoreUrl: '',
+    androidStoreUrl: '',
+    hardUpdateBelowVersion: '',
   });
+
+  const { loading, version, error } = useSelector((state) => state.getAppVersionReducer);
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
@@ -81,20 +83,22 @@ const AppVersionChange = () => {
       .test(
         'validAppVersion',
         'version must be valid & greater than current version',
-        (latestVersion) => versionRegex.test(latestVersion) && latestVersion > '1.1.4'
+        (latestVersion) => versionRegex.test(latestVersion) && latestVersion > version.latestVersion
       ),
-    hardUpdate: yup
+    hardUpdateBelowVersion: yup
       .string()
       .test(
-        'validAppVersion',
+        'validHardUpdateAppVersion',
         'version must be valid & greater than hard update below version',
-        (hardUpdate) => versionRegex.test(hardUpdate) && hardUpdate > '1.1.1'
+        (hardUpdateBelowVersion) =>
+          versionRegex.test(hardUpdateBelowVersion) &&
+          hardUpdateBelowVersion > version.hardUpdateBelowVersion
       ),
-    iosUrl: yup
+    iosStoreUrl: yup
       .string()
       .url()
       .required(),
-    playUrl: yup
+    androidStoreUrl: yup
       .string()
       .url()
       .required(),
@@ -143,6 +147,9 @@ const AppVersionChange = () => {
     });
   };
 
+  if (loading) return <Loader />;
+  if (error) return <Alert severity='error'>{error}</Alert>;
+
   return (
     <>
       <CreatePostContainer>
@@ -168,10 +175,11 @@ const AppVersionChange = () => {
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <div>
                     <h6>
-                      Current App Version: <mark>1.1.1</mark>
+                      Current App Version: <mark>{version.latestVersion}</mark>
                     </h6>
                     <h6>
-                      Current Hard Update Below Version: <mark>1.1.4</mark>
+                      Current Hard Update Below Version:{' '}
+                      <mark>{version.hardUpdateBelowVersion} </mark>
                     </h6>
                   </div>
                   <hr />
@@ -190,34 +198,36 @@ const AppVersionChange = () => {
                   <Grid item>
                     <Controls.Input
                       label='Hard Update Below Version'
-                      name='hardUpdate'
+                      name='hardUpdateBelowVersion'
                       className={classes.spacer}
-                      value={values.hardUpdate}
+                      value={values.hardUpdateBelowVersion}
                       onChange={handleChange}
-                      helperText={touched.hardUpdate && errors.hardUpdate}
-                      error={touched.hardUpdate && Boolean(errors.hardUpdate)}
+                      helperText={touched.hardUpdateBelowVersion && errors.hardUpdateBelowVersion}
+                      error={
+                        touched.hardUpdateBelowVersion && Boolean(errors.hardUpdateBelowVersion)
+                      }
                     />
                   </Grid>
                   <Grid item>
                     <Controls.Input
                       label='iOS Store URL'
-                      name='iosUrl'
+                      name='iosStoreUrl'
                       className={classes.spacer}
-                      value={values.iosUrl}
+                      value={values.iosStoreUrl}
                       onChange={handleChange}
-                      helperText={touched.iosUrl && errors.iosUrl}
-                      error={touched.iosUrl && Boolean(errors.iosUrl)}
+                      helperText={touched.iosStoreUrl && errors.iosStoreUrl}
+                      error={touched.iosStoreUrl && Boolean(errors.iosStoreUrl)}
                     />
                   </Grid>
                   <Grid item>
                     <Controls.Input
                       label='Play Store Url'
-                      name='playUrl'
+                      name='androidStoreUrl'
                       className={classes.spacer}
-                      value={values.playUrl}
+                      value={values.androidStoreUrl}
                       onChange={handleChange}
-                      helperText={touched.playUrl && errors.playUrl}
-                      error={touched.playUrl && Boolean(errors.playUrl)}
+                      helperText={touched.androidStoreUrl && errors.androidStoreUrl}
+                      error={touched.androidStoreUrl && Boolean(errors.androidStoreUrl)}
                     />
                   </Grid>
 
