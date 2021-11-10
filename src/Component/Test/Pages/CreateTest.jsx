@@ -112,7 +112,7 @@ const CreateTest = () => {
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
-  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  const { loading, posts } = useSelector((state) => state.wallPostListReducer);
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
@@ -204,7 +204,6 @@ const CreateTest = () => {
     });
   };
 
-  console.log('fff');
   return (
     <>
       <BackHandler title={`Create New Test`} tab={0} path={testPath} />
