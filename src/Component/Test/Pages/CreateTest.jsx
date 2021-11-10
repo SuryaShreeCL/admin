@@ -493,7 +493,7 @@ const CreateTest = () => {
                       marginLeft: '45%',
                     }}
                   />
-                  <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                  {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                 </Form>
               </div>
             </>
