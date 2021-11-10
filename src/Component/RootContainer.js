@@ -76,6 +76,7 @@ import {
   testPath,
   wallPath,
   webinarPath,
+  appVersion,
 } from './RoutePaths';
 import Routes from './Routes';
 import TreeView from '@material-ui/lab/TreeView';
@@ -367,10 +368,11 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.length !== 0 &&
       props.getProductByFamilyIdList.length === 0 &&
       props.adminLinkedProductDetails.department !== 'sales' &&
+      props.adminLinkedProductDetails.department !== 'elev8_super_admin' &&
       props.adminLinkedProductDetails.department !== 'elev8' &&
       props.adminLinkedProductDetails.department !== 'SUPERADMIN'
     ) {
-      props.getProductByFamilyId(props.adminLinkedProductDetails.products[0].productFamily.id);
+      props.getProductByFamilyId(props.adminLinkedProductDetails?.products[0]?.productFamily.id);
     }
     //
     // let newListArr = []
@@ -569,6 +571,33 @@ function RootContainer(props) {
           icon: <HomeOutlinedIcon />,
           title: 'Career Track',
           path: careerTrackPath,
+          items: [],
+        },
+      ]);
+    } else if (props.adminLinkedProductDetails.department === 'elev8_super_admin') {
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: 'Wall',
+          path: wallPath,
+          items: [],
+        },
+        {
+          icon: <AssignmentIcon />,
+          title: 'Tests',
+          path: testPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: 'Career Track',
+          path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <TrendingUpRoundedIcon />,
+          title: 'App Version Change',
+          path: appVersion,
           items: [],
         },
       ]);
