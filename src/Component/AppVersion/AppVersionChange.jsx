@@ -6,13 +6,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Controls from '../Utils/controls/Controls';
 import ConfirmDialog from '../Utils/ConfirmDialog';
 import ConfirmSubmit from '../Utils/ConfirmSubmit';
 import Notification from '../Utils/Notification';
 import Loader from '../Utils/controls/Loader';
-import { getCurrentAppVersion } from '../../Actions/AppVersionAction';
+import { getCurrentAppVersion, updateAppVersion } from '../../Actions/AppVersionAction';
 import { wallPath } from '../RoutePaths';
 import { Alert } from '@material-ui/lab';
 
@@ -44,17 +44,19 @@ const useStyles = makeStyles({
 const AppVersionChange = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const location = useLocation();
   const history = useHistory();
 
   const [state, setState] = useState({
+    type: 'ELEV8',
     latestVersion: '',
-    iosStoreUrl: '',
-    androidStoreUrl: '',
+    iosStoreUrl: 'https://testflight.apple.com/join/3hubYSJQ',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.careerlabs',
     hardUpdateBelowVersion: '',
   });
 
   const { loading, version, error } = useSelector((state) => state.getAppVersionReducer);
+
+  console.log(version);
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
@@ -83,7 +85,8 @@ const AppVersionChange = () => {
       .test(
         'validAppVersion',
         'version must be valid & greater than current version',
-        (latestVersion) => versionRegex.test(latestVersion) && latestVersion > version.latestVersion
+        (latestVersion) =>
+          versionRegex.test(latestVersion) && latestVersion >= version.latestVersion
       ),
     hardUpdateBelowVersion: yup
       .string()
@@ -92,7 +95,7 @@ const AppVersionChange = () => {
         'version must be valid & greater than hard update below version',
         (hardUpdateBelowVersion) =>
           versionRegex.test(hardUpdateBelowVersion) &&
-          hardUpdateBelowVersion > version.hardUpdateBelowVersion
+          hardUpdateBelowVersion >= version.hardUpdateBelowVersion
       ),
     iosStoreUrl: yup
       .string()
@@ -103,21 +106,6 @@ const AppVersionChange = () => {
       .url()
       .required(),
   });
-
-  // const createPost = (post, activeStatus) => {
-  //   if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
-  //   setNotify({
-  //     isOpen: true,
-  //     message: 'Created Successfully',
-  //     type: 'success',
-  //   });
-  //   setTimeout(() => {
-  //     history.push({
-  //       pathname: wallPath,
-  //       tab: location?.postTypeTab,
-  //     });
-  //   }, 1200);
-  // };
 
   const onDiscard = () => {
     setConfirmDialog({
@@ -133,17 +121,6 @@ const AppVersionChange = () => {
       isOpen: true,
       message: 'Cancelled',
       type: 'warning',
-    });
-  };
-  const onSubmit = () => {
-    setConfirmSubmit({
-      ...confirmDialog,
-      isOpen: false,
-    });
-    setNotify({
-      isOpen: true,
-      message: 'Version Updated',
-      type: 'success',
     });
   };
 
@@ -162,7 +139,19 @@ const AppVersionChange = () => {
               title: 'Confirm Submission',
               subTitle: 'Are you sure you want to submit this data?',
               onConfirm: () => {
-                onSubmit();
+                dispatch(updateAppVersion(values));
+                setConfirmSubmit({
+                  ...confirmDialog,
+                  isOpen: false,
+                });
+                setNotify({
+                  isOpen: true,
+                  message: 'Version Updated',
+                  type: 'success',
+                });
+                setTimeout(() => {
+                  dispatch(getCurrentAppVersion());
+                }, 1200);
                 resetForm();
               },
             });
