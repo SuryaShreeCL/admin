@@ -247,8 +247,8 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
               <Controls.ActionButton
                 onClick={() =>
                   arrayHelpers.push({
-                    videoName: '',
-                    videoLink: '',
+                    videoName: null,
+                    videoLink: null,
                   })
                 }
               >
