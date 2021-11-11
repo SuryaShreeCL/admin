@@ -322,7 +322,7 @@ class StageBasedLayout extends Component {
     });
   };
   renderbutton() {
-    if (this.state.tabCount === 0) {
+    if (this.state.tabCount === 0 && typeof this.state.selectedItem === "object") {
       return (
         <>
           <Grid item md={12}>
