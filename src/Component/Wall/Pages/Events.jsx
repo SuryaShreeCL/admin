@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'eventTitle', label: 'Title' },
+  { id: 'date', label: 'Published' },
   { id: 'description', label: 'Description' },
   { id: 'registrations', label: 'Registrations' },
   { id: 's&t', label: 'Start Date' },
@@ -184,6 +185,7 @@ export default function Events() {
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{`${item.eventTitle?.slice(0, 25)}..`}</TableCell>
+                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption?.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalRegistrations ?? 0}</TableCell>
                   <TableCell>{moment(item.eventDate).format('MMM Do, hh:mm a')}</TableCell>

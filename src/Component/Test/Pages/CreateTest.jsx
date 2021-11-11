@@ -112,7 +112,7 @@ const CreateTest = () => {
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
-  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  const { loading, posts } = useSelector((state) => state.wallPostListReducer);
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
@@ -267,12 +267,7 @@ const CreateTest = () => {
                           setFieldValue('eventPost.id', value !== null ? value.id : categories);
                         }}
                         renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            variant='outlined'
-                            label='Select Event'
-                            margin='normal'
-                          />
+                          <TextField {...params} variant='outlined' label='Select Event' />
                         )}
                       />
                     </Grid>

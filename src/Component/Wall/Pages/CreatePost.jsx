@@ -28,6 +28,7 @@ import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { wallPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
+import PreprationContainer from '../Components/PreparationContainer';
 
 const useStyles = makeStyles({
   root: {
@@ -62,9 +63,12 @@ const CreatePost = () => {
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
+    linkedSelfPrepVideos: null,
     totalViews: 0,
     totalLikes: 0,
+    linkedTest: null,
     eventTitle: '',
+    linkedWebinars: [],
     redirectionUrl: '',
     zoomLink: '',
     buttonText: '',
@@ -642,8 +646,11 @@ const CreatePost = () => {
                     )}
                   </ButtonsContainer>
                 </Form>
+                {values.isWebinar ? null : <Preview state={values} />}
               </div>
-              {values.isWebinar ? null : <Preview state={values} />}
+              {values.isEvent && (
+                <PreprationContainer values={values} setFieldValue={setFieldValue} />
+              )}
             </>
           )}
         </Formik>

@@ -18,19 +18,19 @@ export const QUESTIONS = {
   getQuestions: 'getQuestions',
 };
 export const PROFILE_GAP_ANALYSIS = {
-  getgeneraldetails : "getgeneraldetails",
-  getstatus : "getstatus",
-  getcommenthistory : "getcommenthistory",
-  updatestatus:"updatestatus",
-  getTestResults : "getTestResults",
-  getPpgaCallNotes: "getPpgaCallNotes",
-  updatePpgaCallNotes : "updatePpgaCallNotes",
-  getcvresult:"getcvresult",
-  deletecvresult : "deletecvresult",
-  updatecvresult : "updatecvresult",
-  getdashboarddetails : "getdashboarddetails",
-  getpgalist:"getpgalist",
-}
+  getgeneraldetails: 'getgeneraldetails',
+  getstatus: 'getstatus',
+  getcommenthistory: 'getcommenthistory',
+  updatestatus: 'updatestatus',
+  getTestResults: 'getTestResults',
+  getPpgaCallNotes: 'getPpgaCallNotes',
+  updatePpgaCallNotes: 'updatePpgaCallNotes',
+  getcvresult: 'getcvresult',
+  deletecvresult: 'deletecvresult',
+  updatecvresult: 'updatecvresult',
+  getdashboarddetails: 'getdashboarddetails',
+  getpgalist: 'getpgalist',
+};
 
 export const COLLEGES = {
   getCollege: 'getCollege',
@@ -87,9 +87,9 @@ export const STUDENT = {
   deleteDocumentGraduate: 'deleteDocumentGraduate',
   filterStageBaseUsers: 'filterStageBaseUsers',
   searchStudentInStages: 'searchStudentInStages',
-  StudentStepDetails : "StudentStepDetails",
-  ObIncomplete : "ObIncomplete",
-  ObComplete : "ObComplete" ,
+  StudentStepDetails: 'StudentStepDetails',
+  ObIncomplete: 'ObIncomplete',
+  ObComplete: 'ObComplete',
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: 'getChoiceAnswer',
@@ -156,13 +156,13 @@ export const QUESTIONSET = {
   deleteChoice: 'deleteChoice',
 };
 export const CAREER_ROLE_GRAPH = {
-  getStudentGoals : "getStudentGoals",
-  deleteStudentGoals : "deleteStudentGoals",
-  updateStudentGoals : "updateStudentGoals",
-  getGoalsType : "getGoalsType",
-  getGraphDetails : "getGraphDetails",
-  getCareerDetails : "getCareerDetails"
-}
+  getStudentGoals: 'getStudentGoals',
+  deleteStudentGoals: 'deleteStudentGoals',
+  updateStudentGoals: 'updateStudentGoals',
+  getGoalsType: 'getGoalsType',
+  getGraphDetails: 'getGraphDetails',
+  getCareerDetails: 'getCareerDetails',
+};
 
 export const VIDEO = {
   viewVideo: 'viewVideo',
@@ -400,6 +400,16 @@ export const TESTIMONIAL = {
   UPDATE_SUCCESS: 'UPDATE_SUCCESS',
   UPDATE_FAIL: 'UPDATE_FAIL',
   UPDATE_RESET: 'UPDATE_RESET',
+};
+
+export const APPVERSION = {
+  REQUEST: 'APP_VERSION_REQUEST',
+  SUCCESS: 'APP_VERSION_SUCCESS',
+  FAIL: 'APP_VERSION_FAIL',
+
+  CREATE_REQUEST: 'CREATE_APP_VERSION_REQUEST',
+  CREATE_SUCCESS: 'CREATE_APP_VERSION_SUCCESS',
+  CREATE_FAIL: 'CREATE_APP_VERSION_FAIL',
 };
 
 export const WALL = {

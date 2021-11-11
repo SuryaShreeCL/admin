@@ -84,6 +84,7 @@ import {
   lms_add_test,
   bulk_upload,
   single_upload,
+  appVersion,
 } from './RoutePaths';
 import College from './College';
 import University from './University';
@@ -144,6 +145,7 @@ import BulkUpload from '../Lms/Component/Test/BulkUpload/Index';
 import SingleUpload from '../Lms/Component/Test/SingleUpload/Index';
 
 import AppTestLanding from './Test/AppTestLanding';
+import AppVersionChange from './AppVersion/AppVersionChange';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -197,6 +199,7 @@ export default function Routes(props) {
         render={props => <CreatePost {...props} />}
       />
       <Route exact path={editPath} render={props => <EditPost {...props} />} />
+      <Route exact path={appVersion} render={props => <AppVersionChange {...props} />} />
       <Route
         exact
         path={testPath}
