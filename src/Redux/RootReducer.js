@@ -42,6 +42,7 @@ import {
   testListReducer,
   testDetailsReducer,
 } from '../Reducer/TestReducer';
+import { getAppVersionReducer, updateAppVersionReducer } from '../Reducer/AppVersionReducer';
 
 // LMS
 import CourseMaterialReducer from '../Lms/Redux/Reducer/CourseMaterialReducer';
@@ -68,14 +69,17 @@ export default combineReducers({
   MentorReducer: MentorReducer,
   CallReducer: CallReducer,
   PgaReducer: PgaReducer,
-  ProfileGapAnalysisReducer : ProfileGapAnalysisReducer,
-  CRGReducer : CRGReducer,
+  ProfileGapAnalysisReducer: ProfileGapAnalysisReducer,
+  CRGReducer: CRGReducer,
 
   //TESTIMONIAL
   testimonialCreateReducer,
   testimonialDeleteReducer,
   testimonialUpdateReducer,
   testimonialListReducer,
+  //APP VERSION
+  getAppVersionReducer,
+  updateAppVersionReducer,
   //WALL
   wallPostCreateReducer,
   wallPostDeleteReducer,

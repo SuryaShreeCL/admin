@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Card,
   MainContainer,
@@ -6,7 +6,7 @@ import {
   Title,
   Wrapper,
   TabThreeDot,
-} from "../../../Assets/StyledComponents";
+} from '../../../Assets/StyledComponents';
 import {
   getCourses,
   getSubjects,
@@ -17,33 +17,33 @@ import {
   validTopicName,
   deleteTask,
   uploadTopicImage,
-} from "../../../Redux/Action/CourseMaterial";
-import { connect } from "react-redux";
-import { TopicCard } from "./TopicCard";
-import { TaskCard } from "./TaskCard";
-import { SnackBar } from "../../../Utils/SnackBar";
-import { TaskButtons } from "./TaskButtons";
-import { StyledTaps } from "../../../Utils/Tabs";
-import Menu from "../Menu";
-import { MoreVertRounded } from "@material-ui/icons";
-import DialogComponent from "../../../Utils/DialogComponent";
-import { IconButton } from "@material-ui/core";
-import QueryString from "qs";
-import { lms_course_landing } from "../../../../Component/RoutePaths";
-import { DeleteRounded } from "@material-ui/icons";
+} from '../../../Redux/Action/CourseMaterial';
+import { connect } from 'react-redux';
+import { TopicCard } from './TopicCard';
+import { TaskCard } from './TaskCard';
+import { SnackBar } from '../../../Utils/SnackBar';
+import { TaskButtons } from './TaskButtons';
+import { StyledTaps } from '../../../Utils/Tabs';
+import Menu from '../Menu';
+import { MoreVertRounded } from '@material-ui/icons';
+import DialogComponent from '../../../Utils/DialogComponent';
+import { IconButton } from '@material-ui/core';
+import QueryString from 'qs';
+import { lms_course_landing } from '../../../../Component/RoutePaths';
+import { DeleteRounded } from '@material-ui/icons';
 
 const dialogContent = {
-  type: "delete",
-  icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
-  title: "Are you sure you want to delete this task ?",
-  button1: "No",
-  button2: "Yes",
+  type: 'delete',
+  icon: <DeleteRounded style={{ fontSize: '48px', fill: '#1093FF' }} />,
+  title: 'Are you sure you want to delete this task ?',
+  button1: 'No',
+  button2: 'Yes',
 };
 
-const validURL = (url) => {
-  const IMAGE_FORMATS = [".jpg", ".jpeg", ".png", ".tiff", ".svg"];
+const validURL = url => {
+  const IMAGE_FORMATS = ['.jpg', '.jpeg', '.png', '.tiff', '.svg'];
   return (
-    IMAGE_FORMATS.indexOf(url.slice(url.lastIndexOf("."), url.length)) > -1
+    IMAGE_FORMATS.indexOf(url.slice(url.lastIndexOf('.'), url.length)) > -1
   );
 };
 
@@ -54,18 +54,18 @@ class Index extends Component {
       courseValue: null,
       subjectValue: null,
       conceptValue: null,
-      topicValue: "",
-      oldTopicValue: "",
+      topicValue: '',
+      oldTopicValue: '',
       isTopicNameValid: true,
-      descriptionValue: "",
+      descriptionValue: '',
       imageUrl: null,
       newTaskData: [],
       tabValue: null,
       totalTasks: 0,
       topicId: null,
-      message: "",
+      message: '',
       snackOpen: false,
-      snackType: "success",
+      snackType: 'success',
       tabsLabels: [],
       anchorEl: null,
       dialogStatus: false,
@@ -87,26 +87,26 @@ class Index extends Component {
       newtopicId !== null &&
       newtopicId.trim().length > 10
     ) {
-      this.props.getTopicDetails(newtopicId, (newtopicResponse) => {
+      this.props.getTopicDetails(newtopicId, newtopicResponse => {
         if (newtopicResponse.success) {
           const { data } = this.props.topicsDetails;
           this.props.getCourses(() => {});
-          this.props.getSubjects(data.course.id, (res) => {
+          this.props.getSubjects(data.course.id, res => {
             this.setState({ subjectValue: data.subject.id });
           });
-          this.props.getConcepts(data.subject.id, (res) => {
+          this.props.getConcepts(data.subject.id, res => {
             this.setState({ conceptValue: data.concept.id });
           });
         }
       });
     } else {
-      this.props.getCourses((response) => {
+      this.props.getCourses(response => {
         if (response.success) {
-          this.props.getSubjects(response.data[0].id, (subjectResponse) => {
+          this.props.getSubjects(response.data[0].id, subjectResponse => {
             if (subjectResponse.success) {
               this.props.getConcepts(
                 subjectResponse.data[0].id,
-                (conceptResponse) => {
+                conceptResponse => {
                   if (conceptResponse.success) {
                     this.setState({
                       courseValue: response.data[0].id,
@@ -155,26 +155,26 @@ class Index extends Component {
     }
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     const { value, name } = e.target;
-    if (name === "topicValue" && value.trim().length === 0) {
+    if (name === 'topicValue' && value.trim().length === 0) {
       this.setState({ isTopicNameValid: true });
     }
-    if (name === "imageUrl") {
+    if (name === 'imageUrl') {
       const formData = new FormData();
-      formData.append("file", e.target.files[0]);
-      this.props.uploadTopicImage(formData, (response) => {
+      formData.append('file', e.target.files[0]);
+      this.props.uploadTopicImage(formData, response => {
         if (response.success) {
           this.setState({ [name]: response.data.fileName });
         }
       });
     } else this.setState({ [name]: value });
-    if (name === "courseValue") {
-      this.props.getSubjects(value, (subjectResponse) => {
+    if (name === 'courseValue') {
+      this.props.getSubjects(value, subjectResponse => {
         if (subjectResponse.success) {
           this.props.getConcepts(
             subjectResponse.data[0].id,
-            (conceptResponse) => {
+            conceptResponse => {
               if (conceptResponse.success) {
                 this.setState({
                   subjectValue: subjectResponse.data[0].id,
@@ -186,8 +186,8 @@ class Index extends Component {
         }
       });
     }
-    if (name === "subjectValue") {
-      this.props.getConcepts(value, (conceptResponse) => {
+    if (name === 'subjectValue') {
+      this.props.getConcepts(value, conceptResponse => {
         if (conceptResponse.success) {
           this.setState({
             conceptValue: conceptResponse.data[0].id,
@@ -197,11 +197,13 @@ class Index extends Component {
     }
   };
 
-  topicNameValidate = (e) => {
+  // Checking if topic name already exist
+
+  topicNameValidate = e => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
     const { conceptValue, oldTopicValue } = this.state;
-    this.props.validTopicName(conceptValue, value, (res) => {
+    this.props.validTopicName(conceptValue, value, res => {
       if (res.success || oldTopicValue === value)
         this.setState({ isTopicNameValid: true });
       else this.setState({ isTopicNameValid: false });
@@ -220,7 +222,7 @@ class Index extends Component {
     });
   };
 
-  handleTopicSaveButton = (e) => {
+  handleTopicSaveButton = e => {
     e.preventDefault();
     const {
       topicValue,
@@ -244,42 +246,42 @@ class Index extends Component {
             imageUrl: imageUrl,
             concept: { id: conceptValue },
           };
-          this.props.addTopicDetails(topicData, (topicResponse) => {
+          this.props.addTopicDetails(topicData, topicResponse => {
             if (topicResponse.success) {
-              var topicMessage = "New Topic Added Successfully";
+              var topicMessage = 'New Topic Added Successfully';
               if (topicId !== null)
-                topicMessage = "Current Topic Updated Successfully";
+                topicMessage = 'Current Topic Updated Successfully';
               this.setState({
                 message: topicMessage,
                 snackOpen: true,
-                snackType: "success",
+                snackType: 'success',
                 topicId: topicResponse.data.id,
                 oldTopicValue: topicValue,
               });
             }
           });
         } else {
-          let imageMessage = "Please enter a valid image url";
+          let imageMessage = 'Please enter a valid image url';
           this.setState({
             message: imageMessage,
             snackOpen: true,
-            snackType: "warning",
+            snackType: 'warning',
           });
         }
       } else {
-        var topicNameMessage = "The topic name already exists";
+        var topicNameMessage = 'The topic name already exists';
         this.setState({
           message: topicNameMessage,
           snackOpen: true,
-          snackType: "warning",
+          snackType: 'warning',
         });
       }
     } else {
-      var imageMessage = "Please fill all the valid fields";
+      var imageMessage = 'Please fill all the valid fields';
       this.setState({
         message: imageMessage,
         snackOpen: true,
-        snackType: "warning",
+        snackType: 'warning',
       });
     }
   };
@@ -287,15 +289,15 @@ class Index extends Component {
   handleAddTask = () => {
     if (this.state.topicId !== null) {
       let count = this.state.totalTasks + 1;
-      this.setState((prevState) => ({
+      this.setState(prevState => ({
         newTaskData: [
           ...prevState.newTaskData,
           {
             id: null,
-            name: "",
-            contentType: "",
-            duration: "",
-            content: "",
+            name: '',
+            contentType: '',
+            duration: '',
+            content: '',
             topic: { id: this.state.topicId },
           },
         ],
@@ -303,16 +305,16 @@ class Index extends Component {
           ...prevState.duplicateTask,
           {
             id: null,
-            name: "",
-            contentType: "",
-            duration: "",
-            content: "",
+            name: '',
+            contentType: '',
+            duration: '',
+            content: '',
             topic: { id: this.state.topicId },
           },
         ],
         tabsLabels: [
           ...prevState.tabsLabels,
-          { tabLabel: "Task " + (this.state.totalTasks + 1) },
+          { tabLabel: 'Task ' + (this.state.totalTasks + 1) },
         ],
       }));
       this.setState({
@@ -322,7 +324,7 @@ class Index extends Component {
     }
   };
 
-  comparer = (otherArray) => {
+  comparer = otherArray => {
     return function(current) {
       return (
         otherArray.filter(function(other) {
@@ -338,9 +340,9 @@ class Index extends Component {
     };
   };
 
-  totalTaskValidation = (tasks) => {
+  totalTaskValidation = tasks => {
     const valid = tasks.map(
-      (item) =>
+      item =>
         item.content !== null &&
         item.contentType !== null &&
         item.name !== null &&
@@ -368,25 +370,25 @@ class Index extends Component {
       taskDetail.contentType.trim().length > 0 &&
       taskDetail.name.trim().length > 0
     ) {
-      this.props.addTaskDetails(newTaskData[tabValue - 1], (taskResponse) => {
+      this.props.addTaskDetails(newTaskData[tabValue - 1], taskResponse => {
         if (taskResponse.success) {
-          var taskMessage = "New Task Added Successfully";
+          var taskMessage = 'New Task Added Successfully';
           if (newTaskData[tabValue - 1].id !== null)
-            taskMessage = "Current Task Updated Successfully";
+            taskMessage = 'Current Task Updated Successfully';
 
-          taskData[tabValue - 1]["id"] = taskResponse.data.id;
+          taskData[tabValue - 1]['id'] = taskResponse.data.id;
 
-          duplicateData[tabValue - 1]["id"] = taskResponse.data.id;
-          duplicateData[tabValue - 1]["contentType"] =
+          duplicateData[tabValue - 1]['id'] = taskResponse.data.id;
+          duplicateData[tabValue - 1]['contentType'] =
             taskResponse.data.contentType;
-          duplicateData[tabValue - 1]["name"] = taskResponse.data.name;
-          duplicateData[tabValue - 1]["duration"] = taskResponse.data.duration;
-          duplicateData[tabValue - 1]["content"] = taskResponse.data.content;
+          duplicateData[tabValue - 1]['name'] = taskResponse.data.name;
+          duplicateData[tabValue - 1]['duration'] = taskResponse.data.duration;
+          duplicateData[tabValue - 1]['content'] = taskResponse.data.content;
 
           this.setState({
             message: taskMessage,
             snackOpen: true,
-            snackType: "success",
+            snackType: 'success',
             taskData,
             duplicateData,
           });
@@ -400,18 +402,18 @@ class Index extends Component {
             this.props.history.push(lms_course_landing);
           } else {
             this.setState({
-              message: "Please save all tasks",
+              message: 'Please save all tasks',
               snackOpen: true,
-              snackType: "warning",
+              snackType: 'warning',
             });
           }
         }
       });
     } else {
       this.setState({
-        message: "Please fill all the fields",
+        message: 'Please fill all the fields',
         snackOpen: true,
-        snackType: "warning",
+        snackType: 'warning',
       });
     }
   };
@@ -425,7 +427,7 @@ class Index extends Component {
     });
   };
 
-  handleThreeDotClick = (e) => {
+  handleThreeDotClick = e => {
     this.setState({
       anchorEl: e.currentTarget,
     });
@@ -470,11 +472,11 @@ class Index extends Component {
   handleTaskDelete = () => {
     const { tabValue, newTaskData, topicId } = this.state;
     if (newTaskData.length !== 0) {
-      var deleteTaskId = newTaskData[tabValue - 1]["id"];
+      var deleteTaskId = newTaskData[tabValue - 1]['id'];
       if (deleteTaskId !== null) {
-        this.props.deleteTask(deleteTaskId, (response) => {
+        this.props.deleteTask(deleteTaskId, response => {
           if (response.success) {
-            this.props.getTopicDetails(topicId, (res) => {
+            this.props.getTopicDetails(topicId, res => {
               if (res.success) {
                 this.handleCloseIconClick();
               }
@@ -546,7 +548,7 @@ class Index extends Component {
         <MainContainer>
           <Card>
             <Wrapper>
-              <Title>{topic_id ? "Edit Topic" : "Add New Topic"}</Title>
+              <Title>{topic_id ? 'Edit Topic' : 'Add New Topic'}</Title>
               <TopicCard
                 data={{
                   courses: courses.data,
@@ -572,11 +574,11 @@ class Index extends Component {
                   <TabThreeDot>
                     <IconButton
                       style={{
-                        padding: "3px",
+                        padding: '3px',
                       }}
                       onClick={handleThreeDotClick}
                     >
-                      <MoreVertRounded style={{ fill: "#1093ff" }} />
+                      <MoreVertRounded style={{ fill: '#1093ff' }} />
                     </IconButton>
                     <Menu
                       questionId={tabValue}
@@ -592,10 +594,10 @@ class Index extends Component {
                     tabId: tabValue - 1,
                     handleTabChange: (e, newValue) =>
                       this.setState({ tabValue: newValue + 1 }),
-                    tabsBackColor: "#1093FF",
+                    tabsBackColor: '#1093FF',
                     tabData: tabsLabels,
-                    activeClass: "active__task__tab",
-                    styleName: "addNewTask",
+                    activeClass: 'active__task__tab',
+                    styleName: 'addNewTask',
                   }}
                 />
               </TabContainer>
@@ -607,8 +609,7 @@ class Index extends Component {
                       index: index,
                       tabId: tabValue,
                       inputItem: item,
-                      taskProperties: (e) =>
-                        this.handleTaskProperties(index, e),
+                      taskProperties: e => this.handleTaskProperties(index, e),
                       richEditorChange: this.onRichEditorChange,
                     }}
                   />
@@ -650,7 +651,7 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     ...state.CourseMaterialReducer,
   };

@@ -152,7 +152,7 @@ class Add extends Component {
         });
         this.setState({
           testQuestionSetId: questionSet.id,
-          courseId: questionSet.courseId,
+          courseId: questionSet.course,
           name: questionSet.name,
           type: questionSet.type,
           description: questionSet.description,

@@ -29,6 +29,7 @@ import { wallPath } from '../../RoutePaths';
 import Notification from '../../Utils/Notification';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
+import PreprationContainer from '../Components/PreparationContainer';
 
 const useStyles = makeStyles({
   root: {
@@ -67,7 +68,9 @@ const EditPost = () => {
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
+    linkedSelfPrepVideos: [{ videoName: '', videoLink: '' }],
     eventTitle: '',
+    linkedWebinars: [],
     redirectionUrl: '',
     buttonText: '',
     createdBy: window.sessionStorage.getItem('department') || '',
@@ -568,8 +571,11 @@ const EditPost = () => {
                     )}
                   </ButtonsContainer>
                 </Form>
+                {values.isWebinar ? null : <Preview state={values} />}
               </div>
-              {values.isWebinar ? null : <Preview state={values} />}
+              {values.isEvent && (
+                <PreprationContainer values={values} setFieldValue={setFieldValue} />
+              )}
             </>
           )}
         </Formik>
