@@ -160,13 +160,13 @@ class AspirationDetails extends Component {
     // -------------- College ---------------
 
     if (this.state.aspirationCollegeList !== prevState.aspirationCollegeList) {
-      var searchData = this.state.aspirationCountries.map(
+      var searchData = this.state.aspirationCountries && this.state.aspirationCountries.map(
         (eachData, index) => eachData.name
       );
 
-      var filteredList = this.state.aspirationCollegeList
+      var filteredList = this.state.aspirationCollegeList && this.state.aspirationCollegeList
         .map((eachElement, index) => {
-          if (searchData.includes(eachElement.country.name)) {
+          if (searchData && searchData.includes(eachElement.country.name)) {
             return eachElement;
           }
         })
@@ -182,13 +182,13 @@ class AspirationDetails extends Component {
       this.state.aspirationSpecializationList !==
       prevState.aspirationSpecializationList
     ) {
-      var searchData = this.state.aspirationBranches.map(
+      var searchData = this.state.aspirationBranches && this.state.aspirationBranches.map(
         (eachData, index) => eachData.name
       );
 
-      var filteredList = this.state.aspirationSpecializationList
+      var filteredList = this.state.aspirationSpecializationList && this.state.aspirationSpecializationList
         .map((eachElement, index) => {
-          if (searchData.includes(eachElement.aspirationBranch.name)) {
+          if (searchData && searchData.includes(eachElement.aspirationBranch.name)) {
             return eachElement;
           }
         })
@@ -388,7 +388,7 @@ class AspirationDetails extends Component {
                             : null
                         }
                       >
-                        {choices.map(({ text, id }) => {
+                        {choices && choices.map(({ text, id }) => {
                           return (
                             <FormControlLabel
                               style={choiceStyle}
@@ -421,7 +421,7 @@ class AspirationDetails extends Component {
                   </Grid>
                   <Grid item md={12}>
                     <FormGroup row>
-                      {choices.map(({ text, id }) => {
+                      {choices && choices.map(({ text, id }) => {
                         return (
                           <FormControlLabel
                             style={choiceStyle}
@@ -497,7 +497,7 @@ class AspirationDetails extends Component {
     var searchData = newValue.map((eachData, index) => eachData.name);
     var filteredList = this.state.aspirationSpecializationList
       .map((eachElement, index) => {
-        if (searchData.includes(eachElement.aspirationBranch.name)) {
+        if (searchData && searchData.includes(eachElement.aspirationBranch.name)) {
           return eachElement;
         }
       })
@@ -507,9 +507,9 @@ class AspirationDetails extends Component {
       filteredAspirationSpecializationList: filteredList,
     });
 
-    var newSpecializationList = this.state.aspirationAreaOfSpecializations
+    var newSpecializationList = this.state.aspirationAreaOfSpecializations && this.state.aspirationAreaOfSpecializations
       .map((eachSpecialization, index) => {
-        if (searchData.includes(eachSpecialization.aspirationBranch.name)) {
+        if (searchData && searchData.includes(eachSpecialization.aspirationBranch.name)) {
           return eachSpecialization;
         }
       })
@@ -524,7 +524,7 @@ class AspirationDetails extends Component {
     var searchData = newValue.map((eachData, index) => eachData.name);
     var filteredList = this.state.aspirationCollegeList
       .map((eachElement, index) => {
-        if (searchData.includes(eachElement.country.name)) {
+        if (searchData && searchData.includes(eachElement.country.name)) {
           return eachElement;
         }
       })
@@ -534,9 +534,9 @@ class AspirationDetails extends Component {
       filteredCollegeList: filteredList,
     });
 
-    var newUniversityList = this.state.aspirationUniversities
+    var newUniversityList =this.state.aspirationUniversities && this.state.aspirationUniversities
       .map((eachUniversity, index) => {
-        if (searchData.includes(eachUniversity.country.name)) {
+        if (searchData && searchData.includes(eachUniversity.country.name)) {
           return eachUniversity;
         }
       })
@@ -670,7 +670,7 @@ class AspirationDetails extends Component {
                 options={this.props.allBranchList}
                 getOptionLabel={(option) => option.name}
                 getOptionDisabled={(option) => {
-                  var feildOfStudyHolder = this.state.aspirationBranches.map(
+                  var feildOfStudyHolder = this.state.aspirationBranches && this.state.aspirationBranches.map(
                     (el) => el.name
                   );
                   return feildOfStudyHolder.includes(option.name);
@@ -701,7 +701,7 @@ class AspirationDetails extends Component {
                 getOptionLabel={(option) => option.name}
                 groupBy={(option) => option.aspirationBranch.name}
                 getOptionDisabled={(option) => {
-                  var specializationHolder = this.state.aspirationAreaOfSpecializations.map(
+                  var specializationHolder = this.state.aspirationAreaOfSpecializations && this.state.aspirationAreaOfSpecializations.map(
                     (el) => el.name
                   );
                   return specializationHolder.includes(option.name);
@@ -729,7 +729,7 @@ class AspirationDetails extends Component {
                 getOptionLabel={(option) => option.name}
                 disabled={this.state.disable}
                 getOptionDisabled={(option) => {
-                  var countryHolder = this.state.aspirationCountries.map(
+                  var countryHolder = this.state.aspirationCountries && this.state.aspirationCountries.map(
                     (el) => el.name
                   );
                   return countryHolder.includes(option.name);
@@ -756,7 +756,7 @@ class AspirationDetails extends Component {
                 )}
                 getOptionLabel={(option) => option.name}
                 getOptionDisabled={(option) => {
-                  var collegeHolder = this.state.aspirationUniversities.map(
+                  var collegeHolder = this.state.aspirationUniversities && this.state.aspirationUniversities.map(
                     (el) => el.name
                   );
                   return collegeHolder.includes(option.name);
