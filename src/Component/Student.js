@@ -380,7 +380,7 @@ export class Student extends Component {
       });
     } else if (this.state.phone.length !== 10) {
       this.setState({
-        phoneHelperText: 'Enter the valid phone number',
+        phoneHelperText: 'Please enter valid phone number',
         isLoading: false,
       });
     } else {
@@ -743,7 +743,7 @@ export class Student extends Component {
                         .join('-')
                     : item.expirationDate
                 }
-                label={'expiry Date'}
+                label={'Expiry Date'}
                 InputLabelProps={{
                   shrink: true,
                   className: 'label_pad',
@@ -757,11 +757,15 @@ export class Student extends Component {
                       .join('-'),
                   },
                   className: 'product__date__style',
+                  // readOnly: true,
                 }}
                 error={item.expirationDateHelperText.length !== 0}
                 helperText={item.expirationDateHelperText}
                 fullWidth
                 disablePast
+                onKeyDown={event => {
+                  event.preventDefault();
+                }}
               />
             </Grid>
             <Grid
