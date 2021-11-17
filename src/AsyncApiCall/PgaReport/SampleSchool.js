@@ -12,9 +12,9 @@ export const getSchoolCategory = async () => {
 }
 
 
-export const getSchoolRegion = async () => {
+export const getSchoolRegion = async ( productId ) => {
     try {
-        const response = await customAxios.get(URL+"/api/v1/gradSchoolRegion")
+        const response = await customAxios.get(URL+`/api/v1/product/${productId}/pga/regions`)
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -66,3 +66,13 @@ export const addSampleSchool = async (studentId, productId, data) => {
         return error.response && error.response.data.message ? error.response.data.message : error.message
     }
 }
+
+export const getPlanBCountry = async () => {
+    try {
+        const response = await customAxios.get(URL+"/api/v1/bSchool/country")
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+

@@ -112,7 +112,7 @@ function SelectSchool(props) {
         setCategory(response.data.data);
       }
     });
-    getSchoolRegion().then((response) => {
+    getSchoolRegion(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setRegion(response.data.data);
       }

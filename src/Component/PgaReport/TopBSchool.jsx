@@ -7,6 +7,7 @@ import {
   addSampleSchool,
   deleteSelectedSchool,
   getAddedSchool,
+  getPlanBCountry,
   getSchoolRegion,
   searchSchool,
 } from "../../AsyncApiCall/PgaReport/SampleSchool";
@@ -27,6 +28,7 @@ function SelectSchool(props) {
   const [region, setRegion] = useState([]);
   const [searchSchoolList, setSearchSchoolList] = useState([]);
   const [selectedSchoolList, setSelectedSchoolList] = useState([]);
+  const [ countryList, setCountryList ] = useState([])
   const [snack, setSnack] = useState({
     snackOpen: false,
     snackColor: "",
@@ -45,9 +47,9 @@ function SelectSchool(props) {
 
   const dispatch = useDispatch();
   const { addedSchool } = useSelector((state) => state.HelperReducer);
-  const { viewCountryForSelectList } = useSelector(
-    (state) => state.AspirationReducer
-  );
+  // const { viewCountryForSelectList } = useSelector(
+  //   (state) => state.AspirationReducer
+  // );
   const columns = [
     {
       title: "Id",
@@ -96,8 +98,14 @@ function SelectSchool(props) {
   };
 
   useEffect(() => {
-    dispatch(viewCountryForSelect());
-    getSchoolRegion().then((response) => {
+    // dispatch(viewCountryForSelect());
+    getPlanBCountry()
+    .then(response=>{
+      if(response.status === 200){
+        setCountryList(response.data.data)
+      }
+    })
+    getSchoolRegion(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setRegion(response.data.data);
       }
@@ -250,7 +258,7 @@ function SelectSchool(props) {
                   <Grid item md={6}>
                     <DropDown
                       id="combo-box-demo"
-                      options={viewCountryForSelectList}
+                      options={countryList}
                       getOptionLabel={(option) => option.name}
                       value={selectedCountry.value}
                       fullWidth

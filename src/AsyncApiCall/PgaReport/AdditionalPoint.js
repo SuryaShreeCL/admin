@@ -1,9 +1,9 @@
 import { URL } from "../../Actions/URL";
 import customAxios from "../../Axios/Instance";
 
-export const getAllAdditionalPoints = async () => {
+export const getAllAdditionalPoints = async ( productId ) => {
     try {
-        const response = await customAxios.get(URL+"/api/v1/pga/additionalPoint")
+        const response = await customAxios.get(URL+`/api/v1/product/${productId}/pga/additionalPoint`)
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message

@@ -42,7 +42,7 @@ function AdditionalPointsForm(props) {
   };
 
   useEffect(() => {
-    getAllAdditionalPoints().then((response) => {
+    getAllAdditionalPoints(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setAllAdditionalPointsList(response.data.data);
       }
