@@ -27,7 +27,9 @@ export const useStyles = makeStyles((theme)=>({
         padding : "20px"
     },
    planOfActionContainer : {
-        padding : "20px"
+        padding : "20px",
+        display: "flex",
+        justifyContent : "space-between"
    },
    planOfActionWrapper : {
     height : "70vh",

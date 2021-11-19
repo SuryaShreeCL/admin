@@ -37,3 +37,13 @@ export const deleteFocus = async (focusId) => {
         return error.response && error.response.data.message ? error.response.data.message : error.message
     }
 }
+
+
+export const saveSingleFocus = async (studentId, productId, data) => {
+    try {
+        const response = await customAxios.post(URL+"/api/v1/students/"+studentId+"/product/"+productId+"/pgaReport/poa/focus", data)
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}

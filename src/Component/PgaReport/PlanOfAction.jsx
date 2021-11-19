@@ -1,25 +1,29 @@
-import { Grid, IconButton, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import DropDown from "../Controls/DropDown";
-import TextFieldComponent from "../Controls/TextField";
-import BottomContainer from "./BottomContainer";
-import { PageWrapper } from "./Components/StyledComponents";
-import DeleteOutlineRoundedIcon from "@material-ui/icons/DeleteOutlineRounded";
-import { useStyles } from "./Styles/Index";
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import {
   deleteFocus,
   getFocusList,
   getPlanOfAction,
   savePlanOfAction,
+  saveSingleFocus
 } from "../../AsyncApiCall/PgaReport/PlanOfAction";
-import MySnackBar from "../MySnackBar";
-import { isEmptyString, isEmptyObject } from "../Validation";
 import { HELPER_TEXT } from "../../Constant/Variables";
+import TextFieldComponent from "../Controls/TextField";
+import MySnackBar from "../MySnackBar";
+import { isEmptyObject, isEmptyString } from "../Validation";
+import BottomContainer from "./BottomContainer";
+import BlueTable from "./Components/BlueTable";
+import { PageWrapper } from "./Components/StyledComponents";
+import { useStyles } from "./Styles/Index";
+
 function PlanOfAction(props) {
   const classes = useStyles();
   const [focusList, setFocusList] = useState([]);
-  const [planOfAction, setPlanOfAction] = useState([]);
+  const [planOfAction, setPlanOfAction] = useState({
+    criteriaCGPA : "",
+    rows : [],
+    plans : []
+  });
   const [snack, setSnack] = useState({
     snackOpen: false,
     snackMsg: "",
@@ -31,18 +35,7 @@ function PlanOfAction(props) {
       props.match.params.productId
     ).then((response) => {
       if (response.status === 200) {
-        const updatedPlanOfAction = response.data.data.map(
-          (eachQuarter, index) => {
-            return {
-              ...eachQuarter,
-              pgaStudentPoaFocus:
-                eachQuarter.pgaStudentPoaFocus.length === 0
-                  ? [{ id: null, activity: "", remark: "", pgaPoaFocus: null }]
-                  : eachQuarter.pgaStudentPoaFocus,
-            };
-          }
-        );
-        setPlanOfAction(updatedPlanOfAction);
+        setPlanOfAction({...response.data.data});
       }
     });
   };
@@ -67,22 +60,31 @@ function PlanOfAction(props) {
     setPlanOfAction(planOfActionCopy);
   };
 
-  const handleFocusChange = (value, focusIndex, quarterIndex) => {
-    let copyOf = [...planOfAction];
-    copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].pgaPoaFocus = value;
-    copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].activity = value
-      ? value.activity
-      : "";
-    copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].remark = value
-      ? value.remark
-      : "";
-    setPlanOfAction(copyOf);
+  const handleFocusChange = (value, focusNo, planId, name, rowIndex, cellIndex) => {
+    console.log(value, focusNo, planId, name, rowIndex, cellIndex, "-------")
+    let copyOf = {...planOfAction};
+    copyOf.rows[rowIndex][cellIndex].name = value;
+    setPlanOfAction(copyOf)
+    if(value){
+      let requestBody = {
+        planId: planId,
+        focusNo: parseInt(focusNo),
+        pgaPoaFocus: value,
+      }; 
+      console.log(requestBody, "======")
+      saveSingleFocus(props.match.params.studentId, props.match.params.productId, requestBody)
+      .then(response=>{
+        if(response.status === 200){
+          getAndSetPlanOfAction()
+        }
+      })
+    }
   };
 
   const handleTextChange = (e, quarterIndex, focusIndex) => {
-    let copyOf = [...planOfAction];
-    copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex][e.target.name] =
-      e.target.value;
+    let copyOf = {...planOfAction};
+    copyOf.plans[quarterIndex].pgaStudentPoaFocus[focusIndex][e.target.name] =
+    e.target.value;
     setPlanOfAction(copyOf);
   };
 
@@ -167,19 +169,32 @@ function PlanOfAction(props) {
     }
   };
 
+  console.log(planOfAction, )
+
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
         <div className={classes.planOfActionContainer}>
           <Typography variant={"h5"}>Quarterly Plan of Action</Typography>
+          <Box display={"flex"} alignItems={"center"} gridGap={"5px"}>
+          <Typography>Student Category</Typography>
+          <Typography color={"secondary"}>{planOfAction.criteriaCGPA}</Typography>
+          </Box>
         </div>
         <Grid container spacing={2} className={classes.planOfActionContainer}>
-          {planOfAction.map((eachPlan, quarterIndex) => {
+          <Grid item xs={12}>
+          <BlueTable
+          data={planOfAction.rows}
+          focusList={focusList}
+          handleFocusChange={handleFocusChange}
+          />
+          </Grid>
+          {planOfAction.plans.map((eachPlan, quarterIndex) => {
             return (
               <>
                 <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
                   <Typography className={classes.quarterlyTypo}>
-                    {eachPlan.quarterPlan}
+                    {`Quarter ${eachPlan.quarterPlan}`}
                   </Typography>
                 </Grid>
                 {eachPlan.pgaStudentPoaFocus.map((eachFocus, focusIndex) => {
@@ -189,7 +204,7 @@ function PlanOfAction(props) {
                       <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
                         <Typography>{"Focus " + focusNumber}</Typography>
                       </Grid>
-                      <Grid item md={3} xs={12} sm={12} lg={3} xl={3}>
+                      {/* <Grid item md={3} xs={12} sm={12} lg={3} xl={3}>
                         <DropDown
                           id="combo-box-demo"
                           options={focusList}
@@ -210,8 +225,8 @@ function PlanOfAction(props) {
                             />
                           )}
                         />
-                      </Grid>
-                      <Grid item md={3} xs={12} sm={12} lg={3} xl={3}>
+                      </Grid> */}
+                      <Grid item md={6} xs={12} sm={12}>
                         <TextFieldComponent
                           value={eachFocus.activity}
                           name={"activity"}
@@ -222,7 +237,7 @@ function PlanOfAction(props) {
                           fullWidth
                         />
                       </Grid>
-                      <Grid item md={5} xs={12} sm={12} lg={5} xl={5}>
+                      <Grid item md={6} xs={12} sm={12}>
                         <TextFieldComponent
                           name={"remark"}
                           value={eachFocus.remark}
@@ -233,7 +248,7 @@ function PlanOfAction(props) {
                           fullWidth
                         />
                       </Grid>
-                      <Grid
+                      {/* <Grid
                         item
                         md={1}
                         xl={1}
@@ -259,7 +274,7 @@ function PlanOfAction(props) {
                         >
                           <DeleteOutlineRoundedIcon color={"secondary"} />
                         </IconButton>
-                      </Grid>
+                      </Grid> */}
                     </>
                   );
                 })}

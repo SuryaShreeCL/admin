@@ -25,7 +25,7 @@ position : absolute;
 padding : 12px 30px;
 border-top : 2px solid #f1f1f1;
 bottom : 0;
-display flex;
+display : flex;
 justify-content : flex-end;
 `;
 
@@ -61,4 +61,10 @@ height: 35vh;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+`;
+
+export const TableCellContainer = styled.div`
+    height : 100% ;
+    width: 100%;
+    padding: 16px;
 `;
