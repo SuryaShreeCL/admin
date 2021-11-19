@@ -5,7 +5,7 @@ import {
   getFocusList,
   getPlanOfAction,
   savePlanOfAction,
-  saveSingleFocus
+  saveSingleFocus,
 } from "../../AsyncApiCall/PgaReport/PlanOfAction";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import TextFieldComponent from "../Controls/TextField";
@@ -20,9 +20,9 @@ function PlanOfAction(props) {
   const classes = useStyles();
   const [focusList, setFocusList] = useState([]);
   const [planOfAction, setPlanOfAction] = useState({
-    criteriaCGPA : "",
-    rows : [],
-    plans : []
+    criteriaCGPA: "",
+    rows: [],
+    plans: [],
   });
   const [snack, setSnack] = useState({
     snackOpen: false,
@@ -35,7 +35,7 @@ function PlanOfAction(props) {
       props.match.params.productId
     ).then((response) => {
       if (response.status === 200) {
-        setPlanOfAction({...response.data.data});
+        setPlanOfAction({ ...response.data.data });
       }
     });
   };
@@ -60,31 +60,51 @@ function PlanOfAction(props) {
     setPlanOfAction(planOfActionCopy);
   };
 
-  const handleFocusChange = (value, focusNo, planId, name, rowIndex, cellIndex) => {
-    console.log(value, focusNo, planId, name, rowIndex, cellIndex, "-------")
-    let copyOf = {...planOfAction};
-    copyOf.rows[rowIndex][cellIndex].name = value;
-    setPlanOfAction(copyOf)
-    if(value){
+  const handleFocusChange = (
+    value,
+    focusNo,
+    planId,
+    name,
+    rowIndex,
+    cellIndex
+  ) => {
+    if (value) {
+      let copyOf = { ...planOfAction };
+      copyOf.rows[rowIndex][cellIndex].name = value;
+      setPlanOfAction(copyOf);
       let requestBody = {
         planId: planId,
         focusNo: parseInt(focusNo),
         pgaPoaFocus: value,
-      }; 
-      console.log(requestBody, "======")
-      saveSingleFocus(props.match.params.studentId, props.match.params.productId, requestBody)
-      .then(response=>{
-        if(response.status === 200){
-          getAndSetPlanOfAction()
+      };
+
+      saveSingleFocus(
+        props.match.params.studentId,
+        props.match.params.productId,
+        requestBody
+      ).then((response) => {
+        if (response.status === 200) {
+          getAndSetPlanOfAction();
         }
-      })
+      });
+    } else {
+      let copyOf = { ...planOfAction };
+      copyOf.rows[rowIndex][cellIndex].name = value;
+      let quarterIndex = copyOf.plans.findIndex((el) => el.id === planId);
+      let focusIndex = copyOf.plans[quarterIndex].pgaStudentPoaFocus.findIndex(
+        (el) => el.orderNo === focusNo
+      );
+      copyOf.plans[quarterIndex].pgaStudentPoaFocus[
+        focusIndex
+      ].pgaPoaFocus = null;
+      setPlanOfAction(copyOf);
     }
   };
 
   const handleTextChange = (e, quarterIndex, focusIndex) => {
-    let copyOf = {...planOfAction};
+    let copyOf = { ...planOfAction };
     copyOf.plans[quarterIndex].pgaStudentPoaFocus[focusIndex][e.target.name] =
-    e.target.value;
+      e.target.value;
     setPlanOfAction(copyOf);
   };
 
@@ -99,63 +119,33 @@ function PlanOfAction(props) {
         }
       );
     } else {
-        if( copyOf[quarterIndex].pgaStudentPoaFocus.length !== 1 ){
-          copyOf[quarterIndex].pgaStudentPoaFocus.splice(focusIndex, 1);
-          setPlanOfAction(copyOf);
-        }
+      if (copyOf[quarterIndex].pgaStudentPoaFocus.length !== 1) {
+        copyOf[quarterIndex].pgaStudentPoaFocus.splice(focusIndex, 1);
+        setPlanOfAction(copyOf);
+      }
     }
   };
 
   const handleSave = () => {
     let error = false;
-    for (
-      let quarterIndex = 0;
-      quarterIndex < planOfAction.length;
-      quarterIndex++
-    ) {
-      for (
-        let focusIndex = 0;
-        focusIndex < planOfAction[quarterIndex].pgaStudentPoaFocus.length;
-        focusIndex++
-      ) {
-        if (
-          isEmptyString(
-            planOfAction[quarterIndex].pgaStudentPoaFocus[focusIndex].activity
-          )
-        ) {
-          error = true;
-          break;
-        }
-        if (
-          isEmptyString(
-            planOfAction[quarterIndex].pgaStudentPoaFocus[focusIndex].remark
-          )
-        ) {
-          error = true;
-          break;
-        }
-        if (
-          isEmptyObject(
-            planOfAction[quarterIndex].pgaStudentPoaFocus[focusIndex]
-              .pgaPoaFocus
-          )
-        ) {
-          error = true;
-          break;
-        }
-      }
-    }
+
     if (!error) {
       savePlanOfAction(
         props.match.params.studentId,
         props.match.params.productId,
-        planOfAction
+        planOfAction.plans
       ).then((response) => {
         if (response.status === 200) {
           getAndSetPlanOfAction();
           setSnack({
             snackMsg: "Saved Successfully",
             snackVariant: "success",
+            snackOpen: true,
+          });
+        } else {
+          setSnack({
+            snackMsg: response,
+            snackVariant: "error",
             snackOpen: true,
           });
         }
@@ -169,25 +159,25 @@ function PlanOfAction(props) {
     }
   };
 
-  console.log(planOfAction, )
-
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
         <div className={classes.planOfActionContainer}>
           <Typography variant={"h5"}>Quarterly Plan of Action</Typography>
           <Box display={"flex"} alignItems={"center"} gridGap={"5px"}>
-          <Typography>Student Category</Typography>
-          <Typography color={"secondary"}>{planOfAction.criteriaCGPA}</Typography>
+            <Typography>Student Category</Typography>
+            <Typography color={"secondary"}>
+              {planOfAction.criteriaCGPA}
+            </Typography>
           </Box>
         </div>
         <Grid container spacing={2} className={classes.planOfActionContainer}>
           <Grid item xs={12}>
-          <BlueTable
-          data={planOfAction.rows}
-          focusList={focusList}
-          handleFocusChange={handleFocusChange}
-          />
+            <BlueTable
+              data={planOfAction.rows}
+              focusList={focusList}
+              handleFocusChange={handleFocusChange}
+            />
           </Grid>
           {planOfAction.plans.map((eachPlan, quarterIndex) => {
             return (
