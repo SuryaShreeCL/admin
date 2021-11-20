@@ -153,7 +153,8 @@ function MsReport({ content = [] }) {
           <View style={styles.analysis_date_div}>
             <Text style={styles.date}>Date : &nbsp;</Text>
             <Text style={styles.date}>
-              {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>}
+              {ReportDate ? renderDateTime(ReportDate) : ""}
+              {/* {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>} */}
             </Text>
           </View>
         </View>
