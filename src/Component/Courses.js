@@ -1,5 +1,6 @@
 import React, { Component,forwardRef } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
+import { Autocomplete } from '@material-ui/lab'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import {
      Button,
@@ -47,7 +48,14 @@ export class Courses extends Component {
             snackMsg: "",
             snackVariant: "",
             snackOpen: false,
-
+            domain : "",
+            subdomain : "",
+            productvariant : "",
+            advancecourse : "",
+            domainList : [],
+            subdomainList : [],
+            productvariantList : [],
+            advancecourseList : []
         }
     }
 
@@ -151,6 +159,10 @@ spinnerTheme = () =>createMuiTheme({
       displayImageURL : data.displayImageURL,
       thumnailImageURL : data.thumnailImageURL,
       show : true,
+      domain : "",
+      subdomain : "",
+      productvariant : "",
+      advancecourse : "",
     })
   } 
    // Dialog Open
@@ -165,6 +177,10 @@ spinnerTheme = () =>createMuiTheme({
           lmsURL : "",
           displayImageURL : "",
           thumnailImageURL : "",
+          domain : "",
+          subdomain : "",
+          productvariant : "",
+          advancecourse : "",
       });
 
   };
@@ -211,6 +227,10 @@ spinnerTheme = () =>createMuiTheme({
           snackMsg:"Added Successfully",
           snackOpen:true,
           snackVariant:"success",
+          domain : "",
+          subdomain : "",
+          productvariant : "",
+          advancecourse : "",
         });
       }
       this.props.getPaginateCourse(0, 20,null);    
@@ -256,6 +276,10 @@ spinnerTheme = () =>createMuiTheme({
       snackMsg:"Updated Successfully",
       snackOpen:true,
       snackVariant:"success",
+      domain : "",
+      subdomain : "",
+      productvariant : "",
+      advancecourse : "",
     });      
   }
   this.props.getPaginateCourse(0, 20,null);    
@@ -282,8 +306,8 @@ spinnerTheme = () =>createMuiTheme({
                   add={true}
                   action={true}
                   onEdit={true}  
-                  onDelete = {true}
-                  onDeleteClick = {this.handleDelete}
+                  // onDelete = {true}
+                  // onDeleteClick = {this.handleDelete}
                   onEditClick={this.handleEdit} 
                   onAddClick={this.handleClickOpen}
                    onSearch={this.paginate}
@@ -422,6 +446,57 @@ spinnerTheme = () =>createMuiTheme({
                       onChange={(e) => this.setState({ thumnailImageURL: e.target.value })}
                       multiline
                     />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                        // options={top100Films}
+                        // getOptionLabel={(option) => option.title}
+                        // value={this.state.domain}
+                        // onChange={(e,newValue)=>this.setState({ domain : newValue})}
+                        renderInput={(params) => 
+                        <TextField {...params} 
+                        label="Domain/Career Track " 
+                        variant="outlined" />}
+                      />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                        // options={top100Films}
+                        // getOptionLabel={(option) => option.title}
+                        // value={this.state.subdomain}
+                        // onChange={(e,newValue)=>this.setState({ subdomain : newValue})}
+                        renderInput={(params) => 
+                        <TextField {...params} 
+                        label="Sub Domain" 
+                        variant="outlined" />}
+                      />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                        // options={top100Films}
+                        // getOptionLabel={(option) => option.title}
+                        // value={this.state.productvariant}
+                        // onChange={(e,newValue)=>this.setState({ productvariant : newValue})}
+                        renderInput={(params) => 
+                        <TextField {...params} 
+                          label="Product Variant" 
+                          variant="outlined" 
+                        />}
+                      />
+                    </Grid>
+                    <Grid item md={4}>
+                    <Autocomplete
+                        // options={top100Films}
+                        // getOptionLabel={(option) => option.title}
+                        // value={this.state.advancecourse}
+                        // onChange={(e,newValue)=>this.setState({ advancecourse : newValue})}
+                        renderInput={(params) => 
+                        <TextField {...params} 
+                            label="Advanced Course" 
+                            variant="outlined" 
+                        />
+                      }
+                      />
                     </Grid>
                    </Grid>
                   </DialogContent>

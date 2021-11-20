@@ -636,6 +636,12 @@ function RootContainer(props) {
           path: lmsTest,
           items: [],
         },
+        {
+          icon: <></>,
+          title: 'Course',
+          path: coursePath,
+          items: [],
+        },
       ]);
     }
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
