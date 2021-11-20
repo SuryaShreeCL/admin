@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 import PbPlacementReport from "./GenerateReport/PbPlacementReport";
 import { pbMaster } from "./GenerateReport/PbMasterSample";
 import PbMasterReport from "./GenerateReport/PbMasterReport";
+import MbaPbReport from "./GenerateReport/MbaPbReport";
+import MimPbReport from "./GenerateReport/MimPbReport";
 
 class Preview extends Component {
   constructor(props) {
@@ -66,6 +68,20 @@ class Preview extends Component {
     },
   ];
 
+  renderReport = () => {
+    let productId = window.sessionStorage.getItem("productId");
+    if (productId === "7" && productId === "5") {
+      return (
+        <MbaPbReport
+          content={this.state.reportData.contents || []}
+          assessment={this.mbaReportHeader}
+        />
+      );
+    } else {
+      return <MsReport content={this.state.reportData.contents || []} />;
+    }
+  };
+
   render() {
     console.log(this.state, "sssssssssssssssssss");
     return (
@@ -73,10 +89,7 @@ class Preview extends Component {
         <Grid container>
           <Grid item md={12}>
             <PDFViewer style={{ width: "100%", height: "100vh" }}>
-              <PbPlacementReport
-                content={this.state.reportData.contents || []}
-                // assessment={this.mbaReportHeader}
-              />
+              {this.renderReport}
             </PDFViewer>
           </Grid>
         </Grid>
