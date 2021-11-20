@@ -69,15 +69,19 @@ class Preview extends Component {
   ];
 
   renderReport = () => {
-    let productId = window.sessionStorage.getItem("productId");
-    if (productId === "7" && productId === "5") {
+    let productId = this.props.match.params.productId;
+    console.log(productId, "oooooooooooooooooooooo");
+    if (productId === "7" || productId === "5") {
+      console.log("mmmmmmmmmmmmmmmmmm");
       return (
-        <MbaPbReport
+        <MbaReport
           content={this.state.reportData.contents || []}
           assessment={this.mbaReportHeader}
         />
       );
     } else {
+      console.log("ttttttttttttttttt");
+
       return <MsReport content={this.state.reportData.contents || []} />;
     }
   };
@@ -89,7 +93,7 @@ class Preview extends Component {
         <Grid container>
           <Grid item md={12}>
             <PDFViewer style={{ width: "100%", height: "100vh" }}>
-              {this.renderReport}
+              {this.renderReport()}
             </PDFViewer>
           </Grid>
         </Grid>

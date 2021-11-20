@@ -22,8 +22,9 @@ const renderDateTime = (date) => {
   const month = MONTHS[new Date(date).getMonth()];
   const reportDate = new Date(date).getDate();
   const finalDate = reportDate + " " + month + " " + year;
-  return finalDate;
   console.log(finalDate);
+
+  return finalDate;
 };
 
 const footerDescription = [
@@ -124,8 +125,9 @@ const AllRoundActivities = ({ id, title, subDescription }) => (
 );
 
 function MbaReport({ content = [], assessment }) {
-  console.log(assessment);
+  console.log(content);
   let ReportDate = content.map((item) => item.content.dateTime);
+  console.log(ReportDate);
 
   return (
     <Document>
@@ -340,8 +342,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     position: "relative",
-    marginLeft: "90%",
-    marginTop: "-42px",
+    marginLeft: "50%",
+    marginTop: "10px",
   },
   divider: {
     width: "100%",

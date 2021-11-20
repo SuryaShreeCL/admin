@@ -14,6 +14,7 @@ import {
 import Table from "./Table";
 import Star from "../../../Asset/Images/starIcon.png";
 import ProfileBuilding from "../../../Asset/Images/MSProfileBuilding.jpg";
+import { MONTHS } from "./Variables";
 
 const MyDocument = ({
   preferredProgram = "",
@@ -127,13 +128,35 @@ function isEmpty(data) {
   return data && data.length !== 0;
 }
 
+const renderDateTime = (date) => {
+  console.log(date);
+  const year = new Date(date).getFullYear();
+  const month = MONTHS[new Date(date).getMonth()];
+  const reportDate = new Date(date).getDate();
+  const finalDate = reportDate + " " + month + " " + year;
+  console.log(finalDate);
+
+  return finalDate;
+};
+
 function MsReport({ content = [] }) {
+  let ReportDate = content.map((item) => item.content.dateTime);
+  console.log(ReportDate);
   return (
     <Document>
       <Page style={styles.body}>
-        <Text style={styles.title}>
-          Minutes of the Profile Gap Analysis Session
-        </Text>
+        <View style={styles.analysis_title_div}>
+          <Text style={styles.title}>
+            Minutes of the Profile Gap Analysis Session
+          </Text>
+
+          <View style={styles.analysis_date_div}>
+            <Text style={styles.date}>Date : &nbsp;</Text>
+            <Text style={styles.date}>
+              {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>}
+            </Text>
+          </View>
+        </View>
         {content.map((item, idx) => {
           const {
             content,
@@ -210,6 +233,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "semibold",
   },
+  analysis_title_div: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "2%",
+    marginTop: "5%",
+  },
 
   colorBox: {
     width: "100%",
@@ -256,6 +286,17 @@ const styles = StyleSheet.create({
   },
   remark: {
     fontSize: 10,
+  },
+  analysis_date_div: {
+    display: "flex",
+    flexDirection: "row",
+    position: "relative",
+    marginLeft: "50%",
+    marginTop: "10px",
+  },
+  date: {
+    fontSize: "13px",
+    fontWeight: "600",
   },
   footer: { textAlign: "center", padding: 10 },
 });
