@@ -6,7 +6,10 @@ import MbaReport from "./GenerateReport/MbaReport";
 import { MsSampleReport } from "./GenerateReport/SampleMsReport";
 import { mbaReport } from "./GenerateReport/SampleMbaReport";
 import { pbPlacement } from "./GenerateReport/PbPlacementSample";
-import { getReportPreview } from "../../Actions/ProfileGapAction";
+import {
+  getReportPreview,
+  getReportStatus,
+} from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
 import PbPlacementReport from "./GenerateReport/PbPlacementReport";
 import { pbMaster } from "./GenerateReport/PbMasterSample";
@@ -24,6 +27,13 @@ class Preview extends Component {
   }
 
   componentDidMount() {
+    this.props.getReportStatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+      }
+    );
     this.props.getReportPreview(
       this.props.match.params.studentId,
       this.props.match.params.productId,
@@ -106,4 +116,5 @@ const mapStateToProps = (state) => {};
 
 export default connect(mapStateToProps, {
   getReportPreview,
+  getReportStatus,
 })(Preview);
