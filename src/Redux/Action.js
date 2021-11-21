@@ -31,6 +31,7 @@ export const PROFILE_GAP_ANALYSIS = {
   getdashboarddetails: "getdashboarddetails",
   getpgalist: "getpgalist",
   getReportPreview: "getReportPreview",
+  getReportStatus: "getReportStatus",
 };
 
 export const COLLEGES = {

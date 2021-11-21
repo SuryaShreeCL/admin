@@ -21,7 +21,8 @@ const initialState = {
   removeSemesterDetails: [],
   academicDetails: [],
   calculation: [],
-  reportPreview: [],
+  preview: [],
+  reportStatus: [],
   // download : []
 };
 
@@ -124,10 +125,15 @@ export default (state = initialState, action) => {
         ...state,
         calculation: action.payload,
       };
-    case PROFILE_GAP_ANALYSIS.getReportPreview:
+    case PROFILE_GAP_ANALYSIS.getPreview:
       return {
         ...state,
-        reportPreview: action.payload,
+        preview: action.payload,
+      };
+    case PROFILE_GAP_ANALYSIS.getReportStatus:
+      return {
+        ...state,
+        reportStatus: action.payload,
       };
     default:
       return state;

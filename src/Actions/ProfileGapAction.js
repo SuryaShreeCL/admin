@@ -645,7 +645,41 @@ export const updateCalculation = (
 };
 
 // report preview
-// view semester details(get)
+export const getReportStatus = (studentId, productId, data, callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .put(
+        URL +
+          "/api/v1/students/" +
+          studentId +
+          "/product/" +
+          productId +
+          "/pgaReportStatus",
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            admin: "yes",
+          },
+        }
+      )
+      .then((result) => {
+        callback(result);
+        dispatch({
+          type: PROFILE_GAP_ANALYSIS.getReportStatus,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        // callback(error);
+        console.log(error);
+      });
+  };
+};
+
 export const getReportPreview = (studentId, productId, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
