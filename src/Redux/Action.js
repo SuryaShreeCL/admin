@@ -8,6 +8,10 @@ export const COURSES = {
   GetSimilarCourses: 'GetSimilarCourses',
   GetMarkettingRecommended: 'GetMarkettingRecommended',
   GetServiceRecommended: 'GetServiceRecommended',
+  DomainList : "DomainList",
+  SubDomainList : "SubDomainList",
+  ProductVariant : "ProductVariant",
+  AdvanceCourse : "AdvanceCourse",
 
   // Selva
   deleteCourse: 'deleteCourse',

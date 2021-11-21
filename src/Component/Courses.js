@@ -1,6 +1,6 @@
 import React, { Component,forwardRef } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import { Autocomplete } from '@material-ui/lab'
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import {
      Button,
@@ -17,7 +17,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from "@material-ui/icons/Close";
 import {connect} from 'react-redux'
-import {getCourses, getPaginateCourse,addCourses,updateCourse, deleteCourse} from '../Actions/Course'
+import {getCourses, getPaginateCourse,addCourses,updateCourse, deleteCourse,getAdvanceCourse,getDomain,getProductVarient} from '../Actions/Course'
 import TableComponent from "./TableComponent/TableComponent";
 import {isEmptyString} from './Validation'
 import MySnackBar from './MySnackBar';
@@ -54,8 +54,7 @@ export class Courses extends Component {
             advancecourse : "",
             domainList : [],
             subdomainList : [],
-            productvariantList : [],
-            advancecourseList : []
+            advancedCourseList : [],
         }
     }
 
@@ -63,7 +62,34 @@ export class Courses extends Component {
       rowClick = (rowData) => {
       };
     componentDidMount() { 
-        this.props.getPaginateCourse(0, 20,null);         
+        this.props.getPaginateCourse(0, 20,null);  
+        this.props.getDomain("domain",(response => {
+          if(response.data.success){
+             this.setState({
+               domainList : response.data
+             })
+          }
+        }))    
+        this.props.getDomain("subDomain",(response => {
+          if(response.data.success){
+             this.setState({
+               subdomainList : response.data
+             })
+          }
+        }))       
+        this.props.getProductVarient();
+    }
+    componentDidUpdate(prevProps,prevState){
+      if(this.props.getAdvanceCourseList !== prevProps.getAdvanceCourseList){
+        this.setState({
+          advancedCourseList : this.props.getAdvanceCourseList.data
+        })
+      }
+      if(this.props.courseFilterList !== prevProps.courseFilterList){
+        this.setState({
+          advancedCourseList : this.props.courseFilterList.content
+        })
+      }
     }
     // Paginate For Course
     paginate = (page, size, keyword) => {
@@ -148,22 +174,30 @@ spinnerTheme = () =>createMuiTheme({
     }
   });
   handleEdit = (data) =>{
+    this.props.getAdvanceCourse(data.id,(response => {
+      if(response.status === 200){
+        this.setState({
+          advancedCourseList : response.data.data,
+          show: true,
+        })
+      }
+    }))
     console.log(data)
     this.setState({
-      id : data.id,
-      name : data.name,
-      courseId : data.courseId,
-      description : data.description,
-      lmsURL : data.lmsURL,
-      shortName : data.shortName,
-      displayImageURL : data.displayImageURL,
-      thumnailImageURL : data.thumnailImageURL,
-      show : true,
-      domain : "",
-      subdomain : "",
-      productvariant : "",
-      advancecourse : "",
-    })
+      name : "Edit",
+      id: data.id,
+      name: data.name,
+      courseId: data.courseId,
+      description: data.description,
+      lmsURL: data.lmsURL,
+      shortName: data.shortName,
+      displayImageURL: data.displayImageURL,
+      thumnailImageURL: data.thumnailImageURL,
+      advancecourse: data.advancedCourse,
+      domain: data.domain,
+      subdomain: data.subDomains,
+      productvariant: data.productVariant,
+    });
   } 
    // Dialog Open
    handleClickOpen = (e) => {
@@ -205,7 +239,11 @@ spinnerTheme = () =>createMuiTheme({
         description : this.state.description,
         lmsURL : this.state.lmsURL,
         displayImageURL : this.state.displayImageURL,
-        thumnailImageURL : this.state.thumnailImageURL
+        thumnailImageURL : this.state.thumnailImageURL,
+        advancedCourse: [this.state.advancecourse],
+        courseDomains: [this.state.domain],
+        courseSubDomains: [this.state.subdomain],
+        productVariant: [this.state.productvariant],
       };
       if (this.state.name.length !== 0 &&
             !isEmptyString(this.state.lmsURL) &&
@@ -214,8 +252,9 @@ spinnerTheme = () =>createMuiTheme({
             !isEmptyString(this.state.thumnailImageURL) &&
             !isEmptyString(this.state.shortName) 
         ) {
-        this.props.addCourses(newCourseObj);
+        this.props.updateCourse(newCourseObj);
         this.setState({
+          show : false,
           id: "",
           courseId : "",
           name: "",
@@ -246,14 +285,18 @@ spinnerTheme = () =>createMuiTheme({
     isEmptyString(this.state.thumnailImageURL) ? this.setState ({ thumbnailErr: hlptxt }) : this.setState({thumbnailErr :""})
       // this.setState({ show: false });
   let newCourseObj = {
-    id : this.state.id,
-    courseId : this.state.courseId,
+    id: this.state.id,
+    courseId: this.state.courseId,
     name: this.state.name,
-    shortName : this.state.shortName,
-    description : this.state.description,
-    lmsURL : this.state.lmsURL,
-    displayImageURL : this.state.displayImageURL,
-    thumnailImageURL : this.state.thumnailImageURL
+    shortName: this.state.shortName,
+    description: this.state.description,
+    lmsURL: this.state.lmsURL,
+    displayImageURL: this.state.displayImageURL,
+    thumnailImageURL: this.state.thumnailImageURL,
+    advancedCourse: [this.state.advancecourse],
+    courseDomains: [this.state.domain],
+    courseSubDomains: [this.state.subdomain],
+    productVariant: [this.state.productvariant],
   };
   if (this.state.name.length !== 0 &&
     !isEmptyString(this.state.lmsURL) &&
@@ -262,9 +305,10 @@ spinnerTheme = () =>createMuiTheme({
     !isEmptyString(this.state.thumnailImageURL) &&
     !isEmptyString(this.state.shortName) 
     ) {
-    this.props.updateCourse(this.state.id,newCourseObj);
+    this.props.updateCourse(newCourseObj);
     this.setState({
       id: "",
+      show :false,
       courseId : "",
       name: "",
       shortName : "",
@@ -289,8 +333,17 @@ spinnerTheme = () =>createMuiTheme({
     { title: 'Name', fieldName:'name'},
     { title: 'Parent Branch', fieldName:'parentBranchVal'},
 ];
+renderOption = () => {
+  if(this.state.id === ""){
+    return this.props.getPaginateCourse.content
+  }
+  else {
+    return this.props.getAdvanceCourseList.data
+  }
+}
     render() {  
-      console.log(this.props.courseFilterList)
+      console.log(this.props)
+      console.log(this.state)
         return (
             <ThemeProvider theme={this.tableTheme()}>
             <div>
@@ -449,11 +502,11 @@ spinnerTheme = () =>createMuiTheme({
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                    // multiple
-                        // options={top100Films}
-                        // getOptionLabel={(option) => option.title}
-                        // value={this.state.domain}
-                        // onChange={(e,newValue)=>this.setState({ domain : newValue})}
+                        // multiple
+                        options={this.state.domainList.data || []}
+                        getOptionLabel={(option) => option.name}
+                        value={this.state.domain}
+                        onChange={(e,newValue)=>this.setState({ domain : newValue})}
                         renderInput={(params) => 
                         <TextField {...params} 
                         label="Domain" 
@@ -462,11 +515,11 @@ spinnerTheme = () =>createMuiTheme({
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                    // multiple
-                        // options={top100Films}
-                        // getOptionLabel={(option) => option.title}
-                        // value={this.state.subdomain}
-                        // onChange={(e,newValue)=>this.setState({ subdomain : newValue})}
+                        // multiple
+                        options={this.state.subdomainList.data || []}
+                        getOptionLabel={(option) => option.name}
+                        value={this.state.subdomain}
+                        onChange={(e,newValue)=>this.setState({ subdomain : newValue})}
                         renderInput={(params) => 
                         <TextField {...params} 
                         label="Sub Domain" 
@@ -475,11 +528,11 @@ spinnerTheme = () =>createMuiTheme({
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                    // multiple
-                        // options={top100Films}
-                        // getOptionLabel={(option) => option.title}
-                        // value={this.state.productvariant}
-                        // onChange={(e,newValue)=>this.setState({ productvariant : newValue})}
+                        // multiple
+                        options={this.props.getProductVarientList.data || []}
+                        getOptionLabel={(option) => option.name}
+                        value={this.state.productvariant}
+                        onChange={(e,newValue)=>this.setState({ productvariant : newValue})}
                         renderInput={(params) => 
                         <TextField {...params} 
                           label="Product Variant" 
@@ -489,11 +542,11 @@ spinnerTheme = () =>createMuiTheme({
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                    // multiple
-                        // options={top100Films}
-                        // getOptionLabel={(option) => option.title}
-                        // value={this.state.advancecourse}
-                        // onChange={(e,newValue)=>this.setState({ advancecourse : newValue})}
+                        // multiple
+                        options={this.state.advancedCourseList || []}
+                        getOptionLabel={(option) => option.name}
+                        value={this.state.advancecourse}
+                        onChange={(e,newValue)=>this.setState({ advancecourse : newValue})}
                         renderInput={(params) => 
                         <TextField {...params} 
                             label="Advanced Course" 
@@ -539,7 +592,9 @@ const mapStateToprops=(state)=>{
     return{
       CourseList:state.CourseReducer.CourseList,
       courseFilterList: state.CourseReducer.courseFilterList,
+      getAdvanceCourseList : state.CourseReducer.AdvanceCourse,
+      getProductVarientList : state.CourseReducer.ProductVariant
     }
 }
 
-export default connect(mapStateToprops,{getCourses,getPaginateCourse,addCourses,updateCourse,deleteCourse})(Courses)
+export default connect(mapStateToprops,{getCourses,getPaginateCourse,addCourses,updateCourse,deleteCourse,getAdvanceCourse,getDomain,getProductVarient})(Courses)

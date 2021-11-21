@@ -64,11 +64,11 @@ export const getCoursesById=(id)=>{
     }
 }
 
-export const updateCourse=(id,data)=>{
+export const updateCourse=(data)=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.put(URL+"/api/v1/courses/"+id,data,{
+        axios.put(URL+"/api/v1/course",data,{
             crossDomain: true,
             headers : {
                 "Authorization" : `Bearer ${accessToken}`,
@@ -228,5 +228,66 @@ export const getPopularCourses=()=>{
         })
     }
 }
+export const getDomain = (name,callback)=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch =>{
+     axios.get(URL+"/api/v1/careerTrackApp/domainType?domainType="+name, {
+         crossDomain: true,
+         headers : {
+            "Authorization" : `Bearer ${accessToken}`,
+            admin : "yes"
+        }
+     })
+         .then(result => {
+             callback(result)
+             dispatch({type:COURSES.DomainList,payload:result.data})
+         })
+         .catch(error => {
+             callback(error)
+             console.log(error);
+         });
+    }
+ }
+ export const getAdvanceCourse = ( courseId,callback )=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch =>{
+     axios.get(URL+"/api/v1/courseVariant/course/"+courseId, {
+         crossDomain: true,
+         headers : {
+            "Authorization" : `Bearer ${accessToken}`,
+            admin : "yes"
+        }
+     })
+         .then(result => {
+             callback(result)
+             dispatch({type:COURSES.AdvanceCourse,payload:result.data})
+         })
+         .catch(error => {
+             console.log(error);
+             callback(error)
+         });
+    }
+ }
+ export const getProductVarient = ()=>{
+    let accessToken = window.sessionStorage.getItem("accessToken")
+
+    return dispatch =>{
+     axios.get(URL+"/api/v1/product/productVariant", {
+         crossDomain: true,
+         headers : {
+            "Authorization" : `Bearer ${accessToken}`,
+            admin : "yes"
+        }
+     })
+         .then(result => {
+             dispatch({type:COURSES.ProductVariant,payload:result.data})
+         })
+         .catch(error => {
+             console.log(error);
+         });
+    }
+ }
 
 // students/{studentId}/RunRecommendationEngine?type=marketing/service
