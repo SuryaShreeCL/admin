@@ -1,16 +1,20 @@
 import { COURSES } from "../Redux/Action";
 const initialState = {
   CourseList: [],
-  CourseById:[],
-  AddCourse:[],
+  CourseById: [],
+  AddCourse: [],
   RecommendedCourseList: [],
   PopularCourseList: [],
   SimilarCourseList: [],
-  MarkettingRecommended:[],
-  ServiceRecommended:[],
-  courseFilterList : [],
-  UpdateCourse : [],
-  deleteCourse : [],
+  MarkettingRecommended: [],
+  ServiceRecommended: [],
+  courseFilterList: [],
+  UpdateCourse: [],
+  deleteCourse: [],
+  DomainList: [],
+  SubDomainList: [],
+  ProductVariant: [],
+  AdvanceCourse: [],
 };
 
 export default (state = initialState, action) => {
@@ -19,22 +23,22 @@ export default (state = initialState, action) => {
       return {
         ...state,
         AddCourse: action.AddCourse,
-      };      
+      };
     case COURSES.GetCourses:
       return {
         ...state,
         CourseList: action.courseList,
       };
     case COURSES.GetCourseById:
-        return {
-          ...state,
-          CourseById: action.courseList,
-        };
-     case COURSES.UpdateCourse:
-        return {
-          ...state,
-          UpdateCourse: action.updateCourse,
-        };
+      return {
+        ...state,
+        CourseById: action.courseList,
+      };
+    case COURSES.UpdateCourse:
+      return {
+        ...state,
+        UpdateCourse: action.updateCourse,
+      };
     case COURSES.GetRecommendedCouses:
       return {
         ...state,
@@ -51,27 +55,47 @@ export default (state = initialState, action) => {
         SimilarCourseList: action.similarCourseList,
       };
     case COURSES.GetMarkettingRecommended:
-      return{
+      return {
         ...state,
-        MarkettingRecommended:action.MarkettingRecommended,
-      }
-    case COURSES.GetServiceRecommended :
-      return{
+        MarkettingRecommended: action.MarkettingRecommended,
+      };
+    case COURSES.GetServiceRecommended:
+      return {
         ...state,
-        ServiceRecommended:action.ServiceRecommended,
-      }
+        ServiceRecommended: action.ServiceRecommended,
+      };
+    case COURSES.DomainList:
+      return {
+        ...state,
+        DomainList: action.payload,
+      };
+    case COURSES.SubDomainList:
+      return {
+        ...state,
+        SubDomainList: action.payload,
+      };
+    case COURSES.AdvanceCourse:
+      return {
+        ...state,
+        AdvanceCourse: action.payload,
+      };
+    case COURSES.ProductVariant:
+      return {
+        ...state,
+        ProductVariant: action.payload,
+      };
 
-      // Selva
-      case COURSES.getPaginateCourse:
-        return {
-          ...state,
-          courseFilterList:action.courseFilterResult,
-        }
-        case COURSES.deleteCourse:
-        return {
-          ...state,
-          deleteCourse: action.deleteCourse,
-        };
+    // Selva
+    case COURSES.getPaginateCourse:
+      return {
+        ...state,
+        courseFilterList: action.courseFilterResult,
+      };
+    case COURSES.deleteCourse:
+      return {
+        ...state,
+        deleteCourse: action.deleteCourse,
+      };
     default:
       break;
   }
