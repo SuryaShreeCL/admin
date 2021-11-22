@@ -126,7 +126,9 @@ const AllRoundActivities = ({ id, title, subDescription }) => (
 
 function MbaReport({ content = [], assessment }) {
   console.log(content);
-  let ReportDate = content.map((item) => item.content.dateTime);
+  let ReportDate =
+    content.find((item) => item.content.dateTime) &&
+    content.find((item) => item.content.dateTime).content.dateTime;
   console.log(ReportDate);
 
   return (

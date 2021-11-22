@@ -236,6 +236,7 @@ function PlanOfAction(props) {
                           }
                           label={"Remarks"}
                           fullWidth
+                          multiline
                         />
                       </Grid>
                       {/* <Grid

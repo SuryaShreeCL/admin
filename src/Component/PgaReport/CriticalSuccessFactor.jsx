@@ -168,6 +168,7 @@ function CriticalSuccessFactor(props) {
                     value={eachFactor.remark}
                     label={"Remarks"}
                     fullWidth
+                    multiline
                   />
                 </Grid>
                 <Grid
