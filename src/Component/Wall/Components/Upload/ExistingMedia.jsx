@@ -7,8 +7,6 @@ import Spinner from '../../Assets/Images/Blue-spin.gif';
 import axios from 'axios';
 import Media from '../../Assets/Images/media.png';
 
-let accessToken = window.sessionStorage.getItem('accessToken');
-
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
     height: 10,
@@ -41,14 +39,14 @@ const ErrorLinearProgress = withStyles((theme) => ({
 
 export function ExistingMedia(props, progress = 100) {
   const [isDeleted, setIsDeleted] = useState(false);
-  
+
   //Removing the file from aws based on id
   const deletePost = async (id) => {
     const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallfile/${id}`, {
       crossDomain: true,
       headers: {
         admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
     });
     setIsDeleted(true);
