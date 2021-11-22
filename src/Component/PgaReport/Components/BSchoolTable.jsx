@@ -31,9 +31,13 @@ function BSchoolTable(props) {
         <TableBody>
           {props.data.map((row, index) => (
             <TableRow className={index % 2 === 0 && classes.tableRowColor}>
-              <TableCell>{row.region.name}</TableCell>
-              <TableCell align="center">{row.country.name}</TableCell>
-              <TableCell align="center">{row.university.name}</TableCell>
+              <TableCell>{row.region && row.region.name}</TableCell>
+              <TableCell align="center">
+                {row.country && row.country.name}
+              </TableCell>
+              <TableCell align="center">
+                {row.university && row.university.name}
+              </TableCell>
               <TableCell align="center">
                 {" "}
                 <AddButton
