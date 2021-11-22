@@ -140,7 +140,9 @@ const renderDateTime = (date) => {
 };
 
 function MsReport({ content = [] }) {
-  let ReportDate = content.map((item) => item.content.dateTime);
+  let ReportDate =
+    content.find((item) => item.content.dateTime) &&
+    content.find((item) => item.content.dateTime).content.dateTime;
   console.log(ReportDate);
   return (
     <Document>
