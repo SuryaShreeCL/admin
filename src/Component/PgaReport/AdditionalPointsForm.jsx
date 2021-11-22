@@ -163,6 +163,7 @@ function AdditionalPointsForm(props) {
                       value={eachItem.remark}
                       label={"Remarks"}
                       fullWidth
+                      multiline
                     />
                   </Grid>
                   <Grid item md={1}>

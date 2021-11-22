@@ -48,10 +48,10 @@ export class Courses extends Component {
             snackMsg: "",
             snackVariant: "",
             snackOpen: false,
-            domain : "",
-            subdomain : "",
-            productvariant : "",
-            advancecourse : "",
+            domain : [],
+            subdomain : [],
+            productvariant : [],
+            advancecourse : [],
             domainList : [],
             subdomainList : [],
             advancedCourseList : [],
@@ -211,10 +211,10 @@ spinnerTheme = () =>createMuiTheme({
           lmsURL : "",
           displayImageURL : "",
           thumnailImageURL : "",
-          domain : "",
-          subdomain : "",
-          productvariant : "",
-          advancecourse : "",
+          domain : [],
+          subdomain : [],
+          productvariant : [],
+          advancecourse : [],
       });
 
   };
@@ -240,10 +240,10 @@ spinnerTheme = () =>createMuiTheme({
         lmsURL : this.state.lmsURL,
         displayImageURL : this.state.displayImageURL,
         thumnailImageURL : this.state.thumnailImageURL,
-        advancedCourse: [this.state.advancecourse],
-        courseDomains: [this.state.domain],
-        courseSubDomains: [this.state.subdomain],
-        productVariant: [this.state.productvariant],
+        advancedCourse: this.state.advancecourse,
+        courseDomains: this.state.domain,
+        courseSubDomains: this.state.subdomain,
+        productVariant: this.state.productvariant,
       };
       if (this.state.name.length !== 0 &&
             !isEmptyString(this.state.lmsURL) &&
@@ -266,10 +266,10 @@ spinnerTheme = () =>createMuiTheme({
           snackMsg:"Added Successfully",
           snackOpen:true,
           snackVariant:"success",
-          domain : "",
-          subdomain : "",
-          productvariant : "",
-          advancecourse : "",
+          domain : [],
+          subdomain : [],
+          productvariant : [],
+          advancecourse : [],
         });
       }
       this.props.getPaginateCourse(0, 20,null);    
@@ -320,10 +320,10 @@ spinnerTheme = () =>createMuiTheme({
       snackMsg:"Updated Successfully",
       snackOpen:true,
       snackVariant:"success",
-      domain : "",
-      subdomain : "",
-      productvariant : "",
-      advancecourse : "",
+      domain : [],
+      subdomain : [],
+      productvariant : [],
+      advancecourse : [],
     });      
   }
   this.props.getPaginateCourse(0, 20,null);    
@@ -502,7 +502,7 @@ renderOption = () => {
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                        // multiple
+                        multiple
                         options={this.state.domainList.data || []}
                         getOptionLabel={(option) => option.name}
                         value={this.state.domain}
@@ -515,7 +515,7 @@ renderOption = () => {
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                        // multiple
+                        multiple
                         options={this.state.subdomainList.data || []}
                         getOptionLabel={(option) => option.name}
                         value={this.state.subdomain}
@@ -528,7 +528,7 @@ renderOption = () => {
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                        // multiple
+                        multiple
                         options={this.props.getProductVarientList.data || []}
                         getOptionLabel={(option) => option.name}
                         value={this.state.productvariant}
@@ -542,7 +542,7 @@ renderOption = () => {
                     </Grid>
                     <Grid item md={4}>
                     <Autocomplete
-                        // multiple
+                        multiple
                         options={this.state.advancedCourseList || []}
                         getOptionLabel={(option) => option.name}
                         value={this.state.advancecourse}
