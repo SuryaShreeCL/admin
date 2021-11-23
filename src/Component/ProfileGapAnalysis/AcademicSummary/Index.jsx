@@ -15,6 +15,8 @@ import { isEmptyObject, isEmptyString, isNanAndEmpty } from "../../Validation";
 import { HELPER_TEXT } from "../../../Constant/Variables";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import PrimaryButton from "../../../Utils/PrimaryButton";
+import MySnackBar from "../../MySnackBar";
+
 function Index(props) {
   // Defining column and config for CRUD Table
   const columns = [
@@ -100,6 +102,11 @@ function Index(props) {
   const [semester, setSemester] = useState([]);
   const [subjectTableFields, setSubjectTableFields] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [snack, setSnack] = useState({
+    snackOpen: false,
+    snackVariant: "",
+    snackMsg: "",
+  });
   //   Styles for the component
   const classes = useStyles();
 
@@ -118,6 +125,8 @@ function Index(props) {
       degreeType.id,
       subCategory.id
     ).then((response) => {
+      console.log(response);
+
       if (response.status === 200) {
         //   Setting up values only if the data is present
         if (response.data.data.backlogSummary) {
@@ -140,6 +149,12 @@ function Index(props) {
         } else {
           setSubjects([]);
         }
+      } else {
+        setSnack({
+          snackMsg: "Student Details Not Found",
+          snackVariant: "error",
+          snackOpen: true,
+        });
       }
     });
   };
@@ -342,7 +357,7 @@ function Index(props) {
         </PrimaryButton>
       </Grid>
       <Grid item md={12}>
-      <hr />
+        <hr />
       </Grid>
       <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
         <Tabs
@@ -353,13 +368,39 @@ function Index(props) {
           onChange={handleChange}
         >
           {tabLabel.map((eachItem, index) => {
-            return <Tab classes={{root : classes.tabTextStyle}} disabled={handleTabDisabled(index)} label={eachItem} />;
+            return (
+              <Tab
+                classes={{ root: classes.tabTextStyle }}
+                disabled={handleTabDisabled(index)}
+                label={eachItem}
+              />
+            );
           })}
         </Tabs>
       </Grid>
-      <Grid item md={12} xs={12} sm={12} lg={12} xl={12} className={classes.academicSummaryLayout}>
+      <Grid
+        item
+        md={12}
+        xs={12}
+        sm={12}
+        lg={12}
+        xl={12}
+        className={classes.academicSummaryLayout}
+      >
         {renderTabContent()}
       </Grid>
+      <MySnackBar
+        onClose={() =>
+          setSnack({
+            snackOpen: false,
+            snackMsg: "",
+            snackVariant: "",
+          })
+        }
+        snackOpen={snack.snackOpen}
+        snackVariant={snack.snackVariant}
+        snackMsg={snack.snackMsg}
+      />
     </Grid>
   );
 }
