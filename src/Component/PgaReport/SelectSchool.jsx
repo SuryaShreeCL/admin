@@ -117,7 +117,7 @@ function SelectSchool(props) {
         setRegion(response.data.data);
       }
     });
-    getSchoolProgram().then((response) => {
+    getSchoolProgram(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setProgram(response.data.data);
       }

@@ -21,9 +21,9 @@ export const getSchoolRegion = async ( productId ) => {
     }
 }
 
-export const getSchoolProgram = async () => {
+export const getSchoolProgram = async ( productId ) => {
     try {
-        const response = await customAxios.get(URL+"/api/v1/gradSchoolProgram")
+        const response = await customAxios.get(URL+"/api/v1/product/"+ productId +"/program")
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message

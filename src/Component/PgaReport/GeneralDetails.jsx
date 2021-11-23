@@ -90,7 +90,7 @@ function GeneralDetails(props) {
         }
       })
     );
-    getSchoolProgram().then((response) => {
+    getSchoolProgram(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setPreferredProgramList(response.data.data);
       }
