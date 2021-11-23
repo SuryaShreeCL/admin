@@ -109,13 +109,11 @@ class Index extends Component {
       this.state.filterField,
       submenu.id
     ).then((response) => {
-      
       if (response.data.body.success) {
         this.setState({
           studentMatch: (response && response.data.body.data) || [],
         });
       } else {
-        
         this.setState({
           snackMsg: "The Given Filter is not Found",
           snackVariant: "error",
@@ -132,7 +130,6 @@ class Index extends Component {
       this.props.academicTypes,
       query
     ).then((response) => {
-      
       if (response.status === 200) {
         this.setState({
           distinctMatch: (response && response.data.body.data) || [],
@@ -164,7 +161,7 @@ class Index extends Component {
 
   // function to add the row in the table
   handleRowAdd = (newData) => {
-    console.log(newData)
+    console.log(newData);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         this.setState({
@@ -235,7 +232,6 @@ class Index extends Component {
   };
 
   fetchData = (response) => {
-    
     if (response.data.success) {
       this.setState({
         semesterData:
@@ -374,7 +370,6 @@ class Index extends Component {
         this.props.academicTypes,
         requestBody,
         (response) => {
-          
           if (response.data.success) {
             this.setState({
               snackMsg: "Saved Successfully",
@@ -386,6 +381,12 @@ class Index extends Component {
               this.props.clickedSem.data,
               this.fetchData
             );
+          } else {
+            this.setState({
+              snackMsg: "Same SubjectCode SubjectName is Already Added",
+              snackVariant: "success",
+              snackOpen: true,
+            });
           }
         }
       );
@@ -410,7 +411,6 @@ class Index extends Component {
 
   // function to calculate sgpa
   handleSgpaClick = () => {
-    
     // this.setState({
     //   subjectDetails : {
     //     ...this.state.subjectDetails,
@@ -423,8 +423,6 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
-        
-
         if (response.data.success) {
           this.setState({
             subjectDetails: {
@@ -451,10 +449,7 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
-        
-
         if (response.data.success) {
-          
           this.setState({
             subjectDetails: {
               ...this.state.subjectDetails,
@@ -468,7 +463,6 @@ class Index extends Component {
 
   render() {
     const { classes } = this.props;
-    
 
     // table columns
     const columns = [
@@ -485,7 +479,6 @@ class Index extends Component {
             ? rowData.subjectDetailsUgPgDiploma.subjectCode
             : "",
         validate: (rowData) => {
-          
           if (!isEmptyObject(rowData)) {
             if (
               !isEmptyString(
@@ -500,7 +493,7 @@ class Index extends Component {
               //   snackOpen : true,
               //   snackVariant : "error"
               // })
-              return { isValid: false};
+              return { isValid: false };
             }
           }
         },
@@ -838,9 +831,9 @@ class Index extends Component {
           </Grid>
         </Grid>
         <MySnackBar
-        snackMsg={this.state.snackMsg}
-        snackOpen={this.state.snackOpen}
-        snackVariant={this.state.snackVariant}
+          snackMsg={this.state.snackMsg}
+          snackOpen={this.state.snackOpen}
+          snackVariant={this.state.snackVariant}
         />
       </div>
     );
