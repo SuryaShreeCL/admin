@@ -36,7 +36,7 @@ function GeneralDetails(props) {
   const [currentSem, setCurrentSem] = useState({ value: null, helperText: "" });
   const [contextDesc, setContextDesc] = useState({ value: "", helperText: "" });
   const [intake, setIntake] = useState({ value: "", helperText: "" });
-  const [round, setRound] = useState({ value: "", helperText: "" });
+  const [round, setRound] = useState({ value: null, helperText: "" });
   const [timelineDesc, setTimelineDesc] = useState({
     value: "",
     helperText: "",
@@ -47,6 +47,7 @@ function GeneralDetails(props) {
     snackMsg: "",
     snackColor: "",
   });
+
   const dispatch = useDispatch();
 
   const getAndSetStudentGeneralDetails = () => {
@@ -108,6 +109,14 @@ function GeneralDetails(props) {
   }, []);
 
   const handleSave = () => {
+
+    console.log(props.adminLinkedProductDetails.products, props.match.params.productId)
+
+    const findObj = props.adminLinkedProductDetails.products.find(el=>el.id === props.match.params.productId)
+    const isAcsMs = findObj.codeName === "ACS_MS" ? true : false;
+
+    console.log(isAcsMs, "=====")
+
     isEmptyString(contextDesc.value)
       ? setContextDesc((prevConDes) => ({
           ...prevConDes,
@@ -159,58 +168,111 @@ function GeneralDetails(props) {
           helperText: HELPER_TEXT.requiredField,
         }))
       : setIntake((prevIntake) => ({ ...prevIntake, helperText: "" }));
-    isEmptyObject(round.value)
-      ? setRound((prevRound) => ({
-          ...prevRound,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setRound((prevRound) => ({ ...prevRound, helperText: "" }));
-
-    if (
-      !isEmptyString(contextDesc.value) &&
-      !isEmptyString(currentSem.value) &&
-      !isEmptyString(timelineDesc.value) &&
-      selectedDate.value !== null &&
-      !isEmptyObject(preferredProgram.value) &&
-      !isEmptyObject(areaOfSpec.value) &&
-      !isEmptyObject(intake.value) 
-      // !isEmptyObject(round.value)
-    ) {
-      let requestBody = {
-        id: id,
-        contextDescription: contextDesc.value,
-        currentSemester: parseInt(currentSem.value),
-        timeLineDescription: timelineDesc.value,
-        date: selectedDate.value,
-        preferredProgram: preferredProgram.value,
-        areaOfSpecialization: areaOfSpec.value,
-        inTake: intake.value,
-        pgaRound: round.value,
-      };
-
-      savePgaReportGeneralDetails(
-        props.match.params.studentId,
-        props.match.params.productId,
-        requestBody
-      ).then((response) => {
-        if (response.status === 200) {
-          getAndSetStudentGeneralDetails();
-          setSnack({
-            snackMsg: "Saved Successfully",
-            snackColor: "success",
-            snackOpen: true,
-          });
+     
+      if(!isAcsMs){
+        if(isEmptyObject(round.value)){
+          setRound((prevRound) => ({
+            ...prevRound,
+            helperText: HELPER_TEXT.requiredField,
+          }))
         }else{
-          setSnack({
-            snackMsg: response,
-            snackColor: "error",
-            snackOpen: true,
-          });
+          setRound((prevRound) => ({ ...prevRound, helperText: "" }));
         }
-      });
+      }
+  
+    if(!isAcsMs){
+      if (
+        !isEmptyString(contextDesc.value) &&
+        !isEmptyString(currentSem.value) &&
+        !isEmptyString(timelineDesc.value) &&
+        selectedDate.value !== null &&
+        !isEmptyObject(preferredProgram.value) &&
+        !isEmptyObject(areaOfSpec.value) &&
+        !isEmptyObject(intake.value) &&
+        !isEmptyObject(round.value)
+      ) {
+        let requestBody = {
+          id: id,
+          contextDescription: contextDesc.value,
+          currentSemester: parseInt(currentSem.value),
+          timeLineDescription: timelineDesc.value,
+          date: selectedDate.value,
+          preferredProgram: preferredProgram.value,
+          areaOfSpecialization: areaOfSpec.value,
+          inTake: intake.value,
+          pgaRound: round.value,
+        };
+  
+        savePgaReportGeneralDetails(
+          props.match.params.studentId,
+          props.match.params.productId,
+          requestBody
+        ).then((response) => {
+          if (response.status === 200) {
+            getAndSetStudentGeneralDetails();
+            setSnack({
+              snackMsg: "Saved Successfully",
+              snackColor: "success",
+              snackOpen: true,
+            });
+          }else{
+            setSnack({
+              snackMsg: response,
+              snackColor: "error",
+              snackOpen: true,
+            });
+          }
+        });
+      }
+    }else{
+      if (
+        !isEmptyString(contextDesc.value) &&
+        !isEmptyString(currentSem.value) &&
+        !isEmptyString(timelineDesc.value) &&
+        selectedDate.value !== null &&
+        !isEmptyObject(preferredProgram.value) &&
+        !isEmptyObject(areaOfSpec.value) &&
+        !isEmptyObject(intake.value)
+        // !isEmptyObject(round.value)
+      ) {
+        let requestBody = {
+          id: id,
+          contextDescription: contextDesc.value,
+          currentSemester: parseInt(currentSem.value),
+          timeLineDescription: timelineDesc.value,
+          date: selectedDate.value,
+          preferredProgram: preferredProgram.value,
+          areaOfSpecialization: areaOfSpec.value,
+          inTake: intake.value,
+          pgaRound: round.value,
+        };
+  
+        savePgaReportGeneralDetails(
+          props.match.params.studentId,
+          props.match.params.productId,
+          requestBody
+        ).then((response) => {
+          if (response.status === 200) {
+            getAndSetStudentGeneralDetails();
+            setSnack({
+              snackMsg: "Saved Successfully",
+              snackColor: "success",
+              snackOpen: true,
+            });
+          }else{
+            setSnack({
+              snackMsg: response,
+              snackColor: "error",
+              snackOpen: true,
+            });
+          }
+        });
+      }
     }
+
+    
   };
-console.log(props)
+
   return (
     <PageWrapper>
       <Grid container className={classes.containerStyle}>
@@ -344,8 +406,8 @@ console.log(props)
                   <TextFieldComponent
                     {...params}
                     label="Round"
-                    helperText={props.match.params.productId === "4" ? "" : round.helperText}
-                    error={props.match.params.productId === "4" ? false : round.helperText.length > 0}
+                    helperText={round.helperText}
+                    error={round.helperText.length > 0}
                     variant="standard"
                   />
                 )}

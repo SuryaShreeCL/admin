@@ -188,11 +188,10 @@ function PlanOfAction(props) {
                   </Typography>
                 </Grid>
                 {eachPlan.pgaStudentPoaFocus.map((eachFocus, focusIndex) => {
-                  let focusNumber = focusIndex + 1;
                   return (
                     <>
                       <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
-                        <Typography>{"Focus " + focusNumber}</Typography>
+                        <Typography>{"Focus " + eachFocus.orderNo}</Typography>
                       </Grid>
                       {/* <Grid item md={3} xs={12} sm={12} lg={3} xl={3}>
                         <DropDown
