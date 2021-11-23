@@ -51,7 +51,8 @@ export default function Menu(props) {
       return array.splice(4, 1);
     }
     if (status === 'Live') {
-      return array.splice(1, 1);
+      if (props.courseMaterial) return array.splice(0, 2);
+      else return array.splice(1, 1);
     }
     if (status === 'In Review') {
       array.splice(2, 1);

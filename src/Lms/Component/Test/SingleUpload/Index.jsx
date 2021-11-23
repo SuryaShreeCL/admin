@@ -36,7 +36,7 @@ export class Index extends Component {
       activeConcept: '',
       activeTopic: '',
       activeLevel: '',
-      expectedTime: '',
+      expectedTime: 0,
       checked: false,
       activeTab: 0,
       bucketArray: [],
@@ -92,8 +92,6 @@ export class Index extends Component {
         }
       });
     } else {
-      // console.log(questionId);
-
       this.props.getSubjects(courseId, subjectResponse => {
         if (subjectResponse.success) {
           this.props.getConcepts(
@@ -365,7 +363,7 @@ export class Index extends Component {
 
     if (
       activeLevel.length === 0 ||
-      expectedTime.length === 0 ||
+      (this.props.topics && this.state.expectedTime.length === 0) ||
       question.length === 0 ||
       answerType.length === 0 ||
       this.choiceEmptyCheck() ||
@@ -493,18 +491,10 @@ export class Index extends Component {
       let value = 0;
 
       for (let i = 0; i < arr.length; i++) {
-        // console.log(i);
         for (let j = 0; j < arr[i].choices.length; j++) {
-          // console.log(arr[i].choices[j].selected);
           if (arr[i].choices[j].selected) {
-            // console.log(arr[i].choices[j].text);
-            // break;
             value++;
           }
-          // else {
-          //   console.log('hey you dont want to see me');
-          //   return true;
-          // }
         }
       }
 
@@ -534,6 +524,7 @@ export class Index extends Component {
   };
 
   render() {
+    console.log(this.state, this.props);
     const { subjects, concepts, topics, editData } = this.props;
 
     // console.log(this.state.answerType);
@@ -647,11 +638,6 @@ export class Index extends Component {
       handlePopUpClose,
       alert,
     };
-
-    // console.log(this.state);
-    // console.log(this.props.subjects);
-    // console.log(this.props.concepts);
-    // console.log(this.props.topics);
 
     return (
       <div>

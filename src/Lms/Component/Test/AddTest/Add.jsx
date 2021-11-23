@@ -84,6 +84,9 @@ class Add extends Component {
       dialogContent: null,
       sectionDialogOpen: false,
       sectionAnchorEl: null,
+
+      questions: null,
+      disableAddButton: false,
     };
   }
 
@@ -162,7 +165,6 @@ class Add extends Component {
           calibrationSectionTabLabels: tabArr,
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
-          questions: questionSet.questions,
           courseIdValue: questionSet.productId,
         });
       }
@@ -177,7 +179,6 @@ class Add extends Component {
           nameDescription: questionSet.nameDescription,
           topicTestSections: questionSet.testSection[0],
           sectionId: questionSet.testSection[0].id,
-          questions: questionSet.questions,
           courseIdValue: questionSet.productId,
         });
       }
@@ -188,8 +189,8 @@ class Add extends Component {
           courseId: questionSet.course,
           type: questionSet.type,
           topicId: questionSet.topic,
-          questions: questionSet.questions,
           courseIdValue: questionSet.productId,
+          questions: questionSet.questions,
         });
       }
 
@@ -671,6 +672,23 @@ class Add extends Component {
     }
   };
 
+  getQuestionData = () => {
+    const {
+      type,
+      calibrationTestData,
+      calibrationActiveSectionTab,
+      topicTestSections,
+      questions,
+    } = this.state;
+
+    if (type === 'CALIBRATION')
+      return calibrationTestData[calibrationActiveSectionTab - 1] !== undefined
+        ? calibrationTestData[calibrationActiveSectionTab - 1].questions
+        : null;
+    else if (type === 'TOPIC') return topicTestSections.questions;
+    else if (type === 'QUESTIONBANK') return questions;
+  };
+
   render() {
     const {
       type,
@@ -693,8 +711,6 @@ class Add extends Component {
       popUpId,
       dialogStatus,
       dialogContent,
-      sectionDelete,
-      questions,
       sectionDialogOpen,
       sectionAnchorEl,
     } = this.state;
@@ -716,7 +732,7 @@ class Add extends Component {
     } = this;
 
     return (
-      <Card padding={'0px 20px'}>
+      <Card padding={'12px 20px'}>
         <Box display={'flex'} alignItems={'center'}>
           {/* Header */}
           <TestTitle flex={1}>
@@ -868,7 +884,7 @@ class Add extends Component {
             sectionData={calibrationTestData}
             tabValue={calibrationActiveSectionTab}
             id={testQuestionSetId}
-            questions={questions}
+            questions={this.getQuestionData()}
             handleThreeDotClick={handleThreeDotClick}
             handleClose={handleClose}
             anchorEl={anchorEl}

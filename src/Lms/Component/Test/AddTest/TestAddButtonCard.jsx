@@ -7,7 +7,7 @@ import Freepik from '../../../Assets/images/freepik.png';
 import { Question } from '../../../Assets/StyledComponents';
 import { MoreVertRounded } from '@material-ui/icons';
 import Menu from './Menu';
-
+import LatexViewer from '../../../Utils/LatexViewer';
 class TestAddButtonCard extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +20,11 @@ class TestAddButtonCard extends Component {
     anchorEl,
     handleDelete
   ) => {
-    if (questions !== null && questions.length !== 0) {
+    if (
+      questions !== null &&
+      questions !== undefined &&
+      questions.length !== 0
+    ) {
       return (
         <>
           {questions.map((question, index) => {
@@ -28,9 +32,7 @@ class TestAddButtonCard extends Component {
               <Question id={question.id}>
                 <div className='flex-filler'>
                   {index + 1}. &nbsp;&nbsp;
-                  <span
-                    dangerouslySetInnerHTML={{ __html: question.question }}
-                  />
+                  <LatexViewer math={question.question} />
                 </div>
                 <IconButton
                   style={{ padding: '3px', height: '30px', margin: 'auto 0px' }}
@@ -84,23 +86,21 @@ class TestAddButtonCard extends Component {
             <SubTitle>List of Question</SubTitle>
           </Grid>
           <Grid item>
-            <div
-              style={{
-                opacity:
-                  id === null
-                    ? '0.5'
-                    : type === 'CALIBRATION' && sectionData.length === 0
-                    ? '0.5'
-                    : type === 'CALIBRATION' &&
-                      sectionData[tabValue - 1] !== undefined &&
-                      sectionData[tabValue - 1]['id'] === null
-                    ? '0.5'
-                    : 1,
-              }}
-            >
+            <div>
               <AddButton
                 startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
                 onClick={addQuestion}
+                disabled={
+                  id === null
+                    ? true
+                    : type === 'CALIBRATION' && sectionData.length === 0
+                    ? true
+                    : type === 'CALIBRATION' &&
+                      sectionData[tabValue - 1] !== undefined &&
+                      sectionData[tabValue - 1]['id'] === null
+                    ? true
+                    : false
+                }
               >
                 Add New Question
               </AddButton>
