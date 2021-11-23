@@ -237,7 +237,9 @@ class AspirationDetails extends Component {
           delete item.question[key];
         }
       }
-      delete item.answer["questionId"];
+      if(item.answer){
+        delete item.answer["questionId"];
+      }
       // delete item["testExecutionId"];
     });
     this.props.updateAspiration(
@@ -296,7 +298,7 @@ class AspirationDetails extends Component {
 
   getAnswer = (qid) => {
     let obj = this.state.answerModel.find((item) => {
-      return item.answer.questionId === qid;
+      return item.answer && item.answer.questionId === qid;
     });
 
     let choice = null;
@@ -316,6 +318,7 @@ class AspirationDetails extends Component {
       answer,
     } = this.props.getAspirationQuestionList;
     const { choiceStyle } = style;
+    console.log(this.state.answerModel, "===========")
     return (
       <Grid container spacing={2}>
         {questions
@@ -378,12 +381,12 @@ class AspirationDetails extends Component {
                         value={
                           this.state.answerModel
                             .filter((el) => el.question.name !== "AspirationQ2")
-                            .find((item) => item.answer.questionId === qid)
+                            .find((item) => item.answer && item.answer.questionId === qid)
                             ? this.state.answerModel
                                 .filter(
                                   (el) => el.question.name !== "AspirationQ2"
                                 )
-                                .find((item) => item.answer.questionId === qid)
+                                .find((item) => item.answer && item.answer.questionId === qid)
                                 .answer.selectedChoices[0].id
                             : null
                         }
