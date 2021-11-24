@@ -9,7 +9,7 @@ import {
   viewAcademicDetails,
   saveAcademicDetails,
 } from "../../../Actions/ProfileGapAction";
-import { getAcademicType, isClickedSem} from "../../../Actions/HelperAction";
+import { getAcademicType, isClickedSem } from "../../../Actions/HelperAction";
 import { URL } from "../../../Actions/URL";
 import Mysnack from "../../MySnackBar";
 import {
@@ -26,7 +26,7 @@ class Index extends Component {
       data: "",
       collegeName: "",
       departmentName: "",
-      scoreScale: "",
+      scoreScale: {},
       universityName: "",
       Batch: "",
       degree: "",
@@ -56,65 +56,23 @@ class Index extends Component {
           collegeName: response && response.data.college,
           departmentName: response && response.data.department,
           universityName: response && response.data.university,
-          scoreScale: response && response.data.semesterDetails[0].scoreScale,
-          score: response && response.data.semesterDetails[0].score,
+          scoreScale: response && response.data.scoreScale,
+          score: response && response.data.score,
           degree: response && response.data.degree,
         });
       }
     );
   }
 
+  gpaScale = [
+    { title: "10", value: 10 },
+    { title: "7", value: 7 },
+    { title: "4", value: 4 },
+    { title: "%", value: 100 },
+  ];
+
   handleSaveClick = () => {
-    if(this.props.academicTypes === "diploma"){
-      
-        let requestBody = {
-          college: {
-            name: this.state.collegeName.name,
-          },
-          university: {
-            name: this.state.universityName.name,
-          },
-          department: {
-            name: this.state.departmentName.name,
-          },
-          //  degree:{
-          //      id: this.state.degree.id
-          //  },
-          scoreScale: this.state.scoreScale,
-          score: this.state.score,
-        };
-        this.props.saveAcademicDetails(
-          this.props.match.params.studentId,
-          this.props.academicTypes,
-          requestBody,
-          (response) => {
-            console.log(response);
-            this.setState({
-              snackMsg: "Saved Successfully",
-              snackVariant: "success",
-              snackOpen: true,
-            });
-            this.props.viewAcademicDetails(
-              this.props.match.params.studentId,
-              this.props.academicTypes,
-              (response) => {
-                this.setState({
-                  data: response && response.data,
-                  collegeName: response && response.data.college,
-                  departmentName: response && response.data.department,
-                  universityName: response && response.data.university,
-                  scoreScale:
-                  response && response.data.scoreScale,
-                score: response && response.data.score,
-                  degree: response && response.data.degree,
-                });
-              }
-            );
-          }
-        );
-      
-    }
-    else {
+    if (this.props.academicTypes === "diploma") {
       let requestBody = {
         college: {
           name: this.state.collegeName.name,
@@ -125,11 +83,11 @@ class Index extends Component {
         department: {
           name: this.state.departmentName.name,
         },
-         degree:{
-             id: this.state.degree.id
-         },
-        scoreScale: this.state.scoreScale,
-        score: this.state.score,
+        //  degree:{
+        //      id: this.state.degree.id
+        //  },
+        scoreScale: parseInt(this.state.scoreScale),
+        score: parseInt(this.state.score),
       };
       this.props.saveAcademicDetails(
         this.props.match.params.studentId,
@@ -151,8 +109,52 @@ class Index extends Component {
                 collegeName: response && response.data.college,
                 departmentName: response && response.data.department,
                 universityName: response && response.data.university,
-                scoreScale:
-                  response && response.data.scoreScale,
+                scoreScale: response && response.data.scoreScale,
+                score: response && response.data.score,
+                degree: response && response.data.degree,
+              });
+            }
+          );
+        }
+      );
+    } else {
+      let requestBody = {
+        college: {
+          name: this.state.collegeName.name,
+        },
+        university: {
+          name: this.state.universityName.name,
+        },
+        department: {
+          name: this.state.departmentName.name,
+        },
+        degree: {
+          id: this.state.degree.id,
+        },
+        scoreScale: parseInt(this.state.scoreScale),
+        score: parseInt(this.state.score),
+      };
+      this.props.saveAcademicDetails(
+        this.props.match.params.studentId,
+        this.props.academicTypes,
+        requestBody,
+        (response) => {
+          console.log(response);
+          this.setState({
+            snackMsg: "Saved Successfully",
+            snackVariant: "success",
+            snackOpen: true,
+          });
+          this.props.viewAcademicDetails(
+            this.props.match.params.studentId,
+            this.props.academicTypes,
+            (response) => {
+              this.setState({
+                data: response && response.data,
+                collegeName: response && response.data.college,
+                departmentName: response && response.data.department,
+                universityName: response && response.data.university,
+                scoreScale: response && response.data.scoreScale,
                 score: response && response.data.score,
                 degree: response && response.data.degree,
               });
@@ -161,7 +163,6 @@ class Index extends Component {
         }
       );
     }
-   
   };
 
   //  markSheet(click) handle function
@@ -181,33 +182,40 @@ class Index extends Component {
   };
 
   handleChange = (e) => {
-    console.log(e.target.value)
-    console.log(e.target.name)
+    console.log(e.target.value);
+    console.log(e.target.name);
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
-  handleUniversityChange = (e,newValue) =>{
+  handleUniversityChange = (e, newValue) => {
     this.setState({
       universityName: newValue,
     });
-  }
-  handleDepartmentChange = (e,newValue) =>{
+  };
+  handleDepartmentChange = (e, newValue) => {
     this.setState({
       departmentName: newValue,
     });
-  }
-  handleCollegeChange = (e,newValue) =>{
+  };
+  handleCollegeChange = (e, newValue) => {
     this.setState({
       collegeName: newValue,
     });
-  }
-  handleDegreeChange = (e,newValue) =>{
+  };
+  handleDegreeChange = (e, newValue) => {
     this.setState({
       degreeName: newValue,
     });
-  }
+  };
+
+  handlePercentageChange = (e, newValue) => {
+    console.log(newValue);
+    this.setState({
+      scoreScale: newValue.value,
+    });
+  };
 
   render() {
     console.log(this.state.data);
@@ -221,6 +229,7 @@ class Index extends Component {
               <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
                 <ViewDetails
                   item={this.state.data}
+                  gpaScale={this.gpaScale}
                   list={this.state.list}
                   collegeName={this.state.collegeName}
                   departmentName={this.state.departmentName}
@@ -229,17 +238,25 @@ class Index extends Component {
                   score={this.state.score}
                   degreeName={this.state.degree}
                   handleChange={(e) => this.handleChange(e)}
-                  collegeResponse = {this.props.collegeResponse}
-                  departmentResponse = {this.props.departmentResponse}
-                  universityResponse = {this.props.universityResponse}
-                  handleUniversityChange = {(e,newValue)=>this.handleUniversityChange(e,newValue)}
-                  handleDepartmentChange = {(e,newValue)=>this.handleDepartmentChange(e,newValue)}
-                  handleCollegeChange = {(e,newValue)=>this.handleCollegeChange(e,newValue)}
-                  handleDegreeChange = {(e,newValue)=>this.handleDegreeChange(e,newValue)}
-
-
-
-                  />
+                  collegeResponse={this.props.collegeResponse}
+                  departmentResponse={this.props.departmentResponse}
+                  universityResponse={this.props.universityResponse}
+                  handleUniversityChange={(e, newValue) =>
+                    this.handleUniversityChange(e, newValue)
+                  }
+                  handleDepartmentChange={(e, newValue) =>
+                    this.handleDepartmentChange(e, newValue)
+                  }
+                  handleCollegeChange={(e, newValue) =>
+                    this.handleCollegeChange(e, newValue)
+                  }
+                  handleDegreeChange={(e, newValue) =>
+                    this.handleDegreeChange(e, newValue)
+                  }
+                  handlePercentageChange={(e, newValue) =>
+                    this.handlePercentageChange(e, newValue)
+                  }
+                />
               </Grid>
 
               {/* divider grid */}
@@ -332,5 +349,4 @@ export default connect(mapStateToProps, {
   getUniversity,
   getBranches,
   getAcademicType,
-  
 })(Index);
