@@ -9,8 +9,6 @@ import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
 
 class ViewDetails extends Component {
-  
-
   //   college Array
   college = [];
 
@@ -21,8 +19,6 @@ class ViewDetails extends Component {
   department = [];
 
   degree = [];
-
-
 
   renderDegree = () => {
     if (this.props.item.degree) {
@@ -61,11 +57,12 @@ class ViewDetails extends Component {
       degreeName,
       collegeResponse,
       departmentResponse,
-      universityResponse
+      universityResponse,
+      gpaScale,
     } = this.props;
-    
+
     console.log(collegeName);
-    console.log(this.props.collegeResponse);
+    console.log(this.props);
     return (
       <div>
         <Grid container spacing={3} style={{ padding: "14px" }}>
@@ -124,12 +121,28 @@ class ViewDetails extends Component {
           </Grid>
 
           <Grid item md={4}>
-            <TextField
+            {/* <TextField
               label="CGPA/Percentage"
               name="scoreScale"
               value={scoreScale}
               onChange={this.props.handleChange}
               fullWidth
+            /> */}
+            <AutoCompleteDropDown
+              id="CGPA/Percentage"
+              options={gpaScale}
+              value={gpaScale.find((item) => item.value === scoreScale) || null}
+              // value={gpaScale}
+              onChange={this.props.handlePercentageChange}
+              getOptionLabel={(option) => option.title}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="CGPA/Percentage"
+                  variant="standard"
+                  name="scoreScale"
+                />
+              )}
             />
           </Grid>
 
@@ -156,7 +169,10 @@ class ViewDetails extends Component {
             <TextField
               label="Batch"
               name="year"
-              value={`${new Date(item.startDate).getFullYear()} - ${new Date(item.endDate).getFullYear()}`}
+              disabled
+              value={`${new Date(item.startDate).getFullYear()} - ${new Date(
+                item.endDate
+              ).getFullYear()}`}
               onChange={this.props.handleChange}
               fullWidth
             />
@@ -165,12 +181,24 @@ class ViewDetails extends Component {
           {this.renderDegree()}
 
           <Grid item md={4}>
-            <TextField
+            {/* <TextField
               label="CGPA Scale"
               name="score"
               value={score}
               onChange={this.props.handleChange}
               fullWidth
+            /> */}
+            <TextField
+              fullWidth
+              name="score"
+              label="CGPA Scale"
+              type="number"
+              value={score}
+              onChange={this.props.handleChange}
+              error={scoreScale !== null && scoreScale < score}
+              helperText={
+                scoreScale !== null && scoreScale < score ? "Invalid Input" : ""
+              }
             />
           </Grid>
         </Grid>
@@ -183,10 +211,9 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     academicTypes: state.HelperReducer.academicType,
-
   };
 };
 
 export default connect(mapStateToProps, {
-  getAcademicType
+  getAcademicType,
 })(ViewDetails);
