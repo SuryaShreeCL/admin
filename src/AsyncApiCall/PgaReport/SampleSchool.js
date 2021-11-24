@@ -30,9 +30,9 @@ export const getSchoolProgram = async ( productId ) => {
     }
 }
 
-export const searchSchool = async (type, data) => {
+export const searchSchool = async (productId, type, data) => {
     try {
-        const response = await customAxios.post(URL+"/api/v1/pgaReport/gradSchool/search?type="+type, data)
+        const response = await customAxios.post(URL+"/api/v1/product/"+productId+"/pgaReport/school/search?type="+type, data)
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message

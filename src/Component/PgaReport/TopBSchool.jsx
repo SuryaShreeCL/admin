@@ -79,7 +79,7 @@ function SelectSchool(props) {
   const classes = useStyles();
 
   const getAndSetSearchSchoolList = (data) => {
-    searchSchool("BSCHOOL", data).then((response) => {
+    searchSchool(props.match.params.productId,"BSCHOOL", data).then((response) => {
       if (response.status === 200) {
         setSearchSchoolList(response.data.data);
       }
