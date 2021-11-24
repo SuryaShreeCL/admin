@@ -88,7 +88,7 @@ function SelectSchool(props) {
   const classes = useStyles();
 
   const getAndSetSearchSchoolList = (data) => {
-    searchSchool(props,match.params.productId,"program", data).then((response) => {
+    searchSchool(props.match.params.productId,"program", data).then((response) => {
       if (response.status === 200) {
         setSearchSchoolList(response.data.data);
       }
