@@ -293,10 +293,10 @@ spinnerTheme = () =>createMuiTheme({
     lmsURL: this.state.lmsURL,
     displayImageURL: this.state.displayImageURL,
     thumnailImageURL: this.state.thumnailImageURL,
-    advancedCourse: [this.state.advancecourse],
-    courseDomains: [this.state.domain],
-    courseSubDomains: [this.state.subdomain],
-    productVariant: [this.state.productvariant],
+    advancedCourse: this.state.advancecourse,
+    courseDomains: this.state.domain,
+    courseSubDomains: this.state.subdomain,
+    productVariant: this.state.productvariant,
   };
   if (this.state.name.length !== 0 &&
     !isEmptyString(this.state.lmsURL) &&
