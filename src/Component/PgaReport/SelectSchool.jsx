@@ -107,7 +107,7 @@ function SelectSchool(props) {
   };
 
   useEffect(() => {
-    getSchoolCategory().then((response) => {
+    getSchoolCategory(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setCategory(response.data.data);
       }

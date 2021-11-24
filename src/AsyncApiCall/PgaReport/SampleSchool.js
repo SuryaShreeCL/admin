@@ -2,9 +2,9 @@ import { URL } from "../../Actions/URL";
 import customAxios from "../../Axios/Instance";
 
 
-export const getSchoolCategory = async () => {
+export const getSchoolCategory = async ( productId ) => {
     try {
-        const response = await customAxios.get(URL+"/api/v1/gradSchoolCategory")
+        const response = await customAxios.get(URL+"/api/v1/product/"+productId+"/school/category")
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
