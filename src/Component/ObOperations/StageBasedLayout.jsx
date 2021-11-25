@@ -46,6 +46,7 @@ import Dot from "../../Utils/Dot";
 import "../../Asset/All.css";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import RevampDialog from "../../OnboardingRevamp/RevampDialog";
+import { CircularProgress } from "@material-ui/core";
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -78,6 +79,7 @@ class StageBasedLayout extends Component {
       stagelist: [],
       comments: "",
       tabIndex : "",
+      isLoading:false,
       componentList : {
         "Personal Information": "PersonalInfo",
         "Academic Information": "AcademicInfo",
@@ -179,6 +181,9 @@ class StageBasedLayout extends Component {
     );
   }
   handleIncomplete = () => {
+    this.setState({
+      isLoading : true
+    })
     console.log("Incomplete");
     let obj = {
       comments: this.state.comments,
@@ -190,28 +195,35 @@ class StageBasedLayout extends Component {
       obj,
       (response) => {
         if (response.status === 200) {
+          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
           this.setState({
             snackOpen: true,
             snackMsg: "Successfully Updated",
             snackVariant: "success",
             open: false,
+            isLoading : false
           });
         }
       }
     );
   };
   OnboardingComplete = () => {
+    this.setState({
+      isLoading : true
+    })
     console.log("Complete");
     this.props.ObComplete(
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
         if (response.status === 200) {
+          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
           this.setState({
             snackOpen: true,
             snackMsg: response.data,
             snackVariant: "success",
             open: false,
+            isLoading : false
           });
         }
       }
@@ -224,8 +236,20 @@ class StageBasedLayout extends Component {
           <Button
             color={"primary"}
             variant={"contained"}
+            disabled={this.state.isLoading}
             onClick={() => this.handleIncomplete()}
           >
+             {this.state.isLoading && (
+                    <CircularProgress
+                      disableShrink
+                      style={{
+                        color: "#fff",
+                        width: 20,
+                        height: 20,
+                        marginRight: 10,
+                      }}
+                    />
+                  )}
             Onboarding Incomplete
           </Button>
         );
@@ -234,8 +258,20 @@ class StageBasedLayout extends Component {
           <PrimaryButton
             color={"primary"}
             variant={"contained"}
+            disabled={this.state.isLoading}
             onClick={() => this.OnboardingComplete()}
           >
+             {this.state.isLoading && (
+                    <CircularProgress
+                      disableShrink
+                      style={{
+                        color: "#fff",
+                        width: 20,
+                        height: 20,
+                        marginRight: 10,
+                      }}
+                    />
+                  )}
             Onboarding Complete
           </PrimaryButton>
         );
@@ -332,6 +368,7 @@ class StageBasedLayout extends Component {
             <PrimaryButton
               color={"secondary"}
               variant={"text"}
+              disabled={this.props.variantStepList.adminObComplete}
               onClick={() =>
                 this.handleCompleted(this.state.selectedItem, "Mismatched")
               }
@@ -341,6 +378,7 @@ class StageBasedLayout extends Component {
             <PrimaryButton
               color={"primary"}
               variant={"contained"}
+              disabled={this.props.variantStepList.adminObComplete}
               onClick={() =>
                 this.handleCompleted(this.state.selectedItem, "Verified")
               }
@@ -476,6 +514,7 @@ class StageBasedLayout extends Component {
              <PrimaryButton
                color={"primary"}
                variant={"contained"}
+               disabled={this.props.variantStepList.adminObComplete}
                onClick={() => this.handleOBComplete()}
              >
                Onboarding Complete
@@ -671,7 +710,7 @@ class StageBasedLayout extends Component {
           }
         <RevampDialog
           open={this.state.open}
-          onClose={() => this.setState({ open: false })}
+          onClose={() => this.setState({ open: false,isLoading:false })}
           action={this.renderdialogaction()}
           {...this.props}
         >
