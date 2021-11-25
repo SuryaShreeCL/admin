@@ -74,43 +74,45 @@ function DropDownRack(props) {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <FormControl fullWidth>
-                <InputLabel
-                  shrink={true}
-                  style={{
-                    top: '-8px',
-                    left: '15px',
-                    background: '#FFFFFF',
-                    padding: '0 10px 0 8px',
-                    zIndex: 1,
-                  }}
-                >
-                  Expected time for completion
-                </InputLabel>
-                <OutlinedInput
-                  // disabled
-                  inputProps={{
-                    style: {
-                      height: '11px',
-                    },
-                  }}
-                  type={'number'}
-                  onKeyDown={e =>
-                    (e.keyCode === 69 || e.keyCode === 190) &&
-                    e.preventDefault()
-                  }
-                  id='expectedTime'
-                  value={expectedTime}
-                  name='expectedTime'
-                  // placeholder='Expected time for completion'
-                  onChange={handleInputChange}
-                  endAdornment={
-                    <InputAdornment position='end'>seconds</InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
+            {topics !== null && (
+              <Grid item xs={12} sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel
+                    shrink={true}
+                    style={{
+                      top: '-8px',
+                      left: '15px',
+                      background: '#FFFFFF',
+                      padding: '0 10px 0 8px',
+                      zIndex: 1,
+                    }}
+                  >
+                    Expected time for completion
+                  </InputLabel>
+                  <OutlinedInput
+                    // disabled
+                    inputProps={{
+                      style: {
+                        height: '11px',
+                      },
+                    }}
+                    type={'number'}
+                    onKeyDown={e =>
+                      (e.keyCode === 69 || e.keyCode === 190) &&
+                      e.preventDefault()
+                    }
+                    id='expectedTime'
+                    value={expectedTime}
+                    name='expectedTime'
+                    // placeholder='Expected time for completion'
+                    onChange={handleInputChange}
+                    endAdornment={
+                      <InputAdornment position='end'>seconds</InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid>
+            )}
           </Grid>
         </DropDownDiv>
         <Divider className={'single_select_divider'} />

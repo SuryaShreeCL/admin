@@ -8,7 +8,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import {
+  createMuiTheme,
+  makeStyles,
+  ThemeProvider,
+} from '@material-ui/core/styles';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -134,7 +138,7 @@ const NavbarList = [
   },
 ];
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -372,7 +376,9 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.department !== 'elev8' &&
       props.adminLinkedProductDetails.department !== 'SUPERADMIN'
     ) {
-      props.getProductByFamilyId(props.adminLinkedProductDetails?.products[0]?.productFamily.id);
+      props.getProductByFamilyId(
+        props.adminLinkedProductDetails?.products[0]?.productFamily.id
+      );
     }
     //
     // let newListArr = []
@@ -395,7 +401,14 @@ function RootContainer(props) {
     if (props.adminLinkedProductDetails.department === 'Acsoperations') {
       let myArr = [];
       props.getProductByFamilyIdList
-        .filter((eachProd) => eachProd.variantSKU === 'ACS_MS' || eachProd.variantSKU === 'ACS_MBA' || eachProd.variantSKU === 'ACS_MIM' || eachProd.variantSKU === 'ACS_MBA_PB' || eachProd.variantSKU === 'ACS_MIM_PB')
+        .filter(
+          eachProd =>
+            eachProd.variantSKU === 'ACS_MS' ||
+            eachProd.variantSKU === 'ACS_MBA' ||
+            eachProd.variantSKU === 'ACS_MIM' ||
+            eachProd.variantSKU === 'ACS_MBA_PB' ||
+            eachProd.variantSKU === 'ACS_MIM_PB'
+        )
         .map((eachItem, index) => {
           myArr.push({
             title: eachItem.shortName,
@@ -470,7 +483,10 @@ function RootContainer(props) {
     } else if (props.adminLinkedProductDetails.department === 'Pboperations') {
       let myArr = [];
       props.getProductByFamilyIdList
-        .filter((prodItems) => prodItems.variantSKU === 'PBP' || prodItems.variantSKU === 'PBM')
+        .filter(
+          prodItems =>
+            prodItems.variantSKU === 'PBP' || prodItems.variantSKU === 'PBM'
+        )
         .map((eachItem, index) => {
           myArr.push({
             title: eachItem.shortName,
@@ -574,7 +590,9 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    } else if (props.adminLinkedProductDetails.department === 'elev8_super_admin') {
+    } else if (
+      props.adminLinkedProductDetails.department === 'elev8_super_admin'
+    ) {
       setSideNav([
         {
           icon: <HomeOutlinedIcon />,
@@ -668,7 +686,7 @@ function RootContainer(props) {
     return (
       <ListItem
         button
-        onClick={(e) => {
+        onClick={e => {
           props.history.push(item.path);
         }}
       >
@@ -682,16 +700,23 @@ function RootContainer(props) {
     const { items: children } = item;
     const [menuOpen, setMenuOpen] = useState(true);
     const handleClick = () => {
-      setMenuOpen((prev) => !prev);
+      setMenuOpen(prev => !prev);
     };
 
     return (
       <React.Fragment>
         <ListItem button onClick={handleClick}>
-          <ListItemIcon>{menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}</ListItemIcon>
+          <ListItemIcon>
+            {menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </ListItemIcon>
           <ListItemText primary={item.title} />
         </ListItem>
-        <Collapse style={{ minHeight: '70px' }} in={menuOpen} timeout='auto' unmountOnExit>
+        <Collapse
+          style={{ minHeight: '70px' }}
+          in={menuOpen}
+          timeout='auto'
+          unmountOnExit
+        >
           <List style={{ marginLeft: '14px' }} component='div' disablePadding>
             {children.map((child, key) => (
               <MenuItem key={key} item={child} />
@@ -702,7 +727,7 @@ function RootContainer(props) {
     );
   };
 
-  const hasChildren = (item) => {
+  const hasChildren = item => {
     const { items: children } = item;
 
     if (children === undefined) {
@@ -783,11 +808,20 @@ function RootContainer(props) {
         >
           <div className={classes.drawerHeader}>
             <ListItem button>
-              <ListItemIcon className={classes.ListItemIcon}>{/* <HomeIcon /> */}</ListItemIcon>
+              <ListItemIcon className={classes.ListItemIcon}>
+                {/* <HomeIcon /> */}
+              </ListItemIcon>
               <ListItemText>CareerLabs</ListItemText>
             </ListItem>
-            <IconButton onClick={handleDrawerClose} className={classes.arrowButton}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            <IconButton
+              onClick={handleDrawerClose}
+              className={classes.arrowButton}
+            >
+              {theme.direction === 'ltr' ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
           </div>
           <Divider />
@@ -817,6 +851,7 @@ function RootContainer(props) {
           {/* <Divider /> */}
         </Drawer>
         <main
+          id='main-container'
           className={clsx(classes.content, {
             [classes.contentShift]: open,
           })}
@@ -863,7 +898,7 @@ function Copyright() {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     tokenStatus: state.AdminReducer.tokenStatus,
     adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,
