@@ -37,23 +37,64 @@ function Index(props) {
       field: "sgpa",
       type: "numeric",
       validate: (rowData) => {
-        if (!isNanAndEmpty(rowData.sgpa)) {
-          return true;
+        if (!isEmptyObject(rowData)) {
+          if (rowData.sgpa) {
+            if (!isNanAndEmpty(rowData.sgpa)) {
+              if (rowData.sgpa > 0) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be zero or negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
+            }
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
         } else {
           return { isValid: false, helperText: HELPER_TEXT.requiredField };
         }
+        // if (!isNanAndEmpty(rowData.sgpa)) {
+        //   return true;
+        // } else {
+        //   return { isValid: false, helperText: HELPER_TEXT.requiredField };
+        // }
       },
     },
     {
       title: "# Active Backlog",
       field: "activeBackLog",
-      type: "numeric",
+      type: "number",
       validate: (rowData) => {
-        if (!isNanAndEmpty(rowData.activeBackLog)) {
-          return true;
+        if (!isEmptyObject(rowData)) {
+          if (rowData.activeBackLog) {
+            if (!isNanAndEmpty(rowData.activeBackLog)) {
+              console.log(rowData.activeBackLog);
+              if (rowData.activeBackLog >= parseInt("0")) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
+            }
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
         } else {
           return { isValid: false, helperText: HELPER_TEXT.requiredField };
         }
+        // if (!isNanAndEmpty(rowData.activeBackLog)) {
+        //   return true;
+        // } else {
+        //   return { isValid: false, helperText: HELPER_TEXT.requiredField };
+        // }
       },
     },
     {
@@ -70,13 +111,33 @@ function Index(props) {
     {
       title: "Cleared Backlog",
       field: "clearedBackLog",
-      type: "numeric",
+      type: "number",
       validate: (rowData) => {
-        if (!isNanAndEmpty(rowData.clearedBackLog)) {
-          return true;
+        if (!isEmptyObject(rowData)) {
+          if (rowData.clearedBackLog) {
+            if (!isNanAndEmpty(rowData.clearedBackLog)) {
+              if (rowData.clearedBackLog >= parseInt("0")) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
+            }
+          } else {
+            return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          }
         } else {
           return { isValid: false, helperText: HELPER_TEXT.requiredField };
         }
+        // if (!isNanAndEmpty(rowData.clearedBackLog)) {
+        //   return true;
+        // } else {
+        //   return { isValid: false, helperText: HELPER_TEXT.requiredField };
+        // }
       },
     },
     {
