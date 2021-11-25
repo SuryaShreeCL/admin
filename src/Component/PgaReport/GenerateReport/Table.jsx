@@ -8,6 +8,7 @@ const Table = ({
   subDescription,
   tableHelper = [],
 }) => {
+  console.log(row, "rrrrrrrrrrrrrrrr");
   const PRIMARY = "#488DFF";
   const styles = StyleSheet.create({
     heading: {
@@ -82,7 +83,7 @@ const Table = ({
                       }
                     : {
                         ...styles.td,
-                        color: item.frontColorCode,
+                        color: item.ColorCode,
                         borderLeft: `3px solid ${item.colorCode}`,
                       }
                 }
