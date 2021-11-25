@@ -86,14 +86,12 @@ const RenderAssessmentData = ({ assessmentData }) => (
         done based on your current CV and questionnaire
       </Text>
     </View>
-
     <View style={{ marginBottom: "5px" }}>
       <Text>
         This report is the brief summary of the profile gap analysis that was
         done based on your current CV and questionnaire
       </Text>
     </View>
-
     {assessmentData &&
       assessmentData.map((item) => {
         console.log(assessmentData);
@@ -143,7 +141,7 @@ function MbaReport({ content = [], assessment }) {
             <View style={styles.analysis_date_div}>
               <Text>Date : &nbsp;</Text>
               <Text style={styles.date}>
-                {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>}
+                {ReportDate ? renderDateTime(ReportDate) : ""}
               </Text>
             </View>
           </View>
