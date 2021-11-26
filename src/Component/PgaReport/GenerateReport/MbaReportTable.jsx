@@ -69,21 +69,22 @@ const MbaReportTable = ({
     <View>
       {/* <Text style={styles.heading}>{tableHeading}</Text> */}
       <View>
-        {data.map((item, idx) => (
-          <View style={styles.row}>
-            {item.map((item, index) => (
-              <Text
-                style={{
-                  ...styles.th,
-                  color: item.frontColorCode,
-                  borderLeftColor: "#488DFF",
-                }}
-              >
-                {item.name}
-              </Text>
-            ))}
-          </View>
-        ))}
+        {data &&
+          data.map((item, idx) => (
+            <View style={styles.row}>
+              {item.map((item, index) => (
+                <Text
+                  style={{
+                    ...styles.th,
+                    color: item.frontColorCode,
+                    borderLeftColor: "#488DFF",
+                  }}
+                >
+                  {item.name}
+                </Text>
+              ))}
+            </View>
+          ))}
       </View>
       {/* Table Footer */}
       {/* <View>

@@ -1,3 +1,5 @@
+// import React from "react";
+
 import React from "react";
 import {
   Page,
@@ -11,21 +13,10 @@ import {
   PDFDownloadLink,
   Link,
 } from "@react-pdf/renderer";
+
 import { MONTHS } from "./Variables";
-import "../../../Asset/Report.css";
 import MbaReportTable from "./MbaReportTable";
 import MbaReportGraph from "../../../Asset/Images/MbaReportGraph.png";
-
-const renderDateTime = (date) => {
-  console.log(date);
-  const year = new Date(date).getFullYear();
-  const month = MONTHS[new Date(date).getMonth()];
-  const reportDate = new Date(date).getDate();
-  const finalDate = reportDate + " " + month + " " + year;
-  console.log(finalDate);
-
-  return finalDate;
-};
 
 const footerDescription = [
   {
@@ -39,65 +30,99 @@ const footerDescription = [
   },
 ];
 
-const Strengths = ({ id, title, descriptionOne, subDescription }) => (
+const MyDocument = ({
+  preferredProgram = "",
+  title = "",
+  inTake = "",
+  description = "",
+  isGreenCardVisible = false,
+  isSecondaryPassageVisible = false,
+  isTableVisible = false,
+  descriptionOne = "",
+  descriptionTwo = "",
+  tableHeading = "",
+  row = [],
+  subDescription = "",
+  list = [],
+  tableHelper = [],
+  rowDataLength = 4,
+  additionalPoint = [],
+  allRoundActivities,
+  strength,
+}) => (
   <View>
-    <View style={{ ...styles.p_10, ...styles.heading }}>
-      <Text style={styles.colorBoxTitle}>{title}</Text>
+    {/* ------ */}
+    {isSecondaryPassageVisible ? (
+      <View style={styles.p_15}>
+        <Text style={{ ...styles.heading, ...styles.p_10 }}>{title}</Text>
+        <Text style={{ ...styles.small, ...styles.p_10 }}>{inTake}</Text>
+        <Text style={{ ...styles.small, ...styles.p_15 }}>
+          {preferredProgram}
+        </Text>
+      </View>
+    ) : null}
+
+    {/* Table Component */}
+    <View style={{ margin: "5px 0px" }}>
+      {isTableVisible && (
+        <>
+          <Text style={{ ...styles.heading, ...styles.p_10 }}>{title}</Text>
+
+          <MbaReportTable
+            tableHeading={title}
+            rowDataLength={rowDataLength}
+            data={row}
+            subDescription={subDescription}
+            tableHelper={tableHelper}
+          />
+        </>
+      )}
     </View>
-    <View style={{ paddingLeft: 20 }}>
-      <Text style={styles.remark}>{descriptionOne}</Text>
-    </View>
-    {subDescription.map((item, idx) => (
-      <View style={styles.list_wrapper} key={idx.toString()}>
-        <View style={styles.list_container}>
-          <View wrap={true} style={styles.dot_icon_ash}></View>
-          <Text wrap={true} style={styles.list_item}>
-            {item.name}
-          </Text>
+    {/* List Component */}
+    {isEmpty(strength) && (
+      <View>
+        <View style={{ ...styles.p_10, ...styles.heading }}>
+          <Text style={styles.colorBoxTitle}>{title}</Text>
         </View>
+        <View style={{ paddingLeft: 20 }}>
+          <Text style={styles.remark}>{descriptionOne}</Text>
+        </View>
+        {strength.map((item, idx) => (
+          <View style={styles.list_wrapper} key={idx.toString()}>
+            <View style={styles.list_container}>
+              <View style={styles.dot_icon_ash}></View>
+              <Text style={styles.list_item}>{item.name}</Text>
+            </View>
+          </View>
+        ))}
       </View>
-    ))}
+    )}
   </View>
 );
 
-const ApplicationTime = ({ id, title, intake, program }) => (
-  <View style={{ lineHeight: "2px" }}>
-    <View style={{ ...styles.p_10, ...styles.heading }}>
-      <Text style={styles.colorBoxTitle}>{title}</Text>
-    </View>
-    <View>
-      <Text style={styles.remark}>{intake}</Text>
+function isEmpty(data) {
+  return data && data.length !== 0;
+}
 
-      <Text style={styles.remark}>{program}</Text>
-    </View>
-  </View>
-);
+const renderDateTime = (date) => {
+  console.log(date);
+  const year = new Date(date).getFullYear();
+  const month = MONTHS[new Date(date).getMonth()];
+  const reportDate = new Date(date).getDate();
+  const finalDate = reportDate + " " + month + " " + year;
+  console.log(finalDate);
 
-const AllRoundActivities = ({ id, title, subDescription }) => (
-  <View>
-    <View style={{ ...styles.p_10, ...styles.heading }}>
-      <Text style={styles.colorBoxTitle}>{title}</Text>
-    </View>
+  return finalDate;
+};
 
-    <View style={styles.list_wrapper}>
-      <View style={styles.list_container}>
-        <View style={styles.dot_icon_ash}></View>
-        <Text style={styles.list_item}>{subDescription}</Text>
-      </View>
-    </View>
-  </View>
-);
-
-function MbaReport({ content = [], assessment }) {
-  console.log(content);
+function MbaReport({ content = [], assessment = [] }) {
   let ReportDate =
     content.find((item) => item.content.dateTime) &&
     content.find((item) => item.content.dateTime).content.dateTime;
   console.log(ReportDate);
-
   return (
     <Document>
-      <Page size={"A4"} style={styles.body}>
+      <Page style={styles.body}>
         <View style={styles.main_container}>
           <View style={styles.analysis_title_div}>
             <Text style={styles.title}>
@@ -108,86 +133,79 @@ function MbaReport({ content = [], assessment }) {
               <Text style={styles.date}>Date : &nbsp;</Text>
               <Text style={styles.date}>
                 {ReportDate ? renderDateTime(ReportDate) : ""}
+                {/* {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>} */}
               </Text>
             </View>
           </View>
 
-          {/* subTitle */}
           <View>
-            <Text color="textSecondary" style={styles.subTitle}>
+            <Text wrap={true} style={styles.subTitle}>
               This report is the brief summary of the profile gap analysis that
               was done based on your current CV and questionnaire
             </Text>
           </View>
+
           <View>
-            <Text style={styles.subTitle1}>
+            <Text wrap={true} style={styles.list_item}>
               The following is an assessment of your profile based on the
               various admissions criteria that are typically considered by the
               B-schools
             </Text>
           </View>
-          {/* assessment data */}
-          <View>
-            {assessment &&
-              assessment.map((item, idx) => (
-                <View style={styles.list_wrapper} key={idx.toString()}>
-                  <View style={styles.list_container}>
-                    <Text wrap={true} style={styles.highlight_text}>
-                      {item.title}
-                    </Text>
-                    <Text wrap={true} style={styles.list_item}>
-                      {item.description}
-                    </Text>
-                  </View>
+
+          {assessment &&
+            assessment.map((item, idx) => (
+              <View style={styles.list_wrapper} key={idx.toString()}>
+                <View style={styles.list_container}>
+                  <Text style={styles.highlight_text}>{item.title}</Text>
+
+                  <Text wrap={true} style={styles.list_item}>
+                    {item.description}
+                  </Text>
                 </View>
-              ))}
-          </View>
-
-          {/* content */}
-          {content &&
-            content.map((item) => (
-              <View>
-                {item.additionalPoint.length !== 0 && (
-                  <Strengths
-                    title={item.title}
-                    descriptionOne={item.descriptionOne}
-                    subDescription={item.additionalPoint}
-                  />
-                )}
-
-                {item.content.descriptionOne == "" && (
-                  <AllRoundActivities
-                    title={item.title}
-                    subDescription={item.additionalPoint}
-                  />
-                )}
-
-                {item.content.preferredProgram !== null && (
-                  <ApplicationTime
-                    title={item.title}
-                    intake={item.content.inTake}
-                    program={item.content.preferredProgram}
-                  />
-                )}
-
-                {/* table */}
-
-                {item.table.rows && item.table.rows.length !== 0 && (
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <View style={{ ...styles.p_10, ...styles.heading }}>
-                      <Text style={styles.colorBoxTitle}>{item.title}</Text>
-                    </View>
-
-                    <MbaReportTable data={item.table.rows} />
-                  </View>
-                )}
               </View>
             ))}
+          {content.map((item, idx) => {
+            const {
+              content,
+              table,
+              tableSubDescription,
+              subDescription,
+              descriptionOne,
+              descriptionTwo,
+              csfs,
+              additionalPoint,
+            } = item;
+            console.log(item);
+            return (
+              <MyDocument
+                preferredProgram={content.preferredProgram}
+                title={item.title}
+                inTake={content.inTake}
+                description={content.description}
+                isSecondaryPassageVisible={
+                  isEmpty(item.title) &&
+                  isEmpty(content.preferredProgram) &&
+                  isEmpty(content.inTake)
+                }
+                allRoundActivities={additionalPoint}
+                strength={additionalPoint}
+                descriptionOne={descriptionOne}
+                descriptionTwo={descriptionTwo}
+                isTableVisible={table.rows && table.rows.length !== 0}
+                tableHeading={""}
+                row={table.rows}
+                rowDataLength={
+                  table.rows && table.rows.length > 0 ? table.rows[0].length : 4
+                }
+                subDescription={subDescription}
+                tableHelper={tableSubDescription}
+                list={csfs}
+                additionalPoint={additionalPoint}
+                isEnd={content.length - 1 === idx}
+              />
+            );
+          })}
           <View
             style={{
               display: "flex",
@@ -204,18 +222,17 @@ function MbaReport({ content = [], assessment }) {
             </View>
           </View>
           {/* footer description */}
-          <View>
-            {footerDescription.map((data) => (
-              <View style={styles.list_wrapper}>
-                <View style={styles.list_container}>
-                  <Text style={styles.list_item}>{data.name}</Text>
-                  <Text wrap={true} style={styles.list_item}>
-                    {data.description}
-                  </Text>
-                </View>
+          {footerDescription.map((data, idx) => (
+            <View style={styles.list_wrapper} key={idx.toString()}>
+              <View style={styles.list_container}>
+                <Text style={styles.list_item}>{data.name}</Text>
+
+                <Text wrap={true} style={styles.list_item}>
+                  {data.description}
+                </Text>
               </View>
-            ))}
-          </View>
+            </View>
+          ))}
         </View>
       </Page>
     </Document>
@@ -241,6 +258,18 @@ const styles = StyleSheet.create({
     borderTop: "2px solid black",
     borderBottom: "2px solid black",
   },
+  title: {
+    fontSize: 20,
+    textAlign: "center",
+    color: "#488DFF",
+    fontWeight: "medium",
+    padding: "10px 0px",
+  },
+  heading: {
+    color: "#488DFF",
+    fontSize: 12,
+    fontWeight: "semibold",
+  },
   analysis_title_div: {
     display: "flex",
     justifyContent: "center",
@@ -248,57 +277,36 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
     marginTop: "5%",
   },
-  title: {
-    display: "flex",
-    fontSize: 18,
-    textAlign: "center",
-    color: "#488DFF",
-    fontWeight: "medium",
-    padding: "10px 0px",
-    marginBottom: "2%",
+
+  colorBox: {
+    width: "100%",
+    backgroundColor: "#E6F3DC",
+    minHeight: 100,
+    borderRadius: 10,
+    padding: 10,
   },
-  dot_icon_ash: {
-    backgroundColor: "#a8a8a8",
-    marginRight: "5px",
-    // marginLeft: "4px",
-    height: "10px",
-    width: "10px",
-    borderRadius: "5px",
+  small: {
+    fontSize: 10,
   },
-  analysis_date_div: {
+  p_10: {
+    padding: "5px 0px",
+  },
+  p_15: {
+    padding: "15px 0px",
+  },
+  title_container: {
     display: "flex",
     flexDirection: "row",
-    // position: "relative",
-    marginLeft: "50%",
-    marginTop: "3px",
-  },
-  remark: {
-    fontSize: 10,
-  },
-  date: {
-    fontSize: "11px",
-    fontWeight: "600",
-  },
-  subTitle: {
-    fontSize: "10px",
-    textAlign: "center",
+    marginBottom: 10,
     flexWrap: "wrap",
-    fontStyle: "italic",
-    marginTop: "10px",
-    marginBottom: "10px",
   },
-  list_item: {
+  degreeName: {
     fontSize: 10,
-    paddingLeft: 3,
-    marginTop: "5%",
-    backgroundColor: "pink",
+    paddingLeft: 5,
+    fontWeight: "bold",
   },
-  highlight_text: {
-    color: "#2bb2ea",
-    letterSpacing: "0px",
-    marginRight: "8px",
-    fontSize: "10px",
-    opacity: "1",
+  colorBoxTitle: {
+    fontSize: 10,
   },
   list_wrapper: {
     margin: "5px 0px",
@@ -313,44 +321,40 @@ const styles = StyleSheet.create({
     fontSize: 10,
     paddingLeft: 5,
   },
-  colorBox: {
-    width: "100%",
-    backgroundColor: "#E6F3DC",
-    minHeight: 100,
-    borderRadius: 10,
-    padding: 10,
+  subTitle: {
+    fontSize: 10,
+    marginBottom: "30px",
   },
-  p_10: {
-    padding: "5px 0px",
+  remark: {
+    fontSize: 10,
   },
-  heading: {
-    color: "#488DFF",
-    fontSize: 12,
-    fontWeight: "semibold",
-    marginTop: "5px !important",
-    marginBottom: "10px !important",
-  },
-  assessmentData_div: {
+  analysis_date_div: {
     display: "flex",
     flexDirection: "row",
-    lineHeight: "20px",
-  },
-
-  list_item: {
-    fontSize: 10,
-    paddingLeft: 5,
-  },
-  text: {
-    fontSize: "10px",
-  },
-  subTitle1: {
-    fontSize: "10px",
+    position: "relative",
+    marginLeft: "50%",
     marginTop: "10px",
   },
-  analysisSessionText: {
-    color: "#333333",
+  date: {
+    fontSize: "13px",
+    fontWeight: "600",
+  },
+  footer: { textAlign: "center", padding: 10 },
+  dot_icon_ash: {
+    backgroundColor: "#a8a8a8",
+    marginRight: "5px",
+    // marginLeft: "4px",
+    height: "10px",
+    width: "10px",
+    borderRadius: "5px",
+  },
+  highlight_text: {
+    color: "#2bb2ea",
     letterSpacing: "0px",
+    fontWeight: "500",
     fontSize: "10px",
+    opacity: "1",
+    marginRight: "8px",
   },
 });
 
