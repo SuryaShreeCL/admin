@@ -18,6 +18,8 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
 import { editPath, createPath } from '../../RoutePaths';
+import moment from 'moment';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
@@ -28,9 +30,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import Preview from '../Components/Preview';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import { listWallWebinars, deleteWallPost } from '../../../Actions/WallActions';
+import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
 import { renderListCategory } from '../../Utils/Helpers';
-import { isLms_Role } from '../WallLanding';
 
 const Alert = props => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -55,16 +56,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
-  { id: 'title', label: 'Title' },
-  { id: 'caption', label: 'Caption' },
-  { id: 'registerations', label: 'Registered' },
+  { id: 'name', label: 'Name' },
+  { id: 'dateOfUpload', label: 'Date of upload' },
+  { id: 'timeOfUpload', label: 'Time of upload' },
+  { id: 'uplodedBy', label: 'Uploded by' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function Webinars() {
-  let role = window.sessionStorage.getItem('role');
+export default function RecordedVideos() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -77,14 +77,12 @@ export default function Webinars() {
     },
   });
 
-  const { loading, error, webinars } = useSelector(
-    state => state.wallWebinarListReducer
+  const { loading, error, posts } = useSelector(
+    state => state.wallPostListReducer
   );
 
-  //fitering out archived webinars
-  let filteredWebinars = webinars?.filter(
-    webinar => webinar.activeStatus !== 'Archive'
-  );
+  //Filtering out the webinar posts
+  let filteredPosts = posts?.filter(post => post.isWebinar !== true);
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({
@@ -103,7 +101,7 @@ export default function Webinars() {
     TblHead,
     TblPagination,
     recordsAfterPagingAndSorting,
-  } = useTable(filteredWebinars, headCells, filterFn);
+  } = useTable(filteredPosts, headCells, filterFn);
 
   const handleSearch = e => {
     let target = e.target;
@@ -112,18 +110,23 @@ export default function Webinars() {
         if (target.value == '') return items;
         else
           return items.filter(x =>
-            x.eventTitle.toLowerCase().includes(target.value)
+            x.caption.toLowerCase().includes(target.value)
           );
       },
     });
+  };
+
+  const openInPopup = item => {
+    setViewData(item);
+    setOpenDrawer(!openDrawer);
   };
 
   const openInPage = item => {
     history.push({
       pathname: editPath,
       recordForEdit: item,
-      postType: 'Webinar',
-      postTypeTab: isLms_Role(role) ? 0 : 4,
+      postType: 'Post',
+      postTypeTab: 0,
     });
     setRecordForEdit(item);
     setOpenDrawer(false);
@@ -136,7 +139,7 @@ export default function Webinars() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallWebinars());
+      dispatch(listWallPosts('Live', false));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -146,7 +149,7 @@ export default function Webinars() {
   };
 
   useEffect(() => {
-    dispatch(listWallWebinars());
+    dispatch(listWallPosts('Live', false));
   }, [dispatch]);
 
   return (
@@ -155,7 +158,7 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Webinars'
+            placeholder='Search Recorded Videos'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -173,7 +176,7 @@ export default function Webinars() {
             className={classes.filterBtn}
           /> */}
           <Controls.Button
-            text='Create New Webinar'
+            text='Create New Recorded Videos'
             variant='contained'
             color='primary'
             startIcon={<AddIcon />}
@@ -182,8 +185,8 @@ export default function Webinars() {
               history.push({
                 pathname: createPath,
                 type: false,
-                postType: 'Webinar',
-                postTypeTab: isLms_Role(role) ? 0 : 4,
+                postType: 'recordedVideos',
+                postTypeTab: 1,
               });
             }}
           />
@@ -191,18 +194,21 @@ export default function Webinars() {
 
         <TblContainer>
           <TblHead />
-          {filteredWebinars && (
+          {filteredPosts && (
             <TableBody>
               {recordsAfterPagingAndSorting().map(item => (
                 <TableRow key={item.id}>
                   <TableCell>
                     {renderListCategory(item.wallCategories)}
                   </TableCell>
-                  <TableCell>{`${item.eventTitle}`}</TableCell>
+                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.studentWallWebinar.length}</TableCell>
-                  <TableCell>{item.activeStatus}</TableCell>
+                  <TableCell>{item.totalLikes}</TableCell>
+                  <TableCell>{item.totalViews}</TableCell>
                   <TableCell>
+                    <Controls.ActionButton onClick={() => openInPopup(item)}>
+                      <VisibilityIcon fontSize='small' color='default' />
+                    </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
@@ -210,7 +216,7 @@ export default function Webinars() {
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
-                          title: 'Are you sure to delete this post?',
+                          title: 'Are you sure to delete this video?',
                           subTitle: "You can't undo this operation",
                           onConfirm: () => {
                             onDelete(item.id);
@@ -229,9 +235,6 @@ export default function Webinars() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && filteredWebinars?.length === 0 && (
-            <Alert severity='info'>0 Webinars Found</Alert>
-          )}
         </div>
         <TblPagination />
       </Paper>
@@ -259,7 +262,7 @@ export default function Webinars() {
                 setOpenDrawer(false);
                 setConfirmDialog({
                   isOpen: true,
-                  title: 'Are you sure to delete this post?',
+                  title: 'Are you sure to delete this video?',
                   subTitle: "You can't undo this operation",
                   onConfirm: () => {
                     onDelete(viewData.id);

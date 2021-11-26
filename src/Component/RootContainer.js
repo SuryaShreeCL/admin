@@ -364,7 +364,7 @@ function RootContainer(props) {
   }
 
   const prevProps = usePrevious(props);
-  console.log(props)
+  console.log(props);
   useEffect(() => {
     //
 
@@ -628,7 +628,10 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    } else if(window.sessionStorage.getItem("role") === "LMSCHECKER" || window.sessionStorage.getItem("role") === "LMSEDITOR") {
+    } else if (
+      window.sessionStorage.getItem('role') === 'LMSCHECKER' ||
+      window.sessionStorage.getItem('role') === 'LMSEDITOR'
+    ) {
       setSideNav([
         {
           icon: <></>,
@@ -654,9 +657,14 @@ function RootContainer(props) {
           path: lmsTest,
           items: [],
         },
+        {
+          icon: <></>,
+          title: 'Webinars',
+          path: wallPath,
+          items: [],
+        },
       ]);
-    }
-    else if(window.sessionStorage.getItem("role") === "SUPER ADMIN") {
+    } else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN') {
       setSideNav([
         {
           icon: <></>,
@@ -903,7 +911,7 @@ const mapStateToProps = state => {
     tokenStatus: state.AdminReducer.tokenStatus,
     adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,
     getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
-    adminLoginDetails : state.ProductReducer.adminLoginDetails
+    adminLoginDetails: state.ProductReducer.adminLoginDetails,
   };
 };
 

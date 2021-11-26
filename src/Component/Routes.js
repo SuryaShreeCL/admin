@@ -199,7 +199,11 @@ export default function Routes(props) {
         render={props => <CreatePost {...props} />}
       />
       <Route exact path={editPath} render={props => <EditPost {...props} />} />
-      <Route exact path={appVersion} render={props => <AppVersionChange {...props} />} />
+      <Route
+        exact
+        path={appVersion}
+        render={props => <AppVersionChange {...props} />}
+      />
       <Route
         exact
         path={testPath}

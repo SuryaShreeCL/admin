@@ -7,12 +7,29 @@ import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import Events from './Pages/Events';
 import { useLocation } from 'react-router-dom';
 import Webinars from './Pages/Webinars';
+import RecordedVideos from './Pages/RecordedVideos';
+
+export const Lms_Roles = ['LMSCHECKER', 'LMSEDITOR'];
+export const isLms_Role = role => {
+  return Lms_Roles.indexOf(role) > -1;
+};
+
+const Lms_Tabs = [
+  {
+    label: 'Webinars',
+  },
+  {
+    label: 'Recorded videos',
+  },
+];
 
 const WallLanding = () => {
+  let role = window.sessionStorage.getItem('role');
+  console.log();
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
 
-  const renderContent = (value) => {
+  const renderContent = value => {
     try {
       if (value === 0) {
         return <LivePost />;
@@ -30,25 +47,54 @@ const WallLanding = () => {
     }
   };
 
+  const renderLmsWebinarContent = value => {
+    try {
+      if (value === 0) {
+        return <Webinars />;
+      } else if (value === 1) {
+        return <RecordedVideos />;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const renderLmsTab = () => {
+    return Lms_Tabs.map(({ label }) => <TopTab label={label} />);
+  };
+
   return (
     <Container>
       <Grid container>
         <Grid item md={12}>
-          <TopTabs
-            value={tabCount}
-            textColor={'inherit'}
-            onChange={(e, value) => setTabCount(value)}
-            aria-label='tabs'
-          >
-            <TopTab label='Live Posts' />
-            <TopTab label='Draft Posts' />
-            <TopTab label='Scheduled Posts' />
-            <TopTab label='Events' />
-            <TopTab label='Webinars' />
-          </TopTabs>
+          {isLms_Role(role) ? (
+            <TopTabs
+              value={tabCount}
+              textColor={'inherit'}
+              onChange={(e, value) => setTabCount(value)}
+              aria-label='tabs'
+            >
+              {renderLmsTab()}
+            </TopTabs>
+          ) : (
+            <TopTabs
+              value={tabCount}
+              textColor={'inherit'}
+              onChange={(e, value) => setTabCount(value)}
+              aria-label='tabs'
+            >
+              <TopTab label='Live Posts' />
+              <TopTab label='Draft Posts' />
+              <TopTab label='Scheduled Posts' />
+              <TopTab label='Events' />
+              <TopTab label='Webinars' />
+            </TopTabs>
+          )}
         </Grid>
         <Grid item md={12}>
-          {renderContent(tabCount)}
+          {isLms_Role(role)
+            ? renderLmsWebinarContent(tabCount)
+            : renderContent(tabCount)}
         </Grid>
       </Grid>
     </Container>
