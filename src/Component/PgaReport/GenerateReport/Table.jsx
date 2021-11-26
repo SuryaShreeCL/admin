@@ -8,7 +8,6 @@ const Table = ({
   subDescription,
   tableHelper = [],
 }) => {
-  console.log(row, "rrrrrrrrrrrrrrrr");
   const PRIMARY = "#488DFF";
   const styles = StyleSheet.create({
     heading: {
@@ -20,6 +19,7 @@ const Table = ({
       display: "flex",
       // flexWrap: "wrap",
       flexDirection: "row",
+      borderLeft: "1px solid #488DFF",
     },
     th: {
       //   color: PRIMARY,
@@ -74,6 +74,19 @@ const Table = ({
           <View style={styles.row}>
             {item.map((item, index) => (
               <Text
+                // style={
+                //   idx === 0
+                //     ? {
+                //         ...styles.th,
+                //         color: item.frontColorCode,
+                //         borderLeft: item.colorCode,
+                //       }
+                //     : {
+                //         ...styles.td,
+                //         color: item.ColorCode,
+                //         borderLeft: `3px solid ${item.colorCode}`,
+                //       }
+                // }
                 style={
                   idx === 0
                     ? {
@@ -83,7 +96,7 @@ const Table = ({
                       }
                     : {
                         ...styles.td,
-                        color: item.ColorCode,
+                        color: item.frontColorCode,
                         borderLeft: `3px solid ${item.colorCode}`,
                       }
                 }
