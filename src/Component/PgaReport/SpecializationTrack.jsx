@@ -135,6 +135,11 @@ function SpecializationTrack(props) {
         studentSpecializationTrack
       ).then((response) => {
         if (response.status === 200) {
+          setSnack({
+            snackMsg: "Saved Successfully",
+            snackColor: "success",
+            snackOpen: true,
+          });
           getAndSetStudentSpecializationTrack();
         }
       });

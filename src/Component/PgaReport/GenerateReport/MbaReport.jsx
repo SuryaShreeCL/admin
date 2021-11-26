@@ -41,83 +41,49 @@ const footerDescription = [
 
 const Strengths = ({ id, title, descriptionOne, subDescription }) => (
   <View>
-    <View style={{ display: "flex" }}>
-      <Text style={styles.analysisContentTitleStrength}>{title}</Text>
+    <View style={{ ...styles.p_10, ...styles.heading }}>
+      <Text style={styles.colorBoxTitle}>{title}</Text>
     </View>
-    <View>
-      <Text color="textSecondary" style={styles.analysisSessionText}>
-        {descriptionOne}
-      </Text>
+    <View style={{ paddingLeft: 20 }}>
+      <Text style={styles.remark}>{descriptionOne}</Text>
     </View>
-    {subDescription.map((item) => (
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          padding: "2px 0px",
-        }}
-      >
-        <View style={styles.dot_icon_ash}></View>
-        <Text style={styles.text_strength}>{item.name}</Text>
+    {subDescription.map((item, idx) => (
+      <View style={styles.list_wrapper} key={idx.toString()}>
+        <View style={styles.list_container}>
+          <View wrap={true} style={styles.dot_icon_ash}></View>
+          <Text wrap={true} style={styles.list_item}>
+            {item.name}
+          </Text>
+        </View>
       </View>
     ))}
   </View>
 );
 
 const ApplicationTime = ({ id, title, intake, program }) => (
-  <>
+  <View style={{ lineHeight: "2px" }}>
+    <View style={{ ...styles.p_10, ...styles.heading }}>
+      <Text style={styles.colorBoxTitle}>{title}</Text>
+    </View>
     <View>
-      <Text style={styles.analysisContentTitle}>{title}</Text>
-    </View>
-    <View style={styles.analysis_session_content_title}>
-      <Text style={styles.analysisSessionText}>{intake}</Text>
+      <Text style={styles.remark}>{intake}</Text>
 
-      <Text style={styles.analysisSessionText}>{program}</Text>
+      <Text style={styles.remark}>{program}</Text>
     </View>
-  </>
-);
-
-const RenderAssessmentData = ({ assessmentData }) => (
-  <View>
-    {/* <View style={styles.analysis_session_subTitle_grid}>
-      <Text color="textSecondary" style={styles.analysis_session_subTitle}>
-        This report is the brief summary of the profile gap analysis that was
-        done based on your current CV and questionnaire
-      </Text>
-    </View>
-    <View style={{ marginBottom: "5px" }}>
-      <Text>
-        This report is the brief summary of the profile gap analysis that was
-        done based on your current CV and questionnaire
-      </Text>
-    </View>
-    {assessmentData &&
-      assessmentData.map((item) => {
-        console.log(assessmentData);
-        return (
-          <>
-            <View style={styles.session_highlight_grid}>
-              <Text style={styles.session_highlight}>{item.title} &nbsp;</Text>
-              <Text>{item.description}</Text>
-            </View>
-          </>
-        );
-      })}
-    <View style={styles.divider} /> */}
   </View>
 );
 
 const AllRoundActivities = ({ id, title, subDescription }) => (
   <View>
-    <View>
-      <Text style={styles.analysisContentTitle}>{title}</Text>
+    <View style={{ ...styles.p_10, ...styles.heading }}>
+      <Text style={styles.colorBoxTitle}>{title}</Text>
     </View>
 
-    <View style={styles.analysis_session_content_title}>
-      <View style={styles.dot_icon_ash} />
-
-      <Text style={styles.analysisSessionText}>{subDescription}</Text>
+    <View style={styles.list_wrapper}>
+      <View style={styles.list_container}>
+        <View style={styles.dot_icon_ash}></View>
+        <Text style={styles.list_item}>{subDescription}</Text>
+      </View>
     </View>
   </View>
 );
@@ -131,44 +97,53 @@ function MbaReport({ content = [], assessment }) {
 
   return (
     <Document>
-      <Page style={styles.body}>
-        <View>
+      <Page size={"A4"} style={styles.body}>
+        <View style={styles.main_container}>
           <View style={styles.analysis_title_div}>
             <Text style={styles.title}>
               Minutes of the Profile Gap Analysis Session
             </Text>
 
             <View style={styles.analysis_date_div}>
-              <Text>Date : &nbsp;</Text>
+              <Text style={styles.date}>Date : &nbsp;</Text>
               <Text style={styles.date}>
                 {ReportDate ? renderDateTime(ReportDate) : ""}
               </Text>
             </View>
           </View>
 
-          <View style={styles.analysis_session_subTitle_grid}>
+          {/* subTitle */}
+          <View>
             <Text color="textSecondary" style={styles.subTitle}>
               This report is the brief summary of the profile gap analysis that
               was done based on your current CV and questionnaire
             </Text>
           </View>
-          <View style={{ marginBottom: "5px" }}>
-            <Text style={styles.analysis_session_subTitle}>
+          <View>
+            <Text style={styles.subTitle1}>
               The following is an assessment of your profile based on the
               various admissions criteria that are typically considered by the
               B-schools
             </Text>
           </View>
+          {/* assessment data */}
+          <View>
+            {assessment &&
+              assessment.map((item, idx) => (
+                <View style={styles.list_wrapper} key={idx.toString()}>
+                  <View style={styles.list_container}>
+                    <Text wrap={true} style={styles.highlight_text}>
+                      {item.title}
+                    </Text>
+                    <Text wrap={true} style={styles.list_item}>
+                      {item.description}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+          </View>
 
-          {assessment &&
-            assessment.map((item) => (
-              <View style={styles.container}>
-                <Text style={styles.highlight_text}>{item.title} &nbsp;</Text>
-                <Text style={styles.text}>{item.description}</Text>
-              </View>
-            ))}
-
-          {/* //////////// */}
+          {/* content */}
           {content &&
             content.map((item) => (
               <View>
@@ -204,16 +179,15 @@ function MbaReport({ content = [], assessment }) {
                       flexDirection: "column",
                     }}
                   >
-                    <Text style={styles.analysisContentTitle}>
-                      {item.title}
-                    </Text>
+                    <View style={{ ...styles.p_10, ...styles.heading }}>
+                      <Text style={styles.colorBoxTitle}>{item.title}</Text>
+                    </View>
 
                     <MbaReportTable data={item.table.rows} />
                   </View>
                 )}
               </View>
             ))}
-
           <View
             style={{
               display: "flex",
@@ -222,35 +196,27 @@ function MbaReport({ content = [], assessment }) {
               flexDirection: "column",
             }}
           >
-            <Text style={styles.analysisContentTitle}>Average GMAT Score</Text>
-
+            <View style={{ ...styles.p_10, ...styles.heading }}>
+              <Text style={styles.colorBoxTitle}>Average GMAT Score</Text>
+            </View>
             <View>
               <Image src={MbaReportGraph} />
             </View>
           </View>
-          {footerDescription.map((data) => (
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight: "500",
-                  fontSize: "13px",
-                  marginRight: "10px",
-                }}
-              >
-                {data.name}:{" "}
-              </Text>
-              <Text style={styles.analysisSessionText}>{data.description}</Text>
-            </View>
-          ))}
-          {/* /////////// */}
+          {/* footer description */}
+          <View>
+            {footerDescription.map((data) => (
+              <View style={styles.list_wrapper}>
+                <View style={styles.list_container}>
+                  <Text style={styles.list_item}>{data.name}</Text>
+                  <Text wrap={true} style={styles.list_item}>
+                    {data.description}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
         </View>
-        {/* -------------- */}
       </Page>
     </Document>
   );
@@ -266,70 +232,14 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 65,
     paddingHorizontal: 10,
-    padding: 10,
+    padding: 20,
   },
-  highlight_text: {
-    color: "#2bb2ea",
-    letterSpacing: "0px",
-    fontWeight: "500",
-    fontSize: "13px",
-    opacity: "1",
-    marginRight: "5px",
-  },
-  text: {
-    fontSize: "13px",
-    marginLeft: "10px",
-  },
-  subTitle: {
-    marginBottom: "20px",
-    fontSize: "14px",
-    fontStyle: "italic !important",
-    marginTop: "20px",
-  },
-  text_strength: {
-    fontSize: "13px",
-    marginLeft: "20px",
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    lineHeight: "2px",
-  },
-  title: {
-    display: "flex",
-    fontSize: 20,
-    textAlign: "center",
-    color: "#488DFF",
-    fontWeight: "medium",
-    padding: "10px 0px",
-    marginBottom: "2%",
-  },
-  date: {
-    fontSize: "16px",
-    fontWeight: "600",
-  },
-  analysis_session_subTitle_grid: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "3%",
-  },
-  analysis_session_subTitle: {
-    marginBottom: "5px",
-    fontSize: "14px",
-    fontStyle: "italic !important",
-  },
-  session_highlight: {
-    color: "#2bb2ea",
-    letterSpacing: "0px",
-    fontWeight: "500",
-    fontSize: "13px",
-    opacity: "1",
-  },
-  session_highlight_grid: {
-    marginLeft: "3%",
-    display: "flex",
-    flexDirection: "row",
-    lineHeight: "40px",
+  main_container: {
+    padding: 20,
+    borderLeft: "2px solid black",
+    borderRight: "2px solid black",
+    borderTop: "2px solid black",
+    borderBottom: "2px solid black",
   },
   analysis_title_div: {
     display: "flex",
@@ -338,36 +248,14 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
     marginTop: "5%",
   },
-  analysis_date_div: {
+  title: {
     display: "flex",
-    flexDirection: "row",
-    position: "relative",
-    marginLeft: "50%",
-    marginTop: "10px",
-  },
-  divider: {
-    width: "100%",
-    height: "0.5px",
-    backgroundColor: "ash",
-  },
-  analysisContentTitle: {
-    textAlign: "left",
-    letterSpacing: "0px",
-    color: "#488dff",
-    opacity: "1",
-    fontWeight: "700",
-    fontSize: "13px",
-    marginTop: "2%",
+    fontSize: 18,
+    textAlign: "center",
+    color: "#488DFF",
+    fontWeight: "medium",
+    padding: "10px 0px",
     marginBottom: "2%",
-  },
-  analysisContentTitleStrength: {
-    textAlign: "left",
-    letterSpacing: "0px",
-    color: "#488dff",
-    opacity: "1",
-    fontWeight: "700",
-    fontSize: "14px",
-    marginTop: "2%",
   },
   dot_icon_ash: {
     backgroundColor: "#a8a8a8",
@@ -377,27 +265,92 @@ const styles = StyleSheet.create({
     width: "10px",
     borderRadius: "5px",
   },
+  analysis_date_div: {
+    display: "flex",
+    flexDirection: "row",
+    // position: "relative",
+    marginLeft: "50%",
+    marginTop: "3px",
+  },
+  remark: {
+    fontSize: 10,
+  },
+  date: {
+    fontSize: "11px",
+    fontWeight: "600",
+  },
+  subTitle: {
+    fontSize: "10px",
+    textAlign: "center",
+    flexWrap: "wrap",
+    fontStyle: "italic",
+    marginTop: "10px",
+    marginBottom: "10px",
+  },
+  list_item: {
+    fontSize: 10,
+    paddingLeft: 3,
+    marginTop: "5%",
+    backgroundColor: "pink",
+  },
+  highlight_text: {
+    color: "#2bb2ea",
+    letterSpacing: "0px",
+    marginRight: "8px",
+    fontSize: "10px",
+    opacity: "1",
+  },
+  list_wrapper: {
+    margin: "5px 0px",
+  },
+  list_container: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    margin: "5px 0px",
+  },
+  list_item: {
+    fontSize: 10,
+    paddingLeft: 5,
+  },
+  colorBox: {
+    width: "100%",
+    backgroundColor: "#E6F3DC",
+    minHeight: 100,
+    borderRadius: 10,
+    padding: 10,
+  },
+  p_10: {
+    padding: "5px 0px",
+  },
+  heading: {
+    color: "#488DFF",
+    fontSize: 12,
+    fontWeight: "semibold",
+    marginTop: "5px !important",
+    marginBottom: "10px !important",
+  },
+  assessmentData_div: {
+    display: "flex",
+    flexDirection: "row",
+    lineHeight: "20px",
+  },
+
+  list_item: {
+    fontSize: 10,
+    paddingLeft: 5,
+  },
+  text: {
+    fontSize: "10px",
+  },
+  subTitle1: {
+    fontSize: "10px",
+    marginTop: "10px",
+  },
   analysisSessionText: {
     color: "#333333",
     letterSpacing: "0px",
-    fontSize: "13px",
-  },
-  analysis_session_content_title: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    // backgroundColor: "yellow",
-    marginTop: "1%",
-  },
-  card: {
-    width: "90%",
-    height: "81%",
-    background: "#ffffff",
-    border: "1px solid #e7e7e7",
-    padding: "5%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    fontSize: "10px",
   },
 });
 
