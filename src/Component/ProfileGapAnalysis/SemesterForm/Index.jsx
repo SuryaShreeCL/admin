@@ -35,6 +35,8 @@ import {
 } from "../../../Actions/College";
 import { SentimentSatisfiedTwoTone } from "@material-ui/icons";
 import MySnackBar from "../../MySnackBar";
+import DropDown from "../../../Component/Controls/DropDown";
+import TextFieldComponent from "../../../Component/Controls/TextField";
 
 class Index extends Component {
   constructor(props) {
@@ -461,6 +463,9 @@ class Index extends Component {
     );
   };
 
+  examType = ["Practical", "Theory"];
+  resultType = ["Pass", "Fail"];
+
   render() {
     const { classes } = this.props;
 
@@ -613,6 +618,7 @@ class Index extends Component {
           // }
         },
       },
+      /**---------- */
       {
         title: "Type",
         field: "subjectDetailsUgPgDiploma.type",
@@ -637,7 +643,31 @@ class Index extends Component {
             }
           }
         },
+        // editComponent: (props) => {
+        //   return (
+        //     <DropDown
+        //       id="combo-box-demo"
+        //       options={this.examType}
+        //       getOptionLabel={(option) => option}
+        //       value={props.rowData.subjectDetailsUgPgDiploma}
+        //       fullWidth
+        //       onChange={(e, value) => {
+        //         console.log(value);
+        //         props.onChange(value);
+        //       }}
+        //       renderInput={(params) => (
+        //         <TextFieldComponent
+        //           {...params}
+        //           error={isEmptyObject(props.rowData)}
+        //           label="Type"
+        //           variant="standard"
+        //         />
+        //       )}
+        //     />
+        //   );
+        // },
       },
+      /***---------- */
       {
         title: "obtained Score",
         field: "score",
@@ -699,14 +729,37 @@ class Index extends Component {
             ) {
               return true;
             } else {
-              // this.setState({
-              //   snackMsg : "Please fill the Required Field",
-              //   snackOpen : true,
-              //   snackVariant : "error"
-              // })
               return { isValid: false };
             }
           }
+        },
+        editComponent: (props) => {
+          return (
+            <DropDown
+              classes={{ root: classes.examTypeStyle }}
+              id="combo-box-demo"
+              options={this.resultType}
+              getOptionLabel={(option) => option}
+              value={props.rowData.subjectDetailsUgPgDiploma}
+              fullWidth
+              onChange={(e, value) => {
+                console.log(value);
+                props.onChange(value);
+              }}
+              renderInput={(params) => (
+                <TextFieldComponent
+                  // className={classes.examTypeStyle}
+                  {...params}
+                  error={
+                    props.rowData.subjectDetailsUgPgDiploma &&
+                    isEmptyObject(props.rowData.subjectDetailsUgPgDiploma)
+                  }
+                  label="Pass/Fail"
+                  variant="standard"
+                />
+              )}
+            />
+          );
         },
       },
     ];
@@ -858,6 +911,11 @@ const useStyles = (theme) => ({
   },
   cgpaButton: {
     borderRadius: "20px",
+  },
+  examTypeStyle: {
+    "& .MuiFormLabel-root.Mui-error": {
+      color: "grey !important",
+    },
   },
 });
 const mapStateToProps = (state) => {
