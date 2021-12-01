@@ -1,4 +1,4 @@
-FROM node:alpine as build
+FROM node:lts-alpine as build
 
 # "app" will be the current working directory
 WORKDIR /app
