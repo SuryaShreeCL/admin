@@ -59,6 +59,8 @@ const headCells = [
   { id: 'title', label: 'Title' },
   { id: 'caption', label: 'Caption' },
   { id: 'registerations', label: 'Registered' },
+  { id: 'createdDate', label: 'Date of upload' },
+  { id: 'uploadedBy', label: 'Uploded by' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -201,6 +203,8 @@ export default function Webinars() {
                   <TableCell>{`${item.eventTitle}`}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.studentWallWebinar.length}</TableCell>
+                  <TableCell>{item.createdAt.split('T')[0]}</TableCell>
+                  <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
