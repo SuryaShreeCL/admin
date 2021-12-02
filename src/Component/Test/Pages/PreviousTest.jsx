@@ -54,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
 const headCells = [
   { id: 'testName', label: 'Test Name' },
   { id: 'duration', label: 'Duration' },
-  { id: 'created', label: 'Created' },
-  { id: 'createdby', label: 'Created By' },
+  { id: 'date', label: 'Date' },
+  { id: 'published', label: 'Published' },
   { id: 'attempted', label: 'Attempted' },
   { id: 'status', label: 'Status' },
   { id: 'actions', label: 'Actions', disableSorting: true },
@@ -84,8 +84,11 @@ export default function PreviousTest() {
     subTitle: '',
   });
 
+  //Sorting based on most recent test results
+  let sortedTests = tests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    tests,
+    sortedTests,
     headCells,
     filterFn
   );
@@ -165,7 +168,7 @@ export default function PreviousTest() {
                     {item.duration}
                   </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
-                  <TableCell>{item.createdBy}</TableCell>
+                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{item.attemptedStudents}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>
@@ -179,20 +182,6 @@ export default function PreviousTest() {
                           color: item.attemptedStudents ? 'green' : 'gray',
                         }}
                       />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton
-                      onClick={() => {
-                        setConfirmDialog({
-                          isOpen: true,
-                          title: 'Are you sure to delete this post?',
-                          subTitle: "You can't undo this operation",
-                          onConfirm: () => {
-                            onDelete(item.id);
-                          },
-                        });
-                      }}
-                    >
-                      <DeleteIcon fontSize='small' color='secondary' />
                     </Controls.ActionButton>
                   </TableCell>
                 </TableRow>
