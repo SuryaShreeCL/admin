@@ -26,6 +26,8 @@ import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import HomeIcon from '@material-ui/icons/Home';
+import Track from '@material-ui/icons/ArtTrack';
+import NewspaperIcon from '@material-ui/icons/Wallpaper';
 import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOutlined';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
@@ -572,7 +574,7 @@ function RootContainer(props) {
     } else if (props.adminLinkedProductDetails.department === 'elev8') {
       setSideNav([
         {
-          icon: <HomeOutlinedIcon />,
+          icon: <NewspaperIcon />,
           title: 'Wall',
           path: wallPath,
           items: [],
@@ -584,7 +586,7 @@ function RootContainer(props) {
           items: [],
         },
         {
-          icon: <HomeOutlinedIcon />,
+          icon: <Track />,
           title: 'Career Track',
           path: careerTrackPath,
           items: [],
@@ -595,7 +597,7 @@ function RootContainer(props) {
     ) {
       setSideNav([
         {
-          icon: <HomeOutlinedIcon />,
+          icon: <NewspaperIcon />,
           title: 'Wall',
           path: wallPath,
           items: [],
@@ -607,7 +609,7 @@ function RootContainer(props) {
           items: [],
         },
         {
-          icon: <HomeOutlinedIcon />,
+          icon: <Track />,
           title: 'Career Track',
           path: careerTrackPath,
           items: [],
@@ -698,7 +700,7 @@ function RootContainer(props) {
           props.history.push(item.path);
         }}
       >
-        <ListItemIcon>{''}</ListItemIcon>
+        <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={item.title} />
       </ListItem>
     );
@@ -717,6 +719,7 @@ function RootContainer(props) {
           <ListItemIcon>
             {menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItemIcon>
+          
           <ListItemText primary={item.title} />
         </ListItem>
         <Collapse
