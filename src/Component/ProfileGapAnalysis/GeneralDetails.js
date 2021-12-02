@@ -393,10 +393,10 @@ class GeneralDetails extends Component {
         this.state.firstname !== "" &&
         this.state.lastname !== "" &&
         this.state.degree !== null &&
-        this.state.college !== null &&
+        // this.state.college !== null &&
         this.state.fieldofstudy !== null &&
         this.state.intake !== null &&
-        this.state.sem !== "" &&
+        // this.state.sem !== "" &&
         this.state.round !== "" &&
         this.state.pgcollege !== null &&
         this.state.pgdegree !== null &&
@@ -659,7 +659,7 @@ class GeneralDetails extends Component {
                     className={"work_style"}
                     value={this.state.workexp}
                     onChange={(e) => {
-                      this.commentshistory("workexp", e.target.value);
+                      this.commentshistory("workExperience", e.target.value);
                       this.handlechange(e);
                     }}
                     InputLabelProps={{ shrink: true }}
@@ -1069,9 +1069,9 @@ class GeneralDetails extends Component {
         fieldOfStudy: {
           id: this.state.fieldofstudy.id,
         },
-        college: {
-          id: this.state.college.id,
-        },
+        // college: {
+        //   id: this.state.college.id,
+        // },
         postGraduateCollege: {
           id: this.state.pgcollege.id,
         },
@@ -1094,10 +1094,8 @@ class GeneralDetails extends Component {
         this.state.firstname !== "" &&
         this.state.lastname !== "" &&
         this.state.degree !== null &&
-        this.state.college !== null &&
         this.state.fieldofstudy !== null &&
         this.state.intake !== null &&
-        this.state.sem !== "" &&
         this.state.round !== "" &&
         this.state.pgcollege !== null &&
         this.state.pgdegree !== null &&
