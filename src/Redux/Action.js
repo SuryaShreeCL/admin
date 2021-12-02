@@ -501,4 +501,5 @@ export const PGA_REPORT = {
   getResumeResponse: 'getResumeResponse',
   getResumePdfPath: 'getResumePdfPath',
   getResumePdfDownloadUrl: 'getResumePdfDownloadUrl',
+  getResumeQuestionnaire: 'getResumeQuestionnaire',
 };

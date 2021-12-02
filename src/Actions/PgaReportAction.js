@@ -30,14 +30,16 @@ export const postResumes = formData => {
   return dispatch => {
     axios
       .post(`${RESUME_PARSE_URL}/resume-parser`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+        },
       })
       .then(result => {
         dispatch({ type: PGA_REPORT.postParseResume, payload: result.data });
       })
 
       .catch(error => {
-        console.log(error);
+        console.log(formData);
       });
   };
 };
@@ -382,16 +384,38 @@ export const getResumePdfDownloadUrl = (studentId, pathName) => {
           admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
-        responseType: 'json',
       })
       .then(result => {
-        const blob = new Blob([
-          result.data,
-          { type: 'application/octet-stream' },
-        ]);
+        const blob = new Blob([result.data], { type: 'application/pdf' });
+        console.log(blob);
         dispatch({
           type: PGA_REPORT.getResumePdfDownloadUrl,
           payload: blob,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getResumeQuestionnaire = (studentId, productId) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        `${BASE_URL}/students/${studentId}/product/${productId}/profileScore`,
+        {
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: PGA_REPORT.getResumeQuestionnaire,
+          payload: result.data,
         });
       })
       .catch(error => {

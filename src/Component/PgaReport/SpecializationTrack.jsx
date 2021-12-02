@@ -125,19 +125,19 @@ function SpecializationTrack(props) {
         error.text = HELPER_TEXT.requiredField;
         break;
       }
-      if (isEmptyObject(studentSpecializationTrack[index].selectedCoursesTwo)) {
-        error.value = true;
-        error.text = HELPER_TEXT.requiredField;
-        break;
-      }
-      if (
-        studentSpecializationTrack[index].selectedCoursesOne.id ===
-        studentSpecializationTrack[index].selectedCoursesTwo.id
-      ) {
-        error.value = true;
-        error.text = 'Course One And Course Two Cannot Be Equal';
-        break;
-      }
+      // if (isEmptyObject(studentSpecializationTrack[index].selectedCoursesTwo)) {
+      //   error.value = true;
+      //   error.text = HELPER_TEXT.requiredField;
+      //   break;
+      // }
+      // if (
+      //   studentSpecializationTrack[index].selectedCoursesOne.id ===
+      //   studentSpecializationTrack[index].selectedCoursesTwo.id
+      // ) {
+      //   error.value = true;
+      //   error.text = 'Course One And Course Two Cannot Be Equal';
+      //   break;
+      // }
     }
     if (!error.value) {
       saveStudentSpecializationTrack(
@@ -253,7 +253,7 @@ function SpecializationTrack(props) {
                     renderInput={params => (
                       <TextFieldComponent
                         {...params}
-                        label='Track Name'
+                        label={'Plan Name'}
                         variant='standard'
                       />
                     )}

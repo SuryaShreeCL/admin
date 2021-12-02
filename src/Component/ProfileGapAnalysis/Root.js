@@ -71,7 +71,7 @@ class ProfileGapRoot extends Component {
   constructor() {
     super();
     this.state = {
-      value: 'pgaResumeQuestionnaire',
+      value: 'dashboard',
       open: false,
       anchorEl: null,
       pgaOpen: false,

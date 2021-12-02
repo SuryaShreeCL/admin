@@ -26,6 +26,7 @@ import {
   getResumePdfDownloadUrl,
   getResumePdfPath,
   getResumePdfUrl,
+  getResumeQuestionnaire,
   getUniversity,
   postResumes,
 } from '../../Actions/PgaReportAction';
@@ -89,7 +90,7 @@ function ResumeQuestionnaire(props) {
     academicProjectCount: 0,
     awards: [],
     hobbies: [],
-    gpaScale: null,
+    cgpaScale: null,
     cgpa: 0,
     college: null,
     degree: null,
@@ -123,6 +124,7 @@ function ResumeQuestionnaire(props) {
     resumeResponse,
     resumePdfPath,
     resumePdfUrl,
+    resumeQuestionnaire,
   } = useSelector(state => state.PgaReportReducer);
 
   useEffect(() => {
@@ -136,6 +138,7 @@ function ResumeQuestionnaire(props) {
     dispatch(getElectiveSubjects(studentId));
     dispatch(getRelevantSkills(studentId));
     dispatch(getResumePdfPath(studentId, productId));
+    dispatch(getResumeQuestionnaire(studentId, productId));
   }, [dispatch]);
 
   useEffect(() => {
@@ -181,6 +184,12 @@ function ResumeQuestionnaire(props) {
       setUrl(getResumePdfUrl(studentId, resumePdfPath.path));
     }
   }, [resumePdfPath]);
+
+  useEffect(() => {
+    if (resumeQuestionnaire && resumeQuestionnaire.success) {
+      setResumeQuestionnaireForm(resumeQuestionnaire.data);
+    }
+  }, [resumeQuestionnaire]);
 
   useEffect(() => {}, []);
 
@@ -537,7 +546,7 @@ function ResumeQuestionnaire(props) {
       degree,
       department,
       cgpa,
-      gpaScale,
+      cgpaScale,
     } = resumeQuestionnaireForm;
     return (
       <>
@@ -572,21 +581,22 @@ function ResumeQuestionnaire(props) {
           <div className={classes.flexColumn}>
             {renderCustomDropDown(
               GPA_RANG,
-              'gpaScale',
+              'cgpaScale',
               'GPA/% Range',
-              gpaScale
+              cgpaScale,
+              true
             )}
             <TextFieldComponent
               id={cgpa}
               className={classes.centeredInputText}
               name={'cgpa'}
               value={cgpa}
-              // InputProps={{ inputProps: { min: 0, max: 3 } }}
               onChange={handleChange}
               variant={'standard'}
               type={'number'}
               label={'Overall GPA/%'}
               placeholder={'00'}
+              disabled={true}
               fullWidth
             />
           </div>
@@ -654,6 +664,7 @@ function ResumeQuestionnaire(props) {
         onChange={(e, neValue) => handleDropDownChange(name, neValue)}
         getOptionLabel={option => option.name}
         value={value}
+        disabled={true}
         renderInput={params => (
           <TextFieldComponent {...params} label={label} variant={'standard'} />
         )}
@@ -661,7 +672,7 @@ function ResumeQuestionnaire(props) {
     );
   };
 
-  const renderCustomDropDown = (options, name, label, value) => {
+  const renderCustomDropDown = (options, name, label, value, disabled) => {
     return (
       <DropDown
         key={name}
@@ -670,6 +681,7 @@ function ResumeQuestionnaire(props) {
         onChange={(e, neValue) => handleDropDownChange(name, neValue.id)}
         getOptionLabel={option => option.label}
         value={options.find(({ id }) => id === value) || null}
+        disabled={disabled}
         renderInput={params => (
           <TextFieldComponent {...params} label={label} variant={'standard'} />
         )}
@@ -717,13 +729,13 @@ function ResumeQuestionnaire(props) {
 
   const handleSave = () => {
     const {
-      gpaScale,
+      cgpaScale,
       college,
       degree,
       department,
       university,
     } = resumeQuestionnaireForm;
-    if (gpaScale && college && degree && department && university) {
+    if (cgpaScale && college && degree && department && university) {
       dispatch(
         addStudentCareerTrackDetails(
           studentId,
@@ -742,8 +754,15 @@ function ResumeQuestionnaire(props) {
   };
 
   const handleParse = () => {
+    const { path } = resumePdfPath;
     var bodyFormData = new FormData();
-    bodyFormData.append('file', resumeData);
+    const myFile = new File([resumeData], path, {
+      type: `application/${path &&
+        path.slice(path.indexOf('.') + 1, path.length)}`,
+    });
+    console.log(myFile, 'MY_FILES');
+
+    bodyFormData.append('file', myFile);
     dispatch(postResumes(bodyFormData));
   };
 
@@ -760,7 +779,7 @@ function ResumeQuestionnaire(props) {
                   isOutlined={false}
                   onClick={handleParse}
                 >
-                  {'Parse'}
+                  {'Update Resume'}
                 </StyledButton>
               </JustifyFlex>
             </Grid>
