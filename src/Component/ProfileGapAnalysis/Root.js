@@ -31,7 +31,7 @@ import {
 } from "../../Actions/HelperAction";
 import TwelthForm from "./TwelthForm";
 import Index from "./AcademicSummary/Index";
-import GeneralDetails from "./GeneralDetails" ;
+import GeneralDetails from "./GeneralDetails";
 import PgaGeneralDetails from "../PgaReport/GeneralDetails";
 import SelectSchool from "../PgaReport/SelectSchool";
 import AdditionalPointsForm from "../PgaReport/AdditionalPointsForm";
@@ -47,7 +47,7 @@ import ActivitiesForGmat from "../PgaReport/ActivitiesForGmat";
 import AllRoundActivities from "../PgaReport/AllRoundActivities";
 import Preview from "../PgaReport/Preview";
 import TopBSchool from "../PgaReport/TopBSchool";
-import CareerRoot from './CareerRole/CareerRoot'
+import CareerRoot from "./CareerRole/CareerRoot";
 import Edx from "../PgaReport/Edx";
 import EdxSampleCourse from "../PgaReport/EdxSampleCourse";
 function TabPanel(props) {
@@ -77,7 +77,6 @@ class ProfileGapRoot extends Component {
       pgaReportDropDown: [],
     };
   }
-
 
   // renderRightContainer = () => {
   //   if (this.state.value === 1) {
@@ -203,20 +202,19 @@ class ProfileGapRoot extends Component {
   }
 
   backHandler = () => {
-    if(this.props.academicTypes === "ug"){
+    if (this.props.academicTypes === "ug") {
       this.setState({
         value: "ugForm",
       });
-    }else if(this.props.academicTypes === "pg"){
+    } else if (this.props.academicTypes === "pg") {
       this.setState({
         value: "pgForm",
       });
-    }else{
+    } else {
       this.setState({
         value: "diplomaForm",
       });
     }
-   
   };
 
   academicMenus = [
@@ -230,9 +228,21 @@ class ProfileGapRoot extends Component {
       value: "twelthForm",
       handler: () => this.setState({ value: "twelthForm", open: false }),
     },
-    { label: "Diploma", value: "diplomaForm", handler: () => this.handleDiplomaClick() },
-    { label: "Undergraduate", value: "ugForm", handler: () => this.handleUgClick() },
-    { label: "Postgraduate", value: "pgForm", handler: () => this.handlePgClick() },
+    {
+      label: "Diploma",
+      value: "diplomaForm",
+      handler: () => this.handleDiplomaClick(),
+    },
+    {
+      label: "Undergraduate",
+      value: "ugForm",
+      handler: () => this.handleUgClick(),
+    },
+    {
+      label: "Postgraduate",
+      value: "pgForm",
+      handler: () => this.handlePgClick(),
+    },
     {
       label: "Academics Summary",
       value: "index",
@@ -240,38 +250,37 @@ class ProfileGapRoot extends Component {
     },
   ];
 
-  renderIconButton = () =>{
+  renderIconButton = () => {
     const { classes } = this.props;
     const open = Boolean(this.props.popperAnchorEl);
     const id = open ? "simple-popper" : undefined;
-    if(
+    if (
       this.state.value === "tenthForm" ||
       this.state.value === "twelthForm" ||
-      this.state.value === "diplomaForm" || 
+      this.state.value === "diplomaForm" ||
       this.state.value === "ugForm" ||
       this.state.value === "pgForm" ||
       this.state.value === "semForm"
-      ){
+    ) {
       return (
         <IconButton
-        id={id}
-        onClick={this.handlePopupClick}
-        className={classes.iconButtonStyle}
-        color="primary"
-        aria-label="add to shopping cart"
-      >
-        <AccountCircleRoundedIcon fontSize={"large"} />
-      </IconButton>
-      )
+          id={id}
+          onClick={this.handlePopupClick}
+          className={classes.iconButtonStyle}
+          color="primary"
+          aria-label="add to shopping cart"
+        >
+          <AccountCircleRoundedIcon fontSize={"large"} />
+        </IconButton>
+      );
     }
-  }
-
+  };
 
   render() {
     const { classes } = this.props;
     console.log(this.props.clickedBack);
     // console.log(object)
-   
+
     return (
       <div>
         <Grid container style={{ marginTop: "10px" }}>
@@ -326,7 +335,10 @@ class ProfileGapRoot extends Component {
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="Academic Details"
                     value={"academicDetails"}
-                    onMouseOver={(e) => {
+                    // onMouseOver={(e) => {
+                    //   this.menuOpen(e);
+                    // }}
+                    onClick={(e) => {
                       this.menuOpen(e);
                     }}
                     icon={
@@ -337,12 +349,15 @@ class ProfileGapRoot extends Component {
                     style={{ textTransform: "none" }}
                     onClick={(e) => this.menuOpen(e)}
                   />
-               
+
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
                     label="PGA Report"
                     value={"pgaReport"}
-                    onMouseEnter={(e) => {
+                    // onMouseEnter={(e) => {
+                    //   this.pgaMenuOpen(e);
+                    // }}
+                    onClick={(e) => {
                       this.pgaMenuOpen(e);
                     }}
                     icon={
@@ -360,9 +375,9 @@ class ProfileGapRoot extends Component {
                   value={"careerRole"}
                 />
               </Tabs>
-             {this.renderIconButton()}
+              {this.renderIconButton()}
             </Paper>
-          
+
             <TabPanel value={this.state.value} index={"dashboard"}>
               <Dashboard {...this.props} />
             </TabPanel>
@@ -411,13 +426,19 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={"pgaPlanOfAction"}>
               <PlanOfAction {...this.props} />
             </TabPanel>
-            <TabPanel value={this.state.value} index={"pgaCriticalSuccessFactor"}>
+            <TabPanel
+              value={this.state.value}
+              index={"pgaCriticalSuccessFactor"}
+            >
               <CriticalSuccessFactor {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={"pgaAdditionalForm"}>
               <AdditionalPointsForm {...this.props} />
             </TabPanel>
-            <TabPanel value={this.state.value} index={"suggestedSpecializationTracks"}>
+            <TabPanel
+              value={this.state.value}
+              index={"suggestedSpecializationTracks"}
+            >
               <SpecializationTrack {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitGraph"}>
@@ -437,13 +458,13 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={"allRoundActivities"}>
               <AllRoundActivities {...this.props} />
-            </TabPanel> 
+            </TabPanel>
             <TabPanel value={this.state.value} index={"pgaTopBSchoolByRegion"}>
               <TopBSchool {...this.props} />
-            </TabPanel> 
+            </TabPanel>
             <TabPanel value={this.state.value} index={"preview"}>
               <Preview {...this.props} />
-            </TabPanel> 
+            </TabPanel>
             <TabPanel value={this.state.value} index={"careerRole"}>
               <CareerRoot {...this.props} />
             </TabPanel>
@@ -454,7 +475,6 @@ class ProfileGapRoot extends Component {
               <EdxSampleCourse {...this.props} />
             </TabPanel>
           </Grid>
-
         </Grid>
         <Menu
           anchorEl={this.state.anchorEl}
