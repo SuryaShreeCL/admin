@@ -1,37 +1,61 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  createMuiTheme, Dialog,
-  DialogContent, Table,
+  Card,
+  createMuiTheme,
+  Dialog,
+  DialogContent,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, TextField, ThemeProvider, Typography
+  TableRow,
+  TextField,
+  ThemeProvider,
+  Typography,
 } from "@material-ui/core";
-import GetAppIcon from '@material-ui/icons/GetApp';
+import GetAppIcon from "@material-ui/icons/GetApp";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import { ExpandMore} from "@material-ui/icons";
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import { ExpandMore } from "@material-ui/icons";
+import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
 import { Autocomplete } from "@material-ui/lab";
 import {
-  KeyboardDatePicker, MuiPickersUtilsProvider
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import DoccumentCard from "../Utils/DoccumentCard";
-
+import ExamDateCard from "../Utils/ExamDateCard";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { Link } from "react-router-dom";
 import {
   downloadGAT,
-  fileuploadGAT, getgmatscore, getgrescore, getieltsscore, gettoeflscore, updategmatscore, updategrescore, updateieltsscore, updatetoeflscore
+  fileuploadGAT,
+  getgmatscore,
+  getgrescore,
+  getieltsscore,
+  gettoeflscore,
+  updategmatscore,
+  updategrescore,
+  updateieltsscore,
+  updatetoeflscore,
 } from "../../Actions/Calldetails";
-import {proofUplaod,getStudentsById, getDocumentList} from '../../Actions/Student'
+import {
+  proofUplaod,
+  getStudentsById,
+  getDocumentList,
+  getexpecteddate,
+  getieltsexam,
+} from "../../Actions/Student";
 import { connect } from "react-redux";
-import Mysnack from '../MySnackBar'
-import { URL} from '../../Actions/URL'
-import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import Mysnack from "../MySnackBar";
+import { URL } from "../../Actions/URL";
+import {
+  viewStudentStatus,
+  updateVerificationStatus,
+} from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
@@ -63,20 +87,20 @@ class GraduateTestResult extends Component {
   constructor() {
     super();
     this.onDrop = (files) => {
-      console.log(files)
+      console.log(files);
       this.setState({ files });
     };
     this.gmatonDrop = (files) => {
-      console.log(files)
-      this.setState({ gmatfiles : files });
+      console.log(files);
+      this.setState({ gmatfiles: files });
     };
     this.toeflonDrop = (files) => {
-      console.log(files)
-      this.setState({ toeflfiles : files });
+      console.log(files);
+      this.setState({ toeflfiles: files });
     };
     this.ieltsonDrop = (files) => {
-      console.log(files)
-      this.setState({ ieltsfiles : files });
+      console.log(files);
+      this.setState({ ieltsfiles: files });
     };
     var today = new Date(),
       date =
@@ -85,7 +109,7 @@ class GraduateTestResult extends Component {
         (today.getMonth() + 1) +
         "/" +
         today.getDate();
-      this.state = {
+    this.state = {
       disable: false,
       date: null,
       show: false,
@@ -120,13 +144,13 @@ class GraduateTestResult extends Component {
       ieltswrite: "",
       ieltslis: "",
       ieltsspeak: "",
-      greid : "",
-      gmatid : "",
-      toeflid :  "",
-      ieltsid : "",
-      snackmsg  : "",
-      snackVariant : "",
-      snackopen : false,
+      greid: "",
+      gmatid: "",
+      toeflid: "",
+      ieltsid: "",
+      snackmsg: "",
+      snackVariant: "",
+      snackopen: false,
       files: [],
       fileErr: false,
       finalFile: null,
@@ -139,15 +163,19 @@ class GraduateTestResult extends Component {
       ieltsfiles: [],
       ieltsfileErr: false,
       ieltsfinalFile: null,
-      grefilename : "",
-      gmatfilename : "",
-      ieltsfilename : "",
-      toeflfilename : "",
-      greindex : "",
-      gmatindex : "",
-      ieltsindex:"",
+      grefilename: "",
+      gmatfilename: "",
+      ieltsfilename: "",
+      toeflfilename: "",
+      greindex: "",
+      gmatindex: "",
+      ieltsindex: "",
       toeflindex: "",
-      documentedit : false,
+      documentedit: false,
+      greDateList: [],
+      gmatDateList: [],
+      toeflDateList: [],
+      ieltsDateList: [],
       sectionStatus: {
         model: false,
         data: null,
@@ -160,53 +188,97 @@ class GraduateTestResult extends Component {
     this.props.getgmatscore(this.props.match.params.studentId);
     this.props.getieltsscore(this.props.match.params.studentId);
     this.props.gettoeflscore(this.props.match.params.studentId);
-    this.props.getStudentsById(this.props.match.params.studentId)
+    this.props.getStudentsById(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
-
+    this.props.getexpecteddate(
+      "gre",
+      this.props.match.params.studentId,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({
+            greDateList: response.data,
+          });
+        }
+      }
+    );
+    this.props.getexpecteddate(
+      "gmat",
+      this.props.match.params.studentId,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({
+            gmatDateList: response.data,
+          });
+        }
+      }
+    );
+    this.props.getexpecteddate(
+      "tofel",
+      this.props.match.params.studentId,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({
+            toeflDateList: response.data,
+          });
+        }
+      }
+    );
+    this.props.getieltsexam(this.props.match.params.studentId, (response) => {
+      if (response.status === 200) {
+        this.setState({
+          ieltsDateList: response.data,
+        });
+      }
+    });
   }
   analyticalArr = [
-    {title : "0.5"},
-    {title : "1.0"},
-    {title : "1.5"},
-    {title : "2.0"},
-    {title : "2.5"},
-    {title : "3.0"},
-    {title : "3.5"},
-    {title : "4.0"},
-    {title : "4.5"},
-    {title : "5.0"},
-    {title : "5.5"},
-    {title : "6.0"},
+    { title: "0.5" },
+    { title: "1.0" },
+    { title: "1.5" },
+    { title: "2.0" },
+    { title: "2.5" },
+    { title: "3.0" },
+    { title: "3.5" },
+    { title: "4.0" },
+    { title: "4.5" },
+    { title: "5.0" },
+    { title: "5.5" },
+    { title: "6.0" },
   ];
-  componentDidUpdate(prevProps,prevState){
-    if(this.props.fileuploadGATList !== prevProps.fileuploadGATList){
-      this.props.getgrescore(this.props.match.params.studentId)
-      this.props.getgmatscore(this.props.match.params.studentId)
-      this.props.getieltsscore(this.props.match.params.studentId)
-      this.props.gettoeflscore(this.props.match.params.studentId)
-    }
-    if(this.props.updategrescoreList !== prevProps.updategrescoreList){
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.fileuploadGATList !== prevProps.fileuploadGATList) {
       this.props.getgrescore(this.props.match.params.studentId);
-    }
-    if(this.props.updategmatscoreList !== prevProps.updategmatscoreList){
       this.props.getgmatscore(this.props.match.params.studentId);
-    }
-    if(this.props.updatetoeflscoreList !== prevProps.updatetoeflscoreList){
+      this.props.getieltsscore(this.props.match.params.studentId);
       this.props.gettoeflscore(this.props.match.params.studentId);
     }
-    if(this.props.updateieltsscoreList !== prevProps.updateieltsscoreList){
+    if (this.props.updategrescoreList !== prevProps.updategrescoreList) {
+      this.props.getgrescore(this.props.match.params.studentId);
+    }
+    if (this.props.updategmatscoreList !== prevProps.updategmatscoreList) {
+      this.props.getgmatscore(this.props.match.params.studentId);
+    }
+    if (this.props.updatetoeflscoreList !== prevProps.updatetoeflscoreList) {
+      this.props.gettoeflscore(this.props.match.params.studentId);
+    }
+    if (this.props.updateieltsscoreList !== prevProps.updateieltsscoreList) {
       this.props.getieltsscore(this.props.match.params.studentId);
     }
     if (this.state.files !== prevState.files) {
-      console.log(this.state.greattempt)
+      console.log(this.state.greattempt);
       console.log(this.state.files[0]);
       var name =
-      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GRE"+this.state.greattempt.title;
-        console.log(name)
+        this.props.getStudentsByIdList.firstName +
+        "_" +
+        this.props.getStudentsByIdList.lastName +
+        "_" +
+        "GRE" +
+        this.state.greattempt.title;
+      console.log(name);
       var file = this.state.files[0];
-      console.log(file)
-      this.setState({ grefilename : file.name })
-      var indexOf = file.type.indexOf('/');
+      console.log(file);
+      this.setState({ grefilename: file.name });
+      var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
@@ -215,15 +287,15 @@ class GraduateTestResult extends Component {
       var newFile = new File(
         [blob],
         name
-          .concat('.', newFileType)
+          .concat(".", newFileType)
           .replace(
-            'vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'docx'
+            "vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "docx"
           ),
         { type: newFileType }
       );
-      console.log('NEW FILE..................', newFile);
-      console.log('NEW FILE TYPE..................', newFileType);
+      console.log("NEW FILE..................", newFile);
+      console.log("NEW FILE TYPE..................", newFileType);
       this.setState({
         finalFile: newFile,
       });
@@ -231,12 +303,17 @@ class GraduateTestResult extends Component {
     if (this.state.gmatfiles !== prevState.gmatfiles) {
       console.log(this.state.gmatfiles[0]);
       var name =
-        this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "GMAT"+this.state.gmatattempt.title ;
-        console.log(name)
+        this.props.getStudentsByIdList.firstName +
+        "_" +
+        this.props.getStudentsByIdList.lastName +
+        "_" +
+        "GMAT" +
+        this.state.gmatattempt.title;
+      console.log(name);
       var file = this.state.gmatfiles[0];
-      console.log(file)
-      this.setState({ gmatfilename : file.name })
-      var indexOf = file.type.indexOf('/');
+      console.log(file);
+      this.setState({ gmatfilename: file.name });
+      var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
@@ -245,15 +322,15 @@ class GraduateTestResult extends Component {
       var newFile = new File(
         [blob],
         name
-          .concat('.', newFileType)
+          .concat(".", newFileType)
           .replace(
-            'vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'docx'
+            "vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "docx"
           ),
         { type: newFileType }
       );
-      console.log('NEW FILE..................', newFile);
-      console.log('NEW FILE TYPE..................', newFileType);
+      console.log("NEW FILE..................", newFile);
+      console.log("NEW FILE TYPE..................", newFileType);
       this.setState({
         gmatfinalFile: newFile,
       });
@@ -261,12 +338,17 @@ class GraduateTestResult extends Component {
     if (this.state.toeflfiles !== prevState.toeflfiles) {
       console.log(this.state.toeflfiles[0]);
       var name =
-      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "TOEFL"+this.state.toeflattempt.title ;
-        console.log(name)
+        this.props.getStudentsByIdList.firstName +
+        "_" +
+        this.props.getStudentsByIdList.lastName +
+        "_" +
+        "TOEFL" +
+        this.state.toeflattempt.title;
+      console.log(name);
       var file = this.state.toeflfiles[0];
-      console.log(file)
-      this.setState({ toeflfilename : file.name })
-      var indexOf = file.type.indexOf('/');
+      console.log(file);
+      this.setState({ toeflfilename: file.name });
+      var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
@@ -275,15 +357,15 @@ class GraduateTestResult extends Component {
       var newFile = new File(
         [blob],
         name
-          .concat('.', newFileType)
+          .concat(".", newFileType)
           .replace(
-            'vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'docx'
+            "vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "docx"
           ),
         { type: newFileType }
       );
-      console.log('NEW FILE..................', newFile);
-      console.log('NEW FILE TYPE..................', newFileType);
+      console.log("NEW FILE..................", newFile);
+      console.log("NEW FILE TYPE..................", newFileType);
       this.setState({
         toeflfinalFile: newFile,
       });
@@ -291,12 +373,17 @@ class GraduateTestResult extends Component {
     if (this.state.ieltsfiles !== prevState.ieltsfiles) {
       console.log(this.state.ieltsfiles[0]);
       var name =
-      this.props.getStudentsByIdList.firstName + '_'  +this.props.getStudentsByIdList.lastName + '_' + "IELTS"+this.state.ieltsattempt.title ;
-        console.log(name)
+        this.props.getStudentsByIdList.firstName +
+        "_" +
+        this.props.getStudentsByIdList.lastName +
+        "_" +
+        "IELTS" +
+        this.state.ieltsattempt.title;
+      console.log(name);
       var file = this.state.ieltsfiles[0];
-      console.log(file)
-      this.setState({ ieltsfilename : file.name })
-      var indexOf = file.type.indexOf('/');
+      console.log(file);
+      this.setState({ ieltsfilename: file.name });
+      var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
@@ -305,53 +392,59 @@ class GraduateTestResult extends Component {
       var newFile = new File(
         [blob],
         name
-          .concat('.', newFileType)
+          .concat(".", newFileType)
           .replace(
-            'vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'docx'
+            "vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "docx"
           ),
         { type: newFileType }
       );
-      console.log('NEW FILE..................', newFile);
-      console.log('NEW FILE TYPE..................', newFileType);
+      console.log("NEW FILE..................", newFile);
+      console.log("NEW FILE TYPE..................", newFileType);
       this.setState({
         ieltsfinalFile: newFile,
       });
     }
   }
-  handleClick(data,index) {
-    console.log(data,index);
+  handleClick(data, index) {
+    console.log(data, index);
     this.setState({
       show: true,
-      greattempt: {title : data.attempt},
+      greattempt: { title: data.attempt },
       gredate: data.completedExamDate,
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
-      greanalytic: {title : data.analyticalWriting.toString()},
+      greanalytic: { title: data.analyticalWriting.toString() },
       gretotal: data.score,
-      greid : data.id,
-      greindex : index+1
+      greid: data.id,
+      greindex: index + 1,
     });
   }
 
-  documentClick = (data) =>{
-    console.log(data)
+  documentClick = (data) => {
+    console.log(data);
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
-    window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+ data.path)
-  }
+    window.open(
+      URL +
+        "/api/v1/files/download/" +
+        this.props.match.params.studentId +
+        "/" +
+        data.path
+    );
+  };
 
   handleGmatclick = (data) => {
     console.log(data);
     this.setState({
       gmatshow: true,
-      gmatattempt:{title : data.attempt},
+      gmatattempt: { title: data.attempt },
       gmatquan: data.quantitativeReasoning,
       gmatverb: data.verbalReasoning,
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
-      gmatanalytic: {title : data.analyticalAssessment.toString()},
+      gmatanalytic: { title: data.analyticalAssessment.toString() },
       gmatdate: data.completedExamDate,
-      gmatid : data.id
+      gmatid: data.id,
     });
   };
   handletoeflClick = (data) => {
@@ -359,13 +452,13 @@ class GraduateTestResult extends Component {
     this.setState({
       toeflshow: true,
       toeflspeak: data.speaking,
-      toeflattempt:{title : data.attempt},
+      toeflattempt: { title: data.attempt },
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
       toefldate: data.completedExamDate,
       toeflscore: data.score,
-      toeflid : data.id
+      toeflid: data.id,
     });
   };
   handleIeltsClick = (data) => {
@@ -373,36 +466,84 @@ class GraduateTestResult extends Component {
     this.setState({
       ieltsshow: true,
       ieltsspeak: data.speakingScore,
-      ieltsattempt:{title : data.attempt},
+      ieltsattempt: { title: data.attempt },
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
       ieltsdate: data.completedExamDate,
       ieltsscore: data.totalScore,
-      ieltsid : data.id
+      ieltsid: data.id,
     });
   };
-  handledownload = (data,index) => {
-    console.log(data,index)
+  handledownload = (data, index) => {
+    console.log(data, index);
     // console.log(this.props.getgrescoreList[index].studentDocument.path)
-    if(data === "GRE" && this.props.getgrescoreList[index].studentDocument !== null){
+    if (
+      data === "GRE" &&
+      this.props.getgrescoreList[index].studentDocument !== null
+    ) {
       // console.log("GRE" && this.props.getgrescoreList[index].studentDocument !== null)
-     this.props.downloadGAT(this.props.match.params.studentId,this.props.getgrescoreList[index].studentDocument.path)
-     window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.getgrescoreList[index].studentDocument.path)
+      this.props.downloadGAT(
+        this.props.match.params.studentId,
+        this.props.getgrescoreList[index].studentDocument.path
+      );
+      window.open(
+        URL +
+          "/api/v1/files/download/" +
+          this.props.match.params.studentId +
+          "/" +
+          this.props.getgrescoreList[index].studentDocument.path
+      );
     }
-    if( data ===  "GMAT" && this.props.getgmatscoreList[index].studentDocument !== null){
-      this.props.downloadGAT(this.props.match.params.studentId,this.props.getgmatscoreList[index].studentDocument.path)
-      window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.getgmatscoreList[index].studentDocument.path)
+    if (
+      data === "GMAT" &&
+      this.props.getgmatscoreList[index].studentDocument !== null
+    ) {
+      this.props.downloadGAT(
+        this.props.match.params.studentId,
+        this.props.getgmatscoreList[index].studentDocument.path
+      );
+      window.open(
+        URL +
+          "/api/v1/files/download/" +
+          this.props.match.params.studentId +
+          "/" +
+          this.props.getgmatscoreList[index].studentDocument.path
+      );
     }
-    if(data === "TOEFL" && this.props.gettoeflscoreList[index].studentDocument !== null){
-      this.props.downloadGAT(this.props.match.params.studentId,this.props.gettoeflscoreList[index].studentDocument.path)
-      window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.gettoeflscoreList[index].studentDocument.path)
+    if (
+      data === "TOEFL" &&
+      this.props.gettoeflscoreList[index].studentDocument !== null
+    ) {
+      this.props.downloadGAT(
+        this.props.match.params.studentId,
+        this.props.gettoeflscoreList[index].studentDocument.path
+      );
+      window.open(
+        URL +
+          "/api/v1/files/download/" +
+          this.props.match.params.studentId +
+          "/" +
+          this.props.gettoeflscoreList[index].studentDocument.path
+      );
     }
-    if(data === "IELTS" && this.props.getieltsscoreList[index].studentDocument !== null){
-      this.props.downloadGAT(this.props.match.params.studentId,this.props.getieltsscoreList[index].studentDocument.path)
-      window.open(URL+"/api/v1/files/download/"+this.props.match.params.studentId+"/"+this.props.getieltsscoreList[index].studentDocument.path)
+    if (
+      data === "IELTS" &&
+      this.props.getieltsscoreList[index].studentDocument !== null
+    ) {
+      this.props.downloadGAT(
+        this.props.match.params.studentId,
+        this.props.getieltsscoreList[index].studentDocument.path
+      );
+      window.open(
+        URL +
+          "/api/v1/files/download/" +
+          this.props.match.params.studentId +
+          "/" +
+          this.props.getieltsscoreList[index].studentDocument.path
+      );
     }
-  }
+  };
   Drop = () => {
     let files = this.state.files.map((file) => (
       <li key={file.name}>
@@ -416,106 +557,127 @@ class GraduateTestResult extends Component {
   };
   handleSave = (data) => {
     console.log(data);
-    if(data === "GRE"){
-      let date = new Date(this.state.gredate).getDate()
-      let month =new Date(this.state.gredate).getMonth()
-      let year = new Date(this.state.gredate).getFullYear()
-      let time = new Date(this.state.gredate).toLocaleTimeString()
-      console.log(time)
-        let obj = {
-          "attempt": this.state.greattempt && this.state.greattempt.title,
-          "expectedExamDate": null,
-          "verbalReasoning":this.state.greverbal,
-          "quantitativeReasoning": this.state.grequan,
-          "analyticalWriting":this.state.greanalytic && this.state.greanalytic.title,
-          "score":this.state.gretotal,
-          "completedExamDate":this.state.gredate
-      }
-      console.log(obj)
-      this.props.updategrescore(this.state.greid,obj)
+    if (data === "GRE") {
+      let date = new Date(this.state.gredate).getDate();
+      let month = new Date(this.state.gredate).getMonth();
+      let year = new Date(this.state.gredate).getFullYear();
+      let time = new Date(this.state.gredate).toLocaleTimeString();
+      console.log(time);
+      let obj = {
+        attempt: this.state.greattempt && this.state.greattempt.title,
+        expectedExamDate: null,
+        verbalReasoning: this.state.greverbal,
+        quantitativeReasoning: this.state.grequan,
+        analyticalWriting:
+          this.state.greanalytic && this.state.greanalytic.title,
+        score: this.state.gretotal,
+        completedExamDate: this.state.gredate,
+      };
+      console.log(obj);
+      this.props.updategrescore(this.state.greid, obj);
       const d = new FormData();
-      d.append('file', this.state.finalFile);
+      d.append("file", this.state.finalFile);
       console.log(d);
-      this.props.fileuploadGAT(this.props.match.params.studentId,"gre",this.state.greid,d);
+      this.props.fileuploadGAT(
+        this.props.match.params.studentId,
+        "gre",
+        this.state.greid,
+        d
+      );
       this.setState({
-        snackmsg  : "Updated Successfully",
-        snackVariant : "Success",
-        snackopen : true,
-        show : false
-      })
+        snackmsg: "Updated Successfully",
+        snackVariant: "Success",
+        snackopen: true,
+        show: false,
+      });
     }
-    if(data === "GMAT"){
-        let obj ={
-          "attempt": this.state.gmatattempt && this.state.gmatattempt.title,
-          "expectedExamDate": null ,
-          "quantitativeReasoning": this.state.gmatquan,
-          "integratedReasoning":this.state.gmatint,
-          "analyticalAssessment":this.state.gmatanalytic.title,
-          "score":this.state.gmatscore,
-          "completedExamDate": this.state.gmatdate,
-          "verbalReasoning":this.state.gmatverb,
-          }
+    if (data === "GMAT") {
+      let obj = {
+        attempt: this.state.gmatattempt && this.state.gmatattempt.title,
+        expectedExamDate: null,
+        quantitativeReasoning: this.state.gmatquan,
+        integratedReasoning: this.state.gmatint,
+        analyticalAssessment: this.state.gmatanalytic.title,
+        score: this.state.gmatscore,
+        completedExamDate: this.state.gmatdate,
+        verbalReasoning: this.state.gmatverb,
+      };
 
-          console.log(obj)
-          this.props.updategmatscore(this.state.gmatid,obj)
-          const d = new FormData();
-          d.append('file', this.state.gmatfinalFile);
-          console.log(d);
-          this.props.fileuploadGAT(this.props.match.params.studentId,"gmat",this.state.gmatid,d);
-          this.setState({
-            snackmsg  : "Updated Successfully",
-            snackVariant : "Success",
-            snackopen : true,
-            gmatshow :false
-          })
-    }
-    if(data === "TOEFL"){
-        let obj = {
-          "attempt": this.state.toeflattempt && this.state.toeflattempt.title,
-          "reading":this.state.toeflread,
-          "listening":this.state.toefllis,
-          "writing":this.state.toeflwrite,
-          "speaking":this.state.toeflspeak,
-          "score":this.state.toeflscore,
-          "completedExamDate":this.state.toefldate,
-          "expectedExamDate": null
-      }
-      console.log(obj)
-      this.props.updatetoeflscore(this.state.toeflid,obj)
+      console.log(obj);
+      this.props.updategmatscore(this.state.gmatid, obj);
       const d = new FormData();
-      d.append('file', this.state.toeflfinalFile);
+      d.append("file", this.state.gmatfinalFile);
       console.log(d);
-      this.props.fileuploadGAT(this.props.match.params.studentId,"tofel",this.state.toeflid,d);
+      this.props.fileuploadGAT(
+        this.props.match.params.studentId,
+        "gmat",
+        this.state.gmatid,
+        d
+      );
       this.setState({
-        snackmsg  : "Updated Successfully",
-        snackVariant : "Success",
-        snackopen : true,
-        toeflshow :false
-      })
+        snackmsg: "Updated Successfully",
+        snackVariant: "Success",
+        snackopen: true,
+        gmatshow: false,
+      });
     }
-    if(data === "IELTS"){
-        let obj ={
-          "attempt": this.state.ieltsattempt && this.state.ieltsattempt.title,
-          "readingScore":this.state.ieltsread,
-          "listeningScore":this.state.ieltslis,
-          "speakingScore":this.state.ieltsspeak,
-          "writingScore":this.state.ieltswrite,
-          "totalScore":this.state.ieltsscore,
-          "completedExamDate":this.state.ieltsdate,
-          "expectedExamDate":null
-      }
-      console.log(obj)
-      this.props.updateieltsscore(this.state.ieltsid,obj)
+    if (data === "TOEFL") {
+      let obj = {
+        attempt: this.state.toeflattempt && this.state.toeflattempt.title,
+        reading: this.state.toeflread,
+        listening: this.state.toefllis,
+        writing: this.state.toeflwrite,
+        speaking: this.state.toeflspeak,
+        score: this.state.toeflscore,
+        completedExamDate: this.state.toefldate,
+        expectedExamDate: null,
+      };
+      console.log(obj);
+      this.props.updatetoeflscore(this.state.toeflid, obj);
       const d = new FormData();
-      d.append('file', this.state.ieltsfinalFile);
-      console.log(this.state.ieltsfinalFile);
-      this.props.fileuploadGAT(this.props.match.params.studentId,"ielts",this.state.ieltsid,d);
+      d.append("file", this.state.toeflfinalFile);
+      console.log(d);
+      this.props.fileuploadGAT(
+        this.props.match.params.studentId,
+        "tofel",
+        this.state.toeflid,
+        d
+      );
       this.setState({
-        snackmsg  : "Updated Successfully",
-        snackVariant : "Success",
-        snackopen : true,
-        ieltsshow : false
-      })
+        snackmsg: "Updated Successfully",
+        snackVariant: "Success",
+        snackopen: true,
+        toeflshow: false,
+      });
+    }
+    if (data === "IELTS") {
+      let obj = {
+        attempt: this.state.ieltsattempt && this.state.ieltsattempt.title,
+        readingScore: this.state.ieltsread,
+        listeningScore: this.state.ieltslis,
+        speakingScore: this.state.ieltsspeak,
+        writingScore: this.state.ieltswrite,
+        totalScore: this.state.ieltsscore,
+        completedExamDate: this.state.ieltsdate,
+        expectedExamDate: null,
+      };
+      console.log(obj);
+      this.props.updateieltsscore(this.state.ieltsid, obj);
+      const d = new FormData();
+      d.append("file", this.state.ieltsfinalFile);
+      console.log(this.state.ieltsfinalFile);
+      this.props.fileuploadGAT(
+        this.props.match.params.studentId,
+        "ielts",
+        this.state.ieltsid,
+        d
+      );
+      this.setState({
+        snackmsg: "Updated Successfully",
+        snackVariant: "Success",
+        snackopen: true,
+        ieltsshow: false,
+      });
     }
   };
   attempt = [
@@ -532,13 +694,10 @@ class GraduateTestResult extends Component {
   ];
 
   getStatus = (sectionName) => {
-    if (
-      this.props.studentStatus &&
-      this.props.studentStatus.length !== 0
-    ) {
-      const { studentStatus } = this.props;         
+    if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
+      const { studentStatus } = this.props;
       return studentStatus.find((item) => item.sectionName === sectionName);
-    } 
+    }
   };
 
   renderModel = () => (
@@ -555,42 +714,45 @@ class GraduateTestResult extends Component {
       section={this.state.sectionStatus}
       {...this.props}
     />
-  );  
+  );
 
   render() {
     console.log(this.state);
     console.log(this.props);
     const files =
-    this.state.finalFile !== null ? (
-      <li key={this.state.finalFile.name}>
-        {this.state.finalFile.name} - {this.state.finalFile.size} bytes
-      </li>
-    ) : null;
+      this.state.finalFile !== null ? (
+        <li key={this.state.finalFile.name}>
+          {this.state.finalFile.name} - {this.state.finalFile.size} bytes
+        </li>
+      ) : null;
     const gmatfiles =
-    this.state.gmatfinalFile !== null ? (
-      <li key={this.state.gmatfinalFile.name}>
-        {this.state.gmatfinalFile.name} - {this.state.gmatfinalFile.size} bytes
-      </li>
-    ) : null;
+      this.state.gmatfinalFile !== null ? (
+        <li key={this.state.gmatfinalFile.name}>
+          {this.state.gmatfinalFile.name} - {this.state.gmatfinalFile.size}{" "}
+          bytes
+        </li>
+      ) : null;
     const toeflfiles =
-    this.state.toeflfinalFile !== null ? (
-      <li key={this.state.toeflfinalFile.name}>
-        {this.state.toeflfinalFile.name} - {this.state.toeflfinalFile.size} bytes
-      </li>
-    ) : null;
+      this.state.toeflfinalFile !== null ? (
+        <li key={this.state.toeflfinalFile.name}>
+          {this.state.toeflfinalFile.name} - {this.state.toeflfinalFile.size}{" "}
+          bytes
+        </li>
+      ) : null;
     const ieltsfiles =
-    this.state.ieltsfinalFile !== null ? (
-      <li key={this.state.ieltsfinalFile.name}>
-        {this.state.ieltsfinalFile.name} - {this.state.ieltsfinalFile.size} bytes
-      </li>
-    ) : null;
-  const { classes } = this.props;
-  if (this.state.finalFile !== null) {
-    console.log(this.state.finalFile.name);
-  }
-  console.log("State.....",this.state)
-  console.log(this.props.downloadGATList)
-  const { HeadStyle, GridStyle } = style;
+      this.state.ieltsfinalFile !== null ? (
+        <li key={this.state.ieltsfinalFile.name}>
+          {this.state.ieltsfinalFile.name} - {this.state.ieltsfinalFile.size}{" "}
+          bytes
+        </li>
+      ) : null;
+    const { classes } = this.props;
+    if (this.state.finalFile !== null) {
+      console.log(this.state.finalFile.name);
+    }
+    console.log("State.....", this.state);
+    console.log(this.props.downloadGATList);
+    const { HeadStyle, GridStyle } = style;
 
     return (
       <ThemeProvider theme={theme}>
@@ -761,11 +923,10 @@ class GraduateTestResult extends Component {
                 </TableHead>
                 <TableBody>
                   {this.props.getgrescoreList !== null &&
-                    this.props.getgrescoreList.map((eachdata,index) => {
+                    this.props.getgrescoreList.map((eachdata, index) => {
                       let date = new Date(eachdata.completedExamDate).getDate();
-                      let month = new Date(
-                        eachdata.completedExamDate
-                      ).getMonth()+1;
+                      let month =
+                        new Date(eachdata.completedExamDate).getMonth() + 1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -863,7 +1024,11 @@ class GraduateTestResult extends Component {
                                 fontStyle: "italic",
                               }}
                             >
-                              <IconButton onClick={()=>this.handledownload("GRE",index)}>
+                              <IconButton
+                                onClick={() =>
+                                  this.handledownload("GRE", index)
+                                }
+                              >
                                 <GetAppIcon />
                               </IconButton>
                               {/* <Link onClick={()=>this.handledownload("GRE",index)}>Access Here</Link> */}
@@ -871,7 +1036,7 @@ class GraduateTestResult extends Component {
                           </TableCell>
                           <TableCell style={{ borderBottom: "none" }}>
                             <IconButton
-                              onClick={() => this.handleClick(eachdata,index)}
+                              onClick={() => this.handleClick(eachdata, index)}
                             >
                               <img src={Pencil} height={17} width={17} />
                             </IconButton>
@@ -1013,11 +1178,10 @@ class GraduateTestResult extends Component {
                 </TableHead>
                 <TableBody>
                   {this.props.getgmatscoreList !== null &&
-                    this.props.getgmatscoreList.map((eachdata,index) => {
+                    this.props.getgmatscoreList.map((eachdata, index) => {
                       let date = new Date(eachdata.completedExamDate).getDate();
-                      let month = new Date(
-                        eachdata.completedExamDate
-                      ).getMonth()+1;
+                      let month =
+                        new Date(eachdata.completedExamDate).getMonth() + 1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -1129,9 +1293,13 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                 <IconButton onClick={()=>this.handledownload("GMAT",index)}>
-                                <GetAppIcon />
-                              </IconButton>
+                                <IconButton
+                                  onClick={() =>
+                                    this.handledownload("GMAT", index)
+                                  }
+                                >
+                                  <GetAppIcon />
+                                </IconButton>
                                 {/* <Link onClick={()=>this.handledownload("GMAT",index)}>Access Here</Link> */}
                               </div>
                             </div>
@@ -1166,8 +1334,7 @@ class GraduateTestResult extends Component {
               >
                 {this.props.gettoeflscoreList.length !== 0 ? "TOEFL" : null}
               </div>
-              <div>
-              </div>
+              <div></div>
             </div>
             <TableContainer>
               <Table>
@@ -1276,11 +1443,10 @@ class GraduateTestResult extends Component {
                 </TableHead>
                 <TableBody>
                   {this.props.gettoeflscoreList.length !== 0 &&
-                    this.props.gettoeflscoreList.map((eachdata,index) => {
+                    this.props.gettoeflscoreList.map((eachdata, index) => {
                       let date = new Date(eachdata.completedExamDate).getDate();
-                      let month = new Date(
-                        eachdata.completedExamDate
-                      ).getMonth()+1;
+                      let month =
+                        new Date(eachdata.completedExamDate).getMonth() + 1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
@@ -1399,9 +1565,13 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                 <IconButton onClick={()=>this.handledownload("TOEFL",index)}>
-                                <GetAppIcon />
-                              </IconButton>
+                                <IconButton
+                                  onClick={() =>
+                                    this.handledownload("TOEFL", index)
+                                  }
+                                >
+                                  <GetAppIcon />
+                                </IconButton>
                                 {/* <Link onClick={()=>this.handledownload("TOEFL",index)}>Access Here</Link> */}
                               </div>
                             </div>
@@ -1436,8 +1606,7 @@ class GraduateTestResult extends Component {
               >
                 {this.props.getieltsscoreList.length !== 0 ? "IELTS" : null}
               </div>
-              <div>
-              </div>
+              <div></div>
             </div>
             <TableContainer>
               {this.props.getieltsscoreList.length !== 0 && (
@@ -1540,19 +1709,17 @@ class GraduateTestResult extends Component {
                           fontSize: 14,
                           fontFamily: "Montserrat",
                         }}
-                      >
-                      </TableCell>
+                      ></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {this.props.getieltsscoreList.length !== 0 &&
-                      this.props.getieltsscoreList.map((eachdata,index) => {
+                      this.props.getieltsscoreList.map((eachdata, index) => {
                         let date = new Date(
                           eachdata.completedExamDate
                         ).getDate();
-                        let month = new Date(
-                          eachdata.completedExamDate
-                        ).getMonth()+1;
+                        let month =
+                          new Date(eachdata.completedExamDate).getMonth() + 1;
                         let year = new Date(
                           eachdata.completedExamDate
                         ).getFullYear();
@@ -1662,9 +1829,13 @@ class GraduateTestResult extends Component {
                                   fontStyle: "italic",
                                 }}
                               >
-                                  <IconButton onClick={()=>this.handledownload("IELTS",index)}>
-                                <GetAppIcon />
-                              </IconButton>
+                                <IconButton
+                                  onClick={() =>
+                                    this.handledownload("IELTS", index)
+                                  }
+                                >
+                                  <GetAppIcon />
+                                </IconButton>
                                 {/* <Link onClick={()=>this.handledownload("IELTS",index)}>Access Here</Link> */}
                               </div>
                             </TableCell>
@@ -1683,99 +1854,211 @@ class GraduateTestResult extends Component {
               )}
             </TableContainer>
             <Grid item md={12} container justifyContent={"space-between"}>
-                      <p style={HeadStyle}>Documents Received</p>
-                      <IconButton onClick={()=>this.setState({documentedit : !this.state.documentedit})}>
-                        <EditRoundedIcon color={"inherit"} />
-                      </IconButton>
-                 </Grid>
-                 {this.props.getAllDocumentList.GRE && this.props.getAllDocumentList.GRE.length !== 0 &&
+              <p style={HeadStyle}>Documents Received</p>
+              <IconButton
+                onClick={() =>
+                  this.setState({ documentedit: !this.state.documentedit })
+                }
+              >
+                <EditRoundedIcon color={"inherit"} />
+              </IconButton>
+            </Grid>
+            {this.props.getAllDocumentList.GRE &&
+              this.props.getAllDocumentList.GRE.length !== 0 && (
                 <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>GRE</p> 
+                  <Grid item md={12} direction="column">
+                    <p style={GridStyle}>GRE</p>
                   </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.GRE ? this.props.getAllDocumentList.GRE.map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  category = "Gre"
-                  id = {data.greId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
+                  <Grid item={12} container>
+                    {this.props.getAllDocumentList.GRE
+                      ? this.props.getAllDocumentList.GRE.map((data) => (
+                          <Grid
+                            item
+                            md={4}
+                            direction="row"
+                            onClick={() => this.documentClick(data)}
+                          >
+                            <DoccumentCard
+                              certificate={data.name}
+                              date={data.date}
+                              path={data.path}
+                              studentid={this.props.match.params.studentId}
+                              category="Gre"
+                              id={data.greId}
+                              status={this.state.documentedit}
+                            />
+                          </Grid>
+                        ))
+                      : null}
                   </Grid>
-                  </Grid>
-  }
-  {this.props.getAllDocumentList.GMAT && this.props.getAllDocumentList.GMAT.length !== 0 &&
+                </Grid>
+              )}
+            {this.props.getAllDocumentList.GMAT &&
+              this.props.getAllDocumentList.GMAT.length !== 0 && (
                 <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>GMAT</p> 
+                  <Grid item md={12} direction="column">
+                    <p style={GridStyle}>GMAT</p>
                   </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.GMAT ? this.props.getAllDocumentList.GMAT.map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  category ="Gmat"
-                  id = {data.gmatId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
+                  <Grid item={12} container>
+                    {this.props.getAllDocumentList.GMAT
+                      ? this.props.getAllDocumentList.GMAT.map((data) => (
+                          <Grid
+                            item
+                            md={4}
+                            direction="row"
+                            onClick={() => this.documentClick(data)}
+                          >
+                            <DoccumentCard
+                              certificate={data.name}
+                              date={data.date}
+                              path={data.path}
+                              studentid={this.props.match.params.studentId}
+                              category="Gmat"
+                              id={data.gmatId}
+                              status={this.state.documentedit}
+                            />
+                          </Grid>
+                        ))
+                      : null}
                   </Grid>
-                  </Grid>
-  }
-                    {this.props.getAllDocumentList.TOEFL && this.props.getAllDocumentList.TOEFL.length !== 0 &&
+                </Grid>
+              )}
+            {this.props.getAllDocumentList.TOEFL &&
+              this.props.getAllDocumentList.TOEFL.length !== 0 && (
                 <Grid item md={12}>
-                <Grid item md={12} >
-                  <p style={GridStyle}>TOEFL</p> 
+                  <Grid item md={12}>
+                    <p style={GridStyle}>TOEFL</p>
                   </Grid>
-                 <Grid item={12} container >
-                 {this.props.getAllDocumentList.TOEFL ? this.props.getAllDocumentList.TOEFL.map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  category ="Toefl"
-                  id = {data.tofelId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
-               </Grid>
+                  <Grid item={12} container>
+                    {this.props.getAllDocumentList.TOEFL
+                      ? this.props.getAllDocumentList.TOEFL.map((data) => (
+                          <Grid
+                            item
+                            md={4}
+                            direction="row"
+                            onClick={() => this.documentClick(data)}
+                          >
+                            <DoccumentCard
+                              certificate={data.name}
+                              date={data.date}
+                              path={data.path}
+                              studentid={this.props.match.params.studentId}
+                              category="Toefl"
+                              id={data.tofelId}
+                              status={this.state.documentedit}
+                            />
+                          </Grid>
+                        ))
+                      : null}
                   </Grid>
-  }
-   {this.props.getAllDocumentList.IELTS && this.props.getAllDocumentList.IELTS.length !== 0 &&
+                </Grid>
+              )}
+            {this.props.getAllDocumentList.IELTS &&
+              this.props.getAllDocumentList.IELTS.length !== 0 && (
                 <Grid item md={12}>
-                <Grid item md={12} direction="column">
-                  <p style={GridStyle}>IELTS</p> 
+                  <Grid item md={12} direction="column">
+                    <p style={GridStyle}>IELTS</p>
                   </Grid>
-                  <Grid item={12} container >
-                  {this.props.getAllDocumentList.IELTS ? this.props.getAllDocumentList.IELTS.map(data =>
-                   <Grid item md={4} direction="row" onClick = {()=>this.documentClick(data)}>
-                  <DoccumentCard 
-                  certificate={data.name}
-                  date={data.date}
-                  path={data.path}
-                  studentid = {this.props.match.params.studentId}
-                  category = 'Ielts'
-                  id = {data.ieltsId}
-                  status={this.state.documentedit}
-                  />
-                   </Grid>
-                  ) : null}
+                  <Grid item={12} container>
+                    {this.props.getAllDocumentList.IELTS
+                      ? this.props.getAllDocumentList.IELTS.map((data) => (
+                          <Grid
+                            item
+                            md={4}
+                            direction="row"
+                            onClick={() => this.documentClick(data)}
+                          >
+                            <DoccumentCard
+                              certificate={data.name}
+                              date={data.date}
+                              path={data.path}
+                              studentid={this.props.match.params.studentId}
+                              category="Ielts"
+                              id={data.ieltsId}
+                              status={this.state.documentedit}
+                            />
+                          </Grid>
+                        ))
+                      : null}
                   </Grid>
+                </Grid>
+              )}
+            <Grid item md={12}>
+              <p style={HeadStyle}>Exam Date</p>
+            </Grid>
+            <Grid item md={12}>
+              <Grid container spacing={3}>
+                <Grid item md={12}>
+                  <Grid item md={12}>
+                    <p style={GridStyle}>GRE</p>
                   </Grid>
-  }
+                  <Grid item md={12}>
+                    <Grid container spacing={2}>
+                      {this.state.greDateList &&
+                        this.state.greDateList.map((eachdata) => {
+                          return (
+                            <Grid item md={3}>
+                              <ExamDateCard date={eachdata.expectedExamDate} />
+                            </Grid>
+                          );
+                        })}
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item md={12}>
+                  <Grid item md={12}>
+                    <p style={GridStyle}>GMAT</p>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid container spacing={2}>
+                      {this.state.gmatDateList &&
+                        this.state.gmatDateList.map((eachdata) => {
+                          return (
+                            <Grid item md={3}>
+                              <ExamDateCard date={eachdata.expectedExamDate} />
+                            </Grid>
+                          );
+                        })}
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item md={12}>
+                  <Grid item md={12}>
+                    <p style={GridStyle}>TOEFL</p>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid container spacing={2}>
+                      {this.state.toeflDateList &&
+                        this.state.toeflDateList.map((eachdata) => {
+                          return (
+                            <Grid item md={3}>
+                              <ExamDateCard date={eachdata.expectedExamDate} />
+                            </Grid>
+                          );
+                        })}
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item md={12}>
+                  <Grid item md={12}>
+                    <p style={GridStyle}>IELTS</p>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid container spacing={2}>
+                      {this.state.ieltsDateList &&
+                        this.state.ieltsDateList.map((eachdata) => {
+                          return (
+                            <Grid item md={3}>
+                              <ExamDateCard date={eachdata.expectedExamDate} />
+                            </Grid>
+                          );
+                        })}
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+
             <Dialog
               open={this.state.show}
               onClose={() => this.setState({ show: false })}
@@ -1821,7 +2104,7 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                  <KeyboardDatePicker
+                    <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
@@ -1830,7 +2113,7 @@ class GraduateTestResult extends Component {
                       fullWidth
                       value={this.state.gredate}
                       onChange={(newValue) =>
-                        this.setState({ gredate:new Date(newValue) })
+                        this.setState({ gredate: new Date(newValue) })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
@@ -1843,18 +2126,15 @@ class GraduateTestResult extends Component {
                       label="Quantative Reasoning (Max Score 170)"
                       fullWidth
                       value={this.state.grequan}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 170){
-                            e.preventDefault();
-                          }
-                          else{
-                            this.setState({
-                              grequan: e.target.value,
-                            })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 170) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({
+                            grequan: e.target.value,
+                          });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -1863,18 +2143,15 @@ class GraduateTestResult extends Component {
                       label="Verbal Reasoning (Max Score 170)"
                       fullWidth
                       value={this.state.greverbal}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 170){
-                            e.preventDefault();
-                          }
-                          else{
-                            this.setState({
-                              greverbal: e.target.value,
-                            })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 170) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({
+                            greverbal: e.target.value,
+                          });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -1883,18 +2160,15 @@ class GraduateTestResult extends Component {
                       label="Total (Max Score 340)"
                       fullWidth
                       value={this.state.gretotal}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 340){
-                            e.preventDefault();
-                          }
-                          else{
-                            this.setState({
-                              gretotal: e.target.value,
-                            })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 340) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({
+                            gretotal: e.target.value,
+                          });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -1916,7 +2190,7 @@ class GraduateTestResult extends Component {
                       options={this.analyticalArr}
                       value={this.state.greanalytic}
                       onChange={(e, newValue) =>
-                        this.setState({ greanalytic : newValue })
+                        this.setState({ greanalytic: newValue })
                       }
                       getOptionLabel={(option) => {
                         console.log(option);
@@ -1932,48 +2206,50 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                  <Dropzone onDrop={this.onDrop}>
-                  {({ getRootProps, getInputProps }) => (
-                    <section >
-                      <div
-                        style={{
-                          height: '100px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          border: '1px dashed #1093FF',
-                        }}
-                        {...getRootProps({ className: 'dropzone' })}
-                      >
-                        <input {...getInputProps()} />
-                        <PublishRoundedIcon color="primary" />
-                      </div>
-                      <Typography
-                        style={{
-                          paddingTop: '5px',
-                          display: this.state.fileErr ? 'block' : 'none',
-                        }}
-                        variant={'body2'}
-                        color={'secondary'}
-                      >
-                        Marksheet/Transcript
-                      </Typography>
-                      <aside>
-                        <p
-                          style={{
-                            color: '#686868',
-                            fontFamily: 'Montserrat',
-                          }}
-                        >
-                          File Size: less than 1MB | Format: PDF{' '}
-                        </p>
-                        {/* <h4>Files</h4> */}
-                        <ul>{this.state.finalFile !== null ? files : null}</ul>
-                      </aside>
-                    </section>
-                  )}
-                </Dropzone>
+                    <Dropzone onDrop={this.onDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <section>
+                          <div
+                            style={{
+                              height: "100px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              border: "1px dashed #1093FF",
+                            }}
+                            {...getRootProps({ className: "dropzone" })}
+                          >
+                            <input {...getInputProps()} />
+                            <PublishRoundedIcon color="primary" />
+                          </div>
+                          <Typography
+                            style={{
+                              paddingTop: "5px",
+                              display: this.state.fileErr ? "block" : "none",
+                            }}
+                            variant={"body2"}
+                            color={"secondary"}
+                          >
+                            Marksheet/Transcript
+                          </Typography>
+                          <aside>
+                            <p
+                              style={{
+                                color: "#686868",
+                                fontFamily: "Montserrat",
+                              }}
+                            >
+                              File Size: less than 1MB | Format: PDF{" "}
+                            </p>
+                            {/* <h4>Files</h4> */}
+                            <ul>
+                              {this.state.finalFile !== null ? files : null}
+                            </ul>
+                          </aside>
+                        </section>
+                      )}
+                    </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -2026,10 +2302,9 @@ class GraduateTestResult extends Component {
                       fullWidth
                       options={this.attempt}
                       value={this.state.gmatattempt}
-                      onChange={(e,newValue) => {
-                        this.setState({ gmatattempt: newValue })
-                      }
-                       }
+                      onChange={(e, newValue) => {
+                        this.setState({ gmatattempt: newValue });
+                      }}
                       getOptionLabel={(option) => {
                         console.log(option);
                         return option.title;
@@ -2044,7 +2319,7 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                  <KeyboardDatePicker
+                    <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
@@ -2053,11 +2328,10 @@ class GraduateTestResult extends Component {
                       fullWidth
                       value={this.state.gmatdate}
                       // disabled
-                      onChange={(newValue) =>{
-                        console.log(newValue)
-                        this.setState({ gmatdate: new Date(newValue) })
-                      }
-                      }
+                      onChange={(newValue) => {
+                        console.log(newValue);
+                        this.setState({ gmatdate: new Date(newValue) });
+                      }}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
@@ -2069,16 +2343,13 @@ class GraduateTestResult extends Component {
                       label="Quantative Reasoning (Max Score 60)"
                       fullWidth
                       value={this.state.gmatquan}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 60){
-                            e.preventDefault();
-                          }
-                          else{
-                            this.setState({ gmatquan: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 60) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ gmatquan: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2098,7 +2369,7 @@ class GraduateTestResult extends Component {
                       options={this.analyticalArr}
                       value={this.state.gmatanalytic}
                       onChange={(e, newValue) =>
-                        this.setState({ gmatanalytic : newValue })
+                        this.setState({ gmatanalytic: newValue })
                       }
                       getOptionLabel={(option) => {
                         console.log(option);
@@ -2119,16 +2390,13 @@ class GraduateTestResult extends Component {
                       label="Integrated Reasoning (Max Score 8)"
                       fullWidth
                       value={this.state.gmatint}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 8){
-                            e.preventDefault();
-                          }
-                          else{
-                            this.setState({ gmatint: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 8) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ gmatint: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2137,16 +2405,13 @@ class GraduateTestResult extends Component {
                       label="Verbal Reasoning (Max Score 60)"
                       fullWidth
                       value={this.state.gmatverb}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 60){
-                            e.preventDefault();
-                          }
-                          else{
-                            this.setState({ gmatverb: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 60) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ gmatverb: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2155,63 +2420,65 @@ class GraduateTestResult extends Component {
                       label="Total (Max Score 800)"
                       fullWidth
                       value={this.state.gmatscore}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 800){
-                            e.preventDefault();
-                          }
-                          else{
-                            this.setState({ gmatscore: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 800) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ gmatscore: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
-                  <Grid item md={6}>
-                  </Grid>
+                  <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                  <Dropzone onDrop={this.gmatonDrop}>
-                  {({ getRootProps, getInputProps }) => (
-                    <section >
-                      <div
-                        style={{
-                          height: '100px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          border: '1px dashed #1093FF',
-                        }}
-                        {...getRootProps({ className: 'dropzone' })}
-                      >
-                        <input {...getInputProps()} />
-                        <PublishRoundedIcon color="primary" />
-                      </div>
-                      <Typography
-                        style={{
-                          paddingTop: '5px',
-                          display: this.state.gmatfileErr ? 'block' : 'none',
-                        }}
-                        variant={'body2'}
-                        color={'secondary'}
-                      >
-                        Marksheet/Transcript
-                      </Typography>
-                      <aside>
-                        <p
-                          style={{
-                            color: '#686868',
-                            fontFamily: 'Montserrat',
-                          }}
-                        >
-                          File Size: less than 1MB | Format: PDF{' '}
-                        </p>
-                        {/* <h4>Files</h4> */}
-                        <ul>{this.state.gmatfinalFile !== null ? gmatfiles : null}</ul>
-                      </aside>
-                    </section>
-                  )}
-                </Dropzone>
+                    <Dropzone onDrop={this.gmatonDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <section>
+                          <div
+                            style={{
+                              height: "100px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              border: "1px dashed #1093FF",
+                            }}
+                            {...getRootProps({ className: "dropzone" })}
+                          >
+                            <input {...getInputProps()} />
+                            <PublishRoundedIcon color="primary" />
+                          </div>
+                          <Typography
+                            style={{
+                              paddingTop: "5px",
+                              display: this.state.gmatfileErr
+                                ? "block"
+                                : "none",
+                            }}
+                            variant={"body2"}
+                            color={"secondary"}
+                          >
+                            Marksheet/Transcript
+                          </Typography>
+                          <aside>
+                            <p
+                              style={{
+                                color: "#686868",
+                                fontFamily: "Montserrat",
+                              }}
+                            >
+                              File Size: less than 1MB | Format: PDF{" "}
+                            </p>
+                            {/* <h4>Files</h4> */}
+                            <ul>
+                              {this.state.gmatfinalFile !== null
+                                ? gmatfiles
+                                : null}
+                            </ul>
+                          </aside>
+                        </section>
+                      )}
+                    </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -2264,10 +2531,9 @@ class GraduateTestResult extends Component {
                       // disabled={this.state.disable}
                       options={this.attempt}
                       value={this.state.toeflattempt}
-                      onChange={(e,newValue) => {
-                        this.setState({ toeflattempt: newValue })
-                      }
-                       }
+                      onChange={(e, newValue) => {
+                        this.setState({ toeflattempt: newValue });
+                      }}
                       getOptionLabel={(option) => {
                         console.log(option);
                         return option.title;
@@ -2282,7 +2548,7 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                  <KeyboardDatePicker
+                    <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
@@ -2306,16 +2572,13 @@ class GraduateTestResult extends Component {
                       label="Reading (Max Score 30)"
                       fullWidth
                       value={this.state.toeflread}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 30){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ toeflread: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 30) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ toeflread: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2324,16 +2587,13 @@ class GraduateTestResult extends Component {
                       label="Writing (Max Score 30)"
                       fullWidth
                       value={this.state.toeflwrite}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 30){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ toeflwrite: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 30) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ toeflwrite: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2342,16 +2602,13 @@ class GraduateTestResult extends Component {
                       label="Speaking (Max Score 30)"
                       fullWidth
                       value={this.state.toeflspeak}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 30){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ toeflspeak: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 30) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ toeflspeak: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2360,16 +2617,13 @@ class GraduateTestResult extends Component {
                       label="Listening (Max Score 30)"
                       fullWidth
                       value={this.state.toefllis}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 30){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ toefllis: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 30) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ toefllis: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2378,63 +2632,65 @@ class GraduateTestResult extends Component {
                       label="Total (Max Score 120)"
                       fullWidth
                       value={this.state.toeflscore}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 120){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ toeflscore: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 120) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ toeflscore: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
-                  <Grid item md={6}>
-                    </Grid>
+                  <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                  <Dropzone onDrop={this.toeflonDrop}>
-                  {({ getRootProps, getInputProps }) => (
-                    <section >
-                      <div
-                        style={{
-                          height: '100px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          border: '1px dashed #1093FF',
-                        }}
-                        {...getRootProps({ className: 'dropzone' })}
-                      >
-                        <input {...getInputProps()} />
-                        <PublishRoundedIcon color="primary" />
-                      </div>
-                      <Typography
-                        style={{
-                          paddingTop: '5px',
-                          display: this.state.toeflfileErr ? 'block' : 'none',
-                        }}
-                        variant={'body2'}
-                        color={'secondary'}
-                      >
-                        Marksheet/Transcript
-                      </Typography>
-                      <aside>
-                        <p
-                          style={{
-                            color: '#686868',
-                            fontFamily: 'Montserrat',
-                          }}
-                        >
-                          File Size: less than 1MB | Format: PDF{' '}
-                        </p>
-                        {/* <h4>Files</h4> */}
-                        <ul>{this.state.toeflfinalFile !== null ? toeflfiles : null}</ul>
-                      </aside>
-                    </section>
-                  )}
-                </Dropzone>
+                    <Dropzone onDrop={this.toeflonDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <section>
+                          <div
+                            style={{
+                              height: "100px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              border: "1px dashed #1093FF",
+                            }}
+                            {...getRootProps({ className: "dropzone" })}
+                          >
+                            <input {...getInputProps()} />
+                            <PublishRoundedIcon color="primary" />
+                          </div>
+                          <Typography
+                            style={{
+                              paddingTop: "5px",
+                              display: this.state.toeflfileErr
+                                ? "block"
+                                : "none",
+                            }}
+                            variant={"body2"}
+                            color={"secondary"}
+                          >
+                            Marksheet/Transcript
+                          </Typography>
+                          <aside>
+                            <p
+                              style={{
+                                color: "#686868",
+                                fontFamily: "Montserrat",
+                              }}
+                            >
+                              File Size: less than 1MB | Format: PDF{" "}
+                            </p>
+                            {/* <h4>Files</h4> */}
+                            <ul>
+                              {this.state.toeflfinalFile !== null
+                                ? toeflfiles
+                                : null}
+                            </ul>
+                          </aside>
+                        </section>
+                      )}
+                    </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -2486,11 +2742,10 @@ class GraduateTestResult extends Component {
                       fullWidth
                       options={this.attempt}
                       value={this.state.ieltsattempt}
-                      onChange={(e,newValue) => {
-                        console.log(newValue)
-                        this.setState({ ieltsattempt: newValue })
-                      }
-                      }
+                      onChange={(e, newValue) => {
+                        console.log(newValue);
+                        this.setState({ ieltsattempt: newValue });
+                      }}
                       getOptionLabel={(option) => {
                         console.log(option);
                         return option.title;
@@ -2513,11 +2768,9 @@ class GraduateTestResult extends Component {
                       format="dd/MM/yyyy"
                       fullWidth
                       value={this.state.ieltsdate}
-                      onChange={(newValue) =>
-                        {
-                          this.setState({ ieltsdate:  newValue })
-                        }
-                      }
+                      onChange={(newValue) => {
+                        this.setState({ ieltsdate: newValue });
+                      }}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
@@ -2529,16 +2782,13 @@ class GraduateTestResult extends Component {
                       label="Reading (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsread}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 9){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ ieltsread: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 9) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ ieltsread: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2547,16 +2797,13 @@ class GraduateTestResult extends Component {
                       label="Writing (Max Score 9)"
                       fullWidth
                       value={this.state.ieltswrite}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 9){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ ieltswrite: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 9) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ ieltswrite: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2565,16 +2812,13 @@ class GraduateTestResult extends Component {
                       label="Speaking (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsspeak}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 9){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ ieltsspeak: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 9) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ ieltsspeak: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2583,16 +2827,13 @@ class GraduateTestResult extends Component {
                       label="Listening (Max Score 9)"
                       fullWidth
                       value={this.state.ieltslis}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 9){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ ieltslis: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 9) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ ieltslis: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2601,62 +2842,65 @@ class GraduateTestResult extends Component {
                       label="Total (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsscore}
-                      onChange={(e) =>
-                        {
-                          if(parseInt(e.target.value) > 9){
-                            e.preventDefault()
-                          }
-                          else{
-                            this.setState({ ieltsscore: e.target.value })
-                          }
+                      onChange={(e) => {
+                        if (parseInt(e.target.value) > 9) {
+                          e.preventDefault();
+                        } else {
+                          this.setState({ ieltsscore: e.target.value });
                         }
-                      }
+                      }}
                     />
                   </Grid>
                   <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                  <Dropzone onDrop={this.ieltsonDrop}>
-                  {({ getRootProps, getInputProps }) => (
-                    <section >
-                      <div
-                        style={{
-                          height: '100px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          border: '1px dashed #1093FF',
-                        }}
-                        {...getRootProps({ className: 'dropzone' })}
-                      >
-                        <input {...getInputProps()} />
-                        <PublishRoundedIcon color="primary" />
-                      </div>
-                      <Typography
-                        style={{
-                          paddingTop: '5px',
-                          display: this.state.ieltsfileErr ? 'block' : 'none',
-                        }}
-                        variant={'body2'}
-                        color={'secondary'}
-                      >
-                        Marksheet/Transcript
-                      </Typography>
-                      <aside>
-                        <p
-                          style={{
-                            color: '#686868',
-                            fontFamily: 'Montserrat',
-                          }}
-                        >
-                          File Size: less than 1MB | Format: PDF{' '}
-                        </p>
-                        {/* <h4>Files</h4> */}
-                        <ul>{this.state.ieltsfinalFile !== null ? ieltsfiles : null}</ul>
-                      </aside>
-                    </section>
-                  )}
-                </Dropzone>
+                    <Dropzone onDrop={this.ieltsonDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <section>
+                          <div
+                            style={{
+                              height: "100px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              border: "1px dashed #1093FF",
+                            }}
+                            {...getRootProps({ className: "dropzone" })}
+                          >
+                            <input {...getInputProps()} />
+                            <PublishRoundedIcon color="primary" />
+                          </div>
+                          <Typography
+                            style={{
+                              paddingTop: "5px",
+                              display: this.state.ieltsfileErr
+                                ? "block"
+                                : "none",
+                            }}
+                            variant={"body2"}
+                            color={"secondary"}
+                          >
+                            Marksheet/Transcript
+                          </Typography>
+                          <aside>
+                            <p
+                              style={{
+                                color: "#686868",
+                                fontFamily: "Montserrat",
+                              }}
+                            >
+                              File Size: less than 1MB | Format: PDF{" "}
+                            </p>
+                            {/* <h4>Files</h4> */}
+                            <ul>
+                              {this.state.ieltsfinalFile !== null
+                                ? ieltsfiles
+                                : null}
+                            </ul>
+                          </aside>
+                        </section>
+                      )}
+                    </Dropzone>
                   </Grid>
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
@@ -2685,11 +2929,11 @@ class GraduateTestResult extends Component {
           </MuiPickersUtilsProvider>
         </div>
         <Mysnack
-           snackMsg={this.state.snackmsg}
-           snackVariant={this.state.snackVariant}
-           snackOpen={this.state.snackopen}
-           onClose={() => this.setState({ snackopen: false })}
-        /> 
+          snackMsg={this.state.snackmsg}
+          snackVariant={this.state.snackVariant}
+          snackOpen={this.state.snackopen}
+          onClose={() => this.setState({ snackopen: false })}
+        />
         {this.renderModel()}
       </ThemeProvider>
     );
@@ -2698,7 +2942,7 @@ class GraduateTestResult extends Component {
 
 const style = {
   HeadStyle: {
-    paddingTop : "18px",
+    paddingTop: "18px",
     fontStyle: "Poppins",
     fontWeight: "600",
     fontStyle: "normal",
@@ -2712,7 +2956,7 @@ const style = {
     fontSize: "16px",
     color: "#052A4E",
   },
-}
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -2724,13 +2968,12 @@ const mapStateToProps = (state) => {
     updategmatscoreList: state.CallReducer.updategmatscore,
     updategrescoreList: state.CallReducer.updategrescore,
     updatetoeflscoreList: state.CallReducer.updatetoeflscore,
-    proofUplaodlist : state.StudentReducer.proofUplaod,
-    getStudentsByIdList : state.StudentReducer.StudentList,
-    downloadGATList : state.CallReducer.downloadGAT,
-    fileuploadGATList : state.CallReducer.fileuploadGAT,
+    proofUplaodlist: state.StudentReducer.proofUplaod,
+    getStudentsByIdList: state.StudentReducer.StudentList,
+    downloadGATList: state.CallReducer.downloadGAT,
+    fileuploadGATList: state.CallReducer.fileuploadGAT,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getAllDocumentList: state.StudentReducer.getDocumentList,
-
   };
 };
 
@@ -2749,5 +2992,7 @@ export default connect(mapStateToProps, {
   fileuploadGAT,
   updateVerificationStatus,
   viewStudentStatus,
-  getDocumentList
+  getDocumentList,
+  getexpecteddate,
+  getieltsexam,
 })(GraduateTestResult);

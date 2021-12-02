@@ -34,6 +34,9 @@ const initialState = {
   StudentStepDetails: [],
   ObComplete: [],
   ObIncomplete: [],
+  IncompleteStatus:[],
+  getexpecteddate : [],
+  getieltsexam : []
 };
 
 export default (state = initialState, action) => {
@@ -235,6 +238,21 @@ export default (state = initialState, action) => {
         ...state,
         ObComplete: action.payload,
       };
+      case STUDENT.IncompleteStatus:
+        return {
+          ...state,
+          IncompleteStatus: action.payload,
+        };
+        case STUDENT.getexpecteddate:
+          return {
+            ...state,
+            getexpecteddate: action.payload,
+          };
+          case STUDENT.getieltsexam:
+            return {
+              ...state,
+              getieltsexam: action.payload,
+            };
 
     default:
       break;
