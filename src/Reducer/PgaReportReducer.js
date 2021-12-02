@@ -17,6 +17,7 @@ const initialState = {
   resumeResponse: null,
   resumePdfPath: null,
   resumePdfUrl: null,
+  resumeQuestionnaire: null,
 };
 
 export default (state = initialState, action) => {
@@ -105,6 +106,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         resumePdfUrl: action.payload,
+      };
+    case PGA_REPORT.getResumeQuestionnaire:
+      return {
+        ...state,
+        resumeQuestionnaire: action.payload,
       };
     default:
       break;

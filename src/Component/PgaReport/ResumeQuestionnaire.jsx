@@ -191,7 +191,7 @@ function ResumeQuestionnaire(props) {
     }
   }, [resumeQuestionnaire]);
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   useEffect(() => {
     if (resumeParseStatus) {
@@ -596,7 +596,7 @@ function ResumeQuestionnaire(props) {
               type={'number'}
               label={'Overall GPA/%'}
               placeholder={'00'}
-              disabled={true}
+              disabled={false}
               fullWidth
             />
           </div>
@@ -664,7 +664,7 @@ function ResumeQuestionnaire(props) {
         onChange={(e, neValue) => handleDropDownChange(name, neValue)}
         getOptionLabel={option => option.name}
         value={value}
-        disabled={true}
+        disabled={false}
         renderInput={params => (
           <TextFieldComponent {...params} label={label} variant={'standard'} />
         )}
@@ -681,7 +681,7 @@ function ResumeQuestionnaire(props) {
         onChange={(e, neValue) => handleDropDownChange(name, neValue.id)}
         getOptionLabel={option => option.label}
         value={options.find(({ id }) => id === value) || null}
-        disabled={disabled}
+        disabled={false}
         renderInput={params => (
           <TextFieldComponent {...params} label={label} variant={'standard'} />
         )}
