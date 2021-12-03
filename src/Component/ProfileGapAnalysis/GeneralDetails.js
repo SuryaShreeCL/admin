@@ -1069,9 +1069,9 @@ class GeneralDetails extends Component {
         fieldOfStudy: {
           id: this.state.fieldofstudy.id,
         },
-        // college: {
-        //   id: this.state.college.id,
-        // },
+        college: {
+          id: this.state.college.id,
+        },
         postGraduateCollege: {
           id: this.state.pgcollege.id,
         },
