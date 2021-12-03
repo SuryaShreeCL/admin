@@ -109,168 +109,50 @@ function GeneralDetails(props) {
   }, []);
 
   const handleSave = () => {
+    console.log(
+      props.adminLinkedProductDetails.products,
+      props.match.params.productId
+    );
 
-    console.log(props.adminLinkedProductDetails.products, props.match.params.productId)
-
-    const findObj = props.adminLinkedProductDetails.products.find(el=>el.id === props.match.params.productId)
+    const findObj = props.adminLinkedProductDetails.products.find(
+      (el) => el.id === props.match.params.productId
+    );
     const isAcsMs = findObj.codeName === "ACS_MS" ? true : false;
 
-    console.log(isAcsMs, "=====")
+    console.log(isAcsMs, "=====");
 
-    isEmptyString(contextDesc.value)
-      ? setContextDesc((prevConDes) => ({
-          ...prevConDes,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setContextDesc((prevConDes) => ({ ...prevConDes, helperText: "" }));
-    isEmptyString(currentSem.value)
-      ? setCurrentSem((prevCurrentSem) => ({
-          ...prevCurrentSem,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setCurrentSem((prevCurrentSem) => ({
-          ...prevCurrentSem,
-          helperText: "",
-        }));
-    isEmptyString(timelineDesc.value)
-      ? setTimelineDesc((prevTimeLine) => ({
-          ...prevTimeLine,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setTimelineDesc((prevTimeLine) => ({
-          ...prevTimeLine,
-          helperText: "",
-        }));
-    selectedDate.value === null
-      ? handleDateChange((prevDate) => ({
-          ...prevDate,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : handleDateChange((prevDate) => ({ ...prevDate, helperText: "" }));
-    isEmptyObject(preferredProgram.value)
-      ? setPreferredProgram((prevPrefProg) => ({
-          ...prevPrefProg,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setPreferredProgram((prevPrefProg) => ({
-          ...prevPrefProg,
-          helperText: "",
-        }));
-    isEmptyObject(areaOfSpec.value)
-      ? setAreaOfSpec((prevArea) => ({
-          ...prevArea,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setAreaOfSpec((prevArea) => ({ ...prevArea, helperText: "" }));
-    isEmptyObject(intake.value)
-      ? setIntake((prevIntake) => ({
-          ...prevIntake,
-          helperText: HELPER_TEXT.requiredField,
-        }))
-      : setIntake((prevIntake) => ({ ...prevIntake, helperText: "" }));
-     
-      if(!isAcsMs){
-        if(isEmptyObject(round.value)){
-          setRound((prevRound) => ({
-            ...prevRound,
-            helperText: HELPER_TEXT.requiredField,
-          }))
-        }else{
-          setRound((prevRound) => ({ ...prevRound, helperText: "" }));
-        }
-      }
-  
-    if(!isAcsMs){
-      if (
-        !isEmptyString(contextDesc.value) &&
-        !isEmptyString(currentSem.value) &&
-        !isEmptyString(timelineDesc.value) &&
-        selectedDate.value !== null &&
-        !isEmptyObject(preferredProgram.value) &&
-        !isEmptyObject(areaOfSpec.value) &&
-        !isEmptyObject(intake.value) &&
-        !isEmptyObject(round.value)
-      ) {
-        let requestBody = {
-          id: id,
-          contextDescription: contextDesc.value,
-          currentSemester: parseInt(currentSem.value),
-          timeLineDescription: timelineDesc.value,
-          date: selectedDate.value,
-          preferredProgram: preferredProgram.value,
-          areaOfSpecialization: areaOfSpec.value,
-          inTake: intake.value,
-          pgaRound: round.value,
-        };
-  
-        savePgaReportGeneralDetails(
-          props.match.params.studentId,
-          props.match.params.productId,
-          requestBody
-        ).then((response) => {
-          if (response.status === 200) {
-            getAndSetStudentGeneralDetails();
-            setSnack({
-              snackMsg: "Saved Successfully",
-              snackColor: "success",
-              snackOpen: true,
-            });
-          }else{
-            setSnack({
-              snackMsg: response,
-              snackColor: "error",
-              snackOpen: true,
-            });
-          }
+    let requestBody = {
+      id: id,
+      contextDescription: contextDesc.value,
+      currentSemester: parseInt(currentSem.value),
+      timeLineDescription: timelineDesc.value,
+      date: selectedDate.value,
+      preferredProgram: preferredProgram.value,
+      areaOfSpecialization: areaOfSpec.value,
+      inTake: intake.value,
+      pgaRound: round.value,
+    };
+
+    savePgaReportGeneralDetails(
+      props.match.params.studentId,
+      props.match.params.productId,
+      requestBody
+    ).then((response) => {
+      if (response.status === 200) {
+        getAndSetStudentGeneralDetails();
+        setSnack({
+          snackMsg: "Saved Successfully",
+          snackColor: "success",
+          snackOpen: true,
+        });
+      } else {
+        setSnack({
+          snackMsg: response,
+          snackColor: "error",
+          snackOpen: true,
         });
       }
-    }else{
-      if (
-        !isEmptyString(contextDesc.value) &&
-        !isEmptyString(currentSem.value) &&
-        !isEmptyString(timelineDesc.value) &&
-        selectedDate.value !== null &&
-        !isEmptyObject(preferredProgram.value) &&
-        !isEmptyObject(areaOfSpec.value) &&
-        !isEmptyObject(intake.value)
-        // !isEmptyObject(round.value)
-      ) {
-        let requestBody = {
-          id: id,
-          contextDescription: contextDesc.value,
-          currentSemester: parseInt(currentSem.value),
-          timeLineDescription: timelineDesc.value,
-          date: selectedDate.value,
-          preferredProgram: preferredProgram.value,
-          areaOfSpecialization: areaOfSpec.value,
-          inTake: intake.value,
-          pgaRound: round.value,
-        };
-  
-        savePgaReportGeneralDetails(
-          props.match.params.studentId,
-          props.match.params.productId,
-          requestBody
-        ).then((response) => {
-          if (response.status === 200) {
-            getAndSetStudentGeneralDetails();
-            setSnack({
-              snackMsg: "Saved Successfully",
-              snackColor: "success",
-              snackOpen: true,
-            });
-          }else{
-            setSnack({
-              snackMsg: response,
-              snackColor: "error",
-              snackOpen: true,
-            });
-          }
-        });
-      }
-    }
-
-    
+    });
   };
 
   return (
