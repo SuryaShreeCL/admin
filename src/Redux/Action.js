@@ -96,6 +96,9 @@ export const STUDENT = {
   StudentStepDetails: "StudentStepDetails",
   ObIncomplete: "ObIncomplete",
   ObComplete: "ObComplete",
+  IncompleteStatus : "IncompleteStatus",
+  getexpecteddate : "getexpecteddate",
+  getieltsexam : "getieltsexam",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",

@@ -460,3 +460,25 @@ input[type='checkbox']:checked + label {
   max-height: calc(100vh - 110px);
   overflow: auto;
 }
+.gat_image {
+  height : 75px !important;
+  width : 75px !important
+}
+.gat_card {
+  height: 80px !important;
+  max-width: 240px !important;
+  width: 100% !important;
+  box-shadow: 0px 8px 7px rgba(183, 222, 255, 0.5) !important;
+  border-radius: 8 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+.gat_exam_card {
+  display:flex !important ;
+  justify-content:center !important;
+  align-items:center !important;
+}
+.gat_exam_div {
+  display:flex !important;
+  flex-direction:column !important;
+}
