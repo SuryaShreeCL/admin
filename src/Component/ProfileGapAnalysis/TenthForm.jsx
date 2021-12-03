@@ -83,7 +83,9 @@ function TenthForm(props) {
       title: "Subject Code",
       field: "subjectDetails.subjectCode",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.subjectCode : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.subjectCode
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
