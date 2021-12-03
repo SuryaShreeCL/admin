@@ -56,12 +56,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'eventTitle', label: 'Title' },
-  { id: 'date', label: 'Published' },
-  { id: 'description', label: 'Description' },
-  { id: 'registrations', label: 'Registrations' },
-  { id: 's&t', label: 'Start Date' },
-  { id: 'e&t', label: 'End Date' },
+  { id: 'eventTitle', label: 'Title', disableSorting: true },
+  { id: 'createdAt', label: 'Published' },
+  { id: 'description', label: 'Description', disableSorting: true },
+  { id: 'totalRegistrations', label: 'Registrations' },
+  { id: 'eventDate', label: 'Start Date', disableSorting: true },
+  { id: 'eventEndDate', label: 'End Date', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 

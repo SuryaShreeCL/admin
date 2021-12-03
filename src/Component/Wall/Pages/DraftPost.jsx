@@ -57,10 +57,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Drafted' },
-  { id: 'caption', label: 'Caption' },
-  { id: 'likes', label: 'Likes' },
+  { id: 'category', label: 'Category', disableSorting: true },
+  { id: 'createdAt', label: 'Published' },
+  { id: 'caption', label: 'Caption', disableSorting: true },
+  { id: 'totalLikes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
