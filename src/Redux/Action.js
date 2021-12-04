@@ -498,7 +498,6 @@ export const PGA_REPORT = {
   generateCareerTracks: 'generateCareerTracks',
   addStudentCareerTrackDetails: 'addStudentCareerTrackDetails',
   profileScoreGenerate: 'profileScoreGenerate',
-  getResumeResponse: 'getResumeResponse',
   getResumePdfPath: 'getResumePdfPath',
   getResumePdfDownloadUrl: 'getResumePdfDownloadUrl',
   getResumeQuestionnaire: 'getResumeQuestionnaire',

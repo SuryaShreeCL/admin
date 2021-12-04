@@ -29,17 +29,13 @@ export const getSpiderGraph = (studentId, productId) => {
 export const postResumes = formData => {
   return dispatch => {
     axios
-      .post(`${RESUME_PARSE_URL}/resume-parser`, formData, {
-        headers: {
-          'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-        },
-      })
+      .post(`${RESUME_PARSE_URL}/resume-parser`, formData, null)
       .then(result => {
         dispatch({ type: PGA_REPORT.postParseResume, payload: result.data });
       })
-
       .catch(error => {
-        console.log(formData);
+        console.log(error.response);
+        dispatch({ type: PGA_REPORT.postParseResume, payload: error });
       });
   };
 };
@@ -331,28 +327,6 @@ export const profileScoreGenerate = (studentId, productId, profileScoreId) => {
   };
 };
 
-export const getResumePdfResponse = (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
-    axios
-      .get(`${BASE_URL}/cv/${studentId}/${productId}`, {
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then(result => {
-        dispatch({
-          type: PGA_REPORT.getResumeResponse,
-          payload: result.data,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-};
-
 export const getResumePdfPath = (studentId, productId) => {
   let accessToken = window.sessionStorage.getItem('accessToken');
   return dispatch => {
@@ -384,10 +358,12 @@ export const getResumePdfDownloadUrl = (studentId, pathName) => {
           admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
+        responseType: 'blob',
       })
       .then(result => {
-        const blob = new Blob([result.data], { type: 'application/pdf' });
-        console.log(blob);
+        const blob = new Blob([result.data], {
+          type: 'application/octetstream',
+        });
         dispatch({
           type: PGA_REPORT.getResumePdfDownloadUrl,
           payload: blob,

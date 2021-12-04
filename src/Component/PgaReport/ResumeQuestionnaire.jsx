@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   addStudentCareerTrackDetails,
   getAcademicCertificates,
-  getAwardHobby,
   getColleges,
   getDegrees,
   getDepartments,
@@ -35,9 +34,11 @@ import PdfViewer from '../../Utils/PdfViewer';
 import DropDown from '../Controls/DropDown';
 import TextFieldComponent from '../Controls/TextField';
 import MySnackBar from '../MySnackBar';
+import Loader from '../Utils/controls/Loader';
 import {
   BoldText,
   BottomBox,
+  CenteredLoader,
   FlexRow,
   FlexView,
   JustifyFlex,
@@ -48,6 +49,9 @@ import {
   StyledMediumButton,
 } from './Components/StyledComponents';
 import { useStyles } from './Styles/Index';
+
+const RESUME_PARSE_SUCCESS_MESSAGE = 'Resume parsed successfully';
+const RESUME_PARSE_ERROR_MESSAGE = 'Resume parsing failed';
 
 const GPA_RANG = [
   {
@@ -104,10 +108,11 @@ function ResumeQuestionnaire(props) {
   ] = useState([]);
   const [relevantSkillsList, setRelevantSkillsList] = useState([]);
   const [electiveSubjectsList, setElectiveSubjectsList] = useState([]);
-  const [awardHobbyList, setAwardHobbyList] = useState([]);
   const [saveClick, setSaveClick] = useState(false);
   const [url, setUrl] = useState(null);
   const [resumeData, setResumeData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [resumeParseResponse, setResumeParseResponse] = useState(null);
 
   const {
     resumeParseStatus,
@@ -119,9 +124,7 @@ function ResumeQuestionnaire(props) {
     professionalCertificates,
     relevantSkills,
     electiveSubjects,
-    awardHobby,
     careerTrackDetailsStatus,
-    resumeResponse,
     resumePdfPath,
     resumePdfUrl,
     resumeQuestionnaire,
@@ -134,12 +137,35 @@ function ResumeQuestionnaire(props) {
     dispatch(getDepartments());
     dispatch(getAcademicCertificates(studentId));
     dispatch(getProfessionalCertificates(studentId));
-    dispatch(getAwardHobby(studentId));
     dispatch(getElectiveSubjects(studentId));
     dispatch(getRelevantSkills(studentId));
     dispatch(getResumePdfPath(studentId, productId));
     dispatch(getResumeQuestionnaire(studentId, productId));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      professionalCertificates &&
+      professionalCertificates.success &&
+      professionalCertificates.data
+    ) {
+      setProfessionalCertificatesList(
+        professionalCertificates.data.map(({ name }) => name)
+      );
+    }
+  }, [professionalCertificates]);
+
+  useEffect(() => {
+    if (relevantSkills && relevantSkills.success && relevantSkills.data) {
+      setRelevantSkillsList(relevantSkills.data.map(({ name }) => name));
+    }
+  }, [relevantSkills]);
+
+  useEffect(() => {
+    if (electiveSubjects && electiveSubjects.success && electiveSubjects.data) {
+      setElectiveSubjectsList(electiveSubjects.data.map(({ name }) => name));
+    }
+  }, [electiveSubjects]);
 
   useEffect(() => {
     if (
@@ -151,32 +177,13 @@ function ResumeQuestionnaire(props) {
         academicCertificates.data.map(({ name }) => name)
       );
     }
-    if (
-      professionalCertificates &&
-      professionalCertificates.success &&
-      professionalCertificates.data
-    ) {
-      setProfessionalCertificatesList(
-        professionalCertificates.data.map(({ name }) => name)
-      );
-    }
-    if (relevantSkills && relevantSkills.success && relevantSkills.data) {
-      setRelevantSkillsList(relevantSkills.data.map(({ name }) => name));
-    }
-    if (electiveSubjects && electiveSubjects.success && electiveSubjects.data) {
-      setElectiveSubjectsList(electiveSubjects.data.map(({ name }) => name));
-    }
-    if (awardHobby && awardHobby.success && awardHobby.data) {
-      setAwardHobbyList(awardHobby.data.map(({ name }) => name));
-    }
-    if (resumeResponse) {
-      const newUrl = window.URL.createObjectURL(new Blob([resumeResponse]));
-      setUrl(newUrl);
-    }
+  }, [academicCertificates]);
+
+  useEffect(() => {
     if (resumePdfUrl) {
       setResumeData(resumePdfUrl);
     }
-  }, [academicCertificates, resumeResponse, resumePdfUrl]);
+  }, [resumePdfUrl]);
 
   useEffect(() => {
     if (resumePdfPath && typeof resumePdfPath === 'object') {
@@ -191,25 +198,48 @@ function ResumeQuestionnaire(props) {
     }
   }, [resumeQuestionnaire]);
 
-  // useEffect(() => {}, []);
-
   useEffect(() => {
-    if (resumeParseStatus) {
+    if (loading && resumeParseStatus !== resumeParseResponse) {
+      setResumeParseResponse(resumeParseStatus);
+      if (loading) setLoading(false);
       const { degree, department, interest } = resumeParseStatus;
-      let newDegree = degree.length !== 0 ? degree[0][0] : '';
-      let newDepartment = department.length !== 0 ? department[0][0] : '';
-      let newInterest = interest.length !== 0 ? interest[0] : [];
-
-      setResumeQuestionnaireForm({
-        ...resumeQuestionnaireForm,
-        degree: degrees.find(({ name }) => name === newDegree) || [],
-        department:
-          departments.find(({ name }) => name === newDepartment) || [],
-        relevantSkills: resumeParseStatus.skill,
-        hobbies: newInterest,
-      });
+      if (degree && department && interest) {
+        let newDegree = degree.flat(2);
+        let newDepartment = department.flat(2);
+        let newInterest = interest.flat(2);
+        let getDegree = resumeQuestionnaireForm.degree
+          ? resumeQuestionnaireForm.degree
+          : degrees.find(({ name }) => newDegree.indexOf(name) > -1) || null;
+        let getDepartment = resumeQuestionnaireForm.department
+          ? resumeQuestionnaireForm.department
+          : departments.find(({ name }) => newDepartment.indexOf(name) > -1) ||
+            null;
+        setResumeQuestionnaireForm({
+          ...resumeQuestionnaireForm,
+          degree: getDegree,
+          department: getDepartment,
+          relevantSkills: resumeParseStatus.skill,
+          hobbies: [
+            newInterest
+              .flat(2)
+              .join(', ')
+              .toString(),
+          ],
+        });
+        setSnack({
+          snackOpen: true,
+          snackColor: 'success',
+          snackMsg: RESUME_PARSE_SUCCESS_MESSAGE,
+        });
+      } else {
+        setSnack({
+          snackOpen: true,
+          snackColor: 'error',
+          snackMsg: RESUME_PARSE_ERROR_MESSAGE,
+        });
+      }
     }
-  }, [resumeParseStatus]);
+  }, [resumeParseStatus, resumeParseResponse, loading]);
 
   useEffect(() => {
     if (careerTrackDetailsStatus) {
@@ -424,25 +454,17 @@ function ResumeQuestionnaire(props) {
     return (
       <>
         {renderProjectHands(
-          '03',
           'Academic',
           'academicProjectCount',
           academicProjectCount
         )}
+        {renderProjectHands('Course', 'courseProjectCount', courseProjectCount)}
         {renderProjectHands(
-          '04',
-          'Course',
-          'courseProjectCount',
-          courseProjectCount
-        )}
-        {renderProjectHands(
-          '02',
           'Research',
           'researchProjectCount',
           researchProjectCount
         )}
         {renderProjectHands(
-          '02',
           'Independent',
           'independentProjectCount',
           independentProjectCount
@@ -451,11 +473,11 @@ function ResumeQuestionnaire(props) {
     );
   };
 
-  const renderProjectHands = (letText, label, name, value) => (
+  const renderProjectHands = (label, name, value) => (
     <>
       <Grid item md={6}>
         <FlexRow>
-          <BoldText>{letText}</BoldText>
+          {/* <BoldText>{letText}</BoldText> */}
           <QuestionText>
             {`${label} projects completed by successful candidate`}
           </QuestionText>
@@ -596,7 +618,7 @@ function ResumeQuestionnaire(props) {
               type={'number'}
               label={'Overall GPA/%'}
               placeholder={'00'}
-              disabled={false}
+              disabled={true}
               fullWidth
             />
           </div>
@@ -664,7 +686,7 @@ function ResumeQuestionnaire(props) {
         onChange={(e, neValue) => handleDropDownChange(name, neValue)}
         getOptionLabel={option => option.name}
         value={value}
-        disabled={false}
+        disabled={true}
         renderInput={params => (
           <TextFieldComponent {...params} label={label} variant={'standard'} />
         )}
@@ -681,7 +703,7 @@ function ResumeQuestionnaire(props) {
         onChange={(e, neValue) => handleDropDownChange(name, neValue.id)}
         getOptionLabel={option => option.label}
         value={options.find(({ id }) => id === value) || null}
-        disabled={false}
+        disabled={disabled}
         renderInput={params => (
           <TextFieldComponent {...params} label={label} variant={'standard'} />
         )}
@@ -753,25 +775,24 @@ function ResumeQuestionnaire(props) {
     }
   };
 
-  const handleParse = () => {
+  const handleParse = e => {
+    e.preventDefault();
+    setLoading(true);
     const { path } = resumePdfPath;
     var bodyFormData = new FormData();
     const myFile = new File([resumeData], path, {
-      type: `application/${path &&
-        path.slice(path.indexOf('.') + 1, path.length)}`,
+      type: path && path.slice(path.indexOf('.') + 1, path.length),
+      lastModified: new Date().getTime(),
     });
-    console.log(myFile, 'MY_FILES');
-
     bodyFormData.append('file', myFile);
     dispatch(postResumes(bodyFormData));
   };
-
   return (
     <Grid container>
-      <Grid item md={8}>
+      <Grid item sm={12} md={8}>
         <PageWrap className={classes.paddingContent}>
           <Grid container spacing={2}>
-            <Grid item md={12}>
+            <Grid item lg={12} className={classes.fullWidth}>
               <JustifyFlex>
                 <Typography variant={'h5'}>{'Resume Questionnaire'}</Typography>
                 <StyledButton
@@ -783,7 +804,7 @@ function ResumeQuestionnaire(props) {
                 </StyledButton>
               </JustifyFlex>
             </Grid>
-            <Grid item md={12}>
+            <Grid item lg={12}>
               {renderContent()}
             </Grid>
           </Grid>
@@ -796,7 +817,7 @@ function ResumeQuestionnaire(props) {
           </FlexView>
         </BottomBox>
       </Grid>
-      <Grid item md={4}>
+      <Grid item sm={12} md={4}>
         <PdfViewer cvUrl={url} />
       </Grid>
       <MySnackBar
@@ -805,6 +826,11 @@ function ResumeQuestionnaire(props) {
         snackVariant={snack.snackColor}
         snackMsg={snack.snackMsg}
       />
+      {loading ? (
+        <CenteredLoader>
+          <Loader />
+        </CenteredLoader>
+      ) : null}
     </Grid>
   );
 }

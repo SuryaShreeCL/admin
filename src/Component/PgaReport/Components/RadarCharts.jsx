@@ -26,7 +26,7 @@ const RadarData = ({
     'Domain Fit',
     'Competence',
     'Impact and Interpersonal Skills',
-  ],
+  ].map(label => longToShortLabel(label)),
   datasets: [
     {
       label: 'Ideal Profile',
@@ -57,6 +57,9 @@ const RadarData = ({
     },
   ],
 });
+
+const longToShortLabel = label =>
+  label.length > 15 ? label.substr(0, 15) + '...' : label;
 
 const RadarOptions = {
   responsive: true,

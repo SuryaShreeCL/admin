@@ -154,4 +154,18 @@ export const useStyles = makeStyles(theme => ({
   checkBox: {
     color: '#343B89',
   },
+  fullWidth: {
+    width: '100%',
+  },
+  infoBorder: {
+    padding: '6px !important',
+    background: '#FFFFFF !important',
+    border: '1px solid #E7E7E7 !important',
+    borderRadius: '4px !important',
+    zIndex: 1,
+
+    '&:hover': {
+      background: 'rgba(24, 170, 231, 0.3) !important',
+    },
+  },
 }));

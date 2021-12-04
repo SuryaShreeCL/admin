@@ -1,6 +1,7 @@
 import { Button, ListItemText } from '@material-ui/core';
 import styled, { keyframes } from 'styled-components';
 import { ReactComponent as Pentagon } from '../../../Asset/icons/pentagon.svg';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 export const PageWrapper = styled.div`
   height: 90vh;
@@ -274,4 +275,88 @@ export const JustifyFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const CenteredLoader = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+`;
+
+export const PopoverBox = styled.div`
+  background: #ffffff;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #e7e7e7;
+  padding: 30px;
+  padding-right: 15px;
+  max-width: 740px;
+  height: 100%;
+  top: 14px;
+  right: -5px;
+  border-radius: 10px;
+  position: relative;
+
+  & #pad {
+    padding: 15px 0px;
+  }
+
+  &::before {
+    background: #ffffff;
+    content: '';
+    display: block;
+    position: absolute;
+    border: 8px solid transparent;
+    border-top: 0;
+    border-bottom: 16px solid #ffffff;
+    top: -1px;
+    right: 14px;
+  }
+`;
+
+export const ParagraphHead = styled.p`
+  font-size: 16px;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 10px;
+`;
+
+export const Paragraph = styled.p`
+  font-size: 14px;
+  color: #333333;
+  font-weight: ${({ fontWeight }) => fontWeight};
+  margin-bottom: 5px;
+`;
+
+export const Bolder = styled.b`
+  font-weight: ${({ fontWeight }) => fontWeight};
+`;
+
+export const CustomList = styled.ul`
+  li {
+    font-size: 14px;
+    color: #333333;
+    font-weight: 500;
+  }
+`;
+
+export const FloatImage = styled.img`
+  float: right;
+  position: relative;
+  width: 234px;
+  height: 216px;
+  right: 56px;
+`;
+
+export const PositionedArrow = styled(ExpandLessIcon)`
+  position: absolute;
+  right: 0px;
+  top: -27px;
+  font-size: 42px;
+  font-weight: normal;
+  color: #e7e7e796;
+  z-index: 0;
 `;

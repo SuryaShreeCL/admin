@@ -1,4 +1,5 @@
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, IconButton, Popper, Typography } from '@material-ui/core';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -8,16 +9,33 @@ import {
 import MySnackBar from '../MySnackBar';
 import RadarChart from './Components/RadarCharts';
 import {
+  Bolder,
   CardRightBox,
   CardText,
   CenteredIcon,
   CenteredText,
   ClickableBox,
+  CustomList,
+  FlexView,
+  FloatImage,
   PageWrapper,
+  Paragraph,
+  ParagraphHead,
+  PopoverBox,
+  PositionedArrow,
   SideIcon,
   StyledButton,
 } from './Components/StyledComponents';
 import { useStyles } from './Styles/Index';
+import GraphImage from '../../Asset/Images/RadarGraphImage.png';
+
+const popoverList = [
+  'Academic Fit',
+  'Practical Experience',
+  'Domain Fit for the Career Track you are exploring',
+  'Competencies and Skills',
+  'Impact and Interpersonal Skills',
+];
 
 function SpiderGraph(props) {
   const classes = useStyles();
@@ -30,6 +48,17 @@ function SpiderGraph(props) {
   });
   const [graphData, setGraphData] = useState([]);
   const [activeGraphIndex, setActiveGraphIndex] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMouseOver = event => {
+    event.preventDefault();
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMouseLeave = event => {
+    event.preventDefault();
+    setAnchorEl(null);
+  };
 
   const { spiderGraph, profileScoreStatus } = useSelector(
     state => state.PgaReportReducer
@@ -109,18 +138,66 @@ function SpiderGraph(props) {
     dispatch(profileScoreGenerate(studentId, productId, id));
   };
 
+  const renderPopover = () => {
+    return (
+      <PopoverBox>
+        <PositionedArrow />
+        <div>
+          <FloatImage src={GraphImage} />
+          <ParagraphHead>
+            {'How to read this Profile Fitment Spider Graph?'}
+          </ParagraphHead>
+          <div id={'pad'}>
+            <Paragraph fontWeight={600}>
+              {'5 Foundational Areas of Building Profile'}
+            </Paragraph>
+            <CustomList>
+              {popoverList.map(item => (
+                <li>{item}</li>
+              ))}
+            </CustomList>
+          </div>
+        </div>
+        <div>
+          <ParagraphHead>
+            {'There are 3 states of Profile Fit Levels you can exist'}
+          </ParagraphHead>
+          <Paragraph>
+            <Bolder fontWeight={600}>{'Ideal Profile: '}</Bolder>
+            {
+              'This is the ideal profile of a student who is the first pick for a Job role in this Career Track that you are exploring now.'
+            }
+          </Paragraph>
+          <Paragraph>
+            <Bolder fontWeight={600}>{'Your Present Profile: '}</Bolder>
+            {
+              'This spider graph indicates your present scale of profile for this Career Track that you are exploring now.'
+            }
+          </Paragraph>
+          <Paragraph>
+            <Bolder fontWeight={600}>{'After Profile Building: '}</Bolder>
+            {
+              'If you consciously start building your profile and work towards improving your Profile using CareerLabs Profile Builder Platform, this is where you will be within few months!'
+            }
+          </Paragraph>
+        </div>
+      </PopoverBox>
+    );
+  };
+
+  const open = Boolean(anchorEl);
   return (
     <PageWrapper>
       <Grid container className={classes.containerStyle}>
-        <Grid item md={8}>
+        <Grid item sm={8}>
           <Grid container spacing={2}>
-            <Grid item md={12}>
+            <Grid item md={12} className={classes.fullWidth}>
               <Typography variant={'h5'}>{'Spider Graph'}</Typography>
             </Grid>
             {graphData.length !== 0 &&
               graphData.map(
                 ({ addPGA, id, careerTrackTitle, color }, index) => (
-                  <Grid item md={4} lg={3}>
+                  <Grid item sm={4} md={3}>
                     <ClickableBox
                       onClick={
                         activeGraphIndex !== index &&
@@ -147,14 +224,33 @@ function SpiderGraph(props) {
           </Grid>
         </Grid>
         {graphData.length !== 0 && (
-          <Grid item md={4}>
+          <Grid item sm={4}>
             <Box className={classes.boxPadding}>
               <Grid container spacing={2} className={classes.rightContainerPad}>
-                <Grid item md={12}>
+                <Grid item xs={12}>
                   <Typography variant={'h6'}>{`${graphData.length !== 0 &&
                     `${graphData[activeGraphIndex]['careerTrackTitle']} | `}Spider Graph`}</Typography>
                 </Grid>
-                <Grid item md={12}>
+                <Grid xs={12}>
+                  <FlexView>
+                    <IconButton
+                      className={classes.infoBorder}
+                      onMouseOver={handleMouseOver}
+                      onMouseLeave={handleMouseLeave}
+                      disableRipple
+                    >
+                      <InfoOutlinedIcon fontSize={'small'} />
+                    </IconButton>
+                    <Popper
+                      open={open}
+                      anchorEl={anchorEl}
+                      placement={'bottom-end'}
+                    >
+                      {renderPopover()}
+                    </Popper>
+                  </FlexView>
+                </Grid>
+                <Grid item xs={12}>
                   {graphData.length !== 0 && (
                     <RadarChart
                       graphData={getGraphData(graphData[activeGraphIndex])}

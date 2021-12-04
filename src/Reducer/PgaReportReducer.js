@@ -14,7 +14,6 @@ const initialState = {
   generateCareerTracksStatus: null,
   careerTrackDetailsStatus: null,
   profileScoreStatus: null,
-  resumeResponse: null,
   resumePdfPath: null,
   resumePdfUrl: null,
   resumeQuestionnaire: null,
@@ -91,11 +90,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profileScoreStatus: action.payload,
-      };
-    case PGA_REPORT.getResumeResponse:
-      return {
-        ...state,
-        resumeResponse: action.payload,
       };
     case PGA_REPORT.getResumePdfPath:
       return {
