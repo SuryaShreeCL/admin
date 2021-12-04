@@ -3,13 +3,7 @@ import { Radar } from 'react-chartjs-2';
 
 const RadarChart = ({ graphData }) => {
   return (
-    graphData && (
-      <Radar
-        data={RadarData(graphData)}
-        graphData={graphData}
-        options={RadarOptions}
-      />
-    )
+    graphData && <Radar data={RadarData(graphData)} options={RadarOptions} />
   );
 };
 
