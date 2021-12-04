@@ -42,12 +42,16 @@ import {
   testListReducer,
   testDetailsReducer,
 } from '../Reducer/TestReducer';
-import { getAppVersionReducer, updateAppVersionReducer } from '../Reducer/AppVersionReducer';
+import {
+  getAppVersionReducer,
+  updateAppVersionReducer,
+} from '../Reducer/AppVersionReducer';
 
 // LMS
 import CourseMaterialReducer from '../Lms/Redux/Reducer/CourseMaterialReducer';
 import TestReducer from '../Lms/Redux/Reducer/TestReducer';
 import LmsStudentReducer from '../Lms/Redux/Reducer/LmsStudentReducer';
+import PgaReportReducer from '../Reducer/PgaReportReducer';
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -71,6 +75,7 @@ export default combineReducers({
   PgaReducer: PgaReducer,
   ProfileGapAnalysisReducer: ProfileGapAnalysisReducer,
   CRGReducer: CRGReducer,
+  PgaReportReducer: PgaReportReducer,
 
   //TESTIMONIAL
   testimonialCreateReducer,
