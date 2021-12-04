@@ -1,19 +1,10 @@
 import {
   Breadcrumbs,
   Button,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+  Grid, Typography
 } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import React from "react";
-import ReactExport from "react-export-excel";
 import { connect } from "react-redux";
 import {
   getCareerExpoReport,
@@ -23,15 +14,11 @@ import {
   viewMydetailsReport,
   viewTechTestReport,
   viewTermsAndConReports,
-  viewTestRating,
+  viewTestRating
 } from "../Actions/Reports";
 import BackButton from "../Asset/Images/backbutton.svg";
 import { downloadReport } from "../AsyncApiCall/Student";
 import { studentPath } from "./RoutePaths";
-import Loader from "./Utils/controls/Loader";
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 class ReportHome extends React.Component {
   constructor(props) {
     super(props);
@@ -46,16 +33,7 @@ class ReportHome extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.viewTermsAndConReports();
-    // this.props.viewCvReport();
-    // this.props.viewMarkSheetReport()
-    // this.props.viewMydetailsReport()
-    // this.props.viewTechTestReport("Technical Test Mechanical")
-    // this.props.viewTechTestReport("Technical Test Computer")
-    // this.props.viewTechTestReport("Technical Test Electronics")
-    // this.props.viewTestRating()
-    // this.props.viewDiagTestReport()
-    // this.props.getCareerExpoReport()
+
   }
 
   componentDidUpdate(prevProps, prevState) {
