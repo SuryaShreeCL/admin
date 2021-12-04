@@ -63,3 +63,26 @@ export const deleteInterestDetails = async (interestId) =>{
         return error.response && error.response.data.message ? error.response.data.message : error.message
     }
 }
+
+
+export const downloadReport = async (reportName) => {
+    let accessToken = window.sessionStorage.getItem("accessToken");
+    try {
+      const response = await axios.get(
+        URL + "/api/v1/students/" + reportName + "?export=true",
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType : 'blob'
+        }
+      );
+      return response;
+    } catch (error) {
+      return error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    }
+  };
+  
