@@ -37,6 +37,7 @@ import {
   StudentStepDetails,
   ObComplete,
   ObIncomplete,
+  IncompleteStatus
 } from "../../Actions/Student";
 import LockIcon from "@material-ui/icons/Lock";
 import QueryString from "querystring";
@@ -78,9 +79,9 @@ class StageBasedLayout extends Component {
       othersstatus: "",
       stagelist: [],
       comments: "",
-      tabIndex : "",
-      isLoading:false,
-      componentList : {
+      tabIndex: "",
+      isLoading: false,
+      componentList: {
         "Personal Information": "PersonalInfo",
         "Academic Information": "AcademicInfo",
         "Work Experience": "WorkExperience",
@@ -88,9 +89,9 @@ class StageBasedLayout extends Component {
         "Graduate Admission Test": "GraduateTestResult",
         "Tests and Survey": "TestAndSurvey",
         "OB Call Summary": "CallSummaryLayout",
-        "Uplaod CV" : "UploadCV",
+        "Uplaod CV": "UploadCV",
         Others: "AdmissionServices",
-      }
+      },
     };
   }
 
@@ -152,10 +153,12 @@ class StageBasedLayout extends Component {
             })}
           </Grid>
           <Grid item md={12}>
-            <TextField label="Add Comments" 
-            fullWidth 
-            value={this.state.comments}
-            onChange={(e) => this.setState({ comments: e.target.value })}/>
+            <TextField
+              label="Add Comments"
+              fullWidth
+              value={this.state.comments}
+              onChange={(e) => this.setState({ comments: e.target.value })}
+            />
           </Grid>
         </Grid>
       );
@@ -182,26 +185,42 @@ class StageBasedLayout extends Component {
   }
   handleIncomplete = () => {
     this.setState({
-      isLoading : true
-    })
+      isLoading: true,
+    });
     console.log("Incomplete");
     let obj = {
       comments: this.state.comments,
     };
     console.log(obj)
+    this.props.IncompleteStatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        if (response.status === 200) {
+          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
+          this.setState({
+            open: false,
+            isLoading : false
+          });
+        }
+      }
+    );
     this.props.ObIncomplete(
       this.props.match.params.studentId,
       this.props.match.params.productId,
       obj,
       (response) => {
         if (response.status === 200) {
-          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
+          this.props.getVariantStepsById(
+            this.props.match.params.productId +
+              `?studentId=${this.props.match.params.studentId}`
+          );
           this.setState({
             snackOpen: true,
             snackMsg: "Successfully Updated",
             snackVariant: "success",
             open: false,
-            isLoading : false
+            isLoading: false,
           });
         }
       }
@@ -209,21 +228,24 @@ class StageBasedLayout extends Component {
   };
   OnboardingComplete = () => {
     this.setState({
-      isLoading : true
-    })
+      isLoading: true,
+    });
     console.log("Complete");
     this.props.ObComplete(
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
         if (response.status === 200) {
-          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
+          this.props.getVariantStepsById(
+            this.props.match.params.productId +
+              `?studentId=${this.props.match.params.studentId}`
+          );
           this.setState({
             snackOpen: true,
             snackMsg: response.data,
             snackVariant: "success",
             open: false,
-            isLoading : false
+            isLoading: false,
           });
         }
       }
@@ -239,17 +261,17 @@ class StageBasedLayout extends Component {
             disabled={this.state.isLoading}
             onClick={() => this.handleIncomplete()}
           >
-             {this.state.isLoading && (
-                    <CircularProgress
-                      disableShrink
-                      style={{
-                        color: "#fff",
-                        width: 20,
-                        height: 20,
-                        marginRight: 10,
-                      }}
-                    />
-                  )}
+            {this.state.isLoading && (
+              <CircularProgress
+                disableShrink
+                style={{
+                  color: "#fff",
+                  width: 20,
+                  height: 20,
+                  marginRight: 10,
+                }}
+              />
+            )}
             Onboarding Incomplete
           </Button>
         );
@@ -261,17 +283,17 @@ class StageBasedLayout extends Component {
             disabled={this.state.isLoading}
             onClick={() => this.OnboardingComplete()}
           >
-             {this.state.isLoading && (
-                    <CircularProgress
-                      disableShrink
-                      style={{
-                        color: "#fff",
-                        width: 20,
-                        height: 20,
-                        marginRight: 10,
-                      }}
-                    />
-                  )}
+            {this.state.isLoading && (
+              <CircularProgress
+                disableShrink
+                style={{
+                  color: "#fff",
+                  width: 20,
+                  height: 20,
+                  marginRight: 10,
+                }}
+              />
+            )}
             Onboarding Complete
           </PrimaryButton>
         );
@@ -279,7 +301,10 @@ class StageBasedLayout extends Component {
     }
   }
   componentDidMount() {
-    this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`);
+    this.props.getVariantStepsById(
+      this.props.match.params.productId +
+        `?studentId=${this.props.match.params.studentId}`
+    );
     // this.props.StudentStepDetails(
     //   this.props.match.params.studentId,
     //   this.props.match.params.productId
@@ -295,9 +320,7 @@ class StageBasedLayout extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if (
-      this.props.variantStepList !== prevProps.variantStepList
-    ) {
+    if (this.props.variantStepList !== prevProps.variantStepList) {
       let stage = this.props.variantStepList.steps.find(
         (el) => el.stepName === "Onboarding"
       );
@@ -314,11 +337,20 @@ class StageBasedLayout extends Component {
       const { render } = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
-      console.log(render)
-      let rank = this.state.selectedItem !== null && this.state.selectedItem !== undefined ?  this.state.selectedItem.rank - 1 : 0
+      console.log(render);
+      let rank =
+        this.state.selectedItem !== null &&
+        this.state.selectedItem !== undefined
+          ? this.state.selectedItem.rank - 1
+          : 0;
       this.setState({
         productDetails: sortedArr,
-        selectedItem: render ? "CallSummaryLayout" : this.state.selectedItem !== null && this.state.selectedItem !== undefined ?  sortedArr[0].steps[rank] : sortedArr[0].steps[0],
+        selectedItem: render
+          ? "CallSummaryLayout"
+          : this.state.selectedItem !== null &&
+            this.state.selectedItem !== undefined
+          ? sortedArr[0].steps[rank]
+          : sortedArr[0].steps[0],
       });
 
       let incompletearr = stage.steps.filter(
@@ -327,29 +359,48 @@ class StageBasedLayout extends Component {
       this.setState({
         stagelist: incompletearr,
       });
-      let nvArr = stage.steps.filter(nvData => nvData.verificationStatus === "NotVerified")
-      let verifyArr = stage.steps.filter(nvData => nvData.verificationStatus === "Verified")
-      let mismatchArr = stage.steps.filter(nvData => nvData.verificationStatus === "Mismatched")
-      if(verifyArr.length > 0 && nvArr.length === 0 && mismatchArr.length === 0){
+      let nvArr = stage.steps.filter(
+        (nvData) => nvData.verificationStatus === "NotVerified"
+      );
+      let verifyArr = stage.steps.filter(
+        (nvData) => nvData.verificationStatus === "Verified"
+      );
+      let mismatchArr = stage.steps.filter(
+        (nvData) => nvData.verificationStatus === "Mismatched"
+      );
+      if (
+        verifyArr.length > 0 &&
+        nvArr.length === 0 &&
+        mismatchArr.length === 0
+      ) {
         return this.setState({
-                othersstatus: "Verified",
-              });
+          othersstatus: "Verified",
+        });
       }
-      if(nvArr.length > 0){
-      return this.setState({
-              othersstatus: "NotVerified",
-              stagelist : nvArr
-            });
-      }
-      if(nvArr.length === 0 && verifyArr.length > 0 && mismatchArr.length > 0){
+      if (nvArr.length > 0) {
         return this.setState({
-                othersstatus: "Mismatched",
-                stagelist : mismatchArr,
-              });
+          othersstatus: "NotVerified",
+          stagelist: nvArr,
+        });
+      }
+      if (
+        nvArr.length === 0 &&
+        verifyArr.length > 0 &&
+        mismatchArr.length > 0
+      ) {
+        return this.setState({
+          othersstatus: "Mismatched",
+          stagelist: mismatchArr,
+        });
       }
     }
-    if(this.props.StudentStepDetailsList !== prevProps.StudentStepDetailsList){
-      this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
+    if (
+      this.props.StudentStepDetailsList !== prevProps.StudentStepDetailsList
+    ) {
+      this.props.getVariantStepsById(
+        this.props.match.params.productId +
+          `?studentId=${this.props.match.params.studentId}`
+      );
     }
   }
   handleOBComplete = () => {
@@ -358,7 +409,10 @@ class StageBasedLayout extends Component {
     });
   };
   renderbutton() {
-    if (this.state.tabCount === 0 && typeof this.state.selectedItem === "object") {
+    if (
+      this.state.tabCount === 0 &&
+      typeof this.state.selectedItem === "object"
+    ) {
       return (
         <>
           <Grid item md={12}>
@@ -439,7 +493,7 @@ class StageBasedLayout extends Component {
       "Graduate Admission Test": "GraduateTestResult",
       "Tests and Survey": "TestAndSurvey",
       "OB Call Summary": "CallSummaryLayout",
-      "Upload CV" : "UploadCV",
+      "Upload CV": "UploadCV",
       Others: "AdmissionServices",
     };
     var obj = {
@@ -451,11 +505,13 @@ class StageBasedLayout extends Component {
       TestAndSurvey: TestAndSurvey,
       CallSummaryLayout: CallSummaryLayout,
       Others: AdmissionServices,
-      UploadCV : UploadCV
+      UploadCV: UploadCV,
     };
     var selectedComponent =
-      this.state.selectedItem !== null && typeof this.state.selectedItem === "object" ?  
-      componentList[this.state.selectedItem.stepName] : componentList[this.state.selectedItem] ;
+      this.state.selectedItem !== null &&
+      typeof this.state.selectedItem === "object"
+        ? componentList[this.state.selectedItem.stepName]
+        : componentList[this.state.selectedItem];
     var Page = obj[selectedComponent];
     console.log("state...........", this.state);
     console.log("props..................", this.props);
@@ -483,234 +539,246 @@ class StageBasedLayout extends Component {
             </Typography>
           </Breadcrumbs>
         </div>
-          
-          {this.state.tabCount === 0 ?
-                  <Grid container>
-             <Grid item md={8}>
-             <ThemedTabs
-               value={this.state.tabCount}
-               textColor={"inherit"}
-               onChange={(e, value) => this.setState({ tabCount: value })}
-               aria-label="ant example"
-               variant="scrollable"
-             >
-               {this.state.productDetails !== null &&
-                 this.state.productDetails.map((item, index) => {
-                   return (
-                     <ThemedTab
-                       label={item.stepName}
-                       disabled={item.disabled}
-                       icon={
-                         item.disabled ? (
-                           <LockIcon className={"icon_style"} />
-                         ) : null
-                       }
-                     />
-                   );
-                 })}
-             </ThemedTabs>
-           </Grid>
-             <Grid item md={4} align="right" className={"button_grid"}>
-             <PrimaryButton
-               color={"primary"}
-               variant={"contained"}
-               disabled={this.props.variantStepList.adminObComplete}
-               onClick={() => this.handleOBComplete()}
-             >
-               Onboarding Complete
-             </PrimaryButton>
-             <PrimaryButton
-               color={"primary"}
-               variant={"outlined"}
-               className={"flex_button"}
-             >
-               Audit Trail
-             </PrimaryButton>
-           </Grid>
-           <Grid item md={12}>
-           {this.state.tabCount === 0 && (
-             <ThemedTabs
-               value={this.state.selectedItem}
-               variant="scrollable"
-               textColor={"inherit"}
-               onChange={(e, value) => this.setState({ selectedItem: value })}
-               aria-label="ant example"
-             >
-               {this.state.productDetails !== null &&
-                 this.state.productDetails
-                   .filter((it, ix) => ix === this.state.tabCount)
-                   .map((item, index) => {
-                     return item.steps.map((stepItem, stepIndex) => {
-                       return (
-                         <ThemedTab
-                           value={stepItem}
-                           label={stepItem.stepName}
-                           icon={
-                             <Dot
-                               className={"icon_style"}
-                               color={this.handleStatus(stepItem)}
-                             />
-                           }
-                         />
-                       );
-                     });
-                   })}
-               <ThemedTab
-                 textColor="primary"
-                 value={"CallSummaryLayout"}
-                 label={"Ob Call Summary"}
-               />
 
-               <ThemedTab
-                 textColor="primary"
-                 value={"Others"}
-                 label={"Allocate Mentor"}
-                 disabled={
-                   this.state.othersstatus === "NotVerified" ||
-                   this.state.othersstatus === "Mismatched"
-                 }
-                 icon={
-                   this.state.othersstatus === "NotVerified" ||
-                   this.state.othersstatus === "Mismatched" ? (
-                     <LockIcon className={"icon_style"} />
-                   ) : null
-                 }
-               />
-             </ThemedTabs>
-           )}
-         </Grid>
-         <Grid item md={12}>
-           <Grid container>
-             <Grid item md={12} className={"component_grid"}>
-               {Page !== undefined &&
-                 this.state.tabCount === 0 &&
-                 this.state.selectedItem !== "Others" && (
-                   <Page {...this.props} />
-                 )}
-               {this.state.tabCount === 0 &&
-                 this.state.selectedItem === "Others" && (
-                   <AdmissionServices {...this.props} />
-                 )}
-               {this.state.tabCount === 0 &&
-                 this.state.selectedItem === "CallSummaryLayout" && (
-                   <CallSummaryLayout hasBreadCrumbs={false} {...this.props} />
-                 )}
-               {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
-               {this.state.tabCount === 1 && (
-                 <ProfileGapRoot {...this.props} />
-               )}
-             </Grid>
-             {this.state.tabCount === 0 && this.renderbutton()}
-           </Grid>
-         </Grid>
-         </Grid>
-         : 
-         <Grid container>
-         <Grid item md={12}>
-         <ThemedTabs
-           value={this.state.tabCount}
-           textColor={"inherit"}
-           onChange={(e, value) => this.setState({ tabCount: value })}
-           aria-label="ant example"
-           variant="scrollable"
-         >
-           {this.state.productDetails !== null &&
-             this.state.productDetails.map((item, index) => {
-               return (
-                 <ThemedTab
-                   label={item.stepName}
-                   disabled={item.disabled}
-                   icon={
-                     item.disabled ? (
-                       <LockIcon className={"icon_style"} />
-                     ) : null
-                   }
-                 />
-               );
-             })}
-         </ThemedTabs>
-       </Grid>
-       <Grid item md={12}>
-       {this.state.tabCount === 0 && (
-         <ThemedTabs
-           value={this.state.selectedItem}
-           variant="scrollable"
-           textColor={"inherit"}
-           onChange={(e, value) => this.setState({ selectedItem: value })}
-           aria-label="ant example"
-         >
-           {this.state.productDetails !== null &&
-             this.state.productDetails
-               .filter((it, ix) => ix === this.state.tabCount)
-               .map((item, index) => {
-                 return item.steps.map((stepItem, stepIndex) => {
-                  return (
-                     <ThemedTab
-                       value={stepItem}
-                       label={stepItem.stepName}
-                       icon={
-                         <Dot
-                           className={"icon_style"}
-                           color={this.handleStatus(stepItem)}
-                         />
-                       }
-                     />
-                   );
-                 });
-               })}
-           <ThemedTab
-             textColor="primary"
-             value={"CallSummaryLayout"}
-             label={"Ob Call Summary"}
-           />
+        {this.state.tabCount === 0 ? (
+          <Grid container>
+            <Grid item md={8}>
+              <ThemedTabs
+                value={this.state.tabCount}
+                textColor={"inherit"}
+                onChange={(e, value) => this.setState({ tabCount: value })}
+                aria-label="ant example"
+                variant="scrollable"
+              >
+                {this.state.productDetails !== null &&
+                  this.state.productDetails.map((item, index) => {
+                    return (
+                      <ThemedTab
+                        label={item.stepName}
+                        disabled={item.disabled}
+                        icon={
+                          item.disabled ? (
+                            <LockIcon className={"icon_style"} />
+                          ) : null
+                        }
+                      />
+                    );
+                  })}
+              </ThemedTabs>
+            </Grid>
+            <Grid item md={4} align="right" className={"button_grid"}>
+              <PrimaryButton
+                color={"primary"}
+                variant={"contained"}
+                disabled={this.props.variantStepList.adminObComplete}
+                onClick={() => this.handleOBComplete()}
+              >
+                Onboarding Complete
+              </PrimaryButton>
+              <PrimaryButton
+                color={"primary"}
+                variant={"outlined"}
+                className={"flex_button"}
+              >
+                Audit Trail
+              </PrimaryButton>
+            </Grid>
+            <Grid item md={12}>
+              {this.state.tabCount === 0 && (
+                <ThemedTabs
+                  value={this.state.selectedItem}
+                  variant="scrollable"
+                  textColor={"inherit"}
+                  onChange={(e, value) =>
+                    this.setState({ selectedItem: value })
+                  }
+                  aria-label="ant example"
+                >
+                  {this.state.productDetails !== null &&
+                    this.state.productDetails
+                      .filter((it, ix) => ix === this.state.tabCount)
+                      .map((item, index) => {
+                        return item.steps.map((stepItem, stepIndex) => {
+                          return (
+                            <ThemedTab
+                              value={stepItem}
+                              label={stepItem.stepName}
+                              icon={
+                                <Dot
+                                  className={"icon_style"}
+                                  color={this.handleStatus(stepItem)}
+                                />
+                              }
+                            />
+                          );
+                        });
+                      })}
+                  <ThemedTab
+                    textColor="primary"
+                    value={"CallSummaryLayout"}
+                    label={"Ob Call Summary"}
+                  />
 
-           <ThemedTab
-             textColor="primary"
-             value={"Others"}
-             label={"Allocate Mentor"}
-             disabled={
-               this.state.othersstatus === "NotVerified" ||
-               this.state.othersstatus === "Mismatched"
-             }
-             icon={
-               this.state.othersstatus === "NotVerified" ||
-               this.state.othersstatus === "Mismatched" ? (
-                 <LockIcon className={"icon_style"} />
-               ) : null
-             }
-           />
-         </ThemedTabs>
-       )}
-     </Grid>
-     <Grid item md={12}>
-       <Grid container>
-         <Grid item md={12} className={"component_grid"}>
-           {Page !== undefined &&
-             this.state.tabCount === 0 &&
-             this.state.selectedItem !== "Others" && (
-               <Page {...this.props} />
-             )}
-           {this.state.tabCount === 0 &&
-             this.state.selectedItem === "Others" && (
-               <AdmissionServices {...this.props} />
-             )}
-           {this.state.tabCount === 0 &&
-             this.state.selectedItem === "CallSummaryLayout" && (
-               <CallSummaryLayout hasBreadCrumbs={false} {...this.props} />
-             )}
-           {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
-           {this.state.tabCount === 1 && (
-             <ProfileGapRoot {...this.props} />
-           )}
-         </Grid>
-         {this.state.tabCount === 0 && this.renderbutton()}
-       </Grid>
-     </Grid>
-     </Grid>
-          }
+                  <ThemedTab
+                    textColor="primary"
+                    value={"Others"}
+                    label={"Allocate Mentor"}
+                    disabled={
+                      this.state.othersstatus === "NotVerified" ||
+                      this.state.othersstatus === "Mismatched" ||
+                      this.props.variantStepList.adminObComplete === null
+                    }
+                    icon={
+                      this.state.othersstatus === "NotVerified" ||
+                      this.state.othersstatus === "Mismatched" ||
+                      this.props.variantStepList.adminObComplete === null ? (
+                        <LockIcon className={"icon_style"} />
+                      ) : null
+                    }
+                  />
+                </ThemedTabs>
+              )}
+            </Grid>
+            <Grid item md={12}>
+              <Grid container>
+                <Grid item md={12} className={"component_grid"}>
+                  {Page !== undefined &&
+                    this.state.tabCount === 0 &&
+                    this.state.selectedItem !== "Others" && (
+                      <Page {...this.props} />
+                    )}
+                  {this.state.tabCount === 0 &&
+                    this.state.selectedItem === "Others" && (
+                      <AdmissionServices {...this.props} />
+                    )}
+                  {this.state.tabCount === 0 &&
+                    this.state.selectedItem === "CallSummaryLayout" && (
+                      <CallSummaryLayout
+                        hasBreadCrumbs={false}
+                        {...this.props}
+                      />
+                    )}
+                  {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
+                  {this.state.tabCount === 1 && (
+                    <ProfileGapRoot {...this.props} />
+                  )}
+                </Grid>
+                {this.state.tabCount === 0 && this.renderbutton()}
+              </Grid>
+            </Grid>
+          </Grid>
+        ) : (
+          <Grid container>
+            <Grid item md={12}>
+              <ThemedTabs
+                value={this.state.tabCount}
+                textColor={"inherit"}
+                onChange={(e, value) => this.setState({ tabCount: value })}
+                aria-label="ant example"
+                variant="scrollable"
+              >
+                {this.state.productDetails !== null &&
+                  this.state.productDetails.map((item, index) => {
+                    return (
+                      <ThemedTab
+                        label={item.stepName}
+                        disabled={item.disabled}
+                        icon={
+                          item.disabled ? (
+                            <LockIcon className={"icon_style"} />
+                          ) : null
+                        }
+                      />
+                    );
+                  })}
+              </ThemedTabs>
+            </Grid>
+            <Grid item md={12}>
+              {this.state.tabCount === 0 && (
+                <ThemedTabs
+                  value={this.state.selectedItem}
+                  variant="scrollable"
+                  textColor={"inherit"}
+                  onChange={(e, value) =>
+                    this.setState({ selectedItem: value })
+                  }
+                  aria-label="ant example"
+                >
+                  {this.state.productDetails !== null &&
+                    this.state.productDetails
+                      .filter((it, ix) => ix === this.state.tabCount)
+                      .map((item, index) => {
+                        return item.steps.map((stepItem, stepIndex) => {
+                          return (
+                            <ThemedTab
+                              value={stepItem}
+                              label={stepItem.stepName}
+                              icon={
+                                <Dot
+                                  className={"icon_style"}
+                                  color={this.handleStatus(stepItem)}
+                                />
+                              }
+                            />
+                          );
+                        });
+                      })}
+                  <ThemedTab
+                    textColor="primary"
+                    value={"CallSummaryLayout"}
+                    label={"Ob Call Summary"}
+                  />
+
+                  <ThemedTab
+                    textColor="primary"
+                    value={"Others"}
+                    label={"Allocate Mentor"}
+                    disabled={
+                      this.state.othersstatus === "NotVerified" ||
+                      this.state.othersstatus === "Mismatched"
+                    }
+                    icon={
+                      this.state.othersstatus === "NotVerified" ||
+                      this.state.othersstatus === "Mismatched" ? (
+                        <LockIcon className={"icon_style"} />
+                      ) : null
+                    }
+                  />
+                </ThemedTabs>
+              )}
+            </Grid>
+            <Grid item md={12}>
+              <Grid container>
+                <Grid item md={12} className={"component_grid"}>
+                  {Page !== undefined &&
+                    this.state.tabCount === 0 &&
+                    this.state.selectedItem !== "Others" && (
+                      <Page {...this.props} />
+                    )}
+                  {this.state.tabCount === 0 &&
+                    this.state.selectedItem === "Others" && (
+                      <AdmissionServices {...this.props} />
+                    )}
+                  {this.state.tabCount === 0 &&
+                    this.state.selectedItem === "CallSummaryLayout" && (
+                      <CallSummaryLayout
+                        hasBreadCrumbs={false}
+                        {...this.props}
+                      />
+                    )}
+                  {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
+                  {this.state.tabCount === 1 && (
+                    <ProfileGapRoot {...this.props} />
+                  )}
+                </Grid>
+                {this.state.tabCount === 0 && this.renderbutton()}
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
         <RevampDialog
           open={this.state.open}
-          onClose={() => this.setState({ open: false,isLoading:false })}
+          onClose={() => this.setState({ open: false, isLoading: false })}
           action={this.renderdialogaction()}
           {...this.props}
         >
@@ -745,4 +813,5 @@ export default connect(mapStateToProps, {
   StudentStepDetails,
   ObComplete,
   ObIncomplete,
+  IncompleteStatus
 })(withStyles(useStyles)(StageBasedLayout));

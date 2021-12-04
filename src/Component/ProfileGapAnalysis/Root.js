@@ -241,6 +241,21 @@ class ProfileGapRoot extends Component {
       handler: () => this.handleUgClick(),
     },
     {
+      label: "Diploma",
+      value: "diplomaForm",
+      handler: () => this.handleDiplomaClick(),
+    },
+    {
+      label: "Undergraduate",
+      value: "ugForm",
+      handler: () => this.handleUgClick(),
+    },
+    {
+      label: "Postgraduate",
+      value: "pgForm",
+      handler: () => this.handlePgClick(),
+    },
+    {
       label: 'Postgraduate',
       value: 'pgForm',
       handler: () => this.handlePgClick(),
@@ -336,10 +351,13 @@ class ProfileGapRoot extends Component {
                 />
                 <ThemeProvider theme={this.tabTheme}>
                   <Tab
-                    style={{ minWidth: '135px', paddingRight: '0px' }}
-                    label='Academic Details'
-                    value={'academicDetails'}
-                    onMouseOver={e => {
+                    style={{ minWidth: "135px", paddingRight: "0px" }}
+                    label="Academic Details"
+                    value={"academicDetails"}
+                    // onMouseOver={(e) => {
+                    //   this.menuOpen(e);
+                    // }}
+                    onClick={(e) => {
                       this.menuOpen(e);
                     }}
                     icon={
@@ -352,10 +370,13 @@ class ProfileGapRoot extends Component {
                   />
 
                   <Tab
-                    style={{ minWidth: '135px', paddingRight: '0px' }}
-                    label='PGA Report'
-                    value={'pgaReport'}
-                    onMouseEnter={e => {
+                    style={{ minWidth: "135px", paddingRight: "0px" }}
+                    label="PGA Report"
+                    value={"pgaReport"}
+                    // onMouseEnter={(e) => {
+                    //   this.pgaMenuOpen(e);
+                    // }}
+                    onClick={(e) => {
                       this.pgaMenuOpen(e);
                     }}
                     icon={

@@ -28,7 +28,7 @@ function SelectSchool(props) {
   const [region, setRegion] = useState([]);
   const [searchSchoolList, setSearchSchoolList] = useState([]);
   const [selectedSchoolList, setSelectedSchoolList] = useState([]);
-  const [ countryList, setCountryList ] = useState([])
+  const [countryList, setCountryList] = useState([]);
   const [snack, setSnack] = useState({
     snackOpen: false,
     snackColor: "",
@@ -72,18 +72,22 @@ function SelectSchool(props) {
       title: "B School Name",
       field: "university.name",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.university.name : "",
+        renderType === "row"
+          ? rowData.university && rowData.university.name
+          : "",
     },
   ];
 
   const classes = useStyles();
 
   const getAndSetSearchSchoolList = (data) => {
-    searchSchool(props.match.params.productId,"BSCHOOL", data).then((response) => {
-      if (response.status === 200) {
-        setSearchSchoolList(response.data.data);
+    searchSchool(props.match.params.productId, "BSCHOOL", data).then(
+      (response) => {
+        if (response.status === 200) {
+          setSearchSchoolList(response.data.data);
+        }
       }
-    });
+    );
   };
 
   const getAndSetAddedSchool = () => {
@@ -99,12 +103,11 @@ function SelectSchool(props) {
 
   useEffect(() => {
     // dispatch(viewCountryForSelect());
-    getPlanBCountry()
-    .then(response=>{
-      if(response.status === 200){
-        setCountryList(response.data.data)
+    getPlanBCountry().then((response) => {
+      if (response.status === 200) {
+        setCountryList(response.data.data);
       }
-    })
+    });
     getSchoolRegion(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setRegion(response.data.data);
@@ -227,7 +230,9 @@ function SelectSchool(props) {
               <Grid item md={10}>
                 <Grid container spacing={2}>
                   <Grid item md={12}>
-                    <Typography variant={"h5"}>Top Schools By Regions</Typography>
+                    <Typography variant={"h5"}>
+                      Top Schools By Regions
+                    </Typography>
                   </Grid>
 
                   <Grid item md={6}>

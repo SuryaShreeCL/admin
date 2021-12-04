@@ -4,7 +4,10 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, TextField, Typography,Button
+  TableRow,
+  TextField,
+  Typography,
+  Button,
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -12,18 +15,23 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { ExpandMore } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { getAllMentors,deletementor } from "../../Actions/AdminAction";
-import { getmentor, getproductdetails, updateallocatementor, updatementor } from '../../Actions/MentorAction';
-import { getStudentsById } from '../../Actions/Student';
+import { connect } from "react-redux";
+import { getAllMentors, deletementor } from "../../Actions/AdminAction";
+import {
+  getmentor,
+  getproductdetails,
+  updateallocatementor,
+  updatementor,
+} from "../../Actions/MentorAction";
+import { getStudentsById } from "../../Actions/Student";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import { isEmptyString } from "../Validation";
 import { StudentStepDetails } from "../../Actions/Student";
-import { getdashboarddetails } from '../../Actions/ProfileGapAction';
-import { getVariantStepsById } from '../../Actions/ProductAction'
-import '../../Asset/All.css'
-import DeleteIcon from '@material-ui/icons/Delete';
+import { getdashboarddetails } from "../../Actions/ProfileGapAction";
+import { getVariantStepsById } from "../../Actions/ProductAction";
+import "../../Asset/All.css";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { isEmptyObject } from "jquery";
 class AdmissionServices extends Component {
   constructor() {
@@ -34,14 +42,14 @@ class AdmissionServices extends Component {
       show: false,
       mentorErr: "",
       mentor: {},
-      enrollmentdate : "",
-      snackmsg :"",
-      snackvariant : "",
-      snackopen : false,
-      mentorname : "",
-      buttonstatus : false,
-      verifydetail : [],
-      mentordetails : {}
+      enrollmentdate: "",
+      snackmsg: "",
+      snackvariant: "",
+      snackopen: false,
+      mentorname: "",
+      buttonstatus: false,
+      verifydetail: [],
+      mentordetails: {},
     };
   }
   handleClick(e) {
@@ -51,136 +59,179 @@ class AdmissionServices extends Component {
   allocate = () => {
     isEmptyString(this.state.mentor)
       ? this.setState({ mentorErr: "Field Required" })
-      : this.setState({ mentorErr: ""});
-      if(this.state.mentor !== null && this.state.mentor !== undefined){
-        let obj = {
-          "id": this.state.mentor.id,
-          "name": this.state.mentor.name,
-          "department":this.state.mentor.department,
-          "calendarId":this.state.mentor.calendarId
+      : this.setState({ mentorErr: "" });
+    if (this.state.mentor !== null && this.state.mentor !== undefined) {
+      let obj = {
+        id: this.state.mentor.id,
+        name: this.state.mentor.name,
+        department: this.state.mentor.department,
+        calendarId: this.state.mentor.calendarId,
+      };
+      console.log(obj);
+      this.props.updatementor(
+        this.props.match.params.studentId,
+        this.props.match.params.productId,
+        obj,
+        (response) => {
+          if (response.status === 200) {
+            this.props.StudentStepDetails(
+              this.props.match.params.studentId,
+              this.props.match.params.productId
+            );
+            this.props.getVariantStepsById(
+              this.props.match.params.productId +
+                `?studentId=${this.props.match.params.studentId}`
+            );
+            this.props.getmentor(
+              this.props.match.params.studentId,
+              this.props.match.params.productId,
+              (response) => {
+                console.log(response);
+                if (response.data.success === true) {
+                  this.setState({
+                    mentor: response.data.data,
+                  });
+                }
+                if (response.data.success === false) {
+                  this.setState({
+                    mentor: {},
+                  });
+                }
+              }
+            );
           }
-          console.log(obj)
-      this.props.updatementor( this.props.match.params.studentId,this.props.match.params.productId,obj,(response => {
-        if(response.status === 200){
-          this.props.StudentStepDetails(this.props.match.params.studentId,this.props.match.params.productId)
-          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`);
-          this.props.getmentor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
-            console.log(response)
-            if(response.data.success === true){
-              this.setState({
-              mentor : response.data.data
-            })
-           }
-           if(response.data.success === false) {
-            this.setState({
-              mentor : {}
-            })
-           }
-          }))
         }
-      }))
-      this.setState({ 
-          show: false,
-          snackmsg : "Updated Successfully",
-          snackvariant : "success",
-          snackopen : true
-      })
-      }
+      );
+      this.setState({
+        show: false,
+        snackmsg: "Updated Successfully",
+        snackvariant: "success",
+        snackopen: true,
+      });
+    }
   };
- componentDidUpdate(prevProps,prevState){
-   if(this.props.getmentorList !== prevProps.getmentorList){
-     if(this.props.getmentorList !== null || !isEmptyString(this.props.getmentorList)){
-       if(this.props.getmentorList.success === true){
-        this.setState({
-          mentor : this.props.getmentorList.data
-        })
-       }
-     }
-   }
-   if(this.state.verifydetail !== prevState.verifydetail){
-     for(let i=0; this.state.verifydetail[i] && this.state.verifydetail[i].status === "NotVerified";i++){
-       this.setState({
-         buttonstatus : true
-       })
-     }
-   }
- }
-  componentDidMount(){
-    this.props.getAllMentors()
-    this.props.getStudentsById(this.props.match.params.studentId)
-    this.props.getproductdetails(this.props.match.params.studentId)
-    if(this.props.studentDetails.mentor !== null){
-        this.setState({
-            mentorname : this.props.studentDetails.mentor
-        })
-    }
-    this.props.getmentor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
-      console.log(response)
-     if(response.data.success === true){
-      this.setState({
-        mentor : response.data
-      })
-     }
-     if(response.data.success === false) {
-      this.setState({
-        mentor : {}
-      })
-     }
-    }))
-    this.props.getdashboarddetails(this.props.match.params.studentId,this.props.match.params.productId,(response => {
-      console.log(response.data)
-      if(response.status === 200)
-      {
-      for(let i=0; i < response.data.onboardingVerificationStatus.length ;i++){
-        console.log(response.data.onboardingVerificationStatus[i].status)
-       if(response.data.onboardingVerificationStatus[i] && response.data.onboardingVerificationStatus[i].status === "NotVerified"){
-       return (
-        this.setState({
-          buttonstatus : true
-        })
-       )
-       }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.getmentorList !== prevProps.getmentorList) {
+      if (
+        this.props.getmentorList !== null ||
+        !isEmptyString(this.props.getmentorList)
+      ) {
+        if (this.props.getmentorList.success === true) {
+          this.setState({
+            mentor: this.props.getmentorList.data,
+          });
+        }
       }
     }
-    else { 
-      this.setState({
-        snackmsg : "Something Went Wrong",
-        snackvariant : "error",
-        snackopen : true,
-        buttonstatus : true
-      })
+    if (this.state.verifydetail !== prevState.verifydetail) {
+      for (
+        let i = 0;
+        this.state.verifydetail[i] &&
+        this.state.verifydetail[i].status === "NotVerified";
+        i++
+      ) {
+        this.setState({
+          buttonstatus: true,
+        });
+      }
     }
-    }))
   }
-  handleallocate=()=>{
-    this.setState({ show: true })
+  componentDidMount() {
+    this.props.getAllMentors();
+    this.props.getStudentsById(this.props.match.params.studentId);
+    this.props.getproductdetails(this.props.match.params.studentId);
+    if (this.props.studentDetails.mentor !== null) {
+      this.setState({
+        mentorname: this.props.studentDetails.mentor,
+      });
+    }
+    this.props.getmentor(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+        if (response.data.success === true) {
+          this.setState({
+            mentor: response.data,
+          });
+        }
+        if (response.data.success === false) {
+          this.setState({
+            mentor: {},
+          });
+        }
+      }
+    );
+    this.props.getdashboarddetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          for (
+            let i = 0;
+            i < response.data.onboardingVerificationStatus.length;
+            i++
+          ) {
+            console.log(response.data.onboardingVerificationStatus[i].status);
+            if (
+              response.data.onboardingVerificationStatus[i] &&
+              response.data.onboardingVerificationStatus[i].status ===
+                "NotVerified"
+            ) {
+              return this.setState({
+                buttonstatus: true,
+              });
+            }
+          }
+        } else {
+          this.setState({
+            snackmsg: "Something Went Wrong",
+            snackvariant: "error",
+            snackopen: true,
+            buttonstatus: true,
+          });
+        }
+      }
+    );
   }
+  handleallocate = () => {
+    this.setState({ show: true });
+  };
   handleDelete = () => {
-    this.props.deletementor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
-      if(response.status === 200){
-        this.setState({
-          snackMsg : response.message,
-          snackOpen : true,
-          snackVariant : "success"
-        })
-        this.props.getmentor(this.props.match.params.studentId,this.props.match.params.productId,(response => {
-         if(response.data.success === true){
+    this.props.deletementor(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        if (response.status === 200) {
           this.setState({
-            mentor : response.data
-          })
-         }
-         if(response.data.success === false) {
-          this.setState({
-            mentor : {}
-          })
-         }
-        }))
+            snackMsg: response.message,
+            snackOpen: true,
+            snackVariant: "success",
+          });
+          this.props.getmentor(
+            this.props.match.params.studentId,
+            this.props.match.params.productId,
+            (response) => {
+              if (response.data.success === true) {
+                this.setState({
+                  mentor: response.data,
+                });
+              }
+              if (response.data.success === false) {
+                this.setState({
+                  mentor: {},
+                });
+              }
+            }
+          );
+        }
       }
-    }))
-  }
+    );
+  };
   render() {
-      console.log(this.props)
-      console.log(this.state)
+    console.log(this.props);
+    console.log(this.state);
     return (
       <div style={{ padding: 25 }}>
         {this.props.getproductdetailsList.length !== 0 &&
@@ -662,7 +713,9 @@ class AdmissionServices extends Component {
         </TableContainer>
         <div>
           <Typography className={"blue_heading"}>Mentor Details</Typography>
-          {this.state.mentor === null || isEmptyString(this.state.mentor) || isEmptyObject(this.state.mentor) ? (
+          {this.state.mentor === null ||
+          isEmptyString(this.state.mentor) ||
+          isEmptyObject(this.state.mentor) ? (
             <PrimaryButton
               disabled={this.state.buttonstatus}
               variant="outlined"
@@ -672,7 +725,7 @@ class AdmissionServices extends Component {
             >
               Allocate Mentor
             </PrimaryButton>
-           ) : (
+          ) : (
             <Table>
               <TableHead>
                 <TableCell>Role</TableCell>
@@ -686,10 +739,17 @@ class AdmissionServices extends Component {
                 <TableCell>{this.state.mentor.name}</TableCell>
                 <TableCell>Admin</TableCell>
                 <TableCell>07/10/2021 12:30:34 AM</TableCell>
-                <TableCell>{<DeleteIcon color={"secondary"} onClick={(e)=>this.handleDelete(e)} />}</TableCell>
+                <TableCell>
+                  {
+                    <DeleteIcon
+                      color={"secondary"}
+                      onClick={(e) => this.handleDelete(e)}
+                    />
+                  }
+                </TableCell>
               </TableBody>
             </Table>
-          )} 
+          )}
         </div>
         <div
           style={{
@@ -770,7 +830,11 @@ class AdmissionServices extends Component {
               >
                 <PrimaryButton
                   style={{ textTransform: "none" }}
-                  disabled={this.state.mentor === null || isEmptyString(this.state.mentor) || isEmptyObject(this.state.mentor)}
+                  disabled={
+                    this.state.mentor === null ||
+                    isEmptyString(this.state.mentor) ||
+                    isEmptyObject(this.state.mentor)
+                  }
                   variant={"contained"}
                   color={"primary"}
                   onClick={() => this.allocate()}
@@ -792,19 +856,29 @@ class AdmissionServices extends Component {
   }
 }
 const mapStateToProps = (state) => {
-    return {
-        mentorList : state.AdminReducer.mentorList,
-        studentDetails : state.StudentReducer.StudentList,
-        getstudentMappingList : state.MentorReducer.getstudentMapping,
-        getproductdetailsList : state.MentorReducer.getproductdetails,
-        updateallocatementorList : state.MentorReducer.updateallocatementor,
-        getmentorList : state.MentorReducer.getmentor,
-        getdashboarddetailsList : state.ProfileGapAnalysisReducer.getdashboarddetails,
-        StudentStepDetailsList : state.StudentReducer.StudentStepDetails,
-        variantStepList : state.ProductReducer.variantStepList
-    };
+  return {
+    mentorList: state.AdminReducer.mentorList,
+    studentDetails: state.StudentReducer.StudentList,
+    getstudentMappingList: state.MentorReducer.getstudentMapping,
+    getproductdetailsList: state.MentorReducer.getproductdetails,
+    updateallocatementorList: state.MentorReducer.updateallocatementor,
+    getmentorList: state.MentorReducer.getmentor,
+    getdashboarddetailsList:
+      state.ProfileGapAnalysisReducer.getdashboarddetails,
+    StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
+    variantStepList: state.ProductReducer.variantStepList,
   };
-  
-  export default connect(mapStateToProps, {
-    getAllMentors,getStudentsById,getproductdetails,getVariantStepsById,updateallocatementor,getmentor,updatementor,getdashboarddetails,StudentStepDetails,deletementor
-  })(AdmissionServices);
+};
+
+export default connect(mapStateToProps, {
+  getAllMentors,
+  getStudentsById,
+  getproductdetails,
+  getVariantStepsById,
+  updateallocatementor,
+  getmentor,
+  updatementor,
+  getdashboarddetails,
+  StudentStepDetails,
+  deletementor,
+})(AdmissionServices);

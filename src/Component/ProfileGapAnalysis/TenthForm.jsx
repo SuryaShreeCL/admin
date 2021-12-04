@@ -73,20 +73,22 @@ function TenthForm(props) {
     {
       title: "Sequence No",
       field: "",
-      cellStyle : {
-        textAlign : "center"
+      cellStyle: {
+        textAlign: "center",
       },
       render: (rowData, renderType) =>
-      renderType === "row" ? rowData.tableData.id + 1 : ""
+        renderType === "row" ? rowData.tableData.id + 1 : "",
     },
     {
       title: "Subject Code",
       field: "subjectDetails.subjectCode",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.subjectCode : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.subjectCode
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
-          if((rowData.subjectDetails)){
+          if (rowData.subjectDetails) {
             if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
               return true;
             } else {
@@ -103,40 +105,43 @@ function TenthForm(props) {
         renderType === "row" ? rowData.subjectDetails.subjectName : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
-          if((rowData.subjectDetails)){
-          if (!isEmptyString(rowData.subjectDetails.subjectName)) {
-            return true;
-          } else {
-            return { isValid: false };
+          if (rowData.subjectDetails) {
+            if (!isEmptyString(rowData.subjectDetails.subjectName)) {
+              return true;
+            } else {
+              return { isValid: false };
+            }
           }
-        }
         }
       },
     },
     {
       title: "Maximum Marks",
       field: "subjectDetails.maximumMarks",
-      cellStyle : {
-        textAlign : "center"
+      cellStyle: {
+        textAlign: "center",
       },
       type: "numeric",
       render: (rowData, renderType) =>
         renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
-          if((rowData.subjectDetails)){
-          if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
-            if(rowData.subjectDetails.maximumMarks > 0){
-              return true
-            }else{
-              return { isValid : false, helperText : "It cannot be zero or negative value" }
+          if (rowData.subjectDetails) {
+            if (!isNanAndEmpty(rowData.subjectDetails.maximumMarks)) {
+              if (rowData.subjectDetails.maximumMarks > 0) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be zero or negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
             }
-          }else {
-            return { isValid : false }
-          }
           } else {
-            return { isValid: false};
-          } 
+            return { isValid: false };
+          }
         }
       },
     },
@@ -144,25 +149,31 @@ function TenthForm(props) {
       title: "Score",
       field: "score",
       type: "numeric",
-      cellStyle : {
-        textAlign : "right"
+      cellStyle: {
+        textAlign: "right",
       },
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
-              if(rowData.subjectDetails){
-                if(rowData.score > 0){
-                  if(rowData.score <= rowData.subjectDetails.maximumMarks){
-                    return true
-                  }else{
-                    return { isValid: false, helperText: "Score should be less than maximum mark" };
-                  }
-                }else{
-                  return { isValid: false, helperText: "Score should not be negative value" };
+            if (rowData.subjectDetails) {
+              if (rowData.score > 0) {
+                if (rowData.score <= rowData.subjectDetails.maximumMarks) {
+                  return true;
+                } else {
+                  return {
+                    isValid: false,
+                    helperText: "Score should be less than maximum mark",
+                  };
                 }
-              }else{
-                return { isValid : false }
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "Score should not be negative value",
+                };
               }
+            } else {
+              return { isValid: false };
+            }
           } else {
             return { isValid: false };
           }
@@ -239,15 +250,16 @@ function TenthForm(props) {
       (response) => {
         if (response.status === 200) {
           setStudentMatch(response.data.data);
-        }else{
-          setSnack({
-            snackMsg : response,
-            snackVariant : "error",
-            snackOpen : true
-          })
         }
+        // else{
+        //   setSnack({
+        //     snackMsg : response,
+        //     snackVariant : "error",
+        //     snackOpen : true
+        //   })
+        // }
       }
-    )
+    );
   };
 
   // Getting and setting distinct match list in state
@@ -286,7 +298,7 @@ function TenthForm(props) {
         }
       } else {
         setData(copiedData);
-        dispatch(saveTemplate(copiedData))
+        dispatch(saveTemplate(copiedData));
         dispatch(saveCopyData(""));
       }
     }
@@ -569,7 +581,11 @@ function TenthForm(props) {
           <FullFeaturedCrudGrid
             columns={columns}
             data={data}
-            localization={{ body: { editRow: { deleteText: 'Are you sure Want to Delete this Row' } } }}
+            localization={{
+              body: {
+                editRow: { deleteText: "Are you sure Want to Delete this Row" },
+              },
+            }}
             onRowDelete={handleRowDelete}
             onRowUpdate={handleRowUpdate}
             onRowAdd={handleRowAdd}
@@ -660,5 +676,3 @@ function TenthForm(props) {
 }
 
 export default TenthForm;
-
-
