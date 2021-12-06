@@ -147,7 +147,10 @@ const CreateTest = () => {
     name: yup
       .string()
       .required()
-      .matches(/^([\w,:\s-]*)$/, '/ is not allowed'),
+      .matches(
+        /^([\w,:\s-]*)$/,
+        'Only [-,_] is accepted, any other special characters are not accepted'
+      ),
   });
 
   const submitTestCreation = (testData, status) => {
