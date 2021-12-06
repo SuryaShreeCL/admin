@@ -49,7 +49,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   //fitering out archived & expired webinars
   let availableWebinars =
     webinars?.content?.filter(
-      (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus === 'Expired'
+      (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus !== 'Expired'
     ) || [];
 
   //getting the webinar ids to filter out and show in the UI
