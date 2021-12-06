@@ -29,12 +29,67 @@ export const listWallPosts = (status, type, page = 0) => async (dispatch) => {
     });
   }
 };
+
+export const listAllWallPosts = (status, type) => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.LIST_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?isEvent=${type}&activeStatus=${status}&page=0&size=1000`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      }
+    );
+    dispatch({
+      type: WALL.LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.LIST_FAIL,
+      payload:
+        error.response && error.response.message ? error.response.data.message : error.message,
+    });
+  }
+};
 export const listWallWebinars = (page = 0) => async (dispatch) => {
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=${page - 1}&size=10`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: WALL.WEBINAR_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.WEBINAR_LIST_FAIL,
+      payload:
+        error.response && error.response.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
+export const listAllWallWebinars = () => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=1000`,
       {
         crossDomain: true,
         headers: {

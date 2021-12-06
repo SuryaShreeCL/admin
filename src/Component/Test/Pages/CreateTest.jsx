@@ -20,7 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
+import { getWallCategories, listAllWallPosts, listWallPosts } from '../../../Actions/WallActions';
 import { createTest, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import moment from 'moment';
@@ -106,7 +106,7 @@ const CreateTest = () => {
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
-    dispatch(listWallPosts('Live', true, 0));
+    dispatch(listAllWallPosts('Live', true));
     window.sessionStorage.removeItem('questionSetId');
     window.sessionStorage.removeItem('questionSectionId');
   }, [dispatch]);

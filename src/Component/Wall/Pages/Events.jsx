@@ -127,7 +127,7 @@ export default function Events() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', true));
+      dispatch(listWallPosts('Live', true, page));
     }, 1200);
     setNotify({
       isOpen: true,
