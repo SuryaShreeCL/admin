@@ -7,14 +7,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import Autocomplete, {
+  createFilterOptions,
+} from "@material-ui/lab/Autocomplete";
 import {
   KeyboardDatePicker,
   KeyboardDateTimePicker,
   KeyboardTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
-import { storeItInState } from "../../Actions/HelperAction"
+import { storeItInState } from "../../Actions/HelperAction";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -134,7 +136,7 @@ class ClientDetails extends Component {
       snackmsg: "",
       snackvariant: "",
       snackopen: false,
-      formSubmitted : false
+      formSubmitted: false,
     };
   }
   componentDidMount() {
@@ -183,7 +185,7 @@ class ClientDetails extends Component {
     //       isEmptyString(this.state.order) &&
     //       isEmptyString(this.state.countries) &&
     //       isEmptyString(this.state.package) &&
-    //       isEmptyString(this.state.workexp) 
+    //       isEmptyString(this.state.workexp)
     //     ){
     //        this.setState({
     //          snackmsg:"Please Fill Required Field",
@@ -193,7 +195,7 @@ class ClientDetails extends Component {
     //     }
     //   }
     // }
-   
+
     if (this.state.family !== prevState.family) {
       this.props.getProductByFamilyId(
         this.state.family !== null ? this.state.family.id : ""
@@ -225,68 +227,74 @@ class ClientDetails extends Component {
         pricing: this.props.getvarientByidList.sellingPrice,
         varient: this.props.getvarientByidList,
       });
-     
-      }
-      if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
-        
-        
-        const {
-          collegeId,
-          degreeId,
-          departmentId,
-          clientName,
-          presentSem,
-          activeBacklogs,
-          cgpa,
-          ameyoId,
-          callBackTime,
-          obCallDate,
-          obCallTime,
-          agent,
-          callStatus,
-          specificDays,
-          specificTime,
-          enrollmentDate,
-          aspirationDegrees,
-          aspirationCountries,
-          aspirationTerms,
-          year,
-          orderType,
-          packages,
-          experience,
-          typeOfExperience,
-          fieldOfExperience,
-          months,
-        } = this.props.getClientInfoList;
-        this.setState({
-          name: clientName,
-          ugdegree: this.props.getClientInfoList.degree,
-          collegename: collegeId,
-          department: departmentId,
-          sem: presentSem,
-          activebacklogs: activeBacklogs,
-          cgpa: cgpa,
-          ameyoid: ameyoId,
-          calldate: obCallDate,
-          calltime: obCallTime,
-          agent: agent,
-          callstatus: {title:callStatus},
-          callbacktime: new Date(callBackTime),
-          spedays: {title:specificDays},
-          spetime: specificTime,
-          enrolldate: this.props.getClientInfoList.enrollmentDate,
-          appdegree: aspirationDegrees && aspirationDegrees.length !== 0 ? {...aspirationDegrees[0]} : null,
-          order: {title:orderType},
-          countries: aspirationCountries && aspirationCountries.length !== 0 ? {...aspirationCountries[0]} : null,
-          package: {name:packages},
-          workexp: {title:experience},
-          exptype: {title:typeOfExperience},
-          expfield:fieldOfExperience,
-          expmonth: months,
-          term: aspirationTerms && aspirationTerms.length !== 0 ? {...aspirationTerms[0]} : null,
-          intakeyear: {title:year},
-        })
-      }
+    }
+    if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
+      const {
+        collegeId,
+        degreeId,
+        departmentId,
+        clientName,
+        presentSem,
+        activeBacklogs,
+        cgpa,
+        ameyoId,
+        callBackTime,
+        obCallDate,
+        obCallTime,
+        agent,
+        callStatus,
+        specificDays,
+        specificTime,
+        enrollmentDate,
+        aspirationDegrees,
+        aspirationCountries,
+        aspirationTerms,
+        year,
+        orderType,
+        packages,
+        experience,
+        typeOfExperience,
+        fieldOfExperience,
+        months,
+      } = this.props.getClientInfoList;
+      this.setState({
+        name: clientName,
+        ugdegree: this.props.getClientInfoList.degree,
+        collegename: collegeId,
+        department: departmentId,
+        sem: presentSem,
+        activebacklogs: activeBacklogs,
+        cgpa: cgpa,
+        ameyoid: ameyoId,
+        calldate: obCallDate,
+        calltime: obCallTime,
+        agent: agent,
+        callstatus: { title: callStatus },
+        callbacktime: new Date(callBackTime),
+        spedays: { title: specificDays },
+        spetime: specificTime,
+        enrolldate: this.props.getClientInfoList.enrollmentDate,
+        appdegree:
+          aspirationDegrees && aspirationDegrees.length !== 0
+            ? { ...aspirationDegrees[0] }
+            : null,
+        order: { title: orderType },
+        countries:
+          aspirationCountries && aspirationCountries.length !== 0
+            ? { ...aspirationCountries[0] }
+            : null,
+        package: { name: packages },
+        workexp: { title: experience },
+        exptype: { title: typeOfExperience },
+        expfield: fieldOfExperience,
+        expmonth: months,
+        term:
+          aspirationTerms && aspirationTerms.length !== 0
+            ? { ...aspirationTerms[0] }
+            : null,
+        intakeyear: { title: year },
+      });
+    }
   }
   CallStatus = [
     { title: "Completed" },
@@ -294,29 +302,22 @@ class ClientDetails extends Component {
     { title: "DNP" },
     { title: "Reschedule" },
   ];
-  Days = [
-    { title: "WeekEnd" },
-    { title: "WeekDays" },
-  ];
+  Days = [{ title: "WeekEnd" }, { title: "WeekDays" }];
   Order = [
     { title: "Technical" },
     { title: "Managerial" },
     { title: "Techno-Managerial" },
     { title: "Custom" },
   ];
-  emptype=[
-    {title:"Full_time"},
-    {title:"Part_time"},
-    {title:"Self_Employed"},
-    {title:"FreeLance"},
-    {title:"Internship"},
-    {title:"Trainee"},
+  emptype = [
+    { title: "Full_time" },
+    { title: "Part_time" },
+    { title: "Self_Employed" },
+    { title: "FreeLance" },
+    { title: "Internship" },
+    { title: "Trainee" },
   ];
-  package=[
-    {name:"1"},
-    {name:"3"},
-    {name:"5"}
-  ]
+  package = [{ name: "1" }, { name: "3" }, { name: "5" }];
   Workexp = [{ title: "Yes" }, { title: "No" }];
 
   intakeYear = [
@@ -337,11 +338,10 @@ class ClientDetails extends Component {
     { title: "Fulltime" },
     { title: "Parttime" },
     { title: "Freelance" },
-    { title:"SelfEmployed"},
-    { title:"Trainee"}
+    { title: "SelfEmployed" },
+    { title: "Trainee" },
   ];
   handleSaved = () => {
-    
     let hlptxt = "Please Fill the Required Field";
     isEmptyString(this.state.name)
       ? this.setState({ nameErr: hlptxt })
@@ -409,7 +409,8 @@ class ClientDetails extends Component {
     this.state.callbacktime === null
       ? this.setState({ callbacktimeErr: hlptxt })
       : this.setState({ callbacktimeErr: "" });
-    this.state.spedays && this.state.spedays.title === undefined || isEmptyString(this.state.spedays)
+    (this.state.spedays && this.state.spedays.title === undefined) ||
+    isEmptyString(this.state.spedays)
       ? this.setState({ speDaysErr: hlptxt })
       : this.setState({ speDaysErr: "" });
     this.state.spetime === null
@@ -421,7 +422,8 @@ class ClientDetails extends Component {
     isEmptyString(this.state.appdegree)
       ? this.setState({ appdegreeErr: hlptxt })
       : this.setState({ appdegreeErr: "" });
-    this.state.order && this.state.order.title === undefined || isEmptyString(this.state.order)
+    (this.state.order && this.state.order.title === undefined) ||
+    isEmptyString(this.state.order)
       ? this.setState({ orderErr: hlptxt })
       : this.setState({ orderErr: "" });
     isEmptyString(this.state.countries)
@@ -445,11 +447,11 @@ class ClientDetails extends Component {
     isEmptyString(this.state.term)
       ? this.setState({ termErr: hlptxt })
       : this.setState({ termErr: "" });
-      this.state.intakeyear && this.state.intakeyear.title === undefined
+    this.state.intakeyear && this.state.intakeyear.title === undefined
       ? this.setState({ intakeyearErr: hlptxt })
       : this.setState({ intakeyearErr: "" });
-    
-    if(
+
+    if (
       !isEmptyString(this.state.name) &&
       !isEmptyString(this.state.number) &&
       !isEmptyString(this.state.email) &&
@@ -479,9 +481,8 @@ class ClientDetails extends Component {
       !isEmptyString(this.state.order) &&
       !isEmptyString(this.state.countries) &&
       !isEmptyString(this.state.package) &&
-      !isEmptyString(this.state.workexp) 
-    )
-    {
+      !isEmptyString(this.state.workexp)
+    ) {
       let obj = {
         ugDegree: {
           id: this.state.ugdegree.id,
@@ -523,7 +524,7 @@ class ClientDetails extends Component {
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear.title,
         // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
-        packages : this.state.package && this.state.package.name,
+        packages: this.state.package && this.state.package.name,
         workExperience: this.state.workexp.title,
         typeOfExperience:
           this.state.exptype !== null ? this.state.exptype.title : null,
@@ -549,7 +550,7 @@ class ClientDetails extends Component {
         obj
       );
       this.setState({
-        formSubmitted : true,
+        formSubmitted: true,
         snackmsg: "Updated Successfully",
         snackvariant: "success",
         snackopen: true,
@@ -562,13 +563,12 @@ class ClientDetails extends Component {
     //   this.props.storeItInState({...this.state})
     // }
   }
-  
 
   render() {
     const filter = createFilterOptions();
-    
-    
-    
+
+    console.log(this.props);
+
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -862,7 +862,7 @@ class ClientDetails extends Component {
                   helperText={this.state.calltimeErr}
                   onChange={(newValue) => {
                     this.setState({ calltime: newValue });
-                    // 
+                    //
                   }}
                   KeyboardButtonProps={{
                     "aria-label": "change time",
@@ -958,24 +958,23 @@ class ClientDetails extends Component {
                   error={this.state.speErr.length > 0}
                   helperText={this.state.speErr}
                 /> */}
-                 <KeyboardTimePicker
-                    margin="normal"
-                    // format="HH:mm"
-                    label="Specific Time to be Contacted?"
-                    value={this.state.spetime}
-                    onChange={(newValue) => {
-                      
-                      this.setState({ spetime: newValue })
-                    }}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change time',
-                    }}
-                    error={this.state.speErr.length > 0}
-                    helperText={this.state.speErr}
-                    InputLabelProps={{
-                      shrink:true
-                    }}
-                  />
+                <KeyboardTimePicker
+                  margin="normal"
+                  // format="HH:mm"
+                  label="Specific Time to be Contacted?"
+                  value={this.state.spetime}
+                  onChange={(newValue) => {
+                    this.setState({ spetime: newValue });
+                  }}
+                  KeyboardButtonProps={{
+                    "aria-label": "change time",
+                  }}
+                  error={this.state.speErr.length > 0}
+                  helperText={this.state.speErr}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
               </Grid>
               <Grid item md={12}>
                 <Typography
@@ -1019,7 +1018,6 @@ class ClientDetails extends Component {
                   getOptionLabel={(option) => option.name}
                   value={this.state.appdegree}
                   onChange={(e, newValue) => {
-                    
                     this.setState({ appdegree: newValue });
                   }}
                   renderInput={(params) => (
@@ -1097,7 +1095,7 @@ class ClientDetails extends Component {
                   // multiple
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   // id="combo-box-demo"
-                  options={this.props.getallcountryList}
+                  options={this.props.getallcountryList || []}
                   getOptionLabel={(option) => option.name}
                   value={this.state.countries}
                   onChange={(e, newValue) =>
@@ -1115,7 +1113,7 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-              {/* <Autocomplete
+                {/* <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.package}
@@ -1180,22 +1178,25 @@ class ClientDetails extends Component {
                   error={this.state.packageErr.length > 0}
                   helperText={this.state.packageErr}
                 /> */}
-                 <Autocomplete
-                      id="combo-box-demo"
-                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      options={this.package}
-                      getOptionLabel={(option) => option.name}
-                      value={this.state.package}
-                      onChange={(e,newValue)=>this.setState({ package : newValue})}
-                      renderInput={(params) => 
-                      <TextField
-                        {...params}
-                          label="Package"
-                          variant="standard" 
-                          error={this.state.packageErr.length > 0}
-                          helperText={this.state.packageErr}
-                          />}
+                <Autocomplete
+                  id="combo-box-demo"
+                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                  options={this.package}
+                  getOptionLabel={(option) => option.name}
+                  value={this.state.package}
+                  onChange={(e, newValue) =>
+                    this.setState({ package: newValue })
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Package"
+                      variant="standard"
+                      error={this.state.packageErr.length > 0}
+                      helperText={this.state.packageErr}
                     />
+                  )}
+                />
               </Grid>
               <Grid item md={12}>
                 <Typography
@@ -1422,7 +1423,6 @@ class ClientDetails extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  
   return {
     getBranchesList: state.CollegeReducer.BranchList,
     getCollegesList: state.CollegeReducer.allCollegeList,
@@ -1437,7 +1437,7 @@ const mapStateToProps = (state) => {
     getvarientByidList: state.ProductReducer.getvarientByid,
     updateclientdetailsList: state.ProductReducer.updateclientdetails,
     getClientInfoList: state.CallReducer.getClientInfo,
-    tempState : state.HelperReducer.tempState
+    tempState: state.HelperReducer.tempState,
   };
 };
 
@@ -1455,5 +1455,5 @@ export default connect(mapStateToProps, {
   getvarientByid,
   updateclientdetails,
   getClientInfo,
-  storeItInState
+  storeItInState,
 })(ClientDetails);
