@@ -80,8 +80,8 @@ export default function LivePost() {
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
 
   //Filtering out the webinar posts
-  let totalPages = posts.totalPages;
-  let filteredPosts = posts.content?.filter((post) => post.isWebinar !== true);
+  let totalPages = posts?.totalPages;
+  let filteredPosts = posts?.content?.filter((post) => post.isWebinar !== true);
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });

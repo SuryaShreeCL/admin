@@ -194,7 +194,7 @@ export default function PreviousTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests?.length === 0 && <Alert severity='info'>0 Previous Tests Found</Alert>}
+          {!loading && tests.content?.length === 0 && <Alert severity='info'>0 Previous Tests Found</Alert>}
         </div>
         <TblPagination />
       </Paper>

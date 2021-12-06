@@ -78,10 +78,10 @@ export default function Webinars() {
   });
 
   const { loading, error, webinars } = useSelector((state) => state.wallWebinarListReducer);
-  let totalPages = webinars.totalPages;
+  let totalPages = webinars?.totalPages;
 
   //fitering out archived webinars
-  let filteredWebinars = webinars.content?.filter((webinar) => webinar.activeStatus !== 'Archive');
+  let filteredWebinars = webinars?.content?.filter((webinar) => webinar.activeStatus !== 'Archive');
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({

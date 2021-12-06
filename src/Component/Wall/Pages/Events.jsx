@@ -89,7 +89,7 @@ export default function Events() {
   });
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
-    posts.content,
+    posts?.content,
     headCells,
     filterFn,
     totalPages
