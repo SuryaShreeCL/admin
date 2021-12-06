@@ -17,7 +17,7 @@ export const listTests = (status, page = 0) => async (dispatch) => {
         search: '',
         testType: 'EVENT',
         status: status,
-        page: page,
+        page: page - 1,
         size: '6',
       },
     });

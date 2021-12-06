@@ -75,7 +75,7 @@ export default function useTable(records, headCells, filterFn, totalPages) {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Pagination
         page={page}
-        count={totalPages - 1}
+        count={totalPages}
         onChange={handleChangePage}
         variant='outlined'
         color='primary'
