@@ -52,12 +52,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'testName', label: 'Test Name' },
-  { id: 'duration', label: 'Duration' },
-  { id: 'date', label: 'Date' },
-  { id: 'published', label: 'Published' },
-  { id: 'attempted', label: 'Attempted' },
-  { id: 'status', label: 'Status' },
+  { id: 'name', label: 'Test Name' },
+  { id: 'duration', label: 'Duration', disableSorting: true },
+  { id: 'createdAt', label: 'Date', disableSorting: true },
+  { id: 'createdAt', label: 'Published' },
+  { id: 'attemptedStudents', label: 'Attempted' },
+  { id: 'status', label: 'Status', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
