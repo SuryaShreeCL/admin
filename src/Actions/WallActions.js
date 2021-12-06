@@ -1,7 +1,7 @@
 import { WALL } from '../Redux/Action';
 import axios from 'axios';
 
-export const listWallPosts = (status, type, page) => async (dispatch) => {
+export const listWallPosts = (status, type, page = 0) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
 

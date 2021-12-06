@@ -106,7 +106,7 @@ const CreateTest = () => {
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
-    dispatch(listWallPosts('Live', true));
+    dispatch(listWallPosts('Live', true, 0));
     window.sessionStorage.removeItem('questionSetId');
     window.sessionStorage.removeItem('questionSectionId');
   }, [dispatch]);
@@ -253,7 +253,7 @@ const CreateTest = () => {
                     </Grid>
                     <Grid item style={{ width: '30%', zIndex: '77', cursor: 'no-drop' }}>
                       <Autocomplete
-                        options={posts}
+                        options={posts?.content}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
                         disabled={loading || values.wallCategory.length > 0}
