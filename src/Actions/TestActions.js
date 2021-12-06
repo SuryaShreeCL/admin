@@ -17,6 +17,7 @@ export const listTests = (status, page = 0) => async (dispatch) => {
         search: '',
         testType: 'EVENT',
         status: status,
+        // -1 for showing results from 0th index and handling it from 1st index on UI
         page: page - 1,
         size: '6',
       },

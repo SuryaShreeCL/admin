@@ -85,11 +85,8 @@ export default function PreviousTest() {
     subTitle: '',
   });
 
-  //Sorting based on most recent test results
-  let sortedTests = tests.content?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
-    sortedTests,
+    tests?.content,
     headCells,
     filterFn,
     totalPages
@@ -194,7 +191,9 @@ export default function PreviousTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests.content?.length === 0 && <Alert severity='info'>0 Previous Tests Found</Alert>}
+          {!loading && tests.content?.length === 0 && (
+            <Alert severity='info'>0 Previous Tests Found</Alert>
+          )}
         </div>
         <TblPagination />
       </Paper>
