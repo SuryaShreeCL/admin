@@ -47,7 +47,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   const { loading, webinars } = useSelector((state) => state.wallWebinarListReducer);
 
   //fitering out archived & expired webinars
-  let availableWebinars = webinars?.filter(
+  let availableWebinars = webinars.content?.filter(
     (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus !== 'Expired'
   );
 

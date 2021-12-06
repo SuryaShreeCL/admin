@@ -83,6 +83,7 @@ export default function LiveTest() {
   };
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  let totalPages = tests.totalPages;
 
   const [scheduler, setScheduler] = useState(false);
   const [data, setData] = useState('');
@@ -95,10 +96,11 @@ export default function LiveTest() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    tests,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    tests.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -112,7 +114,6 @@ export default function LiveTest() {
   };
 
   const openInPage = (item) => {
-    console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
@@ -129,7 +130,7 @@ export default function LiveTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Live'));
+      dispatch(listTests('Live', page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -139,8 +140,8 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Live'));
-  }, [dispatch]);
+    dispatch(listTests('Live', page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -182,7 +183,7 @@ export default function LiveTest() {
 
         <TblContainer>
           <TblHead />
-          {tests && (
+          {tests.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>

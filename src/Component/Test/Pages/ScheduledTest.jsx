@@ -76,6 +76,7 @@ export default function ScheduledTest() {
   });
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  let totalPages = tests.totalPages;
 
   const [scheduler, setScheduler] = useState(false);
   const [data, setData] = useState('');
@@ -88,10 +89,11 @@ export default function ScheduledTest() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    tests,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    tests.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -105,7 +107,6 @@ export default function ScheduledTest() {
   };
 
   const openInPage = (item) => {
-    console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
@@ -127,7 +128,7 @@ export default function ScheduledTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Scheduled'));
+      dispatch(listTests('Scheduled', page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -137,8 +138,8 @@ export default function ScheduledTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Scheduled'));
-  }, [dispatch]);
+    dispatch(listTests('Scheduled', page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -180,7 +181,7 @@ export default function ScheduledTest() {
 
         <TblContainer>
           <TblHead />
-          {tests && (
+          {tests.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>

@@ -75,6 +75,7 @@ export default function DraftTest() {
   });
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  let totalPages = tests.totalPages;
 
   const [scheduler, setScheduler] = useState(false);
   const [data, setData] = useState('');
@@ -87,10 +88,11 @@ export default function DraftTest() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    tests,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    tests.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -104,7 +106,6 @@ export default function DraftTest() {
   };
 
   const openInPage = (item) => {
-    console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
@@ -126,7 +127,7 @@ export default function DraftTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Draft'));
+      dispatch(listTests('Draft', page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -136,8 +137,8 @@ export default function DraftTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Draft'));
-  }, [dispatch]);
+    dispatch(listTests('Draft', page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -179,7 +180,7 @@ export default function DraftTest() {
 
         <TblContainer>
           <TblHead />
-          {tests && (
+          {tests.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>

@@ -1,7 +1,7 @@
 import { TEST } from '../Redux/Action';
 import axios from 'axios';
 
-export const listTests = (status) => async (dispatch) => {
+export const listTests = (status, page) => async (dispatch) => {
   try {
     dispatch({ type: TEST.LIST_REQUEST });
 
@@ -17,12 +17,14 @@ export const listTests = (status) => async (dispatch) => {
         search: '',
         testType: 'EVENT',
         status: status,
+        page: page,
+        size: '6',
       },
     });
 
     dispatch({
       type: TEST.LIST_SUCCESS,
-      payload: data,
+      payload: data.data,
     });
   } catch (error) {
     dispatch({

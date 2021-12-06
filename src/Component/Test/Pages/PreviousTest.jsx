@@ -75,6 +75,7 @@ export default function PreviousTest() {
   });
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  let totalPages = tests.totalPages;
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -85,12 +86,13 @@ export default function PreviousTest() {
   });
 
   //Sorting based on most recent test results
-  let sortedTests = tests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  let sortedTests = tests.content?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
     sortedTests,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -121,7 +123,7 @@ export default function PreviousTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Expired'));
+      dispatch(listTests('Expired', page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -131,8 +133,8 @@ export default function PreviousTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Expired'));
-  }, [dispatch]);
+    dispatch(listTests('Expired', page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -154,7 +156,7 @@ export default function PreviousTest() {
 
         <TblContainer>
           <TblHead />
-          {tests && (
+          {tests.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
