@@ -41,15 +41,16 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(listWallWebinars());
+    dispatch(listWallWebinars(0));
   }, [dispatch]);
 
   const { loading, webinars } = useSelector((state) => state.wallWebinarListReducer);
 
   //fitering out archived & expired webinars
-  let availableWebinars = webinars.content?.filter(
-    (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus !== 'Expired'
-  );
+  let availableWebinars =
+    webinars?.content?.filter(
+      (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus !== 'Expired'
+    ) || [];
 
   //getting the webinar ids to filter out and show in the UI
   let storeWebinarIds = values.linkedWebinars?.map((webinar) => webinar.webinarId);
