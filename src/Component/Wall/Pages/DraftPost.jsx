@@ -78,6 +78,7 @@ export default function DraftPost() {
   });
 
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  let totalPages = posts?.totalPages;
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -87,10 +88,11 @@ export default function DraftPost() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    posts,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    posts.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -116,7 +118,7 @@ export default function DraftPost() {
       type: 'success',
     });
     setTimeout(() => {
-      dispatch(listWallPosts('Draft'));
+      dispatch(listWallPosts('Draft', false, page));
     }, 1200);
   };
 
@@ -136,7 +138,7 @@ export default function DraftPost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Draft', false));
+      dispatch(listWallPosts('Draft', false, page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -146,8 +148,8 @@ export default function DraftPost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Draft', false));
-  }, [dispatch]);
+    dispatch(listWallPosts('Draft', false, page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -190,7 +192,7 @@ export default function DraftPost() {
 
         <TblContainer>
           <TblHead />
-          {posts && (
+          {posts?.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
