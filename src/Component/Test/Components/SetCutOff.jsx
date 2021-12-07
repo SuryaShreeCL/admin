@@ -63,6 +63,7 @@ export default function SetCutOff(props) {
   const validationSchema = yup.object({
     duration: yup
       .string()
+      .required()
       .test(
         'durationCheck',
         'Cut off score cannot be higher than set score for the test.',
