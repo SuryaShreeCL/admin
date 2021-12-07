@@ -121,14 +121,22 @@ export default function Webinars() {
   };
 
   const openInPage = item => {
-    history.push({
-      pathname: editPath,
-      recordForEdit: item,
-      postType: 'Webinar',
-      postTypeTab: isLms_Role(role) ? 0 : 4,
-    });
-    setRecordForEdit(item);
-    setOpenDrawer(false);
+    if (!item.isEditable) {
+      setNotify({
+        isOpen: true,
+        message: 'Only the creator can edit the post',
+        type: 'Error',
+      });
+    } else {
+      history.push({
+        pathname: editPath,
+        recordForEdit: item,
+        postType: 'Webinar',
+        postTypeTab: isLms_Role(role) ? 0 : 4,
+      });
+      setRecordForEdit(item);
+      setOpenDrawer(false);
+    }
   };
 
   const onDelete = id => {
@@ -150,6 +158,25 @@ export default function Webinars() {
   useEffect(() => {
     dispatch(listWallWebinars());
   }, [dispatch]);
+
+  const handleDeleteClick = item => {
+    if (!item.isEditable) {
+      setNotify({
+        isOpen: true,
+        message: 'Only the creator can delete the post',
+        type: 'Error',
+      });
+    } else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'Are you sure to delete this post?',
+        subTitle: "You can't undo this operation",
+        onConfirm: () => {
+          onDelete(item.id);
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -211,16 +238,7 @@ export default function Webinars() {
                       <EditOutlinedIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                     <Controls.ActionButton
-                      onClick={() => {
-                        setConfirmDialog({
-                          isOpen: true,
-                          title: 'Are you sure to delete this post?',
-                          subTitle: "You can't undo this operation",
-                          onConfirm: () => {
-                            onDelete(item.id);
-                          },
-                        });
-                      }}
+                      onClick={() => handleDeleteClick(item)}
                     >
                       <DeleteIcon fontSize='small' color='secondary' />
                     </Controls.ActionButton>

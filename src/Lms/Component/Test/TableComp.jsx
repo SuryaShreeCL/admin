@@ -214,7 +214,7 @@ export default function TableComp(props) {
 
   return (
     <TableBox>
-      <Table style={{ marginTop: '40px' }}>
+      <Table>
         <Head>
           <TableRow>
             {headText.map((item, index) => (

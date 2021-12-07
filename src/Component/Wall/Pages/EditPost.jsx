@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
+import {
+  ButtonsContainer,
+  CreatePostContainer,
+} from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
 import Switch from '@material-ui/core/Switch';
@@ -22,7 +25,11 @@ import FormControl from '@material-ui/core/FormControl';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ExistingMedia } from '../Components/Upload/ExistingMedia';
-import { createWallPost, getWallCategories, updateWallPost } from '../../../Actions/WallActions';
+import {
+  createWallPost,
+  getWallCategories,
+  updateWallPost,
+} from '../../../Actions/WallActions';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { wallPath } from '../../RoutePaths';
@@ -83,14 +90,18 @@ const EditPost = () => {
     videoUrl: '',
   });
 
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: '',
     subTitle: '',
   });
 
-  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
+  const { categories } = useSelector(state => state.getWallCategoriesReducer);
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
@@ -117,7 +128,7 @@ const EditPost = () => {
     }, 1200);
   };
 
-  const updatePost = (post) => {
+  const updatePost = post => {
     dispatch(updateWallPost(post));
     setNotify({
       isOpen: true,
@@ -138,7 +149,10 @@ const EditPost = () => {
 
   return (
     <>
-      <BackHandler title={`Edit ${location?.postType}`} tab={location?.postTypeTab} />
+      <BackHandler
+        title={`Edit ${location?.postType}`}
+        tab={location?.postTypeTab}
+      />
       <CreatePostContainer>
         <Formik
           initialValues={records || state}
@@ -153,12 +167,24 @@ const EditPost = () => {
           }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
+          {({
+            handleSubmit,
+            errors,
+            handleChange,
+            values,
+            touched,
+            setFieldValue,
+          }) => (
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <h6>Post Type</h6>
-                  <Grid component='label' container alignItems='center' spacing={1}>
+                  <Grid
+                    component='label'
+                    container
+                    alignItems='center'
+                    spacing={1}
+                  >
                     <Grid item>Wall Post</Grid>
                     <Grid item>
                       <Switch
@@ -172,7 +198,11 @@ const EditPost = () => {
                     <Grid item>Event</Grid>
                   </Grid>
                   <RadioGroup
-                    style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      marginBottom: '10px',
+                    }}
                     aria-label='type'
                     disabled
                     name='supportingMedia'
@@ -211,25 +241,32 @@ const EditPost = () => {
                       />
                     )}
                   </RadioGroup>
-                  <FormControl className={classes.root} style={{ width: '80%' }}>
+                  <FormControl
+                    className={classes.root}
+                    style={{ width: '80%' }}
+                  >
                     <Autocomplete
                       multiple
                       id='wallCategories'
                       name='wallCategories'
-                      getOptionLabel={(option) => option?.name}
+                      getOptionLabel={option => option?.name}
                       options={categories ?? []}
                       onChange={(e, value) => {
-                        setFieldValue('wallCategories', value !== null ? value : categories);
+                        setFieldValue(
+                          'wallCategories',
+                          value !== null ? value : categories
+                        );
                       }}
                       value={values.wallCategories}
-                      renderInput={(params) => (
+                      renderInput={params => (
                         <TextField
                           {...params}
                           label='Select Category'
                           name='wallCategories'
                           variant='outlined'
                           error={
-                            touched.wallCategories && Boolean(values.wallCategories.length === 0)
+                            touched.wallCategories &&
+                            Boolean(values.wallCategories.length === 0)
                           }
                         />
                       )}
@@ -257,6 +294,22 @@ const EditPost = () => {
                         multiline
                         className={classes.captionStyle}
                         rows={6}
+                      />
+                    </Grid>
+                  )}
+
+                  {values.isWebinar && (
+                    <Grid item>
+                      <Controls.Input
+                        label='Host Name'
+                        name='hostName'
+                        style={{
+                          width: '80%',
+                          marginTop: '10px',
+                          marginBottom: '10px',
+                        }}
+                        value={values.hostName}
+                        onChange={handleChange}
                       />
                     </Grid>
                   )}
@@ -290,17 +343,18 @@ const EditPost = () => {
                       </span>
                     </Grid>
                   )}
-                  {values.supportingMedia === 'video' && values.isVideoUrlEnabled && (
-                    <Grid item>
-                      <Controls.Input
-                        label='Paste Video URL'
-                        name='videoUrl'
-                        className={classes.spacer}
-                        value={values.videoUrl}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                  )}
+                  {values.supportingMedia === 'video' &&
+                    values.isVideoUrlEnabled && (
+                      <Grid item>
+                        <Controls.Input
+                          label='Paste Video URL'
+                          name='videoUrl'
+                          className={classes.spacer}
+                          value={values.videoUrl}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                    )}
                   {values.isWebinar && (
                     <Grid item>
                       <Controls.Input
@@ -308,7 +362,11 @@ const EditPost = () => {
                         name='zoomLink'
                         type='number'
                         error={touched.zoomLink && Boolean(errors.zoomLink)}
-                        style={{ width: '80%', marginTop: '10px', marginBottom: '14px' }}
+                        style={{
+                          width: '80%',
+                          marginTop: '10px',
+                          marginBottom: '14px',
+                        }}
                         value={values.zoomLink}
                         onChange={handleChange}
                       />
@@ -343,7 +401,11 @@ const EditPost = () => {
                             values.buttonText?.length < 1 &&
                             Boolean(true)
                           }
-                          style={{ width: '80%', marginTop: '18px', marginBottom: '14px' }}
+                          style={{
+                            width: '80%',
+                            marginTop: '18px',
+                            marginBottom: '14px',
+                          }}
                           value={values.buttonText}
                           onChange={handleChange}
                         />
@@ -352,17 +414,30 @@ const EditPost = () => {
                   )}
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.supportingMedia === 'image' && (
-                      <MultipleFileUploadField name='wallFilesUpdate' fileType='image' />
+                      <MultipleFileUploadField
+                        name='wallFilesUpdate'
+                        fileType='image'
+                      />
                     )}
-                    {values.supportingMedia === 'video' && !values.isVideoUrlEnabled && (
-                      <MultipleFileUploadField name='wallFilesUpdate' fileType='video' />
-                    )}
+                    {values.supportingMedia === 'video' &&
+                      !values.isVideoUrlEnabled && (
+                        <MultipleFileUploadField
+                          name='wallFilesUpdate'
+                          fileType='video'
+                        />
+                      )}
                     {values.supportingMedia === 'audio' && (
-                      <MultipleFileUploadField name='wallFilesUpdate' fileType='audio' />
+                      <MultipleFileUploadField
+                        name='wallFilesUpdate'
+                        fileType='audio'
+                      />
                     )}
                     <Grid item>
-                      {values.wallFiles?.map((media) => (
-                        <ExistingMedia media={media} wallFiles={values.wallFiles} />
+                      {values.wallFiles?.map(media => (
+                        <ExistingMedia
+                          media={media}
+                          wallFiles={values.wallFiles}
+                        />
                       ))}
                     </Grid>
                   </Grid>
@@ -435,7 +510,7 @@ const EditPost = () => {
                             style={{ width: '100%', margin: '10px 0px' }}
                             name='eventDate'
                             inputVariant='outlined'
-                            onChange={(val) => {
+                            onChange={val => {
                               setFieldValue('eventDate', val);
                             }}
                           />
@@ -456,7 +531,7 @@ const EditPost = () => {
                             style={{ width: '100%', margin: '10px 0px' }}
                             name='eventEndDate'
                             inputVariant='outlined'
-                            onChange={(val) => {
+                            onChange={val => {
                               setFieldValue('eventEndDate', val);
                             }}
                           />
@@ -472,7 +547,9 @@ const EditPost = () => {
                       className={classes.spacer}
                     >
                       <Grid item>
-                        <h6 style={{ fontSize: '1rem' }}>Webinar Start Date </h6>
+                        <h6 style={{ fontSize: '1rem' }}>
+                          Webinar Start Date{' '}
+                        </h6>
                         <MuiPickersUtilsProvider utils={MomentUtils}>
                           <DateTimePicker
                             InputProps={{
@@ -487,7 +564,7 @@ const EditPost = () => {
                             disablePast
                             name='eventDate'
                             inputVariant='outlined'
-                            onChange={(val) => {
+                            onChange={val => {
                               setFieldValue('eventDate', val);
                             }}
                           />
@@ -509,7 +586,7 @@ const EditPost = () => {
                             disablePast
                             name='eventEndDate'
                             inputVariant='outlined'
-                            onChange={(val) => {
+                            onChange={val => {
                               setFieldValue('eventEndDate', val);
                             }}
                           />
@@ -532,7 +609,7 @@ const EditPost = () => {
                           style={{ width: '80%', margin: '10px 0px' }}
                           name='selectedDate'
                           inputVariant='outlined'
-                          onChange={(val) => {
+                          onChange={val => {
                             setFieldValue('selectedDate', val);
                           }}
                           label='Schedule Data & Time'
@@ -565,7 +642,10 @@ const EditPost = () => {
                       type='submit'
                     />
                     {!values.isWebinar && !values.isEvent && (
-                      <Button color='primary' onClick={() => onEditDraft(values, 'Draft')}>
+                      <Button
+                        color='primary'
+                        onClick={() => onEditDraft(values, 'Draft')}
+                      >
                         Save as Draft
                       </Button>
                     )}
@@ -574,14 +654,20 @@ const EditPost = () => {
                 {values.isWebinar ? null : <Preview state={values} />}
               </div>
               {values.isEvent && (
-                <PreprationContainer values={values} setFieldValue={setFieldValue} />
+                <PreprationContainer
+                  values={values}
+                  setFieldValue={setFieldValue}
+                />
               )}
             </>
           )}
         </Formik>
       </CreatePostContainer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };

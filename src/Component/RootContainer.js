@@ -364,7 +364,6 @@ function RootContainer(props) {
   }
 
   const prevProps = usePrevious(props);
-  console.log(props);
   useEffect(() => {
     //
 
