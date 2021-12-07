@@ -1,18 +1,14 @@
-import React, { useEffect, useRef } from 'react';
-import parse from 'html-react-parser';
+import React, { useEffect, useRef } from "react";
+import parse from "html-react-parser";
 
 const MathElement = ({ math }) => {
   const ref = useRef(null);
-  const element = math || '';
+  const element = math || "";
   const el = parse(element);
 
   const renderMath = () => {
-    // MathJax.Hub.Queue(["PreProcess", MathJax.Hub], ["Reprocess", MathJax.Hub]);
     if (window.MathJax)
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, element]);
-    // MathJax.Callback.Queue(() => {
-    //   MathJax.Hub.Typeset(element);
-    // });
+      window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, element]);
   };
 
   useEffect(() => {

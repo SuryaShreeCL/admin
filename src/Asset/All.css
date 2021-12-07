@@ -1,7 +1,6 @@
 @font-face {
   font-family: 'MyWebFont';
-  src: url('./Fonts/proxima nova font/PROXIMANOVA-REG-WEBFONT.TTF')
-    format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  src: url('./Fonts/proxima nova font/PROXIMANOVA-REG-WEBFONT.TTF') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 * {
   font-family: 'proxima-nova', sans-serif;
@@ -461,6 +460,29 @@ input[type='checkbox']:checked + label {
   overflow: auto;
 }
 
-.MuiListItemIcon-root{
+.MuiListItemIcon-root {
   min-width: 40px !important;
+}
+
+.gat_image {
+  height: 75px !important;
+  width: 75px !important;
+}
+.gat_card {
+  height: 80px !important;
+  max-width: 240px !important;
+  width: 100% !important;
+  box-shadow: 0px 8px 7px rgba(183, 222, 255, 0.5) !important;
+  border-radius: 8 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+.gat_exam_card {
+  display: flex !important ;
+  justify-content: center !important;
+  align-items: center !important;
+}
+.gat_exam_div {
+  display: flex !important;
+  flex-direction: column !important;
 }
