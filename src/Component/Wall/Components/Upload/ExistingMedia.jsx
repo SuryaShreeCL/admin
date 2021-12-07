@@ -59,7 +59,7 @@ export function ExistingMedia(props, progress = 100) {
         <img
           src={
             ((url?.includes('.mp4') || url?.includes('.mp3')) && Media) ||
-            `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${url}&type=image` ||
+            `${process.env.REACT_APP_ASSETS}/images/wall/${url}` ||
             Spinner
           }
           alt='upload-img'
