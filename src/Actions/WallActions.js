@@ -56,7 +56,7 @@ export const listAllWallPosts = (status, type) => async (dispatch) => {
     });
   }
 };
-export const listWallWebinars = (page = 0) => async (dispatch) => {
+export const listWallWebinars = (page = 1) => async (dispatch) => {
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
