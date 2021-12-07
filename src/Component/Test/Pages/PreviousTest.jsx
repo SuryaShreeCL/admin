@@ -19,6 +19,7 @@ import { testEdit } from '../../RoutePaths';
 import moment from 'moment';
 import Loader from '../../Utils/controls/Loader';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -179,6 +180,9 @@ export default function PreviousTest() {
                           color: item.attemptedStudents ? 'green' : 'gray',
                         }}
                       />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton disabled={!item.attemptedStudents}>
+                      <AssignmentTurnedIn fontSize='small' />
                     </Controls.ActionButton>
                   </TableCell>
                 </TableRow>
