@@ -3,26 +3,25 @@ import MaterialTable, { MTableEditRow } from "material-table";
 import React from "react";
 import { tableIcons } from "./TableRefs";
 export default function Editable(props) {
-
   const StyledEditRow = withStyles((theme) => ({
     root: {
       //h6 is the delete text HTML element that you wanna style
-      '& h6': {
-        fontSize: 'unset',
+      "& h6": {
+        fontSize: "unset",
       },
     },
   }))(MTableEditRow);
 
-  const useStyles = makeStyles((theme)=>({
-    actionButtonStyle : {
-      marginRight : "-23px"
+  const useStyles = makeStyles((theme) => ({
+    actionButtonStyle: {
+      marginRight: "-23px",
     },
-  }))
+  }));
 
   const tableStyle = {
-    maxHeight : "450px",
-    overflowY : "scroll"
-  }
+    maxHeight: "450px",
+    overflowY: "scroll",
+  };
 
   return (
     <MaterialTable
@@ -31,34 +30,31 @@ export default function Editable(props) {
       columns={props.columns}
       icons={tableIcons}
       {...props}
-    //   components={
-    //     props.actionComponent
-    // }
-    components={{ EditRow: props => ( <StyledEditRow {...props} /> ) }}
+      //   components={
+      //     props.actionComponent
+      // }
+      components={{ EditRow: (props) => <StyledEditRow {...props} /> }}
       data={props.data}
       options={{
-        headerStyle : {
-          whiteSpace : "nowrap",
+        headerStyle: {
+          whiteSpace: "nowrap",
         },
 
-        actionsColumnIndex: -1,
-        search : false,
-        rowStyle :  rowData => {
-          if(rowData.tableData.id %2 === 0) {
-            return {backgroundColor: '#f1f1f1'};
+        // actionsColumnIndex: -1,
+        search: false,
+        rowStyle: (rowData) => {
+          if (rowData.tableData.id % 2 === 0) {
+            return { backgroundColor: "#f1f1f1" };
           }
           return {};
         },
-        paging : false
+        paging: false,
       }}
       editable={{
-        onRowAdd:
-         props.onRowAdd,
-        onRowUpdate: 
-        props.onRowUpdate,
-        onRowDelete: 
-        props.onRowDelete,
+        onRowAdd: props.onRowAdd,
+        onRowUpdate: props.onRowUpdate,
+        onRowDelete: props.onRowDelete,
       }}
     />
-  )
+  );
 }

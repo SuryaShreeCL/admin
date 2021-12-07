@@ -294,9 +294,10 @@ class Index extends Component {
                         console.log("card click");
                         this.handleCardClick(item.id);
                       }}
-                      handleDownloadClick={() =>
-                        this.handleClick(item.studentDocument.path)
-                      }
+                      handleDownloadClick={(e) => {
+                        e.stopPropagation();
+                        this.handleClick(item.studentDocument.path);
+                      }}
                       data={item}
                     />
                   </Grid>

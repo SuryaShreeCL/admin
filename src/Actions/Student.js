@@ -972,3 +972,72 @@ export const ObIncomplete = (studentId, productId,data,callback) => {
       });
   };
 };
+
+export const IncompleteStatus = (studentId, productId,callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .put(
+        URL + "/api/v1/students/"+studentId+"/product/"+productId+"/onBoardingCompleteCall?field=incomplete",{},
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        callback(result)
+        dispatch({ type: STUDENT.IncompleteStatus, payload: result.data });
+      })
+      .catch((error) => {
+        callback(error)
+        console.log(error);
+      });
+  };
+};
+
+export const getexpecteddate = (type,id,callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/"+type+"/testComplete/" + id, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        callback(result)
+        dispatch({ type: STUDENT.getexpecteddate, payload: result.data });
+      })
+      .catch((error) => {
+        callback(error)
+        console.log(error);
+      });
+  };
+};
+export const getieltsexam = (id,callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/students/"+id+"/testComplete/graduate/ielts", {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        callback(result)
+        dispatch({ type: STUDENT.getieltsexam, payload: result.data });
+      })
+      .catch((error) => {
+        callback(error)
+        console.log(error);
+      });
+  };
+};
