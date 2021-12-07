@@ -29,6 +29,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import SetCutOff from '../Components/SetCutOff';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -69,6 +70,9 @@ export default function PreviousTest() {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
+  const [data, setData] = useState('');
+  const [openCutOff, setOpenCutOff] = useState(false);
+
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -95,6 +99,11 @@ export default function PreviousTest() {
 
   const handleSearch = (text) => {
     dispatch(listTests('Expired', page, text));
+  };
+
+  const onSetCutOff = (item) => {
+    setOpenCutOff(true);
+    setData(item);
   };
 
   const openInPage = (item) => {
@@ -181,7 +190,10 @@ export default function PreviousTest() {
                         }}
                       />
                     </Controls.ActionButton>
-                    <Controls.ActionButton disabled={!item.attemptedStudents}>
+                    <Controls.ActionButton
+                      onClick={() => onSetCutOff(item)}
+                      disabled={!item.attemptedStudents}
+                    >
                       <AssignmentTurnedIn fontSize='small' />
                     </Controls.ActionButton>
                   </TableCell>
@@ -233,6 +245,13 @@ export default function PreviousTest() {
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <SetCutOff
+        openCutOff={openCutOff}
+        setOpenCutOff={setOpenCutOff}
+        data={data}
+        type={'Expired'}
+        listTests={listTests}
+      />
     </>
   );
 }

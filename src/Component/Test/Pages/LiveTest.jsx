@@ -215,7 +215,7 @@ export default function LiveTest() {
                     <Controls.ActionButton onClick={() => onSchedule(item)}>
                       <ScheduleIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton
+                    {/* <Controls.ActionButton
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
@@ -228,7 +228,7 @@ export default function LiveTest() {
                       }}
                     >
                       <DeleteIcon fontSize='small' color='secondary' />
-                    </Controls.ActionButton>
+                    </Controls.ActionButton> */}
                   </TableCell>
                 </TableRow>
               ))}

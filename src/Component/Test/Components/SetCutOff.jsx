@@ -9,18 +9,14 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import EventIcon from '@material-ui/icons/Event';
+import * as yup from 'yup';
 import Controls from '../../Utils/controls/Controls';
 import { useDispatch } from 'react-redux';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import MomentUtils from '@date-io/moment';
 import { Formik, Form } from 'formik';
-import { scheduleTest } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import CloseIcon from '@material-ui/icons/Close';
-import { DateTimePicker } from '@material-ui/pickers';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import ConfirmSubmit from '../../Utils/ConfirmSubmit';
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -56,18 +52,23 @@ export default function SetCutOff(props) {
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
-  const onSubmit = (id, dates) => {
-    dispatch(scheduleTest(id, dates));
-    setScheduler(false);
-    setNotify({
-      isOpen: true,
-      message: 'Schedule Updated',
-      type: 'success',
-    });
-    setTimeout(() => {
-      dispatch(listTests(type));
-    }, 1200);
-  };
+  const [confirmSubmit, setConfirmSubmit] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+    testName: '',
+    cutOffScore: '',
+  });
+
+  const validationSchema = yup.object({
+    duration: yup
+      .string()
+      .test(
+        'durationCheck',
+        'Cut off score cannot be higher than set score for the test.',
+        (duration) => duration <= data.duration
+      ),
+  });
 
   return (
     <>
@@ -83,80 +84,64 @@ export default function SetCutOff(props) {
           </IconButton>
         </DialogTitle>
         <DialogContent className={classes.dialogContent}>
-          <Typography variant='h6' style={{ marginBottom: '2rem' }}>
+          <Typography variant='h6' style={{ marginBottom: '1rem' }}>
             Set Cut Off
           </Typography>
           <Formik
             initialValues={data || []}
-            onSubmit={(values) => {
-              let scheduleDate = {
-                startDateTime: values.startDateTime,
-                endDateTime: values.endDateTime,
-              };
-              onSubmit(values.id, scheduleDate);
+            validationSchema={validationSchema}
+            onSubmit={(values, { resetForm }) => {
+              setConfirmSubmit({
+                isOpen: true,
+                title: 'Confirm Submission',
+                subTitle: 'Are you sure you want to submit this data?',
+                testName: data.name,
+                cutOffScore: values.duration,
+                onConfirm: () => {
+                  // dispatch(updateAppVersion(values));
+                  setOpenCutOff(false);
+                  setConfirmSubmit({
+                    ...confirmSubmit,
+                    isOpen: false,
+                  });
+                  setNotify({
+                    isOpen: true,
+                    message: 'Cut of Set Successful',
+                    type: 'success',
+                  });
+                  setTimeout(() => {
+                    dispatch(listTests(type));
+                  }, 1200);
+                  resetForm();
+                },
+              });
             }}
             enableReinitialize
           >
-            {({ handleSubmit, values, setFieldValue }) => (
+            {({ handleSubmit, values, handleChange, touched, errors }) => (
               <>
                 <div className='CreateTest'>
                   <Form onSubmit={handleSubmit} autoComplete='off'>
-                    <Grid
-                      item
-                      container
-                      direction='row'
-                      justify='space-around'
-                      style={{ width: '100%' }}
-                    >
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DateTimePicker
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <EventIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          style={{ width: '100%', marginBottom: '1rem' }}
-                          value={values.startDateTime}
-                          name='startDateTime'
-                          inputVariant='outlined'
-                          label='Start Date & Time'
-                          disablePast
-                          onChange={(val) => {
-                            setFieldValue('startDateTime', val);
-                          }}
-                        />
-                      </MuiPickersUtilsProvider>
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DateTimePicker
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <EventIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          disablePast
-                          style={{ width: '100%' }}
-                          value={values.endDateTime}
-                          name='endDateTime'
-                          inputVariant='outlined'
-                          label='End Date & Time'
-                          onChange={(val) => {
-                            setFieldValue('endDateTime', val);
-                          }}
-                        />
-                      </MuiPickersUtilsProvider>
+                    <Grid item container style={{ width: '300px' }}>
+                      <Controls.Input
+                        label='Cut Off'
+                        name='duration'
+                        type='number'
+                        style={{ width: '100%', marginBottom: '1rem' }}
+                        value={values.duration}
+                        onChange={handleChange}
+                        helperText={touched.duration && errors.duration}
+                        error={touched.duration && Boolean(errors.duration)}
+                      />
                     </Grid>
                     <DialogActions className={classes.dialogAction}>
                       <Controls.Button
                         variant='outlined'
                         text='Cancel'
                         color='primary'
-                        onClick={() => setScheduler(false)}
+                        onClick={() => setOpenCutOff(false)}
                       />
-                      <Controls.Button text='Submit' type='submit' color='primary' />
+                      <Controls.Button text='Set' type='submit' color='primary' />
                     </DialogActions>
                   </Form>
                 </div>
@@ -165,6 +150,7 @@ export default function SetCutOff(props) {
           </Formik>
         </DialogContent>
       </Dialog>
+      <ConfirmSubmit confirmSubmit={confirmSubmit} setConfirmSubmit={setConfirmSubmit} />
       <Notification notify={notify} setNotify={setNotify} />
     </>
   );
