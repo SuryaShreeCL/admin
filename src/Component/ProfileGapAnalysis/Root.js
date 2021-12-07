@@ -70,8 +70,7 @@ class ProfileGapRoot extends Component {
   constructor() {
     super();
     this.state = {
-      value: 'interestDetails',
-      // value: 'dashboard',
+      value: 'dashboard',
       open: false,
       anchorEl: null,
       pgaOpen: false,
