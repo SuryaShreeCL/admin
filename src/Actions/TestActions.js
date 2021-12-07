@@ -1,7 +1,7 @@
 import { TEST } from '../Redux/Action';
 import axios from 'axios';
 
-export const listTests = (status, page = 0) => async (dispatch) => {
+export const listTests = (status, page = 0, search = '') => async (dispatch) => {
   try {
     dispatch({ type: TEST.LIST_REQUEST });
 
@@ -14,9 +14,11 @@ export const listTests = (status, page = 0) => async (dispatch) => {
         Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
       data: {
-        search: '',
+        search: search,
         testType: 'EVENT',
         status: status,
+        field: ['createdAt'],
+        order: ['DESC'],
         // -1 for showing results from 0th index and handling it from 1st index on UI
         page: page - 1,
         size: '6',

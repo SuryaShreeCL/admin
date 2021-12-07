@@ -92,18 +92,11 @@ export default function PreviousTest() {
     totalPages
   );
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.name.toLowerCase().includes(target.value));
-      },
-    });
+  const handleSearch = (text) => {
+    dispatch(listTests('Expired', page, text));
   };
 
   const openInPage = (item) => {
-    console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
@@ -140,6 +133,7 @@ export default function PreviousTest() {
           <Controls.RoundedInput
             className={classes.searchInput}
             placeholder='Search Tests'
+            helperText={'Press Enter key to search after typing.'}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -147,7 +141,11 @@ export default function PreviousTest() {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(e.target.value);
+              }
+            }}
           />
         </Toolbar>
 

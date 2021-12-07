@@ -95,14 +95,8 @@ export default function DraftTest() {
     totalPages
   );
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.name.toLowerCase().includes(target.value));
-      },
-    });
+  const handleSearch = (text) => {
+    dispatch(listTests('Draft', page, text));
   };
 
   const openInPage = (item) => {
@@ -147,6 +141,7 @@ export default function DraftTest() {
           <Controls.RoundedInput
             className={classes.searchInput}
             placeholder='Search Tests'
+            helperText={'Press Enter key to search after typing.'}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -154,7 +149,11 @@ export default function DraftTest() {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(e.target.value);
+              }
+            }}
           />
           {/* <Controls.Button
             text='Filter'
@@ -226,7 +225,9 @@ export default function DraftTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests.content?.length === 0 && <Alert severity='info'>0 Draft Tests Found</Alert>}
+          {!loading && tests.content?.length === 0 && (
+            <Alert severity='info'>0 Draft Tests Found</Alert>
+          )}
         </div>
         <TblPagination />
       </Paper>

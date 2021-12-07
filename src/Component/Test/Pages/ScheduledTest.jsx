@@ -96,14 +96,8 @@ export default function ScheduledTest() {
     totalPages
   );
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.name.toLowerCase().includes(target.value));
-      },
-    });
+  const handleSearch = (text) => {
+    dispatch(listTests('Scheduled', page, text));
   };
 
   const openInPage = (item) => {
@@ -148,6 +142,7 @@ export default function ScheduledTest() {
           <Controls.RoundedInput
             className={classes.searchInput}
             placeholder='Search Tests'
+            helperText={'Press Enter key to search after typing.'}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -155,7 +150,11 @@ export default function ScheduledTest() {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(e.target.value);
+              }
+            }}
           />
           {/* <Controls.Button
             text='Filter'

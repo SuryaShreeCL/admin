@@ -61,7 +61,7 @@ export const listWallWebinars = (page = 0) => async (dispatch) => {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=${page - 1}&size=10`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=${page - 1}&size=6`,
       {
         crossDomain: true,
         headers: {
