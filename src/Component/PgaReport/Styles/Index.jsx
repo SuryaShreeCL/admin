@@ -17,10 +17,9 @@ export const useStyles = makeStyles(theme => ({
     padding: '20px',
   },
   containerStyle: {
-    height: '100%',
+    height: '80vh',
     overflowY: 'auto',
     padding: '20px',
-    paddingBottom: 0,
   },
   specializationWrapper: {
     height: '80vh',
@@ -167,5 +166,25 @@ export const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: 'rgba(24, 170, 231, 0.3) !important',
     },
+  },
+  iconBorder: {
+    padding: '0px !important',
+    marginTop: '3px',
+  },
+  dialogPaper: {
+    background: '#FFFFFF',
+    borderRadius: '10px !important',
+    minWidth: '100% !important',
+    minHeight: '100% !important',
+    margin: '0 !important',
+  },
+  dialogRoot: {
+    '& .MuiDialog-scrollPaper': {
+      alignItems: 'flex-start !important',
+      padding: '60px 80px !important',
+    },
+  },
+  arrowStyle: {
+    color: '#000000',
   },
 }));
