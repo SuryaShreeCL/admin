@@ -52,12 +52,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'testName', label: 'Test Name' },
-  { id: 'duration', label: 'Duration' },
-  { id: 'created', label: 'Created' },
-  { id: 'createdby', label: 'Created By' },
-  { id: 'attempted', label: 'Attempted' },
-  { id: 'status', label: 'Status' },
+  { id: 'name', label: 'Test Name' },
+  { id: 'duration', label: 'Duration', disableSorting: true },
+  { id: 'createdAt', label: 'Date', disableSorting: true },
+  { id: 'createdAt', label: 'Published' },
+  { id: 'attemptedStudents', label: 'Attempted' },
+  { id: 'status', label: 'Status', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -75,6 +75,7 @@ export default function PreviousTest() {
   });
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  let totalPages = tests.totalPages;
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -84,24 +85,18 @@ export default function PreviousTest() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    tests,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    tests?.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.name.toLowerCase().includes(target.value));
-      },
-    });
+  const handleSearch = (text) => {
+    dispatch(listTests('Expired', page, text));
   };
 
   const openInPage = (item) => {
-    console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
@@ -118,7 +113,7 @@ export default function PreviousTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Expired'));
+      dispatch(listTests('Expired', page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -128,8 +123,8 @@ export default function PreviousTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Expired'));
-  }, [dispatch]);
+    dispatch(listTests('Expired', page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -138,6 +133,7 @@ export default function PreviousTest() {
           <Controls.RoundedInput
             className={classes.searchInput}
             placeholder='Search Tests'
+            helperText={'Press Enter key to search after typing.'}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -145,13 +141,17 @@ export default function PreviousTest() {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(e.target.value);
+              }
+            }}
           />
         </Toolbar>
 
         <TblContainer>
           <TblHead />
-          {tests && (
+          {tests.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
@@ -165,7 +165,7 @@ export default function PreviousTest() {
                     {item.duration}
                   </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
-                  <TableCell>{item.createdBy}</TableCell>
+                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{item.attemptedStudents}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>
@@ -180,20 +180,6 @@ export default function PreviousTest() {
                         }}
                       />
                     </Controls.ActionButton>
-                    <Controls.ActionButton
-                      onClick={() => {
-                        setConfirmDialog({
-                          isOpen: true,
-                          title: 'Are you sure to delete this post?',
-                          subTitle: "You can't undo this operation",
-                          onConfirm: () => {
-                            onDelete(item.id);
-                          },
-                        });
-                      }}
-                    >
-                      <DeleteIcon fontSize='small' color='secondary' />
-                    </Controls.ActionButton>
                   </TableCell>
                 </TableRow>
               ))}
@@ -203,7 +189,9 @@ export default function PreviousTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests?.length === 0 && <Alert severity='info'>0 Previous Tests Found</Alert>}
+          {!loading && tests.content?.length === 0 && (
+            <Alert severity='info'>0 Previous Tests Found</Alert>
+          )}
         </div>
         <TblPagination />
       </Paper>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Paper,
   makeStyles,
@@ -8,31 +8,31 @@ import {
   Toolbar,
   InputAdornment,
   IconButton,
-} from '@material-ui/core';
-import useTable from '../../Utils/useTable';
-import Controls from '../../Utils/controls/Controls';
-import { Search } from '@material-ui/icons';
-import AddIcon from '@material-ui/icons/Add';
-import Drawer from '@material-ui/core/Drawer';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import Notification from '../../Utils/Notification';
-import { useHistory } from 'react-router-dom';
-import { editPath, createPath } from '../../RoutePaths';
-import Loader from '../../Utils/controls/Loader';
-import MuiAlert from '@material-ui/lab/Alert';
-import ConfirmDialog from '../../Utils/ConfirmDialog';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import { useSelector, useDispatch } from 'react-redux';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import Preview from '../Components/Preview';
-import { DrawerContainer } from '../Assets/Styles/WallStyles';
-import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import { listWallWebinars, deleteWallPost } from '../../../Actions/WallActions';
-import { renderListCategory } from '../../Utils/Helpers';
-import { isLms_Role } from '../WallLanding';
+} from "@material-ui/core";
+import useTable from "../../Utils/useTable";
+import Controls from "../../Utils/controls/Controls";
+import { Search } from "@material-ui/icons";
+import AddIcon from "@material-ui/icons/Add";
+import Drawer from "@material-ui/core/Drawer";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import Notification from "../../Utils/Notification";
+import { useHistory } from "react-router-dom";
+import { editPath, createPath } from "../../RoutePaths";
+import Loader from "../../Utils/controls/Loader";
+import MuiAlert from "@material-ui/lab/Alert";
+import ConfirmDialog from "../../Utils/ConfirmDialog";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import { useSelector, useDispatch } from "react-redux";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import Preview from "../Components/Preview";
+import { DrawerContainer } from "../Assets/Styles/WallStyles";
+import { ButtonsContainerTwo } from "../Assets/Styles/CreatePostStyles";
+import { listWallWebinars, deleteWallPost } from "../../../Actions/WallActions";
+import { renderListCategory } from "../../Utils/Helpers";
+import { isLms_Role } from "../WallLanding";
 
-const Alert = props => <MuiAlert elevation={6} variant='filled' {...props} />;
+const Alert = props => <MuiAlert elevation={6} variant="filled" {...props} />;
 
 const useStyles = makeStyles(theme => ({
   pageContent: {
@@ -40,33 +40,33 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
   },
   searchInput: {
-    width: '65%',
+    width: "65%",
   },
   filterBtn: {
-    position: 'absolute',
-    right: '250px',
-    borderRadius: '26px',
+    position: "absolute",
+    right: "250px",
+    borderRadius: "26px",
   },
   newButton: {
-    position: 'absolute',
-    right: '20px',
-    borderRadius: '26px',
+    position: "absolute",
+    right: "20px",
+    borderRadius: "26px",
   },
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
-  { id: 'title', label: 'Title' },
-  { id: 'caption', label: 'Caption' },
-  { id: 'registerations', label: 'Registered' },
-  { id: 'createdDate', label: 'Date of upload' },
-  { id: 'uploadedBy', label: 'Uploded by' },
-  { id: 'status', label: 'Status' },
-  { id: 'actions', label: 'Actions', disableSorting: true },
+  { id: "category", label: "Category", disableSorting: true },
+  { id: "eventTitle", label: "Title" },
+  { id: "caption", label: "Caption", disableSorting: true },
+  { id: "studentWallWebinar", label: "Registered" },
+  { id: "createdDate", label: "Date of upload" },
+  { id: "uploadedBy", label: "Uploded by" },
+  { id: "status", label: "Status", disableSorting: true },
+  { id: "actions", label: "Actions", disableSorting: true },
 ];
 
 export default function Webinars() {
-  let role = window.sessionStorage.getItem('role');
+  let role = window.sessionStorage.getItem("role");
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -82,22 +82,23 @@ export default function Webinars() {
   const { loading, error, webinars } = useSelector(
     state => state.wallWebinarListReducer
   );
+  let totalPages = webinars?.totalPages;
 
   //fitering out archived webinars
-  let filteredWebinars = webinars?.filter(
-    webinar => webinar.activeStatus !== 'Archive'
+  let filteredWebinars = webinars?.content?.filter(
+    webinar => webinar.activeStatus !== "Archive"
   );
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({
     isOpen: false,
-    message: '',
-    type: '',
+    message: "",
+    type: "",
   });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
-    title: '',
-    subTitle: '',
+    title: "",
+    subTitle: "",
   });
 
   const {
@@ -105,13 +106,14 @@ export default function Webinars() {
     TblHead,
     TblPagination,
     recordsAfterPagingAndSorting,
-  } = useTable(filteredWebinars, headCells, filterFn);
+    page,
+  } = useTable(filteredWebinars, headCells, filterFn, totalPages);
 
   const handleSearch = e => {
     let target = e.target;
     setFilterFn({
       fn: items => {
-        if (target.value == '') return items;
+        if (target.value == "") return items;
         else
           return items.filter(x =>
             x.eventTitle.toLowerCase().includes(target.value)
@@ -121,22 +123,14 @@ export default function Webinars() {
   };
 
   const openInPage = item => {
-    if (!item.isEditable) {
-      setNotify({
-        isOpen: true,
-        message: 'Only the creator can edit the post',
-        type: 'Error',
-      });
-    } else {
-      history.push({
-        pathname: editPath,
-        recordForEdit: item,
-        postType: 'Webinar',
-        postTypeTab: isLms_Role(role) ? 0 : 4,
-      });
-      setRecordForEdit(item);
-      setOpenDrawer(false);
-    }
+    history.push({
+      pathname: editPath,
+      recordForEdit: item,
+      postType: "Webinar",
+      postTypeTab: isLms_Role(role) ? 0 : 4,
+    });
+    setRecordForEdit(item);
+    setOpenDrawer(false);
   };
 
   const onDelete = id => {
@@ -146,30 +140,30 @@ export default function Webinars() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallWebinars());
+      dispatch(listWallWebinars(page));
     }, 1200);
     setNotify({
       isOpen: true,
-      message: 'Deleted Successfully',
-      type: 'error',
+      message: "Deleted Successfully",
+      type: "error",
     });
   };
 
   useEffect(() => {
-    dispatch(listWallWebinars());
-  }, [dispatch]);
+    dispatch(listWallWebinars(page));
+  }, [dispatch, page]);
 
   const handleDeleteClick = item => {
     if (!item.isEditable) {
       setNotify({
         isOpen: true,
-        message: 'Only the creator can delete the post',
-        type: 'Error',
+        message: "Only the creator can delete the post",
+        type: "Error",
       });
     } else {
       setConfirmDialog({
         isOpen: true,
-        title: 'Are you sure to delete this post?',
+        title: "Are you sure to delete this post?",
         subTitle: "You can't undo this operation",
         onConfirm: () => {
           onDelete(item.id);
@@ -184,10 +178,10 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Webinars'
+            placeholder="Search Webinars"
             InputProps={{
               startAdornment: (
-                <InputAdornment position='start'>
+                <InputAdornment position="start">
                   <Search />
                 </InputAdornment>
               ),
@@ -202,16 +196,16 @@ export default function Webinars() {
             className={classes.filterBtn}
           /> */}
           <Controls.Button
-            text='Create New Webinar'
-            variant='contained'
-            color='primary'
+            text="Create New Webinar"
+            variant="contained"
+            color="primary"
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
               history.push({
                 pathname: createPath,
                 type: false,
-                postType: 'Webinar',
+                postType: "Webinar",
                 postTypeTab: isLms_Role(role) ? 0 : 4,
               });
             }}
@@ -230,17 +224,17 @@ export default function Webinars() {
                   <TableCell>{`${item.eventTitle}`}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.studentWallWebinar.length}</TableCell>
-                  <TableCell>{item.createdAt.split('T')[0]}</TableCell>
+                  <TableCell>{item.createdAt.split("T")[0]}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
-                      <EditOutlinedIcon fontSize='small' color='primary' />
+                      <EditOutlinedIcon fontSize="small" color="primary" />
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       onClick={() => handleDeleteClick(item)}
                     >
-                      <DeleteIcon fontSize='small' color='secondary' />
+                      <DeleteIcon fontSize="small" color="secondary" />
                     </Controls.ActionButton>
                   </TableCell>
                 </TableRow>
@@ -248,18 +242,18 @@ export default function Webinars() {
             </TableBody>
           )}
         </TblContainer>
-        <div style={{ margin: '2rem auto', width: '60%' }}>
+        <div style={{ margin: "2rem auto", width: "60%" }}>
           {loading && <Loader />}
-          {error && <Alert severity='error'>{error}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
           {!loading && filteredWebinars?.length === 0 && (
-            <Alert severity='info'>0 Webinars Found</Alert>
+            <Alert severity="info">0 Webinars Found</Alert>
           )}
         </div>
         <TblPagination />
       </Paper>
 
       <Drawer
-        anchor='right'
+        anchor="right"
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
@@ -267,21 +261,21 @@ export default function Webinars() {
           <Preview state={viewData} />
           <ButtonsContainerTwo>
             <span
-              style={{ fontSize: '1rem' }}
+              style={{ fontSize: "1rem" }}
               onClick={() => openInPage(viewData)}
             >
-              <IconButton aria-label='edit'>
-                <EditIcon color='primary' size='large' />
+              <IconButton aria-label="edit">
+                <EditIcon color="primary" size="large" />
               </IconButton>
               Edit
             </span>
             <span
-              style={{ fontSize: '1rem' }}
+              style={{ fontSize: "1rem" }}
               onClick={() => {
                 setOpenDrawer(false);
                 setConfirmDialog({
                   isOpen: true,
-                  title: 'Are you sure to delete this post?',
+                  title: "Are you sure to delete this post?",
                   subTitle: "You can't undo this operation",
                   onConfirm: () => {
                     onDelete(viewData.id);
@@ -289,8 +283,8 @@ export default function Webinars() {
                 });
               }}
             >
-              <IconButton aria-label='remove'>
-                <DeleteIcon color='secondary' size='large' />
+              <IconButton aria-label="remove">
+                <DeleteIcon color="secondary" size="large" />
               </IconButton>
               Remove
             </span>

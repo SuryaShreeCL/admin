@@ -55,11 +55,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const headCells = [
-  { id: "category", label: "Category" },
-  { id: "title", label: "Title" },
-  { id: "caption", label: "Caption" },
+  { id: "category", label: "Category", disableSorting: true },
+  { id: "eventTitle", label: "Title" },
+  { id: "caption", label: "Caption", disableSorting: true },
+  { id: "studentWallWebinar", label: "Registered" },
   { id: "createdDate", label: "Date of upload" },
   { id: "uploadedBy", label: "Uploded by" },
+  { id: "status", label: "Status", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -80,9 +82,10 @@ export default function Webinars() {
   const { loading, error, webinars } = useSelector(
     state => state.wallWebinarListReducer
   );
+  let totalPages = webinars?.totalPages;
 
   //fitering out archived webinars
-  let filteredWebinars = webinars?.filter(
+  let filteredWebinars = webinars?.content?.filter(
     webinar => webinar.activeStatus !== "Archive"
   );
 
@@ -103,7 +106,8 @@ export default function Webinars() {
     TblHead,
     TblPagination,
     recordsAfterPagingAndSorting,
-  } = useTable(filteredWebinars, headCells, filterFn);
+    page,
+  } = useTable(filteredWebinars, headCells, filterFn, totalPages);
 
   const handleSearch = e => {
     let target = e.target;
@@ -119,22 +123,14 @@ export default function Webinars() {
   };
 
   const openInPage = item => {
-    if (!item.isEditable) {
-      setNotify({
-        isOpen: true,
-        message: "Only the creator can edit the post",
-        type: "Error",
-      });
-    } else {
-      history.push({
-        pathname: editPath,
-        recordForEdit: item,
-        postType: "Webinar",
-        postTypeTab: isLms_Role(role) ? 0 : 4,
-      });
-      setRecordForEdit(item);
-      setOpenDrawer(false);
-    }
+    history.push({
+      pathname: editPath,
+      recordForEdit: item,
+      postType: "Webinar",
+      postTypeTab: isLms_Role(role) ? 0 : 4,
+    });
+    setRecordForEdit(item);
+    setOpenDrawer(false);
   };
 
   const onDelete = id => {
@@ -144,7 +140,7 @@ export default function Webinars() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallWebinars());
+      dispatch(listWallWebinars(page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -154,8 +150,8 @@ export default function Webinars() {
   };
 
   useEffect(() => {
-    dispatch(listWallWebinars());
-  }, [dispatch]);
+    dispatch(listWallWebinars(page));
+  }, [dispatch, page]);
 
   const handleDeleteClick = item => {
     if (!item.isEditable) {
@@ -227,10 +223,10 @@ export default function Webinars() {
                   </TableCell>
                   <TableCell>{`${item.eventTitle}`}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  {/* <TableCell>{item.studentWallWebinar.length}</TableCell> */}
+                  <TableCell>{item.studentWallWebinar.length}</TableCell>
                   <TableCell>{item.createdAt.split("T")[0]}</TableCell>
                   <TableCell>{item.createdBy}</TableCell>
-                  {/* <TableCell>{item.activeStatus}</TableCell> */}
+                  <TableCell>{item.activeStatus}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize="small" color="primary" />

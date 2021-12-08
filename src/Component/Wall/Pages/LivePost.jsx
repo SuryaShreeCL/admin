@@ -56,10 +56,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category' },
-  { id: 'date', label: 'Published' },
-  { id: 'caption', label: 'Caption' },
-  { id: 'likes', label: 'Likes' },
+  { id: 'category', label: 'Category', disableSorting: true },
+  { id: 'createdAt', label: 'Published' },
+  { id: 'caption', label: 'Caption', disableSorting: true },
+  { id: 'totalLikes', label: 'Likes' },
   { id: 'totalViews', label: 'Views' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -80,7 +80,8 @@ export default function LivePost() {
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
 
   //Filtering out the webinar posts
-  let filteredPosts = posts?.filter((post) => post.isWebinar !== true);
+  let totalPages = posts?.totalPages;
+  let filteredPosts = posts?.content?.filter((post) => post.isWebinar !== true);
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -90,10 +91,11 @@ export default function LivePost() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
     filteredPosts,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -129,7 +131,7 @@ export default function LivePost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', false));
+     dispatch(listWallPosts('Live', false, page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -139,8 +141,8 @@ export default function LivePost() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live', false));
-  }, [dispatch]);
+    dispatch(listWallPosts('Live', false, page));
+  }, [dispatch, page]);
 
   return (
     <>

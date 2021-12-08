@@ -20,11 +20,11 @@ import MbaReportGraph from "../../../Asset/Images/MbaReportGraph.png";
 
 const footerDescription = [
   {
-    name: "Source",
+    name: "Source:",
     description: "As found on respective B-Schools websites",
   },
   {
-    name: "Disclaimer",
+    name: "Disclaimer:",
     description:
       "The data has been taken from the Class Profiles of respective B-Schools as on March-2021.Refer to the school websites for the latest information",
   },
@@ -156,12 +156,15 @@ function MbaReport({ content = [], assessment = [] }) {
           {assessment &&
             assessment.map((item, idx) => (
               <View style={styles.list_wrapper} key={idx.toString()}>
-                <View style={styles.list_container}>
+                <View>
                   <Text style={styles.highlight_text}>{item.title}</Text>
-
+                </View>
+                <View style={styles.list_container}>
+                  {/* <Text style={styles.highlight_text}>{item.title}</Text>
                   <Text wrap={true} style={styles.list_item}>
                     {item.description}
-                  </Text>
+                  </Text> */}
+                  <Text style={styles.list_item}>{item.description}</Text>
                 </View>
               </View>
             ))}
@@ -224,12 +227,11 @@ function MbaReport({ content = [], assessment = [] }) {
           {/* footer description */}
           {footerDescription.map((data, idx) => (
             <View style={styles.list_wrapper} key={idx.toString()}>
+              <View>
+                <Text style={styles.footerText}>{data.name}</Text>
+              </View>
               <View style={styles.list_container}>
-                <Text style={styles.list_item}>{data.name}</Text>
-
-                <Text wrap={true} style={styles.list_item}>
-                  {data.description}
-                </Text>
+                <Text style={styles.list_item}>{data.description}</Text>
               </View>
             </View>
           ))}
@@ -324,6 +326,9 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 10,
     marginBottom: "30px",
+  },
+  footerText: {
+    fontSize: 10,
   },
   remark: {
     fontSize: 10,

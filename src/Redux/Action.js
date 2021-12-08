@@ -96,6 +96,9 @@ export const STUDENT = {
   StudentStepDetails: "StudentStepDetails",
   ObIncomplete: "ObIncomplete",
   ObComplete: "ObComplete",
+  IncompleteStatus: "IncompleteStatus",
+  getexpecteddate: "getexpecteddate",
+  getieltsexam: "getieltsexam",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -448,7 +451,6 @@ export const WALL = {
   UPDATE_SUCCESS: "WALL_UPDATE_SUCCESS",
   UPDATE_FAIL: "WALL_UPDATE_FAIL",
   UPDATE_RESET: "WALL_UPDATE_RESET",
-  UPLOADED_IMAGE: "UPLOAD_IMAGE",
 };
 
 export const TEST = {
@@ -482,4 +484,24 @@ export const TEST = {
   SCHEDULE_SUCCESS: "TEST_SCHEDULE_SUCCESS",
   SCHEDULE_FAIL: "TEST_SCHEDULE_FAIL",
   SCHEDULE_RESET: "TEST_SCHEDULE_RESET",
+};
+
+export const PGA_REPORT = {
+  getSpiderGraph: "getSpiderGraph",
+  postParseResume: "postParseResume",
+  getColleges: "getColleges",
+  getDepartments: "getDepartments",
+  getUniversity: "getUniversity",
+  getDegrees: "getDegrees",
+  getProfessionalCertificates: "getProfessionalCertificates",
+  getAcademicCertificates: "getAcademicCertificates",
+  getRelevantSkills: "getRelevantSkills",
+  getElectiveSubjects: "getElectiveSubjects",
+  getAwardHobby: "getAwardHobby",
+  generateCareerTracks: "generateCareerTracks",
+  addStudentCareerTrackDetails: "addStudentCareerTrackDetails",
+  profileScoreGenerate: "profileScoreGenerate",
+  getResumePdfPath: "getResumePdfPath",
+  getResumePdfDownloadUrl: "getResumePdfDownloadUrl",
+  getResumeQuestionnaire: "getResumeQuestionnaire",
 };

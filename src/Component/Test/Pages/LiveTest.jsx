@@ -55,12 +55,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'testName', label: 'Test Name' },
-  { id: 'duration', label: 'Duration' },
-  { id: 'created', label: 'Created' },
-  { id: 'createdby', label: 'Created By' },
-  { id: 'attempted', label: 'Attempted' },
-  { id: 'status', label: 'Status' },
+  { id: 'name', label: 'Test Name' },
+  { id: 'duration', label: 'Duration', disableSorting: true },
+  { id: 'createdAt', label: 'Created' },
+  { id: 'createdby', label: 'Created By', disableSorting: true },
+  { id: 'attemptedStudents', label: 'Attempted' },
+  { id: 'status', label: 'Status', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -83,6 +83,7 @@ export default function LiveTest() {
   };
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  let totalPages = tests.totalPages;
 
   const [scheduler, setScheduler] = useState(false);
   const [data, setData] = useState('');
@@ -95,10 +96,11 @@ export default function LiveTest() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    tests,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    tests.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -112,7 +114,6 @@ export default function LiveTest() {
   };
 
   const openInPage = (item) => {
-    console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
@@ -129,7 +130,7 @@ export default function LiveTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Live'));
+      dispatch(listTests('Live', page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -139,8 +140,8 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Live'));
-  }, [dispatch]);
+    dispatch(listTests('Live', page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -182,7 +183,7 @@ export default function LiveTest() {
 
         <TblContainer>
           <TblHead />
-          {tests && (
+          {tests.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
@@ -237,7 +238,7 @@ export default function LiveTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests?.length === 0 && <Alert severity='info'>0 Live Tests Found</Alert>}
+          {!loading && tests.content?.length === 0 && <Alert severity='info'>0 Live Tests Found</Alert>}
         </div>
         <TblPagination />
       </Paper>
@@ -251,7 +252,7 @@ export default function LiveTest() {
               </IconButton>
               Edit
             </span>
-            <span
+            {/* <span
               style={{ fontSize: '1rem' }}
               onClick={() => {
                 setOpenDrawer(false);
@@ -269,7 +270,7 @@ export default function LiveTest() {
                 <DeleteIcon color='secondary' size='large' />
               </IconButton>
               Remove
-            </span>
+            </span> */}
           </ButtonsContainerTwo>
         </DrawerContainer>
       </Drawer>
