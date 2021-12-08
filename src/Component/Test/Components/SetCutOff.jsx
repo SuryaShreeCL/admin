@@ -143,7 +143,12 @@ export default function SetCutOff(props) {
                         color='primary'
                         onClick={() => setOpenCutOff(false)}
                       />
-                      <Controls.Button text='Set' type='submit' color='primary' />
+                      <Controls.Button
+                        disabled={false} //data.score !== null
+                        text='Set'
+                        type='submit'
+                        color='primary'
+                      />
                     </DialogActions>
                   </Form>
                 </div>
