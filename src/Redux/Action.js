@@ -1,17 +1,17 @@
 export const COURSES = {
-  GetCourses: 'GetCourses',
-  AddCourse: 'AddCourse',
-  GetCourseById: 'GetCourseById',
-  UpdateCourse: 'UpdateCourse',
-  GetRecommendedCouses: 'GetRecommendedCourses',
-  GetPopularCourses: 'GetPopularCourses',
-  GetSimilarCourses: 'GetSimilarCourses',
-  GetMarkettingRecommended: 'GetMarkettingRecommended',
-  GetServiceRecommended: 'GetServiceRecommended',
-  DomainList : "DomainList",
-  SubDomainList : "SubDomainList",
-  ProductVariant : "ProductVariant",
-  AdvanceCourse : "AdvanceCourse",
+  GetCourses: "GetCourses",
+  AddCourse: "AddCourse",
+  GetCourseById: "GetCourseById",
+  UpdateCourse: "UpdateCourse",
+  GetRecommendedCouses: "GetRecommendedCourses",
+  GetPopularCourses: "GetPopularCourses",
+  GetSimilarCourses: "GetSimilarCourses",
+  GetMarkettingRecommended: "GetMarkettingRecommended",
+  GetServiceRecommended: "GetServiceRecommended",
+  DomainList: "DomainList",
+  SubDomainList: "SubDomainList",
+  ProductVariant: "ProductVariant",
+  AdvanceCourse: "AdvanceCourse",
 
   // Selva
   deleteCourse: "deleteCourse",
@@ -448,6 +448,7 @@ export const WALL = {
   UPDATE_SUCCESS: "WALL_UPDATE_SUCCESS",
   UPDATE_FAIL: "WALL_UPDATE_FAIL",
   UPDATE_RESET: "WALL_UPDATE_RESET",
+  UPLOADED_IMAGE: "UPLOAD_IMAGE",
 };
 
 export const TEST = {
