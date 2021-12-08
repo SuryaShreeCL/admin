@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import Controls from '../../Utils/controls/Controls';
 import { useDispatch } from 'react-redux';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import Winner from '@material-ui/icons/EmojiEvents';
 import { Formik, Form } from 'formik';
 import Notification from '../../Utils/Notification';
 import CloseIcon from '@material-ui/icons/Close';
@@ -81,7 +82,7 @@ export default function SetCutOff(props) {
         />
         <DialogTitle className={classes.dialogTitle}>
           <IconButton disableRipple className={classes.titleIcon}>
-            <ScheduleIcon />
+            <Winner />
           </IconButton>
         </DialogTitle>
         <DialogContent className={classes.dialogContent}>
