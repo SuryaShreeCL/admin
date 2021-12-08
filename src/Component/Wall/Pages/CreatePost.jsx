@@ -93,6 +93,7 @@ const CreatePost = () => {
     videoUrl: "",
     hostImageUrl: "",
     banner: "",
+    isEvent: false,
   });
 
   const [errorSchema, setErrorSchema] = useState({
@@ -213,10 +214,11 @@ const CreatePost = () => {
   };
 
   const handleImageUpload = (e, type) => {
-    const fileSize = e.target.files[0].name;
-    // console.log(object)
-    // File size less than 1 MiB
-    if (fileSize < 1 && e.target.files[0].type.includes("image")) {
+    const fileSize = e.target.files[0].size / 1024 / 1024;
+    const fileType = e.target.files[0].type;
+
+    // File size less than 1 MiB && Image file check
+    if (fileSize < 1 && fileType.includes("image")) {
       let formData = new FormData();
       formData.append("file", e.target.files[0]);
       dispatch(
