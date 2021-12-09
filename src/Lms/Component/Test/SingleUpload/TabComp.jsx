@@ -1,10 +1,10 @@
-import React from 'react';
-import { TabContainer, TabThreeDot } from '../../../Assets/StyledComponents';
-import { IconButton } from '@material-ui/core';
-import { MoreVertRounded } from '@material-ui/icons';
-import { StyledTaps } from '../../../Utils/Tabs';
-import { AnswerDiv } from '../../../Assets/StyledTest';
-import Menu from '../../CourseMaterials/Menu';
+import { IconButton } from "@material-ui/core";
+import { MoreVertRounded } from "@material-ui/icons";
+import React from "react";
+import { TabContainer, TabThreeDot } from "../../../Assets/StyledComponents";
+import { AnswerDiv } from "../../../Assets/StyledTest";
+import { StyledTaps } from "../../../Utils/Tabs";
+import Menu from "../../CourseMaterials/Menu";
 
 function TabComp(props) {
   let {
@@ -24,15 +24,15 @@ function TabComp(props) {
           <TabThreeDot>
             <IconButton
               style={{
-                padding: '3px',
+                padding: "3px",
               }}
-              id='three-dot-button'
+              id="three-dot-button"
               onClick={handleThreeDotClick}
             >
-              <MoreVertRounded style={{ fill: '#1093ff' }} />
+              <MoreVertRounded style={{ fill: "#1093ff" }} />
             </IconButton>
             <Menu
-              questionId={'three-dot-button-menu'}
+              questionId={"three-dot-button-menu"}
               handleClose={handleClose}
               open={Boolean(anchorEl)}
               anchorEl={anchorEl}
@@ -45,10 +45,10 @@ function TabComp(props) {
               tabId: activeTab,
               // this.setState({ tabValue: newValue + 1 }),
               handleTabChange: (e, newValue) => handleTabChange(newValue),
-              tabsBackColor: '#1093FF',
+              tabsBackColor: "#1093FF",
               tabData: bucketArray,
-              activeClass: 'active__task__tab',
-              styleName: 'answer_page_tab_styles',
+              activeClass: "active__task__tab",
+              styleName: "answer_page_tab_styles",
             }}
           />
         </TabContainer>

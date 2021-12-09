@@ -1,14 +1,14 @@
-import React from 'react';
 import {
+  Divider,
+  FormControl,
   Grid,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
-  FormControl,
-  Divider,
-} from '@material-ui/core';
-import DropDown from '../../../Utils/DropDown';
-import { DropDownDiv } from '../../../Assets/StyledComponents';
+} from "@material-ui/core";
+import React from "react";
+import { DropDownDiv } from "../../../Assets/StyledComponents";
+import DropDown from "../../../Utils/DropDown";
 
 function DropDownRack(props) {
   const {
@@ -35,7 +35,7 @@ function DropDownRack(props) {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4}>
                 <DropDown
-                  label='Subject'
+                  label="Subject"
                   items={subjects.data}
                   value={activeSubject}
                   onChange={handleSubjectChange}
@@ -44,7 +44,7 @@ function DropDownRack(props) {
               </Grid>
               <Grid item xs={12} sm={4}>
                 <DropDown
-                  label='Concept'
+                  label="Concept"
                   items={concepts.data}
                   value={activeConcept}
                   onChange={handleConceptChange}
@@ -53,7 +53,7 @@ function DropDownRack(props) {
               </Grid>
               <Grid item xs={12} sm={4}>
                 <DropDown
-                  label='Topic'
+                  label="Topic"
                   items={topics}
                   value={activeTopic}
                   onChange={handleTopicChange}
@@ -67,10 +67,10 @@ function DropDownRack(props) {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={4}>
               <DropDown
-                label='Difficulty level'
+                label="Difficulty level"
                 items={difficulty}
                 value={activeLevel}
-                name='activeLevel'
+                name="activeLevel"
                 onChange={handleInputChange}
               />
             </Grid>
@@ -80,10 +80,10 @@ function DropDownRack(props) {
                   <InputLabel
                     shrink={true}
                     style={{
-                      top: '-8px',
-                      left: '15px',
-                      background: '#FFFFFF',
-                      padding: '0 10px 0 8px',
+                      top: "-8px",
+                      left: "15px",
+                      background: "#FFFFFF",
+                      padding: "0 10px 0 8px",
                       zIndex: 1,
                     }}
                   >
@@ -93,21 +93,21 @@ function DropDownRack(props) {
                     // disabled
                     inputProps={{
                       style: {
-                        height: '11px',
+                        height: "11px",
                       },
                     }}
-                    type={'number'}
+                    type={"number"}
                     onKeyDown={e =>
                       (e.keyCode === 69 || e.keyCode === 190) &&
                       e.preventDefault()
                     }
-                    id='expectedTime'
+                    id="expectedTime"
                     value={expectedTime}
-                    name='expectedTime'
+                    name="expectedTime"
                     // placeholder='Expected time for completion'
                     onChange={handleInputChange}
                     endAdornment={
-                      <InputAdornment position='end'>seconds</InputAdornment>
+                      <InputAdornment position="end">seconds</InputAdornment>
                     }
                   />
                 </FormControl>
@@ -115,7 +115,7 @@ function DropDownRack(props) {
             )}
           </Grid>
         </DropDownDiv>
-        <Divider className={'single_select_divider'} />
+        <Divider className={"single_select_divider"} />
       </React.Fragment>
     );
   } else return null;

@@ -1,10 +1,9 @@
 import React from "react";
-import { H1, H2, Div1, Switch, Div2 } from "../../../Assets/StyledTest";
-
+import { Div1, Div2, H1, H2, Switch } from "../../../Assets/StyledTest";
 import PlusButton from "../../../Utils/PlusButton";
-import TabComp from "./TabComp";
-import RadioButtons from "./RadioButtons";
 import Choice from "./Choice";
+import RadioButtons from "./RadioButtons";
+import TabComp from "./TabComp";
 
 function Answer(props) {
   const {

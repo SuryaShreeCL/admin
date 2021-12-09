@@ -1,13 +1,13 @@
-import React from 'react';
+import { TextField, ThemeProvider } from "@material-ui/core";
+import React from "react";
 import {
   C2,
-  T4,
-  useStyle,
-  textFieldTheme,
   EditorBox,
-} from '../../../Assets/StyledTest';
-import { TextField, ThemeProvider } from '@material-ui/core';
-import TextEditor from '../../../Utils/TextEditor';
+  T4,
+  textFieldTheme,
+  useStyle,
+} from "../../../Assets/StyledTest";
+import TextEditor from "../../../Utils/TextEditor";
 
 function Explanation(props) {
   const classes = useStyle();
@@ -40,12 +40,12 @@ function Explanation(props) {
         /> */}
       <ThemeProvider theme={textFieldTheme}>
         <TextField
-          style={{ marginTop: '24px' }}
-          variant='outlined'
+          style={{ marginTop: "24px" }}
+          variant="outlined"
           InputLabelProps={{
             shrink: true,
           }}
-          label='Video Explanatory Answer'
+          label="Video Explanatory Answer"
           value={url}
           onChange={handleUrlChange}
         />

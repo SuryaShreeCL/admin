@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 const headCells = [
   { id: "category", label: "Category", disableSorting: true },
   { id: "eventTitle", label: "Title" },
-  { id: "caption", label: "Caption", disableSorting: false },
+  { id: "caption", label: "Caption", disableSorting: true },
   { id: "studentWallWebinar", label: "Registered" },
   { id: "createdDate", label: "Date of upload" },
   { id: "uploadedBy", label: "Uploded by" },
@@ -122,35 +122,15 @@ export default function Webinars() {
     });
   };
 
-  // const openInPage = item => {
-  //   console.log(item);
-  //   history.push({
-  //     pathname: editPath,
-  //     recordForEdit: item,
-  //     postType: "Webinar",
-  //     postTypeTab: isLms_Role(role) ? 0 : 4,
-  //   });
-  //   setRecordForEdit(item);
-  //   setOpenDrawer(false);
-  // };
-
   const openInPage = item => {
-    if (!item.isEditable) {
-      setNotify({
-        isOpen: true,
-        message: "Only the creator can edit the post",
-        type: "Error",
-      });
-    } else {
-      history.push({
-        pathname: editPath,
-        recordForEdit: item,
-        postType: "Webinar",
-        postTypeTab: isLms_Role(role) ? 0 : 4,
-      });
-      setRecordForEdit(item);
-      setOpenDrawer(false);
-    }
+    history.push({
+      pathname: editPath,
+      recordForEdit: item,
+      postType: "Webinar",
+      postTypeTab: isLms_Role(role) ? 0 : 4,
+    });
+    setRecordForEdit(item);
+    setOpenDrawer(false);
   };
 
   const onDelete = id => {

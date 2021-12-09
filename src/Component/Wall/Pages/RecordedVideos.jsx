@@ -123,14 +123,22 @@ export default function Webinars() {
   };
 
   const openInPage = item => {
-    history.push({
-      pathname: editPath,
-      recordForEdit: item,
-      postType: "Webinar",
-      postTypeTab: isLms_Role(role) ? 0 : 4,
-    });
-    setRecordForEdit(item);
-    setOpenDrawer(false);
+    if (!item.isEditable) {
+      setNotify({
+        isOpen: true,
+        message: "Only the creator can edit the post",
+        type: "Error",
+      });
+    } else {
+      history.push({
+        pathname: editPath,
+        recordForEdit: item,
+        postType: "Webinar",
+        postTypeTab: isLms_Role(role) ? 0 : 4,
+      });
+      setRecordForEdit(item);
+      setOpenDrawer(false);
+    }
   };
 
   const onDelete = id => {
@@ -178,7 +186,7 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder="Search Webinars"
+            placeholder="Search Recorded Videos"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -195,7 +203,7 @@ export default function Webinars() {
             startIcon={<FilterListIcon />}
             className={classes.filterBtn}
           /> */}
-          <Controls.Button
+          {/* <Controls.Button
             text="Create New Webinar"
             variant="contained"
             color="primary"
@@ -209,7 +217,7 @@ export default function Webinars() {
                 postTypeTab: isLms_Role(role) ? 0 : 4,
               });
             }}
-          />
+          /> */}
         </Toolbar>
 
         <TblContainer>
@@ -228,9 +236,9 @@ export default function Webinars() {
                   <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.activeStatus}</TableCell>
                   <TableCell>
-                    <Controls.ActionButton onClick={() => openInPage(item)}>
+                    {/* <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize="small" color="primary" />
-                    </Controls.ActionButton>
+                    </Controls.ActionButton> */}
                     <Controls.ActionButton
                       onClick={() => handleDeleteClick(item)}
                     >

@@ -179,8 +179,6 @@ const EditPost = () => {
     setState({ ...state, hostImageUrl: "" });
   };
 
-  console.log(state);
-
   return (
     <>
       <BackHandler
@@ -209,7 +207,6 @@ const EditPost = () => {
             touched,
             setFieldValue,
           }) => {
-            console.log(values);
             return (
               <>
                 <div className="CreatePost">
