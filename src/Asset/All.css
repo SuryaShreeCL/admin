@@ -461,8 +461,8 @@ input[type='checkbox']:checked + label {
   overflow: auto;
 }
 .gat_image {
-  height : 75px !important;
-  width : 75px !important
+  height: 75px !important;
+  width: 75px !important;
 }
 .gat_card {
   height: 80px !important;
@@ -474,11 +474,18 @@ input[type='checkbox']:checked + label {
   flex-direction: row !important;
 }
 .gat_exam_card {
-  display:flex !important ;
-  justify-content:center !important;
-  align-items:center !important;
+  display: flex !important ;
+  justify-content: center !important;
+  align-items: center !important;
 }
 .gat_exam_div {
-  display:flex !important;
-  flex-direction:column !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.date_box_style {
+  margin-top: -16px !important;
+  max-width: 338px;
+}
+.padding_date_box_style {
+  padding-top: 18px !important;
 }
