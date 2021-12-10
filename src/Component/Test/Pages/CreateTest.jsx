@@ -116,22 +116,6 @@ const CreateTest = () => {
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
-    if (values.name.length < 1) {
-      setNotify({
-        isOpen: true,
-        message: 'Test name cannot be empty',
-        type: 'error',
-      });
-      return false;
-    }
-    if (values.descriptionTitle.length < 1) {
-      setNotify({
-        isOpen: true,
-        message: 'Description title cannot be empty',
-        type: 'error',
-      });
-      return false;
-    }
     if (values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
@@ -158,7 +142,12 @@ const CreateTest = () => {
   };
 
   const validationSchema = yup.object({
-    nameDescription: yup.string().required('test instructions required'),
+    nameDescription: yup.string().required('Test instructions required'),
+    descriptionTitle: yup.string().required('Description titlie required'),
+    name: yup
+      .string()
+      .required()
+      .matches(/^([\w,:\s-]*)$/, '/ is not allowed'),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -230,6 +219,8 @@ const CreateTest = () => {
                         name='name'
                         style={{ width: '100%' }}
                         value={values.name}
+                        helperText={touched.name && errors.name}
+                        error={touched.name && Boolean(errors.name)}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -278,6 +269,8 @@ const CreateTest = () => {
                       name='descriptionTitle'
                       style={{ width: '100%', marginTop: '1.2rem', marginBottom: '10px' }}
                       value={values.descriptionTitle}
+                      helperText={touched.descriptionTitle && errors.descriptionTitle}
+                      error={touched.descriptionTitle && Boolean(errors.descriptionTitle)}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -369,6 +362,7 @@ const CreateTest = () => {
                         value={values.nameDescription}
                         name='nameDescription'
                         onChange={handleChange}
+                        helperText={touched.nameDescription && errors.nameDescription}
                         error={touched.nameDescription && Boolean(errors.nameDescription)}
                         multiline
                         className={classes.captionStyle}
