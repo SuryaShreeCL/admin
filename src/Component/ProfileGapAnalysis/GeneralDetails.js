@@ -241,8 +241,8 @@ class GeneralDetails extends Component {
             } else if (eachdata.fieldName === "postGraduateCollege") {
               arr.push({
                 fieldName: eachdata.fieldName,
-                oldValue: eachdata.oldPgcollege && eachdata.oldPgcollege.name,
-                newValue: eachdata.newPgcollege && eachdata.newPgcollege.name,
+                oldValue: eachdata.oldPgCollege && eachdata.oldPgCollege.name,
+                newValue: eachdata.newPgCollege && eachdata.newPgCollege.name,
                 comment: eachdata.comment,
                 updatedAt: eachdata.updatedAt,
                 updatedBy: eachdata.updatedBy,
@@ -393,10 +393,10 @@ class GeneralDetails extends Component {
         this.state.firstname !== "" &&
         this.state.lastname !== "" &&
         this.state.degree !== null &&
-        this.state.college !== null &&
+        // this.state.college !== null &&
         this.state.fieldofstudy !== null &&
         this.state.intake !== null &&
-        this.state.sem !== "" &&
+        // this.state.sem !== "" &&
         this.state.round !== "" &&
         this.state.pgcollege !== null &&
         this.state.pgdegree !== null &&
@@ -659,7 +659,7 @@ class GeneralDetails extends Component {
                     className={"work_style"}
                     value={this.state.workexp}
                     onChange={(e) => {
-                      this.commentshistory("workexp", e.target.value);
+                      this.commentshistory("workExperience", e.target.value);
                       this.handlechange(e);
                     }}
                     InputLabelProps={{ shrink: true }}
@@ -1094,10 +1094,8 @@ class GeneralDetails extends Component {
         this.state.firstname !== "" &&
         this.state.lastname !== "" &&
         this.state.degree !== null &&
-        this.state.college !== null &&
         this.state.fieldofstudy !== null &&
         this.state.intake !== null &&
-        this.state.sem !== "" &&
         this.state.round !== "" &&
         this.state.pgcollege !== null &&
         this.state.pgdegree !== null &&

@@ -98,6 +98,7 @@ class Index extends Component {
   };
 
   onMouseOver = (item) => {
+    console.log(item);
     this.setState({
       filterField: item,
     });
@@ -111,7 +112,7 @@ class Index extends Component {
       this.state.filterField,
       submenu.id
     ).then((response) => {
-      if (response.data.body.success) {
+      if (response.data && response.data.body.success) {
         this.setState({
           studentMatch: (response && response.data.body.data) || [],
         });
@@ -234,7 +235,7 @@ class Index extends Component {
   };
 
   fetchData = (response) => {
-    if (response.data.success) {
+    if (response.data && response.data.success) {
       this.setState({
         semesterData:
           response && response.data.data.studentSubjectDetails !== null
@@ -318,28 +319,28 @@ class Index extends Component {
       : this.state.subjectDetails.cgpa <= 0
       ? this.setState({ cgpaErr: "It cannot be zero or negative value" })
       : this.setState({ cgpaErr: "" });
-    isEmptyString(this.state.subjectDetails.formulaEmployed)
-      ? this.setState({ formulaEmployedErr: hlpTxt })
-      : this.state.subjectDetails.formulaEmployed <= 0
-      ? this.setState({
-          formulaEmployedErr: "It cannot be zero or negative value",
-        })
-      : this.setState({ formulaEmployedErr: "" });
-    isEmptyString(this.state.subjectDetails.percentage)
-      ? this.setState({ percentageErr: hlpTxt })
-      : this.state.subjectDetails.percentage <= 0
-      ? this.setState({ percentageErr: "It cannot be zero or negative value" })
-      : this.setState({ percentageErr: "" });
+    // isEmptyString(this.state.subjectDetails.formulaEmployed)
+    //   ? this.setState({ formulaEmployedErr: hlpTxt })
+    //   : this.state.subjectDetails.formulaEmployed <= 0
+    //   ? this.setState({
+    //       formulaEmployedErr: "It cannot be zero or negative value",
+    //     })
+    //   : this.setState({ formulaEmployedErr: "" });
+    // isEmptyString(this.state.subjectDetails.percentage)
+    //   ? this.setState({ percentageErr: hlpTxt })
+    //   : this.state.subjectDetails.percentage <= 0
+    //   ? this.setState({ percentageErr: "It cannot be zero or negative value" })
+    //   : this.setState({ percentageErr: "" });
 
     if (
       !isEmptyString(this.state.subjectDetails.sgpa) &&
       !(this.state.subjectDetails.sgpa <= 0) &&
       !isEmptyString(this.state.subjectDetails.cgpa) &&
-      !(this.state.subjectDetails.cgpa <= 0) &&
-      !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
-      !(this.state.subjectDetails.formulaEmployed <= 0) &&
-      !isEmptyString(this.state.subjectDetails.percentage) &&
-      !(this.state.subjectDetails.percentage <= 0)
+      !(this.state.subjectDetails.cgpa <= 0) 
+      // !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
+      // !(this.state.subjectDetails.formulaEmployed <= 0) &&
+      // !isEmptyString(this.state.subjectDetails.percentage) &&
+      // !(this.state.subjectDetails.percentage <= 0)
     ) {
       let requestBody = {
         studentSemesterDetails: {
@@ -371,8 +372,9 @@ class Index extends Component {
         this.props.match.params.studentId,
         this.props.academicTypes,
         requestBody,
-        (response) => {
-          if (response.data.success) {
+        ((response) => {
+          console.log(response)
+          if (response.data && response.data.success) {
             this.setState({
               snackMsg: "Saved Successfully",
               snackVariant: "success",
@@ -386,11 +388,11 @@ class Index extends Component {
           } else {
             this.setState({
               snackMsg: "Same SubjectCode SubjectName is Already Added",
-              snackVariant: "success",
+              snackVariant: "error",
               snackOpen: true,
             });
           }
-        }
+        })
       );
     }
   };
@@ -634,38 +636,38 @@ class Index extends Component {
             ) {
               return true;
             } else {
-              // this.setState({
-              //   snackMsg : "Please fill the Required Field",
-              //   snackOpen : true,
-              //   snackVariant : "error"
-              // })
               return { isValid: false };
             }
           }
         },
-        // editComponent: (props) => {
-        //   return (
-        //     <DropDown
-        //       id="combo-box-demo"
-        //       options={this.examType}
-        //       getOptionLabel={(option) => option}
-        //       value={props.rowData.subjectDetailsUgPgDiploma}
-        //       fullWidth
-        //       onChange={(e, value) => {
-        //         console.log(value);
-        //         props.onChange(value);
-        //       }}
-        //       renderInput={(params) => (
-        //         <TextFieldComponent
-        //           {...params}
-        //           error={isEmptyObject(props.rowData)}
-        //           label="Type"
-        //           variant="standard"
-        //         />
-        //       )}
-        //     />
-        //   );
-        // },
+        editComponent: (props) => {
+          console.log(props.rowData.subjectDetailsUgPgDiploma);
+          return (
+            <DropDown
+              classes={{ root: classes.examTypeStyle }}
+              id="combo-box-demo"
+              options={this.examType}
+              getOptionLabel={(option) => option}
+              value={props.rowData.subjectDetailsUgPgDiploma}
+              fullWidth
+              onChange={(e, value) => {
+                props.onChange(value);
+              }}
+              renderInput={(params) => (
+                <TextFieldComponent
+                  // className={classes.examTypeStyle}
+                  {...params}
+                  error={
+                    props.rowData.subjectDetailsUgPgDiploma &&
+                    isEmptyObject(props.rowData.subjectDetailsUgPgDiploma.type)
+                  }
+                  label="Type"
+                  variant="standard"
+                />
+              )}
+            />
+          );
+        },
       },
       /***---------- */
       {
@@ -734,6 +736,7 @@ class Index extends Component {
           }
         },
         editComponent: (props) => {
+          console.log(props.rowData.subjectDetailsUgPgDiploma);
           return (
             <DropDown
               classes={{ root: classes.examTypeStyle }}
@@ -743,7 +746,6 @@ class Index extends Component {
               value={props.rowData.subjectDetailsUgPgDiploma}
               fullWidth
               onChange={(e, value) => {
-                console.log(value);
                 props.onChange(value);
               }}
               renderInput={(params) => (
@@ -752,7 +754,9 @@ class Index extends Component {
                   {...params}
                   error={
                     props.rowData.subjectDetailsUgPgDiploma &&
-                    isEmptyObject(props.rowData.subjectDetailsUgPgDiploma)
+                    isEmptyObject(
+                      props.rowData.subjectDetailsUgPgDiploma.passOrFail
+                    )
                   }
                   label="Pass/Fail"
                   variant="standard"

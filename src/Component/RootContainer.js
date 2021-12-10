@@ -312,6 +312,7 @@ function RootContainer(props) {
   const [selectedMenu, setSelectedMenu] = React.useState(null);
   const [state, setState] = React.useState({ open: {} });
   const [sideNav, setSideNav] = React.useState([]);
+  const [selectedValue,setSeletectedValue] = useState(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -694,7 +695,9 @@ function RootContainer(props) {
     return (
       <ListItem
         button
+        style={{backgroundColor : selectedValue && selectedValue.title === item.title ? "#5584AC" : ""}}
         onClick={(e) => {
+          setSeletectedValue(item)
           props.history.push(item.path);
         }}
       >
@@ -708,6 +711,7 @@ function RootContainer(props) {
     const { items: children } = item;
     const [menuOpen, setMenuOpen] = useState(true);
     const handleClick = () => {
+      setSeletectedValue(null)
       setMenuOpen((prev) => !prev);
     };
 
@@ -715,9 +719,9 @@ function RootContainer(props) {
       <React.Fragment>
         <ListItem button onClick={handleClick}>
           <ListItemIcon>
-            {menuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {menuOpen ? <ExpandLessIcon style={{marginLeft : "20px"}}/> : <ExpandMoreIcon style={{marginLeft : "20px"}}/>}
           </ListItemIcon>
-          <ListItemText primary={item.title} />
+          <ListItemText style={{fontSize:"16px"}} primary={item.title} />
         </ListItem>
         <Box>
           <Collapse
@@ -726,7 +730,7 @@ function RootContainer(props) {
             timeout="auto"
             unmountOnExit
           >
-            <List style={{ marginLeft: "14px" }} component="div" disablePadding>
+            <List style={{ marginLeft: "25px" }} component="div" disablePadding>
               {children.map((child, key) => (
                 <MenuItem key={key} item={child} />
               ))}

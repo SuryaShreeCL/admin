@@ -37,6 +37,7 @@ import {
   StudentStepDetails,
   ObComplete,
   ObIncomplete,
+  IncompleteStatus
 } from "../../Actions/Student";
 import LockIcon from "@material-ui/icons/Lock";
 import QueryString from "querystring";
@@ -190,7 +191,20 @@ class StageBasedLayout extends Component {
     let obj = {
       comments: this.state.comments,
     };
-    console.log(obj);
+    console.log(obj)
+    this.props.IncompleteStatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        if (response.status === 200) {
+          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
+          this.setState({
+            open: false,
+            isLoading : false
+          });
+        }
+      }
+    );
     this.props.ObIncomplete(
       this.props.match.params.studentId,
       this.props.match.params.productId,
@@ -799,4 +813,5 @@ export default connect(mapStateToProps, {
   StudentStepDetails,
   ObComplete,
   ObIncomplete,
+  IncompleteStatus
 })(withStyles(useStyles)(StageBasedLayout));
