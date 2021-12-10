@@ -50,6 +50,8 @@ import TopBSchool from "../PgaReport/TopBSchool";
 import CareerRoot from "./CareerRole/CareerRoot";
 import Edx from "../PgaReport/Edx";
 import EdxSampleCourse from "../PgaReport/EdxSampleCourse";
+import ResumeQuestionnaire from "../PgaReport/ResumeQuestionnaire";
+import SpiderGraph from "../PgaReport/SpiderGraph";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -276,6 +278,8 @@ class ProfileGapRoot extends Component {
     }
   };
 
+  handlePageChange = (value) => this.setState({ value: value });
+
   render() {
     const { classes } = this.props;
     console.log(this.props.clickedBack);
@@ -439,7 +443,10 @@ class ProfileGapRoot extends Component {
               value={this.state.value}
               index={"suggestedSpecializationTracks"}
             >
-              <SpecializationTrack {...this.props} />
+              <SpecializationTrack
+                {...this.props}
+                handlePageChange={this.handlePageChange}
+              />
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitGraph"}>
               <ProfileFit {...this.props} />
@@ -473,6 +480,15 @@ class ProfileGapRoot extends Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={"pgaEdxSampleCourse"}>
               <EdxSampleCourse {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"pgaResumeQuestionnaire"}>
+              <ResumeQuestionnaire
+                {...this.props}
+                handlePageChange={this.handlePageChange}
+              />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={"pgaSpiderGraph"}>
+              <SpiderGraph {...this.props} />
             </TabPanel>
           </Grid>
         </Grid>

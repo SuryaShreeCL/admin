@@ -80,9 +80,7 @@ class Preview extends Component {
 
   renderReport = () => {
     let productId = this.props.match.params.productId;
-    console.log(productId, "oooooooooooooooooooooo");
     if (productId === "7" || productId === "5") {
-      console.log("mmmmmmmmmmmmmmmmmm");
       return (
         <MbaReport
           content={this.state.reportData.contents || []}
@@ -90,14 +88,11 @@ class Preview extends Component {
         />
       );
     } else {
-      console.log("ttttttttttttttttt");
-
       return <MsReport content={this.state.reportData.contents || []} />;
     }
   };
 
   render() {
-    console.log(this.state, "sssssssssssssssssss");
     return (
       <div>
         <Grid container>

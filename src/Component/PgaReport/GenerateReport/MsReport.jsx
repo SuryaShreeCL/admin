@@ -22,7 +22,7 @@ const MyDocument = ({
   inTake = "",
   description = "",
   isGreenCardVisible = false,
-  isSecondaryPassageVisible = false,
+  isSecondaryPassageVisible = true,
   isTableVisible = false,
   descriptionOne = "",
   descriptionTwo = "",
@@ -33,6 +33,7 @@ const MyDocument = ({
   tableHelper = [],
   rowDataLength = 4,
   additionalPoint = [],
+  spiderGraph,
 }) => (
   <View>
     {/* Top Color Box */}
@@ -59,17 +60,19 @@ const MyDocument = ({
     )}
 
     {/* ------ */}
-    {isSecondaryPassageVisible ? (
-      <View style={styles.p_15}>
-        <Text style={{ ...styles.heading, ...styles.p_10 }}>{title}</Text>
-        <Text style={{ ...styles.small, ...styles.p_10 }}>
-          {descriptionOne}
-        </Text>
-        <Text style={{ ...styles.small, ...styles.p_15 }}>
-          {descriptionTwo}
-        </Text>
-      </View>
-    ) : null}
+    {/* {isSecondaryPassageVisible ? (
+      <>
+        <View style={styles.p_15}>
+          <Text style={{ ...styles.heading, ...styles.p_10 }}>{title}</Text>
+          <Text style={{ ...styles.small, ...styles.p_10 }}>
+            {descriptionOne}
+          </Text>
+          <Text style={{ ...styles.small, ...styles.p_15 }}>
+            {descriptionTwo}
+          </Text>
+        </View>
+      </>
+    ) : null} */}
 
     {/* Table Component */}
     <View style={{ margin: "5px 0px" }}>
@@ -121,6 +124,46 @@ const MyDocument = ({
         ))}
       </View>
     )}
+
+    {spiderGraph.length !== 0 && (
+      <>
+        <View style={{ ...styles.p_10, ...styles.heading }}>
+          <Text style={styles.colorBoxTitle}>{title}</Text>
+        </View>
+        {spiderGraph.map((data) => (
+          <View style={styles.spider_graph_card}>
+            <View>
+              <Text style={styles.spider_graph_left_title}>Career Plan</Text>
+              <Text style={styles.spider_graph_left_title}>
+                Preferred Career Track
+              </Text>
+              <Text style={styles.spider_graph_left_title}>
+                Course Selection 1
+              </Text>
+              <Text style={styles.spider_graph_left_title}>
+                Course Selection 2
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.plan}
+              </Text>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.plan}
+              </Text>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.plan}
+              </Text>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.plan}
+              </Text>
+            </View>
+            <View style={styles.verticalLine} />
+            <View>{/* <Image src={ProfileBuilding} /> */}</View>
+          </View>
+        ))}
+      </>
+    )}
   </View>
 );
 
@@ -147,68 +190,68 @@ function MsReport({ content = [] }) {
   return (
     <Document>
       <Page style={styles.body}>
-        <View style={styles.main_container}>
-          <View style={styles.analysis_title_div}>
-            <Text style={styles.title}>
-              Minutes of the Profile Gap Analysis Session
-            </Text>
+        <View style={styles.analysis_title_div}>
+          <Text style={styles.title}>
+            Minutes of the Profile Gap Analysis Session
+          </Text>
 
-            <View style={styles.analysis_date_div}>
-              <Text style={styles.date}>Date : &nbsp;</Text>
-              <Text style={styles.date}>
-                {ReportDate ? renderDateTime(ReportDate) : ""}
-                {/* {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>} */}
-              </Text>
-            </View>
-          </View>
-          {content.map((item, idx) => {
-            const {
-              content,
-              table,
-              tableSubDescription,
-              subDescription,
-              descriptionOne,
-              descriptionTwo,
-              csfs,
-              additionalPoint,
-            } = item;
-            console.log(item);
-            return (
-              <MyDocument
-                preferredProgram={content.preferredProgram}
-                title={item.title}
-                inTake={content.inTake}
-                description={content.description}
-                isGreenCardVisible={
-                  content.inTake && content.description && content.description
-                }
-                isSecondaryPassageVisible={
-                  isEmpty(content.title) &&
-                  isEmpty(descriptionOne) &&
-                  isEmpty(descriptionTwo)
-                }
-                isTableVisible={table.rows && table.rows.length !== 0}
-                descriptionOne={descriptionOne}
-                descriptionTwo={descriptionTwo}
-                tableHeading={""}
-                row={table.rows}
-                rowDataLength={
-                  table.rows && table.rows.length > 0 ? table.rows[0].length : 4
-                }
-                subDescription={subDescription}
-                tableHelper={tableSubDescription}
-                list={csfs}
-                additionalPoint={additionalPoint}
-                isEnd={content.length - 1 === idx}
-              />
-            );
-          })}
-          <View style={styles.footer}>
-            <Text style={styles.small}>
-              Do write to us at <Link> msconsulting@thecareerlabs.com</Link> if
-              you have any queries or concerns.
+          <View style={styles.analysis_date_div}>
+            <Text style={styles.date}>Date : &nbsp;</Text>
+            <Text style={styles.date}>
+              {ReportDate ? renderDateTime(ReportDate) : ""}
+              {/* {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>} */}
             </Text>
           </View>
+        </View>
+        {content.map((item, idx) => {
+          const {
+            content,
+            table,
+            tableSubDescription,
+            subDescription,
+            descriptionOne,
+            descriptionTwo,
+            csfs,
+            additionalPoint,
+            spiderGraph,
+          } = item;
+          console.log(item);
+          return (
+            <MyDocument
+              preferredProgram={content.preferredProgram}
+              title={item.title}
+              inTake={content.inTake}
+              description={content.description}
+              isGreenCardVisible={
+                content.inTake && content.description && content.description
+              }
+              isSecondaryPassageVisible={
+                isEmpty(content.title) &&
+                isEmpty(descriptionOne) &&
+                isEmpty(descriptionTwo)
+              }
+              isTableVisible={table.rows && table.rows.length !== 0}
+              descriptionOne={descriptionOne}
+              descriptionTwo={descriptionTwo}
+              tableHeading={""}
+              row={table.rows}
+              rowDataLength={
+                table.rows && table.rows.length > 0 ? table.rows[0].length : 4
+              }
+              subDescription={subDescription}
+              tableHelper={tableSubDescription}
+              list={csfs}
+              additionalPoint={additionalPoint}
+              isEnd={content.length - 1 === idx}
+              spiderGraph={spiderGraph}
+            />
+          );
+        })}
+        <View style={styles.footer}>
+          <Text style={styles.small}>
+            Do write to us at <Link> msconsulting@thecareerlabs.com</Link> if
+            you have any queries or concerns.
+          </Text>
         </View>
       </Page>
     </Document>
@@ -225,14 +268,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 65,
     paddingHorizontal: 10,
-    padding: 20,
-  },
-  main_container: {
-    padding: 20,
-    borderLeft: "2px solid black",
-    borderRight: "2px solid black",
-    borderTop: "2px solid black",
-    borderBottom: "2px solid black",
   },
   title: {
     fontSize: 20,
@@ -312,6 +347,37 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   footer: { textAlign: "center", padding: 10 },
+  spider_graph_card: {
+    border: " 2px solid #ac9eca",
+    height: "150px",
+    width: "574px",
+    borderRadius: "6px",
+    marginTop: "5px",
+    marginBottom: "10px",
+    display: "flex",
+    flexDirection: "row",
+    lineHeight: "3px",
+    padding: "8px",
+  },
+  spider_graph_left_title: {
+    // lineHeight: "20px",
+    fontSize: 10,
+    color: "#a9a9a9",
+  },
+  spider_graph_left_title_text: {
+    // lineHeight: "20px",
+    fontSize: 10,
+    marginLeft: "6px",
+    // fontWeight: "600",
+  },
+  verticalLine: {
+    height: "90%",
+    width: 1,
+    backgroundColor: "#909090",
+    marginLeft: "15px",
+    alignItems: "center",
+    display: "flex",
+  },
 });
 
 export default MsReport;
