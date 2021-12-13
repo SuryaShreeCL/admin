@@ -132,7 +132,7 @@ const MyDocument = ({
         </View>
         {spiderGraph.map((data) => (
           <View style={styles.spider_graph_card}>
-            <View>
+            <View style={styles.plan_left_view}>
               <Text style={styles.spider_graph_left_title}>Career Plan</Text>
               <Text style={styles.spider_graph_left_title}>
                 Preferred Career Track
@@ -144,7 +144,7 @@ const MyDocument = ({
                 Course Selection 2
               </Text>
             </View>
-            <View>
+            <View style={styles.plan_right_view}>
               <Text style={styles.spider_graph_left_title_text}>
                 {data.plan}
               </Text>
@@ -159,7 +159,14 @@ const MyDocument = ({
               </Text>
             </View>
             <View style={styles.verticalLine} />
-            <View>{/* <Image src={ProfileBuilding} /> */}</View>
+            <View style={styles.graph_image_view}>
+              <Image
+                source={{
+                  uri: data.spiderGraphUrl,
+                }}
+                style={styles.graph_image}
+              />
+            </View>
           </View>
         ))}
       </>
@@ -253,50 +260,51 @@ function MsReport({ content = [] }) {
             </Text>
           </View>
         </View>
-        {content.map((item, idx) => {
-          const {
-            content,
-            table,
-            tableSubDescription,
-            subDescription,
-            descriptionOne,
-            descriptionTwo,
-            csfs,
-            additionalPoint,
-            spiderGraph,
-          } = item;
-          console.log(item);
-          return (
-            <MyDocument
-              preferredProgram={content.preferredProgram}
-              title={item.title}
-              inTake={content.inTake}
-              description={content.description}
-              isGreenCardVisible={
-                content.inTake && content.description && content.description
-              }
-              isSecondaryPassageVisible={
-                isEmpty(content.title) &&
-                isEmpty(descriptionOne) &&
-                isEmpty(descriptionTwo)
-              }
-              isTableVisible={table.rows && table.rows.length !== 0}
-              descriptionOne={descriptionOne}
-              descriptionTwo={descriptionTwo}
-              tableHeading={""}
-              row={table.rows}
-              rowDataLength={
-                table.rows && table.rows.length > 0 ? table.rows[0].length : 4
-              }
-              subDescription={subDescription}
-              tableHelper={tableSubDescription}
-              list={csfs}
-              additionalPoint={additionalPoint}
-              isEnd={content.length - 1 === idx}
-              spiderGraph={spiderGraph}
-            />
-          );
-        })}
+        {content &&
+          content.map((item, idx) => {
+            const {
+              content,
+              table,
+              tableSubDescription,
+              subDescription,
+              descriptionOne,
+              descriptionTwo,
+              csfs,
+              additionalPoint,
+              spiderGraph,
+            } = item;
+            console.log(item);
+            return (
+              <MyDocument
+                preferredProgram={content.preferredProgram}
+                title={item.title}
+                inTake={content.inTake}
+                description={content.description}
+                isGreenCardVisible={
+                  content.inTake && content.description && content.description
+                }
+                isSecondaryPassageVisible={
+                  isEmpty(content.title) &&
+                  isEmpty(descriptionOne) &&
+                  isEmpty(descriptionTwo)
+                }
+                isTableVisible={table.rows && table.rows.length !== 0}
+                descriptionOne={descriptionOne}
+                descriptionTwo={descriptionTwo}
+                tableHeading={""}
+                row={table.rows}
+                rowDataLength={
+                  table.rows && table.rows.length > 0 ? table.rows[0].length : 4
+                }
+                subDescription={subDescription}
+                tableHelper={tableSubDescription}
+                list={csfs}
+                additionalPoint={additionalPoint}
+                isEnd={content.length - 1 === idx}
+                spiderGraph={spiderGraph}
+              />
+            );
+          })}
         <View style={styles.footer}>
           <Text style={styles.small}>
             Do write to us at <Link> msconsulting@thecareerlabs.com</Link> if
@@ -432,9 +440,27 @@ const styles = StyleSheet.create({
     height: "90%",
     width: 1,
     backgroundColor: "#909090",
-    marginLeft: "15px",
+    marginLeft: "39px",
     alignItems: "center",
     display: "flex",
+  },
+  graph_image_view: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "70%",
+  },
+  graph_image: {
+    height: 300,
+    width: 200,
+  },
+  plan_left_view: {
+    padding: "2%",
+  },
+  plan_right_view: {
+    marginLeft: "16px",
+    padding: "2%",
   },
 });
 

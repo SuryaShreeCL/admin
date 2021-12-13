@@ -905,7 +905,12 @@ export const StudentStepDetails = (studentId, productId) => {
   return (dispatch) => {
     axios
       .get(
-        URL + "/api/v1/students/"+studentId+"/product/"+productId+"/verificationStatus",
+        URL +
+          "/api/v1/students/" +
+          studentId +
+          "/product/" +
+          productId +
+          "/verificationStatus",
         {
           headers: {
             admin: "yes",
@@ -922,12 +927,18 @@ export const StudentStepDetails = (studentId, productId) => {
   };
 };
 
-export const ObComplete = (studentId, productId,callback) => {
+export const ObComplete = (studentId, productId, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .put(
-        URL + "/api/v1/students/"+studentId+"/product/"+productId+"/onBoardingCompleteCall?field=admin",{},
+        URL +
+          "/api/v1/students/" +
+          studentId +
+          "/product/" +
+          productId +
+          "/onBoardingCompleteCall?field=admin",
+        {},
         {
           headers: {
             admin: "yes",
@@ -936,25 +947,30 @@ export const ObComplete = (studentId, productId,callback) => {
         }
       )
       .then((result) => {
-        callback(result)
+        callback(result);
         dispatch({ type: STUDENT.ObComplete, payload: result.data });
       })
       .catch((error) => {
-        callback(error)
+        callback(error);
         console.log(error);
       });
   };
 };
 
-
-export const ObIncomplete = (studentId, productId,data,callback) => {
+export const ObIncomplete = (studentId, productId, data, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   let adminuserId = window.sessionStorage.getItem("adminUserId");
-  console.log(data)
+  console.log(data);
   return (dispatch) => {
     axios
       .put(
-        URL + "/api/v1/pga/students/"+studentId+"/adminUser/"+adminuserId+"/incompleteMail",data,
+        URL +
+          "/api/v1/pga/students/" +
+          studentId +
+          "/adminUser/" +
+          adminuserId +
+          "/incompleteMail",
+        data,
         {
           headers: {
             admin: "yes",
@@ -963,22 +979,28 @@ export const ObIncomplete = (studentId, productId,data,callback) => {
         }
       )
       .then((result) => {
-        callback(result)
+        callback(result);
         dispatch({ type: STUDENT.ObIncomplete, payload: result.data });
       })
       .catch((error) => {
-        callback(error)
+        callback(error);
         console.log(error);
       });
   };
 };
 
-export const IncompleteStatus = (studentId, productId,callback) => {
+export const IncompleteStatus = (studentId, productId, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .put(
-        URL + "/api/v1/students/"+studentId+"/product/"+productId+"/onBoardingCompleteCall?field=incomplete",{},
+        URL +
+          "/api/v1/students/" +
+          studentId +
+          "/product/" +
+          productId +
+          "/onBoardingCompleteCall?field=incomplete",
+        {},
         {
           headers: {
             admin: "yes",
@@ -987,22 +1009,22 @@ export const IncompleteStatus = (studentId, productId,callback) => {
         }
       )
       .then((result) => {
-        callback(result)
+        callback(result);
         dispatch({ type: STUDENT.IncompleteStatus, payload: result.data });
       })
       .catch((error) => {
-        callback(error)
+        callback(error);
         console.log(error);
       });
   };
 };
 
-export const getexpecteddate = (type,id,callback) => {
+export const getexpecteddate = (type, id, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/"+type+"/testComplete/" + id, {
+      .get(URL + "/api/v1/" + type + "/testComplete/" + id, {
         crossDomain: true,
         headers: {
           admin: "yes",
@@ -1010,21 +1032,21 @@ export const getexpecteddate = (type,id,callback) => {
         },
       })
       .then((result) => {
-        callback(result)
+        callback(result);
         dispatch({ type: STUDENT.getexpecteddate, payload: result.data });
       })
       .catch((error) => {
-        callback(error)
+        callback(error);
         console.log(error);
       });
   };
 };
-export const getieltsexam = (id,callback) => {
+export const getieltsexam = (id, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/students/"+id+"/testComplete/graduate/ielts", {
+      .get(URL + "/api/v1/students/" + id + "/testComplete/graduate/ielts", {
         crossDomain: true,
         headers: {
           admin: "yes",
@@ -1032,11 +1054,11 @@ export const getieltsexam = (id,callback) => {
         },
       })
       .then((result) => {
-        callback(result)
+        callback(result);
         dispatch({ type: STUDENT.getieltsexam, payload: result.data });
       })
       .catch((error) => {
-        callback(error)
+        callback(error);
         console.log(error);
       });
   };
