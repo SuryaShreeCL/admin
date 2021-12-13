@@ -132,7 +132,7 @@ const MyDocument = ({
         </View>
         {spiderGraph.map((data) => (
           <View style={styles.spider_graph_card}>
-            <View>
+            <View style={styles.plan_left_view}>
               <Text style={styles.spider_graph_left_title}>Career Plan</Text>
               <Text style={styles.spider_graph_left_title}>
                 Preferred Career Track
@@ -144,7 +144,7 @@ const MyDocument = ({
                 Course Selection 2
               </Text>
             </View>
-            <View>
+            <View style={styles.plan_right_view}>
               <Text style={styles.spider_graph_left_title_text}>
                 {data.plan}
               </Text>
@@ -159,13 +159,12 @@ const MyDocument = ({
               </Text>
             </View>
             <View style={styles.verticalLine} />
-            <View>
+            <View style={styles.graph_image_view}>
               <Image
                 source={{
-                  uri:
-                    "https://unifiedportalfiles-stage.s3.ap-south-1.amazonaws.com/images/spiderGraph/spider_graph.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20211213T075529Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIAV6X44QWA2POGID5G%2F20211213%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=b2263174f417759a86691ecf1129847256abdccf3763887b3f2a2aabb49f2f39",
+                  uri: data.spiderGraphUrl,
                 }}
-                style={{ height: 100, width: 200 }}
+                style={styles.graph_image}
               />
             </View>
           </View>
@@ -383,9 +382,27 @@ const styles = StyleSheet.create({
     height: "90%",
     width: 1,
     backgroundColor: "#909090",
-    marginLeft: "15px",
+    marginLeft: "39px",
     alignItems: "center",
     display: "flex",
+  },
+  graph_image_view: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "70%",
+  },
+  graph_image: {
+    height: 300,
+    width: 200,
+  },
+  plan_left_view: {
+    padding: "2%",
+  },
+  plan_right_view: {
+    marginLeft: "16px",
+    padding: "2%",
   },
 });
 
