@@ -1,4 +1,4 @@
-import { WALL } from '../Redux/Action';
+import { WALL } from "../Redux/Action";
 
 export const wallPostListReducer = (state = { posts: [] }, action) => {
   switch (action.type) {
@@ -32,7 +32,10 @@ export const wallWebinarListReducer = (state = { webinars: [] }, action) => {
   }
 };
 
-export const getWallCategoriesReducer = (state = { categories: [] }, action) => {
+export const getWallCategoriesReducer = (
+  state = { categories: [] },
+  action
+) => {
   switch (action.type) {
     case WALL.WALL_CATEGORIES_REQUEST:
       return { loading: true, posts: [] };
@@ -99,6 +102,18 @@ export const wallPostUpdateReducer = (state = { post: {} }, action) => {
       return { loading: false, error: action.payload };
     case WALL.UPDATE_RESET:
       return { post: {} };
+    default:
+      return state;
+  }
+};
+
+export const platformsReducer = (state = { platforms: [] }, action) => {
+  switch (action.type) {
+    case WALL.PLATFORMS:
+      return {
+        platforms: action.payload,
+      };
+
     default:
       return state;
   }

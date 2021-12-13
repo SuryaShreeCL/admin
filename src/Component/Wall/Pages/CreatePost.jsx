@@ -30,6 +30,7 @@ import {
   createWallPost,
   getWallCategories,
   uploadImage,
+  getPlatforms,
 } from "../../../Actions/WallActions";
 import Notification from "../../Utils/Notification";
 import { useHistory, useLocation } from "react-router-dom";
@@ -94,6 +95,7 @@ const CreatePost = () => {
     hostImageUrl: "",
     banner: "",
     isEvent: false,
+    platforms: [],
   });
 
   const [errorSchema, setErrorSchema] = useState({
@@ -113,9 +115,11 @@ const CreatePost = () => {
 
   useEffect(() => {
     dispatch(getWallCategories("Live"));
+    dispatch(getPlatforms());
   }, [dispatch]);
 
   const { categories } = useSelector(state => state.getWallCategoriesReducer);
+  const { platforms } = useSelector(state => state.platformsReducer);
 
   const validate = values => {
     if (values.supportingMedia === "image" && values.wallFiles.length === 0) {
@@ -178,6 +182,9 @@ const CreatePost = () => {
     caption: yup.string().required("caption is required"),
     eventTitle: yup.string().required("title is required"),
     zoomLink: yup.string().required("zoom id is required"),
+    banner: yup.string().required("Upload a banner image"),
+    hostImageUrl: yup.string().required("Upload a host image"),
+    hostName: yup.string().required("Enter the host name"),
   });
 
   const createPost = (post, activeStatus) => {
@@ -213,7 +220,7 @@ const CreatePost = () => {
     });
   };
 
-  const handleImageUpload = (e, type) => {
+  const handleImageUpload = ({ e, type, setFieldValue }) => {
     const fileSize = e.target.files[0].size / 1024 / 1024;
     const fileType = e.target.files[0].type;
 
@@ -224,25 +231,25 @@ const CreatePost = () => {
       dispatch(
         uploadImage(formData, response => {
           if (type === "BANNER")
-            setState({ ...state, banner: response.data.fileName });
-          else setState({ ...state, hostImageUrl: response.data.fileName });
+            setFieldValue("banner", response.data.fileName);
+          else setFieldValue("hostImageUrl", response.data.fileName);
         })
       );
     } else {
       setNotify({
         isOpen: true,
-        message: "Please add proper timing & date",
+        message: "Please upload an image file within 1MB size",
         type: "error",
       });
     }
   };
 
-  const handleDeleteClick = () => {
-    setState({ ...state, banner: "" });
+  const handleDeleteClick = setFieldValue => {
+    setFieldValue("banner", "");
   };
 
-  const handleHostDeleteClick = () => {
-    setState({ ...state, hostImageUrl: "" });
+  const handleHostDeleteClick = setFieldValue => {
+    setFieldValue("hostImageUrl", "");
   };
 
   return (
@@ -283,7 +290,7 @@ const CreatePost = () => {
                       component="label"
                       container
                       alignItems="center"
-                      spacing={1}
+                      spacing={3}
                     >
                       <Grid item>Wall Post</Grid>
                       <Grid item>
@@ -342,469 +349,407 @@ const CreatePost = () => {
                         />
                       )}
                     </RadioGroup>
-                    <Grid container spacing={1} direction="column">
-                      <FormControl
-                        className={classes.root}
-                        style={{ width: "80%" }}
-                      >
-                        <Autocomplete
-                          multiple
-                          id="wallCategories"
-                          name="wallCategories"
-                          getOptionLabel={option => option?.name}
-                          options={categories ?? []}
-                          onChange={(e, value) => {
-                            setFieldValue(
-                              "wallCategories",
-                              value !== null ? value : categories
-                            );
-                          }}
-                          value={values.wallCategories}
-                          renderInput={params => (
-                            <TextField
-                              {...params}
-                              label="Select Category"
-                              name="wallCategories"
-                              variant="outlined"
-                              error={
-                                touched.wallCategories &&
-                                Boolean(values.wallCategories.length === 0)
-                              }
-                            />
-                          )}
-                        />
-                      </FormControl>
-                      {values.isEvent && (
-                        <Grid item>
-                          <Controls.Input
-                            label="Enter Event Title"
-                            name="eventTitle"
-                            style={{ width: "80%", marginTop: "18px" }}
-                            value={values.eventTitle}
-                            onChange={handleChange}
-                          />
-                        </Grid>
-                      )}
-                      {values.supportingMedia === "webinar" ? (
-                        <Grid item>
-                          <Controls.Input
-                            label="Enter Webinar Title"
-                            name="eventTitle"
+                    <FormControl
+                      className={classes.root}
+                      style={{ width: "80%" }}
+                    >
+                      <Autocomplete
+                        multiple
+                        id="wallCategories"
+                        name="wallCategories"
+                        getOptionLabel={option => option?.name}
+                        options={categories ?? []}
+                        onChange={(e, value) => {
+                          setFieldValue(
+                            "wallCategories",
+                            value !== null ? value : categories
+                          );
+                        }}
+                        fullWidth
+                        value={values.wallCategories}
+                        renderInput={params => (
+                          <TextField
+                            {...params}
+                            label="Select Category"
+                            name="wallCategories"
+                            variant="outlined"
                             error={
-                              touched.eventTitle && Boolean(errors.eventTitle)
+                              touched.wallCategories &&
+                              Boolean(values.wallCategories.length === 0)
                             }
-                            style={{ width: "80%", marginTop: "18px" }}
-                            value={values.eventTitle}
-                            onChange={handleChange}
                           />
-                        </Grid>
-                      ) : (
-                        <Grid item>
-                          <Controls.Input
-                            label="Type caption here.."
-                            value={values.caption}
-                            name="caption"
-                            onChange={handleChange}
-                            error={touched.caption && Boolean(errors.caption)}
-                            multiline
-                            className={classes.captionStyle}
-                            rows={6}
+                        )}
+                        style={{
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                    </FormControl>
+                    {/* Platforms Dropdown */}
+                    <FormControl
+                      className={classes.root}
+                      style={{ width: "80%" }}
+                    >
+                      <Autocomplete
+                        multiple
+                        id="platforms"
+                        name="platforms"
+                        getOptionLabel={option => option?.name}
+                        options={platforms ?? []}
+                        onChange={(e, value) => {
+                          setFieldValue(
+                            "platforms",
+                            value !== null ? value : categories
+                          );
+                        }}
+                        fullWidth
+                        value={values.platforms}
+                        renderInput={params => (
+                          <TextField
+                            {...params}
+                            label="Select Platforms"
+                            name="platforms"
+                            variant="outlined"
+                            error={
+                              touched.platforms &&
+                              Boolean(values.platforms.length === 0)
+                            }
                           />
-                        </Grid>
-                      )}
-                      {(!values.isEvent || values.isWebinar) && (
-                        <Grid item>
+                        )}
+                        style={{
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                    </FormControl>
+
+                    {values.isEvent && (
+                      <Grid item>
+                        <Controls.Input
+                          label="Enter Event Title"
+                          name="eventTitle"
+                          style={{ width: "80%" }}
+                          value={values.eventTitle}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                    )}
+                    {values.supportingMedia === "webinar" ? (
+                      <Grid item>
+                        <Controls.Input
+                          label="Enter Webinar Title"
+                          name="eventTitle"
+                          error={
+                            touched.eventTitle && Boolean(errors.eventTitle)
+                          }
+                          style={{ width: "80%" }}
+                          value={values.eventTitle}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item>
+                        <Controls.Input
+                          label="Type caption here.."
+                          value={values.caption}
+                          name="caption"
+                          onChange={handleChange}
+                          error={touched.caption && Boolean(errors.caption)}
+                          multiline
+                          className={classes.captionStyle}
+                          rows={6}
+                          fullWidth
+                        />
+                      </Grid>
+                    )}
+                    {(!values.isEvent || values.isWebinar) && (
+                      <Grid item>
+                        <Controls.Input
+                          label="Host Name"
+                          name="hostName"
+                          style={{
+                            width: "80%",
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                          value={values.hostName}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                    )}
+
+                    {values.isWebinar && (
+                      <Grid item>
+                        {!values.banner ? (
                           <Controls.Input
-                            label="Host Name"
+                            label="Banner image"
+                            name="bannerImage"
+                            style={{
+                              width: "80%",
+                              marginTop: "10px",
+                              marginBottom: "10px",
+                            }}
+                            inputProps={{
+                              accept: "image/png, image/jpeg",
+                              style: { opacity: "0" },
+                            }}
+                            value={values.banner}
+                            type="file"
+                            onInput={e =>
+                              handleImageUpload({
+                                e,
+                                type: "BANNER",
+                                setFieldValue,
+                              })
+                            }
+                            onClick={e => (e.target.value = null)}
+                          />
+                        ) : (
+                          <Grid container direction="column">
+                            <Typography>Banner image</Typography>
+
+                            <img
+                              src={`${process.env.REACT_APP_IMAGE_BASE_URL}${values.banner}`}
+                              height={180}
+                              width={350}
+                            />
+                            <Controls.ActionButton
+                              onClick={() => handleDeleteClick(setFieldValue)}
+                            >
+                              <DeleteIcon fontSize="small" color="secondary" />
+                            </Controls.ActionButton>
+                          </Grid>
+                        )}
+                      </Grid>
+                    )}
+
+                    {values.isWebinar && (
+                      <Grid item>
+                        {!values.hostImageUrl ? (
+                          <Controls.Input
+                            label="Host image"
                             name="hostName"
                             style={{
                               width: "80%",
                               marginTop: "10px",
                               marginBottom: "10px",
                             }}
-                            value={values.hostName}
-                            onChange={handleChange}
+                            inputProps={{
+                              accept: "image/png, image/jpeg",
+                              style: { opacity: "0" },
+                            }}
+                            value={values.hostImage}
+                            type="file"
+                            onInput={e =>
+                              handleImageUpload({ e, setFieldValue })
+                            }
+                            onClick={e => (e.target.value = null)}
                           />
-                        </Grid>
-                      )}
-
-                      {values.isWebinar && (
-                        <Grid item>
-                          {!values.banner ? (
-                            <Controls.Input
-                              label="Banner image"
-                              name="hostImage"
-                              style={{
-                                width: "80%",
-                                marginTop: "10px",
-                                marginBottom: "10px",
-                              }}
-                              inputProps={{
-                                accept: "image/png, image/jpeg",
-                                style: { opacity: "0" },
-                              }}
-                              value={values.banner}
-                              type="file"
-                              onInput={e => handleImageUpload(e, "BANNER")}
-                              onClick={e => (e.target.value = null)}
+                        ) : (
+                          <Grid container direction="column">
+                            <Typography>Host image</Typography>
+                            <img
+                              src={`${process.env.REACT_APP_IMAGE_BASE_URL}${values.hostImageUrl}`}
+                              height={150}
+                              width={150}
+                              className={classes.hostImage}
                             />
-                          ) : (
-                            <Grid container direction="column">
-                              <Typography>Banner image</Typography>
-
-                              <img
-                                src={`${process.env.REACT_APP_IMAGE_BASE_URL}${values.banner}`}
-                                height={180}
-                                width={350}
-                              />
-                              <Controls.ActionButton
-                                onClick={handleDeleteClick}
-                              >
-                                <DeleteIcon
-                                  fontSize="small"
-                                  color="secondary"
-                                />
-                              </Controls.ActionButton>
-                            </Grid>
-                          )}
-                        </Grid>
-                      )}
-
-                      {values.isWebinar && (
-                        <Grid item>
-                          {!values.hostImageUrl ? (
-                            <Controls.Input
-                              label="Host image"
-                              name="hostName"
-                              style={{
-                                width: "80%",
-                                marginTop: "10px",
-                                marginBottom: "10px",
-                              }}
-                              inputProps={{
-                                accept: "image/png, image/jpeg",
-                                style: { opacity: "0" },
-                              }}
-                              value={values.hostImage}
-                              type="file"
-                              onInput={handleImageUpload}
-                              onClick={e => (e.target.value = null)}
-                            />
-                          ) : (
-                            <Grid container direction="column">
-                              <Typography>Host image</Typography>
-                              <img
-                                src={`${process.env.REACT_APP_IMAGE_BASE_URL}${values.hostImageUrl}`}
-                                height={150}
-                                width={150}
-                                className={classes.hostImage}
-                              />
-                              <Controls.ActionButton
-                                onClick={handleHostDeleteClick}
-                              >
-                                <DeleteIcon
-                                  fontSize="small"
-                                  color="secondary"
-                                />
-                              </Controls.ActionButton>
-                            </Grid>
-                          )}
-                        </Grid>
-                      )}
-                      {values.supportingMedia === "webinar" && (
-                        <Grid item>
-                          <Controls.Input
-                            label="Type description here.."
-                            value={values.caption}
-                            name="caption"
-                            onChange={handleChange}
-                            error={touched.caption && Boolean(errors.caption)}
-                            multiline
-                            className={classes.captionStyle}
-                            rows={5}
-                          />
-                        </Grid>
-                      )}
-                      {values.supportingMedia === "video" && (
-                        <Grid item>
-                          <span style={{ fontSize: "1rem" }}>
-                            Video URL Available
-                            <Switch
-                              checked={values.isVideoUrlEnabled}
-                              name="isVideoUrlEnabled"
-                              onChange={handleChange}
-                              color="primary"
-                              inputProps={{ "aria-label": "primary checkbox" }}
-                            />
-                          </span>
-                        </Grid>
-                      )}
-                      {values.supportingMedia === "video" &&
-                        values.isVideoUrlEnabled && (
-                          <Grid item>
-                            <Controls.Input
-                              label="Paste Video URL"
-                              name="videoUrl"
-                              style={{
-                                width: "80%",
-                                marginTop: "10px",
-                                marginBottom: "10px",
-                              }}
-                              value={values.videoUrl}
-                              error={errorSchema.isVideoLink}
-                              onChange={handleChange}
-                            />
+                            <Controls.ActionButton
+                              onClick={() =>
+                                handleHostDeleteClick(setFieldValue)
+                              }
+                            >
+                              <DeleteIcon fontSize="small" color="secondary" />
+                            </Controls.ActionButton>
                           </Grid>
                         )}
-                      {values.isWebinar && (
+                      </Grid>
+                    )}
+                    {values.supportingMedia === "webinar" && (
+                      <Grid item>
+                        <Controls.Input
+                          label="Type description here.."
+                          value={values.caption}
+                          name="caption"
+                          onChange={handleChange}
+                          error={touched.caption && Boolean(errors.caption)}
+                          multiline
+                          className={classes.captionStyle}
+                          rows={5}
+                        />
+                      </Grid>
+                    )}
+                    {values.supportingMedia === "video" && (
+                      <Grid item>
+                        <span style={{ fontSize: "1rem" }}>
+                          Video URL Available
+                          <Switch
+                            checked={values.isVideoUrlEnabled}
+                            name="isVideoUrlEnabled"
+                            onChange={handleChange}
+                            color="primary"
+                            inputProps={{ "aria-label": "primary checkbox" }}
+                          />
+                        </span>
+                      </Grid>
+                    )}
+                    {values.supportingMedia === "video" &&
+                      values.isVideoUrlEnabled && (
                         <Grid item>
                           <Controls.Input
-                            label="Zoom Webinar ID"
-                            name="zoomLink"
-                            type="number"
-                            error={touched.zoomLink && Boolean(errors.zoomLink)}
+                            label="Paste Video URL"
+                            name="videoUrl"
                             style={{
                               width: "80%",
                               marginTop: "10px",
-                              marginBottom: "14px",
+                              marginBottom: "10px",
                             }}
-                            value={values.zoomLink}
+                            value={values.videoUrl}
+                            error={errorSchema.isVideoLink}
                             onChange={handleChange}
                           />
                         </Grid>
                       )}
-                      {!values.isEvent && !values.isWebinar && (
-                        <>
-                          <Grid item>
-                            <Controls.Input
-                              label="Paste the Redirection Link"
-                              name="redirectionUrl"
-                              className={classes.spacer}
-                              value={values.redirectionUrl}
-                              onChange={handleChange}
-                              error={
-                                values.redirectionUrl.length > 5 &&
-                                !values.redirectionUrl.includes("http")
-                              }
-                              helperText={
-                                values.redirectionUrl.length > 5 &&
-                                !values.redirectionUrl.includes("http") &&
-                                "Enter Full link Ex:https://www.example.com/"
-                              }
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Controls.Input
-                              label="Enter Button Text Here"
-                              name="buttonText"
-                              error={
-                                values.redirectionUrl?.length > 1 &&
-                                values.buttonText?.length < 1 &&
-                                Boolean(true)
-                              }
-                              style={{
-                                width: "80%",
-                                marginTop: "18px",
-                                marginBottom: "14px",
-                              }}
-                              value={values.buttonText}
-                              onChange={handleChange}
-                            />
-                          </Grid>
-                        </>
+                    {values.isWebinar && (
+                      <Grid item>
+                        <Controls.Input
+                          label="Zoom Webinar ID"
+                          name="zoomLink"
+                          type="number"
+                          error={touched.zoomLink && Boolean(errors.zoomLink)}
+                          style={{
+                            width: "80%",
+                            marginTop: "10px",
+                            marginBottom: "14px",
+                          }}
+                          value={values.zoomLink}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                    )}
+                    {!values.isEvent && !values.isWebinar && (
+                      <>
+                        <Grid item>
+                          <Controls.Input
+                            label="Paste the Redirection Link"
+                            name="redirectionUrl"
+                            className={classes.spacer}
+                            value={values.redirectionUrl}
+                            onChange={handleChange}
+                            error={
+                              values.redirectionUrl.length > 5 &&
+                              !values.redirectionUrl.includes("http")
+                            }
+                            helperText={
+                              values.redirectionUrl.length > 5 &&
+                              !values.redirectionUrl.includes("http") &&
+                              "Enter Full link Ex:https://www.example.com/"
+                            }
+                          />
+                        </Grid>
+                        <Grid item>
+                          <Controls.Input
+                            label="Enter Button Text Here"
+                            name="buttonText"
+                            error={
+                              values.redirectionUrl?.length > 1 &&
+                              values.buttonText?.length < 1 &&
+                              Boolean(true)
+                            }
+                            style={{
+                              width: "80%",
+                              marginTop: "18px",
+                              marginBottom: "14px",
+                            }}
+                            value={values.buttonText}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+                      </>
+                    )}
+                    <Grid container direction="column" style={{ width: "80%" }}>
+                      {values.supportingMedia === "image" && (
+                        <MultipleFileUploadField
+                          name="wallFiles"
+                          fileType="image"
+                        />
                       )}
+                      {values.supportingMedia === "video" &&
+                        !values.isVideoUrlEnabled && (
+                          <MultipleFileUploadField
+                            name="wallFiles"
+                            fileType="video"
+                          />
+                        )}
+                      {values.supportingMedia === "audio" && (
+                        <MultipleFileUploadField
+                          name="wallFiles"
+                          fileType="audio"
+                        />
+                      )}
+                    </Grid>
+                    {!values.isEvent && !values.isWebinar && (
                       <Grid
                         container
-                        direction="column"
-                        style={{ width: "80%" }}
+                        direction="row"
+                        justify="space-between"
+                        className={classes.spacer}
                       >
-                        {values.supportingMedia === "image" && (
-                          <MultipleFileUploadField
-                            name="wallFiles"
-                            fileType="image"
-                          />
-                        )}
-                        {values.supportingMedia === "video" &&
-                          !values.isVideoUrlEnabled && (
-                            <MultipleFileUploadField
-                              name="wallFiles"
-                              fileType="video"
-                            />
-                          )}
-                        {values.supportingMedia === "audio" && (
-                          <MultipleFileUploadField
-                            name="wallFiles"
-                            fileType="audio"
-                          />
-                        )}
-                      </Grid>
-                      {!values.isEvent && !values.isWebinar && (
-                        <Grid
-                          container
-                          direction="row"
-                          justify="space-between"
-                          className={classes.spacer}
-                        >
-                          <Grid item>
-                            <h6 style={{ fontSize: "1rem" }}>
-                              Schedule Post for Later
-                              <Switch
-                                checked={values.isScheduled}
-                                onChange={handleChange}
-                                name="isScheduled"
-                                color="primary"
-                                inputProps={{
-                                  "aria-label": "primary checkbox",
-                                }}
-                              />
-                            </h6>
-                          </Grid>
-                          <Grid item>
-                            <h6 style={{ fontSize: "1rem" }}>
-                              Disable Comments
-                              <Switch
-                                checked={values.canComment}
-                                onChange={handleChange}
-                                name="canComment"
-                                color="primary"
-                                inputProps={{
-                                  "aria-label": "primary checkbox",
-                                }}
-                              />
-                            </h6>
-                          </Grid>
-                        </Grid>
-                      )}
-                      {values.isEvent && (
                         <Grid item>
                           <h6 style={{ fontSize: "1rem" }}>
-                            Resume Required?
+                            Schedule Post for Later
                             <Switch
-                              checked={values.resumeNeeded}
+                              checked={values.isScheduled}
                               onChange={handleChange}
-                              name="resumeNeeded"
+                              name="isScheduled"
                               color="primary"
-                              inputProps={{ "aria-label": "primary checkbox" }}
+                              inputProps={{
+                                "aria-label": "primary checkbox",
+                              }}
                             />
                           </h6>
                         </Grid>
-                      )}
-                      {values.isEvent && (
-                        <Grid
-                          container
-                          direction="row"
-                          justify="space-between"
-                          className={classes.spacer}
-                        >
-                          <Grid item>
-                            <h6 style={{ fontSize: "1rem" }}>
-                              Event Start Date{" "}
-                            </h6>
-                            <MuiPickersUtilsProvider utils={MomentUtils}>
-                              <DateTimePicker
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <EventIcon />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                                value={values.eventDate}
-                                style={{ width: "100%", margin: "10px 0px" }}
-                                disablePast
-                                name="eventDate"
-                                inputVariant="outlined"
-                                onChange={val => {
-                                  setFieldValue("eventDate", val);
-                                }}
-                              />
-                            </MuiPickersUtilsProvider>
-                          </Grid>
-                          <Grid item>
-                            <h6 style={{ fontSize: "1rem" }}>
-                              Event End Date{" "}
-                            </h6>
-                            <MuiPickersUtilsProvider utils={MomentUtils}>
-                              <DateTimePicker
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <EventIcon />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                                value={values.eventEndDate}
-                                style={{ width: "100%", margin: "10px 0px" }}
-                                disablePast
-                                name="eventEndDate"
-                                inputVariant="outlined"
-                                onChange={val => {
-                                  setFieldValue("eventEndDate", val);
-                                }}
-                              />
-                            </MuiPickersUtilsProvider>
-                          </Grid>
+                        <Grid item>
+                          <h6 style={{ fontSize: "1rem" }}>
+                            Disable Comments
+                            <Switch
+                              checked={values.canComment}
+                              onChange={handleChange}
+                              name="canComment"
+                              color="primary"
+                              inputProps={{
+                                "aria-label": "primary checkbox",
+                              }}
+                            />
+                          </h6>
                         </Grid>
-                      )}
-                      {values.isWebinar && (
-                        <Grid
-                          container
-                          direction="row"
-                          justify="space-between"
-                          className={classes.spacer}
-                        >
-                          <Grid item>
-                            <h6 style={{ fontSize: "1rem" }}>
-                              Webinar Start Date{" "}
-                            </h6>
-                            <MuiPickersUtilsProvider utils={MomentUtils}>
-                              <DateTimePicker
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <EventIcon />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                                value={values.eventDate}
-                                style={{ width: "400px", margin: "10px 0px" }}
-                                disablePast
-                                name="eventDate"
-                                inputVariant="outlined"
-                                onChange={val => {
-                                  setFieldValue("eventDate", val);
-                                }}
-                              />
-                            </MuiPickersUtilsProvider>
-                          </Grid>
-                          <Grid item>
-                            <h6 style={{ fontSize: "1rem" }}>
-                              Webinar End Date{" "}
-                            </h6>
-                            <MuiPickersUtilsProvider utils={MomentUtils}>
-                              <DateTimePicker
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <EventIcon />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                                value={values.eventEndDate}
-                                style={{ width: "400px", margin: "10px 0px" }}
-                                disablePast
-                                name="eventEndDate"
-                                inputVariant="outlined"
-                                onChange={val => {
-                                  setFieldValue("eventEndDate", val);
-                                }}
-                              />
-                            </MuiPickersUtilsProvider>
-                          </Grid>
-                        </Grid>
-                      )}
+                      </Grid>
+                    )}
+                    {values.isEvent && (
                       <Grid item>
-                        {values.isScheduled && (
+                        <h6 style={{ fontSize: "1rem" }}>
+                          Resume Required?
+                          <Switch
+                            checked={values.resumeNeeded}
+                            onChange={handleChange}
+                            name="resumeNeeded"
+                            color="primary"
+                            inputProps={{ "aria-label": "primary checkbox" }}
+                          />
+                        </h6>
+                      </Grid>
+                    )}
+                    {values.isEvent && (
+                      <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        className={classes.spacer}
+                      >
+                        <Grid item>
+                          <h6 style={{ fontSize: "1rem" }}>
+                            Event Start Date{" "}
+                          </h6>
                           <MuiPickersUtilsProvider utils={MomentUtils}>
                             <DateTimePicker
                               InputProps={{
@@ -814,20 +759,123 @@ const CreatePost = () => {
                                   </InputAdornment>
                                 ),
                               }}
-                              value={values.selectedDate}
-                              style={{ width: "80%", margin: "10px 0px" }}
+                              value={values.eventDate}
+                              style={{ width: "100%", margin: "10px 0px" }}
                               disablePast
-                              name="selectedDate"
+                              name="eventDate"
                               inputVariant="outlined"
                               onChange={val => {
-                                setFieldValue("selectedDate", val);
+                                setFieldValue("eventDate", val);
                               }}
-                              label="Schedule Data & Time"
                             />
                           </MuiPickersUtilsProvider>
-                        )}
+                        </Grid>
+                        <Grid item>
+                          <h6 style={{ fontSize: "1rem" }}>Event End Date </h6>
+                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <DateTimePicker
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <EventIcon />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              value={values.eventEndDate}
+                              style={{ width: "100%", margin: "10px 0px" }}
+                              disablePast
+                              name="eventEndDate"
+                              inputVariant="outlined"
+                              onChange={val => {
+                                setFieldValue("eventEndDate", val);
+                              }}
+                            />
+                          </MuiPickersUtilsProvider>
+                        </Grid>
                       </Grid>
+                    )}
+                    {values.isWebinar && (
+                      <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        className={classes.spacer}
+                      >
+                        <Grid item>
+                          <h6 style={{ fontSize: "1rem" }}>
+                            Webinar Start Date{" "}
+                          </h6>
+                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <DateTimePicker
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <EventIcon />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              value={values.eventDate}
+                              style={{ width: "400px", margin: "10px 0px" }}
+                              disablePast
+                              name="eventDate"
+                              inputVariant="outlined"
+                              onChange={val => {
+                                setFieldValue("eventDate", val);
+                              }}
+                            />
+                          </MuiPickersUtilsProvider>
+                        </Grid>
+                        <Grid item>
+                          <h6 style={{ fontSize: "1rem" }}>
+                            Webinar End Date{" "}
+                          </h6>
+                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <DateTimePicker
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <EventIcon />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              value={values.eventEndDate}
+                              style={{ width: "400px", margin: "10px 0px" }}
+                              disablePast
+                              name="eventEndDate"
+                              inputVariant="outlined"
+                              onChange={val => {
+                                setFieldValue("eventEndDate", val);
+                              }}
+                            />
+                          </MuiPickersUtilsProvider>
+                        </Grid>
+                      </Grid>
+                    )}
+                    <Grid item>
+                      {values.isScheduled && (
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <DateTimePicker
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  <EventIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                            value={values.selectedDate}
+                            style={{ width: "80%", margin: "10px 0px" }}
+                            disablePast
+                            name="selectedDate"
+                            inputVariant="outlined"
+                            onChange={val => {
+                              setFieldValue("selectedDate", val);
+                            }}
+                            label="Schedule Data & Time"
+                          />
+                        </MuiPickersUtilsProvider>
+                      )}
                     </Grid>
+                    {/* </Grid> */}
 
                     {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                     <ButtonsContainer>

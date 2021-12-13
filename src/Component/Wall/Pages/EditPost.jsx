@@ -30,6 +30,7 @@ import {
   getWallCategories,
   updateWallPost,
   uploadImage,
+  getPlatforms,
 } from "../../../Actions/WallActions";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
@@ -100,6 +101,7 @@ const EditPost = () => {
     videoUrl: "",
     hostImageUrl: "",
     banner: "",
+    platforms: [],
   });
 
   const [notify, setNotify] = useState({
@@ -114,9 +116,11 @@ const EditPost = () => {
   });
 
   const { categories } = useSelector(state => state.getWallCategoriesReducer);
+  const { platforms } = useSelector(state => state.platformsReducer);
 
   useEffect(() => {
     dispatch(getWallCategories("Live"));
+    dispatch(getPlatforms());
     //SETTING PRE POPULATED RECORD
     if (records != null)
       setRecords({
@@ -306,6 +310,45 @@ const EditPost = () => {
                           )}
                         />
                       </FormControl>
+
+                      {/* Platforms Dropdown */}
+                      <FormControl
+                        className={classes.root}
+                        style={{ width: "80%" }}
+                      >
+                        <Autocomplete
+                          multiple
+                          id="platforms"
+                          name="platforms"
+                          getOptionLabel={option => option?.name}
+                          options={platforms ?? []}
+                          onChange={(e, value) => {
+                            setFieldValue(
+                              "platforms",
+                              value !== null ? value : categories
+                            );
+                          }}
+                          fullWidth
+                          value={values.platforms}
+                          renderInput={params => (
+                            <TextField
+                              {...params}
+                              label="Select Platforms"
+                              name="platforms"
+                              variant="outlined"
+                              error={
+                                touched.platforms &&
+                                Boolean(values.platforms.length === 0)
+                              }
+                            />
+                          )}
+                          style={{
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                        />
+                      </FormControl>
+
                       {values.supportingMedia === "webinar" ? (
                         <Grid item>
                           <Controls.Input

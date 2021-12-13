@@ -1,54 +1,54 @@
-import React from 'react';
-import styled from 'styled-components';
-import Tab from '@material-ui/core/Tab';
-import { withStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
+import React from "react";
+import styled from "styled-components";
+import Tab from "@material-ui/core/Tab";
+import { withStyles } from "@material-ui/core/styles";
+import Tabs from "@material-ui/core/Tabs";
 
 //Options Banner
 export const TopTabs = withStyles({
   root: {
-    borderBottom: '1px solid lightgrey',
+    borderBottom: "1px solid lightgrey",
   },
   indicator: {
-    background: '#1093FF',
-    borderRadius: '8px 8px 0px 0px',
-    height: '3px',
+    background: "#1093FF",
+    borderRadius: "8px 8px 0px 0px",
+    height: "3px",
   },
 })(Tabs);
 
-export const TopTab = withStyles((theme) => ({
+export const TopTab = withStyles(theme => ({
   root: {
-    textTransform: 'none',
+    textTransform: "none",
     fontWeight: theme.typography.fontWeightLight,
     marginRight: theme.spacing(3),
-    fontSize: '1rem',
+    fontSize: "1rem",
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "-apple-system",
+      "BlinkMacSystemFont",
       '"Segoe UI"',
-      'Roboto',
+      "Roboto",
       '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
+      "Arial",
+      "sans-serif",
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
       '"Poppins',
-    ].join(','),
-    '&:hover': {
-      color: '#1093FF',
+    ].join(","),
+    "&:hover": {
+      color: "#1093FF",
       opacity: 1,
     },
-    '&$selected': {
-      color: '#1093FF',
+    "&$selected": {
+      color: "#1093FF",
       fontWeight: theme.typography.fontWeightBold,
     },
-    '&:focus': {
-      color: '#1093FF',
+    "&:focus": {
+      color: "#1093FF",
     },
   },
   selected: {},
-}))((props) => <Tab disableRipple {...props} />);
+}))(props => <Tab disableRipple {...props} />);
 
 export const Container = styled.section`
   background: #fff;
@@ -101,7 +101,7 @@ export const WebinarTabContainer = styled.section`
         align-items: center;
         p {
           margin: 0.3rem;
-          color: '#6E7F8F';
+          color: "#6E7F8F";
         }
       }
     }
@@ -119,3 +119,5 @@ export const WebinarTabContainer = styled.section`
     }
   }
 `;
+
+// export const

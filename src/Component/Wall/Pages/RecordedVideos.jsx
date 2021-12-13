@@ -8,6 +8,11 @@ import {
   Toolbar,
   InputAdornment,
   IconButton,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
 } from "@material-ui/core";
 import useTable from "../../Utils/useTable";
 import Controls from "../../Utils/controls/Controls";
@@ -28,9 +33,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import Preview from "../Components/Preview";
 import { DrawerContainer } from "../Assets/Styles/WallStyles";
 import { ButtonsContainerTwo } from "../Assets/Styles/CreatePostStyles";
-import { listWallWebinars, deleteWallPost } from "../../../Actions/WallActions";
+import {
+  listWallWebinars,
+  deleteWallPost,
+  postRecordedVideoUrl,
+} from "../../../Actions/WallActions";
 import { renderListCategory } from "../../Utils/Helpers";
 import { isLms_Role } from "../WallLanding";
+import LinkIcon from "@material-ui/icons/Link";
+import "../Assets/../../../Asset/RecordedVideo.css";
 
 const Alert = props => <MuiAlert elevation={6} variant="filled" {...props} />;
 
@@ -158,7 +169,7 @@ export default function Webinars() {
   };
 
   useEffect(() => {
-    dispatch(listWallWebinars(page));
+    dispatch(listWallWebinars(page, "Expired"));
   }, [dispatch, page]);
 
   const handleDeleteClick = item => {
@@ -178,6 +189,34 @@ export default function Webinars() {
         },
       });
     }
+  };
+
+  const [activeDialogId, setActiveDialogId] = useState("");
+  const [linkField, setLinkField] = useState("");
+
+  const handleLinkClick = e => {
+    setActiveDialogId(e.target.id);
+    // setOpenDialog(!openDialog);
+  };
+
+  const handleDialogClose = () => {
+    setActiveDialogId("");
+  };
+
+  const handleLinkFieldChange = e => {
+    console.log(e.target.value);
+    setLinkField(e.target.value);
+  };
+
+  const handleSaveClick = webinarId => {
+    dispatch(
+      postRecordedVideoUrl(webinarId, linkField, res => {
+        if (res.success) {
+          setLinkField("");
+          handleDialogClose();
+        }
+      })
+    );
   };
 
   return (
@@ -224,29 +263,79 @@ export default function Webinars() {
           <TblHead />
           {filteredWebinars && (
             <TableBody>
-              {recordsAfterPagingAndSorting().map(item => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    {renderListCategory(item.wallCategories)}
-                  </TableCell>
-                  <TableCell>{`${item.eventTitle}`}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.studentWallWebinar.length}</TableCell>
-                  <TableCell>{item.createdAt.split("T")[0]}</TableCell>
-                  <TableCell>{item.createdBy}</TableCell>
-                  <TableCell>{item.activeStatus}</TableCell>
-                  <TableCell>
-                    {/* <Controls.ActionButton onClick={() => openInPage(item)}>
+              {recordsAfterPagingAndSorting().map((item, index) => {
+                // console.log(item.id === String(activeDialogId));
+                return (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {renderListCategory(item.wallCategories)}
+                    </TableCell>
+                    <TableCell>{`${item.eventTitle}`}</TableCell>
+                    <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
+                    <TableCell>{item.studentWallWebinar.length}</TableCell>
+                    <TableCell>{item.createdAt.split("T")[0]}</TableCell>
+                    <TableCell>{item.createdBy}</TableCell>
+                    <TableCell>{item.activeStatus}</TableCell>
+                    <TableCell>
+                      {/* <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize="small" color="primary" />
                     </Controls.ActionButton> */}
-                    <Controls.ActionButton
-                      onClick={() => handleDeleteClick(item)}
-                    >
-                      <DeleteIcon fontSize="small" color="secondary" />
-                    </Controls.ActionButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+                      <Controls.ActionButton
+                        id={item.id}
+                        onClick={handleLinkClick}
+                      >
+                        <LinkIcon
+                          id={item.id}
+                          fontSize="small"
+                          color="primary"
+                        />
+                      </Controls.ActionButton>
+                      <Dialog
+                        open={String(item.id) === activeDialogId}
+                        onClose={handleDialogClose}
+                        aria-labelledby="form-dialog-title"
+                      >
+                        <DialogTitle id="form-dialog-title">
+                          Recorded Video Url
+                        </DialogTitle>
+                        <DialogContent>
+                          <TextField
+                            key={index}
+                            autoFocus
+                            margin="dense"
+                            id={item.id}
+                            label="Enter the URL"
+                            // type="em"
+                            fullWidth
+                            value={item.id === activeDialogId ? linkField : ""}
+                            onChange={handleLinkFieldChange}
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Controls.ActionButton
+                            onClick={handleDialogClose}
+                            color="Secondary"
+                          >
+                            Cancel
+                          </Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick={() => handleSaveClick(item.id)}
+                            color="primary"
+                          >
+                            Save
+                          </Controls.ActionButton>
+                        </DialogActions>
+                      </Dialog>
+
+                      <Controls.ActionButton
+                        onClick={() => handleDeleteClick(item)}
+                      >
+                        <DeleteIcon fontSize="small" color="secondary" />
+                      </Controls.ActionButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           )}
         </TblContainer>

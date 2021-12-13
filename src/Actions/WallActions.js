@@ -65,14 +65,12 @@ export const listAllWallPosts = (status, type) => async dispatch => {
     });
   }
 };
-export const listWallWebinars = (page = 0) => async dispatch => {
+export const listWallWebinars = (page = 0, type) => async dispatch => {
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${
-        process.env.REACT_APP_API_URL
-      }/api/v1/wallpost/webinarlist?page=${page - 1}&size=6`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist`,
       {
         crossDomain: true,
         headers: {
@@ -80,6 +78,11 @@ export const listWallWebinars = (page = 0) => async dispatch => {
           Authorization: `Bearer ${window.sessionStorage.getItem(
             "accessToken"
           )}`,
+        },
+        params: {
+          page: page - 1,
+          size: 6,
+          activeStatus: type ? type : "",
         },
       }
     );
@@ -281,6 +284,76 @@ export const uploadImage = (image, callback) => {
             Authorization: `Bearer ${window.sessionStorage.getItem(
               "accessToken"
             )}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getPlatforms = () => {
+  return dispatch => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/v1/platforms`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${window.sessionStorage.getItem(
+            "accessToken"
+          )}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: WALL.PLATFORMS,
+          payload: response.data.data,
+        });
+      })
+      .catch(error => console.log(error));
+  };
+};
+
+// export const postRecordedVideoUrl = (webinarId, url) => {
+//   return dispatch => {
+//     axios.post(
+//       `${process.env.REACT_APP_API_URL}/api/v1/webinar/${webinarId}/record/video`,
+//       {
+//         crossDomain: true,
+//         headers: {
+//           admin: "yes",
+//           Authorization: `Bearer ${window.sessionStorage.getItem(
+//             "accessToken"
+//           )}`,
+//         },
+//         params: {
+//           url,
+//         },
+//       }
+//     ).tehn;
+//   };
+// };
+
+export const postRecordedVideoUrl = (webinarId, url, callback) => {
+  return dispatch => {
+    axios
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/v1/lms/webinar/${webinarId}/record/video`,
+        {},
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${window.sessionStorage.getItem(
+              "accessToken"
+            )}`,
+          },
+          params: {
+            url,
           },
         }
       )
