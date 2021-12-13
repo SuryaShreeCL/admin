@@ -159,7 +159,15 @@ const MyDocument = ({
               </Text>
             </View>
             <View style={styles.verticalLine} />
-            <View>{/* <Image src={ProfileBuilding} /> */}</View>
+            <View>
+              <Image
+                source={{
+                  uri:
+                    "https://unifiedportalfiles-stage.s3.ap-south-1.amazonaws.com/images/spiderGraph/spider_graph.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20211213T075529Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIAV6X44QWA2POGID5G%2F20211213%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=b2263174f417759a86691ecf1129847256abdccf3763887b3f2a2aabb49f2f39",
+                }}
+                style={{ height: 100, width: 200 }}
+              />
+            </View>
           </View>
         ))}
       </>
@@ -203,50 +211,51 @@ function MsReport({ content = [] }) {
             </Text>
           </View>
         </View>
-        {content.map((item, idx) => {
-          const {
-            content,
-            table,
-            tableSubDescription,
-            subDescription,
-            descriptionOne,
-            descriptionTwo,
-            csfs,
-            additionalPoint,
-            spiderGraph,
-          } = item;
-          console.log(item);
-          return (
-            <MyDocument
-              preferredProgram={content.preferredProgram}
-              title={item.title}
-              inTake={content.inTake}
-              description={content.description}
-              isGreenCardVisible={
-                content.inTake && content.description && content.description
-              }
-              isSecondaryPassageVisible={
-                isEmpty(content.title) &&
-                isEmpty(descriptionOne) &&
-                isEmpty(descriptionTwo)
-              }
-              isTableVisible={table.rows && table.rows.length !== 0}
-              descriptionOne={descriptionOne}
-              descriptionTwo={descriptionTwo}
-              tableHeading={""}
-              row={table.rows}
-              rowDataLength={
-                table.rows && table.rows.length > 0 ? table.rows[0].length : 4
-              }
-              subDescription={subDescription}
-              tableHelper={tableSubDescription}
-              list={csfs}
-              additionalPoint={additionalPoint}
-              isEnd={content.length - 1 === idx}
-              spiderGraph={spiderGraph}
-            />
-          );
-        })}
+        {content &&
+          content.map((item, idx) => {
+            const {
+              content,
+              table,
+              tableSubDescription,
+              subDescription,
+              descriptionOne,
+              descriptionTwo,
+              csfs,
+              additionalPoint,
+              spiderGraph,
+            } = item;
+            console.log(item);
+            return (
+              <MyDocument
+                preferredProgram={content.preferredProgram}
+                title={item.title}
+                inTake={content.inTake}
+                description={content.description}
+                isGreenCardVisible={
+                  content.inTake && content.description && content.description
+                }
+                isSecondaryPassageVisible={
+                  isEmpty(content.title) &&
+                  isEmpty(descriptionOne) &&
+                  isEmpty(descriptionTwo)
+                }
+                isTableVisible={table.rows && table.rows.length !== 0}
+                descriptionOne={descriptionOne}
+                descriptionTwo={descriptionTwo}
+                tableHeading={""}
+                row={table.rows}
+                rowDataLength={
+                  table.rows && table.rows.length > 0 ? table.rows[0].length : 4
+                }
+                subDescription={subDescription}
+                tableHelper={tableSubDescription}
+                list={csfs}
+                additionalPoint={additionalPoint}
+                isEnd={content.length - 1 === idx}
+                spiderGraph={spiderGraph}
+              />
+            );
+          })}
         <View style={styles.footer}>
           <Text style={styles.small}>
             Do write to us at <Link> msconsulting@thecareerlabs.com</Link> if
