@@ -3,7 +3,13 @@ import { Radar } from 'react-chartjs-2';
 
 const RadarChart = ({ graphData }) => {
   return (
-    graphData && <Radar data={RadarData(graphData)} options={RadarOptions} />
+    graphData && (
+      <Radar
+        id={'spider_graph'}
+        data={RadarData(graphData)}
+        options={RadarOptions}
+      />
+    )
   );
 };
 
@@ -52,8 +58,7 @@ const RadarData = ({
   ],
 });
 
-const longToShortLabel = label =>
-  label.length > 15 ? label.substr(0, 15) + '...' : label;
+const longToShortLabel = label => label;
 
 const RadarOptions = {
   responsive: true,

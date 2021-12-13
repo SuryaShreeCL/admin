@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getSpiderGraph,
   profileScoreGenerate,
+  postSpiderGraph,
 } from '../../Actions/PgaReportAction';
 import MySnackBar from '../MySnackBar';
 import RadarChart from './Components/RadarCharts';
@@ -133,9 +134,15 @@ function SpiderGraph(props) {
     setActiveGraphIndex(parseInt(index));
   };
 
-  const handleActionButton = (e, id) => {
+  const handleActionButton = (e, id, addedGraphImg) => {
     e.stopPropagation();
     dispatch(profileScoreGenerate(studentId, productId, id));
+    var canvas = document.getElementById('spider_graph');
+    var dataURL = canvas.toDataURL();
+    if (!addedGraphImg)
+      dispatch(
+        postSpiderGraph(studentId, productId, id, dataUrlToFormDate(dataURL))
+      );
   };
 
   const renderPopover = () => {
@@ -185,19 +192,35 @@ function SpiderGraph(props) {
     );
   };
 
+  const dataUrlToFormDate = dataURL => {
+    var blobBin = atob(dataURL.split(',')[1]);
+    var array = [];
+    for (var i = 0; i < blobBin.length; i++) {
+      array.push(blobBin.charCodeAt(i));
+    }
+    var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
+
+    var formData = new FormData();
+    formData.append('file', file, 'spider_graph.png');
+    return formData;
+  };
+
   const open = Boolean(anchorEl);
   return (
     <PageWrapper>
       <Grid container className={classes.containerStyle}>
-        <Grid item sm={8}>
+        <Grid item sm={6}>
           <Grid container spacing={2}>
             <Grid item md={12} className={classes.fullWidth}>
               <Typography variant={'h5'}>{'Spider Graph'}</Typography>
             </Grid>
             {graphData.length !== 0 &&
               graphData.map(
-                ({ addPGA, id, careerTrackTitle, color }, index) => (
-                  <Grid item sm={4} md={3}>
+                (
+                  { addPGA, addedGraphImg, id, careerTrackTitle, color },
+                  index
+                ) => (
+                  <Grid item sm={4} md={4}>
                     <ClickableBox
                       onClick={
                         activeGraphIndex !== index &&
@@ -212,7 +235,9 @@ function SpiderGraph(props) {
                           variant={addPGA ? 'contained' : 'outlined'}
                           className={classes.buttonPad}
                           isOutlined={!addPGA}
-                          onClick={e => handleActionButton(e, id)}
+                          onClick={e =>
+                            handleActionButton(e, id, addedGraphImg)
+                          }
                         >
                           {addPGA ? 'Added' : 'Add to PGA'}
                         </StyledButton>
@@ -224,7 +249,7 @@ function SpiderGraph(props) {
           </Grid>
         </Grid>
         {graphData.length !== 0 && (
-          <Grid item sm={4}>
+          <Grid item sm={6}>
             <Box className={classes.boxPadding}>
               <Grid container spacing={2} className={classes.rightContainerPad}>
                 <Grid item xs={12}>
