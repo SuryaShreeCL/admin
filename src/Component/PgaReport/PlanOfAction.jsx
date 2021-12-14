@@ -41,7 +41,7 @@ function PlanOfAction(props) {
   };
 
   useEffect(() => {
-    getFocusList().then((response) => {
+    getFocusList(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setFocusList(response.data.data);
       }
