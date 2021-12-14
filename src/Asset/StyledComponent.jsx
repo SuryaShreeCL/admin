@@ -126,3 +126,52 @@ export const BottomContainer = styled.div`
   border-top: 1px solid #e7e7e7;
   border-radius: 0px 0px 10px 10px;
 `;
+
+export const CardTitle = styled.div`
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.42px;
+  color: #18202c;
+  padding: 10px 5px;
+`;
+
+export const CardView = styled.div`
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  padding: 15px;
+`;
+
+export const CardActionButton = styled(Button)`
+  border: ${({ outlined }) =>
+    outlined ? '1px solid #343b89 !important' : 'none'};
+  border-radius: 31px !important;
+  text-transform: none !important;
+  font-size: 12px !important;
+  letter-spacing: 0.31px;
+  max-height: 29px !important;
+  color: ${({ outlined }) =>
+    outlined ? '#343b89 !important' : '#ffffff !important'};
+  background: ${({ outlined }) => (outlined ? 'none' : '#81C14F !important')};
+`;
+
+export const CardSubText = styled.div`
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.42px;
+  color: #333333;
+  padding-left: 5px;
+`;
+
+export const CardInlineText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  span {
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: ${({ bold }) => (bold ? '#333333' : '#999999')};
+    font-weight: ${({ bold }) => bold && 600};
+  }
+`;

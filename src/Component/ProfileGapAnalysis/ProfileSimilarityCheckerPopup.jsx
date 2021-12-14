@@ -1,8 +1,11 @@
 import { Collapse, Dialog, Grid, TextField } from '@material-ui/core';
+import { ExpandMore } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
+import '../../Asset/DialogStyles.css';
 import {
   BottomContainer,
+  CardTitle,
   DetailsBox,
   DialogContent,
   DialogFooter,
@@ -18,8 +21,7 @@ import {
   StyledCloseButton,
   StyledDetailsButton,
 } from '../../Asset/StyledComponent';
-import '../../Asset/DialogStyles.css';
-import { ExpandMore } from '@material-ui/icons';
+import { CardViewComponent } from '../PgaReport/Components/CardView';
 
 export const ProfileSimilarityCheckerPopup = ({
   handleShowDetails,
@@ -30,7 +32,7 @@ export const ProfileSimilarityCheckerPopup = ({
   const isOpen = id => id === collapseId;
   return (
     <Dialog
-      open={dialogOpen}
+      open={true}
       maxWidth={'lg'}
       classes={{ paper: 'dialog_paper', root: 'dialog_root' }}
     >
@@ -66,7 +68,7 @@ export const ProfileSimilarityCheckerPopup = ({
         </DialogHeader>
         <DialogContent>
           <Grid container spacing={1}>
-            <Grid item={12} className={'details_box_style'}>
+            <Grid item xs={12} className={'details_box_style'}>
               <DetailsBox>
                 <JustifyFlex>
                   <LeftText>{'Lee Solomon'}</LeftText>
@@ -79,7 +81,21 @@ export const ProfileSimilarityCheckerPopup = ({
                   </StyledDetailsButton>
                 </JustifyFlex>
                 <Collapse in={isOpen(1)}>
-                  <div>{'Demo'}</div>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <CardTitle>{'Chandra Maya'}</CardTitle>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <CardViewComponent
+                        titleText={'Welcome'}
+                        buttonText={'Add'}
+                        buttonStatus={true}
+                        handleClick={null}
+                        leftContent={[1, 2, 3]}
+                        rightContent={[1, 2, 3]}
+                      />
+                    </Grid>
+                  </Grid>
                 </Collapse>
               </DetailsBox>
             </Grid>

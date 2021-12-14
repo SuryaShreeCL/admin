@@ -39,3 +39,7 @@
   width: 100% !important;
   margin: 0 !important;
 }
+
+.card_style {
+  padding: 15px 15px 3px;
+}
