@@ -1,8 +1,10 @@
 import { Collapse, Dialog, Grid, TextField } from '@material-ui/core';
+import { ExpandMore } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
 import {
   BottomContainer,
+  CardTitle,
   DetailsBox,
   DialogContent,
   DialogFooter,
@@ -19,19 +21,18 @@ import {
   StyledDetailsButton,
 } from '../../../Asset/StyledComponent';
 import '../../../Asset/DialogStyles.css';
-import { ExpandMore } from '@material-ui/icons';
 
 export const ProfileSimilarityCheckerPopup = ({
   handleShowDetails,
   collapseId,
   dialogOpen,
   handlePopupClose,
-  children
+  children,
 }) => {
   const isOpen = id => id === collapseId;
   return (
     <Dialog
-      open={dialogOpen}
+      open={true}
       maxWidth={'lg'}
       classes={{ paper: 'dialog_paper', root: 'dialog_root' }}
     >
@@ -80,7 +81,21 @@ export const ProfileSimilarityCheckerPopup = ({
                   </StyledDetailsButton>
                 </JustifyFlex>
                 <Collapse in={isOpen(1)}>
-                  <div>{'Demo'}</div>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <CardTitle>{'Chandra Maya'}</CardTitle>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <CardViewComponent
+                        titleText={'Welcome'}
+                        buttonText={'Add'}
+                        buttonStatus={true}
+                        handleClick={null}
+                        leftContent={[1, 2, 3]}
+                        rightContent={[1, 2, 3]}
+                      />
+                    </Grid>
+                  </Grid>
                 </Collapse>
               </DetailsBox>
             </Grid>
