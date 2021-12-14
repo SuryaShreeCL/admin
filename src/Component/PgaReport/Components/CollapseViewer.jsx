@@ -16,8 +16,8 @@ function CollapseViewer({children, show }) {
                     {'Show Details'}
                   </StyledDetailsButton>
                 </JustifyFlex>
-                <Collapse in={show % 2 === 0}>
-                  <div>{children}</div>
+                <Collapse in={show}>
+                  {children}
                 </Collapse>
               </DetailsBox>
     )
