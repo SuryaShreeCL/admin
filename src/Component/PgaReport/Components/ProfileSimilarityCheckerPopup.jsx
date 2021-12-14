@@ -20,14 +20,16 @@ import {
   SelectedBox,
   StyledCloseButton,
   StyledDetailsButton,
-} from '../../Asset/StyledComponent';
-import { CardViewComponent } from '../PgaReport/Components/CardView';
+} from '../../../Asset/StyledComponent';
+import '../../../Asset/DialogStyles.css';
+import { ExpandMore } from '@material-ui/icons';
 
 export const ProfileSimilarityCheckerPopup = ({
   handleShowDetails,
   collapseId,
   dialogOpen,
   handlePopupClose,
+  children,
 }) => {
   const isOpen = id => id === collapseId;
   return (
@@ -67,8 +69,8 @@ export const ProfileSimilarityCheckerPopup = ({
           </Grid>
         </DialogHeader>
         <DialogContent>
-          <Grid container spacing={1}>
-            <Grid item xs={12} className={'details_box_style'}>
+          {/* <Grid container spacing={1}>
+            <Grid item={12} className={'details_box_style'}>
               <DetailsBox>
                 <JustifyFlex>
                   <LeftText>{'Lee Solomon'}</LeftText>
@@ -99,7 +101,8 @@ export const ProfileSimilarityCheckerPopup = ({
                 </Collapse>
               </DetailsBox>
             </Grid>
-          </Grid>
+          </Grid> */}
+          {children}
         </DialogContent>
         <DialogFooter>
           <BottomContainer>
