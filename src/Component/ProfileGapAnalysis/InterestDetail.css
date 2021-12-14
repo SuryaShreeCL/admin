@@ -1,71 +1,64 @@
-.main_div{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+.main_div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
-.textField_align{
-    /* width: 450px; */
-    bottom: 30px;
-    margin-left: 30px;
+.textField_align {
+  margin-left: 30px;
 }
 
-.icon_div{
-    display: none;
-    align-items: center;
-    justify-content: center;
-    margin-left: 30px;
-    
+.icon_div {
+  /* display: none; */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-left: 0px !important;
 }
 
 .icon_div:hover {
-    display: block;
-    margin-top: -13px;
-
+  display: flex;
 }
 .save_button_div {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    margin-top: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 12px 30px;
 }
 
-.grid{
-    display: flex;
-    margin-left: 30px;
+.grid {
+  display: flex;
+  margin-left: 30px;
 }
 .grid:hover + .icon_div {
-   display: block;
-   margin-top: -13px;
-
+  display: flex;
 }
 /* ppga cal notes */
 .ppgaTextField_align {
-    bottom: 10px;
-
+  bottom: 10px;
 }
-.button_div{
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    /* margin-top: -8px; */
-    /* margin-right: 7px;
+.button_div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  /* margin-top: -8px; */
+  /* margin-right: 7px;
     margin-bottom: 12px; */
 }
 /* .footer_text{
    
 } */
 .MuiBox-root {
-    padding : 0px 0px !important
+  padding: 0px 0px !important;
 }
-.divider{
-     /* margin-top: -16px; */
-     /* background-color: pink; */
+.divider {
+  /* margin-top: -16px; */
+  /* background-color: pink; */
 }
-.bottom_text{
-    color: #1093FF;
-    cursor: pointer;
-    margin-bottom : 18px;
-    margin-left: 30px;
-
+.bottom_text {
+  color: #1093ff;
+  cursor: pointer;
+  margin-bottom: 18px;
+  margin-left: 30px;
 }

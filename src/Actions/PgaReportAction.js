@@ -399,3 +399,31 @@ export const getResumeQuestionnaire = (studentId, productId) => {
       });
   };
 };
+
+export const postSpiderGraph = (
+  studentId,
+  productId,
+  profileScoreId,
+  formData
+) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .post(
+        `${BASE_URL}/students/${studentId}/product/${productId}/profileScore/${profileScoreId}/spiderGraph/upload`,
+        formData,
+        {
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({ type: PGA_REPORT.postSpiderGraph, payload: result.data });
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  };
+};

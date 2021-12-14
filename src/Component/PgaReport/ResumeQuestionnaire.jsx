@@ -7,12 +7,12 @@ import {
   ListItem,
   TextField,
   Typography,
-} from '@material-ui/core';
-import { ExpandLess } from '@material-ui/icons';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import { Autocomplete } from '@material-ui/lab';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@material-ui/core";
+import { ExpandLess } from "@material-ui/icons";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Autocomplete } from "@material-ui/lab";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addStudentCareerTrackDetails,
   getAcademicCertificates,
@@ -28,13 +28,13 @@ import {
   getResumeQuestionnaire,
   getUniversity,
   postResumes,
-} from '../../Actions/PgaReportAction';
-import { HELPER_TEXT } from '../../Constant/Variables';
-import PdfViewer from '../../Utils/PdfViewer';
-import DropDown from '../Controls/DropDown';
-import TextFieldComponent from '../Controls/TextField';
-import MySnackBar from '../MySnackBar';
-import Loader from '../Utils/controls/Loader';
+} from "../../Actions/PgaReportAction";
+import { HELPER_TEXT } from "../../Constant/Variables";
+import PdfViewer from "../../Utils/PdfViewer";
+import DropDown from "../Controls/DropDown";
+import TextFieldComponent from "../Controls/TextField";
+import MySnackBar from "../MySnackBar";
+import Loader from "../Utils/controls/Loader";
 import {
   BoldText,
   BottomBox,
@@ -47,28 +47,28 @@ import {
   QuestionText,
   StyledButton,
   StyledMediumButton,
-} from './Components/StyledComponents';
-import { useStyles } from './Styles/Index';
+} from "./Components/StyledComponents";
+import { useStyles } from "./Styles/Index";
 
-const RESUME_PARSE_SUCCESS_MESSAGE = 'Resume parsed successfully';
-const RESUME_PARSE_ERROR_MESSAGE = 'Resume parsing failed';
+const RESUME_PARSE_SUCCESS_MESSAGE = "Resume parsed successfully";
+const RESUME_PARSE_ERROR_MESSAGE = "Resume parsing failed";
 
 const GPA_RANG = [
   {
     id: 100,
-    label: '100%',
+    label: "100%",
   },
   {
     id: 10,
-    label: '10',
+    label: "10",
   },
   {
     id: 7,
-    label: '7',
+    label: "7",
   },
   {
     id: 4,
-    label: '4',
+    label: "4",
   },
 ];
 
@@ -78,8 +78,8 @@ function ResumeQuestionnaire(props) {
   const { studentId, productId } = props.match.params;
   const [snack, setSnack] = useState({
     snackOpen: false,
-    snackMsg: '',
-    snackColor: '',
+    snackMsg: "",
+    snackColor: "",
   });
   const [collapse, setCollapse] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
   const [resumeQuestionnaireForm, setResumeQuestionnaireForm] = useState({
@@ -128,7 +128,7 @@ function ResumeQuestionnaire(props) {
     resumePdfPath,
     resumePdfUrl,
     resumeQuestionnaire,
-  } = useSelector(state => state.PgaReportReducer);
+  } = useSelector((state) => state.PgaReportReducer);
 
   useEffect(() => {
     dispatch(getColleges());
@@ -186,7 +186,7 @@ function ResumeQuestionnaire(props) {
   }, [resumePdfUrl]);
 
   useEffect(() => {
-    if (resumePdfPath && typeof resumePdfPath === 'object') {
+    if (resumePdfPath && typeof resumePdfPath === "object") {
       dispatch(getResumePdfDownloadUrl(studentId, resumePdfPath.path));
       setUrl(getResumePdfUrl(studentId, resumePdfPath.path));
     }
@@ -222,19 +222,19 @@ function ResumeQuestionnaire(props) {
           hobbies: [
             newInterest
               .flat(2)
-              .join(', ')
+              .join(", ")
               .toString(),
           ],
         });
         setSnack({
           snackOpen: true,
-          snackColor: 'success',
+          snackColor: "success",
           snackMsg: RESUME_PARSE_SUCCESS_MESSAGE,
         });
       } else {
         setSnack({
           snackOpen: true,
-          snackColor: 'error',
+          snackColor: "error",
           snackMsg: RESUME_PARSE_ERROR_MESSAGE,
         });
       }
@@ -244,49 +244,49 @@ function ResumeQuestionnaire(props) {
   useEffect(() => {
     if (careerTrackDetailsStatus) {
       if (careerTrackDetailsStatus.success && saveClick) {
-        props.handlePageChange('pgaSpiderGraph');
+        props.handlePageChange("pgaSpiderGraph");
       }
     }
   }, [careerTrackDetailsStatus, saveClick]);
 
-  const getValidArray = collection =>
+  const getValidArray = (collection) =>
     collection && Array.isArray(collection) ? collection : [];
 
-  const renderExpandIcon = open => {
+  const renderExpandIcon = (open) => {
     return open ? <ExpandLess /> : <ExpandMore />;
   };
 
   const typeOfOptions = [
     {
-      name: 'Academic Details',
+      name: "Academic Details",
       id: 0,
     },
     {
-      name: 'Academic Certifications',
+      name: "Academic Certifications",
       id: 1,
     },
     {
-      name: 'Internships Experience',
+      name: "Internships Experience",
       id: 2,
     },
     {
-      name: 'Projects hands on Experience',
+      name: "Projects hands on Experience",
       id: 3,
     },
     {
-      name: 'Professional Certificate',
+      name: "Professional Certificate",
       id: 4,
     },
     {
-      name: 'Coursework Taken',
+      name: "Coursework Taken",
       id: 5,
     },
     {
-      name: 'Skills Acquired',
+      name: "Skills Acquired",
       id: 6,
     },
     {
-      name: 'Personal Impact',
+      name: "Personal Impact",
       id: 7,
     },
   ];
@@ -304,7 +304,7 @@ function ResumeQuestionnaire(props) {
           <ListText primary={name} />
           {renderExpandIcon(collapse.indexOf(id) > -1)}
         </ListItem>
-        <Collapse in={collapse.indexOf(id) > -1} timeout='auto' unmountOnExit>
+        <Collapse in={collapse.indexOf(id) > -1} timeout="auto" unmountOnExit>
           <Grid container spacing={2} className={classes.paddingList}>
             {renderOption(id)}
           </Grid>
@@ -313,7 +313,7 @@ function ResumeQuestionnaire(props) {
     ));
   };
 
-  const renderOption = id => {
+  const renderOption = (id) => {
     switch (id) {
       case 0:
         return academicDetails();
@@ -343,27 +343,27 @@ function ResumeQuestionnaire(props) {
         <Grid item md={12} className={classes.gapStyle}>
           <div className={classes.gap}>
             <QuestionText>
-              {'Let us know if you have received any awards till date'}
+              {"Let us know if you have received any awards till date"}
             </QuestionText>
             <TextFieldComponent
               className={classes.inputText}
-              name={'awards'}
+              name={"awards"}
               value={awards[0]}
               onChange={handleInputChange}
-              variant={'standard'}
-              placeholder={'Add Custom Entry'}
+              variant={"standard"}
+              placeholder={"Add Custom Entry"}
               fullWidth
             />
           </div>
           <div className={classes.gap}>
-            <QuestionText>{'Which hobbies do you have?'}</QuestionText>
+            <QuestionText>{"Which hobbies do you have?"}</QuestionText>
             <TextFieldComponent
               className={classes.inputText}
-              name={'hobbies'}
+              name={"hobbies"}
               value={hobbies[0]}
               onChange={handleInputChange}
-              variant={'standard'}
-              placeholder={'Add Custom Entry'}
+              variant={"standard"}
+              placeholder={"Add Custom Entry"}
               fullWidth
             />
           </div>
@@ -380,14 +380,14 @@ function ResumeQuestionnaire(props) {
         <Grid item md={12}>
           <FlexRow>
             <QuestionText>
-              {'Which of the following Skills you have acquired?'}
+              {"Which of the following Skills you have acquired?"}
             </QuestionText>
           </FlexRow>
         </Grid>
         <Grid item md={12}>
           {creatableDropDown(
-            'Search/ Add Custom Entry',
-            'relevantSkills',
+            "Search/ Add Custom Entry",
+            "relevantSkills",
             relevantSkills,
             getValidArray(relevantSkillsList)
           )}
@@ -403,14 +403,14 @@ function ResumeQuestionnaire(props) {
         <Grid item md={12}>
           <FlexRow>
             <QuestionText>
-              {'Which of the following Coursework you have taken?'}
+              {"Which of the following Coursework you have taken?"}
             </QuestionText>
           </FlexRow>
         </Grid>
         <Grid item md={12}>
           {creatableDropDown(
-            'Search/ Add Custom Entry',
-            'electiveSubjects',
+            "Search/ Add Custom Entry",
+            "electiveSubjects",
             electiveSubjects,
             getValidArray(electiveSubjectsList)
           )}
@@ -427,15 +427,15 @@ function ResumeQuestionnaire(props) {
           <FlexRow>
             <QuestionText>
               {
-                'Which of the following Professional Certificate was completed by candidate?'
+                "Which of the following Professional Certificate was completed by candidate?"
               }
             </QuestionText>
           </FlexRow>
         </Grid>
         <Grid item md={12}>
           {creatableDropDown(
-            'Search/ Add Custom Entry',
-            'professionalCertificates',
+            "Search/ Add Custom Entry",
+            "professionalCertificates",
             professionalCertificates,
             getValidArray(professionalCertificatesList)
           )}
@@ -454,19 +454,19 @@ function ResumeQuestionnaire(props) {
     return (
       <>
         {renderProjectHands(
-          'Academic',
-          'academicProjectCount',
+          "Academic",
+          "academicProjectCount",
           academicProjectCount
         )}
-        {renderProjectHands('Course', 'courseProjectCount', courseProjectCount)}
+        {renderProjectHands("Course", "courseProjectCount", courseProjectCount)}
         {renderProjectHands(
-          'Research',
-          'researchProjectCount',
+          "Research",
+          "researchProjectCount",
           researchProjectCount
         )}
         {renderProjectHands(
-          'Independent',
-          'independentProjectCount',
+          "Independent",
+          "independentProjectCount",
           independentProjectCount
         )}
       </>
@@ -490,9 +490,9 @@ function ResumeQuestionnaire(props) {
           name={name}
           value={value}
           onChange={handleChange}
-          variant={'standard'}
-          type={'number'}
-          placeholder={'00'}
+          variant={"standard"}
+          type={"number"}
+          placeholder={"00"}
           fullWidth
         />
       </Grid>
@@ -514,7 +514,7 @@ function ResumeQuestionnaire(props) {
           <FlexRow>
             <QuestionText>
               {
-                'How many internship have completed by the candidate successfully'
+                "How many internship have completed by the candidate successfully"
               }
             </QuestionText>
           </FlexRow>
@@ -523,12 +523,12 @@ function ResumeQuestionnaire(props) {
           <TextFieldComponent
             className={classes.centeredInputText}
             id={internshipCount}
-            name={'internshipCount'}
+            name={"internshipCount"}
             value={internshipCount}
             onChange={handleChange}
-            variant={'standard'}
-            type={'number'}
-            placeholder={'00'}
+            variant={"standard"}
+            type={"number"}
+            placeholder={"00"}
             fullWidth
           />
         </Grid>
@@ -544,15 +544,15 @@ function ResumeQuestionnaire(props) {
           <FlexRow>
             <QuestionText>
               {
-                'Which of the following academic certificate was completed by candidate?'
+                "Which of the following academic certificate was completed by candidate?"
               }
             </QuestionText>
           </FlexRow>
         </Grid>
         <Grid item md={12}>
           {creatableDropDown(
-            'Search/ Add Custom Entry',
-            'academicCertificates',
+            "Search/ Add Custom Entry",
+            "academicCertificates",
             academicCertificates,
             getValidArray(academicCertificatesList)
           )}
@@ -575,27 +575,27 @@ function ResumeQuestionnaire(props) {
         <Grid item md={6}>
           {renderDropDown(
             getValidArray(colleges),
-            'college',
-            'Name of College',
+            "college",
+            "Name of College",
             college
           )}
         </Grid>
         <Grid item md={6}>
           {renderDropDown(
             getValidArray(universities),
-            'university',
-            'Name of University',
+            "university",
+            "Name of University",
             university
           )}
         </Grid>
         <Grid item md={2}>
-          {renderDropDown(getValidArray(degrees), 'degree', 'Degree', degree)}
+          {renderDropDown(getValidArray(degrees), "degree", "Degree", degree)}
         </Grid>
         <Grid item md={4}>
           {renderDropDown(
             getValidArray(departments),
-            'department',
-            'Department Name',
+            "department",
+            "Department Name",
             department
           )}
         </Grid>
@@ -603,21 +603,21 @@ function ResumeQuestionnaire(props) {
           <div className={classes.flexColumn}>
             {renderCustomDropDown(
               GPA_RANG,
-              'cgpaScale',
-              'GPA/% Range',
+              "cgpaScale",
+              "GPA/% Range",
               cgpaScale,
               true
             )}
             <TextFieldComponent
               id={cgpa}
               className={classes.centeredInputText}
-              name={'cgpa'}
+              name={"cgpa"}
               value={cgpa}
               onChange={handleChange}
-              variant={'standard'}
-              type={'number'}
-              label={'Overall GPA/%'}
-              placeholder={'00'}
+              variant={"standard"}
+              type={"number"}
+              label={"Overall GPA/%"}
+              placeholder={"00"}
               disabled={true}
               fullWidth
             />
@@ -628,8 +628,8 @@ function ResumeQuestionnaire(props) {
   };
 
   const HandleCreatableDropDownChange = (name, newValue) => {
-    let value = '';
-    if (typeof newValue === 'string') value = newValue;
+    let value = "";
+    if (typeof newValue === "string") value = newValue;
     else if (newValue && newValue.inputValue) value = newValue.inputValue;
     else value = newValue;
     setResumeQuestionnaireForm({
@@ -653,7 +653,7 @@ function ResumeQuestionnaire(props) {
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
             <Chip
-              variant={'outlined'}
+              variant={"outlined"}
               label={option}
               {...getTagProps({ index })}
             />
@@ -663,15 +663,15 @@ function ResumeQuestionnaire(props) {
           <React.Fragment>
             <Checkbox
               className={classes.checkBox}
-              color={'default'}
+              color={"default"}
               checked={selected}
             />
             {option}
           </React.Fragment>
         )}
         fullWidth
-        renderInput={params => (
-          <TextField {...params} variant={'standard'} placeholder={label} />
+        renderInput={(params) => (
+          <TextField {...params} variant={"standard"} placeholder={label} />
         )}
       />
     );
@@ -684,11 +684,11 @@ function ResumeQuestionnaire(props) {
         options={options}
         fullWidth
         onChange={(e, neValue) => handleDropDownChange(name, neValue)}
-        getOptionLabel={option => option.name}
+        getOptionLabel={(option) => option.name}
         value={value}
         disabled={true}
-        renderInput={params => (
-          <TextFieldComponent {...params} label={label} variant={'standard'} />
+        renderInput={(params) => (
+          <TextFieldComponent {...params} label={label} variant={"standard"} />
         )}
       />
     );
@@ -701,11 +701,11 @@ function ResumeQuestionnaire(props) {
         options={options}
         fullWidth
         onChange={(e, neValue) => handleDropDownChange(name, neValue.id)}
-        getOptionLabel={option => option.label}
+        getOptionLabel={(option) => option.label}
         value={options.find(({ id }) => id === value) || null}
         disabled={disabled}
-        renderInput={params => (
-          <TextFieldComponent {...params} label={label} variant={'standard'} />
+        renderInput={(params) => (
+          <TextFieldComponent {...params} label={label} variant={"standard"} />
         )}
       />
     );
@@ -721,11 +721,11 @@ function ResumeQuestionnaire(props) {
   const handleSnackClose = () =>
     setSnack({
       snackOpen: false,
-      snackMsg: '',
-      snackColor: '',
+      snackMsg: "",
+      snackColor: "",
     });
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setResumeQuestionnaireForm({
       ...resumeQuestionnaireForm,
@@ -733,7 +733,7 @@ function ResumeQuestionnaire(props) {
     });
   };
 
-  const handleCollapse = id => {
+  const handleCollapse = (id) => {
     let arr = [...collapse];
     let index = arr.indexOf(id);
     if (index > -1) arr.splice(index, 1);
@@ -741,7 +741,7 @@ function ResumeQuestionnaire(props) {
     setCollapse(arr);
   };
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setResumeQuestionnaireForm({
       ...resumeQuestionnaireForm,
@@ -770,21 +770,21 @@ function ResumeQuestionnaire(props) {
       setSnack({
         snackOpen: true,
         snackMsg: HELPER_TEXT.requiredField,
-        snackColor: 'error',
+        snackColor: "error",
       });
     }
   };
 
-  const handleParse = e => {
+  const handleParse = (e) => {
     e.preventDefault();
     setLoading(true);
     const { path } = resumePdfPath;
     var bodyFormData = new FormData();
     const myFile = new File([resumeData], path, {
-      type: path && path.slice(path.indexOf('.') + 1, path.length),
+      type: path && path.slice(path.indexOf(".") + 1, path.length),
       lastModified: new Date().getTime(),
     });
-    bodyFormData.append('file', myFile);
+    bodyFormData.append("file", myFile);
     dispatch(postResumes(bodyFormData));
   };
   return (
@@ -794,13 +794,13 @@ function ResumeQuestionnaire(props) {
           <Grid container spacing={2}>
             <Grid item lg={12} className={classes.fullWidth}>
               <JustifyFlex>
-                <Typography variant={'h5'}>{'Resume Questionnaire'}</Typography>
+                <Typography variant={"h5"}>{"Resume Questionnaire"}</Typography>
                 <StyledButton
-                  variant={'contained'}
+                  variant={"contained"}
                   isOutlined={false}
                   onClick={handleParse}
                 >
-                  {'Update Resume'}
+                  {"Update Resume"}
                 </StyledButton>
               </JustifyFlex>
             </Grid>
@@ -811,8 +811,8 @@ function ResumeQuestionnaire(props) {
         </PageWrap>
         <BottomBox>
           <FlexView>
-            <StyledMediumButton variant={'contained'} onClick={handleSave}>
-              {'Save & Generate'}
+            <StyledMediumButton variant={"contained"} onClick={handleSave}>
+              {"Save & Generate"}
             </StyledMediumButton>
           </FlexView>
         </BottomBox>

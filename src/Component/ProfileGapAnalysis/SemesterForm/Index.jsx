@@ -235,7 +235,7 @@ class Index extends Component {
   };
 
   fetchData = (response) => {
-    if (response.data.success) {
+    if (response.data && response.data.success) {
       this.setState({
         semesterData:
           response && response.data.data.studentSubjectDetails !== null
@@ -319,28 +319,28 @@ class Index extends Component {
       : this.state.subjectDetails.cgpa <= 0
       ? this.setState({ cgpaErr: "It cannot be zero or negative value" })
       : this.setState({ cgpaErr: "" });
-    isEmptyString(this.state.subjectDetails.formulaEmployed)
-      ? this.setState({ formulaEmployedErr: hlpTxt })
-      : this.state.subjectDetails.formulaEmployed <= 0
-      ? this.setState({
-          formulaEmployedErr: "It cannot be zero or negative value",
-        })
-      : this.setState({ formulaEmployedErr: "" });
-    isEmptyString(this.state.subjectDetails.percentage)
-      ? this.setState({ percentageErr: hlpTxt })
-      : this.state.subjectDetails.percentage <= 0
-      ? this.setState({ percentageErr: "It cannot be zero or negative value" })
-      : this.setState({ percentageErr: "" });
+    // isEmptyString(this.state.subjectDetails.formulaEmployed)
+    //   ? this.setState({ formulaEmployedErr: hlpTxt })
+    //   : this.state.subjectDetails.formulaEmployed <= 0
+    //   ? this.setState({
+    //       formulaEmployedErr: "It cannot be zero or negative value",
+    //     })
+    //   : this.setState({ formulaEmployedErr: "" });
+    // isEmptyString(this.state.subjectDetails.percentage)
+    //   ? this.setState({ percentageErr: hlpTxt })
+    //   : this.state.subjectDetails.percentage <= 0
+    //   ? this.setState({ percentageErr: "It cannot be zero or negative value" })
+    //   : this.setState({ percentageErr: "" });
 
     if (
       !isEmptyString(this.state.subjectDetails.sgpa) &&
       !(this.state.subjectDetails.sgpa <= 0) &&
       !isEmptyString(this.state.subjectDetails.cgpa) &&
-      !(this.state.subjectDetails.cgpa <= 0) &&
-      !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
-      !(this.state.subjectDetails.formulaEmployed <= 0) &&
-      !isEmptyString(this.state.subjectDetails.percentage) &&
-      !(this.state.subjectDetails.percentage <= 0)
+      !(this.state.subjectDetails.cgpa <= 0) 
+      // !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
+      // !(this.state.subjectDetails.formulaEmployed <= 0) &&
+      // !isEmptyString(this.state.subjectDetails.percentage) &&
+      // !(this.state.subjectDetails.percentage <= 0)
     ) {
       let requestBody = {
         studentSemesterDetails: {
@@ -372,8 +372,9 @@ class Index extends Component {
         this.props.match.params.studentId,
         this.props.academicTypes,
         requestBody,
-        (response) => {
-          if (response.data.success) {
+        ((response) => {
+          console.log(response)
+          if (response.data && response.data.success) {
             this.setState({
               snackMsg: "Saved Successfully",
               snackVariant: "success",
@@ -387,11 +388,11 @@ class Index extends Component {
           } else {
             this.setState({
               snackMsg: "Same SubjectCode SubjectName is Already Added",
-              snackVariant: "success",
+              snackVariant: "error",
               snackOpen: true,
             });
           }
-        }
+        })
       );
     }
   };

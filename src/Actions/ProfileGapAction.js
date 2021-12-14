@@ -492,7 +492,7 @@ export const viewSemesterDetails = (studentId, semesterId, callback) => {
         });
       })
       .catch((error) => {
-        // callback(error)
+        callback(error)
         console.log(error);
       });
   };
@@ -523,7 +523,7 @@ export const saveSemesterDetails = (studentId, type, data, callback) => {
         });
       })
       .catch((error) => {
-        // callback(error)
+        callback(error)
         console.log(error);
       });
   };

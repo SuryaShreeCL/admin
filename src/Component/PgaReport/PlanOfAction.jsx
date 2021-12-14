@@ -1,39 +1,46 @@
-import { Box, Grid, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Box, Grid, IconButton, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import {
   deleteFocus,
   getFocusList,
   getPlanOfAction,
   savePlanOfAction,
   saveSingleFocus,
-} from "../../AsyncApiCall/PgaReport/PlanOfAction";
-import { HELPER_TEXT } from "../../Constant/Variables";
-import TextFieldComponent from "../Controls/TextField";
-import MySnackBar from "../MySnackBar";
-import { isEmptyObject, isEmptyString } from "../Validation";
-import BottomContainer from "./BottomContainer";
-import BlueTable from "./Components/BlueTable";
-import { PageWrapper } from "./Components/StyledComponents";
-import { useStyles } from "./Styles/Index";
+} from '../../AsyncApiCall/PgaReport/PlanOfAction';
+import { HELPER_TEXT } from '../../Constant/Variables';
+import TextFieldComponent from '../Controls/TextField';
+import MySnackBar from '../MySnackBar';
+import { isEmptyObject, isEmptyString } from '../Validation';
+import BottomContainer from './BottomContainer';
+import BlueTable from './Components/BlueTable';
+import { ImageFrameIcon, PageWrapper } from './Components/StyledComponents';
+import { useStyles } from './Styles/Index';
+import ImageFrame from '../../Asset/Images/imageFrame.png';
+import { collapseArray, Popup } from './ProfileBuilderPopup';
+
+const ACTIVE_PRODUCT = ['PBM', 'PBP'];
 
 function PlanOfAction(props) {
   const classes = useStyles();
   const [focusList, setFocusList] = useState([]);
   const [planOfAction, setPlanOfAction] = useState({
-    criteriaCGPA: "",
+    criteriaCGPA: '',
     rows: [],
     plans: [],
   });
   const [snack, setSnack] = useState({
     snackOpen: false,
-    snackMsg: "",
-    snackVariant: "",
+    snackMsg: '',
+    snackVariant: '',
   });
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [tableCollapseList, setTableCollapseList] = useState(collapseArray);
+
   const getAndSetPlanOfAction = () => {
     getPlanOfAction(
       props.match.params.studentId,
       props.match.params.productId
-    ).then((response) => {
+    ).then(response => {
       if (response.status === 200) {
         setPlanOfAction({ ...response.data.data });
       }
@@ -41,7 +48,7 @@ function PlanOfAction(props) {
   };
 
   useEffect(() => {
-    getFocusList().then((response) => {
+    getFocusList(props.match.params.productId).then(response => {
       if (response.status === 200) {
         setFocusList(response.data.data);
       }
@@ -49,12 +56,12 @@ function PlanOfAction(props) {
     getAndSetPlanOfAction();
   }, []);
 
-  const handleAddClick = (index) => {
+  const handleAddClick = index => {
     let planOfActionCopy = [...planOfAction];
     planOfActionCopy[index].pgaStudentPoaFocus.push({
       id: null,
-      activity: "",
-      remark: "",
+      activity: '',
+      remark: '',
       pgaPoaFocus: null,
     });
     setPlanOfAction(planOfActionCopy);
@@ -82,7 +89,7 @@ function PlanOfAction(props) {
         props.match.params.studentId,
         props.match.params.productId,
         requestBody
-      ).then((response) => {
+      ).then(response => {
         if (response.status === 200) {
           getAndSetPlanOfAction();
         }
@@ -90,9 +97,9 @@ function PlanOfAction(props) {
     } else {
       let copyOf = { ...planOfAction };
       copyOf.rows[rowIndex][cellIndex].name = value;
-      let quarterIndex = copyOf.plans.findIndex((el) => el.id === planId);
+      let quarterIndex = copyOf.plans.findIndex(el => el.id === planId);
       let focusIndex = copyOf.plans[quarterIndex].pgaStudentPoaFocus.findIndex(
-        (el) => el.orderNo === focusNo
+        el => el.orderNo === focusNo
       );
       copyOf.plans[quarterIndex].pgaStudentPoaFocus[
         focusIndex
@@ -112,7 +119,7 @@ function PlanOfAction(props) {
     let copyOf = [...planOfAction];
     if (copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].id) {
       deleteFocus(copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].id).then(
-        (response) => {
+        response => {
           if (response.status === 200) {
             getAndSetPlanOfAction();
           }
@@ -134,18 +141,18 @@ function PlanOfAction(props) {
         props.match.params.studentId,
         props.match.params.productId,
         planOfAction.plans
-      ).then((response) => {
+      ).then(response => {
         if (response.status === 200) {
           getAndSetPlanOfAction();
           setSnack({
-            snackMsg: "Saved Successfully",
-            snackVariant: "success",
+            snackMsg: 'Saved Successfully',
+            snackVariant: 'success',
             snackOpen: true,
           });
         } else {
           setSnack({
             snackMsg: response,
-            snackVariant: "error",
+            snackVariant: 'error',
             snackOpen: true,
           });
         }
@@ -153,22 +160,45 @@ function PlanOfAction(props) {
     } else {
       setSnack({
         snackMsg: HELPER_TEXT.requiredField,
-        snackVariant: "error",
+        snackVariant: 'error',
         snackOpen: true,
       });
     }
   };
 
+  const handlePopup = () => {
+    setDialogOpen(true);
+  };
+  const handlePopupClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleCollapse = key => {
+    let arr = [...tableCollapseList];
+    let index = arr.indexOf(key);
+    if (index > -1) arr.splice(index, 1);
+    else arr.push(key);
+    setTableCollapseList(arr);
+  };
+
+  const isImageButton =
+    ACTIVE_PRODUCT.indexOf(props.StudentStepDetailsList.codeName) > -1;
+
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
         <div className={classes.planOfActionContainer}>
-          <Typography variant={"h5"}>Quarterly Plan of Action</Typography>
-          <Box display={"flex"} alignItems={"center"} gridGap={"5px"}>
+          <Typography variant={'h5'}>Quarterly Plan of Action</Typography>
+          <Box display={'flex'} alignItems={'center'} gridGap={'5px'}>
             <Typography>Student Category</Typography>
-            <Typography color={"secondary"}>
+            <Typography color={'secondary'}>
               {planOfAction.criteriaCGPA}
             </Typography>
+            {isImageButton && (
+              <IconButton className={classes.iconBorder} onClick={handlePopup}>
+                <ImageFrameIcon src={ImageFrame} />
+              </IconButton>
+            )}
           </Box>
         </div>
         <Grid container spacing={2} className={classes.planOfActionContainer}>
@@ -191,7 +221,7 @@ function PlanOfAction(props) {
                   return (
                     <>
                       <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
-                        <Typography>{"Focus " + eachFocus.orderNo}</Typography>
+                        <Typography>{'Focus ' + eachFocus.orderNo}</Typography>
                       </Grid>
                       {/* <Grid item md={3} xs={12} sm={12} lg={3} xl={3}>
                         <DropDown
@@ -218,22 +248,22 @@ function PlanOfAction(props) {
                       <Grid item md={6} xs={12} sm={12}>
                         <TextFieldComponent
                           value={eachFocus.activity}
-                          name={"activity"}
-                          onChange={(e) =>
+                          name={'activity'}
+                          onChange={e =>
                             handleTextChange(e, quarterIndex, focusIndex)
                           }
-                          label={"Activity"}
+                          label={'Activity'}
                           fullWidth
                         />
                       </Grid>
                       <Grid item md={6} xs={12} sm={12}>
                         <TextFieldComponent
-                          name={"remark"}
+                          name={'remark'}
                           value={eachFocus.remark}
-                          onChange={(e) =>
+                          onChange={e =>
                             handleTextChange(e, quarterIndex, focusIndex)
                           }
-                          label={"Remarks"}
+                          label={'Remarks'}
                           fullWidth
                           multiline
                         />
@@ -279,13 +309,19 @@ function PlanOfAction(props) {
         onClose={() =>
           setSnack({
             snackOpen: false,
-            snackMsg: "",
-            snackVariant: "",
+            snackMsg: '',
+            snackVariant: '',
           })
         }
         snackOpen={snack.snackOpen}
         snackVariant={snack.snackVariant}
         snackMsg={snack.snackMsg}
+      />
+      <Popup
+        open={dialogOpen}
+        tableCollapse={tableCollapseList}
+        onClose={handlePopupClose}
+        handleCollapse={handleCollapse}
       />
     </PageWrapper>
   );
