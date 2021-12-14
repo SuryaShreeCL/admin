@@ -78,6 +78,8 @@ class ProfileGapRoot extends Component {
       pgaOpen: false,
       pgaAnchorEl: null,
       pgaReportDropDown: [],
+      collapseId: null,
+      dialogOpen: false,
     };
   }
 
@@ -149,9 +151,16 @@ class ProfileGapRoot extends Component {
   });
 
   handlePopupClick = event => {
-    this.props.setPoperAnchorEl(
-      this.props.popperAnchorEl ? null : event.currentTarget
-    );
+    const { value } = this.state;
+    if (
+      value === 'pgaPlanOfAction' ||
+      value === 'suggestedSpecializationTracks'
+    )
+      this.setState({ dialogOpen: true });
+    else
+      this.props.setPoperAnchorEl(
+        this.props.popperAnchorEl ? null : event.currentTarget
+      );
   };
 
   // diploma handling
@@ -257,13 +266,16 @@ class ProfileGapRoot extends Component {
     const { classes } = this.props;
     const open = Boolean(this.props.popperAnchorEl);
     const id = open ? 'simple-popper' : undefined;
+    const { value } = this.state;
     if (
-      this.state.value === 'tenthForm' ||
-      this.state.value === 'twelthForm' ||
-      this.state.value === 'diplomaForm' ||
-      this.state.value === 'ugForm' ||
-      this.state.value === 'pgForm' ||
-      this.state.value === 'semForm'
+      value === 'tenthForm' ||
+      value === 'twelthForm' ||
+      value === 'diplomaForm' ||
+      value === 'ugForm' ||
+      value === 'pgForm' ||
+      value === 'semForm' ||
+      value === 'pgaPlanOfAction' ||
+      value === 'suggestedSpecializationTracks'
     ) {
       return (
         <IconButton
@@ -281,10 +293,22 @@ class ProfileGapRoot extends Component {
 
   handlePageChange = value => this.setState({ value: value });
 
+  handleShowDetails = value => {
+    const { collapseId } = this.state;
+    if (value === collapseId) this.setState({ collapseId: null });
+    else this.setState({ collapseId: value });
+  };
+
+  handleDialogClose = () => {
+    this.setState({ dialogOpen: false });
+  };
+
   render() {
     const { classes } = this.props;
     console.log(this.props.clickedBack);
     // console.log(object)
+    const { collapseId, dialogOpen } = this.state;
+    const { handleShowDetails, handleDialogClose } = this;
 
     return (
       <div>
@@ -537,7 +561,14 @@ class ProfileGapRoot extends Component {
               );
             })}
         </Menu>
-        {ProfileSimilarityCheckerPopup()}
+        {
+          <ProfileSimilarityCheckerPopup
+            handleShowDetails={handleShowDetails}
+            collapseId={collapseId}
+            dialogOpen={dialogOpen}
+            handlePopupClose={handleDialogClose}
+          ></ProfileSimilarityCheckerPopup>
+        }
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import { Dialog, Grid, TextField } from '@material-ui/core';
+import { Collapse, Dialog, Grid, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
 import {
@@ -12,6 +12,7 @@ import {
   FilterText,
   FlexView,
   HeaderText,
+  JustifyFlex,
   LeftText,
   SelectedBox,
   StyledCloseButton,
@@ -20,10 +21,16 @@ import {
 import '../../Asset/DialogStyles.css';
 import { ExpandMore } from '@material-ui/icons';
 
-export const ProfileSimilarityCheckerPopup = () => {
+export const ProfileSimilarityCheckerPopup = ({
+  handleShowDetails,
+  collapseId,
+  dialogOpen,
+  handlePopupClose,
+}) => {
+  const isOpen = id => id === collapseId;
   return (
     <Dialog
-      open={true}
+      open={dialogOpen}
       maxWidth={'lg'}
       classes={{ paper: 'dialog_paper', root: 'dialog_root' }}
     >
@@ -61,17 +68,28 @@ export const ProfileSimilarityCheckerPopup = () => {
           <Grid container spacing={1}>
             <Grid item={12} className={'details_box_style'}>
               <DetailsBox>
-                <LeftText>{'Lee Solomon'}</LeftText>
-                <StyledDetailsButton outlined={true} variant={'outlined'}>
-                  {'Show Details'}
-                </StyledDetailsButton>
+                <JustifyFlex>
+                  <LeftText>{'Lee Solomon'}</LeftText>
+                  <StyledDetailsButton
+                    onClick={() => handleShowDetails(1)}
+                    outlined={true}
+                    variant={'outlined'}
+                  >
+                    {'Show Details'}
+                  </StyledDetailsButton>
+                </JustifyFlex>
+                <Collapse in={isOpen(1)}>
+                  <div>{'Demo'}</div>
+                </Collapse>
               </DetailsBox>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogFooter>
           <BottomContainer>
-            <StyledCloseButton>{'Close'}</StyledCloseButton>
+            <StyledCloseButton onClick={handlePopupClose}>
+              {'Close'}
+            </StyledCloseButton>
           </BottomContainer>
         </DialogFooter>
       </DialogRelativeBox>

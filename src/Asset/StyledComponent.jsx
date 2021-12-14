@@ -82,6 +82,9 @@ export const DetailsBox = styled.div`
   border: 1px solid #e7e7e7;
   border-radius: 5px;
   padding: 15px;
+`;
+
+export const JustifyFlex = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
