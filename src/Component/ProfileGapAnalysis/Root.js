@@ -52,7 +52,6 @@ import Edx from '../PgaReport/Edx';
 import EdxSampleCourse from '../PgaReport/EdxSampleCourse';
 import ResumeQuestionnaire from '../PgaReport/ResumeQuestionnaire';
 import SpiderGraph from '../PgaReport/SpiderGraph';
-import { ProfileSimilarityCheckerPopup } from './ProfileSimilarityCheckerPopup';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -79,7 +78,7 @@ class ProfileGapRoot extends Component {
       pgaAnchorEl: null,
       pgaReportDropDown: [],
       collapseId: null,
-      dialogOpen: false,
+      dialogOpen: true,
     };
   }
 
@@ -453,7 +452,10 @@ class ProfileGapRoot extends Component {
               <SelectSchool {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={'pgaPlanOfAction'}>
-              <PlanOfAction {...this.props} />
+              <PlanOfAction
+                popupStatus={this.state.dialogOpen}
+                handleDialogClose={handleDialogClose}
+                {...this.props} />
             </TabPanel>
             <TabPanel
               value={this.state.value}
@@ -469,6 +471,8 @@ class ProfileGapRoot extends Component {
               index={'suggestedSpecializationTracks'}
             >
               <SpecializationTrack
+              popupStatus={this.state.dialogOpen}
+              handleDialogClose={handleDialogClose}
                 {...this.props}
                 handlePageChange={this.handlePageChange}
               />
@@ -561,14 +565,6 @@ class ProfileGapRoot extends Component {
               );
             })}
         </Menu>
-        {
-          <ProfileSimilarityCheckerPopup
-            handleShowDetails={handleShowDetails}
-            collapseId={collapseId}
-            dialogOpen={dialogOpen}
-            handlePopupClose={handleDialogClose}
-          ></ProfileSimilarityCheckerPopup>
-        }
       </div>
     );
   }

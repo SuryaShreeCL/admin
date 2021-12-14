@@ -27,6 +27,8 @@ import { isEmptyObject } from '../Validation';
 import MySnackBar from '../MySnackBar';
 import Search from '../../Asset/icons/search.svg';
 import { generateCareerTracks } from '../../Actions/PgaReportAction';
+import { ProfileSimilarityCheckerPopup } from './Components/ProfileSimilarityCheckerPopup';
+import CollapseViewer from './Components/CollapseViewer';
 function SpecializationTrack(props) {
   const [studentSpecializationTrack, setStudentSpecializationTrack] = useState([
     {
@@ -344,6 +346,20 @@ function SpecializationTrack(props) {
           <TransitionImg src={Search} />
         </WhiteBox>
       </Dialog>
+
+      <ProfileSimilarityCheckerPopup
+            // handleShowDetails={handleShowDetails}
+            // collapseId={collapseId}
+            dialogOpen={props.popupStatus}
+            // handlePopupClose={handleDialogClose}
+          >
+            {top100Films.map((el, i)=>(
+              <CollapseViewer show={i}>
+              Card
+              </CollapseViewer>
+            ))}
+            
+          </ProfileSimilarityCheckerPopup>
     </PageWrapper>
   );
 }

@@ -17,8 +17,8 @@ import {
   SelectedBox,
   StyledCloseButton,
   StyledDetailsButton,
-} from '../../Asset/StyledComponent';
-import '../../Asset/DialogStyles.css';
+} from '../../../Asset/StyledComponent';
+import '../../../Asset/DialogStyles.css';
 import { ExpandMore } from '@material-ui/icons';
 
 export const ProfileSimilarityCheckerPopup = ({
@@ -26,6 +26,7 @@ export const ProfileSimilarityCheckerPopup = ({
   collapseId,
   dialogOpen,
   handlePopupClose,
+  children
 }) => {
   const isOpen = id => id === collapseId;
   return (
@@ -65,7 +66,7 @@ export const ProfileSimilarityCheckerPopup = ({
           </Grid>
         </DialogHeader>
         <DialogContent>
-          <Grid container spacing={1}>
+          {/* <Grid container spacing={1}>
             <Grid item={12} className={'details_box_style'}>
               <DetailsBox>
                 <JustifyFlex>
@@ -83,7 +84,8 @@ export const ProfileSimilarityCheckerPopup = ({
                 </Collapse>
               </DetailsBox>
             </Grid>
-          </Grid>
+          </Grid> */}
+          {children}
         </DialogContent>
         <DialogFooter>
           <BottomContainer>
