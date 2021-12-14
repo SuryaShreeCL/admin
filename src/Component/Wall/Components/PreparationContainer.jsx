@@ -10,7 +10,7 @@ import { FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { useDispatch, useSelector } from 'react-redux';
-import { listWallWebinars } from '../../../Actions/WallActions';
+import { listAllWallWebinars, listWallWebinars } from '../../../Actions/WallActions';
 import moment from 'moment';
 import { Alert } from '@material-ui/lab';
 
@@ -41,15 +41,16 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(listWallWebinars());
+    dispatch(listAllWallWebinars());
   }, [dispatch]);
 
   const { loading, webinars } = useSelector((state) => state.wallWebinarListReducer);
 
   //fitering out archived & expired webinars
-  let availableWebinars = webinars?.filter(
-    (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus !== 'Expired'
-  );
+  let availableWebinars =
+    webinars?.content?.filter(
+      (webinar) => webinar.activeStatus !== 'Archive' && webinar.activeStatus !== 'Expired'
+    ) || [];
 
   //getting the webinar ids to filter out and show in the UI
   let storeWebinarIds = values.linkedWebinars?.map((webinar) => webinar.webinarId);

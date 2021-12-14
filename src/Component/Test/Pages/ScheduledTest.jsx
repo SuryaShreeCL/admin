@@ -76,6 +76,7 @@ export default function ScheduledTest() {
   });
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  let totalPages = tests.totalPages;
 
   const [scheduler, setScheduler] = useState(false);
   const [data, setData] = useState('');
@@ -88,24 +89,18 @@ export default function ScheduledTest() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    tests,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    tests.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.name.toLowerCase().includes(target.value));
-      },
-    });
+  const handleSearch = (text) => {
+    dispatch(listTests('Scheduled', page, text));
   };
 
   const openInPage = (item) => {
-    console.log(item.id);
     history.push({
       pathname: testEdit,
       testId: item.id,
@@ -127,7 +122,7 @@ export default function ScheduledTest() {
     });
     dispatch(deleteTest(id));
     setTimeout(() => {
-      dispatch(listTests('Scheduled'));
+      dispatch(listTests('Scheduled', page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -137,8 +132,8 @@ export default function ScheduledTest() {
   };
 
   useEffect(() => {
-    dispatch(listTests('Scheduled'));
-  }, [dispatch]);
+    dispatch(listTests('Scheduled', page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -147,6 +142,7 @@ export default function ScheduledTest() {
           <Controls.RoundedInput
             className={classes.searchInput}
             placeholder='Search Tests'
+            helperText={'Press Enter key to search after typing.'}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -154,7 +150,11 @@ export default function ScheduledTest() {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(e.target.value);
+              }
+            }}
           />
           {/* <Controls.Button
             text='Filter'
@@ -180,7 +180,7 @@ export default function ScheduledTest() {
 
         <TblContainer>
           <TblHead />
-          {tests && (
+          {tests.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
@@ -227,7 +227,7 @@ export default function ScheduledTest() {
         <div style={{ margin: '2rem auto', width: '60%' }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
-          {!loading && tests?.length === 0 && (
+          {!loading && tests.content?.length === 0 && (
             <Alert severity='info'>0 Scheduled Tests Found</Alert>
           )}
         </div>

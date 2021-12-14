@@ -33,9 +33,9 @@ import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
 import { listWallPosts, deleteWallPost } from '../../../Actions/WallActions';
 import { renderListCategory } from '../../Utils/Helpers';
 
-const Alert = props => <MuiAlert elevation={6} variant='filled' {...props} />;
+const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   pageContent: {
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
@@ -72,17 +72,16 @@ export default function RecordedVideos() {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
-    fn: items => {
+    fn: (items) => {
       return items;
     },
   });
 
-  const { loading, error, posts } = useSelector(
-    state => state.wallPostListReducer
-  );
+  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
 
   //Filtering out the webinar posts
-  let filteredPosts = posts?.filter(post => post.isWebinar !== true);
+  let filteredPosts = posts?.content?.filter((post) => post.isWebinar !== true);
+  let totalPages = posts?.totalPages;
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({
@@ -96,32 +95,29 @@ export default function RecordedVideos() {
     subTitle: '',
   });
 
-  const {
-    TblContainer,
-    TblHead,
-    TblPagination,
-    recordsAfterPagingAndSorting,
-  } = useTable(filteredPosts, headCells, filterFn);
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    filteredPosts,
+    headCells,
+    filterFn,
+    totalPages
+  );
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     let target = e.target;
     setFilterFn({
-      fn: items => {
+      fn: (items) => {
         if (target.value == '') return items;
-        else
-          return items.filter(x =>
-            x.caption.toLowerCase().includes(target.value)
-          );
+        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
       },
     });
   };
 
-  const openInPopup = item => {
+  const openInPopup = (item) => {
     setViewData(item);
     setOpenDrawer(!openDrawer);
   };
 
-  const openInPage = item => {
+  const openInPage = (item) => {
     history.push({
       pathname: editPath,
       recordForEdit: item,
@@ -132,14 +128,14 @@ export default function RecordedVideos() {
     setOpenDrawer(false);
   };
 
-  const onDelete = id => {
+  const onDelete = (id) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', false));
+      dispatch(listWallPosts('Live', false, page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -149,8 +145,8 @@ export default function RecordedVideos() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live', false));
-  }, [dispatch]);
+    dispatch(listWallPosts('Live', false, page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -196,11 +192,9 @@ export default function RecordedVideos() {
           <TblHead />
           {filteredPosts && (
             <TableBody>
-              {recordsAfterPagingAndSorting().map(item => (
+              {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>
-                    {renderListCategory(item.wallCategories)}
-                  </TableCell>
+                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
                   <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
@@ -239,18 +233,11 @@ export default function RecordedVideos() {
         <TblPagination />
       </Paper>
 
-      <Drawer
-        anchor='right'
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-      >
+      <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <DrawerContainer>
           <Preview state={viewData} />
           <ButtonsContainerTwo>
-            <span
-              style={{ fontSize: '1rem' }}
-              onClick={() => openInPage(viewData)}
-            >
+            <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
               <IconButton aria-label='edit'>
                 <EditIcon color='primary' size='large' />
               </IconButton>
@@ -279,10 +266,7 @@ export default function RecordedVideos() {
         </DrawerContainer>
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog
-        confirmDialog={confirmDialog}
-        setConfirmDialog={setConfirmDialog}
-      />
+      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </>
   );
 }

@@ -20,7 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
+import { getWallCategories, listAllWallPosts, listWallPosts } from '../../../Actions/WallActions';
 import { createTest, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import moment from 'moment';
@@ -106,7 +106,7 @@ const CreateTest = () => {
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
-    dispatch(listWallPosts('Live', true));
+    dispatch(listAllWallPosts('Live', true));
     window.sessionStorage.removeItem('questionSetId');
     window.sessionStorage.removeItem('questionSectionId');
   }, [dispatch]);
@@ -147,7 +147,10 @@ const CreateTest = () => {
     name: yup
       .string()
       .required()
-      .matches(/^([\w,:\s-]*)$/, '/ is not allowed'),
+      .matches(
+        /^([\w,:\s-]*)$/,
+        'Only [-,_] is accepted, any other special characters are not accepted'
+      ),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -250,7 +253,7 @@ const CreateTest = () => {
                     </Grid>
                     <Grid item style={{ width: '30%', zIndex: '77', cursor: 'no-drop' }}>
                       <Autocomplete
-                        options={posts}
+                        options={posts?.content}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
                         disabled={loading || values.wallCategory.length > 0}

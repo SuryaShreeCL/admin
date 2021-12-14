@@ -460,6 +460,11 @@ input[type="checkbox"]:checked + label {
   max-height: calc(100vh - 110px);
   overflow: auto;
 }
+
+.MuiListItemIcon-root {
+  min-width: 40px !important;
+}
+
 .gat_image {
   height: 75px !important;
   width: 75px !important;
@@ -482,6 +487,10 @@ input[type="checkbox"]:checked + label {
   display: flex !important;
   flex-direction: column !important;
 }
-.MuiListItemIcon-root {
-  min-width: 40px !important;
+.date_box_style {
+  margin-top: -16px !important;
+  max-width: 338px;
+}
+.padding_date_box_style {
+  padding-top: 18px !important;
 }

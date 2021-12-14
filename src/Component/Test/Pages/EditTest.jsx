@@ -14,7 +14,7 @@ import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFi
 import { ExistingMedia } from '../../Wall/Components/Upload/ExistingMedia';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
+import { getWallCategories, listAllWallPosts, listWallPosts } from '../../../Actions/WallActions';
 import { updateTest, getTestDetails, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -108,13 +108,15 @@ const EditTest = () => {
   useEffect(() => {
     dispatch(getWallCategories('Live'));
     dispatch(getTestDetails(testId));
-    dispatch(listWallPosts('Live', true));
+    dispatch(listAllWallPosts('Live', true));
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
   const { posts } = useSelector((state) => state.wallPostListReducer);
   const { test, loading, error } = useSelector((state) => state.testDetailsReducer);
-  const filterEventFromId = posts?.filter((post) => post?.id === test?.wallPost?.linkedEvent?.id);
+  // const filterEventFromId = posts?.content?.filter(
+  //   (post) => post?.id === test?.wallPost?.linkedEvent?.id
+  // );
 
   const validate = (values) => {
     if (values.wallFiles.length === 0) {
@@ -241,14 +243,17 @@ const EditTest = () => {
                       </Grid>
                       <Grid item style={{ width: '30%', zIndex: '77' }}>
                         <Autocomplete
-                          options={posts}
+                          options={posts?.content}
                           getOptionLabel={(option) => option.eventTitle}
                           name='eventPost.id'
                           disableClearable
                           disabled
-                          defaultValue={filterEventFromId[0]}
+                          // defaultValue={filterEventFromId[0]}
                           onChange={(e, value) => {
-                            setFieldValue('eventPost.id', value !== null ? value.id : posts);
+                            setFieldValue(
+                              'eventPost.id',
+                              value !== null ? value.id : posts?.content
+                            );
                           }}
                           renderInput={(params) => (
                             <TextField

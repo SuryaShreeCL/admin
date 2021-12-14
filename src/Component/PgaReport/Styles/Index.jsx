@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { colors } from '../../../Constant/Variables';
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   contentContainer: {
     flexGrow: 1,
   },

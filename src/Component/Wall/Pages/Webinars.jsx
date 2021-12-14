@@ -78,9 +78,10 @@ export default function Webinars() {
   });
 
   const { loading, error, webinars } = useSelector((state) => state.wallWebinarListReducer);
+  let totalPages = webinars?.totalPages;
 
   //fitering out archived webinars
-  let filteredWebinars = webinars?.filter((webinar) => webinar.activeStatus !== 'Archive');
+  let filteredWebinars = webinars?.content?.filter((webinar) => webinar.activeStatus !== 'Archive');
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({
@@ -94,10 +95,11 @@ export default function Webinars() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
     filteredWebinars,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -128,7 +130,7 @@ export default function Webinars() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallWebinars());
+      dispatch(listWallWebinars(page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -138,8 +140,8 @@ export default function Webinars() {
   };
 
   useEffect(() => {
-    dispatch(listWallWebinars());
-  }, [dispatch]);
+    dispatch(listWallWebinars(page));
+  }, [dispatch, page]);
 
   return (
     <>

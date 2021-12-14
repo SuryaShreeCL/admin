@@ -29,6 +29,7 @@ class ReportHome extends React.Component {
         { col1: "1", col2: "2", col3: "3" },
       ],
       objectKeys: [],
+      isDownloading : false
     };
   }
 
@@ -84,6 +85,9 @@ class ReportHome extends React.Component {
   ];
 
   handleDownloadClick = (title, endpoint) => {
+    this.setState({
+      isDownloading : true
+    })
     downloadReport(endpoint)
       .then((response) => {
         if (response.status === 201) {
@@ -96,11 +100,16 @@ class ReportHome extends React.Component {
           document.body.appendChild(link);
           link.click();
           link.remove();
+          this.setState({
+            isDownloading : false
+          })
+        }else{
+          this.setState({
+            isDownloading : false
+          })
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+     
   };
 
   render() {
@@ -146,6 +155,7 @@ class ReportHome extends React.Component {
               >
                 <Typography>{title}</Typography>
                 <Button
+                disabled={this.state.isDownloading}
                   color={"primary"}
                   onClick={() => this.handleDownloadClick(title, endPoint)}
                   variant={"contained"}

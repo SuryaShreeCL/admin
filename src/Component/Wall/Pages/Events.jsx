@@ -78,6 +78,7 @@ export default function Events() {
   });
 
   const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  let totalPages = posts?.totalPages;
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -87,10 +88,11 @@ export default function Events() {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    posts,
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
+    posts?.content,
     headCells,
-    filterFn
+    filterFn,
+    totalPages
   );
 
   const handleSearch = (e) => {
@@ -125,7 +127,7 @@ export default function Events() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Live', true));
+      dispatch(listWallPosts('Live', true, page));
     }, 1200);
     setNotify({
       isOpen: true,
@@ -135,8 +137,8 @@ export default function Events() {
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Live', true));
-  }, [dispatch]);
+    dispatch(listWallPosts('Live', true, page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -180,7 +182,7 @@ export default function Events() {
 
         <TblContainer>
           <TblHead />
-          {posts && (
+          {posts?.content && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
