@@ -78,7 +78,7 @@ class ProfileGapRoot extends Component {
       pgaAnchorEl: null,
       pgaReportDropDown: [],
       collapseId: null,
-      dialogOpen: true,
+      dialogOpen: false,
     };
   }
 
@@ -455,7 +455,8 @@ class ProfileGapRoot extends Component {
               <PlanOfAction
                 popupStatus={this.state.dialogOpen}
                 handleDialogClose={handleDialogClose}
-                {...this.props} />
+                {...this.props}
+              />
             </TabPanel>
             <TabPanel
               value={this.state.value}
@@ -471,8 +472,8 @@ class ProfileGapRoot extends Component {
               index={'suggestedSpecializationTracks'}
             >
               <SpecializationTrack
-              popupStatus={this.state.dialogOpen}
-              handleDialogClose={handleDialogClose}
+                popupStatus={this.state.dialogOpen}
+                handleDialogClose={handleDialogClose}
                 {...this.props}
                 handlePageChange={this.handlePageChange}
               />

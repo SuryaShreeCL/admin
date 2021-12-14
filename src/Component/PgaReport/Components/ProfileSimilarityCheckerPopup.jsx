@@ -28,11 +28,11 @@ export const ProfileSimilarityCheckerPopup = ({
   dialogOpen,
   handlePopupClose,
   children,
+  filterOptions,
 }) => {
-  const isOpen = id => id === collapseId;
   return (
     <Dialog
-      open={true}
+      open={dialogOpen}
       maxWidth={'lg'}
       classes={{ paper: 'dialog_paper', root: 'dialog_root' }}
     >
@@ -47,9 +47,9 @@ export const ProfileSimilarityCheckerPopup = ({
               <FlexView>
                 <FilterText>{'Filter By'}</FilterText>
                 <Autocomplete
-                  options={[]}
+                  options={filterOptions}
                   className={'autocomplete_style'}
-                  // getOptionLabel={option => option.title}
+                  getOptionLabel={option => option.label}
                   fullWidth
                   renderInput={params => (
                     <TextField {...params} variant={'filled'} />

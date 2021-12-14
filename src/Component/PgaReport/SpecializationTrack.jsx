@@ -26,7 +26,10 @@ import {
 import { isEmptyObject } from '../Validation';
 import MySnackBar from '../MySnackBar';
 import Search from '../../Asset/icons/search.svg';
-import { generateCareerTracks } from '../../Actions/PgaReportAction';
+import {
+  generateCareerTracks,
+  careerTrackProfileSimilarity,
+} from '../../Actions/PgaReportAction';
 import { ProfileSimilarityCheckerPopup } from './Components/ProfileSimilarityCheckerPopup';
 import CollapseViewer from './Components/CollapseViewer';
 function SpecializationTrack(props) {
@@ -88,6 +91,19 @@ function SpecializationTrack(props) {
       }
     });
     getAndSetStudentSpecializationTrack();
+    dispatch(
+      careerTrackProfileSimilarity(
+        props.match.params.studentId,
+        props.match.params.productId,
+        {
+          sameBranch: false,
+          sameCollege: true,
+          sameProduct: true,
+          differentCollege: false,
+          otherProduct: false,
+        }
+      )
+    );
   }, []);
 
   const handleAddClick = () => {
@@ -136,8 +152,8 @@ function SpecializationTrack(props) {
       ).then(response => {
         if (response.status === 200) {
           setSnack({
-            snackMsg: "Saved Successfully",
-            snackColor: "success",
+            snackMsg: 'Saved Successfully',
+            snackColor: 'success',
             snackOpen: true,
           });
           getAndSetStudentSpecializationTrack();
@@ -199,7 +215,7 @@ function SpecializationTrack(props) {
       setOpen(false);
     }, 3500);
   };
-
+  console.log(props.popupStatus, 'status');
   return (
     <PageWrapper>
       <div className={classes.specializationWrapper}>
@@ -348,27 +364,14 @@ function SpecializationTrack(props) {
       </Dialog>
 
       <ProfileSimilarityCheckerPopup
-            // handleShowDetails={handleShowDetails}
-            // collapseId={collapseId}
-            dialogOpen={props.popupStatus}
-            // handlePopupClose={handleDialogClose}
-          >
-            {top100Films.map((el, i)=>(
-              <CollapseViewer show={i}>
-              Card
-              </CollapseViewer>
-            ))}
-            
-          </ProfileSimilarityCheckerPopup>
+        // handleShowDetails={handleShowDetails}
+        // collapseId={collapseId}
+        dialogOpen={props.popupStatus}
+        handlePopupClose={props.handleDialogClose}
+        filterOptions={[]}
+      ></ProfileSimilarityCheckerPopup>
     </PageWrapper>
   );
 }
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-];
 
 export default SpecializationTrack;

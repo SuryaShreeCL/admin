@@ -399,3 +399,36 @@ export const getResumeQuestionnaire = (studentId, productId) => {
       });
   };
 };
+
+export const careerTrackProfileSimilarity = (
+  studentId,
+  productId,
+  requestBody
+) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .post(
+        `${BASE_URL}/students/${studentId}/product/${productId}/profileSimilarity`,
+        requestBody,
+        {
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            type: 'TRACK',
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: PGA_REPORT.careerTrackProfileSimilarity,
+          payload: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
