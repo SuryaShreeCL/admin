@@ -82,6 +82,7 @@ export const DetailsBox = styled.div`
   border: 1px solid #e7e7e7;
   border-radius: 5px;
   padding: 15px;
+  margin-bottom : 15px;
 `;
 
 export const JustifyFlex = styled.div`

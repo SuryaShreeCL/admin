@@ -27,12 +27,58 @@ export const ProfileSimilarityCheckerPopup = ({
   collapseId,
   dialogOpen,
   handlePopupClose,
+  handleDropdownChange,
   children,
+  value
 }) => {
+
   const isOpen = id => id === collapseId;
+
+  const filterOptions = [
+    {
+      label: 'Same Branch, Same College, Same Product',
+      value : {
+        sameBranch: true,
+        sameCollege: true,
+        sameProduct: true,
+        differentCollege: false,
+        otherProduct: false,
+      }
+    },
+    {
+      label: 'Same Branch, Different College, Same Product',
+      value : {
+        sameBranch: true,
+        sameCollege: false,
+        sameProduct: true,
+        differentCollege: true,
+        otherProduct: false,
+      }
+    },
+    {
+      label: 'Same Branch, Same College, Other Products',
+      value : {
+        sameBranch: true,
+        sameCollege: true,
+        sameProduct: false,
+        differentCollege: false,
+        otherProduct: true,
+      }
+    },
+    {
+      label: 'Same College',
+      value : {
+        sameBranch: false,
+        sameCollege: true,
+        sameProduct: false,
+        differentCollege: false,
+        otherProduct: false,
+      }
+    },
+  ];
   return (
     <Dialog
-      open={true}
+      open={dialogOpen}
       maxWidth={'lg'}
       classes={{ paper: 'dialog_paper', root: 'dialog_root' }}
     >
@@ -47,12 +93,14 @@ export const ProfileSimilarityCheckerPopup = ({
               <FlexView>
                 <FilterText>{'Filter By'}</FilterText>
                 <Autocomplete
-                  options={[]}
-                  className={'autocomplete_style'}
-                  // getOptionLabel={option => option.title}
+                  options={filterOptions}
+                  // className={'autocomplete_style'}
+                  getOptionLabel={option => option.label}
+                  onChange={handleDropdownChange}
                   fullWidth
+                  value={value}
                   renderInput={params => (
-                    <TextField {...params} variant={'filled'} />
+                    <TextField {...params} variant={'standard'} />
                   )}
                   popupIcon={<ExpandMore />}
                 />

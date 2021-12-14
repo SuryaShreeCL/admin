@@ -5,20 +5,23 @@ import {
   getFocusList,
   getPlanOfAction,
   savePlanOfAction,
-  saveSingleFocus,
+  saveSingleFocus
 } from "../../AsyncApiCall/PgaReport/PlanOfAction";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import TextFieldComponent from "../Controls/TextField";
 import MySnackBar from "../MySnackBar";
-import { isEmptyObject, isEmptyString } from "../Validation";
 import BottomContainer from "./BottomContainer";
 import BlueTable from "./Components/BlueTable";
+import { CardViewComponent } from "./Components/CardView";
+import CollapseViewer from "./Components/CollapseViewer";
+import { ProfileSimilarityCheckerPopup } from "./Components/ProfileSimilarityCheckerPopup";
 import { PageWrapper } from "./Components/StyledComponents";
 import { useStyles } from "./Styles/Index";
 
 function PlanOfAction(props) {
   const classes = useStyles();
   const [focusList, setFocusList] = useState([]);
+  const [ selectedFilter, setSelectedFilter ] = useState(null)
   const [planOfAction, setPlanOfAction] = useState({
     criteriaCGPA: "",
     rows: [],
@@ -159,6 +162,12 @@ function PlanOfAction(props) {
     }
   };
 
+  const handleDropDownChange = ( evt, value ) =>{
+    setSelectedFilter(value)
+  }
+
+  console.log(selectedFilter, "-------")
+
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
@@ -287,6 +296,25 @@ function PlanOfAction(props) {
         snackVariant={snack.snackVariant}
         snackMsg={snack.snackMsg}
       />
+        <ProfileSimilarityCheckerPopup
+            // handleShowDetails={handleShowDetails}
+            // collapseId={collapseId}
+            dialogOpen={props.popupStatus}
+            handlePopupClose={props.handleDialogClose}
+            value={selectedFilter}
+            handleDropdownChange={handleDropDownChange}
+          >
+            {[1,2,3,4,5,6].map((el, i)=>(
+              <CollapseViewer show={i}>
+                <CardViewComponent 
+                buttonText={"Hello"}
+                leftContent={[1,2,3,4,5]}
+                rightContent={[1,2,3,4,5]}
+                />
+              </CollapseViewer>
+            ))}
+            
+          </ProfileSimilarityCheckerPopup>
     </PageWrapper>
   );
 }

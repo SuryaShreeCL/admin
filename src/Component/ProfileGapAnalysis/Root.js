@@ -78,7 +78,7 @@ class ProfileGapRoot extends Component {
       pgaAnchorEl: null,
       pgaReportDropDown: [],
       collapseId: null,
-      dialogOpen: true,
+      dialogOpen: false,
     };
   }
 
