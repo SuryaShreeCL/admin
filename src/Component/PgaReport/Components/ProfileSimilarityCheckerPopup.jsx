@@ -2,7 +2,6 @@ import { Collapse, Dialog, Grid, TextField } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
-import '../../Asset/DialogStyles.css';
 import {
   BottomContainer,
   CardTitle,
@@ -22,7 +21,6 @@ import {
   StyledDetailsButton,
 } from '../../../Asset/StyledComponent';
 import '../../../Asset/DialogStyles.css';
-import { ExpandMore } from '@material-ui/icons';
 
 export const ProfileSimilarityCheckerPopup = ({
   handleShowDetails,
