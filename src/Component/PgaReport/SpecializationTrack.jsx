@@ -67,6 +67,8 @@ function SpecializationTrack(props) {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [isFilterChange, setIsFilterChange] = useState(false);
   const [dialogData, setDialogData] = useState(null);
+  const [collapseList, setCollapseList] = useState([]);
+  const [addedList, setAddedList] = useState([]);
 
   const { CourseList } = useSelector(state => state.CourseReducer);
   const dispatch = useDispatch();
@@ -239,7 +241,34 @@ function SpecializationTrack(props) {
     }
   };
 
-  const handleShowDetails = id => {};
+  const handleShowDetails = id => {
+    let arr = [...collapseList];
+    let index = arr.indexOf(id);
+    if (index > -1) arr.splice(index, 1);
+    else arr.push(id);
+    setCollapseList(arr);
+  };
+
+  const handleAddCareerTack = object => {
+    const { id, value } = object;
+    let arr = [...addedList];
+    let index = arr.indexOf(id);
+    let specializationTrack = [...studentSpecializationTrack];
+    let addValueIndex = specializationTrack.findIndex(
+      element => element.id === value.id
+    );
+
+    if (index > -1) {
+      arr.splice(index, 1);
+      specializationTrack.splice(addValueIndex, 1);
+    } else {
+      arr.push(id);
+      if (addValueIndex > -1) specializationTrack[addValueIndex] = value;
+      else specializationTrack.push(value);
+    }
+    setAddedList(arr);
+    setStudentSpecializationTrack(specializationTrack);
+  };
 
   const renderDialogMainContent = () => {
     return (
@@ -255,7 +284,7 @@ function SpecializationTrack(props) {
         }) => {
           return (
             <CollapseViewer
-              show={true}
+              show={collapseList.indexOf(studentId) > -1}
               title={studentName}
               id={studentId}
               handleShowDetails={handleShowDetails}
@@ -278,9 +307,11 @@ function SpecializationTrack(props) {
                       <Grid item xs={6}>
                         <CardViewComponent
                           titleText={`Starter Packs ${index + 1}`}
-                          buttonText={'Add'}
-                          buttonStatus={true}
-                          handleClick={null}
+                          buttonText={
+                            addedList.indexOf(id) > -1 ? 'Added' : 'Add'
+                          }
+                          buttonStatus={addedList.indexOf(id) > -1}
+                          handleClick={handleAddCareerTack}
                           leftContent={starterPacksList}
                           rightContent={[
                             pgaTrack && pgaTrack.name,
@@ -288,6 +319,7 @@ function SpecializationTrack(props) {
                             selectedCoursesOne && selectedCoursesOne.name,
                             selectedCoursesTwo && selectedCoursesTwo.name,
                           ]}
+                          object={{ id: id, value: item }}
                         />
                       </Grid>
                     );

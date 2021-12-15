@@ -17,6 +17,7 @@ export const CardViewComponent = ({
   handleClick,
   leftContent,
   rightContent,
+  object,
 }) => {
   return (
     <CardView>
@@ -25,7 +26,7 @@ export const CardViewComponent = ({
         <CardActionButton
           outlined={!buttonStatus}
           variant={buttonStatus ? 'contained' : 'outlined'}
-          onClick={handleClick}
+          onClick={() => handleClick(object)}
         >
           {buttonText}
         </CardActionButton>

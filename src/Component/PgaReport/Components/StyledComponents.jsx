@@ -275,7 +275,6 @@ export const JustifyFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom : 10px
 `;
 
 export const CenteredLoader = styled.div`

@@ -111,6 +111,7 @@ export const StyledDetailsButton = styled(Button)`
   color: ${({ outlined }) =>
     outlined ? '#343b89 !important' : '#ffffff !important'};
   background: ${({ outlined }) => (outlined ? 'none' : '#343b89 !important')};
+  min-width: 110px !important;
 `;
 
 export const StyledCloseButton = styled(Button)`
@@ -156,6 +157,7 @@ export const CardActionButton = styled(Button)`
   color: ${({ outlined }) =>
     outlined ? '#343b89 !important' : '#ffffff !important'};
   background: ${({ outlined }) => (outlined ? 'none' : '#81C14F !important')};
+  min-width: 75px !important;
 `;
 
 export const CardSubText = styled.div`
