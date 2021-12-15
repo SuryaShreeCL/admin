@@ -478,6 +478,7 @@ class GeneralDetails extends Component {
       this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
       this.props.StudentStepDetailsList.shortName === "ACS MIM"
     ) {
+      console.log("true");
       return (
         <ThemeProvider theme={theme}>
           <Grid container spacing={3} style={{ marginTop: "2%" }}>

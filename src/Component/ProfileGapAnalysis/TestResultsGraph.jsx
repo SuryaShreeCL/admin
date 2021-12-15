@@ -6,6 +6,7 @@ import { Bar } from "react-chartjs-2";
 import { getTestResults } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
 import { getStudentsById } from "../../Actions/Student";
+import { isEmptyObject } from "jquery";
 
 class TestResultsGraph extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class TestResultsGraph extends Component {
   }
 
   componentDidMount() {
+    this.props.getStudentsById(this.props.match.params.studentId);
     this.props.getTestResults(
       this.props.match.params.studentId,
       this.props.match.params.productId,
@@ -52,7 +54,6 @@ class TestResultsGraph extends Component {
               data: diagnosticStudentScore,
               fill: false,
               pointBackgroundColor: "#6495ED",
-              // backgroundColor: "rgba(75,192,192,0.2)",
               borderColor: "#6495ED",
             },
             {
@@ -79,20 +80,20 @@ class TestResultsGraph extends Component {
           .sectionScoreModels.map((item) => item.averageScore);
         const item = {
           labels: technicalLabel,
-          // labels: ["jan", "feb", "mar", "apr", "may", "jun"],
           datasets: [
             {
               label: "First dataset",
               data: technicalStudentScore,
-              backgroundColor: ["rgba(255, 99, 132, 0.2)"],
-              borderColor: ["#F08080"],
+              backgroundColor: ["rgba(54, 162, 235, 0.2)"],
+              borderColor: ["#6495ED"],
               borderWidth: 1,
             },
             {
               label: "Second dataset",
               data: technicalAvgScore,
-              backgroundColor: ["rgba(54, 162, 235, 0.2)"],
-              borderColor: ["#6495ED"],
+              backgroundColor: ["rgba(255, 99, 132, 0.2)"],
+              borderColor: ["#F08080"],
+
               borderWidth: 1,
             },
           ],
@@ -175,6 +176,7 @@ class TestResultsGraph extends Component {
   };
   render() {
     console.log(this.props.studentResponse);
+    console.log(this.props.studentResponse.firstName);
 
     return (
       <div>
@@ -186,10 +188,13 @@ class TestResultsGraph extends Component {
                 <div className={"graph1_title"}>
                   <p>Diagnostic Test</p>
                 </div>
-                <Line
-                  data={this.state.diagnosticDataModel}
-                  options={this.options}
-                />
+                {!isEmptyObject(this.state.diagnosticDataModel) && (
+                  <Line
+                    data={this.state.diagnosticDataModel}
+                    options={this.options}
+                  />
+                )}
+
                 <div className={"graph1_label_main_div"}>
                   <div className={"graph1_label1_div"}>
                     <div>
@@ -206,9 +211,9 @@ class TestResultsGraph extends Component {
                     <div className={"graph1_label2_text"}>
                       <p>
                         {this.props.studentResponse &&
-                          this.props.studentResponse.firstName +
-                            " " +
-                            this.props.studentResponse &&
+                          this.props.studentResponse.firstName}{" "}
+                        &nbsp;
+                        {this.props.studentResponse &&
                           this.props.studentResponse.lastName}
                       </p>
                     </div>
@@ -222,14 +227,12 @@ class TestResultsGraph extends Component {
                 <div>
                   <p>Technical Test</p>
                 </div>
-                {/* <Line
-                  data={this.state.technicalDataModel}
-                  options={this.options}
-                /> */}
-                <Bar
-                  data={this.state.technicalDataModel}
-                  options={this.options1}
-                />
+                {!isEmptyObject(this.state.technicalDataModel) && (
+                  <Bar
+                    data={this.state.technicalDataModel}
+                    options={this.options1}
+                  />
+                )}
 
                 <div className={"graph2_label_main_div"}>
                   <div className={"graph2_label1_div"}>
@@ -247,9 +250,9 @@ class TestResultsGraph extends Component {
                     <div className={"graph2_label2_text"}>
                       <p>
                         {this.props.studentResponse &&
-                          this.props.studentResponse.firstName +
-                            " " +
-                            this.props.studentResponse &&
+                          this.props.studentResponse.firstName}{" "}
+                        &nbsp;
+                        {this.props.studentResponse &&
                           this.props.studentResponse.lastName}
                       </p>
                     </div>
