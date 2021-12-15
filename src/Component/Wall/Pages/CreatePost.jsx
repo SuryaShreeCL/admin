@@ -485,6 +485,27 @@ const CreatePost = () => {
                       </Grid>
                     </>
                   )}
+                  {
+                    values.isEvent && (
+                      <Grid>
+                        <Controls.Input
+                        label='Enter Job Role'
+                        name='jobRole'
+                        error={
+                          values.jobRole?.length < 2 &&
+                          Boolean(true)
+                        }
+                        style={{
+                          width: '80%',
+                          marginTop: '18px',
+                          marginBottom: '14px',
+                        }}
+                        value={values.jobRole}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                    )
+                  }
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField
