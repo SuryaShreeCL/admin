@@ -17,7 +17,7 @@ export const useStyles = makeStyles(theme => ({
     padding: '20px',
   },
   containerStyle: {
-    height: '100%',
+    height: '80vh',
     overflowY: 'auto',
     padding: '20px',
     paddingBottom: 0,

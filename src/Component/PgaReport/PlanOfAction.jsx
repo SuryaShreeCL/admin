@@ -160,6 +160,9 @@ function PlanOfAction(props) {
             snackVariant: "success",
             snackOpen: true,
           });
+          setSelectedQuarterId([])
+          setFilteredData([])  
+          setSelectedFilter(null)       
         } else {
           setSnack({
             snackMsg: response,
@@ -370,6 +373,7 @@ function PlanOfAction(props) {
                   <Grid item md={6}>
                     <CardViewComponent
                       height={"100%"}
+                      disabled={!eachIt.allowToOtherStudentPlan}
                       handleClick={()=> handleAddQuarterClick(eachIt.id)}
                       mb={"10px"}
                       titleText={eachIt.quarterPlan}

@@ -20,12 +20,14 @@ export const CardViewComponent = ({
   height,
   mb,
   object,
+  disabled
 }) => {
   return (
     <CardView height={height} mb={mb}>
       <JustifyFlex>
         <CardSubText>{titleText}</CardSubText>
         <CardActionButton
+          disabled={disabled}
           outlined={!buttonStatus}
           variant={buttonStatus ? 'contained' : 'outlined'}
           onClick={() => handleClick(object)}
