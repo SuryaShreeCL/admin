@@ -6,6 +6,7 @@ import {
   StyledDetailsButton,
 } from '../../../Asset/StyledComponent';
 import { JustifyFlex } from './StyledComponents';
+import '../../../Asset/DialogStyles.css';
 
 function CollapseViewer({ children, show, title, id, handleShowDetails }) {
   return (
@@ -20,7 +21,9 @@ function CollapseViewer({ children, show, title, id, handleShowDetails }) {
           {`${show ? 'Hide' : 'Show'} Details`}
         </StyledDetailsButton>
       </JustifyFlex>
-      <Collapse in={show}>{children}</Collapse>
+      <Collapse in={show} className={'padding_top'}>
+        {children}
+      </Collapse>
     </DetailsBox>
   );
 }

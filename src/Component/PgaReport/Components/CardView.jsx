@@ -18,7 +18,8 @@ export const CardViewComponent = ({
   leftContent,
   rightContent,
   height,
-  mb
+  mb,
+  object,
 }) => {
   return (
     <CardView height={height} mb={mb}>
@@ -27,7 +28,7 @@ export const CardViewComponent = ({
         <CardActionButton
           outlined={!buttonStatus}
           variant={buttonStatus ? 'contained' : 'outlined'}
-          onClick={handleClick}
+          onClick={() => handleClick(object)}
         >
           {buttonText}
         </CardActionButton>
