@@ -217,11 +217,6 @@ export const setCutOffScore = (testcutoff) => {
         },
       })
       .then((result) => {
-        // window.sessionStorage.setItem('questionSetId', JSON.stringify(result?.data?.data?.id));
-        // window.sessionStorage.setItem(
-        //   'questionSectionId',
-        //   JSON.stringify(result?.data?.data?.testSection[0]?.id)
-        // );
         console.log(result.data);
 
         dispatch({
