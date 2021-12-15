@@ -35,6 +35,7 @@ export const DialogContent = styled.div`
 export const DialogRelativeBox = styled.div`
   position: relative;
   height: 100vh;
+  cursor: move;
 `;
 
 export const DialogHeader = styled.div`

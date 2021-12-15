@@ -71,7 +71,6 @@ class ProfileGapRoot extends Component {
   constructor() {
     super();
     this.state = {
-      // value: 'suggestedSpecializationTracks',
       value: 'dashboard',
       open: false,
       anchorEl: null,
@@ -293,23 +292,13 @@ class ProfileGapRoot extends Component {
 
   handlePageChange = value => this.setState({ value: value });
 
-  handleShowDetails = value => {
-    const { collapseId } = this.state;
-    if (value === collapseId) this.setState({ collapseId: null });
-    else this.setState({ collapseId: value });
-  };
-
   handleDialogClose = () => {
     this.setState({ dialogOpen: false });
   };
 
   render() {
     const { classes } = this.props;
-    console.log(this.props.clickedBack);
-    // console.log(object)
-    const { collapseId, dialogOpen } = this.state;
-    const { handleShowDetails, handleDialogClose } = this;
-
+    const { handleDialogClose } = this;
     return (
       <div>
         <Grid container style={{ marginTop: '10px' }}>
