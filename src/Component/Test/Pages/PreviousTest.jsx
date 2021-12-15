@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
 const headCells = [
   { id: 'name', label: 'Test Name' },
   { id: 'duration', label: 'Duration', disableSorting: true },
-  { id: 'createdAt', label: 'Date', disableSorting: true },
   { id: 'createdAt', label: 'Published' },
   { id: 'attemptedStudents', label: 'Attempted' },
   { id: 'status', label: 'Status', disableSorting: true },
@@ -175,7 +174,6 @@ export default function PreviousTest() {
                     {item.duration}
                   </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
-                  <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{item.attemptedStudents}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>
