@@ -66,7 +66,7 @@ export default function SetCutOff(props) {
   const validationSchema = yup.object({
     cutOffScore: yup
       .number()
-      .required('Cut off score is a required field')
+      .typeError('Cut off score is a required field')
       .max(data.score, `Cut off score cannot be higher than ${data.score} for the test.`),
   });
 
