@@ -66,13 +66,13 @@ export default function SetCutOff(props) {
   });
 
   const validationSchema = yup.object({
-    cutoff: yup
-      .string()
-      .required()
+    cutOffScore: yup
+      .number()
+      .required('Cut off score is a required field')
       .test(
-        'cutoffCheck',
+        'cutOffScoreCheck',
         'Cut off score cannot be higher than set score for the test.',
-        (cutoff) => cutoff <= data.score
+        (cutOffScore) => cutOffScore <= data.score
       ),
   });
 
@@ -102,11 +102,11 @@ export default function SetCutOff(props) {
                 title: 'Confirm Submission',
                 subTitle: 'Are you sure you want to submit this data?',
                 testName: data.name,
-                cutOffScore: values.cutoff,
+                cutOffScore: values.cutOffScore,
                 onConfirm: () => {
                   dispatch(setCutOffScore({
                     "testQuestionSetId":values.id,
-                    "cutOffScore":values.cutoff
+                    "cutOffScore":values.cutOffScore
                   }));
                   setOpenCutOff(false);
                   setConfirmSubmit({
@@ -133,14 +133,15 @@ export default function SetCutOff(props) {
                   <Form onSubmit={handleSubmit} autoComplete='off'>
                     <Grid item container style={{ width: '300px' }}>
                       <Controls.Input
-                        label='Cut Off'
-                        name='cutoff'
+                        label= {`Cut Off For Test Score ${data.score!==null?data.score:''}`}
+                        name='cutOffScore'
                         type='number'
                         style={{ width: '100%', marginBottom: '1rem' }}
-                        value={values.cutoff}
+                        value={values.cutOffScore}
                         onChange={handleChange}
-                        helperText={touched.cutoff && errors.cutoff}
-                        error={touched.cutoff && Boolean(errors.cutoff)}
+                        helperText={touched.cutOffScore && errors.cutOffScore}
+                        error={touched.cutOffScore && Boolean(errors.cutOffScore)}
+                        disabled={data.cutOffScore!==null?true:false}
                       />
                     </Grid>
                     <DialogActions className={classes.dialogAction}>
@@ -151,7 +152,7 @@ export default function SetCutOff(props) {
                         onClick={() => setOpenCutOff(false)}
                       />
                       <Controls.Button
-                        disabled={false} //data.score !== null
+                        disabled={data.cutOffScore!==null?true:false} //data.score !== null
                         text='Set'
                         type='submit'
                         color='primary'
