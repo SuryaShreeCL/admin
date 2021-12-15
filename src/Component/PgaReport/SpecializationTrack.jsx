@@ -26,9 +26,26 @@ import {
 import { isEmptyObject } from '../Validation';
 import MySnackBar from '../MySnackBar';
 import Search from '../../Asset/icons/search.svg';
-import { generateCareerTracks } from '../../Actions/PgaReportAction';
+import {
+  generateCareerTracks,
+  careerTrackProfileSimilarity,
+} from '../../Actions/PgaReportAction';
 import { ProfileSimilarityCheckerPopup } from './Components/ProfileSimilarityCheckerPopup';
 import CollapseViewer from './Components/CollapseViewer';
+import { CardViewComponent } from './Components/CardView';
+import {
+  CardTitle,
+  CardView,
+  SingleText,
+  StyledList,
+} from '../../Asset/StyledComponent';
+
+const starterPacksList = [
+  'Career Plan',
+  'Preferred Career Track',
+  'Course Selection 1',
+  'Course Selection 2',
+];
 function SpecializationTrack(props) {
   const [studentSpecializationTrack, setStudentSpecializationTrack] = useState([
     {
@@ -47,6 +64,9 @@ function SpecializationTrack(props) {
     snackColor: '',
   });
   const [open, setOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [isFilterChange, setIsFilterChange] = useState(false);
+  const [dialogData, setDialogData] = useState(null);
 
   const { CourseList } = useSelector(state => state.CourseReducer);
   const dispatch = useDispatch();
@@ -136,8 +156,8 @@ function SpecializationTrack(props) {
       ).then(response => {
         if (response.status === 200) {
           setSnack({
-            snackMsg: "Saved Successfully",
-            snackColor: "success",
+            snackMsg: 'Saved Successfully',
+            snackColor: 'success',
             snackOpen: true,
           });
           getAndSetStudentSpecializationTrack();
@@ -173,7 +193,7 @@ function SpecializationTrack(props) {
     }
   };
 
-  const { generateCareerTracksStatus } = useSelector(
+  const { generateCareerTracksStatus, trackProfileSimilarity } = useSelector(
     state => state.PgaReportReducer
   );
 
@@ -187,6 +207,16 @@ function SpecializationTrack(props) {
     }
   }, [generateCareerTracksStatus, open]);
 
+  useEffect(() => {
+    if (
+      trackProfileSimilarity &&
+      trackProfileSimilarity.success &&
+      isFilterChange
+    ) {
+      setDialogData(trackProfileSimilarity.data);
+    }
+  }, [trackProfileSimilarity, isFilterChange]);
+
   const handleCareerTrackClick = () => {
     dispatch(
       generateCareerTracks(
@@ -198,6 +228,108 @@ function SpecializationTrack(props) {
     setTimeout(() => {
       setOpen(false);
     }, 3500);
+  };
+
+  const handleFilterChangeChange = (event, value) => {
+    if (value) {
+      setSelectedFilter(value);
+      const { studentId, productId } = props.match.params;
+      dispatch(careerTrackProfileSimilarity(studentId, productId, value.value));
+      setIsFilterChange(true);
+    }
+  };
+
+  const handleShowDetails = id => {};
+
+  const renderDialogMainContent = () => {
+    return (
+      dialogData &&
+      dialogData.lenth !== 0 &&
+      dialogData.map(
+        ({
+          studentName,
+          studentId,
+          advancedCourses,
+          areaOfInterests,
+          result,
+        }) => {
+          return (
+            <CollapseViewer
+              show={true}
+              title={studentName}
+              id={studentId}
+              handleShowDetails={handleShowDetails}
+            >
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <CardTitle>{'Starter Packs'}</CardTitle>
+                </Grid>
+                {result &&
+                  result.length !== 0 &&
+                  result.map((item, index) => {
+                    const {
+                      id,
+                      pgaCareerTrack,
+                      pgaTrack,
+                      selectedCoursesOne,
+                      selectedCoursesTwo,
+                    } = item;
+                    return (
+                      <Grid item xs={6}>
+                        <CardViewComponent
+                          titleText={`Starter Packs ${index + 1}`}
+                          buttonText={'Add'}
+                          buttonStatus={true}
+                          handleClick={null}
+                          leftContent={starterPacksList}
+                          rightContent={[
+                            pgaTrack && pgaTrack.name,
+                            pgaCareerTrack && pgaCareerTrack.name,
+                            selectedCoursesOne && selectedCoursesOne.name,
+                            selectedCoursesTwo && selectedCoursesTwo.name,
+                          ]}
+                        />
+                      </Grid>
+                    );
+                  })}
+                <Grid item xs={12}>
+                  <CardTitle>{'Advanced Courses'}</CardTitle>
+                </Grid>
+                {advancedCourses &&
+                  advancedCourses.length !== 0 &&
+                  advancedCourses.map(({ name }) => {
+                    return (
+                      <Grid item xs={6}>
+                        <CardView>
+                          <SingleText>{name}</SingleText>
+                        </CardView>
+                      </Grid>
+                    );
+                  })}
+                <Grid item xs={12}>
+                  <CardTitle>{'Interest Details'}</CardTitle>
+                </Grid>
+                {areaOfInterests && areaOfInterests.length !== 0 && (
+                  <Grid item xs={6}>
+                    <CardView>
+                      <StyledList>
+                        {areaOfInterests.map(({ name }) => {
+                          return (
+                            <li>
+                              <span>{name}</span>
+                            </li>
+                          );
+                        })}
+                      </StyledList>
+                    </CardView>
+                  </Grid>
+                )}
+              </Grid>
+            </CollapseViewer>
+          );
+        }
+      )
+    );
   };
 
   return (
@@ -348,27 +480,22 @@ function SpecializationTrack(props) {
       </Dialog>
 
       <ProfileSimilarityCheckerPopup
-            // handleShowDetails={handleShowDetails}
-            // collapseId={collapseId}
-            dialogOpen={props.popupStatus}
-            // handlePopupClose={handleDialogClose}
-          >
-            {top100Films.map((el, i)=>(
-              <CollapseViewer show={i}>
-              Card
-              </CollapseViewer>
-            ))}
-            
-          </ProfileSimilarityCheckerPopup>
+        // handleShowDetails={handleShowDetails}
+        // collapseId={collapseId}
+        dialogOpen={props.popupStatus}
+        handlePopupClose={props.handleDialogClose}
+        value={selectedFilter}
+        handleDropdownChange={handleFilterChangeChange}
+        count={dialogData && dialogData.length}
+      >
+        <Grid container spacing={1}>
+          <Grid item={12} className={'details_box_style'}>
+            {renderDialogMainContent()}
+          </Grid>
+        </Grid>
+      </ProfileSimilarityCheckerPopup>
     </PageWrapper>
   );
 }
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-];
 
 export default SpecializationTrack;

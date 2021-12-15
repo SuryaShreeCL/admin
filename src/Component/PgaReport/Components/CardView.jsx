@@ -1,5 +1,6 @@
 import {
   CardActionButton,
+  CardInline,
   CardInlineText,
   CardSubText,
   CardView,
@@ -30,16 +31,14 @@ export const CardViewComponent = ({
         </CardActionButton>
       </JustifyFlex>
       <FlexView className={'card_style'}>
-        <CardInlineText bold={false}>
-          {leftContent.map(item => (
-            <span>{item}</span>
+        <CardInline>
+          {leftContent.map((item, index) => (
+            <CardInlineText>
+              <span>{item}</span>
+              <b>{rightContent[index]}</b>
+            </CardInlineText>
           ))}
-        </CardInlineText>
-        <CardInlineText bold={true}>
-          {rightContent.map(item => (
-            <span>{item}</span>
-          ))}
-        </CardInlineText>
+        </CardInline>
       </FlexView>
     </CardView>
   );

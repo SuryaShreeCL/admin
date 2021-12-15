@@ -71,7 +71,8 @@ class ProfileGapRoot extends Component {
   constructor() {
     super();
     this.state = {
-      value: 'dashboard',
+      value: 'suggestedSpecializationTracks',
+      // value: 'dashboard',
       open: false,
       anchorEl: null,
       pgaOpen: false,
@@ -455,7 +456,8 @@ class ProfileGapRoot extends Component {
               <PlanOfAction
                 popupStatus={this.state.dialogOpen}
                 handleDialogClose={handleDialogClose}
-                {...this.props} />
+                {...this.props}
+              />
             </TabPanel>
             <TabPanel
               value={this.state.value}
@@ -471,8 +473,8 @@ class ProfileGapRoot extends Component {
               index={'suggestedSpecializationTracks'}
             >
               <SpecializationTrack
-              popupStatus={this.state.dialogOpen}
-              handleDialogClose={handleDialogClose}
+                popupStatus={this.state.dialogOpen}
+                handleDialogClose={handleDialogClose}
                 {...this.props}
                 handlePageChange={this.handlePageChange}
               />

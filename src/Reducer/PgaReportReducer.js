@@ -17,6 +17,7 @@ const initialState = {
   resumePdfPath: null,
   resumePdfUrl: null,
   resumeQuestionnaire: null,
+  trackProfileSimilarity: null,
 };
 
 export default (state = initialState, action) => {
@@ -105,6 +106,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         resumeQuestionnaire: action.payload,
+      };
+    case PGA_REPORT.careerTrackProfileSimilarity:
+      return {
+        ...state,
+        trackProfileSimilarity: action.payload,
       };
     default:
       break;
