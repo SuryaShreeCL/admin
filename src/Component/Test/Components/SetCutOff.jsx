@@ -18,9 +18,7 @@ import { Formik, Form } from 'formik';
 import Notification from '../../Utils/Notification';
 import CloseIcon from '@material-ui/icons/Close';
 import ConfirmSubmit from '../../Utils/ConfirmSubmit';
-import {
-  setCutOffScore
-} from '../../../Actions/TestActions';
+import { setCutOffScore } from '../../../Actions/TestActions';
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -50,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SetCutOff(props) {
-  const { openCutOff, setOpenCutOff, data, type, listTests } = props;
+  const { openCutOff, setOpenCutOff, data, type, listTests, page } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   console.log(data);
@@ -69,11 +67,7 @@ export default function SetCutOff(props) {
     cutOffScore: yup
       .number()
       .required('Cut off score is a required field')
-      .test(
-        'cutOffScoreCheck',
-        'Cut off score cannot be higher than set score for the test.',
-        (cutOffScore) => cutOffScore <= data.score
-      ),
+      .max(data.score, `Cut off score cannot be higher than ${data.score} for the test.`),
   });
 
   return (
@@ -104,10 +98,12 @@ export default function SetCutOff(props) {
                 testName: data.name,
                 cutOffScore: values.cutOffScore,
                 onConfirm: () => {
-                  dispatch(setCutOffScore({
-                    "testQuestionSetId":values.id,
-                    "cutOffScore":values.cutOffScore
-                  }));
+                  dispatch(
+                    setCutOffScore({
+                      testQuestionSetId: values.id,
+                      cutOffScore: values.cutOffScore,
+                    })
+                  );
                   setOpenCutOff(false);
                   setConfirmSubmit({
                     ...confirmSubmit,
@@ -119,7 +115,7 @@ export default function SetCutOff(props) {
                     type: 'success',
                   });
                   setTimeout(() => {
-                    dispatch(listTests(type));
+                    dispatch(listTests(type, page));
                   }, 1200);
                   resetForm();
                 },
@@ -133,7 +129,7 @@ export default function SetCutOff(props) {
                   <Form onSubmit={handleSubmit} autoComplete='off'>
                     <Grid item container style={{ width: '300px' }}>
                       <Controls.Input
-                        label= {`Cut Off For Test Score ${data.score!==null?data.score:''}`}
+                        label='Cut Off Score?'
                         name='cutOffScore'
                         type='number'
                         style={{ width: '100%', marginBottom: '1rem' }}
@@ -141,7 +137,7 @@ export default function SetCutOff(props) {
                         onChange={handleChange}
                         helperText={touched.cutOffScore && errors.cutOffScore}
                         error={touched.cutOffScore && Boolean(errors.cutOffScore)}
-                        disabled={data.cutOffScore!==null?true:false}
+                        disabled={data.cutOffScore !== null}
                       />
                     </Grid>
                     <DialogActions className={classes.dialogAction}>
@@ -152,7 +148,7 @@ export default function SetCutOff(props) {
                         onClick={() => setOpenCutOff(false)}
                       />
                       <Controls.Button
-                        disabled={data.cutOffScore!==null?true:false} //data.score !== null
+                        disabled={data.cutOffScore !== null}
                         text='Set'
                         type='submit'
                         color='primary'

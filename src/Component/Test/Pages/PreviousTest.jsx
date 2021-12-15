@@ -247,6 +247,7 @@ export default function PreviousTest() {
         openCutOff={openCutOff}
         setOpenCutOff={setOpenCutOff}
         data={data}
+        page={page}
         type={'Expired'}
         listTests={listTests}
       />
