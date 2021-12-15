@@ -476,7 +476,7 @@ class GeneralDetails extends Component {
   renderstudentdetails() {
     if (
       this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.shortName === "ACS MIM"
+      this.props.StudentStepDetailsList.codeName === "ACS_MIM"
     ) {
       console.log("true");
       return (

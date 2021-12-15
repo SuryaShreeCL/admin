@@ -3,11 +3,23 @@ import { connect } from "react-redux";
 import { getDocumentList } from "../../Actions/Student";
 import Grid from "@material-ui/core/Grid";
 import DoccumentCard from "../Utils/DoccumentCard";
+import { URL } from "../../Actions/URL";
 
 export class UploadCV extends Component {
-    componentDidMount(){
-        this.props.getDocumentList(this.props.match.params.studentId,this.props.match.params.productId)
-    }
+  componentDidMount() {
+    this.props.getDocumentList(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
+  }
+
+  documentClick = (data) => {
+    console.log(data);
+
+    window.open(
+      URL + "/api/v1/cv/download/cv/" + data.studentId + "/" + data.path
+    );
+  };
   render() {
     console.log(this.props.getAllDocumentList);
     const { HeadStyle, GridStyle } = style;
