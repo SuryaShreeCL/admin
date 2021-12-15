@@ -14,10 +14,10 @@ function CollapseViewer({ children, show, title, id, handleShowDetails }) {
         <LeftText>{title}</LeftText>
         <StyledDetailsButton
           onClick={() => handleShowDetails(id)}
-          outlined={true}
-          variant={'outlined'}
+          outlined={!show}
+          variant={show ? 'contained' : 'outlined'}
         >
-          {'Show Details'}
+          {`${show ? 'Hide' : 'Show'} Details`}
         </StyledDetailsButton>
       </JustifyFlex>
       <Collapse in={show}>{children}</Collapse>
