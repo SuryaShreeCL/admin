@@ -2,18 +2,18 @@ import { URL } from "../../Actions/URL";
 import customAxios from "../../Axios/Instance";
 
 
-export const getFocusList = async (otherPlan) => {
+export const getFocusList = async () => {
     try {
-        const response = await customAxios.get(URL+"/api/v1/pga/poa/focus?otherPlans=")
+        const response = await customAxios.get(URL+"/api/v1/pga/poa/focus")
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
     }
 }
 
-export const getPlanOfAction = async (studentId, productId) => {
+export const getPlanOfAction = async (studentId, productId, otherPlan) => {
     try {
-        const response = await customAxios.get(URL+"/api/v1/students/"+studentId+"/product/"+productId+"/pgaReport/poa")
+        const response = await customAxios.get(URL+"/api/v1/students/"+studentId+"/product/"+productId+"/pgaReport/poa?otherPlans="+otherPlan)
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
@@ -42,6 +42,15 @@ export const deleteFocus = async (focusId) => {
 export const saveSingleFocus = async (studentId, productId, data) => {
     try {
         const response = await customAxios.post(URL+"/api/v1/students/"+studentId+"/product/"+productId+"/pgaReport/poa/focus", data)
+        return response;
+    } catch (error) {
+        return error.response && error.response.data.message ? error.response.data.message : error.message
+    }
+}
+
+export const filterFocus = async (studentId, productId, data) => {
+    try {
+        const response = await customAxios.post(URL+"/api/v1/students/"+studentId+"/product/"+productId+"/profileSimilarity?type=POA", data)
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message

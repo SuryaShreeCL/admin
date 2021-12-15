@@ -35,11 +35,18 @@ const rows = [
 export default function BlueTable({ data, focusList, handleFocusChange }) {
   const classes = useStyles();
 
-  const renderContent = (type, name, focusNo, planId, ind, index, fontColor) => {
+  const renderContent = (
+    type,
+    name,
+    focusNo,
+    planId,
+    ind,
+    index,
+    fontColor
+  ) => {
     if (type === "TEXT") {
-      return <Typography style={{color : fontColor}}>{name}</Typography>
+      return <Typography style={{ color: fontColor }}>{name}</Typography>;
     } else if (type === "OBJECT") {
-      console.log(ind, index, "_____")
       return (
         <DropDown
           id="combo-box-demo"
@@ -69,7 +76,15 @@ export default function BlueTable({ data, focusList, handleFocusChange }) {
               {eachRow.map((eachData, index) => {
                 return (
                   <TableCell align={"center"} className={classes.tableCell}>
-                    {renderContent(eachData.type, eachData.name, eachData.focusNo, eachData.planId, ind, index, eachData.frontColorCode)}
+                    {renderContent(
+                      eachData.type,
+                      eachData.name,
+                      eachData.focusNo,
+                      eachData.planId,
+                      ind,
+                      index,
+                      eachData.frontColorCode
+                    )}
                   </TableCell>
                 );
               })}

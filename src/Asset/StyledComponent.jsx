@@ -142,7 +142,8 @@ export const CardView = styled.div`
   border: 1px solid #e7e7e7;
   border-radius: 5px;
   padding: 15px;
-  height: 100%;
+  height: ${props=>props.height ? props.height : '100%'};
+  margin-bottom : ${props=>props.mb ? props.mb : '0px'}
 `;
 
 export const CardActionButton = styled(Button)`

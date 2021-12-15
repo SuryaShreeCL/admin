@@ -17,9 +17,11 @@ export const CardViewComponent = ({
   handleClick,
   leftContent,
   rightContent,
+  height,
+  mb
 }) => {
   return (
-    <CardView>
+    <CardView height={height} mb={mb}>
       <JustifyFlex>
         <CardSubText>{titleText}</CardSubText>
         <CardActionButton
