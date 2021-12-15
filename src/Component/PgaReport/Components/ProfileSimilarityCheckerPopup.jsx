@@ -1,11 +1,10 @@
-import { Collapse, Dialog, Grid, TextField } from '@material-ui/core';
+import { Dialog, Grid, TextField } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
+import '../../../Asset/DialogStyles.css';
 import {
   BottomContainer,
-  CardTitle,
-  DetailsBox,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -14,17 +13,54 @@ import {
   FilterText,
   FlexView,
   HeaderText,
-  JustifyFlex,
-  LeftText,
   SelectedBox,
   StyledCloseButton,
-  StyledDetailsButton,
 } from '../../../Asset/StyledComponent';
-import '../../../Asset/DialogStyles.css';
+
+export const filterOptions = [
+  {
+    label: 'Same Branch, Same College, Same Product',
+    value: {
+      sameBranch: true,
+      sameCollege: true,
+      sameProduct: true,
+      differentCollege: false,
+      otherProduct: false,
+    },
+  },
+  {
+    label: 'Same Branch, Different College, Same Product',
+    value: {
+      sameBranch: true,
+      sameCollege: false,
+      sameProduct: true,
+      differentCollege: true,
+      otherProduct: false,
+    },
+  },
+  {
+    label: 'Same Branch, Same College, Other Products',
+    value: {
+      sameBranch: true,
+      sameCollege: true,
+      sameProduct: false,
+      differentCollege: false,
+      otherProduct: true,
+    },
+  },
+  {
+    label: 'Same College',
+    value: {
+      sameBranch: false,
+      sameCollege: true,
+      sameProduct: false,
+      differentCollege: false,
+      otherProduct: false,
+    },
+  },
+];
 
 export const ProfileSimilarityCheckerPopup = ({
-  handleShowDetails,
-  collapseId,
   dialogOpen,
   handlePopupClose,
   handleDropdownChange,
@@ -32,50 +68,6 @@ export const ProfileSimilarityCheckerPopup = ({
   value,
   count,
 }) => {
-  const isOpen = id => id === collapseId;
-
-  const filterOptions = [
-    {
-      label: 'Same Branch, Same College, Same Product',
-      value: {
-        sameBranch: true,
-        sameCollege: true,
-        sameProduct: true,
-        differentCollege: false,
-        otherProduct: false,
-      },
-    },
-    {
-      label: 'Same Branch, Different College, Same Product',
-      value: {
-        sameBranch: true,
-        sameCollege: false,
-        sameProduct: true,
-        differentCollege: true,
-        otherProduct: false,
-      },
-    },
-    {
-      label: 'Same Branch, Same College, Other Products',
-      value: {
-        sameBranch: true,
-        sameCollege: true,
-        sameProduct: false,
-        differentCollege: false,
-        otherProduct: true,
-      },
-    },
-    {
-      label: 'Same College',
-      value: {
-        sameBranch: false,
-        sameCollege: true,
-        sameProduct: false,
-        differentCollege: false,
-        otherProduct: false,
-      },
-    },
-  ];
   return (
     <Dialog
       open={dialogOpen}
@@ -122,42 +114,7 @@ export const ProfileSimilarityCheckerPopup = ({
             </Grid>
           </Grid>
         </DialogHeader>
-        <DialogContent>
-          {/* <Grid container spacing={1}>
-            <Grid item={12} className={'details_box_style'}>
-              <DetailsBox>
-                <JustifyFlex>
-                  <LeftText>{'Lee Solomon'}</LeftText>
-                  <StyledDetailsButton
-                    onClick={() => handleShowDetails(1)}
-                    outlined={true}
-                    variant={'outlined'}
-                  >
-                    {'Show Details'}
-                  </StyledDetailsButton>
-                </JustifyFlex>
-                <Collapse in={isOpen(1)}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <CardTitle>{'Chandra Maya'}</CardTitle>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <CardViewComponent
-                        titleText={'Welcome'}
-                        buttonText={'Add'}
-                        buttonStatus={true}
-                        handleClick={null}
-                        leftContent={[1, 2, 3]}
-                        rightContent={[1, 2, 3]}
-                      />
-                    </Grid>
-                  </Grid>
-                </Collapse>
-              </DetailsBox>
-            </Grid>
-          </Grid> */}
-          {children}
-        </DialogContent>
+        <DialogContent>{children}</DialogContent>
         <DialogFooter>
           <BottomContainer>
             <StyledCloseButton onClick={handlePopupClose}>
