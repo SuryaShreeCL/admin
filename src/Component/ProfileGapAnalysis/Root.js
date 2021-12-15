@@ -71,7 +71,8 @@ class ProfileGapRoot extends Component {
   constructor() {
     super();
     this.state = {
-      value: 'dashboard',
+      value: 'suggestedSpecializationTracks',
+      // value: 'dashboard',
       open: false,
       anchorEl: null,
       pgaOpen: false,

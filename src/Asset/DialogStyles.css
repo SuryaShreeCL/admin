@@ -17,22 +17,18 @@
   width: 100% !important;
 }
 
-.autocomplete_style .MuiFilledInput-underline:after,
-.autocomplete_style .MuiFilledInput-underline:before {
-  border-bottom: none !important;
-}
-
-.autocomplete_style .MuiFilledInput-root {
-  background: none !important;
-  max-height: 33px;
-  padding: 0px !important;
-  font-size: 16px;
-  letter-spacing: 0px;
+.autocomplete_style .MuiInput-root {
   color: #333333;
+  padding: 0px 6px;
 }
 
-.autocomplete_style .MuiFilledInput-root.Mui-focused {
+.autocomplete_style input::selection {
+  background: none;
+}
+
+.autocomplete_style .Mui-focused {
   background: rgba(0, 0, 0, 0.09) !important;
+  user-select: none !important;
 }
 
 .details_box_style {

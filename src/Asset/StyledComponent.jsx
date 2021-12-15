@@ -82,6 +82,7 @@ export const DetailsBox = styled.div`
   border: 1px solid #e7e7e7;
   border-radius: 5px;
   padding: 15px;
+  margin-bottom: 15px;
 `;
 
 export const JustifyFlex = styled.div`
@@ -97,6 +98,7 @@ export const LeftText = styled.div`
   letter-spacing: 0.42px;
   color: #18202c;
   padding-left: 5px;
+  text-transform: capitalize;
 `;
 
 export const StyledDetailsButton = styled(Button)`
@@ -132,7 +134,7 @@ export const CardTitle = styled.div`
   font-weight: 500;
   letter-spacing: 0.42px;
   color: #18202c;
-  padding: 10px 5px;
+  padding: 10px 5px 0px;
 `;
 
 export const CardView = styled.div`
@@ -140,6 +142,7 @@ export const CardView = styled.div`
   border: 1px solid #e7e7e7;
   border-radius: 5px;
   padding: 15px;
+  height: 100%;
 `;
 
 export const CardActionButton = styled(Button)`
@@ -165,13 +168,58 @@ export const CardSubText = styled.div`
 
 export const CardInlineText = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 10px;
+  font-size: 14px;
 
   span {
-    font-size: 14px;
     letter-spacing: 0px;
-    color: ${({ bold }) => (bold ? '#333333' : '#999999')};
-    font-weight: ${({ bold }) => bold && 600};
+    color: #999999;
+    min-width: 165px;
+  }
+
+  b {
+    font-weight: 600;
+    color: #333333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+export const CardInline = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+`;
+
+export const SingleText = styled.div`
+  font-size: 16px;
+  color: #333333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 5px;
+`;
+
+export const StyledList = styled.ul`
+  margin: 0 !important;
+  padding-left: 25px !important;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 3px;
+
+  li {
+    font-size: 16px;
+    color: #666666;
+  }
+  li::marker {
+    font-size: 20px;
+  }
+
+  li span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;

@@ -27,9 +27,55 @@ export const ProfileSimilarityCheckerPopup = ({
   collapseId,
   dialogOpen,
   handlePopupClose,
+  handleDropdownChange,
   children,
-  filterOptions,
+  value,
+  count,
 }) => {
+  const isOpen = id => id === collapseId;
+
+  const filterOptions = [
+    {
+      label: 'Same Branch, Same College, Same Product',
+      value: {
+        sameBranch: true,
+        sameCollege: true,
+        sameProduct: true,
+        differentCollege: false,
+        otherProduct: false,
+      },
+    },
+    {
+      label: 'Same Branch, Different College, Same Product',
+      value: {
+        sameBranch: true,
+        sameCollege: false,
+        sameProduct: true,
+        differentCollege: true,
+        otherProduct: false,
+      },
+    },
+    {
+      label: 'Same Branch, Same College, Other Products',
+      value: {
+        sameBranch: true,
+        sameCollege: true,
+        sameProduct: false,
+        differentCollege: false,
+        otherProduct: true,
+      },
+    },
+    {
+      label: 'Same College',
+      value: {
+        sameBranch: false,
+        sameCollege: true,
+        sameProduct: false,
+        differentCollege: false,
+        otherProduct: false,
+      },
+    },
+  ];
   return (
     <Dialog
       open={dialogOpen}
@@ -41,7 +87,9 @@ export const ProfileSimilarityCheckerPopup = ({
           <HeaderText>{'Profile Similarity Checker'}</HeaderText>
           <Grid container className={'dialog_style'} spacing={3}>
             <Grid item xs={6}>
-              <DialogSubText>{'Similarity Students (8)'}</DialogSubText>
+              <DialogSubText>{`Similarity Students ${
+                count > 0 ? `(${count})` : ''
+              }`}</DialogSubText>
             </Grid>
             <Grid item xs={6}>
               <FlexView>
@@ -50,9 +98,11 @@ export const ProfileSimilarityCheckerPopup = ({
                   options={filterOptions}
                   className={'autocomplete_style'}
                   getOptionLabel={option => option.label}
+                  onChange={handleDropdownChange}
                   fullWidth
+                  value={value}
                   renderInput={params => (
-                    <TextField {...params} variant={'filled'} />
+                    <TextField {...params} variant={'standard'} />
                   )}
                   popupIcon={<ExpandMore />}
                 />
@@ -60,8 +110,14 @@ export const ProfileSimilarityCheckerPopup = ({
             </Grid>
             <Grid item xs={12}>
               <FlexView>
-                <SelectedBox>{'Same Branch'}</SelectedBox>
-                <SelectedBox>{'Same College'}</SelectedBox>
+                {filterOptions.map(
+                  ({ label }) =>
+                    value &&
+                    label === value.label &&
+                    label
+                      .split(',')
+                      .map(item => <SelectedBox>{item}</SelectedBox>)
+                )}
               </FlexView>
             </Grid>
           </Grid>

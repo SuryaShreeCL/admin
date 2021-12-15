@@ -1,26 +1,28 @@
-import { Collapse } from '@material-ui/core'
-import React from 'react'
-import { DetailsBox, LeftText, StyledDetailsButton } from '../../../Asset/StyledComponent'
-import { JustifyFlex } from './StyledComponents'
+import { Collapse } from '@material-ui/core';
+import React from 'react';
+import {
+  DetailsBox,
+  LeftText,
+  StyledDetailsButton,
+} from '../../../Asset/StyledComponent';
+import { JustifyFlex } from './StyledComponents';
 
-function CollapseViewer({children, show }) {
-    return (
-        <DetailsBox>
-                <JustifyFlex>
-                  <LeftText>{'Lee Solomon'}</LeftText>
-                  <StyledDetailsButton
-                    // onClick={() => handleShowDetails(1)}
-                    outlined={true}
-                    variant={'outlined'}
-                  >
-                    {'Show Details'}
-                  </StyledDetailsButton>
-                </JustifyFlex>
-                <Collapse in={show % 2 === 0}>
-                  <div>{children}</div>
-                </Collapse>
-              </DetailsBox>
-    )
+function CollapseViewer({ children, show, title, id, handleShowDetails }) {
+  return (
+    <DetailsBox>
+      <JustifyFlex>
+        <LeftText>{title}</LeftText>
+        <StyledDetailsButton
+          onClick={() => handleShowDetails(id)}
+          outlined={true}
+          variant={'outlined'}
+        >
+          {'Show Details'}
+        </StyledDetailsButton>
+      </JustifyFlex>
+      <Collapse in={show}>{children}</Collapse>
+    </DetailsBox>
+  );
 }
 
-export default CollapseViewer
+export default CollapseViewer;
