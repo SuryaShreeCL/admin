@@ -75,7 +75,7 @@ export default function ScheduleLater(props) {
         <CloseIcon
           fontSize='medium'
           onClick={() => setScheduler(false)}
-          style={{ position: 'relative', marginLeft: 'auto' }}
+          style={{ position: 'relative', marginLeft: 'auto', cursor: 'pointer' }}
         />
         <DialogTitle className={classes.dialogTitle}>
           <IconButton disableRipple className={classes.titleIcon}>

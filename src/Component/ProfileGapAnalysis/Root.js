@@ -52,6 +52,7 @@ import Edx from '../PgaReport/Edx';
 import EdxSampleCourse from '../PgaReport/EdxSampleCourse';
 import ResumeQuestionnaire from '../PgaReport/ResumeQuestionnaire';
 import SpiderGraph from '../PgaReport/SpiderGraph';
+import { ExpandLess } from '@material-ui/icons';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -77,6 +78,7 @@ class ProfileGapRoot extends Component {
       pgaOpen: false,
       pgaAnchorEl: null,
       pgaReportDropDown: [],
+      arrowOpenName: null,
     };
   }
 
@@ -94,12 +96,14 @@ class ProfileGapRoot extends Component {
     this.setState({
       open: false,
       anchorEl: null,
+      arrowOpenName: null,
     });
   };
-  menuOpen = event => {
+  menuOpen = (event, name) => {
     if (this.state.anchorEl !== event.currentTarget) {
       this.setState({
         anchorEl: event.currentTarget,
+        arrowOpenName: name,
         // value: 6,
       });
     }
@@ -114,10 +118,11 @@ class ProfileGapRoot extends Component {
 
   // While hovering pga menu
 
-  pgaMenuOpen = e => {
+  pgaMenuOpen = (e, name) => {
     this.setState({
       pgaOpen: true,
       pgaAnchorEl: e.currentTarget,
+      arrowOpenName: name,
     });
   };
 
@@ -127,6 +132,7 @@ class ProfileGapRoot extends Component {
     this.setState({
       pgaOpen: false,
       pgaAnchorEl: null,
+      arrowOpenName: null,
     });
   };
 
@@ -241,21 +247,6 @@ class ProfileGapRoot extends Component {
       handler: () => this.handleUgClick(),
     },
     {
-      label: "Diploma",
-      value: "diplomaForm",
-      handler: () => this.handleDiplomaClick(),
-    },
-    {
-      label: "Undergraduate",
-      value: "ugForm",
-      handler: () => this.handleUgClick(),
-    },
-    {
-      label: "Postgraduate",
-      value: "pgForm",
-      handler: () => this.handlePgClick(),
-    },
-    {
       label: 'Postgraduate',
       value: 'pgForm',
       handler: () => this.handlePgClick(),
@@ -294,6 +285,13 @@ class ProfileGapRoot extends Component {
   };
 
   handlePageChange = value => this.setState({ value: value });
+  renderArrowIcon = name => {
+    const { classes } = this.props;
+    const { arrowOpenName } = this.state;
+    if (arrowOpenName && name === arrowOpenName)
+      return <ExpandLess className={classes.arrowStyle} />;
+    else return <ExpandMoreIcon className={classes.arrowStyle} />;
+  };
 
   render() {
     const { classes } = this.props;
@@ -351,41 +349,27 @@ class ProfileGapRoot extends Component {
                 />
                 <ThemeProvider theme={this.tabTheme}>
                   <Tab
-                    style={{ minWidth: "135px", paddingRight: "0px" }}
-                    label="Academic Details"
-                    value={"academicDetails"}
+                    style={{ minWidth: '135px', paddingRight: '0px' }}
+                    label='Academic Details'
+                    value={'academicDetails'}
                     // onMouseOver={(e) => {
-                    //   this.menuOpen(e);
+                    //   this.menuOpen(e, 'academicDetails');
                     // }}
-                    onClick={(e) => {
-                      this.menuOpen(e);
-                    }}
-                    icon={
-                      <ExpandMoreIcon
-                        style={{ color: 'black', marginTop: '7px' }}
-                      />
-                    }
+                    icon={this.renderArrowIcon('academicDetails')}
                     style={{ textTransform: 'none' }}
-                    onClick={e => this.menuOpen(e)}
+                    onClick={e => this.menuOpen(e, 'academicDetails')}
                   />
 
                   <Tab
-                    style={{ minWidth: "135px", paddingRight: "0px" }}
-                    label="PGA Report"
-                    value={"pgaReport"}
-                    // onMouseEnter={(e) => {
-                    //   this.pgaMenuOpen(e);
+                    style={{ minWidth: '135px', paddingRight: '0px' }}
+                    label='PGA Report'
+                    value={'pgaReport'}
+                    // onMouseEnter={e => {
+                    //   this.pgaMenuOpen(e,'pgaReport');
                     // }}
-                    onClick={(e) => {
-                      this.pgaMenuOpen(e);
-                    }}
-                    icon={
-                      <ExpandMoreIcon
-                        style={{ color: 'black', marginTop: '7px' }}
-                      />
-                    }
+                    icon={this.renderArrowIcon('pgaReport')}
                     style={{ textTransform: 'none' }}
-                    onClick={e => this.pgaMenuOpen(e)}
+                    onClick={e => this.pgaMenuOpen(e, 'pgaReport')}
                   />
                 </ThemeProvider>
                 <Tab
@@ -512,7 +496,7 @@ class ProfileGapRoot extends Component {
           open={Boolean(this.state.anchorEl)}
           onClose={this.handleClose}
           getContentAnchorEl={null}
-          MenuListProps={{ onMouseLeave: this.handleClose }}
+          // MenuListProps={{ onMouseLeave: this.handleClose }}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
@@ -533,7 +517,7 @@ class ProfileGapRoot extends Component {
           anchorEl={this.state.pgaAnchorEl}
           open={Boolean(this.state.pgaAnchorEl)}
           onClose={this.pgaMenuClose}
-          MenuListProps={{ onMouseLeave: this.pgaMenuClose }}
+          // MenuListProps={{ onMouseLeave: this.pgaMenuClose }}
           getContentAnchorEl={null}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           transformOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -567,6 +551,10 @@ const useStyles = theme => ({
   menuItemStyle: {
     backgroundColor: '#ffffff !important',
     color: '#009be5',
+  },
+  arrowStyle: {
+    color: 'black',
+    marginTop: '7px',
   },
 });
 const mapStateToProps = state => {

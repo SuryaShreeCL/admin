@@ -82,7 +82,7 @@ export default function SetCutOff(props) {
         <CloseIcon
           fontSize='medium'
           onClick={() => setOpenCutOff(false)}
-          style={{ position: 'relative', marginLeft: 'auto' }}
+          style={{ position: 'relative', marginLeft: 'auto', cursor: 'pointer' }}
         />
         <DialogTitle className={classes.dialogTitle}>
           <IconButton disableRipple className={classes.titleIcon}>

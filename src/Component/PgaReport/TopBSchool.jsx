@@ -42,6 +42,7 @@ function SelectSchool(props) {
 
   const [selectedRegion, setSelectedRegion] = useState({
     value: null,
+
     helperText: "",
   });
 
@@ -103,11 +104,12 @@ function SelectSchool(props) {
 
   useEffect(() => {
     // dispatch(viewCountryForSelect());
-    getPlanBCountry().then((response) => {
-      if (response.status === 200) {
-        setCountryList(response.data.data);
-      }
-    });
+    // getPlanBCountry().then((response) => {
+    //
+    //   if (response.status === 200) {
+    //     setCountryList(response.data.data);
+    //   }
+    // });
     getSchoolRegion(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setRegion(response.data.data);
@@ -116,6 +118,18 @@ function SelectSchool(props) {
 
     getAndSetAddedSchool();
   }, []);
+
+  // to check the current state and prevState of selectedRegion
+  useEffect(() => {
+    dispatch(viewCountryForSelect());
+    getPlanBCountry(selectedRegion.value && selectedRegion.value.id).then(
+      (response) => {
+        if (response.status === 200) {
+          setCountryList(response.data.data);
+        }
+      }
+    );
+  }, [selectedRegion]);
 
   useEffect(() => {
     if (addedSchool) {
@@ -213,6 +227,7 @@ function SelectSchool(props) {
       });
     }
   };
+
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
@@ -246,6 +261,7 @@ function SelectSchool(props) {
                         setSelectedRegion((prevSelectedReg) => ({
                           ...prevSelectedReg,
                           value: value,
+
                           helperText: "",
                         }));
                       }}

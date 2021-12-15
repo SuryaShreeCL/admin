@@ -17,7 +17,10 @@ import {
   DialogActions,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { updateStudentPersonal, updateVerificationStatus } from '../../Actions/AdminAction';
+import {
+  updateStudentPersonal,
+  updateVerificationStatus,
+} from '../../Actions/AdminAction';
 import { getStudentsById, verifyNewPersonalData } from '../../Actions/Student';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -66,15 +69,17 @@ export class PersonalDetails extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.status !== prevState.status) {
-      if (this.state.status !== null && this.state.status.value !== 'mismatched') {
+      if (
+        this.state.status !== null &&
+        this.state.status.value !== 'mismatched'
+      ) {
         this.setState({ misMatchDetails: null });
       }
     }
 
     var findObj = this.props.studentStatusResponse.find(
-      (res) => res.section && res.section.name === 'Personal Details'
+      res => res.section && res.section.name === 'Personal Details'
     );
-    console.log(findObj);
 
     if (findObj !== undefined) {
       if (findObj.section.name === 'Personal Details') {
@@ -103,13 +108,13 @@ export class PersonalDetails extends Component {
         fullName: this.props.StudentDetails.fullName,
         eMail: this.props.StudentDetails.emailId,
         phoneNumber: this.props.StudentDetails.phoneNumber,
-        dateofbirth: this.props.StudentDetails.dob,
+        dateofbirth:
+          this.props.StudentDetails.dob &&
+          new Date(this.props.StudentDetails.dob),
       });
     }
     if (this.props.tempData !== prevProps.tempData) {
-      console.log('temp............', this.props.tempData.length);
       if (this.props.tempData.length !== 0) {
-        console.log('...........', this.props.tempData);
         this.setState({
           isTempData: true,
           firstName: this.props.tempData.firstName,
@@ -124,21 +129,29 @@ export class PersonalDetails extends Component {
         });
       }
     }
-    if (this.props.updatePersonalResponse !== prevProps.updatePersonalResponse) {
+    if (
+      this.props.updatePersonalResponse !== prevProps.updatePersonalResponse
+    ) {
       this.setState({
         snackVariant: 'success',
         snackMessage: 'Modified Successfully',
         snackOpen: true,
       });
     }
-    if (this.props.updateVerificationResponse !== prevProps.updateVerificationResponse) {
+    if (
+      this.props.updateVerificationResponse !==
+      prevProps.updateVerificationResponse
+    ) {
       this.setState({
         snackVariant: 'success',
         snackMessage: 'Status Updated Successfully',
         snackOpen: true,
       });
     }
-    if (this.props.updateNewPersonalResponse !== prevProps.updateNewPersonalResponse) {
+    if (
+      this.props.updateNewPersonalResponse !==
+      prevProps.updateNewPersonalResponse
+    ) {
       this.setState({
         snackVariant: 'success',
         snackMessage: 'Data Verified Successfully',
@@ -166,7 +179,7 @@ export class PersonalDetails extends Component {
 
   //Change Handler
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -205,7 +218,7 @@ export class PersonalDetails extends Component {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         fullName: this.state.fullName,
-        Dob: this.state.dateofbirth,
+        dob: new Date(this.state.dateofbirth).toLocaleDateString(),
       };
       this.props.updateStudentPersonal(this.props.id, obj);
     }
@@ -223,7 +236,6 @@ export class PersonalDetails extends Component {
         status: this.state.status.value,
         updateDate: null,
       };
-      console.log(obj);
       this.props.updateVerificationStatus(obj);
       this.setState({
         misMatchDetails: null,
@@ -279,7 +291,6 @@ export class PersonalDetails extends Component {
   };
 
   render() {
-    // console.log(this.props.tempData)
     const { divStyle, textStyle, divContainer } = style;
     return (
       <div>
@@ -292,9 +303,11 @@ export class PersonalDetails extends Component {
                   options={this.status}
                   value={this.state.status}
                   fullWidth
-                  onChange={(e, newValue) => this.setState({ status: newValue })}
-                  getOptionLabel={(option) => option.title}
-                  renderInput={(params) => (
+                  onChange={(e, newValue) =>
+                    this.setState({ status: newValue })
+                  }
+                  getOptionLabel={option => option.title}
+                  renderInput={params => (
                     <TextField
                       {...params}
                       size='small'
@@ -305,13 +318,14 @@ export class PersonalDetails extends Component {
                 />
               </Grid>
 
-              {this.state.status !== null && this.state.status.value === 'mismatched' ? (
+              {this.state.status !== null &&
+              this.state.status.value === 'mismatched' ? (
                 <>
                   <Grid item md={7} style={divStyle} alignItems='center'>
                     <TextField
                       fullWidth
                       size='small'
-                      onChange={(e) => this.handleChange(e)}
+                      onChange={e => this.handleChange(e)}
                       name={'misMatchDetails'}
                       value={this.state.misMatchDetails}
                       variant='outlined'
@@ -353,14 +367,20 @@ export class PersonalDetails extends Component {
                 </Tooltip>
               </Grid>
               <Grid item md={6} style={divStyle} justify='space-between'>
-                <Typography color='primary' style={textStyle} variant='subtitle1'>
+                <Typography
+                  color='primary'
+                  style={textStyle}
+                  variant='subtitle1'
+                >
                   {'Sudent ID(CLS ID):'}
                 </Typography>
                 <TextField
                   variant='outlined'
                   size='small'
-                  error={this.state.studentIdHelperTxt.length !== 0 ? true : false}
-                  onChange={(e) => this.handleChange(e)}
+                  error={
+                    this.state.studentIdHelperTxt.length !== 0 ? true : false
+                  }
+                  onChange={e => this.handleChange(e)}
                   name={'studentId'}
                   helperText={this.state.studentIdHelperTxt}
                   label='Student ID'
@@ -369,7 +389,11 @@ export class PersonalDetails extends Component {
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify='space-between'>
-                <Typography color='primary' style={textStyle} variant='subtitle1'>
+                <Typography
+                  color='primary'
+                  style={textStyle}
+                  variant='subtitle1'
+                >
                   {'First Name:'}
                 </Typography>
                 <TextField
@@ -377,7 +401,7 @@ export class PersonalDetails extends Component {
                   size='small'
                   error={this.state.fNameHelperTxt.length !== 0 ? true : false}
                   helperText={this.state.fNameHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
+                  onChange={e => this.handleChange(e)}
                   name={'firstName'}
                   disabled={this.state.letEdit === false ? true : false}
                   label='First Name'
@@ -385,7 +409,11 @@ export class PersonalDetails extends Component {
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify='space-between'>
-                <Typography color='primary' style={textStyle} variant='subtitle1'>
+                <Typography
+                  color='primary'
+                  style={textStyle}
+                  variant='subtitle1'
+                >
                   {'Last Name:'}
                 </Typography>
                 <TextField
@@ -393,7 +421,7 @@ export class PersonalDetails extends Component {
                   size='small'
                   error={this.state.lNameHelperTxt.length !== 0 ? true : false}
                   helperText={this.state.lNameHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
+                  onChange={e => this.handleChange(e)}
                   name={'lastName'}
                   label='Last Name'
                   disabled={this.state.letEdit === false ? true : false}
@@ -401,23 +429,39 @@ export class PersonalDetails extends Component {
                 />
               </Grid>
               <Grid item md={6} style={divStyle} justify='space-between'>
-                <Typography color='primary' style={textStyle} variant='subtitle1'>
+                <Typography
+                  color='primary'
+                  style={textStyle}
+                  variant='subtitle1'
+                >
                   {'Full Name:'}
                 </Typography>
                 <TextField
                   variant='outlined'
                   size='small'
-                  error={this.state.fullNameHelperTxt.length !== 0 ? true : false}
+                  error={
+                    this.state.fullNameHelperTxt.length !== 0 ? true : false
+                  }
                   helperText={this.state.fullNameHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
+                  onChange={e => this.handleChange(e)}
                   name={'fullName'}
                   disabled={this.state.letEdit === false ? true : false}
                   label='Full Name'
                   value={this.state.fullName}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify='space-between'>
-                <Typography color='primary' style={textStyle} variant='subtitle1'>
+              <Grid
+                item
+                md={6}
+                style={divStyle}
+                justify='space-between'
+                className={'padding_date_box_style'}
+              >
+                <Typography
+                  color='primary'
+                  style={textStyle}
+                  variant='subtitle1'
+                >
                   {'Date of Birth:'}
                 </Typography>
                 {/* <TextField
@@ -439,8 +483,12 @@ export class PersonalDetails extends Component {
                     id='date-picker-dialog'
                     label='Date of Birth'
                     format='MM/dd/yyyy'
+                    className={'date_box_style'}
                     value={this.state.dateofbirth}
-                    onChange={(e, newValue) => this.setState({ dateofbirth: newValue })}
+                    disabled={this.state.letEdit === false ? true : false}
+                    onChange={(e, newValue) =>
+                      this.setState({ dateofbirth: newValue })
+                    }
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
@@ -506,7 +554,7 @@ const style = {
     paddingLeft: '3%',
   },
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     StudentDetails: state.StudentReducer.StudentList,
     updatePersonalResponse: state.AdminReducer.updatePersonalResponse,
