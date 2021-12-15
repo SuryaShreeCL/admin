@@ -18,6 +18,9 @@ import { Formik, Form } from 'formik';
 import Notification from '../../Utils/Notification';
 import CloseIcon from '@material-ui/icons/Close';
 import ConfirmSubmit from '../../Utils/ConfirmSubmit';
+import {
+  setCutOffScore
+} from '../../../Actions/TestActions';
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -50,6 +53,7 @@ export default function SetCutOff(props) {
   const { openCutOff, setOpenCutOff, data, type, listTests } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
+  console.log(data);
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
@@ -62,13 +66,13 @@ export default function SetCutOff(props) {
   });
 
   const validationSchema = yup.object({
-    duration: yup
+    cutoff: yup
       .string()
       .required()
       .test(
-        'durationCheck',
+        'cutoffCheck',
         'Cut off score cannot be higher than set score for the test.',
-        (duration) => duration <= data.duration
+        (cutoff) => cutoff <= data.score
       ),
   });
 
@@ -98,9 +102,12 @@ export default function SetCutOff(props) {
                 title: 'Confirm Submission',
                 subTitle: 'Are you sure you want to submit this data?',
                 testName: data.name,
-                cutOffScore: values.duration,
+                cutOffScore: values.cutoff,
                 onConfirm: () => {
-                  // dispatch(updateAppVersion(values));
+                  dispatch(setCutOffScore({
+                    "testQuestionSetId":values.id,
+                    "cutOffScore":values.cutoff
+                  }));
                   setOpenCutOff(false);
                   setConfirmSubmit({
                     ...confirmSubmit,
@@ -127,13 +134,13 @@ export default function SetCutOff(props) {
                     <Grid item container style={{ width: '300px' }}>
                       <Controls.Input
                         label='Cut Off'
-                        name='duration'
+                        name='cutoff'
                         type='number'
                         style={{ width: '100%', marginBottom: '1rem' }}
-                        value={values.duration}
+                        value={values.cutoff}
                         onChange={handleChange}
-                        helperText={touched.duration && errors.duration}
-                        error={touched.duration && Boolean(errors.duration)}
+                        helperText={touched.cutoff && errors.cutoff}
+                        error={touched.cutoff && Boolean(errors.cutoff)}
                       />
                     </Grid>
                     <DialogActions className={classes.dialogAction}>
