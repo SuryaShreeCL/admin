@@ -1,4 +1,4 @@
-import { Dialog, Grid, TextField } from '@material-ui/core';
+import { Dialog, Grid, Paper, TextField } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
@@ -16,6 +16,7 @@ import {
   SelectedBox,
   StyledCloseButton,
 } from '../../../Asset/StyledComponent';
+import Draggable from 'react-draggable';
 
 export const filterOptions = [
   {
@@ -60,6 +61,17 @@ export const filterOptions = [
   },
 ];
 
+const PaperComponent = props => {
+  return (
+    <Draggable
+      handle='#draggable-dialog-title'
+      cancel={'[class*="MuiDialogContent-root"]'}
+    >
+      <Paper {...props} />
+    </Draggable>
+  );
+};
+
 export const ProfileSimilarityCheckerPopup = ({
   dialogOpen,
   handlePopupClose,
@@ -73,8 +85,9 @@ export const ProfileSimilarityCheckerPopup = ({
       open={dialogOpen}
       maxWidth={'lg'}
       classes={{ paper: 'dialog_paper', root: 'dialog_root' }}
+      PaperComponent={PaperComponent}
     >
-      <DialogRelativeBox>
+      <DialogRelativeBox id={'draggable-dialog-title'}>
         <DialogHeader>
           <HeaderText>{'Profile Similarity Checker'}</HeaderText>
           <Grid container className={'dialog_style'} spacing={3}>

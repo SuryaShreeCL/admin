@@ -30,7 +30,10 @@ import {
   generateCareerTracks,
   careerTrackProfileSimilarity,
 } from '../../Actions/PgaReportAction';
-import { ProfileSimilarityCheckerPopup } from './Components/ProfileSimilarityCheckerPopup';
+import {
+  filterOptions,
+  ProfileSimilarityCheckerPopup,
+} from './Components/ProfileSimilarityCheckerPopup';
 import CollapseViewer from './Components/CollapseViewer';
 import { CardViewComponent } from './Components/CardView';
 import {
@@ -64,7 +67,7 @@ function SpecializationTrack(props) {
     snackColor: '',
   });
   const [open, setOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState(filterOptions[0]);
   const [isFilterChange, setIsFilterChange] = useState(false);
   const [dialogData, setDialogData] = useState(null);
   const [collapseList, setCollapseList] = useState([]);
@@ -110,6 +113,7 @@ function SpecializationTrack(props) {
       }
     });
     getAndSetStudentSpecializationTrack();
+    handleFilterChangeChange(null, selectedFilter);
   }, []);
 
   const handleAddClick = () => {
@@ -184,6 +188,7 @@ function SpecializationTrack(props) {
       ).then(response => {
         if (response.status === 200) {
           getAndSetStudentSpecializationTrack();
+          handleRemoveCareerTack(spec.trackId);
         }
       });
     } else {
@@ -192,6 +197,16 @@ function SpecializationTrack(props) {
         copyOf.splice(index, 1);
         setStudentSpecializationTrack(copyOf);
       }
+      handleRemoveCareerTack(spec.trackId);
+    }
+  };
+
+  const handleRemoveCareerTack = id => {
+    if (id) {
+      let arr = [...addedList];
+      let index = arr.indexOf(id);
+      if (index > -1) arr.splice(index, 1);
+      setAddedList(arr);
     }
   };
 
@@ -250,19 +265,19 @@ function SpecializationTrack(props) {
   };
 
   const handleAddCareerTack = object => {
-    const { id, value } = object;
+    const { id, trackId, value } = object;
     let arr = [...addedList];
-    let index = arr.indexOf(id);
+    let index = arr.indexOf(trackId);
     let specializationTrack = [...studentSpecializationTrack];
     let addValueIndex = specializationTrack.findIndex(
-      element => element.id === value.id
+      element => element.id === value.id && value.id
     );
 
     if (index > -1) {
       arr.splice(index, 1);
       specializationTrack.splice(addValueIndex, 1);
     } else {
-      arr.push(id);
+      arr.push(trackId);
       if (addValueIndex > -1) specializationTrack[addValueIndex] = value;
       else specializationTrack.push(value);
     }
@@ -298,6 +313,7 @@ function SpecializationTrack(props) {
                   result.map((item, index) => {
                     const {
                       id,
+                      trackId,
                       pgaCareerTrack,
                       pgaTrack,
                       selectedCoursesOne,
@@ -308,9 +324,9 @@ function SpecializationTrack(props) {
                         <CardViewComponent
                           titleText={`Starter Packs ${index + 1}`}
                           buttonText={
-                            addedList.indexOf(id) > -1 ? 'Added' : 'Add'
+                            addedList.indexOf(trackId) > -1 ? 'Added' : 'Add'
                           }
-                          buttonStatus={addedList.indexOf(id) > -1}
+                          buttonStatus={addedList.indexOf(trackId) > -1}
                           handleClick={handleAddCareerTack}
                           leftContent={starterPacksList}
                           rightContent={[
@@ -319,7 +335,7 @@ function SpecializationTrack(props) {
                             selectedCoursesOne && selectedCoursesOne.name,
                             selectedCoursesTwo && selectedCoursesTwo.name,
                           ]}
-                          object={{ id: id, value: item }}
+                          object={{ id: id, trackId: trackId, value: item }}
                         />
                       </Grid>
                     );
@@ -345,10 +361,10 @@ function SpecializationTrack(props) {
                   <Grid item xs={6}>
                     <CardView>
                       <StyledList>
-                        {areaOfInterests.map(({ name }) => {
+                        {areaOfInterests.map(({ interest }) => {
                           return (
                             <li>
-                              <span>{name}</span>
+                              <span>{interest}</span>
                             </li>
                           );
                         })}
@@ -512,8 +528,6 @@ function SpecializationTrack(props) {
       </Dialog>
 
       <ProfileSimilarityCheckerPopup
-        // handleShowDetails={handleShowDetails}
-        // collapseId={collapseId}
         dialogOpen={props.popupStatus}
         handlePopupClose={props.handleDialogClose}
         value={selectedFilter}
