@@ -2,9 +2,9 @@ import { URL } from "../../Actions/URL";
 import customAxios from "../../Axios/Instance";
 
 
-export const getFocusList = async () => {
+export const getFocusList = async (otherPlan) => {
     try {
-        const response = await customAxios.get(URL+"/api/v1/pga/poa/focus")
+        const response = await customAxios.get(URL+"/api/v1/pga/poa/focus?otherPlans=")
         return response;
     } catch (error) {
         return error.response && error.response.data.message ? error.response.data.message : error.message
