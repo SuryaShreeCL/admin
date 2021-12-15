@@ -166,8 +166,6 @@ function PlanOfAction(props) {
     setSelectedFilter(value)
   }
 
-  console.log(selectedFilter, "-------")
-
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
