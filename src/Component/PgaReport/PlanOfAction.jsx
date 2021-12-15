@@ -2,10 +2,11 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import {
   deleteFocus,
+  filterFocus,
   getFocusList,
   getPlanOfAction,
   savePlanOfAction,
-  saveSingleFocus
+  saveSingleFocus,
 } from "../../AsyncApiCall/PgaReport/PlanOfAction";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import TextFieldComponent from "../Controls/TextField";
@@ -21,7 +22,7 @@ import { useStyles } from "./Styles/Index";
 function PlanOfAction(props) {
   const classes = useStyles();
   const [focusList, setFocusList] = useState([]);
-  const [ selectedFilter, setSelectedFilter ] = useState(null)
+  const [selectedFilter, setSelectedFilter] = useState(null);
   const [planOfAction, setPlanOfAction] = useState({
     criteriaCGPA: "",
     rows: [],
@@ -32,10 +33,15 @@ function PlanOfAction(props) {
     snackMsg: "",
     snackVariant: "",
   });
-  const getAndSetPlanOfAction = () => {
+  const [filteredData, setFilteredData] = useState([]);
+  const [studentIdList, setStudentIdList] = useState([]);
+  const [ selectedQuarterId, setSelectedQuarterId ] = useState([]);
+
+  const getAndSetPlanOfAction = (idList) => {
     getPlanOfAction(
       props.match.params.studentId,
-      props.match.params.productId
+      props.match.params.productId,
+      idList
     ).then((response) => {
       if (response.status === 200) {
         setPlanOfAction({ ...response.data.data });
@@ -49,8 +55,17 @@ function PlanOfAction(props) {
         setFocusList(response.data.data);
       }
     });
-    getAndSetPlanOfAction();
+    getAndSetPlanOfAction("");
   }, []);
+
+  useEffect(()=>{
+    if( selectedQuarterId.length !== 0 ){
+      const commaSeparatedId = selectedQuarterId.join(",");
+      getAndSetPlanOfAction(commaSeparatedId)
+    }else{
+      getAndSetPlanOfAction("")
+    }
+  }, [selectedQuarterId])
 
   const handleAddClick = (index) => {
     let planOfActionCopy = [...planOfAction];
@@ -87,7 +102,7 @@ function PlanOfAction(props) {
         requestBody
       ).then((response) => {
         if (response.status === 200) {
-          getAndSetPlanOfAction();
+          getAndSetPlanOfAction("");
         }
       });
     } else {
@@ -117,7 +132,7 @@ function PlanOfAction(props) {
       deleteFocus(copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].id).then(
         (response) => {
           if (response.status === 200) {
-            getAndSetPlanOfAction();
+            getAndSetPlanOfAction("");
           }
         }
       );
@@ -139,7 +154,7 @@ function PlanOfAction(props) {
         planOfAction.plans
       ).then((response) => {
         if (response.status === 200) {
-          getAndSetPlanOfAction();
+          getAndSetPlanOfAction("");
           setSnack({
             snackMsg: "Saved Successfully",
             snackVariant: "success",
@@ -162,10 +177,53 @@ function PlanOfAction(props) {
     }
   };
 
-  const handleDropDownChange = ( evt, value ) =>{
-    setSelectedFilter(value)
+  const handleDropDownChange = (evt, value) => {
+    if (value) {
+      filterFocus(
+        props.match.params.studentId,
+        props.match.params.productId,
+        value.value
+      ).then((response) => {
+        if (response.status === 200) {
+          setFilteredData(response.data.data);
+        } else {
+          setSnack({
+            snackOpen: true,
+            snackMsg: response,
+            snackVariant: "error",
+          });
+        }
+      });
+    }
+    setSelectedFilter(value);
+  };
+
+  const handleShowDetails = (ind) => {
+    let indexOfStudentId = studentIdList.indexOf(ind);
+    if (indexOfStudentId === -1) {
+      setStudentIdList((prev) => [...prev, ind]);
+    } else {
+      let tempList = [...studentIdList];
+      tempList.splice(indexOfStudentId, 1);
+      setStudentIdList(tempList);
+    }
+  };
+
+  const handleAddQuarterClick = ( id ) =>{
+    let indexOfQuarterId = selectedQuarterId.indexOf(id)
+    if(indexOfQuarterId === -1){
+      setSelectedQuarterId(prev=>([
+        ...prev,
+        id
+      ]))
+    }else{
+      let tempList = [...selectedQuarterId]
+      tempList.splice(indexOfQuarterId, 1)
+      setSelectedQuarterId(tempList)
+    }
   }
 
+  console.log(selectedQuarterId, "============")
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
@@ -294,25 +352,43 @@ function PlanOfAction(props) {
         snackVariant={snack.snackVariant}
         snackMsg={snack.snackMsg}
       />
-        <ProfileSimilarityCheckerPopup
-            // handleShowDetails={handleShowDetails}
-            // collapseId={collapseId}
-            dialogOpen={props.popupStatus}
-            handlePopupClose={props.handleDialogClose}
-            value={selectedFilter}
-            handleDropdownChange={handleDropDownChange}
+      <ProfileSimilarityCheckerPopup
+        dialogOpen={props.popupStatus}
+        handlePopupClose={props.handleDialogClose}
+        value={selectedFilter}
+        handleDropdownChange={handleDropDownChange}
+      >
+        {filteredData.map((el, i) => (
+          <CollapseViewer
+            handleShowDetails={() => handleShowDetails(i)}
+            title={el.studentName}
+            show={studentIdList.includes(i)}
           >
-            {[1,2,3,4,5,6].map((el, i)=>(
-              <CollapseViewer show={i}>
-                <CardViewComponent 
-                buttonText={"Hello"}
-                leftContent={[1,2,3,4,5]}
-                rightContent={[1,2,3,4,5]}
-                />
-              </CollapseViewer>
-            ))}
-            
-          </ProfileSimilarityCheckerPopup>
+            <Grid container spacing={2}>
+              {el.result.map((eachIt, ind) => {
+                return (
+                  <Grid item md={6}>
+                    <CardViewComponent
+                      height={"100%"}
+                      handleClick={()=> handleAddQuarterClick(eachIt.id)}
+                      mb={"10px"}
+                      titleText={eachIt.quarterPlan}
+                      buttonText={"Add"}
+                      buttonStatus={selectedQuarterId.includes(eachIt.id)}
+                      leftContent={eachIt.pgaStudentPoaFocus.map(
+                        (el, indexOfEl) => `Focus ${indexOfEl + 1}`
+                      )}
+                      rightContent={eachIt.pgaStudentPoaFocus.map(
+                        (el) => el.activity
+                      )}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </CollapseViewer>
+        ))}
+      </ProfileSimilarityCheckerPopup>
     </PageWrapper>
   );
 }
