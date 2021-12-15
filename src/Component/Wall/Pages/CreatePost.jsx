@@ -86,6 +86,7 @@ const CreatePost = () => {
     isScheduled: false,
     isVideoUrlEnabled: false,
     videoUrl: '',
+    jobRole: '',
   });
 
   const [errorSchema, setErrorSchema] = useState({
@@ -170,6 +171,7 @@ const CreatePost = () => {
     caption: yup.string().required('caption is required'),
     eventTitle: yup.string().required('title is required'),
     zoomLink: yup.string().required('zoom id is required'),
+    jobRole: yup.string().required('Job role id is required')
   });
 
   const createPost = (post, activeStatus) => {
@@ -341,6 +343,20 @@ const CreatePost = () => {
                         value={values.eventTitle}
                         onChange={handleChange}
                       />
+                      <Controls.Input
+                        label='Enter Job Role'
+                        name='jobRole'
+                        error={
+                          values.jobRole?.length < 2 &&
+                          touched.jobRole && Boolean(errors.jobRole)
+                        }
+                        style={{
+                          width: '80%',
+                          marginTop: '18px',
+                        }}
+                        value={values.jobRole}
+                        onChange={handleChange}
+                      />
                     </Grid>
                   )}
                   {values.supportingMedia === 'webinar' ? (
@@ -485,27 +501,6 @@ const CreatePost = () => {
                       </Grid>
                     </>
                   )}
-                  {
-                    values.isEvent && (
-                      <Grid>
-                        <Controls.Input
-                        label='Enter Job Role'
-                        name='jobRole'
-                        error={
-                          values.jobRole?.length < 2 &&
-                          Boolean(true)
-                        }
-                        style={{
-                          width: '80%',
-                          marginTop: '18px',
-                          marginBottom: '14px',
-                        }}
-                        value={values.jobRole}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                    )
-                  }
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.supportingMedia === 'image' && (
                       <MultipleFileUploadField

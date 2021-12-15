@@ -201,6 +201,7 @@ export const updateWallPost = (post) => async (dispatch) => {
     dispatch({
       type: WALL.UPDATE_REQUEST,
     });
+    console.log(post);
     const { data } = await axios.put(
       `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
       post,
@@ -211,7 +212,7 @@ export const updateWallPost = (post) => async (dispatch) => {
           Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
-    );
+    ).then(res=> console.log(res));
     dispatch({
       type: WALL.UPDATE_SUCCESS,
       payload: data,
