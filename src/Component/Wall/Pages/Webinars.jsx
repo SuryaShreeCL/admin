@@ -150,7 +150,7 @@ export default function Webinars() {
   };
 
   useEffect(() => {
-    dispatch(listWallWebinars(page));
+    dispatch(listWallWebinars(page, "Live,Draft,Scheduled"));
   }, [dispatch, page]);
 
   const handleDeleteClick = item => {

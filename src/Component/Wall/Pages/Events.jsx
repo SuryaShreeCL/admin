@@ -146,25 +146,6 @@ export default function Events() {
     });
   };
 
-  const handleDeleteClick = item => {
-    if (!item.isEditable) {
-      setNotify({
-        isOpen: true,
-        message: "Only the creator can delete the post",
-        type: "Error",
-      });
-    } else {
-      setConfirmDialog({
-        isOpen: true,
-        title: "Are you sure to delete this post?",
-        subTitle: "You can't undo this operation",
-        onConfirm: () => {
-          onDelete(item.id);
-        },
-      });
-    }
-  };
-
   useEffect(() => {
     dispatch(listWallPosts("Live", true, page));
   }, [dispatch, page]);
@@ -244,7 +225,16 @@ export default function Events() {
                       <EditOutlinedIcon fontSize="small" color="primary" />
                     </Controls.ActionButton>
                     <Controls.ActionButton
-                      onClick={() => handleDeleteClick(item)}
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: "Are you sure to delete this post?",
+                          subTitle: "You can't undo this operation",
+                          onConfirm: () => {
+                            onDelete(item.id);
+                          },
+                        });
+                      }}
                     >
                       <DeleteIcon fontSize="small" color="secondary" />
                     </Controls.ActionButton>
