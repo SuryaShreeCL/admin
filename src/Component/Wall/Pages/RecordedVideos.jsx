@@ -196,6 +196,7 @@ export default function Webinars() {
 
   const handleLinkClick = e => {
     setActiveDialogId(e.target.id);
+    setLinkField("");
     // setOpenDialog(!openDialog);
   };
 
@@ -204,7 +205,7 @@ export default function Webinars() {
   };
 
   const handleLinkFieldChange = e => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setLinkField(e.target.value);
   };
 
