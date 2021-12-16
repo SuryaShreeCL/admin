@@ -201,7 +201,6 @@ export const updateWallPost = (post) => async (dispatch) => {
     dispatch({
       type: WALL.UPDATE_REQUEST,
     });
-    console.log(post);
     const { data } = await axios.put(
       `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
       post,

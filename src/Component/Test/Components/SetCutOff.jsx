@@ -51,8 +51,7 @@ export default function SetCutOff(props) {
   const { openCutOff, setOpenCutOff, data, type, listTests, page } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  console.log(data);
-
+  
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
   const [confirmSubmit, setConfirmSubmit] = useState({
