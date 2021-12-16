@@ -98,7 +98,6 @@ class Index extends Component {
   };
 
   onMouseOver = (item) => {
-    console.log(item);
     this.setState({
       filterField: item,
     });
@@ -106,7 +105,6 @@ class Index extends Component {
 
   // Getting and setting student match list in state
   getAndSetStudentMatch = (submenu) => {
-    console.log(this.state.filterField);
     getSimilarStudentsByAcademic(
       this.props.match.params.studentId,
       this.props.academicTypes,
@@ -165,7 +163,6 @@ class Index extends Component {
 
   // function to add the row in the table
   handleRowAdd = (newData) => {
-    console.log(newData);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         this.setState({
@@ -374,7 +371,6 @@ class Index extends Component {
         this.props.academicTypes,
         requestBody,
         (response) => {
-          console.log(response);
           if (response.data && response.data.success) {
             this.setState({
               snackMsg: "Saved Successfully",
@@ -642,7 +638,6 @@ class Index extends Component {
           }
         },
         editComponent: (props) => {
-          console.log(props.rowData.subjectDetailsUgPgDiploma);
           return (
             <DropDown
               classes={{ root: classes.examTypeStyle }}
@@ -737,7 +732,6 @@ class Index extends Component {
           }
         },
         editComponent: (props) => {
-          console.log(props.rowData.subjectDetailsUgPgDiploma);
           return (
             <DropDown
               classes={{ root: classes.examTypeStyle }}

@@ -567,7 +567,6 @@ class ClientDetails extends Component {
 
   render() {
     const filter = createFilterOptions();
-    console.log(this.props);
 
     return (
       <div>

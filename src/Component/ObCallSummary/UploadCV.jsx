@@ -14,14 +14,11 @@ export class UploadCV extends Component {
   }
 
   documentClick = (data) => {
-    console.log(data);
-
     window.open(
       URL + "/api/v1/cv/download/cv/" + data.studentId + "/" + data.path
     );
   };
   render() {
-    console.log(this.props.getAllDocumentList);
     const { HeadStyle, GridStyle } = style;
     return (
       <div>
