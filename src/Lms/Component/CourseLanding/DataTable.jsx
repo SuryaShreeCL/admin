@@ -47,7 +47,7 @@ const columns = [
   "",
 ];
 
-const getDateFormat = (dateString) => {
+const getDateFormat = dateString => {
   let date = new Date(dateString);
   let day = date.getDate();
   let month = MONTH[date.getMonth()];
@@ -279,9 +279,7 @@ export default function DataTable(props) {
                         <IconButton
                           aria-controls={item.id}
                           aria-haspopup="true"
-                          onClick={(event) =>
-                            handleThreeDotClick(item.id, event)
-                          }
+                          onClick={event => handleThreeDotClick(item.id, event)}
                         >
                           <MoreVertRounded style={{ fill: "#1093FF" }} />
                         </IconButton>
@@ -289,7 +287,6 @@ export default function DataTable(props) {
                           role={role}
                           anchorEl={anchorEl}
                           open={item.id === popUpId}
-                          // open={openHandle(item.id, popUpId, role, item.status)}
                           handleClose={handleClose}
                           status={item.status}
                           handleOptions={handleOptions}
