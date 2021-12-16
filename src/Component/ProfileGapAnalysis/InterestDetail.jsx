@@ -1,16 +1,24 @@
-import { TextField, Grid, withStyles, createTheme,ThemeProvider } from "@material-ui/core";
-import React, { Component } from "react";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { TextField, Grid, withStyles, Divider } from '@material-ui/core';
+import React, { Component } from 'react';
+import PrimaryButton from '../../Utils/PrimaryButton';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {
   deleteInterestDetails,
   getInterestDetails,
+  getTestQuestionSet,
   saveInterestDetails,
-} from "../../AsyncApiCall/Student";
-import MySnackBar from "../MySnackBar";
-import "./InterestDetail.css";
-
+} from '../../AsyncApiCall/Student';
+import MySnackBar from '../MySnackBar';
+import './InterestDetail.css';
+import {
+  BolderPara,
+  QuestionList,
+  RightContainer,
+  RightContent,
+  TestHeader,
+  useStyles,
+} from './InterestDetailStyles';
 class InterestDetail extends Component {
   constructor(props) {
     super(props);
@@ -20,17 +28,18 @@ class InterestDetail extends Component {
     this.state = {
       interestArr: [
         {
-          id: "",
-          areaOfInterest: "",
+          id: '',
+          areaOfInterest: '',
           updatedBy: {
-            id: "",
+            id: '',
           },
-          helperText: "",
+          helperText: '',
         },
       ],
       snackOpen: false,
-      snackColor: "",
-      snackMsg: "",
+      snackColor: '',
+      snackMsg: '',
+      testQuestionSet: null,
     };
   }
   // To get interest details
@@ -39,7 +48,7 @@ class InterestDetail extends Component {
     getInterestDetails(
       this.props.match.params.studentId,
       this.props.match.params.productId
-    ).then((response) => {
+    ).then(response => {
       if (response.status === 200) {
         if (response.data.length > 0) {
           const tempHolder = response.data.map((eachItem, index) => {
@@ -49,7 +58,7 @@ class InterestDetail extends Component {
               updatedBy: {
                 id: eachItem.updatedBy.id,
               },
-              helperText: "",
+              helperText: '',
             };
           });
           this.setState({
@@ -60,19 +69,24 @@ class InterestDetail extends Component {
     });
   };
 
-  theme = createTheme({
-   overrides : {
-     MuiGrid : {
-       "spacing-xs-3" : {
-         padding : "0%",
-         width : "100%",
-         margin : "0px"
-       }
-     }
-   }
-  })
+  getInterestTestQuestionSet = () => {
+    const { studentId, productId } = this.props.match.params;
+    getTestQuestionSet(studentId, productId).then(response => {
+      if (response.success) {
+        this.setState({ testQuestionSet: response.data });
+      } else {
+        this.setState({
+          snackColor: 'error',
+          snackOpen: true,
+          snackMsg: response.message,
+        });
+      }
+    });
+  };
+
   componentDidMount() {
     this.getInterestDetails();
+    this.getInterestTestQuestionSet();
   }
 
   // For adding one more duplicate row in the form
@@ -80,12 +94,12 @@ class InterestDetail extends Component {
   handleAdd = () => {
     let arr = this.state.interestArr;
     arr.push({
-      id: "",
-      areaOfInterest: "",
+      id: '',
+      areaOfInterest: '',
       updatedBy: {
-        id: "",
+        id: '',
       },
-      helperText: "",
+      helperText: '',
     });
     this.setState({
       interestArr: arr,
@@ -97,7 +111,6 @@ class InterestDetail extends Component {
   handleDelete = (data, index) => {
     if (this.state.interestArr.length > 1) {
       if (data.id.length === 0) {
-
         // To delete a userdefined row
 
         let deleteArr = this.state.interestArr;
@@ -106,16 +119,15 @@ class InterestDetail extends Component {
           interestArr: deleteArr,
         });
       } else {
-
         // To delete a row that is comming from api
 
-        deleteInterestDetails(data.id).then((response) => {
+        deleteInterestDetails(data.id).then(response => {
           if (response.status === 200) {
             this.getInterestDetails();
             this.setState({
               snackMsg: response.data,
               snackOpen: true,
-              snackColor: "success",
+              snackColor: 'success',
             });
           }
         });
@@ -141,7 +153,7 @@ class InterestDetail extends Component {
   // Handles save and update
 
   handleSave = () => {
-    const adminuserId = window.sessionStorage.getItem("adminUserId");
+    const adminuserId = window.sessionStorage.getItem('adminUserId');
     const productId = this.props.match.params.productId;
     const studentId = this.props.match.params.studentId;
     const requestBody = this.state.interestArr.map((eachItem, index) => {
@@ -178,75 +190,101 @@ class InterestDetail extends Component {
     }
 
     if (!error) {
-      saveInterestDetails(studentId, productId, requestBody).then(
-        (response) => {
-          if (response.status === 200) {
-            this.getInterestDetails();
-            this.setState({
-              snackColor: "success",
-              snackOpen: true,
-              snackMsg: "Saved Successfully",
-            });
-          }
+      saveInterestDetails(studentId, productId, requestBody).then(response => {
+        if (response.status === 200) {
+          this.getInterestDetails();
+          this.setState({
+            snackColor: 'success',
+            snackOpen: true,
+            snackMsg: 'Saved Successfully',
+          });
         }
-      );
+      });
     } else {
       this.setState({
-        snackColor: "error",
-        snackMsg: "Please fill the required field",
+        snackColor: 'error',
+        snackMsg: 'Please fill the required field',
         snackOpen: true,
       });
     }
   };
-  render() {
-    const { classes } = this.props
+
+  // Render Right Container
+
+  renderRightContainer = () => {
+    const { testQuestionSet } = this.state;
     return (
-      <div>
-        <ThemeProvider theme={this.theme}>
+      testQuestionSet && (
+        <RightContainer>
+          <TestHeader>{testQuestionSet.title}</TestHeader>
+          <RightContent>
+            <QuestionList>
+              {testQuestionSet.content &&
+                testQuestionSet.content.length !== 0 &&
+                testQuestionSet.content.map(({ question, answer }) => (
+                  <li>
+                    <p>{question}</p>
+                    <BolderPara>{answer}</BolderPara>
+                  </li>
+                ))}
+            </QuestionList>
+          </RightContent>
+        </RightContainer>
+      )
+    );
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { renderRightContainer } = this;
+    return (
+      <div className={classes.containerTopPad}>
         <Grid container spacing={3} className={classes.container}>
           <Grid
             item
-            md={12}
-            xs={12}
-            sm={12}
-            xl={12}
-            lg={12}
+            md={6}
+            xs={6}
+            sm={6}
+            xl={6}
+            lg={6}
             className={classes.topGrid}
           >
             {this.state.interestArr.map((data, index) => (
-              <Grid container spacing={3}>
+              <Grid container spacing={3} className={classes.wrap}>
                 <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
-                  <p>Area of Interest ({index + 1})</p>
+                  <div>Area of Interest ({index + 1})</div>
                 </Grid>
                 {/* textfield */}
                 <Grid item md={1} xs={1} sm={1} xl={1} lg={1}></Grid>
                 <Grid
                   item
-                  md={5}
-                  xs={5}
-                  sm={5}
-                  xl={5}
-                  lg={5}
-                  className={"grid"}
+                  md={9}
+                  xs={9}
+                  sm={9}
+                  xl={9}
+                  lg={9}
+                  className={'grid'}
                 >
                   <TextField
-                    className={"textField_align"}
-                    label="Enter interest Area"
+                    className={'textField_align'}
+                    label='Enter interest Area'
                     value={data.areaOfInterest}
                     helperText={data.helperText}
                     error={data.helperText.length > 0}
-                    onChange={(e) => this.handleTextChange(e, index)}
+                    onChange={e => this.handleTextChange(e, index)}
                     fullWidth
                   ></TextField>
                 </Grid>
 
-                <Grid item md={2} className={"icon_div"}>
-                  <AddCircleOutlineIcon className={classes.addIcon}
-                    color="primary"
+                <Grid item xs={2} className={'icon_div'}>
+                  <AddCircleOutlineIcon
+                    className={classes.addIcon}
+                    color='primary'
                     onClick={() => this.handleAdd()}
                   />
                   <DeleteOutlineIcon
-                    color="secondary"
+                    className={classes.deleteIcon}
+                    color='secondary'
                     onClick={() => {
                       this.handleDelete(data, index);
                     }}
@@ -255,82 +293,36 @@ class InterestDetail extends Component {
               </Grid>
             ))}
           </Grid>
-
-           {/* button */}
-           <Grid container className={classes.bottomContainer}>
-            <Grid item md={12} xs={12} sm={12} xl={12} lg={12} className={classes.dividerGrid}>
-              <hr/>
-            </Grid>
-            <Grid
-              item
-              md={12}
-              xs={12}
-              sm={12}
-              xl={12}
-              lg={12}
-             className={classes.buttonGrid}
-            >
-              <hr/>
-              <div className={"save_button_div"}>
-                <PrimaryButton
-                  variant={"contained"}
-                  color={"primary"}
-                  onClick={this.handleSave}
-                 className={classes.button}
-                >
-                  Save
-                </PrimaryButton>
-              </div>
-            </Grid>
+          <Grid item xs={6} className={classes.rightWrapper}>
+            <Divider
+              absolute={true}
+              variant={'fullWidth'}
+              orientation={'vertical'}
+              className={classes.customDividerColor}
+            />
+            {renderRightContainer()}
           </Grid>
-         
         </Grid>
+        <Divider className={classes.dividerColor} />
+        {/* button */}
+        <div className={'save_button_div'}>
+          <PrimaryButton
+            variant={'contained'}
+            color={'primary'}
+            onClick={this.handleSave}
+          >
+            {'Save'}
+          </PrimaryButton>
+        </div>
         <MySnackBar
           onClose={() => this.setState({ snackOpen: false })}
           snackOpen={this.state.snackOpen}
           snackVariant={this.state.snackColor}
           snackMsg={this.state.snackMsg}
         />
-        </ThemeProvider>
       </div>
     );
   }
 }
 
-const useStyles = (theme) => ({
-  button: {
-    width: "100px",
-    display: "flex",
-    marginRight: "21px",
-    marginBottom: "10px",
-  },
-  buttonGrid: {
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-  },
-  dividerGrid : {
-    width:"964px",
-    marginLeft:"10px",
-    marginRight:"11px",
-  },
-  bottomContainer : {
-    height:"84px", 
-    display:'flex', 
-    alignSelf:'flex-end'
-  },
-  addIcon : {
-    marginRight:"8px"
-  },
-  container: {
-    height: "100vh"
-  },
-  topGrid : {
-    maxHeight: "87%", 
-    overflowY: "scroll", 
-    padding: "15px"
-  },
-});
-
-
-export default (withStyles(useStyles)(InterestDetail));
+export default withStyles(useStyles)(InterestDetail);

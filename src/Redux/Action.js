@@ -36,6 +36,10 @@ export const PROFILE_GAP_ANALYSIS = {
   getpgalist: "getpgalist",
   getReportPreview: "getReportPreview",
   getReportStatus: "getReportStatus",
+<<<<<<< HEAD
+=======
+  saveSemesterDetails: "saveSemesterDetails",
+>>>>>>> release-v1.0.7
 };
 
 export const COLLEGES = {
@@ -505,4 +509,5 @@ export const PGA_REPORT = {
   getResumePdfPath: "getResumePdfPath",
   getResumePdfDownloadUrl: "getResumePdfDownloadUrl",
   getResumeQuestionnaire: "getResumeQuestionnaire",
+  postSpiderGraph: "postSpiderGraph",
 };

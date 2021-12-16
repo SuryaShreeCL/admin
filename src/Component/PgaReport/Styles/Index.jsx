@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { colors } from '../../../Constant/Variables';
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   contentContainer: {
     flexGrow: 1,
   },
@@ -17,7 +17,7 @@ export const useStyles = makeStyles(theme => ({
     padding: '20px',
   },
   containerStyle: {
-    height: '100%',
+    height: '80vh',
     overflowY: 'auto',
     padding: '20px',
     paddingBottom: 0,
@@ -65,6 +65,26 @@ export const useStyles = makeStyles(theme => ({
   },
   dropDownStyle: {
     width: '80%',
+  },
+  iconBorder: {
+    padding: '0px !important',
+    marginTop: '3px',
+  },
+  dialogPaper: {
+    background: '#FFFFFF',
+    borderRadius: '10px !important',
+    minWidth: '100% !important',
+    minHeight: '100% !important',
+    margin: '0 !important',
+  },
+  dialogRoot: {
+    '& .MuiDialog-scrollPaper': {
+      alignItems: 'flex-start !important',
+      padding: '60px 80px !important',
+    },
+  },
+  arrowStyle: {
+    color: '#000000',
   },
   paperBorder: {
     borderRadius: '10px',

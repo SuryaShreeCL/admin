@@ -241,8 +241,8 @@ class GeneralDetails extends Component {
             } else if (eachdata.fieldName === "postGraduateCollege") {
               arr.push({
                 fieldName: eachdata.fieldName,
-                oldValue: eachdata.oldPgcollege && eachdata.oldPgcollege.name,
-                newValue: eachdata.newPgcollege && eachdata.newPgcollege.name,
+                oldValue: eachdata.oldPgCollege && eachdata.oldPgCollege.name,
+                newValue: eachdata.newPgCollege && eachdata.newPgCollege.name,
                 comment: eachdata.comment,
                 updatedAt: eachdata.updatedAt,
                 updatedBy: eachdata.updatedBy,
