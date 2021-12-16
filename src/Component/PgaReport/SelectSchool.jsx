@@ -69,7 +69,9 @@ function SelectSchool(props) {
       title: "University Name",
       field: "university.name",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.university.name : "",
+        renderType === "row"
+          ? rowData.university && rowData.university.name
+          : "",
     },
     {
       title: "Program Name",
@@ -81,18 +83,20 @@ function SelectSchool(props) {
       title: "Region",
       field: "region.name",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.region.name : "",
+        renderType === "row" ? rowData.region && rowData.region.name : "",
     },
   ];
 
   const classes = useStyles();
 
   const getAndSetSearchSchoolList = (data) => {
-    searchSchool(props.match.params.productId,"program", data).then((response) => {
-      if (response.status === 200) {
-        setSearchSchoolList(response.data.data);
+    searchSchool(props.match.params.productId, "program", data).then(
+      (response) => {
+        if (response.status === 200) {
+          setSearchSchoolList(response.data.data);
+        }
       }
-    });
+    );
   };
 
   const getAndSetAddedSchool = () => {

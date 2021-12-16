@@ -98,7 +98,6 @@ class Index extends Component {
   };
 
   onMouseOver = (item) => {
-    console.log(item);
     this.setState({
       filterField: item,
     });
@@ -109,7 +108,7 @@ class Index extends Component {
     getSimilarStudentsByAcademic(
       this.props.match.params.studentId,
       this.props.academicTypes,
-      this.state.filterField,
+      this.state.filterField.name,
       submenu.id
     ).then((response) => {
       if (response.data && response.data.body.success) {
@@ -164,7 +163,6 @@ class Index extends Component {
 
   // function to add the row in the table
   handleRowAdd = (newData) => {
-    console.log(newData);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         this.setState({
@@ -336,7 +334,7 @@ class Index extends Component {
       !isEmptyString(this.state.subjectDetails.sgpa) &&
       !(this.state.subjectDetails.sgpa <= 0) &&
       !isEmptyString(this.state.subjectDetails.cgpa) &&
-      !(this.state.subjectDetails.cgpa <= 0) 
+      !(this.state.subjectDetails.cgpa <= 0)
       // !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
       // !(this.state.subjectDetails.formulaEmployed <= 0) &&
       // !isEmptyString(this.state.subjectDetails.percentage) &&
@@ -372,8 +370,7 @@ class Index extends Component {
         this.props.match.params.studentId,
         this.props.academicTypes,
         requestBody,
-        ((response) => {
-          console.log(response)
+        (response) => {
           if (response.data && response.data.success) {
             this.setState({
               snackMsg: "Saved Successfully",
@@ -392,7 +389,7 @@ class Index extends Component {
               snackOpen: true,
             });
           }
-        })
+        }
       );
     }
   };
@@ -641,7 +638,6 @@ class Index extends Component {
           }
         },
         editComponent: (props) => {
-          console.log(props.rowData.subjectDetailsUgPgDiploma);
           return (
             <DropDown
               classes={{ root: classes.examTypeStyle }}
@@ -736,7 +732,6 @@ class Index extends Component {
           }
         },
         editComponent: (props) => {
-          console.log(props.rowData.subjectDetailsUgPgDiploma);
           return (
             <DropDown
               classes={{ root: classes.examTypeStyle }}

@@ -1,9 +1,9 @@
-import { Dialog, Grid, IconButton, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { colors, HELPER_TEXT } from '../../Constant/Variables';
-import DropDown from '../Controls/DropDown';
-import TextFieldComponent from '../Controls/TextField';
-import BottomContainer from './BottomContainer';
+import { Dialog, Grid, IconButton, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { colors, HELPER_TEXT } from "../../Constant/Variables";
+import DropDown from "../Controls/DropDown";
+import TextFieldComponent from "../Controls/TextField";
+import BottomContainer from "./BottomContainer";
 import {
   AddButton,
   FlexView,
@@ -11,22 +11,22 @@ import {
   StyledButton,
   TransitionImg,
   WhiteBox,
-} from './Components/StyledComponents';
-import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
-import { useStyles } from './Styles/Index';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCourses } from '../../Actions/Course';
+} from "./Components/StyledComponents";
+import DeleteOutlineRoundedIcon from "@material-ui/icons/DeleteOutlineRounded";
+import { useStyles } from "./Styles/Index";
+import { useDispatch, useSelector } from "react-redux";
+import { getCourses } from "../../Actions/Course";
 import {
   deleteStudentSpecializationTrack,
   getDefaultCareerTrack,
   getSpecializationTrack,
   getStudentSpecializationTrack,
   saveStudentSpecializationTrack,
-} from '../../AsyncApiCall/PgaReport/SpecializationTrack';
-import { isEmptyObject } from '../Validation';
-import MySnackBar from '../MySnackBar';
-import Search from '../../Asset/icons/search.svg';
-import { generateCareerTracks } from '../../Actions/PgaReportAction';
+} from "../../AsyncApiCall/PgaReport/SpecializationTrack";
+import { isEmptyObject } from "../Validation";
+import MySnackBar from "../MySnackBar";
+import Search from "../../Asset/icons/search.svg";
+import { generateCareerTracks } from "../../Actions/PgaReportAction";
 function SpecializationTrack(props) {
   const [studentSpecializationTrack, setStudentSpecializationTrack] = useState([
     {
@@ -41,12 +41,12 @@ function SpecializationTrack(props) {
   const [careerTrackList, setCareerTrackList] = useState([]);
   const [snack, setSnack] = useState({
     snackOpen: false,
-    snackMsg: '',
-    snackColor: '',
+    snackMsg: "",
+    snackColor: "",
   });
   const [open, setOpen] = useState(false);
 
-  const { CourseList } = useSelector(state => state.CourseReducer);
+  const { CourseList } = useSelector((state) => state.CourseReducer);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -54,7 +54,7 @@ function SpecializationTrack(props) {
     getStudentSpecializationTrack(
       props.match.params.studentId,
       props.match.params.productId
-    ).then(response => {
+    ).then((response) => {
       if (response.status === 200) {
         if (response.data.data.length === 0) {
           setStudentSpecializationTrack([
@@ -75,12 +75,12 @@ function SpecializationTrack(props) {
 
   useEffect(() => {
     dispatch(getCourses());
-    getSpecializationTrack().then(response => {
+    getSpecializationTrack().then((response) => {
       if (response.status === 200) {
         setTrackNameList(response.data.data);
       }
     });
-    getDefaultCareerTrack().then(response => {
+    getDefaultCareerTrack().then((response) => {
       if (response.status === 200) {
         setCareerTrackList(response.data.data);
       }
@@ -108,7 +108,7 @@ function SpecializationTrack(props) {
   };
 
   const handleSave = () => {
-    let error = { value: false, text: '' };
+    let error = { value: false, text: "" };
     for (let index = 0; index < studentSpecializationTrack.length; index++) {
       if (isEmptyObject(studentSpecializationTrack[index].pgaTrack)) {
         error.value = true;
@@ -131,21 +131,23 @@ function SpecializationTrack(props) {
         props.match.params.studentId,
         props.match.params.productId,
         studentSpecializationTrack
-      ).then(response => {
+      ).then((response) => {
+        console.log(response);
         if (response.status === 200) {
+          console.log("yes");
           setSnack({
             snackMsg: "Saved Successfully",
             snackColor: "success",
             snackOpen: true,
           });
           getAndSetStudentSpecializationTrack();
-          props.handlePageChange('pgaResumeQuestionnaire');
+          props.handlePageChange("pgaResumeQuestionnaire");
         }
       });
     } else {
       setSnack({
         snackMsg: error.text,
-        snackColor: 'error',
+        snackColor: "error",
         snackOpen: true,
       });
     }
@@ -157,7 +159,7 @@ function SpecializationTrack(props) {
         props.match.params.studentId,
         props.match.params.productId,
         spec.id
-      ).then(response => {
+      ).then((response) => {
         if (response.status === 200) {
           getAndSetStudentSpecializationTrack();
         }
@@ -172,7 +174,7 @@ function SpecializationTrack(props) {
   };
 
   const { generateCareerTracksStatus } = useSelector(
-    state => state.PgaReportReducer
+    (state) => state.PgaReportReducer
   );
 
   useEffect(() => {
@@ -203,7 +205,7 @@ function SpecializationTrack(props) {
       <div className={classes.specializationWrapper}>
         <Grid container spacing={2}>
           <Grid item sm={7} md={7} xs={7} lg={7} xl={7}>
-            <Typography variant={'h5'}>
+            <Typography variant={"h5"}>
               Suggested Specialization Tracks
             </Typography>
           </Grid>
@@ -215,15 +217,15 @@ function SpecializationTrack(props) {
             lg={5}
             xl={5}
             container
-            justifyContent={'flex-end'}
+            justifyContent={"flex-end"}
           >
             <FlexView>
               <StyledButton
                 isOutlined={false}
-                variant={'contained'}
+                variant={"contained"}
                 onClick={handleCareerTrackClick}
               >
-                {'Generate Career Tracks'}
+                {"Generate Career Tracks"}
               </StyledButton>
               <AddButton onClick={handleAddClick} color={colors.primaryColor}>
                 Add
@@ -235,18 +237,18 @@ function SpecializationTrack(props) {
               <>
                 <Grid item md={3}>
                   <DropDown
-                    id='combo-box-demo'
+                    id="combo-box-demo"
                     options={trackNameList}
                     value={eachSpec.pgaTrack}
                     onChange={(e, value) =>
-                      handleDropDownChange(value, index, 'pgaTrack')
+                      handleDropDownChange(value, index, "pgaTrack")
                     }
-                    getOptionLabel={option => option.name}
-                    renderInput={params => (
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => (
                       <TextFieldComponent
                         {...params}
-                        label={'Plan Name'}
-                        variant='standard'
+                        label={"Plan Name"}
+                        variant="standard"
                       />
                     )}
                   />
@@ -254,54 +256,54 @@ function SpecializationTrack(props) {
                 <Grid item md={9}></Grid>
                 <Grid item md={3}>
                   <DropDown
-                    id='combo-box-demo'
+                    id="combo-box-demo"
                     options={careerTrackList}
                     value={eachSpec.pgaCareerTrack}
                     onChange={(e, value) =>
-                      handleDropDownChange(value, index, 'pgaCareerTrack')
+                      handleDropDownChange(value, index, "pgaCareerTrack")
                     }
-                    getOptionLabel={option => option.name}
-                    renderInput={params => (
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => (
                       <TextFieldComponent
                         {...params}
-                        label='Career Track'
-                        variant='standard'
+                        label="Career Track"
+                        variant="standard"
                       />
                     )}
                   />
                 </Grid>
                 <Grid item md={4}>
                   <DropDown
-                    id='combo-box-demo'
+                    id="combo-box-demo"
                     options={CourseList}
                     value={eachSpec.selectedCoursesOne}
                     onChange={(e, value) =>
-                      handleDropDownChange(value, index, 'selectedCoursesOne')
+                      handleDropDownChange(value, index, "selectedCoursesOne")
                     }
-                    getOptionLabel={option => option.name}
-                    renderInput={params => (
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => (
                       <TextFieldComponent
                         {...params}
-                        label='Course One'
-                        variant='standard'
+                        label="Course One"
+                        variant="standard"
                       />
                     )}
                   />
                 </Grid>
                 <Grid item md={4}>
                   <DropDown
-                    id='combo-box-demo'
+                    id="combo-box-demo"
                     options={CourseList}
                     value={eachSpec.selectedCoursesTwo}
                     onChange={(e, value) =>
-                      handleDropDownChange(value, index, 'selectedCoursesTwo')
+                      handleDropDownChange(value, index, "selectedCoursesTwo")
                     }
-                    getOptionLabel={option => option.name}
-                    renderInput={params => (
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => (
                       <TextFieldComponent
                         {...params}
-                        label='Course Two'
-                        variant='standard'
+                        label="Course Two"
+                        variant="standard"
                       />
                     )}
                   />
@@ -310,11 +312,11 @@ function SpecializationTrack(props) {
                   item
                   md={1}
                   container
-                  justifyContent={'flex-end'}
-                  alignItems={'center'}
+                  justifyContent={"flex-end"}
+                  alignItems={"center"}
                 >
                   <IconButton onClick={() => handleDelete(eachSpec, index)}>
-                    <DeleteOutlineRoundedIcon color={'secondary'} />
+                    <DeleteOutlineRoundedIcon color={"secondary"} />
                   </IconButton>
                 </Grid>
               </>
@@ -327,8 +329,8 @@ function SpecializationTrack(props) {
         onClose={() =>
           setSnack({
             snackOpen: false,
-            snackMsg: '',
-            snackColor: '',
+            snackMsg: "",
+            snackColor: "",
           })
         }
         snackOpen={snack.snackOpen}
@@ -349,10 +351,10 @@ function SpecializationTrack(props) {
 }
 
 const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
+  { title: "The Shawshank Redemption", year: 1994 },
+  { title: "The Godfather", year: 1972 },
+  { title: "The Godfather: Part II", year: 1974 },
+  { title: "The Dark Knight", year: 2008 },
 ];
 
 export default SpecializationTrack;
