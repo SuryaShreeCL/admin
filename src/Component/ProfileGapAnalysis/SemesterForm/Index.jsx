@@ -106,10 +106,11 @@ class Index extends Component {
 
   // Getting and setting student match list in state
   getAndSetStudentMatch = (submenu) => {
+    console.log(this.state.filterField);
     getSimilarStudentsByAcademic(
       this.props.match.params.studentId,
       this.props.academicTypes,
-      this.state.filterField,
+      this.state.filterField.name,
       submenu.id
     ).then((response) => {
       if (response.data && response.data.body.success) {
@@ -336,7 +337,7 @@ class Index extends Component {
       !isEmptyString(this.state.subjectDetails.sgpa) &&
       !(this.state.subjectDetails.sgpa <= 0) &&
       !isEmptyString(this.state.subjectDetails.cgpa) &&
-      !(this.state.subjectDetails.cgpa <= 0) 
+      !(this.state.subjectDetails.cgpa <= 0)
       // !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
       // !(this.state.subjectDetails.formulaEmployed <= 0) &&
       // !isEmptyString(this.state.subjectDetails.percentage) &&
@@ -372,8 +373,8 @@ class Index extends Component {
         this.props.match.params.studentId,
         this.props.academicTypes,
         requestBody,
-        ((response) => {
-          console.log(response)
+        (response) => {
+          console.log(response);
           if (response.data && response.data.success) {
             this.setState({
               snackMsg: "Saved Successfully",
@@ -392,7 +393,7 @@ class Index extends Component {
               snackOpen: true,
             });
           }
-        })
+        }
       );
     }
   };
