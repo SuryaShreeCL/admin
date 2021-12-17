@@ -98,10 +98,7 @@ export default function SetCutOff(props) {
                 cutOffScore: values.cutOffScore,
                 onConfirm: () => {
                   dispatch(
-                    setCutOffScore({
-                      testQuestionSetId: values.id,
-                      cutOffScore: values.cutOffScore,
-                    })
+                    setCutOffScore(values)
                   );
                   setOpenCutOff(false);
                   setConfirmSubmit({

@@ -1,5 +1,8 @@
 import { TEST } from '../Redux/Action';
 import axios from 'axios';
+import CleverTapWeb from 'clevertap-web';
+
+CleverTapWeb.initialize('TEST-794-R67-6R6Z');
 
 export const listTests = (status, page = 1, search = '') => async (dispatch) => {
   try {
@@ -207,16 +210,26 @@ export const scheduleIt = (id) => {
   });
 };
 
-export const setCutOffScore = (testcutoff) => {
+export const setCutOffScore = (test) => {
+  
   return (dispatch) => {
+    const payload={
+      testQuestionSetId: test.id,
+      cutOffScore: test.cutOffScore,
+    }
+
     axios
-      .put(`${process.env.REACT_APP_API_URL}/api/v1/testquestionset/cutoffscore`, testcutoff, {
+      .put(`${process.env.REACT_APP_API_URL}/api/v1/testquestionset/cutoffscore`, payload, {
         headers: {
           admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       })
       .then((result) => {
+        if(result.status === 200){
+
+        }
+        console.log(result);
         console.log(result.data);
 
         dispatch({
