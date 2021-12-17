@@ -9,6 +9,9 @@ import Login from "./Component/Login";
 import RootContainer from "./Component/RootContainer";
 import { rootLoginPath, rootPath } from "./Component/RoutePaths";
 import ReduxStore from "./Redux/Store";
+import CleverTapWeb from 'clevertap-web';
+
+CleverTapWeb.initialize(process.env.REACT_APP_CLEVERTAP_ID);
 
 function App(props) {
   React.useEffect(() => {

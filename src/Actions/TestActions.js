@@ -2,7 +2,6 @@ import { TEST } from '../Redux/Action';
 import axios from 'axios';
 import CleverTapWeb from 'clevertap-web';
 
-CleverTapWeb.initialize('TEST-794-R67-6R6Z');
 
 export const listTests = (status, page = 1, search = '') => async (dispatch) => {
   try {
@@ -226,11 +225,12 @@ export const setCutOffScore = (test) => {
         },
       })
       .then((result) => {
-        if(result.status === 200){
-
-        }
         console.log(result);
-        console.log(result.data);
+        console.log(test.wallPost.linkedEvent.eventTitle);
+        console.log(test.name);
+        if(result.status === 200){
+          CleverTapWeb.event('Test Results out', { 'Name of the Drive' : test?.wallPost?.linkedEvent?.eventTitle, 'Test Name': test.name });
+        }
 
         dispatch({
           type: TEST.CUTOFF_SUCCESS,
