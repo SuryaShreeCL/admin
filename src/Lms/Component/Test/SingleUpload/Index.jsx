@@ -20,6 +20,7 @@ import DropDownRack from "./DropDownRack";
 import Explanation from "./Explanation";
 import PopUps from "./PopUps";
 import Question from "./Question";
+import QuestionPreview from "./preview/Index";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -48,6 +49,7 @@ export class Index extends Component {
       url: "",
       alert: null,
       editableData: null,
+      openPreview: true,
     };
   }
 
@@ -518,6 +520,16 @@ export class Index extends Component {
     return new Set(choices).size !== choices.length;
   };
 
+  handlePreviewClick = () => {
+    this.setState({ openPreview: true });
+
+    // this.props.history.push(gmat_preview);
+  };
+
+  handleClosePreview = () => {
+    this.setState({ openPreview: false });
+  };
+
   render() {
     const { subjects, concepts, topics, editData } = this.props;
 
@@ -537,6 +549,7 @@ export class Index extends Component {
       question,
       description,
       alert,
+      openPreview: open,
     } = this.state;
 
     const {
@@ -563,7 +576,11 @@ export class Index extends Component {
       handleQuestionChange,
       handleDescriptionChange,
       handlePopUpClose,
+      handlePreviewClick,
+      handleClosePreview,
     } = this;
+
+    const { history, location, match } = this.props;
 
     const difficulty = [
       { id: "Easy", title: "Easy" },
@@ -618,6 +635,7 @@ export class Index extends Component {
     const buttonsProps = {
       handleSaveClick,
       handleCancelClick,
+      handlePreviewClick,
     };
 
     const questionProps = {
@@ -630,6 +648,14 @@ export class Index extends Component {
     const popUpProps = {
       handlePopUpClose,
       alert,
+    };
+
+    const questionPreviewProps = {
+      open,
+      handleClose: handleClosePreview,
+      history,
+      location,
+      match,
     };
 
     const id = QueryString.parse(this.props.location.search, {
@@ -647,6 +673,7 @@ export class Index extends Component {
         </C2>
         <Buttons {...buttonsProps} />
         <PopUps {...popUpProps} />
+        <QuestionPreview {...questionPreviewProps} />
       </div>
     );
   }

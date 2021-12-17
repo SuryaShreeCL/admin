@@ -419,8 +419,7 @@ export default function Routes(props) {
         path={bulk_upload + "/:testQuestionSetId/:sectionId?/:courseId?"}
         component={BulkUpload}
       />
-      <Route export path={single_upload} component={SingleUpload} />
-      <Route export path={gmat_preview} component={GmatPreview} />
+      <Route export exact path={single_upload} component={SingleUpload} />
     </Switch>
   );
 }

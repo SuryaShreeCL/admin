@@ -4,7 +4,7 @@ import { ButtonBox, buttonTheme } from "../../../Assets/StyledTest";
 import PlayArrowOutlinedIcon from "@material-ui/icons/PlayArrowOutlined";
 
 function Buttons(props) {
-  const { handleSaveClick, handleCancelClick } = props;
+  const { handleSaveClick, handleCancelClick, handlePreviewClick } = props;
   return (
     <ButtonBox>
       <ThemeProvider theme={buttonTheme}>
@@ -17,6 +17,7 @@ function Buttons(props) {
               style={{ fontSize: "2.1875rem" }}
             />
           }
+          onClick={handlePreviewClick}
         >
           Preview
         </Button>

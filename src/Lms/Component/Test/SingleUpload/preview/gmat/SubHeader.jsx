@@ -14,7 +14,7 @@ import BookmarkIcon from "@material-ui/icons/Bookmark";
 
 function SubHeader(props) {
   const { sectionTitle, section } = props;
-  const { pathname: pathName } = props.location;
+  // const { pathname: pathName } = props.location;
 
   return (
     <Main>
@@ -23,18 +23,16 @@ function SubHeader(props) {
       ) : (
         <span />
       )}
-      {pathName === "" && (
-        <Typography variant="body1" className="inline_class">
-          <IconButton onClick={props.bookmarkIconClick}>
-            {props.isBookmarked ? (
-              <BookmarkIcon style={{ fill: "white" }} />
-            ) : (
-              <BookmarkBorderIcon style={{ fill: "white" }} />
-            )}
-          </IconButton>
-          &nbsp; Bookmark
-        </Typography>
-      )}
+      <Typography variant="body1" className="inline_class">
+        <IconButton onClick={props.bookmarkIconClick}>
+          {props.isBookmarked ? (
+            <BookmarkIcon style={{ fill: "white" }} />
+          ) : (
+            <BookmarkBorderIcon style={{ fill: "white" }} />
+          )}
+        </IconButton>
+        &nbsp; Bookmark
+      </Typography>
     </Main>
   );
 }

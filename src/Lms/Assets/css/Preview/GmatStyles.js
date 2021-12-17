@@ -15,7 +15,9 @@ import {
 } from "@material-ui/core";
 import { CloseSharp as MuiCloseSharp } from "@material-ui/icons";
 import styled from "styled-components";
+// import montserrat from url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap')
 
+const font = "'Montserrat', sans-serif";
 export const gmatTheme = createTheme({
   palette: {
     primary: {
@@ -36,6 +38,8 @@ export const gmatTheme = createTheme({
     secondaryBackground: "#fff",
   },
   typography: {
+    fontFamily: ["Montserrat !important"].join(","),
+
     h1: {
       fontWeight: "500",
       fontSize: "1.25rem",
@@ -87,6 +91,7 @@ export const gmatTheme = createTheme({
 
 export const MainStyle = styled.div`
   padding: ${gmatTheme.spacing(2, 3)};
+  font-family: "Montserrat !important";
 `;
 
 export const Header = styled.div`

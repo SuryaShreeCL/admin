@@ -49,6 +49,8 @@ import ClockIcon from "../../../../../Assets/icons/ClockIconWhite.svg";
 //   removeDemoBookmark,
 // } from "../../../../../redux/action/Practice";
 import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
+import Transition from "../../../../../Utils/Transition";
+import Dialog from "@material-ui/core/Dialog";
 
 // import { withTranslation } from "react-i18next";
 
@@ -428,6 +430,8 @@ export class GmatLayout extends Component {
     const { pathname: pathName } = this.props.location;
     const { t } = this.props;
 
+    const { open, handleClose } = this.props;
+
     return (
       <Box style={{ height: "100vh" }}>
         <ThemeProvider theme={gmatTheme}>
@@ -444,38 +448,26 @@ export class GmatLayout extends Component {
                 </Typography>
 
                 <Typography variant="body1">
-                  <TimerBox>
-                    hello
-                    {/* <Timer
-                        time={1000 * this.props.testResponse.data.remainingTime}
-                        getRemainingTime={time => this.setState({ time })}
-                        reset={this.state.resetTime}
-                        stop={this.state.stopTimer}
-                      /> */}
-                  </TimerBox>
+                  <TimerBox>23:59:59</TimerBox>
                 </Typography>
               </Inline>
               <Inline>
                 <Filler />
                 <img src={MessageIcon} alt="" className="white_clock" />
-                <Typography variant="body1">
-                  {this.props.testResponse.data.currentQuestionNo}
-                  {` of `}
-                  {this.props.testResponse.data.totalNoOfQuestion}
-                </Typography>
+                <Typography variant="body1">{`1 of 99`}</Typography>
               </Inline>
             </HeaderBox>
-            // )}
           </Header>
           <SubHeader
             sectionTitle={
               // !_.isEmpty(this.props.section) &&
-              this.props.section.data.testSection.name
+              // this.props.section.data.testSection.name
+              "Section 99"
             }
-            section={section}
+            section={true}
             location={this.props.location}
-            bookmarkIconClick={this.handleBookmarkIconClick}
-            isBookmarked={this.state.isBookmarked}
+            // bookmarkIconClick={this.handleBookmarkIconClick}
+            isBookmarked={false}
           />
           <Content>
             {/* <Test {...this} {...this.props} /> */}
@@ -514,22 +506,24 @@ export class GmatLayout extends Component {
 
 const mapStateToProps = state => {
   return {
-    getInstructionsResponse: state.testReducer.instructions,
-    section: state.testReducer.testSection,
-    testResponse: state.testReducer.testResponse,
+    // getInstructionsResponse: state.testReducer.instructions,
+    // section: state.testReducer.testSection,
+    // testResponse: state.testReducer.testResponse,
   };
 };
 
-export default connect(mapStateToProps, {
-  // ()=>{},
-  // getInstructions,
-  // getTestSection,
-  // sectionOrder,
-  // cleanUp,
-  // pauseExam,
-  // startTest2,
-  // submitAnswer,
-  // // retakeExam,
-  // AddBookmarks,
-  // removeDemoBookmark,
-})(GmatLayout);
+export default connect(mapStateToProps, {})(GmatLayout);
+
+// {
+//   ()=>{},
+//   // getInstructions,
+//   // getTestSection,
+//   // sectionOrder,
+//   // cleanUp,
+//   // pauseExam,
+//   // startTest2,
+//   // submitAnswer,
+//   // // retakeExam,
+//   // AddBookmarks,
+//   // removeDemoBookmark,
+// }
