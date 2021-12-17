@@ -165,6 +165,47 @@ export const scheduleTest = (id, dates) => async (dispatch) => {
   }
 };
 
+export const setCutOffScore = (test) => async (dispatch) => {
+  console.log('inside cut off score');
+  const payload = {
+    testQuestionSetId: test.id,
+    cutOffScore: test.cutOffScore,
+  };
+  try {
+    dispatch({
+      type: TEST.CUTOFF_REQUEST,
+    });
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_API_URL}/api/v1/testquestionset/cutoffscore`,
+      payload,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      }
+    );
+    dispatch({
+      type: TEST.CUTOFF_SUCCESS,
+      payload: data.data,
+    });
+
+    console.log('cut off score success');
+    CleverTapWeb.event('Test Results out', {
+      'Name of the Drive': test?.wallPost?.linkedEvent?.eventTitle,
+      'Test Name': test.name,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message ? error.response.data.message : error.message;
+    dispatch({
+      type: TEST.CUTOFF_FAIL,
+      payload: message,
+    });
+  }
+};
+
 export const getTestDetails = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -206,49 +247,4 @@ export const scheduleIt = (id) => {
   }).then(function(response) {
     console.log(response);
   });
-};
-
-export const setCutOffScore = (test) => {
-  console.log('CUT OFF SCORE');
-  return (dispatch) => {
-    const payload = {
-      testQuestionSetId: test.id,
-      cutOffScore: test.cutOffScore,
-    };
-
-    axios
-      .put(`${process.env.REACT_APP_API_URL}/api/v1/testquestionset/cutoffscore`, payload, {
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
-        },
-      })
-      .then((result) => {
-        console.log(result);
-        console.log(test.wallPost.linkedEvent.eventTitle);
-        console.log(test.name);
-        if (result.status === 200) {
-          CleverTapWeb.event('Test Results out', {
-            'Name of the Drive': test?.wallPost?.linkedEvent?.eventTitle,
-            'Test Name': test.name,
-          });
-        }
-
-        dispatch({
-          type: TEST.CUTOFF_SUCCESS,
-          payload: result.data,
-        });
-      })
-      .catch((error) => {
-        const message =
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message;
-
-        dispatch({
-          type: TEST.CUTOFF_FAIL,
-          payload: message,
-        });
-      });
-  };
 };
