@@ -31,7 +31,6 @@ import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
 import { listTests, deleteTest } from '../../../Actions/TestActions';
 import ScheduleLater from '../Components/ScheduleLater';
-import clevertap from 'clevertap-web-sdk';
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -140,7 +139,6 @@ export default function LiveTest() {
   };
 
   useEffect(() => {
-    clevertap.event.push('TEST PAGE viewed');
     dispatch(listTests('Live', page));
   }, [dispatch, page]);
 
