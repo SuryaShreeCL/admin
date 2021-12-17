@@ -191,13 +191,16 @@ export const setCutOffScore = (test) => async (dispatch) => {
     });
 
     console.log('test details', test);
-    console.log('success', test?.linkedEvent?.eventTitle, test.name);
+    console.log('success', data);
 
-    //On Success capture clevertap event
-    clevertap.event.push('Test Results out', {
-      'Name of the Drive': test?.linkedEvent?.eventTitle,
-      'Test Name': test.name,
-    });
+    if (data.success) {
+      console.log('event sent');
+      //On Success capture clevertap event
+      clevertap.event.push('Test Results out', {
+        'Name of the Drive': test?.linkedEvent?.eventTitle,
+        'Test Name': test.name,
+      });
+    }
   } catch (error) {
     const message =
       error.response && error.response.data.message ? error.response.data.message : error.message;
