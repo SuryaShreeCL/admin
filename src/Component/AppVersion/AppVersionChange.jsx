@@ -56,8 +56,6 @@ const AppVersionChange = () => {
 
   const { loading, version, error } = useSelector((state) => state.getAppVersionReducer);
 
-  console.log(version);
-
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
   const [confirmDialog, setConfirmDialog] = useState({

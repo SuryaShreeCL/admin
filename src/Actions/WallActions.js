@@ -211,7 +211,7 @@ export const updateWallPost = (post) => async (dispatch) => {
           Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
-    );
+    ).then(res=> console.log(res));
     dispatch({
       type: WALL.UPDATE_SUCCESS,
       payload: data,

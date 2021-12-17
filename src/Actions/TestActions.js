@@ -206,3 +206,34 @@ export const scheduleIt = (id) => {
     console.log(response);
   });
 };
+
+export const setCutOffScore = (testcutoff) => {
+  return (dispatch) => {
+    axios
+      .put(`${process.env.REACT_APP_API_URL}/api/v1/testquestionset/cutoffscore`, testcutoff, {
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      })
+      .then((result) => {
+        console.log(result.data);
+
+        dispatch({
+          type: TEST.CUTOFF_SUCCESS,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        const message =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+
+        dispatch({
+          type: TEST.CUTOFF_FAIL,
+          payload: message,
+        });
+      });
+  };
+};

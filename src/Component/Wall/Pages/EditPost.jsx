@@ -81,6 +81,7 @@ const EditPost = () => {
     isScheduled: false,
     isVideoUrlEnabled: false,
     videoUrl: '',
+    jobRole: '',
   });
 
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -134,6 +135,7 @@ const EditPost = () => {
 
   const validationSchema = yup.object({
     caption: yup.string().required('caption is required'),
+    jobRole: yup.string().required('Job role is required'),
   });
 
   return (
@@ -248,6 +250,18 @@ const EditPost = () => {
                     </Grid>
                   ) : (
                     <Grid item>
+                      <Controls.Input
+                        label='Job Role'
+                        value={values.jobRole}
+                        name='jobRole'
+                        onChange={handleChange}
+                        error={touched.jobRole && Boolean(errors.jobRole)}
+                        multiline
+                        style={{
+                          width: '80%',
+                          marginTop: '18px',
+                        }}
+                      />
                       <Controls.Input
                         label='Type caption here..'
                         value={values.caption}

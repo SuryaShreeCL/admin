@@ -57,8 +57,7 @@ const useStyles = makeStyles((theme) => ({
 const headCells = [
   { id: 'name', label: 'Test Name' },
   { id: 'duration', label: 'Duration', disableSorting: true },
-  { id: 'createdAt', label: 'Created' },
-  { id: 'createdby', label: 'Created By', disableSorting: true },
+  { id: 'createdAt', label: 'Published' },
   { id: 'attemptedStudents', label: 'Attempted' },
   { id: 'status', label: 'Status', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
@@ -197,7 +196,6 @@ export default function LiveTest() {
                     {item.duration}
                   </TableCell>
                   <TableCell>{moment(item.createdAt).calendar()}</TableCell>
-                  <TableCell>{item.createdBy}</TableCell>
                   <TableCell>{item.attemptedStudents}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>
@@ -215,7 +213,7 @@ export default function LiveTest() {
                     <Controls.ActionButton onClick={() => onSchedule(item)}>
                       <ScheduleIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton
+                    {/* <Controls.ActionButton
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
@@ -228,7 +226,7 @@ export default function LiveTest() {
                       }}
                     >
                       <DeleteIcon fontSize='small' color='secondary' />
-                    </Controls.ActionButton>
+                    </Controls.ActionButton> */}
                   </TableCell>
                 </TableRow>
               ))}
