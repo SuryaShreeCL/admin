@@ -2,7 +2,6 @@ import { TEST } from '../Redux/Action';
 import axios from 'axios';
 import CleverTapWeb from 'clevertap-web';
 
-
 export const listTests = (status, page = 1, search = '') => async (dispatch) => {
   try {
     dispatch({ type: TEST.LIST_REQUEST });
@@ -210,12 +209,12 @@ export const scheduleIt = (id) => {
 };
 
 export const setCutOffScore = (test) => {
-  
+  console.log('CUT OFF SCORE');
   return (dispatch) => {
-    const payload={
+    const payload = {
       testQuestionSetId: test.id,
       cutOffScore: test.cutOffScore,
-    }
+    };
 
     axios
       .put(`${process.env.REACT_APP_API_URL}/api/v1/testquestionset/cutoffscore`, payload, {
@@ -228,8 +227,11 @@ export const setCutOffScore = (test) => {
         console.log(result);
         console.log(test.wallPost.linkedEvent.eventTitle);
         console.log(test.name);
-        if(result.status === 200){
-          CleverTapWeb.event('Test Results out', { 'Name of the Drive' : test?.wallPost?.linkedEvent?.eventTitle, 'Test Name': test.name });
+        if (result.status === 200) {
+          CleverTapWeb.event('Test Results out', {
+            'Name of the Drive': test?.wallPost?.linkedEvent?.eventTitle,
+            'Test Name': test.name,
+          });
         }
 
         dispatch({
