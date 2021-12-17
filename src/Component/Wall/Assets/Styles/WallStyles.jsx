@@ -84,7 +84,7 @@ export const WebinarTabContainer = styled.section`
       box-shadow: 0px 0px 8px rgba(1, 20, 70, 0.1);
       border-radius: 8px;
       min-width: 30%;
-      max-width: 33%;
+      max-width: 40%;
       margin: 1rem 1.2rem 1rem 0;
 
       h6 {
