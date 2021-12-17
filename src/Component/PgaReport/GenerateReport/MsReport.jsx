@@ -130,6 +130,12 @@ const MyDocument = ({
         <View style={{ ...styles.p_10, ...styles.heading }}>
           <Text style={styles.colorBoxTitle}>{title}</Text>
         </View>
+        <Text style={{ ...styles.small, ...styles.p_10 }}>
+          {descriptionOne}
+        </Text>
+        <Text style={{ ...styles.small, ...styles.p_15 }}>
+          {descriptionTwo}
+        </Text>
         {spiderGraph.map((data) => (
           <View style={styles.spider_graph_card}>
             <View style={styles.plan_left_view}>
@@ -149,13 +155,13 @@ const MyDocument = ({
                 {data.plan}
               </Text>
               <Text style={styles.spider_graph_left_title_text}>
-                {data.plan}
+                {data.career}
               </Text>
               <Text style={styles.spider_graph_left_title_text}>
-                {data.plan}
+                {data.courseOne}
               </Text>
               <Text style={styles.spider_graph_left_title_text}>
-                {data.plan}
+                {data.courseTwo}
               </Text>
             </View>
             <View style={styles.verticalLine} />
@@ -372,7 +378,7 @@ const styles = StyleSheet.create({
   spider_graph_card: {
     border: " 2px solid #ac9eca",
     height: "150px",
-    width: "574px",
+    width: "515px",
     borderRadius: "6px",
     marginTop: "5px",
     marginBottom: "10px",
