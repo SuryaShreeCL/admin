@@ -51,7 +51,7 @@ export default function SetCutOff(props) {
   const { openCutOff, setOpenCutOff, data, type, listTests, page } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  
+
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
   const [confirmSubmit, setConfirmSubmit] = useState({
@@ -66,6 +66,7 @@ export default function SetCutOff(props) {
     cutOffScore: yup
       .number()
       .typeError('Cut off score is a required field')
+      .min(1, 'Negative number not allowed')
       .max(data.score, `Cut off score cannot be higher than ${data.score} for the test.`),
   });
 
@@ -97,9 +98,7 @@ export default function SetCutOff(props) {
                 testName: data.name,
                 cutOffScore: values.cutOffScore,
                 onConfirm: () => {
-                  dispatch(
-                    setCutOffScore(values)
-                  );
+                  dispatch(setCutOffScore(values));
                   setOpenCutOff(false);
                   setConfirmSubmit({
                     ...confirmSubmit,

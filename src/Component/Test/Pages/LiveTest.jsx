@@ -82,7 +82,7 @@ export default function LiveTest() {
   };
 
   const { loading, error, tests } = useSelector((state) => state.testListReducer);
-  let totalPages = tests.totalPages;
+  let totalPages = tests?.totalPages;
 
   const [scheduler, setScheduler] = useState(false);
   const [data, setData] = useState('');
