@@ -36,6 +36,7 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import Model from "../Utils/SectionModel";
 import Status from "../Utils/Status";
 import MySnack from "../MySnackBar";
+import { getVariantStepsById } from "../../Actions/ProductAction";
 
 const theme = createMuiTheme({
   overrides: {
@@ -161,6 +162,7 @@ class AspirationDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
+    this.props.getVariantStepsById(this.props.match.params.productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -634,7 +636,10 @@ class AspirationDetails extends Component {
                 }
               /> */}
             </div>
-            <IconButton onClick={this.handleClick.bind(this)}>
+            <IconButton
+              disabled={this.props.variantStepList.adminObComplete}
+              onClick={this.handleClick.bind(this)}
+            >
               <img src={Pencil} height={17} width={17} />
             </IconButton>
           </div>
@@ -832,6 +837,7 @@ class AspirationDetails extends Component {
               color={"primary"}
               size={"small"}
               onClick={this.updateAspiration}
+              disabled={this.props.variantStepList.adminObComplete}
             >
               Save Changes
             </PrimaryButton>
@@ -863,6 +869,8 @@ const mapStateToProps = (state) => {
     ...state.AspirationReducer,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getAspirationQuestionList: state.AspirationReducer.getAspirationQuestion,
+    variantStepList: state.ProductReducer.variantStepList,
+
     // getAllTermsList: state.AspirationReducer.getAllTerms
   };
 };
@@ -879,4 +887,5 @@ export default connect(mapStateToProps, {
   viewStudentStatus,
   updateVerificationStatus,
   getAspirationQuestion,
+  getVariantStepsById,
 })(AspirationDetails);

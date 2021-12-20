@@ -91,13 +91,8 @@ class Index extends Component {
     };
   }
 
-  handleSubItemClick = (subItem) => {
-    this.setState({
-      filterSubItem: subItem,
-    });
-  };
-
   onMouseOver = (item) => {
+    console.log(item, "IIIIIIIIIIIIIIIIIIIIII");
     this.setState({
       filterField: item,
     });
@@ -105,6 +100,7 @@ class Index extends Component {
 
   // Getting and setting student match list in state
   getAndSetStudentMatch = (submenu) => {
+    console.log(submenu);
     getSimilarStudentsByAcademic(
       this.props.match.params.studentId,
       this.props.academicTypes,
@@ -262,14 +258,23 @@ class Index extends Component {
     }
   };
 
+  handleSubItemClick = (subItem) => {
+    console.log("8888888888888888888888");
+
+    this.setState({
+      filterSubItem: subItem,
+    });
+    this.getAndSetStudentMatch("");
+    this.getAndSetDistinctMatch("");
+  };
+
   componentDidMount() {
     this.props.viewSemesterDetails(
       this.props.match.params.studentId,
       this.props.clickedSem.data,
       this.fetchData
     );
-    this.getAndSetStudentMatch("");
-    this.getAndSetDistinctMatch("");
+
     this.props.getBranches();
     this.getDegreeTypes(this.props.academicTypes);
   }
@@ -621,22 +626,35 @@ class Index extends Component {
       {
         title: "Type",
         field: "subjectDetailsUgPgDiploma.type",
-        render: (rowData, renderType) =>
-          renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
-        validate: (rowData) => {
-          if (!isEmptyObject(rowData)) {
-            if (
-              !isEmptyString(
-                rowData.subjectDetailsUgPgDiploma &&
-                  rowData.subjectDetailsUgPgDiploma.type
-              )
-            ) {
-              return true;
+        render: (rowData, renderType) => {
+          if (renderType === "row") {
+            console.log(
+              rowData.subjectDetailsUgPgDiploma,
+              "]]]]]]]]]]]]]]]]]]]"
+            );
+            if (rowData.subjectDetailsUgPgDiploma) {
+              return rowData.subjectDetailsUgPgDiploma.type;
             } else {
-              return { isValid: false };
+              return "";
             }
           }
         },
+        // render: (rowData, renderType) =>
+        //   renderType === "row" ? rowData.subjectDetailsUgPgDiploma.type : "",
+        // validate: (rowData) => {
+        //   if (!isEmptyObject(rowData)) {
+        //     if (
+        //       !isEmptyString(
+        //         rowData.subjectDetailsUgPgDiploma &&
+        //           rowData.subjectDetailsUgPgDiploma.type
+        //       )
+        //     ) {
+        //       return true;
+        //     } else {
+        //       return { isValid: false };
+        //     }
+        //   }
+        // },
         editComponent: (props) => {
           return (
             <DropDown
@@ -644,8 +662,7 @@ class Index extends Component {
               id="combo-box-demo"
               options={this.examType}
               getOptionLabel={(option) => option}
-              value={props.rowData.subjectDetailsUgPgDiploma}
-              fullWidth
+              style={{ width: "100px" }}
               onChange={(e, value) => {
                 props.onChange(value);
               }}
@@ -659,6 +676,10 @@ class Index extends Component {
                   }
                   label="Type"
                   variant="standard"
+                  value={
+                    props.rowData.subjectDetailsUgPgDiploma &&
+                    props.rowData.subjectDetailsUgPgDiploma.type
+                  }
                 />
               )}
             />
@@ -738,7 +759,6 @@ class Index extends Component {
               id="combo-box-demo"
               options={this.resultType}
               getOptionLabel={(option) => option}
-              value={props.rowData.subjectDetailsUgPgDiploma}
               fullWidth
               onChange={(e, value) => {
                 props.onChange(value);
@@ -755,6 +775,7 @@ class Index extends Component {
                   }
                   label="Pass/Fail"
                   variant="standard"
+                  value={props.rowData.subjectDetailsUgPgDiploma}
                 />
               )}
             />
