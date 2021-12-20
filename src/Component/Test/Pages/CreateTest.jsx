@@ -20,7 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories, listWallPosts } from '../../../Actions/WallActions';
+import { getWallCategories, listAllWallPosts, listWallPosts } from '../../../Actions/WallActions';
 import { createTest, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import moment from 'moment';
@@ -106,7 +106,7 @@ const CreateTest = () => {
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
-    dispatch(listWallPosts('Live', true));
+    dispatch(listAllWallPosts('Live', true));
     window.sessionStorage.removeItem('questionSetId');
     window.sessionStorage.removeItem('questionSectionId');
   }, [dispatch]);
@@ -116,22 +116,6 @@ const CreateTest = () => {
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
-    if (values.name.length < 1) {
-      setNotify({
-        isOpen: true,
-        message: 'Test name cannot be empty',
-        type: 'error',
-      });
-      return false;
-    }
-    if (values.descriptionTitle.length < 1) {
-      setNotify({
-        isOpen: true,
-        message: 'Description title cannot be empty',
-        type: 'error',
-      });
-      return false;
-    }
     if (values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
@@ -158,7 +142,15 @@ const CreateTest = () => {
   };
 
   const validationSchema = yup.object({
-    nameDescription: yup.string().required('test instructions required'),
+    nameDescription: yup.string().required('Test instructions required'),
+    descriptionTitle: yup.string().required('Description titlie required'),
+    name: yup
+      .string()
+      .required()
+      .matches(
+        /^([\w,:\s-]*)$/,
+        'Only [-,_] is accepted, any other special characters are not accepted'
+      ),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -230,6 +222,8 @@ const CreateTest = () => {
                         name='name'
                         style={{ width: '100%' }}
                         value={values.name}
+                        helperText={touched.name && errors.name}
+                        error={touched.name && Boolean(errors.name)}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -259,7 +253,7 @@ const CreateTest = () => {
                     </Grid>
                     <Grid item style={{ width: '30%', zIndex: '77', cursor: 'no-drop' }}>
                       <Autocomplete
-                        options={posts}
+                        options={posts?.content}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
                         disabled={loading || values.wallCategory.length > 0}
@@ -278,6 +272,8 @@ const CreateTest = () => {
                       name='descriptionTitle'
                       style={{ width: '100%', marginTop: '1.2rem', marginBottom: '10px' }}
                       value={values.descriptionTitle}
+                      helperText={touched.descriptionTitle && errors.descriptionTitle}
+                      error={touched.descriptionTitle && Boolean(errors.descriptionTitle)}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -369,6 +365,7 @@ const CreateTest = () => {
                         value={values.nameDescription}
                         name='nameDescription'
                         onChange={handleChange}
+                        helperText={touched.nameDescription && errors.nameDescription}
                         error={touched.nameDescription && Boolean(errors.nameDescription)}
                         multiline
                         className={classes.captionStyle}

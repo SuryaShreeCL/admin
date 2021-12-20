@@ -35,7 +35,7 @@ function GeneralDetails(props) {
   const [areaOfSpec, setAreaOfSpec] = useState({ value: null, helperText: "" });
   const [currentSem, setCurrentSem] = useState({ value: null, helperText: "" });
   const [contextDesc, setContextDesc] = useState({ value: "", helperText: "" });
-  const [intake, setIntake] = useState({ value: "", helperText: "" });
+  const [intake, setIntake] = useState({ value: null, helperText: "" });
   const [round, setRound] = useState({ value: null, helperText: "" });
   const [timelineDesc, setTimelineDesc] = useState({
     value: "",

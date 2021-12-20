@@ -1,7 +1,8 @@
 import { TEST } from '../Redux/Action';
 import axios from 'axios';
+import clevertap from 'clevertap-web-sdk';
 
-export const listTests = (status) => async (dispatch) => {
+export const listTests = (status, page = 1, search = '') => async (dispatch) => {
   try {
     dispatch({ type: TEST.LIST_REQUEST });
 
@@ -14,15 +15,20 @@ export const listTests = (status) => async (dispatch) => {
         Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
       },
       data: {
-        search: '',
+        search: search,
         testType: 'EVENT',
         status: status,
+        field: ['createdAt'],
+        order: ['DESC'],
+        // -1 for showing results from 0th index and handling it from 1st index on UI
+        page: page - 1,
+        size: '6',
       },
     });
 
     dispatch({
       type: TEST.LIST_SUCCESS,
-      payload: data,
+      payload: data.data,
     });
   } catch (error) {
     dispatch({
@@ -154,6 +160,52 @@ export const scheduleTest = (id, dates) => async (dispatch) => {
 
     dispatch({
       type: TEST.SCHEDULE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const setCutOffScore = (test) => async (dispatch) => {
+  const payload = {
+    testQuestionSetId: test.id,
+    cutOffScore: test.cutOffScore,
+  };
+  try {
+    dispatch({
+      type: TEST.CUTOFF_REQUEST,
+    });
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_API_URL}/api/v1/testquestionset/cutoffscore`,
+      payload,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      }
+    );
+    dispatch({
+      type: TEST.CUTOFF_SUCCESS,
+      payload: data.data,
+    });
+
+    console.log('test details', test);
+    console.log('success', data);
+
+    if (data.success) {
+      console.log('event sent');
+      //On Success capture clevertap event
+      clevertap.event.push('Test Results out', {
+        'Name of the Drive': test?.linkedEvent?.eventTitle,
+        'Test Name': test.name,
+      });
+    }
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message ? error.response.data.message : error.message;
+    dispatch({
+      type: TEST.CUTOFF_FAIL,
       payload: message,
     });
   }

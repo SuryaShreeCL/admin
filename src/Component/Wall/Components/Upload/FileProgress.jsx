@@ -31,7 +31,7 @@ export function FileProgress({ file, onDelete, url, progress }) {
             progress < 100
               ? Spinner
               : ((url?.includes('.mp4') || url?.includes('.mp3')) && Media) ||
-                `${process.env.REACT_APP_API_URL}/api/v1/wallfile?fileName=${url}&type=image`
+                `${process.env.REACT_APP_ASSETS}/images/wall/${url}`
           }
           alt='upload-img'
           width='60px'

@@ -458,6 +458,7 @@ class ClientDetails extends Component {
       this.state.ugdegree !== null &&
       this.state.department !== null &&
       this.state.collegename !== null &&
+      this.state.name !== null &&
       !isEmptyString(this.state.sem) &&
       !isEmptyString(this.state.activebacklogs) &&
       !isEmptyString(this.state.cgpa) &&
@@ -566,8 +567,6 @@ class ClientDetails extends Component {
 
   render() {
     const filter = createFilterOptions();
-    console.log(this.props);
-
     return (
       <div>
         <ThemeProvider theme={theme}>

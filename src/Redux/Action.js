@@ -485,6 +485,10 @@ export const TEST = {
   SCHEDULE_SUCCESS: "TEST_SCHEDULE_SUCCESS",
   SCHEDULE_FAIL: "TEST_SCHEDULE_FAIL",
   SCHEDULE_RESET: "TEST_SCHEDULE_RESET",
+
+  CUTOFF_REQUEST: 'CUTOFF_REQUEST',
+  CUTOFF_SUCCESS: 'CUTOFF_SUCCESS',
+  CUTOFF_FAIL: 'CUTOFF_FAIL',
 };
 
 export const PGA_REPORT = {
@@ -505,4 +509,5 @@ export const PGA_REPORT = {
   getResumePdfPath: "getResumePdfPath",
   getResumePdfDownloadUrl: "getResumePdfDownloadUrl",
   getResumeQuestionnaire: "getResumeQuestionnaire",
+  postSpiderGraph: "postSpiderGraph",
 };

@@ -143,7 +143,6 @@ class GeneralDetails extends Component {
     };
   }
   commentshistory(name, value) {
-    console.log(value);
     let arr = this.state.commentshistory;
     let filterarr = arr && arr.filter((el) => el.fieldName !== name);
     filterarr.push({
@@ -154,7 +153,7 @@ class GeneralDetails extends Component {
       newValue: value,
       comment: "",
     });
-    console.log(arr);
+
     this.setState({
       commentshistory: filterarr,
     });
@@ -165,7 +164,6 @@ class GeneralDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        console.log(response);
         if (response.data && response.data.length > 0) {
           this.setState({
             buttonStatus: true,
@@ -186,7 +184,6 @@ class GeneralDetails extends Component {
                 updatedAt: eachdata.updatedAt,
                 updatedBy: eachdata.updatedBy,
               });
-              console.log(arr);
             } else if (eachdata.fieldName === "degree") {
               arr.push({
                 fieldName: eachdata.fieldName,
@@ -258,7 +255,7 @@ class GeneralDetails extends Component {
               });
             }
           });
-        console.log(arr);
+
         this.setState({
           commentupdatelist: arr,
         });
@@ -267,9 +264,7 @@ class GeneralDetails extends Component {
     this.props.getgeneraldetails(
       this.props.match.params.studentId,
       this.props.match.params.productId,
-      (response) => {
-        console.log(response);
-      }
+      (response) => {}
     );
   }
   componentDidMount() {
@@ -310,7 +305,6 @@ class GeneralDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        console.log(response);
         if (response.status === 200) {
           this.setState({
             clsid: response.data.studentDetails.clsId,
@@ -345,12 +339,11 @@ class GeneralDetails extends Component {
   }
 
   handlestatus = (status) => {
-    console.log("Hello");
     let obj = {
       fieldName: this.state.field,
       verificationStatus: status,
     };
-    console.log(obj);
+
     this.props.updatestatus(
       this.props.match.params.studentId,
       this.props.match.params.productId,
@@ -362,7 +355,6 @@ class GeneralDetails extends Component {
             this.props.match.params.productId,
             (getresponse) => {
               if (getresponse.status === 200) {
-                console.log(getresponse.data);
                 this.setState({ verificationstatus: getresponse.data });
               }
             }
@@ -376,11 +368,10 @@ class GeneralDetails extends Component {
   };
 
   verifiedstatus(name) {
-    console.log(name);
     let obj = this.state.verificationstatus.find(
       (data) => data.fieldName === name
     );
-    console.log(obj);
+
     return obj;
   }
 
@@ -452,7 +443,6 @@ class GeneralDetails extends Component {
     });
   };
   handleClick = (event, name) => {
-    console.log("jijiojo", event.currentTarget, name);
     this.setState({
       popOpen: true,
       anchorEl: event.currentTarget,
@@ -465,7 +455,6 @@ class GeneralDetails extends Component {
     });
   };
   handlecomments = (commentindex, value) => {
-    console.log(commentindex, value);
     let i = commentindex;
     let tempArr = this.state.commentshistory;
     tempArr[commentindex] = { ...tempArr[commentindex], comment: value };
@@ -476,7 +465,7 @@ class GeneralDetails extends Component {
   renderstudentdetails() {
     if (
       this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.shortName === "ACS MIM"
+      this.props.StudentStepDetailsList.codeName === "ACS_MIM"
     ) {
       return (
         <ThemeProvider theme={theme}>
@@ -1043,7 +1032,6 @@ class GeneralDetails extends Component {
       this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
       this.props.StudentStepDetailsList.shortName === "ACS MIM"
     ) {
-      console.log("true");
       let pgadataarr = [];
       this.state.commentshistory.map((eachdata) => {
         pgadataarr.push({
@@ -1059,7 +1047,7 @@ class GeneralDetails extends Component {
           comment: eachdata.comment,
         });
       });
-      console.log(pgadataarr);
+
       let obj = {
         firstName: this.state.firstname,
         lastName: this.state.lastname,
@@ -1089,7 +1077,7 @@ class GeneralDetails extends Component {
         pgaDataChangeLogs: pgadataarr,
         workExperience: this.state.workexp,
       };
-      console.log(obj);
+
       if (
         this.state.firstname !== "" &&
         this.state.lastname !== "" &&
@@ -1107,13 +1095,12 @@ class GeneralDetails extends Component {
           this.props.match.params.productId,
           obj,
           (response) => {
-            console.log(response);
             if (response.status === 200) {
               // this.props.getcommenthistory(
               //   this.props.match.params.studentId,
               //   this.props.match.params.productId,
               //   (response) => {
-              //     console.log(response);
+              //
               //     this.setState({
               //       commentlist: response.data,
               //     });
@@ -1162,7 +1149,7 @@ class GeneralDetails extends Component {
             comment: eachdata.comment,
           });
         });
-        console.log(pgadataarr);
+
         let obj = {
           firstName: this.state.firstname,
           lastName: this.state.lastname,
@@ -1182,7 +1169,7 @@ class GeneralDetails extends Component {
           pgaDataChangeLogs: pgadataarr,
           pgaIntake: this.state.intake && this.state.intake.title,
         };
-        console.log(obj);
+
         if (
           this.state.firstname !== "" &&
           this.state.lastname !== "" &&
@@ -1197,13 +1184,12 @@ class GeneralDetails extends Component {
             this.props.match.params.productId,
             obj,
             (response) => {
-              console.log(response);
               if (response.status === 200) {
                 // this.props.getcommenthistory(
                 //   this.props.match.params.studentId,
                 //   this.props.match.params.productId,
                 //   (response) => {
-                //     console.log(response);
+                //
                 //     this.setState({
                 //       commentlist: response.data,
                 //     });
@@ -1249,8 +1235,6 @@ class GeneralDetails extends Component {
     { title: "Fall 2025" },
   ];
   render() {
-    console.log(this.props);
-    console.log(this.state);
     const { classes } = this.props;
     return (
       <div>
@@ -2015,7 +1999,6 @@ const useStyles = (theme) => ({
   },
 });
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     getAllCollegesList: state.CollegeReducer.allCollegeList,
     getDegreeList: state.CollegeReducer.Degree,

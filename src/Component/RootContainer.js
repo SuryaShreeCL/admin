@@ -12,25 +12,27 @@ import {
   createMuiTheme,
   makeStyles,
   ThemeProvider,
-} from "@material-ui/core/styles";
-import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
-import AddShoppingCartRoundedIcon from "@material-ui/icons/AddShoppingCartRounded";
-import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
-import CallIcon from "@material-ui/icons/Call";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import DnsRoundedIcon from "@material-ui/icons/DnsRounded";
-import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import HelpRoundedIcon from "@material-ui/icons/HelpRounded";
-import HomeIcon from "@material-ui/icons/Home";
-import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
-import InstagramIcon from "@material-ui/icons/Instagram";
-import LocationCityRoundedIcon from "@material-ui/icons/LocationCityRounded";
-import MenuBookRoundedIcon from "@material-ui/icons/MenuBookRounded";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+} from '@material-ui/core/styles';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
+import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
+import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+import CallIcon from '@material-ui/icons/Call';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
+import HomeIcon from '@material-ui/icons/Home';
+import Track from '@material-ui/icons/ArtTrack';
+import NewspaperIcon from '@material-ui/icons/Wallpaper';
+import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOutlined';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
+import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 // import MenuIcon from '@material-ui/icons/Menu';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -573,8 +575,8 @@ function RootContainer(props) {
     } else if (props.adminLinkedProductDetails.department === "elev8") {
       setSideNav([
         {
-          icon: <HomeOutlinedIcon />,
-          title: "Wall",
+          icon: <NewspaperIcon />,
+          title: 'Wall',
           path: wallPath,
           items: [],
         },
@@ -585,8 +587,8 @@ function RootContainer(props) {
           items: [],
         },
         {
-          icon: <HomeOutlinedIcon />,
-          title: "Career Track",
+          icon: <Track />,
+          title: 'Career Track',
           path: careerTrackPath,
           items: [],
         },
@@ -596,8 +598,8 @@ function RootContainer(props) {
     ) {
       setSideNav([
         {
-          icon: <HomeOutlinedIcon />,
-          title: "Wall",
+          icon: <NewspaperIcon />,
+          title: 'Wall',
           path: wallPath,
           items: [],
         },
@@ -608,8 +610,8 @@ function RootContainer(props) {
           items: [],
         },
         {
-          icon: <HomeOutlinedIcon />,
-          title: "Career Track",
+          icon: <Track />,
+          title: 'Career Track',
           path: careerTrackPath,
           items: [],
         },
@@ -706,7 +708,7 @@ function RootContainer(props) {
           props.history.push(item.path);
         }}
       >
-        <ListItemIcon>{""}</ListItemIcon>
+        <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={item.title} />
       </ListItem>
     );

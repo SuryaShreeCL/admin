@@ -43,22 +43,17 @@ class CallSummaryLayout extends Component {
       } else if (value === 2) {
         return <Rating {...this.props} />;
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   renderRightContent = (value) => {
     try {
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   render() {
-    console.log(this.props);
     return (
-      <div style={{marginTop : !this.props.hasBreadCrumbs && "15px"}}>
+      <div style={{ marginTop: !this.props.hasBreadCrumbs && "15px" }}>
         {this.props.hasBreadCrumbs && (
           <div
             style={{ display: "flex", flexDirection: "row", margin: "10px" }}

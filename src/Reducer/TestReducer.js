@@ -87,3 +87,16 @@ export const testUpdateReducer = (state = { post: {} }, action) => {
       return state;
   }
 };
+
+export const TestCutOffAddition = (state = {}, action) => {
+  switch (action.type) {
+    case TEST.CUTOFF_REQUEST:
+      return { loading: true };
+    case TEST.CUTOFF_SUCCESS:
+      return { loading: false, success: true, cutoffResponse: action.payload };
+    case TEST.CUTOFF_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};

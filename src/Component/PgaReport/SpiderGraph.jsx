@@ -1,13 +1,14 @@
-import { Box, Grid, IconButton, Popper, Typography } from '@material-ui/core';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Box, Grid, IconButton, Popper, Typography } from "@material-ui/core";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getSpiderGraph,
   profileScoreGenerate,
-} from '../../Actions/PgaReportAction';
-import MySnackBar from '../MySnackBar';
-import RadarChart from './Components/RadarCharts';
+  postSpiderGraph,
+} from "../../Actions/PgaReportAction";
+import MySnackBar from "../MySnackBar";
+import RadarChart from "./Components/RadarCharts";
 import {
   Bolder,
   CardRightBox,
@@ -25,16 +26,16 @@ import {
   PositionedArrow,
   SideIcon,
   StyledButton,
-} from './Components/StyledComponents';
-import { useStyles } from './Styles/Index';
-import GraphImage from '../../Asset/Images/RadarGraphImage.png';
+} from "./Components/StyledComponents";
+import { useStyles } from "./Styles/Index";
+import GraphImage from "../../Asset/Images/RadarGraphImage.png";
 
 const popoverList = [
-  'Academic Fit',
-  'Practical Experience',
-  'Domain Fit for the Career Track you are exploring',
-  'Competencies and Skills',
-  'Impact and Interpersonal Skills',
+  "Academic Fit",
+  "Practical Experience",
+  "Domain Fit for the Career Track you are exploring",
+  "Competencies and Skills",
+  "Impact and Interpersonal Skills",
 ];
 
 function SpiderGraph(props) {
@@ -43,25 +44,25 @@ function SpiderGraph(props) {
   const { studentId, productId } = props.match.params;
   const [snack, setSnack] = useState({
     snackOpen: false,
-    snackMsg: '',
-    snackColor: '',
+    snackMsg: "",
+    snackColor: "",
   });
   const [graphData, setGraphData] = useState([]);
   const [activeGraphIndex, setActiveGraphIndex] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMouseOver = event => {
+  const handleMouseOver = (event) => {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMouseLeave = event => {
+  const handleMouseLeave = (event) => {
     event.preventDefault();
     setAnchorEl(null);
   };
 
   const { spiderGraph, profileScoreStatus } = useSelector(
-    state => state.PgaReportReducer
+    (state) => state.PgaReportReducer
   );
 
   useEffect(() => {
@@ -76,7 +77,7 @@ function SpiderGraph(props) {
       spiderGraph.data.lenth !== 0
     ) {
       setGraphData(
-        spiderGraph.data.map(item => ({ ...item, color: getRandomColor() }))
+        spiderGraph.data.map((item) => ({ ...item, color: getRandomColor() }))
       );
       setActiveGraphIndex(0);
     }
@@ -121,8 +122,8 @@ function SpiderGraph(props) {
   };
 
   const getRandomColor = () => {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
+    var letters = "0123456789ABCDEF";
+    var color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
@@ -133,9 +134,15 @@ function SpiderGraph(props) {
     setActiveGraphIndex(parseInt(index));
   };
 
-  const handleActionButton = (e, id) => {
+  const handleActionButton = (e, id, addedGraphImg) => {
     e.stopPropagation();
     dispatch(profileScoreGenerate(studentId, productId, id));
+    var canvas = document.getElementById("spider_graph");
+    var dataURL = canvas.toDataURL();
+    if (!addedGraphImg)
+      dispatch(
+        postSpiderGraph(studentId, productId, id, dataUrlToFormDate(dataURL))
+      );
   };
 
   const renderPopover = () => {
@@ -145,14 +152,14 @@ function SpiderGraph(props) {
         <div>
           <FloatImage src={GraphImage} />
           <ParagraphHead>
-            {'How to read this Profile Fitment Spider Graph?'}
+            {"How to read this Profile Fitment Spider Graph?"}
           </ParagraphHead>
-          <div id={'pad'}>
+          <div id={"pad"}>
             <Paragraph fontWeight={600}>
-              {'5 Foundational Areas of Building Profile'}
+              {"5 Foundational Areas of Building Profile"}
             </Paragraph>
             <CustomList>
-              {popoverList.map(item => (
+              {popoverList.map((item) => (
                 <li>{item}</li>
               ))}
             </CustomList>
@@ -160,24 +167,24 @@ function SpiderGraph(props) {
         </div>
         <div>
           <ParagraphHead>
-            {'There are 3 states of Profile Fit Levels you can exist'}
+            {"There are 3 states of Profile Fit Levels you can exist"}
           </ParagraphHead>
           <Paragraph>
-            <Bolder fontWeight={600}>{'Ideal Profile: '}</Bolder>
+            <Bolder fontWeight={600}>{"Ideal Profile: "}</Bolder>
             {
-              'This is the ideal profile of a student who is the first pick for a Job role in this Career Track that you are exploring now.'
+              "This is the ideal profile of a student who is the first pick for a Job role in this Career Track that you are exploring now."
             }
           </Paragraph>
           <Paragraph>
-            <Bolder fontWeight={600}>{'Your Present Profile: '}</Bolder>
+            <Bolder fontWeight={600}>{"Your Present Profile: "}</Bolder>
             {
-              'This spider graph indicates your present scale of profile for this Career Track that you are exploring now.'
+              "This spider graph indicates your present scale of profile for this Career Track that you are exploring now."
             }
           </Paragraph>
           <Paragraph>
-            <Bolder fontWeight={600}>{'After Profile Building: '}</Bolder>
+            <Bolder fontWeight={600}>{"After Profile Building: "}</Bolder>
             {
-              'If you consciously start building your profile and work towards improving your Profile using CareerLabs Profile Builder Platform, this is where you will be within few months!'
+              "If you consciously start building your profile and work towards improving your Profile using CareerLabs Profile Builder Platform, this is where you will be within few months!"
             }
           </Paragraph>
         </div>
@@ -185,23 +192,39 @@ function SpiderGraph(props) {
     );
   };
 
+  const dataUrlToFormDate = (dataURL) => {
+    var blobBin = atob(dataURL.split(",")[1]);
+    var array = [];
+    for (var i = 0; i < blobBin.length; i++) {
+      array.push(blobBin.charCodeAt(i));
+    }
+    var file = new Blob([new Uint8Array(array)], { type: "image/png" });
+
+    var formData = new FormData();
+    formData.append("file", file, "spider_graph.png");
+    return formData;
+  };
+
   const open = Boolean(anchorEl);
   return (
     <PageWrapper>
       <Grid container className={classes.containerStyle}>
-        <Grid item sm={8}>
+        <Grid item sm={6}>
           <Grid container spacing={2}>
             <Grid item md={12} className={classes.fullWidth}>
-              <Typography variant={'h5'}>{'Spider Graph'}</Typography>
+              <Typography variant={"h5"}>{"Spider Graph"}</Typography>
             </Grid>
             {graphData.length !== 0 &&
               graphData.map(
-                ({ addPGA, id, careerTrackTitle, color }, index) => (
-                  <Grid item sm={4} md={3}>
+                (
+                  { addPGA, addedGraphImg, id, careerTrackTitle, color },
+                  index
+                ) => (
+                  <Grid item sm={4} md={4}>
                     <ClickableBox
                       onClick={
                         activeGraphIndex !== index &&
-                        (e => handleBoxClick(e, index))
+                        ((e) => handleBoxClick(e, index))
                       }
                       active={activeGraphIndex === index}
                     >
@@ -209,12 +232,14 @@ function SpiderGraph(props) {
                       <CardRightBox>
                         <CardText>{careerTrackTitle}</CardText>
                         <StyledButton
-                          variant={addPGA ? 'contained' : 'outlined'}
+                          variant={addPGA ? "contained" : "outlined"}
                           className={classes.buttonPad}
                           isOutlined={!addPGA}
-                          onClick={e => handleActionButton(e, id)}
+                          onClick={(e) =>
+                            handleActionButton(e, id, addedGraphImg)
+                          }
                         >
-                          {addPGA ? 'Added' : 'Add to PGA'}
+                          {addPGA ? "Added" : "Add to PGA"}
                         </StyledButton>
                       </CardRightBox>
                     </ClickableBox>
@@ -224,12 +249,12 @@ function SpiderGraph(props) {
           </Grid>
         </Grid>
         {graphData.length !== 0 && (
-          <Grid item sm={4}>
+          <Grid item sm={6}>
             <Box className={classes.boxPadding}>
               <Grid container spacing={2} className={classes.rightContainerPad}>
                 <Grid item xs={12}>
-                  <Typography variant={'h6'}>{`${graphData.length !== 0 &&
-                    `${graphData[activeGraphIndex]['careerTrackTitle']} | `}Spider Graph`}</Typography>
+                  <Typography variant={"h6"}>{`${graphData.length !== 0 &&
+                    `${graphData[activeGraphIndex]["careerTrackTitle"]} | `}Spider Graph`}</Typography>
                 </Grid>
                 <Grid xs={12}>
                   <FlexView>
@@ -239,12 +264,12 @@ function SpiderGraph(props) {
                       onMouseLeave={handleMouseLeave}
                       disableRipple
                     >
-                      <InfoOutlinedIcon fontSize={'small'} />
+                      <InfoOutlinedIcon fontSize={"small"} />
                     </IconButton>
                     <Popper
                       open={open}
                       anchorEl={anchorEl}
-                      placement={'bottom-end'}
+                      placement={"bottom-end"}
                     >
                       {renderPopover()}
                     </Popper>
@@ -265,7 +290,7 @@ function SpiderGraph(props) {
           <Grid item md={12}>
             <CenteredIcon />
             <CenteredText>
-              {'Kindly answer Resume Questionnaire to get Spider Graph'}
+              {"Kindly answer Resume Questionnaire to get Spider Graph"}
             </CenteredText>
           </Grid>
         )}
@@ -274,8 +299,8 @@ function SpiderGraph(props) {
         onClose={() =>
           setSnack({
             snackOpen: false,
-            snackMsg: '',
-            snackColor: '',
+            snackMsg: "",
+            snackColor: "",
           })
         }
         snackOpen={snack.snackOpen}

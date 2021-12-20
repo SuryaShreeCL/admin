@@ -49,6 +49,13 @@ export default function ConfirmSubmit(props) {
       <DialogContent className={classes.dialogContent}>
         <Typography variant='h6'>{confirmSubmit.title}</Typography>
         <Typography variant='subtitle2'>{confirmSubmit.subTitle}</Typography>
+        {confirmSubmit.testName && (
+          <Typography variant='caption'>
+            {` Set Cut Off for "${confirmSubmit.testName.toUpperCase()}" to ${
+              confirmSubmit.cutOffScore
+            } ?`}
+          </Typography>
+        )}
       </DialogContent>
       <DialogActions className={classes.dialogAction}>
         <Controls.Button

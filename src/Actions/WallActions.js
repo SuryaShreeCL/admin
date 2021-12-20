@@ -1,12 +1,14 @@
 import { WALL } from '../Redux/Action';
 import axios from 'axios';
 
-export const listWallPosts = (status, type) => async (dispatch) => {
+export const listWallPosts = (status, type, page = 1) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?isEvent=${type}&activeStatus=${status}&page=0&size=10000`,
+      `${
+        process.env.REACT_APP_API_URL
+      }/api/v1/wallpost?isEvent=${type}&activeStatus=${status}&page=${page - 1}&size=6`,
       {
         crossDomain: true,
         headers: {
@@ -17,7 +19,7 @@ export const listWallPosts = (status, type) => async (dispatch) => {
     );
     dispatch({
       type: WALL.LIST_SUCCESS,
-      payload: data.content,
+      payload: data,
     });
   } catch (error) {
     dispatch({
@@ -27,12 +29,39 @@ export const listWallPosts = (status, type) => async (dispatch) => {
     });
   }
 };
-export const listWallWebinars = () => async (dispatch) => {
+
+export const listAllWallPosts = (status, type) => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.LIST_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?isEvent=${type}&activeStatus=${status}&page=0&size=1000`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      }
+    );
+    dispatch({
+      type: WALL.LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.LIST_FAIL,
+      payload:
+        error.response && error.response.message ? error.response.data.message : error.message,
+    });
+  }
+};
+export const listWallWebinars = (page = 1) => async (dispatch) => {
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=50000`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=${page - 1}&size=6`,
       {
         crossDomain: true,
         headers: {
@@ -44,7 +73,35 @@ export const listWallWebinars = () => async (dispatch) => {
 
     dispatch({
       type: WALL.WEBINAR_LIST_SUCCESS,
-      payload: data.content,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.WEBINAR_LIST_FAIL,
+      payload:
+        error.response && error.response.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
+export const listAllWallWebinars = () => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=1000`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: WALL.WEBINAR_LIST_SUCCESS,
+      payload: data,
     });
   } catch (error) {
     dispatch({
@@ -154,7 +211,7 @@ export const updateWallPost = (post) => async (dispatch) => {
           Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
         },
       }
-    );
+    ).then(res=> console.log(res));
     dispatch({
       type: WALL.UPDATE_SUCCESS,
       payload: data,
