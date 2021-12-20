@@ -37,6 +37,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Loader from "../Utils/controls/Loader";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import MySnackBar from "../MySnackBar";
 
 const theme = createMuiTheme({
   overrides: {
@@ -62,6 +63,7 @@ export class Onboarding extends Component {
       bda: null,
       search: null,
       listOfusers: [],
+      noResultPopup : false,
     };
   }
 
@@ -73,7 +75,8 @@ export class Onboarding extends Component {
       "",(response=>{
         if(response.status === 200){
           this.setState({
-            listOfusers : response.data.content
+            listOfusers : response.data.content,
+            noResultPopup : response.data.totalElements === 0 ? true : false
           })
         }
       })
@@ -92,6 +95,7 @@ export class Onboarding extends Component {
         eachItem.studentId +
         "/" +
         this.props.match.params.productId
+        +`?stage=OnBoarding`
     )
   }
   componentDidUpdate(prevProps, prevState) {
@@ -150,7 +154,8 @@ export class Onboarding extends Component {
           "",(response=>{
             if(response.status === 200){
               this.setState({
-                listOfusers : response.data.content
+                listOfusers : response.data.content,
+                noResultPopup : response.data.totalElements === 0 ? true : false
               })
             }
           })
@@ -316,7 +321,8 @@ export class Onboarding extends Component {
         this.props.stageDetails.stepName,
         this.state.search,(response=>{
           this.setState({
-            listOfusers : response.data.content
+            listOfusers : response.data.content,
+            noResultPopup : response.data.totalElements === 0 ? true : false
           })
         })
       );
@@ -325,20 +331,19 @@ export class Onboarding extends Component {
   }
 
   render() {
+    console.log(this.state)
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
         <Grid container spacing={3}>
           <Grid item md={12}>
-             {/* <TableContainer component={Paper}> */}
-              <div style={HeadDisplay}>
-                <p style={HeadStyle}> List of Users in On Boarding Stage </p>                 
-               <div> 
-             <TextField
+            {/* <TableContainer component={Paper}> */}
+            <div style={HeadDisplay}>
+              <p style={HeadStyle}> List of Users in On Boarding Stage </p>
+              <div>
+                <TextField
                   label={
-                    <Typography
-                      style={{ fontSize: "13px",marginLeft:30 }}
-                    >
+                    <Typography style={{ fontSize: "13px", marginLeft: 30 }}>
                       Search by Email ID / Mobile / Full Name / CLS ID
                     </Typography>
                   }
@@ -366,15 +371,15 @@ export class Onboarding extends Component {
                     }
                   }}
                 />
-                  <IconButton
-                    style={{ marginLeft: "8px" }}
-                    onClick={this.handleSearch}
-                    color="primary"
-                    id={"search"}
-                    aria-label="search"
-                  >
-                    <SearchRoundedIcon />
-                  </IconButton>
+                <IconButton
+                  style={{ marginLeft: "8px" }}
+                  onClick={this.handleSearch}
+                  color="primary"
+                  id={"search"}
+                  aria-label="search"
+                >
+                  <SearchRoundedIcon />
+                </IconButton>
                 {/*  
                 <PrimaryButton
                   style={{
@@ -390,9 +395,9 @@ export class Onboarding extends Component {
                   onClick={() => this.filterfunction()}
                 >
                   Filter
-                </PrimaryButton> */}              
+                </PrimaryButton> */}
               </div>
-              </div>
+            </div>
             {/* <ThemeProvider theme={this.chipTheme}>
                 <Table aria-label="caption table">
                   <TableHead>
@@ -487,7 +492,7 @@ export class Onboarding extends Component {
                 obCallStatus={this.renderChip}
                 action={this.renderManageButton}
               />
-            ) : <Loader/>}
+            ) : <Loader />}
           </Grid>
         </Grid>
 
@@ -635,6 +640,14 @@ export class Onboarding extends Component {
             </div>
           </Drawer>
         </ThemeProvider>
+        <MySnackBar
+              snackOpen={this.state.noResultPopup}
+              snackMsg={"No Result Found"}
+              snackVariant={"error"}
+              onClose={()=>this.setState({
+                noResultPopup : false
+              })}
+            />
       </div>
     );
   }

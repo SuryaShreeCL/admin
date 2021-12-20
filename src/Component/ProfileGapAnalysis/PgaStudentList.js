@@ -15,6 +15,7 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import { getpgalist } from "../../Actions/ProfileGapAction";
 import { isEmptyString } from "../Validation";
 import {  StudentStepDetails } from "../../Actions/Student";
+import MySnackBar from "../MySnackBar";
 class PgaStudentList extends Component {
   constructor() {
     super();
@@ -22,6 +23,7 @@ class PgaStudentList extends Component {
       shrink: false,
       listOfusers: [],
       search : "",
+      noResultpopup : false,
       status : {
         pending : "Pending",
         completed : "Completed"
@@ -72,7 +74,8 @@ class PgaStudentList extends Component {
       console.log(response);
       if(response.status === 200){
         this.setState({
-          listOfusers : response.data.content
+          listOfusers : response.data.content,
+          noResultpopup : response.data.totalElements === 0 ? true : false
         })
       }
     });
@@ -101,7 +104,8 @@ class PgaStudentList extends Component {
         this.props.match.params.productId,
         this.state.search,(response=>{
           this.setState({
-            listOfusers : response.data.content
+            listOfusers : response.data.content,
+            noResultpopup : response.data.totalElements === 0 ? true : false
           })
         })
       );
@@ -176,6 +180,7 @@ class PgaStudentList extends Component {
             )}
           </Grid>
         </Grid>
+        <MySnackBar snackMsg={"No Result Found"} snackOpen={this.state.noResultpopup} snackVariant={"error"} onClose={()=>this.setState({noResultpopup : false})}/>
       </div>
     );
   }
