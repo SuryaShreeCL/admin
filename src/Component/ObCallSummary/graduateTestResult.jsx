@@ -414,7 +414,7 @@ class GraduateTestResult extends Component {
       gredate: data.completedExamDate,
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
-      greanalytic: { title: data.analyticalWriting.toString() },
+      greanalytic: { title: data.analyticalWriting && data.analyticalWriting.toString() },
       gretotal: data.score,
       greid: data.id,
       greindex: index + 1,
@@ -1990,7 +1990,7 @@ class GraduateTestResult extends Component {
               <Grid container spacing={3}>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>GRE</p>
+                    <p style={GridStyle}>{this.state.greDateList.length > 0 ? "GRE" : ""}</p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
@@ -2007,7 +2007,7 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>GMAT</p>
+                    <p style={GridStyle}>{this.state.gmatDateList.length > 0 ? "GMAT" : ""}</p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
@@ -2024,7 +2024,7 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>TOEFL</p>
+                    <p style={GridStyle}>{this.state.toeflDateList.length > 0 ? "TOEFL" : ""}</p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
@@ -2041,7 +2041,7 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>IELTS</p>
+                    <p style={GridStyle}>{this.state.toeflDateList.length > 0 ? "IELTS" : ""}</p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>

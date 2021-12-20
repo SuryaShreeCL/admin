@@ -86,9 +86,7 @@ class TestEngineResult extends Component {
       let arr =
         this.state.testlist &&
         this.state.testlist.filter(
-          (eachItem) =>
-            eachItem.questionSetName !== "AspirationACS" &&
-            eachItem.questionSetName !== "ProfileBuilder"
+          (eachItem) => !eachItem.questionSetName.includes("Aspiration")
         );
       this.setState({
         finaltestlist: arr,
@@ -98,7 +96,6 @@ class TestEngineResult extends Component {
       if (typeof this.props.viewAnswersList === "object") {
         let quesAnsArr = [];
         for (const property in this.props.viewAnswersList) {
-          console.log(`${property}: ${this.props.viewAnswersList[property]}`);
           quesAnsArr.push({
             question: property,
             answer: this.props.viewAnswersList[property],
@@ -182,8 +179,6 @@ class TestEngineResult extends Component {
   );
 
   render() {
-    console.log("test engine props........", this.props);
-    console.log("test engine state........", this.state);
     return (
       <div style={{ padding: 25 }}>
         <div
