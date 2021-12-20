@@ -137,7 +137,7 @@ class workExperience extends Component {
   handleClick(e) {
     this.setState({ disable: !this.state.disable });
   }
-  onChange(event, index) {    
+  onChange(event, index) {  
     let items = this.state.professional;
     var item = {
       ...items[index],
@@ -464,12 +464,13 @@ class workExperience extends Component {
                         value={item.description || ""}
                         contentEditable={this.state.disable}
                         onChange={(e) =>this.onChange({target:{name:"description",value:e.target.value}},index)} 
-                        error={this.state.descriptionErr.length > 0}
-                        helperText={this.state.descriptionErr}
                         error={this.state[`descriptionErr${index}`] !== undefined && this.state[`descriptionErr${index}`] !== "" ? true :false}
-                        helperText={this.state[`descriptionErr${index}`]}
+                        helperText={item.description === "" ? this.state[`descriptionErr${index}`] : `${item.description.length}/100`}
                         InputLabelProps={{
                           shrink: true,
+                        }}
+                        inputProps={{
+                          maxLength: 100,
                         }}
                       />
                     </Grid>

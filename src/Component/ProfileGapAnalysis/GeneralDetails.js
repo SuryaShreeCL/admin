@@ -1600,8 +1600,7 @@ class GeneralDetails extends Component {
                     </div>
                   </Grid>
                   {this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
-                    (this.props.StudentStepDetailsList.shortName ===
-                      "ACS MIM" && (
+                  this.props.StudentStepDetailsList.shortName === "ACS MIM" ? (
                       <Grid item md={4}>
                         <div
                           style={{
@@ -1653,7 +1652,7 @@ class GeneralDetails extends Component {
                           </div>
                         </div>
                       </Grid>
-                    ))}
+                    ) : ""}
                   <Grid item md={12}>
                     {this.renderstudentdetails()}
                   </Grid>
