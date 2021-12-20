@@ -4,7 +4,6 @@
 
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
-// import { routePaths } from "../../../../../routes/RoutePath";
 import { ThemeProvider, Typography } from "@material-ui/core";
 import {
   Content,
@@ -19,6 +18,15 @@ import {
 
 import QueryString from "qs";
 import Footer from "./Footer";
+import { connect } from "react-redux";
+
+import SubHeader from "./SubHeader";
+import Test from "./Test";
+import MessageIcon from "../../../../../Assets/icons/MessageIconWhite.svg";
+import ClockIcon from "../../../../../Assets/icons/ClockIconWhite.svg";
+import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
+import Transition from "../../../../../Utils/Transition";
+import Dialog from "@material-ui/core/Dialog";
 // import PauseExamPopup from "./PauseExamPopup";
 // import {
 //   getInstructions,
@@ -29,17 +37,12 @@ import Footer from "./Footer";
 //   startTest2,
 //   submitAnswer,
 // } from "../../../../../redux/action/Test";
-import { connect } from "react-redux";
-
 // import GmatInstruction from "./GmatInstruction";
 // import Section from "./Section";
 // import EndSection from "./EndSection";
-import SubHeader from "./SubHeader";
 // import _ from "lodash";
-import Test from "./Test";
 // import { retakeExam } from "../../../../../redux/action/Dashboard";
-import MessageIcon from "../../../../../Assets/icons/MessageIconWhite.svg";
-import ClockIcon from "../../../../../Assets/icons/ClockIconWhite.svg";
+// import { routePaths } from "../../../../../routes/RoutePath";
 // import Timer from "../../../../../utils/components/Timer";
 // import Confirmation from "./Confirmation";
 // import RequiredPopup from "./RequiredPopup";
@@ -48,9 +51,6 @@ import ClockIcon from "../../../../../Assets/icons/ClockIconWhite.svg";
 //   AddBookmarks,
 //   removeDemoBookmark,
 // } from "../../../../../redux/action/Practice";
-import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
-import Transition from "../../../../../Utils/Transition";
-import Dialog from "@material-ui/core/Dialog";
 
 // import { withTranslation } from "react-i18next";
 
@@ -432,6 +432,7 @@ export class GmatLayout extends Component {
 
     const { open, handleClose } = this.props;
 
+    // console.log(this.props);
     return (
       <Box style={{ height: "100vh" }}>
         <ThemeProvider theme={gmatTheme}>
@@ -470,7 +471,7 @@ export class GmatLayout extends Component {
             isBookmarked={false}
           />
           <Content>
-            {/* <Test {...this} {...this.props} /> */}
+            <Test {...this} {...this.props} />
             {/* <Switch>
               {this.gmatRoutes.map(item => (
                 <Route {...item} />

@@ -87,6 +87,7 @@ class Add extends Component {
 
       questions: null,
       disableAddButton: false,
+      courseIdValue: "",
     };
   }
 
@@ -297,6 +298,8 @@ class Add extends Component {
       courseIdValue,
     } = this.state;
 
+    this.setCourseTitle();
+
     if (testQuestionSetId !== null) {
       if (type === "QUESTIONBANK") {
         this.props.history.push(bulk_upload + `/${testQuestionSetId}`);
@@ -366,7 +369,7 @@ class Add extends Component {
         topicTestSections: tempTopicTestSections,
       });
     } else {
-      this.setState({ [name]: value });
+      this.setState({ [name]: value, [name + "Name"]: name });
     }
 
     if (name === "courseId" && type !== "CALIBRATION" && value !== undefined) {
@@ -588,6 +591,7 @@ class Add extends Component {
     if (type === "Delete")
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
     else {
+      this.setCourseTitle();
       this.props.history.push(
         single_upload + "?questionId=" + this.state.popUpId
       );
@@ -689,7 +693,17 @@ class Add extends Component {
     else if (type === "QUESTIONBANK") return questions;
   };
 
+  setCourseTitle = () => {
+    const courseObj = this.props.courses.data.filter(
+      item => item.id === this.state.courseIdValue
+    );
+    sessionStorage.setItem("courseTitle", courseObj[0]["title"]);
+  };
+
   render() {
+    // console.log(this.state.courseId);
+    // console.log(this.props.courses);
+
     const {
       type,
       description,

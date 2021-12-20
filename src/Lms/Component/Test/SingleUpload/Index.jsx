@@ -49,7 +49,7 @@ export class Index extends Component {
       url: "",
       alert: null,
       editableData: null,
-      openPreview: true,
+      openPreview: false,
     };
   }
 
@@ -656,12 +656,23 @@ export class Index extends Component {
       history,
       location,
       match,
+      testResponse: {
+        data: {
+          question,
+          type: this.getType(),
+          isHaveDescription: description,
+          choices: this.getChoices(),
+          description,
+          totalBundle: bucketArray.length,
+        },
+      },
     };
 
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).questionId;
 
+    // console.log(this.state);
     return (
       <div>
         <C2>

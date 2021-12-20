@@ -233,31 +233,6 @@ const Bundle = (testResponse, state, onBundleChange) => {
       </Grid>
     </Grid>
   );
-  // return (
-  //   <Grid container>
-  //     <Grid item xs={6}>
-  //       <Box
-  //         display='flex'
-  //         height='100%'
-  //         justifyContent='space-between'
-  //         // style={{ background: 'yellow' }}
-  //       >
-  //         <Typography variant={'h5'} color='textPrimary'>
-  //           <Latex math={testResponse.data.question} />
-  //         </Typography>
-  //         <Divider variant='middle' orientation={'vertical'} />
-  //       </Box>
-  //     </Grid>
-  //     <Grid item xs={6}>
-  //       <BundleDiv
-  //         bundleLength={testResponse.data.totalBundle}
-  //         choices={testResponse.data.choices}
-  //         onChange={onBundleChange}
-  //         selectedChoice={state.bundleSelect}
-  //       />
-  //     </Grid>
-  //   </Grid>
-  // );
 };
 
 function Test({
@@ -271,19 +246,7 @@ function Test({
   onBundleChange,
   getTestSection,
 }) {
-  const { testQuestionSetId } = QueryString.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
-
-  useEffect(() => {
-    startTest2(testQuestionSetId, res => {
-      let userProduct = JSON.parse(localStorage.getItem("userProduct"));
-      userProduct.testExecutionId = res.data.testExecutionId;
-      localStorage.setItem("userProduct", JSON.stringify(userProduct));
-    });
-    getTestSection();
-  }, []);
-
+  // console.log(testResponse);
   if (testResponse !== null) {
     if (testResponse.data.type === "SINGLE_SELECT") {
       return SingleSelect(testResponse, state, onSelect);
