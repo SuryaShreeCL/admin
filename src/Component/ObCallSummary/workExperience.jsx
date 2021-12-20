@@ -579,8 +579,6 @@ class workExperience extends Component {
                                     index
                                   )
                                 }
-                                error={this.state.descriptionErr.length > 0}
-                                helperText={this.state.descriptionErr}
                                 error={
                                   this.state[`descriptionErr${index}`] !==
                                     undefined &&
@@ -588,11 +586,12 @@ class workExperience extends Component {
                                     ? true
                                     : false
                                 }
-                                helperText={
-                                  this.state[`descriptionErr${index}`]
-                                }
+                                helperText={item.description === "" ? this.state[`descriptionErr${index}`] : `${item.description.length}/100`}
                                 InputLabelProps={{
                                   shrink: true,
+                                }}
+                                inputProps = {{
+                                  maxLength : 100
                                 }}
                               />
                             </Grid>

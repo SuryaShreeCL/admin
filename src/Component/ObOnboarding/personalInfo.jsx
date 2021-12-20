@@ -22,7 +22,7 @@ import {
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import { isEmptyString } from "../../Component/Validation";
+import { isEmptyString,isEmail } from "../../Component/Validation";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
@@ -104,6 +104,7 @@ export class personalInfo extends Component {
       twitterErr: "",
       pincodeDetails: [],
       documentedit: false,
+      error : false,
       sectionStatus: {
         model: false,
         data: null,
@@ -121,6 +122,16 @@ export class personalInfo extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if(this.state.altEmail !== prevState.altEmail){
+      if(!isEmptyString(this.state.altEmail)){
+        isEmail(this.state.altEmail) ? this.setState({altEmailErr : ""}) : this.setState({altEmailErr : "Please Enter a Valid Email"})
+      }
+      else{
+        this.setState({
+          altEmailErr : ""
+        })
+      }
+    }
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
       // this.props.getPincodeDetails(
       //   this.props.getStudentsByIdList.address !== null &&
@@ -230,7 +241,8 @@ export class personalInfo extends Component {
       !isEmptyString(this.state.landmark) &&
       !isEmptyString(this.state.pincode) &&
       !isEmptyString(this.state.state) &&
-      !isEmptyString(this.state.city)
+      !isEmptyString(this.state.city) &&
+      isEmptyString(this.state.altEmailErr) 
     ) {
       let obj = {
         firstName: this.state.firstName,
@@ -414,7 +426,7 @@ export class personalInfo extends Component {
 
               <Grid item md={3}>
                 <TextField
-                  inputMode="numeric"
+                  type={"number"}
                   id="standard-basic"
                   label="Alternate Contact Number"
                   disabled={this.state.personalDisable}
@@ -434,7 +446,7 @@ export class personalInfo extends Component {
                   disabled={this.state.personalDisable}
                   value={this.state.altEmail}
                   onChange={(e) =>
-                    this.setState({ altEmail: e.target.value, altEmailErr: "" })
+                    this.setState({ altEmail: e.target.value, altEmailErr: "" }) 
                   }
                   error={this.state.altEmailErr.length > 0}
                   helperText={this.state.altEmailErr}
