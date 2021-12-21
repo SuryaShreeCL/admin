@@ -47,6 +47,7 @@ import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
 import { URL } from "../../Actions/URL";
+import { getVariantStepsById } from "../../Actions/ProductAction";
 
 const theme = createMuiTheme({
   overrides: {
@@ -112,6 +113,7 @@ class workExperience extends Component {
   componentDidMount() {
     this.props.getworkexp(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
+    this.props.getVariantStepsById(this.props.match.params.productId);
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.getworkexpList !== prevProps.getworkexpList) {
@@ -300,7 +302,10 @@ class workExperience extends Component {
                       }
                     /> */}
               </div>
-              <IconButton onClick={this.handleClick.bind(this)}>
+              <IconButton
+                disabled={this.props.variantStepList.adminObComplete}
+                onClick={this.handleClick.bind(this)}
+              >
                 <img src={Pencil} height={17} width={17} />
               </IconButton>
             </div>
@@ -651,6 +656,7 @@ class workExperience extends Component {
                 variant={"contained"}
                 color={"primary"}
                 style={{ textTransform: "none" }}
+                disabled={this.props.variantStepList.adminObComplete}
               >
                 Save Changes
               </PrimaryButton>
@@ -692,6 +698,7 @@ const mapStateToProps = (state) => {
     updateworkexpList: state.CallReducer.updateworkexp,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getAllDocumentList: state.StudentReducer.getDocumentList,
+    variantStepList: state.ProductReducer.variantStepList,
   };
 };
 
@@ -701,4 +708,5 @@ export default connect(mapStateToProps, {
   viewStudentStatus,
   updateVerificationStatus,
   getDocumentList,
+  getVariantStepsById,
 })(workExperience);

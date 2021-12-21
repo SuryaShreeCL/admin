@@ -27,12 +27,15 @@ import {
 } from "../../Actions/StudentMarkDetails";
 import { viewscoredetails } from "../../Actions/ScoreDetails";
 import { connect } from "react-redux";
-import { viewStudentStatus ,updateVerificationStatus } from "../../Actions/AdminAction";
+import {
+  viewStudentStatus,
+  updateVerificationStatus,
+} from "../../Actions/AdminAction";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import { ErrorMessage } from "../Validation";
-
+import { getVariantStepsById } from "../../Actions/ProductAction";
 
 class TestEngineResult extends Component {
   constructor() {
@@ -47,9 +50,9 @@ class TestEngineResult extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
-      examAttendDate : null,
-      testlist : [],
-      finaltestlist : [],
+      examAttendDate: null,
+      testlist: [],
+      finaltestlist: [],
       sectionStatus: {
         model: false,
         data: null,
@@ -65,32 +68,34 @@ class TestEngineResult extends Component {
     // this.props.viewscoredetails(this.props.match.params.id);
     this.props.viewStudentStatus(this.props.match.params.studentId);
 
-    this.props.viewscoredetails(this.props.match.params.studentId,(response => {
-      if(response.status === 200){
-        this.setState({
-          testlist : response.data
-        })
+    this.props.viewscoredetails(
+      this.props.match.params.studentId,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({
+            testlist: response.data,
+          });
+        }
       }
-    }));
+    );
+    this.props.getVariantStepsById(this.props.match.params.productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.testlist !== prevState.testlist){
+    if (this.state.testlist !== prevState.testlist) {
       let arr =
         this.state.testlist &&
         this.state.testlist.filter(
-          (eachItem) =>
-          !eachItem.questionSetName.includes("Aspiration")
+          (eachItem) => !eachItem.questionSetName.includes("Aspiration")
         );
       this.setState({
-        finaltestlist : arr
-      })
+        finaltestlist: arr,
+      });
     }
     if (this.props.viewAnswersList !== prevProps.viewAnswersList) {
       if (typeof this.props.viewAnswersList === "object") {
         let quesAnsArr = [];
         for (const property in this.props.viewAnswersList) {
-          
           quesAnsArr.push({
             question: property,
             answer: this.props.viewAnswersList[property],
@@ -101,29 +106,26 @@ class TestEngineResult extends Component {
         });
       }
     }
-    if(this.props.viewReseTestList !== prevProps.viewReseTestList){
+    if (this.props.viewReseTestList !== prevProps.viewReseTestList) {
       this.setState({
-        snackMsg : "Test reseted successfully",
-        snackVariant : "success",
-        snackOpen : true
-      })
-      this.props.viewscoredetails(this.props.match.params.studentId)
+        snackMsg: "Test reseted successfully",
+        snackVariant: "success",
+        snackOpen: true,
+      });
+      this.props.viewscoredetails(this.props.match.params.studentId);
     }
   }
 
-  handleShowAnswer = (questionSetName,examDate) => {
-    this.props.viewanswers(
-      this.props.match.params.studentId,
-      questionSetName
-    );
-    let date = new Date(examDate).getDate()
-    let month = new Date(examDate).getMonth()+1
-    let year = new Date(examDate).getFullYear()
-    let newFullDate = date + "/" + month + "/" + year
+  handleShowAnswer = (questionSetName, examDate) => {
+    this.props.viewanswers(this.props.match.params.studentId, questionSetName);
+    let date = new Date(examDate).getDate();
+    let month = new Date(examDate).getMonth() + 1;
+    let year = new Date(examDate).getFullYear();
+    let newFullDate = date + "/" + month + "/" + year;
     this.setState({
       questionSetName: questionSetName,
       showEye: true,
-      examAttendDate : newFullDate
+      examAttendDate: newFullDate,
     });
   };
 
@@ -133,34 +135,31 @@ class TestEngineResult extends Component {
     });
     this.props.viewresettest(
       this.props.match.params.studentId,
-      this.state.testExeId,(response => {
-        if(response.status === 200){
+      this.state.testExeId,
+      (response) => {
+        if (response.status === 200) {
           this.setState({
-            snackMsg : "Test Reseted Successfully",
-            snackVariant : "success",
-            snackOpen : true
-          })
+            snackMsg: "Test Reseted Successfully",
+            snackVariant: "success",
+            snackOpen: true,
+          });
           this.props.viewscoredetails(this.props.match.params.studentId);
-        }
-        else{
+        } else {
           this.setState({
-            snackMsg : ErrorMessage.NetworkError,
-            snackVariant : "error",
-            snackOpen : true
-          })
+            snackMsg: ErrorMessage.NetworkError,
+            snackVariant: "error",
+            snackOpen: true,
+          });
         }
-      })
+      }
     );
   };
 
   getStatus = (sectionName) => {
-    if (
-      this.props.studentStatus &&
-      this.props.studentStatus.length !== 0
-    ) {
-      const { studentStatus } = this.props;         
+    if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
+      const { studentStatus } = this.props;
       return studentStatus.find((item) => item.sectionName === sectionName);
-    } 
+    }
   };
 
   renderModel = () => (
@@ -177,11 +176,9 @@ class TestEngineResult extends Component {
       section={this.state.sectionStatus}
       {...this.props}
     />
-  );  
-  
+  );
+
   render() {
-    
-    
     return (
       <div style={{ padding: 25 }}>
         <div
@@ -233,7 +230,10 @@ class TestEngineResult extends Component {
                       }
                     /> */}
           </div>
-          <IconButton onClick={this.handleClick.bind(this)}>
+          <IconButton
+            disabled={this.props.variantStepList.adminObComplete}
+            onClick={this.handleClick.bind(this)}
+          >
             <img src={Pencil} height={17} width={17} />
           </IconButton>
         </div>
@@ -313,7 +313,7 @@ class TestEngineResult extends Component {
               {this.state.finaltestlist.length !== 0 &&
                 this.state.finaltestlist.map((eachItem, index) => {
                   let date = new Date(eachItem.examDate).getDate();
-                  let month = new Date(eachItem.examDate).getMonth()+1;
+                  let month = new Date(eachItem.examDate).getMonth() + 1;
                   let year = new Date(eachItem.examDate).getFullYear();
                   let newExamDate = date + "/" + month + "/" + year;
                   return (
@@ -390,7 +390,10 @@ class TestEngineResult extends Component {
                       >
                         <IconButton
                           onClick={() =>
-                            this.handleShowAnswer(eachItem.questionSetName,eachItem.examDate)
+                            this.handleShowAnswer(
+                              eachItem.questionSetName,
+                              eachItem.examDate
+                            )
                           }
                         >
                           <img
@@ -432,8 +435,14 @@ class TestEngineResult extends Component {
               Reset {this.state.questionSetName} ?
             </Typography>
             <Typography style={{ color: "#052A4E", fontSize: 16 }}>
-            Resetting this test will give option to {this.props.getStudentsByIdList && this.props.getStudentsByIdList.fullName !== null ? this.props.getStudentsByIdList.fullName : this.props.getStudentsByIdList.firstName + " " + this.props.getStudentsByIdList.lastName} to retake{" "}
-              {this.state.questionSetName}
+              Resetting this test will give option to{" "}
+              {this.props.getStudentsByIdList &&
+              this.props.getStudentsByIdList.fullName !== null
+                ? this.props.getStudentsByIdList.fullName
+                : this.props.getStudentsByIdList.firstName +
+                  " " +
+                  this.props.getStudentsByIdList.lastName}{" "}
+              to retake {this.state.questionSetName}
             </Typography>
             <div
               style={{
@@ -460,7 +469,13 @@ class TestEngineResult extends Component {
           aria-labelledby="customized-dialog-title"
         >
           <DialogTitle>
-            <div style={{ display: "flex", justifyContent: "center",position : "relative" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                position: "relative",
+              }}
+            >
               <Typography
                 style={{
                   color: "#052A4E",
@@ -470,13 +485,15 @@ class TestEngineResult extends Component {
                   justifyContent: "center",
                 }}
               >
-                 {this.state.questionSetName}
+                {this.state.questionSetName}
               </Typography>
-              <IconButton style={{position: "absolute", top : 0, right : 0}} onClick={() => this.setState({ showEye: false })}>
+              <IconButton
+                style={{ position: "absolute", top: 0, right: 0 }}
+                onClick={() => this.setState({ showEye: false })}
+              >
                 <img src={x} height={17} width={17} />
               </IconButton>
             </div>
-           
           </DialogTitle>
           <DialogContent style={{ height: "800px" }}>
             <div
@@ -497,7 +514,7 @@ class TestEngineResult extends Component {
                   <>
                     <div style={{ paddingTop: "10px" }}>
                       <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                        {index+1}.{eachItem.question}
+                        {index + 1}.{eachItem.question}
                       </Typography>
                     </div>
                     <div style={{ paddingTop: 10 }}>
@@ -523,6 +540,7 @@ class TestEngineResult extends Component {
             variant={"contained"}
             color={"primary"}
             size={"small"}
+            disabled={this.props.variantStepList.adminObComplete}
           >
             Save Changes
           </PrimaryButton>
@@ -553,7 +571,7 @@ const mapStateToProps = (state) => {
     viewScoreDetailsList: state.ScoreReducer.viewScoreDetailsList,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getStudentsByIdList: state.StudentReducer.StudentList,
-
+    variantStepList: state.ProductReducer.variantStepList,
   };
 };
 
@@ -564,4 +582,5 @@ export default connect(mapStateToProps, {
   viewscoredetails,
   viewStudentStatus,
   updateVerificationStatus,
+  getVariantStepsById,
 })(TestEngineResult);

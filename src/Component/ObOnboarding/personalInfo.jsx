@@ -19,6 +19,7 @@ import {
   updatePersonalInfo,
   getPincodeDetails,
 } from "../../Actions/Calldetails";
+import { getVariantStepsById } from "../../Actions/ProductAction";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -119,6 +120,7 @@ export class personalInfo extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
+    this.props.getVariantStepsById(this.props.match.params.productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -154,17 +156,37 @@ export class personalInfo extends Component {
         clsid: this.props.getStudentsByIdList.studentID,
         altPhone: this.props.getStudentsByIdList.altPhoneNumber,
         altEmail: this.props.getStudentsByIdList.altEmailId,
-        apartmentName:this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address
-          .suitNoApartmentNo : "",
-        address1: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.streetAddressOne : "",
-        address2: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.streetAddressTwo : "",
-        landmark: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.landMark : "",
-        pincode: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.pincode : "",
-        city:  this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.city : "",
+        apartmentName:
+          this.props.getStudentsByIdList.address !== null
+            ? this.props.getStudentsByIdList.address.suitNoApartmentNo
+            : "",
+        address1:
+          this.props.getStudentsByIdList.address !== null
+            ? this.props.getStudentsByIdList.address.streetAddressOne
+            : "",
+        address2:
+          this.props.getStudentsByIdList.address !== null
+            ? this.props.getStudentsByIdList.address.streetAddressTwo
+            : "",
+        landmark:
+          this.props.getStudentsByIdList.address !== null
+            ? this.props.getStudentsByIdList.address.landMark
+            : "",
+        pincode:
+          this.props.getStudentsByIdList.address !== null
+            ? this.props.getStudentsByIdList.address.pincode
+            : "",
+        city:
+          this.props.getStudentsByIdList.address !== null
+            ? this.props.getStudentsByIdList.address.city
+            : "",
         twitter: this.props.getStudentsByIdList.twitterUrl,
         facebook: this.props.getStudentsByIdList.faceBookUrl,
         linkedIn: this.props.getStudentsByIdList.linkedInProfile,
-        state: this.props.getStudentsByIdList.address !== null ? this.props.getStudentsByIdList.address.state : "",
+        state:
+          this.props.getStudentsByIdList.address !== null
+            ? this.props.getStudentsByIdList.address.state
+            : "",
       });
     }
     if (
@@ -292,7 +314,6 @@ export class personalInfo extends Component {
     />
   );
   documentClick = (data) => {
-    
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     window.open(
       URL +
@@ -305,6 +326,7 @@ export class personalInfo extends Component {
 
   render() {
     const { HeadStyle, GridStyle } = style;
+    console.log(this.props.variantStepList);
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -345,7 +367,10 @@ export class personalInfo extends Component {
                       }
                     /> */}
                   </div>
-                  <IconButton onClick={this.handlePersonalClick.bind(this)}>
+                  <IconButton
+                    disabled={this.props.variantStepList.adminObComplete}
+                    onClick={this.handlePersonalClick.bind(this)}
+                  >
                     <img src={Pencil} height={17} width={17} />
                   </IconButton>
                 </div>
@@ -948,6 +973,7 @@ export class personalInfo extends Component {
                   variant={"contained"}
                   color={"primary"}
                   size={"small"}
+                  disabled={this.props.variantStepList.adminObComplete}
                 >
                   Save Changes
                 </PrimaryButton>
@@ -996,6 +1022,8 @@ const mapStateToProps = (state) => {
     getStudentsByIdList: state.StudentReducer.StudentList,
     getAllDocumentList: state.StudentReducer.getDocumentList,
     studentStatus: state.AdminReducer.studentStatusResponse,
+    variantStepList: state.ProductReducer.variantStepList,
+
     // getDocumentList: state.StudentReducer.getDocumentList,
   };
 };
@@ -1008,4 +1036,5 @@ export default connect(mapStateToProps, {
   viewStudentStatus,
   updateVerificationStatus,
   getDocumentList,
+  getVariantStepsById,
 })(personalInfo);
