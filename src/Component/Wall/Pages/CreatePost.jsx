@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  ButtonsContainer,
-  CreatePostContainer,
-} from '../Assets/Styles/CreatePostStyles';
+import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
 import Switch from '@material-ui/core/Switch';
@@ -26,10 +23,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import {
-  createWallPost,
-  getWallCategories,
-} from '../../../Actions/WallActions';
+import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { wallPath } from '../../RoutePaths';
@@ -108,9 +102,9 @@ const CreatePost = () => {
     dispatch(getWallCategories('Live'));
   }, [dispatch]);
 
-  const { categories } = useSelector(state => state.getWallCategoriesReducer);
+  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
-  const validate = values => {
+  const validate = (values) => {
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
@@ -156,7 +150,7 @@ const CreatePost = () => {
     }
 
     if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
-      setErrorSchema(s => ({ ...s, isVideoLink: true }));
+      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
     }
 
@@ -164,13 +158,23 @@ const CreatePost = () => {
   };
 
   const handlePostType = () => {
-    setState(s => ({ ...s, isEvent: !state.isEvent }));
+    setState((s) => ({ ...s, isEvent: !state.isEvent }));
   };
 
-  const validationSchema = yup.object({
+  const webinarvalidationSchema = yup.object({
     caption: yup.string().required('caption is required'),
     eventTitle: yup.string().required('title is required'),
     zoomLink: yup.string().required('zoom id is required'),
+  });
+
+  const eventvalidationSchema = yup.object({
+    caption: yup.string().required('caption is required'),
+    eventTitle: yup.string().required('title is required'),
+    jobRole: yup.string().required('job role is required'),
+  });
+
+  const postvalidationSchema = yup.object({
+    caption: yup.string().required('caption is required'),
   });
 
   const createPost = (post, activeStatus) => {
@@ -215,7 +219,13 @@ const CreatePost = () => {
       <CreatePostContainer>
         <Formik
           initialValues={state || []}
-          validationSchema={state.isWebinar && validationSchema}
+          validationSchema={
+            state.isWebinar
+              ? webinarvalidationSchema
+              : state.isEvent
+              ? eventvalidationSchema
+              : postvalidationSchema
+          }
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
               createPost(values, location?.postType === 'Webinar' ? 'Scheduled' : 'Live');
@@ -318,6 +328,7 @@ const CreatePost = () => {
                         name='eventTitle'
                         style={{ width: '80%', marginTop: '18px' }}
                         value={values.eventTitle}
+                        error={touched.eventTitle && Boolean(errors.eventTitle)}
                         onChange={handleChange}
                       />
                       <Controls.Input
@@ -327,6 +338,7 @@ const CreatePost = () => {
                           width: '80%',
                           marginTop: '18px',
                         }}
+                        error={touched.jobRole && Boolean(errors.jobRole)}
                         value={values.jobRole}
                         onChange={handleChange}
                       />
