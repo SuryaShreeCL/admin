@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  ButtonsContainer,
-  CreatePostContainer,
-} from '../Assets/Styles/CreatePostStyles';
+import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
 import Switch from '@material-ui/core/Switch';
@@ -26,10 +23,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import {
-  createWallPost,
-  getWallCategories,
-} from '../../../Actions/WallActions';
+import { createWallPost, getWallCategories } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { wallPath } from '../../RoutePaths';
@@ -108,9 +102,9 @@ const CreatePost = () => {
     dispatch(getWallCategories('Live'));
   }, [dispatch]);
 
-  const { categories } = useSelector(state => state.getWallCategoriesReducer);
+  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
-  const validate = values => {
+  const validate = (values) => {
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
@@ -156,7 +150,7 @@ const CreatePost = () => {
     }
 
     if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
-      setErrorSchema(s => ({ ...s, isVideoLink: true }));
+      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
     }
 
@@ -164,14 +158,23 @@ const CreatePost = () => {
   };
 
   const handlePostType = () => {
-    setState(s => ({ ...s, isEvent: !state.isEvent }));
+    setState((s) => ({ ...s, isEvent: !state.isEvent }));
   };
 
-  const validationSchema = yup.object({
+  const webinarvalidationSchema = yup.object({
     caption: yup.string().required('caption is required'),
     eventTitle: yup.string().required('title is required'),
     zoomLink: yup.string().required('zoom id is required'),
-    jobRole: yup.string().required('Job role id is required')
+  });
+
+  const eventvalidationSchema = yup.object({
+    caption: yup.string().required('caption is required'),
+    eventTitle: yup.string().required('title is required'),
+    jobRole: yup.string().required('job role is required'),
+  });
+
+  const postvalidationSchema = yup.object({
+    caption: yup.string().required('caption is required'),
   });
 
   const createPost = (post, activeStatus) => {
@@ -216,36 +219,27 @@ const CreatePost = () => {
       <CreatePostContainer>
         <Formik
           initialValues={state || []}
-          validationSchema={state.isWebinar && validationSchema}
+          validationSchema={
+            state.isWebinar
+              ? webinarvalidationSchema
+              : state.isEvent
+              ? eventvalidationSchema
+              : postvalidationSchema
+          }
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
-              createPost(
-                values,
-                location?.postType === 'Webinar' ? 'Scheduled' : 'Live'
-              );
+              createPost(values, location?.postType === 'Webinar' ? 'Scheduled' : 'Live');
               resetForm();
             }
           }}
           enableReinitialize
         >
-          {({
-            handleSubmit,
-            errors,
-            handleChange,
-            values,
-            touched,
-            setFieldValue,
-          }) => (
+          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
             <>
               <div className='CreatePost'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <h6>Post Type</h6>
-                  <Grid
-                    component='label'
-                    container
-                    alignItems='center'
-                    spacing={1}
-                  >
+                  <Grid component='label' container alignItems='center' spacing={1}>
                     <Grid item>Wall Post</Grid>
                     <Grid item>
                       <Switch
@@ -303,32 +297,25 @@ const CreatePost = () => {
                       />
                     )}
                   </RadioGroup>
-                  <FormControl
-                    className={classes.root}
-                    style={{ width: '80%' }}
-                  >
+                  <FormControl className={classes.root} style={{ width: '80%' }}>
                     <Autocomplete
                       multiple
                       id='wallCategories'
                       name='wallCategories'
-                      getOptionLabel={option => option?.name}
+                      getOptionLabel={(option) => option?.name}
                       options={categories ?? []}
                       onChange={(e, value) => {
-                        setFieldValue(
-                          'wallCategories',
-                          value !== null ? value : categories
-                        );
+                        setFieldValue('wallCategories', value !== null ? value : categories);
                       }}
                       value={values.wallCategories}
-                      renderInput={params => (
+                      renderInput={(params) => (
                         <TextField
                           {...params}
                           label='Select Category'
                           name='wallCategories'
                           variant='outlined'
                           error={
-                            touched.wallCategories &&
-                            Boolean(values.wallCategories.length === 0)
+                            touched.wallCategories && Boolean(values.wallCategories.length === 0)
                           }
                         />
                       )}
@@ -341,19 +328,17 @@ const CreatePost = () => {
                         name='eventTitle'
                         style={{ width: '80%', marginTop: '18px' }}
                         value={values.eventTitle}
+                        error={touched.eventTitle && Boolean(errors.eventTitle)}
                         onChange={handleChange}
                       />
                       <Controls.Input
                         label='Enter Job Role'
                         name='jobRole'
-                        error={
-                          values.jobRole?.length < 2 &&
-                          touched.jobRole && Boolean(errors.jobRole)
-                        }
                         style={{
                           width: '80%',
                           marginTop: '18px',
                         }}
+                        error={touched.jobRole && Boolean(errors.jobRole)}
                         value={values.jobRole}
                         onChange={handleChange}
                       />
@@ -427,23 +412,22 @@ const CreatePost = () => {
                       </span>
                     </Grid>
                   )}
-                  {values.supportingMedia === 'video' &&
-                    values.isVideoUrlEnabled && (
-                      <Grid item>
-                        <Controls.Input
-                          label='Paste Video URL'
-                          name='videoUrl'
-                          style={{
-                            width: '80%',
-                            marginTop: '10px',
-                            marginBottom: '10px',
-                          }}
-                          value={values.videoUrl}
-                          error={errorSchema.isVideoLink}
-                          onChange={handleChange}
-                        />
-                      </Grid>
-                    )}
+                  {values.supportingMedia === 'video' && values.isVideoUrlEnabled && (
+                    <Grid item>
+                      <Controls.Input
+                        label='Paste Video URL'
+                        name='videoUrl'
+                        style={{
+                          width: '80%',
+                          marginTop: '10px',
+                          marginBottom: '10px',
+                        }}
+                        value={values.videoUrl}
+                        error={errorSchema.isVideoLink}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                  )}
                   {values.isWebinar && (
                     <Grid item>
                       <Controls.Input
@@ -503,23 +487,13 @@ const CreatePost = () => {
                   )}
                   <Grid container direction='column' style={{ width: '80%' }}>
                     {values.supportingMedia === 'image' && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        fileType='image'
-                      />
+                      <MultipleFileUploadField name='wallFiles' fileType='image' />
                     )}
-                    {values.supportingMedia === 'video' &&
-                      !values.isVideoUrlEnabled && (
-                        <MultipleFileUploadField
-                          name='wallFiles'
-                          fileType='video'
-                        />
-                      )}
+                    {values.supportingMedia === 'video' && !values.isVideoUrlEnabled && (
+                      <MultipleFileUploadField name='wallFiles' fileType='video' />
+                    )}
                     {values.supportingMedia === 'audio' && (
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        fileType='audio'
-                      />
+                      <MultipleFileUploadField name='wallFiles' fileType='audio' />
                     )}
                   </Grid>
                   {!values.isEvent && !values.isWebinar && (
@@ -592,7 +566,7 @@ const CreatePost = () => {
                             disablePast
                             name='eventDate'
                             inputVariant='outlined'
-                            onChange={val => {
+                            onChange={(val) => {
                               setFieldValue('eventDate', val);
                             }}
                           />
@@ -614,7 +588,7 @@ const CreatePost = () => {
                             disablePast
                             name='eventEndDate'
                             inputVariant='outlined'
-                            onChange={val => {
+                            onChange={(val) => {
                               setFieldValue('eventEndDate', val);
                             }}
                           />
@@ -630,9 +604,7 @@ const CreatePost = () => {
                       className={classes.spacer}
                     >
                       <Grid item>
-                        <h6 style={{ fontSize: '1rem' }}>
-                          Webinar Start Date{' '}
-                        </h6>
+                        <h6 style={{ fontSize: '1rem' }}>Webinar Start Date </h6>
                         <MuiPickersUtilsProvider utils={MomentUtils}>
                           <DateTimePicker
                             InputProps={{
@@ -647,7 +619,7 @@ const CreatePost = () => {
                             disablePast
                             name='eventDate'
                             inputVariant='outlined'
-                            onChange={val => {
+                            onChange={(val) => {
                               setFieldValue('eventDate', val);
                             }}
                           />
@@ -669,7 +641,7 @@ const CreatePost = () => {
                             disablePast
                             name='eventEndDate'
                             inputVariant='outlined'
-                            onChange={val => {
+                            onChange={(val) => {
                               setFieldValue('eventEndDate', val);
                             }}
                           />
@@ -693,7 +665,7 @@ const CreatePost = () => {
                           disablePast
                           name='selectedDate'
                           inputVariant='outlined'
-                          onChange={val => {
+                          onChange={(val) => {
                             setFieldValue('selectedDate', val);
                           }}
                           label='Schedule Data & Time'
@@ -740,20 +712,14 @@ const CreatePost = () => {
                 {values.isWebinar ? null : <Preview state={values} />}
               </div>
               {values.isEvent && (
-                <PreprationContainer
-                  values={values}
-                  setFieldValue={setFieldValue}
-                />
+                <PreprationContainer values={values} setFieldValue={setFieldValue} />
               )}
             </>
           )}
         </Formik>
       </CreatePostContainer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog
-        confirmDialog={confirmDialog}
-        setConfirmDialog={setConfirmDialog}
-      />
+      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </>
   );
 };
