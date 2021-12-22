@@ -424,57 +424,57 @@ export const Button = withStyles({
   },
 })(MuiButton);
 
-export const ContinueButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  background: #1093ff;
-  border-radius: 30px !important;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 16px;
-  color: #f2f2f2 !important;
-  padding: 10px;
-  margin-top: 5vh;
-  cursor: pointer;
-`;
+// export const ContinueButton = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   width: 200px;
+//   background: #1093ff;
+//   border-radius: 30px !important;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 18px;
+//   line-height: 16px;
+//   color: #f2f2f2 !important;
+//   padding: 10px;
+//   margin-top: 5vh;
+//   cursor: pointer;
+// `;
 
-export const PauseModelSubTitle = styled.div`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  text-align: center;
-  color: #052a4e;
-`;
+// export const PauseModelSubTitle = styled.div`
+//   font-style: normal;
+//   font-weight: normal;
+//   font-size: 16px;
+//   line-height: 24px;
+//   text-align: center;
+//   color: #052a4e;
+// `;
 
-export const PauseModelTitle = styled.div`
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 30px;
-  text-align: center;
-  color: #052a4e;
-  padding: 29px 0px 0px;
-`;
+// export const PauseModelTitle = styled.div`
+//   font-weight: 600;
+//   font-size: 24px;
+//   line-height: 30px;
+//   text-align: center;
+//   color: #052a4e;
+//   padding: 29px 0px 0px;
+// `;
 
-export const QuitButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  background: none;
-  border-radius: 30px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 16px;
-  color: #1093ff;
-  border: 1px solid #1093ff;
-  padding: 10px;
-  margin-top: 5vh;
-  cursor: pointer;
-`;
+// export const QuitButton = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   width: 200px;
+//   background: none;
+//   border-radius: 30px;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 18px;
+//   line-height: 16px;
+//   color: #1093ff;
+//   border: 1px solid #1093ff;
+//   padding: 10px;
+//   margin-top: 5vh;
+//   cursor: pointer;
+// `;

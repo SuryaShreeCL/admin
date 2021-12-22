@@ -1,7 +1,8 @@
 /**
  * (c) CareerLabs. All rights reserved.
  **/
-import Button from "../../../utils/components/Button";
+// import Button from "../../../utils/components/Button";
+import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { Divider as MuiDivider } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";

@@ -15,8 +15,9 @@ import {
   SingleSelect as Style,
   Div,
 } from "../../../../../../Assets/css/Preview/TestComponent";
-import Latex from "../../../../../../utils/LatexViewer";
-import Ellipse from "../../../../../../assets/icons/Ellipse.svg";
+import Latex from "../../../../../../Utils/LatexViewer";
+// import Ellipse from "../../../../../../assets/icons/Ellipse.svg";
+import Ellipse from "../../../../../../Assets/icons/Ellipse.svg";
 
 const SingleSelect = ({
   question,

@@ -1,6 +1,6 @@
 import { Box, Checkbox, FormControlLabel, Typography } from "@material-ui/core";
 import React from "react";
-import Latex from "../../../../../../utils/LatexViewer";
+import Latex from "../../../../../../Utils/LatexViewer";
 import {
   Table,
   Tr,
@@ -8,7 +8,10 @@ import {
   BundleCenter,
   TH,
 } from "../../../../../../Assets/css/Preview/GreStyles";
-import Ellipse from "../../../../../../assets/icons/Ellipse.svg";
+// import Ellipse from "../../../../../../assets/icons/Ellipse.svg";
+// import Ellipse from "../../../../../../Assets/icons/Ellipse.svg";
+// /Assets/icons/Ellipse.svg
+import Ellipse from "../../../../../../Assets/icons/Ellipse.svg";
 import {
   ChoiceDiv,
   TopGrey,
@@ -18,7 +21,7 @@ import {
   BundleDiv,
 } from "../../../../../../Assets/css/Preview/GreStyles";
 
-import { ChoiceDiv } from "../../../../../../Assets/css/Preview/GreStyles";
+// import { ChoiceDiv } from "../../../../../../Assets/css/Preview/GreStyles";
 
 const App = ({
   choices,

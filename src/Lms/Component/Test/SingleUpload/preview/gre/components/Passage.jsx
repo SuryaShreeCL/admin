@@ -1,7 +1,7 @@
 import { Box, Typography } from "@material-ui/core";
 // import Bundle from '../../../exam/Bundle';
 import Bundle from "./Bundle";
-import Latex from "../../../../../../utils/LatexViewer";
+import Latex from "../../../../../../Utils/LatexViewer";
 import SingleMulti from "./SingleMulti";
 import {
   DescriptionBox,
@@ -10,7 +10,8 @@ import {
   OutlineLeft,
   OutlineRight,
   TextBox,
-} from "../../../../../Assets/css/Preview/GreStyles";
+} from "../../../../../../Assets/css/Preview/GreStyles";
+// import { DescriptionBox } from "../../../../../../Assets/css/Preview/GreStyles";
 import React, { Component } from "react";
 
 const Passage = ({

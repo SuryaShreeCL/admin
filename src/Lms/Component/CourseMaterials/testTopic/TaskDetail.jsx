@@ -1,5 +1,5 @@
 import { Box, Grid } from "@material-ui/core";
-import _ from "lodash";
+// import _ from "lodash";
 import QueryString from "qs";
 import React, { Component } from "react";
 import { withTranslation } from "react-i18next";
@@ -144,17 +144,16 @@ class TaskDetail extends Component {
   }
 
   handleGeneralClick(e) {
-    const { boost } = QueryString.parse(this.props.location.search, {
-      ignoreQueryPrefix: true,
-    });
-
-    const clsName = e.target.className.baseVal || e.target.className;
-    if (boost && _.isString(clsName) && clsName.indexOf("on-boost-mode") > -1) {
-      e.preventDefault();
-      e.target.onclick = null;
-      e.stopPropagation();
-      this.setState({ boosterDialog: true, currenElement: e.target });
-    }
+    // const { boost } = QueryString.parse(this.props.location.search, {
+    //   ignoreQueryPrefix: true,
+    // });
+    // const clsName = e.target.className.baseVal || e.target.className;
+    // if (boost && _.isString(clsName) && clsName.indexOf("on-boost-mode") > -1) {
+    //   e.preventDefault();
+    //   e.target.onclick = null;
+    //   e.stopPropagation();
+    //   this.setState({ boosterDialog: true, currenElement: e.target });
+    // }
   }
 
   handleLeftCardClick = e => {

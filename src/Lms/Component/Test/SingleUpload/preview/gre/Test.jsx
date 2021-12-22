@@ -8,14 +8,19 @@ import React, { Component } from "react";
 import {
   greTheme,
   ContinueButton,
+} from "../../../../../Assets/css/Preview/GreStyles";
+
+import {
   PauseModelSubTitle,
   PauseModelTitle,
   QuitButton,
-} from "../../../../../Assets/css/Preview/GreStyles";
+} from "../../../../../Assets/css/Preview/TestComponent";
 
 // import DialogComponent from '../../../../utils/components/DialogComponent';
 import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
+// import PauseModelIcon from "../../../../../Assets/icons/pause.svg";
 import PauseModelIcon from "../../../../../Assets/icons/pause.svg";
+
 // import { retakeExam } from "../../../../../redux/action/Dashboard";
 // import {
 //   AddBookmarks,
@@ -27,12 +32,12 @@ import PauseModelIcon from "../../../../../Assets/icons/pause.svg";
 //   startTest,
 //   submitAnswer,
 // } from "../../../../../redux/action/Test";
-import { routePaths } from "../../../../../routes/RoutePath";
-import DialogComponent from "../../../../../utils/components/DialogComponent";
-import PageLoader from "../../../../../utils/components/PageLoader";
-import Model from "../../../../../utils/Model";
+// import { routePaths } from "../../../../../routes/RoutePath";
+// import DialogComponent from "../../../../../utils/components/DialogComponent";
+// import PageLoader from "../../../../../utils/components/PageLoader";
+// import Model from "../../../../../utils/Model";
 import Bundle from "./components/Bundle";
-import Calculator from "./components/Calculator";
+// import Calculator from "./components/Calculator";
 import Confirmation from "./components/Confirmation";
 import Passage from "./components/Passage";
 import SingleMulti from "./components/SingleMulti";
@@ -278,33 +283,33 @@ class Test extends Component {
     }
   };
 
-  renderModel = t => {
-    return (
-      <Model open={this.state.modelOpen}>
-        <Box
-          display={"flex"}
-          flexDirection={"column"}
-          p={5}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <Box>
-            <img src={PauseModelIcon} alt="" />
-          </Box>
-          <PauseModelTitle>{"Test Paused"}</PauseModelTitle>
-          <PauseModelSubTitle>
-            {`Press "Continue" to continue the test`}
-          </PauseModelSubTitle>
-          <Box display={"flex"} gridGap={25}>
-            <QuitButton onClick={this.pauseExam}>{"Quit"}</QuitButton>
-            <ContinueButton onClick={() => this.setState({ modelOpen: false })}>
-              {"Continue"}
-            </ContinueButton>
-          </Box>
-        </Box>
-      </Model>
-    );
-  };
+  // renderModel = t => {
+  //   return (
+  //     <Model open={this.state.modelOpen}>
+  //       <Box
+  //         display={"flex"}
+  //         flexDirection={"column"}
+  //         p={5}
+  //         alignItems={"center"}
+  //         justifyContent={"center"}
+  //       >
+  //         <Box>
+  //           <img src={PauseModelIcon} alt="" />
+  //         </Box>
+  //         <PauseModelTitle>{"Test Paused"}</PauseModelTitle>
+  //         <PauseModelSubTitle>
+  //           {`Press "Continue" to continue the test`}
+  //         </PauseModelSubTitle>
+  //         <Box display={"flex"} gridGap={25}>
+  //           <QuitButton onClick={this.pauseExam}>{"Quit"}</QuitButton>
+  //           <ContinueButton onClick={() => this.setState({ modelOpen: false })}>
+  //             {"Continue"}
+  //           </ContinueButton>
+  //         </Box>
+  //       </Box>
+  //     </Model>
+  //   );
+  // };
 
   // pauseExam = () => {
   //   const { testQuestionId } = QueryString.parse(this.props.location.search, {
@@ -516,59 +521,63 @@ class Test extends Component {
   // };
 
   render() {
-    if (this.state.question !== null) {
-      // const { t } = this.props;
-      const {
-        currentQuestionNo,
-        totalNoOfQuestion,
-        status,
-        conceptName,
-      } = this.state.question;
-      const {
-        handleButton1Click,
-        handleButton2Click,
-        handleBookmarkClick,
-      } = this;
+    // if (this.state.question !== null) {
+    // const { t } = this.props;
+    // const {
+    //   currentQuestionNo,
+    //   totalNoOfQuestion,
+    //   status,
+    //   conceptName,
+    // } = this.state.question;
+    const {
+      handleButton1Click,
+      handleButton2Click,
+      handleBookmarkClick,
+    } = this;
 
-      const layoutProps = {
-        // handlePauseClick: this.pauseExam,
-        showPrimaryButton: true,
-        showBookmarkButton: true,
-        showPauseButton: true,
-        showSection: true,
-        primaryButtonText: "Continue",
-        isBookmark: this.state.bookMarked,
-        loading: this.state.isLoading,
-        showCalculatorButton: this.state.question.isCalculator,
-        question: this.state.question,
-        stop: this.state.stop,
-        sectionData: this.props.sectionResponse,
-        disabled: this.disabled(),
-        handleNextClick: !this.disabled()
-          ? () => this.setState({ showConfirmationDialog: true })
-          : () => {},
-        getRemainingTime: this.getRemainingTime,
-        handlePauseClick: () => this.setState({ modelOpen: true }),
-        handleBookmarkClick: handleBookmarkClick,
-        handleCalculatorClick: () => this.setState({ showCalculator: true }),
-      };
+    const layoutProps = {
+      // handlePauseClick: this.pauseExam,
+      showPrimaryButton: true,
+      showBookmarkButton: true,
+      showPauseButton: true,
+      showSection: true,
+      primaryButtonText: "Continue",
+      isBookmark: this.state.bookMarked,
+      loading: this.state.isLoading,
+      // showCalculatorButton: this.state.question.isCalculator,
+      showCalculatorButton: false,
+      question: this.state.question,
+      stop: this.state.stop,
+      sectionData: this.props.sectionResponse,
+      // disabled: this.disabled(),
+      disabled: false,
+      // handleNextClick: !this.disabled()
+      //   ? () => this.setState({ showConfirmationDialog: true })
+      //   : () => {},
+      handleNextClick: () => {},
+      getRemainingTime: this.getRemainingTime,
+      handlePauseClick: () => this.setState({ modelOpen: true }),
+      handleBookmarkClick: handleBookmarkClick,
+      handleCalculatorClick: () => this.setState({ showCalculator: true }),
+    };
 
-      const confirmationDialogProps = {
-        open: this.state.showConfirmationDialog,
-        onYes: this.next,
-        onNo: () => {
-          this.setState({ showConfirmationDialog: false });
-        },
-      };
-      return (
-        <React.Fragment>
-          <ThemeProvider theme={greTheme}>
-            <Layout {...layoutProps}>{this.renderQuestion()}</Layout>
+    const confirmationDialogProps = {
+      open: this.state.showConfirmationDialog,
+      onYes: this.next,
+      onNo: () => {
+        this.setState({ showConfirmationDialog: false });
+      },
+    };
+    return (
+      <React.Fragment>
+        <ThemeProvider theme={greTheme}>
+          {/* <Layout {...layoutProps}>{this.renderQuestion()}</Layout> */}
+          <Layout {...layoutProps}>hello</Layout>
 
-            {/* Dialog Components */}
-          </ThemeProvider>
-          <Confirmation {...confirmationDialogProps} />
-          <DialogComponent
+          {/* Dialog Components */}
+        </ThemeProvider>
+        <Confirmation {...confirmationDialogProps} />
+        {/* <DialogComponent
             open={this.state.dialogOpen}
             dialogContent={{
               icon: <img src={BookmarkIcon} />,
@@ -578,19 +587,19 @@ class Test extends Component {
             }}
             handleButton1Click={handleButton1Click}
             handleButton2Click={handleButton2Click}
-          />
-          {this.renderModel()}
-          <Calculator
-            open={this.state.showCalculator}
-            close={() => this.setState({ showCalculator: false })}
-          />
-        </React.Fragment>
-      );
-    } else {
-      return <PageLoader />;
-    }
+          /> */}
+        {/* {this.renderModel()} */}
+        {/* <Calculator
+          open={this.state.showCalculator}
+          close={() => this.setState({ showCalculator: false })}
+        /> */}
+      </React.Fragment>
+    );
+    // } else {
+    // return <PageLoader />;
   }
 }
+// }
 
 // const mapStateToProps = state => {
 //   return {

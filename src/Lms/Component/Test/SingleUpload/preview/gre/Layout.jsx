@@ -1,7 +1,7 @@
-import { Typography } from '@material-ui/core';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import React from 'react';
+import { Typography } from "@material-ui/core";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import React from "react";
 import {
   Divider,
   Header,
@@ -12,14 +12,15 @@ import {
   SubHeader,
   SubLeftBox,
   Container,
-} from '../../../../../assets/css/GreStyles';
-import GreIcon from '../../../../../assets/icons/GREIcon.svg';
-import PrimaryButton from './components/PrimaryButton';
-import SecondaryButton from './components/SecondaryButton';
-import _ from 'lodash';
-import Back from './components/Back';
-import Timer from '../../../../../utils/components/Timer';
-import CalculatorImg from '../../../../../assets/images/CalculatorImg.svg';
+} from "../../../../../Assets/css/Preview/GreStyles";
+
+import GreIcon from "../../../../../Assets/icons/GREIcon.svg";
+import PrimaryButton from "./components/PrimaryButton";
+import SecondaryButton from "./components/SecondaryButton";
+// import _ from "lodash";
+import Back from "./components/Back";
+// import Timer from "../../../../../utils/components/Timer";
+import CalculatorImg from "../../../../../Assets/icons/CalculatorImg.svg";
 
 function Layout(props) {
   return (
@@ -27,9 +28,9 @@ function Layout(props) {
       <Header>
         <LeftBox>
           <ImgBox>
-            <img src={GreIcon} alt='' />
+            <img src={GreIcon} alt="" />
           </ImgBox>
-          <Typography color='textSecondary' variant='h4'>
+          <Typography color="textSecondary" variant="h4">
             Calibration Test
           </Typography>
         </LeftBox>
@@ -38,7 +39,7 @@ function Layout(props) {
         <RightBox>
           {props.showCalculatorButton && (
             <SecondaryButton
-              icon={<img src={CalculatorImg} alt='' />}
+              icon={<img src={CalculatorImg} alt="" />}
               onClick={props.handleCalculatorClick}
             >
               Calculator
@@ -79,33 +80,36 @@ function Layout(props) {
       </Header>
 
       <SubHeader>
-        {props.showSection && !_.isEmpty(props.sectionData) && (
-          <>
-            <SubLeftBox>
-              <Typography variant='body2' color='textPrimary'>
-                {`Section ${props.sectionData.data.currentSection} of ${props.sectionData.data.totalSections}`}
-              </Typography>
-              {props.question !== null && props.question !== undefined && (
-                <>
-                  <Divider orientation='vertical' />
-                  <Typography variant='body1' color='textPrimary'>
-                    {`Question ${props.question.currentQuestionNo} of ${props.question.totalNoOfQuestion}`}
-                  </Typography>
-                </>
-              )}
-            </SubLeftBox>
-            <Typography variant='body2' color='textPrimary'>
-              {props.question !== undefined && (
-                <Timer
-                  time={1000 * props.question.remainingTime}
-                  getRemainingTime={props.getRemainingTime}
-                  reset={props.question.resetTime}
-                  stop={props.stop}
-                />
-              )}
-            </Typography>
-          </>
-        )}
+        {/* {props.showSection && !_.isEmpty(props.sectionData) && ( */}
+        {/* <> */}
+        <SubLeftBox>
+          <Typography variant="body2" color="textPrimary">
+            {/* {`Section ${props.sectionData.data.currentSection} of ${props.sectionData.data.totalSections}`} */}
+            Section 1 of 99
+          </Typography>
+          {/* {props.question !== null && props.question !== undefined && ( */}
+          {/* <> */}
+          <Divider orientation="vertical" />
+          <Typography variant="body1" color="textPrimary">
+            {/* {`Question ${props.question.currentQuestionNo} of ${props.question.totalNoOfQuestion}`} */}
+            Question 1 of 99
+          </Typography>
+          {/* </> */}
+          {/* )} */}
+        </SubLeftBox>
+        <Typography variant="body2" color="textPrimary">
+          23:59:59
+          {/* {props.question !== undefined && ( */}
+          {/* <Timer
+              time={1000 * props.question.remainingTime}
+              getRemainingTime={props.getRemainingTime}
+              reset={props.question.resetTime}
+              stop={props.stop}
+            /> */}
+          {/* )} */}
+        </Typography>
+        {/* </> */}
+        {/* )} */}
       </SubHeader>
       <Main>{props.children}</Main>
     </Container>
