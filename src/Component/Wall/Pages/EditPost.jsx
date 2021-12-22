@@ -144,7 +144,7 @@ const EditPost = () => {
       <CreatePostContainer>
         <Formik
           initialValues={records || state}
-          validationSchema={validationSchema}
+          // validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             updatePost({
               ...values,
