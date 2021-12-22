@@ -113,7 +113,10 @@ class workExperience extends Component {
   componentDidMount() {
     this.props.getworkexp(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
-    this.props.getVariantStepsById(this.props.match.params.productId);
+    this.props.getVariantStepsById(
+      this.props.match.params.productId +
+        `?studentId=${this.props.match.params.studentId}`
+    );
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.getworkexpList !== prevProps.getworkexpList) {
@@ -591,12 +594,16 @@ class workExperience extends Component {
                                     ? true
                                     : false
                                 }
-                                helperText={item.description === "" ? this.state[`descriptionErr${index}`] : `${item.description.length}/100`}
+                                helperText={
+                                  item.description === ""
+                                    ? this.state[`descriptionErr${index}`]
+                                    : `${item.description.length}/100`
+                                }
                                 InputLabelProps={{
                                   shrink: true,
                                 }}
-                                inputProps = {{
-                                  maxLength : 100
+                                inputProps={{
+                                  maxLength: 100,
                                 }}
                               />
                             </Grid>

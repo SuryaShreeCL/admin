@@ -23,7 +23,7 @@ import { getVariantStepsById } from "../../Actions/ProductAction";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import { isEmptyString,isEmail } from "../../Component/Validation";
+import { isEmptyString, isEmail } from "../../Component/Validation";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
@@ -105,7 +105,7 @@ export class personalInfo extends Component {
       twitterErr: "",
       pincodeDetails: [],
       documentedit: false,
-      error : false,
+      error: false,
       sectionStatus: {
         model: false,
         data: null,
@@ -120,18 +120,22 @@ export class personalInfo extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
-    this.props.getVariantStepsById(this.props.match.params.productId);
+    this.props.getVariantStepsById(
+      this.props.match.params.productId +
+        `?studentId=${this.props.match.params.studentId}`
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.altEmail !== prevState.altEmail){
-      if(!isEmptyString(this.state.altEmail)){
-        isEmail(this.state.altEmail) ? this.setState({altEmailErr : ""}) : this.setState({altEmailErr : "Please Enter a Valid Email"})
-      }
-      else{
+    if (this.state.altEmail !== prevState.altEmail) {
+      if (!isEmptyString(this.state.altEmail)) {
+        isEmail(this.state.altEmail)
+          ? this.setState({ altEmailErr: "" })
+          : this.setState({ altEmailErr: "Please Enter a Valid Email" });
+      } else {
         this.setState({
-          altEmailErr : ""
-        })
+          altEmailErr: "",
+        });
       }
     }
     if (this.props.getStudentsByIdList !== prevProps.getStudentsByIdList) {
@@ -264,7 +268,7 @@ export class personalInfo extends Component {
       !isEmptyString(this.state.pincode) &&
       !isEmptyString(this.state.state) &&
       !isEmptyString(this.state.city) &&
-      isEmptyString(this.state.altEmailErr) 
+      isEmptyString(this.state.altEmailErr)
     ) {
       let obj = {
         firstName: this.state.firstName,
@@ -471,7 +475,7 @@ export class personalInfo extends Component {
                   disabled={this.state.personalDisable}
                   value={this.state.altEmail}
                   onChange={(e) =>
-                    this.setState({ altEmail: e.target.value, altEmailErr: "" }) 
+                    this.setState({ altEmail: e.target.value, altEmailErr: "" })
                   }
                   error={this.state.altEmailErr.length > 0}
                   helperText={this.state.altEmailErr}

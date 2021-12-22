@@ -181,7 +181,10 @@ export class academicInfo extends Component {
     this.props.getAcademicInfo(this.props.match.params.studentId);
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
-    this.props.getVariantStepsById(this.props.match.params.productId);
+    this.props.getVariantStepsById(
+      this.props.match.params.productId +
+        `?studentId=${this.props.match.params.studentId}`
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {

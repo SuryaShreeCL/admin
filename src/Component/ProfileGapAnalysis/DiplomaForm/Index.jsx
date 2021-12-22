@@ -94,7 +94,6 @@ class Index extends Component {
         this.props.academicTypes,
         requestBody,
         (response) => {
-          console.log(response);
           this.setState({
             snackMsg: "Saved Successfully",
             snackVariant: "success",
@@ -130,6 +129,7 @@ class Index extends Component {
         },
         degree: {
           id: this.state.degree.id,
+          name: this.state.degree.name,
         },
         scoreScale: parseInt(this.state.scoreScale),
         score: parseInt(this.state.score),
@@ -139,7 +139,6 @@ class Index extends Component {
         this.props.academicTypes,
         requestBody,
         (response) => {
-          console.log(response);
           this.setState({
             snackMsg: "Saved Successfully",
             snackVariant: "success",
@@ -171,7 +170,6 @@ class Index extends Component {
   };
 
   handleClick = (data) => {
-    console.log(data);
     window.open(
       URL +
         "/api/v1/files/download/" +
@@ -182,8 +180,6 @@ class Index extends Component {
   };
 
   handleChange = (e) => {
-    console.log(e.target.value);
-    console.log(e.target.name);
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -211,15 +207,12 @@ class Index extends Component {
   };
 
   handlePercentageChange = (e, newValue) => {
-    console.log(newValue);
     this.setState({
       scoreScale: newValue.value,
     });
   };
 
   render() {
-    console.log(this.state.data);
-    console.log(this.state);
     return (
       <div>
         <Grid container position="relative" height="100vh">
@@ -291,7 +284,6 @@ class Index extends Component {
                       markSheet={item.studentDocument.marksheetName}
                       score={item.score}
                       handleChange={() => {
-                        console.log("card click");
                         this.handleCardClick(item.id);
                       }}
                       handleDownloadClick={(e) => {

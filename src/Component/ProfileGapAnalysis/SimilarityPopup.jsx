@@ -70,8 +70,6 @@ function SimilarityPopup(props) {
 
   const [searchTerm, setSearchTerm] = React.useState("");
 
-  console.log(getStudentMatch, "/////////////////////////");
-
   // get academicType
   const { academicType } = useSelector((state) => ({
     academicType: state.HelperReducer.academicType,
@@ -131,7 +129,7 @@ function SimilarityPopup(props) {
         id: i.toString(),
       });
     }
-    console.log(yearArr);
+
     return yearArr;
   };
 
@@ -194,13 +192,12 @@ function SimilarityPopup(props) {
     for (let i = startYear; i <= endYear; i++) {
       yearArr.push(i);
     }
-    console.log(yearArr);
+
     return yearArr;
   };
 
   const renderFilterButton = () => {
     if (isEmptyString(academicType)) {
-      console.log("empty");
       return (
         <Button
           aria-controls="simple-menu"
@@ -261,7 +258,6 @@ function SimilarityPopup(props) {
                               >
                                 <div
                                   onClick={() => {
-                                    console.log(submenu);
                                     props.handleSubMenuClick(submenu.id);
                                   }}
                                 >
@@ -290,7 +286,6 @@ function SimilarityPopup(props) {
 
   // This function returns the tab content based on index
   const renderTabContent = () => {
-    console.log(years(), ".................");
     if (value === 0) {
       return (
         <Grid
@@ -360,7 +355,7 @@ function SimilarityPopup(props) {
       );
     }
   };
-  console.log(props.data);
+
   return (
     <Popover
       id={id}
@@ -398,7 +393,6 @@ function SimilarityPopup(props) {
       {/* Render list of accordians based on the data that is passed */}
       {value === 0 &&
         props.data.map((data, index) => {
-          console.log(data);
           return <Accordian data={data} />;
         })}
     </Popover>

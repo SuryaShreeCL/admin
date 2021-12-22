@@ -162,7 +162,10 @@ class AspirationDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
-    this.props.getVariantStepsById(this.props.match.params.productId);
+    this.props.getVariantStepsById(
+      this.props.match.params.productId +
+        `?studentId=${this.props.match.params.studentId}`
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {

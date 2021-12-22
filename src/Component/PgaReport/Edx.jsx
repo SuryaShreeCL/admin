@@ -317,7 +317,7 @@ function Edx(props) {
 
           {data &&
             data.quarterlyPlans.map((eachPlan, index) => {
-              console.log(data);
+              console.log(eachPlan);
               return (
                 <>
                   <Grid item md={6} lg={6} xl={6}>

@@ -251,7 +251,7 @@ class TestLanding extends Component {
           this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         } else {
-          // console.log(response);
+          //
           this.setState({
             alertState: true,
             alertMsg: response.message,
@@ -323,7 +323,7 @@ class TestLanding extends Component {
           this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         } else {
-          // console.log(response);
+          //
           this.setState({
             alertState: true,
             alertMsg: response.message,
