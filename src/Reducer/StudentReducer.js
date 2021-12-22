@@ -34,9 +34,15 @@ const initialState = {
   StudentStepDetails: [],
   ObComplete: [],
   ObIncomplete: [],
-  IncompleteStatus:[],
-  getexpecteddate : [],
-  getieltsexam : []
+  IncompleteStatus: [],
+  getexpecteddate: [],
+  getieltsexam: [],
+  AspirationTerm: [],
+  AspirationDegree: [],
+  AspirationBranch: [],
+  AspirationCountry: [],
+  AspirationCollege: [],
+  AspirationSpecialization: [],
 };
 
 export default (state = initialState, action) => {
@@ -238,22 +244,76 @@ export default (state = initialState, action) => {
         ...state,
         ObComplete: action.payload,
       };
-      case STUDENT.IncompleteStatus:
-        return {
-          ...state,
-          IncompleteStatus: action.payload,
-        };
-        case STUDENT.getexpecteddate:
-          return {
-            ...state,
-            getexpecteddate: action.payload,
-          };
-          case STUDENT.getieltsexam:
-            return {
-              ...state,
-              getieltsexam: action.payload,
-            };
-
+    case STUDENT.IncompleteStatus:
+      return {
+        ...state,
+        IncompleteStatus: action.payload,
+      };
+    case STUDENT.getexpecteddate:
+      return {
+        ...state,
+        getexpecteddate: action.payload,
+      };
+    case STUDENT.getieltsexam:
+      return {
+        ...state,
+        getieltsexam: action.payload,
+      };
+    case STUDENT.aspirationWork:
+      return {
+        ...state,
+        aspirationWork: action.payload,
+      };
+    case STUDENT.aspirationLocation:
+      return {
+        ...state,
+        aspirationLocation: action.payload,
+      };
+    case STUDENT.aspirationPackage:
+      return {
+        ...state,
+        aspirationPackage: action.payload,
+      };
+    case STUDENT.getaspirationData:
+      return {
+        ...state,
+        getaspirationData: action.payload,
+      };
+    case STUDENT.postaspirationData:
+      return {
+        ...state,
+        postaspirationData: action.payload,
+      };
+    case STUDENT.aspirationTerm:
+      return {
+        ...state,
+        AspirationTerm: action.AspirationTerm,
+      };
+    case STUDENT.aspirationDegree:
+      return {
+        ...state,
+        AspirationDegree: action.AspirationDegree,
+      };
+    case STUDENT.aspirationBranch:
+      return {
+        ...state,
+        AspirationBranch: action.AspirationBranch,
+      };
+    case STUDENT.aspirationCountry:
+      return {
+        ...state,
+        AspirationCountry: action.AspirationCountry,
+      };
+    case STUDENT.aspirationCollege:
+      return {
+        ...state,
+        AspirationCollege: action.AspirationCollege,
+      };
+    case STUDENT.aspirationSpecialization:
+      return {
+        ...state,
+        AspirationSpecialization: action.AspirationSpecialization,
+      };
     default:
       break;
   }

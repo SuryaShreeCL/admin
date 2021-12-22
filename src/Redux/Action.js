@@ -100,6 +100,18 @@ export const STUDENT = {
   IncompleteStatus: "IncompleteStatus",
   getexpecteddate: "getexpecteddate",
   getieltsexam: "getieltsexam",
+  aspirationWork: 'aspirationWork',
+  aspirationPackage: 'aspirationPackage',
+  aspirationLocation: 'aspirationLocation',
+  getaspirationData: 'getaspirationData',
+  postaspirationData: 'postaspirationData',
+  AspirationCollege: 'AspirationCollege',
+  aspirationTerm: 'aspirationTerm',
+  aspirationDegree: 'aspirationDegree',
+  aspirationBranch: 'aspirationBranch',
+  aspirationCountry: 'aspirationCountry',
+  AspirationCollege: 'AspirationCollege',
+  aspirationSpecialization: 'aspirationSpecialization',
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
