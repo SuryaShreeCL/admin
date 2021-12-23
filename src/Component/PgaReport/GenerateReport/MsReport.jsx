@@ -141,8 +141,7 @@ const MyDocument = ({
             <View style={styles.plan_left_view}>
               <Text style={styles.spider_graph_left_title}>Career Plan</Text>
               <Text style={styles.spider_graph_left_title}>
-                Preferred Career Track bbbbbbbbbbb bbbbbbbbbbbbbbbb
-                bbbbbbbbbbbbbbbb bbbbbbbbb
+                Preferred Career Track
               </Text>
               <Text style={styles.spider_graph_left_title}>
                 Course Selection 1
