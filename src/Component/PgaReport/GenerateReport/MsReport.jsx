@@ -141,8 +141,7 @@ const MyDocument = ({
             <View style={styles.plan_left_view}>
               <Text style={styles.spider_graph_left_title}>Career Plan</Text>
               <Text style={styles.spider_graph_left_title}>
-                Preferred Career Track bbbbbbbbbbb bbbbbbbbbbbbbbbb
-                bbbbbbbbbbbbbbbb bbbbbbbbb
+                Preferred Career Track
               </Text>
               <Text style={styles.spider_graph_left_title}>
                 Course Selection 1
@@ -212,7 +211,6 @@ function MsReport({ content = [] }) {
               <Text style={styles.date}>Date : &nbsp;</Text>
               <Text style={styles.date}>
                 {ReportDate ? renderDateTime(ReportDate) : ""}
-                {/* {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>} */}
               </Text>
             </View>
           </View>
@@ -238,7 +236,10 @@ function MsReport({ content = [] }) {
                   inTake={content.inTake}
                   description={content.description}
                   isGreenCardVisible={
-                    content.inTake || content.description || content.description
+                    content.inTake ||
+                    content.description ||
+                    content.preferredProgram ||
+                    content.title
                   }
                   isSecondaryPassageVisible={
                     isEmpty(content.title) &&
@@ -385,18 +386,12 @@ const styles = StyleSheet.create({
     padding: "8px",
   },
   spider_graph_left_title: {
-    // lineHeight: "20px",
     fontSize: 10,
     color: "#a9a9a9",
-    // flexWrap: "wrap",
-    // display: "flex",
-    // flex: "1",
   },
   spider_graph_left_title_text: {
-    // lineHeight: "20px",
     fontSize: 10,
     marginLeft: "6px",
-    // fontWeight: "600",
   },
   verticalLine: {
     height: "90%",
