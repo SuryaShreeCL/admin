@@ -2,17 +2,17 @@
  * (c) CareerLabs. All rights reserved.
  **/
 
-import React from "react";
+import React from 'react';
 import {
   Footer as Main,
   Filler,
   Button,
-} from "../../../../../Assets/css/Preview/GmatStyles";
-import Typography from "@material-ui/core/Typography";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+} from '../../../../../Assets/css/Preview/GmatStyles';
+import Typography from '@material-ui/core/Typography';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // import { routePaths } from "../../../../../routes/RoutePath";
-import QueryString from "qs";
+import QueryString from 'qs';
 // import _ from "lodash";
 
 function Footer() {
@@ -50,11 +50,11 @@ function Footer() {
     <Main>
       {/* {renderPauseButton() && ( */}
       <Button
-        variant="contained"
-        color="primary"
+        variant='contained'
+        color='primary'
         // onClick={handlePause}
       >
-        <Typography variant="body1">Pause Exam</Typography>
+        <Typography variant='body1'>Pause Exam</Typography>
       </Button>
       {/* )} */}
       <Filler />
@@ -70,13 +70,13 @@ function Footer() {
         </Button>
       )} */}
       <Button
-        variant="contained"
-        color="primary"
+        variant='contained'
+        color='primary'
         endIcon={<ArrowForwardIcon />}
-        className="border_right"
+        className='border_right'
         // onClick={handleNext}
       >
-        <Typography variant="body1">Next</Typography>
+        <Typography variant='body1'>Next</Typography>
       </Button>
     </Main>
   );

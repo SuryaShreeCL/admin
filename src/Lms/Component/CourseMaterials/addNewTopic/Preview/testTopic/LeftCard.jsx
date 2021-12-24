@@ -1,24 +1,24 @@
 import { Box, Button, Card, Grid } from '@material-ui/core';
-import QueryString from 'qs';
+// import QueryString from 'qs';
 import React from 'react';
-import '../../../assets/css/App.css';
+import '../../../../../Assets/css/Preview/Preview.css';
 import {
   BottomText,
   FlatTextContent,
   ImageSideText,
   TaskCard,
-} from '../../../assets/css/StyledComponent';
-import StatusIcon from '../../../assets/icons/StatusIcon';
-import activeBook from '../../../assets/images/activeBook.png';
-import activeClock from '../../../assets/images/activeClock.png';
-import activeVideo from '../../../assets/images/activeVideo.png';
-import Book from '../../../assets/images/Book.png';
-import ClockImage from '../../../assets/images/ClockImage.png';
-import testImage from '../../../assets/images/infinity.png';
-import notepad from '../../../assets/images/notepad.png';
-import questionAnswer from '../../../assets/images/questionAnswer.png';
-import ShapeImage from '../../../assets/images/Shape.png';
-import { routePaths } from '../../../routes/RoutePath';
+} from '../../../../../Assets/css/Preview/TaskDetailsStyledComponent';
+import StatusIcon from '../../../../../Assets/icons/StatusIcon';
+import activeBook from '../../../../../Assets/images/activeBook.png';
+import activeClock from '../../../../../Assets/images/activeClock.png';
+import activeVideo from '../../../../../Assets/images/activeVideo.png';
+import Book from '../../../../../Assets/images/Book.png';
+import ClockImage from '../../../../../Assets/images/ClockImage.png';
+import testImage from '../../../../../Assets/images/infinity.png';
+import notepad from '../../../../../Assets/images/notepad.png';
+import questionAnswer from '../../../../../Assets/images/questionAnswer.png';
+import ShapeImage from '../../../../../Assets/images/Shape.png';
+// import { routePaths } from '../../../routes/RoutePath';
 
 function LeftCard(props) {
   const topicTypeIcon = type => {
@@ -31,17 +31,17 @@ function LeftCard(props) {
     if (type === 'VIDEO') return activeVideo;
   };
 
-  const { topicId } = QueryString.parse(props.location.search, {
-    ignoreQueryPrefix: true,
-  });
-  const { t } = props;
+  // const { topicId, type } = QueryString.parse(props.location.search, {
+  //   ignoreQueryPrefix: true,
+  // });
+  // const { t } = props;
   return (
     <Grid container direction='column' className={'left-container-task-view'}>
       <Card className={'left-side-card'}>
         {props.topicResponse &&
-          props.topicResponse.tasks.map(item => {
+          props.topicResponse.tasks.map((item, index) => {
             return (
-              <div class='step'>
+              <div className='step'>
                 <div>
                   <div style={{ position: 'absolute', top: 33 }}>
                     <img src={StatusIcon(item.status)} alt='Icons' />
@@ -51,10 +51,10 @@ function LeftCard(props) {
                 <div>
                   <TaskCard
                     id={item.id}
-                    active={props.selectedStep === item.id}
-                    onClick={props.handleLeftCardClick}
+                    active={props.selectedStep === index}
+                    // onClick={props.handleLeftCardClick}
                   >
-                    <Box pb={1} id={item.id}>
+                    <Box className={'task_title_style'} id={item.id}>
                       <FlatTextContent id={item.id}>
                         {item.title}
                       </FlatTextContent>
@@ -62,7 +62,7 @@ function LeftCard(props) {
 
                     <Grid container justifyContent='space-between' id={item.id}>
                       <div className={'right-side-card'} id={item.id}>
-                        {props.selectedStep === item.id ? (
+                        {props.selectedStep === index ? (
                           <img src={activeClock} alt='clock' id={item.id} />
                         ) : (
                           <img src={ClockImage} alt='clock' id={item.id} />
@@ -72,7 +72,7 @@ function LeftCard(props) {
                         </ImageSideText>
                       </div>
                       <div className={'right-side-card'} id={item.id}>
-                        {props.selectedStep === item.id ? (
+                        {props.selectedStep === index ? (
                           <img
                             src={activeTopicTypeIcon(item.type)}
                             alt='Icons'
@@ -93,7 +93,7 @@ function LeftCard(props) {
             );
           })}
       </Card>
-      <Box mt={3} pt={1} pb={3} className={'left-side-below-card'}>
+      <Box className={'left-side-below-card'}>
         <Box
           style={{
             backgroundImage: `url(${testImage})`,
@@ -104,14 +104,20 @@ function LeftCard(props) {
         >
           <div className={'btn-align'}>
             <Button
-              className='on-boost-mode'
-              onClick={() =>
-                props.history.push(
-                  `${routePaths.dashboard.questionBank}?topicId=${topicId}`
-                )
-              }
+            // className='on-boost-mode'
+            // onClick={() =>
+            //   props.history.push(
+            //     `${routePaths.dashboard.questionBank}?topicId=${topicId}&type=${type}`
+            //     // routePaths.dashboard.questionBank + '?topicId=' + topicId
+            //   )
+            // }
             >
-              <img src={questionAnswer} alt='Icons' className='on-boost-mode' />
+              {' '}
+              <img
+                src={questionAnswer}
+                alt='Icons'
+                // className='on-boost-mode'
+              />{' '}
             </Button>
             <div style={{ visibility: 'hidden' }}>lesson</div>
             <Button>
@@ -119,15 +125,15 @@ function LeftCard(props) {
             </Button>
           </div>
         </Box>
-        <Box pt={1} pb={1}>
+        <Box className={'bottom_text_style'}>
           <BottomText
-            onClick={() =>
-              props.history.push(
-                routePaths.dashboard.questionBank + '?topicId=' + topicId
-              )
-            }
+          // onClick={() =>
+          //   props.history.push(
+          //     routePaths.dashboard.questionBank + '?topicId=' + topicId
+          //   )
+          // }
           >
-            {t('Question Bank and Topic Test')}
+            {'Question Bank and Topic Test'}
           </BottomText>
         </Box>
       </Box>

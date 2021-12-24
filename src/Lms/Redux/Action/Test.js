@@ -478,3 +478,24 @@ export const cleanEditData = () => {
     dispatch({ type: TEST.cleanEditData });
   };
 };
+
+export const previewTestData = (questionId, requestBody) => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .post(`${URL}/api/v1/lms/questions/${questionId}/preview`, requestBody, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: TEST.previewTestData,
+          payload: response.data,
+        });
+      })
+      .catch(error => console.log(error));
+  };
+};

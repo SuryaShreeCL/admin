@@ -1,10 +1,14 @@
 import { Box, Card, Grid, Typography } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import React from 'react';
-import { SubHeading, SubPara } from '../../../assets/css/StyledComponent';
-import ClockImage from '../../../assets/images/ClockImage.png';
+import {
+  SubHeading,
+  SubPara,
+} from '../../../../../Assets/css/Preview/TaskDetailsStyledComponent';
+import ClockImage from '../../../../../Assets/images/ClockImage.png';
+import '../../../../../Assets/css/Preview/Preview.css';
 
-function TaskTitleCard({ topicResponse, t }) {
+function TaskTitleCard({ topicResponse }) {
   return (
     <Card className={'test-topic-title-card'}>
       <Grid container justifyContent='space-between'>
@@ -24,20 +28,20 @@ function TaskTitleCard({ topicResponse, t }) {
         >
           <SubPara>
             {' '}
-            <img src={ClockImage} alt='clockImage' style={{ width: 17 }} />
+            <img src={ClockImage} alt='clockImage' className={'image_size'} />
             &nbsp;&nbsp;&nbsp;
             {topicResponse && topicResponse.duration}
           </SubPara>
 
           <SubHeading>
             {topicResponse && topicResponse.completedTasks} /
-            {topicResponse && topicResponse.totalTasks} {t('Task')}
+            {topicResponse && topicResponse.totalTasks} {'Task'}
           </SubHeading>
         </Grid>
       </Grid>
 
       <Box height={55}>
-        {topicResponse && topicResponse.progress === 0 ? null : (
+        {/* {topicResponse && topicResponse.progress === 0 ? null : (
           <Box className={'test-progress-bar'}>
             <Box display='flex'>
               <Box minWidth={35} zIndex={2}>
@@ -59,7 +63,7 @@ function TaskTitleCard({ topicResponse, t }) {
               />
             </Box>
           </Box>
-        )}
+        )} */}
       </Box>
     </Card>
   );

@@ -1,8 +1,8 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from '@material-ui/core';
 // import Bundle from '../../../exam/Bundle';
-import Bundle from "./Bundle";
-import Latex from "../../../../../../Utils/LatexViewer";
-import SingleMulti from "./SingleMulti";
+import Bundle from './Bundle';
+import Latex from '../../../../../../Utils/LatexViewer';
+import SingleMulti from './SingleMulti';
 import {
   DescriptionBox,
   DescriptionHeader,
@@ -10,18 +10,16 @@ import {
   OutlineLeft,
   OutlineRight,
   TextBox,
-} from "../../../../../../Assets/css/Preview/GreStyles";
+} from '../../../../../../Assets/css/Preview/GreStyles';
 // import { DescriptionBox } from "../../../../../../Assets/css/Preview/GreStyles";
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 const Passage = ({
   question,
   choices,
   bundle,
   selectedChoice,
-  onSelect,
   subjective,
-  onChange,
   bundleLength,
   answer,
   description,
@@ -42,17 +40,17 @@ const Passage = ({
           </DescriptionHeader>
           <DescriptionBox>
             {subjective && (
-              <Typography variant="h6" color="textPrimary">
+              <Typography variant='h6' color='textPrimary'>
                 <Latex math={question} />
               </Typography>
             )}
 
-            <Typography variant="h6" color="textPrimary">
+            <Typography variant='h6' color='textPrimary'>
               <Latex math={description} />
             </Typography>
             <Box>
               {imgUrl && (
-                <img src={imgUrl} alt={""} width={"100%"} height={"100%"} />
+                <img src={imgUrl} alt={''} width={'100%'} height={'100%'} />
               )}
             </Box>
           </DescriptionBox>
@@ -64,7 +62,6 @@ const Passage = ({
             <Bundle
               bundleLength={bundleLength}
               choices={choices}
-              onChange={onChange}
               selectedChoice={selectedChoice}
               question={question}
               isCalculator={isCalculator}
@@ -73,11 +70,8 @@ const Passage = ({
             />
           ) : subjective ? (
             <TextBox
-              type={"text"}
-              placeholder={"Enter your answer here"}
-              onChange={e => {
-                onChange(e.target.value);
-              }}
+              type={'text'}
+              placeholder={'Enter your answer here'}
               value={answer}
             />
           ) : (
@@ -85,7 +79,6 @@ const Passage = ({
               question={question}
               options={choices}
               selectedChoice={selectedChoice}
-              onSelect={onSelect}
               isMulti={isMulti}
               isCalculator={isCalculator}
               bottomText={bottomText}

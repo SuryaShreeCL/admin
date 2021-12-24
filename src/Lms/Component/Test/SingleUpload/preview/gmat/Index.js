@@ -2,9 +2,9 @@
  * (c) CareerLabs. All rights reserved.
  **/
 
-import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
-import { ThemeProvider, Typography } from "@material-ui/core";
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { ThemeProvider, Typography } from '@material-ui/core';
 import {
   Content,
   gmatTheme,
@@ -14,19 +14,19 @@ import {
   Header,
   Box,
   Filler,
-} from "../../../../../Assets/css/Preview/GmatStyles";
+} from '../../../../../Assets/css/Preview/GmatStyles';
 
-import QueryString from "qs";
-import Footer from "./Footer";
-import { connect } from "react-redux";
+import QueryString from 'qs';
+import Footer from './Footer';
+import { connect } from 'react-redux';
 
-import SubHeader from "./SubHeader";
-import Test from "./Test";
-import MessageIcon from "../../../../../Assets/icons/MessageIconWhite.svg";
-import ClockIcon from "../../../../../Assets/icons/ClockIconWhite.svg";
-import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
-import Transition from "../../../../../Utils/Transition";
-import Dialog from "@material-ui/core/Dialog";
+import SubHeader from './SubHeader';
+import Test from './Test';
+import MessageIcon from '../../../../../Assets/icons/MessageIconWhite.svg';
+import ClockIcon from '../../../../../Assets/icons/ClockIconWhite.svg';
+import BookmarkIcon from '../../../../../Assets/icons/Bookmarks.svg';
+import Transition from '../../../../../Utils/Transition';
+import Dialog from '@material-ui/core/Dialog';
 // import PauseExamPopup from "./PauseExamPopup";
 // import {
 //   getInstructions,
@@ -61,7 +61,7 @@ export class GmatLayout extends Component {
     this.state = {
       modelOpen: false,
       selectedChoice: [],
-      textAnswer: "",
+      textAnswer: '',
       bundleSelect: [],
       time: -1,
       required: false,
@@ -432,42 +432,65 @@ export class GmatLayout extends Component {
 
     const { open, handleClose } = this.props;
 
+    const {
+      question,
+      type,
+      isHaveDescription,
+      currentQuestionNo,
+      choices,
+      description,
+      totalBundle,
+      imgURL,
+      isHaveImage,
+      isCalculator,
+      topText,
+      bottomText,
+      noOfAnswer,
+      testSectionName,
+      currentTestSection,
+      totalNoOfTestSection,
+      totalNoOfQuestion,
+      remainingTime,
+      testType,
+      conceptName,
+      testTitle,
+    } = this.props.testResponse.data;
+
     // console.log(this.props);
     return (
-      <Box style={{ height: "100vh" }}>
+      <Box className={'gmat_container'}>
         <ThemeProvider theme={gmatTheme}>
           {/* Header */}
           <Header>
-            <Typography variant="h1">GMAT Calibration Test</Typography>
+            <Typography variant='h1'>GMAT Calibration Test</Typography>
             {/* {this.props.testResponse && ( */}
             <HeaderBox>
               <Inline>
                 {/* <Filler /> */}
-                <img src={ClockIcon} alt="" className="white_clock" />
-                <Typography variant="body1" className="inline_class">
+                <img src={ClockIcon} alt='' className='white_clock' />
+                <Typography variant='body1' className='inline_class'>
                   Time Remaining
                 </Typography>
 
-                <Typography variant="body1">
-                  <TimerBox>23:59:59</TimerBox>
+                <Typography variant='body1'>
+                  <TimerBox>
+                    {remainingTime ? remainingTime : '23:59:59'}
+                  </TimerBox>
                 </Typography>
               </Inline>
               <Inline>
                 <Filler />
-                <img src={MessageIcon} alt="" className="white_clock" />
-                <Typography variant="body1">{`1 of 99`}</Typography>
+                <img src={MessageIcon} alt='' className='white_clock' />
+                <Typography variant='body1'>
+                  {`${currentQuestionNo} of ${totalNoOfQuestion}`}
+                </Typography>
               </Inline>
             </HeaderBox>
           </Header>
           <SubHeader
-            sectionTitle={
-              // !_.isEmpty(this.props.section) &&
-              // this.props.section.data.testSection.name
-              "Section 99"
-            }
+            sectionTitle={testSectionName}
             section={true}
             location={this.props.location}
-            // bookmarkIconClick={this.handleBookmarkIconClick}
             isBookmarked={false}
           />
           <Content>

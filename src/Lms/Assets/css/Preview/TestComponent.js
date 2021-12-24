@@ -2,18 +2,27 @@
  * (c) CareerLabs. All rights reserved.
  **/
 // import Button from "../../../utils/components/Button";
-import Button from "@material-ui/core/Button";
-import styled from "styled-components";
-import { Divider as MuiDivider } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
+import { Button, IconButton } from '@material-ui/core';
+import styled from 'styled-components';
+import { Divider as MuiDivider } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 
 export const Container = styled.div`
-  /* padding: 3vh 10vh; */
-  padding-left: 10vh;
-  padding-right: 10vh;
-  padding-top: 5vh;
-  padding-bottom: 0px;
+  padding: 5vh 10vh;
+  height: 100vh;
   position: relative;
+  background: linear-gradient(
+    rgb(238, 246, 255) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
+  * {
+    font-family: Montserrat !important;
+  }
+
+  & .MuiDivider-root {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
 `;
 
 export const TestTitle = styled.div`
@@ -23,28 +32,45 @@ export const TestTitle = styled.div`
   color: #052a4e;
 `;
 export const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 15px 0px;
+  position: absolute;
+  left: 10vh;
+  right: 10vh;
+  top: 32px;
+  height: 126px;
+  overflow: hidden;
 `;
 
 export const QuestionCount = styled.div`
   font-style: normal;
-  font-weight: ${props => props.bold || "400"};
+  font-weight: ${props => props.bold || '400'};
   font-size: 24px;
   line-height: 30px;
   color: #052a4e;
 `;
 
 export const Div = styled.div`
-  display: ${props => props.display || "unset"};
+  display: ${props => props.display || 'unset'};
   align-items: center;
   overflow: hidden;
-  overflow-x: auto;
-  overflow-y: auto;
+
+  & .MuiLinearProgress-barColorPrimary {
+    background-color: #1093ff;
+  }
+
+  & .MuiLinearProgress-colorPrimary {
+    background-color: rgb(164, 213, 255);
+  }
+
+  & .MuiLinearProgress-root {
+    height: 6px !important;
+    border-radius: 12px !important;
+    margin: 15px 0;
+  }
 `;
 
-export const TitleHeader = styled.div``;
+export const TitleHeader = styled.div`
+  padding: 15px 0px;
+`;
 
 export const QuestionTitle = styled.div`
   font-style: normal;
@@ -68,22 +94,11 @@ export const Time = ``;
 
 export const QuestionBody = styled.div`
   overflow: auto;
-  height: 60vh;
-
-  @media only screen and (min-width: ${1478}px) {
-    /* CSS that should be displayed if width is equal to or greater than 991px goes here */
-    height: 60vh;
-  }
-
-  @media only screen and (min-width: ${1680}px) {
-    /* CSS that should be displayed if width is equal to or greater than 991px goes here */
-    height: 58vh;
-  }
-
-  @media only screen and (min-width: ${1848}px) {
-    /* CSS that should be displayed if width is equal to or greater than 991px goes here */
-    height: 56vh;
-  }
+  position: absolute;
+  left: 10vh;
+  right: 10vh;
+  bottom: 100px;
+  top: 158px;
 `;
 
 export const SingleSelect = {
@@ -112,18 +127,18 @@ export const SingleSelect = {
     align-items: center;
     margin: 12px 0px;
     padding: 8px;
-    background: ${props => (props.active ? "#f2f9ff" : "")};
+    background: ${props => (props.active ? '#f2f9ff' : '')};
   `,
   OptionBox: styled.div`
     width: 32px;
     height: 32px;
-    background: ${props => (props.active ? "#1093FF" : "#c4c4c445")};
+    background: ${props => (props.active ? '#1093FF' : '#c4c4c445')};
     border-radius: 5px;
     font-style: normal;
-    font-weight: ${props => (props.active ? 500 : "normal")};
+    font-weight: ${props => (props.active ? 500 : 'normal')};
     font-size: 16px;
     line-height: 114.7%;
-    color: ${props => (props.active ? "#fff" : "#000000")};
+    color: ${props => (props.active ? '#fff' : '#000000')};
     margin-right: 20px;
     display: flex;
     align-items: center;
@@ -133,7 +148,7 @@ export const SingleSelect = {
   OptionTitle: styled.div`
     font-style: normal;
     font-style: normal;
-    font-weight: ${props => (props.active ? 500 : "normal")};
+    font-weight: ${props => (props.active ? 500 : 'normal')};
     font-size: 16px;
     line-height: 24px;
     color: #052a4e;
@@ -155,8 +170,11 @@ export const Passage = {
 export const Bundle = {};
 
 export const Footer = styled.div`
-  flex-wrap: wrap;
-  margin-bottom: 20px;
+  position: absolute;
+  left: 10vh;
+  right: 10vh;
+  bottom: 24px;
+  height: 76px;
 `;
 
 export const Pause = styled.div`
@@ -179,18 +197,20 @@ export const Icon = styled.img`
 
 export const Next = withStyles({
   root: {
-    width: "200px",
-    borderRadius: "30px",
-    fontWeight: "500",
-    fontSize: "18px",
-    lineHeight: "16px",
-    textAlign: "center",
-    padding: "10px",
-    height: "48px",
+    width: '200px',
+    borderRadius: '30px',
+    fontWeight: '500',
+    fontSize: '18px',
+    lineHeight: '16px',
+    textAlign: 'center',
+    padding: '10px',
+    height: '48px',
+    color: '#ffffff !important',
+    backgroundColor: '#1093FF !important',
   },
   disabled: {
-    background: "gba(0, 0, 0, 0.26)",
-    opacity: "0.6",
+    background: 'gba(0, 0, 0, 0.26)',
+    opacity: '0.6',
   },
 })(Button);
 
@@ -304,7 +324,7 @@ export const H1 = styled.div`
 
 export const Divider = withStyles({
   root: {
-    border: "1px solid #CCCCCC",
+    border: '1px solid #CCCCCC',
   },
 })(MuiDivider);
 
@@ -358,3 +378,17 @@ export const BookMarkContainer = styled.div`
 export const Main = styled.div`
   min-height: 80vh;
 `;
+
+export const BookmarkButton = withStyles({
+  root: {
+    width: '32px',
+    height: '32px',
+    background: 'rgb(16 147 255 / 10%)',
+    '&:hover': {
+      background: 'rgb(16 147 255 / 15%)',
+    },
+    '&:active': {
+      background: 'rgb(16 147 255 / 10%)',
+    },
+  },
+})(IconButton);

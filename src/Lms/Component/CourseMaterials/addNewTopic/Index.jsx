@@ -31,6 +31,7 @@ import { IconButton } from '@material-ui/core';
 import QueryString from 'qs';
 import { lms_course_landing } from '../../../../Component/RoutePaths';
 import { DeleteRounded } from '@material-ui/icons';
+import TaskPreview from './Preview/Index';
 
 const dialogContent = {
   type: 'delete',
@@ -71,6 +72,8 @@ class Index extends Component {
       dialogStatus: false,
       dialogContent: null,
       duplicateTask: [],
+      openPreview: false,
+      topicDetails: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -132,11 +135,12 @@ class Index extends Component {
       const { data } = this.props.topicsDetails;
       const { taskDetails } = this.props;
       let tabArr = [];
-      taskDetails.map((i, index) => {
-        tabArr.push({
-          tabLabel: `Task ${index + 1}`,
+      taskDetails.length !== 0 &&
+        taskDetails.map((i, index) => {
+          tabArr.push({
+            tabLabel: `Task ${index + 1}`,
+          });
         });
-      });
       this.setState({
         newTaskData: taskDetails,
         duplicateTask: taskDetails,
@@ -151,6 +155,7 @@ class Index extends Component {
         descriptionValue: data.description,
         imageUrl: data.imageUrl,
         tabsLabels: tabArr,
+        topicDetails: data,
       });
     }
   }
@@ -248,6 +253,7 @@ class Index extends Component {
           };
           this.props.addTopicDetails(topicData, topicResponse => {
             if (topicResponse.success) {
+              this.props.getTopicDetails(topicResponse.data.id, () => {});
               var topicMessage = 'New Topic Added Successfully';
               if (topicId !== null)
                 topicMessage = 'Current Topic Updated Successfully';
@@ -296,7 +302,7 @@ class Index extends Component {
             id: null,
             name: '',
             contentType: '',
-            duration: '',
+            duration: null,
             content: '',
             topic: { id: this.state.topicId },
           },
@@ -307,7 +313,7 @@ class Index extends Component {
             id: null,
             name: '',
             contentType: '',
-            duration: '',
+            duration: null,
             content: '',
             topic: { id: this.state.topicId },
           },
@@ -510,8 +516,35 @@ class Index extends Component {
     }
   };
 
+  handlePreviewClick = () => {
+    this.setState({ openPreview: true });
+  };
+
+  handleClosePreview = () => {
+    this.setState({ openPreview: false });
+  };
+
+  time_convert = num => {
+    var hours = Math.floor(num / 60);
+    var minutes = num % 60;
+    return hours >= 1
+      ? `${hours} Hours ${minutes >= 1 ? `${minutes} Mins` : ''}`
+      : `${minutes} Mins`;
+  };
+
+  customArrayOfSum = array => {
+    return array.length !== 0
+      ? array
+          .map(({ duration }) =>
+            duration && !isNaN(parseFloat(duration)) > 0
+              ? parseFloat(duration)
+              : 0
+          )
+          .reduce((a, b) => a + b, 0)
+      : 0;
+  };
+
   render() {
-    // console.log(validURL('hsojs'));
     const {
       courseValue,
       subjectValue,
@@ -529,6 +562,8 @@ class Index extends Component {
       anchorEl,
       dialogStatus,
       isTopicNameValid,
+      openPreview,
+      topicDetails,
     } = this.state;
     const {
       handleThreeDotClick,
@@ -538,11 +573,61 @@ class Index extends Component {
       handleCloseIconClick,
       handleTaskDelete,
       topicNameValidate,
+      handlePreviewClick,
+      handleClosePreview,
+      customArrayOfSum,
     } = this;
+
     const { courses, subjects, concepts, taskDetails } = this.props;
     const { topic_id } = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
+
+    const { history, location, match } = this.props;
+    const taskPreviewProps = topicData => {
+      const { subject, concept } = topicData;
+      return {
+        open: openPreview,
+        handleClose: handleClosePreview,
+        history,
+        location,
+        match,
+        topics: {
+          data: {
+            subject: subject.name,
+            concept: concept.name,
+            title: topicValue,
+            duration: `${customArrayOfSum(newTaskData)} Mins`,
+            completedTasks: 0,
+            task: newTaskData.length !== 0 && newTaskData[tabValue - 1].name,
+            progress: 0,
+            totalTasks: newTaskData.length,
+            contents:
+              newTaskData.length !== 0 &&
+              newTaskData.map(
+                ({ id, name, contentType, duration, content }) => ({
+                  duration: duration,
+                  id: id,
+                  title: name,
+                  type: contentType,
+                  content: content,
+                })
+              ),
+            tasks:
+              newTaskData.length !== 0 &&
+              newTaskData.map(({ id, name, contentType, duration }) => ({
+                duration: `${duration ? duration : 0} Mins`,
+                id: id,
+                title: name,
+                type: contentType ? contentType : 'TEXT',
+                status: 'TODO',
+              })),
+          },
+        },
+        selectedStep: tabValue && tabValue > 0 ? tabValue - 1 : 0,
+      };
+    };
+
     return (
       <>
         <MainContainer>
@@ -624,6 +709,7 @@ class Index extends Component {
                 cancelButton: () => {
                   this.props.history.push(lms_course_landing);
                 },
+                handlePreviewClick: handlePreviewClick,
               }}
             />
           )}
@@ -646,6 +732,9 @@ class Index extends Component {
           />
           {/* <p>{newTaskData.length !== 0 && newTaskData[tabValue - 1].content}</p> */}
         </MainContainer>
+        {topicDetails && newTaskData.length !== 0 && (
+          <TaskPreview {...taskPreviewProps(topicDetails)} />
+        )}
       </>
     );
   }

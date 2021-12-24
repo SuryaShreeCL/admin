@@ -1,17 +1,17 @@
-import { Box, Checkbox, FormControlLabel, Typography } from "@material-ui/core";
-import React from "react";
-import Latex from "../../../../../../Utils/LatexViewer";
+import { Box, Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import React from 'react';
+import Latex from '../../../../../../Utils/LatexViewer';
 import {
   Table,
   Tr,
   Td,
   BundleCenter,
   TH,
-} from "../../../../../../Assets/css/Preview/GreStyles";
+} from '../../../../../../Assets/css/Preview/GreStyles';
 // import Ellipse from "../../../../../../assets/icons/Ellipse.svg";
 // import Ellipse from "../../../../../../Assets/icons/Ellipse.svg";
 // /Assets/icons/Ellipse.svg
-import Ellipse from "../../../../../../Assets/icons/Ellipse.svg";
+import Ellipse from '../../../../../../Assets/icons/Ellipse.svg';
 import {
   ChoiceDiv,
   TopGrey,
@@ -19,35 +19,34 @@ import {
   BottomGrey,
   BundleTable,
   BundleDiv,
-} from "../../../../../../Assets/css/Preview/GreStyles";
+} from '../../../../../../Assets/css/Preview/GreStyles';
 
 // import { ChoiceDiv } from "../../../../../../Assets/css/Preview/GreStyles";
 
 const App = ({
   choices,
   bundleLength,
-  onChange,
   selectedChoice,
   topText,
   question,
   bottomText,
 }) => {
   var alphaOption = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
   ];
-  var romanLetter = ["i", "ii", "iii", "iv", "v", "vi", "vii"];
+  var romanLetter = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii'];
 
   // const renderHeader = () => {
   //   let arr = [];
@@ -98,11 +97,8 @@ const App = ({
                             selected.bundleNo === item.bundleNo &&
                             selected.id === choice.id
                         )}
-                        onClick={() => {
-                          onChange(item, choice);
-                        }}
                       >
-                        <img src={choice.choiceImage} alt="" />
+                        <img src={choice.choiceImage} alt='' />
                       </Td>
                     </Tr>
                   );
@@ -115,11 +111,8 @@ const App = ({
                             selected.bundleNo === item.bundleNo &&
                             selected.id === choice.id
                         )}
-                        onClick={() => {
-                          onChange(item, choice);
-                        }}
                       >
-                        <Latex math={choice.text || ""} />
+                        <Latex math={choice.text || ''} />
                       </Td>
                     </Tr>
                   );
@@ -139,7 +132,7 @@ const App = ({
       )}
 
       <BundleCenter>
-        <Typography variant="h5" color="textPrimary">
+        <Typography variant='h5' color='textPrimary'>
           <Latex math={question} />
         </Typography>
 

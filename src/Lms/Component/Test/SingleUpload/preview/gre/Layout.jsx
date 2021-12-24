@@ -1,7 +1,7 @@
-import { Typography } from "@material-ui/core";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
-import React from "react";
+import { Typography } from '@material-ui/core';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import React from 'react';
 import {
   Divider,
   Header,
@@ -12,44 +12,54 @@ import {
   SubHeader,
   SubLeftBox,
   Container,
-} from "../../../../../Assets/css/Preview/GreStyles";
+} from '../../../../../Assets/css/Preview/GreStyles';
 
-import GreIcon from "../../../../../Assets/icons/GREIcon.svg";
-import PrimaryButton from "./components/PrimaryButton";
-import SecondaryButton from "./components/SecondaryButton";
-// import _ from "lodash";
-import Back from "./components/Back";
-// import Timer from "../../../../../utils/components/Timer";
-import CalculatorImg from "../../../../../Assets/icons/CalculatorImg.svg";
+import GreIcon from '../../../../../Assets/icons/GREIcon.svg';
+import PrimaryButton from './components/PrimaryButton';
+import SecondaryButton from './components/SecondaryButton';
+import Back from './components/Back';
+import CalculatorImg from '../../../../../Assets/icons/CalculatorImg.svg';
+import { secondsToHms } from '../../../../../Utils/HelperFunction';
 
 function Layout(props) {
+  const {
+    currentTestSection,
+    totalNoOfTestSection,
+    totalNoOfQuestion,
+    currentQuestionNo,
+    remainingTime,
+    showBookmarkButton,
+    showCalculatorButton,
+    showBackButton,
+    showPauseButton,
+    showPrimaryButton,
+    primaryButtonText,
+    disabled,
+    children,
+  } = props;
   return (
     <Container>
       <Header>
         <LeftBox>
           <ImgBox>
-            <img src={GreIcon} alt="" />
+            <img src={GreIcon} alt='' />
           </ImgBox>
-          <Typography color="textSecondary" variant="h4">
+          <Typography color='textSecondary' variant='h4'>
             Calibration Test
           </Typography>
         </LeftBox>
 
         {/* Buttons */}
         <RightBox>
-          {props.showCalculatorButton && (
-            <SecondaryButton
-              icon={<img src={CalculatorImg} alt="" />}
-              onClick={props.handleCalculatorClick}
-            >
+          {showCalculatorButton && (
+            <SecondaryButton icon={<img src={CalculatorImg} alt='' />}>
               Calculator
             </SecondaryButton>
           )}
 
           {/* BookmarkButton  */}
-          {props.showBookmarkButton && (
+          {showBookmarkButton && (
             <SecondaryButton
-              onClick={props.handleBookmarkClick}
               icon={
                 props.isBookmark ? <BookmarkIcon /> : <BookmarkBorderIcon />
               }
@@ -58,20 +68,13 @@ function Layout(props) {
             </SecondaryButton>
           )}
 
-          {props.showBackButton && <Back onClick={props.handleBackClick} />}
+          {showBackButton && <Back />}
 
-          {props.showPauseButton && (
-            <SecondaryButton onClick={props.handlePauseClick}>
-              Pause Exam
-            </SecondaryButton>
-          )}
+          {showPauseButton && <SecondaryButton>Pause Exam</SecondaryButton>}
 
-          {props.showPrimaryButton && (
-            <PrimaryButton
-              onClick={props.handleNextClick}
-              disabled={props.disabled}
-            >
-              {props.primaryButtonText}
+          {showPrimaryButton && (
+            <PrimaryButton disabled={disabled}>
+              {primaryButtonText}
             </PrimaryButton>
           )}
         </RightBox>
@@ -80,38 +83,20 @@ function Layout(props) {
       </Header>
 
       <SubHeader>
-        {/* {props.showSection && !_.isEmpty(props.sectionData) && ( */}
-        {/* <> */}
         <SubLeftBox>
-          <Typography variant="body2" color="textPrimary">
-            {/* {`Section ${props.sectionData.data.currentSection} of ${props.sectionData.data.totalSections}`} */}
-            Section 1 of 99
+          <Typography variant='body2' color='textPrimary'>
+            {`Section ${currentTestSection} of ${totalNoOfTestSection}`}
           </Typography>
-          {/* {props.question !== null && props.question !== undefined && ( */}
-          {/* <> */}
-          <Divider orientation="vertical" />
-          <Typography variant="body1" color="textPrimary">
-            {/* {`Question ${props.question.currentQuestionNo} of ${props.question.totalNoOfQuestion}`} */}
-            Question 1 of 99
+          <Divider orientation='vertical' />
+          <Typography variant='body1' color='textPrimary'>
+            {`Question ${currentQuestionNo} of ${totalNoOfQuestion}`}
           </Typography>
-          {/* </> */}
-          {/* )} */}
         </SubLeftBox>
-        <Typography variant="body2" color="textPrimary">
-          23:59:59
-          {/* {props.question !== undefined && ( */}
-          {/* <Timer
-              time={1000 * props.question.remainingTime}
-              getRemainingTime={props.getRemainingTime}
-              reset={props.question.resetTime}
-              stop={props.stop}
-            /> */}
-          {/* )} */}
+        <Typography variant='body2' color='textPrimary'>
+          {remainingTime ? secondsToHms(remainingTime) : '23:59:59'}
         </Typography>
-        {/* </> */}
-        {/* )} */}
       </SubHeader>
-      <Main>{props.children}</Main>
+      <Main>{children}</Main>
     </Container>
   );
 }

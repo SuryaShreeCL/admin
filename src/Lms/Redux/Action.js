@@ -32,6 +32,7 @@ export const TEST = {
   getTestQuestionSet: 'getTestQuestionSet',
   getQuestions: 'getQuestions',
   cleanEditData: 'cleanEditData',
+  previewTestData: 'previewTestData',
 };
 
 export const STUDENT = {
