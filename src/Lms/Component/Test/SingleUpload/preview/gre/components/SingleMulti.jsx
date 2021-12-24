@@ -1,23 +1,19 @@
-import { Box, FormControlLabel, Checkbox, Typography } from '@material-ui/core';
+import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
 import React from 'react';
 import {
   BottomGrey,
   Center,
-  TopGrey,
-  Table,
-  Tr,
-  Td,
   ChoiceBox,
-  ChoiceInnerBox,
   ChoiceDiv,
+  ChoiceInnerBox,
+  Table,
+  Td,
+  TopGrey,
+  Tr,
 } from '../../../../../../Assets/css/Preview/GreStyles';
-import {
-  SingleSelect as Style,
-  Div,
-} from '../../../../../../Assets/css/Preview/TestComponent';
-import Latex from '../../../../../../Utils/LatexViewer';
-// import Ellipse from "../../../../../../assets/icons/Ellipse.svg";
+import { SingleSelect as Style } from '../../../../../../Assets/css/Preview/TestComponent';
 import Ellipse from '../../../../../../Assets/icons/Ellipse.svg';
+import Latex from '../../../../../../Utils/LatexViewer';
 
 const SingleSelect = ({
   question,

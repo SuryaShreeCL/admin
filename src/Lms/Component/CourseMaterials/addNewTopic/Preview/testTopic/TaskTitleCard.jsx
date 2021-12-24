@@ -1,12 +1,11 @@
-import { Box, Card, Grid, Typography } from '@material-ui/core';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { Box, Card, Grid } from '@material-ui/core';
 import React from 'react';
+import '../../../../../Assets/css/Preview/Preview.css';
 import {
   SubHeading,
   SubPara,
 } from '../../../../../Assets/css/Preview/TaskDetailsStyledComponent';
 import ClockImage from '../../../../../Assets/images/ClockImage.png';
-import '../../../../../Assets/css/Preview/Preview.css';
 
 function TaskTitleCard({ topicResponse }) {
   return (
@@ -24,7 +23,6 @@ function TaskTitleCard({ topicResponse }) {
           alignItems='flex-end'
           justifyContent='flex-end'
           wrap='nowrap'
-          // style={{ paddingRight: '40px' }}
         >
           <SubPara>
             {' '}
@@ -40,31 +38,7 @@ function TaskTitleCard({ topicResponse }) {
         </Grid>
       </Grid>
 
-      <Box height={55}>
-        {/* {topicResponse && topicResponse.progress === 0 ? null : (
-          <Box className={'test-progress-bar'}>
-            <Box display='flex'>
-              <Box minWidth={35} zIndex={2}>
-                <Typography
-                  variant='body2'
-                  color='textSecondary'
-                  style={{ paddingLeft: 15 }}
-                >
-                  Progress{' '}
-                  {`${Math.round(topicResponse && topicResponse.progress)}%`}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box>
-              <LinearProgress
-                variant='determinate'
-                value={topicResponse && topicResponse.progress}
-              />
-            </Box>
-          </Box>
-        )} */}
-      </Box>
+      <Box height={55}></Box>
     </Card>
   );
 }

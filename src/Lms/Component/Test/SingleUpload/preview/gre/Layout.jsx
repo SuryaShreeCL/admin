@@ -1,8 +1,9 @@
 import { Typography } from '@material-ui/core';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import React from 'react';
 import {
+  Container,
   Divider,
   Header,
   ImgBox,
@@ -11,15 +12,13 @@ import {
   RightBox,
   SubHeader,
   SubLeftBox,
-  Container,
 } from '../../../../../Assets/css/Preview/GreStyles';
-
+import CalculatorImg from '../../../../../Assets/icons/CalculatorImg.svg';
 import GreIcon from '../../../../../Assets/icons/GREIcon.svg';
+import { secondsToHms } from '../../../../../Utils/HelperFunction';
+import Back from './components/Back';
 import PrimaryButton from './components/PrimaryButton';
 import SecondaryButton from './components/SecondaryButton';
-import Back from './components/Back';
-import CalculatorImg from '../../../../../Assets/icons/CalculatorImg.svg';
-import { secondsToHms } from '../../../../../Utils/HelperFunction';
 
 function Layout(props) {
   const {
@@ -78,8 +77,6 @@ function Layout(props) {
             </PrimaryButton>
           )}
         </RightBox>
-
-        {/* <Continue>hello</Continue> */}
       </Header>
 
       <SubHeader>

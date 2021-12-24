@@ -1,28 +1,27 @@
-import { Box, ThemeProvider, Typography } from "@material-ui/core";
-import React, { Component } from "react";
+import { Box, ThemeProvider, Typography } from '@material-ui/core';
+import _ from 'lodash';
+import QueryString from 'qs';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
+  Bullet,
+  BulletBox,
   Content,
+  DemoBox,
   Divider,
   greTheme,
-  TitleBox,
-  Text,
-  BulletBox,
-  Bullet,
-  DemoBox,
   InnerContent,
-} from "../../../../../assets/css/GreStyles";
-import Layout from "./Layout";
-import { connect } from "react-redux";
+  Text,
+  TitleBox,
+} from '../../../../../assets/css/GreStyles';
 import {
   getInstructions,
   getTestSection,
-} from "../../../../../redux/action/Test";
-import QueryString from "qs";
-import _ from "lodash";
-import PrimaryButton from "./components/PrimaryButton";
-// import routePaths from '../../../../../routes/RoutePath';
+} from '../../../../../redux/action/Test';
+import { routePaths } from '../../../../../routes/RoutePath';
+import PrimaryButton from './components/PrimaryButton';
+import Layout from './Layout';
 
-import { routePaths } from "../../../../../routes/RoutePath";
 export class Instruction extends Component {
   constructor(props) {
     super(props);
@@ -70,7 +69,7 @@ export class Instruction extends Component {
             <BulletBox>
               <Bullet />
             </BulletBox>
-            <Typography variant="body1">{item}</Typography>
+            <Typography variant='body1'>{item}</Typography>
           </Text>
         );
       });
@@ -126,7 +125,7 @@ export class Instruction extends Component {
 
     const layoutProps = {
       showPrimaryButton: true,
-      primaryButtonText: "Continue",
+      primaryButtonText: 'Continue',
       showBookmarkButton: false,
       isBookmark: false,
       showPauseButton: false,
@@ -144,36 +143,36 @@ export class Instruction extends Component {
             <InnerContent>
               {!section ? (
                 <Box pt={2} pb={2}>
-                  <Typography variant="h1" color="textPrimary">
+                  <Typography variant='h1' color='textPrimary'>
                     Calibration Test Information
                   </Typography>
                 </Box>
               ) : (
                 <TitleBox>
-                  <Typography variant="h1" color="textPrimary">
+                  <Typography variant='h1' color='textPrimary'>
                     {!_.isEmpty(this.props.sectionResponse) &&
                       this.props.sectionResponse.data.testSection.name}
                   </Typography>
-                  <Typography variant="h3" color="textPrimary">
+                  <Typography variant='h3' color='textPrimary'>
                     {!_.isEmpty(this.props.sectionResponse) &&
                       this.props.sectionResponse.data.testSection.noOfQuestions}
                     {` Questions`}
                   </Typography>
-                  <Typography variant="h3" color="textPrimary">
+                  <Typography variant='h3' color='textPrimary'>
                     {!_.isEmpty(this.props.sectionResponse) &&
                       this.props.sectionResponse.data.testSection.duration}
                     {` minutes (standard time)`}
                   </Typography>
                 </TitleBox>
               )}
-              <Divider orientation="horizontal" />
+              <Divider orientation='horizontal' />
               <Box pt={3}>
-                <Typography variant="h2" color="textPrimary">
+                <Typography variant='h2' color='textPrimary'>
                   Test instructions
                 </Typography>
               </Box>
               <Box pt={2}>
-                <Typography variant="h6" color="textPrimary">
+                <Typography variant='h6' color='textPrimary'>
                   {this.props.instructionsResponse !== null &&
                     this.props.instructionsResponse.data.instructionTitle}
                 </Typography>
@@ -182,7 +181,7 @@ export class Instruction extends Component {
               {/* Bullet Points */}
               {this.instructions(this.props.instructionsResponse)}
               <DemoBox>
-                <Typography variant="h6" color="textPrimary">
+                <Typography variant='h6' color='textPrimary'>
                   Click <PrimaryButton disabled>Continue</PrimaryButton> to
                   Continue
                 </Typography>

@@ -11,9 +11,9 @@ import {
   BulletBox,
   ButtonBox,
   Main,
+  MainStyle,
   SubTitle,
   Text,
-  MainStyle,
 } from '../../../../../assets/css/GmatStyles';
 import ButtonImg from '../../../../../assets/images/ButtonImg.svg';
 

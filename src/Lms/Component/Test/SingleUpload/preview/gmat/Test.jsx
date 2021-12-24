@@ -2,35 +2,27 @@
  * (c) CareerLabs. All rights reserved.
  **/
 
-import React, { useEffect } from "react";
-import Latex from "../../../../../Utils/LatexViewer";
+import { Box, Checkbox, Grid, Radio, Typography } from '@material-ui/core';
+import React from 'react';
 import {
-  Radio,
-  Typography,
-  Grid,
-  Divider,
-  Box,
-  Checkbox,
-} from "@material-ui/core";
-import {
+  BundleDiv,
   FormControlLabel2,
+  FormGroup,
   QuestionDiv,
   RadioGroup,
-  FormGroup,
-  BundleDiv,
-} from "../../../../../Assets/css/Preview/GmatStyles";
-import QueryString from "qs";
-import { TextBox } from "../../../../../Assets/css/Preview/GmatStyles";
-import BundleComp from "./Bundle";
+  TextBox,
+} from '../../../../../Assets/css/Preview/GmatStyles';
+import Latex from '../../../../../Utils/LatexViewer';
+import BundleComp from './Bundle';
 
 const SingleSelect = (testResponse, state, onSelect) => {
   if (testResponse.data.isHaveDescription || testResponse.data.isHaveImage) {
     return (
       <Grid container>
-        <Grid item xs={6} className="blue_border">
+        <Grid item xs={6} className='blue_border'>
           <QuestionDiv>
             {testResponse.data.isHaveDescription && (
-              <Typography variant="h4" color="textPrimary">
+              <Typography variant='h4' color='textPrimary'>
                 <Latex math={testResponse.data.description} />
               </Typography>
             )}
@@ -41,21 +33,21 @@ const SingleSelect = (testResponse, state, onSelect) => {
         </Grid>
         <Grid item xs={6}>
           <QuestionDiv>
-            <Typography variant="h4" color="textPrimary">
+            <Typography variant='h4' color='textPrimary'>
               <Latex math={testResponse.data.question} />
             </Typography>
             <RadioGroup value={state.selectedChoice}>
               {testResponse.data.choices.map((choice, index) => (
                 <FormControlLabel2
-                  control={<Radio color="secondary" />}
+                  control={<Radio color='secondary' />}
                   value={choice.id}
                   onChange={onSelect}
                   label={
-                    <Typography variant="h4" color="textPrimary">
+                    <Typography variant='h4' color='textPrimary'>
                       {choice.text ? (
                         <Latex math={choice.text} />
                       ) : (
-                        <img src={choice.choiceImage} alt="" />
+                        <img src={choice.choiceImage} alt='' />
                       )}
                     </Typography>
                   }
@@ -70,21 +62,21 @@ const SingleSelect = (testResponse, state, onSelect) => {
     return (
       // ------------- Single Select With Image Choice and Text ------------------
       <QuestionDiv>
-        <Typography variant="h5" color="textPrimary">
+        <Typography variant='h5' color='textPrimary'>
           <Latex math={testResponse.data.question} />
         </Typography>
         <RadioGroup value={state.selectedChoice}>
           {testResponse.data.choices.map((choice, index) => (
             <FormControlLabel2
-              control={<Radio color="secondary" />}
+              control={<Radio color='secondary' />}
               value={choice.id}
               onChange={onSelect}
               label={
-                <Typography variant="h4" color="textPrimary">
+                <Typography variant='h4' color='textPrimary'>
                   {choice.text ? (
                     <Latex math={choice.text} />
                   ) : (
-                    <img src={choice.choiceImage} alt="" />
+                    <img src={choice.choiceImage} alt='' />
                   )}
                 </Typography>
               }
@@ -97,14 +89,14 @@ const SingleSelect = (testResponse, state, onSelect) => {
 
 const Passage = (testResponse, state, onTextChange) => (
   <Grid container>
-    <Grid item xs={6} className="blue_border">
-      <Box display="flex" height="100%" justifyContent="space-between">
+    <Grid item xs={6} className='blue_border'>
+      <Box display='flex' height='100%' justifyContent='space-between'>
         <QuestionDiv>
-          <Typography variant="h5" color="textPrimary">
+          <Typography variant='h5' color='textPrimary'>
             <Latex math={testResponse.data.question} />
           </Typography>
           {testResponse.data.isHaveDescription && (
-            <Typography variant="h4" color="textPrimary">
+            <Typography variant='h4' color='textPrimary'>
               <Latex math={testResponse.data.description} />
             </Typography>
           )}
@@ -117,8 +109,8 @@ const Passage = (testResponse, state, onTextChange) => (
     <Grid item xs={6}>
       <QuestionDiv>
         <TextBox
-          type={"text"}
-          placeholder={"Enter your answer here"}
+          type={'text'}
+          placeholder={'Enter your answer here'}
           onChange={onTextChange}
           value={state.textAnswer}
         />
@@ -131,10 +123,10 @@ const MultiChoice = (testResponse, state, onMultiSelect) => {
   if (testResponse.data.isHaveDescription || testResponse.data.isHaveImage) {
     return (
       <Grid container>
-        <Grid item xs={6} className="blue_border">
+        <Grid item xs={6} className='blue_border'>
           <QuestionDiv>
             {testResponse.data.isHaveDescription && (
-              <Typography variant="h4" color="textPrimary">
+              <Typography variant='h4' color='textPrimary'>
                 <Latex math={testResponse.data.description} />
               </Typography>
             )}
@@ -145,22 +137,22 @@ const MultiChoice = (testResponse, state, onMultiSelect) => {
         </Grid>
         <Grid item xs={6}>
           <QuestionDiv>
-            <Typography variant="h4" color="textPrimary">
+            <Typography variant='h4' color='textPrimary'>
               <Latex math={testResponse.data.question} />
             </Typography>
             <FormGroup value={state.selectedChoice}>
               {testResponse.data.choices.map((choice, index) => (
                 <FormControlLabel2
-                  control={<Checkbox color="secondary" />}
+                  control={<Checkbox color='secondary' />}
                   value={choice.id}
                   checked={state.selectedChoice.indexOf(choice.id) > -1}
                   onChange={onMultiSelect}
                   label={
-                    <Typography variant="h4" color="textPrimary">
+                    <Typography variant='h4' color='textPrimary'>
                       {choice.text ? (
                         <Latex math={choice.text} />
                       ) : (
-                        <img src={choice.choiceImage} alt="" />
+                        <img src={choice.choiceImage} alt='' />
                       )}
                     </Typography>
                   }
@@ -175,22 +167,22 @@ const MultiChoice = (testResponse, state, onMultiSelect) => {
     return (
       // ------------- Multi Select With Image Choice and Text ------------------
       <QuestionDiv>
-        <Typography variant="h5" color="textPrimary">
+        <Typography variant='h5' color='textPrimary'>
           <Latex math={testResponse.data.question} />
         </Typography>
         <FormGroup value={state.selectedChoice}>
           {testResponse.data.choices.map((choice, index) => (
             <FormControlLabel2
-              control={<Checkbox color="secondary" />}
+              control={<Checkbox color='secondary' />}
               value={choice.id}
               checked={state.selectedChoice.indexOf(choice.id) > -1}
               onChange={onMultiSelect}
               label={
-                <Typography variant="h4" color="textPrimary">
+                <Typography variant='h4' color='textPrimary'>
                   {choice.text ? (
                     <Latex math={choice.text} />
                   ) : (
-                    <img src={choice.choiceImage} alt="" />
+                    <img src={choice.choiceImage} alt='' />
                   )}
                 </Typography>
               }
@@ -204,13 +196,13 @@ const MultiChoice = (testResponse, state, onMultiSelect) => {
 const Bundle = (testResponse, state, onBundleChange) => {
   return (
     <Grid container>
-      <Grid item xs={6} className="blue_border">
+      <Grid item xs={6} className='blue_border'>
         <QuestionDiv>
-          <Typography variant="h5" color="textPrimary">
+          <Typography variant='h5' color='textPrimary'>
             <Latex math={testResponse.data.question} />
           </Typography>
           {testResponse.data.isHaveDescription && (
-            <Typography variant="h4" color="textPrimary">
+            <Typography variant='h4' color='textPrimary'>
               <Latex math={testResponse.data.description} />
             </Typography>
           )}
@@ -246,15 +238,14 @@ function Test({
   onBundleChange,
   getTestSection,
 }) {
-  // console.log(testResponse);
   if (testResponse !== null) {
-    if (testResponse.data.type === "SINGLE_SELECT") {
+    if (testResponse.data.type === 'SINGLE_SELECT') {
       return SingleSelect(testResponse, state, onSelect);
-    } else if (testResponse.data.type === "SUBJECTIVE")
+    } else if (testResponse.data.type === 'SUBJECTIVE')
       return Passage(testResponse, state, onTextChange);
-    else if (testResponse.data.type === "MULTI_CHOICE")
+    else if (testResponse.data.type === 'MULTI_CHOICE')
       return MultiChoice(testResponse, state, onMultiSelect);
-    else if (testResponse.data.type === "BUNDLE")
+    else if (testResponse.data.type === 'BUNDLE')
       return Bundle(testResponse, state, onBundleChange);
     else return null;
   }

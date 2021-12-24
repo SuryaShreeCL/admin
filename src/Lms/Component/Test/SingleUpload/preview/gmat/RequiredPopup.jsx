@@ -1,14 +1,14 @@
 /**
  * (c) CareerLabs. All rights reserved.
  **/
-import React from 'react';
 import { Dialog, Typography } from '@material-ui/core';
+import React from 'react';
 import {
-  DialogTitle,
-  CloseSharp,
-  DialogContent2,
-  DialogActions,
   Button,
+  CloseSharp,
+  DialogActions,
+  DialogContent2,
+  DialogTitle,
   IconButton,
 } from '../../../../../assets/css/GmatStyles';
 

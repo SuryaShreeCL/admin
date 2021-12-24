@@ -1,21 +1,7 @@
-import { Box } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import React, { Component } from 'react';
-import {
-  greTheme,
-  ContinueButton,
-} from '../../../../../Assets/css/Preview/GreStyles';
-
-import {
-  PauseModelSubTitle,
-  PauseModelTitle,
-  QuitButton,
-} from '../../../../../Assets/css/Preview/TestComponent';
-
-import BookmarkIcon from '../../../../../Assets/icons/Bookmarks.svg';
-import PauseModelIcon from '../../../../../Assets/icons/pause.svg';
+import { greTheme } from '../../../../../Assets/css/Preview/GreStyles';
 import Bundle from './components/Bundle';
-import Confirmation from './components/Confirmation';
 import Passage from './components/Passage';
 import SingleMulti from './components/SingleMulti';
 import Layout from './Layout';

@@ -703,9 +703,6 @@ class Add extends Component {
   };
 
   render() {
-    // console.log(this.state.courseId);
-    // console.log(this.props.courses);
-
     const {
       type,
       description,

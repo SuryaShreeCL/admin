@@ -1,8 +1,5 @@
 import { Box, Typography } from '@material-ui/core';
-// import Bundle from '../../../exam/Bundle';
-import Bundle from './Bundle';
-import Latex from '../../../../../../Utils/LatexViewer';
-import SingleMulti from './SingleMulti';
+import React from 'react';
 import {
   DescriptionBox,
   DescriptionHeader,
@@ -11,8 +8,9 @@ import {
   OutlineRight,
   TextBox,
 } from '../../../../../../Assets/css/Preview/GreStyles';
-// import { DescriptionBox } from "../../../../../../Assets/css/Preview/GreStyles";
-import React, { Component } from 'react';
+import Latex from '../../../../../../Utils/LatexViewer';
+import Bundle from './Bundle';
+import SingleMulti from './SingleMulti';
 
 const Passage = ({
   question,
@@ -30,8 +28,6 @@ const Passage = ({
   topText,
 }) => {
   return (
-    // <Grid container spacing={2}k
-
     <Grid container>
       <Grid item md={6}>
         <OutlineLeft>

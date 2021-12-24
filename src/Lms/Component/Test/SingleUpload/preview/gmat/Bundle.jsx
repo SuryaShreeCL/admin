@@ -1,28 +1,27 @@
 /**
  * (c) CareerLabs. All rights reserved.
  **/
-import { Box, Checkbox, FormControlLabel } from "@material-ui/core";
-import React from "react";
-// import Latex from "../../../../utils/LatexViewer";
-import Latex from "../../../../../Utils/LatexViewer";
+import { Box, Checkbox, FormControlLabel } from '@material-ui/core';
+import React from 'react';
+import Latex from '../../../../../Utils/LatexViewer';
 
 const App = ({ choices, bundleLength, onChange, selectedChoice }) => {
   var alphaOption = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
   ];
-  var romanLetter = ["i", "ii", "iii", "iv", "v", "vi", "vii"];
+  var romanLetter = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii'];
 
   const renderHeader = () => {
     let arr = [];
@@ -53,7 +52,7 @@ const App = ({ choices, bundleLength, onChange, selectedChoice }) => {
 
   return (
     <div>
-      <table className={"bundle__table"}>
+      <table className={'bundle__table'}>
         <thead>
           <tr>
             {renderHeader().map(item => {
@@ -65,15 +64,15 @@ const App = ({ choices, bundleLength, onChange, selectedChoice }) => {
           {renderOptions().map((item, i) => {
             let indx = 0;
             return (
-              <td className={"td"}>
+              <td className={'td'}>
                 {item.choices.map((option, idx) => {
                   return (
                     <tr>
                       <FormControlLabel
                         control={
                           <Checkbox
-                            name="optionA"
-                            color="primary"
+                            name='optionA'
+                            color='primary'
                             checked={selectedChoice.some(
                               selected =>
                                 selected.bundleNo === item.bundleNo &&
@@ -82,7 +81,7 @@ const App = ({ choices, bundleLength, onChange, selectedChoice }) => {
                           />
                         }
                         label={
-                          <Box display={"flex"}>
+                          <Box display={'flex'}>
                             <span>{alphaOption[(idxx = idxx + 1)]})&nbsp;</span>
                             <Latex math={option.text} />
                           </Box>

@@ -1,5 +1,4 @@
 import { Box, Button, Card, Grid } from '@material-ui/core';
-// import QueryString from 'qs';
 import React from 'react';
 import '../../../../../Assets/css/Preview/Preview.css';
 import {
@@ -18,7 +17,6 @@ import testImage from '../../../../../Assets/images/infinity.png';
 import notepad from '../../../../../Assets/images/notepad.png';
 import questionAnswer from '../../../../../Assets/images/questionAnswer.png';
 import ShapeImage from '../../../../../Assets/images/Shape.png';
-// import { routePaths } from '../../../routes/RoutePath';
 
 function LeftCard(props) {
   const topicTypeIcon = type => {
@@ -31,10 +29,6 @@ function LeftCard(props) {
     if (type === 'VIDEO') return activeVideo;
   };
 
-  // const { topicId, type } = QueryString.parse(props.location.search, {
-  //   ignoreQueryPrefix: true,
-  // });
-  // const { t } = props;
   return (
     <Grid container direction='column' className={'left-container-task-view'}>
       <Card className={'left-side-card'}>
@@ -103,21 +97,9 @@ function LeftCard(props) {
           }}
         >
           <div className={'btn-align'}>
-            <Button
-            // className='on-boost-mode'
-            // onClick={() =>
-            //   props.history.push(
-            //     `${routePaths.dashboard.questionBank}?topicId=${topicId}&type=${type}`
-            //     // routePaths.dashboard.questionBank + '?topicId=' + topicId
-            //   )
-            // }
-            >
+            <Button>
               {' '}
-              <img
-                src={questionAnswer}
-                alt='Icons'
-                // className='on-boost-mode'
-              />{' '}
+              <img src={questionAnswer} alt='Icons' />
             </Button>
             <div style={{ visibility: 'hidden' }}>lesson</div>
             <Button>
@@ -126,15 +108,7 @@ function LeftCard(props) {
           </div>
         </Box>
         <Box className={'bottom_text_style'}>
-          <BottomText
-          // onClick={() =>
-          //   props.history.push(
-          //     routePaths.dashboard.questionBank + '?topicId=' + topicId
-          //   )
-          // }
-          >
-            {'Question Bank and Topic Test'}
-          </BottomText>
+          <BottomText>{'Question Bank and Topic Test'}</BottomText>
         </Box>
       </Box>
     </Grid>

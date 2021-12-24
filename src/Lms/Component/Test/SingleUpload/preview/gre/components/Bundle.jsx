@@ -1,27 +1,17 @@
-import { Box, Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import React from 'react';
-import Latex from '../../../../../../Utils/LatexViewer';
 import {
-  Table,
-  Tr,
-  Td,
-  BundleCenter,
-  TH,
-} from '../../../../../../Assets/css/Preview/GreStyles';
-// import Ellipse from "../../../../../../assets/icons/Ellipse.svg";
-// import Ellipse from "../../../../../../Assets/icons/Ellipse.svg";
-// /Assets/icons/Ellipse.svg
-import Ellipse from '../../../../../../Assets/icons/Ellipse.svg';
-import {
-  ChoiceDiv,
-  TopGrey,
-  Center,
   BottomGrey,
-  BundleTable,
+  BundleCenter,
   BundleDiv,
+  ChoiceDiv,
+  Table,
+  Td,
+  TH,
+  TopGrey,
+  Tr,
 } from '../../../../../../Assets/css/Preview/GreStyles';
-
-// import { ChoiceDiv } from "../../../../../../Assets/css/Preview/GreStyles";
+import Latex from '../../../../../../Utils/LatexViewer';
 
 const App = ({
   choices,
@@ -48,14 +38,6 @@ const App = ({
   ];
   var romanLetter = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii'];
 
-  // const renderHeader = () => {
-  //   let arr = [];
-  //   for (let i = 1; i <= bundleLength; i++) {
-  //     arr.push(`blank (${romanLetter[i - 1]})`);
-  //   }
-  //   return arr;
-  // };
-
   const renderOptions = () => {
     let arr = [];
     for (let i = 1; i <= bundleLength; i++) {
@@ -71,11 +53,8 @@ const App = ({
         head: `Blank (${romanLetter[i - 1]})`,
       });
     }
-    // console.log(arr);
     return arr;
   };
-
-  let idxx = -1;
 
   const renderChoices = () => {
     return (
@@ -124,7 +103,6 @@ const App = ({
     );
   };
 
-  // console.log(topText, bottomText);
   return (
     <ChoiceDiv>
       {topText !== null && topText !== undefined && (
