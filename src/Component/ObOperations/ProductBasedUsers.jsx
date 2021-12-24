@@ -34,10 +34,7 @@ class ProductBasedUsers extends Component {
 
   componentDidMount() {
     // this.props.getAdminLinkedProduct()
-    this.props.getVariantStepsById(
-      this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}`
-    );
+    this.props.getVariantStepsById(this.props.match.params.productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
