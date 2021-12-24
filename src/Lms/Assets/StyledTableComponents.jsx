@@ -68,7 +68,8 @@ export const TableCells = withStyles({
 export const TableBox = styled.div`
   overflow: auto;
   width: 100%;
-  height: 692px;
+  /* height: 692px; */
+  margin-top: 40px;
 `;
 
 export const IconBox = styled.div`

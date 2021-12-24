@@ -2,24 +2,24 @@
  * Icanio Technology. All rights reserved.
  **/
 
-import React from 'react';
-import { BrowserRouter, Route, Switch, Router } from 'react-router-dom';
-import history from './History';
-import Student from './Student';
-import Student_data from './StudentData';
-import Courses from './Courses';
-import Department from './Department';
-import MLogin from '../Designs/MLogin';
-import Curated_Course from '../Designs/CuratedCourse';
-import Personal_information from '../Designs/PersonalInformation';
-import '../Designs/Asset/Login.css';
-import EditCourse from './EditCourse';
-import AddCourse from './AddCourse';
-import QuestionBank from './QuestionBank';
-import RecHome from './RengineLite/RecHome';
-import RootContainer from './RootContainer';
-import Login from './Login';
-import AspirationTab from './Aspiration/AspirationTab';
+import React from "react";
+import { BrowserRouter, Route, Switch, Router } from "react-router-dom";
+import history from "./History";
+import Student from "./Student";
+import Student_data from "./StudentData";
+import Courses from "./Courses";
+import Department from "./Department";
+import MLogin from "../Designs/MLogin";
+import Curated_Course from "../Designs/CuratedCourse";
+import Personal_information from "../Designs/PersonalInformation";
+import "../Designs/Asset/Login.css";
+import EditCourse from "./EditCourse";
+import AddCourse from "./AddCourse";
+import QuestionBank from "./QuestionBank";
+import RecHome from "./RengineLite/RecHome";
+import RootContainer from "./RootContainer";
+import Login from "./Login";
+import AspirationTab from "./Aspiration/AspirationTab";
 import {
   studentIdPath,
   studentPath,
@@ -85,67 +85,69 @@ import {
   bulk_upload,
   single_upload,
   appVersion,
-} from './RoutePaths';
-import College from './College';
-import University from './University';
-import TabPanel from './Course/TabPanel';
-import TableComponent from './TableComponent/Index';
-import Aspiration from '../Component/Aspiration';
-import City from './City';
-import QuestionSet from './Question/QuestionSet';
-import Question from './Question/Question';
-import Choice from './Question/Choice';
-import Video from './Video/Video';
-import Product from './Product/ProductLanding';
-import TestimonialDashboard from './Testimonials/TestimonialDashboard';
-import Webinar from './Webinar/Webinar';
-import WallLanding from './Wall/WallLanding';
-import CareerTrack from './CareerTrack/Index';
-import CareerTrackVideoSet from './CareerTrack/CareerTrackVideoSet';
-import CareerTrackVideo from './CareerTrack/CareerTrackVideo';
-import StudentDocuments from './StudentDocuments';
-import StudentHome from './StudentHome';
-import Notification from './Notification';
-import Report from './ReportHome';
-import ReportHome from './ReportHome';
-import Callschedule from './Callschedule';
-import ProductBasedRoot from './ProductBased/ProductBasedRoot';
-import ProductVariantRoot from './Product/ProductVariantRoot';
-import StarterPack from './ProductBased/StarterPack';
-import ProductPunching from './ProductPunching/ProductPunchingLanding';
-import ProductComboForm from './Product/ProductComboForm';
-import ProductPunchingLanding from './ProductPunching/ProductPunchingLanding';
-import ProductStages from './Product/ProductStages';
+  gmat_preview,
+} from "./RoutePaths";
+import College from "./College";
+import University from "./University";
+import TabPanel from "./Course/TabPanel";
+import TableComponent from "./TableComponent/Index";
+import Aspiration from "../Component/Aspiration";
+import City from "./City";
+import QuestionSet from "./Question/QuestionSet";
+import Question from "./Question/Question";
+import Choice from "./Question/Choice";
+import Video from "./Video/Video";
+import Product from "./Product/ProductLanding";
+import TestimonialDashboard from "./Testimonials/TestimonialDashboard";
+import Webinar from "./Webinar/Webinar";
+import WallLanding from "./Wall/WallLanding";
+import CareerTrack from "./CareerTrack/Index";
+import CareerTrackVideoSet from "./CareerTrack/CareerTrackVideoSet";
+import CareerTrackVideo from "./CareerTrack/CareerTrackVideo";
+import StudentDocuments from "./StudentDocuments";
+import StudentHome from "./StudentHome";
+import Notification from "./Notification";
+import Report from "./ReportHome";
+import ReportHome from "./ReportHome";
+import Callschedule from "./Callschedule";
+import ProductBasedRoot from "./ProductBased/ProductBasedRoot";
+import ProductVariantRoot from "./Product/ProductVariantRoot";
+import StarterPack from "./ProductBased/StarterPack";
+import ProductPunching from "./ProductPunching/ProductPunchingLanding";
+import ProductComboForm from "./Product/ProductComboForm";
+import ProductPunchingLanding from "./ProductPunching/ProductPunchingLanding";
+import ProductStages from "./Product/ProductStages";
 // import Rating from './ObOnboarding/Onboarding';
 // import PersonaInfo, { personalInfo } from './ObOnboarding/personalInfo'
-import ClientDetails from './ObCallSummary/ClientDetails';
+import ClientDetails from "./ObCallSummary/ClientDetails";
 // import Onboarding from './ObCallSummary/Rating';
-import CallSummaryLayout from './ObCallSummary/CallSummaryLayout';
-import ObOperationLanding from './ObOperations/ObOperationLanding';
-import Onboarding from './ObOnboarding/Onboarding';
-import ProductBasedUsers from './ObOperations/ProductBasedUsers';
-import StageBasedLayout from './ObOperations/StageBasedLayout';
-import ProductActivation from './ObCallSummary/productActivation';
-import CreatePost from './Wall/Pages/CreatePost';
-import EditPost from './Wall/Pages/EditPost';
-import CreateTest from './Test/Pages/CreateTest';
-import EditTest from './Test/Pages/EditTest';
-import PersonaInfo from './ObOnboarding/personalInfo';
-import LandingAdmin from './LandingAdmin';
+import CallSummaryLayout from "./ObCallSummary/CallSummaryLayout";
+import ObOperationLanding from "./ObOperations/ObOperationLanding";
+import Onboarding from "./ObOnboarding/Onboarding";
+import ProductBasedUsers from "./ObOperations/ProductBasedUsers";
+import StageBasedLayout from "./ObOperations/StageBasedLayout";
+import ProductActivation from "./ObCallSummary/productActivation";
+import CreatePost from "./Wall/Pages/CreatePost";
+import EditPost from "./Wall/Pages/EditPost";
+import CreateTest from "./Test/Pages/CreateTest";
+import EditTest from "./Test/Pages/EditTest";
+import PersonaInfo from "./ObOnboarding/personalInfo";
+import LandingAdmin from "./LandingAdmin";
 
 //LMS
-import CourseLanding from '../Lms/Component/CourseLanding/CourseLanding';
-import AddNewTopic from '../Lms/Component/CourseMaterials/addNewTopic/Index';
-import StudyPlans from '../Lms/Component/StudyPlans/Index';
-import AddStudyPlans from '../Lms/Component/StudyPlans/AddStudyPlans';
-import TestLanding from '../Lms/Component/Test/Index';
-import CourseTaken from '../Lms/Component/Student/Index';
-import AddTest from '../Lms/Component/Test/AddTest/Add';
-import BulkUpload from '../Lms/Component/Test/BulkUpload/Index';
-import SingleUpload from '../Lms/Component/Test/SingleUpload/Index';
+import CourseLanding from "../Lms/Component/CourseLanding/CourseLanding";
+import AddNewTopic from "../Lms/Component/CourseMaterials/addNewTopic/Index";
+import StudyPlans from "../Lms/Component/StudyPlans/Index";
+import AddStudyPlans from "../Lms/Component/StudyPlans/AddStudyPlans";
+import TestLanding from "../Lms/Component/Test/Index";
+import CourseTaken from "../Lms/Component/Student/Index";
+import AddTest from "../Lms/Component/Test/AddTest/Add";
+import BulkUpload from "../Lms/Component/Test/BulkUpload/Index";
+import SingleUpload from "../Lms/Component/Test/SingleUpload/Index";
+import GmatPreview from "../Lms/Component/Test/SingleUpload/preview/gmat/Index";
 
-import AppTestLanding from './Test/AppTestLanding';
-import AppVersionChange from './AppVersion/AppVersionChange';
+import AppTestLanding from "./Test/AppTestLanding";
+import AppVersionChange from "./AppVersion/AppVersionChange";
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -159,7 +161,7 @@ export default function Routes(props) {
       <Route exact path={coursePath} render={props => <Courses {...props} />} />
       <Route
         exact
-        path={editCoursePath.concat(':id')}
+        path={editCoursePath.concat(":id")}
         render={props => <TabPanel {...props} />}
       />
       <Route
@@ -184,7 +186,7 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={studentIdPath + '/:id'}
+        path={studentIdPath + "/:id"}
         render={props => <Student_data {...props} />}
       />
       <Route exact path={loginPath} render={props => <MLogin {...props} />} />
@@ -232,7 +234,7 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={'/admin/table'}
+        path={"/admin/table"}
         render={props => <TableComponent {...props} />}
       />
       <Route
@@ -254,12 +256,12 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={questionsPath.concat(':id')}
+        path={questionsPath.concat(":id")}
         render={props => <Question {...props} />}
       />
       <Route
         exact
-        path={choicePath.concat(':id')}
+        path={choicePath.concat(":id")}
         render={props => <Choice {...props} />}
       />
       <Route exact path={videoPath} render={props => <Video {...props} />} />
@@ -310,7 +312,7 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={productVariantPath + '/:id'}
+        path={productVariantPath + "/:id"}
         render={props => <ProductVariantRoot {...props} />}
       />
       <Route
@@ -325,12 +327,12 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={productuserPunchingPath.concat(':id')}
+        path={productuserPunchingPath.concat(":id")}
         render={props => <ProductPunchingLanding {...props} />}
       />
       <Route
         exact
-        path={productstructurePath.concat(':id')}
+        path={productstructurePath.concat(":id")}
         render={props => <ProductStages {...props} />}
       />
       <Route
@@ -340,7 +342,7 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={callSummaryLayoutPath.concat(':studentId/product/:productId')}
+        path={callSummaryLayoutPath.concat(":studentId/product/:productId")}
         render={props => <CallSummaryLayout {...props} />}
       />
       <Route
@@ -350,7 +352,7 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={obOperationPath + '/:productId'}
+        path={obOperationPath + "/:productId"}
         render={props => <ObOperationLanding {...props} />}
       />
       <Route
@@ -360,12 +362,12 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={listUsersProdBasedPath + '/:productId'}
+        path={listUsersProdBasedPath + "/:productId"}
         render={props => <ProductBasedUsers {...props} />}
       />
       <Route
         exact
-        path={stagedTabsPath.concat(':studentId' + '/:productId')}
+        path={stagedTabsPath.concat(":studentId" + "/:productId")}
         render={props => <StageBasedLayout {...props} />}
       />
       <Route
@@ -375,7 +377,7 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={productActivationPath + '/:productId'}
+        path={productActivationPath + "/:productId"}
         render={props => <ProductActivation {...props} />}
       />
       <Route
@@ -387,13 +389,13 @@ export default function Routes(props) {
       <Route
         exact
         // path={`${careerTrackPath}/:id${careerTrackVideoSetPath}`}
-        path={careerTrackVideoSetPath.concat(':id')}
+        path={careerTrackVideoSetPath.concat(":id")}
         render={props => <CareerTrackVideoSet {...props} />}
       />
       <Route
         exact
         // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
-        path={careerTrackVideoPath.concat(':id')}
+        path={careerTrackVideoPath.concat(":id")}
         render={props => <CareerTrackVideo {...props} />}
       />
 
@@ -414,10 +416,10 @@ export default function Routes(props) {
       <Route exact path={lms_add_test} component={AddTest} />
       <Route
         exact
-        path={bulk_upload + '/:testQuestionSetId/:sectionId?/:courseId?'}
+        path={bulk_upload + "/:testQuestionSetId/:sectionId?/:courseId?"}
         component={BulkUpload}
       />
-      <Route export path={single_upload} component={SingleUpload} />
+      <Route export exact path={single_upload} component={SingleUpload} />
     </Switch>
   );
 }

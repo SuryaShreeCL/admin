@@ -1,25 +1,27 @@
+import QueryString from 'qs';
 import React, { Component } from 'react';
-import { C2, H1 } from '../../../Assets/StyledComponents';
-import DropDownRack from './DropDownRack';
 import { connect } from 'react-redux';
+import { lms_add_test } from '../../../../Component/RoutePaths';
+import { C2, H1 } from '../../../Assets/StyledComponents';
 import {
-  getSubjects,
   getConcepts,
+  getSubjects,
   getTopics2,
   putImage,
 } from '../../../Redux/Action/CourseMaterial';
-import Answer from './Answer';
-import Explanation from './Explanation';
-import Buttons from './Buttons';
-import Question from './Question';
-import QueryString from 'qs';
 import {
-  postQuestions,
-  getQuestions,
   cleanEditData,
+  getQuestions,
+  postQuestions,
+  previewTestData,
 } from '../../../Redux/Action/Test';
-import { lms_add_test } from '../../../../Component/RoutePaths';
+import Answer from './Answer';
+import Buttons from './Buttons';
+import DropDownRack from './DropDownRack';
+import Explanation from './Explanation';
 import PopUps from './PopUps';
+import Question from './Question';
+import QuestionPreview from './preview/Index';
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -48,6 +50,9 @@ export class Index extends Component {
       url: '',
       alert: null,
       editableData: null,
+      openPreview: false,
+      imgURL: '',
+      previewTestDataModel: null,
     };
   }
 
@@ -60,7 +65,6 @@ export class Index extends Component {
     );
 
     if (questionId) {
-      console.log(questionId);
       this.props.getQuestions(questionId, response => {
         if (response.success) {
           const {
@@ -72,6 +76,7 @@ export class Index extends Component {
             subject,
             concept,
             topic,
+            imgURL,
           } = response.data;
           // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
           this.setState({
@@ -87,6 +92,7 @@ export class Index extends Component {
             activeSubject: subject !== null ? subject.id : null,
             activeConcept: concept !== null ? concept.id : null,
             activeTopic: topic !== null ? topic.id : null,
+            imgURL: imgURL,
             // editableData: { response },
           });
         }
@@ -115,6 +121,18 @@ export class Index extends Component {
           );
         }
       });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { previewTestDataModel } = this.state;
+    const { previewData } = this.props;
+    if (
+      previewData &&
+      previewData.success &&
+      previewData !== prevProps.previewData
+    ) {
+      this.setState({ previewTestDataModel: previewData.data });
     }
   }
 
@@ -267,7 +285,6 @@ export class Index extends Component {
   handleImageUpload = (e, index) => {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
-    console.log(e.target.files[0].name);
     if (e.target.files[0].name.match(/.(png|svg|jpeg|jpg)$/i)) {
       this.props.putImage(formData, response => {
         if (response.success) {
@@ -398,8 +415,6 @@ export class Index extends Component {
         explanationVideo: this.state.url,
       };
 
-      // console.log(obj);
-
       this.props.postQuestions(testQuestionSetId, obj, response => {
         if (response.success) {
           this.props.history.push(
@@ -446,7 +461,6 @@ export class Index extends Component {
   getChoices = () => {
     let arr = this.state.bucketArray;
     let choices = [];
-    console.log(arr);
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr[i].choices.length; j++) {
         choices.push({
@@ -523,11 +537,57 @@ export class Index extends Component {
     return new Set(choices).size !== choices.length;
   };
 
+  isEmptyCheck = string => {
+    if (string && string.toString().trim().length !== 0) return true;
+    else return false;
+  };
+
+  handlePreviewClick = () => {
+    const { description, activeLevel, question, answerType } = this.state;
+    let { questionId, sectionId, testQuestionSetId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
+    const topicId = sessionStorage.getItem('topicId');
+
+    let requestBody = {
+      choices: this.getChoices(),
+      isHaveDescription: this.isEmptyCheck(description),
+      topicId: topicId ? topicId : null,
+      testQuestionsSetId: testQuestionSetId ? testQuestionSetId : null,
+      testSectionId: sectionId ? sectionId : null,
+      type: this.getType(),
+    };
+    let question_id = questionId ? questionId : 'NO_QUESTION';
+
+    if (
+      question.length === 0 ||
+      answerType.length === 0 ||
+      activeLevel.length === 0 ||
+      this.choiceEmptyCheck() ||
+      this.choicesSelectEmptyCheck()
+    ) {
+      this.setState({
+        alert: {
+          severity: 'error',
+          msg: 'Please fill the required fields',
+        },
+      });
+    } else {
+      this.props.previewTestData(question_id, requestBody);
+      this.setState({ openPreview: true });
+    }
+  };
+
+  handleClosePreview = () => {
+    this.setState({ openPreview: false });
+  };
+
   render() {
-    console.log(this.state, this.props);
     const { subjects, concepts, topics, editData } = this.props;
 
-    // console.log(this.state.answerType);
     const {
       activeSubject,
       activeConcept,
@@ -544,6 +604,9 @@ export class Index extends Component {
       question,
       description,
       alert,
+      openPreview: open,
+      imgURL,
+      previewTestDataModel,
     } = this.state;
 
     const {
@@ -570,7 +633,11 @@ export class Index extends Component {
       handleQuestionChange,
       handleDescriptionChange,
       handlePopUpClose,
+      handlePreviewClick,
+      handleClosePreview,
     } = this;
+
+    const { history, location, match } = this.props;
 
     const difficulty = [
       { id: 'Easy', title: 'Easy' },
@@ -625,6 +692,7 @@ export class Index extends Component {
     const buttonsProps = {
       handleSaveClick,
       handleCancelClick,
+      handlePreviewClick,
     };
 
     const questionProps = {
@@ -639,10 +707,35 @@ export class Index extends Component {
       alert,
     };
 
+    const questionPreviewProps = {
+      open,
+      handleClose: handleClosePreview,
+      history,
+      location,
+      match,
+      testResponse: {
+        data: {
+          question,
+          type: this.getType(),
+          isHaveDescription: this.isEmptyCheck(description),
+          choices: this.getChoices(),
+          description,
+          totalBundle: bucketArray.length,
+          imgURL,
+          isHaveImage: false,
+          ...previewTestDataModel,
+        },
+      },
+    };
+
+    const id = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    }).questionId;
+
     return (
       <div>
         <C2>
-          <H1>Add new Question</H1>
+          <H1>{id !== undefined ? 'Edit Test' : 'Add New Test'}</H1>
           <DropDownRack {...dropDownRackProps} />
           <Question {...questionProps} />
           <Answer {...answerProps} />
@@ -650,6 +743,7 @@ export class Index extends Component {
         </C2>
         <Buttons {...buttonsProps} />
         <PopUps {...popUpProps} />
+        {previewTestDataModel && <QuestionPreview {...questionPreviewProps} />}
       </div>
     );
   }
@@ -661,6 +755,7 @@ const mapStateToProps = state => {
     concepts: state.CourseMaterialReducer.concepts,
     topics: state.CourseMaterialReducer.topics,
     editData: state.TestReducer.editData,
+    previewData: state.TestReducer.previewData,
   };
 };
 
@@ -672,4 +767,5 @@ export default connect(mapStateToProps, {
   postQuestions,
   getQuestions,
   cleanEditData,
+  previewTestData,
 })(Index);
