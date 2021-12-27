@@ -1,27 +1,27 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core';
-import { TableCells, Head, HeadCell } from '../../Assets/StyledTableComponents';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import { Pagination } from '@material-ui/lab';
-import PaginationComponent from '../../Utils/PaginationComponent';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Popover from './Popover';
+import React from "react";
+import { makeStyles } from "@material-ui/core";
+import { TableCells, Head, HeadCell } from "../../Assets/StyledTableComponents";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import { Pagination } from "@material-ui/lab";
+import PaginationComponent from "../../Utils/PaginationComponent";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Popover from "./Popover";
 
 const useStyles = makeStyles({
   leftAlign: {
-    textAlign: 'left',
+    textAlign: "left",
   },
 });
 
-const columns = ['#Day', 'Topic', 'No. of Tasks', 'Time Required', ''];
+const columns = ["#Day", "Topic", "Tasks", "Time Required", ""];
 
 export default function DataTable(props) {
   const classes = useStyles();
@@ -41,7 +41,7 @@ export default function DataTable(props) {
           <Head>
             <TableRow>
               {columns.map((item, index) => (
-                <HeadCell style={{ textAlign: 'left' }}>{item}</HeadCell>
+                <HeadCell style={{ textAlign: "left" }}>{item}</HeadCell>
               ))}
             </TableRow>
           </Head>
@@ -54,13 +54,11 @@ export default function DataTable(props) {
                   >
                     <TableCells>Day {month.day}</TableCells>
                     <TableCells>{month.topicName}</TableCells>
-                    <TableCells style={{ textAlign: 'center' }}>
-                      {month.noOfTask}
-                    </TableCells>
-                    <TableCells style={{ textAlign: 'center' }}>
+                    <TableCells>{month.taskName}</TableCells>
+                    <TableCells style={{ textAlign: "center" }}>
                       {month.duration} min
                     </TableCells>
-                    <TableCells style={{ textAlign: 'center' }}>
+                    <TableCells style={{ textAlign: "center" }}>
                       {/* <Popover options={['Edit']} /> */}
                     </TableCells>
                   </TableRow>
@@ -69,13 +67,13 @@ export default function DataTable(props) {
           </TableBody>
         </Table>
         <PaginationComponent
-          variant='outlined'
+          variant="outlined"
           pageCount={Math.ceil(item.length / 10)}
           onPageChange={(e, page) => {
             // setStart(start * 10);
             setEnd(page * 10);
           }}
-          shape='rounded'
+          shape="rounded"
         />
       </React.Fragment>
     );
