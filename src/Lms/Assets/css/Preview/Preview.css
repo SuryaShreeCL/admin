@@ -287,3 +287,8 @@ th {
 .gmat_container * {
   font-family: Montserrat !important;
 }
+
+.question-left-container {
+  overflow-x: auto;
+  width: 100%;
+}

@@ -28,20 +28,21 @@ const Passage = ({
   return (
     <Grid container>
       <Grid item md={6}>
-        <Box minHeight={400} display={'flex'} className={'overflow-scroll'}>
+        <Box minHeight={400} display={'flex'} height={'100%'}>
           <Box flex={1} className={'question-left-container'}>
             <Para>
               <Latex math={para} />
             </Para>
-            {/* <Box
-               fontSize={16}
-               color={'#052A4E'}
-               lineHeight={'30px'}
-               dangerouslySetInnerHTML={{
-                 __html: description,
-               }}
-             ></Box> */}
-            <Latex math={description} />
+            <Box
+              fontSize={16}
+              color={'#052A4E'}
+              lineHeight={'30px'}
+              //  dangerouslySetInnerHTML={{
+              //    __html: description,
+              //  }}
+            >
+              <Latex math={description} />
+            </Box>
             <Box>
               {imgUrl && (
                 <img src={imgUrl} alt={''} width={'100%'} height={'100%'} />

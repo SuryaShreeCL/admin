@@ -58,7 +58,7 @@ class Index extends Component {
           question={question}
           choices={choices}
           selectedChoice={[]}
-          imgUrl={imgURL}
+          // imgUrl={imgURL}
           bundleLength={totalBundle}
         />
       ) : (
@@ -67,7 +67,7 @@ class Index extends Component {
           options={choices}
           selectedChoice={[]}
           description={description}
-          imgUrl={imgURL}
+          // imgUrl={imgURL}
         />
       );
     } else if (type === 'SUBJECTIVE' || type === 'DESCRIPTIVE') {

@@ -702,7 +702,7 @@ class Add extends Component {
       courseObj.length !== 0 ? courseObj[0]['title'] : null
     );
     sessionStorage.setItem('testType', this.state.type);
-    sessionStorage.setItem('topicId', this.state.courseId);
+    sessionStorage.setItem('topicId', this.state.topicId);
   };
 
   render() {
