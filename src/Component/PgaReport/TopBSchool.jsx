@@ -147,9 +147,10 @@ function SelectSchool(props) {
           snackMsg: "This school is already added",
           snackOpen: true,
         });
+        dispatch(saveSchool(null));
       }
     }
-  }, [addedSchool]);
+  }, [addedSchool, dispatch]);
 
   const handleSearchSchool = () => {
     isEmptyObject(selectedRegion.value)
