@@ -4,11 +4,11 @@ import {
   TableBody,
   TableCell,
   TableRow,
-} from '@material-ui/core';
-import { MoreVertRounded } from '@material-ui/icons';
-import React from 'react';
-import Blue from '../../../Asset/icons/Down.svg';
-import Blur from '../../../Asset/icons/Up.png';
+} from "@material-ui/core";
+import { MoreVertRounded } from "@material-ui/icons";
+import React from "react";
+import Blue from "../../../Asset/icons/Down.svg";
+import Blur from "../../../Asset/icons/Up.png";
 import {
   BodyCell,
   BoldCell,
@@ -16,18 +16,19 @@ import {
   HeadInline,
   IconBox,
   TableBox,
-} from '../../Assets/StyledTableComponents';
-import Menu from './Menu';
+} from "../../Assets/StyledTableComponents";
+import Menu from "./Menu";
+import { HeadCell } from "../../Assets/StyledTableComponents";
 
 const headText = [
-  'Name',
-  'Test Type',
-  '#  Que Assignes',
-  '# Que filled',
-  'Course',
-  'Topic name',
-  'Status',
-  '',
+  "Name",
+  "Test Type",
+  "#  Que Assignes",
+  "# Que filled",
+  "Course",
+  "Topic name",
+  "Status",
+  "",
 ];
 
 // const handleOpen = (itemId, popUpId, role, status) => {
@@ -40,8 +41,8 @@ const headText = [
 
 const handleShowThreeDot = (role, status) => {
   return !(
-    role === 'LMSEDITOR' &&
-    (status === 'Live' || status === 'In Review' || status === 'Approved')
+    role === "LMSEDITOR" &&
+    (status === "Live" || status === "In Review" || status === "Approved")
   );
 };
 
@@ -63,126 +64,126 @@ export default function TableComp(props) {
 
   //Sort Icons
   const renderIcons = (field, order, index) => {
-    const typeIndex = field.indexOf('type');
-    const courseNameIndex = field.indexOf('courseName');
-    const statusIndex = field.indexOf('wkStatusValue');
-    const fields = ['type', 'courseName', 'wkStatusValue'];
-    if (index === 1 && order[typeIndex] === 'ASC') {
+    const typeIndex = field.indexOf("type");
+    const courseNameIndex = field.indexOf("courseName");
+    const statusIndex = field.indexOf("wkStatusValue");
+    const fields = ["type", "courseName", "wkStatusValue"];
+    if (index === 1 && order[typeIndex] === "ASC") {
       return (
         <IconBox>
           <img
             src={Blue}
-            alt='Up arrow'
-            className={'up_arrow rotate'}
-            id='type'
+            alt="Up arrow"
+            className={"up_arrow rotate"}
+            id="type"
             onClick={() => {
               handleSortBlue(typeIndex);
             }}
           />
           <img
             src={Blur}
-            alt='Down arrow'
-            className={'down_arrow rotate'}
-            id='type'
+            alt="Down arrow"
+            className={"down_arrow rotate"}
+            id="type"
             onClick={() => {
               handleSortBlur(typeIndex);
             }}
           />
         </IconBox>
       );
-    } else if (index === 1 && order[typeIndex] === 'DESC') {
+    } else if (index === 1 && order[typeIndex] === "DESC") {
       return (
         <IconBox>
           <img
             src={Blur}
-            alt='Up arrow'
-            className={'up_arrow'}
-            id='type'
+            alt="Up arrow"
+            className={"up_arrow"}
+            id="type"
             onClick={() => {
               handleSortBlur(typeIndex);
             }}
           />
           <img
             src={Blue}
-            alt='Down arrow'
-            className={'down_arrow'}
-            id='type'
+            alt="Down arrow"
+            className={"down_arrow"}
+            id="type"
             onClick={() => handleSortBlue(typeIndex)}
           />
         </IconBox>
       );
-    } else if (index === 4 && order[courseNameIndex] === 'ASC') {
+    } else if (index === 4 && order[courseNameIndex] === "ASC") {
       return (
         <IconBox>
           <img
             src={Blue}
-            alt='Up arrow'
-            className={'up_arrow rotate'}
-            id={'courseName'}
+            alt="Up arrow"
+            className={"up_arrow rotate"}
+            id={"courseName"}
             onClick={() => handleSortBlue(courseNameIndex)}
           />
           <img
             src={Blur}
-            alt='Down arrow'
-            className={'down_arrow rotate'}
-            id={'courseName'}
+            alt="Down arrow"
+            className={"down_arrow rotate"}
+            id={"courseName"}
             onClick={() => handleSortBlur(courseNameIndex)}
           />
         </IconBox>
       );
-    } else if (index === 4 && order[courseNameIndex] === 'DESC') {
+    } else if (index === 4 && order[courseNameIndex] === "DESC") {
       return (
         <IconBox>
           <img
             src={Blur}
-            alt='Up arrow'
-            className={'up_arrow'}
-            id={'courseName'}
+            alt="Up arrow"
+            className={"up_arrow"}
+            id={"courseName"}
             onClick={() => handleSortBlur(courseNameIndex)}
           />
           <img
             src={Blue}
-            alt='Down arrow'
-            className={'down_arrow'}
-            id={'courseName'}
+            alt="Down arrow"
+            className={"down_arrow"}
+            id={"courseName"}
             onClick={() => handleSortBlue(courseNameIndex)}
           />
         </IconBox>
       );
-    } else if (index === 6 && order[statusIndex] === 'ASC') {
+    } else if (index === 6 && order[statusIndex] === "ASC") {
       return (
         <IconBox>
           <img
             src={Blue}
-            alt='Up arrow'
-            className={'up_arrow rotate'}
-            id={'wkStatusValue'}
+            alt="Up arrow"
+            className={"up_arrow rotate"}
+            id={"wkStatusValue"}
             onClick={() => handleSortBlue(statusIndex)}
           />
           <img
             src={Blur}
-            alt='Down arrow'
-            className={'down_arrow rotate'}
-            id={'wkStatusValue'}
+            alt="Down arrow"
+            className={"down_arrow rotate"}
+            id={"wkStatusValue"}
             onClick={() => handleSortBlur(statusIndex)}
           />
         </IconBox>
       );
-    } else if (index === 6 && order[statusIndex] === 'DESC') {
+    } else if (index === 6 && order[statusIndex] === "DESC") {
       return (
         <IconBox>
           <img
             src={Blur}
-            alt='Up arrow'
-            className={'up_arrow'}
-            id={'courseName'}
+            alt="Up arrow"
+            className={"up_arrow"}
+            id={"courseName"}
             onClick={() => handleSortBlur(statusIndex)}
           />
           <img
             src={Blue}
-            alt='Down arrow'
-            className={'down_arrow'}
-            id={'courseName'}
+            alt="Down arrow"
+            className={"down_arrow"}
+            id={"courseName"}
             onClick={() => handleSortBlue(statusIndex)}
           />
         </IconBox>
@@ -194,18 +195,18 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blur}
-            alt='Up arrow'
-            className={'up_arrow'}
+            alt="Up arrow"
+            className={"up_arrow"}
             onClick={() => {
-              handleSortNew(index, 'ASC');
+              handleSortNew(index, "ASC");
             }}
           />
           <img
             src={Blur}
-            alt='Down arrow'
-            className={'down_arrow rotate'}
+            alt="Down arrow"
+            className={"down_arrow rotate"}
             onClick={() => {
-              handleSortNew(index, 'DESC');
+              handleSortNew(index, "DESC");
             }}
           />
         </IconBox>
@@ -218,13 +219,13 @@ export default function TableComp(props) {
         <Head>
           <TableRow>
             {headText.map((item, index) => (
-              <TableCell className={''}>
+              <HeadCell>
                 <HeadInline>
                   {item}
                   {(index === 1 || index === 4 || index === 6) &&
                     renderIcons(field, order, index)}
                 </HeadInline>
-              </TableCell>
+              </HeadCell>
             ))}
           </TableRow>
         </Head>
@@ -232,13 +233,13 @@ export default function TableComp(props) {
           {tableContent &&
             tableContent.map(item => {
               return (
-                <TableRow key={item.id} style={{ border: '0 0 0 0' }}>
+                <TableRow key={item.id} style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>
                   <BoldCell>{item.testType}</BoldCell>
-                  <BoldCell className={'table_center_align'}>
+                  <BoldCell className={"table_center_align"}>
                     {item.queAssigns}
                   </BoldCell>
-                  <BodyCell className={'table_center_align'}>
+                  <BodyCell className={"table_center_align"}>
                     {item.queFilled}
                   </BodyCell>
                   <BodyCell>{item.courseName}</BodyCell>
@@ -249,11 +250,11 @@ export default function TableComp(props) {
                       <div>
                         <IconButton
                           aria-controls={item.id}
-                          aria-haspopup='true'
+                          aria-haspopup="true"
                           onClick={event => handleThreeDotClick(event, item.id)}
-                          style={{ padding: '0px' }}
+                          style={{ padding: "0px" }}
                         >
-                          <MoreVertRounded style={{ fill: '#1093FF' }} />
+                          <MoreVertRounded style={{ fill: "#1093FF" }} />
                         </IconButton>
                         <Menu
                           role={role}

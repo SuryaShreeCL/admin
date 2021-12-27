@@ -10,11 +10,44 @@ import {
 import { SelectDropDown } from "../../../Utils/SelectField";
 import { InputTextField } from "../../../Utils/TextField";
 import { InputCard } from "../../../Assets/StyledComponents";
+const TASK_TYPES = [
+  { id: "TEXT", title: "Text" },
+  { id: "VIDEO", title: "Video" },
+  { id: "TEXT_VIDEO", title: "Text and Video" },
+];
 
 export class TaskCard extends Component {
   constructor(props) {
     super(props);
   }
+
+  renderTaskBody = props => {
+    switch (props.type) {
+      case "TEXT":
+        return (
+          <TinyEditor
+            data={props.content !== null ? props.content : ""}
+            onEditorChange={props.richEditorChange}
+          />
+        );
+        break;
+
+      case "VIDEO":
+        return (
+          <InputTextField
+            name="name"
+            // value={inputItem.name}
+            // onChange={taskProperties}
+            label="Task Name"
+            placeholder="Task Name"
+            fullWidth
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
   render() {
     const {
       index,
@@ -42,12 +75,9 @@ export class TaskCard extends Component {
                 <SelectDropDown
                   label="Task Type"
                   name="contentType"
-                  items={[
-                    { id: "TEXT", title: "TEXT" },
-                    { id: "VIDEO", title: "VIDEO" },
-                  ]}
+                  items={TASK_TYPES}
                   value={inputItem.contentType}
-                  onhandleChange={taskProperties}
+                  handleChange={taskProperties}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -68,11 +98,13 @@ export class TaskCard extends Component {
               </Grid>
             </Grid>
           </InputCard>
-          <div style={{ padding: "8px" }}>
-            <TinyEditor
-              data={inputItem.content !== null ? inputItem.content : ""}
-              onEditorChange={richEditorChange}
-            />
+
+          <div className="task-body">
+            {this.renderTaskBody({
+              type: inputItem.contentType,
+              richEditorChange,
+              content: inputItem.content,
+            })}
           </div>
         </div>
       </Fragment>
