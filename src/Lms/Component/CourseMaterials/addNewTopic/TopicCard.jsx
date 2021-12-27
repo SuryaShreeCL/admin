@@ -47,7 +47,7 @@ export class TopicCard extends Component {
               name="courseValue"
               items={courses}
               value={courseId}
-              onhandleChange={handleChange}
+              handleChange={handleChange}
               disabled={Boolean(topicId)}
             />
           </Grid>
@@ -65,7 +65,7 @@ export class TopicCard extends Component {
               name="subjectValue"
               items={subjects}
               value={subjectId}
-              onhandleChange={handleChange}
+              handleChange={handleChange}
               disabled={Boolean(topicId)}
             />
           </Grid>
@@ -75,7 +75,7 @@ export class TopicCard extends Component {
               name="conceptValue"
               items={concepts}
               value={conceptId}
-              onhandleChange={handleChange}
+              handleChange={handleChange}
               disabled={Boolean(topicId)}
             />
           </Grid>

@@ -84,12 +84,13 @@ export const HeadInline = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
-  color: #052a4e;
   white-space: nowrap;
+  /* font-style: normal; */
+  /* font-weight: 600; */
+  /* font-size: 18px; */
+  /* line-height: 22px; */
+  /* color: #052a4e; */
+  /* border: none; */
 `;
 
 export const BoldCell = withStyles({
