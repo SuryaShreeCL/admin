@@ -159,6 +159,24 @@ class ProfileGapRoot extends Component {
     );
   };
 
+  /**10th handling */
+  handleTenthClick = () => {
+    this.setState({
+      value: "tenthForm",
+      open: false,
+    });
+    this.props.getAcademicType("tenth");
+  };
+
+  /**12th handling */
+  handleTwelfthClick = () => {
+    this.setState({
+      value: "twelthForm",
+      open: false,
+    });
+    this.props.getAcademicType("twelfth");
+  };
+
   // diploma handling
   handleDiplomaClick = () => {
     console.log("diploma");
@@ -229,12 +247,14 @@ class ProfileGapRoot extends Component {
     {
       label: "10th",
       value: "tenthForm",
-      handler: () => this.setState({ value: "tenthForm", open: false }),
+      handler: () => this.handleTenthClick(),
+      // handler: () => this.setState({ value: "tenthForm", open: false }),
     },
     {
       label: "12th",
       value: "twelthForm",
-      handler: () => this.setState({ value: "twelthForm", open: false }),
+      handler: () => this.handleTwelfthClick(),
+      // handler: () => this.setState({ value: "twelthForm", open: false }),
     },
     {
       label: "Diploma",
