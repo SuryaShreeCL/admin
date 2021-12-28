@@ -14,7 +14,9 @@ COPY ckeditor5 /app/ckeditor5
 RUN npm install --force --silent
 
 # Copy the app
-COPY . .
+COPY public /app/public
+COPY src /app/src
+COPY .env.${BUILD_ENV} /app/.env.${BUILD_ENV}
 
 # build app for production with minification
 RUN npm run build:${BUILD_ENV}
