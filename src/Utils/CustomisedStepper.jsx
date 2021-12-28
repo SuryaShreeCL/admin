@@ -19,8 +19,8 @@ export default class CustomisedStepper extends Component {
                 </Grid>
                 <Grid item md={1}>
                   <div className={"stepper_vertical_center_content"}>
-                    <div onClick={(e)=>this.props.handleClick(e,el)} className={el && el.title && el.title.indexOf("Break") === -1 ? "stepper_circle_green" : "stepper_circle_red"}></div>
-                    { index < this.props.data.length - 1 && <div className={this.props.data && this.props.data[index+1].title && this.props.data[index+1].title.indexOf("Break") === -1 ? "stepper_line_green" : "stepper_line_red"}></div>}
+                    <div onClick={(e)=>this.props.handleClick(e,el)} className={el && el.title && el.title.indexOf("Break") === 0 ? "stepper_circle_red" : "stepper_circle_green"}></div>
+                    { index < this.props.data.length - 1 && <div className={this.props.data && this.props.data[index+1].title && this.props.data[index+1].title.indexOf("Break") === 0 ? "stepper_line_red" : "stepper_line_green"}></div>}
                   </div>
                 </Grid>
               <Grid item md={7}>
