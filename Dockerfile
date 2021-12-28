@@ -7,6 +7,8 @@ ARG BUILD_ENV
 # Install app dependencies
 COPY . ./
 
+RUN apk add git
+
 # Install dependencies
 RUN npm install --force --silent
 
