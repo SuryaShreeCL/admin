@@ -16,7 +16,9 @@ RUN npm install --force --silent
 RUN npm install pdfjs-dist@2.6.347
 
 # Copy the app
-COPY . .
+COPY public /app/public
+COPY src /app/src
+COPY .env.${BUILD_ENV} /app/.env.${BUILD_ENV}
 
 # build app for production with minification
 RUN npm run build:${BUILD_ENV}
