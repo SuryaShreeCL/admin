@@ -5,9 +5,10 @@ WORKDIR /app
 ARG BUILD_ENV
 
 # Install app dependencies
-COPY . ./
-
 RUN apk add git
+
+COPY package.json /app/package.json
+COPY ckeditor5 /app/ckeditor5
 
 # Install dependencies
 RUN npm install --force --silent
