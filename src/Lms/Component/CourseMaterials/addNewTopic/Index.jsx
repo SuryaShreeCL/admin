@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Card,
   MainContainer,
@@ -6,7 +6,7 @@ import {
   Title,
   Wrapper,
   TabThreeDot,
-} from '../../../Assets/StyledComponents';
+} from "../../../Assets/StyledComponents";
 import {
   getCourses,
   getSubjects,
@@ -17,33 +17,34 @@ import {
   validTopicName,
   deleteTask,
   uploadTopicImage,
-} from '../../../Redux/Action/CourseMaterial';
-import { connect } from 'react-redux';
-import { TopicCard } from './TopicCard';
-import { TaskCard } from './TaskCard';
-import { SnackBar } from '../../../Utils/SnackBar';
-import { TaskButtons } from './TaskButtons';
-import { StyledTaps } from '../../../Utils/Tabs';
-import Menu from '../Menu';
-import { MoreVertRounded } from '@material-ui/icons';
-import DialogComponent from '../../../Utils/DialogComponent';
-import { IconButton } from '@material-ui/core';
-import QueryString from 'qs';
-import { lms_course_landing } from '../../../../Component/RoutePaths';
-import { DeleteRounded } from '@material-ui/icons';
+} from "../../../Redux/Action/CourseMaterial";
+import { connect } from "react-redux";
+import { TopicCard } from "./TopicCard";
+import { TaskCard } from "./TaskCard";
+import { SnackBar } from "../../../Utils/SnackBar";
+import { TaskButtons } from "./TaskButtons";
+import { StyledTaps } from "../../../Utils/Tabs";
+import Menu from "../Menu";
+import { MoreVertRounded } from "@material-ui/icons";
+import DialogComponent from "../../../Utils/DialogComponent";
+import { IconButton } from "@material-ui/core";
+import QueryString from "qs";
+import { lms_course_landing } from "../../../../Component/RoutePaths";
+import { DeleteRounded } from "@material-ui/icons";
+import TaskPreview from "./Preview/Index";
 
 const dialogContent = {
-  type: 'delete',
-  icon: <DeleteRounded style={{ fontSize: '48px', fill: '#1093FF' }} />,
-  title: 'Are you sure you want to delete this task ?',
-  button1: 'No',
-  button2: 'Yes',
+  type: "delete",
+  icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
+  title: "Are you sure you want to delete this task ?",
+  button1: "No",
+  button2: "Yes",
 };
 
 const validURL = url => {
-  const IMAGE_FORMATS = ['.jpg', '.jpeg', '.png', '.tiff', '.svg'];
+  const IMAGE_FORMATS = [".jpg", ".jpeg", ".png", ".tiff", ".svg"];
   return (
-    IMAGE_FORMATS.indexOf(url.slice(url.lastIndexOf('.'), url.length)) > -1
+    IMAGE_FORMATS.indexOf(url.slice(url.lastIndexOf("."), url.length)) > -1
   );
 };
 
@@ -54,23 +55,25 @@ class Index extends Component {
       courseValue: null,
       subjectValue: null,
       conceptValue: null,
-      topicValue: '',
-      oldTopicValue: '',
+      topicValue: "",
+      oldTopicValue: "",
       isTopicNameValid: true,
-      descriptionValue: '',
+      descriptionValue: "",
       imageUrl: null,
       newTaskData: [],
       tabValue: null,
       totalTasks: 0,
       topicId: null,
-      message: '',
+      message: "",
       snackOpen: false,
-      snackType: 'success',
+      snackType: "success",
       tabsLabels: [],
       anchorEl: null,
       dialogStatus: false,
       dialogContent: null,
       duplicateTask: [],
+      openPreview: false,
+      topicDetails: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -132,11 +135,12 @@ class Index extends Component {
       const { data } = this.props.topicsDetails;
       const { taskDetails } = this.props;
       let tabArr = [];
-      taskDetails.map((i, index) => {
-        tabArr.push({
-          tabLabel: `Task ${index + 1}`,
+      taskDetails.length !== 0 &&
+        taskDetails.map((i, index) => {
+          tabArr.push({
+            tabLabel: `Task ${index + 1}`,
+          });
         });
-      });
       this.setState({
         newTaskData: taskDetails,
         duplicateTask: taskDetails,
@@ -151,25 +155,26 @@ class Index extends Component {
         descriptionValue: data.description,
         imageUrl: data.imageUrl,
         tabsLabels: tabArr,
+        topicDetails: data,
       });
     }
   }
 
   handleChange = e => {
     const { value, name } = e.target;
-    if (name === 'topicValue' && value.trim().length === 0) {
+    if (name === "topicValue" && value.trim().length === 0) {
       this.setState({ isTopicNameValid: true });
     }
-    if (name === 'imageUrl') {
+    if (name === "imageUrl") {
       const formData = new FormData();
-      formData.append('file', e.target.files[0]);
+      formData.append("file", e.target.files[0]);
       this.props.uploadTopicImage(formData, response => {
         if (response.success) {
           this.setState({ [name]: response.data.fileName });
         }
       });
     } else this.setState({ [name]: value });
-    if (name === 'courseValue') {
+    if (name === "courseValue") {
       this.props.getSubjects(value, subjectResponse => {
         if (subjectResponse.success) {
           this.props.getConcepts(
@@ -186,7 +191,7 @@ class Index extends Component {
         }
       });
     }
-    if (name === 'subjectValue') {
+    if (name === "subjectValue") {
       this.props.getConcepts(value, conceptResponse => {
         if (conceptResponse.success) {
           this.setState({
@@ -248,40 +253,41 @@ class Index extends Component {
           };
           this.props.addTopicDetails(topicData, topicResponse => {
             if (topicResponse.success) {
-              var topicMessage = 'New Topic Added Successfully';
+              this.props.getTopicDetails(topicResponse.data.id, () => {});
+              var topicMessage = "New Topic Added Successfully";
               if (topicId !== null)
-                topicMessage = 'Current Topic Updated Successfully';
+                topicMessage = "Current Topic Updated Successfully";
               this.setState({
                 message: topicMessage,
                 snackOpen: true,
-                snackType: 'success',
+                snackType: "success",
                 topicId: topicResponse.data.id,
                 oldTopicValue: topicValue,
               });
             }
           });
         } else {
-          let imageMessage = 'Please enter a valid image url';
+          let imageMessage = "Please enter a valid image url";
           this.setState({
             message: imageMessage,
             snackOpen: true,
-            snackType: 'warning',
+            snackType: "warning",
           });
         }
       } else {
-        var topicNameMessage = 'The topic name already exists';
+        var topicNameMessage = "The topic name already exists";
         this.setState({
           message: topicNameMessage,
           snackOpen: true,
-          snackType: 'warning',
+          snackType: "warning",
         });
       }
     } else {
-      var imageMessage = 'Please fill all the valid fields';
+      var imageMessage = "Please fill all the valid fields";
       this.setState({
         message: imageMessage,
         snackOpen: true,
-        snackType: 'warning',
+        snackType: "warning",
       });
     }
   };
@@ -294,10 +300,10 @@ class Index extends Component {
           ...prevState.newTaskData,
           {
             id: null,
-            name: '',
-            contentType: '',
-            duration: '',
-            content: '',
+            name: "",
+            contentType: "",
+            duration: null,
+            content: "",
             topic: { id: this.state.topicId },
           },
         ],
@@ -305,16 +311,16 @@ class Index extends Component {
           ...prevState.duplicateTask,
           {
             id: null,
-            name: '',
-            contentType: '',
-            duration: '',
-            content: '',
+            name: "",
+            contentType: "",
+            duration: null,
+            content: "",
             topic: { id: this.state.topicId },
           },
         ],
         tabsLabels: [
           ...prevState.tabsLabels,
-          { tabLabel: 'Task ' + (this.state.totalTasks + 1) },
+          { tabLabel: "Task " + (this.state.totalTasks + 1) },
         ],
       }));
       this.setState({
@@ -372,23 +378,23 @@ class Index extends Component {
     ) {
       this.props.addTaskDetails(newTaskData[tabValue - 1], taskResponse => {
         if (taskResponse.success) {
-          var taskMessage = 'New Task Added Successfully';
+          var taskMessage = "New Task Added Successfully";
           if (newTaskData[tabValue - 1].id !== null)
-            taskMessage = 'Current Task Updated Successfully';
+            taskMessage = "Current Task Updated Successfully";
 
-          taskData[tabValue - 1]['id'] = taskResponse.data.id;
+          taskData[tabValue - 1]["id"] = taskResponse.data.id;
 
-          duplicateData[tabValue - 1]['id'] = taskResponse.data.id;
-          duplicateData[tabValue - 1]['contentType'] =
+          duplicateData[tabValue - 1]["id"] = taskResponse.data.id;
+          duplicateData[tabValue - 1]["contentType"] =
             taskResponse.data.contentType;
-          duplicateData[tabValue - 1]['name'] = taskResponse.data.name;
-          duplicateData[tabValue - 1]['duration'] = taskResponse.data.duration;
-          duplicateData[tabValue - 1]['content'] = taskResponse.data.content;
+          duplicateData[tabValue - 1]["name"] = taskResponse.data.name;
+          duplicateData[tabValue - 1]["duration"] = taskResponse.data.duration;
+          duplicateData[tabValue - 1]["content"] = taskResponse.data.content;
 
           this.setState({
             message: taskMessage,
             snackOpen: true,
-            snackType: 'success',
+            snackType: "success",
             taskData,
             duplicateData,
           });
@@ -402,18 +408,18 @@ class Index extends Component {
             this.props.history.push(lms_course_landing);
           } else {
             this.setState({
-              message: 'Please save all tasks',
+              message: "Please save all tasks",
               snackOpen: true,
-              snackType: 'warning',
+              snackType: "warning",
             });
           }
         }
       });
     } else {
       this.setState({
-        message: 'Please fill all the fields',
+        message: "Please fill all the fields",
         snackOpen: true,
-        snackType: 'warning',
+        snackType: "warning",
       });
     }
   };
@@ -472,7 +478,7 @@ class Index extends Component {
   handleTaskDelete = () => {
     const { tabValue, newTaskData, topicId } = this.state;
     if (newTaskData.length !== 0) {
-      var deleteTaskId = newTaskData[tabValue - 1]['id'];
+      var deleteTaskId = newTaskData[tabValue - 1]["id"];
       if (deleteTaskId !== null) {
         this.props.deleteTask(deleteTaskId, response => {
           if (response.success) {
@@ -510,8 +516,35 @@ class Index extends Component {
     }
   };
 
+  handlePreviewClick = () => {
+    this.setState({ openPreview: true });
+  };
+
+  handleClosePreview = () => {
+    this.setState({ openPreview: false });
+  };
+
+  time_convert = num => {
+    var hours = Math.floor(num / 60);
+    var minutes = num % 60;
+    return hours >= 1
+      ? `${hours} Hours ${minutes >= 1 ? `${minutes} Mins` : ""}`
+      : `${minutes} Mins`;
+  };
+
+  customArrayOfSum = array => {
+    return array.length !== 0
+      ? array
+          .map(({ duration }) =>
+            duration && !isNaN(parseFloat(duration)) > 0
+              ? parseFloat(duration)
+              : 0
+          )
+          .reduce((a, b) => a + b, 0)
+      : 0;
+  };
+
   render() {
-    // console.log(validURL('hsojs'));
     const {
       courseValue,
       subjectValue,
@@ -529,6 +562,8 @@ class Index extends Component {
       anchorEl,
       dialogStatus,
       isTopicNameValid,
+      openPreview,
+      topicDetails,
     } = this.state;
     const {
       handleThreeDotClick,
@@ -538,17 +573,67 @@ class Index extends Component {
       handleCloseIconClick,
       handleTaskDelete,
       topicNameValidate,
+      handlePreviewClick,
+      handleClosePreview,
+      customArrayOfSum,
     } = this;
+
     const { courses, subjects, concepts, taskDetails } = this.props;
     const { topic_id } = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
+
+    const { history, location, match } = this.props;
+    const taskPreviewProps = topicData => {
+      const { subject, concept } = topicData;
+      return {
+        open: openPreview,
+        handleClose: handleClosePreview,
+        history,
+        location,
+        match,
+        topics: {
+          data: {
+            subject: subject.name,
+            concept: concept.name,
+            title: topicValue,
+            duration: `${customArrayOfSum(newTaskData)} Mins`,
+            completedTasks: 0,
+            task: newTaskData.length !== 0 && newTaskData[tabValue - 1].name,
+            progress: 0,
+            totalTasks: newTaskData.length,
+            contents:
+              newTaskData.length !== 0 &&
+              newTaskData.map(
+                ({ id, name, contentType, duration, content }) => ({
+                  duration: duration,
+                  id: id,
+                  title: name,
+                  type: contentType,
+                  content: content,
+                })
+              ),
+            tasks:
+              newTaskData.length !== 0 &&
+              newTaskData.map(({ id, name, contentType, duration }) => ({
+                duration: `${duration ? duration : 0} Mins`,
+                id: id,
+                title: name,
+                type: contentType ? contentType : "TEXT",
+                status: "TODO",
+              })),
+          },
+        },
+        selectedStep: tabValue && tabValue > 0 ? tabValue - 1 : 0,
+      };
+    };
+
     return (
       <>
         <MainContainer>
           <Card>
             <Wrapper>
-              <Title>{topic_id ? 'Edit Topic' : 'Add New Topic'}</Title>
+              <Title>{topic_id ? "Edit Topic" : "Add New Topic"}</Title>
               <TopicCard
                 data={{
                   courses: courses.data,
@@ -574,11 +659,11 @@ class Index extends Component {
                   <TabThreeDot>
                     <IconButton
                       style={{
-                        padding: '3px',
+                        padding: "3px",
                       }}
                       onClick={handleThreeDotClick}
                     >
-                      <MoreVertRounded style={{ fill: '#1093ff' }} />
+                      <MoreVertRounded style={{ fill: "#1093ff" }} />
                     </IconButton>
                     <Menu
                       questionId={tabValue}
@@ -594,10 +679,10 @@ class Index extends Component {
                     tabId: tabValue - 1,
                     handleTabChange: (e, newValue) =>
                       this.setState({ tabValue: newValue + 1 }),
-                    tabsBackColor: '#1093FF',
+                    tabsBackColor: "#1093FF",
                     tabData: tabsLabels,
-                    activeClass: 'active__task__tab',
-                    styleName: 'addNewTask',
+                    activeClass: "active__task__tab",
+                    styleName: "addNewTask",
                   }}
                 />
               </TabContainer>
@@ -624,6 +709,7 @@ class Index extends Component {
                 cancelButton: () => {
                   this.props.history.push(lms_course_landing);
                 },
+                handlePreviewClick: handlePreviewClick,
               }}
             />
           )}
@@ -646,6 +732,9 @@ class Index extends Component {
           />
           {/* <p>{newTaskData.length !== 0 && newTaskData[tabValue - 1].content}</p> */}
         </MainContainer>
+        {topicDetails && newTaskData.length !== 0 && (
+          <TaskPreview {...taskPreviewProps(topicDetails)} />
+        )}
       </>
     );
   }

@@ -10,6 +10,7 @@ const initialState = {
   template: [],
   subjects: [],
   editData: null,
+  previewData: null,
 };
 
 const TestReducer = (state = initialState, action) => {
@@ -73,6 +74,12 @@ const TestReducer = (state = initialState, action) => {
       return {
         ...state,
         editData: null,
+      };
+    }
+    case TEST.previewTestData: {
+      return {
+        ...state,
+        previewData: action.payload,
       };
     }
 
