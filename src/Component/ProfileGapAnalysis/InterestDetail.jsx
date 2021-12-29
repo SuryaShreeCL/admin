@@ -86,7 +86,15 @@ class InterestDetail extends Component {
 
   componentDidMount() {
     this.getInterestDetails();
-    this.getInterestTestQuestionSet();
+    const { productId } = this.props.match.params;
+    if (
+      productId === "5" ||
+      productId === "3" ||
+      productId === "1" ||
+      productId === "d953e26e-ba53-4626-8aca-c9f110c81e7c"
+    ) {
+      return this.getInterestTestQuestionSet();
+    }
   }
 
   // For adding one more duplicate row in the form
@@ -259,7 +267,7 @@ class InterestDetail extends Component {
 
   render() {
     const { classes } = this.props;
-
+    console.log(this.props.match.params.productId);
     return (
       <div className={classes.containerTopPad}>
         <Grid container spacing={3} className={classes.container}>
