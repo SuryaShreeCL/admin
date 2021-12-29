@@ -32,9 +32,9 @@ import { listWallWebinars, deleteWallPost } from '../../../Actions/WallActions';
 import { renderListCategory } from '../../Utils/Helpers';
 import { isLms_Role } from '../WallLanding';
 
-const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
+const Alert = props => <MuiAlert elevation={6} variant='filled' {...props} />;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   pageContent: {
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
@@ -72,16 +72,25 @@ export default function Webinars() {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
-    fn: (items) => {
+    fn: items => {
       return items;
     },
   });
 
-  const { loading, error, webinars } = useSelector((state) => state.wallWebinarListReducer);
+  const { loading, error, webinars } = useSelector(
+    state => state.wallWebinarListReducer
+  );
+
+  const wallPostDeleteReducer = useSelector(
+    state => state.wallPostDeleteReducer
+  );
+
   let totalPages = webinars?.totalPages;
 
   //fitering out archived webinars
-  let filteredWebinars = webinars?.content?.filter((webinar) => webinar.activeStatus !== 'Archive');
+  let filteredWebinars = webinars?.content?.filter(
+    webinar => webinar.activeStatus !== 'Archive'
+  );
 
   const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({
@@ -94,25 +103,30 @@ export default function Webinars() {
     title: '',
     subTitle: '',
   });
+  const [deleteClick, setDeleteClick] = useState(false);
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
-    filteredWebinars,
-    headCells,
-    filterFn,
-    totalPages
-  );
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting,
+    page,
+  } = useTable(filteredWebinars, headCells, filterFn, totalPages);
 
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     let target = e.target;
     setFilterFn({
-      fn: (items) => {
+      fn: items => {
         if (target.value == '') return items;
-        else return items.filter((x) => x.eventTitle.toLowerCase().includes(target.value));
+        else
+          return items.filter(x =>
+            x.eventTitle.toLowerCase().includes(target.value)
+          );
       },
     });
   };
 
-  const openInPage = (item) => {
+  const openInPage = item => {
     history.push({
       pathname: editPath,
       recordForEdit: item,
@@ -123,7 +137,7 @@ export default function Webinars() {
     setOpenDrawer(false);
   };
 
-  const onDelete = (id) => {
+  const onDelete = id => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
@@ -132,12 +146,27 @@ export default function Webinars() {
     setTimeout(() => {
       dispatch(listWallWebinars(page));
     }, 1200);
-    setNotify({
-      isOpen: true,
-      message: 'Deleted Successfully',
-      type: 'error',
-    });
+    setDeleteClick(true);
   };
+
+  useEffect(() => {
+    if (deleteClick && !wallPostDeleteReducer.loading) {
+      if (wallPostDeleteReducer.success) {
+        setNotify({
+          isOpen: true,
+          message: 'Deleted Successfully',
+          type: 'error',
+        });
+      } else {
+        setNotify({
+          isOpen: true,
+          message: wallPostDeleteReducer.error,
+          type: 'error',
+        });
+      }
+      setDeleteClick(false);
+    }
+  }, [deleteClick, wallPostDeleteReducer]);
 
   useEffect(() => {
     dispatch(listWallWebinars(page));
@@ -187,9 +216,11 @@ export default function Webinars() {
           <TblHead />
           {filteredWebinars && (
             <TableBody>
-              {recordsAfterPagingAndSorting().map((item) => (
+              {recordsAfterPagingAndSorting().map(item => (
                 <TableRow key={item.id}>
-                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
+                  <TableCell>
+                    {renderListCategory(item.wallCategories)}
+                  </TableCell>
                   <TableCell>{`${item.eventTitle}`}</TableCell>
                   <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.studentWallWebinar.length}</TableCell>
@@ -228,11 +259,18 @@ export default function Webinars() {
         <TblPagination />
       </Paper>
 
-      <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+      <Drawer
+        anchor='right'
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
         <DrawerContainer>
           <Preview state={viewData} />
           <ButtonsContainerTwo>
-            <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
+            <span
+              style={{ fontSize: '1rem' }}
+              onClick={() => openInPage(viewData)}
+            >
               <IconButton aria-label='edit'>
                 <EditIcon color='primary' size='large' />
               </IconButton>
@@ -261,7 +299,10 @@ export default function Webinars() {
         </DrawerContainer>
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }
