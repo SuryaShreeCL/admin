@@ -18,7 +18,7 @@ export const viewscoredetails=(id,callback)=>{
                dispatch({type:SCOREDETAILS.viewScoreDetails,viewScoreDetailsList:result.data})
             })
             .catch(error => {
-                callback(error)
+                // callback(error)
                 console.log(error);
             });
     }

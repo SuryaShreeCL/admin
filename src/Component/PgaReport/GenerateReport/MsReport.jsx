@@ -137,7 +137,7 @@ const MyDocument = ({
           {descriptionTwo}
         </Text>
         {spiderGraph.map((data) => (
-          <View style={styles.spider_graph_card}>
+          <View style={styles.spider_graph_card} wrap={false}>
             <View style={styles.plan_left_view}>
               <Text style={styles.spider_graph_left_title}>Career Plan</Text>
               <Text style={styles.spider_graph_left_title}>
@@ -181,17 +181,14 @@ const MyDocument = ({
 );
 
 function isEmpty(data) {
-  console.log(data);
   return data && data.length !== 0;
 }
 
 const renderDateTime = (date) => {
-  console.log(date);
   const year = new Date(date).getFullYear();
   const month = MONTHS[new Date(date).getMonth()];
   const reportDate = new Date(date).getDate();
   const finalDate = reportDate + " " + month + " " + year;
-  console.log(finalDate);
 
   return finalDate;
 };
@@ -200,11 +197,11 @@ function MsReport({ content = [] }) {
   let ReportDate =
     content.find((item) => item.content.dateTime) &&
     content.find((item) => item.content.dateTime).content.dateTime;
-  console.log(ReportDate);
+
   return (
     <Document>
-      <Page style={styles.body}>
-        <View style={styles.main_container}>
+      <Page style={styles.body} wrap>
+        <View style={styles.main_container} wrap={true}>
           <View style={styles.analysis_title_div}>
             <Text style={styles.title}>
               Minutes of the Profile Gap Analysis Session
@@ -214,7 +211,6 @@ function MsReport({ content = [] }) {
               <Text style={styles.date}>Date : &nbsp;</Text>
               <Text style={styles.date}>
                 {ReportDate ? renderDateTime(ReportDate) : ""}
-                {/* {ReportDate || <Text>{renderDateTime(ReportDate)}</Text>} */}
               </Text>
             </View>
           </View>
@@ -232,7 +228,7 @@ function MsReport({ content = [] }) {
                 additionalPoint,
                 spiderGraph,
               } = item;
-              console.log(additionalPoint);
+
               return (
                 <MyDocument
                   preferredProgram={content.preferredProgram}
@@ -240,7 +236,10 @@ function MsReport({ content = [] }) {
                   inTake={content.inTake}
                   description={content.description}
                   isGreenCardVisible={
-                    content.inTake && content.description && content.description
+                    content.inTake ||
+                    content.description ||
+                    content.preferredProgram ||
+                    content.title
                   }
                   isSecondaryPassageVisible={
                     isEmpty(content.title) &&
@@ -288,14 +287,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 65,
     paddingHorizontal: 10,
-    padding: 20,
-  },
-  main_container: {
-    padding: 20,
-    borderLeft: "2px solid black",
-    borderRight: "2px solid black",
-    borderTop: "2px solid black",
-    borderBottom: "2px solid black",
   },
   title: {
     fontSize: 20,
@@ -303,6 +294,13 @@ const styles = StyleSheet.create({
     color: "#488DFF",
     fontWeight: "medium",
     padding: "10px 0px",
+  },
+  main_container: {
+    padding: 20,
+    borderLeft: "2px solid black",
+    borderRight: "2px solid black",
+    borderTop: "2px solid black",
+    borderBottom: "2px solid black",
   },
   heading: {
     color: "#488DFF",
@@ -388,15 +386,12 @@ const styles = StyleSheet.create({
     padding: "8px",
   },
   spider_graph_left_title: {
-    // lineHeight: "20px",
     fontSize: 10,
     color: "#a9a9a9",
   },
   spider_graph_left_title_text: {
-    // lineHeight: "20px",
     fontSize: 10,
     marginLeft: "6px",
-    // fontWeight: "600",
   },
   verticalLine: {
     height: "90%",

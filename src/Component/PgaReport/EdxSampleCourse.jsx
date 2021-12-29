@@ -91,6 +91,7 @@ function EdxSampleCourse(props) {
       field: "pgaEdxCourseType",
       render: (rowData, renderType) => {
         if (renderType === "row") {
+          console.log(rowData);
           if (rowData.pgaEdxCourseType) {
             return rowData.pgaEdxCourseType.type;
           } else {
@@ -100,6 +101,7 @@ function EdxSampleCourse(props) {
       },
       editComponent: (props) => {
         console.log(props);
+        console.log(courseTypeList);
         return (
           <DropDown
             id="combo-box-demo"
@@ -218,7 +220,7 @@ function EdxSampleCourse(props) {
   };
 
   const handleRowUpdate = (newData, oldData) => {
-    console.log( newData, "+++++++++==" )
+    console.log(newData, "+++++++++==");
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const dataUpdate = [...selectedCourseList];
@@ -231,17 +233,16 @@ function EdxSampleCourse(props) {
   };
 
   const handleSaveClick = () => {
-
     let error = false;
 
     for (let i = 0; i < selectedCourseList.length; i++) {
-      if(isEmptyObject(selectedCourseList[i].pgaEdxCourseType)){
+      if (isEmptyObject(selectedCourseList[i].pgaEdxCourseType)) {
         error = true;
       }
     }
 
     if (selectedCourseList.length !== 0) {
-      if( !error ){
+      if (!error) {
         const selectedCourseListId = selectedCourseList.map(
           (eachCourse, index) => {
             return {
@@ -265,14 +266,13 @@ function EdxSampleCourse(props) {
             });
           }
         });
-      }else{
+      } else {
         setSnack({
           snackMsg: HELPER_TEXT.requiredField,
           snackColor: "error",
           snackOpen: true,
         });
       }
-    
     } else {
       setSnack({
         snackMsg: "Please Add Course First",

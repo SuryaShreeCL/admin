@@ -57,8 +57,7 @@ class ViewSemesterDetails extends Component {
       cgpaPercentage,
       degreeType,
     } = this.props;
-    
-    
+
     return (
       <div>
         <Grid container>
@@ -85,99 +84,92 @@ class ViewSemesterDetails extends Component {
           </Grid>
 
           {/* try */}
-    
+
           <Grid item md={12} className={"details_grid"}>
             <Grid container>
               <Grid item md={3}>
-              <Typography
-                color="textSecondary"
-              >
-                College Name
-              </Typography>
+                <Typography color="textSecondary">College Name</Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography 
-              >
-                {collegeName.name}
-              </Typography>
+                <Typography>{collegeName.name}</Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography
-                color="textSecondary"
-                // className={"semesterForm_college_style"}
-              >
-                Department
-              </Typography>
+                <Typography
+                  color="textSecondary"
+                  // className={"semesterForm_college_style"}
+                >
+                  Department
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography 
-              // className={"semesterForm_departmentField"}
-              >
-                {departmentName && departmentName.name}
-              </Typography>
+                <Typography
+                // className={"semesterForm_departmentField"}
+                >
+                  {departmentName && departmentName.name}
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography
-                // className={"semesterForm_universityAndCgpa_style"}
-                color="textSecondary"
-              >
-                University Name
-              </Typography>
+                <Typography
+                  // className={"semesterForm_universityAndCgpa_style"}
+                  color="textSecondary"
+                >
+                  University Name
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography 
-              // className={"semesterForm_universityField"}
-              >
-                {universityName.name}
-              </Typography>
+                <Typography
+                // className={"semesterForm_universityField"}
+                >
+                  {universityName.name}
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography
-                color="textSecondary"
-                // className={"semesterForm_universityAndCgpa_style"}
-              >
-                Batch
-              </Typography>
+                <Typography
+                  color="textSecondary"
+                  // className={"semesterForm_universityAndCgpa_style"}
+                >
+                  Batch
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography 
-              // className={"semesterForm_yearField"}
-              >
-                {year}
-              </Typography>
+                <Typography
+                // className={"semesterForm_yearField"}
+                >
+                  {year}
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography
-                color="textSecondary"
-                // className={"semesterForm_universityAndCgpa_style"}
-              >
-                CGPA/Percentage
-              </Typography>
+                <Typography
+                  color="textSecondary"
+                  // className={"semesterForm_universityAndCgpa_style"}
+                >
+                  CGPA/Percentage
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography 
-              // className={"semesterForm_percentageField"}
-              >
-                {cgpaPercentage}
-              </Typography>
+                <Typography
+                // className={"semesterForm_percentageField"}
+                >
+                  {cgpaPercentage}
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography
-                color="textSecondary"
-                // className={"semesterForm_universityAndCgpa_style"}
-              >
-                CGPA Scale
-              </Typography>
+                <Typography
+                  color="textSecondary"
+                  // className={"semesterForm_universityAndCgpa_style"}
+                >
+                  CGPA Scale
+                </Typography>
               </Grid>
               <Grid item md={3}>
-              <Typography
-              //  className={"semesterForm_percentageField"}
-               >
-                {cgpaPercentage}
-              </Typography>
+                <Typography
+                //  className={"semesterForm_percentageField"}
+                >
+                  {cgpaPercentage}
+                </Typography>
               </Grid>
             </Grid>
-            </Grid> 
+          </Grid>
           {/* <Grid item  md={3} xs={3} sm={3} xl={3} lg={3}>
             <div className={"semesterForm_semesterDetail_grid_item1"}>
               <Typography

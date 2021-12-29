@@ -567,7 +567,6 @@ class ClientDetails extends Component {
 
   render() {
     const filter = createFilterOptions();
-
     return (
       <div>
         <ThemeProvider theme={theme}>

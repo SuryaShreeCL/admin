@@ -216,6 +216,10 @@ function Index(props) {
           snackVariant: "error",
           snackOpen: true,
         });
+        setData([]);
+        setSemester([]);
+        setSubjectTableFields([]);
+        setSubjects([]);
       }
     });
   };

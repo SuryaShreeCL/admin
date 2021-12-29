@@ -91,12 +91,6 @@ class Index extends Component {
     };
   }
 
-  handleSubItemClick = (subItem) => {
-    this.setState({
-      filterSubItem: subItem,
-    });
-  };
-
   onMouseOver = (item) => {
     this.setState({
       filterField: item,
@@ -105,24 +99,26 @@ class Index extends Component {
 
   // Getting and setting student match list in state
   getAndSetStudentMatch = (submenu) => {
-    getSimilarStudentsByAcademic(
-      this.props.match.params.studentId,
-      this.props.academicTypes,
-      this.state.filterField.name,
-      submenu.id
-    ).then((response) => {
-      if (response.data && response.data.body.success) {
-        this.setState({
-          studentMatch: (response && response.data.body.data) || [],
-        });
-      } else {
-        this.setState({
-          snackMsg: "The Given Filter is not Found",
-          snackVariant: "error",
-          snackOpen: true,
-        });
-      }
-    });
+    if (submenu.id) {
+      getSimilarStudentsByAcademic(
+        this.props.match.params.studentId,
+        this.props.academicTypes,
+        this.state.filterField.name,
+        submenu.id
+      ).then((response) => {
+        if (response.data && response.data.body.success) {
+          this.setState({
+            studentMatch: (response && response.data.body.data) || [],
+          });
+        } else {
+          this.setState({
+            snackMsg: "The Given Filter is not Found",
+            snackVariant: "error",
+            snackOpen: true,
+          });
+        }
+      });
+    }
   };
 
   // Getting and setting distinct match list in state
@@ -188,9 +184,13 @@ class Index extends Component {
                   this.props.match.params.studentId,
                   this.props.clickedSem.data,
                   (response) => {
-                    this.setState({
-                      semesterData: response.data.data.studentSubjectDetails,
-                    });
+                    if (response.status === 200) {
+                      this.setState({
+                        semesterData:
+                          response.data.data.studentSubjectDetails &&
+                          response.data.data.studentSubjectDetails,
+                      });
+                    }
                   }
                 );
               }
@@ -262,14 +262,21 @@ class Index extends Component {
     }
   };
 
+  handleSubItemClick = (subItem) => {
+    this.setState({
+      filterSubItem: subItem,
+    });
+    this.getAndSetStudentMatch("");
+    this.getAndSetDistinctMatch("");
+  };
+
   componentDidMount() {
     this.props.viewSemesterDetails(
       this.props.match.params.studentId,
       this.props.clickedSem.data,
       this.fetchData
     );
-    this.getAndSetStudentMatch("");
-    this.getAndSetDistinctMatch("");
+
     this.props.getBranches();
     this.getDegreeTypes(this.props.academicTypes);
   }
@@ -542,40 +549,17 @@ class Index extends Component {
                 if (rowData.maximumMarks > 0) {
                   return true;
                 } else {
-                  // this.setState({
-                  //   snackMsg : "It cannot be zero or negative value",
-                  //   snackOpen : true,
-                  //   snackVariant : "error"
-                  // })
                   return {
                     isValid: false,
-                    // helperText: "It cannot be zero or negative value",
                   };
                 }
               } else {
-                // this.setState({
-                //   snackMsg : "Please fill the Required Field",
-                //   snackOpen : true,
-                //   snackVariant : "error"
-                // })
                 return { isValid: false };
               }
             } else {
-              // this.setState({
-              //   snackMsg : "Please fill the Required Field",
-              //   snackOpen : true,
-              //   snackVariant : "error"
-              // })
               return { isValid: false };
             }
           }
-          // if (!isEmptyObject(rowData)) {
-          //   if (!isEmptyString(rowData.gradePoints)) {
-          //     return true;
-          //   } else {
-          //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          //   }
-          // }
         },
       },
       {
@@ -600,21 +584,9 @@ class Index extends Component {
                 return { isValid: false };
               }
             } else {
-              // this.setState({
-              //   snackMsg : "Please fill the Required Field",
-              //   snackOpen : true,
-              //   snackVariant : "error"
-              // })
               return { isValid: false };
             }
           }
-          // if (!isEmptyObject(rowData)) {
-          //   if (!isEmptyString(rowData.credit)) {
-          //     return true;
-          //   } else {
-          //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          //   }
-          // }
         },
       },
       /**---------- */
@@ -637,6 +609,7 @@ class Index extends Component {
             }
           }
         },
+
         editComponent: (props) => {
           return (
             <DropDown
@@ -644,8 +617,12 @@ class Index extends Component {
               id="combo-box-demo"
               options={this.examType}
               getOptionLabel={(option) => option}
-              value={props.rowData.subjectDetailsUgPgDiploma}
-              fullWidth
+              style={{ width: "100px" }}
+              value={
+                (props.rowData.subjectDetailsUgPgDiploma &&
+                  props.rowData.subjectDetailsUgPgDiploma.type) ||
+                ""
+              }
               onChange={(e, value) => {
                 props.onChange(value);
               }}
@@ -665,7 +642,7 @@ class Index extends Component {
           );
         },
       },
-      /***---------- */
+
       {
         title: "obtained Score",
         field: "score",
@@ -679,35 +656,17 @@ class Index extends Component {
                 if (rowData.score > 0) {
                   return true;
                 } else {
-                  // this.setState({
-                  //   snackMsg : "It cannot be zero or negative value",
-                  //   snackOpen : true,
-                  //   snackVariant : "error"
-                  // })
                   return {
                     isValid: false,
-                    // helperText: "It cannot be zero or negative value",
                   };
                 }
               } else {
                 return { isValid: false };
               }
             } else {
-              // this.setState({
-              //   snackMsg : "Please fill the Required Field",
-              //   snackOpen : true,
-              //   snackVariant : "error"
-              // })
               return { isValid: false };
             }
           }
-          // if (!isEmptyObject(rowData)) {
-          //   if (!isEmptyString(rowData.result)) {
-          //     return true;
-          //   } else {
-          //     return { isValid: false, helperText: HELPER_TEXT.requiredField };
-          //   }
-          // }
         },
       },
       {
@@ -738,8 +697,12 @@ class Index extends Component {
               id="combo-box-demo"
               options={this.resultType}
               getOptionLabel={(option) => option}
-              value={props.rowData.subjectDetailsUgPgDiploma}
               fullWidth
+              value={
+                (props.rowData.subjectDetailsUgPgDiploma &&
+                  props.rowData.subjectDetailsUgPgDiploma.passOrFail) ||
+                ""
+              }
               onChange={(e, value) => {
                 props.onChange(value);
               }}

@@ -8,7 +8,7 @@ import { saveCopyData } from "../../Actions/HelperAction";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import SubjectInfoTable from "./SubjectInfoTable";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 function Accordian(props) {
   // Setting up initial styles for this component
   const useStyles = makeStyles((theme) => ({
@@ -49,20 +49,19 @@ function Accordian(props) {
         margin: "16px 16px",
       },
     },
-    accordianSummary : {
-      flexDirection : "row-reverse",
+    accordianSummary: {
+      flexDirection: "row-reverse",
     },
-    expandIconStyle : {
-      marginRight : "3px"
+    expandIconStyle: {
+      marginRight: "3px",
     },
-    buttonStyle : {
-        color : "#4CA24A",
-        border : "1px solid #4CA24A"
-    
-    }
+    buttonStyle: {
+      color: "#4CA24A",
+      border: "1px solid #4CA24A",
+    },
   }));
   const classes = useStyles();
-  const { templateData }  = useSelector(state => state.HelperReducer)
+  const { templateData } = useSelector((state) => state.HelperReducer);
 
   // Setting up dispatch for making API calls
   const dispatch = useDispatch();
@@ -71,10 +70,18 @@ function Accordian(props) {
     e.stopPropagation();
     dispatch(saveCopyData(props.data.studentSubjectDetails));
   };
-  console.log(props.data.studentSubjectDetails)
+
   return (
     <Accordion classes={{ root: classes.accordianSummaryStyle }}>
-      <AccordionSummary classes={{ root : classes.accordianSummary, expandIcon : classes.expandIconStyle  }} aria-controls="panel1a-content" id="panel1a-header" expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary
+        classes={{
+          root: classes.accordianSummary,
+          expandIcon: classes.expandIconStyle,
+        }}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        expandIcon={<ExpandMoreIcon />}
+      >
         <div className={classes.headerContainer}>
           <div className={classes.leftHeader}>
             <Typography className={classes.userName}>
@@ -89,11 +96,16 @@ function Accordian(props) {
             <PrimaryButton
               onClick={handleUseTemplate}
               size={"small"}
-              className={props.data.studentSubjectDetails === templateData && classes.buttonStyle}
+              className={
+                props.data.studentSubjectDetails === templateData &&
+                classes.buttonStyle
+              }
               variant={"outlined"}
               color={"primary"}
             >
-              {props.data.studentSubjectDetails === templateData ? "Copied Template" : "Use Template"}
+              {props.data.studentSubjectDetails === templateData
+                ? "Copied Template"
+                : "Use Template"}
             </PrimaryButton>
           </div>
         </div>
@@ -101,7 +113,11 @@ function Accordian(props) {
       <hr className={classes.dividerStyle} />
       <AccordionDetails>
         <SubjectInfoTable
-          studentSubjectDetails={props.data.studentSubjectDetails ? props.data.studentSubjectDetails : props.studentSubjectDetails[0].subjectDetailsUgPgDiploma}
+          studentSubjectDetails={
+            props.data.studentSubjectDetails
+              ? props.data.studentSubjectDetails
+              : props.studentSubjectDetails[0].subjectDetailsUgPgDiploma
+          }
         />
       </AccordionDetails>
     </Accordion>

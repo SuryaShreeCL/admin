@@ -30,14 +30,14 @@ import ProfileGapAnalysisTab from "../ProfileGapAnalysisTab";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import UploadCV from "../ObCallSummary/UploadCV";
 import BackButton from "../../Asset/Images/backbutton.svg";
-import { studentPath } from "../RoutePaths";
+import { stagedTabsPath, studentPath } from "../RoutePaths";
 import ProfileGapRoot from "../ProfileGapAnalysis/Root";
 import CallSummaryLayout from "../ObCallSummary/CallSummaryLayout";
 import {
   StudentStepDetails,
   ObComplete,
   ObIncomplete,
-  IncompleteStatus
+  IncompleteStatus,
 } from "../../Actions/Student";
 import LockIcon from "@material-ui/icons/Lock";
 import QueryString from "querystring";
@@ -187,20 +187,23 @@ class StageBasedLayout extends Component {
     this.setState({
       isLoading: true,
     });
-    console.log("Incomplete");
+
     let obj = {
       comments: this.state.comments,
     };
-    console.log(obj)
+
     this.props.IncompleteStatus(
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
         if (response.status === 200) {
-          this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${this.props.match.params.studentId}`)
+          this.props.getVariantStepsById(
+            this.props.match.params.productId +
+              `?studentId=${this.props.match.params.studentId}`
+          );
           this.setState({
             open: false,
-            isLoading : false
+            isLoading: false,
           });
         }
       }
@@ -230,7 +233,7 @@ class StageBasedLayout extends Component {
     this.setState({
       isLoading: true,
     });
-    console.log("Complete");
+
     this.props.ObComplete(
       this.props.match.params.studentId,
       this.props.match.params.productId,
@@ -312,7 +315,7 @@ class StageBasedLayout extends Component {
     const { stage } = qs.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
-    console.log(stage);
+
     if (stage === "pga") {
       this.setState({
         tabCount: 1,
@@ -320,24 +323,44 @@ class StageBasedLayout extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    if (this.state.tabCount !== prevState.tabCount) {
+      if (this.state.tabCount === 0) {
+        this.props.history.push(
+          stagedTabsPath +
+            this.props.match.params.studentId +
+            "/" +
+            this.props.match.params.productId +
+            `?stage=OnBoarding`
+        );
+      }
+      if (this.state.tabCount === 1) {
+        this.props.history.push(
+          stagedTabsPath +
+            this.props.match.params.studentId +
+            "/" +
+            this.props.match.params.productId +
+            `?stage=pga`
+        );
+      }
+    }
     if (this.props.variantStepList !== prevProps.variantStepList) {
       let stage = this.props.variantStepList.steps.find(
         (el) => el.stepName === "Onboarding"
       );
-      console.log(stage);
+
       var sortedArr =
         this.props.variantStepList.steps.length > 0 &&
         this.props.variantStepList.steps.sort((a, b) => a.rank - b.rank);
-      console.log(sortedArr);
+
       sortedArr !== false &&
         sortedArr.map((it, ix) => {
           it.steps.sort((c, d) => c.rank - d.rank);
         });
-      console.log(sortedArr);
+
       const { render } = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,
       });
-      console.log(render);
+
       let rank =
         this.state.selectedItem !== null &&
         this.state.selectedItem !== undefined
@@ -469,7 +492,6 @@ class StageBasedLayout extends Component {
       updatedDate: new Date(),
     };
     this.props.updateVerificationStatus(obj, (response) => {
-      console.log(response);
       this.props.StudentStepDetails(
         this.props.match.params.studentId,
         this.props.match.params.productId
@@ -484,7 +506,6 @@ class StageBasedLayout extends Component {
     });
   };
   render() {
-    console.log(this.state);
     var componentList = {
       "Personal Information": "PersonalInfo",
       "Academic Information": "AcademicInfo",
@@ -513,8 +534,7 @@ class StageBasedLayout extends Component {
         ? componentList[this.state.selectedItem.stepName]
         : componentList[this.state.selectedItem];
     var Page = obj[selectedComponent];
-    console.log("state...........", this.state);
-    console.log("props..................", this.props);
+
     return (
       <div>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -624,14 +644,12 @@ class StageBasedLayout extends Component {
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
-                      this.state.othersstatus === "NotVerified" ||
-                      this.state.othersstatus === "Mismatched" ||
-                      this.props.variantStepList.adminObComplete === null
+                      this.props.variantStepList.adminObComplete === null ||
+                      this.props.variantStepList.adminObComplete === false
                     }
                     icon={
-                      this.state.othersstatus === "NotVerified" ||
-                      this.state.othersstatus === "Mismatched" ||
-                      this.props.variantStepList.adminObComplete === null ? (
+                      this.props.variantStepList.adminObComplete === null ||
+                      this.props.variantStepList.adminObComplete === false ? (
                         <LockIcon className={"icon_style"} />
                       ) : null
                     }
@@ -813,5 +831,5 @@ export default connect(mapStateToProps, {
   StudentStepDetails,
   ObComplete,
   ObIncomplete,
-  IncompleteStatus
+  IncompleteStatus,
 })(withStyles(useStyles)(StageBasedLayout));

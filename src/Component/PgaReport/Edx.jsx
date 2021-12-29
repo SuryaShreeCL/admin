@@ -315,54 +315,58 @@ function Edx(props) {
             </Grid>
           )}
 
-          {data.quarterlyPlans.map((eachPlan, index) => {
-            return (
-              <>
-                <Grid item md={6} lg={6} xl={6}>
-                  <Grid container spacing={2}>
-                    <Grid item md={12} lg={12} xl={12}>
-                      <Typography>{`Quarter: ${eachPlan.quarterPlan}`}</Typography>
-                    </Grid>
-                    <Grid item md={12} lg={12} xl={12}>
-                      <DropDown
-                        id="combo-box-demo"
-                        options={courseTypeList}
-                        fullWidth
-                        className={classes.dropDownStyle}
-                        value={eachPlan.pgaEdxCourseType}
-                        onChange={(e, newValue) =>
-                          handleQuarterCatTypeChange(index, newValue)
-                        }
-                        getOptionLabel={(option) => option.type}
-                        renderInput={(params) => (
-                          <TextFieldComponent
-                            {...params}
-                            label="Select Course Type"
-                            variant="standard"
-                          />
-                        )}
-                      />
-                    </Grid>
-                    <Grid item md={5} lg={5} xl={5}>
-                      <TextFieldComponent
-                        className={classes.textField}
-                        name={"description"}
-                        value={eachPlan.description || ""}
-                        onChange={(e) => handleNoOfCourseChange(e, index)}
-                        label={"Number of course"}
-                        fullWidth
-                      />
+          {data &&
+            data.quarterlyPlans.map((eachPlan, index) => {
+              console.log(eachPlan);
+              return (
+                <>
+                  <Grid item md={6} lg={6} xl={6}>
+                    <Grid container spacing={2}>
+                      <Grid item md={12} lg={12} xl={12}>
+                        <Typography>{`Quarter: ${
+                          eachPlan.quarterPlan ? eachPlan.quarterPlan : ""
+                        }`}</Typography>
+                      </Grid>
+                      <Grid item md={12} lg={12} xl={12}>
+                        <DropDown
+                          id="combo-box-demo"
+                          options={courseTypeList}
+                          fullWidth
+                          className={classes.dropDownStyle}
+                          value={eachPlan.pgaEdxCourseType}
+                          onChange={(e, newValue) =>
+                            handleQuarterCatTypeChange(index, newValue)
+                          }
+                          getOptionLabel={(option) => option.type}
+                          renderInput={(params) => (
+                            <TextFieldComponent
+                              {...params}
+                              label="Select Course Type"
+                              variant="standard"
+                            />
+                          )}
+                        />
+                      </Grid>
+                      <Grid item md={5} lg={5} xl={5}>
+                        <TextFieldComponent
+                          className={classes.textField}
+                          name={"description"}
+                          value={eachPlan.description || ""}
+                          onChange={(e) => handleNoOfCourseChange(e, index)}
+                          label={"Number of course"}
+                          fullWidth
+                        />
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-                {index % 2 !== 0 && (
-                  <Grid item md={12} lg={12} xl={12}>
-                    <hr />
-                  </Grid>
-                )}
-              </>
-            );
-          })}
+                  {index % 2 !== 0 && (
+                    <Grid item md={12} lg={12} xl={12}>
+                      <hr />
+                    </Grid>
+                  )}
+                </>
+              );
+            })}
           <Grid
             item
             xs={12}

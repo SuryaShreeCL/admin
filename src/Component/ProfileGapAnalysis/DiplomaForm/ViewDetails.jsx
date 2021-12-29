@@ -61,8 +61,6 @@ class ViewDetails extends Component {
       gpaScale,
     } = this.props;
 
-    console.log(collegeName);
-    console.log(this.props);
     return (
       <div>
         <Grid container spacing={3} style={{ padding: "14px" }}>
@@ -208,7 +206,6 @@ class ViewDetails extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     academicTypes: state.HelperReducer.academicType,
   };

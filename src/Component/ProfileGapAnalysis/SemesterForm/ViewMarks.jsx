@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
 
-
 class ViewMarks extends Component {
-
   render() {
     const { classes } = this.props;
-    
+
     const {
       semesterGpa,
       cgpa,
@@ -18,7 +16,7 @@ class ViewMarks extends Component {
       formulaError,
       percentageError,
     } = this.props;
-    
+
     return (
       <Grid container spacing={3} style={{ padding: "12px" }}>
         <Grid item md={3}>
@@ -31,11 +29,11 @@ class ViewMarks extends Component {
             fullWidth
             error={sgpaError.length > 0}
             helperText={sgpaError}
-            type='number'
+            type="number"
             InputLabelProps={{
               shrink: true,
-          }}
-            type='number'
+            }}
+            type="number"
           />
         </Grid>
 
@@ -45,14 +43,14 @@ class ViewMarks extends Component {
             value={cgpa}
             InputLabelProps={{
               shrink: true,
-          }}
+            }}
             name="cgpa"
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
             error={cgpaError.length > 0}
             helperText={cgpaError}
-            type='number'
+            type="number"
           />
         </Grid>
 
@@ -62,12 +60,12 @@ class ViewMarks extends Component {
             value={formulaEmployed}
             InputLabelProps={{
               shrink: true,
-          }}
+            }}
             name="formulaEmployed"
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            type='number'
+            type="number"
           />
         </Grid>
 
@@ -77,12 +75,12 @@ class ViewMarks extends Component {
             value={percentage}
             InputLabelProps={{
               shrink: true,
-          }}
+            }}
             name="percentage"
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
             fullWidth
-            type='number'
+            type="number"
           />
         </Grid>
       </Grid>
@@ -99,4 +97,4 @@ const useStyles = (theme) => ({
   },
 });
 
-export default (withStyles(useStyles)(ViewMarks))
+export default withStyles(useStyles)(ViewMarks);
