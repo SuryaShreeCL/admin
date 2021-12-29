@@ -498,12 +498,3 @@ input[type='checkbox']:checked + label {
 .image_resized > img {
   width: 100% !important;
 }
-
-.image {
-  position: relative;
-  display: table;
-  clear: both;
-  text-align: center;
-  margin: 0.9em auto;
-  min-width: 50px;
-}
