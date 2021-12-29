@@ -368,9 +368,9 @@ class GeneralDetails extends Component {
   };
 
   verifiedstatus(name) {
-    let obj = this.state.verificationstatus.find(
-      (data) => data.fieldName === name
-    );
+    let obj =
+      this.state.verificationstatus &&
+      this.state.verificationstatus.find((data) => data.fieldName === name);
 
     return obj;
   }
@@ -487,6 +487,7 @@ class GeneralDetails extends Component {
                 >
                   <Dot
                     color={
+                      this.state.verificationstatus &&
                       this.state.verificationstatus.length > 0 &&
                       this.verifiedstatus("pgDegree").verificationStatus ===
                         "Verified"
@@ -536,6 +537,7 @@ class GeneralDetails extends Component {
                 >
                   <Dot
                     color={
+                      this.state.verificationstatus &&
                       this.state.verificationstatus.length > 0 &&
                       this.verifiedstatus("pgCollege").verificationStatus ===
                         "Verified"
@@ -585,6 +587,7 @@ class GeneralDetails extends Component {
                 >
                   <Dot
                     color={
+                      this.state.verificationstatus &&
                       this.state.verificationstatus.length > 0 &&
                       this.verifiedstatus("pgUniversity").verificationStatus ===
                         "Verified"
@@ -633,6 +636,7 @@ class GeneralDetails extends Component {
                 >
                   <Dot
                     color={
+                      this.state.verificationstatus &&
                       this.state.verificationstatus.length > 0 &&
                       this.verifiedstatus("workExperience")
                         .verificationStatus === "Verified"
@@ -680,6 +684,7 @@ class GeneralDetails extends Component {
               >
                 <Dot
                   color={
+                    this.state.verificationstatus &&
                     this.state.verificationstatus.length > 0 &&
                     this.verifiedstatus("ugCollege").verificationStatus ===
                       "Verified"
@@ -729,6 +734,7 @@ class GeneralDetails extends Component {
               >
                 <Dot
                   color={
+                    this.state.verificationstatus &&
                     this.state.verificationstatus.length > 0 &&
                     this.verifiedstatus("CurrentSem").verificationStatus ===
                       "Verified"
@@ -1279,6 +1285,7 @@ class GeneralDetails extends Component {
                       >
                         <Dot
                           color={
+                            this.state.verificationstatus &&
                             this.state.verificationstatus.length > 0 &&
                             this.verifiedstatus("ClsId").verificationStatus ===
                               "Verified"
@@ -1321,6 +1328,7 @@ class GeneralDetails extends Component {
                       >
                         <Dot
                           color={
+                            this.state.verificationstatus &&
                             this.state.verificationstatus.length > 0 &&
                             this.verifiedstatus("FirstName")
                               .verificationStatus === "Verified"
@@ -1368,6 +1376,7 @@ class GeneralDetails extends Component {
                       >
                         <Dot
                           color={
+                            this.state.verificationstatus &&
                             this.state.verificationstatus.length > 0 &&
                             this.verifiedstatus("LastName")
                               .verificationStatus === "Verified"
@@ -1415,6 +1424,7 @@ class GeneralDetails extends Component {
                       >
                         <Dot
                           color={
+                            this.state.verificationstatus &&
                             this.state.verificationstatus.length > 0 &&
                             this.verifiedstatus("PhoneNumber")
                               .verificationStatus === "Verified"
@@ -1460,6 +1470,7 @@ class GeneralDetails extends Component {
                       >
                         <Dot
                           color={
+                            this.state.verificationstatus &&
                             this.state.verificationstatus.length > 0 &&
                             this.verifiedstatus("EmailId")
                               .verificationStatus === "Verified"
@@ -1503,6 +1514,7 @@ class GeneralDetails extends Component {
                       >
                         <Dot
                           color={
+                            this.state.verificationstatus &&
                             this.state.verificationstatus.length > 0 &&
                             this.verifiedstatus("ugDegree")
                               .verificationStatus === "Verified"
@@ -1552,6 +1564,7 @@ class GeneralDetails extends Component {
                       >
                         <Dot
                           color={
+                            this.state.verificationstatus &&
                             this.state.verificationstatus.length > 0 &&
                             this.verifiedstatus("ugDepartment")
                               .verificationStatus === "Verified"
@@ -1585,58 +1598,61 @@ class GeneralDetails extends Component {
                   </Grid>
                   {this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
                   this.props.StudentStepDetailsList.shortName === "ACS MIM" ? (
-                      <Grid item md={4}>
+                    <Grid item md={4}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                          marginTop: "15px",
+                        }}
+                      >
                         <div
                           style={{
+                            alignItems: "flex-start",
                             display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "flex-start",
-                            marginTop: "15px",
                           }}
+                          onClick={(e) => this.handleClick(e, "ugCollege")}
                         >
-                          <div
-                            style={{
-                              alignItems: "flex-start",
-                              display: "flex",
-                            }}
-                            onClick={(e) => this.handleClick(e, "ugCollege")}
-                          >
-                            <Dot
-                              color={
-                                this.state.verificationstatus.length > 0 &&
-                                this.verifiedstatus("ugCollege")
-                                  .verificationStatus === "Verified"
-                                  ? "green"
-                                  : "orange"
-                              }
-                            />
-                          </div>
-                          <div style={{ paddingLeft: "10px", width: "100%" }}>
-                            <Autocomplete
-                              popupIcon={
-                                <ExpandMore style={{ color: "black" }} />
-                              }
-                              options={this.props.getAllCollegesList}
-                              getOptionLabel={(option) => option.name}
-                              value={this.state.college}
-                              onChange={(e, newValue) => {
-                                this.commentshistory("college", newValue);
-                                this.setState({ college: newValue });
-                              }}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  name="college"
-                                  label="College Name"
-                                  className={"field_style"}
-                                  InputLabelProps={{ shrink: true }}
-                                />
-                              )}
-                            />
-                          </div>
+                          <Dot
+                            color={
+                              this.state.verificationstatus &&
+                              this.state.verificationstatus.length > 0 &&
+                              this.verifiedstatus("ugCollege")
+                                .verificationStatus === "Verified"
+                                ? "green"
+                                : "orange"
+                            }
+                          />
                         </div>
-                      </Grid>
-                    ) : ""}
+                        <div style={{ paddingLeft: "10px", width: "100%" }}>
+                          <Autocomplete
+                            popupIcon={
+                              <ExpandMore style={{ color: "black" }} />
+                            }
+                            options={this.props.getAllCollegesList}
+                            getOptionLabel={(option) => option.name}
+                            value={this.state.college}
+                            onChange={(e, newValue) => {
+                              this.commentshistory("college", newValue);
+                              this.setState({ college: newValue });
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                name="college"
+                                label="College Name"
+                                className={"field_style"}
+                                InputLabelProps={{ shrink: true }}
+                              />
+                            )}
+                          />
+                        </div>
+                      </div>
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
                   <Grid item md={12}>
                     {this.renderstudentdetails()}
                   </Grid>
