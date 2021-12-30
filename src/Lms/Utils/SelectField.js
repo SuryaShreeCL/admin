@@ -2,7 +2,7 @@ import React from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 
 export const SelectDropDown = props => {
-  const { label, name, items, value, onhandleChange, disabled } = props;
+  const { label, name, items, value, handleChange, disabled } = props;
 
   return (
     <FormControl variant="outlined" fullWidth>
@@ -16,7 +16,7 @@ export const SelectDropDown = props => {
       <Select
         name={name}
         value={value}
-        onChange={onhandleChange}
+        onChange={handleChange}
         label={label}
         disabled={disabled}
       >
