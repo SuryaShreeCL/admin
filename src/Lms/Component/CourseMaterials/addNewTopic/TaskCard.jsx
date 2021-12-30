@@ -6,15 +6,124 @@ import {
   InputLabel,
   OutlinedInput,
   InputAdornment,
+  Button,
 } from "@material-ui/core";
 import { SelectDropDown } from "../../../Utils/SelectField";
 import { InputTextField } from "../../../Utils/TextField";
 import { InputCard } from "../../../Assets/StyledComponents";
+import { AddButton } from "../../../Utils/Buttons";
+import { AddRounded } from "@material-ui/icons";
+import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
+const TASK_TYPES = [
+  { id: "TEXT", title: "Text" },
+  { id: "VIDEO", title: "Video" },
+  { id: "TEXT_VIDEO", title: "Text and Video" },
+];
 
 export class TaskCard extends Component {
   constructor(props) {
     super(props);
   }
+
+  renderTaskBody = props => {
+    switch (props.type) {
+      case "TEXT":
+        return (
+          <TinyEditor
+            data={props.content !== null ? props.content : ""}
+            onEditorChange={props.richEditorChange}
+          />
+        );
+        break;
+
+      case "VIDEO":
+        return (
+          <>
+            {props.contentVideo &&
+              props.contentVideo.map((item, index) => {
+                return (
+                  <Grid item>
+                    <InputTextField
+                      id={index}
+                      value={item.videoId}
+                      onChange={props.handleVideoContentChange}
+                      label={`Video ${index + 1}`}
+                      placeholder="Video Id"
+                      fullWidth
+                    />
+                  </Grid>
+                );
+              })}
+
+            <Grid item container justifyContent="space-between">
+              <Button
+                startIcon={<AddRounded />}
+                onClick={this.props.handleVideoContentAdd}
+                color="primary"
+              >
+                Add Video
+              </Button>
+
+              <Button
+                startIcon={<RemoveRoundedIcon />}
+                color="secondary"
+                onClick={this.props.handleVideoContentDelete}
+              >
+                Remove Video
+              </Button>
+            </Grid>
+          </>
+        );
+
+      case "TEXT_VIDEO":
+        return (
+          <>
+            {props.contentVideo &&
+              props.contentVideo.map((item, index) => {
+                return (
+                  <Grid item>
+                    <InputTextField
+                      id={index}
+                      value={item.videoId}
+                      onChange={props.handleVideoContentChange}
+                      label={`Video ${index + 1}`}
+                      placeholder="Video Id"
+                      fullWidth
+                    />
+                  </Grid>
+                );
+              })}
+
+            <Grid item container justifyContent="space-between">
+              <Button
+                startIcon={<AddRounded />}
+                onClick={this.props.handleVideoContentAdd}
+                color="primary"
+              >
+                Add Video
+              </Button>
+
+              <Button
+                startIcon={<RemoveRoundedIcon />}
+                color="secondary"
+                onClick={this.props.handleVideoContentDelete}
+              >
+                Remove Video
+              </Button>
+            </Grid>
+
+            <Grid item>
+              <TinyEditor
+                data={props.content !== null ? props.content : ""}
+                onEditorChange={props.richEditorChange}
+              />
+            </Grid>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
   render() {
     const {
       index,
@@ -22,58 +131,64 @@ export class TaskCard extends Component {
       inputItem,
       taskProperties,
       richEditorChange,
-    } = this.props.taskDatas;
+      contentVideo,
+    } = this.props.taskData;
+
     return (
       <Fragment key={index}>
         <div hidden={tabId !== index + 1}>
           <InputCard>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <InputTextField
-                  name="name"
-                  value={inputItem.name}
-                  onChange={taskProperties}
-                  label="Task Name"
-                  placeholder="Task Name"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <SelectDropDown
-                  label="Task Type"
-                  name="contentType"
-                  items={[
-                    { id: "TEXT", title: "TEXT" },
-                    { id: "VIDEO", title: "VIDEO" },
-                  ]}
-                  value={inputItem.contentType}
-                  onhandleChange={taskProperties}
-                />
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel>Approximate time</InputLabel>
-                  <OutlinedInput
-                    type={"number"}
-                    value={inputItem.duration}
-                    name="duration"
+            <Grid container direction="column" spacing={3}>
+              <Grid item container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <InputTextField
+                    name="name"
+                    value={inputItem.name}
                     onChange={taskProperties}
-                    placeholder="Approximate time"
-                    endAdornment={
-                      <InputAdornment position="end">mins</InputAdornment>
-                    }
-                    labelWidth={145}
+                    label="Task Name"
+                    placeholder="Task Name"
+                    fullWidth
                   />
-                </FormControl>
+                </Grid>
+                <Grid item xs={12} md={3}>
+                  <SelectDropDown
+                    label="Task Type"
+                    name="contentType"
+                    items={TASK_TYPES}
+                    value={inputItem.contentType}
+                    handleChange={taskProperties}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel>Approximate time</InputLabel>
+                    <OutlinedInput
+                      type={"number"}
+                      value={inputItem.duration}
+                      name="duration"
+                      onChange={taskProperties}
+                      placeholder="Approximate time"
+                      endAdornment={
+                        <InputAdornment position="end">mins</InputAdornment>
+                      }
+                      labelWidth={145}
+                    />
+                  </FormControl>
+                </Grid>
               </Grid>
+
+              {this.renderTaskBody({
+                type: inputItem.contentType,
+                richEditorChange,
+                content: inputItem.content,
+                contentVideo: inputItem.contentVideo,
+                handleVideoContentAdd: this.props.handleVideoContentAdd,
+                handleVideoContentDelete: this.props.handleVideoContentDelete,
+                handleVideoContentChange: this.props.handleVideoContentChange,
+                index,
+              })}
             </Grid>
           </InputCard>
-          <div style={{ padding: "8px" }}>
-            <TinyEditor
-              data={inputItem.content !== null ? inputItem.content : ""}
-              onEditorChange={richEditorChange}
-            />
-          </div>
         </div>
       </Fragment>
     );

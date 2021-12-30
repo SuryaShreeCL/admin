@@ -74,6 +74,7 @@ class Index extends Component {
       duplicateTask: [],
       openPreview: false,
       topicDetails: null,
+      videoContent: [{ id: null, videoId: "" }],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -304,7 +305,8 @@ class Index extends Component {
             contentType: "",
             duration: null,
             content: "",
-            topic: { id: this.state.topicId },
+            topicData: { id: this.state.topicId },
+            contentVideo: [],
           },
         ],
         duplicateTask: [
@@ -315,7 +317,8 @@ class Index extends Component {
             contentType: "",
             duration: null,
             content: "",
-            topic: { id: this.state.topicId },
+            topicData: { id: this.state.topicId },
+            contentVideo: [],
           },
         ],
         tabsLabels: [
@@ -368,13 +371,12 @@ class Index extends Component {
     const taskDetail = newTaskData[tabValue - 1];
 
     if (
-      taskDetail.content &&
       taskDetail.duration &&
       taskDetail.name &&
       taskDetail.contentType &&
-      taskDetail.content.trim().length > 0 &&
       taskDetail.contentType.trim().length > 0 &&
-      taskDetail.name.trim().length > 0
+      taskDetail.name.trim().length > 0 &&
+      this.contentEmptyValidation()
     ) {
       this.props.addTaskDetails(newTaskData[tabValue - 1], taskResponse => {
         if (taskResponse.success) {
@@ -402,8 +404,6 @@ class Index extends Component {
           var onlyInB = duplicateData.filter(this.comparer(taskData));
           var result = onlyInA.concat(onlyInB);
           var valid = this.totalTaskValidation(taskData);
-          console.log(valid);
-          console.log(result);
           if (result.length === 0 && !valid.includes(false)) {
             this.props.history.push(lms_course_landing);
           } else {
@@ -424,9 +424,55 @@ class Index extends Component {
     }
   };
 
+  contentEmptyValidation = () => {
+    const { newTaskData, tabValue } = this.state;
+    const taskDetail = newTaskData[tabValue - 1];
+
+    switch (taskDetail.contentType) {
+      case "TEXT": {
+        return taskDetail.content.trim().length > 0;
+      }
+
+      case "VIDEO": {
+        for (let i = 0; i < taskDetail.contentVideo.length; i++) {
+          if (taskDetail.contentVideo[i].videoId.length === 0) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      case "TEXT_VIDEO": {
+        if (taskDetail.content.trim().length === 0) return false;
+        for (let i = 0; i < taskDetail.contentVideo.length; i++) {
+          if (taskDetail.contentVideo[i].videoId.length === 0) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    // return (
+    //   (taskDetail.content || taskDetail.contentVideo.length > 0) &&
+    //   (taskDetail.content.trim().length > 0 ||
+    //     taskDetail.contentVideo.length > 0)
+    // );
+  };
+
   handleTaskProperties = (index, event) => {
     const taskData = [...this.state.newTaskData];
     const { name, value } = event.target;
+
+    if (value === "TEXT") taskData[index].contentVideo = [];
+    if (value === "VIDEO") {
+      taskData[index].content = "";
+    }
+
+    if (
+      (value === "TEXT_VIDEO" || value === "VIDEO") &&
+      taskData[index].contentVideo.length === 0
+    )
+      taskData[index].contentVideo.push({ id: null, videoId: "" });
     taskData[index][name] = value;
     this.setState({
       taskData,
@@ -544,7 +590,39 @@ class Index extends Component {
       : 0;
   };
 
+  handleVideoContentAdd = (index, event) => {
+    const { newTaskData } = this.state;
+
+    newTaskData[index].contentVideo.push({ id: null, videoId: "" });
+
+    this.setState({ newTaskData });
+  };
+
+  handleVideoContentDelete = (index, event) => {
+    const { newTaskData } = this.state;
+
+    if (newTaskData[index].contentVideo.length > 1)
+      newTaskData[index].contentVideo.pop();
+
+    this.setState({ newTaskData });
+  };
+
+  /**
+   *
+   * @param {Number} index Task Index
+   * @param {Object} e e.target.id Video Index
+   */
+  handleVideoContentChange = (index, e) => {
+    const { id: idIndex, value } = e.target;
+    const { newTaskData } = this.state;
+
+    newTaskData[index].contentVideo[idIndex].videoId = value;
+
+    this.setState({ newTaskData });
+  };
+
   render() {
+    console.log(this.state);
     const {
       courseValue,
       subjectValue,
@@ -688,17 +766,22 @@ class Index extends Component {
               </TabContainer>
 
               {newTaskData.map((item, index) => {
-                return (
-                  <TaskCard
-                    taskDatas={{
-                      index: index,
-                      tabId: tabValue,
-                      inputItem: item,
-                      taskProperties: e => this.handleTaskProperties(index, e),
-                      richEditorChange: this.onRichEditorChange,
-                    }}
-                  />
-                );
+                const taskCardProps = {
+                  handleVideoContentAdd: e =>
+                    this.handleVideoContentAdd(index, e),
+                  handleVideoContentDelete: e =>
+                    this.handleVideoContentDelete(index, e),
+                  handleVideoContentChange: e =>
+                    this.handleVideoContentChange(index, e),
+                  taskData: {
+                    index: index,
+                    tabId: tabValue,
+                    inputItem: item,
+                    taskProperties: e => this.handleTaskProperties(index, e),
+                    richEditorChange: this.onRichEditorChange,
+                  },
+                };
+                return <TaskCard {...taskCardProps} />;
               })}
             </Wrapper>
           </Card>
