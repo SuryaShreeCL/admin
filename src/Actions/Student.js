@@ -1063,3 +1063,319 @@ export const getieltsexam = (id, callback) => {
       });
   };
 };
+export const getAspirationWork = (studentId, productId, data) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        URL +
+          '/api/v1/students/' +
+          studentId +
+          '/product/' +
+          productId +
+          '/workProfile?workArea=' +
+          data,
+        {
+          crossDomain: true,
+          headers: {
+            admin : "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: STUDENT.aspirationWork,
+          payload: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+export const getAspirationPackage = (studentId,productId) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        URL +
+          '/api/v1/students/' +
+          studentId +
+          '/product/' +
+          productId +
+          '/preferredPackage',
+        {
+          crossDomain: true,
+          headers: {
+            admin : "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: STUDENT.aspirationPackage,
+          payload: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+export const getAspirationLocation = (studentId,productId) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        URL +
+          '/api/v1/students/' +
+          studentId +
+          '/product/' +
+          productId +
+          '/jobLocation',
+        {
+          crossDomain: true,
+          headers: {
+            admin : "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: STUDENT.aspirationLocation,
+          payload: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+export const getaspirationData = (studentId, productId, callback) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        URL +
+          '/api/v1/students/' +
+          studentId +
+          '/product/' +
+          productId +
+          '/productAspiration',
+        {
+          crossDomain: true,
+          headers: {
+            admin:"yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        callback(result);
+        dispatch({
+          type: STUDENT.getaspirationData,
+          payload: result.data,
+        });
+      })
+      .catch(error => {
+        callback(error);
+        console.log(error);
+      });
+  };
+};
+export const postaspirationData = (studentId, productId, data, callback) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .put(
+        URL +
+          '/api/v1/students/' +
+          studentId +
+          '/product/' +
+          productId +
+          '/productAspiration',
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin:"yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        callback(result);
+        dispatch({
+          type: STUDENT.postaspirationData,
+          payload: result.data,
+        });
+      })
+      .catch(error => {
+        callback(error);
+        console.log(error);
+      });
+  };
+};
+export const getAspirationTerms = (studentId,productId) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+
+  return dispatch => {
+    axios
+      .get(
+        URL +
+          '/api/v1/students/' +
+          studentId +
+          '/product/' +
+          productId +
+          '/additinalIntakes',
+        {
+          crossDomain: true,
+          headers: {
+            admin:"yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({ type: STUDENT.aspirationTerm, AspirationTerm: result.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getAspirationDegree = () => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        URL +
+          '/api/v1/aspiration/degree',
+        {
+          crossDomain: true,
+          headers: {
+            admin:"yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: STUDENT.aspirationDegree,
+          AspirationDegree: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getAspirationBranch = (studentId,branch) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(URL + '/api/v1/aspiration/branch/search?q=' + branch, {
+        crossDomain: true,
+        headers : {
+          admin:"yes",
+          Authorization: `Bearer ${accessToken}`,
+        }
+      })
+      .then(result => {
+        dispatch({
+          type: STUDENT.aspirationBranch,
+          AspirationBranch: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getAspirationCounty = (studentId,country) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        URL + '/api/v1/students/' + studentId + '/school/regions' + country,
+        {
+          crossDomain: true,
+          headers: {
+            admin:"yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: STUDENT.aspirationCountry,
+          AspirationCountry: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getAspirationCollege = (studentId, productId, callback) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(
+        URL +
+          '/api/v1/students/' +
+          studentId +
+          '/product/' +
+          productId +
+          '/bSchoolGradSchool',
+        {
+          crossDomain: true,
+          headers: {
+            admin:"yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(result => {
+        dispatch({
+          type: STUDENT.AspirationCollege,
+          AspirationCollege: result.data,
+        });
+        callback(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+export const getAspirationSpecialization = (search, callback) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+  return dispatch => {
+    axios
+      .get(URL + '/api/v1/aspiration/specialization/search?q=' + search, {
+        crossDomain: true,
+        headers: {
+          admin:"yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(result => {
+        callback(result);
+        dispatch({
+          type: STUDENT.aspirationSpecialization,
+          AspirationSpecialization: result.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
