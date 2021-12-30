@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import { TextField, Grid, Typography,withStyles } from "@material-ui/core";
+import { TextField, Grid, Typography, withStyles } from "@material-ui/core";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import "./InterestDetail.css";
 import {
   getPpgaCallNotes,
   updatePpgaCallNotes,
+  ppgaCallNotesStatus,
 } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
 import MySnackBar from "../MySnackBar";
-import CommentDialog from './CommentDialog';
+import CommentDialog from "./CommentDialog";
 import { getcommenthistory } from "../../Actions/ProfileGapAction";
 
 class PpgaCallNotes extends Component {
@@ -23,20 +24,22 @@ class PpgaCallNotes extends Component {
       snackMsg: "",
       commentDialogOpen: false,
       commentList: [],
-      fieldname : {
-        fieldOfStudy : "Field Of Study",
-        college : "College",
-        degree : "Degree",
-        postGraduateDegree : "PostGraduate Degree",
-        postGraduateUniversity : "PostGraduate Univeristy",
-        postGraduateCollege : "PostGraduate College",
-        firstName : "First Name",
-        lastName : "Last Name",
-        currentSem : "Current Semester",
-        workexp : "Work Experience"
+      prePpgaCallNotes: false,
+      postPpgaCallNotes: false,
+      mentorCallNotes: false,
+      fieldname: {
+        fieldOfStudy: "Field Of Study",
+        college: "College",
+        degree: "Degree",
+        postGraduateDegree: "PostGraduate Degree",
+        postGraduateUniversity: "PostGraduate Univeristy",
+        postGraduateCollege: "PostGraduate College",
+        firstName: "First Name",
+        lastName: "Last Name",
+        currentSem: "Current Semester",
+        workexp: "Work Experience",
       },
-      commentupdatelist : [],
-
+      commentupdatelist: [],
     };
   }
 
@@ -72,15 +75,16 @@ class PpgaCallNotes extends Component {
           commentlist: response.data,
         });
         let arr = [];
-        response.data && response.data.map((eachdata) => {
+        response.data &&
+          response.data.map((eachdata) => {
             if (eachdata.fieldName === "college") {
               arr.push({
                 fieldName: eachdata.fieldName,
                 oldValue: eachdata.oldCollege && eachdata.oldCollege.name,
                 newValue: eachdata.newCollege && eachdata.newCollege.name,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
               console.log(arr);
             } else if (eachdata.fieldName === "degree") {
@@ -89,17 +93,19 @@ class PpgaCallNotes extends Component {
                 oldValue: eachdata.oldDegree && eachdata.oldDegree.name,
                 newValue: eachdata.newDegree && eachdata.newDegree.name,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
             } else if (eachdata.fieldName === "fieldOfStudy") {
               arr.push({
                 fieldName: eachdata.fieldName,
-                oldValue: eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
-                newValue: eachdata.newPgDepartment && eachdata.newPgDepartment.name,
+                oldValue:
+                  eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
+                newValue:
+                  eachdata.newPgDepartment && eachdata.newPgDepartment.name,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
             } else if (eachdata.fieldName === "postGraduateDegree") {
               arr.push({
@@ -107,27 +113,30 @@ class PpgaCallNotes extends Component {
                 oldValue: eachdata.oldPgDegree && eachdata.oldPgDegree.name,
                 newValue: eachdata.newPgDegree && eachdata.newPgDegree.name,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
             } else if (eachdata.fieldName === "fieldOfStudy") {
               arr.push({
                 fieldName: eachdata.fieldName,
-                oldValue: eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
-                newValue: eachdata.newPgDepartment && eachdata.newPgDepartment.name,
+                oldValue:
+                  eachdata.oldPgDepartment && eachdata.oldPgDepartment.name,
+                newValue:
+                  eachdata.newPgDepartment && eachdata.newPgDepartment.name,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
-            } 
-            else if (eachdata.fieldName === "postGraduateUniversity") {
+            } else if (eachdata.fieldName === "postGraduateUniversity") {
               arr.push({
                 fieldName: eachdata.fieldName,
-                oldValue: eachdata.oldPgUniversity && eachdata.oldPgUniversity.name,
-                newValue: eachdata.newPgUniversity && eachdata.newPgUniversity.name,
+                oldValue:
+                  eachdata.oldPgUniversity && eachdata.oldPgUniversity.name,
+                newValue:
+                  eachdata.newPgUniversity && eachdata.newPgUniversity.name,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
             } else if (eachdata.fieldName === "postGraduateCollege") {
               arr.push({
@@ -135,8 +144,8 @@ class PpgaCallNotes extends Component {
                 oldValue: eachdata.oldPgcollege && eachdata.oldPgcollege.name,
                 newValue: eachdata.newPgcollege && eachdata.newPgcollege.name,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
             } else {
               arr.push({
@@ -144,15 +153,27 @@ class PpgaCallNotes extends Component {
                 oldValue: eachdata.oldValue,
                 newValue: eachdata.newValue,
                 comment: eachdata.comment,
-                updatedAt:eachdata.updatedAt,
-                updatedBy : eachdata.updatedBy
+                updatedAt: eachdata.updatedAt,
+                updatedBy: eachdata.updatedBy,
               });
             }
           });
-          console.log(arr)
-          this.setState({
-            commentupdatelist: arr,
-          });
+        console.log(arr);
+        this.setState({
+          commentupdatelist: arr,
+        });
+      }
+    );
+    this.props.ppgaCallNotesStatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+        this.setState({
+          prePpgaCallNotes: response.data.data.ppga,
+          postPpgaCallNotes: response.data.data.postPga,
+          mentorCallNotes: response.data.data.mentorNotes,
+        });
       }
     );
   }
@@ -161,13 +182,12 @@ class PpgaCallNotes extends Component {
     this.setState({
       commentDialogOpen: true,
     });
-  }
+  };
 
   handleSave = () => {
     const adminUserId = window.sessionStorage.getItem("adminUserId");
 
     const requestBody = this.state.data.map((eachItem, index) => {
-      
       if (eachItem.id === null) {
         return {
           ppgaNotes: eachItem.ppgaNotes,
@@ -182,7 +202,7 @@ class PpgaCallNotes extends Component {
         };
       } else {
         return {
-          id : eachItem.id,
+          id: eachItem.id,
           ppgaNotes: eachItem.ppgaNotes,
           postPpgaNotes: eachItem.postPpgaNotes,
           mentorNotes: eachItem.mentorNotes,
@@ -223,10 +243,23 @@ class PpgaCallNotes extends Component {
         }
       }
     );
+
+    this.props.ppgaCallNotesStatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        console.log(response);
+        this.setState({
+          prePpgaCallNotes: response.data.data.ppga,
+          postPpgaCallNotes: response.data.data.postPga,
+          mentorCallNotes: response.data.data.mentorNotes,
+        });
+      }
+    );
   };
 
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     // console.log(this.props.getcommenthistoryList);
     console.log(this.state);
 
@@ -257,6 +290,7 @@ class PpgaCallNotes extends Component {
                       value={item.ppgaNotes}
                       onChange={(e) => this.handleChange(e, index)}
                       className="ppgaTextField_align"
+                      disabled={!this.state.prePpgaCallNotes}
                     ></TextField>
                   </Grid>
                   <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
@@ -267,6 +301,7 @@ class PpgaCallNotes extends Component {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => this.handleChange(e, index)}
                       label="Post PPGA Notes"
+                      disabled={!this.state.postPpgaCallNotes}
                     ></TextField>
                   </Grid>
                   <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
@@ -277,6 +312,7 @@ class PpgaCallNotes extends Component {
                       value={item.mentorNotes}
                       InputLabelProps={{ shrink: true }}
                       label="Mentor Notes"
+                      disabled={!this.state.mentorCallNotes}
                     ></TextField>
                   </Grid>
                 </Grid>
@@ -304,10 +340,11 @@ class PpgaCallNotes extends Component {
               sm={12}
               xl={12}
               lg={12}
-             className={classes.buttonGrid}
+              className={classes.buttonGrid}
             >
               <div>
-                <Typography className={classes.bottomText}
+                <Typography
+                  className={classes.bottomText}
                   onClick={this.handleClick}
                 >
                   PPGA Call - Verification/Change Details
@@ -321,6 +358,10 @@ class PpgaCallNotes extends Component {
               </div>
               <div className={"button_div"}>
                 <PrimaryButton
+                  disabled={
+                    !this.state.prePpgaCallNotes || !this.state.mentorCallNotes
+                    // !this.state.postPpgaCallNotes
+                  }
                   variant={"contained"}
                   color={"primary"}
                   onClick={this.handleSave}
@@ -348,40 +389,36 @@ const useStyles = (theme) => ({
     width: "100px",
     display: "flex",
     alignItems: "flex-end",
-    marginRight:"24px",
-    marginBottom:"25px"
+    marginRight: "24px",
+    marginBottom: "25px",
   },
   container: {
     height: "100vh",
-    padding:"15px"
+    padding: "15px",
   },
-  topGrid : {
-    maxHeight: "85%", 
-    overflowY: "scroll", 
-    
+  topGrid: {
+    maxHeight: "85%",
+    overflowY: "scroll",
   },
-  buttonGrid : {
+  buttonGrid: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: "-15px",
     alignItems: "center",
     padding: "5px",
-
   },
-  bottomText : {
-    marginLeft:"19px",
-    marginBottom:"18px",
-    cursor : "pointer",
-    color:"#1093FF"
+  bottomText: {
+    marginLeft: "19px",
+    marginBottom: "18px",
+    cursor: "pointer",
+    color: "#1093FF",
   },
-  dividerDiv : {
+  dividerDiv: {
     marginLeft: "0px",
     marginRight: "0px",
-    marginTop:"27px"
-  }
- 
- 
+    marginTop: "27px",
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -390,11 +427,11 @@ const mapStateToProps = (state) => {
     ppgaResponse: state.ProfileGapAnalysisReducer.ppgaCallNotes,
     updateResponse: state.ProfileGapAnalysisReducer.ppgaCall,
     getcommenthistoryList: state.ProfileGapAnalysisReducer.getcommenthistory,
-
   };
 };
 export default connect(mapStateToProps, {
   getPpgaCallNotes,
   updatePpgaCallNotes,
-  getcommenthistory
+  getcommenthistory,
+  ppgaCallNotesStatus,
 })(withStyles(useStyles)(PpgaCallNotes));
