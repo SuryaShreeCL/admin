@@ -269,7 +269,7 @@ class AspirationDetails extends Component {
         if (response.status === 200) {
           var filteredList = response.data
             .map((eachElement, index) => {
-              if (searchData.includes(eachElement.aspirationBranch.name)) {
+              if (searchData.includes(eachElement.aspirationBranch && eachElement.aspirationBranch.name)) {
                 return eachElement;
               }
             })
@@ -293,7 +293,7 @@ class AspirationDetails extends Component {
           if (response.status === 200) {
             var filteredListTwo = response.data
               .map((eachElement, index) => {
-                if (searchDataTwo.includes(eachElement.country.name)) {
+                if (searchDataTwo.includes(eachElement.country && eachElement.country.name)) {
                   return eachElement;
                 }
               })
@@ -305,10 +305,10 @@ class AspirationDetails extends Component {
           }
         }
       );
-      let profile = this.state.getAspdata.filter(
+      let profile = this.state.getAspdata && this.state.getAspdata.filter(
         (item) => item.name === "Aspiration-PB-Placements-Q1"
       );
-      let value = profile[0].correctChoices[0].text;
+      let value = profile[0] && profile[0].correctChoices[0].text;
       this.props.getAspirationWork(this.props.match.params.studentId,this.props.variantStepList.id, value);
 
     }
@@ -885,7 +885,7 @@ class AspirationDetails extends Component {
       .map((eachElement, index) => {
         if (
           searchData &&
-          searchData.includes(eachElement.aspirationBranch.name)
+          searchData.includes(eachElement.aspirationBranch && eachElement.aspirationBranch.name)
         ) {
           return eachElement;
         }
@@ -902,7 +902,7 @@ class AspirationDetails extends Component {
         .map((eachSpecialization, index) => {
           if (
             searchData &&
-            searchData.includes(eachSpecialization.aspirationBranch.name)
+            searchData.includes(eachSpecialization.aspirationBranch && eachSpecialization.aspirationBranch.name)
           ) {
             return eachSpecialization;
           }
@@ -943,6 +943,20 @@ class AspirationDetails extends Component {
       aspirationUniversities: newUniversityList,
     });
   };
+  renderLabel = () => {
+    if (
+      this.props.variantStepList.codeName === "ACS_MIM" ||
+      this.props.variantStepList.codeName === "PBM" ||
+      this.props.variantStepList.codeName === "ACS_MIM_PB"
+    ) {
+      return "Preferred B-schools / Grad Schools";
+    }
+    if (this.props.variantStepList.codeName === "ACS_MBA" || this.props.variantStepList.codeName === "ACS_MBA_PB") {
+      return "Preferred B-schools";
+    } else {
+      return "Preferred Grad-Schools";
+    }
+  }
   renderForm = () => {
     if (this.props.variantStepList.id !== "1") {
       return (
@@ -981,7 +995,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Intake"
+                  label="Additional Intakes"
                   variant="standard"
                   error={this.state.termErr.length > 0}
                   helperText={this.state.termErr}
@@ -1099,7 +1113,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Country of Dream Colleges"
+                  label="Preferred Region"
                   variant="standard"
                   error={this.state.counteryErr.length > 0}
                   helperText={this.state.counteryErr}
@@ -1130,7 +1144,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="List of Dream Graduate Colleges"
+                  label={this.renderLabel()}
                   variant="standard"
                   error={this.state.universityErr.length > 0}
                   helperText={this.state.universityErr}
