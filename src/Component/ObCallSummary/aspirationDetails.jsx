@@ -943,6 +943,20 @@ class AspirationDetails extends Component {
       aspirationUniversities: newUniversityList,
     });
   };
+  renderLabel = () => {
+    if (
+      this.props.variantStepList.codeName === "ACS_MIM" ||
+      this.props.variantStepList.codeName === "PBM" ||
+      this.props.variantStepList.codeName === "ACS_MIM_PB"
+    ) {
+      return "Preferred B-schools / Grad Schools";
+    }
+    if (this.props.variantStepList.codeName === "ACS_MBA" || this.props.variantStepList.codeName === "ACS_MBA_PB") {
+      return "Preferred B-schools";
+    } else {
+      return "Preferred Grad-Schools";
+    }
+  }
   renderForm = () => {
     if (this.props.variantStepList.id !== "1") {
       return (
@@ -981,7 +995,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Intake"
+                  label="Additional Intakes"
                   variant="standard"
                   error={this.state.termErr.length > 0}
                   helperText={this.state.termErr}
@@ -1099,7 +1113,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Country of Dream Colleges"
+                  label="Preferred Region"
                   variant="standard"
                   error={this.state.counteryErr.length > 0}
                   helperText={this.state.counteryErr}
@@ -1130,7 +1144,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="List of Dream Graduate Colleges"
+                  label={this.renderLabel()}
                   variant="standard"
                   error={this.state.universityErr.length > 0}
                   helperText={this.state.universityErr}
