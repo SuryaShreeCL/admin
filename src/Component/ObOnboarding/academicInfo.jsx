@@ -294,7 +294,7 @@ export class academicInfo extends Component {
           diplomoEndDate: diplomaDetails.endDate,
           diplomostartDate: diplomaDetails.startDate,
           diplomoCgpaScale: {
-            title: diplomoScale.toString(),
+            title: diplomoScale && diplomoScale.toString(),
             value: diplomoScale,
           },
           diplomoCgpa: diplomaDetails.score,
