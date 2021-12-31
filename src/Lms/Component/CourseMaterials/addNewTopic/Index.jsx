@@ -337,13 +337,14 @@ class Index extends Component {
     return function(current) {
       return (
         otherArray.filter(function(other) {
+          console.log(other, current);
           return (
             other.id === current.id &&
             other.contentType === current.contentType &&
             other.name === current.name &&
             parseInt(other.duration) === parseInt(current.duration) &&
-            other.content === current.content
-            // && other.contentVideo === current.contentVideo
+            other.content === current.content &&
+            other.contentVideo === current.contentVideo
           );
         }).length === 0
       );
