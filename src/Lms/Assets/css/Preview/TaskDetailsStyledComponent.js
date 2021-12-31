@@ -4,11 +4,11 @@
 import {
   Button,
   Card as MuiCard,
-  Popover as MuiPopover,
-} from '@material-ui/core';
-import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
-import styled from 'styled-components';
-import { NavLink as Link } from 'react-router-dom';
+  Popover as MuiPopover
+} from "@material-ui/core";
+import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
+import styled from "styled-components";
+import { NavLink as Link } from "react-router-dom";
 
 export const YearCard = styled.div`
   width: 140px;
@@ -205,10 +205,10 @@ export const Logout = styled.button`
 export const LogoutButton = styled.button`
   width: 230px;
   height: 48px;
-  background: ${props => (props.name === 'no' ? '#FFFFFF' : '#1093ff')};
+  background: ${props => (props.name === "no" ? "#FFFFFF" : "#1093ff")};
   border: ${props =>
-    props.name === 'yes' ? 'none' : '1px solid #1093FF !important'};
-  color: ${props => (props.name === 'yes' ? '#FFFFFF' : '#1093FF')};
+    props.name === "yes" ? "none" : "1px solid #1093FF !important"};
+  color: ${props => (props.name === "yes" ? "#FFFFFF" : "#1093FF")};
   border-radius: 30px;
   font-weight: 500;
   font-size: 16px;
@@ -295,7 +295,7 @@ export const RemoveButton = styled.div`
   position: absolute;
   right: 5px;
   cursor: pointer;
-  display: ${props => (props.visible === true ? 'unset' : 'none')};
+  display: ${props => (props.visible === true ? "unset" : "none")};
 `;
 
 export const RoundedEditButton = styled.div`
@@ -518,7 +518,7 @@ export const CardShadow = styled.div`
   box-shadow: 0px 0px 14px rgba(183, 222, 255, 0.5);
   border-radius: 8px;
   background-color: #ffffff;
-  min-height: ${props => props.minHeight || 'unset'};
+  min-height: ${props => props.minHeight || "unset"};
 `;
 export const TopGridSubPara = styled.div`
   font-style: normal;
@@ -532,8 +532,8 @@ export const TopGridSubPara = styled.div`
 `;
 export const TopGridSub = styled.div`
   padding: 20px;
-  display: 'flex';
-  flex-direction: 'row';
+  display: "flex";
+  flex-direction: "row";
 `;
 export const FlatText = styled.div`
   font-style: normal;
@@ -736,7 +736,7 @@ export const CalendarDayDivider = styled.div`
   bottom: 6px;
   left: 14px;
   width: 89%;
-  background: ${props => (props.active ? '#1093FF' : '#5C5C5C')};
+  background: ${props => (props.active ? "#1093FF" : "#5C5C5C")};
 `;
 
 export const CalendarDate = styled.div`
@@ -755,7 +755,7 @@ export const CalendarDay = styled.div`
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
-  color: ${props => props.color || '#5C5C5C'};
+  color: ${props => props.color || "#5C5C5C"};
   /* identical to box height */
 `;
 
@@ -867,7 +867,7 @@ export const NumberOfNotes = styled.div`
 `;
 
 export const ValidatorCard = styled.div`
-  display: ${props => (props.display ? 'block' : 'none')};
+  display: ${props => (props.display ? "block" : "none")};
   width: 259px;
   padding: 12px 16px 8px 16px;
   border: 1px solid #eb0000;
@@ -905,7 +905,7 @@ export const ErrorMessageContainer = styled.div`
 export const ErrorMessage = styled.div`
   font-size: 12px;
   letter-spacing: 0.15px;
-  color: ${props => (props.color ? '#008D28' : '#EB0000')};
+  color: ${props => (props.color ? "#008D28" : "#EB0000")};
 `;
 
 export const ValidatorIcon = styled.img`
@@ -915,7 +915,7 @@ export const ValidatorIcon = styled.img`
 `;
 
 export const PasswordMatchError = styled.div`
-  display: ${props => (props.display ? 'block' : 'none')};
+  display: ${props => (props.display ? "block" : "none")};
   margin-top: 8px;
   margin-bottom: 48px;
   font-size: 12px;
@@ -977,7 +977,7 @@ export const NavigateBackIcon = styled.img`
   width: 40px;
   height: 40px;
   position: absolute;
-  top: ${props => (props.top ? props.top : '0px')};
+  top: ${props => (props.top ? props.top : "0px")};
   left: 40px;
   border-radius: 50%;
   cursor: pointer;
@@ -1060,7 +1060,7 @@ export const AddNote = styled.div`
   position: absolute;
   right: -20px;
   z-index: 1;
-  top: ${props => props.top || 'auto'};
+  top: ${props => props.top || "auto"};
 `;
 
 export const TextBox = styled.div`
@@ -1081,7 +1081,7 @@ export const AddNotesBox = styled.div`
   padding: 16px;
   z-index: 1;
   right: 3px;
-  top: ${props => props.top || 'auto'};
+  top: ${props => props.top || "auto"};
 `;
 
 export const BoxArrow = styled.img`
@@ -1130,7 +1130,7 @@ export const HightLightTaskContainer = styled.div`
   z-index: 2;
   top: ${props => `${props.top}px` || 0};
   left: ${props => `${props.left}px` || 0};
-  display: ${props => (props.visible ? 'block' : 'none')};
+  display: ${props => (props.visible ? "block" : "none")};
   word-break: break-word;
   overflow: auto;
 `;
@@ -1301,16 +1301,16 @@ export const StyledClickButton = styled(Button)`
   font-size: 18px !important;
   line-height: 16px !important;
   text-align: center !important;
-  background: ${props => (props.outlined ? 'none' : '#1093FF')} ${' !important'};
+  background: ${props => (props.outlined ? "none" : "#1093FF")} ${" !important"};
   text-transform: none !important;
   border-radius: 30px !important;
-  color: ${props => (props.outlined ? '#1093FF' : '#F2F2F2')} ${' !important'};
-  border: ${props => (props.outlined ? '1px solid #1093FF' : 'none')}
-    ${' !important'};
+  color: ${props => (props.outlined ? "#1093FF" : "#F2F2F2")} ${" !important"};
+  border: ${props => (props.outlined ? "1px solid #1093FF" : "none")}
+    ${" !important"};
 
   &:hover {
-    background: ${props => (props.outlined ? 'none' : '#1093FF')}
-      ${' !important'};
+    background: ${props => (props.outlined ? "none" : "#1093FF")}
+      ${" !important"};
   }
 `;
 
@@ -1354,16 +1354,16 @@ export const TaskCard = styled(MuiCard)`
   padding: 20px;
   background: ${props =>
     props.active
-      ? '#1093ff !important'
+      ? "#1093ff !important"
       : props.complete
-      ? '#F7F8FC'
-      : '#ffffff'};
+      ? "#F7F8FC"
+      : "#ffffff"};
 
-  margin-left: ${props => (props.active ? '-50px' : '0px')};
-  padding-left: ${props => (props.active ? '2.5rem' : '20px')};
+  margin-left: ${props => (props.active ? "-50px" : "0px")};
+  padding-left: ${props => (props.active ? "2.5rem" : "20px")};
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5) !important;
   border-radius: 8px !important;
-  color: ${props => (props.active ? '#ffffff !important' : '#052A4E')};
+  color: ${props => (props.active ? "#ffffff !important" : "#052A4E")};
   cursor: pointer;
 `;
 
@@ -1382,8 +1382,8 @@ export const SupportLink = styled.div`
   color: #000000;
   text-align: center;
   position: relative;
-  top: ${({ isAlign }) => (!isAlign ? '-28px' : 'auto')};
-  padding-bottom: ${({ isAlign }) => (isAlign ? '60px' : 'inherit')};
+  top: ${({ isAlign }) => (!isAlign ? "-28px" : "auto")};
+  padding-bottom: ${({ isAlign }) => (isAlign ? "60px" : "inherit")};
 
   span {
     color: #1093ff;
@@ -1417,7 +1417,7 @@ export const LangItem = styled.div`
 export const LangText = styled.div`
   font-size: 16px;
   color: rgb(5, 42, 78);
-  font-weight: ${({ active }) => (active ? 600 : 'normal')};
+  font-weight: ${({ active }) => (active ? 600 : "normal")};
 `;
 
 export const HeaderContainer = styled.div`
@@ -1462,7 +1462,7 @@ export const AccountImage = styled.img`
 
 export const HeaderPopupItemText = styled.div`
   margin-left: 15px;
-  font-weight: ${({ bold }) => (bold ? 600 : 'normal')};
+  font-weight: ${({ bold }) => (bold ? 600 : "normal")};
   color: #052a4e;
 `;
 
@@ -1476,4 +1476,8 @@ export const HeaderWrap = styled.div`
   max-width: 560px;
   padding: 0px 15px;
   margin: 0 auto;
+`;
+
+export const PlayerBox = styled.div`
+  margin: 8px;
 `;

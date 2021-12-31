@@ -12,27 +12,27 @@ import {
   createMuiTheme,
   makeStyles,
   ThemeProvider,
-} from '@material-ui/core/styles';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
-import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import CallIcon from '@material-ui/icons/Call';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
-import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
-import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
-import HomeIcon from '@material-ui/icons/Home';
-import Track from '@material-ui/icons/ArtTrack';
-import NewspaperIcon from '@material-ui/icons/Wallpaper';
-import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOutlined';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
-import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+} from "@material-ui/core/styles";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import AddShoppingCartRoundedIcon from "@material-ui/icons/AddShoppingCartRounded";
+import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
+import CallIcon from "@material-ui/icons/Call";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import DnsRoundedIcon from "@material-ui/icons/DnsRounded";
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import HelpRoundedIcon from "@material-ui/icons/HelpRounded";
+import HomeIcon from "@material-ui/icons/Home";
+import Track from "@material-ui/icons/ArtTrack";
+import NewspaperIcon from "@material-ui/icons/Wallpaper";
+import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import LocationCityRoundedIcon from "@material-ui/icons/LocationCityRounded";
+import MenuBookRoundedIcon from "@material-ui/icons/MenuBookRounded";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 // import MenuIcon from '@material-ui/icons/Menu';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -140,7 +140,7 @@ const NavbarList = [
   },
 ];
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -367,7 +367,6 @@ function RootContainer(props) {
   }
 
   const prevProps = usePrevious(props);
-  console.log(props);
   useEffect(() => {
     //
 
@@ -405,7 +404,7 @@ function RootContainer(props) {
       let myArr = [];
       props.getProductByFamilyIdList
         .filter(
-          (eachProd) =>
+          eachProd =>
             eachProd.variantSKU === "ACS_MS" ||
             eachProd.variantSKU === "ACS_MBA" ||
             eachProd.variantSKU === "ACS_MIM" ||
@@ -487,7 +486,7 @@ function RootContainer(props) {
       let myArr = [];
       props.getProductByFamilyIdList
         .filter(
-          (prodItems) =>
+          prodItems =>
             prodItems.variantSKU === "PBP" || prodItems.variantSKU === "PBM"
         )
         .map((eachItem, index) => {
@@ -576,7 +575,7 @@ function RootContainer(props) {
       setSideNav([
         {
           icon: <NewspaperIcon />,
-          title: 'Wall',
+          title: "Wall",
           path: wallPath,
           items: [],
         },
@@ -588,7 +587,7 @@ function RootContainer(props) {
         },
         {
           icon: <Track />,
-          title: 'Career Track',
+          title: "Career Track",
           path: careerTrackPath,
           items: [],
         },
@@ -599,7 +598,7 @@ function RootContainer(props) {
       setSideNav([
         {
           icon: <NewspaperIcon />,
-          title: 'Wall',
+          title: "Wall",
           path: wallPath,
           items: [],
         },
@@ -611,7 +610,7 @@ function RootContainer(props) {
         },
         {
           icon: <Track />,
-          title: 'Career Track',
+          title: "Career Track",
           path: careerTrackPath,
           items: [],
         },
@@ -703,7 +702,7 @@ function RootContainer(props) {
               ? "#5584AC"
               : "",
         }}
-        onClick={(e) => {
+        onClick={e => {
           setSeletectedValue(item);
           props.history.push(item.path);
         }}
@@ -719,7 +718,7 @@ function RootContainer(props) {
     const [menuOpen, setMenuOpen] = useState(true);
     const handleClick = () => {
       setSeletectedValue(null);
-      setMenuOpen((prev) => !prev);
+      setMenuOpen(prev => !prev);
     };
 
     return (
@@ -752,7 +751,7 @@ function RootContainer(props) {
     );
   };
 
-  const hasChildren = (item) => {
+  const hasChildren = item => {
     const { items: children } = item;
 
     if (children === undefined) {
@@ -923,7 +922,7 @@ function Copyright() {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     tokenStatus: state.AdminReducer.tokenStatus,
     adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,

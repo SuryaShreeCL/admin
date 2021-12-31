@@ -36,8 +36,7 @@ export class TopicCard extends Component {
       topicValid,
       topicNameValidate,
     } = this.props.data;
-    console.log(subjects, concepts, courses);
-    console.log(courseId, subjectId, conceptId);
+
     return (
       <InputCard>
         <Grid container spacing={2} style={{ paddingBottom: "30px" }}>
