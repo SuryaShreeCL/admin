@@ -1291,6 +1291,7 @@ class AspirationDetails extends Component {
             {...this.state}
             data={this.state.getAspdata}
             handleChange={this.handleChange}
+            disable={this.state.disable}
           />
           <Grid container spacing={2}>
             {this.renderForm()}

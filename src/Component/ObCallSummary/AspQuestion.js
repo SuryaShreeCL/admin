@@ -44,6 +44,7 @@ class Question extends Component {
                   control={
                     <Radio
                       id={data.id}
+                      disabled={this.props.disable}
                       checked={value === eachItem.id ? true : false}
                       onChange={(e) =>
                         this.props.handleChange(
