@@ -701,7 +701,7 @@ export const updateAcademicInfo = (id, data, callback) => {
 
       .then(result => {
         dispatch({ type: STUDENT.updateAcademicInfo, payload: result.data });
-        callback(result.data);
+        callback(result);
       })
       .catch(error => {
         console.log(error);

@@ -218,6 +218,7 @@ function GeneralDetails(props) {
                 helperText={currentSem.helperText}
                 error={currentSem.helperText.length > 0}
                 label={"Current Semester"}
+                inputProps={{ maxLength: 2 }}
                 fullWidth
               />
             </Grid>

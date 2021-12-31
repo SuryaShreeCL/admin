@@ -216,15 +216,15 @@ export class academicInfo extends Component {
         });
       }
     }
-    if (
-      this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList
-    ) {
-      this.setState({
-        snackMsg: "Updated Successfully",
-        snackOpen: true,
-        snackVariant: "success",
-      });
-    }
+    // if (
+    //   this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList
+    // ) {
+    //   this.setState({
+    //     snackMsg: "Updated Successfully",
+    //     snackOpen: true,
+    //     snackVariant: "success",
+    //   });
+    // }
     if (this.state.tenthEndDate !== prevState.tenthEndDate) {
       if (this.state.tenthStartDate === this.state.tenthEndDate) {
         this.setState({
