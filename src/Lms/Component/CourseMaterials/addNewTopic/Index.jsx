@@ -337,14 +337,14 @@ class Index extends Component {
     return function(current) {
       return (
         otherArray.filter(function(other) {
-          console.log(other, current);
           return (
             other.id === current.id &&
             other.contentType === current.contentType &&
             other.name === current.name &&
-            parseInt(other.duration) === parseInt(current.duration) &&
-            other.content === current.content &&
-            other.contentVideo === current.contentVideo
+            parseInt(other.duration) === parseInt(current.duration)
+            // &&
+            // other.content === current.content &&
+            // other.contentVideo === current.contentVideo
           );
         }).length === 0
       );
@@ -405,7 +405,12 @@ class Index extends Component {
           var result = onlyInA.concat(onlyInB);
           var valid = this.totalTaskValidation(taskData);
           if (result.length === 0 && !valid.includes(false)) {
-            this.props.history.push(lms_course_landing);
+            this.setState({
+              message: "Task saved successfully",
+              snackOpen: true,
+              snackType: "success"
+            });
+            // this.props.history.push(lms_course_landing);
           } else {
             this.setState({
               message: "Please save all tasks",
@@ -605,7 +610,7 @@ class Index extends Component {
   handleVideoContentAdd = (index, event) => {
     const { newTaskData } = this.state;
 
-    newTaskData[index].contentVideo.push({ id: null, videoId: "" });
+    newTaskData[index].contentVideo.push({ id: null, videoId: "", title: "" });
 
     this.setState({ newTaskData });
   };
@@ -633,7 +638,17 @@ class Index extends Component {
     this.setState({ newTaskData });
   };
 
+  handleVideoTitleChange = (index, e) => {
+    console.log("hey there this is happening");
+    const { id: idIndex, value } = e.target;
+    const { newTaskData } = this.state;
+
+    newTaskData[index].contentVideo[idIndex].title = value;
+    this.setState({ newTaskData });
+  };
+
   render() {
+    // console.log(this.state.newTaskData);
     const {
       courseValue,
       subjectValue,
@@ -792,6 +807,8 @@ class Index extends Component {
                     this.handleVideoContentDelete(index, e),
                   handleVideoContentChange: e =>
                     this.handleVideoContentChange(index, e),
+                  handleVideoTitleChange: e =>
+                    this.handleVideoTitleChange(index, e),
                   taskData: {
                     index: index,
                     tabId: tabValue,

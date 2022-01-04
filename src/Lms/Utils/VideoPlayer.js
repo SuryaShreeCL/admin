@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 /**
- * playbackInfo
- * otp
+ * @param {String} otp
+ * @param {String} playBackInfo
  */
 class VideoPlayer extends Component {
   constructor(props) {
@@ -27,12 +28,14 @@ class VideoPlayer extends Component {
 
   loadPlayer() {
     window.playerContainer = this.refs.container;
-    new window.VdoPlayer({
+    const vdoObj = new window.VdoPlayer({
       otp: this.props.otp,
       playbackInfo: this.props.playBackInfo,
       theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",
       container: this.refs.container
     });
+
+    this.setState({ videoObject: vdoObj });
   }
 
   render() {
@@ -47,6 +50,11 @@ class VideoPlayer extends Component {
     );
   }
 }
+
+VideoPlayer.propTypes = {
+  otp: PropTypes.string.isRequired,
+  playBackInfo: PropTypes.string.isRequired
+};
 
 export default VideoPlayer;
 

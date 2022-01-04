@@ -44,16 +44,28 @@ export class TaskCard extends Component {
             {props.contentVideo &&
               props.contentVideo.map((item, index) => {
                 return (
-                  <Grid item>
-                    <InputTextField
-                      id={index}
-                      value={item.videoId}
-                      onChange={props.handleVideoContentChange}
-                      label={`Video ${index + 1}`}
-                      placeholder="Video Id"
-                      fullWidth
-                    />
-                  </Grid>
+                  <>
+                    <Grid item>
+                      <InputTextField
+                        id={index}
+                        value={item.title}
+                        onChange={props.handleVideoTitleChange}
+                        label={`Video ${index + 1} Title`}
+                        placeholder="Video Id"
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item>
+                      <InputTextField
+                        id={index}
+                        value={item.videoId}
+                        onChange={props.handleVideoContentChange}
+                        label={`Video ${index + 1}`}
+                        placeholder="Video Id"
+                        fullWidth
+                      />
+                    </Grid>
+                  </>
                 );
               })}
 
@@ -83,16 +95,28 @@ export class TaskCard extends Component {
             {props.contentVideo &&
               props.contentVideo.map((item, index) => {
                 return (
-                  <Grid item>
-                    <InputTextField
-                      id={index}
-                      value={item.videoId}
-                      onChange={props.handleVideoContentChange}
-                      label={`Video ${index + 1}`}
-                      placeholder="Video Id"
-                      fullWidth
-                    />
-                  </Grid>
+                  <>
+                    <Grid item>
+                      <InputTextField
+                        id={index}
+                        value={item.title}
+                        onChange={props.handleVideoTitleChange}
+                        label={`Video ${index + 1} Title`}
+                        placeholder="Video Id"
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item>
+                      <InputTextField
+                        id={index}
+                        value={item.videoId}
+                        onChange={props.handleVideoContentChange}
+                        label={`Video ${index + 1}`}
+                        placeholder="Video Id"
+                        fullWidth
+                      />
+                    </Grid>
+                  </>
                 );
               })}
 
@@ -183,6 +207,7 @@ export class TaskCard extends Component {
               </Grid>
 
               {this.renderTaskBody({
+                index,
                 type: inputItem.contentType,
                 richEditorChange,
                 content: inputItem.content,
@@ -190,7 +215,7 @@ export class TaskCard extends Component {
                 handleVideoContentAdd: this.props.handleVideoContentAdd,
                 handleVideoContentDelete: this.props.handleVideoContentDelete,
                 handleVideoContentChange: this.props.handleVideoContentChange,
-                index
+                handleVideoTitleChange: this.props.handleVideoTitleChange
               })}
             </Grid>
           </InputCard>
