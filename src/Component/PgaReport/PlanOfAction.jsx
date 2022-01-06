@@ -1,46 +1,54 @@
-import { Box, Grid, IconButton, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { Box, Grid, IconButton, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import {
   deleteFocus,
+  filterFocus,
   getFocusList,
   getPlanOfAction,
   savePlanOfAction,
   saveSingleFocus,
-} from '../../AsyncApiCall/PgaReport/PlanOfAction';
-import { HELPER_TEXT } from '../../Constant/Variables';
-import TextFieldComponent from '../Controls/TextField';
-import MySnackBar from '../MySnackBar';
-import { isEmptyObject, isEmptyString } from '../Validation';
-import BottomContainer from './BottomContainer';
-import BlueTable from './Components/BlueTable';
-import { ImageFrameIcon, PageWrapper } from './Components/StyledComponents';
-import { useStyles } from './Styles/Index';
-import ImageFrame from '../../Asset/Images/imageFrame.png';
-import { collapseArray, Popup } from './ProfileBuilderPopup';
+} from "../../AsyncApiCall/PgaReport/PlanOfAction";
+import { HELPER_TEXT } from "../../Constant/Variables";
+import TextFieldComponent from "../Controls/TextField";
+import MySnackBar from "../MySnackBar";
+import { isEmptyObject, isEmptyString } from "../Validation";
+import BottomContainer from "./BottomContainer";
+import BlueTable from "./Components/BlueTable";
+import { ImageFrameIcon, PageWrapper } from "./Components/StyledComponents";
+import { useStyles } from "./Styles/Index";
+import ImageFrame from "../../Asset/Images/imageFrame.png";
+import { collapseArray, Popup } from "./ProfileBuilderPopup";
+import { ProfileSimilarityCheckerPopup } from "./Components/ProfileSimilarityCheckerPopup";
+import { CardViewComponent } from "./Components/CardView";
+import CollapseViewer from "./Components/CollapseViewer";
 
-const ACTIVE_PRODUCT = ['PBM', 'PBP'];
+const ACTIVE_PRODUCT = ["PBM", "PBP"];
 
 function PlanOfAction(props) {
   const classes = useStyles();
   const [focusList, setFocusList] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(null);
   const [planOfAction, setPlanOfAction] = useState({
-    criteriaCGPA: '',
+    criteriaCGPA: "",
     rows: [],
     plans: [],
   });
   const [snack, setSnack] = useState({
     snackOpen: false,
-    snackMsg: '',
-    snackVariant: '',
+    snackMsg: "",
+    snackVariant: "",
   });
   const [dialogOpen, setDialogOpen] = useState(false);
   const [tableCollapseList, setTableCollapseList] = useState(collapseArray);
+  const [filteredData, setFilteredData] = useState([]);
+  const [studentIdList, setStudentIdList] = useState([]);
+  const [selectedQuarterId, setSelectedQuarterId] = useState([]);
 
   const getAndSetPlanOfAction = () => {
     getPlanOfAction(
       props.match.params.studentId,
       props.match.params.productId
-    ).then(response => {
+    ).then((response) => {
       if (response.status === 200) {
         setPlanOfAction({ ...response.data.data });
       }
@@ -48,20 +56,29 @@ function PlanOfAction(props) {
   };
 
   useEffect(() => {
-    getFocusList(props.match.params.productId).then(response => {
+    getFocusList(props.match.params.productId).then((response) => {
       if (response.status === 200) {
         setFocusList(response.data.data);
       }
     });
-    getAndSetPlanOfAction();
+    getAndSetPlanOfAction("");
   }, []);
 
-  const handleAddClick = index => {
+  useEffect(() => {
+    if (selectedQuarterId.length !== 0) {
+      const commaSeparatedId = selectedQuarterId.join(",");
+      getAndSetPlanOfAction(commaSeparatedId);
+    } else {
+      getAndSetPlanOfAction("");
+    }
+  }, [selectedQuarterId]);
+
+  const handleAddClick = (index) => {
     let planOfActionCopy = [...planOfAction];
     planOfActionCopy[index].pgaStudentPoaFocus.push({
       id: null,
-      activity: '',
-      remark: '',
+      activity: "",
+      remark: "",
       pgaPoaFocus: null,
     });
     setPlanOfAction(planOfActionCopy);
@@ -89,17 +106,17 @@ function PlanOfAction(props) {
         props.match.params.studentId,
         props.match.params.productId,
         requestBody
-      ).then(response => {
+      ).then((response) => {
         if (response.status === 200) {
-          getAndSetPlanOfAction();
+          getAndSetPlanOfAction("");
         }
       });
     } else {
       let copyOf = { ...planOfAction };
       copyOf.rows[rowIndex][cellIndex].name = value;
-      let quarterIndex = copyOf.plans.findIndex(el => el.id === planId);
+      let quarterIndex = copyOf.plans.findIndex((el) => el.id === planId);
       let focusIndex = copyOf.plans[quarterIndex].pgaStudentPoaFocus.findIndex(
-        el => el.orderNo === focusNo
+        (el) => el.orderNo === focusNo
       );
       copyOf.plans[quarterIndex].pgaStudentPoaFocus[
         focusIndex
@@ -119,9 +136,9 @@ function PlanOfAction(props) {
     let copyOf = [...planOfAction];
     if (copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].id) {
       deleteFocus(copyOf[quarterIndex].pgaStudentPoaFocus[focusIndex].id).then(
-        response => {
+        (response) => {
           if (response.status === 200) {
-            getAndSetPlanOfAction();
+            getAndSetPlanOfAction("");
           }
         }
       );
@@ -141,18 +158,21 @@ function PlanOfAction(props) {
         props.match.params.studentId,
         props.match.params.productId,
         planOfAction.plans
-      ).then(response => {
+      ).then((response) => {
         if (response.status === 200) {
-          getAndSetPlanOfAction();
+          getAndSetPlanOfAction("");
           setSnack({
-            snackMsg: 'Saved Successfully',
-            snackVariant: 'success',
+            snackMsg: "Saved Successfully",
+            snackVariant: "success",
             snackOpen: true,
           });
+          setSelectedQuarterId([]);
+          setFilteredData([]);
+          setSelectedFilter(null);
         } else {
           setSnack({
             snackMsg: response,
-            snackVariant: 'error',
+            snackVariant: "error",
             snackOpen: true,
           });
         }
@@ -160,7 +180,7 @@ function PlanOfAction(props) {
     } else {
       setSnack({
         snackMsg: HELPER_TEXT.requiredField,
-        snackVariant: 'error',
+        snackVariant: "error",
         snackOpen: true,
       });
     }
@@ -173,7 +193,7 @@ function PlanOfAction(props) {
     setDialogOpen(false);
   };
 
-  const handleCollapse = key => {
+  const handleCollapse = (key) => {
     let arr = [...tableCollapseList];
     let index = arr.indexOf(key);
     if (index > -1) arr.splice(index, 1);
@@ -184,14 +204,58 @@ function PlanOfAction(props) {
   const isImageButton =
     ACTIVE_PRODUCT.indexOf(props.StudentStepDetailsList.codeName) > -1;
 
+  const handleDropDownChange = (evt, value) => {
+    if (value) {
+      filterFocus(
+        props.match.params.studentId,
+        props.match.params.productId,
+        value.value
+      ).then((response) => {
+        if (response.status === 200) {
+          setFilteredData(response.data.data);
+        } else {
+          setSnack({
+            snackOpen: true,
+            snackMsg: response,
+            snackVariant: "error",
+          });
+        }
+      });
+    }
+    setSelectedFilter(value);
+  };
+
+  const handleShowDetails = (ind) => {
+    let indexOfStudentId = studentIdList.indexOf(ind);
+    if (indexOfStudentId === -1) {
+      setStudentIdList((prev) => [...prev, ind]);
+    } else {
+      let tempList = [...studentIdList];
+      tempList.splice(indexOfStudentId, 1);
+      setStudentIdList(tempList);
+    }
+  };
+
+  const handleAddQuarterClick = (id) => {
+    let indexOfQuarterId = selectedQuarterId.indexOf(id);
+    if (indexOfQuarterId === -1) {
+      setSelectedQuarterId((prev) => [...prev, id]);
+    } else {
+      let tempList = [...selectedQuarterId];
+      tempList.splice(indexOfQuarterId, 1);
+      setSelectedQuarterId(tempList);
+    }
+  };
+
+  console.log(selectedQuarterId, "============");
   return (
     <PageWrapper>
       <div className={classes.containerStyle}>
         <div className={classes.planOfActionContainer}>
-          <Typography variant={'h5'}>Quarterly Plan of Action</Typography>
-          <Box display={'flex'} alignItems={'center'} gridGap={'5px'}>
+          <Typography variant={"h5"}>Quarterly Plan of Action</Typography>
+          <Box display={"flex"} alignItems={"center"} gridGap={"5px"}>
             <Typography>Student Category</Typography>
-            <Typography color={'secondary'}>
+            <Typography color={"secondary"}>
               {planOfAction.criteriaCGPA}
             </Typography>
             {isImageButton && (
@@ -221,7 +285,7 @@ function PlanOfAction(props) {
                   return (
                     <>
                       <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
-                        <Typography>{'Focus ' + eachFocus.orderNo}</Typography>
+                        <Typography>{"Focus " + eachFocus.orderNo}</Typography>
                       </Grid>
                       {/* <Grid item md={3} xs={12} sm={12} lg={3} xl={3}>
                         <DropDown
@@ -248,22 +312,22 @@ function PlanOfAction(props) {
                       <Grid item md={6} xs={12} sm={12}>
                         <TextFieldComponent
                           value={eachFocus.activity}
-                          name={'activity'}
-                          onChange={e =>
+                          name={"activity"}
+                          onChange={(e) =>
                             handleTextChange(e, quarterIndex, focusIndex)
                           }
-                          label={'Activity'}
+                          label={"Activity"}
                           fullWidth
                         />
                       </Grid>
                       <Grid item md={6} xs={12} sm={12}>
                         <TextFieldComponent
-                          name={'remark'}
+                          name={"remark"}
                           value={eachFocus.remark}
-                          onChange={e =>
+                          onChange={(e) =>
                             handleTextChange(e, quarterIndex, focusIndex)
                           }
-                          label={'Remarks'}
+                          label={"Remarks"}
                           fullWidth
                           multiline
                         />
@@ -309,8 +373,8 @@ function PlanOfAction(props) {
         onClose={() =>
           setSnack({
             snackOpen: false,
-            snackMsg: '',
-            snackVariant: '',
+            snackMsg: "",
+            snackVariant: "",
           })
         }
         snackOpen={snack.snackOpen}
@@ -323,6 +387,44 @@ function PlanOfAction(props) {
         onClose={handlePopupClose}
         handleCollapse={handleCollapse}
       />
+      <ProfileSimilarityCheckerPopup
+        dialogOpen={props.popupStatus}
+        handlePopupClose={props.handleDialogClose}
+        value={selectedFilter}
+        handleDropdownChange={handleDropDownChange}
+      >
+        {filteredData.map((el, i) => (
+          <CollapseViewer
+            handleShowDetails={() => handleShowDetails(i)}
+            title={el.studentName}
+            show={studentIdList.includes(i)}
+          >
+            <Grid container spacing={2}>
+              {el.result.map((eachIt, ind) => {
+                return (
+                  <Grid item md={6}>
+                    <CardViewComponent
+                      height={"100%"}
+                      disabled={!eachIt.allowToOtherStudentPlan}
+                      handleClick={() => handleAddQuarterClick(eachIt.id)}
+                      mb={"10px"}
+                      titleText={eachIt.quarterPlan}
+                      buttonText={"Add"}
+                      buttonStatus={selectedQuarterId.includes(eachIt.id)}
+                      leftContent={eachIt.pgaStudentPoaFocus.map(
+                        (el, indexOfEl) => `Focus ${indexOfEl + 1}`
+                      )}
+                      rightContent={eachIt.pgaStudentPoaFocus.map(
+                        (el) => el.activity
+                      )}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </CollapseViewer>
+        ))}
+      </ProfileSimilarityCheckerPopup>
     </PageWrapper>
   );
 }

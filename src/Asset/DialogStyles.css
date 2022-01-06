@@ -1,0 +1,45 @@
+.dialog_paper {
+  background: #ffffff !important;
+  box-shadow: 0px 0px 20px #00000059 !important;
+  border: 1px solid #e7e7e7 !important;
+  border-radius: 5px !important;
+  width: 955px;
+}
+
+.dialog_root .MuiBackdrop-root {
+  background: transparent !important;
+}
+
+.dialog_style {
+  padding: 0px 12px;
+  padding-top: 15px;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.autocomplete_style .MuiInput-root {
+  color: #333333;
+  padding: 0px 6px;
+}
+
+.autocomplete_style input::selection {
+  background: none;
+}
+
+.autocomplete_style .Mui-focused {
+  background: rgba(0, 0, 0, 0.09) !important;
+  user-select: none !important;
+}
+
+.details_box_style {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.card_style {
+  padding: 15px 15px 3px;
+}
+
+.padding_top {
+  padding-top: 5px;
+}
