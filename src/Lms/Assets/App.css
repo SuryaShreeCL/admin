@@ -211,3 +211,7 @@
 .flex-filler p {
   padding-bottom: 1px;
 }
+
+.task-body {
+  padding: 8px;
+}

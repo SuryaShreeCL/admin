@@ -6,7 +6,7 @@ import {
   InputLabel,
   OutlinedInput,
   InputAdornment,
-  Button
+  Button,
 } from "@material-ui/core";
 import { SelectDropDown } from "../../../Utils/SelectField";
 import { InputTextField } from "../../../Utils/TextField";
@@ -17,7 +17,7 @@ import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
 const TASK_TYPES = [
   { id: "TEXT", title: "Text" },
   { id: "VIDEO", title: "Video" },
-  { id: "TEXT_VIDEO", title: "Text and Video" }
+  { id: "TEXT_VIDEO", title: "Text and Video" },
 ];
 
 const AVOID_INPUT = ["E", "e", "+", "-"];
@@ -157,7 +157,7 @@ export class TaskCard extends Component {
       inputItem,
       taskProperties,
       richEditorChange,
-      contentVideo
+      contentVideo,
     } = this.props.taskData;
 
     return (
@@ -215,7 +215,7 @@ export class TaskCard extends Component {
                 handleVideoContentAdd: this.props.handleVideoContentAdd,
                 handleVideoContentDelete: this.props.handleVideoContentDelete,
                 handleVideoContentChange: this.props.handleVideoContentChange,
-                handleVideoTitleChange: this.props.handleVideoTitleChange
+                handleVideoTitleChange: this.props.handleVideoTitleChange,
               })}
             </Grid>
           </InputCard>

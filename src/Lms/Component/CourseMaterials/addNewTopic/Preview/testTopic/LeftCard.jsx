@@ -5,7 +5,7 @@ import {
   BottomText,
   FlatTextContent,
   ImageSideText,
-  TaskCard
+  TaskCard,
 } from "../../../../../Assets/css/Preview/TaskDetailsStyledComponent";
 import StatusIcon from "../../../../../Assets/icons/StatusIcon";
 import activeClock from "../../../../../Assets/images/activeClock.png";
@@ -99,7 +99,7 @@ function LeftCard(props) {
             backgroundImage: `url(${testImage})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center",
-            height: 150
+            height: 150,
           }}
         >
           <div className={"btn-align"}>

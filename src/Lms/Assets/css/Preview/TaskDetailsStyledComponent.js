@@ -4,11 +4,13 @@
 import {
   Button,
   Card as MuiCard,
-  Popover as MuiPopover
+  Popover as MuiPopover,
+  Tooltip,
 } from "@material-ui/core";
 import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
 import styled from "styled-components";
 import { NavLink as Link } from "react-router-dom";
+import { withStyles } from "@material-ui/core";
 
 export const YearCard = styled.div`
   width: 140px;
@@ -1480,4 +1482,30 @@ export const HeaderWrap = styled.div`
 
 export const PlayerBox = styled.div`
   margin: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
 `;
+
+export const Title = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 29px;
+  color: #052a4e;
+`;
+
+export const ToolTip = withStyles({
+  arrow: {
+    color: "#052A4E",
+  },
+  tooltip: {
+    fontWeight: 500,
+    fontSize: "16px",
+    lineHeight: "20px",
+    padding: "6px 26px 8px 18px",
+    backgroundColor: "#052A4E",
+    borderRadius: "8px",
+  },
+})(Tooltip);

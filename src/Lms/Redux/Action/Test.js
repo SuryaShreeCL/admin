@@ -1,15 +1,15 @@
-import axios from 'axios';
-import { TEST } from '../Action';
-import { URL } from '../../../Actions/URL';
+import axios from "axios";
+import { TEST } from "../Action";
+import { URL } from "../../../Actions/URL";
 
 export const getFilters = () => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(`${URL}/api/v1/lms/testQuestionSets/filter`, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -24,13 +24,13 @@ export const getFilters = () => {
 };
 
 export const getQuestionSet = bodyObj => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .post(`${URL}/api/v1/lms/testQuestionSets`, bodyObj, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -45,7 +45,7 @@ export const getQuestionSet = bodyObj => {
 };
 
 export const deleteTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     // {{DEV-LMS}}/api/v1/testquestionsets/3f6245e1-78d4-4bbc-be07-519624100297/status/Archive
     axios
@@ -55,7 +55,7 @@ export const deleteTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -69,7 +69,7 @@ export const deleteTest = (testQuestionSetId, callback) => {
   };
 };
 export const reviewTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return () => {
     axios
       .put(
@@ -78,7 +78,7 @@ export const reviewTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -93,7 +93,7 @@ export const reviewTest = (testQuestionSetId, callback) => {
 };
 
 export const approveTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .put(
@@ -102,7 +102,7 @@ export const approveTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -117,7 +117,7 @@ export const approveTest = (testQuestionSetId, callback) => {
 };
 
 export const publishTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .put(
@@ -126,7 +126,7 @@ export const publishTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -142,7 +142,7 @@ export const publishTest = (testQuestionSetId, callback) => {
 };
 
 export const getQuestionType = testQuestionSetId => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(
@@ -150,7 +150,7 @@ export const getQuestionType = testQuestionSetId => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -168,7 +168,7 @@ export const getQuestionType = testQuestionSetId => {
 };
 
 export const setQuestionData = (testQuestionSetId, type, data, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
 
   return dispatch => {
     axios
@@ -179,7 +179,7 @@ export const setQuestionData = (testQuestionSetId, type, data, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -205,7 +205,7 @@ export const setQuestionDataWithId = (
   data,
   callback
 ) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
 
   return dispatch => {
     axios
@@ -215,7 +215,7 @@ export const setQuestionDataWithId = (
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -231,13 +231,13 @@ export const setQuestionDataWithId = (
 };
 
 export const createTestQuestionSet = (questionSets, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .post(`${URL}/api/v1/lms/testquestionsets`, questionSets, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -257,13 +257,13 @@ export const createTestQuestionSet = (questionSets, callback) => {
 };
 
 export const getTopicByCourse = (courseId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(`${URL}/api/v1/topics/course/${courseId}`, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -278,13 +278,13 @@ export const getTopicByCourse = (courseId, callback) => {
   };
 };
 export const getTemplate = fileName => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(`${URL}/api/v1/files/template/${fileName}`, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -300,13 +300,13 @@ export const getTemplate = fileName => {
 };
 
 export const getSubjectsByCourse = subjectId => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(`${URL}/api/v1/subjects/course/${subjectId}`, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -321,13 +321,13 @@ export const getSubjectsByCourse = subjectId => {
 };
 
 export const getTestQuestionSet = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(`${URL}/api/v1/lms/testquestionset/${testQuestionSetId}`, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -343,14 +343,14 @@ export const getTestQuestionSet = (testQuestionSetId, callback) => {
 };
 
 export const deleteQuestion = (questionId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
 
   return () => {
     axios
       .delete(`${URL}/api/v1/question/${questionId}`, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -362,14 +362,14 @@ export const deleteQuestion = (questionId, callback) => {
 };
 
 export const deleteSection = (sectionId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
 
   return () => {
     axios
       .delete(`${URL}/api/v1/testSection/${sectionId}`, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -381,7 +381,7 @@ export const deleteSection = (sectionId, callback) => {
 };
 
 export const getTopicList = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(
@@ -398,7 +398,7 @@ export const getTopicList = (testQuestionSetId, callback) => {
 };
 
 export const draftTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .put(
@@ -407,7 +407,7 @@ export const draftTest = (testQuestionSetId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -422,7 +422,7 @@ export const draftTest = (testQuestionSetId, callback) => {
 };
 
 export const postQuestions = (testQuestionSetId, data, callback) => {
-  const accessToken = sessionStorage.getItem('accessToken');
+  const accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .post(
@@ -432,7 +432,7 @@ export const postQuestions = (testQuestionSetId, data, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -448,7 +448,7 @@ export const postQuestions = (testQuestionSetId, data, callback) => {
 };
 
 export const getQuestions = (questionId, callback) => {
-  let accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem("accessToken");
   return dispatch => {
     axios
       .get(
@@ -457,7 +457,7 @@ export const getQuestions = (questionId, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -480,22 +480,22 @@ export const cleanEditData = () => {
 };
 
 export const previewTestData = (questionId, requestBody) => {
-    let accessToken = sessionStorage.getItem('accessToken');
-    return dispatch => {
-        axios
-            .post(`${URL}/api/v1/lms/questions/${questionId}/preview`, requestBody, {
-                crossDomain: true,
-                headers: {
-                    admin: 'yes',
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            })
-            .then(response => {
-                dispatch({
-                    type: TEST.previewTestData,
-                    payload: response.data,
-                });
-            })
-            .catch(error => console.log(error));
-    };
+  let accessToken = sessionStorage.getItem("accessToken");
+  return dispatch => {
+    axios
+      .post(`${URL}/api/v1/lms/questions/${questionId}/preview`, requestBody, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        dispatch({
+          type: TEST.previewTestData,
+          payload: response.data,
+        });
+      })
+      .catch(error => console.log(error));
+  };
 };
