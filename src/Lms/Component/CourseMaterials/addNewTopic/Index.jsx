@@ -395,6 +395,12 @@ class Index extends Component {
           duplicateData[tabValue - 1]["contentVideo"] =
             taskResponse.data.contentVideo;
 
+          const index = newTaskData.length - 1;
+
+          const taskArr = newTaskData;
+
+          taskArr[index] = taskResponse.data;
+
           this.setState({
             message: taskMessage,
             snackOpen: true,
@@ -576,11 +582,6 @@ class Index extends Component {
 
   videoDataEmptyCheck = videoData => {
     for (let i = 0; i < videoData.contentVideo.length; i++) {
-      console.log(
-        videoData.contentVideo[i].videoOtp,
-        videoData.contentVideo[i].videoPlaybackInfo
-      );
-
       if (
         !(
           videoData.contentVideo[i].videoOtp &&
@@ -597,7 +598,7 @@ class Index extends Component {
     const { newTaskData, tabValue } = this.state;
 
     if (
-      newTaskData[tabValue - 1].id === null ||
+      newTaskData[tabValue - 1].id === null &&
       !!(
         newTaskData[tabValue - 1].contentType === "VIDEO" ||
         (newTaskData[tabValue - 1].contentType === "TEXT_VIDEO" &&
@@ -609,9 +610,7 @@ class Index extends Component {
         snackOpen: true,
         snackType: "warning",
       });
-    }
-    // else console.log("hi");
-    else this.setState({ openPreview: true });
+    } else this.setState({ openPreview: true });
   };
 
   handleClosePreview = () => {
@@ -678,7 +677,6 @@ class Index extends Component {
   };
 
   render() {
-    console.log(this.state);
     const {
       courseValue,
       subjectValue,
@@ -770,7 +768,6 @@ class Index extends Component {
       };
     };
 
-    // console.log(this.state.newTaskData, this.props.createorUpdateTaskResponse);
     return (
       <>
         <MainContainer>
