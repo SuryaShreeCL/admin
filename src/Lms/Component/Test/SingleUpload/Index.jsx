@@ -422,6 +422,13 @@ export class Index extends Component {
           this.props.history.push(
             lms_add_test + "?testQuestionSetId=" + testQuestionSetId
           );
+        } else {
+          this.setState({
+            alert: {
+              severity: "error",
+              msg: response.message,
+            },
+          });
         }
       });
     }

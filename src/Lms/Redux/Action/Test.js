@@ -442,6 +442,7 @@ export const postQuestions = (testQuestionSetId, data, callback) => {
         callback(response.data);
       })
       .catch(error => {
+        callback(error.response.data);
         console.log(error);
       });
   };
