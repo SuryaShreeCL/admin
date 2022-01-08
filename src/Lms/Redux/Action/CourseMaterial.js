@@ -12,13 +12,13 @@ export const getCourses = callback => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.viewCourses,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
@@ -41,14 +41,14 @@ export const courseMonth = (productId, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.courseMonth,
-          payload: response.data
+          payload: response.data,
         });
         // callback(response.data);
       })
@@ -66,13 +66,13 @@ export const getSubjects = (courseId, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.viewSubjects,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
@@ -91,13 +91,13 @@ export const getConcepts = (subjectId, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.viewConcepts,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
@@ -115,14 +115,14 @@ export const getTopics = (conceptId, data, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.viewTopics,
           payload: response.data.data.content,
-          payload2: response.data.data.totalPages
+          payload2: response.data.data.totalPages,
         });
 
         callback(response.data);
@@ -144,14 +144,14 @@ export const getTopics2 = (conceptId, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.viewTopics,
-          payload: response.data.data
+          payload: response.data.data,
         });
         callback(response.data);
       })
@@ -173,8 +173,8 @@ export const deleteTopic = (topicId, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
@@ -199,8 +199,8 @@ export const publishTopic = (topicId, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
@@ -226,8 +226,8 @@ export const reviewTopic = (topicId, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
@@ -247,13 +247,13 @@ export const addTopicDetails = (topicDetails, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.createorUpdateTopics,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
@@ -271,13 +271,13 @@ export const addTaskDetails = (taskDetails, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.createorUpdateTask,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
@@ -296,13 +296,13 @@ export const getTopicDetails = (topicId, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.getTopicFullDetails,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
@@ -326,22 +326,20 @@ export const createFileUpload = (masterId, data, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.createFileUpload,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
       .catch(error => {
         if (error.response) callback(error.response.data);
         else callback({ response: false, message: "file not uploaded" });
-
-        // console.log(error);
       });
   };
 };
@@ -354,13 +352,13 @@ export const monthPlan = (monthId, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         dispatch({
           type: COURSE_MATERIAL.monthPlan,
-          payload: response.data
+          payload: response.data,
         });
         callback(response.data);
       })
@@ -382,8 +380,8 @@ export const approveTopic = (topicId, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
@@ -403,8 +401,8 @@ export const deleteTask = (taskId, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         callback(response.data);
@@ -424,8 +422,8 @@ export const validTopicName = (conceptId, topicName, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
@@ -445,8 +443,8 @@ export const uploadTopicImage = (image, callback) => {
         crossDomain: true,
         headers: {
           admin: "yes",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then(response => {
         callback(response.data);
@@ -469,8 +467,8 @@ export const draftTopic = (topicId, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
@@ -484,7 +482,6 @@ export const draftTopic = (topicId, callback) => {
 
 export const putImage = (file, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
-  // {{DEV-LMS}}/api/v1/
   return () =>
     axios
       .post(
@@ -495,8 +492,8 @@ export const putImage = (file, callback) => {
           crossDomain: true,
           headers: {
             admin: "yes",
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then(response => {
@@ -505,4 +502,28 @@ export const putImage = (file, callback) => {
       .catch(error => {
         console.log(error);
       });
+};
+
+export const getVideoInfo = (videoId, callback) => {
+  const accessToken = sessionStorage.getItem("accessToken");
+  return () => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/lms/vdoCipher/${videoId}/access`,
+        {},
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(response => {
+        callback(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 };

@@ -47,26 +47,28 @@ function RightCard(props) {
         </Box>
 
         <TopGridSubPara>
-          {videos.map(item => (
-            <PlayerBox>
-              <Title>{item.title}</Title>
-              <div className="video-box">
-                <div className="icon-box-task-details">
-                  <IconButton>
-                    <PostAddRoundedIcon color="primary" />
-                  </IconButton>
+          {videos.map(item => {
+            return (
+              <PlayerBox>
+                <Title>{item.title}</Title>
+                <div className="video-box">
+                  <div className="icon-box-task-details">
+                    <IconButton>
+                      <PostAddRoundedIcon color="primary" />
+                    </IconButton>
+                  </div>
+                  <VideoPlayer
+                    playBackInfo={item.videoPlaybackInfo}
+                    otp={item.videoOtp}
+                    getVideoObj={props.getVideoObj}
+                    startTime={item.videoMillSec}
+                    playCount={item.videoPlayedCount}
+                    videoId={item.videoId}
+                  />
                 </div>
-                <VideoPlayer
-                  playBackInfo={item.videoPlaybackInfo}
-                  otp={item.videoOtp}
-                  getVideoObj={props.getVideoObj}
-                  startTime={item.videoMillSec}
-                  playCount={item.videoPlayedCount}
-                  videoId={item.id}
-                />
-              </div>
-            </PlayerBox>
-          ))}
+              </PlayerBox>
+            );
+          })}
           <p
             className={"copy__allowed"}
             dangerouslySetInnerHTML={{

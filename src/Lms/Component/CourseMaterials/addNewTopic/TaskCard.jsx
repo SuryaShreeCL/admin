@@ -51,7 +51,7 @@ export class TaskCard extends Component {
                         value={item.title}
                         onChange={props.handleVideoTitleChange}
                         label={`Video ${index + 1} Title`}
-                        placeholder="Video Id"
+                        placeholder="Video Title"
                         fullWidth
                       />
                     </Grid>
@@ -102,7 +102,7 @@ export class TaskCard extends Component {
                         value={item.title}
                         onChange={props.handleVideoTitleChange}
                         label={`Video ${index + 1} Title`}
-                        placeholder="Video Id"
+                        placeholder="Video Title"
                         fullWidth
                       />
                     </Grid>

@@ -395,12 +395,6 @@ class Index extends Component {
           duplicateData[tabValue - 1]["contentVideo"] =
             taskResponse.data.contentVideo;
 
-          const index = newTaskData.length - 1;
-
-          const taskArr = newTaskData;
-
-          taskArr[index] = taskResponse.data;
-
           this.setState({
             message: taskMessage,
             snackOpen: true,
@@ -470,11 +464,6 @@ class Index extends Component {
         return true;
       }
     }
-    // return (
-    //   (taskDetail.content || taskDetail.contentVideo.length > 0) &&
-    //   (taskDetail.content.trim().length > 0 ||
-    //     taskDetail.contentVideo.length > 0)
-    // );
   };
 
   handleTaskProperties = (index, event) => {
@@ -595,22 +584,7 @@ class Index extends Component {
   };
 
   handlePreviewClick = () => {
-    const { newTaskData, tabValue } = this.state;
-
-    if (
-      newTaskData[tabValue - 1].id === null &&
-      !!(
-        newTaskData[tabValue - 1].contentType === "VIDEO" ||
-        (newTaskData[tabValue - 1].contentType === "TEXT_VIDEO" &&
-          this.videoDataEmptyCheck(newTaskData[tabValue - 1]))
-      )
-    ) {
-      this.setState({
-        message: "Please save all tasks",
-        snackOpen: true,
-        snackType: "warning",
-      });
-    } else this.setState({ openPreview: true });
+    this.setState({ openPreview: true });
   };
 
   handleClosePreview = () => {
