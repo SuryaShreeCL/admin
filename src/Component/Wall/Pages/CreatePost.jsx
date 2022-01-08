@@ -38,6 +38,7 @@ import { wallPath } from "../../RoutePaths";
 import ConfirmDialog from "../../Utils/ConfirmDialog";
 import PreprationContainer from "../Components/PreparationContainer";
 import DeleteIcon from "@material-ui/icons/Delete";
+const AVOID_INPUT = ["E", "e", "+", "-"];
 
 const useStyles = makeStyles({
   root: {
@@ -231,8 +232,8 @@ const CreatePost = () => {
       dispatch(
         uploadImage(formData, response => {
           if (type === "BANNER")
-            setFieldValue("banner", response.data.fileName);
-          else setFieldValue("hostImageUrl", response.data.fileName);
+            setFieldValue("banner", response.data.imageUrl);
+          else setFieldValue("hostImageUrl", response.data.imageUrl);
         })
       );
     } else {
@@ -508,11 +509,7 @@ const CreatePost = () => {
                           <Grid container direction="column">
                             <Typography>Banner image</Typography>
 
-                            <img
-                              src={`${process.env.REACT_APP_IMAGE_BASE_URL}${values.banner}`}
-                              height={180}
-                              width={350}
-                            />
+                            <img src={values.banner} height={180} width={350} />
                             <Controls.ActionButton
                               onClick={() => handleDeleteClick(setFieldValue)}
                             >
@@ -549,7 +546,7 @@ const CreatePost = () => {
                           <Grid container direction="column">
                             <Typography>Host image</Typography>
                             <img
-                              src={`${process.env.REACT_APP_IMAGE_BASE_URL}${values.hostImageUrl}`}
+                              src={values.hostImageUrl}
                               height={150}
                               width={150}
                               className={classes.hostImage}
@@ -624,6 +621,10 @@ const CreatePost = () => {
                           }}
                           value={values.zoomLink}
                           onChange={handleChange}
+                          onKeyDown={evt =>
+                            AVOID_INPUT.includes(evt.key) &&
+                            evt.preventDefault()
+                          }
                         />
                       </Grid>
                     )}
