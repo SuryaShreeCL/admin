@@ -358,10 +358,12 @@ export const postRecordedVideoUrl = (webinarId, url, callback) => {
         }
       )
       .then(response => {
+        console.log("hello");
         callback(response.data);
       })
       .catch(error => {
         console.log(error);
+        callback(error.response.data);
       });
   };
 };
