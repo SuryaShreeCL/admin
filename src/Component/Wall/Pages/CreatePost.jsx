@@ -95,7 +95,6 @@ const CreatePost = () => {
     jobRole: '',
     hostImageUrl: '',
     banner: '',
-    isEvent: false,
     platforms: [],
   });
 
