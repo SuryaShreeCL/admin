@@ -243,7 +243,6 @@ export const createTestQuestionSet = (questionSets, callback) => {
       })
       .then(response => {
         callback(response.data);
-        console.log(response.data);
         dispatch({
           type: TEST.createTestQuestionSet,
           payload: response.data,

@@ -1,5 +1,5 @@
-import { Typography } from '@material-ui/core';
-import React from 'react';
+import { Typography, Box } from "@material-ui/core";
+import React from "react";
 import {
   BottomGrey,
   BundleCenter,
@@ -10,8 +10,8 @@ import {
   TH,
   TopGrey,
   Tr,
-} from '../../../../../../Assets/css/Preview/GreStyles';
-import Latex from '../../../../../../Utils/LatexViewer';
+} from "../../../../../../Assets/css/Preview/GreStyles";
+import Latex from "../../../../../../Utils/LatexViewer";
 
 const App = ({
   choices,
@@ -22,21 +22,21 @@ const App = ({
   bottomText,
 }) => {
   var alphaOption = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
   ];
-  var romanLetter = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii'];
+  var romanLetter = ["i", "ii", "iii", "iv", "v", "vi", "vii"];
 
   const renderOptions = () => {
     let arr = [];
@@ -77,7 +77,7 @@ const App = ({
                             selected.id === choice.id
                         )}
                       >
-                        <img src={choice.choiceImage} alt='' />
+                        <img src={choice.choiceImage} alt="" />
                       </Td>
                     </Tr>
                   );
@@ -91,7 +91,7 @@ const App = ({
                             selected.id === choice.id
                         )}
                       >
-                        <Latex math={choice.text || ''} />
+                        <Latex math={choice.text || ""} />
                       </Td>
                     </Tr>
                   );
@@ -110,7 +110,7 @@ const App = ({
       )}
 
       <BundleCenter>
-        <Typography variant='h5' color='textPrimary'>
+        <Typography variant="h5" color="textPrimary">
           <Latex math={question} />
         </Typography>
 

@@ -218,7 +218,10 @@ export class Index extends Component {
     arr.push({
       tabLabel: "Bucket " + count,
 
-      choices: [{ text: "", image: null, selected: false }],
+      choices: [
+        { id: null, text: "", image: null, selected: false },
+        { id: null, text: "", image: null, selected: false },
+      ],
     });
     this.setState({ bucketArray: arr, activeTab: count - 1 });
   };
@@ -319,7 +322,7 @@ export class Index extends Component {
     if (arr.length > 2) {
       arr.pop();
       this.setState({
-        activeTab: this.state.activeTab - 1,
+        activeTab: this.state.activeTab > 0 ? this.state.activeTab - 1 : 0,
         bucketArray: arr,
         anchorEl: null,
       });

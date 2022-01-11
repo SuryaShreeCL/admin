@@ -1,10 +1,10 @@
-import { ThemeProvider } from '@material-ui/styles';
-import React, { Component } from 'react';
-import { greTheme } from '../../../../../Assets/css/Preview/GreStyles';
-import Bundle from './components/Bundle';
-import Passage from './components/Passage';
-import SingleMulti from './components/SingleMulti';
-import Layout from './Layout';
+import { ThemeProvider } from "@material-ui/styles";
+import React, { Component } from "react";
+import { greTheme } from "../../../../../Assets/css/Preview/GreStyles";
+import Bundle from "./components/Bundle";
+import Passage from "./components/Passage";
+import SingleMulti from "./components/SingleMulti";
+import Layout from "./Layout";
 
 class Test extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class Test extends Component {
       isCalculator,
     } = this.props.testResponse.data;
 
-    if (type === 'SINGLE_SELECT') {
+    if (type === "SINGLE_SELECT") {
       return isHaveDescription || isHaveImage ? (
         <Passage
           description={description}
@@ -49,20 +49,20 @@ class Test extends Component {
           topText={topText}
         />
       );
-    } else if (type === 'SUBJECTIVE' || type === 'DESCRIPTIVE') {
+    } else if (type === "SUBJECTIVE" || type === "DESCRIPTIVE") {
       return (
         <Passage
           question={question}
           description={description}
           subjective={true}
-          answer={this.state.answer}
+          // answer={this.state.answer}
           imgUrl={imgURL}
           isCalculator={isCalculator}
           bottomText={bottomText}
           topText={topText}
         />
       );
-    } else if (type === 'BUNDLE') {
+    } else if (type === "BUNDLE") {
       return isHaveDescription || isHaveImage ? (
         <Passage
           question={question}
@@ -92,7 +92,7 @@ class Test extends Component {
           topText={topText}
         />
       );
-    } else if (type === 'MULTI_CHOICE') {
+    } else if (type === "MULTI_CHOICE") {
       return isHaveDescription || isHaveImage ? (
         <Passage
           description={description}
@@ -152,7 +152,7 @@ class Test extends Component {
       showPauseButton: true,
       showSection: true,
       showCalculatorButton: isCalculator,
-      primaryButtonText: 'Continue',
+      primaryButtonText: "Continue",
       isBookmark: false,
       question: question,
       disabled: false,
