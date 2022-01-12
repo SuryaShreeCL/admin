@@ -1,8 +1,8 @@
-import React from 'react';
-import { Snackbar, makeStyles } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import React from "react";
+import { Snackbar, makeStyles } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     bottom: theme.spacing(10),
   },
@@ -13,7 +13,7 @@ export default function Notification(props) {
   const classes = useStyles();
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setNotify({
@@ -26,7 +26,7 @@ export default function Notification(props) {
     <Snackbar
       className={classes.root}
       open={notify.isOpen}
-      autoHideDuration={1200}
+      autoHideDuration={3000}
       onClose={handleClose}
     >
       <Alert severity={notify.type} onClose={handleClose}>

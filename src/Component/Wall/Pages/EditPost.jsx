@@ -17,7 +17,7 @@ import MomentUtils from "@date-io/moment";
 import { Formik, Form } from "formik";
 import Controls from "../../Utils/controls/Controls";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import * as yup from "yup";
 import { useLocation } from "react-router-dom";
 import { Grid } from "@material-ui/core";
@@ -165,20 +165,32 @@ const EditPost = () => {
     jobRole: yup.string().required("Job role is required"),
   });
 
-  const handleImageUpload = (e, type) => {
-    let formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    dispatch(
-      uploadImage(formData, response => {
-        if (type === "BANNER")
-          setState({ ...state, banner: response.data.fileName });
-        else setState({ ...state, hostImageUrl: response.data.fileName });
-      })
-    );
+  const handleImageUpload = ({ e, type, setFieldValue }) => {
+    const fileSize = e.target.files[0].size / 1024 / 1024;
+    const fileType = e.target.files[0].type;
+
+    // File size less than 1 MiB && Image file check
+    if (fileSize < 1 && fileType.includes("image")) {
+      let formData = new FormData();
+      formData.append("file", e.target.files[0]);
+      dispatch(
+        uploadImage(formData, response => {
+          if (type === "BANNER")
+            setFieldValue("banner", response.data.imageUrl);
+          else setFieldValue("hostImageUrl", response.data.imageUrl);
+        })
+      );
+    } else {
+      setNotify({
+        isOpen: true,
+        message: "Please upload an image file within 1MB size",
+        type: "error",
+      });
+    }
   };
 
-  const handleDeleteClick = () => {
-    setState({ ...state, banner: "" });
+  const handleDeleteClick = setFieldValue => {
+    setFieldValue("banner", "");
   };
 
   const handleHostDeleteClick = () => {
@@ -213,6 +225,7 @@ const EditPost = () => {
             touched,
             setFieldValue,
           }) => {
+            console.log(values);
             return (
               <>
                 <div className="CreatePost">
@@ -412,7 +425,7 @@ const EditPost = () => {
                           {!values.banner ? (
                             <Controls.Input
                               label="Banner image"
-                              name="hostImage"
+                              name="bannerImage"
                               style={{
                                 width: "80%",
                                 marginTop: "10px",
@@ -424,25 +437,33 @@ const EditPost = () => {
                               }}
                               value={values.banner}
                               type="file"
-                              onInput={e => handleImageUpload(e, "BANNER")}
+                              onInput={e =>
+                                handleImageUpload({
+                                  e,
+                                  type: "BANNER",
+                                  setFieldValue,
+                                })
+                              }
                               onClick={e => (e.target.value = null)}
                             />
                           ) : (
-                            <>
+                            <Grid container direction="column">
+                              <Typography>Banner image</Typography>
+
                               <img
                                 src={values.banner}
                                 height={180}
                                 width={350}
                               />
                               <Controls.ActionButton
-                                onClick={handleDeleteClick}
+                                onClick={() => handleDeleteClick(setFieldValue)}
                               >
                                 <DeleteIcon
                                   fontSize="small"
                                   color="secondary"
                                 />
                               </Controls.ActionButton>
-                            </>
+                            </Grid>
                           )}
                         </Grid>
                       )}
@@ -464,11 +485,14 @@ const EditPost = () => {
                               }}
                               value={values.hostImage}
                               type="file"
-                              onInput={handleImageUpload}
+                              onInput={e =>
+                                handleImageUpload({ e, setFieldValue })
+                              }
                               onClick={e => (e.target.value = null)}
                             />
                           ) : (
-                            <>
+                            <Grid container direction="column">
+                              <Typography>Host image</Typography>
                               <img
                                 src={values.hostImageUrl}
                                 height={150}
@@ -476,14 +500,16 @@ const EditPost = () => {
                                 className={classes.hostImage}
                               />
                               <Controls.ActionButton
-                                onClick={handleHostDeleteClick}
+                                onClick={() =>
+                                  handleHostDeleteClick(setFieldValue)
+                                }
                               >
                                 <DeleteIcon
                                   fontSize="small"
                                   color="secondary"
                                 />
                               </Controls.ActionButton>
-                            </>
+                            </Grid>
                           )}
                         </Grid>
                       )}

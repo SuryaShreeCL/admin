@@ -196,25 +196,29 @@ export default function Webinars() {
 
   const handleLinkClick = e => {
     setActiveDialogId(e.target.id);
-    setLinkField("");
-    // setOpenDialog(!openDialog);
   };
 
   const handleDialogClose = () => {
     setActiveDialogId("");
+    setLinkField("");
   };
 
   const handleLinkFieldChange = e => {
-    // console.log(e.target.value);
     setLinkField(e.target.value);
   };
 
-  const handleSaveClick = webinarId => {
+  const handleSaveClick = () => {
     dispatch(
-      postRecordedVideoUrl(webinarId, linkField, res => {
+      postRecordedVideoUrl(activeDialogId, linkField, res => {
         if (res.success) {
           setLinkField("");
           handleDialogClose();
+        } else {
+          setNotify({
+            isOpen: true,
+            message: res.message,
+            type: "Error",
+          });
         }
       })
     );
@@ -278,9 +282,6 @@ export default function Webinars() {
                     <TableCell>{item.createdBy}</TableCell>
                     <TableCell>{item.activeStatus}</TableCell>
                     <TableCell>
-                      {/* <Controls.ActionButton onClick={() => openInPage(item)}>
-                      <EditOutlinedIcon fontSize="small" color="primary" />
-                    </Controls.ActionButton> */}
                       <Controls.ActionButton
                         id={item.id}
                         onClick={handleLinkClick}
@@ -291,42 +292,6 @@ export default function Webinars() {
                           color="primary"
                         />
                       </Controls.ActionButton>
-                      <Dialog
-                        open={String(item.id) === activeDialogId}
-                        onClose={handleDialogClose}
-                        aria-labelledby="form-dialog-title"
-                      >
-                        <DialogTitle id="form-dialog-title">
-                          Recorded Video Url
-                        </DialogTitle>
-                        <DialogContent>
-                          <TextField
-                            key={index}
-                            autoFocus
-                            margin="dense"
-                            id={item.id}
-                            label="Enter the URL"
-                            // type="em"
-                            fullWidth
-                            value={item.id === activeDialogId ? linkField : ""}
-                            onChange={handleLinkFieldChange}
-                          />
-                        </DialogContent>
-                        <DialogActions>
-                          <Controls.ActionButton
-                            onClick={handleDialogClose}
-                            color="Secondary"
-                          >
-                            Cancel
-                          </Controls.ActionButton>
-                          <Controls.ActionButton
-                            onClick={() => handleSaveClick(item.id)}
-                            color="primary"
-                          >
-                            Save
-                          </Controls.ActionButton>
-                        </DialogActions>
-                      </Dialog>
 
                       <Controls.ActionButton
                         onClick={() => handleDeleteClick(item)}
@@ -340,6 +305,41 @@ export default function Webinars() {
             </TableBody>
           )}
         </TblContainer>
+
+        <Dialog
+          open={activeDialogId}
+          onClose={handleDialogClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Recorded Video Url</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              // id={item.id}
+              label="Enter the URL"
+              // type="em"
+              fullWidth
+              value={linkField}
+              onChange={handleLinkFieldChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Controls.ActionButton
+              onClick={handleDialogClose}
+              color="Secondary"
+            >
+              Cancel
+            </Controls.ActionButton>
+            <Controls.ActionButton
+              onClick={() => handleSaveClick()}
+              color="primary"
+            >
+              Save
+            </Controls.ActionButton>
+          </DialogActions>
+        </Dialog>
+
         <div style={{ margin: "2rem auto", width: "60%" }}>
           {loading && <Loader />}
           {error && <Alert severity="error">{error}</Alert>}
