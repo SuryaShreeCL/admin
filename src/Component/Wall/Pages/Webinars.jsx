@@ -171,7 +171,7 @@ export default function Webinars() {
   }, [deleteClick, wallPostDeleteReducer]);
 
   useEffect(() => {
-    dispatch(listWallWebinars(page));
+    dispatch(listWallWebinars(page, "Live,Draft,Scheduled"));
   }, [dispatch, page]);
 
   const handleDeleteClick = item => {
