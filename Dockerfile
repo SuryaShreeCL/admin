@@ -8,7 +8,7 @@ ARG BUILD_ENV
 COPY . ./
 
 # Install dependencies
-RUN npm install --force --silent
+RUN npm install --silent
 
 # Copy the app
 COPY . .
