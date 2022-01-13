@@ -659,12 +659,12 @@ function RootContainer(props) {
           path: lmsTest,
           items: [],
         },
-        // {
-        //   icon: <></>,
-        //   title: "Webinars",
-        //   path: wallPath,
-        //   items: [],
-        // },
+        {
+          icon: <></>,
+          title: "Webinars",
+          path: wallPath,
+          items: [],
+        },
       ]);
     } else if (window.sessionStorage.getItem("role") === "SUPER ADMIN") {
       setSideNav([
