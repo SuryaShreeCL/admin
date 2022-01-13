@@ -10,6 +10,8 @@ COPY . ./
 # Install dependencies
 RUN npm install --force --silent
 
+RUN npm install pdfjs-dist@2.6.347
+
 # Copy the app
 COPY . .
 
