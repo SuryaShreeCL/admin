@@ -1,8 +1,4 @@
-import {
-  Breadcrumbs,
-  Button,
-  Grid, Typography
-} from "@material-ui/core";
+import { Breadcrumbs, Button, Grid, Typography } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import React from "react";
 import { connect } from "react-redux";
@@ -14,11 +10,18 @@ import {
   viewMydetailsReport,
   viewTechTestReport,
   viewTermsAndConReports,
-  viewTestRating
+  viewTestRating,
+  getTestList,
 } from "../Actions/Reports";
 import BackButton from "../Asset/Images/backbutton.svg";
 import { downloadReport } from "../AsyncApiCall/Student";
 import { studentPath } from "./RoutePaths";
+// import DropDown from "../Lms/Utils/DropDown";
+import DropDown from "../Utils/DropDown";
+import {
+  typographyStyle,
+  BreadCrumpContainer,
+} from "../Asset/StyledComponents/ReportStyles";
 class ReportHome extends React.Component {
   constructor(props) {
     super(props);
@@ -29,18 +32,19 @@ class ReportHome extends React.Component {
         { col1: "1", col2: "2", col3: "3" },
       ],
       objectKeys: [],
-      isDownloading : false
+      isDownloading: false,
+
+      selectedItem: "",
+      dynamicReportContent: [],
     };
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.careerReport !== prevProps.careerReport) {
       let myArr = [];
-      this.props.careerReport.map((eachReport) => {
+      this.props.careerReport.map(eachReport => {
         let myObj = {};
         for (const property in eachReport) {
           myObj[property] =
@@ -76,48 +80,114 @@ class ReportHome extends React.Component {
     { title: "CV Rating", endPoint: "reports/cvratings" },
     { title: "Mark Sheet", endPoint: "report/marksheet" },
     { title: "Test Rating", endPoint: "report/testRating" },
-    {
-      title: "Technical Test Computer",
-      endPoint: "report/technicaltest/Technical Test Computer",
-    },
-    { title: "Diagnostic Test", endPoint: "report/diagonostictest" },
-    { title: "Career Interest Test", endPoint: "reports/cit/Career Exploration Test" },
+    // {
+    //   title: "Technical Test Computer",
+    //   endPoint: "report/technicaltest/Technical Test Computer",
+    // },
+    // { title: "Diagnostic Test", endPoint: "report/diagonostictest" },
+    // {
+    //   title: "Career Interest Test",
+    //   endPoint: "reports/cit/Career Exploration Test",
+    // },
   ];
 
   handleDownloadClick = (title, endpoint) => {
     this.setState({
-      isDownloading : true
-    })
-    downloadReport(endpoint)
-      .then((response) => {
-        if (response.status === 201) {
-          const downloadUrl = window.URL.createObjectURL(
-            new Blob([response.data])
-          );
-          const link = document.createElement("a");
-          link.href = downloadUrl;
-          link.setAttribute("download", `${title}.xls`); //any other extension
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          this.setState({
-            isDownloading : false
-          })
-        }else{
-          this.setState({
-            isDownloading : false
-          })
-        }
-      })
-     
+      isDownloading: true,
+    });
+    downloadReport(endpoint, this.state.selectedItem).then(response => {
+      if (response.status === 201) {
+        const downloadUrl = window.URL.createObjectURL(
+          new Blob([response.data])
+        );
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute("download", `${title}.xls`); //any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        this.setState({
+          isDownloading: false,
+        });
+      } else {
+        this.setState({
+          isDownloading: false,
+        });
+      }
+    });
+  };
+
+  handleDynamicDownloadClick = title => {
+    this.setState({
+      isDownloading: true,
+    });
+
+    let endPoint = "";
+
+    switch (title) {
+      case "Career Interest Survey":
+        endPoint = "reports/cit";
+        break;
+      case "Technical Test":
+        endPoint = "report/technicaltest";
+        break;
+      case "Diagnostic Test":
+        endPoint = "report/diagonostictest";
+        break;
+      case "Supplementary Questions":
+        endPoint = "reports/supplementaryTest";
+        break;
+      case "Higher Education Readiness Survey":
+        endPoint = "reports/higherEducationReadinessSurveyTest";
+        break;
+    }
+
+    console.log(endPoint);
+
+    downloadReport(endPoint, this.state.selectedItem).then(response => {
+      if (response.status === 201) {
+        const downloadUrl = window.URL.createObjectURL(
+          new Blob([response.data])
+        );
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute("download", `${title}.xls`); //any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        this.setState({
+          isDownloading: false,
+        });
+      } else {
+        this.setState({
+          isDownloading: false,
+        });
+      }
+    });
+  };
+
+  handleDropDownChange = e => {
+    this.setState({ selectedItem: e.target.value });
+
+    this.props.getTestList(e.target.value, res => {
+      console.log(res);
+      this.setState({ dynamicReportContent: res.data });
+    });
   };
 
   render() {
-    console.log(this.props.careerReport);
-    console.log(this.state.objectKeys);
+    // console.log(this.props.careerReport);
+    // console.log(this.state.objectKeys);
+
+    let dropDownItems = [];
+    if (this.props.linkedProducts.products)
+      dropDownItems = this.props.linkedProducts.products;
+
+    // console.log(dropDownItems);
+
     return (
       <div>
-        <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
+        <BreadCrumpContainer>
           <img
             src={BackButton}
             style={{ cursor: "pointer", marginTop: "-10px" }}
@@ -125,12 +195,8 @@ class ReportHome extends React.Component {
           />
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
             <Typography
-              style={{
-                cursor: "pointer",
-                fontWeight: "600",
-                marginLeft: "10px",
-              }}
               onClick={() => this.props.history.push(studentPath)}
+              style={typographyStyle}
             >
               Home
             </Typography>
@@ -138,12 +204,45 @@ class ReportHome extends React.Component {
               Report
             </Typography>
           </Breadcrumbs>
-        </div>
+        </BreadCrumpContainer>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <DropDown
+              label="Products"
+              name="products"
+              items={dropDownItems}
+              value={this.state.selectedItem}
+              onChange={this.handleDropDownChange}
+            />
+          </Grid>
           <Grid item md={12}>
             <Typography variant="h6">Reports</Typography>
           </Grid>
-          {this.reportContent.map(({ title, endPoint }, index) => {
+          {this.state.selectedItem &&
+            this.reportContent.map(({ title, endPoint }, index) => {
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  container
+                  style={{ borderBottom: "1px solid #f1f1f1" }}
+                >
+                  <Typography>{title}</Typography>
+                  <Button
+                    disabled={this.state.isDownloading}
+                    color={"primary"}
+                    onClick={() => this.handleDownloadClick(title, endPoint)}
+                    variant={"contained"}
+                  >
+                    Download
+                  </Button>
+                </Grid>
+              );
+            })}
+
+          {this.state.dynamicReportContent.map(item => {
             return (
               <Grid
                 item
@@ -153,11 +252,11 @@ class ReportHome extends React.Component {
                 container
                 style={{ borderBottom: "1px solid #f1f1f1" }}
               >
-                <Typography>{title}</Typography>
+                <Typography>{item.name}</Typography>
                 <Button
-                disabled={this.state.isDownloading}
+                  disabled={this.state.isDownloading}
                   color={"primary"}
-                  onClick={() => this.handleDownloadClick(title, endPoint)}
+                  onClick={() => this.handleDynamicDownloadClick(item.name)}
                   variant={"contained"}
                 >
                   Download
@@ -170,7 +269,7 @@ class ReportHome extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     termsAndConReport: state.ReportReducer.termsAndConReport,
     cvReport: state.ReportReducer.cvReport,
@@ -182,6 +281,7 @@ const mapStateToProps = (state) => {
     techTestElectronics: state.ReportReducer.techTestElectronics,
     diagTestResult: state.ReportReducer.diagTestResult,
     careerReport: state.ReportReducer.careerReportResult,
+    linkedProducts: state.AdminReducer.adminLinkedProductDetails,
   };
 };
 export default connect(mapStateToProps, {
@@ -193,4 +293,5 @@ export default connect(mapStateToProps, {
   viewTestRating,
   viewDiagTestReport,
   getCareerExpoReport,
+  getTestList,
 })(ReportHome);
