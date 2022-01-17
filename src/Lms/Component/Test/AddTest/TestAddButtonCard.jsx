@@ -19,10 +19,10 @@ class TestAddButtonCard extends Component {
   renderQuestions = (
     questions,
     handleThreeDotClick,
-    popUpId
+    popUpId,
     handleClose,
     anchorEl,
-    handleDelete,
+    handleDelete
   ) => {
     if (
       questions !== null &&
