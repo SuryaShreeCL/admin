@@ -16,12 +16,12 @@ import {
 import BackButton from "../Asset/Images/backbutton.svg";
 import { downloadReport } from "../AsyncApiCall/Student";
 import { studentPath } from "./RoutePaths";
-// import DropDown from "../Lms/Utils/DropDown";
 import DropDown from "../Utils/DropDown";
 import {
   typographyStyle,
   BreadCrumpContainer,
 } from "../Asset/StyledComponents/ReportStyles";
+import Loader from "../Lms/Utils/Loader";
 class ReportHome extends React.Component {
   constructor(props) {
     super(props);
@@ -80,15 +80,6 @@ class ReportHome extends React.Component {
     { title: "CV Rating", endPoint: "reports/cvratings" },
     { title: "Mark Sheet", endPoint: "report/marksheet" },
     { title: "Test Rating", endPoint: "report/testRating" },
-    // {
-    //   title: "Technical Test Computer",
-    //   endPoint: "report/technicaltest/Technical Test Computer",
-    // },
-    // { title: "Diagnostic Test", endPoint: "report/diagonostictest" },
-    // {
-    //   title: "Career Interest Test",
-    //   endPoint: "reports/cit/Career Exploration Test",
-    // },
   ];
 
   handleDownloadClick = (title, endpoint) => {
@@ -176,50 +167,70 @@ class ReportHome extends React.Component {
   };
 
   render() {
-    // console.log(this.props.careerReport);
-    // console.log(this.state.objectKeys);
-
     let dropDownItems = [];
     if (this.props.linkedProducts.products)
       dropDownItems = this.props.linkedProducts.products;
 
-    // console.log(dropDownItems);
-
-    return (
-      <div>
-        <BreadCrumpContainer>
-          <img
-            src={BackButton}
-            style={{ cursor: "pointer", marginTop: "-10px" }}
-            onClick={() => this.props.history.goBack()}
-          />
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
-            <Typography
-              onClick={() => this.props.history.push(studentPath)}
-              style={typographyStyle}
-            >
-              Home
-            </Typography>
-            <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
-              Report
-            </Typography>
-          </Breadcrumbs>
-        </BreadCrumpContainer>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <DropDown
-              label="Products"
-              name="products"
-              items={dropDownItems}
-              value={this.state.selectedItem}
-              onChange={this.handleDropDownChange}
+    if (this.state.isDownloading) return <Loader />;
+    else
+      return (
+        <div>
+          <BreadCrumpContainer>
+            <img
+              src={BackButton}
+              style={{ cursor: "pointer", marginTop: "-10px" }}
+              onClick={() => this.props.history.goBack()}
             />
-          </Grid>
-          <Grid item md={12}>
-            <Typography variant="h6">Reports</Typography>
-          </Grid>
-          {this.state.selectedItem &&
-            this.reportContent.map(({ title, endPoint }, index) => {
+            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+              <Typography
+                onClick={() => this.props.history.push(studentPath)}
+                style={typographyStyle}
+              >
+                Home
+              </Typography>
+              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
+                Report
+              </Typography>
+            </Breadcrumbs>
+          </BreadCrumpContainer>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <DropDown
+                label="Products"
+                name="products"
+                items={dropDownItems}
+                value={this.state.selectedItem}
+                onChange={this.handleDropDownChange}
+              />
+            </Grid>
+            <Grid item md={12}>
+              <Typography variant="h6">Reports</Typography>
+            </Grid>
+            {this.state.selectedItem &&
+              this.reportContent.map(({ title, endPoint }, index) => {
+                return (
+                  <Grid
+                    item
+                    xs={12}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    container
+                    style={{ borderBottom: "1px solid #f1f1f1" }}
+                  >
+                    <Typography>{title}</Typography>
+                    <Button
+                      disabled={this.state.isDownloading}
+                      color={"primary"}
+                      onClick={() => this.handleDownloadClick(title, endPoint)}
+                      variant={"contained"}
+                    >
+                      Download
+                    </Button>
+                  </Grid>
+                );
+              })}
+
+            {this.state.dynamicReportContent.map(item => {
               return (
                 <Grid
                   item
@@ -229,11 +240,11 @@ class ReportHome extends React.Component {
                   container
                   style={{ borderBottom: "1px solid #f1f1f1" }}
                 >
-                  <Typography>{title}</Typography>
+                  <Typography>{item.name}</Typography>
                   <Button
                     disabled={this.state.isDownloading}
                     color={"primary"}
-                    onClick={() => this.handleDownloadClick(title, endPoint)}
+                    onClick={() => this.handleDynamicDownloadClick(item.name)}
                     variant={"contained"}
                   >
                     Download
@@ -241,32 +252,9 @@ class ReportHome extends React.Component {
                 </Grid>
               );
             })}
-
-          {this.state.dynamicReportContent.map(item => {
-            return (
-              <Grid
-                item
-                xs={12}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                container
-                style={{ borderBottom: "1px solid #f1f1f1" }}
-              >
-                <Typography>{item.name}</Typography>
-                <Button
-                  disabled={this.state.isDownloading}
-                  color={"primary"}
-                  onClick={() => this.handleDynamicDownloadClick(item.name)}
-                  variant={"contained"}
-                >
-                  Download
-                </Button>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </div>
-    );
+          </Grid>
+        </div>
+      );
   }
 }
 const mapStateToProps = state => {
