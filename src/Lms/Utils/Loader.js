@@ -14,7 +14,7 @@ export default ({ size }) => {
       justifyContent={"center"}
       alignItems={"center"}
     >
-      <PulseLoader size={20} color={"#1093FF"} />;
+      <PulseLoader size={20} color={"#1093FF"} />
     </Box>
   );
 };
