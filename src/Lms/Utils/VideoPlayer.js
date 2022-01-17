@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { getVideoInfo } from "../../Redux/Action/CourseMaterial";
-
 import { getVideoInfo } from "../Redux/Action/CourseMaterial";
 /**
  * @param {String} otp
@@ -71,5 +69,3 @@ VideoPlayer.propTypes = {
 };
 
 export default connect(() => {}, { getVideoInfo })(VideoPlayer);
-
-// REVIEW DEBUG NOTE

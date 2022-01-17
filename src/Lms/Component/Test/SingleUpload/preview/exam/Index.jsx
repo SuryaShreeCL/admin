@@ -182,72 +182,76 @@ class Index extends Component {
     const test_type = sessionStorage.getItem("testType");
     const isQuestionBank = test_type && test_type === "QUESTIONBANK";
     return (
-      <Container>
-        <BookMarkContainer
-          className={
-            isQuestionBank ? "bookmark_potion_style" : "demo__bookmark__test"
-          }
-        >
-          <RenderBookMark bookMarked={false} demoBookmark={false} />
-        </BookMarkContainer>
-        <TitleContainer>
-          <Div display={"flex"}>
-            {isQuestionBank && (
-              <BackIconTag>
-                <ArrowBack />
-              </BackIconTag>
-            )}
-            <TestTitle>{isQuestionBank ? "Question" : testTitle}</TestTitle>
-          </Div>
-          <TitleHeader>
-            {isQuestionBank ? (
-              <QuestionTitle padding={"0px"}>{conceptName}</QuestionTitle>
-            ) : (
-              <>
-                <Div display={"flex"}>
-                  <QuestionCount bold="bold">{currentQuestionNo}</QuestionCount>
-                  <QuestionCount>
-                    /
-                    {totalNoOfQuestion && totalNoOfQuestion > 0
-                      ? totalNoOfQuestion
-                      : 1}
-                  </QuestionCount>
-                  <QuestionTitle>{conceptName}</QuestionTitle>
-                  <TimeRemaining>
-                    {"Time Remaining"}
-                    {" -"}
-                  </TimeRemaining>
-                  <QuestionCount bold={500}>
-                    {remainingTime ? secondsToHms(remainingTime) : "23:59:59"}
-                  </QuestionCount>
-                </Div>
-                <Div>
-                  <LinearProgress variant="determinate" value={0} />
-                </Div>
-              </>
-            )}
-          </TitleHeader>
-        </TitleContainer>
-        <Body>{this.renderQuestion()}</Body>
-        <Footer>
-          <Box width={"100%"}>
-            <Divider />
-          </Box>
-          <Box className={"test_bottom_pad"}>
-            {!isQuestionBank ? (
-              <Pause>
-                <Icon src={PauseIcon} alt={""} />
-                <Box whiteSpace="nowrap">{"Pause exam"}</Box>
-              </Pause>
-            ) : (
-              <div></div>
-            )}
-            <Next disabled={false} loading={false}>
-              {isQuestionBank ? "Submit" : "Next"}
-            </Next>
-          </Box>
-        </Footer>
-      </Container>
+      <div>
+        <Container>
+          <BookMarkContainer
+            className={
+              isQuestionBank ? "bookmark_potion_style" : "demo__bookmark__test"
+            }
+          >
+            <RenderBookMark bookMarked={false} demoBookmark={false} />
+          </BookMarkContainer>
+          <TitleContainer>
+            <Div display={"flex"}>
+              {isQuestionBank && (
+                <BackIconTag>
+                  <ArrowBack />
+                </BackIconTag>
+              )}
+              <TestTitle>{isQuestionBank ? "Question" : testTitle}</TestTitle>
+            </Div>
+            <TitleHeader>
+              {isQuestionBank ? (
+                <QuestionTitle padding={"0px"}>{conceptName}</QuestionTitle>
+              ) : (
+                <>
+                  <Div display={"flex"}>
+                    <QuestionCount bold="bold">
+                      {currentQuestionNo}
+                    </QuestionCount>
+                    <QuestionCount>
+                      /
+                      {totalNoOfQuestion && totalNoOfQuestion > 0
+                        ? totalNoOfQuestion
+                        : 1}
+                    </QuestionCount>
+                    <QuestionTitle>{conceptName}</QuestionTitle>
+                    <TimeRemaining>
+                      {"Time Remaining"}
+                      {" -"}
+                    </TimeRemaining>
+                    <QuestionCount bold={500}>
+                      {remainingTime ? secondsToHms(remainingTime) : "23:59:59"}
+                    </QuestionCount>
+                  </Div>
+                  <Div>
+                    <LinearProgress variant="determinate" value={0} />
+                  </Div>
+                </>
+              )}
+            </TitleHeader>
+          </TitleContainer>
+          <Body>{this.renderQuestion()}</Body>
+          <Footer>
+            <Box width={"100%"}>
+              <Divider />
+            </Box>
+            <Box className={"test_bottom_pad"}>
+              {!isQuestionBank ? (
+                <Pause>
+                  <Icon src={PauseIcon} alt={""} />
+                  <Box whiteSpace="nowrap">{"Pause exam"}</Box>
+                </Pause>
+              ) : (
+                <div></div>
+              )}
+              <Next disabled={false} loading={false}>
+                {isQuestionBank ? "Submit" : "Next"}
+              </Next>
+            </Box>
+          </Footer>
+        </Container>
+      </div>
     );
   }
 }

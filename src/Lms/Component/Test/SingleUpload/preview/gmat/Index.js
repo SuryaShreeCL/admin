@@ -1,9 +1,8 @@
 /**
  * (c) CareerLabs. All rights reserved.
  **/
-
-import { ThemeProvider, Typography } from '@material-ui/core';
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { ThemeProvider, Typography } from "@material-ui/core";
 import {
   Box,
   Content,
@@ -13,13 +12,13 @@ import {
   HeaderBox,
   Inline,
   TimerBox,
-} from '../../../../../Assets/css/Preview/GmatStyles';
-import ClockIcon from '../../../../../Assets/icons/ClockIconWhite.svg';
-import MessageIcon from '../../../../../Assets/icons/MessageIconWhite.svg';
-import { secondsToHms } from '../../../../../Utils/HelperFunction';
-import Footer from './Footer';
-import SubHeader from './SubHeader';
-import Test from './Test';
+} from "../../../../../Assets/css/Preview/GmatStyles";
+import ClockIcon from "../../../../../Assets/icons/ClockIconWhite.svg";
+import MessageIcon from "../../../../../Assets/icons/MessageIconWhite.svg";
+import { secondsToHms } from "../../../../../Utils/HelperFunction";
+import Footer from "./Footer";
+import SubHeader from "./SubHeader";
+import Test from "./Test";
 
 export class GmatLayout extends Component {
   constructor(props) {
@@ -28,7 +27,7 @@ export class GmatLayout extends Component {
     this.state = {
       modelOpen: false,
       selectedChoice: [],
-      textAnswer: '',
+      textAnswer: "",
       bundleSelect: [],
       time: -1,
       required: false,
@@ -64,30 +63,33 @@ export class GmatLayout extends Component {
       testType,
       conceptName,
       testTitle,
+      video,
+      videoExplanation,
     } = this.props.testResponse.data;
 
+    console.log(this.props);
     return (
-      <Box className={'gmat_container'}>
+      <Box className={"gmat_container"}>
         <ThemeProvider theme={gmatTheme}>
           <Header>
-            <Typography variant='h1'>GMAT Calibration Test</Typography>
+            <Typography variant="h1">GMAT Calibration Test</Typography>
             <HeaderBox>
               <Inline>
-                <img src={ClockIcon} alt='' className='white_clock' />
-                <Typography variant='body1' className='inline_class'>
+                <img src={ClockIcon} alt="" className="white_clock" />
+                <Typography variant="body1" className="inline_class">
                   Time Remaining
                 </Typography>
 
-                <Typography variant='body1'>
+                <Typography variant="body1">
                   <TimerBox>
-                    {remainingTime ? secondsToHms(remainingTime) : '23:59:59'}
+                    {remainingTime ? secondsToHms(remainingTime) : "23:59:59"}
                   </TimerBox>
                 </Typography>
               </Inline>
               <Inline>
                 <Filler />
-                <img src={MessageIcon} alt='' className='white_clock' />
-                <Typography variant='body1'>
+                <img src={MessageIcon} alt="" className="white_clock" />
+                <Typography variant="body1">
                   {`${currentQuestionNo} of ${
                     totalNoOfQuestion && totalNoOfQuestion > 0
                       ? totalNoOfQuestion

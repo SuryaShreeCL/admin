@@ -736,6 +736,8 @@ export class Index extends Component {
           imgURL,
           isHaveImage: false,
           ...previewTestDataModel,
+          video: url,
+          videoExplanation: text,
         },
       },
     };
