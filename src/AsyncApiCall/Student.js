@@ -1,15 +1,18 @@
-import axios from 'axios';
-import { URL } from '../Actions/URL';
+import axios from "axios";
+import { URL } from "../Actions/URL";
 
 export const getLatestCv = async (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   try {
-    const response = await axios.get(URL + '/api/v1/cv/upload/' + studentId + '/' + productId, {
-      headers: {
-        admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get(
+      URL + "/api/v1/cv/upload/" + studentId + "/" + productId,
+      {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     return error.response && error.response.data.message
@@ -19,15 +22,20 @@ export const getLatestCv = async (studentId, productId) => {
 };
 
 export const saveInterestDetails = async (studentId, productId, data) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
 
   try {
     const response = await axios.put(
-      URL + '/api/v1/pga/students/' + studentId + '/product/' + productId + '/areaofinterest',
+      URL +
+        "/api/v1/pga/students/" +
+        studentId +
+        "/product/" +
+        productId +
+        "/areaofinterest",
       data,
       {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       }
@@ -41,14 +49,19 @@ export const saveInterestDetails = async (studentId, productId, data) => {
 };
 
 export const getInterestDetails = async (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
 
   try {
     const response = await axios.get(
-      URL + '/api/v1/pga/students/' + studentId + '/product/' + productId + '/areaofinterest',
+      URL +
+        "/api/v1/pga/students/" +
+        studentId +
+        "/product/" +
+        productId +
+        "/areaofinterest",
       {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       }
@@ -61,16 +74,19 @@ export const getInterestDetails = async (studentId, productId) => {
   }
 };
 
-export const deleteInterestDetails = async (interestId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+export const deleteInterestDetails = async interestId => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
 
   try {
-    const response = await axios.delete(URL + '/api/v1/pga/areaofintesrest/' + interestId, {
-      headers: {
-        admin: 'yes',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.delete(
+      URL + "/api/v1/pga/areaofintesrest/" + interestId,
+      {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     return error.response && error.response.data.message
@@ -79,15 +95,19 @@ export const deleteInterestDetails = async (interestId) => {
   }
 };
 
-export const downloadReport = async (reportName) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+export const downloadReport = async (reportName, productId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
   try {
-    const response = await axios.get(URL + '/api/v1/students/' + reportName + '?export=true', {
+    const response = await axios.get(`${URL}/api/v1/students/${reportName}`, {
       headers: {
-        admin: 'yes',
+        admin: "yes",
         Authorization: `Bearer ${accessToken}`,
       },
-      responseType: 'blob',
+      responseType: "blob",
+      params: {
+        productId: productId,
+        export: true,
+      },
     });
     return response;
   } catch (error) {
@@ -98,14 +118,14 @@ export const downloadReport = async (reportName) => {
 };
 
 export const getTestQuestionSet = async (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
 
   try {
     const response = await axios.get(
       `${URL}/api/v1/students/${studentId}/products/${productId}/careerinterest`,
       {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       }
@@ -115,7 +135,9 @@ export const getTestQuestionSet = async (studentId, productId) => {
     return {
       success: false,
       message:
-        error.response && error.response.data.message ? error.response.data.message : error.message,
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     };
   }
 };
