@@ -10,7 +10,7 @@ export default ({ size }) => {
   return (
     <Box
       display={"flex"}
-      height={"90vh"}
+      height={"80vh"}
       justifyContent={"center"}
       alignItems={"center"}
     >
