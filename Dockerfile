@@ -24,7 +24,7 @@ COPY .env.${BUILD_ENV} /app/.env.${BUILD_ENV}
 RUN npm run build:${BUILD_ENV}
 
 # Use nginx on Prod
-FROM nginx:stable-alpine as production
+FROM nginx:alpine as production
 
 # Copy dist from build
 COPY nginx.conf /etc/nginx/conf.d/default.conf
