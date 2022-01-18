@@ -274,7 +274,10 @@ export class Index extends Component {
   };
 
   handleAddOption = () => {
-    if (this.state.bucketArray[this.state.activeTab].choices.length < 5) {
+    let limit = 5;
+    if (this.state.answerType === "MULTI_CHOICE") limit = 10;
+
+    if (this.state.bucketArray[this.state.activeTab].choices.length < limit) {
       let arr = this.state.bucketArray;
       arr[this.state.activeTab].choices.push({
         id: null,

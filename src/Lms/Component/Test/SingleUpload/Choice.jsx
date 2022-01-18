@@ -8,7 +8,7 @@ import TextEditor from "../../../Utils/TextEditor";
 // import { ThemeProvider } from 'styled-components';
 // import { FormControlLabel } from '@material-ui/core';
 
-const LETTERS = ["A", "B", "C", "D", "E"];
+const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
 function Choice(props) {
   const {
