@@ -197,7 +197,7 @@ function SimilarityPopup(props) {
   };
 
   const renderFilterButton = () => {
-    if (isEmptyString(academicType)) {
+    if (academicType === "tenth" || academicType === "twelfth") {
       return (
         <Button
           aria-controls="simple-menu"

@@ -37,6 +37,7 @@ export const PROFILE_GAP_ANALYSIS = {
   getReportPreview: "getReportPreview",
   getReportStatus: "getReportStatus",
   saveSemesterDetails: "saveSemesterDetails",
+  ppgaCallNotesStatus: "ppgaCallNotesStatus",
 };
 
 export const COLLEGES = {
@@ -100,6 +101,18 @@ export const STUDENT = {
   IncompleteStatus: "IncompleteStatus",
   getexpecteddate: "getexpecteddate",
   getieltsexam: "getieltsexam",
+  aspirationWork: "aspirationWork",
+  aspirationPackage: "aspirationPackage",
+  aspirationLocation: "aspirationLocation",
+  getaspirationData: "getaspirationData",
+  postaspirationData: "postaspirationData",
+  AspirationCollege: "AspirationCollege",
+  aspirationTerm: "aspirationTerm",
+  aspirationDegree: "aspirationDegree",
+  aspirationBranch: "aspirationBranch",
+  aspirationCountry: "aspirationCountry",
+  AspirationCollege: "AspirationCollege",
+  aspirationSpecialization: "aspirationSpecialization",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -487,9 +500,9 @@ export const TEST = {
   SCHEDULE_FAIL: "TEST_SCHEDULE_FAIL",
   SCHEDULE_RESET: "TEST_SCHEDULE_RESET",
 
-  CUTOFF_REQUEST: 'CUTOFF_REQUEST',
-  CUTOFF_SUCCESS: 'CUTOFF_SUCCESS',
-  CUTOFF_FAIL: 'CUTOFF_FAIL',
+  CUTOFF_REQUEST: "CUTOFF_REQUEST",
+  CUTOFF_SUCCESS: "CUTOFF_SUCCESS",
+  CUTOFF_FAIL: "CUTOFF_FAIL",
 };
 
 export const PGA_REPORT = {
@@ -511,4 +524,5 @@ export const PGA_REPORT = {
   getResumePdfDownloadUrl: "getResumePdfDownloadUrl",
   getResumeQuestionnaire: "getResumeQuestionnaire",
   postSpiderGraph: "postSpiderGraph",
+  careerTrackProfileSimilarity: "careerTrackProfileSimilarity",
 };

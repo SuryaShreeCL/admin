@@ -1,4 +1,4 @@
-import { PGA_REPORT } from '../Redux/Action';
+import { PGA_REPORT } from "../Redux/Action";
 const initialState = {
   spiderGraph: null,
   resumeParseStatus: null,
@@ -18,6 +18,7 @@ const initialState = {
   resumePdfUrl: null,
   resumeQuestionnaire: null,
   postSpiderGraphStatus: null,
+  trackProfileSimilarity: null,
 };
 
 export default (state = initialState, action) => {
@@ -111,6 +112,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         postSpiderGraphStatus: action.payload,
+      };
+    case PGA_REPORT.careerTrackProfileSimilarity:
+      return {
+        ...state,
+        trackProfileSimilarity: action.payload,
       };
     default:
       break;

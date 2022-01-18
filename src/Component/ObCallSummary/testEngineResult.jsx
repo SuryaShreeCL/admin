@@ -36,7 +36,7 @@ import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import { ErrorMessage } from "../Validation";
 import { getVariantStepsById } from "../../Actions/ProductAction";
-
+import Grid from '@material-ui/core/Grid'
 class TestEngineResult extends Component {
   constructor() {
     super();
@@ -472,7 +472,7 @@ class TestEngineResult extends Component {
           aria-labelledby="customized-dialog-title"
         >
           <DialogTitle>
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -491,12 +491,33 @@ class TestEngineResult extends Component {
                 {this.state.questionSetName}
               </Typography>
               <IconButton
-                style={{ position: "absolute", top: 0, right: 0 }}
                 onClick={() => this.setState({ showEye: false })}
               >
                 <img src={x} height={17} width={17} />
               </IconButton>
-            </div>
+            </div> */}
+             <Grid container>
+              <Grid item md={11} align={"center"}>
+              <Typography
+                style={{
+                  color: "#052A4E",
+                  fontSize: 24,
+                  fontWeight: "bold",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {this.state.questionSetName}
+              </Typography>
+              </Grid>
+              <Grid item md={1} align={"right"}>
+              <IconButton
+                onClick={() => this.setState({ showEye: false })}
+              >
+                <img src={x} height={17} width={17} />
+              </IconButton>
+              </Grid>
+            </Grid>
           </DialogTitle>
           <DialogContent style={{ height: "800px" }}>
             <div
