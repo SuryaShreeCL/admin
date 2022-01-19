@@ -308,3 +308,16 @@ div > p {
 .video-box:hover .icon-box-task-details {
   display: block;
 }
+
+#test-container {
+  height: 100%;
+}
+
+#inside-test-container {
+  height: inherit;
+}
+
+#inside-test-container-right {
+  height: inherit;
+  overflow: auto;
+}

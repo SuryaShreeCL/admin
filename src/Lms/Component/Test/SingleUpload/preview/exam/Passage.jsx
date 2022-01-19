@@ -1,15 +1,15 @@
 /**
  * (c) CareerLabs. All rights reserved.
  **/
-import React from 'react';
-import { Grid, Box, Divider } from '@material-ui/core';
+import React from "react";
+import { Grid, Box, Divider } from "@material-ui/core";
 import {
   Passage as passage,
   TextBox,
-} from '../../../../../Assets/css/Preview/TestComponent';
-import SingleSelect from './SingleSelect';
-import Bundle from './Bundle';
-import Latex from '../../../../../Utils/LatexViewer';
+} from "../../../../../Assets/css/Preview/TestComponent";
+import SingleSelect from "./SingleSelect";
+import Bundle from "./Bundle";
+import Latex from "../../../../../Utils/LatexViewer";
 
 const Passage = ({
   para,
@@ -26,36 +26,33 @@ const Passage = ({
 }) => {
   const { Para } = passage;
   return (
-    <Grid container>
-      <Grid item md={6}>
-        <Box minHeight={400} display={'flex'} height={'100%'}>
-          <Box flex={1} className={'question-left-container'}>
+    <Grid container id="test-container">
+      <Grid item md={6} id="inside-test-container">
+        <Box display={"flex"} className={"overflow-scroll"} height={"inherit"}>
+          <Box flex={1} className={"question-left-container"}>
             <Para>
               <Latex math={para} />
             </Para>
-            <Box
-              fontSize={16}
-              color={'#052A4E'}
-              lineHeight={'30px'}
-              //  dangerouslySetInnerHTML={{
-              //    __html: description,
-              //  }}
-            >
+            <Box fontSize={16} color={"#052A4E"} lineHeight={"30px"}>
               <Latex math={description} />
             </Box>
             <Box>
               {imgUrl && (
-                <img src={imgUrl} alt={''} width={'100%'} height={'100%'} />
+                <img src={imgUrl} alt={""} width={"100%"} height={"100%"} />
               )}
             </Box>
           </Box>
           <Box>
-            <Divider variant='middle' orientation={'vertical'} />
+            <Divider variant="middle" orientation={"vertical"} />
           </Box>
         </Box>
       </Grid>
-      <Grid item md={6}>
-        <Box minHeight={400} className={'overflow-scroll'}>
+      <Grid item md={6} id="inside-test-container-right">
+        <Box
+          minHeight={400}
+          className={"overflow-scroll"}
+          id="inside-test-container"
+        >
           {bundle ? (
             <Bundle
               bundleLength={bundleLength}
@@ -64,8 +61,8 @@ const Passage = ({
             />
           ) : subjective ? (
             <TextBox
-              type={'text'}
-              placeholder={'Enter your answer here'}
+              type={"text"}
+              placeholder={"Enter your answer here"}
               value={answer}
             />
           ) : (
