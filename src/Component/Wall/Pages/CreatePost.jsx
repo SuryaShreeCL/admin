@@ -520,7 +520,7 @@ const CreatePost = () => {
                       <Grid item>
                         {!values.banner ? (
                           <Controls.Input
-                            label="Banner image"
+                            label="Banner image (Banner image should be in 16:9 ratio resolution or 1920 x 1080)"
                             name="bannerImage"
                             style={{
                               width: "80%",
@@ -546,7 +546,7 @@ const CreatePost = () => {
                           <Grid container direction="column">
                             <Typography>Banner image</Typography>
 
-                            <img src={values.banner} height={180} width={350} />
+                            <img src={values.banner} height={225} width={400} />
                             <Controls.ActionButton
                               onClick={() => handleDeleteClick(setFieldValue)}
                             >
