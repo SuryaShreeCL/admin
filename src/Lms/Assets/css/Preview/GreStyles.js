@@ -134,9 +134,9 @@ export const ImgBox = styled("span")({
 });
 
 export const Main = styled("div")({
-  height: "calc(100vh - 100px)",
   padding: greTheme.spacing(1.5, 0, 4, 0),
-  overflow: "auto",
+  minHeight: "calc(100vh - 100px)",
+  // overflow: "auto",
 });
 
 export const Content = styled("div")({
