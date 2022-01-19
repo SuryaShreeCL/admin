@@ -146,7 +146,7 @@ export default function Webinars() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallWebinars(page));
+      dispatch(listWallWebinars(page, "Live,Draft,Scheduled"));
     }, 1200);
     setDeleteClick(true);
   };
