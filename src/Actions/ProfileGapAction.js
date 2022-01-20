@@ -492,7 +492,7 @@ export const viewSemesterDetails = (studentId, semesterId, callback) => {
         });
       })
       .catch((error) => {
-        callback(error)
+        callback(error);
         console.log(error);
       });
   };
@@ -523,7 +523,7 @@ export const saveSemesterDetails = (studentId, type, data, callback) => {
         });
       })
       .catch((error) => {
-        callback(error)
+        callback(error);
         console.log(error);
       });
   };
@@ -709,6 +709,41 @@ export const getReportPreview = (studentId, productId, callback) => {
       })
       .catch((error) => {
         // callback(error)
+        console.log(error);
+      });
+  };
+};
+
+// to check whether the ppga call notes is saved for the call scheduling in client pga
+export const ppgaCallNotesStatus = (studentId, productId, callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(
+        URL +
+          "/api/v1/students/" +
+          studentId +
+          "/product/" +
+          productId +
+          "/checkPpgaCallNotes",
+        {
+          crossDomain: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            admin: "yes",
+          },
+        }
+      )
+      .then((result) => {
+        callback(result);
+        dispatch({
+          type: PROFILE_GAP_ANALYSIS.ppgaCallNotesStatus,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        callback(error);
         console.log(error);
       });
   };

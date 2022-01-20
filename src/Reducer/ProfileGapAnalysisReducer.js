@@ -23,6 +23,7 @@ const initialState = {
   calculation: [],
   preview: [],
   reportStatus: [],
+  ppgaNotesStatus: false,
   // download : []
 };
 
@@ -134,6 +135,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         reportStatus: action.payload,
+      };
+    case PROFILE_GAP_ANALYSIS.ppgaCallNotesStatus:
+      return {
+        ...state,
+        ppgaNotesStatus: action.payload,
       };
     default:
       return state;

@@ -25,11 +25,11 @@ import {
   filterStageBaseUsers,
   searchStudentInStages,
   viewAllCities,
-  StudentStepDetails
+  StudentStepDetails,
 } from "../../Actions/Student";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import Call from "../../Asset/Images/callImg.png";
-import { callSummaryLayoutPath ,stagedTabsPath } from "../RoutePaths";
+import { callSummaryLayoutPath, stagedTabsPath } from "../RoutePaths";
 import { isEmptyString } from "../Validation";
 import DataGrid from "./DataGrid";
 import SearchIcon from "@material-ui/icons/Search";
@@ -63,7 +63,7 @@ export class Onboarding extends Component {
       bda: null,
       search: null,
       listOfusers: [],
-      noResultPopup : false,
+      noResultPopup: false,
     };
   }
 
@@ -72,14 +72,15 @@ export class Onboarding extends Component {
     this.props.getStudentByStages(
       this.props.match.params.productId,
       this.props.stageDetails.stepName,
-      "",(response=>{
-        if(response.status === 200){
+      "",
+      (response) => {
+        if (response.status === 200) {
           this.setState({
-            listOfusers : response.data.content,
-            noResultPopup : response.data.totalElements === 0 ? true : false
-          })
+            listOfusers: response.data.content,
+            noResultPopup: response.data.totalElements === 0 ? true : false,
+          });
         }
-      })
+      }
     );
     this.props.getBranches();
     this.props.getAllColleges();
@@ -88,16 +89,21 @@ export class Onboarding extends Component {
     this.props.getAllAdminUsers();
   }
   handleManage = (eachItem) => {
-    this.props.StudentStepDetails(eachItem.studentId,this.props.match.params.productId)
-    this.props.getVariantStepsById(this.props.match.params.productId+`?studentId=${eachItem.studentId}`);
+    this.props.StudentStepDetails(
+      eachItem.studentId,
+      this.props.match.params.productId
+    );
+    this.props.getVariantStepsById(
+      this.props.match.params.productId + `?studentId=${eachItem.studentId}`
+    );
     this.props.history.push(
       stagedTabsPath +
         eachItem.studentId +
         "/" +
-        this.props.match.params.productId
-        +`?stage=OnBoarding`
-    )
-  }
+        this.props.match.params.productId +
+        `?stage=OnBoarding`
+    );
+  };
   componentDidUpdate(prevProps, prevState) {
     // Setting the users in state
     if (this.props.studentsByStagesList !== prevProps.studentsByStagesList) {
@@ -146,23 +152,23 @@ export class Onboarding extends Component {
         listOfusers: listOfUsersArr,
       });
     }
-    if(this.state.search !== prevState.search){
-      if(isEmptyString(this.state.search)){
+    if (this.state.search !== prevState.search) {
+      if (isEmptyString(this.state.search)) {
         this.props.getStudentByStages(
           this.props.match.params.productId,
           this.props.stageDetails.stepName,
-          "",(response=>{
-            if(response.status === 200){
+          "",
+          (response) => {
+            if (response.status === 200) {
               this.setState({
-                listOfusers : response.data.content,
-                noResultPopup : response.data.totalElements === 0 ? true : false
-              })
+                listOfusers: response.data.content,
+                noResultPopup: response.data.totalElements === 0 ? true : false,
+              });
             }
-          })
+          }
         );
       }
     }
-    
   }
   shrink() {
     this.setState({ shrink: true });
@@ -214,9 +220,10 @@ export class Onboarding extends Component {
           onClick={() => {
             this.props.history.push(
               stagedTabsPath +
-              obCallStatus.studentId +
-              "/" +
-              this.props.match.params.productId+"?render=pga"
+                obCallStatus.studentId +
+                "/" +
+                this.props.match.params.productId +
+                "?render=pga"
             );
           }}
           label={obCallStatus.obCallStatus}
@@ -229,9 +236,10 @@ export class Onboarding extends Component {
           onClick={() => {
             this.props.history.push(
               stagedTabsPath +
-              obCallStatus.studentId +
-              "/" +
-              this.props.match.params.productId+"?render=pga"
+                obCallStatus.studentId +
+                "/" +
+                this.props.match.params.productId +
+                "?render=pga"
             );
           }}
           label={"Pending"}
@@ -244,9 +252,10 @@ export class Onboarding extends Component {
           onClick={() => {
             this.props.history.push(
               stagedTabsPath +
-              obCallStatus.studentId +
-              "/" +
-              this.props.match.params.productId+"?render=pga"
+                obCallStatus.studentId +
+                "/" +
+                this.props.match.params.productId +
+                "?render=pga"
             );
           }}
           label={obCallStatus.obCallStatus}
@@ -262,16 +271,17 @@ export class Onboarding extends Component {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",          
+          justifyContent: "space-between",
         }}
       >
         <img
           onClick={() =>
             this.props.history.push(
-               stagedTabsPath +
+              stagedTabsPath +
                 eachItem.studentId +
                 "/" +
-                this.props.match.params.productId+"?render=pga"
+                this.props.match.params.productId +
+                "?render=pga"
             )
           }
           src={Call}
@@ -282,9 +292,7 @@ export class Onboarding extends Component {
           }}
         />
         <PrimaryButton
-          onClick={() =>
-            this.handleManage(eachItem)
-          }
+          onClick={() => this.handleManage(eachItem)}
           variant={"contained"}
           color={"primary"}
           size={"small"}
@@ -313,25 +321,24 @@ export class Onboarding extends Component {
 
   // To handle search
 
-  handleSearch = () =>{
-
+  handleSearch = () => {
     if (!isEmptyString(this.state.search)) {
       this.props.getStudentByStages(
         this.props.match.params.productId,
         this.props.stageDetails.stepName,
-        this.state.search,(response=>{
+        this.state.search,
+        (response) => {
           this.setState({
-            listOfusers : response.data.content,
-            noResultPopup : response.data.totalElements === 0 ? true : false
-          })
-        })
+            listOfusers: response.data.content,
+            noResultPopup: response.data.totalElements === 0 ? true : false,
+          });
+        }
       );
     }
-     
-  }
+  };
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
@@ -492,7 +499,9 @@ export class Onboarding extends Component {
                 obCallStatus={this.renderChip}
                 action={this.renderManageButton}
               />
-            ) : <Loader />}
+            ) : (
+              <Loader />
+            )}
           </Grid>
         </Grid>
 
@@ -641,13 +650,15 @@ export class Onboarding extends Component {
           </Drawer>
         </ThemeProvider>
         <MySnackBar
-              snackOpen={this.state.noResultPopup}
-              snackMsg={"No Result Found"}
-              snackVariant={"error"}
-              onClose={()=>this.setState({
-                noResultPopup : false
-              })}
-            />
+          snackOpen={this.state.noResultPopup}
+          snackMsg={"No Result Found"}
+          snackVariant={"error"}
+          onClose={() =>
+            this.setState({
+              noResultPopup: false,
+            })
+          }
+        />
       </div>
     );
   }
@@ -682,7 +693,7 @@ const mapStateToProps = (state) => {
     filteredStageBasedUsers: state.StudentReducer.filteredStageBasedUsers,
     searchedList: state.StudentReducer.searchedList,
     // getsearchlistresponse : state.CallReducer.getsearchlist
-    StudentStepDetailsList : state.StudentReducer.StudentStepDetails
+    StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
   };
 };
 
@@ -695,5 +706,5 @@ export default connect(mapStateToProps, {
   getAllAdminUsers,
   filterStageBaseUsers,
   searchStudentInStages,
-  StudentStepDetails
+  StudentStepDetails,
 })(Onboarding);
