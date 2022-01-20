@@ -40,6 +40,7 @@ import ConfirmDialog from "../../Utils/ConfirmDialog";
 import { MultipleFileUploadField } from "../Components/Upload/MultipleFileUploadField";
 import PreprationContainer from "../Components/PreparationContainer";
 import DeleteIcon from "@material-ui/icons/Delete";
+const AVOID_INPUT = ["E", "e", "+", "-"];
 
 const useStyles = makeStyles({
   root: {
@@ -193,8 +194,8 @@ const EditPost = () => {
     setFieldValue("banner", "");
   };
 
-  const handleHostDeleteClick = () => {
-    setState({ ...state, hostImageUrl: "" });
+  const handleHostDeleteClick = setFieldValue => {
+    setFieldValue("hostImageUrl", "");
   };
 
   return (
@@ -452,8 +453,8 @@ const EditPost = () => {
 
                               <img
                                 src={values.banner}
-                                height={180}
-                                width={350}
+                                height={225}
+                                width={400}
                               />
                               <Controls.ActionButton
                                 onClick={() => handleDeleteClick(setFieldValue)}
