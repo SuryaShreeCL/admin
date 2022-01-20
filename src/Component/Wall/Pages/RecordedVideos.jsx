@@ -159,7 +159,7 @@ export default function Webinars() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallWebinars(page));
+      dispatch(listWallWebinars(page, "Expired"));
     }, 1200);
     setNotify({
       isOpen: true,
