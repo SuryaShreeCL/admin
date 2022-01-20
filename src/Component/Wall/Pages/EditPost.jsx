@@ -425,7 +425,7 @@ const EditPost = () => {
                         <Grid item>
                           {!values.banner ? (
                             <Controls.Input
-                              label="Banner image"
+                              label="Banner image (Banner image should be in 16:9 ratio or 1920 x 1080 resolution)"
                               name="bannerImage"
                               style={{
                                 width: "80%",
