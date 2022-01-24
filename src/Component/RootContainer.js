@@ -60,6 +60,7 @@ import {
   aspirationPath,
   callSchedulePath,
   careerTrackPath,
+  premiumUsersPath,
   cityPath,
   collegePath,
   coursePath,
@@ -119,6 +120,11 @@ const NavbarList = [
     id: careerTrackPath,
     icon: <TrendingUpRoundedIcon />,
     title: "Career Track",
+  },
+  {
+    id: premiumUsersPath,
+    icon: <TrendingUpRoundedIcon />,
+    title: "Premium Users",
   },
   { id: notificationPath, icon: <NotificationsIcon />, title: "Notification" },
   {
@@ -594,6 +600,12 @@ function RootContainer(props) {
           path: careerTrackPath,
           items: [],
         },
+        {
+          icon: <Track />,
+          title: "Premium Users Data",
+          path: premiumUsersPath,
+          items: [],
+        }
       ]);
     } else if (
       props.adminLinkedProductDetails.department === "elev8_super_admin"

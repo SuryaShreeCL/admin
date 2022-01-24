@@ -48,6 +48,7 @@ import {
   productPath,
   webinarPath,
   careerTrackPath,
+  premiumUsersPath,
   careerTrackVideoSetPath,
   careerTrackVideoPath,
   documentDetailsPath,
@@ -133,6 +134,8 @@ import CreateTest from "./Test/Pages/CreateTest";
 import EditTest from "./Test/Pages/EditTest";
 import PersonaInfo from "./ObOnboarding/personalInfo";
 import LandingAdmin from "./LandingAdmin";
+import PremiumUsersLanding from "../Component/PremiumUsers/PremiumUserLanding";
+
 
 //LMS
 import CourseLanding from "../Lms/Component/CourseLanding/CourseLanding";
@@ -201,6 +204,11 @@ export default function Routes(props) {
         render={props => <CreatePost {...props} />}
       />
       <Route exact path={editPath} render={props => <EditPost {...props} />} />
+      <Route
+        exact
+        path={premiumUsersPath}
+        render={props => <PremiumUsersLanding {...props} />}
+      />
       <Route
         exact
         path={appVersion}

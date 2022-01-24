@@ -57,6 +57,7 @@ export const listUsersProdBasedPath = rootPath.concat("/listUsers");
 export const stagedTabsPath = rootPath.concat("/stageTabs/");
 export const productActivationPath = rootPath.concat("/productActivation");
 export const landingAdminPath = rootPath.concat("/welcome-admin");
+export const premiumUsersPath = rootPath.concat("/premium-users");
 // Rengine another version path
 
 export const loginPath = rootPath.concat("/Mlogin");
