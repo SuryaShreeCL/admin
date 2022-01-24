@@ -198,6 +198,8 @@ const EditPost = () => {
     setFieldValue("hostImageUrl", "");
   };
 
+  // console.log(records);
+
   return (
     <>
       <BackHandler
@@ -312,6 +314,10 @@ const EditPost = () => {
                             );
                           }}
                           value={values.wallCategories}
+                          disabled={
+                            (values?.wallCategories[0]?.name == "4th Year Premium" || 
+                            values?.wallCategories[0]?.name == "4th Year Fermium")?true:false
+                          }
                           renderInput={params => (
                             <TextField
                               {...params}
