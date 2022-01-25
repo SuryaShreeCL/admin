@@ -1,5 +1,5 @@
-// export const AUTH_URL = "https://stage.services.thecareerlabs.com/api/v1";
-// export const URL = "https://stage-services.thecareerlabs.com";
+// export const AUTH_URL = "https://qa.services.thecareerlabs.com/api/v1";
+// export const URL = "https://qa-services.thecareerlabs.com";
 // export const URL = "http://localhost:8080";
 // export const AUTH_URL = "http://localhost:5000/api/v1";
 
