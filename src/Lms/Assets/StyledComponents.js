@@ -358,7 +358,6 @@ export const TabBarMonthItem = styled(MuiButton)`
 
 export const Question = styled.div`
   display: flex;
-
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -369,6 +368,7 @@ export const Question = styled.div`
   border-radius: 8px;
   padding: 16px;
   margin: 16px 0 16px 0;
+  padding-top: 17px;
 `;
 
 export const C1 = styled.div`

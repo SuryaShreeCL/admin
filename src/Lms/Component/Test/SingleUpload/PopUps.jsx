@@ -1,6 +1,6 @@
-import React from 'react';
-import { Snackbar } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import { Snackbar } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import React from "react";
 
 function PopUps(props) {
   const { handlePopUpClose, alert } = props;
@@ -10,10 +10,10 @@ function PopUps(props) {
       <Alert
         // onClose={() => this.setState({ alertState: false })}
         autoHideDuration={6000}
-        severity={alert === null ? '' : alert.severity}
-        variant='filled'
+        severity={alert === null ? "" : alert.severity}
+        variant="filled"
       >
-        {alert === null ? '' : alert.msg}
+        {alert === null ? "" : alert.msg}
       </Alert>
     </Snackbar>
   );

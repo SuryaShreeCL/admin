@@ -1,8 +1,7 @@
-import React from "react";
-// import { TextField } from '@material-ui/core';
-import { OutlinedInput, InputAdornment, IconButton } from "@material-ui/core";
-import ImageIcon from "../../../Assets/icons/Image.svg";
+import { IconButton, InputAdornment, OutlinedInput } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import React from "react";
+import ImageIcon from "../../../Assets/icons/Image.svg";
 
 function InputBox(props) {
   const {
@@ -19,7 +18,7 @@ function InputBox(props) {
         style={{ height: "48px  " }}
         fullWidth
         value={choice.text}
-        onChange={(e) => handleTextChange(e, index)}
+        onChange={e => handleTextChange(e, index)}
         endAdornment={
           answerType !== "SUBJECTIVE" && (
             <InputAdornment position="end">
@@ -33,7 +32,7 @@ function InputBox(props) {
                   hidden
                   accept="image/x-png,image/gif,image/jpeg"
                   type="file"
-                  onChange={(e) => handleImageUpload(e, index)}
+                  onChange={e => handleImageUpload(e, index)}
                 />
               </IconButton>
             </InputAdornment>

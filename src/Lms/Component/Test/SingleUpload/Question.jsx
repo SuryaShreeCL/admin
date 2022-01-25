@@ -1,6 +1,6 @@
-import React from 'react';
-import TextEditor from '../../../Utils/TextEditor';
-import { QDiv, T4, EditorBox } from '../../../Assets/StyledTest';
+import React from "react";
+import { EditorBox, QDiv, T4 } from "../../../Assets/StyledTest";
+import TextEditor from "../../../Utils/TextEditor";
 
 function Question(props) {
   const {

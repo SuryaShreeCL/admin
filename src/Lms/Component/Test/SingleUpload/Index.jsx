@@ -1,25 +1,27 @@
-import React, { Component } from 'react';
-import { C2, H1 } from '../../../Assets/StyledComponents';
-import DropDownRack from './DropDownRack';
-import { connect } from 'react-redux';
+import QueryString from "qs";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { lms_add_test } from "../../../../Component/RoutePaths";
+import { C2, H1 } from "../../../Assets/StyledComponents";
 import {
-  getSubjects,
   getConcepts,
+  getSubjects,
   getTopics2,
   putImage,
-} from '../../../Redux/Action/CourseMaterial';
-import Answer from './Answer';
-import Explanation from './Explanation';
-import Buttons from './Buttons';
-import Question from './Question';
-import QueryString from 'qs';
+} from "../../../Redux/Action/CourseMaterial";
 import {
-  postQuestions,
-  getQuestions,
   cleanEditData,
-} from '../../../Redux/Action/Test';
-import { lms_add_test } from '../../../../Component/RoutePaths';
-import PopUps from './PopUps';
+  getQuestions,
+  postQuestions,
+  previewTestData,
+} from "../../../Redux/Action/Test";
+import Answer from "./Answer";
+import Buttons from "./Buttons";
+import DropDownRack from "./DropDownRack";
+import Explanation from "./Explanation";
+import PopUps from "./PopUps";
+import Question from "./Question";
+import QuestionPreview from "./preview/Index";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -32,22 +34,25 @@ export class Index extends Component {
     super(props);
 
     this.state = {
-      activeSubject: '',
-      activeConcept: '',
-      activeTopic: '',
-      activeLevel: '',
+      activeSubject: "",
+      activeConcept: "",
+      activeTopic: "",
+      activeLevel: "",
       expectedTime: 0,
       checked: false,
       activeTab: 0,
       bucketArray: [],
-      answerType: '',
+      answerType: "",
       anchorEl: null,
-      text: '',
-      question: '',
-      description: '',
-      url: '',
+      text: "",
+      question: "",
+      description: "",
+      url: "",
       alert: null,
       editableData: null,
+      openPreview: false,
+      imgURL: "",
+      previewTestDataModel: null,
     };
   }
 
@@ -60,7 +65,6 @@ export class Index extends Component {
     );
 
     if (questionId) {
-      console.log(questionId);
       this.props.getQuestions(questionId, response => {
         if (response.success) {
           const {
@@ -72,6 +76,7 @@ export class Index extends Component {
             subject,
             concept,
             topic,
+            imgURL,
           } = response.data;
           // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
           this.setState({
@@ -79,14 +84,16 @@ export class Index extends Component {
             expectedTime,
             question,
             description,
-            checked: type === 'BUNDLE' ? true : false,
-            answerType: type === 'BUNDLE' ? 'SINGLE_SELECT' : type,
+            checked: type === "BUNDLE" ? true : false,
+            answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
             bucketArray: response.data.questionChoices,
             text: response.data.explanation,
             url: response.data.explanationVideo,
+            url: response.data.video ? response.data.video.videoUrl : "",
             activeSubject: subject !== null ? subject.id : null,
             activeConcept: concept !== null ? concept.id : null,
             activeTopic: topic !== null ? topic.id : null,
+            imgURL: imgURL,
             // editableData: { response },
           });
         }
@@ -115,6 +122,18 @@ export class Index extends Component {
           );
         }
       });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { previewTestDataModel } = this.state;
+    const { previewData } = this.props;
+    if (
+      previewData &&
+      previewData.success &&
+      previewData !== prevProps.previewData
+    ) {
+      this.setState({ previewTestDataModel: previewData.data });
     }
   }
 
@@ -161,20 +180,20 @@ export class Index extends Component {
     if (!this.state.checked) {
       this.setState({
         checked: !this.state.checked,
-        answerType: 'SINGLE_SELECT',
+        answerType: "SINGLE_SELECT",
         bucketArray: [
           {
-            tabLabel: 'Bucket 1',
+            tabLabel: "Bucket 1",
             choices: [
-              { id: null, text: '', image: null, selected: false },
-              { id: null, text: '', image: null, selected: false },
+              { id: null, text: "", image: null, selected: false },
+              { id: null, text: "", image: null, selected: false },
             ],
           },
           {
-            tabLabel: 'Bucket 2',
+            tabLabel: "Bucket 2",
             choices: [
-              { id: null, text: '', image: null, selected: false },
-              { id: null, text: '', image: null, selected: false },
+              { id: null, text: "", image: null, selected: false },
+              { id: null, text: "", image: null, selected: false },
             ],
           },
         ],
@@ -182,7 +201,7 @@ export class Index extends Component {
     } else {
       this.setState({
         checked: !this.state.checked,
-        answerType: '',
+        answerType: "",
         bucketArray: [],
         activeTab: 0,
       });
@@ -197,20 +216,23 @@ export class Index extends Component {
     let arr = this.state.bucketArray;
     let count = this.state.bucketArray.length + 1;
     arr.push({
-      tabLabel: 'Bucket ' + count,
+      tabLabel: "Bucket " + count,
 
-      choices: [{ text: '', image: null, selected: false }],
+      choices: [
+        { id: null, text: "", image: null, selected: false },
+        { id: null, text: "", image: null, selected: false },
+      ],
     });
     this.setState({ bucketArray: arr, activeTab: count - 1 });
   };
 
   handleRadioChange = e => {
-    if (e.target.value === 'SUBJECTIVE') {
+    if (e.target.value === "SUBJECTIVE") {
       this.setState({
         answerType: e.target.value,
         bucketArray: [
           {
-            choices: [{ id: null, text: '', image: null, selected: true }],
+            choices: [{ id: null, text: "", image: null, selected: true }],
           },
         ],
       });
@@ -220,8 +242,8 @@ export class Index extends Component {
         bucketArray: [
           {
             choices: [
-              { id: null, text: '', image: null, selected: false },
-              { id: null, text: '', image: null, selected: false },
+              { id: null, text: "", image: null, selected: false },
+              { id: null, text: "", image: null, selected: false },
             ],
           },
         ],
@@ -230,7 +252,7 @@ export class Index extends Component {
 
   handleCheckBoxes = e => {
     const { activeTab } = this.state;
-    if (this.state.answerType === 'SINGLE_SELECT') {
+    if (this.state.answerType === "SINGLE_SELECT") {
       let arr = this.state.bucketArray;
       if (arr[activeTab].choices[e.target.value].selected) {
         arr[activeTab].choices[e.target.value].selected = false;
@@ -241,7 +263,7 @@ export class Index extends Component {
         this.setState({ bucketArray: arr });
       }
     }
-    if (this.state.answerType === 'MULTI_CHOICE') {
+    if (this.state.answerType === "MULTI_CHOICE") {
       let arr = this.state.bucketArray;
 
       arr[activeTab].choices[e.target.value].selected = !arr[activeTab].choices[
@@ -252,11 +274,14 @@ export class Index extends Component {
   };
 
   handleAddOption = () => {
-    if (this.state.bucketArray[this.state.activeTab].choices.length < 5) {
+    let limit = 5;
+    if (this.state.answerType === "MULTI_CHOICE") limit = 10;
+
+    if (this.state.bucketArray[this.state.activeTab].choices.length < limit) {
       let arr = this.state.bucketArray;
       arr[this.state.activeTab].choices.push({
         id: null,
-        text: '',
+        text: "",
         image: null,
         selected: false,
       });
@@ -266,8 +291,7 @@ export class Index extends Component {
 
   handleImageUpload = (e, index) => {
     const formData = new FormData();
-    formData.append('file', e.target.files[0]);
-    console.log(e.target.files[0].name);
+    formData.append("file", e.target.files[0]);
     if (e.target.files[0].name.match(/.(png|svg|jpeg|jpg)$/i)) {
       this.props.putImage(formData, response => {
         if (response.success) {
@@ -280,8 +304,8 @@ export class Index extends Component {
     } else
       this.setState({
         alert: {
-          severity: 'error',
-          msg: 'Please select a valid image (.jpeg | .png | .jpg | .svg )',
+          severity: "error",
+          msg: "Please select a valid image (.jpeg | .png | .jpg | .svg )",
         },
       });
   };
@@ -301,7 +325,7 @@ export class Index extends Component {
     if (arr.length > 2) {
       arr.pop();
       this.setState({
-        activeTab: this.state.activeTab - 1,
+        activeTab: this.state.activeTab > 0 ? this.state.activeTab - 1 : 0,
         bucketArray: arr,
         anchorEl: null,
       });
@@ -371,21 +395,21 @@ export class Index extends Component {
     ) {
       this.setState({
         alert: {
-          severity: 'error',
-          msg: 'Please fill the required fields',
+          severity: "error",
+          msg: "Please fill the required fields",
         },
       });
     } else if (this.hasDuplicates()) {
       this.setState({
         alert: {
-          severity: 'error',
-          msg: 'Please change duplicate options',
+          severity: "error",
+          msg: "Please change duplicate options",
         },
       });
     } else {
       const obj = {
         id: questionId !== undefined ? questionId : null,
-        name: '',
+        name: "",
         type: this.getType(),
         difficultyLevel: activeLevel.toUpperCase(),
         expectedTime: expectedTime,
@@ -396,15 +420,21 @@ export class Index extends Component {
         choices: this.getChoices(),
         explanation: this.state.text,
         explanationVideo: this.state.url,
+        video: { videoUrl: this.state.url },
       };
-
-      // console.log(obj);
 
       this.props.postQuestions(testQuestionSetId, obj, response => {
         if (response.success) {
           this.props.history.push(
-            lms_add_test + '?testQuestionSetId=' + testQuestionSetId
+            lms_add_test + "?testQuestionSetId=" + testQuestionSetId
           );
+        } else {
+          this.setState({
+            alert: {
+              severity: "error",
+              msg: response.message,
+            },
+          });
         }
       });
     }
@@ -419,7 +449,7 @@ export class Index extends Component {
       testQuestionSetId = this.props.editData.data.testQuestionsSetId;
 
     this.props.history.push(
-      lms_add_test + '?testQuestionSetId=' + testQuestionSetId
+      lms_add_test + "?testQuestionSetId=" + testQuestionSetId
     );
   };
 
@@ -439,19 +469,18 @@ export class Index extends Component {
 
   getType = () => {
     if (this.state.checked) {
-      return 'BUNDLE';
+      return "BUNDLE";
     } else return this.state.answerType;
   };
 
   getChoices = () => {
     let arr = this.state.bucketArray;
     let choices = [];
-    console.log(arr);
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr[i].choices.length; j++) {
         choices.push({
           id: arr[i].choices[j].id,
-          type: arr[i].choices[j].text === null ? 'IMAGE' : 'TEXT',
+          type: arr[i].choices[j].text === null ? "IMAGE" : "TEXT",
           text:
             arr[i].choices[j].text === null
               ? // || arr[i].choices[j].text.length !== 0
@@ -487,7 +516,7 @@ export class Index extends Component {
     let arr = this.state.bucketArray;
     let choices = [];
 
-    if (this.getType() === 'BUNDLE') {
+    if (this.getType() === "BUNDLE") {
       let value = 0;
 
       for (let i = 0; i < arr.length; i++) {
@@ -523,11 +552,57 @@ export class Index extends Component {
     return new Set(choices).size !== choices.length;
   };
 
+  isEmptyCheck = string => {
+    if (string && string.toString().trim().length !== 0) return true;
+    else return false;
+  };
+
+  handlePreviewClick = () => {
+    const { description, activeLevel, question, answerType } = this.state;
+    let { questionId, sectionId, testQuestionSetId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
+    const topicId = sessionStorage.getItem("topicId");
+
+    let requestBody = {
+      choices: this.getChoices(),
+      isHaveDescription: this.isEmptyCheck(description),
+      topicId: topicId ? topicId : null,
+      testQuestionsSetId: testQuestionSetId ? testQuestionSetId : null,
+      testSectionId: sectionId ? sectionId : null,
+      type: this.getType(),
+    };
+    let question_id = questionId ? questionId : "NO_QUESTION";
+
+    if (
+      question.length === 0 ||
+      answerType.length === 0 ||
+      activeLevel.length === 0 ||
+      this.choiceEmptyCheck() ||
+      this.choicesSelectEmptyCheck()
+    ) {
+      this.setState({
+        alert: {
+          severity: "error",
+          msg: "Please fill the required fields",
+        },
+      });
+    } else {
+      this.props.previewTestData(question_id, requestBody);
+      this.setState({ openPreview: true });
+    }
+  };
+
+  handleClosePreview = () => {
+    this.setState({ openPreview: false });
+  };
+
   render() {
-    console.log(this.state, this.props);
     const { subjects, concepts, topics, editData } = this.props;
 
-    // console.log(this.state.answerType);
     const {
       activeSubject,
       activeConcept,
@@ -544,6 +619,9 @@ export class Index extends Component {
       question,
       description,
       alert,
+      openPreview: open,
+      imgURL,
+      previewTestDataModel,
     } = this.state;
 
     const {
@@ -570,12 +648,16 @@ export class Index extends Component {
       handleQuestionChange,
       handleDescriptionChange,
       handlePopUpClose,
+      handlePreviewClick,
+      handleClosePreview,
     } = this;
 
+    const { history, location, match } = this.props;
+
     const difficulty = [
-      { id: 'Easy', title: 'Easy' },
-      { id: 'Medium', title: 'Medium' },
-      { id: 'Hard', title: 'Hard' },
+      { id: "Easy", title: "Easy" },
+      { id: "Medium", title: "Medium" },
+      { id: "Hard", title: "Hard" },
     ];
 
     let dropDownRackProps = {
@@ -625,6 +707,7 @@ export class Index extends Component {
     const buttonsProps = {
       handleSaveClick,
       handleCancelClick,
+      handlePreviewClick,
     };
 
     const questionProps = {
@@ -639,10 +722,37 @@ export class Index extends Component {
       alert,
     };
 
+    const questionPreviewProps = {
+      open,
+      handleClose: handleClosePreview,
+      history,
+      location,
+      match,
+      testResponse: {
+        data: {
+          question,
+          type: this.getType(),
+          isHaveDescription: this.isEmptyCheck(description),
+          choices: this.getChoices(),
+          description,
+          totalBundle: bucketArray.length,
+          imgURL,
+          isHaveImage: false,
+          ...previewTestDataModel,
+          video: url,
+          videoExplanation: text,
+        },
+      },
+    };
+
+    const id = QueryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    }).questionId;
+
     return (
       <div>
         <C2>
-          <H1>Add new Question</H1>
+          <H1>{id !== undefined ? "Edit Test" : "Add New Test"}</H1>
           <DropDownRack {...dropDownRackProps} />
           <Question {...questionProps} />
           <Answer {...answerProps} />
@@ -650,6 +760,7 @@ export class Index extends Component {
         </C2>
         <Buttons {...buttonsProps} />
         <PopUps {...popUpProps} />
+        {previewTestDataModel && <QuestionPreview {...questionPreviewProps} />}
       </div>
     );
   }
@@ -661,6 +772,7 @@ const mapStateToProps = state => {
     concepts: state.CourseMaterialReducer.concepts,
     topics: state.CourseMaterialReducer.topics,
     editData: state.TestReducer.editData,
+    previewData: state.TestReducer.previewData,
   };
 };
 
@@ -672,4 +784,5 @@ export default connect(mapStateToProps, {
   postQuestions,
   getQuestions,
   cleanEditData,
+  previewTestData,
 })(Index);

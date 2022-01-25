@@ -343,50 +343,54 @@ handleSaved=()=>{
         return {id : eachCountry.id}
       })
       let obj = {
-        "student": {
-            "firstName": this.state.firstName,
-            "lastName": this.state.lastName,
-            "studentID": this.state.studentId,
-            "emailId": this.state.eMail,
-            "phoneNumber": this.state.phoneNumber,
-            "expectedYrOfGrad": this.state.expectedYear.value,
-            "currentSem": this.state.sem.value,
-            "chosenTrack" : this.state.choosentrack !== null ? this.state.choosentrack : null,
-            "enrollmentPeriod": this.state.enrollmentPeriod !== null ?  this.state.enrollmentPeriod : null,
-            "UGGPAScale": parseFloat(
-              this.state.uggpaScale.title === "%"
-                ? 100
-                : this.state.uggpaScale.title
-            ),
-            "UGGPA": parseFloat(this.state.uggpa),
-            "college": {
-                "name": this.state.college.name
-            },
-            "university": {
-                "name": this.state.university.name
-            },
-            "department": {
-                "name": this.state.department.name
-            },
-            "ugDegree": {
-                "name": this.state.ugDegree.name
-            }
+        student: {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          studentID: this.state.studentId,
+          emailId: this.state.eMail,
+          phoneNumber: this.state.phoneNumber,
+          expectedYrOfGrad: this.state.expectedYear.value,
+          currentSem: this.state.sem.value,
+          chosenTrack:
+            this.state.choosentrack !== null ? this.state.choosentrack : null,
+          enrollmentPeriod:
+            this.state.enrollmentPeriod !== null
+              ? this.state.enrollmentPeriod
+              : null,
+          UGGPAScale: parseFloat(
+            this.state.uggpaScale.title === "%"
+              ? 100
+              : this.state.uggpaScale.title
+          ),
+          UGGPA: parseFloat(this.state.uggpa),
+          college: {
+            name: this.state.college.name,
+          },
+          university: {
+            name: this.state.university.name,
+          },
+          department: {
+            name: this.state.department.name,
+          },
+          ugDegree: {
+            name: this.state.ugDegree.name,
+          },
         },
-        "aspirationModel": {
-        "degrees": aspirationDegree,
-        "branches": aspirationBranches,
-        "specializations": aspirationSpecialization,
-        "countries": aspirationCountries,
-        "terms":[],
-        "year": null,
-        "noOfSchool": null
-    },
-    "product":{
-        "name": this.state.package,
-        "courseOpted": this.state.courseOpted,
-        "googleDriveLink": this.state.s3Link
-    }
-    }
+        aspirationModel: {
+          degrees: aspirationDegree,
+          branches: aspirationBranches,
+          specializations: aspirationSpecialization,
+          countries: aspirationCountries,
+          terms: [],
+          year: null,
+          noOfSchool: null,
+        },
+        product: {
+          name: this.state.package,
+          courseOpted: this.state.courseOpted,
+          googleDriveLink: this.state.s3Link,
+        },
+      };
 
     this.props.postGenralDetails(this.props.id, obj)
 

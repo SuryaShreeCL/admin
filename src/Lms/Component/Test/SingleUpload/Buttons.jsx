@@ -1,18 +1,30 @@
-import React from 'react';
-import { ButtonBox, buttonTheme } from '../../../Assets/StyledTest';
-import { ThemeProvider } from '@material-ui/core';
-import { Button } from '@material-ui/core';
-import Triangle from '../../../Assets/icons/Triangle.svg';
+import { Button, ThemeProvider } from "@material-ui/core";
+import React from "react";
+import { ButtonBox, buttonTheme } from "../../../Assets/StyledTest";
+import PlayArrowOutlinedIcon from "@material-ui/icons/PlayArrowOutlined";
 
 function Buttons(props) {
-  const { handleSaveClick, handleCancelClick } = props;
+  const { handleSaveClick, handleCancelClick, handlePreviewClick } = props;
   return (
     <ButtonBox>
       <ThemeProvider theme={buttonTheme}>
-        <Button variant='outlined' color='primary' onClick={handleCancelClick}>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={
+            <PlayArrowOutlinedIcon
+              fontSize="large"
+              style={{ fontSize: "2.1875rem" }}
+            />
+          }
+          onClick={handlePreviewClick}
+        >
+          Preview
+        </Button>
+        <Button variant="outlined" color="primary" onClick={handleCancelClick}>
           Cancel
         </Button>
-        <Button variant='contained' color='primary' onClick={handleSaveClick}>
+        <Button variant="contained" color="primary" onClick={handleSaveClick}>
           Save
         </Button>
       </ThemeProvider>

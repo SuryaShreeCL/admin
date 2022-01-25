@@ -202,4 +202,16 @@
 .flex-filler {
   display: flex;
   flex-grow: 1;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 100%;
+}
+
+.flex-filler p {
+  padding-bottom: 1px;
+}
+
+.task-body {
+  padding: 8px;
 }

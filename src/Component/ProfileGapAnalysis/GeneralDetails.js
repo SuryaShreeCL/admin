@@ -1,56 +1,39 @@
-import React, { Component } from "react";
-import { isAlpha } from "../Validation";
-import {
-  createTheme,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  TextField,
-  Typography,
-  ThemeProvider,
-  DialogActions,
-  withStyles,
-  Popover,
-  Menu,
-  MenuItem,
-  Card,
-} from "@material-ui/core";
-import {
-  getAllColleges,
-  getDegree,
-  getBranches,
-  getPGDegree,
-  getUniversity,
-} from "./../../Actions/College";
-import { Autocomplete } from "@material-ui/lab";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  getgeneraldetails,
-  getstatus,
-  getcommenthistory,
-  updatestatus,
-  updategeneraldetails,
-} from "../../Actions/ProfileGapAction";
+  Card, createTheme,
+  Dialog, DialogActions, DialogContent,
+  DialogTitle,
+  Grid, Menu,
+  MenuItem, TextField, ThemeProvider, Typography, withStyles
+} from "@material-ui/core";
+import { ExpandMore } from "@material-ui/icons";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import { Autocomplete } from "@material-ui/lab";
 import {
-  getAllSpecialization,
-  getAllUniversity,
+  KeyboardDatePicker, MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
   getAllBranch,
-  getAllDegree,
+  getAllDegree, getAllSpecialization,
+  getAllUniversity
 } from "../../Actions/Aspiration";
 import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import { connect } from "react-redux";
+  getcommenthistory, getgeneraldetails,
+  getstatus, updategeneraldetails, updatestatus
+} from "../../Actions/ProfileGapAction";
+import "../../Asset/ProfileGapAnalysis.css";
 import Dot from "../../Utils/Dot";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import { isAlpha } from "../Validation";
+import {
+  getAllColleges, getBranches, getDegree, getPGDegree,
+  getUniversity
+} from "./../../Actions/College";
 import Mysnack from "./../MySnackBar";
 import CommentDialog from "./CommentDialog";
 import CvViewer from "./CvViewer";
-import { ExpandMore } from "@material-ui/icons";
-import "../../Asset/ProfileGapAnalysis.css";
 const theme = createTheme({
   overrides: {
     MuiGrid: {
@@ -337,7 +320,47 @@ class GeneralDetails extends Component {
       }
     );
   }
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.getgeneraldetailsList !== this.props.getgeneraldetailsList) {
+      this.setState({
+        clsid: this.props.getgeneraldetailsList.studentDetails?.clsId,
+        firstname: this.props.getgeneraldetailsList.studentDetails?.firstName,
+        lastname: this.props.getgeneraldetailsList.studentDetails?.lastName,
+        phone: this.props.getgeneraldetailsList.studentDetails?.phoneNumber,
+        email: this.props.getgeneraldetailsList.studentDetails?.emailId,
+        workexp: this.props.getgeneraldetailsList.studentDetails
+          ?.workExperience,
+        pgcollege: this.props.getgeneraldetailsList.studentDetails
+          ?.postGraduateCollege,
+        pgdegree: this.props.getgeneraldetailsList.studentDetails
+          ?.postGraduateDegree,
+        pguniversity: this.props.getgeneraldetailsList.studentDetails
+          ?.postGraduateUniversity,
+        college: this.props.getgeneraldetailsList.studentDetails?.college,
+        degree: this.props.getgeneraldetailsList.studentDetails?.degree,
+        fieldofstudy: this.props.getgeneraldetailsList.studentDetails
+          ?.fieldOfStudy,
+        sem: this.props.getgeneraldetailsList.studentDetails?.currentSem,
+        areaofspecialisation: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationAreaOfSpecializations,
+        package: this.props.getgeneraldetailsList.packageDetails
+          ?.packagedPurchased,
+        product: this.props.getgeneraldetailsList.packageDetails?.pgaProduct,
+        intake: this.props.getgeneraldetailsList.packageDetails?.pgaIntake && {
+          title: this.props.getgeneraldetailsList.packageDetails?.pgaIntake,
+        },
+        enrollmentdate: this.props.getgeneraldetailsList.packageDetails
+          ?.enrollmentDate,
+        prefschool: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationUniversities,
+        round: this.props.getgeneraldetailsList.packageDetails?.round,
+        aspdegree: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationDegrees,
+        aspfieldofstudy: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationBranches,
+      });
+    }
+  }
   handlestatus = (status) => {
     let obj = {
       fieldName: this.state.field,
@@ -500,7 +523,7 @@ class GeneralDetails extends Component {
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "black" }} />}
                     expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    options={this.props.getPGDegreeList}
+                    options={this.props.getPGDegreeList || []}
                     getOptionLabel={(option) => option.name}
                     value={this.state.pgdegree}
                     onChange={(e, newValue) => {
@@ -549,7 +572,7 @@ class GeneralDetails extends Component {
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "black" }} />}
-                    options={this.props.getAllCollegesList}
+                    options={this.props.getAllCollegesList || []}
                     getOptionLabel={(option) => option.name}
                     value={this.state.pgcollege}
                     onChange={(e, newValue) => {
@@ -599,7 +622,7 @@ class GeneralDetails extends Component {
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "black" }} />}
-                    options={this.props.getpguniversity}
+                    options={this.props.getpguniversity || []}
                     getOptionLabel={(option) => option.name}
                     value={this.state.pguniversity}
                     onChange={(e, newValue) => {
@@ -696,7 +719,7 @@ class GeneralDetails extends Component {
               <div style={{ paddingLeft: "10px", width: "100%" }}>
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "black" }} />}
-                  options={this.props.getAllCollegesList}
+                  options={this.props.getAllCollegesList || []}
                   getOptionLabel={(option) => option.name}
                   value={this.state.college}
                   onChange={(e, newValue) => {
@@ -785,7 +808,7 @@ class GeneralDetails extends Component {
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               disabled
               id="tags-outlined"
-              options={this.state.aspdegree}
+              options={this.state.aspdegree || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -812,7 +835,7 @@ class GeneralDetails extends Component {
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="tags-outlined"
-              options={this.state.aspfieldofstudy}
+              options={this.state.aspfieldofstudy || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               className={"package_style"}
@@ -835,7 +858,7 @@ class GeneralDetails extends Component {
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               multiple
               disabled
-              options={this.state.specialisation}
+              options={this.state.specialisation || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -865,7 +888,7 @@ class GeneralDetails extends Component {
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="tags-outlined"
-              options={this.state.university}
+              options={this.state.university || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -901,7 +924,7 @@ class GeneralDetails extends Component {
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="tags-outlined"
-              options={this.state.aspdegree}
+              options={this.state.aspdegree || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -948,7 +971,7 @@ class GeneralDetails extends Component {
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="tags-outlined"
-              options={this.state.aspfieldofstudy}
+              options={this.state.aspfieldofstudy || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -976,7 +999,7 @@ class GeneralDetails extends Component {
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               multiple
               disabled
-              options={this.state.specialisation}
+              options={this.state.specialisation || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -1006,7 +1029,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               id="tags-outlined"
-              options={this.state.university}
+              options={this.state.university || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -1242,6 +1265,7 @@ class GeneralDetails extends Component {
   ];
   render() {
     const { classes } = this.props;
+
     return (
       <div>
         <Grid container className={classes.root}>
@@ -1526,7 +1550,7 @@ class GeneralDetails extends Component {
                       <div style={{ paddingLeft: "10px", width: "100%" }}>
                         <Autocomplete
                           popupIcon={<ExpandMore style={{ color: "black" }} />}
-                          options={this.props.getDegreeList}
+                          options={this.props.getDegreeList || []}
                           getOptionLabel={(option) => option.name}
                           value={this.state.degree}
                           onChange={(e, newValue) => {
@@ -1576,7 +1600,7 @@ class GeneralDetails extends Component {
                       <div style={{ paddingLeft: "10px", width: "100%" }}>
                         <Autocomplete
                           popupIcon={<ExpandMore style={{ color: "black" }} />}
-                          options={this.props.getBranchesList}
+                          options={this.props.getBranchesList || []}
                           getOptionLabel={(option) => option.name}
                           value={this.state.fieldofstudy}
                           onChange={(e, newValue) => {
@@ -1630,7 +1654,7 @@ class GeneralDetails extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "black" }} />
                             }
-                            options={this.props.getAllCollegesList}
+                            options={this.props.getAllCollegesList || []}
                             getOptionLabel={(option) => option.name}
                             value={this.state.college}
                             onChange={(e, newValue) => {

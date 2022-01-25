@@ -1,6 +1,6 @@
-import { Divider, Snackbar } from '@material-ui/core';
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Divider, Snackbar } from "@material-ui/core";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Container,
   DropDownBox,
@@ -12,24 +12,24 @@ import {
   FileName,
   C2,
   C1,
-} from '../../../Assets/StyledComponents';
-import DropDown from '../../../Utils/DropDown';
-import { RadioButtonsGroup } from '../../../Utils/RadioButton';
-import Dropzone from 'react-dropzone';
-import { ThemeProvider } from 'styled-components';
-import { ColorScheme } from '../../../Assets/StyledComponents';
-import { Button } from '@material-ui/core';
-import { connect } from 'react-redux';
+} from "../../../Assets/StyledComponents";
+import DropDown from "../../../Utils/DropDown";
+import { RadioButtonsGroup } from "../../../Utils/RadioButton";
+import Dropzone from "react-dropzone";
+import { ThemeProvider } from "styled-components";
+import { ColorScheme } from "../../../Assets/StyledComponents";
+import { Button } from "@material-ui/core";
+import { connect } from "react-redux";
 import {
   getQuestionType,
   setQuestionData,
   setQuestionDataWithId,
   getTemplate,
   getTopicList,
-} from '../../../Redux/Action/Test';
-import Alert from '@material-ui/lab/Alert';
-import { lmsTest, single_upload } from '../../../../Component/RoutePaths';
-import { lms_add_test } from '../../../../Component/RoutePaths';
+} from "../../../Redux/Action/Test";
+import Alert from "@material-ui/lab/Alert";
+import { lmsTest, single_upload } from "../../../../Component/RoutePaths";
+import { lms_add_test } from "../../../../Component/RoutePaths";
 
 class Index extends Component {
   constructor(props) {
@@ -38,10 +38,10 @@ class Index extends Component {
     this.state = {
       dropDownValue: null,
       files: [],
-      selectedType: '',
+      selectedType: "",
       alertState: false,
-      alertMsg: '',
-      alertSeverity: '',
+      alertMsg: "",
+      alertSeverity: "",
       activeValue: 2,
     };
   }
@@ -64,35 +64,35 @@ class Index extends Component {
       this.setState({
         files,
         alertState: false,
-        alertMsg: '',
-        alertSeverity: '',
+        alertMsg: "",
+        alertSeverity: "",
       });
     else {
       this.setState({
         alertState: true,
-        alertMsg: 'Please upload a .xls, .xlsx or csv file',
-        alertSeverity: 'error',
+        alertMsg: "Please upload a .xls, .xlsx or csv file",
+        alertSeverity: "error",
       });
     }
   };
 
   handleButtonClick = () => {
-    if (this.state.selectedType === '') {
+    if (this.state.selectedType === "") {
       this.setState({
         alertState: true,
-        alertMsg: 'Please select a Question Type',
-        alertSeverity: 'error',
+        alertMsg: "Please select a Question Type",
+        alertSeverity: "error",
       });
     } else if (this.state.files.length === 0) {
       this.setState({
         alertState: true,
-        alertMsg: 'Please upload a file',
-        alertSeverity: 'error',
+        alertMsg: "Please upload a file",
+        alertSeverity: "error",
       });
     } else if (this.state.files.length > 0) {
       const { testQuestionSetId, sectionId } = this.props.match.params;
       const formData = new FormData();
-      formData.append('file', this.state.files[0]);
+      formData.append("file", this.state.files[0]);
       if (sectionId !== undefined) {
         this.props.setQuestionDataWithId(
           testQuestionSetId,
@@ -105,12 +105,12 @@ class Index extends Component {
                 files: [],
                 alertState: true,
                 alertMsg: response.message,
-                alertSeverity: 'success',
+                alertSeverity: "success",
               });
 
               this.props.history.push(
                 lms_add_test +
-                  '?testQuestionSetId=' +
+                  "?testQuestionSetId=" +
                   this.props.match.params.testQuestionSetId
               );
             } else {
@@ -118,7 +118,7 @@ class Index extends Component {
                 files: [],
                 alertState: true,
                 alertMsg: response.message,
-                alertSeverity: 'error',
+                alertSeverity: "error",
               });
             }
           }
@@ -134,11 +134,11 @@ class Index extends Component {
                 files: [],
                 alertState: true,
                 alertMsg: response.message,
-                alertSeverity: 'success',
+                alertSeverity: "success",
               });
               this.props.history.push(
                 lms_add_test +
-                  '?testQuestionSetId=' +
+                  "?testQuestionSetId=" +
                   this.props.match.params.testQuestionSetId
               );
             } else {
@@ -146,7 +146,7 @@ class Index extends Component {
                 files: [],
                 alertState: true,
                 alertMsg: response.message,
-                alertSeverity: 'error',
+                alertSeverity: "error",
               });
             }
           }
@@ -160,13 +160,13 @@ class Index extends Component {
   };
 
   handleTemplateClick = () => {
-    if (this.state.selectedType === '') {
+    if (this.state.selectedType === "") {
       this.setState({
         alertState: true,
-        alertMsg: 'Please select a Question Type',
-        alertSeverity: 'error',
+        alertMsg: "Please select a Question Type",
+        alertSeverity: "error",
       });
-    } else window.open(this.props.template.data.url);
+    } else window.open(this.props.template.data.url, "_blank");
   };
 
   handleCancelClick = () => {
@@ -193,11 +193,11 @@ class Index extends Component {
       } = this;
 
       const radioData = {
-        name: 'Question Pattern',
+        name: "Question Pattern",
         activeValue: this.state.activeValue,
         radioItemData: [
-          { id: 1, label: 'By Single Question' },
-          { id: 2, label: 'Bulk Upload' },
+          { id: 1, label: "By Single Question" },
+          { id: 2, label: "Bulk Upload" },
         ],
         handleRadioChange: (event, name) => {
           const value = parseInt(event.target.value);
@@ -217,7 +217,7 @@ class Index extends Component {
               );
           }
         },
-        groupName: 'Question Pattern',
+        groupName: "Question Pattern",
       };
 
       return (
@@ -226,41 +226,41 @@ class Index extends Component {
             <H1>Add new Question</H1>
             <DropDownBox>
               <DropDown
-                label='Question Type'
-                name='questionType'
+                label="Question Type"
+                name="questionType"
                 items={questionType}
                 value={selectedType}
                 onChange={handleChange}
               />
             </DropDownBox>
             <C1>
-              <Link onClick={handleTemplateClick} className={'link_text'}>
+              <Link onClick={handleTemplateClick} className={"link_text"}>
                 Preview Template
               </Link>
               {this.props.match.params.courseId && (
                 <Link
                   onClick={handleTopicList}
-                  className={'link_text padding_left'}
+                  className={"link_text padding_left"}
                 >
                   Download Topic List
                 </Link>
               )}
             </C1>
-            <Divider className={'divider_style'} />
-            <H2 className={'padding'}>Question</H2>
+            <Divider className={"divider_style"} />
+            <H2 className={"padding"}>Question</H2>
             <RadioButtonsGroup radioData={radioData} />
-            <B1 style={{ paddingTop: '34px', paddingBottom: '16px' }}>
+            <B1 style={{ paddingTop: "34px", paddingBottom: "16px" }}>
               Upload file
             </B1>
             {/* <Drop /> */}
             <Dropzone onDrop={this.onDrop}>
               {({ getRootProps, getInputProps }) => (
                 <section>
-                  <div className={'drop_zone_style'} {...getRootProps()}>
+                  <div className={"drop_zone_style"} {...getRootProps()}>
                     <input
                       {...getInputProps()}
-                      type='file'
-                      accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+                      type="file"
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
                     <GreySpan>Drag & Drop your File or</GreySpan>
                     &nbsp;
@@ -279,17 +279,17 @@ class Index extends Component {
           </C2>
           <ThemeProvider theme={ColorScheme}>
             <Button
-              variant='outlined'
-              color='primary'
-              className={'round-button margin-style-right'}
+              variant="outlined"
+              color="primary"
+              className={"round-button margin-style-right"}
               onClick={handleCancelClick}
             >
               Cancel
             </Button>
             <Button
-              variant='contained'
-              color='primary'
-              className={'round-button margin-style-left'}
+              variant="contained"
+              color="primary"
+              className={"round-button margin-style-left"}
               onClick={this.handleButtonClick}
             >
               Send
@@ -299,7 +299,7 @@ class Index extends Component {
             <Alert
               onClose={handleClose}
               severity={this.state.alertSeverity}
-              variant='filled'
+              variant="filled"
             >
               {this.state.alertMsg}
             </Alert>
