@@ -30,6 +30,9 @@ import Controls from "../Utils/controls/Controls";
 import {
   getWallCategories,
 } from "../../Actions/WallActions";
+import {
+  uploadPremiumUsers,
+} from "../../Actions/PremiumUsersActions";
 
 const useStyles = makeStyles({
   root: {
@@ -62,35 +65,9 @@ const PremiumUserLanding = () => {
 
   
   const [state, setState] = useState({
-    wallCategories: [],
-    caption: "",
-    isEvent: location.type ?? false,
-    supportingMedia: location?.postType === "Webinar" ? "webinar" : "image",
-    wallFiles: [],
-    isWebinar: location?.postType === "Webinar",
-    canComment: false,
-    linkedSelfPrepVideos: null,
-    totalViews: 0,
-    totalLikes: 0,
-    linkedTest: null,
-    eventTitle: "",
-    linkedWebinars: [],
-    redirectionUrl: "",
-    zoomLink: "",
-    buttonText: "",
-    createdBy: window.sessionStorage.getItem("department") || "",
-    eventDate: new Date(),
-    resumeNeeded: false,
-    eventEndDate: new Date(),
-    selectedDate: new Date(),
-    isScheduled: false,
-    isVideoUrlEnabled: false,
-    videoUrl: "",
-    jobRole: "",
-    hostImageUrl: "",
-    banner: "",
-    platforms: [],
+    premiumUsersCategories: [],
   });
+  const [uploadDisabled, setUploadDisabled] = useState(false);
 
   useEffect(() => {
     dispatch(getWallCategories("Live"));
@@ -99,6 +76,59 @@ const PremiumUserLanding = () => {
 
 
   const { categories } = useSelector(state => state.getWallCategoriesReducer);
+
+  const handlePremiumUsersSheetUpload = async (e, formFieldsData) => {
+    if(formFieldsData?.premiumUsersCategories[0]?.name == "4th Year Premium"){
+      const file  =  e.currentTarget.files[0];
+      const fileType = e.currentTarget.files[0].name;
+      setUploadDisabled(true);
+      // File type must be sheet, .xlsx, .xls
+      if (fileType.includes(".xlsx") || fileType.includes(".xls")) {
+        let formData = new FormData();
+        formData.append("file", e.currentTarget.files[0]);
+        dispatch(
+          uploadPremiumUsers(formData, response => {
+            if (response.message == "Upload Success"){
+              setUploadDisabled(false);
+              setNotify({
+                isOpen: true,
+                message: "File Upload Successfully Done",
+                type: "success",
+              });
+            }else if(response.message == "Invalid Details Found"){
+              setUploadDisabled(false);
+              setNotify({
+                isOpen: true,
+                message: response.message,
+                type: "error",
+              });
+            }else{
+              setUploadDisabled(false);
+              setNotify({
+                isOpen: true,
+                message: "Please try later! Not able to upload file",
+                type: "error",
+              });
+            }
+          })
+        );
+      } else {
+        setUploadDisabled(false);
+        setNotify({
+          isOpen: true,
+          message: "Please upload an xlsx file",
+          type: "error",
+        });
+      }
+    }else {
+      setUploadDisabled(false);
+      setNotify({
+        isOpen: true,
+        message: "Please select '4th Year Premium' category",
+        type: "error",
+      });
+    }
+  }
 
   const [errorSchema, setErrorSchema] = useState({
     isVideoLink: false,
@@ -146,13 +176,10 @@ const PremiumUserLanding = () => {
             
           // }
           onSubmit={(values, { resetForm }) => {
-            // if (validate(values)) {
-            //   // createPost(
-            //   //   values,
-            //   //   location?.postType === "Webinar" ? "Scheduled" : "Live"
-            //   // );
-            //   // resetForm();
-            // }
+            let data = new FormData();
+            values.premiumUsersSheet.forEach((premiumUserSheet, index) => {
+              data.append(`premiumUsersSheet-${index}`, values.premiumUsersSheet[index]);
+            });
           }}
           enableReinitialize
         >
@@ -175,26 +202,26 @@ const PremiumUserLanding = () => {
                       <Grid container direction="row">
                       <Autocomplete
                         multiple
-                        id="wallCategories"
-                        name="wallCategories"
+                        id="premiumUsersCategories"
+                        name="premiumUsersCategories"
                         getOptionLabel={option => option?.name}
                         options={categories ?? []}
                         onChange={(e, value) => {
                           setFieldValue(
-                            "wallCategories",
+                            "premiumUsersCategories",
                             value !== null ? value : categories
                           );
                         }}
-                        value={values.wallCategories}
+                        value={values.premiumUsersCategories}
                         renderInput={params => (
                           <TextField
                             {...params}
                             label="Select Category"
-                            name="wallCategories"
+                            name="premiumUsersCategories"
                             variant="outlined"
                             error={
-                              touched.wallCategories &&
-                              Boolean(values.wallCategories.length === 0)
+                              touched.premiumUsersCategories &&
+                              Boolean(values.premiumUsersCategories.length === 0)
                             }
                           />
                         )}
@@ -208,27 +235,16 @@ const PremiumUserLanding = () => {
                       <Button
                           variant='contained'
                           component='label'
-                          // startIcon={<CloudUploadIcon />}
-                          color="primary"
+                          disabled={uploadDisabled}
+                          color={!uploadDisabled?"primary":"default"}
                           style={{margin: "auto", borderRadius: "26px", width: "200px", height: "50px" }}
                           >
-                          + Upload Sheet
+                          {!uploadDisabled?"+ Upload Sheet":"Uploading ..."}
                           <input
-                            name='avatar'
-                            accept='image/*'
-                            id='contained-button-file'
-                            type='file'
                             hidden
-                            onChange={(e) => {
-                              const fileReader = new FileReader();
-                              fileReader.onload = () => {
-                                // if (fileReader.readyState === 2) {
-                                //   setFieldValue('avatar', fileReader.result);
-                                //   setAvatarPreview(fileReader.result);
-                                // }
-                              };
-                              fileReader.readAsDataURL(e.target.files[0]);
-                            }}
+                            type="file"
+                            onChange={(e)=>handlePremiumUsersSheetUpload(e, values)}
+                            onClick={e => (e.currentTarget = null)}
                           />
                         </Button>
                       </Grid>

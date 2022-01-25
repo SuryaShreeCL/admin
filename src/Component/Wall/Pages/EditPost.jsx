@@ -316,7 +316,7 @@ const EditPost = () => {
                           value={values.wallCategories}
                           disabled={
                             (values?.wallCategories[0]?.name == "4th Year Premium" || 
-                            values?.wallCategories[0]?.name == "4th Year Fermium")?true:false
+                            values?.wallCategories[0]?.name == "4th Year Freemium")?true:false
                           }
                           renderInput={params => (
                             <TextField
