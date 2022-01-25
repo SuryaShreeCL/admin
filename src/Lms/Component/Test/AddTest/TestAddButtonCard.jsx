@@ -16,14 +16,14 @@ class TestAddButtonCard extends Component {
     super(props);
   }
 
-  renderQuestions = (
+  renderQuestions = ({
     questions,
     handleThreeDotClick,
-    popUpId,
     handleClose,
+    handleDelete,
+    popUpId,
     anchorEl,
-    handleDelete
-  ) => {
+  }) => {
     if (
       questions !== null &&
       questions !== undefined &&
@@ -73,8 +73,8 @@ class TestAddButtonCard extends Component {
       handleDelete,
       sectionData,
       tabValue,
+      popUpId,
     } = this.props;
-    // if(questions)
     return (
       <>
         <Grid
@@ -111,13 +111,14 @@ class TestAddButtonCard extends Component {
             </div>
           </Grid>
         </Grid>
-        {this.renderQuestions(
+        {this.renderQuestions({
           questions,
           handleThreeDotClick,
           handleClose,
           anchorEl,
-          handleDelete
-        )}
+          handleDelete,
+          popUpId,
+        })}
       </>
     );
   }
