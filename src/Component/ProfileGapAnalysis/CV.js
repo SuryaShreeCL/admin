@@ -4,45 +4,44 @@ import {
   withStyles,
   createTheme,
   ThemeProvider,
-} from "@material-ui/core";
-import React, { Component } from "react";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import { connect } from "react-redux";
-import PrimaryButton from "../../Utils/PrimaryButton";
+} from '@material-ui/core';
+import React, { Component } from 'react';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { connect } from 'react-redux';
+import PrimaryButton from '../../Utils/PrimaryButton';
 import {
   getcvresult,
   deletecvresult,
   updatecvresult,
-} from "../../Actions/ProfileGapAction";
-import MySnackBar from "../MySnackBar";
-import CvViewer from "./CvViewer";
+} from '../../Actions/ProfileGapAction';
+import MySnackBar from '../MySnackBar';
+import CvViewer from './CvViewer';
 class CV extends Component {
   constructor() {
     super();
     this.state = {
       cvarr: [
         {
-          id: "",
-          sectionName: "",
-          comments: "",
+          id: '',
+          sectionName: '',
+          comments: '',
           updatedBy: {
-            id: "",
+            id: '',
           },
         },
       ],
       getcv: [],
       snackOpen: false,
-      snackColor: "",
-      snackMsg: "",
+      snackColor: '',
+      snackMsg: '',
     };
   }
   componentDidMount() {
     this.props.getcvresult(
       this.props.match.params.studentId,
       this.props.match.params.productId,
-      (response) => {
-        console.log(response);
+      response => {
         if (response.data.length > 0) {
           this.setState({
             cvarr: response.data,
@@ -52,14 +51,14 @@ class CV extends Component {
     );
   }
   handleAdd = () => {
-    console.log("handleAdd");
+    console.log('handleAdd');
     let arr = this.state.cvarr;
     arr.push({
-      id: "",
-      sectionName: "",
-      comments: "",
+      id: '',
+      sectionName: '',
+      comments: '',
       updatedBy: {
-        id: "",
+        id: '',
       },
     });
     this.setState({
@@ -69,15 +68,15 @@ class CV extends Component {
   handleDelete = (data, index) => {
     console.log(data);
     if (this.state.cvarr.length > 1) {
-      console.log("delete");
+      console.log('delete');
       if (data.id.length > 0) {
-        this.props.deletecvresult(data.id, (response) => {
+        this.props.deletecvresult(data.id, response => {
           console.log(response);
           if (response.status === 200) {
             this.props.getcvresult(
               this.props.match.params.studentId,
               this.props.match.params.productId,
-              (response) => {
+              response => {
                 console.log(response);
                 this.setState({
                   cvarr: response.data,
@@ -87,13 +86,13 @@ class CV extends Component {
             this.setState({
               snackMsg: response.data,
               snackOpen: true,
-              snackColor: "success",
+              snackColor: 'success',
             });
           }
         });
       } else {
         if (this.state.cvarr.length > 1) {
-          console.log(index, "Delete");
+          console.log(index, 'Delete');
           let delarr = this.state.cvarr;
           delarr.splice(index, 1);
           this.setState({
@@ -112,8 +111,8 @@ class CV extends Component {
     this.setState({ cvarr: items });
   };
   handleSaved = () => {
-    console.log("hello");
-    const adminuserId = window.sessionStorage.getItem("adminUserId");
+    console.log('hello');
+    const adminuserId = window.sessionStorage.getItem('adminUserId');
     let obj = this.state.cvarr.map((eachItem, index) => {
       console.log(eachItem);
       // if (
@@ -165,12 +164,12 @@ class CV extends Component {
         this.props.match.params.studentId,
         this.props.match.params.productId,
         obj,
-        (response) => {
+        response => {
           if (response.status === 200) {
             this.props.getcvresult(
               this.props.match.params.studentId,
               this.props.match.params.productId,
-              (response) => {
+              response => {
                 console.log(response);
                 this.setState({
                   cvarr: response.data,
@@ -178,18 +177,18 @@ class CV extends Component {
               }
             );
             this.setState({
-              snackMsg: "Saved Successfully",
+              snackMsg: 'Saved Successfully',
               snackOpen: true,
-              snackColor: "success",
+              snackColor: 'success',
             });
           }
         }
       );
     } else {
       this.setState({
-        snackMsg: "Please Fill the Required Field",
+        snackMsg: 'Please Fill the Required Field',
         snackOpen: true,
-        snackColor: "error",
+        snackColor: 'error',
       });
     }
   };
@@ -197,31 +196,30 @@ class CV extends Component {
   theme = createTheme({
     overrides: {
       MuiGrid: {
-        "spacing-xs-3": {
-          padding: "0px",
-          width: "100%",
+        'spacing-xs-3': {
+          padding: '0px',
+          width: '100%',
         },
       },
     },
   });
   render() {
-    console.log(this.state);
     const { classes } = this.props;
     return (
       <div>
         <ThemeProvider theme={this.theme}>
           <Grid container>
-            <Grid item md={7} style={{marginTop : "10px"}}>
+            <Grid item md={7} style={{ marginTop: '10px' }}>
               <Grid container spacing={1} className={classes.cvinnergrid}>
                 <Grid item md={12} className={classes.cvmaingrid}>
                   {this.state.cvarr.map((data, index) => (
                     <Grid container spacing={3} className={classes.cvarrgrid}>
                       <Grid item md={12}>
                         <TextField
-                          label="Section Name"
+                          label='Section Name'
                           value={data.sectionName}
-                          onChange={(e) =>
-                            this.handleTextChange(e, index, "sectionName")
+                          onChange={e =>
+                            this.handleTextChange(e, index, 'sectionName')
                           }
                         />
                       </Grid>
@@ -230,8 +228,8 @@ class CV extends Component {
                           fullWidth
                           label="Editor/Mentor's Comment"
                           value={data.comments}
-                          onChange={(e) =>
-                            this.handleTextChange(e, index, "comments")
+                          onChange={e =>
+                            this.handleTextChange(e, index, 'comments')
                           }
                         />
                       </Grid>
@@ -239,13 +237,13 @@ class CV extends Component {
                         <div className={classes.icondiv}>
                           <AddCircleOutlineIcon
                             className={classes.addstyle}
-                            color="primary"
+                            color='primary'
                             onClick={() => {
                               this.handleAdd();
                             }}
                           />
                           <DeleteOutlineIcon
-                            color="secondary"
+                            color='secondary'
                             onClick={() => {
                               this.handleDelete(data, index);
                             }}
@@ -279,8 +277,8 @@ class CV extends Component {
                     <hr />
                     <div className={classes.buttondiv}>
                       <PrimaryButton
-                        variant={"contained"}
-                        color={"primary"}
+                        variant={'contained'}
+                        color={'primary'}
                         onClick={() => this.handleSaved()}
                         className={classes.buttonstyle}
                       >
@@ -298,7 +296,7 @@ class CV extends Component {
               />
             </Grid>
             <Grid item md={5}>
-              <CvViewer doctype={"cv"} {...this.props} />
+              <CvViewer doctype={'cv'} {...this.props} />
             </Grid>
           </Grid>
         </ThemeProvider>
@@ -306,58 +304,57 @@ class CV extends Component {
     );
   }
 }
-const useStyles = (theme) => ({
+const useStyles = theme => ({
   cvmaingrid: {
-    maxHeight: "89vh",
-    overflowY: "scroll",
+    maxHeight: '89vh',
+    overflowY: 'scroll',
   },
   cvinnergrid: {
-    height: "100%",
+    height: '100%',
   },
   cvarrgrid: {
-    padding: "20px",
+    padding: '20px',
   },
   icongrid: {
-    display: "flex",
-    alignItems: "end",
+    display: 'flex',
+    alignItems: 'end',
   },
   icondiv: {
-    display: "flex",
+    display: 'flex',
   },
   addstyle: {
-    marginRight: "8px",
+    marginRight: '8px',
   },
   bottommain: {
-    height: "84px",
-    display: "flex",
-    alignSelf: "flex-end",
+    height: '84px',
+    display: 'flex',
+    alignSelf: 'flex-end',
   },
   bottominnergrid: {
-    width: "964px",
-    marginLeft: "10px",
-    marginRight: "11px",
-    marginTop: "10px",
+    width: '964px',
+    marginLeft: '10px',
+    marginRight: '11px',
+    marginTop: '10px',
   },
   bottomsecondgrid: {
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
   buttondiv: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "flex-end",
-    marginTop: "-8px",
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    marginTop: '-8px',
   },
   buttonstyle: {
-    width: "100px",
-    display: "flex",
-    marginRight: "21px",
-    marginBottom: "2px",
+    width: '100px',
+    display: 'flex',
+    marginRight: '21px',
+    marginBottom: '2px',
   },
 });
-const mapStateToProps = (state) => {
-  console.log(state);
+const mapStateToProps = state => {
   return {
     getcvresultList: state.ProfileGapAnalysisReducer.getcvresult,
     deletecvresultList: state.ProfileGapAnalysisReducer.deletecvresult,
