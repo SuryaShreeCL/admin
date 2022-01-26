@@ -5,12 +5,12 @@ import { errorHandler } from '../Component/Utils/Helpers';
 
 const BASE_URL = `${URL}/api/v1`;
 
-export const reviewCompleted = (studentId, productId, id) => {
+export const reviewCompleted = (studentId, productId) => {
   let accessToken = window.sessionStorage.getItem('accessToken');
   return dispatch => {
     axios
       .put(
-        `${BASE_URL}/cv/students/${studentId}/product/${productId}/studentcv/${id}`,
+        `${BASE_URL}/cv/students/${studentId}/product/${productId}/studentcv`,
         null,
         {
           headers: {
@@ -40,7 +40,7 @@ export const cvDownload = (studentId, cvId) => {
   return dispatch => {
     dispatch({ type: CV_REVIEW.loader });
     axios
-      .get(`${BASE_URL}/files/students/${studentId}/cvReview/${cvId}`, {
+      .get(`${BASE_URL}/files/students/${studentId}/cv/${cvId}`, {
         headers: {
           admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
@@ -57,7 +57,7 @@ export const cvDownload = (studentId, cvId) => {
         link.remove();
         dispatch({
           type: CV_REVIEW.cvDownload,
-          payload: result.data,
+          payload: { success: true, data: result.data },
           loading: false,
         });
       })
@@ -111,7 +111,7 @@ export const cvUpload = (studentId, productId, data, comment) => {
       .then(result => {
         dispatch({
           type: CV_REVIEW.cvUpload,
-          payload: result.data,
+          payload: { success: true, data: result.data },
           loading: false,
         });
       })
