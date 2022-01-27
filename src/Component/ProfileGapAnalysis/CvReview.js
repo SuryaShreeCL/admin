@@ -236,7 +236,8 @@ function Index(props) {
   };
 
   const handleClickAway = () => {
-    setState({ ...state, anchorEl: null, popperComment: '' });
+    if (document.activeElement.id !== 'command_icon')
+      setState({ ...state, anchorEl: null, popperComment: '' });
   };
 
   const renderPopperContent = () => {
@@ -266,7 +267,7 @@ function Index(props) {
   const handleClick = (comment, event) => {
     setState({
       ...state,
-      anchorEl: event.currentTarget,
+      anchorEl: anchorEl === event.currentTarget ? null : event.currentTarget,
       popperComment: comment,
     });
   };
@@ -291,7 +292,7 @@ function Index(props) {
             <td>
               {comment && comment.trim().length !== 0 && (
                 <IconButton
-                  id={id}
+                  id={'command_icon'}
                   className={classes.iconButtonStyle}
                   onClick={e => handleClick(comment, e)}
                 >

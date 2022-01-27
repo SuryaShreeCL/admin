@@ -142,7 +142,6 @@ export const Paper = styled.div`
     content: '';
     position: absolute;
     top: -21px;
-    left: -5px,
     z-index: 1;
     border: solid 10px transparent;
     border-bottom-color: #e7e7e7;
@@ -150,7 +149,7 @@ export const Paper = styled.div`
   &:after {
     content: '';
     position: absolute;
-    top: -20px;
+    top: -19px;
     z-index: 1;
     border: solid 10px transparent;
     border-bottom-color: #ffffff;
