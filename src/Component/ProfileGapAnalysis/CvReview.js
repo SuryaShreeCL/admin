@@ -319,7 +319,7 @@ function Index(props) {
     dispatch(reviewCompleted(studentId, productId));
   };
 
-  let showCompleteButton = cvStatus && cvStatus !== 'COMPLETE';
+  let showCompleteButton = cvStatus === null || cvStatus !== 'COMPLETE';
   return (
     <Grid container>
       <Grid item sm={12} md={7}>
