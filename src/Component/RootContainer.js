@@ -685,6 +685,12 @@ function RootContainer(props) {
           path: coursePath,
           items: [],
         },
+        {
+          icon: <></>,
+          title: "College",
+          path: collegePath,
+          items: [],
+        },
       ]);
     }
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);

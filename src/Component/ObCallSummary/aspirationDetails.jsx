@@ -160,18 +160,24 @@ class AspirationDetails extends Component {
   }
 
   componentDidMount() {
-    this.props.getAspirationTerms(this.props.match.params.studentId,this.props.variantStepList.id);
+    this.props.getAspirationTerms(
+      this.props.match.params.studentId,
+      this.props.variantStepList.id
+    );
     this.props.getAspirationDegree();
-    this.props.getAspirationBranch(this.props.match.params.studentId,"");
-    this.props.getAspirationCounty(this.props.match.params.studentId,"");
-    this.props.getAspirationCollege(this.props.match.params.studentId, this.props.variantStepList.id, ((response) => {
-      
-      if (response.status === 200) {
-        this.setState({
-          aspirationCollegeList: response.data,
-        });
+    this.props.getAspirationBranch(this.props.match.params.studentId, "");
+    this.props.getAspirationCounty(this.props.match.params.studentId, "");
+    this.props.getAspirationCollege(
+      this.props.match.params.studentId,
+      this.props.variantStepList.id,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({
+            aspirationCollegeList: response.data,
+          });
+        }
       }
-    }));
+    );
     this.props.getAspirationSpecialization("", (response) => {
       if (response.status === 200) {
         this.setState({
@@ -231,7 +237,6 @@ class AspirationDetails extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-   
     if (this.props.getaspirationDataList !== prevProps.getaspirationDataList) {
       this.setState({
         asplocation: this.props.getaspirationDataList.data.jobLocation,
@@ -254,22 +259,30 @@ class AspirationDetails extends Component {
           .areaOfSpecialization
           ? this.props.getaspirationDataList.data.areaOfSpecialization
           : [],
-        aspirationCountries: this.props.getaspirationDataList.data.preferredRegion
+        aspirationCountries: this.props.getaspirationDataList.data
+          .preferredRegion
           ? this.props.getaspirationDataList.data.preferredRegion
           : [],
         aspirationUniversities: this.props.getaspirationDataList.data.school
           ? this.props.getaspirationDataList.data.school
           : [],
       });
-      var searchData = this.props.getaspirationDataList.data.fieldOfStudy && this.props.getaspirationDataList.data.fieldOfStudy.map(
-        (eachData, index) => eachData.name
-      );
+      var searchData =
+        this.props.getaspirationDataList.data.fieldOfStudy &&
+        this.props.getaspirationDataList.data.fieldOfStudy.map(
+          (eachData, index) => eachData.name
+        );
 
       this.props.getAspirationSpecialization("", (response) => {
         if (response.status === 200) {
           var filteredList = response.data
             .map((eachElement, index) => {
-              if (searchData.includes(eachElement.aspirationBranch && eachElement.aspirationBranch.name)) {
+              if (
+                searchData.includes(
+                  eachElement.aspirationBranch &&
+                    eachElement.aspirationBranch.name
+                )
+              ) {
                 return eachElement;
               }
             })
@@ -281,45 +294,69 @@ class AspirationDetails extends Component {
         }
       });
 
-      var searchDataTwo = this.props.getaspirationDataList.data.preferredRegion && this.props.getaspirationDataList.data.preferredRegion.map(
-        (eachData, index) => eachData.name
-      );
-      console.log(searchDataTwo)
+      var searchDataTwo =
+        this.props.getaspirationDataList.data.preferredRegion &&
+        this.props.getaspirationDataList.data.preferredRegion.map(
+          (eachData, index) => eachData.name
+        );
+      console.log(searchDataTwo);
       this.props.getAspirationCollege(
         this.props.match.params.studentId,
         this.props.variantStepList.id,
         (response) => {
-          console.log(response)
+          console.log(response);
           if (response.status === 200) {
             var filteredListTwo = response.data
               .map((eachElement, index) => {
-                if (searchDataTwo.includes(eachElement.country && eachElement.country.name)) {
+                if (
+                  searchDataTwo.includes(
+                    eachElement.country && eachElement.country.name
+                  )
+                ) {
                   return eachElement;
                 }
               })
               .filter((element) => element !== undefined);
-            console.log(filteredListTwo)
+            console.log(filteredListTwo);
             this.setState({
               filteredCollegeList: filteredListTwo,
             });
           }
         }
       );
-      let profile = this.state.getAspdata && this.state.getAspdata.filter(
-        (item) => item.name === "Aspiration-PB-Placements-Q1"
-      );
+      let questionName =
+        this.props.variantStepList.variant_SKU === "PBP"
+          ? "Aspiration-PB-Placements-Q1"
+          : "Aspiration-PB-Placements-2023-Q1";
+      let profile =
+        this.state.getAspdata &&
+        this.state.getAspdata.filter((item) => item.name === questionName);
       let value = profile[0] && profile[0].correctChoices[0].text;
-      this.props.getAspirationWork(this.props.match.params.studentId,this.props.variantStepList.id, value);
-
+      this.props.getAspirationWork(
+        this.props.match.params.studentId,
+        this.props.variantStepList.id,
+        value
+      );
     }
 
     if (this.state.selectedValue !== prevState.selectedValue) {
-      if (this.props.variantStepList.id === "1") {
+      if (
+        this.props.variantStepList.variant_SKU === "PBP" ||
+        this.props.variantStepList.variant_SKU === "PBP_2023"
+      ) {
+        let questionName =
+          this.props.variantStepList.variant_SKU === "PBP"
+            ? "Aspiration-PB-Placements-Q1"
+            : "Aspiration-PB-Placements-2023-Q1";
         let profile = this.state.getAspdata.filter(
-          (item) => item.name === "Aspiration-PB-Placements-Q1"
+          (item) => item.name === questionName
         );
         let value = profile[0].correctChoices[0].text;
-        this.props.getAspirationWork(this.props.match.params.studentId,this.props.variantStepList.id, value);
+        this.props.getAspirationWork(
+          this.props.match.params.studentId,
+          this.props.variantStepList.id,
+          value
+        );
       }
     }
 
@@ -334,7 +371,12 @@ class AspirationDetails extends Component {
         this.state.aspirationCollegeList &&
         this.state.aspirationCollegeList
           .map((eachElement, index) => {
-            if (searchData && searchData.includes(eachElement.country && eachElement.country.name)) {
+            if (
+              searchData &&
+              searchData.includes(
+                eachElement.country && eachElement.country.name
+              )
+            ) {
               return eachElement;
             }
           })
@@ -377,7 +419,6 @@ class AspirationDetails extends Component {
     this.setState({ disable: !this.state.disable });
   }
   handleChange = (questionArr, choiceObj, mainindex, choiceindex, event) => {
-    
     let arr = [];
     this.state.tempArr.push({
       questionId: questionArr.id,
@@ -432,12 +473,15 @@ class AspirationDetails extends Component {
     let universityId = [];
     let countryId = [];
     var iterate;
-    
+
     let arr = [];
     this.state.getAspdata.map((item, index) => {
       arr.push({
         questionId: this.state.getAspdata[index].id,
-        choices: [this.state.getAspdata[index].correctChoices[0] && this.state.getAspdata[index].correctChoices[0].id],
+        choices: [
+          this.state.getAspdata[index].correctChoices[0] &&
+            this.state.getAspdata[index].correctChoices[0].id,
+        ],
         testExecutionId: this.state.testId,
       });
     });
@@ -477,7 +521,7 @@ class AspirationDetails extends Component {
           preferredBSchools: null,
           answerInfos: arr,
         };
-        
+
         this.props.postaspirationData(
           this.props.match.params.studentId,
           this.props.variantStepList.id,
@@ -499,7 +543,6 @@ class AspirationDetails extends Component {
                 snackMsg: "Updated Successfully",
                 snackVariant: "success",
                 snackOpen: true,
-
               });
             }
           }
@@ -611,7 +654,7 @@ class AspirationDetails extends Component {
           school: universityId,
           answerInfos: arr,
         };
-        
+
         this.props.postaspirationData(
           this.props.match.params.studentId,
           this.props.variantStepList.id,
@@ -693,7 +736,7 @@ class AspirationDetails extends Component {
   //     answer,
   //   } = this.props.getAspirationQuestionList;
   //   const { choiceStyle } = style;
-  //   
+  //
   //   return (
   //     <Grid container spacing={2}>
   //       {questions
@@ -885,7 +928,9 @@ class AspirationDetails extends Component {
       .map((eachElement, index) => {
         if (
           searchData &&
-          searchData.includes(eachElement.aspirationBranch && eachElement.aspirationBranch.name)
+          searchData.includes(
+            eachElement.aspirationBranch && eachElement.aspirationBranch.name
+          )
         ) {
           return eachElement;
         }
@@ -902,7 +947,10 @@ class AspirationDetails extends Component {
         .map((eachSpecialization, index) => {
           if (
             searchData &&
-            searchData.includes(eachSpecialization.aspirationBranch && eachSpecialization.aspirationBranch.name)
+            searchData.includes(
+              eachSpecialization.aspirationBranch &&
+                eachSpecialization.aspirationBranch.name
+            )
           ) {
             return eachSpecialization;
           }
@@ -918,7 +966,10 @@ class AspirationDetails extends Component {
     var searchData = newValue.map((eachData, index) => eachData.name);
     var filteredList = this.state.aspirationCollegeList
       .map((eachElement, index) => {
-        if (searchData && searchData.includes(eachElement.country && eachElement.country.name)) {
+        if (
+          searchData &&
+          searchData.includes(eachElement.country && eachElement.country.name)
+        ) {
           return eachElement;
         }
       })
@@ -932,7 +983,12 @@ class AspirationDetails extends Component {
       this.state.aspirationUniversities &&
       this.state.aspirationUniversities
         .map((eachUniversity, index) => {
-          if (searchData && searchData.includes(eachUniversity.country && eachUniversity.country.name)) {
+          if (
+            searchData &&
+            searchData.includes(
+              eachUniversity.country && eachUniversity.country.name
+            )
+          ) {
             return eachUniversity;
           }
         })
@@ -951,14 +1007,87 @@ class AspirationDetails extends Component {
     ) {
       return "Preferred B-schools / Grad Schools";
     }
-    if (this.props.variantStepList.codeName === "ACS_MBA" || this.props.variantStepList.codeName === "ACS_MBA_PB") {
+    if (
+      this.props.variantStepList.codeName === "ACS_MBA" ||
+      this.props.variantStepList.codeName === "ACS_MBA_PB"
+    ) {
       return "Preferred B-schools";
     } else {
       return "Preferred Grad-Schools";
     }
-  }
+  };
   renderForm = () => {
-    if (this.props.variantStepList.id !== "1") {
+    if (
+      this.props.variantStepList.variant_SKU === "PBP" ||
+      this.props.variantStepList.variant_SKU === "PBP_2023"
+    ) {
+      return (
+        <>
+          <Grid item md={4}>
+            <Autocomplete
+              options={
+                !isEmptyArray(this.props.getWorkList) &&
+                this.props.getWorkList.data
+              }
+              getOptionLabel={(option) => option.workProfile}
+              value={this.state.aspwork || null}
+              disabled={this.state.disable}
+              renderInput={(params) => (
+                <TextField
+                  helperText={this.state.aspWorkErr}
+                  error={this.state.aspWorkErr.length > 0}
+                  {...params}
+                  label="Preferred Work Profile(others-specify)"
+                />
+              )}
+              onChange={(e, newValue) => this.setState({ aspwork: newValue })}
+            />
+          </Grid>
+          <Grid item md={4}>
+            <Autocomplete
+              options={
+                this.props.getlocationList && this.props.getlocationList.data
+              }
+              getOptionLabel={(option) => option.jobLocation}
+              value={this.state.asplocation || null}
+              disabled={this.state.disable}
+              renderInput={(params) => (
+                <TextField
+                  helperText={this.state.asplocErr}
+                  error={this.state.asplocErr.length > 0}
+                  {...params}
+                  label="Preferred Location-Cities(others-specify)"
+                />
+              )}
+              onChange={(e, newValue) =>
+                this.setState({ asplocation: newValue })
+              }
+            />
+          </Grid>
+          <Grid item md={4}>
+            <Autocomplete
+              options={
+                this.props.getPackagelist && this.props.getPackagelist.data
+              }
+              getOptionLabel={(option) => option.preferredPackage}
+              value={this.state.asppackage || null}
+              disabled={this.state.disable}
+              renderInput={(params) => (
+                <TextField
+                  helperText={this.state.aspPackErr}
+                  error={this.state.aspPackErr.length > 0}
+                  {...params}
+                  label="Preferred Package"
+                />
+              )}
+              onChange={(e, newValue) =>
+                this.setState({ asppackage: newValue })
+              }
+            />
+          </Grid>
+        </>
+      );
+    } else {
       return (
         <>
           <Grid item md={2}>
@@ -1158,79 +1287,13 @@ class AspirationDetails extends Component {
           </Grid>
         </>
       );
-    } else {
-      return (
-        <>
-          <Grid item md={4}>
-            <Autocomplete
-              options={
-                !isEmptyArray( this.props.getWorkList) &&  this.props.getWorkList.data
-              }
-              getOptionLabel={(option) => option.workProfile}
-              value={this.state.aspwork || null}
-              disabled={this.state.disable}
-              renderInput={(params) => (
-                <TextField
-                  helperText={this.state.aspWorkErr}
-                  error={this.state.aspWorkErr.length > 0}
-                  {...params}
-                  label="Preferred Work Profile(others-specify)"
-                />
-              )}
-              onChange={(e, newValue) => this.setState({ aspwork: newValue })}
-            />
-          </Grid>
-          <Grid item md={4}>
-            <Autocomplete
-              options={
-                this.props.getlocationList && this.props.getlocationList.data
-              }
-              getOptionLabel={(option) => option.jobLocation}
-              value={this.state.asplocation || null}
-              disabled={this.state.disable}
-              renderInput={(params) => (
-                <TextField
-                  helperText={this.state.asplocErr}
-                  error={this.state.asplocErr.length > 0}
-                  {...params}
-                  label="Preferred Location-Cities(others-specify)"
-                />
-              )}
-              onChange={(e, newValue) =>
-                this.setState({ asplocation: newValue })
-              }
-            />
-          </Grid>
-          <Grid item md={4}>
-            <Autocomplete
-              options={
-                this.props.getPackagelist && this.props.getPackagelist.data
-              }
-              getOptionLabel={(option) => option.preferredPackage}
-              value={this.state.asppackage || null}
-              disabled={this.state.disable}
-              renderInput={(params) => (
-                <TextField
-                  helperText={this.state.aspPackErr}
-                  error={this.state.aspPackErr.length > 0}
-                  {...params}
-                  label="Preferred Package"
-                />
-              )}
-              onChange={(e, newValue) =>
-                this.setState({ asppackage: newValue })
-              }
-            />
-          </Grid>
-        </>
-      );
     }
   };
 
   render() {
     const { choiceStyle } = style;
-    console.log(this.props)
-    console.log(this.state)
+    console.log(this.props);
+    console.log(this.state);
 
     return (
       <div style={{ padding: 25 }}>
@@ -1339,7 +1402,7 @@ const style = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state)
+  console.log(state);
   return {
     ...state.AspirationReducer,
     studentStatus: state.AdminReducer.studentStatusResponse,
