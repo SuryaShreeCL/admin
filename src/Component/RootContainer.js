@@ -495,8 +495,10 @@ function RootContainer(props) {
       let myArr = [];
       props.getProductByFamilyIdList
         .filter(
-          prodItems =>
-            prodItems.variantSKU === "PBP" || prodItems.variantSKU === "PBM"
+          (prodItems) =>
+            prodItems.variantSKU === "PBP" ||
+            prodItems.variantSKU === "PBM" ||
+            prodItems.variantSKU === "PBP_2023"
         )
         .map((eachItem, index) => {
           myArr.push({
@@ -693,6 +695,12 @@ function RootContainer(props) {
           icon: <></>,
           title: "Course",
           path: coursePath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "College",
+          path: collegePath,
           items: [],
         },
       ]);

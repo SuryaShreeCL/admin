@@ -161,8 +161,9 @@ class ReportHome extends React.Component {
     this.setState({ selectedItem: e.target.value });
 
     this.props.getTestList(e.target.value, res => {
-      console.log(res);
-      this.setState({ dynamicReportContent: res.data });
+      if(typeof res !== "string"){
+        this.setState({ dynamicReportContent: res.data });
+      }
     });
   };
 
