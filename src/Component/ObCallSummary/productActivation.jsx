@@ -244,14 +244,20 @@ intakeSession = [
     console.log(obj)
       this.props.activateStudentProduct(obj,(response => {
           console.log(response)
-          if(response.data === "updated")
-          this.setState({
-            snackOpen: true,
-            snackColor: "success",
-            snackMsg: "Product activated successfully",
-            show: false,
-            isLoading: false,
-          })
+          if(response.data === "updated"){
+            this.setState({
+              snackOpen: true,
+              snackColor: "success",
+              snackMsg: "Product activated successfully",
+              show: false,
+              isLoading: false,
+            })
+            this.props.searchProductActivationList(
+              this.props.match.params.productId,
+              this.state.keyword
+            );
+          }
+         
         }));
   };
 
