@@ -385,7 +385,7 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.department !== "sales" &&
       props.adminLinkedProductDetails.department !== "elev8_super_admin" &&
       props.adminLinkedProductDetails.department !== "elev8" &&
-      props.adminLinkedProductDetails.department !== "SUPERADMIN"
+      props.adminLinkedProductDetails.department !== "SUPERADMIN"   
     ) {
       props.getProductByFamilyId(
         props.adminLinkedProductDetails?.products[0]?.productFamily.id
@@ -638,6 +638,29 @@ function RootContainer(props) {
           items: [],
         },
       ]);
+    } else if(props.adminLinkedProductDetails.department === "testprepoperations"){
+      let myArr = [];
+      props.getProductByFamilyIdList
+        // .filter(
+        //   (prodItems) =>
+        //     prodItems.variantSKU === "PBP" ||
+        //     prodItems.variantSKU === "PBM" ||
+        //     prodItems.variantSKU === "PBP_2023"
+        // )
+        .map((eachItem, index) => {
+          myArr.push({
+            title: eachItem.shortName,
+            path: obOperationPath + "/" + eachItem.id,
+          });
+        });
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Operations",
+          items: myArr,
+        },
+      ]);
+      
     } else if (props.adminLinkedProductDetails.department === "SUPERADMIN") {
       setSideNav([
         {
