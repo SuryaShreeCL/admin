@@ -33,6 +33,7 @@ const useStyles = makeStyles({
     marginBottom: '1.2rem',
     padding: '0.5rem',
   },
+  fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
 });
 
 const PreprationContainer = React.memo(({ values, setFieldValue }) => {
@@ -56,7 +57,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   let storeWebinarIds = values.linkedWebinars?.map((webinar) => webinar.webinarId);
 
   // Combining the availableWebinars with linkedWebinarsLists for ease
-  // of access to both the arrays& for validation
+  // of access to both the arrays & for validation
   let combinedWebinars = [...availableWebinars, ...(values?.linkedWebinarsLists || [])];
   // Removing duplicates by ids if any.
   let uniqueCombinedWebinars = [
@@ -211,13 +212,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
                       width: '100%',
                     }}
                   >
-                    <h6
-                      style={{
-                        color: '#052A4E',
-                      }}
-                    >
-                      Video Name
-                    </h6>
+                    <h6 className={classes.fieldlabel}>Video Name</h6>
                     <Field
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoName`}
@@ -228,13 +223,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
                       width: '100%',
                     }}
                   >
-                    <h6
-                      style={{
-                        color: '#052A4E',
-                      }}
-                    >
-                      Video Link
-                    </h6>
+                    <h6 className={classes.fieldlabel}>Video Link</h6>
                     <Field
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoLink`}
