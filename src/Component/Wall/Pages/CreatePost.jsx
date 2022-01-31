@@ -75,7 +75,7 @@ const CreatePost = () => {
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
     linkedSelfPrepVideos: null,
-    nextSteps: [{ status: '', heading: '', subheading: '', message: '', formLink: '' }],
+    nextSteps: [{ status: 'inprogress', heading: '', subheading: '', message: '', formLink: '' }],
     totalViews: 0,
     totalLikes: 0,
     linkedTest: null,

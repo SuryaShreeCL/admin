@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FormControlLabel, Grid, Radio, RadioGroup, TextField } from '@material-ui/core';
-import { WebinarTabContainer } from '../Assets/Styles/WallStyles';
+import { NextStepsContainerStyle } from '../Assets/Styles/WallStyles';
 import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
 import { FieldArray, Field } from 'formik';
@@ -42,7 +42,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
 
   const StepFields = () => {
     return (
-      <WebinarTabContainer>
+      <NextStepsContainerStyle>
         <FieldArray
           name='nextSteps'
           render={(arrayHelpers) => (
@@ -101,14 +101,16 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       <h6 className={classes.fieldlabel}>Message</h6>
                       <Field className={classes.spacer} name={`nextSteps.${index}.message`} />
                     </div>
-                    <div
-                      style={{
-                        width: '100%',
-                      }}
-                    >
-                      <h6 className={classes.fieldlabel}>Google Form Link</h6>
-                      <Field className={classes.spacer} name={`nextSteps.${index}.formLink`} />
-                    </div>
+                    {index === 0 && (
+                      <div
+                        style={{
+                          width: '100%',
+                        }}
+                      >
+                        <h6 className={classes.fieldlabel}>Google Form Link</h6>
+                        <Field className={classes.spacer} name={`nextSteps.${index}.formLink`} />
+                      </div>
+                    )}
                     <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
                       <RemoveCircleIcon fontSize='large' color='secondary' />
                     </Controls.ActionButton>
@@ -118,20 +120,19 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
               <Controls.ActionButton
                 onClick={() =>
                   arrayHelpers.push({
-                    status: '',
+                    status: 'inprogress',
                     heading: '',
                     subheading: '',
                     message: '',
-                    formLink: '',
                   })
                 }
               >
-                <AddBoxIcon fontSize='large' color='primary' /> Next Step
+                <AddBoxIcon fontSize='large' color='primary' /> Add Step
               </Controls.ActionButton>
             </div>
           )}
         />
-      </WebinarTabContainer>
+      </NextStepsContainerStyle>
     );
   };
 
