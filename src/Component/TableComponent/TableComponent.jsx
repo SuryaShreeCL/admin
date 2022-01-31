@@ -70,6 +70,21 @@ export default class TableComponent extends Component {
     }
   };
 
+  disableDelete = () => {
+    var role = window.sessionStorage.getItem("role");
+    if (this.props.disableDelete) {
+      return true;
+    } else if (
+      role === "SUPER ADMIN" ||
+      role === "LMSCHECKER" ||
+      role === "LMSEDITOR"
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   paginationTheme = () =>
     createMuiTheme({
       overrides: {
@@ -136,7 +151,7 @@ export default class TableComponent extends Component {
           <td style={body.td}>
             <Button
               variant="contained"
-              disabled={this.hasAccess()}
+              disabled={this.disableDelete()}
               color="secondary"
               onClick={(e) => {
                 e.stopPropagation();
@@ -264,7 +279,9 @@ export default class TableComponent extends Component {
                   label="search"
                   value={this.state.searchKeyword}
                   onChange={(e) =>
-                    this.setState({ searchKeyword: e.target.value })
+                    this.setState({
+                      searchKeyword: e.target.value,
+                    })
                   }
                   // onKeyUp={
                   //   (e)=>{
