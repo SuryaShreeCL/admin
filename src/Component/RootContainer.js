@@ -387,9 +387,16 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.department !== "elev8" &&
       props.adminLinkedProductDetails.department !== "SUPERADMIN"
     ) {
-      props.getProductByFamilyId(
-        props.adminLinkedProductDetails?.products[0]?.productFamily.id
-      );
+      console.log('props.adminLinkedProductDetails---------: ', props.adminLinkedProductDetails);
+     
+     if (props.adminLinkedProductDetails) {
+       if (props.adminLinkedProductDetails.products.length !== 0) {
+         props.getProductByFamilyId(
+           props.adminLinkedProductDetails.products[0].productFamily.id
+         );
+       }
+     }
+    
     }
     //
     // let newListArr = []
