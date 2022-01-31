@@ -167,8 +167,8 @@ createMuiTheme({
     this.setState({ show: false });
     let newCollegeObj = {
       name: this.state.name,
-      decription: this.state.description,
-      logourl : this.state.logoURL,
+      description: this.state.description,
+      logoURL : this.state.logoURL,
       status : null
     };
     if (this.state.name.length !== 0) {
@@ -222,6 +222,7 @@ createMuiTheme({
               title={"College"}
               pageCount={this.props.paginateCollegeList.totalPages}
               action={true}
+              disableDelete
               onDelete={true}
               onDeleteClick={this.deleteHandler}
               onEdit={true}              
