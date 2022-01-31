@@ -370,7 +370,7 @@ createMuiTheme({
                   rowsMin={3}
                   multiline
                   fullWidth
-                  value={this.state.logo}
+                  value={this.state.logoURL}
                   onChange={(e) => this.setState({ logoURL: e.target.value })}
                 />
               </DialogContent>
