@@ -338,7 +338,7 @@ export class Onboarding extends Component {
   };
 
   render() {
-    console.log(this.state);
+    console.log(this.props.stageDetails, "-----------");
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
