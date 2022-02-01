@@ -92,7 +92,10 @@ class InterestDetail extends Component {
       variant_SKU === "PBM" ||
       variant_SKU === "PBP" ||
       variant_SKU === "ACS_MIM" ||
-      variant_SKU === "PBP_2023"
+      variant_SKU === "PBP_2023" ||
+      variant_SKU === "ACS_MIM_PB" ||
+      variant_SKU === "ACS_MBA_PB"
+
     ) {
       return this.getInterestTestQuestionSet();
     }
@@ -247,7 +250,15 @@ class InterestDetail extends Component {
 
   renderSupplementaryQuestions = () => {
     const { variant_SKU } = this.props.variantStepList;
-    if (variant_SKU === "PBM" || variant_SKU === "PBP" || variant_SKU === "PBP_2023") {
+    if (
+      variant_SKU === "PBM" ||
+      variant_SKU === "PBP" ||
+      variant_SKU === "PBP_2023" ||
+      variant_SKU === "ACS_MBA" || 
+      variant_SKU === "ACS_MIM_PB" ||
+      variant_SKU === "ACS_MBA_PB" ||
+      variant_SKU === "ACS_MIM"
+    ) {
       return (
         <Grid item xs={6} className={this.props.classes.rightWrapper}>
           <Divider
