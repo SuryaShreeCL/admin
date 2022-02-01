@@ -469,10 +469,10 @@ export const WALL = {
 };
 
 export const PREMIUM_USERS = {
-  PREMIUM_USERS_UPLOAD_REQUEST: "PREMIUM_USERS_UPLOAD_REQUESTED",
-  PREMIUM_USERS_UPLOAD_SUCCESS: "PREMIUM_USERS_UPLOAD_SUCCESSFUL",
-  PREMIUM_USERS_UPLOAD_FAIL: "PREMIUM_USERS_UPLOAD_FAILED",
-}
+  PREMIUM_USERS_UPLOAD_REQUEST: 'PREMIUM_USERS_UPLOAD_REQUESTED',
+  PREMIUM_USERS_UPLOAD_SUCCESS: 'PREMIUM_USERS_UPLOAD_SUCCESSFUL',
+  PREMIUM_USERS_UPLOAD_FAIL: 'PREMIUM_USERS_UPLOAD_FAILED',
+};
 
 export const TEST = {
   LIST_REQUEST: 'TEST_LIST_REQUESTED',
@@ -540,4 +540,13 @@ export const PROFILE_FIT_SPIDER_GRAPH = {
   getSpiderDetails: 'getSpiderDetails',
   getSpiderGraph: 'getSpiderGraph',
   updateRemark: 'updateRemark',
+};
+
+export const CV_REVIEW = {
+  loader: 'cvReviewLoader',
+  reviewCompleted: 'cvReviewCompleted',
+  cvDownload: 'cvDownload',
+  getStudentCvList: 'getStudentCvList',
+  cvUpload: 'cvUpload',
+  clearCustomData: 'cvClearCustomData',
 };

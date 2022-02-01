@@ -54,6 +54,7 @@ import ResumeQuestionnaire from '../PgaReport/ResumeQuestionnaire';
 import SpiderGraph from '../PgaReport/SpiderGraph';
 import { ExpandLess } from '@material-ui/icons';
 import ProfileFitSpiderGraph from '../PgaReport/ProfileFitSpiderGraph/Index';
+import CvReview from './CvReview';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,6 +84,7 @@ class ProfileGapRoot extends Component {
       arrowOpenName: null,
       collapseId: null,
       dialogOpen: false,
+      cvAnchorEl: null,
     };
   }
 
@@ -103,6 +105,7 @@ class ProfileGapRoot extends Component {
       arrowOpenName: null,
     });
   };
+
   menuOpen = (event, name) => {
     if (this.state.anchorEl !== event.currentTarget) {
       this.setState({
@@ -331,9 +334,47 @@ class ProfileGapRoot extends Component {
     this.setState({ dialogOpen: false });
   };
 
+  handleCvMenuClose = () => {
+    this.setState({
+      cvAnchorEl: null,
+      arrowOpenName: null,
+    });
+  };
+
+  handleMenuItem = value => {
+    this.setState({ value: value });
+  };
+
+  handleCvMenuOpen = (e, name) => {
+    const { currentTarget } = e;
+    this.setState({
+      cvAnchorEl: currentTarget,
+      arrowOpenName: name,
+    });
+  };
+
+  visibleCvReview = () => {
+    return this.props?.variantStepList?.codeName === 'ACS_MBA';
+  };
+
   render() {
+    const { cvAnchorEl } = this.state;
     const { classes } = this.props;
     const { handleDialogClose } = this;
+
+    const CV_MENU = [
+      {
+        name: 'cvInfo',
+        label: 'CV Info',
+        visible: true,
+      },
+      {
+        name: 'cvReview',
+        label: 'CV Review',
+        visible: this.visibleCvReview(),
+      },
+    ];
+
     return (
       <div>
         <Grid container style={{ marginTop: '10px' }}>
@@ -373,11 +414,16 @@ class ProfileGapRoot extends Component {
                   value={'testResult'}
                   style={{ textTransform: 'none', minWidth: '135px' }}
                 />
-                <Tab
-                  label='CV'
-                  value={'cv'}
-                  style={{ textTransform: 'none', minWidth: '135px' }}
-                />
+                <ThemeProvider theme={this.tabTheme}>
+                  <Tab
+                    style={{ minWidth: '135px', paddingRight: '0px' }}
+                    label={'CV'}
+                    value={'cv'}
+                    icon={this.renderArrowIcon('cv')}
+                    style={{ textTransform: 'none' }}
+                    onClick={e => this.handleCvMenuOpen(e, 'cv')}
+                  />
+                </ThemeProvider>
                 <Tab
                   label='PPGA Call Notes'
                   value={'ppgaCallNotes'}
@@ -395,7 +441,6 @@ class ProfileGapRoot extends Component {
                     style={{ textTransform: 'none' }}
                     onClick={e => this.menuOpen(e, 'academicDetails')}
                   />
-
                   <Tab
                     style={{ minWidth: '135px', paddingRight: '0px' }}
                     label='PGA Report'
@@ -429,8 +474,11 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={'testResult'}>
               <TestResults {...this.props} />
             </TabPanel>
-            <TabPanel value={this.state.value} index={'cv'}>
+            <TabPanel value={this.state.value} index={'cvInfo'}>
               <CV {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={'cvReview'}>
+              <CvReview {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={'ppgaCallNotes'}>
               <PpgaCallNotes {...this.props} />
@@ -579,6 +627,27 @@ class ProfileGapRoot extends Component {
                 </MenuItem>
               );
             })}
+        </Menu>
+
+        <Menu
+          anchorEl={cvAnchorEl}
+          open={Boolean(cvAnchorEl)}
+          onClose={this.handleCvMenuClose}
+          getContentAnchorEl={null}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          {CV_MENU.map(({ name, label, visible }) => {
+            return visible ? (
+              <MenuItem
+                classes={{ selected: classes.menuItemStyle }}
+                selected={name === this.state.value}
+                onClick={() => this.handleMenuItem(name)}
+              >
+                {label}
+              </MenuItem>
+            ) : null;
+          })}
         </Menu>
       </div>
     );

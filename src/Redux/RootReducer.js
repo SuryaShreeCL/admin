@@ -16,6 +16,8 @@ import HelperReducer from '../Reducer/HelperReducer';
 import ReportReducer from '../Reducer/ReportReducer';
 import ProfileGapAnalysisReducer from '../Reducer/ProfileGapAnalysisReducer';
 import CRGReducer from '../Reducer/CRGReducer';
+import CvReviewReducer from '../Reducer/CvReviewReducer';
+import ProfileFitSpiderGraphReducer from '../Reducer/ProfileFitSpiderGraphReducer';
 import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
@@ -53,7 +55,6 @@ import CourseMaterialReducer from '../Lms/Redux/Reducer/CourseMaterialReducer';
 import TestReducer from '../Lms/Redux/Reducer/TestReducer';
 import LmsStudentReducer from '../Lms/Redux/Reducer/LmsStudentReducer';
 import PgaReportReducer from '../Reducer/PgaReportReducer';
-import ProfileFitSpiderGraphReducer from '../Reducer/ProfileFitSpiderGraphReducer';
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -79,6 +80,7 @@ export default combineReducers({
   CRGReducer: CRGReducer,
   PgaReportReducer: PgaReportReducer,
   ProfileFitSpiderGraphReducer: ProfileFitSpiderGraphReducer,
+  CvReviewReducer: CvReviewReducer,
 
   //TESTIMONIAL
   testimonialCreateReducer,
