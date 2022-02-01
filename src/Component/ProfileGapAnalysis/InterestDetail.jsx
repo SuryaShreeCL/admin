@@ -86,12 +86,13 @@ class InterestDetail extends Component {
 
   componentDidMount() {
     this.getInterestDetails();
-    const { productId } = this.props.match.params;
+    const { variant_SKU } = this.props.variantStepList;
     if (
-      productId === "5" ||
-      productId === "3" ||
-      productId === "1" ||
-      productId === "d953e26e-ba53-4626-8aca-c9f110c81e7c"
+      variant_SKU === "ACS_MBA" ||
+      variant_SKU === "PBM" ||
+      variant_SKU === "PBP" ||
+      variant_SKU === "ACS_MIM" ||
+      variant_SKU === "PBP_2023"
     ) {
       return this.getInterestTestQuestionSet();
     }
@@ -245,10 +246,8 @@ class InterestDetail extends Component {
   };
 
   renderSupplementaryQuestions = () => {
-    const productId = this.props.match.params.productId;
-    console.log(productId, "ppppppppppp");
-    if (productId === "3" || productId === "1") {
-      console.log("trueeee");
+    const { variant_SKU } = this.props.variantStepList;
+    if (variant_SKU === "PBM" || variant_SKU === "PBP" || variant_SKU === "PBP_2023") {
       return (
         <Grid item xs={6} className={this.props.classes.rightWrapper}>
           <Divider
