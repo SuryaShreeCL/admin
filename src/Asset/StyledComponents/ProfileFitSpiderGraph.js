@@ -27,6 +27,7 @@ export const useStyles = makeStyles(theme => ({
   },
   fullHeight: {
     height: '100% !important',
+    overflow: 'auto',
   },
   iconButtonStyle: {
     padding: '2px !important',
@@ -87,7 +88,9 @@ export const useStyles = makeStyles(theme => ({
     paddingBottom: '2px',
   },
   graphLayout: {
-    padding: '74px 25px 30px',
+    overflow: 'auto',
+    padding: '64px 20px 30px',
+    height: '80%',
   },
   addRemarkContainer: {
     display: 'flex',
@@ -175,6 +178,10 @@ export const StyledStaticTable = styled.table`
     background-color: #ffffff !important;
   }
 
+  tr:first-child {
+    vertical-align: unset;
+  }
+
   tr:nth-child(even) {
     background-color: #efefef;
   }
@@ -208,6 +215,7 @@ export const StyledTable = styled.table`
   border-collapse: collapse;
   height: 100%;
   width: 100%;
+  display: grid !important;
 
   th,
   td {
@@ -284,7 +292,6 @@ export const StyledTable = styled.table`
   }
 
   tbody {
-    height: 88%;
     overflow: auto;
     ::-webkit-scrollbar {
       display: none;
@@ -293,6 +300,7 @@ export const StyledTable = styled.table`
 
   thead tr {
     background-color: #ffffff !important;
+    align-items: unset !important;
     &:first-child:hover {
       background-color: #ffffff !important;
     }
@@ -300,6 +308,8 @@ export const StyledTable = styled.table`
 
   tr {
     display: flex;
+    overflow: hidden;
+    align-items: center;
   }
 `;
 
@@ -368,6 +378,9 @@ export const BottomContainer = styled.div`
 `;
 
 export const RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border: 1px solid #d2d2d2;
   border-radius: 0px 10px 10px 0px;
   height: 100%;
@@ -434,7 +447,7 @@ export const FillButtonButton = styled.button`
   outline: none;
   padding: 0;
   user-select: none;
-  transition: all 0.3s;
+  transition: all 0.2s;
 `;
 
 export const OptionView = styled.div`

@@ -130,8 +130,8 @@ export const Typo = styled(Typography)`
 `;
 
 export const Paper = styled.div`
-  width: 460px;
-  height: 280px;
+  width: 440px;
+  max-height: 260px;
   position: relative;
   background: #ffffff;
   border: 1px solid #e7e7e7;

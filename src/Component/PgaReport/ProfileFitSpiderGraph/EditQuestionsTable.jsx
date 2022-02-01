@@ -76,10 +76,12 @@ function EditQuestionsTable({
                           <OptionView>
                             {option.map(value => (
                               <FillButtonButton
+                                id={index}
+                                key={index}
+                                name={name}
+                                value={value}
                                 selected={selectedValues[index][name] === value}
-                                onClick={() =>
-                                  handleInputChange(index, name, value)
-                                }
+                                onClick={handleInputChange}
                               >
                                 {value}
                               </FillButtonButton>

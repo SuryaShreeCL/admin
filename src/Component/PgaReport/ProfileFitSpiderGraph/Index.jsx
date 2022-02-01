@@ -231,11 +231,12 @@ function Index() {
     });
   };
 
-  const handleInputChange = (index, name, value) => {
+  const handleInputChange = e => {
+    const { id, name, value } = e.currentTarget;
     let arr = [...selectedValues];
-    let oldValue = arr[index][name];
-    let newValue = oldValue === value ? null : value;
-    arr[index][name] = newValue;
+    let oldValue = arr[id][name];
+    let newValue = oldValue === parseFloat(value) ? null : parseFloat(value);
+    arr[id][name] = newValue;
     setState({ ...state, selectedValues: arr });
   };
 
@@ -544,7 +545,7 @@ function Index() {
               {renderContent()}
             </Grid>
             {isGraph && (
-              <Grid item sm={12} md={4}>
+              <Grid item sm={12} md={4} className={classes.fullHeight}>
                 <SpiderGraph {...state} />
               </Grid>
             )}
