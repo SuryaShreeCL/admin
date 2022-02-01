@@ -485,7 +485,7 @@ class AspirationDetails extends Component {
         testExecutionId: this.state.testId,
       });
     });
-    if (this.props.variantStepList.id === "1") {
+    if (this.props.variantStepList.variant_SKU === "PBP" || this.props.variantStepList.variant_SKU === "PBP_2023") {
       let helpText = "Please Fill the Required Field";
       this.state.aspwork === null
         ? this.setState({ aspWorkErr: helpText })
