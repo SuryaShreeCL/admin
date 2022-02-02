@@ -50,7 +50,7 @@ import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
-import { ErrorMessage } from "../Validation";
+import { ErrorMessage, isNumber } from "../Validation";
 
 const theme = createMuiTheme({
   overrides: {
@@ -706,7 +706,7 @@ export class academicInfo extends Component {
 
   render() {
     console.log(this.state);
-    console.log(this.props.getAcademicInfoList);
+    console.log(this.props.getAllDocumentList, "_________________");
 
     const { HeadStyle, title, ans, secondary, GridStyle } = style;
     return (
@@ -803,6 +803,7 @@ export class academicInfo extends Component {
                                 pgCollegeErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgCollege}
@@ -824,6 +825,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgUniversity}
@@ -851,6 +853,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getBranchesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgDepartment}
@@ -878,6 +881,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getPGDegreesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgDegree}
@@ -904,6 +908,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
@@ -930,12 +935,29 @@ export class academicInfo extends Component {
                             id="standard-basic"
                             disabled={this.state.documentedit}
                             label="CGPA"
-                            onChange={(e) =>
-                              this.setState({
-                                pgCgpa: e.target.value,
-                                pgCgpaErr: "",
-                              })
+                            onKeyDown={(evt) =>
+                              isNumber(evt) && evt.preventDefault()
                             }
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                if (e.target.value.length <= 3) {
+                                  if (parseInt(e.target.value) > 100) {
+                                    e.preventDefault();
+                                  } else {
+                                    this.setState({
+                                      pgCgpa: e.target.value,
+                                      pgCgpaErr: "",
+                                    });
+                                  }
+                                }
+                              } 
+                              else {
+                                this.setState({
+                                  pgCgpa: e.target.value,
+                                  pgCgpaErr: "",
+                                });
+                              }
+                            }}
                             value={this.state.pgCgpa}
                             error={this.state.pgCgpaErr.length > 0}
                             helperText={this.state.pgCgpaErr}
@@ -1023,6 +1045,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
@@ -1050,6 +1073,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
@@ -1077,6 +1101,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getBranchesList}
                             getOptionLabel={(option) => option.name}
@@ -1104,6 +1129,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
@@ -1132,6 +1158,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
@@ -1160,12 +1187,29 @@ export class academicInfo extends Component {
                             disabled={this.state.documentedit}
                             label="CGPA"
                             value={this.state.ugCgpa}
-                            onChange={(e) =>
-                              this.setState({
-                                ugCgpa: e.target.value,
-                                ugCgpaErr: "",
-                              })
+                            onKeyDown={(evt) =>
+                              isNumber(evt) && evt.preventDefault()
                             }
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                if (e.target.value.length <= 3) {
+                                  if (parseInt(e.target.value) > 100) {
+                                    e.preventDefault();
+                                  } else {
+                                    this.setState({
+                                      ugCgpa: e.target.value,
+                                      ugCgpaErr: "",
+                                    });
+                                  }
+                                }
+                              } 
+                              else {
+                                this.setState({
+                                  ugCgpa: e.target.value,
+                                  ugCgpaErr: "",
+                                });
+                              }
+                            }}
                             error={this.state.ugCgpaErr.length > 0}
                             helperText={this.state.ugCgpaErr}
                           />
@@ -1256,6 +1300,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.diplomaCollege}
@@ -1298,6 +1343,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.diplomoUniversity}
@@ -1326,6 +1372,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.diplomaType}
                             getOptionLabel={(option) => option.title}
@@ -1355,6 +1402,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
@@ -1383,12 +1431,29 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             value={this.state.diplomoCgpa}
-                            onChange={(e) =>
-                              this.setState({
-                                diplomoCgpa: e.target.value,
-                                diplomoCgpaErr: "",
-                              })
+                            onKeyDown={(evt) =>
+                              isNumber(evt) && evt.preventDefault()
                             }
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                if (e.target.value.length <= 3) {
+                                  if (parseInt(e.target.value) > 100) {
+                                    e.preventDefault();
+                                  } else {
+                                    this.setState({
+                                      diplomoCgpa: e.target.value,
+                                      diplomoCgpaErr: "",
+                                    });
+                                  }
+                                }
+                              } 
+                              else {
+                                this.setState({
+                                  diplomoCgpa: e.target.value,
+                                  diplomoCgpaErr: "",
+                                });
+                              }
+                            }}
                             InputLabelProps={{ shrink: true }}
                             label="CGPA"
                             disabled={this.state.documentedit}
@@ -1506,6 +1571,7 @@ export class academicInfo extends Component {
                                 twelthExamBoardErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -1558,6 +1624,7 @@ export class academicInfo extends Component {
                                 twelthCgpaScaleErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -1578,12 +1645,29 @@ export class academicInfo extends Component {
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
-                            onChange={(e) =>
-                              this.setState({
-                                twelthCgpa: e.target.value,
-                                twelthCgpaErr: "",
-                              })
+                            onKeyDown={(evt) =>
+                              isNumber(evt) && evt.preventDefault()
                             }
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                if (e.target.value.length <= 3) {
+                                  if (parseInt(e.target.value) > 100) {
+                                    e.preventDefault();
+                                  } else {
+                                    this.setState({
+                                      twelthCgpa: e.target.value,
+                                      twelthCgpaErr: "",
+                                    });
+                                  }
+                                }
+                              } 
+                              else {
+                                this.setState({
+                                  twelthCgpa: e.target.value,
+                                  twelthCgpaErr: "",
+                                });
+                              }
+                            }}
                             InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
@@ -1694,6 +1778,7 @@ export class academicInfo extends Component {
                                 tenthExamBoardErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -1721,6 +1806,7 @@ export class academicInfo extends Component {
                                 tenthCgpaScaleErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -1740,12 +1826,29 @@ export class academicInfo extends Component {
                             label="CGPA"
                             error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr}
-                            onChange={(e) =>
-                              this.setState({
-                                tenthCgpa: e.target.value,
-                                tenthCgpaErr: "",
-                              })
+                            onKeyDown={(evt) =>
+                              isNumber(evt) && evt.preventDefault()
                             }
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                if (e.target.value.length <= 3) {
+                                  if (parseInt(e.target.value) > 100) {
+                                    e.preventDefault();
+                                  } else {
+                                    this.setState({
+                                      tenthCgpa: e.target.value,
+                                      tenthCgpaErr: "",
+                                    });
+                                  }
+                                }
+                              } 
+                              else {
+                                this.setState({
+                                  tenthCgpa: e.target.value,
+                                  tenthCgpaErr: "",
+                                });
+                              }
+                            }}
                             value={this.state.tenthCgpa}
                           />
                         </Grid>

@@ -23,7 +23,7 @@ import { getVariantStepsById } from "../../Actions/ProductAction";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import { isEmptyString, isEmail } from "../../Component/Validation";
+import { isEmptyString, isEmail, isNumber, isAlpha, isOnlyNumber } from "../../Component/Validation";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
@@ -238,15 +238,15 @@ export class personalInfo extends Component {
     this.state.apartmentName === ""
       ? this.setState({ apartmentNameErr: hlptxt })
       : this.setState({ apartmentNameErr: "" });
-    this.state.address1 === ""
-      ? this.setState({ address1Err: hlptxt })
-      : this.setState({ address1Err: "" });
-    this.state.address2 === ""
-      ? this.setState({ address2Err: hlptxt })
-      : this.setState({ address2Err: "" });
-    this.state.landmark === ""
-      ? this.setState({ landmarkErr: hlptxt })
-      : this.setState({ landmarkErr: "" });
+    // this.state.address1 === ""
+    //   ? this.setState({ address1Err: hlptxt })
+    //   : this.setState({ address1Err: "" });
+    // this.state.address2 === ""
+    //   ? this.setState({ address2Err: hlptxt })
+    //   : this.setState({ address2Err: "" });
+    // this.state.landmark === ""
+    //   ? this.setState({ landmarkErr: hlptxt })
+    //   : this.setState({ landmarkErr: "" });
     this.state.pincode === ""
       ? this.setState({ pincodeErr: hlptxt })
       : this.setState({ pincodeErr: "" });
@@ -262,9 +262,9 @@ export class personalInfo extends Component {
       !isEmptyString(this.state.lastName) &&
       !isEmptyString(this.state.fullName) &&
       !isEmptyString(this.state.apartmentName) &&
-      !isEmptyString(this.state.address1) &&
-      !isEmptyString(this.state.address2) &&
-      !isEmptyString(this.state.landmark) &&
+      // !isEmptyString(this.state.address1) &&
+      // !isEmptyString(this.state.address2) &&
+      // !isEmptyString(this.state.landmark) &&
       !isEmptyString(this.state.pincode) &&
       !isEmptyString(this.state.state) &&
       !isEmptyString(this.state.city) &&
@@ -455,11 +455,12 @@ export class personalInfo extends Component {
 
               <Grid item md={3}>
                 <TextField
-                  type={"number"}
+                  type={"text"}
                   id="standard-basic"
                   label="Alternate Contact Number"
                   disabled={this.state.personalDisable}
                   value={this.state.altPhone}
+                  onKeyDown={evt=> isNumber(evt) && evt.preventDefault()}
                   onChange={(e) =>
                     this.setState({ altPhone: e.target.value, altPhoneErr: "" })
                   }
@@ -587,8 +588,8 @@ export class personalInfo extends Component {
                   inputMode="numeric"
                   id="standard-basic"
                   label="Pincode"
+                  onKeyDown={evt=>isNumber(evt) && evt.preventDefault()}
                   value={this.state.pincode}
-                  type="number"
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
                     this.setState({ pincode: e.target.value, pincodeErr: "" })
@@ -603,6 +604,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="State"
                   value={this.state.state}
+                  onKeyDown={(evt)=>isOnlyNumber(evt) && evt.preventDefault()}
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
                     this.setState({ state: e.target.value, stateErr: "" })
@@ -616,6 +618,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="Current city"
                   value={this.state.city}
+                  onKeyDown={(evt)=>isOnlyNumber(evt) && evt.preventDefault()}
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
                     this.setState({ city: e.target.value, cityErr: "" })

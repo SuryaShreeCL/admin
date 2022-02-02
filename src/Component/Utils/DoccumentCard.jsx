@@ -121,7 +121,7 @@ class DoccumentCard extends Component {
              Uploaded On: {newDate}
             </p>
           </div>
-          {this.props.status === true &&
+          {!this.props.status &&
             <div>
                    <Button
                         href="#text-buttons"

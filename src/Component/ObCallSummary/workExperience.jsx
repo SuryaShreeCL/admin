@@ -336,21 +336,23 @@ class workExperience extends Component {
                     item.id !== null && (
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMore />}>
+
                           <div
-                            style={{ display: "flex", flexDirection: "row" }}
+                            style={{ display: "flex" , width : "100%", justifyContent : "space-between", wordBreak : "break-word"}}
                           >
+                            <div style={{display : "flex", wordBreak : "break-word"}}>
                             {item.role} ,
                             <div style={{ fontSize: 10, paddingTop: "2%" }}>
                               {" "}
                               {item.organization}
                             </div>
-                          </div>
-
-                          <div
+                            </div>
+                            <div
                             style={{
                               display: "flex",
                               flexDirection: "row",
-                              paddingLeft: "50%",
+                              wordBreak : "break-word"
+                              // paddingLeft: "50%",
                             }}
                           >
                             {" "}
@@ -359,6 +361,9 @@ class workExperience extends Component {
                             {endMonthName}{" "}
                             {new Date(item.endDate).getFullYear()})
                           </div>
+                          </div>
+
+                         
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -369,6 +374,7 @@ class workExperience extends Component {
                                   <ExpandMore style={{ color: "#1093FF" }} />
                                 }
                                 id="combo-box-demo"
+                                disabled={this.state.disable}
                                 value={
                                   {
                                     title: item.employmentType,
