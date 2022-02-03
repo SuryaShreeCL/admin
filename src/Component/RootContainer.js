@@ -419,14 +419,14 @@ function RootContainer(props) {
     if (props.adminLinkedProductDetails.department === "Acsoperations") {
       let myArr = [];
       props.getProductByFamilyIdList
-        .filter(
-          eachProd =>
-            eachProd.variantSKU === "ACS_MS" ||
-            eachProd.variantSKU === "ACS_MBA" ||
-            eachProd.variantSKU === "ACS_MIM" ||
-            eachProd.variantSKU === "ACS_MBA_PB" ||
-            eachProd.variantSKU === "ACS_MIM_PB"
-        )
+        // .filter(
+        //   eachProd =>
+        //     eachProd.variantSKU === "ACS_MS" ||
+        //     eachProd.variantSKU === "ACS_MBA" ||
+        //     eachProd.variantSKU === "ACS_MIM" ||
+        //     eachProd.variantSKU === "ACS_MBA_PB" ||
+        //     eachProd.variantSKU === "ACS_MIM_PB"
+        // )
         .map((eachItem, index) => {
           myArr.push({
             title: eachItem.shortName,
@@ -501,12 +501,12 @@ function RootContainer(props) {
     } else if (props.adminLinkedProductDetails.department === "Pboperations") {
       let myArr = [];
       props.getProductByFamilyIdList
-        .filter(
-          (prodItems) =>
-            prodItems.variantSKU === "PBP" ||
-            prodItems.variantSKU === "PBM" ||
-            prodItems.variantSKU === "PBP_2023"
-        )
+        // .filter(
+        //   (prodItems) =>
+        //     prodItems.variantSKU === "PBP" ||
+        //     prodItems.variantSKU === "PBM" ||
+        //     prodItems.variantSKU === "PBP_2023"
+        // )
         .map((eachItem, index) => {
           myArr.push({
             title: eachItem.shortName,
