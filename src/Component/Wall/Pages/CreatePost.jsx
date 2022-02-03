@@ -122,6 +122,7 @@ const CreatePost = () => {
   const { platforms } = useSelector((state) => state.platformsReducer);
 
   const validate = (values) => {
+    /* Validating if the media is uploaded or not */
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
@@ -150,7 +151,18 @@ const CreatePost = () => {
       });
       return false;
     }
-
+    /* Validating if google form link is added*/
+    if (values.isEvent) {
+      if (values.wallSteps[0].url.length === 0) {
+        setNotify({
+          isOpen: true,
+          message: 'Please add google form link',
+          type: 'error',
+        });
+        return false;
+      }
+    }
+    /* Validating the timings */
     if (values.isWebinar || values.isEvent) {
       if (
         moment(values.eventEndDate).isSameOrBefore(values.eventDate) ||
@@ -165,7 +177,7 @@ const CreatePost = () => {
         return false;
       }
     }
-
+    /* Validating if the media url is added or not */
     if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
       setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
@@ -874,7 +886,7 @@ const CreatePost = () => {
                       });
                     }}
                   >
-                    Discard Post
+                    {`Discard ${location?.postType ?? 'Post'}`}
                   </Button>
                   <Controls.Button
                     text={`Submit ${location?.postType ?? 'Post'}`}

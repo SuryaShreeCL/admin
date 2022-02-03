@@ -47,8 +47,9 @@ export const BackHandlerContainer = styled.section`
 
 export const ButtonsContainer = styled.section`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   max-width: 100%;
+  align-items: center;
   margin-top: 1rem;
 `;
 

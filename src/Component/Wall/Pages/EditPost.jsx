@@ -774,7 +774,7 @@ const EditPost = () => {
                       });
                     }}
                   >
-                    Discard Post
+                    {`Discard ${location?.postType ?? 'Post'}`}
                   </Button>
                   <Controls.Button
                     text={`Update ${location?.postType ?? 'Post'}`}
