@@ -14,13 +14,6 @@ const useStyles = makeStyles({
     display: 'flex',
     gap: '2rem',
     height: '20%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  webinarInput: {
-    height: '20%',
-    display: 'flex',
-    width: '30%',
     alignItems: 'center',
   },
   spacer: {
@@ -32,7 +25,6 @@ const useStyles = makeStyles({
 });
 
 const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
-  const [tabCount, setTabCount] = useState(0);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -44,10 +36,10 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
     return (
       <NextStepsContainerStyle>
         <FieldArray
-          name='nextSteps'
+          name='wallSteps'
           render={(arrayHelpers) => (
             <div>
-              {values?.nextSteps?.map((_, index) => (
+              {values?.wallSteps?.map((val, index) => (
                 <>
                   <RadioGroup
                     style={{
@@ -57,13 +49,13 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       alignItems: 'center',
                     }}
                     aria-label='type'
-                    disabled
-                    name={`nextSteps.${index}.status`}
+                    name={`wallSteps.${index}.status`}
+                    value={val.status}
                     onChange={(e, value) => {
-                      setFieldValue(`nextSteps.${index}.status`, value);
+                      setFieldValue(`wallSteps.${index}.status`, value);
                     }}
                   >
-                    <h6 style={{ marginRight: '1rem', fontWeight: 'bold' }}>Step {index + 1}:</h6>
+                    <h6 style={{ marginRight: '10px', fontWeight: 'bold' }}>Step {index + 1}:</h6>
                     <FormControlLabel
                       value='inprogress'
                       control={<Radio color='primary' />}
@@ -75,15 +67,14 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       label='Completed'
                     />
                   </RadioGroup>
-
-                  <div key={index} className={classes.input}>
+                  <div key={`wallSteps.${index}.heading`} className={classes.input}>
                     <div
                       style={{
                         width: '100%',
                       }}
                     >
                       <h6 className={classes.fieldlabel}>Heading</h6>
-                      <Field className={classes.spacer} name={`nextSteps.${index}.heading`} />
+                      <Field className={classes.spacer} name={`wallSteps.${index}.heading`} />
                     </div>
                     <div
                       style={{
@@ -91,7 +82,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       }}
                     >
                       <h6 className={classes.fieldlabel}>Sub Heading</h6>
-                      <Field className={classes.spacer} name={`nextSteps.${index}.subheading`} />
+                      <Field className={classes.spacer} name={`wallSteps.${index}.subText`} />
                     </div>
                     <div
                       style={{
@@ -99,7 +90,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       }}
                     >
                       <h6 className={classes.fieldlabel}>Message</h6>
-                      <Field className={classes.spacer} name={`nextSteps.${index}.message`} />
+                      <Field className={classes.spacer} name={`wallSteps.${index}.message`} />
                     </div>
                     {index === 0 && (
                       <div
@@ -108,7 +99,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                         }}
                       >
                         <h6 className={classes.fieldlabel}>Google Form Link</h6>
-                        <Field className={classes.spacer} name={`nextSteps.${index}.formLink`} />
+                        <Field className={classes.spacer} name={`wallSteps.${index}.url`} />
                       </div>
                     )}
                     <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
@@ -122,8 +113,9 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                   arrayHelpers.push({
                     status: 'inprogress',
                     heading: '',
-                    subheading: '',
+                    subText: '',
                     message: '',
+                    url: '',
                   })
                 }
               >

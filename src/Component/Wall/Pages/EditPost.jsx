@@ -37,6 +37,7 @@ import ConfirmDialog from '../../Utils/ConfirmDialog';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
 import PreprationContainer from '../Components/PreparationContainer';
 import DeleteIcon from '@material-ui/icons/Delete';
+import NextStepsContainer from '../Components/NextStepsContainer';
 const AVOID_INPUT = ['E', 'e', '+', '-'];
 
 const useStyles = makeStyles({
@@ -84,6 +85,7 @@ const EditPost = () => {
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
+    wallSteps: [{ status: 'inprogress', heading: '', subText: '', message: '', url: '' }],
     linkedSelfPrepVideos: [{ videoName: '', videoLink: '' }],
     eventTitle: '',
     linkedWebinars: [],
@@ -749,7 +751,7 @@ const EditPost = () => {
                         </MuiPickersUtilsProvider>
                       )}
                     </Grid>
-                    {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                    <pre>{JSON.stringify({ values }, null, 4)}</pre>
                     <ButtonsContainer>
                       <Button
                         color='primary'
@@ -783,7 +785,10 @@ const EditPost = () => {
                   {values.isWebinar ? null : <Preview state={values} />}
                 </div>
                 {values.isEvent && (
-                  <PreprationContainer values={values} setFieldValue={setFieldValue} />
+                  <>
+                    <NextStepsContainer values={values} setFieldValue={setFieldValue} />
+                    <PreprationContainer values={values} setFieldValue={setFieldValue} />
+                  </>
                 )}
               </>
             );
