@@ -84,8 +84,13 @@ export const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   infoStyle: {
+    height: '22px !important',
+    zIndex: theme.zIndex.tooltip,
+  },
+  infoBorder: {
     marginLeft: '10px',
-    paddingBottom: '2px',
+    marginBottom: '2px',
+    borderRadius: '50%',
   },
   graphLayout: {
     overflow: 'auto',
@@ -330,13 +335,13 @@ export const Paper = styled.div`
   box-shadow: 0px 0px 6px #00000029;
   padding: 12px 10px 3px 15px;
   border-radius: 10px;
-  top: 15px;
+  margin-top: 16px;
   left: -7px;
 
   &:before {
     content: '';
     position: absolute;
-    top: -21px;
+    top: -18px;
     left: 12px;
     z-index: 1;
     border: solid 9px transparent;
@@ -345,7 +350,7 @@ export const Paper = styled.div`
   &:after {
     content: '';
     position: absolute;
-    top: -17px;
+    top: -16px;
     left: 12px;
     z-index: 1;
     border: solid 9px transparent;

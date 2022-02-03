@@ -229,6 +229,10 @@ function Index() {
       isGraph: displayGraph,
       isEdit: !isGenerate,
     });
+
+    if (isEdit && (isGenerate || value === 'details')) {
+      dispatch(getSpiderGraphQuestions(studentId, productId));
+    }
   };
 
   const handleInputChange = e => {

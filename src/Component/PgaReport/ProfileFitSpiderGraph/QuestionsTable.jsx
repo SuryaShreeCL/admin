@@ -42,15 +42,17 @@ function QuestionsTable({ questionsList, handleMouseOver, handleMouseLeave }) {
                   <tr>
                     <td>
                       {question}
-                      <Info
-                        id={id}
-                        cursor={'pointer'}
-                        className={classes.infoStyle}
-                        onMouseMove={e =>
-                          handleMouseOver(whereToMeasure, howToMeasure, e)
-                        }
-                        onMouseLeave={handleMouseLeave}
-                      />
+                      <span className={classes.infoBorder}>
+                        <Info
+                          id={id}
+                          cursor={'pointer'}
+                          className={classes.infoStyle}
+                          onMouseMove={e =>
+                            handleMouseOver(whereToMeasure, howToMeasure, e)
+                          }
+                          onMouseLeave={handleMouseLeave}
+                        />
+                      </span>
                     </td>
                     <td>
                       <FillButtonButton selected={true} disabled>

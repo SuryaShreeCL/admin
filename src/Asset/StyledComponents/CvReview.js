@@ -25,6 +25,9 @@ export const useStyles = makeStyles(theme => ({
     zIndex: theme.zIndex.modal + 1,
     background: 'none',
   },
+  popperContentStyle: {
+    maxHeight: '220px !important',
+  },
 }));
 
 export const customTheme = createTheme({
@@ -131,7 +134,6 @@ export const Typo = styled(Typography)`
 
 export const Paper = styled.div`
   width: 440px;
-  max-height: 260px;
   position: relative;
   background: #ffffff;
   border: 1px solid #e7e7e7;

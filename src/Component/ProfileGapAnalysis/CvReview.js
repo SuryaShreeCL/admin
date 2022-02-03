@@ -248,7 +248,7 @@ function Index(props) {
             <Typo variant={'body1'} color={'#18AAE7'}>
               {'Comment'}
             </Typo>
-            <ContentWrapper>
+            <ContentWrapper className={classes.popperContentStyle}>
               <Typo
                 variant={'body1'}
                 color={'#333333'}
