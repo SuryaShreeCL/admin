@@ -19,7 +19,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { isEmptyString } from "../Validation";
+import { isEmail, isEmptyObject, isEmptyString } from "../Validation";
 class VariantGeneralData extends Component {
   constructor() {
     super();
@@ -82,6 +82,12 @@ class VariantGeneralData extends Component {
         endOfEnrollmentDate: this.props.getvarientByidList.endOfEnrollmentDate,
         createdBy: this.props.getvarientByidList.createdBy,
         createdOn: this.props.getvarientByidList.dateOfCreation,
+        codeName: this.props.getvarientByidList.codeName,
+        shortName: this.props.getvarientByidList.shortName,
+        opsEmailId: this.props.getvarientByidList.opsEmailId,
+        referProduct: this.props.getvarientByidList.referProduct
+          ? this.props.getvarientByidList.referProduct
+          : null,
       });
     }
     if (
@@ -110,9 +116,9 @@ class VariantGeneralData extends Component {
       let obj = {
         id: this.props.match.params.id,
         name: this.state.variantfamilysku,
-        codeName: this.props.getvarientByidList.codeName,
+        codeName: this.state.codeName,
         banner: this.state.banner,
-        shortName: this.props.getvarientByidList.shortName,
+        shortName: this.state.shortName,
         productDescription: this.props.getvarientByidList.productDescription,
         productOneliner: this.props.getvarientByidList.productOneliner,
         productTnc: this.props.getvarientByidList.productTnc,
@@ -127,6 +133,11 @@ class VariantGeneralData extends Component {
             ? this.props.getvarientByidList.productFamily.id
             : "",
         },
+        referProduct: {
+          id: this.state.referProduct.id,
+        },
+        codeName: this.state.codeName,
+        opsEmailId: this.state.opsEmailId,
       };
       this.props.updategeneraldata(obj);
       this.setState({
@@ -177,9 +188,27 @@ class VariantGeneralData extends Component {
     this.setState({
       codeNameErr : isEmptyString(this.state.codeName) ? hlptxt : "",
       shortNameErr : isEmptyString(this.state.shortName) ? hlptxt : "",
-      opsEmailIdErr :  isEmptyString(this.state.opsEmailId) ? hlptxt : "",
       referProductErr : isEmptyString(this.state.referProduct) ? hlptxt : "",
     })
+
+    if(!isEmptyString(this.state.opsEmailId)){
+      this.setState({
+        opsEmailIdErr : ""
+      })
+      if(!isEmail(this.state.opsEmailId)){
+        this.setState({
+          opsEmailIdErr : "Enter valid E-Mail"
+        })
+      }else{
+        this.setState({
+          opsEmailIdErr : ""
+        })
+      }
+    }else{
+      this.setState({
+        opsEmailIdErr : hlptxt
+      })
+    }
 
     if (
       !isEmptyString(this.state.variantfamilysku) &&
@@ -192,13 +221,16 @@ class VariantGeneralData extends Component {
       this.state.createdOn !== null &&
       this.state.endOfEnrollmentDate !== null &&
       this.state.productName !== "" &&
-      this.state.standaloneSellable !== ""
+      this.state.standaloneSellable !== "" &&
+      !isEmptyString(this.state.codeName) &&
+      !isEmptyString(this.state.shortName) &&
+      !isEmptyObject(this.state.referProduct)
     ) {
       let obj = {
         name: this.state.variantfamilysku,
         variantSKU: this.state.variantsku,
         variant_family_SKU: null,
-        shortName: this.state.productName.shortName,
+        shortName: this.state.shortName,
         endOfServiceDate: this.state.endOfServiceDate,
         endOfEnrollmentDate: this.state.endOfEnrollmentDate,
         costPrice: this.state.costPrice,
@@ -212,6 +244,11 @@ class VariantGeneralData extends Component {
         },
         dateOfUpdate: new Date(),
         updatedBy: window.sessionStorage.getItem("role"),
+        referProduct: {
+          id: this.state.referProduct.id,
+        },
+        codeName: this.state.codeName,
+        opsEmailId: this.state.opsEmailId,
       };
       this.props.postgeneraldetails(obj);
       this.setState({
@@ -219,8 +256,8 @@ class VariantGeneralData extends Component {
         snackOpen: true,
         snackVariant: "success",
       });
+    console.log(obj, "________________");
     }
-    console.log(this.state);
   };
   handleUpdate = () => {
     let obj = {
