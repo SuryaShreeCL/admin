@@ -110,14 +110,17 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                         <Field className={classes.spacer} name={`wallSteps.${index}.url`} />
                       </div>
                     )}
-                    <Controls.ActionButton
-                      onClick={() => {
-                        if (val.id) deleteWallStep(val.id);
-                        arrayHelpers.remove(index);
-                      }}
-                    >
-                      <RemoveCircleIcon fontSize='large' color='secondary' />
-                    </Controls.ActionButton>
+                    {/* Step 1 is Mandatory */}
+                    {index !== 0 && (
+                      <Controls.ActionButton
+                        onClick={() => {
+                          if (val.id) deleteWallStep(val.id);
+                          arrayHelpers.remove(index);
+                        }}
+                      >
+                        <RemoveCircleIcon fontSize='large' color='secondary' />
+                      </Controls.ActionButton>
+                    )}
                   </div>
                 </>
               ))}
