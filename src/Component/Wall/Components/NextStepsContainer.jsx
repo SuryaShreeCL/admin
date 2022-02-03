@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FormControlLabel, Grid, Radio, RadioGroup, TextField } from '@material-ui/core';
 import { NextStepsContainerStyle } from '../Assets/Styles/WallStyles';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,8 +6,7 @@ import Controls from '../../Utils/controls/Controls';
 import { FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import { useDispatch, useSelector } from 'react-redux';
-import { Alert } from '@material-ui/lab';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   input: {
@@ -25,12 +24,21 @@ const useStyles = makeStyles({
 });
 
 const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
-  const dispatch = useDispatch();
   const classes = useStyles();
 
-  useEffect(() => {
-    // dispatch(listAllWallWebinars());
-  }, [dispatch]);
+  const deleteWallStep = async (id) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallsteps/${id}`, {
+        crossDomain: true,
+        headers: {
+          admin: 'yes',
+          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+        },
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const StepFields = () => {
     return (
@@ -102,7 +110,12 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                         <Field className={classes.spacer} name={`wallSteps.${index}.url`} />
                       </div>
                     )}
-                    <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
+                    <Controls.ActionButton
+                      onClick={() => {
+                        if (val.id) deleteWallStep(val.id);
+                        arrayHelpers.remove(index);
+                      }}
+                    >
                       <RemoveCircleIcon fontSize='large' color='secondary' />
                     </Controls.ActionButton>
                   </div>
