@@ -208,8 +208,7 @@ const EditPost = () => {
           }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => {
-            console.log(values);
+          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue, submitForm }) => {
             return (
               <>
                 <div className='CreatePost'>
@@ -751,36 +750,7 @@ const EditPost = () => {
                         </MuiPickersUtilsProvider>
                       )}
                     </Grid>
-                    <pre>{JSON.stringify({ values }, null, 4)}</pre>
-                    <ButtonsContainer>
-                      <Button
-                        color='primary'
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: 'Are you sure to discard this post?',
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              history.push(wallPath);
-                            },
-                          });
-                        }}
-                      >
-                        Discard Post
-                      </Button>
-                      <Controls.Button
-                        text='Post'
-                        variant='contained'
-                        color='primary'
-                        style={{ borderRadius: '26px' }}
-                        type='submit'
-                      />
-                      {!values.isWebinar && !values.isEvent && (
-                        <Button color='primary' onClick={() => onEditDraft(values, 'Draft')}>
-                          Save as Draft
-                        </Button>
-                      )}
-                    </ButtonsContainer>
+                    {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
                   {values.isWebinar ? null : <Preview state={values} />}
                 </div>
@@ -790,6 +760,36 @@ const EditPost = () => {
                     <PreprationContainer values={values} setFieldValue={setFieldValue} />
                   </>
                 )}
+                <ButtonsContainer>
+                  <Button
+                    color='primary'
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: 'Are you sure to discard this post?',
+                        subTitle: "You can't undo this operation",
+                        onConfirm: () => {
+                          history.push(wallPath);
+                        },
+                      });
+                    }}
+                  >
+                    Discard Post
+                  </Button>
+                  <Controls.Button
+                    text={`Update ${location?.postType ?? 'Post'}`}
+                    variant='contained'
+                    color='primary'
+                    style={{ borderRadius: '26px' }}
+                    type='submit'
+                    onClick={submitForm}
+                  />
+                  {!values.isWebinar && !values.isEvent && (
+                    <Button color='primary' onClick={() => onEditDraft(values, 'Draft')}>
+                      Save as Draft
+                    </Button>
+                  )}
+                </ButtonsContainer>
               </>
             );
           }}

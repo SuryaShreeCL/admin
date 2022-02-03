@@ -16,7 +16,7 @@ export const CreatePostContainer = styled.section`
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
 
     form {
       width: 100%;
@@ -48,7 +48,7 @@ export const BackHandlerContainer = styled.section`
 export const ButtonsContainer = styled.section`
   display: flex;
   justify-content: space-between;
-  max-width: 80%;
+  max-width: 100%;
   margin-top: 1rem;
 `;
 
