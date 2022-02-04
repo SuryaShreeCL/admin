@@ -92,13 +92,9 @@ class VariantGeneralData extends Component {
         referProduct: this.props.getvarientByidList.referProduct
           ? this.props.getvarientByidList.referProduct
           : null,
-        calendarId: this.props.getvarientByidList.productWiseCalendarDetails
-          ? this.props.getvarientByidList.productWiseCalendarDetails.calendarId
-          : "",
-        appointmentId: this.props.getvarientByidList.productWiseCalendarDetails
-          ? this.props.getvarientByidList.productWiseCalendarDetails
-              .appointmentId
-          : "",
+        calendarId: this.props.getvarientByidList.calendarId,
+        appointmentId: this.props.getvarientByidList.appointmentId
+         ,
       });
     }
     if (
@@ -149,10 +145,8 @@ class VariantGeneralData extends Component {
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
-        productWiseCalendarDetails: {
-          calendarId: this.state.calendarId,
-          appointmentId: this.state.appointmentId,
-        },
+        calendarId: this.state.calendarId,
+        appointmentId: this.state.appointmentId,
       };
       this.props.updategeneraldata(obj);
       this.setState({
@@ -268,10 +262,8 @@ class VariantGeneralData extends Component {
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
-        productWiseCalendarDetails: {
-          calendarId: this.state.calendarId,
-          appointmentId: this.state.appointmentId,
-        },
+        calendarId: this.state.calendarId,
+        appointmentId: this.state.appointmentId,
       };
       this.props.postgeneraldetails(obj);
       this.setState({
