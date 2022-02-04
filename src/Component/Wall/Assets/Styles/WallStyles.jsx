@@ -120,4 +120,7 @@ export const WebinarTabContainer = styled.section`
   }
 `;
 
-// export const
+export const DialogDiv = styled.div`
+  margin: 2rem auto;
+  width: 60;
+`;
