@@ -19,7 +19,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { isEmail, isEmptyObject, isEmptyString } from "../Validation";
+import { isEmail, isEmptyObject, isEmptyString, isNumber } from "../Validation";
 class VariantGeneralData extends Component {
   constructor() {
     super();
@@ -59,6 +59,10 @@ class VariantGeneralData extends Component {
       referProductErr: "",
       opsEmailId: "",
       opsEmailIdErr: "",
+      calendarId : "",
+      calendarIdErr : "",
+      appointmentId : "",
+      appointmentIdErr : "",
     };
   }
   componentDidMount() {
@@ -88,6 +92,13 @@ class VariantGeneralData extends Component {
         referProduct: this.props.getvarientByidList.referProduct
           ? this.props.getvarientByidList.referProduct
           : null,
+        calendarId: this.props.getvarientByidList.productWiseCalendarDetails
+          ? this.props.getvarientByidList.productWiseCalendarDetails.calendarId
+          : "",
+        appointmentId: this.props.getvarientByidList.productWiseCalendarDetails
+          ? this.props.getvarientByidList.productWiseCalendarDetails
+              .appointmentId
+          : "",
       });
     }
     if (
@@ -138,6 +149,10 @@ class VariantGeneralData extends Component {
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
+        productWiseCalendarDetails: {
+          calendarId: this.state.calendarId,
+          appointmentId: this.state.appointmentId,
+        },
       };
       this.props.updategeneraldata(obj);
       this.setState({
@@ -189,6 +204,8 @@ class VariantGeneralData extends Component {
       codeNameErr : isEmptyString(this.state.codeName) ? hlptxt : "",
       shortNameErr : isEmptyString(this.state.shortName) ? hlptxt : "",
       referProductErr : isEmptyString(this.state.referProduct) ? hlptxt : "",
+      appointmentIdErr : isEmptyString(this.state.appointmentId) ? hlptxt : "",
+      calendarIdErr : isEmptyString(this.state.calendarId) ? hlptxt : "",
     })
 
     if(!isEmptyString(this.state.opsEmailId)){
@@ -224,7 +241,9 @@ class VariantGeneralData extends Component {
       this.state.standaloneSellable !== "" &&
       !isEmptyString(this.state.codeName) &&
       !isEmptyString(this.state.shortName) &&
-      !isEmptyObject(this.state.referProduct)
+      !isEmptyObject(this.state.referProduct) &&
+      !isEmptyString(this.state.appointmentId) &&
+      !isEmptyString(this.state.calendarId)
     ) {
       let obj = {
         name: this.state.variantfamilysku,
@@ -249,6 +268,10 @@ class VariantGeneralData extends Component {
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
+        productWiseCalendarDetails: {
+          calendarId: this.state.calendarId,
+          appointmentId: this.state.appointmentId,
+        },
       };
       this.props.postgeneraldetails(obj);
       this.setState({
@@ -366,6 +389,28 @@ class VariantGeneralData extends Component {
               helperText={this.state.opsEmailIdErr}
             />
           </Grid>
+          <Grid item md={2}>
+            <TextField
+              label="Calendar Id"
+              variant="standard"
+              onKeyDown={(evt)=>isNumber(evt) && evt.preventDefault()}
+              value={this.state.calendarId}
+              onChange={(e) => this.setState({ calendarId: e.target.value })}
+              error={this.state.calendarIdErr.length > 0}
+              helperText={this.state.calendarIdErr}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <TextField
+              label="Appointment Id"
+              variant="standard"
+              onKeyDown={(evt)=>isNumber(evt) && evt.preventDefault()}
+              value={this.state.appointmentId}
+              onChange={(e) => this.setState({ appointmentId: e.target.value })}
+              error={this.state.appointmentIdErr.length > 0}
+              helperText={this.state.appointmentIdErr}
+            />
+          </Grid>
           <Grid item md={3}>
             <Autocomplete
               id="combo-box-demo"
@@ -468,7 +513,7 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item md={3}></Grid>
+          {/* <Grid item md={3}></Grid> */}
           <Grid item md={2}>
             <TextField
               label="Created By"
