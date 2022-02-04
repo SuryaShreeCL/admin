@@ -272,8 +272,8 @@ function Index(props) {
     });
   };
 
-  const handleDownload = id => {
-    dispatch(cvDownload(studentId, id));
+  const handleDownload = (id, cvPath) => {
+    dispatch(cvDownload(studentId, id, cvPath));
   };
 
   const renderTable = () => {
@@ -305,7 +305,7 @@ function Index(props) {
                 height={'25px'}
                 variant={'outlined'}
                 style={customTheme.palette.outlined}
-                onClick={() => handleDownload(id)}
+                onClick={() => handleDownload(id, path)}
               >
                 {'Download'}
               </StyledButton>
