@@ -406,6 +406,13 @@ export class Index extends Component {
           msg: "Please change duplicate options",
         },
       });
+    } else if (this.props.topics && Number(this.state.expectedTime <= 0)) {
+      this.setState({
+        alert: {
+          severity: "warning",
+          msg: "Please enter a valid expected time",
+        },
+      });
     } else {
       const obj = {
         id: questionId !== undefined ? questionId : null,
