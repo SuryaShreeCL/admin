@@ -329,7 +329,7 @@ function Index(props) {
     dispatch(reviewCompleted(studentId, productId));
   };
 
-  let showCompleteButton = cvStatus === 'REVIEW';
+  let isReview = cvStatus === 'REVIEW';
   return (
     <Grid container>
       <Grid item sm={12} md={7}>
@@ -337,7 +337,7 @@ function Index(props) {
           <Grid container spacing={3} className={classes.flexFlow}>
             <Grid item lg={12}>
               <FlexEndView>
-                {showCompleteButton && (
+                {isReview && (
                   <StyledButton
                     variant={'outlined'}
                     style={customTheme.palette.outlined}
@@ -348,8 +348,13 @@ function Index(props) {
                 )}
                 <StyledButton
                   variant={'contained'}
-                  style={customTheme.palette.contained}
+                  style={
+                    isReview
+                      ? customTheme.palette.contained
+                      : customTheme.palette.primary
+                  }
                   onClick={handlePopupOpen}
+                  disabled={!isReview}
                 >
                   {'Upload CV'}
                 </StyledButton>
