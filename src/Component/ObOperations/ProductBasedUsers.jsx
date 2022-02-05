@@ -69,15 +69,12 @@ class ProductBasedUsers extends Component {
       Onboarding: "Onboarding",
       "Profile Gap Analysis": "Profile Gap Analysis",
     };
-    console.log(
-      this.state.selectedItem !== null && this.state.selectedItem.stepName
-    );
     var obj = {
       Onboarding: Onboarding,
       ["Profile Gap Analysis"]: PgaStudentList,
     };
     var selectedComponent =
-      this.state.selectedItem !== null &&
+      this.state.selectedItem  &&
       componentList[this.state.selectedItem.stepName];
     var Page = obj[selectedComponent];
     return (
