@@ -40,6 +40,8 @@ import CvViewer from './CvViewer';
 const CV_UPLOAD_MESSAGE = 'CV Uploaded Successfully';
 const CV_REVIEW_MESSAGE = 'CV Review Completed Successfully';
 const FILE_REQUIRED_MESSAGE = 'Please select a file';
+const FILE_SELECT_INVALID =
+  'Please select a valid format (.doc/.docx/.pdf)  file';
 
 function Index(props) {
   const classes = useStyles();
@@ -156,7 +158,11 @@ function Index(props) {
   }, [cvReviewStatus]);
 
   const handleDrop = files => {
-    setState({ ...state, file: files[0] });
+    if (files && files.length !== 0) {
+      setState({ ...state, file: files[0] });
+    } else {
+      setTimeout(() => handleSnack(true, 'error', FILE_SELECT_INVALID), 200);
+    }
   };
 
   const handleCancel = () => {
@@ -196,7 +202,10 @@ function Index(props) {
   const renderDialogContent = () => {
     return (
       <div>
-        <DropzoneComponent acceptTypes={'.pdf, .doc'} onDrop={handleDrop} />
+        <DropzoneComponent
+          acceptTypes={'.pdf, .doc, .docx'}
+          onDrop={handleDrop}
+        />
         <FlexJustifyView>
           <Typo
             variant={'h6'}
