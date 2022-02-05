@@ -2,7 +2,7 @@ import QueryString from "qs";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { lms_add_test } from "../../../../Component/RoutePaths";
-import { C2, H1 } from "../../../Assets/StyledComponents";
+import { C2, H1, BackIconBox } from "../../../Assets/StyledComponents";
 import {
   getConcepts,
   getSubjects,
@@ -22,6 +22,8 @@ import Explanation from "./Explanation";
 import PopUps from "./PopUps";
 import Question from "./Question";
 import QuestionPreview from "./preview/Index";
+import { IconButton } from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -490,8 +492,7 @@ export class Index extends Component {
           type: arr[i].choices[j].text === null ? "IMAGE" : "TEXT",
           text:
             arr[i].choices[j].text === null
-              ? // || arr[i].choices[j].text.length !== 0
-                arr[i].choices[j].image.fileName
+              ? arr[i].choices[j].image.fileName
               : arr[i].choices[j].text,
           orderNo: j + 1,
           bundleNo: arr.length > 1 ? i + 1 : null,
@@ -605,6 +606,10 @@ export class Index extends Component {
 
   handleClosePreview = () => {
     this.setState({ openPreview: false });
+  };
+
+  handleBackIconClick = () => {
+    this.props.history.goBack();
   };
 
   render() {
@@ -758,6 +763,11 @@ export class Index extends Component {
 
     return (
       <div>
+        <BackIconBox>
+          <IconButton color="primary" onClick={this.handleBackIconClick}>
+            <ArrowBack color="primary" />
+          </IconButton>
+        </BackIconBox>
         <C2>
           <H1>{id !== undefined ? "Edit Test" : "Add New Test"}</H1>
           <DropDownRack {...dropDownRackProps} />
