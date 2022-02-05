@@ -538,7 +538,7 @@ class TestEngineResult extends Component {
                   <>
                     <div style={{ paddingTop: "10px" }}>
                       <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                        {index + 1}.{eachItem.question}
+                        {eachItem.question}
                       </Typography>
                     </div>
                     <div style={{ paddingTop: 10 }}>
