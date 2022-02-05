@@ -1,4 +1,3 @@
-import React, { Component, forwardRef } from "react";
 import {
   Button,
   Checkbox,
@@ -13,7 +12,6 @@ import {
   Switch,
   TextField,
 } from "@material-ui/core";
-
 import Snackbar from "@material-ui/core/Snackbar";
 import {
   createMuiTheme,
@@ -26,6 +24,7 @@ import Check from "@material-ui/icons/Check";
 import ChevronLeft from "@material-ui/icons/ChevronLeft";
 import ChevronRight from "@material-ui/icons/ChevronRight";
 import Clear from "@material-ui/icons/Clear";
+import CloseIcon from "@material-ui/icons/CloseRounded";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import Edit from "@material-ui/icons/Edit";
 import FilterList from "@material-ui/icons/FilterList";
@@ -35,23 +34,12 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import CloseIcon from "@material-ui/icons/CloseRounded";
-import {
-  studentIdPath,
-  productuserPunchingPath,
-  lms_course_taken,
-} from "./RoutePaths";
 import MuiAlert from "@material-ui/lab/Alert";
-import styled from "styled-components";
-import {
-  getAllLmsProduct,
-  postStudentLmsProduct,
-  getStudentProducts,
-} from "../Lms/Redux/Action/Student";
-import { keys } from "@material-ui/core/styles/createBreakpoints";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import "bootstrap/dist/css/bootstrap.css";
+import React, { Component, forwardRef } from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import { updateLmsAccess } from "../Actions/AdminAction";
 import { getAllColleges, getBranches } from "../Actions/College";
 import {
@@ -62,6 +50,16 @@ import {
   postStudents,
 } from "../Actions/Student";
 import "../Asset/StudentData.css";
+import {
+  getAllLmsProduct,
+  getStudentProducts,
+  postStudentLmsProduct,
+} from "../Lms/Redux/Action/Student";
+import {
+  lms_course_taken,
+  productuserPunchingPath,
+  studentIdPath,
+} from "./RoutePaths";
 import TableComponent from "./TableComponent/TableComponent";
 import Loader from "./Utils/controls/Loader";
 import { isAlpha, isEmptyString, isNumber } from "./Validation";
@@ -104,6 +102,7 @@ export class Student extends Component {
         size: "",
         keyword: "",
       },
+      editing: false,
     };
   }
 
@@ -483,7 +482,7 @@ export class Student extends Component {
     }
   };
   handleEdit = () => {
-    this.setState({ isLoading: true, oldStudentId: null });
+    this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({
           firstNameHelperText: "Please fill the required field",
@@ -600,11 +599,11 @@ export class Student extends Component {
 
       this.props.mernStudentEdit(this.state.id, studentObj, response => {
         this.setState({
+          dialogOpen: false,
           isLoading: false,
           snackMessage: "Student Edited Successfully",
           snackColor: "success",
           snackOpen: true,
-          dialogOpen: false,
           firstName: null,
           lastName: null,
           eMail: null,
@@ -617,6 +616,7 @@ export class Student extends Component {
           provider: "",
           studentId: null,
           lmsAccess: false,
+          editing: false,
         });
       });
       this.setState({
@@ -829,6 +829,7 @@ export class Student extends Component {
       departmentHelperText: "",
       phoneHelperText: "",
       studentIdHelperText: "",
+      editing: false,
     });
     this.hasLmsAccess() &&
       this.setState({
@@ -971,6 +972,7 @@ export class Student extends Component {
                   studentId: rowdata.studentID,
                   oldStudentId: rowdata.studentID,
                   dialogOpen: true,
+                  editing: true,
                 });
               }}
               cols={this.stu_header}
@@ -1144,7 +1146,7 @@ export class Student extends Component {
                   helperText={this.state.studentIdHelperText}
                   value={this.state.studentId || null}
                   onChange={e => this.setState({ studentId: e.target.value })}
-                  disabled={this.state.oldStudentId}
+                  disabled={this.state.editing}
                   fullWidth
                   label="Student ID"
                 />
