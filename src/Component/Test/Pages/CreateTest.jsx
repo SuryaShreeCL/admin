@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CreateTestContainer } from '../Assets/Styles/CreateTestStyles';
 import BackHandler from '../Components/BackHandler';
 import { DateTimePicker } from '@material-ui/pickers';
@@ -76,6 +76,7 @@ const CreateTest = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const scrollRef = useRef(null);
 
   const [state, setState] = useState({
     wallCategory: [],
@@ -105,6 +106,9 @@ const CreateTest = () => {
   });
 
   useEffect(() => {
+    //scrolls to top of the page after redirection
+    scrollRef.current.scrollIntoView();
+
     dispatch(getWallCategories('Live'));
     dispatch(listAllWallPosts('Live', true));
     window.sessionStorage.removeItem('questionSetId');
@@ -198,7 +202,7 @@ const CreateTest = () => {
 
   return (
     <>
-      <BackHandler title={`Create New Test`} tab={0} path={testPath} />
+      <BackHandler title={`Create New Test`} tab={0} path={testPath} scrollRef={scrollRef} />
       <CreateTestContainer>
         <Formik
           initialValues={state}

@@ -31,7 +31,7 @@ import {
 } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
-import { wallPath } from '../../RoutePaths';
+import { testCreate, wallPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import PreprationContainer from '../Components/PreparationContainer';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -219,7 +219,7 @@ const CreatePost = () => {
     });
     setTimeout(() => {
       history.push({
-        pathname: wallPath,
+        pathname: state.isEvent ? testCreate : wallPath,
         tab: location?.postTypeTab,
       });
     }, 1200);
