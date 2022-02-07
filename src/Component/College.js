@@ -24,7 +24,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import Alert from "@material-ui/lab/Alert";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-
+import MySnackBar from "./MySnackBar";
 export class College extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +37,11 @@ export class College extends Component {
       msg: false,
       update: false,
       description : null,
+      snack : {
+        open : false,
+        message : "",
+        color : ""
+      }
     };
   }
 
@@ -167,8 +172,8 @@ createMuiTheme({
     this.setState({ show: false });
     let newCollegeObj = {
       name: this.state.name,
-      decription: this.state.description,
-      logourl : this.state.logoURL,
+      description: this.state.description,
+      logoURL : this.state.logoURL,
       status : null
     };
     if (this.state.name.length !== 0) {
@@ -201,9 +206,39 @@ createMuiTheme({
     }
     this.props.getAllColleges();
   }
+
+  componentDidUpdate(prevProps){
+    if(this.props.addCollegeStatus !== prevProps.addCollegeStatus){
+      if(this.props.addCollegeStatus.success){
+        this.props.getAllColleges();
+      }else{
+        this.setState({
+          snack : {
+            open : true,
+            message : this.props.addCollegeStatus.message,
+            color : "error"
+          }
+        })
+      }
+    }
+    if(this.props.updateCollegeStatus !== prevProps.updateCollegeStatus){
+      if(this.props.updateCollegeStatus.success){
+        this.props.getAllColleges();
+      }else{
+        this.setState({
+          snack : {
+            open : true,
+            message : this.props.updateCollegeStatus.message,
+            color : "error"
+          }
+        })
+      }
+    }
+  }
+
   render() {   
     
-    console.log(this.props.paginateCollegeList)
+    console.log(this.props, "+++++++++++++++++")
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
@@ -222,6 +257,7 @@ createMuiTheme({
               title={"College"}
               pageCount={this.props.paginateCollegeList.totalPages}
               action={true}
+              disableDelete
               onDelete={true}
               onDeleteClick={this.deleteHandler}
               onEdit={true}              
@@ -246,82 +282,7 @@ createMuiTheme({
            </div>
           </ThemeProvider>
           )}
-          {/* <MaterialTable
-            title="Colleges"
-            icons={tableIcons}
-            columns={this.col}
-            data={this.props.AllCollegeList}
-            actions={[
-              {
-                icon: () => (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<AddIcon />}
-                    size="small"
-                  >
-                    Add College
-                  </Button>
-                ),
-                tooltip: "Create Course",
-                isFreeAction: true,
-                onClick: (e) =>
-                  this.setState({
-                    id: "",
-                    name: "",
-                    description: "",
-                    logo: "",
-                    show: true,
-                  }),
-              },
-              {
-                icon: () => (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<EditIcon />}
-                    size="small"
-                  >
-                    Edit
-                  </Button>
-                ),
-                tooltip: "Edit Course",
-                onClick: (e, row) => {
-                  this.setState({
-                    id: row.id,
-                    name: row.name,
-                    description: row.description,
-                    logo: row.logoURL,
-                    show: true,
-                  });
-                },
-              },
-              {
-                icon: () => (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<DeleteIcon />}
-                    size="small"
-                    disabled
-                  >
-                    Delete
-                  </Button>
-                ),
-                tooltip: "Delete Course",
-              },
-            ]}
-            options={{
-              actionsColumnIndex: -1,
-              search: true,
-              headerStyle: {
-                fontWeight: "bold",
-              },
-              minBodyHeight: "420px",
-              maxBodyHeight: "420px",
-            }}
-          /> */}
-
+         
           {/* Add and Edit College Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
@@ -369,7 +330,7 @@ createMuiTheme({
                   rowsMin={3}
                   multiline
                   fullWidth
-                  value={this.state.logo}
+                  value={this.state.logoURL}
                   onChange={(e) => this.setState({ logoURL: e.target.value })}
                 />
               </DialogContent>
@@ -390,6 +351,18 @@ createMuiTheme({
             </Dialog>
           </ThemeProvider>
         </div>
+        <MySnackBar
+        snackOpen={this.state.snack.open}
+        snackVariant={this.state.snack.color}
+        snackMsg={this.state.snack.message}
+        onClose={()=>this.setState({
+          snack : {
+            open : false,
+            message : "",
+            color : ""
+          }
+        })}
+        />
       </ThemeProvider>
     );
   }
@@ -401,6 +374,9 @@ const mapStateToProps = (state) => {
   return {
     AllCollegeList: state.CollegeReducer.allCollegeList,
     paginateCollegeList: state.CollegeReducer.paginateCollegeList,
+    addCollegeStatus : state.CollegeReducer.addCollegeStatus,
+    updateCollegeStatus : state.CollegeReducer.updateCollegeStatus
+
   };
 };
 export default connect(mapStateToProps, {

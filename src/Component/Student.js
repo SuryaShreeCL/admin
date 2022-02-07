@@ -1,4 +1,3 @@
-import React, { Component, forwardRef } from 'react';
 import {
   Button,
   Checkbox,
@@ -12,59 +11,58 @@ import {
   IconButton,
   Switch,
   TextField,
-} from '@material-ui/core';
-
-import Snackbar from '@material-ui/core/Snackbar';
+} from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
 import {
   createMuiTheme,
   MuiThemeProvider,
   ThemeProvider,
-} from '@material-ui/core/styles';
-import AddBox from '@material-ui/icons/AddBox';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
-import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
-import CloseIcon from '@material-ui/icons/CloseRounded';
-import {
-  studentIdPath,
-  productuserPunchingPath,
-  lms_course_taken,
-} from './RoutePaths';
-import MuiAlert from '@material-ui/lab/Alert';
-import styled from 'styled-components';
-import {
-  getAllLmsProduct,
-  postStudentLmsProduct,
-  getStudentProducts,
-} from '../Lms/Redux/Action/Student';
-import { keys } from '@material-ui/core/styles/createBreakpoints';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import 'bootstrap/dist/css/bootstrap.css';
-import { connect } from 'react-redux';
-import { updateLmsAccess } from '../Actions/AdminAction';
-import { getAllColleges, getBranches } from '../Actions/College';
+} from "@material-ui/core/styles";
+import AddBox from "@material-ui/icons/AddBox";
+import ArrowDownward from "@material-ui/icons/ArrowDownward";
+import Check from "@material-ui/icons/Check";
+import ChevronLeft from "@material-ui/icons/ChevronLeft";
+import ChevronRight from "@material-ui/icons/ChevronRight";
+import Clear from "@material-ui/icons/Clear";
+import CloseIcon from "@material-ui/icons/CloseRounded";
+import DeleteOutline from "@material-ui/icons/DeleteOutline";
+import Edit from "@material-ui/icons/Edit";
+import FilterList from "@material-ui/icons/FilterList";
+import FirstPage from "@material-ui/icons/FirstPage";
+import LastPage from "@material-ui/icons/LastPage";
+import Remove from "@material-ui/icons/Remove";
+import SaveAlt from "@material-ui/icons/SaveAlt";
+import Search from "@material-ui/icons/Search";
+import ViewColumn from "@material-ui/icons/ViewColumn";
+import MuiAlert from "@material-ui/lab/Alert";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import "bootstrap/dist/css/bootstrap.css";
+import React, { Component, forwardRef } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import { updateLmsAccess } from "../Actions/AdminAction";
+import { getAllColleges, getBranches } from "../Actions/College";
 import {
   getStudentPaginate,
   getStudents,
   mernStudentEdit,
   mernStudentSignUp,
   postStudents,
-} from '../Actions/Student';
-import '../Asset/StudentData.css';
-import TableComponent from './TableComponent/TableComponent';
-import Loader from './Utils/controls/Loader';
-import { isAlpha, isEmptyString, isNumber } from './Validation';
+} from "../Actions/Student";
+import "../Asset/StudentData.css";
+import {
+  getAllLmsProduct,
+  getStudentProducts,
+  postStudentLmsProduct,
+} from "../Lms/Redux/Action/Student";
+import {
+  lms_course_taken,
+  productuserPunchingPath,
+  studentIdPath,
+} from "./RoutePaths";
+import TableComponent from "./TableComponent/TableComponent";
+import Loader from "./Utils/controls/Loader";
+import { isAlpha, isEmptyString, isNumber } from "./Validation";
 export class Student extends Component {
   constructor(props) {
     super(props);
@@ -82,18 +80,18 @@ export class Student extends Component {
       college: null,
       department: null,
       phone: null,
-      provider: '',
+      provider: "",
       toogleButton: false,
-      password: '',
+      password: "",
       studentId: null,
       isActive: true,
-      firstNameHelperText: '',
-      lastNameHelperText: '',
-      emailHelperText: '',
-      collegeHelperText: '',
-      departmentHelperText: '',
-      phoneHelperText: '',
-      studentIdHelperText: '',
+      firstNameHelperText: "",
+      lastNameHelperText: "",
+      emailHelperText: "",
+      collegeHelperText: "",
+      departmentHelperText: "",
+      phoneHelperText: "",
+      studentIdHelperText: "",
       internAccess: false,
       lmsAccess: false,
       prevEmail: null,
@@ -101,9 +99,10 @@ export class Student extends Component {
       oldStudentId: null,
       search: {
         page: 0,
-        size: '',
-        keyword: '',
+        size: "",
+        keyword: "",
       },
+      editing: false,
     };
   }
 
@@ -118,8 +117,8 @@ export class Student extends Component {
   // ];
 
   hasLmsAccess = () => {
-    var role = window.sessionStorage.getItem('role');
-    if (role === 'LMSCHECKER' || role === 'LMSEDITOR') {
+    var role = window.sessionStorage.getItem("role");
+    if (role === "LMSCHECKER" || role === "LMSEDITOR") {
       return true;
     } else {
       return false;
@@ -127,28 +126,28 @@ export class Student extends Component {
   };
 
   stu_header = [
-    { title: 'ID', fieldName: 'studentID' },
+    { title: "ID", fieldName: "studentID" },
     // { title: 'Last Name', field: 'lastName' },
     {
-      title: 'Full Name',
-      fieldName: 'fullName',
+      title: "Full Name",
+      fieldName: "fullName",
     },
-    { title: 'Email Id', fieldName: 'emailId' },
-    { title: 'College', fieldName: 'college.name' },
-    { title: 'Department', fieldName: 'department.name' },
-    { title: 'Phone', fieldName: 'phoneNumber' },
-    { title: 'Degree', fieldName: 'ugDegree.name' },
+    { title: "Email Id", fieldName: "emailId" },
+    { title: "College", fieldName: "college.name" },
+    { title: "Department", fieldName: "department.name" },
+    { title: "Phone", fieldName: "phoneNumber" },
+    { title: "Degree", fieldName: "ugDegree.name" },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
 
   LMS_STUDENT_HEADER = [
-    { title: 'ID', fieldName: 'studentID' },
+    { title: "ID", fieldName: "studentID" },
     // { title: 'Last Name', field: 'lastName' },
-    { title: 'Full Name', fieldName: 'fullName' },
-    { title: 'Email Id', fieldName: 'emailId' },
+    { title: "Full Name", fieldName: "fullName" },
+    { title: "Email Id", fieldName: "emailId" },
     // { title: "College", fieldName: "college.name" },
     // { title: "Department", fieldName: "department.name" },
-    { title: 'Phone', fieldName: 'phoneNumber' },
+    { title: "Phone", fieldName: "phoneNumber" },
     // { title: "Degree", fieldName: "ugDegree.name" },
     // { title: 'UGGPA', field: 'uggpa' },k
   ];
@@ -194,8 +193,8 @@ export class Student extends Component {
       if (this.props.signUpResponse.auth === true) {
         let lmsobj = {
           isActive: this.state.isActive,
-          provider: this.state.toogleButton === true ? 'Google' : 'Local',
-          isLMSUser: this.state.lmsAccess === false ? 'false' : 'true',
+          provider: this.state.toogleButton === true ? "Google" : "Local",
+          isLMSUser: this.state.lmsAccess === false ? "false" : "true",
         };
         this.props.updateLmsAccess(
           this.props.signUpResponse.studentInfo.id,
@@ -208,7 +207,6 @@ export class Student extends Component {
       this.props.getStudentPaginate(0, 20);
     }
     if (this.props.editStudentResponse !== prevProps.editStudentResponse) {
-      console.log(this.props.editStudentResponse);
       this.props.getStudentPaginate(0, 20);
     }
     // TO search users when the input field for search is empty
@@ -220,28 +218,28 @@ export class Student extends Component {
 
     if (prevState.dialogopen !== this.state.dialoopen) {
       this.setState({
-        firstNameHelperText: '',
-        lastNameHelperText: '',
-        emailHelperText: '',
-        collegeHelperText: '',
-        departmentHelperText: '',
-        phoneHelperText: '',
-        studentIdHelperText: '',
+        firstNameHelperText: "",
+        lastNameHelperText: "",
+        emailHelperText: "",
+        collegeHelperText: "",
+        departmentHelperText: "",
+        phoneHelperText: "",
+        studentIdHelperText: "",
       });
     }
   }
 
   rowClick = rowData => {
     if (
-      ['LMSEDITOR', 'LMSCHECKER'].indexOf(sessionStorage.getItem('role')) === -1
+      ["LMSEDITOR", "LMSCHECKER"].indexOf(sessionStorage.getItem("role")) === -1
     ) {
-      window.sessionStorage.setItem('student', rowData);
-      this.props.match.path !== '/admin/productpunching'
-        ? this.props.history.push(studentIdPath + '/' + rowData.id)
+      window.sessionStorage.setItem("student", rowData);
+      this.props.match.path !== "/admin/productpunching"
+        ? this.props.history.push(studentIdPath + "/" + rowData.id)
         : this.props.history.push(productuserPunchingPath + rowData.id);
     } else {
       if (rowData.isLMSUser)
-        this.props.history.push(lms_course_taken + '?studentId=' + rowData.id);
+        this.props.history.push(lms_course_taken + "?studentId=" + rowData.id);
     }
     // window.sessionStorage.setItem("student", rowData);
     // this.props.match.path !== "/admin/productpunching"
@@ -254,7 +252,7 @@ export class Student extends Component {
       overrides: {
         MuiTypography: {
           h6: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
           },
         },
       },
@@ -264,19 +262,17 @@ export class Student extends Component {
       overrides: {
         MuiCircularProgress: {
           colorPrimary: {
-            color: '#009be5',
+            color: "#009be5",
           },
         },
       },
     });
 
   paginate = (page, size, keyword) => {
-    console.log(page, size, keyword);
     var tempSearchHolder = { ...this.state.search };
     tempSearchHolder.page = page;
     tempSearchHolder.size = size;
     tempSearchHolder.keyword = keyword;
-    console.log(tempSearchHolder);
     this.setState({
       search: tempSearchHolder,
     });
@@ -298,15 +294,15 @@ export class Student extends Component {
   };
 
   lmsProductSetState = lmsProduct => {
-    var errorMessage = 'Please fill the required field';
+    var errorMessage = "Please fill the required field";
     lmsProduct.map((item, index) => {
       let arr = lmsProduct;
       !this.isTime(item.expirationDate)
-        ? (arr[index]['expirationDateHelperText'] = errorMessage)
-        : (arr[index]['expirationDateHelperText'] = '');
+        ? (arr[index]["expirationDateHelperText"] = errorMessage)
+        : (arr[index]["expirationDateHelperText"] = "");
       item.product.id === null
-        ? (arr[index]['productNameHelperText'] = errorMessage)
-        : (arr[index]['productNameHelperText'] = '');
+        ? (arr[index]["productNameHelperText"] = errorMessage)
+        : (arr[index]["productNameHelperText"] = "");
       this.setState({ product: arr });
     });
   };
@@ -326,66 +322,66 @@ export class Student extends Component {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({
-          firstNameHelperText: 'Please fill the required field',
+          firstNameHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ firstNameHelperText: '' });
+      : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
       ? this.setState({
-          lastNameHelperText: 'Please fill the required field',
+          lastNameHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ lastNameHelperText: '' });
+      : this.setState({ lastNameHelperText: "" });
 
     this.state.college === null || this.state.college.length === 0
       ? this.setState({
-          collegeHelperText: 'Please fill the required field',
+          collegeHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ collegeHelperText: '' });
+      : this.setState({ collegeHelperText: "" });
     this.state.department === null || this.state.department.length === 0
       ? this.setState({
-          departmentHelperText: 'Please fill the required field',
+          departmentHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ departmentHelperText: '' });
+      : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
       ? this.setState({
-          studentIdHelperText: 'Please fill the required field',
+          studentIdHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ studentIdHelperText: '' });
+      : this.setState({ studentIdHelperText: "" });
     if (this.state.eMail) {
       if (this.isEmail(this.state.eMail)) {
         this.setState({
-          emailHelperText: '',
+          emailHelperText: "",
           isLoading: false,
         });
       } else {
         this.setState({
-          emailHelperText: 'Please fill valid email',
+          emailHelperText: "Please fill valid email",
           isLoading: false,
         });
       }
     } else {
       this.setState({
-        emailHelperText: 'Please fill the required field',
+        emailHelperText: "Please fill the required field",
         isLoading: false,
       });
     }
     if (isEmptyString(this.state.phone)) {
       this.setState({
-        phoneHelperText: 'Please fill the required field',
+        phoneHelperText: "Please fill the required field",
         isLoading: false,
       });
     } else if (this.state.phone.length !== 10) {
       this.setState({
-        phoneHelperText: 'Please enter valid phone number',
+        phoneHelperText: "Please enter valid phone number",
         isLoading: false,
       });
     } else {
       this.setState({
-        phoneHelperText: '',
+        phoneHelperText: "",
       });
     }
 
@@ -422,15 +418,15 @@ export class Student extends Component {
         phone: this.state.phone,
         college: this.state.college.id,
         department: this.state.department.id,
-        roles: ['Student'],
+        roles: ["Student"],
         password: this.state.phone,
-        provider: this.state.toogleButton === true ? 'Google' : 'Local',
+        provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
-        avatar: '',
+        avatar: "",
         isActive: this.state.isActive,
         studentId: this.state.studentId,
-        internshipAccess: this.state.internAccess === false ? 'no' : 'yes',
-        origin: 'ADMIN Portal',
+        internshipAccess: this.state.internAccess === false ? "no" : "yes",
+        origin: "ADMIN Portal",
       };
       this.props.mernStudentSignUp(studentObj, response => {
         if (response.auth) {
@@ -445,15 +441,15 @@ export class Student extends Component {
                 products: this.state.product.map(item => ({
                   productId: item.product.id,
                   expirationDate: item.expirationDate,
-                  stage: item.stage ? 'Active' : 'NotActive',
+                  stage: item.stage ? "Active" : "NotActive",
                 })),
               },
               () => {}
             );
           this.setState({
             isLoading: false,
-            snackMessage: 'Student Registered Successfully',
-            snackColor: 'success',
+            snackMessage: "Student Registered Successfully",
+            snackColor: "success",
             snackOpen: true,
             dialogOpen: false,
             firstName: null,
@@ -464,7 +460,7 @@ export class Student extends Component {
             department: null,
             isActive: true,
             toogleButton: false,
-            provider: '',
+            provider: "",
             internAccess: false,
             studentId: null,
             selectedProduct: [],
@@ -472,7 +468,7 @@ export class Student extends Component {
         } else {
           this.setState({
             snackMessage: response.message,
-            snackColor: 'error',
+            snackColor: "error",
             snackOpen: true,
           });
         }
@@ -489,50 +485,50 @@ export class Student extends Component {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({
-          firstNameHelperText: 'Please fill the required field',
+          firstNameHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ firstNameHelperText: '' });
+      : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0
       ? this.setState({
-          lastNameHelperText: 'Please fill the required field',
+          lastNameHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ lastNameHelperText: '' });
+      : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({
-          emailHelperText: 'Please fill the required field',
+          emailHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ emailHelperText: '' });
+      : this.setState({ emailHelperText: "" });
     this.state.phone === null || this.state.phone.length === 0
       ? this.setState({
-          phoneHelperText: 'Please fill the required field',
+          phoneHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ phoneHelperText: '' });
+      : this.setState({ phoneHelperText: "" });
     this.state.college === null ||
     this.state.college.length === 0 ||
     this.state.college.id === null
       ? this.setState({
-          collegeHelperText: 'Please fill the required field',
+          collegeHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ collegeHelperText: '' });
+      : this.setState({ collegeHelperText: "" });
     this.state.department === null ||
     this.state.department.length === 0 ||
     this.state.department.id === null
       ? this.setState({
-          departmentHelperText: 'Please fill the required field',
+          departmentHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ departmentHelperText: '' });
+      : this.setState({ departmentHelperText: "" });
     this.state.studentId === null || this.state.studentId.length === 0
       ? this.setState({
-          studentIdHelperText: 'Please fill the required field',
+          studentIdHelperText: "Please fill the required field",
           isLoading: false,
         })
-      : this.setState({ studentIdHelperText: '' });
+      : this.setState({ studentIdHelperText: "" });
 
     if (
       this.hasLmsAccess() &&
@@ -567,11 +563,11 @@ export class Student extends Component {
         department: this.state.department.id,
         email_id: this.state.eMail,
         isActive: this.state.isActive,
-        avatar: '',
+        avatar: "",
         studentId: this.state.studentId,
-        internshipAccess: this.state.internAccess === false ? 'no' : 'yes',
-        lmsAccess: this.state.lmsAccess === false ? 'false' : 'true',
-        provider: this.state.toogleButton === true ? 'Google' : 'Local',
+        internshipAccess: this.state.internAccess === false ? "no" : "yes",
+        lmsAccess: this.state.lmsAccess === false ? "false" : "true",
+        provider: this.state.toogleButton === true ? "Google" : "Local",
         password: this.state.phone,
       };
 
@@ -588,7 +584,7 @@ export class Student extends Component {
               this.state.product.map(item => ({
                 productId: item.product.id,
                 expirationDate: item.expirationDate,
-                stage: item.stage ? 'Active' : 'NotActive',
+                stage: item.stage ? "Active" : "NotActive",
               })),
           },
           () => {}
@@ -596,18 +592,18 @@ export class Student extends Component {
 
       let lmsobj = {
         isActive: this.state.isActive,
-        provider: this.state.toogleButton === true ? 'Google' : 'Local',
-        isLMSUser: this.state.lmsAccess === false ? 'false' : 'true',
+        provider: this.state.toogleButton === true ? "Google" : "Local",
+        isLMSUser: this.state.lmsAccess === false ? "false" : "true",
       };
       this.props.updateLmsAccess(this.state.id, lmsobj);
 
       this.props.mernStudentEdit(this.state.id, studentObj, response => {
         this.setState({
-          isLoading: false,
-          snackMessage: 'Student Edited Successfully',
-          snackColor: 'success',
-          snackOpen: true,
           dialogOpen: false,
+          isLoading: false,
+          snackMessage: "Student Edited Successfully",
+          snackColor: "success",
+          snackOpen: true,
           firstName: null,
           lastName: null,
           eMail: null,
@@ -617,9 +613,10 @@ export class Student extends Component {
           isActive: true,
           toogleButton: false,
           internshipAccess: false,
-          provider: '',
+          provider: "",
           studentId: null,
           lmsAccess: false,
+          editing: false,
         });
       });
       this.setState({
@@ -640,11 +637,11 @@ export class Student extends Component {
         product: {
           id: null,
         },
-        expirationDate: '',
+        expirationDate: "",
         stage: true,
         product_Id: null,
-        expirationDateHelperText: '',
-        productNameHelperText: '',
+        expirationDateHelperText: "",
+        productNameHelperText: "",
       });
       this.setState({ product: arr });
     }
@@ -700,7 +697,7 @@ export class Student extends Component {
                 getOptionLabel={option => option.title}
                 onChange={(e, newValue) => {
                   if (newValue) {
-                    this.onChange('product', newValue, idx);
+                    this.onChange("product", newValue, idx);
                     let arr = this.state.selectedProduct.filter(
                       (item, index) =>
                         item.id !== newValue &&
@@ -713,8 +710,8 @@ export class Student extends Component {
                 renderInput={params => (
                   <TextField
                     {...params}
-                    label='Product Name'
-                    variant='outlined'
+                    label="Product Name"
+                    variant="outlined"
                     error={item.productNameHelperText.length !== 0}
                     helperText={item.productNameHelperText}
                   />
@@ -722,14 +719,14 @@ export class Student extends Component {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={4} md={4} className={'product__date'}>
+            <Grid item sm={4} md={4} className={"product__date"}>
               <TextField
-                type={'date'}
-                color={'primary'}
-                variant={'outlined'}
+                type={"date"}
+                color={"primary"}
+                variant={"outlined"}
                 onChange={e => {
                   this.onChange(
-                    'expirationDate',
+                    "expirationDate",
                     new Date(e.target.value),
                     idx
                   );
@@ -738,25 +735,25 @@ export class Student extends Component {
                   item.expirationDate && new Date(item.expirationDate).getTime()
                     ? new Date(item.expirationDate)
                         .toISOString()
-                        .replace(/T.*/, '')
-                        .split('-')
-                        .join('-')
+                        .replace(/T.*/, "")
+                        .split("-")
+                        .join("-")
                     : item.expirationDate
                 }
-                label={'Expiry Date'}
+                label={"Expiry Date"}
                 InputLabelProps={{
                   shrink: true,
-                  className: 'label_pad',
+                  className: "label_pad",
                 }}
                 InputProps={{
                   inputProps: {
                     min: new Date()
                       .toISOString()
-                      .replace(/T.*/, '')
-                      .split('-')
-                      .join('-'),
+                      .replace(/T.*/, "")
+                      .split("-")
+                      .join("-"),
                   },
-                  className: 'product__date__style',
+                  className: "product__date__style",
                   // readOnly: true,
                 }}
                 error={item.expirationDateHelperText.length !== 0}
@@ -775,8 +772,8 @@ export class Student extends Component {
               className={
                 item.expirationDateHelperText.length !== 0 ||
                 item.productNameHelperText.length !== 0
-                  ? 'switch__overlaps__style'
-                  : 'switch__style'
+                  ? "switch__overlaps__style"
+                  : "switch__style"
               }
             >
               {item.product_Id === null ? (
@@ -785,24 +782,24 @@ export class Student extends Component {
                     this.removeProduct(idx);
                     this.removeSelectedItem(item.product.id);
                   }}
-                  className={'switch__style'}
+                  className={"switch__style"}
                 >
                   <CloseIcon />
                 </IconButton>
               ) : (
                 <FormControlLabel
-                  className={'switch__style'}
+                  className={"switch__style"}
                   control={
                     <Switch
                       checked={item.stage}
                       onChange={e => {
-                        this.onChange('stage', e.target.checked, idx);
+                        this.onChange("stage", e.target.checked, idx);
                       }}
-                      name='stage'
-                      color='primary'
+                      name="stage"
+                      color="primary"
                     />
                   }
-                  label='isActive'
+                  label="isActive"
                 />
               )}
             </Grid>
@@ -825,20 +822,21 @@ export class Student extends Component {
   handleDialogClose = () => {
     this.setState({
       dialogOpen: false,
-      firstNameHelperText: '',
-      lastNameHelperText: '',
-      emailHelperText: '',
-      collegeHelperText: '',
-      departmentHelperText: '',
-      phoneHelperText: '',
-      studentIdHelperText: '',
+      firstNameHelperText: "",
+      lastNameHelperText: "",
+      emailHelperText: "",
+      collegeHelperText: "",
+      departmentHelperText: "",
+      phoneHelperText: "",
+      studentIdHelperText: "",
+      editing: false,
     });
     this.hasLmsAccess() &&
       this.setState({
         internAccess: false,
         toogleButton: false,
         internshipAccess: false,
-        provider: '',
+        provider: "",
         isActive: true,
         studentId: null,
         isLoading: false,
@@ -857,38 +855,6 @@ export class Student extends Component {
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
-          {/* <div style={{display:"flex",flexDirection:"row",margin:"10px"}}>
-          <img
-            src={BackButton}
-            style={{ cursor: "pointer",marginTop:"-10px" }}
-            onClick={() => this.props.history.goBack()}
-             />
-               <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
-              <Typography style={{ cursor: "pointer", fontWeight: "600",marginLeft:"10px" }} onClick={()=>this.props.history.push(studentPath)}>
-                Home
-              </Typography>
-              <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
-                Product Punching
-              </Typography>
-            </Breadcrumbs>
-            </div> */}
-          {/* <MaterialTable            
-            columns={this.stu_header}
-            icons={this.tableIcons}
-            data={this.props.StudentsList}
-            isLoading={(this.props.StudentsList.length===0) ? true : false}
-            title="Student Details"
-            onRowClick={this.rowClick}
-            options={{
-              search:true,
-              headerStyle: {
-                fontWeight: "bold",
-              },
-              minBodyHeight: '420px',
-              maxBodyHeight: '420px'
-            }}
-          /> */}
-
           {this.props.StudentFilterList.length !== 0 ? (
             <TableComponent
               data={
@@ -897,7 +863,7 @@ export class Student extends Component {
                   : null
               }
               add={
-                this.props.match.path === '/admin/productpunching'
+                this.props.match.path === "/admin/productpunching"
                   ? false
                   : true
               }
@@ -905,7 +871,7 @@ export class Student extends Component {
               onKeyUp={e => {
                 if (e.keyCode === 13) {
                   e.preventDefault();
-                  document.getElementById('search').click();
+                  document.getElementById("search").click();
                 }
               }}
               onSearchClick={this.handleSearch}
@@ -919,40 +885,27 @@ export class Student extends Component {
                   college: null,
                   department: null,
                   phone: null,
-                  provider: '',
+                  provider: "",
                   toogleButton: false,
-                  password: '',
+                  password: "",
                   studentId: null,
                   isActive: true,
-                  firstNameHelperText: '',
-                  lastNameHelperText: '',
-                  emailHelperText: '',
-                  collegeHelperText: '',
-                  departmentHelperText: '',
-                  phoneHelperText: '',
-                  studentIdHelperText: '',
+                  firstNameHelperText: "",
+                  lastNameHelperText: "",
+                  emailHelperText: "",
+                  collegeHelperText: "",
+                  departmentHelperText: "",
+                  phoneHelperText: "",
+                  studentIdHelperText: "",
                   internAccess: false,
                   lmsAccess: false,
                   id: null,
                   product: [],
                   selectedProduct: [],
-                  // firstName : null,
-                  // lastName : null,
-                  // eMail : null,
-                  // userName : null,
-                  // college : null,
-                  // department : null,
-                  // phone : null,
-                  // internAccess : false,
-                  // provider : "",
-                  // toogleButton : false,
-                  // studentId : null,
-                  // isActive : true,
-                  // lmsAccess : false
                 })
               }
               action={
-                this.props.match.path === '/admin/productpunching'
+                this.props.match.path === "/admin/productpunching"
                   ? false
                   : true
               }
@@ -965,20 +918,20 @@ export class Student extends Component {
                     let selectedProductArr = [];
                     response.data.map(item => {
                       let product = {
-                        courseId: '',
+                        courseId: "",
                         id: item.id,
                         title: item.productName,
                       };
                       let expiryDate = item.expiryDate;
-                      let stage = item.stage === 'Active';
+                      let stage = item.stage === "Active";
                       let product_Id = item.id;
                       arr.push({
                         product: product,
                         expirationDate: expiryDate,
                         stage: stage,
                         product_Id: product_Id,
-                        expirationDateHelperText: '',
-                        productNameHelperText: '',
+                        expirationDateHelperText: "",
+                        productNameHelperText: "",
                       });
                       selectedProductArr.push(product);
                     });
@@ -1007,7 +960,7 @@ export class Student extends Component {
                       : null,
                   isActive: rowdata.isactive,
                   internAccess:
-                    rowdata.oldUser === null || rowdata.oldUser === 'no'
+                    rowdata.oldUser === null || rowdata.oldUser === "no"
                       ? false
                       : true,
                   lmsAccess:
@@ -1015,10 +968,11 @@ export class Student extends Component {
                       ? false
                       : true,
                   provider: rowdata.provider,
-                  toogleButton: rowdata.provider === 'Google' ? true : false,
+                  toogleButton: rowdata.provider === "Google" ? true : false,
                   studentId: rowdata.studentID,
                   oldStudentId: rowdata.studentID,
                   dialogOpen: true,
+                  editing: true,
                 });
               }}
               cols={this.stu_header}
@@ -1026,25 +980,19 @@ export class Student extends Component {
               onSearch={this.paginate}
               paginate={this.paginate}
               totalCount={this.props.StudentFilterList.totalElements}
-              title={'Student'}
+              title={"Student"}
               pageCount={this.props.StudentFilterList.totalPages}
             />
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '65vh',
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "65vh",
                 }}
               >
-                {/* <CircularProgress
-                  color="primary"
-                  variant="indeterminate"
-                  size="3rem"
-                  thickness="3"
-                /> */}
                 <Loader />
               </div>
             </ThemeProvider>
@@ -1053,18 +1001,18 @@ export class Student extends Component {
         <Dialog
           open={this.state.dialogOpen}
           onClose={this.handleDialogClose}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id='alert-dialog-title'>
-            {this.state.id === null ? 'Add New Student' : 'Edit Student'}
+          <DialogTitle id="alert-dialog-title">
+            {this.state.id === null ? "Add New Student" : "Edit Student"}
           </DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
               <Grid item md={6}>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   fullWidth
                   error={this.state.firstNameHelperText.length !== 0}
                   helperText={this.state.firstNameHelperText}
@@ -1073,14 +1021,14 @@ export class Student extends Component {
                   }}
                   value={this.state.firstName || null}
                   onChange={e => this.setState({ firstName: e.target.value })}
-                  label='First Name'
+                  label="First Name"
                 />
               </Grid>
 
               <Grid item md={6}>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   fullWidth
                   error={this.state.lastNameHelperText.length !== 0}
                   helperText={this.state.lastNameHelperText}
@@ -1089,38 +1037,38 @@ export class Student extends Component {
                   }}
                   value={this.state.lastName || null}
                   onChange={e => this.setState({ lastName: e.target.value })}
-                  label='Last Name'
+                  label="Last Name"
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   error={this.state.emailHelperText.length !== 0}
                   helperText={this.state.emailHelperText}
                   value={this.state.eMail || null}
                   onChange={e => this.setState({ eMail: e.target.value })}
                   disabled={this.state.id}
                   fullWidth
-                  label='E-Mail'
+                  label="E-Mail"
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   disabled
-                  value={this.state.eMail || ''}
+                  value={this.state.eMail || ""}
                   InputLabelProps={{
                     shrink: this.state.eMail !== null ? true : false,
                   }}
                   fullWidth
-                  label='UserName'
+                  label="UserName"
                 />
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
-                  id='combo-box-demo'
+                  id="combo-box-demo"
                   value={this.state.college}
                   options={this.props.allCollegeList}
                   onChange={(e, newValue) =>
@@ -1131,23 +1079,22 @@ export class Student extends Component {
                       },
                     })
                   }
-                  // onChange={(e,newValue)=>console.log(newValue)}
                   getOptionLabel={option => option.name}
                   renderInput={params => (
                     <TextField
                       helperText={this.state.collegeHelperText}
                       error={this.state.collegeHelperText.length !== 0}
                       {...params}
-                      size='small'
-                      label='College'
-                      variant='outlined'
+                      size="small"
+                      label="College"
+                      variant="outlined"
                     />
                   )}
                 />
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
-                  id='combo-box-demo'
+                  id="combo-box-demo"
                   value={this.state.department}
                   options={this.props.BranchList}
                   onChange={(e, newValue) =>
@@ -1164,17 +1111,17 @@ export class Student extends Component {
                       helperText={this.state.departmentHelperText}
                       error={this.state.departmentHelperText.length !== 0}
                       {...params}
-                      size='small'
-                      label='Department'
-                      variant='outlined'
+                      size="small"
+                      label="Department"
+                      variant="outlined"
                     />
                   )}
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   error={this.state.phoneHelperText.length !== 0}
                   helperText={this.state.phoneHelperText}
                   onKeyPress={evt => {
@@ -1184,7 +1131,7 @@ export class Student extends Component {
                   onChange={e => this.setState({ phone: e.target.value })}
                   disabled={this.state.id}
                   fullWidth
-                  label='Phone Number'
+                  label="Phone Number"
                   inputProps={{
                     maxLength: 10,
                   }}
@@ -1193,19 +1140,19 @@ export class Student extends Component {
 
               <Grid item md={6}>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   error={this.state.studentIdHelperText.length !== 0}
                   helperText={this.state.studentIdHelperText}
                   value={this.state.studentId || null}
                   onChange={e => this.setState({ studentId: e.target.value })}
-                  disabled={this.state.oldStudentId}
+                  disabled={this.state.editing}
                   fullWidth
-                  label='Student ID'
+                  label="Student ID"
                 />
               </Grid>
 
-              <Grid item md={3} align='center'>
+              <Grid item md={3} align="center">
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -1214,14 +1161,14 @@ export class Student extends Component {
                       onChange={e =>
                         this.setState({ toogleButton: e.target.checked })
                       }
-                      name='checkedB'
-                      color='primary'
+                      name="checkedB"
+                      color="primary"
                     />
                   }
-                  label={this.state.provider === null ? 'App User' : 'Google'}
+                  label={this.state.provider === null ? "App User" : "Google"}
                 />
               </Grid>
-              <Grid item md={3} align='center'>
+              <Grid item md={3} align="center">
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -1229,11 +1176,11 @@ export class Student extends Component {
                       onChange={e =>
                         this.setState({ isActive: e.target.checked })
                       }
-                      name='checkedB'
-                      color='primary'
+                      name="checkedB"
+                      color="primary"
                     />
                   }
-                  label='Is Active'
+                  label="Is Active"
                 />
               </Grid>
               <Grid item md={3}>
@@ -1244,11 +1191,11 @@ export class Student extends Component {
                       onChange={e =>
                         this.setState({ internAccess: e.target.checked })
                       }
-                      name='checkedB'
-                      color='primary'
+                      name="checkedB"
+                      color="primary"
                     />
                   }
-                  label='Internship Access'
+                  label="Internship Access"
                 />
               </Grid>
               <Grid item md={3}>
@@ -1259,30 +1206,30 @@ export class Student extends Component {
                       onChange={e =>
                         this.setState({ lmsAccess: e.target.checked })
                       }
-                      name='checkedB'
-                      color='primary'
+                      name="checkedB"
+                      color="primary"
                     />
                   }
-                  label='LMS Access'
+                  label="LMS Access"
                 />
               </Grid>
               <Grid item md={12}>
                 <TextField
-                  variant='outlined'
-                  size='small'
+                  variant="outlined"
+                  size="small"
                   disabled
-                  value={this.state.phone || ''}
+                  value={this.state.phone || ""}
                   fullWidth
-                  label='Password'
+                  label="Password"
                 />
               </Grid>
-              {['LMSEDITOR', 'LMSCHECKER'].includes(
-                window.sessionStorage.getItem('role')
+              {["LMSEDITOR", "LMSCHECKER"].includes(
+                window.sessionStorage.getItem("role")
               ) && (
                 <Grid
                   item
                   md={12}
-                  style={{ display: 'flex', justifyContent: 'flex-end' }}
+                  style={{ display: "flex", justifyContent: "flex-end" }}
                 >
                   <LinkButton onClick={this.addProduct}>
                     + Add Product
@@ -1300,7 +1247,7 @@ export class Student extends Component {
                   ? this.handleSubmit(e)
                   : this.handleEdit(e)
               }
-              color='primary'
+              color="primary"
               disabled={this.state.isLoading}
               autoFocus
             >
@@ -1308,8 +1255,8 @@ export class Student extends Component {
                 <CircularProgress
                   style={{ width: 20, height: 20, marginRight: 10 }}
                 />
-              )}{' '}
-              {this.state.id === null ? 'Add' : 'Update'}
+              )}{" "}
+              {this.state.id === null ? "Add" : "Update"}
             </Button>
           </DialogActions>
         </Dialog>
@@ -1330,7 +1277,7 @@ export class Student extends Component {
   }
 }
 function Alert(props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const LinkButton = styled.button`
@@ -1371,17 +1318,17 @@ export default connect(mapStateToProps, {
 
 const data = [
   {
-    id: '0bc82206-7dae-486b-80f2-15fad4357b79',
-    studentID: 'DEV1',
-    username: 'devo1',
+    id: "0bc82206-7dae-486b-80f2-15fad4357b79",
+    studentID: "DEV1",
+    username: "devo1",
     password: null,
-    firstName: 'dev',
-    lastName: 'ops',
+    firstName: "dev",
+    lastName: "ops",
     fullName: null,
-    emailId: 'developer1@gmail.com',
+    emailId: "developer1@gmail.com",
     altEmailId: null,
     isactive: true,
-    phoneNumber: '077552001',
+    phoneNumber: "077552001",
     altPhoneNumber: null,
     linkedInProfile: null,
     address: null,
@@ -1389,7 +1336,7 @@ const data = [
     twitterUrl: null,
     isLMSUser: null,
     dob: null,
-    provider: 'Local',
+    provider: "Local",
     ugDegree: null,
     college: null,
     department: null,

@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { DropDownDiv } from "../../../Assets/StyledComponents";
 import DropDown from "../../../Utils/DropDown";
+import { AVOID_INPUT } from "../../../Constants";
 
 function DropDownRack(props) {
   const {
@@ -90,16 +91,18 @@ function DropDownRack(props) {
                     Expected time for completion
                   </InputLabel>
                   <OutlinedInput
-                    // disabled
                     inputProps={{
                       style: {
                         height: "11px",
                       },
                     }}
                     type={"number"}
-                    onKeyDown={e =>
-                      (e.keyCode === 69 || e.keyCode === 190) &&
-                      e.preventDefault()
+                    onKeyDown={evt =>
+                      (AVOID_INPUT.includes(evt.key) ||
+                        // Up arrow and down arrow disabling
+                        evt.keyCode === 38 ||
+                        evt.keyCode === 40) &&
+                      evt.preventDefault()
                     }
                     id="expectedTime"
                     value={expectedTime}

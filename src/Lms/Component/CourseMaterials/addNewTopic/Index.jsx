@@ -1,37 +1,36 @@
+import { IconButton } from "@material-ui/core";
+import { DeleteRounded, MoreVertRounded } from "@material-ui/icons";
+import QueryString from "qs";
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { lms_course_landing } from "../../../../Component/RoutePaths";
 import {
   Card,
   MainContainer,
   TabContainer,
+  TabThreeDot,
   Title,
   Wrapper,
-  TabThreeDot,
 } from "../../../Assets/StyledComponents";
 import {
-  getCourses,
-  getSubjects,
-  getConcepts,
   addTaskDetails,
   addTopicDetails,
-  getTopicDetails,
-  validTopicName,
   deleteTask,
+  getConcepts,
+  getCourses,
+  getSubjects,
+  getTopicDetails,
   uploadTopicImage,
+  validTopicName,
 } from "../../../Redux/Action/CourseMaterial";
-import { connect } from "react-redux";
-import { TopicCard } from "./TopicCard";
-import { TaskCard } from "./TaskCard";
+import DialogComponent from "../../../Utils/DialogComponent";
 import { SnackBar } from "../../../Utils/SnackBar";
-import { TaskButtons } from "./TaskButtons";
 import { StyledTaps } from "../../../Utils/Tabs";
 import Menu from "../Menu";
-import { MoreVertRounded } from "@material-ui/icons";
-import DialogComponent from "../../../Utils/DialogComponent";
-import { IconButton } from "@material-ui/core";
-import QueryString from "qs";
-import { lms_course_landing } from "../../../../Component/RoutePaths";
-import { DeleteRounded } from "@material-ui/icons";
 import TaskPreview from "./Preview/Index";
+import { TaskButtons } from "./TaskButtons";
+import { TaskCard } from "./TaskCard";
+import { TopicCard } from "./TopicCard";
 
 const dialogContent = {
   type: "delete",
@@ -342,9 +341,6 @@ class Index extends Component {
             other.contentType === current.contentType &&
             other.name === current.name &&
             parseInt(other.duration) === parseInt(current.duration)
-            // &&
-            // other.content === current.content &&
-            // other.contentVideo === current.contentVideo
           );
         }).length === 0
       );
@@ -378,56 +374,65 @@ class Index extends Component {
       taskDetail.name.trim().length > 0 &&
       this.contentEmptyValidation(newTaskData, tabValue)
     ) {
-      this.props.addTaskDetails(newTaskData[tabValue - 1], taskResponse => {
-        if (taskResponse.success) {
-          var taskMessage = "New Task Added Successfully";
-          if (newTaskData[tabValue - 1].id !== null)
-            taskMessage = "Current Task Updated Successfully";
+      if (Number(taskDetail.duration) > 0) {
+        this.props.addTaskDetails(newTaskData[tabValue - 1], taskResponse => {
+          if (taskResponse.success) {
+            var taskMessage = "New Task Added Successfully";
+            if (newTaskData[tabValue - 1].id !== null)
+              taskMessage = "Current Task Updated Successfully";
 
-          taskData[tabValue - 1]["id"] = taskResponse.data.id;
+            taskData[tabValue - 1]["id"] = taskResponse.data.id;
 
-          duplicateData[tabValue - 1]["id"] = taskResponse.data.id;
-          duplicateData[tabValue - 1]["contentType"] =
-            taskResponse.data.contentType;
-          duplicateData[tabValue - 1]["name"] = taskResponse.data.name;
-          duplicateData[tabValue - 1]["duration"] = taskResponse.data.duration;
-          duplicateData[tabValue - 1]["content"] = taskResponse.data.content;
-          duplicateData[tabValue - 1]["contentVideo"] =
-            taskResponse.data.contentVideo;
+            duplicateData[tabValue - 1]["id"] = taskResponse.data.id;
+            duplicateData[tabValue - 1]["contentType"] =
+              taskResponse.data.contentType;
+            duplicateData[tabValue - 1]["name"] = taskResponse.data.name;
+            duplicateData[tabValue - 1]["duration"] =
+              taskResponse.data.duration;
+            duplicateData[tabValue - 1]["content"] = taskResponse.data.content;
+            duplicateData[tabValue - 1]["contentVideo"] =
+              taskResponse.data.contentVideo;
 
-          this.setState({
-            message: taskMessage,
-            snackOpen: true,
-            snackType: "success",
-            taskData,
-            duplicateData,
-          });
-          var onlyInA = taskData.filter(this.comparer(duplicateData));
-          var onlyInB = duplicateData.filter(this.comparer(taskData));
-          var result = onlyInA.concat(onlyInB);
-          var valid = this.totalTaskValidation(taskData);
-          if (result.length === 0 && !valid.includes(false)) {
             this.setState({
-              message: "Task saved successfully",
+              message: taskMessage,
               snackOpen: true,
               snackType: "success",
+              taskData,
+              duplicateData,
             });
-            // this.props.history.push(lms_course_landing);
+            var onlyInA = taskData.filter(this.comparer(duplicateData));
+            var onlyInB = duplicateData.filter(this.comparer(taskData));
+            var result = onlyInA.concat(onlyInB);
+            var valid = this.totalTaskValidation(taskData);
+            if (result.length === 0 && !valid.includes(false)) {
+              this.setState({
+                message: "Task saved successfully",
+                snackOpen: true,
+                snackType: "success",
+              });
+              // this.props.history.push(lms_course_landing);
+            } else {
+              this.setState({
+                message: "Please save all tasks",
+                snackOpen: true,
+                snackType: "warning",
+              });
+            }
           } else {
             this.setState({
-              message: "Please save all tasks",
+              message: taskResponse.message,
               snackOpen: true,
               snackType: "warning",
             });
           }
-        } else {
-          this.setState({
-            message: taskResponse.message,
-            snackOpen: true,
-            snackType: "warning",
-          });
-        }
-      });
+        });
+      } else {
+        this.setState({
+          message: "Please enter a valid Apporximate time",
+          snackOpen: true,
+          snackType: "warning",
+        });
+      }
     } else {
       this.setState({
         message: "Please fill all the fields",
@@ -671,6 +676,7 @@ class Index extends Component {
       openPreview,
       topicDetails,
     } = this.state;
+
     const {
       handleThreeDotClick,
       handleClose,

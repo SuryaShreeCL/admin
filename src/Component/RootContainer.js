@@ -198,9 +198,9 @@ const useStyles = makeStyles(theme => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-    position:  "sticky",
-    top : 0,
-    zIndex : 1
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
   },
   content: {
     flexGrow: 1,
@@ -387,9 +387,13 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.department !== "elev8" &&
       props.adminLinkedProductDetails.department !== "SUPERADMIN"
     ) {
-      props.getProductByFamilyId(
-        props.adminLinkedProductDetails?.products[0]?.productFamily.id
-      );
+      if (props.adminLinkedProductDetails) {
+        if (props.adminLinkedProductDetails.products.length !== 0) {
+          props.getProductByFamilyId(
+            props.adminLinkedProductDetails.products[0].productFamily.id
+          );
+        }
+      }
     }
     //
     // let newListArr = []
@@ -495,7 +499,7 @@ function RootContainer(props) {
       let myArr = [];
       props.getProductByFamilyIdList
         .filter(
-          (prodItems) =>
+          prodItems =>
             prodItems.variantSKU === "PBP" ||
             prodItems.variantSKU === "PBM" ||
             prodItems.variantSKU === "PBP_2023"
@@ -607,7 +611,7 @@ function RootContainer(props) {
           title: "Premium Users Data",
           path: premiumUsersPath,
           items: [],
-        }
+        },
       ]);
     } else if (
       props.adminLinkedProductDetails.department === "elev8_super_admin"
@@ -636,6 +640,30 @@ function RootContainer(props) {
           title: "App Version Change",
           path: appVersion,
           items: [],
+        },
+      ]);
+    } else if (
+      props.adminLinkedProductDetails.department === "testprepoperations"
+    ) {
+      let myArr = [];
+      props.getProductByFamilyIdList
+        // .filter(
+        //   (prodItems) =>
+        //     prodItems.variantSKU === "PBP" ||
+        //     prodItems.variantSKU === "PBM" ||
+        //     prodItems.variantSKU === "PBP_2023"
+        // )
+        .map((eachItem, index) => {
+          myArr.push({
+            title: eachItem.shortName,
+            path: obOperationPath + "/" + eachItem.id,
+          });
+        });
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Operations",
+          items: myArr,
         },
       ]);
     } else if (props.adminLinkedProductDetails.department === "SUPERADMIN") {

@@ -63,9 +63,6 @@ class Index extends Component {
         {this.props.monthResponse.data.map((item, idx) => (
           <TabBarItem
             component={"button"}
-            // flex={
-            //   this.props.monthResponse.data.length === idx + 1 ? 1 : "unset"
-            // }
             onClick={() => this.handleMonthChange(item)}
             active={this.state.activeMonth === item}
           >
@@ -73,9 +70,11 @@ class Index extends Component {
           </TabBarItem>
         ))}
         <div style={{ flex: 1 }}></div>
-        <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-          {/* <PopOver options={['Delete']} color={'#ffff'} /> */}
-        </Box>
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        ></Box>
       </>
     );
   }
@@ -123,9 +122,9 @@ class Index extends Component {
                   options={this.props.coursesResponse.data || []}
                   value={this.state.courseValue}
                   onChange={this.handleCourseChange}
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={option => option.title}
                   style={{ width: 300 }}
-                  renderInput={(params) => (
+                  renderInput={params => (
                     <TextField {...params} label="Course" variant="outlined" />
                   )}
                 />
@@ -152,21 +151,20 @@ class Index extends Component {
               {this.props.monthResponse && this.renderMonth()}
             </Box>
           </Grid>
-          <Grid
-            item
-            md={3}
-            sm={3}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gridGap: "10px",
-              padding: "10px 0px",
-            }}
-          >
-            {this.props.monthResponse &&
-              this.props.courseMonthResponse &&
-              this.renderSideBarMonth()}
-          </Grid>
+          <Box padding={"10px 0px !important"}>
+            <Grid
+              item
+              md={3}
+              sm={3}
+              container
+              direction="column"
+              gridGap="10px"
+            >
+              {this.props.monthResponse &&
+                this.props.courseMonthResponse &&
+                this.renderSideBarMonth()}
+            </Grid>
+          </Box>
           <Grid item md={8} sm={8} style={{ padding: "20px" }}>
             {this.state.activeDownMonth && this.props.courseMonthResponse && (
               <Table
@@ -184,7 +182,7 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     coursesResponse: state.CourseMaterialReducer.courses,
     monthResponse: state.CourseMaterialReducer.monthlyCourse,

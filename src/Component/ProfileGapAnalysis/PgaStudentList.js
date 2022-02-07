@@ -114,7 +114,7 @@ class PgaStudentList extends Component {
   }
   render() {
     const { HeadStyle, HeadDisplay } = style;
-    console.log(this.state)
+    console.log(this.props.stageDetails, "----------")
     return (
       <div>
         <Grid container spacing={3}>

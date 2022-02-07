@@ -49,12 +49,11 @@ class ProductBasedUsers extends Component {
       var sortedArr =
         this.props.variantStepList.steps.length > 0 &&
         this.props.variantStepList.steps.sort((a, b) => a.rank - b.rank);
-      console.log(sortedArr);
       sortedArr !== false &&
         sortedArr.map((it, ix) => {
           it.steps.sort((c, d) => c.rank - d.rank);
         });
-      console.log(sortedArr);
+      console.log(sortedArr, "------------------------");
       this.setState({
         productDetails: sortedArr,
         selectedItem: sortedArr[0],
