@@ -190,7 +190,7 @@ export default function PreviousTest() {
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       onClick={() => onSetCutOff(item)}
-                      disabled={!item.attemptedStudents}
+                      disabled={!item.attemptedStudents || true}
                     >
                       <AssignmentTurnedIn fontSize='small' />
                     </Controls.ActionButton>
