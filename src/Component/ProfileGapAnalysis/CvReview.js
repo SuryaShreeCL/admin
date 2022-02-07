@@ -40,6 +40,8 @@ import CvViewer from './CvViewer';
 const CV_UPLOAD_MESSAGE = 'CV Uploaded Successfully';
 const CV_REVIEW_MESSAGE = 'CV Review Completed Successfully';
 const FILE_REQUIRED_MESSAGE = 'Please select a file';
+const FILE_SELECT_INVALID =
+  'Please select a valid format (.doc/.docx/.pdf)  file';
 
 function Index(props) {
   const classes = useStyles();
@@ -156,7 +158,11 @@ function Index(props) {
   }, [cvReviewStatus]);
 
   const handleDrop = files => {
-    setState({ ...state, file: files[0] });
+    if (files && files.length !== 0) {
+      setState({ ...state, file: files[0] });
+    } else {
+      setTimeout(() => handleSnack(true, 'error', FILE_SELECT_INVALID), 200);
+    }
   };
 
   const handleCancel = () => {
@@ -196,7 +202,10 @@ function Index(props) {
   const renderDialogContent = () => {
     return (
       <div>
-        <DropzoneComponent acceptTypes={'.pdf, .doc'} onDrop={handleDrop} />
+        <DropzoneComponent
+          acceptTypes={'.pdf, .doc, .docx'}
+          onDrop={handleDrop}
+        />
         <FlexJustifyView>
           <Typo
             variant={'h6'}
@@ -272,8 +281,8 @@ function Index(props) {
     });
   };
 
-  const handleDownload = id => {
-    dispatch(cvDownload(studentId, id));
+  const handleDownload = (id, cvPath) => {
+    dispatch(cvDownload(studentId, id, cvPath));
   };
 
   const renderTable = () => {
@@ -305,7 +314,7 @@ function Index(props) {
                 height={'25px'}
                 variant={'outlined'}
                 style={customTheme.palette.outlined}
-                onClick={() => handleDownload(id)}
+                onClick={() => handleDownload(id, path)}
               >
                 {'Download'}
               </StyledButton>
@@ -320,7 +329,7 @@ function Index(props) {
     dispatch(reviewCompleted(studentId, productId));
   };
 
-  let showCompleteButton = cvStatus === 'REVIEW';
+  let isReview = cvStatus === 'REVIEW';
   return (
     <Grid container>
       <Grid item sm={12} md={7}>
@@ -328,7 +337,7 @@ function Index(props) {
           <Grid container spacing={3} className={classes.flexFlow}>
             <Grid item lg={12}>
               <FlexEndView>
-                {showCompleteButton && (
+                {isReview && (
                   <StyledButton
                     variant={'outlined'}
                     style={customTheme.palette.outlined}
@@ -339,8 +348,13 @@ function Index(props) {
                 )}
                 <StyledButton
                   variant={'contained'}
-                  style={customTheme.palette.contained}
+                  style={
+                    isReview
+                      ? customTheme.palette.contained
+                      : customTheme.palette.primary
+                  }
                   onClick={handlePopupOpen}
+                  disabled={!isReview}
                 >
                   {'Upload CV'}
                 </StyledButton>

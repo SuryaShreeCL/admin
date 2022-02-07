@@ -35,7 +35,7 @@ export const reviewCompleted = (studentId, productId) => {
   };
 };
 
-export const cvDownload = (studentId, cvId) => {
+export const cvDownload = (studentId, cvId, cvPath) => {
   let accessToken = window.sessionStorage.getItem('accessToken');
   return dispatch => {
     dispatch({ type: CV_REVIEW.loader });
@@ -48,10 +48,14 @@ export const cvDownload = (studentId, cvId) => {
         responseType: 'blob',
       })
       .then(result => {
+        var filename = cvPath
+          .split('.')
+          .slice(0, -1)
+          .join('.');
         const downloadUrl = window.URL.createObjectURL(new Blob([result.data]));
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.setAttribute('download', 'StudentPersonalizedList.xls');
+        link.setAttribute('download', `${filename}.docx`);
         document.body.appendChild(link);
         link.click();
         link.remove();
