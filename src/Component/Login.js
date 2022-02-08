@@ -49,57 +49,41 @@ export class Login extends Component {
         userName: this.state.username,
         password: this.state.password,
       };
-      this.props.adminLogin(loginObj, ((response) => {
-        
-        if (response.message === "Request failed with status code 500") {
+      this.props.adminLogin(loginObj, (response) => {
+        if (response.status === 200) {
+          window.sessionStorage.setItem("token", "true");
+          window.sessionStorage.setItem(
+            "accessToken",
+            response.data.accessToken
+          );
+          window.sessionStorage.setItem(
+            "refreshToken",
+            response.data.refreshToken
+          );
+          window.sessionStorage.setItem("role", response.data.role);
+          window.sessionStorage.setItem(
+            "mentor",
+            JSON.stringify(response.data.Mentor)
+          );
+          window.sessionStorage.setItem(
+            "adminUserId",
+            response.data.AdminUsers
+          );
+          this.props.history.push(landingAdminPath);
+        } else {
           this.setState({
-            snackMsg: "Invalid Username or Password",
+            snackMsg:
+              response.response && response.response.data.message
+                ? response.response.data.message
+                : response.message,
             snackOpen: true,
             snackVariant: "error",
           });
         }
-      })
-      )
+      });
     }
   };
-  componentDidUpdate(prevProps) {
-    // 
-    if (prevProps.adminLoginDetails !== this.props.adminLoginDetails) {
-      
-      if (this.props.adminLoginDetails.status === 500) {
-        this.setState({
-          snackMsg: "Invalid Username or Password",
-          snackOpen: true,
-          snackVariant: "error",
-        });
-        
-      } else {
-        window.sessionStorage.setItem("token", "true");
-        window.sessionStorage.setItem(
-          "accessToken",
-          this.props.adminLoginDetails.accessToken
-        );
-        window.sessionStorage.setItem(
-          "refreshToken",
-          this.props.adminLoginDetails.refreshToken
-        );
-        window.sessionStorage.setItem(
-          "role",
-          this.props.adminLoginDetails.role
-        );
-        window.sessionStorage.setItem(
-          "mentor",
-          JSON.stringify(this.props.adminLoginDetails.Mentor)
-        );
-        window.sessionStorage.setItem(
-          "adminUserId",
-          this.props.adminLoginDetails.AdminUsers
-        );
-        this.props.history.push(landingAdminPath);
-        
-      }
-    }
-  }
+
   render() {
     // 
     // 
