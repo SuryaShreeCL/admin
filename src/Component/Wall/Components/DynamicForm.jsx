@@ -40,10 +40,6 @@ const useStyles = makeStyles({
 const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
 
-  const onStatusUpload = (value, index) => {
-    setFieldValue(`wallSteps.${index}.isStatusUploaded`, value);
-  };
-
   const deleteWallStep = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallsteps/${id}`, {
@@ -58,17 +54,9 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
     }
   };
 
-  const StepFields = () => {
+  const DynamicForm = () => {
     return (
       <NextStepsContainerStyle>
-        <h6
-          style={{
-            marginBottom: '1rem',
-            fontWeight: 'bold',
-          }}
-        >
-          Next Steps
-        </h6>
         <FieldArray
           name='wallSteps'
           render={(arrayHelpers) => (
@@ -149,10 +137,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     )}
                   </div>
                   <div>
-                    <Controls.ActionButton
-                      disabled={false}
-                      onClick={() => onStatusUpload(true, index)}
-                    >
+                    <Controls.ActionButton onClick={() => {}}>
                       <CloudUploadIcon
                         fontSize='small'
                         style={{
@@ -162,7 +147,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       &nbsp; Upload Status File
                     </Controls.ActionButton>
                     {true ? (
-                      <Controls.ActionButton disabled={false}>
+                      <Controls.ActionButton>
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
                       </Controls.ActionButton>
                     ) : (
@@ -206,7 +191,6 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     subText: '',
                     message: '',
                     url: '',
-                    isStatusUploaded: '',
                   })
                 }
               />
@@ -220,7 +204,16 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   return (
     <Grid container>
       <Grid item md={12}>
-        {StepFields()}
+        <h6
+          style={{
+            marginBottom: '1rem',
+          }}
+        >
+          Next Steps
+        </h6>
+      </Grid>
+      <Grid item md={12}>
+        {DynamicForm()}
       </Grid>
     </Grid>
   );

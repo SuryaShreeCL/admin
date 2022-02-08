@@ -272,6 +272,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
         <h6
           style={{
             marginBottom: '1rem',
+            fontWeight: 'bold',
           }}
         >
           Add Preparation Content

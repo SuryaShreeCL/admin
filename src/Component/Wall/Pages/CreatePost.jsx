@@ -75,7 +75,16 @@ const CreatePost = () => {
     isWebinar: location?.postType === 'Webinar',
     canComment: false,
     linkedSelfPrepVideos: null,
-    wallSteps: [{ status: 'inprogress', heading: '', subText: '', message: '', url: '' }],
+    wallSteps: [
+      {
+        status: 'inprogress',
+        heading: '',
+        subText: '',
+        message: '',
+        url: '',
+        isStatusUploaded: '',
+      },
+    ],
     totalViews: 0,
     totalLikes: 0,
     linkedTest: null,
