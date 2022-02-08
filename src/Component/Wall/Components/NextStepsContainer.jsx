@@ -5,7 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
 import { FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import AddIcon from '@material-ui/icons/Add';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import CheckCircle from '@material-ui/icons/CheckCircle';
 import axios from 'axios';
 
 const useStyles = makeStyles({
@@ -19,6 +24,15 @@ const useStyles = makeStyles({
     width: '100%',
     marginBottom: '1.2rem',
     padding: '0.5rem',
+  },
+  addStepBtn: {
+    borderRadius: '26px',
+  },
+  fieldStep: {
+    border: '1px solid #dbdadab9',
+    marginBottom: '1rem',
+    padding: '1rem 1.5rem',
+    borderRadius: '10px',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
 });
@@ -48,7 +62,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
           render={(arrayHelpers) => (
             <div>
               {values?.wallSteps?.map((val, index) => (
-                <>
+                <div className={classes.fieldStep}>
                   <RadioGroup
                     style={{
                       display: 'flex',
@@ -100,7 +114,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       <h6 className={classes.fieldlabel}>Message</h6>
                       <Field className={classes.spacer} name={`wallSteps.${index}.message`} />
                     </div>
-                    {index === 0 && (
+                    {/* {index === 0 && (
                       <div
                         style={{
                           width: '100%',
@@ -109,7 +123,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                         <h6 className={classes.fieldlabel}>Google Form Link</h6>
                         <Field className={classes.spacer} name={`wallSteps.${index}.url`} />
                       </div>
-                    )}
+                    )} */}
                     {/* Step 1 is Mandatory */}
                     {index !== 0 && (
                       <Controls.ActionButton
@@ -122,9 +136,54 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       </Controls.ActionButton>
                     )}
                   </div>
-                </>
+                  <div>
+                    <Controls.ActionButton onClick={() => {}}>
+                      <CloudUploadIcon
+                        fontSize='small'
+                        style={{
+                          color: 'green',
+                        }}
+                      />
+                      &nbsp; Upload Status File
+                    </Controls.ActionButton>
+                    {true ? (
+                      <Controls.ActionButton>
+                        <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
+                      </Controls.ActionButton>
+                    ) : (
+                      <>
+                        <Controls.ActionButton>
+                          <CheckCircle
+                            fontSize='small'
+                            style={{
+                              color: 'green',
+                            }}
+                          />
+                          &nbsp; Form Created
+                        </Controls.ActionButton>
+                        <Controls.ActionButton>
+                          <EditOutlinedIcon fontSize='small' color='primary' /> &nbsp;Edit Form
+                        </Controls.ActionButton>
+                      </>
+                    )}
+                    <Controls.ActionButton disabled={true}>
+                      <CloudDownloadIcon
+                        fontSize='small'
+                        style={{
+                          color: false ? 'green' : 'gray',
+                        }}
+                      />
+                      &nbsp; Download
+                    </Controls.ActionButton>
+                  </div>
+                </div>
               ))}
-              <Controls.ActionButton
+              <Controls.Button
+                text='Add Step'
+                variant='contained'
+                color='primary'
+                startIcon={<AddIcon />}
+                className={classes.addStepBtn}
                 onClick={() =>
                   arrayHelpers.push({
                     status: 'inprogress',
@@ -134,9 +193,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     url: '',
                   })
                 }
-              >
-                <AddBoxIcon fontSize='large' color='primary' /> Add Step
-              </Controls.ActionButton>
+              />
             </div>
           )}
         />

@@ -121,5 +121,5 @@ export const WebinarTabContainer = styled.section`
 `;
 
 export const NextStepsContainerStyle = styled.section`
-  padding: 1rem;
+  margin-bottom: 2rem;
 `;
