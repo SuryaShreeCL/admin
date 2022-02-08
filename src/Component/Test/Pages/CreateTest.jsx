@@ -89,6 +89,7 @@ const CreateTest = () => {
     endDateTime: new Date(),
     score: 10,
     wallFiles: [],
+    cutOffScore: 5
   });
 
   let questionID = window.sessionStorage.getItem('questionSetId');
@@ -151,6 +152,11 @@ const CreateTest = () => {
         /^([\w,:\s-]*)$/,
         'Only [-,_] is accepted, any other special characters are not accepted'
       ),
+    cutOffScore: yup
+      .number()
+      .typeError('Cut off score is a required field')
+      .min(1, 'Negative number not allowed')
+      .max(state.score, `Cut off score cannot be higher than ${state.score} for the test.`),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -310,13 +316,28 @@ const CreateTest = () => {
                     alignItems='center'
                     style={{ marginTop: '1rem' }}
                   >
-                    <Grid item style={{ width: '30%' }}>
+                    <Grid item style={{ width: '15%' }}>
                       <Controls.Input
                         label='Score'
                         name='score'
                         type='number'
                         style={{ width: '100%' }}
                         value={values.score}
+                        onChange={handleChange}
+                        error={values.score < 1}
+                        helperText={values.score < 1 ? 'Enter Only Positive Values' : ''}
+                        inputProps={{
+                          pattern: '[0-9]*',
+                        }}
+                      />
+                    </Grid>
+                    <Grid item style={{ width: '15%' }}>
+                      <Controls.Input
+                        label='Cut Off'
+                        name='cutOffScore'
+                        type='number'
+                        style={{ width: '100%' }}
+                        value={values.cutOffScore}
                         onChange={handleChange}
                         error={values.score < 1}
                         helperText={values.score < 1 ? 'Enter Only Positive Values' : ''}
@@ -348,6 +369,7 @@ const CreateTest = () => {
                         </div>
                       )}
                     />
+                    
                   </Grid>
                   <Grid
                     container
