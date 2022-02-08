@@ -31,11 +31,8 @@ import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Preview from "../Components/Preview";
-import { DialogDiv, DrawerContainer } from "../Assets/Styles/WallStyles";
-import {
-  ButtonsContainerTwo,
-  VideoPlayerDiv,
-} from "../Assets/Styles/CreatePostStyles";
+import { DrawerContainer } from "../Assets/Styles/WallStyles";
+import { ButtonsContainerTwo } from "../Assets/Styles/CreatePostStyles";
 import {
   listWallWebinars,
   deleteWallPost,
@@ -45,9 +42,6 @@ import { renderListCategory } from "../../Utils/Helpers";
 import { isLms_Role } from "../WallLanding";
 import LinkIcon from "@material-ui/icons/Link";
 import "../Assets/../../../Asset/RecordedVideo.css";
-import VideoPlayer from "../../../Lms/Utils/VideoPlayer";
-import { getVideoInfo } from "../../../Lms/Redux/Action/CourseMaterial";
-import { connect } from "react-redux";
 
 const Alert = props => <MuiAlert elevation={6} variant="filled" {...props} />;
 
@@ -82,7 +76,7 @@ const headCells = [
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
-function Webinars(props) {
+export default function Webinars() {
   let role = window.sessionStorage.getItem("role");
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -101,7 +95,7 @@ function Webinars(props) {
   );
   let totalPages = webinars?.totalPages;
 
-  // Filtering out archived webinars
+  //fitering out archived webinars
   let filteredWebinars = webinars?.content?.filter(
     webinar => webinar.activeStatus !== "Archive"
   );
@@ -199,22 +193,18 @@ function Webinars(props) {
 
   const [activeDialogId, setActiveDialogId] = useState("");
   const [linkField, setLinkField] = useState("");
-  const [videoObj, setVideoObj] = useState({ playBackInfo: "", otp: "" });
 
-  const handleLinkClick = (e, recordedVideo) => {
+  const handleLinkClick = e => {
     setActiveDialogId(e.target.id);
-    setLinkField(recordedVideo);
   };
 
   const handleDialogClose = () => {
     setActiveDialogId("");
     setLinkField("");
-    setVideoObj({ playBackInfo: "", otp: "" });
   };
 
   const handleLinkFieldChange = e => {
     setLinkField(e.target.value);
-    setVideoObj({ playBackInfo: "", otp: "" });
   };
 
   const handleSaveClick = () => {
@@ -223,7 +213,6 @@ function Webinars(props) {
         if (res.success) {
           setLinkField("");
           handleDialogClose();
-          dispatch(listWallWebinars(page, "Expired"));
         } else {
           setNotify({
             isOpen: true,
@@ -233,21 +222,6 @@ function Webinars(props) {
         }
       })
     );
-  };
-
-  const handlePreviewClick = () => {
-    props.getVideoInfo(linkField, res => {
-      console.log(res);
-      if (res.playbackInfo && res.otp)
-        setVideoObj({ playBackInfo: res.playbackInfo, otp: res.otp });
-      else {
-        setNotify({
-          isOpen: true,
-          message: res.message,
-          type: "Error",
-        });
-      }
-    });
   };
 
   return (
@@ -266,6 +240,28 @@ function Webinars(props) {
             }}
             onChange={handleSearch}
           />
+          {/* <Controls.Button
+            text='Filter'
+            variant='outlined'
+            color='default'
+            startIcon={<FilterListIcon />}
+            className={classes.filterBtn}
+          /> */}
+          {/* <Controls.Button
+            text="Create New Webinar"
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            className={classes.newButton}
+            onClick={() => {
+              history.push({
+                pathname: createPath,
+                type: false,
+                postType: "Webinar",
+                postTypeTab: isLms_Role(role) ? 0 : 4,
+              });
+            }}
+          /> */}
         </Toolbar>
 
         <TblContainer>
@@ -273,6 +269,7 @@ function Webinars(props) {
           {filteredWebinars && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item, index) => {
+                // console.log(item.id === String(activeDialogId));
                 return (
                   <TableRow key={item.id}>
                     <TableCell>
@@ -287,16 +284,12 @@ function Webinars(props) {
                     <TableCell>
                       <Controls.ActionButton
                         id={item.id}
-                        onClick={e =>
-                          handleLinkClick(e, item.webinarRecordingsVideoUrl)
-                        }
+                        onClick={handleLinkClick}
                       >
                         <LinkIcon
                           id={item.id}
                           fontSize="small"
-                          color={
-                            item.webinarRecordingsVideoUrl ? "primary" : ""
-                          }
+                          color="primary"
                         />
                       </Controls.ActionButton>
 
@@ -317,28 +310,19 @@ function Webinars(props) {
           open={activeDialogId}
           onClose={handleDialogClose}
           aria-labelledby="form-dialog-title"
-          maxWidth={"md"}
-          fullWidth
         >
           <DialogTitle id="form-dialog-title">Recorded Video Url</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
+              // id={item.id}
               label="Enter the URL"
+              // type="em"
               fullWidth
               value={linkField}
               onChange={handleLinkFieldChange}
             />
-
-            {videoObj.otp && (
-              <VideoPlayerDiv>
-                <VideoPlayer
-                  playBackInfo={videoObj.playBackInfo}
-                  otp={videoObj.otp}
-                />
-              </VideoPlayerDiv>
-            )}
           </DialogContent>
           <DialogActions>
             <Controls.ActionButton
@@ -353,22 +337,16 @@ function Webinars(props) {
             >
               Save
             </Controls.ActionButton>
-            <Controls.ActionButton
-              onClick={() => handlePreviewClick()}
-              color="primary"
-            >
-              Preview
-            </Controls.ActionButton>
           </DialogActions>
         </Dialog>
 
-        <DialogDiv>
+        <div style={{ margin: "2rem auto", width: "60%" }}>
           {loading && <Loader />}
           {error && <Alert severity="error">{error}</Alert>}
           {!loading && filteredWebinars?.length === 0 && (
             <Alert severity="info">0 Webinars Found</Alert>
           )}
-        </DialogDiv>
+        </div>
         <TblPagination />
       </Paper>
 
@@ -419,5 +397,3 @@ function Webinars(props) {
     </>
   );
 }
-
-export default connect(() => {}, { getVideoInfo })(Webinars);

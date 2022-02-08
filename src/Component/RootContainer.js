@@ -198,9 +198,9 @@ const useStyles = makeStyles(theme => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-    position: "sticky",
-    top: 0,
-    zIndex: 1,
+    position:  "sticky",
+    top : 0,
+    zIndex : 1
   },
   content: {
     flexGrow: 1,
@@ -385,15 +385,18 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.department !== "sales" &&
       props.adminLinkedProductDetails.department !== "elev8_super_admin" &&
       props.adminLinkedProductDetails.department !== "elev8" &&
-      props.adminLinkedProductDetails.department !== "SUPERADMIN"
+      props.adminLinkedProductDetails.department !== "SUPERADMIN"   
     ) {
-      if (props.adminLinkedProductDetails) {
-        if (props.adminLinkedProductDetails.products.length !== 0) {
-          props.getProductByFamilyId(
-            props.adminLinkedProductDetails.products[0].productFamily.id
-          );
-        }
-      }
+      console.log('props.adminLinkedProductDetails---------: ', props.adminLinkedProductDetails);
+     
+     if (props.adminLinkedProductDetails) {
+       if (props.adminLinkedProductDetails.products.length !== 0) {
+         props.getProductByFamilyId(
+           props.adminLinkedProductDetails.products[0].productFamily.id
+         );
+       }
+     }
+    
     }
     //
     // let newListArr = []
@@ -499,7 +502,7 @@ function RootContainer(props) {
       let myArr = [];
       props.getProductByFamilyIdList
         .filter(
-          prodItems =>
+          (prodItems) =>
             prodItems.variantSKU === "PBP" ||
             prodItems.variantSKU === "PBM" ||
             prodItems.variantSKU === "PBP_2023"
@@ -611,7 +614,7 @@ function RootContainer(props) {
           title: "Premium Users Data",
           path: premiumUsersPath,
           items: [],
-        },
+        }
       ]);
     } else if (
       props.adminLinkedProductDetails.department === "elev8_super_admin"
@@ -642,9 +645,7 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    } else if (
-      props.adminLinkedProductDetails.department === "testprepoperations"
-    ) {
+    } else if(props.adminLinkedProductDetails.department === "testprepoperations"){
       let myArr = [];
       props.getProductByFamilyIdList
         // .filter(
@@ -666,6 +667,7 @@ function RootContainer(props) {
           items: myArr,
         },
       ]);
+      
     } else if (props.adminLinkedProductDetails.department === "SUPERADMIN") {
       setSideNav([
         {
