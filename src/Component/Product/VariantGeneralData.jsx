@@ -9,6 +9,7 @@ import {
   getvarientByid,
   updategeneraldata,
   isVariantCreated,
+  getProductByFamilyId
 } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -72,6 +73,9 @@ class VariantGeneralData extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.getvarientByidList !== prevProps.getvarientByidList) {
+      if(this.props.getvarientByidList.productFamily){
+        this.props.getProductByFamilyId(this.props.getvarientByidList.productFamily.id)
+      }
       this.setState({
         productName: this.props.getvarientByidList.productFamily,
         variantsku: this.props.getvarientByidList.variantSKU,
@@ -314,8 +318,13 @@ class VariantGeneralData extends Component {
               getOptionLabel={(option) => option.productName}
               value={this.state.productName}
               // style={{ width: 300 }}
-              onChange={(e, newValue) =>
+              onChange={(e, newValue) =>{
+                console.log(newValue, "++++++++++++++")
+                if(newValue){
+                  this.props.getProductByFamilyId(newValue.id)
+                }
                 this.setState({ productName: newValue })
+              }
               }
               renderInput={(params) => (
                 <TextField
@@ -406,7 +415,7 @@ class VariantGeneralData extends Component {
           <Grid item md={3}>
             <Autocomplete
               id="combo-box-demo"
-              options={this.props.getProductVarientList}
+              options={this.state.productName ? this.props.getProductByFamilyIdList : []}
               getOptionLabel={(option) => option.name}
               value={this.state.referProduct}
               // style={{ width: 300 }}
@@ -578,6 +587,7 @@ const mapStateToProps = (state) => {
     getProductVarientList: state.ProductReducer.getProductVarient,
     getvarientByidList: state.ProductReducer.getvarientByid,
     isVariantCreated: state.ProductReducer.isVariantCreated,
+    getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId
   };
 };
 
@@ -588,4 +598,5 @@ export default connect(mapStateToProps, {
   getProductVarient,
   updategeneraldata,
   isVariantCreated,
+  getProductByFamilyId
 })(VariantGeneralData);
