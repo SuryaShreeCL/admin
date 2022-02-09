@@ -101,13 +101,7 @@ class VariantGeneralData extends Component {
          ,
       });
     }
-    if (
-      this.props.postgeneraldetailsList !== prevProps.postgeneraldetailsList
-    ) {
-      this.props.history.push(
-        productVariantPath + "/" + this.props.postgeneraldetailsList.id
-      );
-    }
+   
   }
   componentWillUnmount(params) {
     console.log("next component");
@@ -152,12 +146,16 @@ class VariantGeneralData extends Component {
         calendarId: this.state.calendarId,
         appointmentId: this.state.appointmentId,
       };
-      this.props.updategeneraldata(obj);
-      this.setState({
-        snackMsg: "Updated Successfully",
-        snackOpen: true,
-        snackVariant: "success",
+      this.props.updategeneraldata(obj, response=>{
+        if(response.status === 200){
+          this.setState({
+            snackMsg: "Updated Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+          });
+        }
       });
+     
     }
   }
   data = [{ title: "Yes" }, { title: "No" }];
@@ -269,13 +267,24 @@ class VariantGeneralData extends Component {
         calendarId: this.state.calendarId,
         appointmentId: this.state.appointmentId,
       };
-      this.props.postgeneraldetails(obj);
-      this.setState({
-        snackMsg: "Added Successfully",
-        snackOpen: true,
-        snackVariant: "success",
+      this.props.postgeneraldetails(obj, (response)=>{
+        if(response.status === 200){
+          this.props.history.push(
+            productVariantPath + "/" + response.data.data.id
+          );
+          this.setState({
+            snackMsg: "Added Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+          });
+        }else{
+          this.setState({
+            snackMsg: response,
+            snackOpen: true,
+            snackVariant: "error",
+          });
+        }
       });
-    console.log(obj, "________________");
     }
   };
   handleUpdate = () => {
