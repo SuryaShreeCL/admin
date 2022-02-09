@@ -91,6 +91,7 @@ class InterestDetail extends Component {
       variant_SKU === "ACS_MBA" ||
       variant_SKU === "PBM" ||
       variant_SKU === "PBP" ||
+      variant_SKU === "PBM2023" ||
       variant_SKU === "ACS_MIM" ||
       variant_SKU === "PBP_2023" ||
       variant_SKU === "ACS_MIM_PB" ||
@@ -250,10 +251,12 @@ class InterestDetail extends Component {
 
   renderSupplementaryQuestions = () => {
     const { variant_SKU } = this.props.variantStepList;
+    console.log(variant_SKU, "_________________");
     if (
       variant_SKU === "PBM" ||
       variant_SKU === "PBP" ||
       variant_SKU === "PBP_2023" ||
+      variant_SKU === "PBM2023" ||
       variant_SKU === "ACS_MBA" || 
       variant_SKU === "ACS_MIM_PB" ||
       variant_SKU === "ACS_MBA_PB" ||
