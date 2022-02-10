@@ -324,17 +324,18 @@ class VariantGeneralData extends Component {
             <Autocomplete
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
-              getOptionLabel={(option) => option.productName}
+              getOptionLabel={(option) =>
+                option.productName === "LMS" ? "Test Prep" : option.productName
+              }
               value={this.state.productName}
               // style={{ width: 300 }}
-              onChange={(e, newValue) =>{
-                console.log(newValue, "++++++++++++++")
-                if(newValue){
-                  this.props.getProductByFamilyId(newValue.id)
+              onChange={(e, newValue) => {
+                console.log(newValue, "++++++++++++++");
+                if (newValue) {
+                  this.props.getProductByFamilyId(newValue.id);
                 }
-                this.setState({ productName: newValue })
-              }
-              }
+                this.setState({ productName: newValue });
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -403,7 +404,7 @@ class VariantGeneralData extends Component {
             <TextField
               label="Calendar Id"
               variant="standard"
-              onKeyDown={(evt)=>isNumber(evt) && evt.preventDefault()}
+              onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
               value={this.state.calendarId}
               onChange={(e) => this.setState({ calendarId: e.target.value })}
               error={this.state.calendarIdErr.length > 0}
@@ -414,7 +415,7 @@ class VariantGeneralData extends Component {
             <TextField
               label="Appointment Id"
               variant="standard"
-              onKeyDown={(evt)=>isNumber(evt) && evt.preventDefault()}
+              onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
               value={this.state.appointmentId}
               onChange={(e) => this.setState({ appointmentId: e.target.value })}
               error={this.state.appointmentIdErr.length > 0}
@@ -424,7 +425,11 @@ class VariantGeneralData extends Component {
           <Grid item md={3}>
             <Autocomplete
               id="combo-box-demo"
-              options={this.state.productName ? this.props.getProductByFamilyIdList : []}
+              options={
+                this.state.productName
+                  ? this.props.getProductByFamilyIdList
+                  : []
+              }
               getOptionLabel={(option) => option.name}
               value={this.state.referProduct}
               // style={{ width: 300 }}
