@@ -36,6 +36,7 @@ import ConfirmDialog from '../../Utils/ConfirmDialog';
 import PreprationContainer from '../Components/PreparationContainer';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NextStepsContainer from '../Components/NextStepsContainer';
+
 const AVOID_INPUT = ['E', 'e', '+', '-'];
 
 const useStyles = makeStyles({
@@ -69,7 +70,8 @@ const CreatePost = () => {
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
-    isEvent: location.type ?? false,
+    // isEvent: location.type ?? false,
+    isEvent: true,
     supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
@@ -83,6 +85,16 @@ const CreatePost = () => {
         message: '',
         url: '',
         isStatusUploaded: '',
+      },
+    ],
+    formFields: [
+      {
+        type: 'Text',
+        textField: '',
+        multiChoice: [{ choiceOne: '', choiceTwo: '' }],
+        multiText: '',
+        uploadText: '',
+        resumeText: '',
       },
     ],
     totalViews: 0,
@@ -875,7 +887,7 @@ const CreatePost = () => {
                         </MuiPickersUtilsProvider>
                       )}
                     </Grid>
-                    {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                    <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   </Form>
                   {values.isWebinar ? null : <Preview state={values} />}
                 </div>
