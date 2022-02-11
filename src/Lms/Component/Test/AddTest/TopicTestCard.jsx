@@ -8,6 +8,8 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import { Divider } from "../../../Assets/StyledComponents";
+import { AVOID_INPUT } from "../../../Constants";
+
 class TopicTestCard extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +24,13 @@ class TopicTestCard extends Component {
             <InputTextField
               name="noOfQuestions"
               type={"number"}
+              onKeyDown={evt =>
+                (AVOID_INPUT.includes(evt.key) ||
+                  // Up arrow and down arrow disabling
+                  evt.keyCode === 38 ||
+                  evt.keyCode === 40) &&
+                evt.preventDefault()
+              }
               onChange={handleChange}
               value={testSections.noOfQuestions}
               label="Number of question"
@@ -41,6 +50,13 @@ class TopicTestCard extends Component {
                   },
                 }}
                 type={"number"}
+                onKeyDown={evt =>
+                  (AVOID_INPUT.includes(evt.key) ||
+                    // Up arrow and down arrow disabling
+                    evt.keyCode === 38 ||
+                    evt.keyCode === 40) &&
+                  evt.preventDefault()
+                }
                 value={testSections.duration}
                 name="duration"
                 placeholder="Expected time for completion"

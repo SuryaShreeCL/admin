@@ -1,24 +1,25 @@
-import React, { Component, Fragment } from 'react';
-import { StyledTaps } from '../../../Utils/Tabs';
+import React, { Component, Fragment } from "react";
+import { StyledTaps } from "../../../Utils/Tabs";
 import {
   Divider,
   TabContainer,
   TabThreeDot,
-} from '../../../Assets/StyledComponents';
-import { InputTextField } from '../../../Utils/TextField';
-import { AutocompleteText } from '../../../Utils/Autocomplete';
-import { AddButton } from '../../../Utils/Buttons';
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import { MoreVertRounded } from '@material-ui/icons';
-import { IconButton } from '@material-ui/core';
-import Menu from '../../CourseMaterials/Menu';
+} from "../../../Assets/StyledComponents";
+import { InputTextField } from "../../../Utils/TextField";
+import { AutocompleteText } from "../../../Utils/Autocomplete";
+import { AddButton } from "../../../Utils/Buttons";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import { MoreVertRounded } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
+import Menu from "../../CourseMaterials/Menu";
 import {
   FormControl,
   OutlinedInput,
   InputLabel,
   Grid,
   InputAdornment,
-} from '@material-ui/core';
+} from "@material-ui/core";
+import { AVOID_INPUT } from "../../../Constants";
 class CalibrationTestCard extends Component {
   constructor(props) {
     super(props);
@@ -41,18 +42,18 @@ class CalibrationTestCard extends Component {
     return (
       <>
         <Divider />
-        <Grid container spacing={3} justifyContent={'flex-end'}>
+        <Grid container spacing={3} justifyContent={"flex-end"}>
           <AddButton
             style={{
-              background: 'none',
+              background: "none",
               fontWeight: 600,
-              fontSize: '18px',
-              color: '#1093FF',
+              fontSize: "18px",
+              color: "#1093FF",
               marginRight: 5,
             }}
             startIcon={
               <AddRoundedIcon
-                style={{ marginLeft: 4, marginRight: -8, fontSize: '24px' }}
+                style={{ marginLeft: 4, marginRight: -8, fontSize: "24px" }}
               />
             }
             onClick={sectionChange}
@@ -60,14 +61,14 @@ class CalibrationTestCard extends Component {
             Add New Section
           </AddButton>
         </Grid>
-        <TabContainer style={{ margin: '24px 0px 30px 0px' }}>
+        <TabContainer style={{ margin: "24px 0px 30px 0px" }}>
           {tabValue > 0 && testData.length !== 0 && (
             <TabThreeDot>
               <IconButton
-                style={{ padding: '3px' }}
+                style={{ padding: "3px" }}
                 onClick={handleThreeDotClick}
               >
-                <MoreVertRounded style={{ fill: '#1093ff' }} />
+                <MoreVertRounded style={{ fill: "#1093ff" }} />
               </IconButton>
               <Menu
                 questionId={tabValue}
@@ -82,10 +83,10 @@ class CalibrationTestCard extends Component {
             tabsData={{
               tabId: tabValue - 1,
               handleTabChange: tabChange,
-              tabsBackColor: '#1093FF',
+              tabsBackColor: "#1093FF",
               tabData: tabLabels,
-              activeClass: 'active__task__tab',
-              styleName: 'test',
+              activeClass: "active__task__tab",
+              styleName: "test",
             }}
           />
         </TabContainer>
@@ -97,24 +98,31 @@ class CalibrationTestCard extends Component {
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={item.duration > 0 ? 4 : 6}>
                     <InputTextField
-                      name='name'
+                      name="name"
                       onChange={e => testPropertiesChange(index, e)}
                       value={item.name}
-                      label='Section Name'
-                      placeholder='Section Name'
-                      height='11px'
+                      label="Section Name"
+                      placeholder="Section Name"
+                      height="11px"
                     />
                   </Grid>
 
                   <Grid item xs={12} md={item.duration > 0 ? 4 : 6}>
                     <InputTextField
-                      name='noOfQuestions'
+                      name="noOfQuestions"
                       onChange={e => testPropertiesChange(index, e)}
                       value={item.noOfQuestions}
-                      label='Number of question'
-                      placeholder='Number of question'
-                      height='11px'
-                      type={'number'}
+                      label="Number of question"
+                      placeholder="Number of question"
+                      height="11px"
+                      type={"number"}
+                      onKeyDown={evt =>
+                        (AVOID_INPUT.includes(evt.key) ||
+                          // Up arrow and down arrow disabling
+                          evt.keyCode === 38 ||
+                          evt.keyCode === 40) &&
+                        evt.preventDefault()
+                      }
                     />
                   </Grid>
                   {item.duration > 0 ? (
@@ -123,10 +131,10 @@ class CalibrationTestCard extends Component {
                         <InputLabel
                           shrink={true}
                           style={{
-                            top: '-8px',
-                            left: '15px',
-                            background: '#FFFFFF',
-                            padding: '0 10px 0 8px',
+                            top: "-8px",
+                            left: "15px",
+                            background: "#FFFFFF",
+                            padding: "0 10px 0 8px",
                             zIndex: 1,
                           }}
                         >
@@ -136,16 +144,23 @@ class CalibrationTestCard extends Component {
                           disabled
                           inputProps={{
                             style: {
-                              height: '11px',
+                              height: "11px",
                             },
                           }}
-                          type={'number'}
+                          type={"number"}
+                          onKeyDown={evt =>
+                            (AVOID_INPUT.includes(evt.key) ||
+                              // Up arrow and down arrow disabling
+                              evt.keyCode === 38 ||
+                              evt.keyCode === 40) &&
+                            evt.preventDefault()
+                          }
                           value={item.duration}
-                          name='duration'
-                          placeholder='Expected time for completion'
+                          name="duration"
+                          placeholder="Expected time for completion"
                           onChange={e => testPropertiesChange(index, e)}
                           endAdornment={
-                            <InputAdornment position='end'>mins</InputAdornment>
+                            <InputAdornment position="end">mins</InputAdornment>
                           }
                           labelWidth={230}
                         />
@@ -153,24 +168,24 @@ class CalibrationTestCard extends Component {
                     </Grid>
                   ) : null}
                 </Grid>
-                <Grid container style={{ paddingTop: '30px' }} spacing={2}>
+                <Grid container style={{ paddingTop: "30px" }} spacing={2}>
                   <Grid item xs={12} md={4}>
                     <InputTextField
-                      name='descriptionTitle'
+                      name="descriptionTitle"
                       onChange={e => testPropertiesChange(index, e)}
                       value={item.descriptionTitle}
-                      label='Section Instruction heading'
-                      placeholder='Section Instruction heading'
-                      height='11px'
+                      label="Section Instruction heading"
+                      placeholder="Section Instruction heading"
+                      height="11px"
                     />
                   </Grid>
                   <Grid item xs={12} md={8}>
                     <InputTextField
-                      name='nameDescription'
+                      name="nameDescription"
                       onChange={e => testPropertiesChange(index, e)}
                       value={item.nameDescription}
-                      label='Section Description'
-                      placeholder='Section Description'
+                      label="Section Description"
+                      placeholder="Section Description"
                       multiline
                       rows={3}
                     />
@@ -179,9 +194,9 @@ class CalibrationTestCard extends Component {
                     <AutocompleteText
                       autoData={{
                         key: index,
-                        label: 'Section Instruction Details',
-                        placeholder: 'List The Instruction',
-                        title: 'Type the content and press enter',
+                        label: "Section Instruction Details",
+                        placeholder: "List The Instruction",
+                        title: "Type the content and press enter",
                         value:
                           item.description !== null ? item.description : [],
                         onChange: sectionInstructionChange,
