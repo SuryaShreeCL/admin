@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
 import { FieldArray, Field } from 'formik';
 import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
 const useStyles = makeStyles({
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
     padding: '14px 1.5rem',
     borderRadius: '10px',
     display: 'flex',
-    width: '1000px',
+    width: '850px',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -157,6 +158,7 @@ const DynamicFormContainer = React.memo(({ values, setFieldValue }) => {
                 />
                 <Controls.Button
                   text='Save'
+                  startIcon={<SaveIcon />}
                   variant='contained'
                   color='primary'
                   className={classes.addStepBtn}
