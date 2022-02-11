@@ -139,7 +139,7 @@ class VariantGeneralData extends Component {
             : "",
         },
         referProduct: {
-          id: this.state.referProduct.id,
+          id: this.state.referProduct?.id,
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
@@ -199,9 +199,9 @@ class VariantGeneralData extends Component {
     this.setState({
       codeNameErr : isEmptyString(this.state.codeName) ? hlptxt : "",
       shortNameErr : isEmptyString(this.state.shortName) ? hlptxt : "",
-      referProductErr : isEmptyString(this.state.referProduct) ? hlptxt : "",
-      appointmentIdErr : isEmptyString(this.state.appointmentId) ? hlptxt : "",
-      calendarIdErr : isEmptyString(this.state.calendarId) ? hlptxt : "",
+      // referProductErr : isEmptyString(this.state.referProduct) ? hlptxt : "",
+      // appointmentIdErr : isEmptyString(this.state.appointmentId) ? hlptxt : "",
+      // calendarIdErr : isEmptyString(this.state.calendarId) ? hlptxt : "",
     })
 
     if(!isEmptyString(this.state.opsEmailId)){
@@ -236,10 +236,10 @@ class VariantGeneralData extends Component {
       this.state.productName !== "" &&
       this.state.standaloneSellable !== "" &&
       !isEmptyString(this.state.codeName) &&
-      !isEmptyString(this.state.shortName) &&
-      !isEmptyObject(this.state.referProduct) &&
-      !isEmptyString(this.state.appointmentId) &&
-      !isEmptyString(this.state.calendarId)
+      !isEmptyString(this.state.shortName) 
+      // !isEmptyObject(this.state.referProduct) &&
+      // !isEmptyString(this.state.appointmentId) &&
+      // !isEmptyString(this.state.calendarId)
     ) {
       let obj = {
         name: this.state.variantfamilysku,
@@ -260,7 +260,7 @@ class VariantGeneralData extends Component {
         dateOfUpdate: new Date(),
         updatedBy: window.sessionStorage.getItem("role"),
         referProduct: {
-          id: this.state.referProduct.id,
+          id: this.state.referProduct?.id,
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
