@@ -7,6 +7,7 @@ export const studentPath = rootPath.concat("/students");
 export const studentIdPath = studentPath;
 export const departmentPath = rootPath.concat("/departments");
 export const collegePath = rootPath.concat("/college");
+export const degreePath = rootPath.concat("/degree");
 export const coursePath = rootPath.concat("/courses");
 
 export const editCoursePath = coursePath.concat("/edit/");

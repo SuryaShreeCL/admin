@@ -1,30 +1,29 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
 import {
-  getAllColleges,
-  addColleges,
-  updateColleges,
-  deleteCollege
-} from "../Actions/College";
-import {getPaginateCollege} from "../Actions/College"
-import TableComponent from "./TableComponent/TableComponent";
-import { ThemeProvider, createMuiTheme, CircularProgress , Slide} from "@material-ui/core";
-import MaterialTable from "material-table";
-import { tableIcons } from "./MaterialTableIcon";
-import AddIcon from "@material-ui/icons/Add";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+  CircularProgress,
+  createMuiTheme,
+  Slide,
+  ThemeProvider,
+} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
-import Alert from "@material-ui/lab/Alert";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import TextField from "@material-ui/core/TextField";
+import AddIcon from "@material-ui/icons/Add";
+import CloseIcon from "@material-ui/icons/Close";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  addColleges,
+  deleteCollege,
+  getAllColleges,
+  getPaginateCollege,
+  updateColleges,
+} from "../Actions/College";
 import MySnackBar from "./MySnackBar";
+import TableComponent from "./TableComponent/TableComponent";
 export class College extends Component {
   constructor(props) {
     super(props);
@@ -36,19 +35,20 @@ export class College extends Component {
       logoURL: "",
       msg: false,
       update: false,
-      description : null,
-      snack : {
-        open : false,
-        message : "",
-        color : ""
-      }
+      description: null,
+      snack: {
+        open: false,
+        message: "",
+        color: "",
+      },
     };
   }
 
   col = [
     {
       title: "ID",
-      fieldName: "id"},
+      fieldName: "id",
+    },
     { title: "Name", fieldName: "name" },
   ];
 
@@ -56,40 +56,40 @@ export class College extends Component {
     // this.props.getAllColleges();
     this.props.getPaginateCollege(0, 20, null);
   }
-  handleEdit = (data) => {
-    console.log(data)
-    this.setState({
-      id : data.id,
-      name : data.name,
-      logoURL : data.logoURL,
-      description : data.description,
-      show : true,
-    })
-};
 
-tableTheme = () =>
-createMuiTheme({
-  palette: {
-    primary: {
-      main: "#007bff",
-    },
-  },
-  overrides: {
-    MuiTypography: {
-      h6: {
-        fontWeight: "bold",
-      },
-    },
-    MuiIconButton: {
-      root: {
-        "&:hover": {
-          backgroundColor: "none",
-          borderRadius: 0,
+  handleEdit = (data) => {
+    this.setState({
+      id: data.id,
+      name: data.name,
+      logoURL: data.logoURL,
+      description: data.description,
+      show: true,
+    });
+  };
+
+  tableTheme = () =>
+    createMuiTheme({
+      palette: {
+        primary: {
+          main: "#007bff",
         },
       },
-    },
-  },
-});
+      overrides: {
+        MuiTypography: {
+          h6: {
+            fontWeight: "bold",
+          },
+        },
+        MuiIconButton: {
+          root: {
+            "&:hover": {
+              backgroundColor: "none",
+              borderRadius: 0,
+            },
+          },
+        },
+      },
+    });
 
   modeltheme = () =>
     createMuiTheme({
@@ -135,22 +135,23 @@ createMuiTheme({
         },
       },
     });
-    spinnerTheme = () =>createMuiTheme({
-      overrides :{
-        MuiCircularProgress :  {
-          colorPrimary:{
-            color: "#009be5"
-          }
-        }
-      }
+  spinnerTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MuiCircularProgress: {
+          colorPrimary: {
+            color: "#009be5",
+          },
+        },
+      },
     });
   handleClickOpen = (e) => {
-    this.setState({ 
+    this.setState({
       show: true,
-    id : "",
-    name : "",
-    description : "",
-    logoURL : ""
+      id: "",
+      name: "",
+      description: "",
+      logoURL: "",
     });
   };
 
@@ -161,20 +162,18 @@ createMuiTheme({
     this.props.getPaginateCollege(page, size, keyword);
   };
 
-  rowClick = (rowData) => {
-      
+  rowClick = (rowData) => {};
+  deleteHandler = (data) => {
+    this.props.deleteCollege(data.id);
   };
-  deleteHandler = (data) =>{
-    this.props.deleteCollege(data.id)
-  }
   // Add College
   newCollege(e) {
     this.setState({ show: false });
     let newCollegeObj = {
       name: this.state.name,
       description: this.state.description,
-      logoURL : this.state.logoURL,
-      status : null
+      logoURL: this.state.logoURL,
+      status: null,
     };
     if (this.state.name.length !== 0) {
       this.props.addColleges(newCollegeObj);
@@ -182,7 +181,7 @@ createMuiTheme({
         id: "",
         name: "",
         description: "",
-        logoURL : "",   
+        logoURL: "",
       });
     }
   }
@@ -202,47 +201,45 @@ createMuiTheme({
         description: "",
         logoURL: "",
         update: true,
-      });      
+      });
     }
     this.props.getAllColleges();
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.addCollegeStatus !== prevProps.addCollegeStatus){
-      if(this.props.addCollegeStatus.success){
+  componentDidUpdate(prevProps) {
+    if (this.props.addCollegeStatus !== prevProps.addCollegeStatus) {
+      if (this.props.addCollegeStatus.success) {
         this.props.getAllColleges();
-      }else{
+      } else {
         this.setState({
-          snack : {
-            open : true,
-            message : this.props.addCollegeStatus.message,
-            color : "error"
-          }
-        })
+          snack: {
+            open: true,
+            message: this.props.addCollegeStatus.message,
+            color: "error",
+          },
+        });
       }
     }
-    if(this.props.updateCollegeStatus !== prevProps.updateCollegeStatus){
-      if(this.props.updateCollegeStatus.success){
+    if (this.props.updateCollegeStatus !== prevProps.updateCollegeStatus) {
+      if (this.props.updateCollegeStatus.success) {
         this.props.getAllColleges();
-      }else{
+      } else {
         this.setState({
-          snack : {
-            open : true,
-            message : this.props.updateCollegeStatus.message,
-            color : "error"
-          }
-        })
+          snack: {
+            open: true,
+            message: this.props.updateCollegeStatus.message,
+            color: "error",
+          },
+        });
       }
     }
   }
 
-  render() {   
-    
-    console.log(this.props, "+++++++++++++++++")
+  render() {
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
-        {this.props.paginateCollegeList.length !== 0 ? (
+          {this.props.paginateCollegeList.length !== 0 ? (
             <TableComponent
               data={
                 this.props.paginateCollegeList.length !== 0
@@ -260,34 +257,36 @@ createMuiTheme({
               disableDelete
               onDelete={true}
               onDeleteClick={this.deleteHandler}
-              onEdit={true}              
+              onEdit={true}
               onEditClick={this.handleEdit}
               add={true}
               onAddClick={this.handleClickOpen}
             />
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-            <div style={{
+              <div
+                style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   height: "65vh",
-            }}>
-          <CircularProgress
-         color="primary"
-          variant="indeterminate"
-          size = "3rem"
-          thickness="3"
-           />
-           </div>
-          </ThemeProvider>
+                }}
+              >
+                <CircularProgress
+                  color="primary"
+                  variant="indeterminate"
+                  size="3rem"
+                  thickness="3"
+                />
+              </div>
+            </ThemeProvider>
           )}
-         
+
           {/* Add and Edit College Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
-            TransitionComponent={Transition}
+              TransitionComponent={Transition}
               open={this.state.show}
               onClose={this.handleClose}
               aria-labelledby="customized-dialog-title"
@@ -352,16 +351,18 @@ createMuiTheme({
           </ThemeProvider>
         </div>
         <MySnackBar
-        snackOpen={this.state.snack.open}
-        snackVariant={this.state.snack.color}
-        snackMsg={this.state.snack.message}
-        onClose={()=>this.setState({
-          snack : {
-            open : false,
-            message : "",
-            color : ""
+          snackOpen={this.state.snack.open}
+          snackVariant={this.state.snack.color}
+          snackMsg={this.state.snack.message}
+          onClose={() =>
+            this.setState({
+              snack: {
+                open: false,
+                message: "",
+                color: "",
+              },
+            })
           }
-        })}
         />
       </ThemeProvider>
     );
@@ -374,9 +375,8 @@ const mapStateToProps = (state) => {
   return {
     AllCollegeList: state.CollegeReducer.allCollegeList,
     paginateCollegeList: state.CollegeReducer.paginateCollegeList,
-    addCollegeStatus : state.CollegeReducer.addCollegeStatus,
-    updateCollegeStatus : state.CollegeReducer.updateCollegeStatus
-
+    addCollegeStatus: state.CollegeReducer.addCollegeStatus,
+    updateCollegeStatus: state.CollegeReducer.updateCollegeStatus,
   };
 };
 export default connect(mapStateToProps, {
