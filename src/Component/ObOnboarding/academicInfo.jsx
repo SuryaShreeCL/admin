@@ -1457,7 +1457,6 @@ export class academicInfo extends Component {
                                 helperText={this.state.diplomoCgpaScaleErr}
                                 label="CGPA Scale"
                                 margin="normal"
-                                disabled={this.state.documentedit}
                               />
                             )}
                           />
@@ -1503,7 +1502,7 @@ export class academicInfo extends Component {
                             disabled={
                               this.state.documentedit ||
                               this.state.diplomoCgpaScale === "" ||
-                              this.state.diplomoCgpaScale
+                              this.state.diplomoCgpaScale === null
                             }
                             error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr}
@@ -1703,27 +1702,24 @@ export class academicInfo extends Component {
                               if (this.state.twelthCgpaScale) {
                                 if (e.target.value) {
                                   if (
-                                    (parseInt(e.target.value) > 100 &&
-                                      parseInt(
-                                        this.state.twelthCgpaScale &&
+                                    (e.target.value.length <= 3 &&
+                                      parseInt(e.target.value) > 100 &&
+                                        parseInt(
                                           this.state.twelthCgpaScale.value
-                                      ) < parseInt(e.target.value)) ||
+                                        ) < parseInt(e.target.value)) ||
                                     parseInt(e.target.value) < 0 ||
                                     parseFloat(
                                       parseInt(
-                                        this.state.twelthCgpaScale &&
-                                          this.state.twelthCgpaScale.value
+                                        this.state.twelthCgpaScale.value
                                       ).toFixed(2)
                                     ) < parseFloat(e.target.value).toFixed(2)
                                   ) {
-                                    if (parseInt(e.target.value) > 100) {
-                                      e.preventDefault();
-                                    } else {
-                                      this.setState({
-                                        twelthCgpa: e.target.value,
-                                        twelthCgpaErr: "",
-                                      });
-                                    }
+                                    e.preventDefault();
+                                  } else {
+                                    this.setState({
+                                      twelthCgpa: e.target.value,
+                                      twelthCgpaErr: "",
+                                    });
                                   }
                                 } else {
                                   this.setState({
