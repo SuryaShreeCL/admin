@@ -54,7 +54,7 @@ import {
   documentDetailsPath,
   notificationPath,
   reportsPath,
-  studentReportsPath,
+  productReportPath,
   testCreate,
   testEdit,
   callSchedulePath,
@@ -111,7 +111,7 @@ import StudentHome from './StudentHome';
 import Notification from './Notification';
 import Report from './ReportHome';
 import ReportHome from './ReportHome';
-import StudentReport from './StudentReport';
+import ProductReport from './ProductReport';
 import Callschedule from './Callschedule';
 import ProductBasedRoot from './ProductBased/ProductBasedRoot';
 import ProductVariantRoot from './Product/ProductVariantRoot';
@@ -296,8 +296,8 @@ export default function Routes(props) {
       />
       <Route
         exact
-        path={studentReportsPath}
-        render={props => <StudentReport {...props} />}
+        path={productReportPath}
+        render={props => <ProductReport {...props} />}
       />
       <Route
         exact

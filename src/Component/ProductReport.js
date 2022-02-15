@@ -1,33 +1,21 @@
 import { Breadcrumbs, Button, Grid, Typography } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import React, { useEffect } from 'react';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getCareerExpoReport,
-  viewCvReport,
-  viewDiagTestReport,
-  viewMarkSheetReport,
-  viewMydetailsReport,
-  viewTechTestReport,
-  viewTermsAndConReports,
-  viewTestRating,
-  getTestList,
-} from '../Actions/Reports';
 import BackButton from '../Asset/Images/backbutton.svg';
-import { downloadReport } from '../AsyncApiCall/Student';
-import { studentPath } from './RoutePaths';
-import DropDown from '../Utils/DropDown';
 import {
-  typographyStyle,
   BreadCrumpContainer,
+  typographyStyle,
   useStyles,
 } from '../Asset/StyledComponents/ReportStyles';
 import Loader from '../Lms/Utils/Loader';
-import { useState } from 'react';
 import TextFieldComponent from './Controls/TextField';
-import moment from 'moment';
+import { studentPath } from './RoutePaths';
+import Snack from './MySnackBar';
+import { downloadProductReport } from '../Actions/Reports';
 
-function StudentReport(props) {
+function ProductReport(props) {
   const classes = useStyles();
   const [state, setState] = useState({
     isDownloading: false,
@@ -35,6 +23,8 @@ function StudentReport(props) {
     endDate: null,
     endDateHelperText: null,
     isDisabled: true,
+    snackOpen: false,
+    snackMsg: '',
   });
   const {
     startDate,
@@ -42,11 +32,44 @@ function StudentReport(props) {
     endDateHelperText,
     isDisabled,
     isDownloading,
+    snackOpen,
+    snackMsg,
   } = state;
   const dispatch = useDispatch();
-  const { markSheetReport } = useSelector(
-    stateValue => stateValue.ReportReducer
-  );
+  const { productReport } = useSelector(stateValue => stateValue.ReportReducer);
+
+  useEffect(() => {
+    if (productReport) {
+      if (productReport.success) {
+        if (productReport.data.length !== 0) {
+          const downloadUrl = window.URL.createObjectURL(
+            new Blob([productReport.data])
+          );
+          const link = document.createElement('a');
+          link.href = downloadUrl;
+          link.setAttribute('download', 'Report.xls');
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setState({ ...state, isDownloading: false });
+        } else {
+          setState({
+            ...state,
+            snackOpen: true,
+            snackMsg: 'Data not found',
+            isDownloading: false,
+          });
+        }
+      } else {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackMsg: productReport.data,
+          isDownloading: false,
+        });
+      }
+    }
+  }, [productReport]);
 
   const compare = (dateTimeA, dateTimeB) => {
     if (dateTimeA && dateTimeB) {
@@ -60,7 +83,11 @@ function StudentReport(props) {
   useEffect(() => {
     if (startDate && endDate) {
       if (compare(startDate, endDate)) {
-        setState({ ...state, endDateHelperText: 'Please select a valid date' });
+        setState({
+          ...state,
+          endDateHelperText: 'Please select a valid date',
+          isDisabled: true,
+        });
       } else {
         setState({ ...state, endDateHelperText: null, isDisabled: false });
       }
@@ -79,26 +106,11 @@ function StudentReport(props) {
       ...state,
       isDownloading: true,
     });
-    // downloadReport().then(response => {
-    //   if (response.status === 201) {
-    //     const downloadUrl = window.URL.createObjectURL(
-    //       new Blob([response.data])
-    //     );
-    //     const link = document.createElement('a');
-    //     link.href = downloadUrl;
-    //     link.setAttribute('download', `${title}.xls`);
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     link.remove();
-    //     this.setState({
-    //       isDownloading: false,
-    //     });
-    //   } else {
-    //     this.setState({
-    //       isDownloading: false,
-    //     });
-    //   }
-    // });
+    dispatch(downloadProductReport(startDate, endDate));
+  };
+
+  const handleSnackClose = () => {
+    setState({ ...state, snackOpen: false, snackMsg: '' });
   };
 
   return isDownloading ? (
@@ -108,7 +120,7 @@ function StudentReport(props) {
       <BreadCrumpContainer>
         <img
           src={BackButton}
-          style={{ cursor: 'pointer', marginTop: '-10px' }}
+          className={classes.imgStyle}
           onClick={() => props.history.goBack()}
         />
         <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
@@ -118,12 +130,11 @@ function StudentReport(props) {
           >
             {'Home'}
           </Typography>
-          <Typography style={{ cursor: 'pointer', fontWeight: '600' }}>
-            {'Report'}
-          </Typography>
+          <Typography className={classes.textSTyle}>{'Report'}</Typography>
         </Breadcrumbs>
       </BreadCrumpContainer>
       <Grid container spacing={2}>
+        <Grid xs={12} item />
         <Grid item xs={3}>
           <TextFieldComponent
             type={'date'}
@@ -170,25 +181,29 @@ function StudentReport(props) {
         </Grid>
         <Grid
           item
-          xs={12}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          className={classes.boxTopStyle}
+          xs={6}
+          justifyContent={'flex-end'}
+          alignItems={'flex-start'}
           container
         >
-          <Typography variant='h6'>{'Reports'}</Typography>
           <Button
             disabled={isDownloading || isDisabled}
             color={'primary'}
-            onClick={() => this.handleDownloadClick()}
+            onClick={handleDownloadClick}
             variant={'contained'}
           >
             {'Download'}
           </Button>
         </Grid>
       </Grid>
+      <Snack
+        snackOpen={snackOpen}
+        snackVariant={'error'}
+        snackMsg={snackMsg}
+        onClose={handleSnackClose}
+      />
     </div>
   );
 }
 
-export default StudentReport;
+export default ProductReport;

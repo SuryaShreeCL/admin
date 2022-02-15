@@ -14,8 +14,12 @@ export const BreadCrumpContainer = styled.div`
 `;
 
 export const useStyles = makeStyles(them => ({
-  boxTopStyle: {
-    position: 'relative',
-    top: '-15px',
+  imgStyle: {
+    cursor: 'pointer',
+    marginTop: '-10px',
+  },
+  textSTyle: {
+    cursor: 'pointer',
+    fontWeight: '600',
   },
 }));

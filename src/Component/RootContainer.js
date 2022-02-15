@@ -84,7 +84,7 @@ import {
   wallPath,
   webinarPath,
   appVersion,
-  studentReportsPath,
+  productReportPath,
 } from './RoutePaths';
 import Routes from './Routes';
 import TreeView from '@material-ui/lab/TreeView';
@@ -589,7 +589,7 @@ function RootContainer(props) {
         {
           icon: <HomeOutlinedIcon />,
           title: 'Reports',
-          path: studentReportsPath,
+          path: productReportPath,
           items: [],
         },
       ]);
