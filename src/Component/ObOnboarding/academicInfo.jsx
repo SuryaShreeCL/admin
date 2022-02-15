@@ -917,6 +917,7 @@ export class academicInfo extends Component {
                               this.setState({
                                 pgCgpaScale: newValue,
                                 pgCgpaScaleErr: "",
+                                pgCgpa: "",
                               })
                             }
                             renderInput={(params) => (
@@ -933,29 +934,44 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <TextField
                             id="standard-basic"
-                            disabled={this.state.documentedit}
-                            label="CGPA"
-                            onKeyDown={(evt) =>
-                              isNumber(evt) && evt.preventDefault()
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.pgCgpaScale === "" ||
+                              this.state.pgCgpaScale === null
                             }
+                            label="CGPA"
                             onChange={(e) => {
-                              if (e.target.value) {
-                                if (e.target.value.length <= 3) {
-                                  if (parseInt(e.target.value) > 100) {
-                                    e.preventDefault();
-                                  } else {
-                                    this.setState({
-                                      pgCgpa: e.target.value,
-                                      pgCgpaErr: "",
-                                    });
+                              if (this.state.pgCgpaScale) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(
+                                          this.state.pgCgpaScale &&
+                                            this.state.pgCgpaScale.value
+                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.pgCgpaScale &&
+                                            this.state.pgCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        pgCgpa: e.target.value,
+                                        pgCgpaErr: "",
+                                      });
+                                    }
                                   }
+                                } else {
+                                  this.setState({
+                                    pgCgpa: e.target.value,
+                                    pgCgpaErr: "",
+                                  });
                                 }
-                              } 
-                              else {
-                                this.setState({
-                                  pgCgpa: e.target.value,
-                                  pgCgpaErr: "",
-                                });
                               }
                             }}
                             value={this.state.pgCgpa}
@@ -992,7 +1008,10 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             label="End Date"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.pgStartDate === null
+                            }
                             format="dd/MM/yyyy"
                             inputProps={{ readOnly: true }}
                             minDate={this.state.pgStartDate}
@@ -1167,12 +1186,12 @@ export class academicInfo extends Component {
                               this.setState({
                                 ugCgpaScale: newValue,
                                 ugCgpaScaleErr: "",
+                                ugCgpa: "",
                               })
                             }
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                disabled={this.state.documentedit}
                                 error={this.state.ugCgpaScaleErr.length > 0}
                                 helperText={this.state.ugCgpaScaleErr}
                                 label="CGPA Scale"
@@ -1184,30 +1203,42 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <TextField
                             id="standard-basic"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.ugCgpaScale === "" ||
+                              this.state.ugCgpaScale === null
+                            }
                             label="CGPA"
                             value={this.state.ugCgpa}
-                            onKeyDown={(evt) =>
-                              isNumber(evt) && evt.preventDefault()
-                            }
                             onChange={(e) => {
-                              if (e.target.value) {
-                                if (e.target.value.length <= 3) {
-                                  if (parseInt(e.target.value) > 100) {
-                                    e.preventDefault();
-                                  } else {
-                                    this.setState({
-                                      ugCgpa: e.target.value,
-                                      ugCgpaErr: "",
-                                    });
+                              if (this.state.ugCgpaScale) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(this.state.ugCgpaScale.value) <
+                                          parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.ugCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        ugCgpa: e.target.value,
+                                        ugCgpaErr: "",
+                                      });
+                                    }
                                   }
+                                } else {
+                                  this.setState({
+                                    ugCgpa: e.target.value,
+                                    ugCgpaErr: "",
+                                  });
                                 }
-                              } 
-                              else {
-                                this.setState({
-                                  ugCgpa: e.target.value,
-                                  ugCgpaErr: "",
-                                });
                               }
                             }}
                             error={this.state.ugCgpaErr.length > 0}
@@ -1259,7 +1290,10 @@ export class academicInfo extends Component {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.ugStartDate === null
+                            }
                             error={this.state.ugEndDateErr.length > 0}
                             helperText={this.state.ugEndDateErr}
                           />
@@ -1411,6 +1445,7 @@ export class academicInfo extends Component {
                               this.setState({
                                 diplomoCgpaScale: newValue,
                                 diplomoCgpaScaleErr: "",
+                                diplomoCgpa: "",
                               })
                             }
                             renderInput={(params) => (
@@ -1431,32 +1466,45 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             value={this.state.diplomoCgpa}
-                            onKeyDown={(evt) =>
-                              isNumber(evt) && evt.preventDefault()
-                            }
                             onChange={(e) => {
-                              if (e.target.value) {
-                                if (e.target.value.length <= 3) {
-                                  if (parseInt(e.target.value) > 100) {
-                                    e.preventDefault();
-                                  } else {
-                                    this.setState({
-                                      diplomoCgpa: e.target.value,
-                                      diplomoCgpaErr: "",
-                                    });
+                              if (this.state.diplomoCgpaScale) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(
+                                          this.state.diplomoCgpaScale.value
+                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.diplomoCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        diplomoCgpa: e.target.value,
+                                        diplomoCgpaErr: "",
+                                      });
+                                    }
                                   }
+                                } else {
+                                  this.setState({
+                                    diplomoCgpa: e.target.value,
+                                    diplomoCgpaErr: "",
+                                  });
                                 }
-                              } 
-                              else {
-                                this.setState({
-                                  diplomoCgpa: e.target.value,
-                                  diplomoCgpaErr: "",
-                                });
                               }
                             }}
                             InputLabelProps={{ shrink: true }}
                             label="CGPA"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.diplomoCgpaScale === "" ||
+                              this.state.diplomoCgpaScale
+                            }
                             error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr}
                           />
@@ -1475,11 +1523,10 @@ export class academicInfo extends Component {
                             label="Start Date"
                             error={this.state.diplomostartDateErr.length > 0}
                             helperText={this.state.diplomostartDateErr}
-                            format="MM/dd/yyyy"
                             KeyboardButtonProps={{
                               "aria-label": "change date",
                             }}
-                            inputProps={{ readOnly: true }}
+                            // inputProps={{ readOnly: true }}
                             InputLabelProps={{
                               shrink: true,
                             }}
@@ -1492,8 +1539,11 @@ export class academicInfo extends Component {
                             id="date-picker-dialog"
                             format="dd/MM/yyyy"
                             label="End Date"
-                            inputProps={{ readOnly: true }}
-                            disabled={this.state.diplomostartDate === null}
+                            // inputProps={{ readOnly: true }}
+                            disabled={
+                              this.state.diplomostartDate === null ||
+                              this.state.documentedit
+                            }
                             minDate={this.state.diplomostartDate}
                             value={this.state.diplomoEndDate}
                             onChange={(e, newValue) =>
@@ -1502,7 +1552,6 @@ export class academicInfo extends Component {
                                 diplomoEndDateErr: "",
                               })
                             }
-                            disabled={this.state.documentedit}
                             error={this.state.diplomoEndDateErr.length > 0}
                             helperText={this.state.diplomoEndDateErr}
                             format="dd/MM/yyyy"
@@ -1622,6 +1671,7 @@ export class academicInfo extends Component {
                               this.setState({
                                 twelthCgpaScale: newValue,
                                 twelthCgpaScaleErr: "",
+                                twelthCgpa: "",
                               })
                             }
                             disabled={this.state.documentedit}
@@ -1641,31 +1691,46 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             label="CGPA"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.twelthCgpaScale === "" ||
+                              this.state.twelthCgpaScale === null
+                            }
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
-                            onKeyDown={(evt) =>
-                              isNumber(evt) && evt.preventDefault()
-                            }
                             onChange={(e) => {
-                              if (e.target.value) {
-                                if (e.target.value.length <= 3) {
-                                  if (parseInt(e.target.value) > 100) {
-                                    e.preventDefault();
-                                  } else {
-                                    this.setState({
-                                      twelthCgpa: e.target.value,
-                                      twelthCgpaErr: "",
-                                    });
+                              if (this.state.twelthCgpaScale) {
+                                if (e.target.value) {
+                                  if (
+                                    (parseInt(e.target.value) > 100 &&
+                                      parseInt(
+                                        this.state.twelthCgpaScale &&
+                                          this.state.twelthCgpaScale.value
+                                      ) < parseInt(e.target.value)) ||
+                                    parseInt(e.target.value) < 0 ||
+                                    parseFloat(
+                                      parseInt(
+                                        this.state.twelthCgpaScale &&
+                                          this.state.twelthCgpaScale.value
+                                      ).toFixed(2)
+                                    ) < parseFloat(e.target.value).toFixed(2)
+                                  ) {
+                                    if (parseInt(e.target.value) > 100) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        twelthCgpa: e.target.value,
+                                        twelthCgpaErr: "",
+                                      });
+                                    }
                                   }
+                                } else {
+                                  this.setState({
+                                    twelthCgpa: e.target.value,
+                                    twelthCgpaErr: "",
+                                  });
                                 }
-                              } 
-                              else {
-                                this.setState({
-                                  twelthCgpa: e.target.value,
-                                  twelthCgpaErr: "",
-                                });
                               }
                             }}
                             InputLabelProps={{ shrink: true }}
@@ -1702,7 +1767,10 @@ export class academicInfo extends Component {
                             label="End Date"
                             format="dd/MM/yyyy"
                             label="End Date"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.twelthStartDate === null
+                            }
                             inputProps={{ readOnly: true }}
                             minDate={this.state.twelthStartDate}
                             value={this.state.twelthEndDate || ""}
@@ -1782,7 +1850,6 @@ export class academicInfo extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                disabled={this.state.documentedit}
                                 error={this.state.tenthExamBoardErr.length > 0}
                                 helperText={this.state.tenthExamBoardErr}
                                 label="Exam Board"
@@ -1804,13 +1871,13 @@ export class academicInfo extends Component {
                               this.setState({
                                 tenthCgpaScale: newValue,
                                 tenthCgpaScaleErr: "",
+                                tenthCgpa: "",
                               })
                             }
                             disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                disabled={this.state.documentedit}
                                 error={this.state.tenthCgpaScaleErr.length > 0}
                                 helperText={this.state.tenthCgpaScaleErr}
                                 label="CGPA Scale"
@@ -1822,31 +1889,47 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             type="number"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.tenthCgpaScale === "" ||
+                              this.state.tenthCgpaScale === null
+                            }
                             label="CGPA"
                             error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr}
-                            onKeyDown={(evt) =>
-                              isNumber(evt) && evt.preventDefault()
-                            }
                             onChange={(e) => {
-                              if (e.target.value) {
-                                if (e.target.value.length <= 3) {
-                                  if (parseInt(e.target.value) > 100) {
-                                    e.preventDefault();
-                                  } else {
-                                    this.setState({
-                                      tenthCgpa: e.target.value,
-                                      tenthCgpaErr: "",
-                                    });
+                              if (
+                                this.state.tenthCgpaScale !== null ||
+                                this.state.tenthCgpaScale !== ""
+                              ) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(
+                                          this.state.tenthCgpaScale.value
+                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.tenthCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        tenthCgpa: e.target.value,
+                                        tenthCgpaErr: "",
+                                      });
+                                    }
                                   }
+                                } else {
+                                  this.setState({
+                                    tenthCgpa: e.target.value,
+                                    tenthCgpaErr: "",
+                                  });
                                 }
-                              } 
-                              else {
-                                this.setState({
-                                  tenthCgpa: e.target.value,
-                                  tenthCgpaErr: "",
-                                });
                               }
                             }}
                             value={this.state.tenthCgpa}
@@ -1881,7 +1964,10 @@ export class academicInfo extends Component {
                           <KeyboardDatePicker
                             id="date-picker-dialog"
                             inputProps={{ readOnly: true }}
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.tenthStartDate === null
+                            }
                             minDate={this.state.tenthStartDate}
                             value={this.state.tenthEndDate}
                             onChange={(newValue) =>
