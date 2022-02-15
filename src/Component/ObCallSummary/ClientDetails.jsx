@@ -444,12 +444,12 @@ class ClientDetails extends Component {
     // isEmptyString(this.state.expmonth)
     //   ? this.setState({ expmonthErr: hlptxt })
     //   : this.setState({ expmonthErr: "" });
-    isEmptyString(this.state.term)
-      ? this.setState({ termErr: hlptxt })
-      : this.setState({ termErr: "" });
-    this.state.intakeyear && this.state.intakeyear.title === undefined
-      ? this.setState({ intakeyearErr: hlptxt })
-      : this.setState({ intakeyearErr: "" });
+    // isEmptyString(this.state.term)
+    //   ? this.setState({ termErr: hlptxt })
+    //   : this.setState({ termErr: "" });
+    // this.state.intakeyear && this.state.intakeyear.title === undefined
+    //   ? this.setState({ intakeyearErr: hlptxt })
+    //   : this.setState({ intakeyearErr: "" });
 
     if (
       !isEmptyString(this.state.name) &&
@@ -518,12 +518,12 @@ class ClientDetails extends Component {
         ],
         aspirationTerms: [
           {
-            id: this.state.term.id,
+            id: this.state.term?.id,
           },
         ],
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
-        intakeYear: this.state.intakeyear.title,
+        intakeYear: this.state.intakeyear?.title,
         // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
         packages: this.state.package && this.state.package.name,
         workExperience: this.state.workexp.title,
@@ -1033,6 +1033,7 @@ class ClientDetails extends Component {
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
+                  disabled
                   options={this.intakeYear}
                   getOptionLabel={(option) => option.title}
                   value={this.state.intakeyear}
@@ -1054,6 +1055,7 @@ class ClientDetails extends Component {
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
+                  disabled
                   options={this.props.getAspTermsList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.term}

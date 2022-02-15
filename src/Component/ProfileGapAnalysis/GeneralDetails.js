@@ -1,35 +1,51 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  Card, createTheme,
-  Dialog, DialogActions, DialogContent,
+  Card,
+  createTheme,
+  Dialog,
+  DialogActions,
+  DialogContent,
   DialogTitle,
-  Grid, Menu,
-  MenuItem, TextField, ThemeProvider, Typography, withStyles
+  Grid,
+  Menu,
+  MenuItem,
+  TextField,
+  ThemeProvider,
+  Typography,
+  withStyles,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { Autocomplete } from "@material-ui/lab";
 import {
-  KeyboardDatePicker, MuiPickersUtilsProvider
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   getAllBranch,
-  getAllDegree, getAllSpecialization,
-  getAllUniversity
+  getAllDegree,
+  getAllSpecialization,
+  getAllUniversity,
 } from "../../Actions/Aspiration";
 import {
-  getcommenthistory, getgeneraldetails,
-  getstatus, updategeneraldetails, updatestatus
+  getcommenthistory,
+  getgeneraldetails,
+  getstatus,
+  updategeneraldetails,
+  updatestatus,
 } from "../../Actions/ProfileGapAction";
 import "../../Asset/ProfileGapAnalysis.css";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { isAlpha } from "../Validation";
 import {
-  getAllColleges, getBranches, getDegree, getPGDegree,
-  getUniversity
+  getAllColleges,
+  getBranches,
+  getDegree,
+  getPGDegree,
+  getUniversity,
 } from "./../../Actions/College";
 import Mysnack from "./../MySnackBar";
 import CommentDialog from "./CommentDialog";
@@ -1112,7 +1128,7 @@ class GeneralDetails extends Component {
         this.state.lastname !== "" &&
         this.state.degree !== null &&
         this.state.fieldofstudy !== null &&
-        this.state.intake !== null &&
+        // this.state.intake !== null &&
         this.state.round !== "" &&
         this.state.pgcollege !== null &&
         this.state.pgdegree !== null &&
@@ -1159,7 +1175,7 @@ class GeneralDetails extends Component {
         this.state.degree !== null &&
         this.state.college !== null &&
         this.state.fieldofstudy !== null &&
-        this.state.intake !== null &&
+        // this.state.intake !== null &&
         this.state.sem !== ""
       ) {
         let pgadataarr = [];
@@ -1205,7 +1221,7 @@ class GeneralDetails extends Component {
           this.state.degree !== null &&
           this.state.college !== null &&
           this.state.fieldofstudy !== null &&
-          this.state.intake !== null &&
+          // this.state.intake !== null &&
           this.state.sem !== ""
         ) {
           this.props.updategeneraldetails(
@@ -1753,6 +1769,7 @@ class GeneralDetails extends Component {
                         <Autocomplete
                           popupIcon={<ExpandMore style={{ color: "black" }} />}
                           options={this.intakevalue}
+                          disabled
                           getOptionLabel={(option) => option.title}
                           name="intake"
                           value={this.state.intake}
