@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Grid,
   Paper,
@@ -15,40 +15,40 @@ import {
   Button,
   DialogContent,
   DialogActions,
-} from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+} from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loader from '../Utils/controls/Loader';
 import {
   updateStudentContact,
   updateVerificationStatus,
-} from "../../Actions/AdminAction";
-import { getStudentsById, viewAllCities } from "../../Actions/Student";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import EditRoundedIcon from "@material-ui/icons/EditRounded";
+} from '../../Actions/AdminAction';
+import { getStudentsById, viewAllCities } from '../../Actions/Student';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
 export class ContactDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
       StudentDetails: null,
       altEmailId: null,
-      altMailHelperTxt: "",
+      altMailHelperTxt: '',
       eMail: null,
-      eMailHelperTxt: "",
+      eMailHelperTxt: '',
       phoneNumber: null,
-      phoneHelperTxt: "",
+      phoneHelperTxt: '',
       altPhoneNumber: null,
-      altPhoneHelperTxt: "",
+      altPhoneHelperTxt: '',
       linkedInProfile: null,
-      linkedInHelperTxt: "",
+      linkedInHelperTxt: '',
       facebookProfile: null,
-      facebookHelperTxt: "",
+      facebookHelperTxt: '',
       address: null,
-      addressHelperTxt: "",
-      twitterProfile : "",
-      twitterHelperTxt : "",
+      addressHelperTxt: '',
+      twitterProfile: '',
+      twitterHelperTxt: '',
       city: null,
-      cityHelperTxt: "",
+      cityHelperTxt: '',
       status: this.status[1],
       misMatchDetails: null,
       letEdit: false,
@@ -62,36 +62,36 @@ export class ContactDetails extends Component {
     this.props.getStudentsById(this.props.id);
     this.props.viewAllCities();
   }
-  flag = false
+  flag = false;
   componentDidUpdate(prevProps, prevState) {
-   
-
-    if(this.state.status !== prevState.status){
-      if(this.state.status !== null && this.state.status.value !== "mismatched"){
-        this.setState({misMatchDetails : null})
+    if (this.state.status !== prevState.status) {
+      if (
+        this.state.status !== null &&
+        this.state.status.value !== 'mismatched'
+      ) {
+        this.setState({ misMatchDetails: null });
       }
-  }
+    }
 
     var findObj = this.props.studentStatusResponse.find(
-      (res) => res.section && res.section.name === "Contact Details"
+      res => res.section && res.section.name === 'Contact Details'
     );
     console.log(findObj);
 
-    if(findObj !== undefined){
-      if(findObj.section.name === "Contact Details"){
-        if(this.flag === false && findObj.status === "verified"){
-          this.setState({status : this.status[0]}) 
-          this.flag = true
-        }else if(this.flag === false && findObj.status === "Notverified"){
-          this.setState({status : this.status[1]}) 
-          this.flag = true
-        }else if(this.flag === false && findObj.status === "mismatched"){
+    if (findObj !== undefined) {
+      if (findObj.section.name === 'Contact Details') {
+        if (this.flag === false && findObj.status === 'verified') {
+          this.setState({ status: this.status[0] });
+          this.flag = true;
+        } else if (this.flag === false && findObj.status === 'Notverified') {
+          this.setState({ status: this.status[1] });
+          this.flag = true;
+        } else if (this.flag === false && findObj.status === 'mismatched') {
           this.setState({
-            status : this.status[2],
-            misMatchDetails : findObj.remark
-          }) 
-          this.flag = true
-
+            status: this.status[2],
+            misMatchDetails: findObj.remark,
+          });
+          this.flag = true;
         }
       }
     }
@@ -105,15 +105,15 @@ export class ContactDetails extends Component {
         phoneNumber: this.props.StudentDetails.phoneNumber,
         linkedInProfile: this.props.StudentDetails.linkedInProfile,
         city: this.props.StudentDetails.city,
-        facebookProfile:this.props.StudentDetails.faceBookUrl,
-        twitterProfile:this.props.StudentDetails.twitterUrl,
-        address:this.props.StudentDetails.address
+        facebookProfile: this.props.StudentDetails.faceBookUrl,
+        twitterProfile: this.props.StudentDetails.twitterUrl,
+        address: this.props.StudentDetails.address,
       });
     }
     if (this.props.contactDataResponse !== prevProps.contactDataResponse) {
       this.setState({
-        snackVariant: "success",
-        snackMessage: "Modified Successfully",
+        snackVariant: 'success',
+        snackMessage: 'Modified Successfully',
         snackOpen: true,
       });
     }
@@ -122,8 +122,8 @@ export class ContactDetails extends Component {
       prevProps.updateVerificationResponse
     ) {
       this.setState({
-        snackVariant: "success",
-        snackMessage: "Status Updated Successfully",
+        snackVariant: 'success',
+        snackMessage: 'Status Updated Successfully',
         snackOpen: true,
       });
     }
@@ -132,7 +132,7 @@ export class ContactDetails extends Component {
     overrides: {
       MuiSvgIcon: {
         root: {
-          color: "#000",
+          color: '#000',
         },
       },
     },
@@ -141,49 +141,48 @@ export class ContactDetails extends Component {
   // Options
 
   status = [
-    { title: "Verified", value: "verified" },
-    { title: "Not Verified", value: "Notverified" },
-    { title: "Mismatch", value: "mismatched" },
+    { title: 'Verified', value: 'verified' },
+    { title: 'Not Verified', value: 'Notverified' },
+    { title: 'Mismatch', value: 'mismatched' },
   ];
   //Change Handler
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   // Submit Handler
 
   handleSubmit = () => {
-    console.log(this.state)
-    let helperTxt = "Please Fill The Required Feild";
+    console.log(this.state);
+    let helperTxt = 'Please Fill The Required Feild';
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({ eMailHelperTxt: helperTxt })
-      : this.setState({ eMailHelperTxt: "" });
+      : this.setState({ eMailHelperTxt: '' });
     this.state.altEmailId === null || this.state.altEmailId.length === 0
       ? this.setState({ altMailHelperTxt: helperTxt })
-      : this.setState({ altMailHelperTxt: "" });
+      : this.setState({ altMailHelperTxt: '' });
     this.state.phoneNumber === null || this.state.phoneNumber.length === 0
       ? this.setState({ phoneHelperTxt: helperTxt })
-      : this.setState({ phoneHelperTxt: "" });
+      : this.setState({ phoneHelperTxt: '' });
     this.state.altPhoneNumber === null || this.state.altPhoneNumber.length === 0
       ? this.setState({ altPhoneHelperTxt: helperTxt })
-      : this.setState({ altPhoneHelperTxt: "" });
-    this.state.linkedInProfile === "" ||
-    this.state.linkedInProfile.length === 0
+      : this.setState({ altPhoneHelperTxt: '' });
+    this.state.linkedInProfile === '' || this.state.linkedInProfile.length === 0
       ? this.setState({ linkedInHelperTxt: helperTxt })
-      : this.setState({ linkedInHelperTxt: "" });
-      this.state.facebookProfile.length === 0
+      : this.setState({ linkedInHelperTxt: '' });
+    this.state.facebookProfile.length === 0
       ? this.setState({ facebookHelperTxt: helperTxt })
-      : this.setState({ facebookHelperTxt: "" });
-      this.state.twitterProfile.length === 0
+      : this.setState({ facebookHelperTxt: '' });
+    this.state.twitterProfile.length === 0
       ? this.setState({ twitterHelperTxt: helperTxt })
-      : this.setState({ twitterHelperTxt: "" });
-      this.state.address.length === 0
+      : this.setState({ twitterHelperTxt: '' });
+    this.state.address.length === 0
       ? this.setState({ addressHelperTxt: helperTxt })
-      : this.setState({ addressHelperTxt: "" });
-      this.state.city === null
+      : this.setState({ addressHelperTxt: '' });
+    this.state.city === null
       ? this.setState({ cityHelperTxt: helperTxt })
-      : this.setState({ cityHelperTxt: "" });
+      : this.setState({ cityHelperTxt: '' });
     if (
       this.state.eMail !== null &&
       this.state.eMail.length !== 0 &&
@@ -217,7 +216,6 @@ export class ContactDetails extends Component {
         },
       };
       this.props.updateStudentContact(this.props.id, obj);
-     
     }
   };
   handleStatusUpdate = () => {
@@ -227,11 +225,14 @@ export class ContactDetails extends Component {
           id: this.props.id,
         },
         section: {
-          name: "Contact Details",
+          name: 'Contact Details',
         },
         remark: this.state.misMatchDetails,
         status: this.state.status.value,
         updateDate: null,
+        product: {
+          id: this.props.match.params.productId,
+        },
       };
       console.log(obj);
       this.props.updateVerificationStatus(obj);
@@ -241,7 +242,7 @@ export class ContactDetails extends Component {
     }
   };
   render() {
-    console.log(this.state, "state............");
+    console.log(this.state, 'state............');
 
     const { divStyle, textStyle, divContainer } = style;
     return (
@@ -249,259 +250,259 @@ export class ContactDetails extends Component {
         {this.state.StudentDetails !== null ? (
           <ThemeProvider theme={this.theme}>
             <Grid container spacing={2} style={divContainer}>
-              <Grid item md={2} style={divStyle} alignItems="center">
+              <Grid item md={2} style={divStyle} alignItems='center'>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   options={this.status}
                   value={this.state.status}
                   fullWidth
                   onChange={(e, newValue) =>
                     this.setState({ status: newValue })
                   }
-                  getOptionLabel={(option) => option.title}
-                  renderInput={(params) => (
+                  getOptionLabel={option => option.title}
+                  renderInput={params => (
                     <TextField
                       {...params}
-                      size="small"
-                      label="Verification Status"
-                      variant="outlined"
+                      size='small'
+                      label='Verification Status'
+                      variant='outlined'
                     />
                   )}
                 />
               </Grid>
 
               {this.state.status !== null &&
-              this.state.status.value === "mismatched" ? (
+              this.state.status.value === 'mismatched' ? (
                 <>
-                  <Grid item md={7} style={divStyle} alignItems="center">
+                  <Grid item md={7} style={divStyle} alignItems='center'>
                     <TextField
                       fullWidth
-                      size="small"
-                      onChange={(e) => this.handleChange(e)}
-                      name={"misMatchDetails"}
+                      size='small'
+                      onChange={e => this.handleChange(e)}
+                      name={'misMatchDetails'}
                       value={this.state.misMatchDetails}
-                      variant="outlined"
-                      label={"Remark"}
+                      variant='outlined'
+                      label={'Remark'}
                     />
                   </Grid>
-                  <Grid item md={2} style={divStyle} alignItems="center">
+                  <Grid item md={2} style={divStyle} alignItems='center'>
                     <Button
-                      variant="outlined"
+                      variant='outlined'
                       onClick={this.handleStatusUpdate}
-                      color="primary"
-                      size="small"
+                      color='primary'
+                      size='small'
                     >
                       Update Status
                     </Button>
                   </Grid>
                 </>
               ) : (
-                <Grid item md={9} style={divStyle} alignItems="center">
+                <Grid item md={9} style={divStyle} alignItems='center'>
                   <Button
-                    variant="outlined"
+                    variant='outlined'
                     onClick={this.handleStatusUpdate}
-                    color="primary"
-                    size="small"
+                    color='primary'
+                    size='small'
                   >
                     Update Status
                   </Button>
                 </Grid>
               )}
 
-              <Grid item md={1} style={divStyle} alignItems="center">
-                <Tooltip arrow title="Edit" aria-label="Edit">
+              <Grid item md={1} style={divStyle} alignItems='center'>
+                <Tooltip arrow title='Edit' aria-label='Edit'>
                   <IconButton onClick={() => this.setState({ letEdit: true })}>
                     <EditRoundedIcon />
                   </IconButton>
                 </Tooltip>
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"E-Mail ID:"}
+                  {'E-Mail ID:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
-                  onChange={(e) => this.handleChange(e)}
-                  name={"eMail"}
+                  variant='outlined'
+                  size='small'
+                  onChange={e => this.handleChange(e)}
+                  name={'eMail'}
                   helperText={this.state.eMailHelperTxt}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="E-Mail"
+                  label='E-Mail'
                   value={this.state.eMail}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"Alt E-Mail ID:"}
+                  {'Alt E-Mail ID:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
-                  onChange={(e) => this.handleChange(e)}
+                  variant='outlined'
+                  size='small'
+                  onChange={e => this.handleChange(e)}
                   helperText={this.state.altMailHelperTxt}
-                  name={"altEmailId"}
+                  name={'altEmailId'}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="Alt E-Mail ID"
+                  label='Alt E-Mail ID'
                   value={this.state.altEmailId}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"Phone Number:"}
+                  {'Phone Number:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   helperText={this.state.phoneHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
-                  name={"phoneNumber"}
+                  onChange={e => this.handleChange(e)}
+                  name={'phoneNumber'}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="Phone Number"
+                  label='Phone Number'
                   value={this.state.phoneNumber}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"Alt Phone Number:"}
+                  {'Alt Phone Number:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
-                  onChange={(e) => this.handleChange(e)}
-                  name={"altPhoneNumber"}
+                  variant='outlined'
+                  size='small'
+                  onChange={e => this.handleChange(e)}
+                  name={'altPhoneNumber'}
                   helperText={this.state.altPhoneHelperTxt}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="Alt Phone Number"
+                  label='Alt Phone Number'
                   value={this.state.altPhoneNumber}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"Linked In Profile:"}
+                  {'Linked In Profile:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   helperText={this.state.linkedInHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
-                  name={"linkedInProfile"}
+                  onChange={e => this.handleChange(e)}
+                  name={'linkedInProfile'}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="Linked In Profile"
+                  label='Linked In Profile'
                   value={this.state.linkedInProfile}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"City:"}
+                  {'City:'}
                 </Typography>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   options={this.props.cityList}
                   value={this.state.city}
-                  style={{ width: "60%" }}
+                  style={{ width: '60%' }}
                   disabled={this.state.letEdit === false ? true : false}
-                  name={"city"}
-                  size="small"
+                  name={'city'}
+                  size='small'
                   onChange={(e, newValue) => this.setState({ city: newValue })}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => (
+                  getOptionLabel={option => option.name}
+                  renderInput={params => (
                     <TextField
                       {...params}
                       helperText={this.state.cityHelperTxt}
-                      label="City"
-                      variant="outlined"
+                      label='City'
+                      variant='outlined'
                     />
                   )}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"Facebook Profile:"}
+                  {'Facebook Profile:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   helperText={this.state.facebookHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
-                  name={"facebookProfile"}
+                  onChange={e => this.handleChange(e)}
+                  name={'facebookProfile'}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="Facebook Profile"
+                  label='Facebook Profile'
                   value={this.state.facebookProfile}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"Twitter Profile:"}
+                  {'Twitter Profile:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   helperText={this.state.twitterHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
-                  name={"twitterProfile"}
+                  onChange={e => this.handleChange(e)}
+                  name={'twitterProfile'}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="Twitter Profile"
+                  label='Twitter Profile'
                   value={this.state.twitterProfile}
                 />
               </Grid>
-              <Grid item md={6} style={divStyle} justify="space-between">
+              <Grid item md={6} style={divStyle} justify='space-between'>
                 <Typography
-                  color="primary"
+                  color='primary'
                   style={textStyle}
-                  variant="subtitle1"
+                  variant='subtitle1'
                 >
-                  {"Address:"}
+                  {'Address:'}
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   helperText={this.state.addressHelperTxt}
-                  onChange={(e) => this.handleChange(e)}
-                  name={"address"}
+                  onChange={e => this.handleChange(e)}
+                  name={'address'}
                   disabled={this.state.letEdit === false ? true : false}
-                  label="Address"
+                  label='Address'
                   value={this.state.address}
                 />
               </Grid>
-              <Grid item md={12} style={divStyle} justify="flex-end">
+              <Grid item md={12} style={divStyle} justify='flex-end'>
                 <Button
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   onClick={this.handleSubmit}
                   disabled={this.state.letEdit === false ? true : false}
-                  color="primary"
+                  color='primary'
                 >
                   Submit
                 </Button>
@@ -511,10 +512,10 @@ export class ContactDetails extends Component {
         ) : (
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "65vh",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '65vh',
             }}
           >
             <Loader />
@@ -526,7 +527,7 @@ export class ContactDetails extends Component {
           onClose={() => this.setState({ snackOpen: false })}
         >
           <Alert
-            variant="filled"
+            variant='filled'
             onClose={() => this.setState({ snackOpen: false })}
             severity={this.state.snackVariant}
           >
@@ -539,22 +540,22 @@ export class ContactDetails extends Component {
 }
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 const style = {
   divStyle: {
-    display: "flex",
+    display: 'flex',
   },
   divContainer: {
-    padding: "1% 2%",
+    padding: '1% 2%',
   },
   textStyle: {
-    paddingRight: "1%",
-    paddingLeft: "3%",
+    paddingRight: '1%',
+    paddingLeft: '3%',
   },
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     StudentDetails: state.StudentReducer.StudentList,
     cityList: state.StudentReducer.cityList,
