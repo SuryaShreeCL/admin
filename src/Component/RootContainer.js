@@ -66,6 +66,7 @@ import {
   coursePath,
   degreePath,
   departmentPath,
+  intakePath,
   lmsTest,
   lms_course_landing,
   lms_course_taken,
@@ -736,6 +737,18 @@ function RootContainer(props) {
           icon: <></>,
           title: "Degree",
           path: degreePath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Department",
+          path: departmentPath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "InTake",
+          path: intakePath,
           items: [],
         },
       ]);

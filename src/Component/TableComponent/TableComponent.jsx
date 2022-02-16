@@ -195,7 +195,7 @@ export default class TableComponent extends Component {
                    const { body } = table;
                    return this.state.tableData.map((row, index) => {
                      return (
-                       <tr
+                       <tr 
                          key={index}
                          onClick={(e) => {
                            if (this.props.onRowClick !== undefined)
@@ -298,7 +298,7 @@ export default class TableComponent extends Component {
                          style={{ overflowY: "hidden", position: "relative" }}
                        >
                          {/* Table Header */}
-                         <Grid container>
+                         <Grid container >
                            <Grid item md={12} style={header.container}>
                              <div style={header.title}>
                                <label>{this.props.title}</label>
@@ -411,6 +411,7 @@ const table = {
       display: "flex",
       alignItems: "center",
       padding: 10,
+      
     },
     title: {
       flex: 1,
@@ -452,20 +453,28 @@ const table = {
   body: {
     container: {
       padding: 10,
+      
     },
     table: {
       minWidth: 300,
       maxWidth: "100%",
       border: "none",
+      
+
     },
     thead: {
       border: "none",
+      // backgroundColor:"pink",
+      // display: "flex",
+      // justifyContent: "space-between",
+      // alignItems:"center"
     },
     th: {
       textAlign: "center",
       border: "none",
       borderBottom: "1px solid rgba(224, 224, 224, 1",
       fontSize: 16,
+      // backgroundColor:"pink"
     },
     tr: {
       cursor: "pointer",

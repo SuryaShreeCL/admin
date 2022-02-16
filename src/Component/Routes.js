@@ -37,6 +37,7 @@ import {
   testPath,
   collegePath,
   degreePath,
+  intakePath,
   createPath,
   universityPath,
   aspirationPath,
@@ -91,6 +92,7 @@ import {
 } from "./RoutePaths";
 import College from "./College";
 import Degree from "./Degree";
+import InTake from "./InTake";
 import University from "./University";
 import TabPanel from "./Course/TabPanel";
 import TableComponent from "./TableComponent/Index";
@@ -177,11 +179,7 @@ export default function Routes(props) {
         path={addCoursePath}
         render={(props) => <TabPanel {...props} />}
       />
-      <Route
-        exact
-        path={departmentPath}
-        render={(props) => <Department {...props} />}
-      />
+
       <Route
         exact
         path={collegePath}
@@ -191,6 +189,16 @@ export default function Routes(props) {
         exact
         path={degreePath}
         render={(props) => <Degree {...props} />}
+      />
+      <Route
+        exact
+        path={departmentPath}
+        render={(props) => <Department {...props} />}
+      />
+      <Route
+        exact
+        path={intakePath}
+        render={(props) => <InTake {...props} />}
       />
       <Route
         exact
