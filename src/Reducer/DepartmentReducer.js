@@ -1,7 +1,7 @@
 import { DEPARTMENT } from "../Redux/Action";
 const initialState = {
   addedDepartment: null,
-  updateDepartment: null,
+  updatedDepartment: null,
   deleteDepartment: null,
   allDepartmentList: [],
   paginatedAndFilteredDepartment: null,
@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
     case DEPARTMENT.updateDepartment:
       return {
         ...state,
-        updateDepartment: action.updateDepartment,
+        updatedDepartment: action.updatedDepartment,
       };
     case DEPARTMENT.deleteDepartment:
       return {

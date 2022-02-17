@@ -1,8 +1,8 @@
 import {
   CircularProgress,
   createMuiTheme,
-  Slide,
   Grid,
+  Slide,
   ThemeProvider,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -17,14 +17,16 @@ import CloseIcon from "@material-ui/icons/Close";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  getDegreePaginate,
-  getAllDegrees,
   addDegree,
-  updateDegree,
   deleteDegree,
+  getAllDegrees,
+  getDegreePaginate,
+  updateDegree,
 } from "../Actions/Degree";
+import "../Asset/All.css";
 import MySnackBar from "./MySnackBar";
 import TableComponent from "./TableComponent/TableComponent";
+
 export class Degree extends Component {
   constructor(props) {
     super(props);
@@ -173,9 +175,6 @@ export class Degree extends Component {
     if (this.state.degreeName.length !== 0) {
       this.props.addDegree(newDegreeObj);
       this.setState({
-        id: "",
-        degreeName: "",
-        degreeType: "",
         show: false,
       });
     } else {
@@ -188,7 +187,6 @@ export class Degree extends Component {
         },
       });
     }
-    this.props.getAllDegrees();
   }
   // Update degree
   updateDegree(e) {
@@ -199,10 +197,8 @@ export class Degree extends Component {
     };
     if (this.state.degreeName.length !== 0) {
       this.props.updateDegree(this.state.id, newDegreeObj);
+
       this.setState({
-        id: "",
-        degreeName: "",
-        degreeType: "",
         update: true,
         show: false,
       });
@@ -216,20 +212,19 @@ export class Degree extends Component {
         },
       });
     }
-    this.props.getAllDegrees();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.addedDegree !== prevProps.addedDegree) {
       if (this.props.addedDegree.success) {
+        this.props.getDegreePaginate(0, 20, null);
         this.setState({
           snack: {
             open: true,
-            message: this.props.addedDegree.message,
+            message: "Added Successfully",
             color: "success",
           },
         });
-        this.props.getAllDegrees();
       } else {
         this.setState({
           snack: {
@@ -243,6 +238,7 @@ export class Degree extends Component {
 
     if (this.props.updatedDegree !== prevProps.updatedDegree) {
       if (this.props.updatedDegree.success) {
+        this.props.getDegreePaginate(0, 20, null);
         this.setState({
           snack: {
             open: true,
@@ -250,7 +246,6 @@ export class Degree extends Component {
             color: "success",
           },
         });
-        this.props.getAllDegrees();
       } else {
         this.setState({
           snack: {
@@ -264,7 +259,6 @@ export class Degree extends Component {
   }
 
   render() {
-    console.log(this.props.paginatedAndFilteredDegree);
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
@@ -306,14 +300,7 @@ export class Degree extends Component {
             </Grid>
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "65vh",
-                }}
-              >
+              <div className={"circularProgress_div"}>
                 <CircularProgress
                   color="primary"
                   variant="indeterminate"
@@ -357,7 +344,7 @@ export class Degree extends Component {
                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="DegreeType"
+                  label="Enter DegreeType"
                   rowsMin={3}
                   multiline
                   fullWidth

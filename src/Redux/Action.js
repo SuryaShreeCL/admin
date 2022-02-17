@@ -126,12 +126,22 @@ export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
 };
 
+/**department */
 export const DEPARTMENT = {
   addDepartment: "addDepartment",
   updateDepartment: "updateDepartment",
   deleteDepartment: "deleteDepartment",
   getAllDepartments: "getAllDepartments",
   getPaginateDepartment: "getPaginateDepartment",
+};
+
+/**Intake */
+export const INTAKE = {
+  addIntake: "addIntake",
+  updateIntake: "updateIntake",
+  deleteIntake: "deleteIntake",
+  getAllIntakes: "getAllIntakes",
+  getPaginateIntake: "getPaginateIntake",
 };
 
 // Selva

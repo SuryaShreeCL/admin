@@ -16,9 +16,10 @@ export const addDepartment = (data) => {
         },
       })
       .then((result) => {
+        console.log(result);
         dispatch({
           type: DEPARTMENT.addDepartment,
-          addedDepartment: result.data,
+          addedDepartment: { ...result.data, statusText: "Created" },
         });
       })
       .catch((error) => {
@@ -46,11 +47,15 @@ export const updateNewDepartment = (id, data) => {
       .then((result) => {
         dispatch({
           type: DEPARTMENT.updateDepartment,
-          updateDepartment: result.data,
+          updatedDepartment: result.data,
         });
       })
       .catch((error) => {
         console.log(error);
+        dispatch({
+          type: DEPARTMENT.updateDepartment,
+          updatedDepartment: error.response.data,
+        });
       });
   };
 };

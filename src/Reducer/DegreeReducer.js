@@ -3,7 +3,7 @@ const initialState = {
   addedDegree: null,
   updatedDegree: null,
   allDegreeList: [],
-  deletedDegree: [],
+  deletedDegree: null,
   paginatedAndFilteredDegree: null,
 };
 

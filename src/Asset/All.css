@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'MyWebFont';
-  src: url('./Fonts/proxima nova font/PROXIMANOVA-REG-WEBFONT.TTF')
-    format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  font-family: "MyWebFont";
+  src: url("./Fonts/proxima nova font/PROXIMANOVA-REG-WEBFONT.TTF")
+    format("truetype"); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 * {
-  font-family: 'proxima-nova', sans-serif;
+  font-family: "proxima-nova", sans-serif;
   letter-spacing: 0px;
   opacity: 1;
 }
@@ -16,7 +16,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 .left-side-img {
@@ -109,7 +109,7 @@ input[type='number'] {
 .career-interest-options {
   display: none;
 }
-input[type='checkbox']:checked + label {
+input[type="checkbox"]:checked + label {
   background-color: #3f51b5;
   color: white;
 }
@@ -192,7 +192,7 @@ input[type='checkbox']:checked + label {
 }
 .cardview {
   display: flex;
-  padding: '10px';
+  padding: "10px";
 }
 .cardview-footer {
   display: flex;
@@ -408,7 +408,7 @@ input[type='checkbox']:checked + label {
   color: #0081ff !important;
   font-size: 18px !important;
   font-weight: 600 !important;
-  font-family: 'Poppins' !important;
+  font-family: "Poppins" !important;
 }
 
 .incomplete_text {
@@ -433,8 +433,8 @@ input[type='checkbox']:checked + label {
   margin-top: 7px !important;
 }
 .component_grid {
-  height: '106vh' !important;
-  overflow-y: 'scroll' !important;
+  height: "106vh" !important;
+  overflow-y: "scroll" !important;
 }
 .completed_button {
   width: 150px !important;
@@ -497,4 +497,11 @@ input[type='checkbox']:checked + label {
 
 .image_resized > img {
   width: 100% !important;
+}
+
+.circularProgress_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 65vh;
 }

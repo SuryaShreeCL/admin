@@ -1,8 +1,8 @@
 import {
   CircularProgress,
   createMuiTheme,
-  Slide,
   Grid,
+  Slide,
   ThemeProvider,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -23,8 +23,10 @@ import {
   getDepartmentPaginate,
   updateNewDepartment,
 } from "../Actions/Department";
+import "../Asset/All.css";
 import MySnackBar from "./MySnackBar";
 import TableComponent from "./TableComponent/TableComponent";
+
 export class Department extends Component {
   constructor(props) {
     super(props);
@@ -56,11 +58,10 @@ export class Department extends Component {
   }
 
   handleEdit = (data) => {
-    console.log(data);
     this.setState({
       id: data.id,
       departmentName: data.name,
-      description: data.type,
+      description: data.description,
       show: true,
     });
   };
@@ -189,7 +190,6 @@ export class Department extends Component {
         },
       });
     }
-    this.props.getAllDepartments();
   }
   // Update degree
   updateDepartment(e) {
@@ -217,20 +217,19 @@ export class Department extends Component {
         },
       });
     }
-    this.props.getAllDepartments();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.addedDepartment !== prevProps.addedDepartment) {
-      if (this.props.addedDepartment.success) {
+      if (this.props.addedDepartment.statusText === "Created") {
         this.setState({
           snack: {
             open: true,
-            message: this.props.addedDepartment.message,
+            message: "Added Successfully",
             color: "success",
           },
         });
-        this.props.getAllDepartments();
+        this.props.getDepartmentPaginate(0, 20, null);
       } else {
         this.setState({
           snack: {
@@ -242,8 +241,9 @@ export class Department extends Component {
       }
     }
 
-    if (this.props.updateDepartment !== prevProps.updateDepartment) {
-      if (this.props.updateDepartment.success) {
+    if (this.props.updatedDepartment !== prevProps.updatedDepartment) {
+      if (this.props.updatedDepartment.success) {
+        this.props.getDepartmentPaginate(0, 20, null);
         this.setState({
           snack: {
             open: true,
@@ -251,12 +251,11 @@ export class Department extends Component {
             color: "success",
           },
         });
-        this.props.getAllDepartments();
       } else {
         this.setState({
           snack: {
             open: true,
-            message: this.props.updateDepartment.message,
+            message: this.props.updatedDepartment.message,
             color: "error",
           },
         });
@@ -265,7 +264,6 @@ export class Department extends Component {
   }
 
   render() {
-    console.log(this.props.updateDepartment);
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
@@ -289,7 +287,7 @@ export class Department extends Component {
                     this.props.paginatedAndFilteredDepartment &&
                     this.props.paginatedAndFilteredDepartment.totalElements
                   }
-                  title={"Degree"}
+                  title={"Department"}
                   pageCount={
                     this.props.paginatedAndFilteredDepartment &&
                     this.props.paginatedAndFilteredDepartment.totalPages
@@ -307,14 +305,7 @@ export class Department extends Component {
             </Grid>
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "65vh",
-                }}
-              >
+              <div className={"circularProgress_div"}>
                 <CircularProgress
                   color="primary"
                   variant="indeterminate"
@@ -325,7 +316,7 @@ export class Department extends Component {
             </ThemeProvider>
           )}
 
-          {/* Add and Edit Degree Dialog */}
+          {/* Add and Edit department Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
@@ -336,7 +327,9 @@ export class Department extends Component {
             >
               <DialogTitle id="customized-dialog-title">
                 <div className="flex-1 text-center">
-                  {this.state.id.length !== 0 ? "Edit Degree" : "Add Degree"}
+                  {this.state.id.length !== 0
+                    ? "Edit Department"
+                    : "Add Department"}
                 </div>
                 <div className="model-close-button">
                   <IconButton aria-label="close" onClick={this.handleClose}>
@@ -358,7 +351,7 @@ export class Department extends Component {
                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="Description"
+                  label="Enter Description"
                   rowsMin={3}
                   multiline
                   fullWidth
@@ -411,7 +404,7 @@ const mapStateToProps = (state) => {
     paginatedAndFilteredDepartment:
       state.DepartmentReducer.paginatedAndFilteredDepartment,
     addedDepartment: state.DepartmentReducer.addedDepartment,
-    updateDepartment: state.DepartmentReducer.updateDepartment,
+    updatedDepartment: state.DepartmentReducer.updatedDepartment,
   };
 };
 export default connect(mapStateToProps, {

@@ -101,7 +101,6 @@ export const updateDegree = (id, data) => {
         dispatch({ type: DEGREE.updateDegree, updatedDegree: result.data });
       })
       .catch((error) => {
-        console.log(error);
         dispatch({
           type: DEGREE.updateDegree,
           updatedDegree: error.response.data,
