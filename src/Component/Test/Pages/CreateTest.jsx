@@ -139,6 +139,15 @@ const CreateTest = () => {
       return false;
     }
 
+    if (values.cutOffScore && values.cutOffScore<values.score && values.cutOffScore >= 1) {
+      setNotify({
+        isOpen: true,
+        message: 'Invalid Cutoff Score !',
+        type: 'error',
+      });
+      return false;
+    }
+
     return true;
   };
 
@@ -152,11 +161,11 @@ const CreateTest = () => {
         /^([\w,:\s-]*)$/,
         'Only [-,_] is accepted, any other special characters are not accepted'
       ),
-    cutOffScore: yup
-      .number()
-      .typeError('Cut off score is a required field')
-      .min(1, 'Negative number not allowed')
-      .max(state.score, `Cut off score cannot be higher than ${state.score} for the test.`),
+    // cutOffScore: yup
+    //   .number()
+    //   .typeError('Cut off score is a required field')
+    //   .min(1, 'Negative number not allowed')
+    //   .max(state.score, `Cut off score cannot be higher than ${state.score} for the test.`),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -170,18 +179,26 @@ const CreateTest = () => {
   };
 
   const draftTest = (testData, status) => {
-    dispatch(createTest({ ...testData, status }));
-    setNotify({
-      isOpen: true,
-      message: 'Drafted Successfully',
-      type: 'success',
-    });
-    setTimeout(() => {
-      history.push({
-        pathname: testPath,
-        tab: 1,
+    if(testData.cutOffScore && testData.cutOffScore<testData.score && testData.cutOffScore >= 1){
+      dispatch(createTest({ ...testData, status }));
+      setNotify({
+        isOpen: true,
+        message: 'Drafted Successfully',
+        type: 'success',
       });
-    }, 1200);
+      setTimeout(() => {
+        history.push({
+          pathname: testPath,
+          tab: 1,
+        });
+      }, 1200);
+    }else{
+      setNotify({
+        isOpen: true,
+        message: 'Invalid Cutoff Score!',
+        type: 'error',
+      });
+    }
   };
 
   const onDiscard = () => {
@@ -339,8 +356,8 @@ const CreateTest = () => {
                         style={{ width: '100%' }}
                         value={values.cutOffScore}
                         onChange={handleChange}
-                        error={values.score < 1}
-                        helperText={values.score < 1 ? 'Enter Only Positive Values' : ''}
+                        error={touched.cutOffScore || values.cutOffScore < 1 || values.cutOffScore>values.score}
+                        helperText={(values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') || (values.cutOffScore>=values.score? 'Invalid Cutoff Score' : '')}
                         inputProps={{
                           pattern: '[0-9]*',
                         }}

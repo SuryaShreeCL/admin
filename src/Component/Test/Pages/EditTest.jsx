@@ -87,6 +87,7 @@ const EditTest = () => {
     endDateTime: new Date(),
     score: 0,
     wallFiles: [],
+    cutOffScore: 0
   });
 
   const [testCreated, setTestCreated] = useState(false);
@@ -133,6 +134,11 @@ const EditTest = () => {
 
   const validationSchema = yup.object({
     nameDescription: yup.string().required('test instructions required'),
+    // cutOffScore: yup
+    //   .number()
+    //   .typeError('Cut off score is a required field')
+    //   .min(1, 'Negative number not allowed')
+    //   .max(state.score, `Cut off score cannot be higher than ${state.score} for the test.`),
   });
 
   const onTestUpdate = (data, status) => {
@@ -181,22 +187,25 @@ const EditTest = () => {
             initialValues={test || state}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              payload = {
-                id: values.id,
-                name: values.name,
-                type: 'EVENT',
-                description: values.description,
-                descriptionTitle: values.descriptionTitle,
-                nameDescription: values.nameDescription,
-                startDateTime: values.startDateTime,
-                endDateTime: values.endDateTime,
-                score: values.score,
-                wallCategory:
-                  values?.wallPost?.linkedEvent?.wallCategories || values.wallPost?.wallCategories,
-                wallFiles: values?.wallPost?.wallFiles,
-                testSections: values.testSection,
-              };
-              onTestUpdate(payload, testType);
+              if (values.cutOffScore && values.cutOffScore<values.score && values.cutOffScore >= 1) {
+                payload = {
+                  id: values.id,
+                  name: values.name,
+                  type: 'EVENT',
+                  description: values.description,
+                  descriptionTitle: values.descriptionTitle,
+                  nameDescription: values.nameDescription,
+                  startDateTime: values.startDateTime,
+                  endDateTime: values.endDateTime,
+                  score: values.score,
+                  cutOffScore: values.cutOffScore,
+                  wallCategory:
+                    values?.wallPost?.linkedEvent?.wallCategories || values.wallPost?.wallCategories,
+                  wallFiles: values?.wallPost?.wallFiles,
+                  testSections: values.testSection,
+                };
+                onTestUpdate(payload, testType);
+              }
             }}
             enableReinitialize
           >
@@ -302,7 +311,7 @@ const EditTest = () => {
                       </Grid>
                     </Grid>
                     <Grid container direction='row' justify='space-between' alignItems='center'>
-                      <Grid item style={{ width: '30%' }}>
+                      <Grid item style={{ width: '15%' }}>
                         <Controls.Input
                           label='Score'
                           name='score'
@@ -311,6 +320,21 @@ const EditTest = () => {
                           onChange={handleChange}
                         />
                       </Grid>
+                      <Grid item style={{ width: '15%' }}>
+                      <Controls.Input
+                        label='Cut Off'
+                        name='cutOffScore'
+                        type='number'
+                        style={{ width: '100%' }}
+                        value={values.cutOffScore}
+                        onChange={handleChange}
+                        error={touched.cutOffScore || values.cutOffScore < 1 || values.cutOffScore>values.score}
+                        helperText={(values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') || (values.cutOffScore>=values.score? 'Invalid Cutoff Score' : '')}
+                        inputProps={{
+                          pattern: '[0-9]*',
+                        }}
+                      />
+                    </Grid>
                       <FieldArray
                         name='testSection'
                         render={(arrayHelpers) => (
