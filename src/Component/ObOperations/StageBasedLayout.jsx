@@ -190,6 +190,7 @@ class StageBasedLayout extends Component {
 
     let obj = {
       comments: this.state.comments,
+      productId: this.props.match.params.productId,
     };
 
     this.props.IncompleteStatus(
