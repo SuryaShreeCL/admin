@@ -39,7 +39,7 @@ function ProductReport(props) {
   const { productReport } = useSelector(stateValue => stateValue.ReportReducer);
 
   useEffect(() => {
-    if (productReport) {
+    if (productReport && isDownloading) {
       if (productReport.success) {
         if (productReport.data.length !== 0) {
           const downloadUrl = window.URL.createObjectURL(
@@ -69,7 +69,7 @@ function ProductReport(props) {
         });
       }
     }
-  }, [productReport]);
+  }, [productReport, isDownloading]);
 
   const compare = (dateTimeA, dateTimeB) => {
     if (dateTimeA && dateTimeB) {
