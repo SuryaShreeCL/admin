@@ -139,7 +139,12 @@ const CreateTest = () => {
       return false;
     }
 
-    if (values.cutOffScore && values.cutOffScore<values.score && values.cutOffScore >= 1) {
+    console.log(values.cutOffScore);
+    if (values.cutOffScore===undefined || 
+      values.cutOffScore===NaN || 
+      !values.cutOffScore || 
+      values.cutOffScore>values.score || 
+      values.cutOffScore < 1) {
       setNotify({
         isOpen: true,
         message: 'Invalid Cutoff Score !',
@@ -356,7 +361,7 @@ const CreateTest = () => {
                         style={{ width: '100%' }}
                         value={values.cutOffScore}
                         onChange={handleChange}
-                        error={touched.cutOffScore || values.cutOffScore < 1 || values.cutOffScore>values.score}
+                        error={ values.cutOffScore < 1 || values.cutOffScore>values.score}
                         helperText={(values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') || (values.cutOffScore>=values.score? 'Invalid Cutoff Score' : '')}
                         inputProps={{
                           pattern: '[0-9]*',

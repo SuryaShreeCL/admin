@@ -328,7 +328,7 @@ const EditTest = () => {
                         style={{ width: '100%' }}
                         value={values.cutOffScore}
                         onChange={handleChange}
-                        error={touched.cutOffScore || values.cutOffScore < 1 || values.cutOffScore>values.score}
+                        error={ values.cutOffScore < 1 || values.cutOffScore>values.score}
                         helperText={(values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') || (values.cutOffScore>=values.score? 'Invalid Cutoff Score' : '')}
                         inputProps={{
                           pattern: '[0-9]*',
