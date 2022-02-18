@@ -230,7 +230,8 @@ export const downloadProductReport = (startDate, endDate) => {
           type: REPORTS.downloadProductReport,
           payload: {
             success: false,
-            data: error?.response || 'Exception Failed',
+            data: error,
+            message: error?.message || 'Exception Failed',
           },
         });
       });

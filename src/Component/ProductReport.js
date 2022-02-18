@@ -64,7 +64,7 @@ function ProductReport(props) {
         setState({
           ...state,
           snackOpen: true,
-          snackMsg: productReport.data,
+          snackMsg: productReport.message,
           isDownloading: false,
         });
       }
