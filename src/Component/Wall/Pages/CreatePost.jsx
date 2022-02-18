@@ -36,6 +36,7 @@ import ConfirmDialog from '../../Utils/ConfirmDialog';
 import PreprationContainer from '../Components/PreparationContainer';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NextStepsContainer from '../Components/NextStepsContainer';
+
 const AVOID_INPUT = ['E', 'e', '+', '-'];
 
 const useStyles = makeStyles({
@@ -69,7 +70,8 @@ const CreatePost = () => {
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
-    isEvent: location.type ?? false,
+    // isEvent: location.type ?? false,
+    isEvent: true,
     supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
@@ -83,6 +85,16 @@ const CreatePost = () => {
         message: '',
         url: '',
         isStatusUploaded: '',
+      },
+    ],
+    formFields: [
+      {
+        type: 'Text',
+        textField: '',
+        multiChoice: { choiceOne: '', choiceTwo: '' },
+        multiText: '',
+        uploadText: '',
+        resumeText: '',
       },
     ],
     totalViews: 0,
@@ -161,20 +173,20 @@ const CreatePost = () => {
       return false;
     }
     /* Validating if google form link is added*/
-    if (values.isEvent && values.wallSteps.length > 0) {
-      if (
-        values.wallSteps[0].url.length === 0 ||
-        values.wallSteps[0].heading.length === 0 ||
-        values.wallSteps[0].subText.length === 0
-      ) {
-        setNotify({
-          isOpen: true,
-          message: 'Please add step 1 details with google form link',
-          type: 'error',
-        });
-        return false;
-      }
-    }
+    // if (values.isEvent && values.wallSteps.length > 0) {
+    //   if (
+    //     values.wallSteps[0].url.length === 0 ||
+    //     values.wallSteps[0].heading.length === 0 ||
+    //     values.wallSteps[0].subText.length === 0
+    //   ) {
+    //     setNotify({
+    //       isOpen: true,
+    //       message: 'Please add step 1 details with google form link',
+    //       type: 'error',
+    //     });
+    //     return false;
+    //   }
+    // }
     /* Validating the timings */
     if (values.isWebinar || values.isEvent) {
       if (
@@ -875,7 +887,7 @@ const CreatePost = () => {
                         </MuiPickersUtilsProvider>
                       )}
                     </Grid>
-                    {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
+                    <pre>{JSON.stringify({ values }, null, 4)}</pre>
                   </Form>
                   {values.isWebinar ? null : <Preview state={values} />}
                 </div>

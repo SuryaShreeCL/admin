@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { FormControlLabel, Grid, Radio, RadioGroup, TextField } from '@material-ui/core';
+import { FormControlLabel, Grid, Radio, RadioGroup } from '@material-ui/core';
 import { NextStepsContainerStyle } from '../Assets/Styles/WallStyles';
 import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
+import Popup from '../../Utils/Popup';
 import { FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AddIcon from '@material-ui/icons/Add';
+import DynamicFormContainer from './DynamicForm';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -39,6 +41,7 @@ const useStyles = makeStyles({
 
 const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
+  const [openPopup, setOpenPopup] = useState(false);
 
   const onStatusUpload = (value, index) => {
     setFieldValue(`wallSteps.${index}.isStatusUploaded`, value);
@@ -162,7 +165,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       &nbsp; Upload Status File
                     </Controls.ActionButton>
                     {true ? (
-                      <Controls.ActionButton disabled={false}>
+                      <Controls.ActionButton disabled={false} onClick={() => setOpenPopup(true)}>
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
                       </Controls.ActionButton>
                     ) : (
@@ -213,6 +216,9 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
             </div>
           )}
         />
+        <Popup title='Add or Edit Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
+          <DynamicFormContainer values={values} setFieldValue={setFieldValue} />
+        </Popup>
       </NextStepsContainerStyle>
     );
   };

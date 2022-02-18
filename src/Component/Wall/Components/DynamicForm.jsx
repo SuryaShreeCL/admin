@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { FormControlLabel, Grid, Radio, RadioGroup, TextField } from '@material-ui/core';
-import { NextStepsContainerStyle } from '../Assets/Styles/WallStyles';
+import React from 'react';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
 import { FieldArray, Field } from 'formik';
-import AddBoxIcon from '@material-ui/icons/AddBox';
 import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import CheckCircle from '@material-ui/icons/CheckCircle';
-import axios from 'axios';
 
 const useStyles = makeStyles({
   input: {
     display: 'flex',
     gap: '2rem',
-    height: '20%',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    width: '100%',
   },
+  actionBtns: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  inputWidth: { width: '100%' },
   spacer: {
     width: '100%',
-    marginBottom: '1.2rem',
+    marginBottom: '10px',
     padding: '0.5rem',
   },
   addStepBtn: {
@@ -31,187 +31,148 @@ const useStyles = makeStyles({
   fieldStep: {
     border: '1px solid #dbdadab9',
     marginBottom: '1rem',
-    padding: '1rem 1.5rem',
+    padding: '14px 1.5rem',
     borderRadius: '10px',
+    display: 'flex',
+    width: '850px',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
 });
 
-const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
+const DynamicFormContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
 
-  const deleteWallStep = async (id) => {
-    try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/wallsteps/${id}`, {
-        crossDomain: true,
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
-        },
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const Types = () => [
+    { id: '1', title: 'Text' },
+    { id: '2', title: 'Multiple Choice' },
+    { id: '3', title: 'File Upload' },
+    { id: '4', title: 'Resume Upload' },
+  ];
 
   const DynamicForm = () => {
     return (
-      <NextStepsContainerStyle>
+      <>
         <FieldArray
-          name='wallSteps'
+          name='formFields'
           render={(arrayHelpers) => (
             <div>
-              {values?.wallSteps?.map((val, index) => (
+              {values?.formFields?.map((option, index) => (
                 <div className={classes.fieldStep}>
-                  <RadioGroup
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      marginBottom: '10px',
-                      alignItems: 'center',
-                    }}
-                    aria-label='type'
-                    name={`wallSteps.${index}.status`}
-                    value={val.status}
-                    onChange={(e, value) => {
-                      setFieldValue(`wallSteps.${index}.status`, value);
-                    }}
-                  >
-                    <h6 style={{ marginRight: '10px', fontWeight: 'bold' }}>Step {index + 1}:</h6>
-                    <FormControlLabel
-                      value='inprogress'
-                      control={<Radio color='primary' />}
-                      label='In Progress'
-                    />
-                    <FormControlLabel
-                      value='completed'
-                      control={<Radio color='primary' />}
-                      label='Completed'
-                    />
-                  </RadioGroup>
-                  <div key={`wallSteps.${index}.heading`} className={classes.input}>
-                    <div
-                      style={{
-                        width: '100%',
-                      }}
-                    >
-                      <h6 className={classes.fieldlabel}>Heading</h6>
-                      <Field className={classes.spacer} name={`wallSteps.${index}.heading`} />
-                    </div>
-                    <div
-                      style={{
-                        width: '100%',
-                      }}
-                    >
-                      <h6 className={classes.fieldlabel}>Sub Heading</h6>
-                      <Field className={classes.spacer} name={`wallSteps.${index}.subText`} />
-                    </div>
-                    <div
-                      style={{
-                        width: '100%',
-                      }}
-                    >
-                      <h6 className={classes.fieldlabel}>Message</h6>
-                      <Field className={classes.spacer} name={`wallSteps.${index}.message`} />
-                    </div>
-                    {/* {index === 0 && (
-                      <div
-                        style={{
-                          width: '100%',
-                        }}
-                      >
-                        <h6 className={classes.fieldlabel}>Google Form Link</h6>
-                        <Field className={classes.spacer} name={`wallSteps.${index}.url`} />
+                  <div key={`formFields.${index}`} className={classes.input}>
+                    {option.type === 'Text' && (
+                      <div className={classes.inputWidth}>
+                        <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
+                        <Field
+                          placeholder={option.type}
+                          className={classes.spacer}
+                          name={`formFields.${index}.textField`}
+                        />
                       </div>
-                    )} */}
-                    {/* Step 1 is Mandatory */}
-                    {index !== 0 && (
+                    )}
+                    {option.type === 'File Upload' && (
+                      <div className={classes.inputWidth}>
+                        <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
+                        <Field
+                          placeholder={option.type}
+                          className={classes.spacer}
+                          name={`formFields.${index}.uploadText`}
+                        />
+                      </div>
+                    )}
+                    {option.type === 'Resume Upload' && (
+                      <div className={classes.inputWidth}>
+                        <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
+                        <Field
+                          placeholder={option.type}
+                          className={classes.spacer}
+                          name={`formFields.${index}.resumeText`}
+                        />
+                      </div>
+                    )}
+                    {option.type === 'Multiple Choice' && (
+                      <div className={classes.inputWidth}>
+                        <div className={classes.inputWidth}>
+                          <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
+                          <Field
+                            className={classes.spacer}
+                            name={`formFields.${index}.multiText`}
+                          />
+                        </div>
+                        <div className={classes.inputWidth}>
+                          <h6 className={classes.fieldlabel}>Choice 1</h6>
+                          <Field
+                            className={classes.spacer}
+                            name={`formFields.${index}.multiChoice.choiceOne`}
+                          />
+                        </div>
+                        <div className={classes.inputWidth}>
+                          <h6 className={classes.fieldlabel}>Choice 2</h6>
+                          <Field
+                            className={classes.spacer}
+                            name={`formFields.${index}.multiChoice.choiceTwo`}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <div style={{ display: 'flex', marginTop: '10px' }}>
+                      <Controls.Select
+                        label='Answer Type'
+                        name={`formFields.${index}.type`}
+                        size='300px'
+                        value={option.type}
+                        onChange={(e) => {
+                          setFieldValue(`formFields.${index}.type`, e.target.value);
+                        }}
+                        options={Types()}
+                      />
                       <Controls.ActionButton
                         onClick={() => {
-                          if (val.id) deleteWallStep(val.id);
                           arrayHelpers.remove(index);
                         }}
                       >
                         <RemoveCircleIcon fontSize='large' color='secondary' />
                       </Controls.ActionButton>
-                    )}
-                  </div>
-                  <div>
-                    <Controls.ActionButton onClick={() => {}}>
-                      <CloudUploadIcon
-                        fontSize='small'
-                        style={{
-                          color: 'green',
-                        }}
-                      />
-                      &nbsp; Upload Status File
-                    </Controls.ActionButton>
-                    {true ? (
-                      <Controls.ActionButton>
-                        <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
-                      </Controls.ActionButton>
-                    ) : (
-                      <>
-                        <Controls.ActionButton>
-                          <CheckCircle
-                            fontSize='small'
-                            style={{
-                              color: 'green',
-                            }}
-                          />
-                          &nbsp; Form Created
-                        </Controls.ActionButton>
-                        <Controls.ActionButton>
-                          <EditOutlinedIcon fontSize='small' color='primary' /> &nbsp;Edit Form
-                        </Controls.ActionButton>
-                      </>
-                    )}
-                    <Controls.ActionButton disabled={true}>
-                      <CloudDownloadIcon
-                        fontSize='small'
-                        style={{
-                          color: false ? 'green' : 'gray',
-                        }}
-                      />
-                      &nbsp; Download
-                    </Controls.ActionButton>
+                    </div>
                   </div>
                 </div>
               ))}
-              <Controls.Button
-                text='Add Step'
-                variant='contained'
-                color='primary'
-                startIcon={<AddIcon />}
-                className={classes.addStepBtn}
-                onClick={() =>
-                  arrayHelpers.push({
-                    status: 'inprogress',
-                    heading: '',
-                    subText: '',
-                    message: '',
-                    url: '',
-                  })
-                }
-              />
+              <div className={classes.actionBtns}>
+                <Controls.Button
+                  text='Add Question'
+                  variant='contained'
+                  color='primary'
+                  startIcon={<AddIcon />}
+                  className={classes.addStepBtn}
+                  onClick={() =>
+                    arrayHelpers.push({
+                      type: 'Text',
+                      textField: '',
+                      multiChoice: { choiceOne: '', choiceTwo: '' },
+                      multiText: '',
+                      uploadText: '',
+                      resumeText: '',
+                    })
+                  }
+                />
+                <Controls.Button
+                  text='Save'
+                  startIcon={<SaveIcon />}
+                  variant='contained'
+                  color='primary'
+                  className={classes.addStepBtn}
+                />
+              </div>
             </div>
           )}
         />
-      </NextStepsContainerStyle>
+      </>
     );
   };
 
   return (
     <Grid container>
-      <Grid item md={12}>
-        <h6
-          style={{
-            marginBottom: '1rem',
-          }}
-        >
-          Next Steps
-        </h6>
-      </Grid>
       <Grid item md={12}>
         {DynamicForm()}
       </Grid>
@@ -219,4 +180,4 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   );
 });
 
-export default NextStepsContainer;
+export default DynamicFormContainer;
