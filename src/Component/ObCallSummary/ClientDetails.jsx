@@ -137,6 +137,7 @@ class ClientDetails extends Component {
       snackvariant: "",
       snackopen: false,
       formSubmitted: false,
+      intakeYear : []
     };
   }
   componentDidMount() {
@@ -153,48 +154,13 @@ class ClientDetails extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
-    // if(!this.state.formSubmitted){
-    //     this.setState({
-    //       ...this.props.tempState
-    //     })
-    // }
+    for (let i = 0; i < 10; i++) {
+      let arr = new Date().getFullYear() + i;
+      this.state.intakeYear.push({ title: arr.toString() });
+    }
   }
   componentDidUpdate(prevProps, prevState) {
-    // if(this.props.status !== prevProps.status){
-    //   if(this.props.status === true){
-    //     if(
-    //       isEmptyString(this.state.name) &&
-    //       isEmptyString(this.state.number) &&
-    //       isEmptyString(this.state.email) &&
-    //       this.state.ugdegree === null &&
-    //       this.state.department === null &&
-    //       this.state.collegename === null &&
-    //       isEmptyString(this.state.sem) &&
-    //       isEmptyString(this.state.activebacklogs) &&
-    //       isEmptyString(this.state.cgpa) &&
-    //       isEmptyString(this.state.ameyoid) &&
-    //       this.state.calldate === null &&
-    //       this.state.calltime === null &&
-    //       isEmptyString(this.state.agent) &&
-    //       isEmptyString(this.state.callstatus) &&
-    //       this.state.callbacktime === null &&
-    //       isEmptyString(this.state.spedays) &&
-    //       isEmptyString(this.state.spetime) &&
-    //       this.state.enrolldate === null &&
-    //       isEmptyString(this.state.appdegree) &&
-    //       isEmptyString(this.state.order) &&
-    //       isEmptyString(this.state.countries) &&
-    //       isEmptyString(this.state.package) &&
-    //       isEmptyString(this.state.workexp)
-    //     ){
-    //        this.setState({
-    //          snackmsg:"Please Fill Required Field",
-    //          snackopen : true,
-    //          snackvariant:"error"
-    //        })
-    //     }
-    //   }
-    // }
+   
 
     if (this.state.family !== prevState.family) {
       this.props.getProductByFamilyId(
@@ -229,6 +195,7 @@ class ClientDetails extends Component {
       });
     }
     if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
+      
       const {
         collegeId,
         degreeId,
@@ -257,6 +224,7 @@ class ClientDetails extends Component {
         fieldOfExperience,
         months,
       } = this.props.getClientInfoList;
+      
       this.setState({
         name: clientName,
         ugdegree: this.props.getClientInfoList.degree,
@@ -292,7 +260,10 @@ class ClientDetails extends Component {
           aspirationTerms && aspirationTerms.length !== 0
             ? { ...aspirationTerms[0] }
             : null,
-        intakeyear: { title: year },
+        intakeyear: year ? {title : year.toString()} : null,
+        intake : aspirationTerms,
+        term : {name : aspirationTerms},  
+        year : year
       });
     }
   }
@@ -320,19 +291,7 @@ class ClientDetails extends Component {
   package = [{ name: "1" }, { name: "3" }, { name: "5" }];
   Workexp = [{ title: "Yes" }, { title: "No" }];
 
-  intakeYear = [
-    { title: "2021" },
-    { title: "2022" },
-    { title: "2023" },
-    { title: "2024" },
-    { title: "2025" },
-    { title: "2026" },
-    { title: "2027" },
-    { title: "2028" },
-    { title: "2029" },
-    { title: "2030" },
-  ];
-
+ 
   ExpType = [
     { title: "Internship" },
     { title: "Fulltime" },
@@ -370,21 +329,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.cgpa)
       ? this.setState({ cgpaErr: hlptxt })
       : this.setState({ cgpaErr: "" });
-    // isEmptyString(this.state.family)
-    //   ? this.setState({ familyErr: hlptxt })
-    //   : this.setState({ familyErr: "" });
-    // isEmptyString(this.state.varient)
-    //   ? this.setState({ varientErr: hlptxt })
-    //   : this.setState({ varientErr: "" });
-    // isEmptyString(this.state.intake)
-    //   ? this.setState({ intakeErr: hlptxt })
-    //   : this.setState({ intakeErr: "" });
-    // isEmptyString(this.state.year)
-    //   ? this.setState({ yearErr: hlptxt })
-    //   : this.setState({ yearErr: "" });
-    // isEmptyString(this.state.validity)
-    //   ? this.setState({ validityErr: hlptxt })
-    //   : this.setState({ validityErr: "" });
+   
     this.state.endofservice === null
       ? this.setState({ endofserviceErr: hlptxt })
       : this.setState({ endofserviceErr: "" });
@@ -435,21 +380,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.workexp)
       ? this.setState({ workexpErr: hlptxt })
       : this.setState({ workexpErr: "" });
-    // isEmptyString(this.state.exptype)
-    //   ? this.setState({ exptypeErr: hlptxt })
-    //   : this.setState({ exptypeErr: "" });
-    // isEmptyString(this.state.expfield)
-    //   ? this.setState({ expfieldErr: hlptxt })
-    //   : this.setState({ expfieldErr: "" });
-    // isEmptyString(this.state.expmonth)
-    //   ? this.setState({ expmonthErr: hlptxt })
-    //   : this.setState({ expmonthErr: "" });
-    // isEmptyString(this.state.term)
-    //   ? this.setState({ termErr: hlptxt })
-    //   : this.setState({ termErr: "" });
-    // this.state.intakeyear && this.state.intakeyear.title === undefined
-    //   ? this.setState({ intakeyearErr: hlptxt })
-    //   : this.setState({ intakeyearErr: "" });
+   
 
     if (
       !isEmptyString(this.state.name) &&
@@ -462,15 +393,8 @@ class ClientDetails extends Component {
       !isEmptyString(this.state.sem) &&
       !isEmptyString(this.state.activebacklogs) &&
       !isEmptyString(this.state.cgpa) &&
-      // // !isEmptyString(this.state.family)&&
-      // // !isEmptyString(this.state.varient)&&
-      // this.state.intake !== null &&
-      // this.state.year !== null
-      // // !isEmptyString(this.state.validity)&&
-      // // !this.state.endofservice === null&&
-      // // !isEmptyString(this.state.pricing)&&
+     
       !isEmptyString(this.state.ameyoid) &&
-      // this.state.calldate !== null &&
       this.state.calltime !== null &&
       !isEmptyString(this.state.agent) &&
       !isEmptyString(this.state.callstatus) &&
@@ -486,13 +410,13 @@ class ClientDetails extends Component {
     ) {
       let obj = {
         ugDegree: {
-          id: this.state.ugdegree.id,
+          id: this.state.ugdegree?.id,
         },
         studentCollege: {
-          id: this.state.collegename.id,
+          id: this.state.collegename?.id,
         },
         studentDepartment: {
-          id: this.state.department.id,
+          id: this.state.department?.id,
         },
         studentCurrentSem: this.state.sem.toString(),
         studentCgpa: this.state.cgpa.toString(),
@@ -516,11 +440,11 @@ class ClientDetails extends Component {
             id: this.state.countries.id,
           },
         ],
-        aspirationTerms: [
+           aspirationTerms:  this.state.term?.id ? [
           {
             id: this.state.term?.id,
           },
-        ],
+        ] : null,
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear?.title,
@@ -532,13 +456,13 @@ class ClientDetails extends Component {
         fieldOfExpertise: this.state.expfield,
         experienceMonths: this.state.expmonth,
         degree: {
-          id: this.state.ugdegree.id,
+          id: this.state.ugdegree?.id,
         },
         department: {
-          id: this.state.department.id,
+          id: this.state.department?.id,
         },
         college: {
-          id: this.state.collegename.id,
+          id: this.state.collegename?.id,
         },
         presentSem: this.state.sem.toString(),
         backlogs: this.state.activebacklogs.toString(),
@@ -559,14 +483,11 @@ class ClientDetails extends Component {
     }
   };
 
-  componentWillUnmount() {
-    // if(!this.state.formSubmitted){
-    //   this.props.storeItInState({...this.state})
-    // }
-  }
+ 
 
   render() {
     const filter = createFilterOptions();
+    
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -831,23 +752,6 @@ class ClientDetails extends Component {
                   helperText={this.state.ameyoidErr}
                 />
               </Grid>
-              {/* <Grid item md={3}>
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="date-picker-dialog"
-                  label="OB Call Date"
-                  format="yyyy-MM-dd"
-                  value={this.state.calldate}
-                  error={this.state.calldateErr.length > 0}
-                  helperText={this.state.calldateErr}
-                  onChange={(e, newValue) =>
-                    this.setState({ calldate: newValue })
-                  }
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </Grid> */}
               <Grid item md={4}>
                 <KeyboardDateTimePicker
                   ampm={false}
@@ -922,11 +826,7 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={4}>
-                {/* <TextField
-                  label="Specific Days to be contacted?"
-                  value={this.state.spedays}
-                  onChange={(e) => this.setState({ spedays: e.target.value })}
-                /> */}
+                
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
@@ -949,13 +849,7 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={4}>
-                {/* <TextField
-                  label="Specific Time to be Contacted?"
-                  value={this.state.spetime}
-                  onChange={(e) => this.setState({ spetime: e.target.value })}
-                  error={this.state.speErr.length > 0}
-                  helperText={this.state.speErr}
-                /> */}
+                
                 <KeyboardTimePicker
                   margin="normal"
                   // format="HH:mm"
@@ -979,10 +873,6 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    // fontFamily: "Montserrat",
-                    // fontSize: "18px",
-                    // fontStyle: "normal",
-                    // lineHeight: "22px",
                   }}
                 >
                   Client Service Details
@@ -1034,7 +924,7 @@ class ClientDetails extends Component {
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   disabled
-                  options={this.intakeYear}
+                  options={this.state.intakeYear}
                   getOptionLabel={(option) => option.title}
                   value={this.state.intakeyear}
                   onChange={(e, newValue) =>
@@ -1113,71 +1003,7 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-                {/* <Autocomplete
-                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  id="combo-box-demo"
-                  options={this.package}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-                    
-                    // Suggest the creation of a new value
-                    if (params.inputValue !== '') {
-                      filtered.push({
-                        inputValue: params.inputValue,
-                        title: `Add "${params.inputValue}"`,
-                      });
-                    }
-            
-                    return filtered;
-                  }}
-                  getOptionLabel={(option)=>{
-                    if (typeof option === 'string') {
-                      return option;
-                    }
-                    // Add "xxx" option created dynamically
-                    if (option.inputValue) {
-                      return option.inputValue;
-                    }
-                    // Regular option
-                    return option.name === null ? "" : option.name;
-                  }
-                  }
-                  // value={this.state.countries}
-                  onChange={(e, newValue) =>{
-                    if (typeof newValue === 'string') {
-                      this.setState({
-                        package : newValue
-                      })
-                    } else if (newValue && newValue.inputValue) {
-                      // Create a new value from the user input
-                      this.setState({
-                        package : newValue.inputValue
-                      })
-                    } else {
-                      this.setState({
-                        package : newValue
-                      })                   
-                     }
-                  }
-                   
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Package"
-                      variant="standard"
-                      error={this.state.packageErr.length > 0}
-                      helperText={this.state.packageErr}
-                    />
-                  )}
-                /> */}
-                {/* <TextField
-                  label="Package"
-                  value={this.state.package}
-                  onChange={(e) => this.setState({ package: e.target.value })}
-                  error={this.state.packageErr.length > 0}
-                  helperText={this.state.packageErr}
-                /> */}
+               
                 <Autocomplete
                   id="combo-box-demo"
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
@@ -1308,10 +1134,7 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    // fontFamily: "Montserrat",
-                    // fontSize: "18px",
-                    // fontStyle: "normal",
-                    // lineHeight: "22px",
+                    
                   }}
                 >
                   Client's Work Experience Background
@@ -1359,27 +1182,7 @@ class ClientDetails extends Component {
                   )}
                 />
               </Grid>
-              {/* <Grid item md={4}>
-                <Autocomplete
-                  id="combo-box-demo"
-                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  options={this.emptype}
-                  getOptionLabel={(option) => option.title}
-                  // value={this.state.exptype}
-                  // onChange={(e, newValue) =>
-                  //   this.setState({ exptype: newValue })
-                  // }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="If yes, then type of Employment?"
-                      variant="standard"
-                      // error={this.state.exptypeErr.length > 0}
-                      // helperText={this.state.exptypeErr}
-                    />
-                  )}
-                />
-              </Grid> */}
+            
               <Grid item md={4}>
                 <TextField
                   fullWidth

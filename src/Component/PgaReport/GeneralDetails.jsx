@@ -109,17 +109,10 @@ function GeneralDetails(props) {
   }, []);
 
   const handleSave = () => {
-    console.log(
-      props.adminLinkedProductDetails.products,
-      props.match.params.productId
-    );
-
     const findObj = props.adminLinkedProductDetails.products.find(
       (el) => el.id === props.match.params.productId
     );
     const isAcsMs = findObj.codeName === "ACS_MS" ? true : false;
-
-    console.log(isAcsMs, "=====");
 
     let requestBody = {
       id: id,
@@ -129,7 +122,7 @@ function GeneralDetails(props) {
       date: selectedDate.value,
       preferredProgram: preferredProgram.value,
       areaOfSpecialization: areaOfSpec.value,
-      inTake: intake.value,
+      inTake: intake && intake.value,
       pgaRound: round.value,
     };
 
@@ -264,6 +257,7 @@ function GeneralDetails(props) {
                 onChange={(e, value) =>
                   setIntake({ value: value, helperText: "" })
                 }
+                disabled={true}
                 getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
                   <TextFieldComponent

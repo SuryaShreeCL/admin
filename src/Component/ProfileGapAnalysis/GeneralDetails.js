@@ -1118,7 +1118,7 @@ class GeneralDetails extends Component {
           id: window.sessionStorage.getItem("adminUserId"),
         },
         round: this.state.round,
-        pgaIntake: this.state.intake && this.state.intake.title,
+        pgaIntake: this.state.intake?.title,
         pgaDataChangeLogs: pgadataarr,
         workExperience: this.state.workexp,
       };
@@ -1212,7 +1212,7 @@ class GeneralDetails extends Component {
             id: window.sessionStorage.getItem("adminUserId"),
           },
           pgaDataChangeLogs: pgadataarr,
-          pgaIntake: this.state.intake && this.state.intake.title,
+          pgaIntake: this.state.intake?.title,
         };
 
         if (
@@ -1788,13 +1788,7 @@ class GeneralDetails extends Component {
                             />
                           )}
                         />
-                        {/* <TextField
-                    name="intake"
-                    value={this.state.intake}
-                    onChange={(e) => this.handlechange(e)}
-                    label="Intake"
-                  /> */}
-                        {/* <TextField name="intake" disabled label="Intake" /> */}
+                        
                       </Grid>
                     </Grid>
                   </Grid>
