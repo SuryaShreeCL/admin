@@ -586,12 +586,12 @@ function RootContainer(props) {
           path: studentPath,
           items: [],
         },
-        {
-          icon: <HomeOutlinedIcon />,
-          title: 'Reports',
-          path: productReportPath,
-          items: [],
-        },
+        // {
+        //   icon: <HomeOutlinedIcon />,
+        //   title: 'Reports',
+        //   path: productReportPath,
+        //   items: [],
+        // },
       ]);
     } else if (props.adminLinkedProductDetails.department === 'elev8') {
       setSideNav([
