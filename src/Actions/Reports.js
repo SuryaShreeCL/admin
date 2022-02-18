@@ -220,8 +220,11 @@ export const downloadProductReport = (startDate, endDate) => {
         dispatch({
           type: REPORTS.downloadProductReport,
           payload: {
-            success: true,
+            success: Boolean(result.data?.length !== 0),
             data: result.data,
+            message: Boolean(result.data?.length !== 0)
+              ? 'Report Generated'
+              : 'No Results Found',
           },
         });
       })

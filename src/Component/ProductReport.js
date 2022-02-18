@@ -41,25 +41,16 @@ function ProductReport(props) {
   useEffect(() => {
     if (productReport && isDownloading) {
       if (productReport.success) {
-        if (productReport.data.length !== 0) {
-          const downloadUrl = window.URL.createObjectURL(
-            new Blob([productReport.data])
-          );
-          const link = document.createElement('a');
-          link.href = downloadUrl;
-          link.setAttribute('download', 'Report.xls');
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          setState({ ...state, isDownloading: false });
-        } else {
-          setState({
-            ...state,
-            snackOpen: true,
-            snackMsg: 'Data not found',
-            isDownloading: false,
-          });
-        }
+        const downloadUrl = window.URL.createObjectURL(
+          new Blob([productReport.data])
+        );
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', 'Report.xls');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setState({ ...state, isDownloading: false });
       } else {
         setState({
           ...state,
