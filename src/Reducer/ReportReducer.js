@@ -1,4 +1,4 @@
-import { REPORTS } from "../Redux/Action";
+import { REPORTS } from '../Redux/Action';
 const initialState = {
   termsAndConReport: [],
   cvReport: [],
@@ -10,6 +10,7 @@ const initialState = {
   techTestElectronics: [],
   diagTestResult: [],
   careerReportResult: [],
+  productReport: null,
 };
 
 export default (state = initialState, action) => {
@@ -63,6 +64,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         careerReportResult: action.payload,
+      };
+    case REPORTS.downloadProductReport:
+      return {
+        ...state,
+        productReport: action.payload,
       };
     default:
       break;
