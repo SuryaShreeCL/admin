@@ -89,6 +89,7 @@ const CreateTest = () => {
     endDateTime: new Date(),
     score: 10,
     wallFiles: [],
+    cutOffScore: 5
   });
 
   let questionID = window.sessionStorage.getItem('questionSetId');
@@ -138,6 +139,20 @@ const CreateTest = () => {
       return false;
     }
 
+    console.log(values.cutOffScore);
+    if (values.cutOffScore===undefined || 
+      values.cutOffScore===NaN || 
+      !values.cutOffScore || 
+      values.cutOffScore>values.score || 
+      values.cutOffScore < 1) {
+      setNotify({
+        isOpen: true,
+        message: 'Invalid Cutoff Score !',
+        type: 'error',
+      });
+      return false;
+    }
+
     return true;
   };
 
@@ -151,6 +166,11 @@ const CreateTest = () => {
         /^([\w,:\s-]*)$/,
         'Only [-,_] is accepted, any other special characters are not accepted'
       ),
+    // cutOffScore: yup
+    //   .number()
+    //   .typeError('Cut off score is a required field')
+    //   .min(1, 'Negative number not allowed')
+    //   .max(state.score, `Cut off score cannot be higher than ${state.score} for the test.`),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -164,18 +184,26 @@ const CreateTest = () => {
   };
 
   const draftTest = (testData, status) => {
-    dispatch(createTest({ ...testData, status }));
-    setNotify({
-      isOpen: true,
-      message: 'Drafted Successfully',
-      type: 'success',
-    });
-    setTimeout(() => {
-      history.push({
-        pathname: testPath,
-        tab: 1,
+    if(testData.cutOffScore && testData.cutOffScore<testData.score && testData.cutOffScore >= 1){
+      dispatch(createTest({ ...testData, status }));
+      setNotify({
+        isOpen: true,
+        message: 'Drafted Successfully',
+        type: 'success',
       });
-    }, 1200);
+      setTimeout(() => {
+        history.push({
+          pathname: testPath,
+          tab: 1,
+        });
+      }, 1200);
+    }else{
+      setNotify({
+        isOpen: true,
+        message: 'Invalid Cutoff Score!',
+        type: 'error',
+      });
+    }
   };
 
   const onDiscard = () => {
@@ -310,7 +338,7 @@ const CreateTest = () => {
                     alignItems='center'
                     style={{ marginTop: '1rem' }}
                   >
-                    <Grid item style={{ width: '30%' }}>
+                    <Grid item style={{ width: '15%' }}>
                       <Controls.Input
                         label='Score'
                         name='score'
@@ -320,6 +348,21 @@ const CreateTest = () => {
                         onChange={handleChange}
                         error={values.score < 1}
                         helperText={values.score < 1 ? 'Enter Only Positive Values' : ''}
+                        inputProps={{
+                          pattern: '[0-9]*',
+                        }}
+                      />
+                    </Grid>
+                    <Grid item style={{ width: '15%' }}>
+                      <Controls.Input
+                        label='Cut Off'
+                        name='cutOffScore'
+                        type='number'
+                        style={{ width: '100%' }}
+                        value={values.cutOffScore}
+                        onChange={handleChange}
+                        error={ values.cutOffScore < 1 || values.cutOffScore>values.score}
+                        helperText={(values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') || (values.cutOffScore>=values.score? 'Invalid Cutoff Score' : '')}
                         inputProps={{
                           pattern: '[0-9]*',
                         }}
@@ -348,6 +391,7 @@ const CreateTest = () => {
                         </div>
                       )}
                     />
+                    
                   </Grid>
                   <Grid
                     container
