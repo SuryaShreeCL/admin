@@ -50,6 +50,7 @@ class AdmissionServices extends Component {
       buttonstatus: false,
       verifydetail: [],
       mentordetails: {},
+      selectedMentor : {}
     };
   }
   handleClick(e) {
@@ -57,15 +58,15 @@ class AdmissionServices extends Component {
   }
 
   allocate = () => {
-    isEmptyString(this.state.mentor)
+    isEmptyString(this.state.selectedMentor)
       ? this.setState({ mentorErr: "Field Required" })
       : this.setState({ mentorErr: "" });
-    if (this.state.mentor !== null && this.state.mentor !== undefined) {
+    if (this.state.selectedMentor !== null && this.state.selectedMentor !== undefined) {
       let obj = {
-        id: this.state.mentor.id,
-        name: this.state.mentor.name,
-        department: this.state.mentor.department,
-        calendarId: this.state.mentor.calendarId,
+        id: this.state.selectedMentor.id,
+        name: this.state.selectedMentor.name,
+        department: this.state.selectedMentor.department,
+        calendarId: this.state.selectedMentor.calendarId,
       };
       console.log(obj);
       this.props.updatementor(
@@ -74,6 +75,12 @@ class AdmissionServices extends Component {
         obj,
         (response) => {
           if (response.status === 200) {
+            this.setState({
+              show: false,
+              snackmsg: "Updated Successfully",
+              snackvariant: "success",
+              snackopen: true,
+            });
             this.props.StudentStepDetails(
               this.props.match.params.studentId,
               this.props.match.params.productId
@@ -102,12 +109,6 @@ class AdmissionServices extends Component {
           }
         }
       );
-      this.setState({
-        show: false,
-        snackmsg: "Updated Successfully",
-        snackvariant: "success",
-        snackopen: true,
-      });
     }
   };
   componentDidUpdate(prevProps, prevState) {
@@ -791,7 +792,7 @@ class AdmissionServices extends Component {
                   value={this.state.mentor}
                   onChange={(e, newValue) => {
                     console.log(newValue);
-                    this.setState({ mentor: newValue });
+                    this.setState({ selectedMentor: newValue });
                   }}
                   options={this.props.mentorList}
                   getOptionLabel={(option) => {
@@ -831,9 +832,9 @@ class AdmissionServices extends Component {
                 <PrimaryButton
                   style={{ textTransform: "none" }}
                   disabled={
-                    this.state.mentor === null ||
-                    isEmptyString(this.state.mentor) ||
-                    isEmptyObject(this.state.mentor)
+                    this.state.selectedMentor === null ||
+                    isEmptyString(this.state.selectedMentor) ||
+                    isEmptyObject(this.state.selectedMentor)
                   }
                   variant={"contained"}
                   color={"primary"}
