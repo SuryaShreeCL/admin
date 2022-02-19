@@ -47,6 +47,8 @@ import MySnackBar from "../MySnackBar";
 import { studentPath } from "../RoutePaths";
 import Loader from "../Utils/controls/Loader";
 import { isEmptyArray, isEmptyString } from "../Validation";
+import * as moment from "moment";
+
 
 const AntTabs = withStyles({
   root: {
@@ -271,6 +273,7 @@ intakeSession = [
   };
 
   render() {
+    console.log(this.state.endServiceDate)
     return (
       <div style={{ padding: 10 }}>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -377,10 +380,11 @@ intakeSession = [
                   this.state.listOfUsers.map((eachData, index) => {
                     let date = new Date(eachData.orderDate).getDate();
                     let month = new Date(eachData.orderDate).getMonth() + 1;
+                    let monthInWords =   moment(new Date(month)).format("MMM")
                     let year = new Date(eachData.orderDate).getFullYear();
                     let newDate =
                       eachData.orderDate !== null
-                        ? date + "/" + month + "/" + year
+                        ? monthInWords + "/"+ year
                         : null;
                     return (
                       <TableRow>
