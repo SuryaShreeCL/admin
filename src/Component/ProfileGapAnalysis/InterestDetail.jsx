@@ -74,13 +74,14 @@ class InterestDetail extends Component {
     getTestQuestionSet(studentId, productId).then((response) => {
       if (response.success) {
         this.setState({ testQuestionSet: response.data });
-      } else {
-        this.setState({
-          snackColor: "error",
-          snackOpen: true,
-          snackMsg: response.message,
-        });
       }
+      //  else {
+      //   this.setState({
+      //     snackColor: "error",
+      //     snackOpen: true,
+      //     snackMsg: response.message,
+      //   });
+      // }
     });
   };
 
