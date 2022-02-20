@@ -89,19 +89,15 @@ class GraduateTestResult extends Component {
   constructor() {
     super();
     this.onDrop = (files) => {
-      
       this.setState({ files });
     };
     this.gmatonDrop = (files) => {
-      
       this.setState({ gmatfiles: files });
     };
     this.toeflonDrop = (files) => {
-      
       this.setState({ toeflfiles: files });
     };
     this.ieltsonDrop = (files) => {
-      
       this.setState({ ieltsfiles: files });
     };
     var today = new Date(),
@@ -267,8 +263,6 @@ class GraduateTestResult extends Component {
       this.props.getieltsscore(this.props.match.params.studentId);
     }
     if (this.state.files !== prevState.files) {
-      
-      
       var name =
         this.props.getStudentsByIdList.firstName +
         "_" +
@@ -276,15 +270,14 @@ class GraduateTestResult extends Component {
         "_" +
         "GRE" +
         this.state.greattempt.title;
-      
+
       var file = this.state.files[0];
-      
+
       this.setState({ grefilename: file.name });
       var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      
 
       var newFile = new File(
         [blob],
@@ -296,14 +289,12 @@ class GraduateTestResult extends Component {
           ),
         { type: newFileType }
       );
-      
-      
+
       this.setState({
         finalFile: newFile,
       });
     }
     if (this.state.gmatfiles !== prevState.gmatfiles) {
-      
       var name =
         this.props.getStudentsByIdList.firstName +
         "_" +
@@ -311,15 +302,14 @@ class GraduateTestResult extends Component {
         "_" +
         "GMAT" +
         this.state.gmatattempt.title;
-      
+
       var file = this.state.gmatfiles[0];
-      
+
       this.setState({ gmatfilename: file.name });
       var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      
 
       var newFile = new File(
         [blob],
@@ -331,14 +321,12 @@ class GraduateTestResult extends Component {
           ),
         { type: newFileType }
       );
-      
-      
+
       this.setState({
         gmatfinalFile: newFile,
       });
     }
     if (this.state.toeflfiles !== prevState.toeflfiles) {
-      
       var name =
         this.props.getStudentsByIdList.firstName +
         "_" +
@@ -346,15 +334,14 @@ class GraduateTestResult extends Component {
         "_" +
         "TOEFL" +
         this.state.toeflattempt.title;
-      
+
       var file = this.state.toeflfiles[0];
-      
+
       this.setState({ toeflfilename: file.name });
       var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      
 
       var newFile = new File(
         [blob],
@@ -366,14 +353,12 @@ class GraduateTestResult extends Component {
           ),
         { type: newFileType }
       );
-      
-      
+
       this.setState({
         toeflfinalFile: newFile,
       });
     }
     if (this.state.ieltsfiles !== prevState.ieltsfiles) {
-      
       var name =
         this.props.getStudentsByIdList.firstName +
         "_" +
@@ -381,15 +366,14 @@ class GraduateTestResult extends Component {
         "_" +
         "IELTS" +
         this.state.ieltsattempt.title;
-      
+
       var file = this.state.ieltsfiles[0];
-      
+
       this.setState({ ieltsfilename: file.name });
       var indexOf = file.type.indexOf("/");
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      
 
       var newFile = new File(
         [blob],
@@ -401,22 +385,22 @@ class GraduateTestResult extends Component {
           ),
         { type: newFileType }
       );
-      
-      
+
       this.setState({
         ieltsfinalFile: newFile,
       });
     }
   }
   handleClick(data, index) {
-    
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
-      gredate: data.completedExamDate,
+      gredate: data.expectedExamDate,
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
-      greanalytic: { title: data.analyticalWriting && data.analyticalWriting.toString() },
+      greanalytic: {
+        title: data.analyticalWriting && data.analyticalWriting.toString(),
+      },
       gretotal: data.score,
       greid: data.id,
       greindex: index + 1,
@@ -424,7 +408,6 @@ class GraduateTestResult extends Component {
   }
 
   documentClick = (data) => {
-    
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     window.open(
       URL +
@@ -436,7 +419,6 @@ class GraduateTestResult extends Component {
   };
 
   handleGmatclick = (data) => {
-    
     this.setState({
       gmatshow: true,
       gmatattempt: { title: data.attempt },
@@ -445,12 +427,11 @@ class GraduateTestResult extends Component {
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: { title: data.analyticalAssessment.toString() },
-      gmatdate: data.completedExamDate,
+      gmatdate: data.expectedExamDate,
       gmatid: data.id,
     });
   };
   handletoeflClick = (data) => {
-    
     this.setState({
       toeflshow: true,
       toeflspeak: data.speaking,
@@ -458,13 +439,12 @@ class GraduateTestResult extends Component {
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
-      toefldate: data.completedExamDate,
+      toefldate: data.expectedExamDate,
       toeflscore: data.score,
       toeflid: data.id,
     });
   };
   handleIeltsClick = (data) => {
-    
     this.setState({
       ieltsshow: true,
       ieltsspeak: data.speakingScore,
@@ -472,19 +452,18 @@ class GraduateTestResult extends Component {
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
-      ieltsdate: data.completedExamDate,
+      ieltsdate: data.expectedExamDate,
       ieltsscore: data.totalScore,
       ieltsid: data.id,
     });
   };
   handledownload = (data, index) => {
-    
-    // 
+    //
     if (
       data === "GRE" &&
       this.props.getgrescoreList[index].studentDocument !== null
     ) {
-      // 
+      //
       this.props.downloadGAT(
         this.props.match.params.studentId,
         this.props.getgrescoreList[index].studentDocument.path
@@ -558,13 +537,12 @@ class GraduateTestResult extends Component {
     });
   };
   handleSave = (data) => {
-    
     if (data === "GRE") {
       let date = new Date(this.state.gredate).getDate();
       let month = new Date(this.state.gredate).getMonth();
       let year = new Date(this.state.gredate).getFullYear();
       let time = new Date(this.state.gredate).toLocaleTimeString();
-      
+
       let obj = {
         attempt: this.state.greattempt && this.state.greattempt.title,
         expectedExamDate: null,
@@ -575,11 +553,11 @@ class GraduateTestResult extends Component {
         score: this.state.gretotal,
         completedExamDate: this.state.gredate,
       };
-      
+
       this.props.updategrescore(this.state.greid, obj);
       const d = new FormData();
       d.append("file", this.state.finalFile);
-      
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
         "gre",
@@ -605,11 +583,10 @@ class GraduateTestResult extends Component {
         verbalReasoning: this.state.gmatverb,
       };
 
-      
       this.props.updategmatscore(this.state.gmatid, obj);
       const d = new FormData();
       d.append("file", this.state.gmatfinalFile);
-      
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
         "gmat",
@@ -634,11 +611,11 @@ class GraduateTestResult extends Component {
         completedExamDate: this.state.toefldate,
         expectedExamDate: null,
       };
-      
+
       this.props.updatetoeflscore(this.state.toeflid, obj);
       const d = new FormData();
       d.append("file", this.state.toeflfinalFile);
-      
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
         "tofel",
@@ -663,11 +640,11 @@ class GraduateTestResult extends Component {
         completedExamDate: this.state.ieltsdate,
         expectedExamDate: null,
       };
-      
+
       this.props.updateieltsscore(this.state.ieltsid, obj);
       const d = new FormData();
       d.append("file", this.state.ieltsfinalFile);
-      
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
         "ielts",
@@ -719,8 +696,8 @@ class GraduateTestResult extends Component {
   );
 
   render() {
-    console.log(this.props.getgrescoreList)
-    
+    console.log(this.props.getieltsscoreList);
+
     const files =
       this.state.finalFile !== null ? (
         <li key={this.state.finalFile.name}>
@@ -750,10 +727,8 @@ class GraduateTestResult extends Component {
       ) : null;
     const { classes } = this.props;
     if (this.state.finalFile !== null) {
-      
     }
-    
-    
+
     const { HeadStyle, GridStyle } = style;
 
     return (
@@ -926,6 +901,7 @@ class GraduateTestResult extends Component {
                 <TableBody>
                   {this.props.getgrescoreList !== null &&
                     this.props.getgrescoreList.map((eachdata, index) => {
+                      console.log(eachdata.expectedExamDate);
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month =
                         new Date(eachdata.completedExamDate).getMonth() + 1;
@@ -958,7 +934,9 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {examdate}
+                            {moment(
+                              new Date(eachdata && eachdata.expectedExamDate)
+                            ).format("MMM yyyy")}
                           </TableCell>
 
                           <TableCell
@@ -1181,6 +1159,7 @@ class GraduateTestResult extends Component {
                 <TableBody>
                   {this.props.getgmatscoreList !== null &&
                     this.props.getgmatscoreList.map((eachdata, index) => {
+                      console.log(eachdata);
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month =
                         new Date(eachdata.completedExamDate).getMonth() + 1;
@@ -1214,7 +1193,9 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {examdate}
+                            {moment(
+                              new Date(eachdata && eachdata.expectedExamDate)
+                            ).format("MMM yyyy")}
                           </TableCell>
 
                           <TableCell
@@ -1479,7 +1460,9 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {examdate}
+                            {moment(
+                              new Date(eachdata && eachdata.expectedExamDate)
+                            ).format("MMM yyyy")}
                           </TableCell>
 
                           <TableCell
@@ -1717,6 +1700,7 @@ class GraduateTestResult extends Component {
                   <TableBody>
                     {this.props.getieltsscoreList.length !== 0 &&
                       this.props.getieltsscoreList.map((eachdata, index) => {
+                        console.log(eachdata);
                         let date = new Date(
                           eachdata.completedExamDate
                         ).getDate();
@@ -1752,7 +1736,9 @@ class GraduateTestResult extends Component {
                                 borderBottom: "none",
                               }}
                             >
-                              {ieltsdate}
+                              {moment(
+                                new Date(eachdata && eachdata.expectedExamDate)
+                              ).format("MMM yyyy")}
                             </TableCell>
 
                             <TableCell
@@ -1992,7 +1978,9 @@ class GraduateTestResult extends Component {
               <Grid container spacing={3}>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.greDateList.length > 0 ? "GRE" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.greDateList.length > 0 ? "GRE" : ""}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
@@ -2009,7 +1997,9 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.gmatDateList.length > 0 ? "GMAT" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.gmatDateList.length > 0 ? "GMAT" : ""}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
@@ -2026,7 +2016,9 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.toeflDateList.length > 0 ? "TOEFL" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.toeflDateList.length > 0 ? "TOEFL" : ""}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
@@ -2043,7 +2035,9 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.toeflDateList.length > 0 ? "IELTS" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.toeflDateList.length > 0 ? "IELTS" : ""}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
@@ -2093,7 +2087,6 @@ class GraduateTestResult extends Component {
                         this.setState({ greattempt: newValue })
                       }
                       getOptionLabel={(option) => {
-                        
                         return option.title;
                       }}
                       renderInput={(params) => (
@@ -2106,20 +2099,35 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
-                      disableFuture
-                      margin="normal"
+                    {/* <KeyboardDatePicker
+                     
+                     
                       id="date-picker-dialog"
-                      label="Exam Date"
+                      
                       format="MMM/yyyy"
-                      fullWidth
-                      value={this.state.gredate}
+                     
+                     
                       onChange={(newValue) =>
                         this.setState({ gredate: new Date(newValue) })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
+                    /> */}
+                    <TextField
+                      disableFuture
+                      margin="normal"
+                      label="Exam Date"
+                      value={this.state.gredate}
+                      type="month"
+                      onChange={(e) =>
+                        this.setState({ gredate: e.target.value })
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name="ExamDate"
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -2195,7 +2203,6 @@ class GraduateTestResult extends Component {
                         this.setState({ greanalytic: newValue })
                       }
                       getOptionLabel={(option) => {
-                        
                         return option.title;
                       }}
                       renderInput={(params) => (
@@ -2308,7 +2315,6 @@ class GraduateTestResult extends Component {
                         this.setState({ gmatattempt: newValue });
                       }}
                       getOptionLabel={(option) => {
-                        
                         return option.title;
                       }}
                       renderInput={(params) => (
@@ -2321,23 +2327,37 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <TextField
+                      disableFuture
+                      margin="normal"
+                      label="Exam Date"
+                      value={this.state.gmatdate}
+                      type="month"
+                      onChange={(e) =>
+                        this.setState({ gmatdate: e.target.value })
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name="ExamDate"
+                    />
+                    {/* <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
                       format="MMM/yyyy"
                       fullWidth
-                      value={this.state.gmatdate}
+                     
                       // disabled
                       onChange={(newValue) => {
-                        
                         this.setState({ gmatdate: new Date(newValue) });
                       }}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                    />
+                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
@@ -2374,7 +2394,6 @@ class GraduateTestResult extends Component {
                         this.setState({ gmatanalytic: newValue })
                       }
                       getOptionLabel={(option) => {
-                        
                         return option.title;
                       }}
                       renderInput={(params) => (
@@ -2537,7 +2556,6 @@ class GraduateTestResult extends Component {
                         this.setState({ toeflattempt: newValue });
                       }}
                       getOptionLabel={(option) => {
-                        
                         return option.title;
                       }}
                       renderInput={(params) => (
@@ -2550,7 +2568,22 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <TextField
+                      disableFuture
+                      margin="normal"
+                      label="Exam Date"
+                      value={this.state.toefldate}
+                      type="month"
+                      onChange={(e) =>
+                        this.setState({ toefldate: e.target.value })
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name="ExamDate"
+                    />
+                    {/* <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
@@ -2566,7 +2599,7 @@ class GraduateTestResult extends Component {
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                    />
+                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
@@ -2745,11 +2778,9 @@ class GraduateTestResult extends Component {
                       options={this.attempt}
                       value={this.state.ieltsattempt}
                       onChange={(e, newValue) => {
-                        
                         this.setState({ ieltsattempt: newValue });
                       }}
                       getOptionLabel={(option) => {
-                        
                         return option.title;
                       }}
                       renderInput={(params) => (
@@ -2762,7 +2793,22 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <TextField
+                      disableFuture
+                      margin="normal"
+                      label="Exam Date"
+                      value={this.state.ieltsdate}
+                      type="month"
+                      onChange={(e) =>
+                        this.setState({ ieltsdate: e.target.value })
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name="ExamDate"
+                    />
+                    {/* <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
@@ -2776,7 +2822,7 @@ class GraduateTestResult extends Component {
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                    />
+                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
