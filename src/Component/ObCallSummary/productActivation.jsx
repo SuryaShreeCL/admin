@@ -139,20 +139,16 @@ class ProductActivation extends Component {
       shrink: false,
       listOfUsers: [],
       keyword: "",
-      intakehlpTxt : "",
-      yearhlpTxt : "",
-      yearArr : [],
-      currentYear : new Date().getFullYear()
+      intakehlpTxt: "",
+      yearhlpTxt: "",
+      yearArr: [],
+      currentYear: new Date().getFullYear(),
     };
   }
   handleClose = (e) => {
     this.setState({ show: false });
   };
-intakeSession = [
-  {title : "Fall"},
-  {title : "Summer"},
-  {title : "Spring"}
-]
+  intakeSession = [{ title: "Fall" }, { title: "Summer" }, { title: "Spring" }];
   componentDidMount() {
     // this.props.getAwaitingUsersByAdminId();
     this.props.getAllProductFamily();
@@ -161,10 +157,10 @@ intakeSession = [
       this.props.match.params.productId,
       this.state.keyword
     );
-    for (let i= 0 ; i < 10; i++){
-      let arr = this.state.currentYear+i
-      this.state.yearArr.push({title : arr.toString()})
-   }
+    for (let i = 0; i < 10; i++) {
+      let arr = this.state.currentYear + i;
+      this.state.yearArr.push({ title: arr.toString() });
+    }
   }
   shrink() {
     this.setState({ shrink: true });
@@ -236,29 +232,28 @@ intakeSession = [
           productId: this.state.productVariant.id,
           stage: "Activated",
           activatedBy: window.sessionStorage.getItem("adminUserId"),
-          intakeTerm:this.state.intake && this.state.intake.title,
-          intakeYear:this.state.year && this.state.year.title,
+          intakeTerm: this.state.intake && this.state.intake.title,
+          intakeYear: this.state.year && this.state.year.title,
         },
       ],
     };
-    console.log(obj)
-      this.props.activateStudentProduct(obj,(response => {
-          console.log(response)
-          if(response.data === "updated"){
-            this.setState({
-              snackOpen: true,
-              snackColor: "success",
-              snackMsg: "Product activated successfully",
-              show: false,
-              isLoading: false,
-            })
-            this.props.searchProductActivationList(
-              this.props.match.params.productId,
-              this.state.keyword
-            );
-          }
-         
-        }));
+    console.log(obj);
+    this.props.activateStudentProduct(obj, (response) => {
+      console.log(response);
+      if (response.data === "updated") {
+        this.setState({
+          snackOpen: true,
+          snackColor: "success",
+          snackMsg: "Product activated successfully",
+          show: false,
+          isLoading: false,
+        });
+        this.props.searchProductActivationList(
+          this.props.match.params.productId,
+          this.state.keyword
+        );
+      }
+    });
   };
 
   // To handle search
@@ -564,12 +559,14 @@ intakeSession = [
                       options={this.intakeSession}
                       getOptionLabel={(option) => option.title}
                       value={this.state.intake}
-                      onChange={(e,newValue) => this.setState({ intake : newValue })}
+                      onChange={(e, newValue) =>
+                        this.setState({ intake: newValue })
+                      }
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           value={this.state.intake}
-                          label="Intake"                        
+                          label="Intake"
                         />
                       )}
                     />
@@ -580,13 +577,15 @@ intakeSession = [
                       options={this.state.yearArr}
                       getOptionLabel={(option) => option.title}
                       value={this.state.year}
-                      onChange={(e,newValue) => this.setState({ year : newValue })}
+                      onChange={(e, newValue) =>
+                        this.setState({ year: newValue })
+                      }
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           value={this.state.intake}
                           color="primary"
-                          label="Year"                       
+                          label="Year"
                         />
                       )}
                     />
