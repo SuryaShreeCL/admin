@@ -46,6 +46,9 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
 
+  //to handle the form popup where it will open just once based on the index
+  const [formPopIdx, setFormPopIdx] = useState(0);
+
   const [statusFileUploadDisabled, setStatusFileUploadDisabled] = useState(false);
 
   const onStatusUpload = (value, index) => {
@@ -205,7 +208,13 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     />
 
                     {!values.wallSteps?.form?.id ? (
-                      <Controls.ActionButton disabled={false} onClick={() => setOpenPopup(true)}>
+                      <Controls.ActionButton
+                        disabled={false}
+                        onClick={() => {
+                          setFormPopIdx(index);
+                          setOpenPopup(true);
+                        }}
+                      >
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
                       </Controls.ActionButton>
                     ) : (
@@ -219,7 +228,12 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                           />
                           &nbsp; Form Created
                         </Controls.ActionButton>
-                        <Controls.ActionButton onClick={() => setOpenPopup(true)}>
+                        <Controls.ActionButton
+                          onClick={() => {
+                            setFormPopIdx(index);
+                            setOpenPopup(true);
+                          }}
+                        >
                           <EditOutlinedIcon fontSize='small' color='primary' /> &nbsp;Edit Form
                         </Controls.ActionButton>
                       </>
@@ -234,11 +248,17 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       &nbsp; Download
                     </Controls.ActionButton>
                   </div>
-                  <Popup title='Add or Edit Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
+                  <Popup
+                    title='Add or Edit Form'
+                    openPopup={openPopup && index === formPopIdx}
+                    setOpenPopup={setOpenPopup}
+                  >
                     <DynamicFormContainer
                       formValues={val.form}
+                      //passing the index to show the state as per the index object
                       formIdx={index}
                       setFieldValue={setFieldValue}
+                      setOpenPopup={setOpenPopup}
                     />
                   </Popup>
                 </div>

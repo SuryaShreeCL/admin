@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
 });
 
-const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue }) => {
+const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, setOpenPopup }) => {
   const classes = useStyles();
 
   const Types = () => [
@@ -144,6 +144,7 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
                   startIcon={<SaveIcon />}
                   variant='contained'
                   color='primary'
+                  onClick={() => setOpenPopup(false)}
                   className={classes.addStepBtn}
                 />
               </div>
