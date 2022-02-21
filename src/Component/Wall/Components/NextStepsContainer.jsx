@@ -194,6 +194,13 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       &nbsp; Download
                     </Controls.ActionButton>
                   </div>
+                  <Popup title='Add or Edit Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
+                    <DynamicFormContainer
+                      formValues={val.form}
+                      formIdx={index}
+                      setFieldValue={setFieldValue}
+                    />
+                  </Popup>
                 </div>
               ))}
               <Controls.Button
@@ -210,15 +217,21 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     message: '',
                     url: '',
                     isStatusUploaded: '',
+                    form: {
+                      formQuestions: [
+                        {
+                          type: 'Text',
+                          formQuestionsChoices: [],
+                          questionText: '',
+                        },
+                      ],
+                    },
                   })
                 }
               />
             </div>
           )}
         />
-        <Popup title='Add or Edit Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
-          <DynamicFormContainer values={values} setFieldValue={setFieldValue} />
-        </Popup>
       </NextStepsContainerStyle>
     );
   };
