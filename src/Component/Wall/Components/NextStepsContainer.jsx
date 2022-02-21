@@ -164,7 +164,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       />
                       &nbsp; Upload Status File
                     </Controls.ActionButton>
-                    {true ? (
+                    {!values.wallSteps?.form?.id ? (
                       <Controls.ActionButton disabled={false} onClick={() => setOpenPopup(true)}>
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
                       </Controls.ActionButton>
@@ -179,7 +179,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                           />
                           &nbsp; Form Created
                         </Controls.ActionButton>
-                        <Controls.ActionButton>
+                        <Controls.ActionButton onClick={() => setOpenPopup(true)}>
                           <EditOutlinedIcon fontSize='small' color='primary' /> &nbsp;Edit Form
                         </Controls.ActionButton>
                       </>
@@ -220,7 +220,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     form: {
                       formQuestions: [
                         {
-                          type: 'Text',
+                          type: 'TEXT',
                           formQuestionsChoices: [],
                           questionText: '',
                         },

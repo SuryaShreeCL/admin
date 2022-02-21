@@ -88,7 +88,7 @@ const CreatePost = () => {
         form: {
           formQuestions: [
             {
-              type: 'Text',
+              type: 'TEXT',
               formQuestionsChoices: [],
               questionText: '',
             },

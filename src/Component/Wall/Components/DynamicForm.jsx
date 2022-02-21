@@ -61,9 +61,9 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
               {formValues?.formQuestions?.map((option, index) => (
                 <div className={classes.fieldStep}>
                   <div key={Math.floor(Math.random() * index)} className={classes.input}>
-                    {(option.type === 'Text' ||
-                      option.type === 'File Upload' ||
-                      option.type === 'Resume Upload') && (
+                    {(option.type === 'TEXT' ||
+                      option.type === 'FILEUPLOAD' ||
+                      option.type === 'RESUMEUPLOAD') && (
                       <div className={classes.inputWidth}>
                         <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                         <Field
@@ -73,7 +73,7 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
                         />
                       </div>
                     )}
-                    {option.type === 'Multiple Choice' && (
+                    {option.type === 'MULTIPLECHOICE' && (
                       <div className={classes.inputWidth}>
                         <div className={classes.inputWidth}>
                           <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
@@ -100,7 +100,7 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
                       </div>
                     )}
                     <div style={{ display: 'flex', marginTop: '10px' }}>
-                      <Controls.Select
+                      <Controls.FormSelect
                         label='Answer Type'
                         name={`wallSteps.${formIdx}.form.formQuestions.${index}.type`}
                         size='300px'
@@ -133,8 +133,7 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
                   className={classes.addStepBtn}
                   onClick={() =>
                     arrayHelpers.push({
-                      type: 'Text',
-                      textField: '',
+                      type: 'TEXT',
                       formQuestionsChoices: [],
                       questionText: '',
                     })
