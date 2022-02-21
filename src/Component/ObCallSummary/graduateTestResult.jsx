@@ -395,7 +395,7 @@ class GraduateTestResult extends Component {
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
-      gredate: data.expectedExamDate,
+      gredate: data.completedExamDate,
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
       greanalytic: {
@@ -427,7 +427,7 @@ class GraduateTestResult extends Component {
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: { title: data.analyticalAssessment.toString() },
-      gmatdate: data.expectedExamDate,
+      gmatdate: data.completedExamDate,
       gmatid: data.id,
     });
   };
@@ -439,7 +439,7 @@ class GraduateTestResult extends Component {
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
-      toefldate: data.expectedExamDate,
+      toefldate: data.completedExamDate,
       toeflscore: data.score,
       toeflid: data.id,
     });
@@ -452,7 +452,7 @@ class GraduateTestResult extends Component {
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
-      ieltsdate: data.expectedExamDate,
+      ieltsdate: data.completedExamDate,
       ieltsscore: data.totalScore,
       ieltsid: data.id,
     });
@@ -935,7 +935,7 @@ class GraduateTestResult extends Component {
                             }}
                           >
                             {moment(
-                              new Date(eachdata && eachdata.expectedExamDate)
+                              new Date(eachdata && eachdata.completedExamDate)
                             ).format("MMM yyyy")}
                           </TableCell>
 
@@ -1194,7 +1194,7 @@ class GraduateTestResult extends Component {
                             }}
                           >
                             {moment(
-                              new Date(eachdata && eachdata.expectedExamDate)
+                              new Date(eachdata && eachdata.completedExamDate)
                             ).format("MMM yyyy")}
                           </TableCell>
 
@@ -1461,7 +1461,7 @@ class GraduateTestResult extends Component {
                             }}
                           >
                             {moment(
-                              new Date(eachdata && eachdata.expectedExamDate)
+                              new Date(eachdata && eachdata.completedExamDate)
                             ).format("MMM yyyy")}
                           </TableCell>
 
@@ -1737,7 +1737,7 @@ class GraduateTestResult extends Component {
                               }}
                             >
                               {moment(
-                                new Date(eachdata && eachdata.expectedExamDate)
+                                new Date(eachdata && eachdata.completedExamDate)
                               ).format("MMM yyyy")}
                             </TableCell>
 
