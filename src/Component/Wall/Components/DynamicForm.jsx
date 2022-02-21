@@ -41,53 +41,35 @@ const useStyles = makeStyles({
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
 });
 
-const DynamicFormContainer = React.memo(({ values, setFieldValue }) => {
+const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue }) => {
   const classes = useStyles();
 
   const Types = () => [
-    { id: '1', title: 'Text' },
-    { id: '2', title: 'Multiple Choice' },
-    { id: '3', title: 'File Upload' },
-    { id: '4', title: 'Resume Upload' },
+    { id: 'TEXT', answerType: 'Text' },
+    { id: 'MULTIPLECHOICE', answerType: 'Multiple Choice' },
+    { id: 'FILEUPLOAD', answerType: 'File Upload' },
+    { id: 'RESUMEUPLOAD', answerType: 'Resume Upload' },
   ];
 
   const DynamicForm = () => {
     return (
       <>
         <FieldArray
-          name='formFields'
+          name={`wallSteps.${formIdx}.form.formQuestions`}
           render={(arrayHelpers) => (
             <div>
-              {values?.formFields?.map((option, index) => (
+              {formValues?.formQuestions?.map((option, index) => (
                 <div className={classes.fieldStep}>
-                  <div key={`formFields.${index}`} className={classes.input}>
-                    {option.type === 'Text' && (
+                  <div key={Math.floor(Math.random() * index)} className={classes.input}>
+                    {(option.type === 'Text' ||
+                      option.type === 'File Upload' ||
+                      option.type === 'Resume Upload') && (
                       <div className={classes.inputWidth}>
                         <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                         <Field
                           placeholder={option.type}
                           className={classes.spacer}
-                          name={`formFields.${index}.textField`}
-                        />
-                      </div>
-                    )}
-                    {option.type === 'File Upload' && (
-                      <div className={classes.inputWidth}>
-                        <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
-                        <Field
-                          placeholder={option.type}
-                          className={classes.spacer}
-                          name={`formFields.${index}.uploadText`}
-                        />
-                      </div>
-                    )}
-                    {option.type === 'Resume Upload' && (
-                      <div className={classes.inputWidth}>
-                        <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
-                        <Field
-                          placeholder={option.type}
-                          className={classes.spacer}
-                          name={`formFields.${index}.resumeText`}
+                          name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                         />
                       </div>
                     )}
@@ -96,22 +78,23 @@ const DynamicFormContainer = React.memo(({ values, setFieldValue }) => {
                         <div className={classes.inputWidth}>
                           <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                           <Field
+                            placeholder={option.type}
                             className={classes.spacer}
-                            name={`formFields.${index}.multiText`}
+                            name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                           />
                         </div>
                         <div className={classes.inputWidth}>
                           <h6 className={classes.fieldlabel}>Choice 1</h6>
                           <Field
                             className={classes.spacer}
-                            name={`formFields.${index}.multiChoice.choiceOne`}
+                            name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[0].questionChoice`}
                           />
                         </div>
                         <div className={classes.inputWidth}>
                           <h6 className={classes.fieldlabel}>Choice 2</h6>
                           <Field
                             className={classes.spacer}
-                            name={`formFields.${index}.multiChoice.choiceTwo`}
+                            name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[1].questionChoice`}
                           />
                         </div>
                       </div>
@@ -119,11 +102,14 @@ const DynamicFormContainer = React.memo(({ values, setFieldValue }) => {
                     <div style={{ display: 'flex', marginTop: '10px' }}>
                       <Controls.Select
                         label='Answer Type'
-                        name={`formFields.${index}.type`}
+                        name={`wallSteps.${formIdx}.form.formQuestions.${index}.type`}
                         size='300px'
                         value={option.type}
                         onChange={(e) => {
-                          setFieldValue(`formFields.${index}.type`, e.target.value);
+                          setFieldValue(
+                            `wallSteps.${formIdx}.form.formQuestions.${index}.type`,
+                            e.target.value
+                          );
                         }}
                         options={Types()}
                       />
@@ -149,10 +135,8 @@ const DynamicFormContainer = React.memo(({ values, setFieldValue }) => {
                     arrayHelpers.push({
                       type: 'Text',
                       textField: '',
-                      multiChoice: { choiceOne: '', choiceTwo: '' },
-                      multiText: '',
-                      uploadText: '',
-                      resumeText: '',
+                      formQuestionsChoices: [],
+                      questionText: '',
                     })
                   }
                 />

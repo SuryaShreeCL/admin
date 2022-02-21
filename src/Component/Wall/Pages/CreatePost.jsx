@@ -85,16 +85,15 @@ const CreatePost = () => {
         message: '',
         url: '',
         isStatusUploaded: '',
-      },
-    ],
-    formFields: [
-      {
-        type: 'Text',
-        textField: '',
-        multiChoice: { choiceOne: '', choiceTwo: '' },
-        multiText: '',
-        uploadText: '',
-        resumeText: '',
+        form: {
+          formQuestions: [
+            {
+              type: 'Text',
+              formQuestionsChoices: [],
+              questionText: '',
+            },
+          ],
+        },
       },
     ],
     totalViews: 0,
