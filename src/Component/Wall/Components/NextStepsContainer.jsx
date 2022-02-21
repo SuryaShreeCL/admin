@@ -14,6 +14,10 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
+import {
+  uploadPostTestStatusByStepId,
+} from '../../../Actions/TestActions';
 
 const useStyles = makeStyles({
   input: {
@@ -41,7 +45,10 @@ const useStyles = makeStyles({
 
 const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
+
+  const [statusFileUploadDisabled,setStatusFileUploadDisabled] = useState(false);
 
   const onStatusUpload = (value, index) => {
     setFieldValue(`wallSteps.${index}.isStatusUploaded`, value);
@@ -60,6 +67,32 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
       console.log(error.message);
     }
   };
+
+  const handlePremiumUsersSheetUpload = async (e, stepId, formFieldsData) => {
+    // if(formFieldsData?.premiumUsersCategories[0]?.name == "4th Year Premium"){
+      const file  =  e.currentTarget.files[0];
+      const fileType = e.currentTarget.files[0].name;
+      setStatusFileUploadDisabled(true);
+      // File type must be sheet, .xlsx, .xls
+      if (fileType.includes(".xlsx") || fileType.includes(".xls")) {
+        let formData = new FormData();
+        formData.append("file", e.currentTarget.files[0]);
+        dispatch(
+          uploadPostTestStatusByStepId(formData, stepId, response => {
+            if (response.message == "Upload Success"){
+              setStatusFileUploadDisabled(false);
+            }else if(response.message == "Invalid Details Found"){
+              setStatusFileUploadDisabled(false);
+            }else{
+              setStatusFileUploadDisabled(false);
+            }
+          })
+        );
+      } else {
+        setStatusFileUploadDisabled(false);
+        }
+  }
+
 
   const StepFields = () => {
     return (
@@ -152,18 +185,26 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     )}
                   </div>
                   <div>
-                    <Controls.ActionButton
-                      disabled={false}
-                      onClick={() => onStatusUpload(true, index)}
-                    >
-                      <CloudUploadIcon
+                  <FormControlLabel
+                    disabled={statusFileUploadDisabled}
+                      // value='uploadStatusFile'
+                      control={
+                        <input
+                          hidden
+                          type="file"
+                          onChange={(e)=>handlePremiumUsersSheetUpload(e, index, values)}
+                          onClick={e => (e.currentTarget = null)}
+                      />
+                      }
+                      label={[
+                        <CloudUploadIcon
                         fontSize='small'
                         style={{
                           color: 'green',
                         }}
-                      />
-                      &nbsp; Upload Status File
-                    </Controls.ActionButton>
+                      />, !statusFileUploadDisabled?" Upload Status File":" Uploading..."]}
+                    />
+                    
                     {true ? (
                       <Controls.ActionButton disabled={false} onClick={() => setOpenPopup(true)}>
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
