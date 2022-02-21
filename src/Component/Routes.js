@@ -9,6 +9,8 @@ import Student from './Student';
 import Student_data from './StudentData';
 import Courses from './Courses';
 import Department from './Department';
+import Degree from './Degree';
+import InTake from './InTake';
 import MLogin from '../Designs/MLogin';
 import Curated_Course from '../Designs/CuratedCourse';
 import Personal_information from '../Designs/PersonalInformation';
@@ -36,6 +38,8 @@ import {
   rootPath,
   testPath,
   collegePath,
+  degreePath,
+  intakePath,
   createPath,
   universityPath,
   aspirationPath,
@@ -160,9 +164,13 @@ export default function Routes(props) {
       <Route
         exact
         path={studentPath}
-        render={props => <StudentHome {...props} />}
+        render={(props) => <StudentHome {...props} />}
       />
-      <Route exact path={coursePath} render={props => <Courses {...props} />} />
+      <Route
+        exact
+        path={coursePath}
+        render={(props) => <Courses {...props} />}
+      />
       <Route
         exact
         path={editCoursePath.concat(':id')}
@@ -171,75 +179,94 @@ export default function Routes(props) {
       <Route
         exact
         path={addCoursePath}
-        render={props => <TabPanel {...props} />}
+        render={(props) => <TabPanel {...props} />}
+      />
+
+      <Route
+        exact
+        path={collegePath}
+        render={(props) => <College {...props} />}
+      />
+      <Route
+        exact
+        path={degreePath}
+        render={(props) => <Degree {...props} />}
       />
       <Route
         exact
         path={departmentPath}
-        render={props => <Department {...props} />}
+        render={(props) => <Department {...props} />}
       />
       <Route
         exact
-        path={collegePath}
-        render={props => <College {...props} />}
+        path={intakePath}
+        render={(props) => <InTake {...props} />}
       />
       <Route
         exact
         path={universityPath}
-        render={props => <University {...props} />}
+        render={(props) => <University {...props} />}
       />
       <Route
         exact
         path={studentIdPath + '/:id'}
         render={props => <Student_data {...props} />}
       />
-      <Route exact path={loginPath} render={props => <MLogin {...props} />} />
+      <Route exact path={loginPath} render={(props) => <MLogin {...props} />} />
       <Route
         exact
         path={wallPath}
-        render={props => <WallLanding {...props} />}
+        render={(props) => <WallLanding {...props} />}
       />
       <Route
         exact
         path={createPath}
-        render={props => <CreatePost {...props} />}
+        render={(props) => <CreatePost {...props} />}
       />
-      <Route exact path={editPath} render={props => <EditPost {...props} />} />
+      <Route
+        exact
+        path={editPath}
+        render={(props) => <EditPost {...props} />}
+      />
       <Route
         exact
         path={premiumUsersPath}
-        render={props => <PremiumUsersLanding {...props} />}
+        render={(props) => <PremiumUsersLanding {...props} />}
       />
       <Route
         exact
         path={appVersion}
-        render={props => <AppVersionChange {...props} />}
+        render={(props) => <AppVersionChange {...props} />}
       />
       <Route
         exact
         path={testPath}
-        render={props => <AppTestLanding {...props} />}
+        render={(props) => <AppTestLanding {...props} />}
       />
       <Route
         exact
         path={testCreate}
-        render={props => <CreateTest {...props} />}
+        render={(props) => <CreateTest {...props} />}
       />
-      <Route exact path={testEdit} render={props => <EditTest {...props} />} />
+      <Route
+        exact
+        path={testEdit}
+        render={(props) => <EditTest {...props} />}
+      />
       <Route
         exact
         path={personelInfoPath}
-        render={props => <Personal_information {...props} />}
+        render={(props) => <Personal_information {...props} />}
       />
       <Route
         exact
         path={curatedPath}
-        render={props => <Curated_Course {...props} />}
+        render={(props) => <Curated_Course {...props} />}
       />
       <Route
         exact
         path={questionBankPath}
-        render={props => <QuestionBank {...props} />}
+        render={(props) => <QuestionBank {...props} />}
       />
       <Route
         exact
@@ -249,19 +276,19 @@ export default function Routes(props) {
       <Route
         exact
         path={callSchedulePath}
-        render={props => <Callschedule {...props} />}
+        render={(props) => <Callschedule {...props} />}
       />
       {/* Selva */}
-      <Route exact path={cityPath} render={props => <City {...props} />} />
+      <Route exact path={cityPath} render={(props) => <City {...props} />} />
       <Route
         exact
         path={aspirationPath}
-        render={props => <AspirationTab {...props} />}
+        render={(props) => <AspirationTab {...props} />}
       />
       <Route
         exact
         path={questionSetPath}
-        render={props => <QuestionSet {...props} />}
+        render={(props) => <QuestionSet {...props} />}
       />
       <Route
         exact
@@ -273,26 +300,26 @@ export default function Routes(props) {
         path={choicePath.concat(':id')}
         render={props => <Choice {...props} />}
       />
-      <Route exact path={videoPath} render={props => <Video {...props} />} />
+      <Route exact path={videoPath} render={(props) => <Video {...props} />} />
       <Route
         exact
         path={productPath}
-        render={props => <Product {...props} />}
+        render={(props) => <Product {...props} />}
       />
       <Route
         exact
         path={testimonialsPath}
-        render={props => <TestimonialDashboard {...props} />}
+        render={(props) => <TestimonialDashboard {...props} />}
       />
       <Route
         exact
         path={notificationPath}
-        render={props => <Notification {...props} />}
+        render={(props) => <Notification {...props} />}
       />
       <Route
         exact
         path={reportsPath}
-        render={props => <ReportHome {...props} />}
+        render={(props) => <ReportHome {...props} />}
       />
       <Route
         exact
@@ -302,27 +329,27 @@ export default function Routes(props) {
       <Route
         exact
         path={webinarPath}
-        render={props => <Webinar {...props} />}
+        render={(props) => <Webinar {...props} />}
       />
       <Route
         exact
         path={careerTrackPath}
-        render={props => <CareerTrack {...props} />}
+        render={(props) => <CareerTrack {...props} />}
       />
       <Route
         exact
         path={productBasedPath}
-        render={props => <PersonaInfo {...props} />}
+        render={(props) => <PersonaInfo {...props} />}
       />
       <Route
         exact
         path={starterPackPath}
-        render={props => <StarterPack {...props} />}
+        render={(props) => <StarterPack {...props} />}
       />
       <Route
         exact
         path={productVariantPath}
-        render={props => <ProductVariantRoot {...props} />}
+        render={(props) => <ProductVariantRoot {...props} />}
       />
       <Route
         exact
@@ -332,12 +359,12 @@ export default function Routes(props) {
       <Route
         exact
         path={productPunchingPath}
-        render={props => <Student {...props} />}
+        render={(props) => <Student {...props} />}
       />
       <Route
         exact
         path={productcomboPath}
-        render={props => <ProductComboForm {...props} />}
+        render={(props) => <ProductComboForm {...props} />}
       />
       <Route
         exact
@@ -352,7 +379,7 @@ export default function Routes(props) {
       <Route
         exact
         path={clientDetailsPath}
-        render={props => <ClientDetails {...props} />}
+        render={(props) => <ClientDetails {...props} />}
       />
       <Route
         exact
@@ -362,7 +389,7 @@ export default function Routes(props) {
       <Route
         exact
         path={obOperationPath}
-        render={props => <ObOperationLanding {...props} />}
+        render={(props) => <ObOperationLanding {...props} />}
       />
       <Route
         exact
@@ -372,7 +399,7 @@ export default function Routes(props) {
       <Route
         exact
         path={listUsersProdBasedPath}
-        render={props => <ProductBasedUsers {...props} />}
+        render={(props) => <ProductBasedUsers {...props} />}
       />
       <Route
         exact
@@ -387,7 +414,7 @@ export default function Routes(props) {
       <Route
         exact
         path={productActivationPath}
-        render={props => <ProductActivation {...props} />}
+        render={(props) => <ProductActivation {...props} />}
       />
       <Route
         exact
@@ -397,7 +424,7 @@ export default function Routes(props) {
       <Route
         exact
         path={landingAdminPath}
-        render={props => <LandingAdmin {...props} />}
+        render={(props) => <LandingAdmin {...props} />}
       />
 
       <Route
@@ -417,7 +444,7 @@ export default function Routes(props) {
         exact
         // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
         path={lms_add_study_plan}
-        render={props => <AddStudyPlans {...props} />}
+        render={(props) => <AddStudyPlans {...props} />}
       />
 
       {/* LMS */}

@@ -1,6 +1,7 @@
 import {
   CircularProgress,
   createMuiTheme,
+  Grid,
   Slide,
   ThemeProvider,
 } from "@material-ui/core";
@@ -16,26 +17,26 @@ import CloseIcon from "@material-ui/icons/Close";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  addColleges,
-  deleteCollege,
-  getAllColleges,
-  getPaginateCollege,
-  updateColleges,
-} from "../Actions/College";
+  addDegree,
+  deleteDegree,
+  getAllDegrees,
+  getDegreePaginate,
+  updateDegree,
+} from "../Actions/Degree";
+import "../Asset/All.css";
 import MySnackBar from "./MySnackBar";
 import TableComponent from "./TableComponent/TableComponent";
-export class College extends Component {
+
+export class Degree extends Component {
   constructor(props) {
     super(props);
     this.state = {
       show: false,
       id: "",
-      name: "",
-      description: "",
-      logoURL: "",
+      degreeName: "",
+      degreeType: "",
       msg: false,
       update: false,
-      description: null,
       snack: {
         open: false,
         message: "",
@@ -53,17 +54,14 @@ export class College extends Component {
   ];
 
   componentDidMount() {
-    // this.props.getAllColleges();
-    this.props.getPaginateCollege(0, 20, null);
+    this.props.getDegreePaginate(0, 20, null);
   }
 
   handleEdit = (data) => {
-    console.log(data);
     this.setState({
       id: data.id,
-      name: data.name,
-      logoURL: data.logoURL,
-      description: data.description,
+      degreeName: data.name,
+      degreeType: data.type,
       show: true,
     });
   };
@@ -150,9 +148,8 @@ export class College extends Component {
     this.setState({
       show: true,
       id: "",
-      name: "",
-      description: "",
-      logoURL: "",
+      degreeName: "",
+      degreeType: "",
     });
   };
 
@@ -160,75 +157,100 @@ export class College extends Component {
     this.setState({ show: false });
   };
   paginate = (page, size, keyword) => {
-    this.props.getPaginateCollege(page, size, keyword);
+    this.props.getDegreePaginate(page, size, keyword);
   };
 
   rowClick = (rowData) => {};
   deleteHandler = (data) => {
-    this.props.deleteCollege(data.id);
+    this.props.deleteDegree(data.id);
   };
-  // Add College
-  newCollege(e) {
-    this.setState({ show: false });
-    let newCollegeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      logoURL: this.state.logoURL,
-      status: null,
+  // Add Degree
+  newDegree(e) {
+    this.setState({ show: true });
+    let newDegreeObj = {
+      name: this.state.degreeName,
+      type: this.state.degreeType,
     };
-    if (this.state.name.length !== 0) {
-      this.props.addColleges(newCollegeObj);
+
+    if (this.state.degreeName.length !== 0) {
+      this.props.addDegree(newDegreeObj);
       this.setState({
-        id: "",
-        name: "",
-        description: "",
-        logoURL: "",
+        show: false,
+      });
+    } else {
+      this.setState({
+        show: true,
+        snack: {
+          open: true,
+          message: "Please Fill the Required Field",
+          color: "error",
+        },
       });
     }
   }
-  // Update College
-  updateCollege(e) {
+  // Update degree
+  updateDegree(e) {
     this.setState({ show: false });
-    let newCollegeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      logoURL: this.state.logoURL,
+    let newDegreeObj = {
+      name: this.state.degreeName,
+      type: this.state.degreeType,
     };
-    if (this.state.name.length !== 0) {
-      this.props.updateColleges(this.state.id, newCollegeObj);
+    if (this.state.degreeName.length !== 0) {
+      this.props.updateDegree(this.state.id, newDegreeObj);
+
       this.setState({
-        id: "",
-        name: "",
-        description: "",
-        logoURL: "",
         update: true,
+        show: false,
+      });
+    } else {
+      this.setState({
+        show: true,
+        snack: {
+          open: true,
+          message: "Please Fill the Required Field",
+          color: "error",
+        },
       });
     }
-    this.props.getAllColleges();
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.addCollegeStatus !== prevProps.addCollegeStatus) {
-      if (this.props.addCollegeStatus.success) {
-        this.props.getAllColleges();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.addedDegree !== prevProps.addedDegree) {
+      if (this.props.addedDegree.success) {
+        this.props.getDegreePaginate(0, 20, null);
+        this.setState({
+          snack: {
+            open: true,
+            message: "Added Successfully",
+            color: "success",
+          },
+        });
       } else {
         this.setState({
           snack: {
             open: true,
-            message: this.props.addCollegeStatus.message,
+            message: this.props.addedDegree.message,
             color: "error",
           },
         });
       }
     }
-    if (this.props.updateCollegeStatus !== prevProps.updateCollegeStatus) {
-      if (this.props.updateCollegeStatus.success) {
-        this.props.getAllColleges();
+
+    if (this.props.updatedDegree !== prevProps.updatedDegree) {
+      if (this.props.updatedDegree.success) {
+        this.props.getDegreePaginate(0, 20, null);
+        this.setState({
+          snack: {
+            open: true,
+            message: "Updated Successfully",
+            color: "success",
+          },
+        });
       } else {
         this.setState({
           snack: {
             open: true,
-            message: this.props.updateCollegeStatus.message,
+            message: this.props.updatedDegree.message,
             color: "error",
           },
         });
@@ -240,39 +262,45 @@ export class College extends Component {
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
-          {this.props.paginateCollegeList.length !== 0 ? (
-            <TableComponent
-              data={
-                this.props.paginateCollegeList.length !== 0
-                  ? this.props.paginateCollegeList.content
-                  : null
-              }
-              cols={this.col}
-              onRowClick={this.rowClick}
-              onSearch={this.paginate}
-              paginate={this.paginate}
-              totalCount={this.props.paginateCollegeList.totalElements}
-              title={"College"}
-              pageCount={this.props.paginateCollegeList.totalPages}
-              action={true}
-              disableDelete
-              onDelete={true}
-              onDeleteClick={this.deleteHandler}
-              onEdit={true}
-              onEditClick={this.handleEdit}
-              add={true}
-              onAddClick={this.handleClickOpen}
-            />
+          {this.props.paginatedAndFilteredDegree &&
+          this.props.paginatedAndFilteredDegree.length !== 0 ? (
+            <Grid container>
+              <Grid item md={12}>
+                <TableComponent
+                  data={
+                    this.props.paginatedAndFilteredDegree &&
+                    this.props.paginatedAndFilteredDegree.length !== 0
+                      ? this.props.paginatedAndFilteredDegree &&
+                        this.props.paginatedAndFilteredDegree.content
+                      : null
+                  }
+                  cols={this.col}
+                  onRowClick={this.rowClick}
+                  onSearch={this.paginate}
+                  paginate={this.paginate}
+                  totalCount={
+                    this.props.paginatedAndFilteredDegree &&
+                    this.props.paginatedAndFilteredDegree.totalElements
+                  }
+                  title={"Degree"}
+                  pageCount={
+                    this.props.paginatedAndFilteredDegree &&
+                    this.props.paginatedAndFilteredDegree.totalPages
+                  }
+                  action={true}
+                  disableDelete
+                  onDelete={true}
+                  onDeleteClick={this.deleteHandler}
+                  onEdit={true}
+                  onEditClick={this.handleEdit}
+                  add={true}
+                  onAddClick={this.handleClickOpen}
+                />
+              </Grid>
+            </Grid>
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "65vh",
-                }}
-              >
+              <div className={"circularProgress_div"}>
                 <CircularProgress
                   color="primary"
                   variant="indeterminate"
@@ -283,7 +311,7 @@ export class College extends Component {
             </ThemeProvider>
           )}
 
-          {/* Add and Edit College Dialog */}
+          {/* Add and Edit Degree Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
@@ -294,7 +322,7 @@ export class College extends Component {
             >
               <DialogTitle id="customized-dialog-title">
                 <div className="flex-1 text-center">
-                  {this.state.id.length !== 0 ? "Edit College" : "Add College"}
+                  {this.state.id.length !== 0 ? "Edit Degree" : "Add Degree"}
                 </div>
                 <div className="model-close-button">
                   <IconButton aria-label="close" onClick={this.handleClose}>
@@ -306,40 +334,32 @@ export class College extends Component {
                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="Enter College Name"
+                  label="Enter Degree Name"
                   fullWidth
-                  value={this.state.name}
-                  onChange={(e) => this.setState({ name: e.target.value })}
-                />
-                <TextField
-                  variant="outlined"
-                  color="primary"
-                  label="description"
-                  rowsMin={3}
-                  multiline
-                  fullWidth
-                  value={this.state.description}
+                  value={this.state.degreeName}
                   onChange={(e) =>
-                    this.setState({ description: e.target.value })
+                    this.setState({ degreeName: e.target.value })
                   }
                 />
                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="Logo Url"
+                  label="Enter DegreeType"
                   rowsMin={3}
                   multiline
                   fullWidth
-                  value={this.state.logoURL}
-                  onChange={(e) => this.setState({ logoURL: e.target.value })}
+                  value={this.state.degreeType}
+                  onChange={(e) =>
+                    this.setState({ degreeType: e.target.value })
+                  }
                 />
               </DialogContent>
               <DialogActions>
                 <Button
                   onClick={
                     this.state.id.length === 0
-                      ? this.newCollege.bind(this)
-                      : this.updateCollege.bind(this)
+                      ? this.newDegree.bind(this)
+                      : this.updateDegree.bind(this)
                   }
                   variant="contained"
                   color="primary"
@@ -374,16 +394,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 const mapStateToProps = (state) => {
   return {
-    AllCollegeList: state.CollegeReducer.allCollegeList,
-    paginateCollegeList: state.CollegeReducer.paginateCollegeList,
-    addCollegeStatus: state.CollegeReducer.addCollegeStatus,
-    updateCollegeStatus: state.CollegeReducer.updateCollegeStatus,
+    addedDegree: state.DegreeReducer.addedDegree,
+    updatedDegree: state.DegreeReducer.updatedDegree,
+    allDegreeList: state.DegreeReducer.allDegreeList,
+    deletedDegree: state.DegreeReducer.deletedDegree,
+    paginatedAndFilteredDegree: state.DegreeReducer.paginatedAndFilteredDegree,
   };
 };
 export default connect(mapStateToProps, {
-  getAllColleges,
-  addColleges,
-  updateColleges,
-  deleteCollege,
-  getPaginateCollege,
-})(College);
+  getDegreePaginate,
+  getAllDegrees,
+  addDegree,
+  updateDegree,
+  deleteDegree,
+})(Degree);

@@ -36,7 +36,9 @@ import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import { ErrorMessage } from "../Validation";
 import { getVariantStepsById } from "../../Actions/ProductAction";
-import Grid from '@material-ui/core/Grid'
+import Grid from "@material-ui/core/Grid";
+import * as moment from "moment";
+
 class TestEngineResult extends Component {
   constructor() {
     super();
@@ -120,15 +122,16 @@ class TestEngineResult extends Component {
   }
 
   handleShowAnswer = (questionSetName, examDate) => {
+    console.log(examDate);
     this.props.viewanswers(this.props.match.params.studentId, questionSetName);
-    let date = new Date(examDate).getDate();
-    let month = new Date(examDate).getMonth() + 1;
-    let year = new Date(examDate).getFullYear();
-    let newFullDate = date + "/" + month + "/" + year;
+    // let date = new Date(examDate).getDate();
+    // let month = new Date(examDate).getMonth() + 1;
+    // let year = new Date(examDate).getFullYear();
+    // let newFullDate = date + "/" + month + "/" + year;
     this.setState({
       questionSetName: questionSetName,
       showEye: true,
-      examAttendDate: newFullDate,
+      examAttendDate: moment(new Date(examDate)).format("MMM YYYY"),
     });
   };
 
@@ -182,6 +185,7 @@ class TestEngineResult extends Component {
   );
 
   render() {
+    console.log(this.state.examAttendDate);
     return (
       <div style={{ padding: 25 }}>
         <div
@@ -315,6 +319,12 @@ class TestEngineResult extends Component {
             <TableBody>
               {this.state.finaltestlist.length !== 0 &&
                 this.state.finaltestlist.map((eachItem, index) => {
+                  console.log(eachItem);
+                  console.log(
+                    moment(new Date(eachItem.examinationDate)).format(
+                      "MMM yyyy"
+                    )
+                  );
                   let date = new Date(eachItem.examDate).getDate();
                   let month = new Date(eachItem.examDate).getMonth() + 1;
                   let year = new Date(eachItem.examDate).getFullYear();
@@ -345,7 +355,9 @@ class TestEngineResult extends Component {
                           borderBottom: "none",
                         }}
                       >
-                        {newExamDate}
+                        {moment(new Date(eachItem.examinationDate)).format(
+                          "MMM yyyy"
+                        )}
                       </TableCell>
 
                       <TableCell
@@ -395,7 +407,7 @@ class TestEngineResult extends Component {
                           onClick={() =>
                             this.handleShowAnswer(
                               eachItem.questionSetName,
-                              eachItem.examDate
+                              eachItem.examinationDate
                             )
                           }
                         >
@@ -496,26 +508,24 @@ class TestEngineResult extends Component {
                 <img src={x} height={17} width={17} />
               </IconButton>
             </div> */}
-             <Grid container>
+            <Grid container>
               <Grid item md={11} align={"center"}>
-              <Typography
-                style={{
-                  color: "#052A4E",
-                  fontSize: 24,
-                  fontWeight: "bold",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {this.state.questionSetName}
-              </Typography>
+                <Typography
+                  style={{
+                    color: "#052A4E",
+                    fontSize: 24,
+                    fontWeight: "bold",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  {this.state.questionSetName}
+                </Typography>
               </Grid>
               <Grid item md={1} align={"right"}>
-              <IconButton
-                onClick={() => this.setState({ showEye: false })}
-              >
-                <img src={x} height={17} width={17} />
-              </IconButton>
+                <IconButton onClick={() => this.setState({ showEye: false })}>
+                  <img src={x} height={17} width={17} />
+                </IconButton>
               </Grid>
             </Grid>
           </DialogTitle>
@@ -529,7 +539,7 @@ class TestEngineResult extends Component {
               }}
             >
               <Typography style={{ color: "#052A4E", fontSize: 12 }}>
-                Test completion Date {this.state.examAttendDate}
+                Test completion Date : {this.state.examAttendDate}
               </Typography>
             </div>
             {this.state.quesAns.length !== 0 &&

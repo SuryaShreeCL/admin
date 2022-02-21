@@ -5,6 +5,7 @@ import React from 'react'
 function DropDown(props) {
     return (
     <Autocomplete
+    disabled={props.disabled}
     popupIcon={<ExpandMore color={"inherit"} />}
     {...props}
     />

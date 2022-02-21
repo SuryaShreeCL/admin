@@ -5,6 +5,8 @@ import { getgmatscore, getgrescore, getieltsscore, gettoeflscore} from "../../Ac
 import {connect} from "react-redux"
 import Mysnack from "../MySnackBar";
 import { ErrorMessage } from "../Validation";
+import * as moment from "moment";
+
 class DoccumentCard extends Component {
   constructor(){
     super();
@@ -34,7 +36,7 @@ class DoccumentCard extends Component {
       this.props.deleteDocumentGraduate(this.props.studentid,this.props.path, this.props.id, "ielts")
     }
     if(!this.props.category){
-      console.log(this.props)
+      
         this.props.deleteDocument(this.props.studentid,this.props.path,(response => {
           if(response.status === 200){
             this.setState({
@@ -67,7 +69,7 @@ class DoccumentCard extends Component {
     let date = new Date(this.props.date).getDate()
     let month = new Date(this.props.date).getMonth()
     let year = new Date(this.props.date).getFullYear()
-    console.log(this.props)
+    
 
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sep","Oct","Nov","Dec"];
                 var monthName = months[month];
@@ -118,7 +120,7 @@ class DoccumentCard extends Component {
                 color: "#686868",
               }}
             >
-             Uploaded On: {newDate}
+             Uploaded On: {moment(new Date( newDate)).format("MMM yyyy")}
             </p>
           </div>
           {!this.props.status &&

@@ -51,6 +51,7 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
 import { ErrorMessage, isNumber } from "../Validation";
+import * as moment from "moment";
 
 const theme = createMuiTheme({
   overrides: {
@@ -284,7 +285,7 @@ export class academicInfo extends Component {
       });
       if (diplomaDetails) {
         const { diplomaType } = diplomaDetails;
-        console.log(diplomaDetails);
+
         var diplomoScale = diplomaDetails.scoreScale;
         this.setState({
           diplomaCollege: diplomaDetails.college,
@@ -307,13 +308,20 @@ export class academicInfo extends Component {
         }
       });
       if (tenthDetails) {
+        console.log(tenthDetails);
         var tenthScale = tenthDetails.scoreScale;
         this.setState({
           tenthSchool: tenthDetails.schoolName,
           tenthExamBoard: tenthDetails.examBoard,
           tenthCgpaScale: { title: tenthScale.toString(), value: tenthScale },
           tenthStartDate: tenthDetails.startDate,
+          //  moment(new Date(tenthDetails.startDate)).format(
+          //   "yyyy-MM"
+          // ),
           tenthEndDate: tenthDetails.endDate,
+          // moment(new Date(tenthDetails.endDate)).format(
+          //   "yyyy-MM"
+          // ),
           tenthCgpa: tenthDetails.score,
         });
       }
@@ -324,12 +332,18 @@ export class academicInfo extends Component {
           twelthDetails = data;
         }
       });
-      console.log(twelthDetails);
+
       if (twelthDetails) {
         var twelthScale = twelthDetails.scoreScale;
         this.setState({
           twelthSchool: twelthDetails.schoolName,
           twelthExamBoard: twelthDetails.examBoard,
+          // twelthStartDate: moment(new Date(twelthDetails.startDate)).format(
+          //   "yyyy-MM"
+          // ),
+          // twelthEndDate: moment(new Date(twelthDetails.endDate)).format(
+          //   "yyyy-MM"
+          // ),
           twelthStartDate: twelthDetails.startDate,
           twelthEndDate: twelthDetails.endDate,
           twelthCgpa: twelthDetails.score,
@@ -342,7 +356,6 @@ export class academicInfo extends Component {
     }
   }
   documentClick = (data) => {
-    console.log(data);
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     window.open(
       URL +
@@ -354,7 +367,6 @@ export class academicInfo extends Component {
   };
 
   handleChange = (panel) => (event, newExpanded) => {
-    console.log(panel, newExpanded);
     this.setState({ expanded: newExpanded ? panel : false });
   };
 
@@ -414,7 +426,6 @@ export class academicInfo extends Component {
   }))(MuiAccordionDetails);
 
   handleSave = () => {
-    console.log(this.state);
     let hlptxt = "Please fill the required field";
     // this.state.pgCollege === ""
     //   ? this.setState({ pgCollegeErr: hlptxt })
@@ -566,8 +577,10 @@ export class academicInfo extends Component {
           schoolName: this.state.tenthSchool,
           score: this.state.tenthCgpa,
           scoreScale: this.state.tenthCgpaScale.title,
-          startDate: new Date(this.state.tenthStartDate),
-          endDate: new Date(this.state.tenthEndDate),
+          // startDate: new Date(this.state.tenthStartDate),
+          strStartDate: this.state.tenthStartDate,
+          strEndDate: this.state.tenthEndDate,
+          // endDate: new Date(this.state.tenthEndDate),
           type: "ssc",
         },
         {
@@ -577,8 +590,10 @@ export class academicInfo extends Component {
           schoolName: this.state.twelthSchool,
           score: this.state.twelthCgpa,
           scoreScale: this.state.twelthCgpaScale.title,
-          startDate: new Date(this.state.twelthStartDate),
-          endDate: new Date(this.state.twelthEndDate),
+          // startDate: new Date(this.state.twelthStartDate),
+          // endDate: new Date(this.state.twelthEndDate),
+          strStartDate: this.state.twelthStartDate,
+          strEndDate: this.state.twelthEndDate,
           type: "hsc",
         },
         {
@@ -598,8 +613,10 @@ export class academicInfo extends Component {
             id: this.state.ugDegree.id,
             name: this.state.ugDegree.name,
           },
-          startDate: new Date(this.state.ugStartDate),
-          endDate: new Date(this.state.ugEndDate),
+          // startDate: new Date(this.state.ugStartDate),
+          // endDate: new Date(this.state.ugEndDate),
+          strStartDate: this.state.ugStartDate,
+          strEndDate: this.state.ugEndDate,
           score: this.state.ugCgpa,
           scoreScale: this.state.ugCgpaScale.title,
           type: "ug",
@@ -621,8 +638,10 @@ export class academicInfo extends Component {
             id: this.state.pgDegree.id,
             name: this.state.pgDegree.name,
           },
-          startDate: new Date(this.state.pgStartDate),
-          endDate: new Date(this.state.pgEndDate),
+          // startDate: new Date(this.state.pgStartDate),
+          // endDate: new Date(this.state.pgEndDate),
+          strStartDate: this.state.pgStartDate,
+          strEndDate: this.state.pgEndDate,
           score: this.state.pgCgpa,
           scoreScale: this.state.pgCgpaScale.title,
           type: "pg",
@@ -636,8 +655,10 @@ export class academicInfo extends Component {
             id: this.state.diplomoUniversity.id,
             name: this.state.diplomoUniversity.name,
           },
-          startDate: new Date(this.state.diplomostartDate),
-          endDate: new Date(this.state.diplomoEndDate),
+          // startDate: new Date(this.state.diplomostartDate),
+          // endDate: new Date(this.state.diplomoEndDate),
+          strStartDate: this.state.diplomostartDate,
+          strEndDate: this.state.diplomoEndDate,
           score: this.state.diplomoCgpa,
           scoreScale: this.state.diplomoCgpaScale.title,
           diplomaType: this.state.diplomoDepartment.title,
@@ -705,9 +726,8 @@ export class academicInfo extends Component {
   );
 
   render() {
-    console.log(this.state);
-    console.log(this.props.getAllDocumentList, "_________________");
-
+    console.log(this.props.getAcademicInfoList, "LLLLLLLLLLLLLLLLLLLLL");
+    console.log(this.state.pgStartDate);
     const { HeadStyle, title, ans, secondary, GridStyle } = style;
     return (
       <div>
@@ -972,6 +992,11 @@ export class academicInfo extends Component {
                                     pgCgpaErr: "",
                                   });
                                 }
+                              } else {
+                                this.setState({
+                                  pgCgpa: e.target.value,
+                                  pgCgpaErr: "",
+                                });
                               }
                             }}
                             value={this.state.pgCgpa}
@@ -980,56 +1005,49 @@ export class academicInfo extends Component {
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            disabled={this.state.documentedit}
-                            format="dd/MM/yyyy"
-                            inputProps={{ readOnly: true }}
                             value={this.state.pgStartDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                pgStartDate: newValue,
+                                pgStartDate: e.target.value,
                                 pgStartDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
                             error={this.state.pgStartDateErr.length > 0}
                             helperText={this.state.pgStartDateErr}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
+                          <TextField
                             label="End Date"
+                            value={this.state.pgEndDate}
+                            type="month"
+                            onChange={(e) =>
+                              this.setState({
+                                pgEndDate: e.target.value,
+                                pgEndDateErr: "",
+                              })
+                            }
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            min={this.state.pgStartDate}
+                            error={this.state.pgEndDateErr.length > 0}
+                            helperText={this.state.pgEndDateErr}
                             disabled={
                               this.state.documentedit ||
                               this.state.pgStartDate === null
                             }
-                            format="dd/MM/yyyy"
-                            inputProps={{ readOnly: true }}
-                            minDate={this.state.pgStartDate}
-                            value={this.state.pgEndDate}
-                            onChange={(newValue) =>
-                              this.setState({
-                                pgEndDate: newValue,
-                                pgEndDateErr: "",
-                              })
-                            }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            error={this.state.pgEndDateErr.length > 0}
-                            helperText={this.state.pgEndDateErr}
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1239,6 +1257,11 @@ export class academicInfo extends Component {
                                     ugCgpaErr: "",
                                   });
                                 }
+                              } else {
+                                this.setState({
+                                  ugCgpa: e.target.value,
+                                  ugCgpaErr: "",
+                                });
                               }
                             }}
                             error={this.state.ugCgpaErr.length > 0}
@@ -1246,47 +1269,38 @@ export class academicInfo extends Component {
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            format="dd/MM/yyyy"
                             value={this.state.ugStartDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                ugStartDate: newValue,
+                                ugStartDate: e.target.value,
                                 ugStartDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            disabled={this.state.documentedit}
-                            inputProps={{ readOnly: true }}
                             error={this.state.ugStartDateErr.length > 0}
                             helperText={this.state.ugStartDateErr}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
+                          <TextField
                             label="End Date"
-                            format="dd/MM/yyyy"
-                            inputProps={{ readOnly: true }}
-                            minDate={this.state.ugStartDate}
                             value={this.state.ugEndDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            minDate={this.state.ugStartDate}
+                            onChange={(e) =>
                               this.setState({
-                                ugEndDate: newValue,
+                                ugEndDate: e.target.value,
                                 ugEndDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
@@ -1296,6 +1310,8 @@ export class academicInfo extends Component {
                             }
                             error={this.state.ugEndDateErr.length > 0}
                             helperText={this.state.ugEndDateErr}
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1495,6 +1511,11 @@ export class academicInfo extends Component {
                                     diplomoCgpaErr: "",
                                   });
                                 }
+                              } else {
+                                this.setState({
+                                  diplomoCgpa: e.target.value,
+                                  diplomoCgpaErr: "",
+                                });
                               }
                             }}
                             InputLabelProps={{ shrink: true }}
@@ -1509,57 +1530,49 @@ export class academicInfo extends Component {
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
+                            label="Start Date"
                             value={this.state.diplomostartDate}
-                            onChange={(e, newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                diplomostartDate: newValue,
+                                diplomostartDate: e.target.value,
                                 diplomostartDateErr: "",
                               })
                             }
-                            label="Start Date"
                             error={this.state.diplomostartDateErr.length > 0}
                             helperText={this.state.diplomostartDateErr}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            // inputProps={{ readOnly: true }}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            format="dd/MM/yyyy"
                             disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
-                            format="dd/MM/yyyy"
+                          <TextField
                             label="End Date"
-                            // inputProps={{ readOnly: true }}
+                            value={this.state.diplomoEndDate}
+                            type="month"
+                            onChange={(e) =>
+                              this.setState({
+                                diplomoEndDate: e.target.value,
+                                diplomoEndDateErr: "",
+                              })
+                            }
+                            minDate={this.state.diplomostartDate}
+                            error={this.state.diplomoEndDateErr.length > 0}
+                            helperText={this.state.diplomoEndDateErr}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             disabled={
                               this.state.diplomostartDate === null ||
                               this.state.documentedit
                             }
-                            minDate={this.state.diplomostartDate}
-                            value={this.state.diplomoEndDate}
-                            onChange={(e, newValue) =>
-                              this.setState({
-                                diplomoEndDate: newValue,
-                                diplomoEndDateErr: "",
-                              })
-                            }
-                            error={this.state.diplomoEndDateErr.length > 0}
-                            helperText={this.state.diplomoEndDateErr}
-                            format="dd/MM/yyyy"
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1727,63 +1740,60 @@ export class academicInfo extends Component {
                                     twelthCgpaErr: "",
                                   });
                                 }
+                              } else {
+                                this.setState({
+                                  twelthCgpa: e.target.value,
+                                  twelthCgpaErr: "",
+                                });
                               }
                             }}
                             InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            format="dd/MM/yyyy"
-                            disabled={this.state.documentedit}
                             value={this.state.twelthStartDate || ""}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                twelthStartDate: newValue,
+                                twelthStartDate: e.target.value,
                                 twelthStartDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
+                            error={this.state.twelthStartDateErr.length > 0}
+                            helperText={this.state.twelthStartDateErr}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            inputProps={{ readOnly: true }}
-                            error={this.state.twelthStartDateErr.length > 0}
-                            helperText={this.state.twelthStartDateErr}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
+                          <TextField
                             label="End Date"
-                            format="dd/MM/yyyy"
-                            label="End Date"
-                            disabled={
-                              this.state.documentedit ||
-                              this.state.twelthStartDate === null
-                            }
-                            inputProps={{ readOnly: true }}
-                            minDate={this.state.twelthStartDate}
                             value={this.state.twelthEndDate || ""}
-                            onChange={(newValue) =>
+                            type="month"
+                            minDate={this.state.twelthStartDate}
+                            onChange={(e) =>
                               this.setState({
-                                twelthEndDate: newValue,
+                                twelthEndDate: e.target.value,
                                 twelthEndDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
                             error={this.state.twelthEndDateErr.length > 0}
                             helperText={this.state.twelthEndDateErr}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.twelthStartDate === null
+                            }
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={12}></Grid>
@@ -1926,39 +1936,65 @@ export class academicInfo extends Component {
                                     tenthCgpaErr: "",
                                   });
                                 }
+                              } else {
+                                this.setState({
+                                  tenthCgpa: e.target.value,
+                                  tenthCgpaErr: "",
+                                });
                               }
                             }}
                             value={this.state.tenthCgpa}
                           />
                         </Grid>
+
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            disabled={this.state.documentedit}
                             value={this.state.tenthStartDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                tenthStartDate: newValue,
+                                tenthStartDate: e.target.value,
                                 tenthStartDateErr: "",
                               })
                             }
                             error={this.state.tenthStartDateErr.length > 0}
                             helperText={this.state.tenthStartDateErr}
-                            format="dd/MM/yyyy"
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            inputProps={{ readOnly: true }}
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
+                          <TextField
+                            label="End Date"
+                            value={this.state.tenthEndDate}
+                            type="month"
+                            onChange={(e) =>
+                              this.setState({
+                                tenthEndDate: e.target.value,
+                                tenthEndDateErr: "",
+                              })
+                            }
+                            error={this.state.tenthEndDateErr.length > 0}
+                            helperText={this.state.tenthEndDateErr}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            fullWidth
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.tenthStartDate === null
+                            }
+                            name="EndDate"
+                            minDate={this.state.tenthStartDate}
+                          />
+                          {/* <KeyboardDatePicker
                             id="date-picker-dialog"
+                            format="MMM/yyyy"
                             inputProps={{ readOnly: true }}
                             disabled={
                               this.state.documentedit ||
@@ -1975,14 +2011,13 @@ export class academicInfo extends Component {
                             label="End Date"
                             error={this.state.tenthEndDateErr.length > 0}
                             helperText={this.state.tenthEndDateErr}
-                            format="dd/MM/yyyy"
                             KeyboardButtonProps={{
                               "aria-label": "change date",
                             }}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                          />
+                          /> */}
                         </Grid>
                         <Grid item md={12}></Grid>
                       </Grid>

@@ -47,6 +47,8 @@ import MySnackBar from "../MySnackBar";
 import { studentPath } from "../RoutePaths";
 import Loader from "../Utils/controls/Loader";
 import { isEmptyArray, isEmptyString } from "../Validation";
+import * as moment from "moment";
+
 
 const AntTabs = withStyles({
   root: {
@@ -139,20 +141,16 @@ class ProductActivation extends Component {
       shrink: false,
       listOfUsers: [],
       keyword: "",
-      intakehlpTxt : "",
-      yearhlpTxt : "",
-      yearArr : [],
-      currentYear : new Date().getFullYear()
+      intakehlpTxt: "",
+      yearhlpTxt: "",
+      yearArr: [],
+      currentYear: new Date().getFullYear(),
     };
   }
   handleClose = (e) => {
     this.setState({ show: false });
   };
-intakeSession = [
-  {title : "Fall"},
-  {title : "Summer"},
-  {title : "Spring"}
-]
+  intakeSession = [{ title: "Fall" }, { title: "Summer" }, { title: "Spring" }];
   componentDidMount() {
     // this.props.getAwaitingUsersByAdminId();
     this.props.getAllProductFamily();
@@ -161,10 +159,10 @@ intakeSession = [
       this.props.match.params.productId,
       this.state.keyword
     );
-    for (let i= 0 ; i < 10; i++){
-      let arr = this.state.currentYear+i
-      this.state.yearArr.push({title : arr.toString()})
-   }
+    for (let i = 0; i < 10; i++) {
+      let arr = this.state.currentYear + i;
+      this.state.yearArr.push({ title: arr.toString() });
+    }
   }
   shrink() {
     this.setState({ shrink: true });
@@ -236,29 +234,28 @@ intakeSession = [
           productId: this.state.productVariant.id,
           stage: "Activated",
           activatedBy: window.sessionStorage.getItem("adminUserId"),
-          intakeTerm:this.state.intake && this.state.intake.title,
-          intakeYear:this.state.year && this.state.year.title,
+          intakeTerm: this.state.intake && this.state.intake.title,
+          intakeYear: this.state.year && this.state.year.title,
         },
       ],
     };
-    console.log(obj)
-      this.props.activateStudentProduct(obj,(response => {
-          console.log(response)
-          if(response.data === "updated"){
-            this.setState({
-              snackOpen: true,
-              snackColor: "success",
-              snackMsg: "Product activated successfully",
-              show: false,
-              isLoading: false,
-            })
-            this.props.searchProductActivationList(
-              this.props.match.params.productId,
-              this.state.keyword
-            );
-          }
-         
-        }));
+    console.log(obj);
+    this.props.activateStudentProduct(obj, (response) => {
+      console.log(response);
+      if (response.data === "updated") {
+        this.setState({
+          snackOpen: true,
+          snackColor: "success",
+          snackMsg: "Product activated successfully",
+          show: false,
+          isLoading: false,
+        });
+        this.props.searchProductActivationList(
+          this.props.match.params.productId,
+          this.state.keyword
+        );
+      }
+    });
   };
 
   // To handle search
@@ -271,6 +268,7 @@ intakeSession = [
   };
 
   render() {
+    console.log(this.state.endServiceDate)
     return (
       <div style={{ padding: 10 }}>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -377,10 +375,11 @@ intakeSession = [
                   this.state.listOfUsers.map((eachData, index) => {
                     let date = new Date(eachData.orderDate).getDate();
                     let month = new Date(eachData.orderDate).getMonth() + 1;
+                    let monthInWords =   moment(new Date(month)).format("MMM")
                     let year = new Date(eachData.orderDate).getFullYear();
                     let newDate =
                       eachData.orderDate !== null
-                        ? date + "/" + month + "/" + year
+                        ? monthInWords + "/"+ year
                         : null;
                     return (
                       <TableRow>
@@ -564,12 +563,14 @@ intakeSession = [
                       options={this.intakeSession}
                       getOptionLabel={(option) => option.title}
                       value={this.state.intake}
-                      onChange={(e,newValue) => this.setState({ intake : newValue })}
+                      onChange={(e, newValue) =>
+                        this.setState({ intake: newValue })
+                      }
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           value={this.state.intake}
-                          label="Intake"                        
+                          label="Intake"
                         />
                       )}
                     />
@@ -580,13 +581,15 @@ intakeSession = [
                       options={this.state.yearArr}
                       getOptionLabel={(option) => option.title}
                       value={this.state.year}
-                      onChange={(e,newValue) => this.setState({ year : newValue })}
+                      onChange={(e, newValue) =>
+                        this.setState({ year: newValue })
+                      }
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           value={this.state.intake}
                           color="primary"
-                          label="Year"                       
+                          label="Year"
                         />
                       )}
                     />

@@ -1,6 +1,7 @@
 import {
   CircularProgress,
   createMuiTheme,
+  Grid,
   Slide,
   ThemeProvider,
 } from "@material-ui/core";
@@ -16,26 +17,26 @@ import CloseIcon from "@material-ui/icons/Close";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  addColleges,
-  deleteCollege,
-  getAllColleges,
-  getPaginateCollege,
-  updateColleges,
-} from "../Actions/College";
+  addIntake,
+  deleteIntake,
+  getAllIntakes,
+  getPaginateIntake,
+  updateIntake,
+} from "../Actions/InTake";
+import "../Asset/All.css";
 import MySnackBar from "./MySnackBar";
 import TableComponent from "./TableComponent/TableComponent";
-export class College extends Component {
+
+export class InTake extends Component {
   constructor(props) {
     super(props);
     this.state = {
       show: false,
       id: "",
-      name: "",
-      description: "",
-      logoURL: "",
+      intakeTerm: "",
+      intakeYear: "",
       msg: false,
       update: false,
-      description: null,
       snack: {
         open: false,
         message: "",
@@ -44,6 +45,7 @@ export class College extends Component {
     };
   }
 
+  /**table columns */
   col = [
     {
       title: "ID",
@@ -53,17 +55,14 @@ export class College extends Component {
   ];
 
   componentDidMount() {
-    // this.props.getAllColleges();
-    this.props.getPaginateCollege(0, 20, null);
+    this.props.getPaginateIntake(0, 20, null);
   }
 
   handleEdit = (data) => {
-    console.log(data);
     this.setState({
       id: data.id,
-      name: data.name,
-      logoURL: data.logoURL,
-      description: data.description,
+      intakeTerm: data.term,
+      intakeYear: data.year,
       show: true,
     });
   };
@@ -150,9 +149,8 @@ export class College extends Component {
     this.setState({
       show: true,
       id: "",
-      name: "",
-      description: "",
-      logoURL: "",
+      intakeTerm: "",
+      intakeYear: "",
     });
   };
 
@@ -160,75 +158,134 @@ export class College extends Component {
     this.setState({ show: false });
   };
   paginate = (page, size, keyword) => {
-    this.props.getPaginateCollege(page, size, keyword);
+    this.props.getPaginateIntake(page, size, keyword);
   };
 
   rowClick = (rowData) => {};
   deleteHandler = (data) => {
-    this.props.deleteCollege(data.id);
+    this.props.deleteIntake(data.id);
   };
-  // Add College
-  newCollege(e) {
-    this.setState({ show: false });
-    let newCollegeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      logoURL: this.state.logoURL,
-      status: null,
+  // Add intake
+  addIntake(e) {
+    this.setState({ show: true });
+    let reqBody = {
+      term: this.state.intakeTerm,
+      year: this.state.intakeYear,
     };
-    if (this.state.name.length !== 0) {
-      this.props.addColleges(newCollegeObj);
+
+    if (
+      this.state.intakeTerm.length !== 0 &&
+      this.state.intakeYear.length !== 0
+    ) {
+      this.props.addIntake(reqBody);
       this.setState({
         id: "",
-        name: "",
-        description: "",
-        logoURL: "",
+        intakeTerm: "",
+        intakeYear: "",
+        show: false,
+      });
+    } else {
+      this.setState({
+        show: true,
+        snack: {
+          open: true,
+          message: "Please Fill the Required Field",
+          color: "error",
+        },
       });
     }
   }
-  // Update College
-  updateCollege(e) {
+  // Update intake
+  updateIntake(e) {
     this.setState({ show: false });
-    let newCollegeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      logoURL: this.state.logoURL,
+    let reqBody = {
+      term: this.state.intakeTerm,
+      year: this.state.intakeYear,
     };
-    if (this.state.name.length !== 0) {
-      this.props.updateColleges(this.state.id, newCollegeObj);
+    if (
+      (this.state.intakeTerm && this.state.intakeTerm.length !== 0) ||
+      (this.state.intakeYear && this.state.intakeYear.length !== 0)
+    ) {
+      this.props.updateIntake(this.state.id, reqBody);
       this.setState({
         id: "",
-        name: "",
-        description: "",
-        logoURL: "",
+        intakeTerm: "",
+        intakeYear: "",
         update: true,
+        show: false,
+      });
+    } else {
+      this.setState({
+        show: true,
+        snack: {
+          open: true,
+          message: "Please Fill the Required Field",
+          color: "error",
+        },
       });
     }
-    this.props.getAllColleges();
+    this.props.getAllIntakes();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.addCollegeStatus !== prevProps.addCollegeStatus) {
-      if (this.props.addCollegeStatus.success) {
-        this.props.getAllColleges();
+    /**add */
+    if (this.props.addedIntake !== prevProps.addedIntake) {
+      if (this.props.addedIntake.success) {
+        this.props.getPaginateIntake(0, 20, null);
+        this.setState({
+          snack: {
+            open: true,
+            message: "Added Successfully",
+            color: "success",
+          },
+        });
       } else {
         this.setState({
           snack: {
             open: true,
-            message: this.props.addCollegeStatus.message,
+            message: this.props.addedIntake.message,
             color: "error",
           },
         });
       }
     }
-    if (this.props.updateCollegeStatus !== prevProps.updateCollegeStatus) {
-      if (this.props.updateCollegeStatus.success) {
-        this.props.getAllColleges();
+    /**edit */
+    if (this.props.updatedIntake !== prevProps.updatedIntake) {
+      if (this.props.updatedIntake.statusCode === "OK") {
+        this.props.getPaginateIntake(0, 20, null);
+        this.setState({
+          snack: {
+            open: true,
+            message: "Updated Successfully",
+            color: "success",
+          },
+        });
       } else {
         this.setState({
           snack: {
             open: true,
-            message: this.props.updateCollegeStatus.message,
+            message: this.props.updatedIntake.body.message,
+            color: "error",
+          },
+        });
+      }
+    }
+    /**delete  */
+    if (this.props.deletedIntake !== prevProps.deletedIntake) {
+      if (this.props.deletedIntake.status === 200) {
+        this.props.getPaginateIntake(0, 20, null);
+        this.setState({
+          snack: {
+            open: true,
+            message: "Deleted Successfully",
+            color: "success",
+          },
+        });
+      } else {
+        this.setState({
+          snack: {
+            open: true,
+            message: this.props.deletedIntake.message,
             color: "error",
           },
         });
@@ -240,39 +297,45 @@ export class College extends Component {
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
-          {this.props.paginateCollegeList.length !== 0 ? (
-            <TableComponent
-              data={
-                this.props.paginateCollegeList.length !== 0
-                  ? this.props.paginateCollegeList.content
-                  : null
-              }
-              cols={this.col}
-              onRowClick={this.rowClick}
-              onSearch={this.paginate}
-              paginate={this.paginate}
-              totalCount={this.props.paginateCollegeList.totalElements}
-              title={"College"}
-              pageCount={this.props.paginateCollegeList.totalPages}
-              action={true}
-              disableDelete
-              onDelete={true}
-              onDeleteClick={this.deleteHandler}
-              onEdit={true}
-              onEditClick={this.handleEdit}
-              add={true}
-              onAddClick={this.handleClickOpen}
-            />
+          {this.props.paginatedFilteredIntake &&
+          this.props.paginatedFilteredIntake.length !== 0 ? (
+            <Grid container>
+              <Grid item md={12}>
+                <TableComponent
+                  data={
+                    this.props.paginatedFilteredIntake &&
+                    this.props.paginatedFilteredIntake.length !== 0
+                      ? this.props.paginatedFilteredIntake &&
+                        this.props.paginatedFilteredIntake.content
+                      : null
+                  }
+                  cols={this.col}
+                  onRowClick={this.rowClick}
+                  onSearch={this.paginate}
+                  paginate={this.paginate}
+                  totalCount={
+                    this.props.paginatedFilteredIntake &&
+                    this.props.paginatedFilteredIntake.totalElements
+                  }
+                  title={"InTake"}
+                  pageCount={
+                    this.props.paginatedFilteredIntake &&
+                    this.props.paginatedFilteredIntake.totalPages
+                  }
+                  action={true}
+                  disableDelete
+                  onDelete={true}
+                  onDeleteClick={this.deleteHandler}
+                  onEdit={true}
+                  onEditClick={this.handleEdit}
+                  add={true}
+                  onAddClick={this.handleClickOpen}
+                />
+              </Grid>
+            </Grid>
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "65vh",
-                }}
-              >
+              <div className={"circularProgress_div"}>
                 <CircularProgress
                   color="primary"
                   variant="indeterminate"
@@ -283,7 +346,7 @@ export class College extends Component {
             </ThemeProvider>
           )}
 
-          {/* Add and Edit College Dialog */}
+          {/* Add and Edit intake Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
@@ -294,7 +357,7 @@ export class College extends Component {
             >
               <DialogTitle id="customized-dialog-title">
                 <div className="flex-1 text-center">
-                  {this.state.id.length !== 0 ? "Edit College" : "Add College"}
+                  {this.state.id.length !== 0 ? "Edit InTake" : "Add InTake"}
                 </div>
                 <div className="model-close-button">
                   <IconButton aria-label="close" onClick={this.handleClose}>
@@ -306,40 +369,32 @@ export class College extends Component {
                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="Enter College Name"
+                  label="Enter Term"
                   fullWidth
-                  value={this.state.name}
-                  onChange={(e) => this.setState({ name: e.target.value })}
-                />
-                <TextField
-                  variant="outlined"
-                  color="primary"
-                  label="description"
-                  rowsMin={3}
-                  multiline
-                  fullWidth
-                  value={this.state.description}
+                  value={this.state.intakeTerm}
                   onChange={(e) =>
-                    this.setState({ description: e.target.value })
+                    this.setState({ intakeTerm: e.target.value })
                   }
                 />
                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="Logo Url"
+                  label="Enter Year"
                   rowsMin={3}
                   multiline
                   fullWidth
-                  value={this.state.logoURL}
-                  onChange={(e) => this.setState({ logoURL: e.target.value })}
+                  value={this.state.intakeYear}
+                  onChange={(e) =>
+                    this.setState({ intakeYear: e.target.value })
+                  }
                 />
               </DialogContent>
               <DialogActions>
                 <Button
                   onClick={
                     this.state.id.length === 0
-                      ? this.newCollege.bind(this)
-                      : this.updateCollege.bind(this)
+                      ? this.addIntake.bind(this)
+                      : this.updateIntake.bind(this)
                   }
                   variant="contained"
                   color="primary"
@@ -374,16 +429,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 const mapStateToProps = (state) => {
   return {
-    AllCollegeList: state.CollegeReducer.allCollegeList,
-    paginateCollegeList: state.CollegeReducer.paginateCollegeList,
-    addCollegeStatus: state.CollegeReducer.addCollegeStatus,
-    updateCollegeStatus: state.CollegeReducer.updateCollegeStatus,
+    addedIntake: state.InTakeReducer.addedIntake,
+    updatedIntake: state.InTakeReducer.updatedIntake,
+    allIntakeList: state.InTakeReducer.allIntakeList,
+    deletedIntake: state.InTakeReducer.deletedIntake,
+    paginatedFilteredIntake: state.InTakeReducer.paginatedFilteredIntake,
   };
 };
 export default connect(mapStateToProps, {
-  getAllColleges,
-  addColleges,
-  updateColleges,
-  deleteCollege,
-  getPaginateCollege,
-})(College);
+  addIntake,
+  updateIntake,
+  deleteIntake,
+  getAllIntakes,
+  getPaginateIntake,
+})(InTake);
