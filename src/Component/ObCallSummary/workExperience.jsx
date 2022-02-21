@@ -145,6 +145,7 @@ class workExperience extends Component {
     this.setState({ disable: !this.state.disable });
   }
   onChange(event, index) {
+    console.log(event, index);
     let items = this.state.professional;
     var item = {
       ...items[index],
@@ -173,6 +174,7 @@ class workExperience extends Component {
     }
   };
   handleSave() {
+    console.log("savee");
     var error = false;
     for (let i = 0; i < this.state.professional.length; i++) {
       for (const [key, value] of Object.entries(this.state.professional[i])) {
@@ -250,7 +252,7 @@ class workExperience extends Component {
 
   render() {
     const { HeadStyle, GridStyle } = style;
-
+    console.log(this.state.professional);
     //
     return (
       <div style={{ padding: 25 }}>
@@ -315,6 +317,7 @@ class workExperience extends Component {
             <div style={{ paddingTop: 10 }}>
               {this.state.professional.length !== 0 &&
                 this.state.professional.map((item, index) => {
+                  console.log(item, "IIIIIIIIIIIIIIIIIII");
                   var months = [
                     "January",
                     "Febuary",
@@ -336,34 +339,41 @@ class workExperience extends Component {
                     item.id !== null && (
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMore />}>
-
                           <div
-                            style={{ display: "flex" , width : "100%", justifyContent : "space-between", wordBreak : "break-word"}}
-                          >
-                            <div style={{display : "flex", wordBreak : "break-word"}}>
-                            {item.role} ,
-                            <div style={{ fontSize: 10, paddingTop: "2%" }}>
-                              {" "}
-                              {item.organization}
-                            </div>
-                            </div>
-                            <div
                             style={{
                               display: "flex",
-                              flexDirection: "row",
-                              wordBreak : "break-word"
-                              // paddingLeft: "50%",
+                              width: "100%",
+                              justifyContent: "space-between",
+                              wordBreak: "break-word",
                             }}
                           >
-                            {" "}
-                            {item.month} Months ({startmonthName}{" "}
-                            {new Date(item.startDate).getFullYear()}-
-                            {endMonthName}{" "}
-                            {new Date(item.endDate).getFullYear()})
+                            <div
+                              style={{
+                                display: "flex",
+                                wordBreak: "break-word",
+                              }}
+                            >
+                              {item.role} ,
+                              <div style={{ fontSize: 10, paddingTop: "2%" }}>
+                                {" "}
+                                {item.organization}
+                              </div>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                wordBreak: "break-word",
+                                // paddingLeft: "50%",
+                              }}
+                            >
+                              {" "}
+                              {item.month} Months ({startmonthName}{" "}
+                              {new Date(item.startDate).getFullYear()}-
+                              {endMonthName}{" "}
+                              {new Date(item.endDate).getFullYear()})
+                            </div>
                           </div>
-                          </div>
-
-                         
                         </AccordionSummary>
 
                         <AccordionDetails>
@@ -458,21 +468,43 @@ class workExperience extends Component {
                             </Grid>
 
                             <Grid item md={3}>
-                              <KeyboardDatePicker
-                                disableFuture
-                                disabled={this.state.disable}
-                                margin="normal"
+                              {/* <KeyboardDatePicker
+                                
+                               
                                 id="date-picker-dialog"
-                                label="Start Date"
+                               
                                 format="dd/MM/yyyy"
                                 // views={["year", "month"]}
                                 inputProps={{ readOnly: true }}
                                 error={this.state.startDateErr.length > 0}
                                 helperText={this.state.startDateErr}
-                                value={item.startDate || ""}
+                                
                                 // onChange={(e, newValue) =>
                                 //   this.setState({ startDate: newValue, startDateErr:'' })
                                 // }
+                               
+                               
+                              
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                              /> */}
+                              <TextField
+                                label="Start Date"
+                                value={item.strStartDate || ""}
+                                type="month"
+                                onChange={(e) =>
+                                  this.state.disable === false &&
+                                  this.onChange(
+                                    {
+                                      target: {
+                                        name: "startDate",
+                                        value: e.target.value,
+                                      },
+                                    },
+                                    index
+                                  )
+                                }
                                 error={
                                   this.state[`startDateErr${index}`] !==
                                     undefined &&
@@ -481,35 +513,49 @@ class workExperience extends Component {
                                     : false
                                 }
                                 helperText={this.state[`startDateErr${index}`]}
-                                onChange={(date) =>
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                disableFuture
+                                disabled={this.state.disable}
+                                name="startDate"
+                                fullWidth
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item md={3}>
+                              {/* <KeyboardDatePicker
+                                
+                                id="date-picker-dialog"
+                                
+                                format="dd/MM/yyyy"
+                                // views={["year", "month"]}
+                              
+                               
+                               
+                                
+                               
+                               
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                              /> */}
+                              <TextField
+                                label="End Date"
+                                value={item.strEndDate || ""}
+                                type="month"
+                                onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "startDate",
-                                        value: date,
+                                        name: "endDate",
+                                        value: e.target.value,
                                       },
                                     },
                                     index
                                   )
                                 }
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                KeyboardButtonProps={{
-                                  "aria-label": "change date",
-                                }}
-                              />
-                            </Grid>
-                            <Grid item md={3}>
-                              <KeyboardDatePicker
-                                disableFuture
-                                margin="normal"
-                                disabled={this.state.disable}
-                                id="date-picker-dialog"
-                                label="End Date"
-                                format="dd/MM/yyyy"
-                                // views={["year", "month"]}
                                 contentEditable={this.state.disable}
                                 minDate={
                                   this.state.professional[index].startDate
@@ -522,22 +568,14 @@ class workExperience extends Component {
                                     : false
                                 }
                                 helperText={this.state[`endDateErr${index}`]}
-                                value={item.endDate || ""}
-                                onChange={(date) =>
-                                  this.state.disable === false &&
-                                  this.onChange(
-                                    {
-                                      target: { name: "endDate", value: date },
-                                    },
-                                    index
-                                  )
-                                }
                                 InputLabelProps={{
                                   shrink: true,
                                 }}
-                                KeyboardButtonProps={{
-                                  "aria-label": "change date",
-                                }}
+                                disableFuture
+                                margin="normal"
+                                disabled={this.state.disable}
+                                name="EndDate"
+                                fullWidth
                               />
                             </Grid>
                             <Grid item md={4}>

@@ -1,89 +1,69 @@
-import React, { Component, forwardRef } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import axios from "axios";
-import { URL } from "../Actions/URL";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { connect } from "react-redux";
-import {addDepartment, updateNewDepartment,deleteDepartment} from "../Actions/Department"
-import { getBranches, getPaginateDegree } from "../Actions/College";
-import AddBox from "@material-ui/icons/AddBox";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import Check from "@material-ui/icons/Check";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import Clear from "@material-ui/icons/Clear";
-import DeleteOutline from "@material-ui/icons/DeleteOutline";
-import Edit from "@material-ui/icons/Edit";
+import {
+  CircularProgress,
+  createMuiTheme,
+  Grid,
+  Slide,
+  ThemeProvider,
+} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
-import FilterList from "@material-ui/icons/FilterList";
-import FirstPage from "@material-ui/icons/FirstPage";
-import LastPage from "@material-ui/icons/LastPage";
-import Remove from "@material-ui/icons/Remove";
-import SaveAlt from "@material-ui/icons/SaveAlt";
-import Search from "@material-ui/icons/Search";
-import ViewColumn from "@material-ui/icons/ViewColumn";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import TableComponent from "./TableComponent/TableComponent";
-import Snackbar from '@material-ui/core/Snackbar';
-import MaterialTable from "material-table";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
-  Button,
-  CircularProgress,
-Slide
-} from "@material-ui/core"
-import { isEmptyString } from "./Validation";
+  addDepartment,
+  deleteDepartment,
+  getAllDepartments,
+  getDepartmentPaginate,
+  updateNewDepartment,
+} from "../Actions/Department";
+import "../Asset/All.css";
 import MySnackBar from "./MySnackBar";
+import TableComponent from "./TableComponent/TableComponent";
 
 export class Department extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      id : "",
-      description : "",
-      show : false,
-      name : "",
-      update : false,
-      snack : false,
-      nameErr : "",
-      descErr : ""
+      show: false,
+      id: "",
+      departmentName: "",
+      description: "",
+      msg: false,
+      update: false,
+      snack: {
+        open: false,
+        message: "",
+        color: "",
+      },
     };
   }
 
-  tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => (
-      <ChevronRight {...props} ref={ref} />
-    )),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => (
-      <ChevronLeft {...props} ref={ref} />
-    )),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => (
-      <ArrowDownward {...props} ref={ref} />
-    )),
-    ThirdStateCheck: forwardRef((props, ref) => (
-      <Remove {...props} ref={ref} />
-    )),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  col = [
+    {
+      title: "ID",
+      fieldName: "id",
+    },
+    { title: "Name", fieldName: "name" },
+  ];
+
+  componentDidMount() {
+    this.props.getDepartmentPaginate(0, 20, null);
+  }
+
+  handleEdit = (data) => {
+    this.setState({
+      id: data.id,
+      departmentName: data.name,
+      description: data.description,
+      show: true,
+    });
   };
 
   tableTheme = () =>
@@ -110,250 +90,283 @@ export class Department extends Component {
       },
     });
 
-  col = [
-    { title: "Id", fieldName: "id" },
-    { title: "Name", fieldName: "name" },
-  ];
-
-  componentDidMount() {
-    this.props.getPaginateDegree(0, 20, null);
-  }
-
-  rowClick = (rowData) => {
-
-  };
-
-  paginate = (page, size, keyword) => {
-    this.props.getPaginateDegree(page, size, keyword);
-  };
-
-  handleEdit = (data) => {
-      this.setState({
-        id : data.id,
-        name : data.name,
-        show : true,
-      })
-  };
   modeltheme = () =>
-  createMuiTheme({
-    overrides: {
-      MuiDialog: {
-        paperWidthSm: {
-          width: 500,
+    createMuiTheme({
+      overrides: {
+        MuiDialog: {
+          paperWidthSm: {
+            width: 500,
+          },
+        },
+        MuiDialogTitle: {
+          root: {
+            padding: "8px 24px",
+          },
+        },
+        MuiTypography: {
+          h6: {
+            display: "flex",
+            alignItems: "center",
+          },
+        },
+        MuiSvgIcon: {
+          root: {
+            margin: 0,
+          },
+        },
+        MuiDialogActions: {
+          root: {
+            justifyContent: "center",
+          },
+        },
+        MuiDialogContentText: {
+          root: {
+            textAlign: "center",
+            display: "block",
+            marginBottom: 34,
+            color: "rgba(0,0,0,0.7)",
+          },
+        },
+        MuiTextField: {
+          root: {
+            marginBottom: 15,
+          },
         },
       },
-      MuiDialogTitle: {
-        root: {
-          padding: "8px 24px",
+    });
+  spinnerTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MuiCircularProgress: {
+          colorPrimary: {
+            color: "#009be5",
+          },
         },
       },
-      MuiTypography: {
-        h6: {
-          display: "flex",
-          alignItems: "center",
-        },
-      },
-      MuiSvgIcon: {
-        root: {
-          margin: 0,
-        },
-      },
-      MuiDialogActions: {
-        root: {
-          justifyContent: "center",
-        },
-      },
-      MuiDialogContentText: {
-        root: {
-          textAlign: "center",
-          display: "block",
-          marginBottom: 34,
-          color: "rgba(0,0,0,0.7)",
-        },
-      },
-      MuiTextField: {
-        root: {
-          marginBottom: 15,
-        },
-      },
-    },
-  });
-  spinnerTheme = () =>createMuiTheme({
-    overrides :{
-      MuiCircularProgress :  {
-        colorPrimary:{
-          color: "#009be5"
-        }
-      }
-    }
-  });
-  // Dialog Open
-  handleOpen = () =>{
+    });
+  handleClickOpen = (e) => {
     this.setState({
-      show : true,
-      id : "",
-      name : "",
-      description : "",
-    })
-  }
-  // Delete Handler
-  deleteHandler = (data) =>{
-    // this.props.deleteDepartment(data.id)
-  }
-  // Add And Edit For Department
-  newDepartment = ()=>{
-    // this.setState({ show: false });
-    let hlptxt = "Please fill the Required Field"
-    isEmptyString(this.state.description) ? this.setState ({ descErr : hlptxt }) : this.setState ({ descErr : "" }) 
-    isEmptyString(this.state.name) ? this.setState ({ nameErr : hlptxt }) : this.setState ({ nameErr : ""})
-    let newDeptObj = {
-      name: this.state.name, 
-      description : this.state.description       
+      show: true,
+      id: "",
+      departmentName: "",
+      description: "",
+    });
+  };
+
+  handleClose = (e) => {
+    this.setState({ show: false });
+  };
+  paginate = (page, size, keyword) => {
+    this.props.getDepartmentPaginate(page, size, keyword);
+  };
+
+  rowClick = (rowData) => {};
+  deleteHandler = (data) => {
+    this.props.deleteDepartment(data.id);
+  };
+  // Add Degree
+  addDepartment(e) {
+    this.setState({ show: true });
+    let reqBody = {
+      name: this.state.departmentName,
+      description: this.state.description,
     };
-    if (this.state.name.length !== 0 &&
-        !isEmptyString(this.state.description) &&
-        !isEmptyString(this.state.name)
-      ) {
-      this.props.addDepartment(newDeptObj);
+
+    if (this.state.departmentName.length !== 0) {
+      this.props.addDepartment(reqBody);
       this.setState({
         id: "",
-        name: "",    
-        description : "",
-        snack : true,     
-        snackMsg:"Added Successfully",
-        snackOpen:true,
-        snackVariant:"success",         
+        departmentName: "",
+        description: "",
+        show: false,
+      });
+    } else {
+      this.setState({
+        show: true,
+        snack: {
+          open: true,
+          message: "Please Fill the Required Field",
+          color: "error",
+        },
       });
     }
-    this.props.getPaginateDegree(0, 20, null);
+  }
+  // Update degree
+  updateDepartment(e) {
+    this.setState({ show: false });
+    let reqBody = {
+      name: this.state.departmentName,
+      description: this.state.description,
+    };
+    if (this.state.departmentName.length !== 0) {
+      this.props.updateNewDepartment(this.state.id, reqBody);
+      this.setState({
+        id: "",
+        departmentName: "",
+        description: "",
+        update: true,
+        show: false,
+      });
+    } else {
+      this.setState({
+        show: true,
+        snack: {
+          open: true,
+          message: "Please Fill the Required Field",
+          color: "error",
+        },
+      });
+    }
+  }
 
-}
+  componentDidUpdate(prevProps) {
+    if (this.props.addedDepartment !== prevProps.addedDepartment) {
+      if (this.props.addedDepartment.statusText === "Created") {
+        this.setState({
+          snack: {
+            open: true,
+            message: "Added Successfully",
+            color: "success",
+          },
+        });
+        this.props.getDepartmentPaginate(0, 20, null);
+      } else {
+        this.setState({
+          snack: {
+            open: true,
+            message: this.props.addedDepartment.message,
+            color: "error",
+          },
+        });
+      }
+    }
 
-updateDepartment = () =>{
-    // this.setState({ show: false });
-    let hlptxt = "Please fill the Required Field"
-    isEmptyString(this.state.description) ? this.setState ({ descErr : hlptxt }) : this.setState ({ descErr : "" }) 
-    isEmptyString(this.state.name) ? this.setState ({ nameErr : hlptxt }) : this.setState ({ nameErr : ""})
-let newDeptObj = {
-  name: this.state.name,
-  description: this.state.description,      
-};
-if (this.state.name.length !== 0 &&
-  !isEmptyString(this.state.description) &&
-  !isEmptyString(this.state.name)
-  ) {
-  this.props.updateNewDepartment(this.state.id, newDeptObj);
-  this.setState({
-    id: "",
-    name: "",
-    description: "",        
-    update: true,
-    snackMsg:"Added Successfully",
-    snackOpen:true,
-    snackVariant:"success",
-  });      
-}
-this.props.getPaginateDegree(0, 20, null);
-
-}
+    if (this.props.updatedDepartment !== prevProps.updatedDepartment) {
+      if (this.props.updatedDepartment.success) {
+        this.props.getDepartmentPaginate(0, 20, null);
+        this.setState({
+          snack: {
+            open: true,
+            message: "Updated Successfully",
+            color: "success",
+          },
+        });
+      } else {
+        this.setState({
+          snack: {
+            open: true,
+            message: this.props.updatedDepartment.message,
+            color: "error",
+          },
+        });
+      }
+    }
+  }
 
   render() {
-    console.log(this.props.PaginateDegreeList)
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
-          {this.props.PaginateDegreeList.length !== 0 ? (
-            <TableComponent
-              data={
-                this.props.PaginateDegreeList.length !== 0
-                  ? this.props.PaginateDegreeList.content
-                  : null
-              }
-              cols={this.col}
-              onRowClick={this.rowClick}
-              onSearch={this.paginate}
-              paginate={this.paginate}
-              totalCount={this.props.PaginateDegreeList.totalElements}
-              title={"Department"}
-              pageCount={this.props.PaginateDegreeList.totalPages}
-              action={true}
-              onDelete={true}
-              onDeleteClick={this.deleteHandler}
-              onEdit={true}              
-              onEditClick={this.handleEdit}
-              add={true}
-              onAddClick={this.handleOpen}
-            />
+          {this.props.paginatedAndFilteredDepartment &&
+          this.props.paginatedAndFilteredDepartment.length !== 0 ? (
+            <Grid container>
+              <Grid item md={12}>
+                <TableComponent
+                  data={
+                    this.props.paginatedAndFilteredDepartment &&
+                    this.props.paginatedAndFilteredDepartment.length !== 0
+                      ? this.props.paginatedAndFilteredDepartment &&
+                        this.props.paginatedAndFilteredDepartment.content
+                      : null
+                  }
+                  cols={this.col}
+                  onRowClick={this.rowClick}
+                  onSearch={this.paginate}
+                  paginate={this.paginate}
+                  totalCount={
+                    this.props.paginatedAndFilteredDepartment &&
+                    this.props.paginatedAndFilteredDepartment.totalElements
+                  }
+                  title={"Department"}
+                  pageCount={
+                    this.props.paginatedAndFilteredDepartment &&
+                    this.props.paginatedAndFilteredDepartment.totalPages
+                  }
+                  action={true}
+                  disableDelete
+                  onDelete={true}
+                  onDeleteClick={this.deleteHandler}
+                  onEdit={true}
+                  onEditClick={this.handleEdit}
+                  add={true}
+                  onAddClick={this.handleClickOpen}
+                />
+              </Grid>
+            </Grid>
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-                <div style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "65vh",
-                }}>
-              <CircularProgress
-             color="primary"
-              variant="indeterminate"
-              size = "3rem"
-              thickness="3"
-               />
-               </div>
-              </ThemeProvider>
+              <div className={"circularProgress_div"}>
+                <CircularProgress
+                  color="primary"
+                  variant="indeterminate"
+                  size="3rem"
+                  thickness="3"
+                />
+              </div>
+            </ThemeProvider>
           )}
-        </div>
-         {/* Add and Edit Department */}
-         <ThemeProvider theme={this.modeltheme()}>
+
+          {/* Add and Edit department Dialog */}
+
+          <ThemeProvider theme={this.modeltheme()}>
             <Dialog
-            TransitionComponent={Transition}
+              TransitionComponent={Transition}
               open={this.state.show}
-              onClose={(e)=>this.setState({show : false})}
+              onClose={this.handleClose}
               aria-labelledby="customized-dialog-title"
             >
               <DialogTitle id="customized-dialog-title">
                 <div className="flex-1 text-center">
-                  {this.state.id.length !== 0 ? "Edit Department" : "Add Department"}
+                  {this.state.id.length !== 0
+                    ? "Edit Department"
+                    : "Add Department"}
                 </div>
                 <div className="model-close-button">
-                  <IconButton aria-label="close" onClick={(e)=>this.setState({show : false})}>
+                  <IconButton aria-label="close" onClick={this.handleClose}>
                     <CloseIcon />
                   </IconButton>
                 </div>
               </DialogTitle>
               <DialogContent>
-              <TextField
+                <TextField
                   variant="outlined"
                   color="primary"
                   label="Enter Department Name"
                   fullWidth
-                  error={this.state.nameErr.length > 0 }
-                  helperText={this.state.nameErr}
-                  value={this.state.name}
-                  onChange={(e) => this.setState({ name: e.target.value })}
-                  multiline
+                  value={this.state.departmentName}
+                  onChange={(e) =>
+                    this.setState({ departmentName: e.target.value })
+                  }
                 />
                 <TextField
                   variant="outlined"
                   color="primary"
-                  label="Description"
+                  label="Enter Description"
                   rowsMin={3}
                   multiline
                   fullWidth
-                  error={this.state.descErr.length > 0}
-                  helperText= {this.state.descErr}
                   value={this.state.description}
                   onChange={(e) =>
                     this.setState({ description: e.target.value })
                   }
-                /> 
-               
+                />
               </DialogContent>
               <DialogActions>
                 <Button
                   onClick={
                     this.state.id.length === 0
-                      ? this.newDepartment
-                      : this.updateDepartment
+                      ? this.addDepartment.bind(this)
+                      : this.updateDepartment.bind(this)
                   }
                   variant="contained"
                   color="primary"
@@ -364,12 +377,21 @@ this.props.getPaginateDegree(0, 20, null);
               </DialogActions>
             </Dialog>
           </ThemeProvider>
-          <MySnackBar 
-           snackMsg={this.state.snackMsg}
-           snackVariant={this.state.snackVariant}
-           snackOpen={this.state.snackOpen}
-           onClose={() => this.setState({ snackOpen: false })}
-          />
+        </div>
+        <MySnackBar
+          snackOpen={this.state.snack.open}
+          snackVariant={this.state.snack.color}
+          snackMsg={this.state.snack.message}
+          onClose={() =>
+            this.setState({
+              snack: {
+                open: false,
+                message: "",
+                color: "",
+              },
+            })
+          }
+        />
       </ThemeProvider>
     );
   }
@@ -379,10 +401,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 const mapStateToProps = (state) => {
   return {
-    DepartmentList: state.CollegeReducer.BranchList,
-    PaginateDegreeList: state.CollegeReducer.PaginateDegreeList,
+    paginatedAndFilteredDepartment:
+      state.DepartmentReducer.paginatedAndFilteredDepartment,
+    addedDepartment: state.DepartmentReducer.addedDepartment,
+    updatedDepartment: state.DepartmentReducer.updatedDepartment,
   };
 };
-export default connect(mapStateToProps, { getBranches, getPaginateDegree, addDepartment, updateNewDepartment ,deleteDepartment})(
-  Department
-);
+export default connect(mapStateToProps, {
+  addDepartment,
+  updateNewDepartment,
+  deleteDepartment,
+  getDepartmentPaginate,
+  getAllDepartments,
+})(Department);

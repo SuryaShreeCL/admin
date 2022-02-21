@@ -64,7 +64,9 @@ import {
   cityPath,
   collegePath,
   coursePath,
+  degreePath,
   departmentPath,
+  intakePath,
   lmsTest,
   lms_course_landing,
   lms_course_taken,
@@ -147,7 +149,7 @@ const NavbarList = [
   },
 ];
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -738,6 +740,24 @@ function RootContainer(props) {
           path: collegePath,
           items: [],
         },
+        {
+          icon: <></>,
+          title: "Degree",
+          path: degreePath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Department",
+          path: departmentPath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "InTake",
+          path: intakePath,
+          items: [],
+        },
       ]);
     }
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
@@ -760,7 +780,7 @@ function RootContainer(props) {
               ? '#5584AC'
               : '',
         }}
-        onClick={e => {
+        onClick={(e) => {
           setSeletectedValue(item);
           props.history.push(item.path);
         }}
@@ -776,7 +796,7 @@ function RootContainer(props) {
     const [menuOpen, setMenuOpen] = useState(true);
     const handleClick = () => {
       setSeletectedValue(null);
-      setMenuOpen(prev => !prev);
+      setMenuOpen((prev) => !prev);
     };
 
     return (
@@ -809,7 +829,7 @@ function RootContainer(props) {
     );
   };
 
-  const hasChildren = item => {
+  const hasChildren = (item) => {
     const { items: children } = item;
 
     if (children === undefined) {
@@ -980,7 +1000,7 @@ function Copyright() {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     tokenStatus: state.AdminReducer.tokenStatus,
     adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,
