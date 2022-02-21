@@ -9,6 +9,7 @@ import {
   getvarientByid,
   updategeneraldata,
   isVariantCreated,
+  getProductByFamilyId
 } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -72,6 +73,9 @@ class VariantGeneralData extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.getvarientByidList !== prevProps.getvarientByidList) {
+      if(this.props.getvarientByidList.productFamily){
+        this.props.getProductByFamilyId(this.props.getvarientByidList.productFamily.id)
+      }
       this.setState({
         productName: this.props.getvarientByidList.productFamily,
         variantsku: this.props.getvarientByidList.variantSKU,
@@ -97,13 +101,7 @@ class VariantGeneralData extends Component {
          ,
       });
     }
-    if (
-      this.props.postgeneraldetailsList !== prevProps.postgeneraldetailsList
-    ) {
-      this.props.history.push(
-        productVariantPath + "/" + this.props.postgeneraldetailsList.id
-      );
-    }
+   
   }
   componentWillUnmount(params) {
     console.log("next component");
@@ -141,19 +139,23 @@ class VariantGeneralData extends Component {
             : "",
         },
         referProduct: {
-          id: this.state.referProduct.id,
+          id: this.state.referProduct?.id,
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
         calendarId: this.state.calendarId,
         appointmentId: this.state.appointmentId,
       };
-      this.props.updategeneraldata(obj);
-      this.setState({
-        snackMsg: "Updated Successfully",
-        snackOpen: true,
-        snackVariant: "success",
+      this.props.updategeneraldata(obj, response=>{
+        if(response.status === 200){
+          this.setState({
+            snackMsg: "Updated Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+          });
+        }
       });
+     
     }
   }
   data = [{ title: "Yes" }, { title: "No" }];
@@ -197,9 +199,9 @@ class VariantGeneralData extends Component {
     this.setState({
       codeNameErr : isEmptyString(this.state.codeName) ? hlptxt : "",
       shortNameErr : isEmptyString(this.state.shortName) ? hlptxt : "",
-      referProductErr : isEmptyString(this.state.referProduct) ? hlptxt : "",
-      appointmentIdErr : isEmptyString(this.state.appointmentId) ? hlptxt : "",
-      calendarIdErr : isEmptyString(this.state.calendarId) ? hlptxt : "",
+      // referProductErr : isEmptyString(this.state.referProduct) ? hlptxt : "",
+      // appointmentIdErr : isEmptyString(this.state.appointmentId) ? hlptxt : "",
+      // calendarIdErr : isEmptyString(this.state.calendarId) ? hlptxt : "",
     })
 
     if(!isEmptyString(this.state.opsEmailId)){
@@ -234,10 +236,10 @@ class VariantGeneralData extends Component {
       this.state.productName !== "" &&
       this.state.standaloneSellable !== "" &&
       !isEmptyString(this.state.codeName) &&
-      !isEmptyString(this.state.shortName) &&
-      !isEmptyObject(this.state.referProduct) &&
-      !isEmptyString(this.state.appointmentId) &&
-      !isEmptyString(this.state.calendarId)
+      !isEmptyString(this.state.shortName) 
+      // !isEmptyObject(this.state.referProduct) &&
+      // !isEmptyString(this.state.appointmentId) &&
+      // !isEmptyString(this.state.calendarId)
     ) {
       let obj = {
         name: this.state.variantfamilysku,
@@ -258,20 +260,31 @@ class VariantGeneralData extends Component {
         dateOfUpdate: new Date(),
         updatedBy: window.sessionStorage.getItem("role"),
         referProduct: {
-          id: this.state.referProduct.id,
+          id: this.state.referProduct?.id,
         },
         codeName: this.state.codeName,
         opsEmailId: this.state.opsEmailId,
         calendarId: this.state.calendarId,
         appointmentId: this.state.appointmentId,
       };
-      this.props.postgeneraldetails(obj);
-      this.setState({
-        snackMsg: "Added Successfully",
-        snackOpen: true,
-        snackVariant: "success",
+      this.props.postgeneraldetails(obj, (response)=>{
+        if(response.status === 200){
+          this.props.history.push(
+            productVariantPath + "/" + response.data.data.id
+          );
+          this.setState({
+            snackMsg: "Added Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+          });
+        }else{
+          this.setState({
+            snackMsg: response,
+            snackOpen: true,
+            snackVariant: "error",
+          });
+        }
       });
-    console.log(obj, "________________");
     }
   };
   handleUpdate = () => {
@@ -311,12 +324,18 @@ class VariantGeneralData extends Component {
             <Autocomplete
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
-              getOptionLabel={(option) => option.productName}
+              getOptionLabel={(option) =>
+                option.productName === "LMS" ? "Test Prep" : option.productName
+              }
               value={this.state.productName}
               // style={{ width: 300 }}
-              onChange={(e, newValue) =>
-                this.setState({ productName: newValue })
-              }
+              onChange={(e, newValue) => {
+                console.log(newValue, "++++++++++++++");
+                if (newValue) {
+                  this.props.getProductByFamilyId(newValue.id);
+                }
+                this.setState({ productName: newValue });
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -385,7 +404,7 @@ class VariantGeneralData extends Component {
             <TextField
               label="Calendar Id"
               variant="standard"
-              onKeyDown={(evt)=>isNumber(evt) && evt.preventDefault()}
+              onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
               value={this.state.calendarId}
               onChange={(e) => this.setState({ calendarId: e.target.value })}
               error={this.state.calendarIdErr.length > 0}
@@ -396,7 +415,7 @@ class VariantGeneralData extends Component {
             <TextField
               label="Appointment Id"
               variant="standard"
-              onKeyDown={(evt)=>isNumber(evt) && evt.preventDefault()}
+              onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
               value={this.state.appointmentId}
               onChange={(e) => this.setState({ appointmentId: e.target.value })}
               error={this.state.appointmentIdErr.length > 0}
@@ -406,7 +425,11 @@ class VariantGeneralData extends Component {
           <Grid item md={3}>
             <Autocomplete
               id="combo-box-demo"
-              options={this.props.getProductVarientList}
+              options={
+                this.state.productName
+                  ? this.props.getProductByFamilyIdList
+                  : []
+              }
               getOptionLabel={(option) => option.name}
               value={this.state.referProduct}
               // style={{ width: 300 }}
@@ -578,6 +601,7 @@ const mapStateToProps = (state) => {
     getProductVarientList: state.ProductReducer.getProductVarient,
     getvarientByidList: state.ProductReducer.getvarientByid,
     isVariantCreated: state.ProductReducer.isVariantCreated,
+    getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId
   };
 };
 
@@ -588,4 +612,5 @@ export default connect(mapStateToProps, {
   getProductVarient,
   updategeneraldata,
   isVariantCreated,
+  getProductByFamilyId
 })(VariantGeneralData);

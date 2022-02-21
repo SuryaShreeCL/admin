@@ -74,31 +74,34 @@ class InterestDetail extends Component {
     getTestQuestionSet(studentId, productId).then((response) => {
       if (response.success) {
         this.setState({ testQuestionSet: response.data });
-      } else {
-        this.setState({
-          snackColor: "error",
-          snackOpen: true,
-          snackMsg: response.message,
-        });
       }
+      //  else {
+      //   this.setState({
+      //     snackColor: "error",
+      //     snackOpen: true,
+      //     snackMsg: response.message,
+      //   });
+      // }
     });
   };
 
   componentDidMount() {
     this.getInterestDetails();
     const { variant_SKU } = this.props.variantStepList;
-    if (
-      variant_SKU === "ACS_MBA" ||
-      variant_SKU === "PBM" ||
-      variant_SKU === "PBP" ||
-      variant_SKU === "ACS_MIM" ||
-      variant_SKU === "PBP_2023" ||
-      variant_SKU === "ACS_MIM_PB" ||
-      variant_SKU === "ACS_MBA_PB"
+    // if (
+    //   variant_SKU === "ACS_MBA" ||
+    //   variant_SKU === "PBM" ||
+    //   variant_SKU === "PBP" ||
+    //   variant_SKU === "PBM2023" ||
+    //   variant_SKU === "ACS_MIM" ||
+    //   variant_SKU === "PBP_2023" ||
+    //   variant_SKU === "ACS_MIM_PB" ||
+    //   variant_SKU === "ACS_MBA_PB"
 
-    ) {
-      return this.getInterestTestQuestionSet();
-    }
+    // ) {
+    //   return
+    this.getInterestTestQuestionSet();
+    // }
   }
 
   // For adding one more duplicate row in the form
@@ -250,29 +253,31 @@ class InterestDetail extends Component {
 
   renderSupplementaryQuestions = () => {
     const { variant_SKU } = this.props.variantStepList;
-    if (
-      variant_SKU === "PBM" ||
-      variant_SKU === "PBP" ||
-      variant_SKU === "PBP_2023" ||
-      variant_SKU === "ACS_MBA" || 
-      variant_SKU === "ACS_MIM_PB" ||
-      variant_SKU === "ACS_MBA_PB" ||
-      variant_SKU === "ACS_MIM"
-    ) {
+    console.log(variant_SKU, "_________________");
+    // if (
+    //   variant_SKU === "PBM" ||
+    //   variant_SKU === "PBP" ||
+    //   variant_SKU === "PBP_2023" ||
+    //   variant_SKU === "PBM2023" ||
+    //   variant_SKU === "ACS_MBA" ||
+    //   variant_SKU === "ACS_MIM_PB" ||
+    //   variant_SKU === "ACS_MBA_PB" ||
+    //   variant_SKU === "ACS_MIM"
+    // ) {
       return (
-        <Grid item xs={6} className={this.props.classes.rightWrapper}>
-          <Divider
-            absolute={true}
-            variant={"fullWidth"}
-            orientation={"vertical"}
-            className={this.props.classes.customDividerColor}
-          />
-          {this.renderRightContainer()}
-        </Grid>
+    <Grid item xs={6} className={this.props.classes.rightWrapper}>
+      <Divider
+        absolute={true}
+        variant={"fullWidth"}
+        orientation={"vertical"}
+        className={this.props.classes.customDividerColor}
+      />
+      {this.renderRightContainer()}
+    </Grid>
       );
-    } else {
-      return <div></div>;
-    }
+    // } else {
+    //   return <div></div>;
+    // }
   };
 
   render() {

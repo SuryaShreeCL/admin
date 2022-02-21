@@ -327,6 +327,7 @@ export const REPORTS = {
   viewTechTestElectronics: 'viewTechTestElectronics',
   viewDiagTestReport: 'viewDiagTestReport',
   viewCareerExpoTest: 'viewCareerExpoTest',
+  downloadProductReport: 'downloadProductReport',
 };
 
 export const STUDENTMARKDETAILS = {
