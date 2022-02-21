@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -26,13 +27,12 @@ import {
 import { getStudentsById } from "../../Actions/Student";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
-import { isEmptyString } from "../Validation";
+import { isEmptyString,isEmptyObject } from "../Validation";
 import { StudentStepDetails } from "../../Actions/Student";
 import { getdashboarddetails } from "../../Actions/ProfileGapAction";
 import { getVariantStepsById } from "../../Actions/ProductAction";
 import "../../Asset/All.css";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { isEmptyObject } from "jquery";
 class AdmissionServices extends Component {
   constructor() {
     super();
@@ -50,7 +50,8 @@ class AdmissionServices extends Component {
       buttonstatus: false,
       verifydetail: [],
       mentordetails: {},
-      selectedMentor : {}
+      selectedMentor : {},
+      isLoading : false
     };
   }
   handleClick(e) {
@@ -58,6 +59,7 @@ class AdmissionServices extends Component {
   }
 
   allocate = () => {
+    this.setState({isLoading:true})
     isEmptyString(this.state.selectedMentor)
       ? this.setState({ mentorErr: "Field Required" })
       : this.setState({ mentorErr: "" });
@@ -77,6 +79,7 @@ class AdmissionServices extends Component {
           if (response.status === 200) {
             this.setState({
               show: false,
+              isLoading:false,
               snackmsg: "Updated Successfully",
               snackvariant: "success",
               snackopen: true,
@@ -834,12 +837,25 @@ class AdmissionServices extends Component {
                   disabled={
                     this.state.selectedMentor === null ||
                     isEmptyString(this.state.selectedMentor) ||
-                    isEmptyObject(this.state.selectedMentor)
+                    isEmptyObject(this.state.selectedMentor) || 
+                    this.state.isLoading === true
                   }
                   variant={"contained"}
                   color={"primary"}
                   onClick={() => this.allocate()}
                 >
+                   {this.state.isLoading && (
+                    <CircularProgress
+                      disableShrink
+                      style={{
+                        color: "#fff",
+                        width: 20,
+                        height: 20,
+                        marginRight: 10,
+                      }}
+                    />
+                  )}
+                  
                   Allocate
                 </PrimaryButton>
               </div>
