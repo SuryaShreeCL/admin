@@ -79,7 +79,7 @@ const CreatePost = () => {
     linkedSelfPrepVideos: null,
     wallSteps: [
       {
-        status: 'inprogress',
+        status: 'todo',
         heading: '',
         subText: '',
         message: '',

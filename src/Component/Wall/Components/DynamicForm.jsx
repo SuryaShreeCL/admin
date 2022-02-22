@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
 });
 
-const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue }) => {
+const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, setOpenPopup }) => {
   const classes = useStyles();
 
   const Types = () => [
@@ -67,7 +67,6 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
                       <div className={classes.inputWidth}>
                         <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                         <Field
-                          placeholder={option.type}
                           className={classes.spacer}
                           name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                         />
@@ -78,7 +77,6 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
                         <div className={classes.inputWidth}>
                           <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                           <Field
-                            placeholder={option.type}
                             className={classes.spacer}
                             name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                           />
@@ -144,6 +142,7 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue })
                   startIcon={<SaveIcon />}
                   variant='contained'
                   color='primary'
+                  onClick={() => setOpenPopup(false)}
                   className={classes.addStepBtn}
                 />
               </div>

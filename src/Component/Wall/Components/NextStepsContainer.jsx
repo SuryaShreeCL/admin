@@ -47,6 +47,9 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
 
+  //to handle the form popup where it will open just once based on the index
+  const [formPopIdx, setFormPopIdx] = useState(0);
+
   const [statusFileUploadDisabled, setStatusFileUploadDisabled] = useState(false);
 
   const onStatusUpload = (value, index) => {
@@ -124,6 +127,11 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     }}
                   >
                     <h6 style={{ marginRight: '10px', fontWeight: 'bold' }}>Step {index + 1}:</h6>
+                    <FormControlLabel
+                      value='todo'
+                      control={<Radio color='primary' />}
+                      label='Todo'
+                    />
                     <FormControlLabel
                       value='inprogress'
                       control={<Radio color='primary' />}
@@ -226,26 +234,37 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                           />
                           &nbsp; Form Created
                         </Controls.ActionButton>
-                        <Controls.ActionButton onClick={() => setOpenPopup(true)}>
+                        <Controls.ActionButton
+                          onClick={() => {
+                            setFormPopIdx(index);
+                            setOpenPopup(true);
+                          }}
+                        >
                           <EditOutlinedIcon fontSize='small' color='primary' /> &nbsp;Edit Form
                         </Controls.ActionButton>
                       </>
                     )}
-                    <Controls.ActionButton disabled={true}>
+                    <Controls.ActionButton disabled={!val?.form?.id}>
                       <CloudDownloadIcon
                         fontSize='small'
                         style={{
-                          color: false ? 'green' : 'gray',
+                          color: val?.form?.id ? 'green' : 'gray',
                         }}
                       />
                       &nbsp; Download
                     </Controls.ActionButton>
                   </div>
-                  <Popup title='Add or Edit Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
+                  <Popup
+                    title='Add or Edit Form'
+                    openPopup={openPopup && index === formPopIdx}
+                    setOpenPopup={setOpenPopup}
+                  >
                     <DynamicFormContainer
                       formValues={val.form}
+                      //passing the index to show the state as per the index object
                       formIdx={index}
                       setFieldValue={setFieldValue}
+                      setOpenPopup={setOpenPopup}
                     />
                   </Popup>
                 </div>
@@ -258,7 +277,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                 className={classes.addStepBtn}
                 onClick={() =>
                   arrayHelpers.push({
-                    status: 'inprogress',
+                    status: 'todo',
                     heading: '',
                     subText: '',
                     message: '',
