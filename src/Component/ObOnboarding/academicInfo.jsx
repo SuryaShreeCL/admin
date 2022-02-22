@@ -308,7 +308,6 @@ export class academicInfo extends Component {
         }
       });
       if (tenthDetails) {
-        console.log(tenthDetails);
         var tenthScale = tenthDetails.scoreScale;
         this.setState({
           tenthSchool: tenthDetails.schoolName,
@@ -726,8 +725,6 @@ export class academicInfo extends Component {
   );
 
   render() {
-    console.log(this.props.getAcademicInfoList, "LLLLLLLLLLLLLLLLLLLLL");
-    console.log(this.state.pgStartDate);
     const { HeadStyle, title, ans, secondary, GridStyle } = style;
     return (
       <div>
@@ -1717,9 +1714,9 @@ export class academicInfo extends Component {
                                   if (
                                     (e.target.value.length <= 3 &&
                                       parseInt(e.target.value) > 100 &&
-                                        parseInt(
-                                          this.state.twelthCgpaScale.value
-                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(
+                                        this.state.twelthCgpaScale.value
+                                      ) < parseInt(e.target.value)) ||
                                     parseInt(e.target.value) < 0 ||
                                     parseFloat(
                                       parseInt(
