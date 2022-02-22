@@ -85,7 +85,6 @@ const EditPost = () => {
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
-    wallSteps: [{ status: 'inprogress', heading: '', subText: '', message: '', url: '' }],
     linkedSelfPrepVideos: [{ videoName: '', videoLink: '' }],
     eventTitle: '',
     linkedWebinars: [],
