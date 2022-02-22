@@ -67,7 +67,6 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, s
                       <div className={classes.inputWidth}>
                         <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                         <Field
-                          placeholder={option.type}
                           className={classes.spacer}
                           name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                         />
@@ -78,7 +77,6 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, s
                         <div className={classes.inputWidth}>
                           <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                           <Field
-                            placeholder={option.type}
                             className={classes.spacer}
                             name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                           />

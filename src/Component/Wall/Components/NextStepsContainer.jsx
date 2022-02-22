@@ -127,6 +127,11 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                   >
                     <h6 style={{ marginRight: '10px', fontWeight: 'bold' }}>Step {index + 1}:</h6>
                     <FormControlLabel
+                      value='todo'
+                      control={<Radio color='primary' />}
+                      label='Todo'
+                    />
+                    <FormControlLabel
                       value='inprogress'
                       control={<Radio color='primary' />}
                       label='In Progress'
@@ -185,29 +190,31 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     )}
                   </div>
                   <div>
-                    <FormControlLabel
-                      disabled={statusFileUploadDisabled}
-                      // value='uploadStatusFile'
-                      control={
-                        <input
-                          hidden
-                          type='file'
-                          onChange={(e) => handlePremiumUsersSheetUpload(e, index, values)}
-                          onClick={(e) => (e.currentTarget = null)}
-                        />
-                      }
-                      label={[
-                        <CloudUploadIcon
-                          fontSize='small'
-                          style={{
-                            color: 'green',
-                          }}
-                        />,
-                        !statusFileUploadDisabled ? ' Upload Status File' : ' Uploading...',
-                      ]}
-                    />
+                    {!val?.form?.id && (
+                      <FormControlLabel
+                        disabled={statusFileUploadDisabled}
+                        // value='uploadStatusFile'
+                        control={
+                          <input
+                            hidden
+                            type='file'
+                            onChange={(e) => handlePremiumUsersSheetUpload(e, index, values)}
+                            onClick={(e) => (e.currentTarget = null)}
+                          />
+                        }
+                        label={[
+                          <CloudUploadIcon
+                            fontSize='small'
+                            style={{
+                              color: 'green',
+                            }}
+                          />,
+                          !statusFileUploadDisabled ? ' Upload Status File' : ' Uploading...',
+                        ]}
+                      />
+                    )}
 
-                    {!values.wallSteps?.form?.id ? (
+                    {!val?.form?.id ? (
                       <Controls.ActionButton
                         disabled={false}
                         onClick={() => {
@@ -238,11 +245,11 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                         </Controls.ActionButton>
                       </>
                     )}
-                    <Controls.ActionButton disabled={true}>
+                    <Controls.ActionButton disabled={!val?.form?.id}>
                       <CloudDownloadIcon
                         fontSize='small'
                         style={{
-                          color: false ? 'green' : 'gray',
+                          color: val?.form?.id ? 'green' : 'gray',
                         }}
                       />
                       &nbsp; Download
@@ -271,7 +278,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                 className={classes.addStepBtn}
                 onClick={() =>
                   arrayHelpers.push({
-                    status: 'inprogress',
+                    status: 'todo',
                     heading: '',
                     subText: '',
                     message: '',
