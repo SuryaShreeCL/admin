@@ -3,6 +3,7 @@ import { FormControlLabel, Grid, Radio, RadioGroup } from '@material-ui/core';
 import { NextStepsContainerStyle } from '../Assets/Styles/WallStyles';
 import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
+import { Button } from '@material-ui/core';
 import Popup from '../../Utils/Popup';
 import { FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
@@ -185,25 +186,33 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     )}
                   </div>
                   <div>
-                  <FormControlLabel
+                  <Button
+                    variant='contained'
+                    component='label'
                     disabled={statusFileUploadDisabled}
-                      // value='uploadStatusFile'
-                      control={
-                        <input
-                          hidden
-                          type="file"
-                          onChange={(e)=>handlePremiumUsersSheetUpload(e, index, values)}
-                          onClick={e => (e.currentTarget = null)}
-                      />
-                      }
-                      label={[
+                    style={{
+                      backgroundColor: "#fff",
+                      textTransform: "none"
+                    }}
+                    >
+                     {
                         <CloudUploadIcon
                         fontSize='small'
                         style={{
                           color: 'green',
                         }}
-                      />, !statusFileUploadDisabled?" Upload Status File":" Uploading..."]}
-                    />
+                      />}
+                      &nbsp;&nbsp;&nbsp;
+                      {
+                        !statusFileUploadDisabled?"Upload Status File":"Uploading..."
+                      }
+                      <input
+                          hidden
+                          type="file"
+                          onChange={(e)=>handlePremiumUsersSheetUpload(e, index, values)}
+                          onClick={e => (e.currentTarget = null)}
+                      />
+                      </Button>
                     
                     {true ? (
                       <Controls.ActionButton disabled={false} onClick={() => setOpenPopup(true)}>
