@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Table,
   TableBody,
@@ -9,35 +9,35 @@ import {
   Button,
   IconButton,
   Typography,
-} from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import Delete from "../../Asset/Images/delete.png";
-import Eye from "../../Asset/Images/eye.png";
-import Pencil from "../../Asset/Images/pencil.png";
-import Warning from "../../Asset/Images/warningImg.png";
-import x from "../../Asset/Images/x.png";
-import MySnackBar from "../MySnackBar";
+} from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import PrimaryButton from '../../Utils/PrimaryButton';
+import Delete from '../../Asset/Images/delete.png';
+import Eye from '../../Asset/Images/eye.png';
+import Pencil from '../../Asset/Images/pencil.png';
+import Warning from '../../Asset/Images/warningImg.png';
+import x from '../../Asset/Images/x.png';
+import MySnackBar from '../MySnackBar';
 import {
   viewresettest,
   viewanswers,
   viewstudentmarkdetails,
-} from "../../Actions/StudentMarkDetails";
-import { viewscoredetails } from "../../Actions/ScoreDetails";
-import { connect } from "react-redux";
+} from '../../Actions/StudentMarkDetails';
+import { viewscoredetails } from '../../Actions/ScoreDetails';
+import { connect } from 'react-redux';
 import {
   viewStudentStatus,
   updateVerificationStatus,
-} from "../../Actions/AdminAction";
-import Status from "../Utils/Status";
-import { SECTION } from "../../Constant/Variables";
-import Model from "../Utils/SectionModel";
-import { ErrorMessage } from "../Validation";
-import { getVariantStepsById } from "../../Actions/ProductAction";
-import Grid from "@material-ui/core/Grid";
-import * as moment from "moment";
+} from '../../Actions/AdminAction';
+import Status from '../Utils/Status';
+import { SECTION } from '../../Constant/Variables';
+import Model from '../Utils/SectionModel';
+import { ErrorMessage } from '../Validation';
+import { getVariantStepsById } from '../../Actions/ProductAction';
+import Grid from '@material-ui/core/Grid';
+import * as moment from 'moment';
 
 class TestEngineResult extends Component {
   constructor() {
@@ -49,8 +49,8 @@ class TestEngineResult extends Component {
       quesAns: [],
       questionSetName: null,
       testExeId: null,
-      snackMsg: "",
-      snackVariant: "",
+      snackMsg: '',
+      snackVariant: '',
       snackOpen: false,
       examAttendDate: null,
       testlist: [],
@@ -58,7 +58,7 @@ class TestEngineResult extends Component {
       sectionStatus: {
         model: false,
         data: null,
-        sectionName: "",
+        sectionName: '',
       },
     };
   }
@@ -70,16 +70,13 @@ class TestEngineResult extends Component {
     // this.props.viewscoredetails(this.props.match.params.id);
     this.props.viewStudentStatus(this.props.match.params.studentId);
 
-    this.props.viewscoredetails(
-      this.props.match.params.studentId,
-      (response) => {
-        if (response.status === 200) {
-          this.setState({
-            testlist: response.data,
-          });
-        }
+    this.props.viewscoredetails(this.props.match.params.studentId, response => {
+      if (response.status === 200) {
+        this.setState({
+          testlist: response.data,
+        });
       }
-    );
+    });
     this.props.getVariantStepsById(
       this.props.match.params.productId +
         `?studentId=${this.props.match.params.studentId}`
@@ -91,33 +88,19 @@ class TestEngineResult extends Component {
       let arr =
         this.state.testlist &&
         this.state.testlist.filter(
-          (eachItem) => !eachItem.questionSetName.includes("Aspiration")
+          eachItem => !eachItem.questionSetName.includes('Aspiration')
         );
       this.setState({
         finaltestlist: arr,
       });
     }
     if (this.props.viewAnswersList !== prevProps.viewAnswersList) {
-      if (typeof this.props.viewAnswersList === "object") {
-        let quesAnsArr = [];
-        for (const property in this.props.viewAnswersList) {
-          quesAnsArr.push({
-            question: property,
-            answer: this.props.viewAnswersList[property],
-          });
-        }
+      const { viewAnswersList } = this.props;
+      if (viewAnswersList && viewAnswersList.length !== 0) {
         this.setState({
-          quesAns: quesAnsArr,
+          quesAns: viewAnswersList,
         });
       }
-    }
-    if (this.props.viewReseTestList !== prevProps.viewReseTestList) {
-      this.setState({
-        snackMsg: "Test reseted successfully",
-        snackVariant: "success",
-        snackOpen: true,
-      });
-      this.props.viewscoredetails(this.props.match.params.studentId);
     }
   }
 
@@ -131,7 +114,7 @@ class TestEngineResult extends Component {
     this.setState({
       questionSetName: questionSetName,
       showEye: true,
-      examAttendDate: moment(new Date(examDate)).format("MMM YYYY"),
+      examAttendDate: moment(new Date(examDate)).format('MMM YYYY'),
     });
   };
 
@@ -142,18 +125,26 @@ class TestEngineResult extends Component {
     this.props.viewresettest(
       this.props.match.params.studentId,
       this.state.testExeId,
-      (response) => {
+      // null,
+      response => {
         if (response.status === 200) {
-          this.setState({
-            snackMsg: "Test Reseted Successfully",
-            snackVariant: "success",
-            snackOpen: true,
-          });
-          this.props.viewscoredetails(this.props.match.params.studentId);
+          this.props.viewscoredetails(
+            this.props.match.params.studentId,
+            response => {
+              if (response.status === 200) {
+                this.setState({
+                  snackMsg: 'Test Reseted Successfully',
+                  snackVariant: 'success',
+                  snackOpen: true,
+                  testlist: response.data,
+                });
+              }
+            }
+          );
         } else {
           this.setState({
             snackMsg: ErrorMessage.NetworkError,
-            snackVariant: "error",
+            snackVariant: 'error',
             snackOpen: true,
           });
         }
@@ -161,10 +152,10 @@ class TestEngineResult extends Component {
     );
   };
 
-  getStatus = (sectionName) => {
+  getStatus = sectionName => {
     if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
       const { studentStatus } = this.props;
-      return studentStatus.find((item) => item.sectionName === sectionName);
+      return studentStatus.find(item => item.sectionName === sectionName);
     }
   };
 
@@ -190,29 +181,29 @@ class TestEngineResult extends Component {
       <div style={{ padding: 25 }}>
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "17%",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '17%',
             }}
           >
             <p
               style={{
-                fontStyle: "Poppins",
-                fontWeight: "600",
-                fontStyle: "normal",
-                fontSize: "18px",
-                color: "#0081FF",
+                fontStyle: 'Poppins',
+                fontWeight: '600',
+                fontStyle: 'normal',
+                fontSize: '18px',
+                color: '#0081FF',
               }}
             >
-              Test Engine Results{" "}
+              {'Test Engine Results'}
             </p>
             {/* <img
               src={Warning}
@@ -249,67 +240,67 @@ class TestEngineResult extends Component {
             <TableHead>
               <TableRow>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
-                    color: "#000000",
+                    color: '#000000',
                     fontWeight: 400,
                     fontSize: 16,
-                    fontFamily: "Montserrat",
+                    fontFamily: 'Montserrat',
                   }}
                 >
                   No
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
-                    color: "#000000",
+                    color: '#000000',
                     fontWeight: 400,
                     fontSize: 16,
-                    fontFamily: "Montserrat",
+                    fontFamily: 'Montserrat',
                   }}
                 >
                   Exam Date
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
-                    color: "#000000",
+                    color: '#000000',
                     fontWeight: 400,
                     fontSize: 16,
-                    fontFamily: "Montserrat",
+                    fontFamily: 'Montserrat',
                   }}
                 >
                   TestSetName
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
-                    color: "#000000",
+                    color: '#000000',
                     fontWeight: 400,
                     fontSize: 16,
-                    fontFamily: "Montserrat",
+                    fontFamily: 'Montserrat',
                   }}
                 >
                   Questions Attempted
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
-                    color: "#000000",
+                    color: '#000000',
                     fontWeight: 400,
                     fontSize: 16,
-                    fontFamily: "Montserrat",
+                    fontFamily: 'Montserrat',
                   }}
                 >
                   Test Score
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
-                    color: "#000000",
+                    color: '#000000',
                     fontWeight: 400,
                     fontSize: 16,
-                    fontFamily: "Montserrat",
+                    fontFamily: 'Montserrat',
                   }}
                 >
                   Actions
@@ -322,86 +313,86 @@ class TestEngineResult extends Component {
                   console.log(eachItem);
                   console.log(
                     moment(new Date(eachItem.examinationDate)).format(
-                      "MMM yyyy"
+                      'MMM yyyy'
                     )
                   );
                   let date = new Date(eachItem.examDate).getDate();
                   let month = new Date(eachItem.examDate).getMonth() + 1;
                   let year = new Date(eachItem.examDate).getFullYear();
-                  let newExamDate = date + "/" + month + "/" + year;
+                  let newExamDate = date + '/' + month + '/' + year;
                   return (
                     <TableRow>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 16,
-                          fontFamily: "Montserrat",
-                          borderBottom: "none",
+                          fontFamily: 'Montserrat',
+                          borderBottom: 'none',
                         }}
                       >
                         {index + 1}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 16,
-                          fontFamily: "Montserrat",
-                          borderBottom: "none",
+                          fontFamily: 'Montserrat',
+                          borderBottom: 'none',
                         }}
                       >
                         {moment(new Date(eachItem.examinationDate)).format(
-                          "MMM yyyy"
+                          'MMM yyyy'
                         )}
                       </TableCell>
 
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 16,
-                          fontFamily: "Montserrat",
-                          borderBottom: "none",
+                          fontFamily: 'Montserrat',
+                          borderBottom: 'none',
                         }}
                       >
                         {eachItem.questionSetName}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 16,
-                          fontFamily: "Montserrat",
-                          borderBottom: "none",
+                          fontFamily: 'Montserrat',
+                          borderBottom: 'none',
                         }}
                       >
                         {eachItem.noOfQuestionAttempt}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 16,
-                          fontFamily: "Montserrat",
-                          borderBottom: "none",
+                          fontFamily: 'Montserrat',
+                          borderBottom: 'none',
                         }}
                       >
-                        {eachItem.score + "/" + eachItem.total}
+                        {eachItem.score + '/' + eachItem.total}
                       </TableCell>
                       <TableCell
-                        align="center"
-                        style={{ borderBottom: "none" }}
+                        align='center'
+                        style={{ borderBottom: 'none' }}
                       >
                         <IconButton
                           onClick={() =>
@@ -437,40 +428,40 @@ class TestEngineResult extends Component {
           </Table>
         </TableContainer>
         <Dialog
-          maxWidth="xs"
+          maxWidth='xs'
           fullWidth={true}
           open={this.state.show}
           onClose={() => this.setState({ show: false })}
-          aria-labelledby="customized-dialog-title"
+          aria-labelledby='customized-dialog-title'
         >
           <DialogContent>
             <Typography
-              style={{ color: "#052A4E", fontSize: 24, fontWeight: "bold" }}
+              style={{ color: '#052A4E', fontSize: 24, fontWeight: 'bold' }}
             >
               Reset {this.state.questionSetName} ?
             </Typography>
-            <Typography style={{ color: "#052A4E", fontSize: 16 }}>
-              Resetting this test will give option to{" "}
+            <Typography style={{ color: '#052A4E', fontSize: 16 }}>
+              Resetting this test will give option to{' '}
               {this.props.getStudentsByIdList &&
               this.props.getStudentsByIdList.fullName !== null
                 ? this.props.getStudentsByIdList.fullName
                 : this.props.getStudentsByIdList.firstName +
-                  " " +
-                  this.props.getStudentsByIdList.lastName}{" "}
+                  ' ' +
+                  this.props.getStudentsByIdList.lastName}{' '}
               to retake {this.state.questionSetName}
             </Typography>
             <div
               style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "25%",
+                display: 'flex',
+                justifyContent: 'center',
+                paddingTop: '25%',
                 paddingBottom: 20,
               }}
             >
               <Button
                 style={{ width: 150, borderRadius: 20 }}
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 onClick={this.handleResetTest}
               >
                 Reset
@@ -479,9 +470,9 @@ class TestEngineResult extends Component {
           </DialogContent>
         </Dialog>
         <Dialog
-          maxWidth="md"
+          maxWidth='md'
           open={this.state.showEye}
-          aria-labelledby="customized-dialog-title"
+          aria-labelledby='customized-dialog-title'
         >
           <DialogTitle>
             {/* <div
@@ -509,36 +500,36 @@ class TestEngineResult extends Component {
               </IconButton>
             </div> */}
             <Grid container>
-              <Grid item md={11} align={"center"}>
+              <Grid item md={11} align={'center'}>
                 <Typography
                   style={{
-                    color: "#052A4E",
+                    color: '#052A4E',
                     fontSize: 24,
-                    fontWeight: "bold",
-                    display: "flex",
-                    justifyContent: "center",
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    justifyContent: 'center',
                   }}
                 >
                   {this.state.questionSetName}
                 </Typography>
               </Grid>
-              <Grid item md={1} align={"right"}>
+              <Grid item md={1} align={'right'}>
                 <IconButton onClick={() => this.setState({ showEye: false })}>
                   <img src={x} height={17} width={17} />
                 </IconButton>
               </Grid>
             </Grid>
           </DialogTitle>
-          <DialogContent style={{ height: "800px" }}>
+          <DialogContent style={{ height: '800px' }}>
             <div
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                paddingBottom: "20px",
-                paddingTop: "10px",
+                display: 'flex',
+                justifyContent: 'flex-end',
+                paddingBottom: '20px',
+                paddingTop: '10px',
               }}
             >
-              <Typography style={{ color: "#052A4E", fontSize: 12 }}>
+              <Typography style={{ color: '#052A4E', fontSize: 12 }}>
                 Test completion Date : {this.state.examAttendDate}
               </Typography>
             </div>
@@ -546,13 +537,13 @@ class TestEngineResult extends Component {
               this.state.quesAns.map((eachItem, index) => {
                 return (
                   <>
-                    <div style={{ paddingTop: "10px" }}>
-                      <Typography style={{ color: "#052A4E", fontSize: 14 }}>
+                    <div style={{ paddingTop: '10px' }}>
+                      <Typography style={{ color: '#052A4E', fontSize: 14 }}>
                         {eachItem.question}
                       </Typography>
                     </div>
                     <div style={{ paddingTop: 10 }}>
-                      <Typography style={{ color: "#686868", fontSize: 14 }}>
+                      <Typography style={{ color: '#686868', fontSize: 14 }}>
                         {eachItem.answer}
                       </Typography>
                     </div>
@@ -563,17 +554,17 @@ class TestEngineResult extends Component {
         </Dialog>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "5%",
+            display: 'flex',
+            justifyContent: 'center',
+            paddingTop: '5%',
           }}
         >
           <PrimaryButton
             // onClick={() => this.handleSave()}
-            style={{ textTransform: "none" }}
-            variant={"contained"}
-            color={"primary"}
-            size={"small"}
+            style={{ textTransform: 'none' }}
+            variant={'contained'}
+            color={'primary'}
+            size={'small'}
             disabled={this.props.variantStepList.adminObComplete}
           >
             Save Changes
@@ -596,7 +587,7 @@ class TestEngineResult extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     viewstudentmarkdetailsList:
       state.StudentMarkDetailReducer.viewStudentMarkDetailsList,
