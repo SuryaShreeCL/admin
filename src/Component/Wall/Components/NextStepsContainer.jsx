@@ -213,34 +213,33 @@ const NextStepsContainer = React.memo(({ values, setFieldValue, setNotify }) => 
                     )}
                   </div>
                   <div>
-                  <Button
-                    variant='contained'
-                    component='label'
-                    disabled={statusFileUploadDisabled}
-                    style={{
-                      backgroundColor: "#fff",
-                      textTransform: "none"
-                    }}
+                    <Button
+                      variant='contained'
+                      component='label'
+                      disabled={statusFileUploadDisabled}
+                      style={{
+                        backgroundColor: '#fff',
+                        textTransform: 'none',
+                      }}
                     >
-                     {
-                        <CloudUploadIcon
-                        fontSize='small'
-                        style={{
-                          color: 'green',
-                        }}
-                      />}
-                      &nbsp;&nbsp;&nbsp;
                       {
-                        !statusFileUploadDisabled?"Upload Status File":"Uploading..."
+                        <CloudUploadIcon
+                          fontSize='small'
+                          style={{
+                            color: 'green',
+                          }}
+                        />
                       }
+                      &nbsp;&nbsp;&nbsp;
+                      {!statusFileUploadDisabled ? 'Upload Status File' : 'Uploading...'}
                       <input
-                          hidden
-                          type="file"
-                          onChange={(e)=>handlePremiumUsersSheetUpload(e, index, values)}
-                          onClick={e => (e.currentTarget = null)}
+                        hidden
+                        type='file'
+                        onChange={(e) => handlePremiumUsersSheetUpload(e, index, values)}
+                        onClick={(e) => (e.currentTarget = null)}
                       />
-                      </Button>
-                    
+                    </Button>
+
                     {true ? (
                       <Controls.ActionButton disabled={false} onClick={() => setOpenPopup(true)}>
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form

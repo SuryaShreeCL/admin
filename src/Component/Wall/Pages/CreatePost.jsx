@@ -70,8 +70,8 @@ const CreatePost = () => {
   const [state, setState] = useState({
     wallCategories: [],
     caption: '',
-    // isEvent: location.type ?? false,
-    isEvent: true,
+    isEvent: location.type ?? false,
+    // isEvent: true,
     supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
     wallFiles: [],
     isWebinar: location?.postType === 'Webinar',
@@ -886,7 +886,7 @@ const CreatePost = () => {
                         </MuiPickersUtilsProvider>
                       )}
                     </Grid>
-                    <pre>{JSON.stringify({ values }, null, 4)}</pre>
+                    {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
                   {values.isWebinar ? null : <Preview state={values} />}
                 </div>
