@@ -190,16 +190,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue, setNotify }) => 
                       <h6 className={classes.fieldlabel}>Message</h6>
                       <Field className={classes.spacer} name={`wallSteps.${index}.message`} />
                     </div>
-                    {/* {index === 0 && (
-                      <div
-                        style={{
-                          width: '100%',
-                        }}
-                      >
-                        <h6 className={classes.fieldlabel}>Google Form Link</h6>
-                        <Field className={classes.spacer} name={`wallSteps.${index}.url`} />
-                      </div>
-                    )} */}
+
                     {/* Step 1 is Mandatory */}
                     {index !== 0 && (
                       <Controls.ActionButton

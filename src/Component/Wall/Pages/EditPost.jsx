@@ -15,7 +15,6 @@ import { Formik, Form } from 'formik';
 import Controls from '../../Utils/controls/Controls';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography } from '@material-ui/core';
-import * as yup from 'yup';
 import { useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -38,7 +37,6 @@ import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUpload
 import PreprationContainer from '../Components/PreparationContainer';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NextStepsContainer from '../Components/NextStepsContainer';
-const AVOID_INPUT = ['E', 'e', '+', '-'];
 
 const useStyles = makeStyles({
   root: {

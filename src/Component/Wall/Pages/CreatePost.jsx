@@ -171,21 +171,7 @@ const CreatePost = () => {
       });
       return false;
     }
-    /* Validating if google form link is added*/
-    // if (values.isEvent && values.wallSteps.length > 0) {
-    //   if (
-    //     values.wallSteps[0].url.length === 0 ||
-    //     values.wallSteps[0].heading.length === 0 ||
-    //     values.wallSteps[0].subText.length === 0
-    //   ) {
-    //     setNotify({
-    //       isOpen: true,
-    //       message: 'Please add step 1 details with google form link',
-    //       type: 'error',
-    //     });
-    //     return false;
-    //   }
-    // }
+
     /* Validating the timings */
     if (values.isWebinar || values.isEvent) {
       if (
