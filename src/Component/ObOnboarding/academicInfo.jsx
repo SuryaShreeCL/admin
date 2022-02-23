@@ -189,50 +189,6 @@ export class academicInfo extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.pgEndDate !== prevState.pgEndDate) {
-      if (this.state.pgStartDate === this.state.pgEndDate) {
-        this.setState({
-          pgEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    if (this.state.ugEndDate !== prevState.ugEndDate) {
-      if (this.state.ugStartDate === this.state.ugEndDate) {
-        this.setState({
-          ugEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    if (this.state.diplomoEndDate !== prevState.diplomoEndDate) {
-      if (this.state.diplomostartDate === this.state.diplomoEndDate) {
-        this.setState({
-          diplomoEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    if (this.state.twelthEndDate !== prevState.twelthEndDate) {
-      if (this.state.twelthStartDate === this.state.twelthEndDate) {
-        this.setState({
-          twelthEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    // if (
-    //   this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList
-    // ) {
-    //   this.setState({
-    //     snackMsg: "Updated Successfully",
-    //     snackOpen: true,
-    //     snackVariant: "success",
-    //   });
-    // }
-    if (this.state.tenthEndDate !== prevState.tenthEndDate) {
-      if (this.state.tenthStartDate === this.state.tenthEndDate) {
-        this.setState({
-          tenthEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
     if (
       this.props.getAcademicInfoList.length > 0 &&
       this.props.getAcademicInfoList !== prevProps.getAcademicInfoList
@@ -308,7 +264,6 @@ export class academicInfo extends Component {
         }
       });
       if (tenthDetails) {
-        console.log(tenthDetails);
         var tenthScale = tenthDetails.scoreScale;
         this.setState({
           tenthSchool: tenthDetails.schoolName,
@@ -426,6 +381,12 @@ export class academicInfo extends Component {
   }))(MuiAccordionDetails);
 
   handleSave = () => {
+    console.log(
+      "handleSave////////////////////////////",
+      this.state.pgEndDate,
+      this.state.pgStartDate
+    );
+    var error = false;
     let hlptxt = "Please fill the required field";
     // this.state.pgCollege === ""
     //   ? this.setState({ pgCollegeErr: hlptxt })
@@ -569,7 +530,7 @@ export class academicInfo extends Component {
     //   ? this.setState({ twelthCgpaScaleErr: hlptxt })
     //   : this.setState({ twelthCgpaScaleErr: "" });
     {
-      let obj = [
+      var obj = [
         {
           examBoard: {
             id: this.state.tenthExamBoard.id,
@@ -665,6 +626,163 @@ export class academicInfo extends Component {
           type: "diploma",
         },
       ];
+      if (
+        this.state.pgStartDate !== null ||
+        this.state.pgEndDate !== null ||
+        this.state.pgStartDate !== "" ||
+        this.state.pgEndDate !== ""
+      ) {
+        if (
+          moment(new Date(this.state.pgStartDate)).format("YYYY-MM") ===
+          moment(new Date(this.state.pgEndDate)).format("YYYY-MM")
+        ) {
+          this.setState({
+            pgEndDateErr: "Please Choose the Valid date",
+          });
+          error = true;
+        } else if (
+          moment(new Date(this.state.pgStartDate)).format("YYYY-MM") >
+          moment(new Date(this.state.pgEndDate)).format("YYYY-MM")
+        ) {
+          this.setState({
+            pgEndDateErr: "Please Choose the Valid date",
+          });
+          error = true;
+        } else {
+          error = false;
+        }
+      } else {
+        this.setState({
+          pgEndDateErr: "",
+        });
+        error = false;
+      }
+    }
+    if (
+      this.state.ugStartDate !== null ||
+      this.state.ugEndDate !== null ||
+      this.state.ugStartDate !== "" ||
+      this.state.ugEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.ugStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.ugEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          ugEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.ugStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.ugEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          ugEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        ugEndDateErr: "",
+      });
+      error = false;
+    }
+    if (
+      this.state.diplomostartDate !== null ||
+      this.state.diplomoEndDate !== null ||
+      this.state.diplomostartDate !== "" ||
+      this.state.diplomoEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.diplomostartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.diplomoEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          diplomoEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.diplomostartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.diplomoEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          diplomoEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        diplomoEndDateErr: "",
+      });
+      error = false;
+    }
+    if (
+      this.state.twelthStartDate !== null ||
+      this.state.twelthEndDate !== null ||
+      this.state.twelthStartDate !== "" ||
+      this.state.twelthEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.twelthStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.twelthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          twelthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.twelthStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.twelthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          twelthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        twelthEndDateErr: "",
+      });
+      error = false;
+    }
+    if (
+      this.state.tenthStartDate !== null ||
+      this.state.tenthEndDate !== null ||
+      this.state.tenthStartDate !== "" ||
+      this.state.tenthEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.tenthStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.tenthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          tenthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.tenthStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.tenthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          tenthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        tenthEndDateErr: "",
+      });
+      error = false;
+    }
+    if (!error) {
       this.props.updateAcademicInfo(
         this.props.match.params.studentId,
         obj,
@@ -726,8 +844,6 @@ export class academicInfo extends Component {
   );
 
   render() {
-    console.log(this.props.getAcademicInfoList, "LLLLLLLLLLLLLLLLLLLLL");
-    console.log(this.state.pgStartDate);
     const { HeadStyle, title, ans, secondary, GridStyle } = style;
     return (
       <div>
@@ -1717,9 +1833,9 @@ export class academicInfo extends Component {
                                   if (
                                     (e.target.value.length <= 3 &&
                                       parseInt(e.target.value) > 100 &&
-                                        parseInt(
-                                          this.state.twelthCgpaScale.value
-                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(
+                                        this.state.twelthCgpaScale.value
+                                      ) < parseInt(e.target.value)) ||
                                     parseInt(e.target.value) < 0 ||
                                     parseFloat(
                                       parseInt(
@@ -2083,6 +2199,9 @@ export class academicInfo extends Component {
                                         this.props.match.params.studentId
                                       }
                                       status={this.state.documentedit}
+                                      productId={
+                                        this.props.match.params.productId
+                                      }
                                     />
                                   </Grid>
                                 )

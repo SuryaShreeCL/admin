@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import DropDown from "../Controls/DropDown";
 import TextFieldComponent from "../Controls/TextField";
@@ -67,11 +67,12 @@ function GeneralDetails(props) {
             pgaRound,
             currentSemester,
             timeLineDescription,
+            strDate,
           } = response.data.data;
           setId(id);
           setPreferredProgram((prev) => ({ ...prev, value: preferredProgram }));
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
-          handleDateChange((prev) => ({ ...prev, value: date }));
+          handleDateChange((prev) => ({ ...prev, value: strDate }));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
           setRound((prev) => ({ ...prev, value: pgaRound }));
@@ -119,7 +120,7 @@ function GeneralDetails(props) {
       contextDescription: contextDesc.value,
       currentSemester: parseInt(currentSem.value),
       timeLineDescription: timelineDesc.value,
-      date: selectedDate.value,
+      strDate: selectedDate.value,
       preferredProgram: preferredProgram.value,
       areaOfSpecialization: areaOfSpec.value,
       inTake: intake && intake.value,
@@ -216,16 +217,21 @@ function GeneralDetails(props) {
               />
             </Grid>
             <Grid item md={2} lg={2} xl={2} container alignItems={"flex-end"}>
-              <DatePick
+              <TextField
                 label={"Date"}
                 value={selectedDate.value}
                 helperText={selectedDate.helperText}
                 error={selectedDate.helperText.length > 0}
-                onChange={(date) =>
-                  handleDateChange({ value: date, helperText: "" })
+                onChange={(e) =>
+                  handleDateChange({ value: e.target.value, helperText: "" })
                 }
-                format="dd/MM/yyyy"
+                type="month"
+                InputLabelProps={{ shrink: true }}
               />
+              {/* <DatePick
+               
+                format="dd/MM/yyyy"
+              /> */}
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Typography className={classes.generalDetailsHeading}>

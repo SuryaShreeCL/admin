@@ -105,7 +105,6 @@ class TestEngineResult extends Component {
   }
 
   handleShowAnswer = (questionSetName, examDate) => {
-    console.log(examDate);
     this.props.viewanswers(this.props.match.params.studentId, questionSetName);
     // let date = new Date(examDate).getDate();
     // let month = new Date(examDate).getMonth() + 1;
@@ -176,7 +175,6 @@ class TestEngineResult extends Component {
   );
 
   render() {
-    console.log(this.state.examAttendDate);
     return (
       <div style={{ padding: 25 }}>
         <div
@@ -310,7 +308,6 @@ class TestEngineResult extends Component {
             <TableBody>
               {this.state.finaltestlist.length !== 0 &&
                 this.state.finaltestlist.map((eachItem, index) => {
-                  console.log(eachItem);
                   console.log(
                     moment(new Date(eachItem.examinationDate)).format(
                       'MMM yyyy'

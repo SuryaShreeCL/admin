@@ -299,12 +299,11 @@ class AspirationDetails extends Component {
         this.props.getaspirationDataList.data.preferredRegion.map(
           (eachData, index) => eachData.name
         );
-      console.log(searchDataTwo);
+
       this.props.getAspirationCollege(
         this.props.match.params.studentId,
         this.props.variantStepList.id,
         (response) => {
-          console.log(response);
           if (response.status === 200) {
             var filteredListTwo = response.data
               .map((eachElement, index) => {
@@ -317,7 +316,7 @@ class AspirationDetails extends Component {
                 }
               })
               .filter((element) => element !== undefined);
-            console.log(filteredListTwo);
+
             this.setState({
               filteredCollegeList: filteredListTwo,
             });
@@ -331,7 +330,10 @@ class AspirationDetails extends Component {
       let profile =
         this.state.getAspdata &&
         this.state.getAspdata.filter((item) => item.name === questionName);
-      let value = profile[0] && profile[0].correctChoices[0] ? profile[0].correctChoices[0].text : null;
+      let value =
+        profile[0] && profile[0].correctChoices[0]
+          ? profile[0].correctChoices[0].text
+          : null;
       this.props.getAspirationWork(
         this.props.match.params.studentId,
         this.props.variantStepList.id,
@@ -485,7 +487,10 @@ class AspirationDetails extends Component {
         testExecutionId: this.state.testId,
       });
     });
-    if (this.props.variantStepList.variant_SKU === "PBP" || this.props.variantStepList.variant_SKU === "PBP_2023") {
+    if (
+      this.props.variantStepList.variant_SKU === "PBP" ||
+      this.props.variantStepList.variant_SKU === "PBP_2023"
+    ) {
       let helpText = "Please Fill the Required Field";
       this.state.aspwork === null
         ? this.setState({ aspWorkErr: helpText })
@@ -1086,8 +1091,6 @@ class AspirationDetails extends Component {
 
   render() {
     const { choiceStyle } = style;
-    console.log(this.props);
-    console.log(this.state);
 
     return (
       <div style={{ padding: 25 }}>
@@ -1196,7 +1199,6 @@ const style = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     ...state.AspirationReducer,
     studentStatus: state.AdminReducer.studentStatusResponse,

@@ -35,8 +35,7 @@ class DoccumentCard extends Component {
     if(this.props.category === 'Ielts'){
       this.props.deleteDocumentGraduate(this.props.studentid,this.props.path, this.props.id, "ielts")
     }
-    if(!this.props.category){
-      
+    if(!this.props.category){   
         this.props.deleteDocument(this.props.studentid,this.props.path,(response => {
           if(response.status === 200){
             this.setState({
@@ -60,7 +59,7 @@ class DoccumentCard extends Component {
       //     snackopen : true,
       //     snackvariant: "success"
       //   })
-        this.props.getDocumentList(this.props.studentid) 
+        this.props.getDocumentList(this.props.studentid,this.props.productId) 
         event.stopPropagation();
 
   }
@@ -77,7 +76,7 @@ class DoccumentCard extends Component {
 
                 const {deletebtn} =style;
 
-
+console.log(this.props)
     return (
 
       <div style={{marginBottom:20, marginLeft:10}}>
