@@ -64,7 +64,7 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, s
             <div>
               {formValues?.formQuestions?.map((option, index) => (
                 <div className={classes.fieldStep}>
-                  <div key={Math.floor(Math.random() * index)} className={classes.input}>
+                  <div key={index} className={classes.input}>
                     {(option.type === 'TEXT' || option.type === 'FILEUPLOAD') && (
                       <div className={classes.inputWidth}>
                         <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
