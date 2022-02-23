@@ -52,13 +52,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue, setNotify }) => 
 
   function downloadFormResponses(wallId) {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/v1/event/${values.id}/wallsteps/${wallId}`, {
-        crossDomain: true,
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
-        },
-      })
+      .get(`${process.env.REACT_APP_API_URL}/api/v1/event/${values.id}/wallsteps/${wallId}`)
       .then(function(response) {
         // handle success
         console.log(response);
