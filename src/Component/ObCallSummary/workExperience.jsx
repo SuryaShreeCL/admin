@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import Paper from "@material-ui/core/Paper";
-import RoomIcon from "@material-ui/icons/Room";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import { ExpandMore } from "@material-ui/icons";
-import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
+import React, { Component } from 'react';
+import Paper from '@material-ui/core/Paper';
+import RoomIcon from '@material-ui/icons/Room';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import { ExpandMore } from '@material-ui/icons';
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import {
   CircularProgress,
   Dialog,
@@ -21,52 +21,52 @@ import {
   IconButton,
   createMuiTheme,
   ThemeProvider,
-} from "@material-ui/core";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import WarningIcon from "@material-ui/icons/Warning";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import Warning from "../../Asset/Images/warningImg.png";
-import Pencil from "../../Asset/Images/pencil.png";
-import DateFnsUtils from "@date-io/date-fns";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+} from '@material-ui/core';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import WarningIcon from '@material-ui/icons/Warning';
+import PrimaryButton from '../../Utils/PrimaryButton';
+import Warning from '../../Asset/Images/warningImg.png';
+import Pencil from '../../Asset/Images/pencil.png';
+import DateFnsUtils from '@date-io/date-fns';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
-} from "@material-ui/pickers";
-import { getDocumentList } from "../../Actions/Student";
-import { getworkexp, updateworkexp } from "../../Actions/Calldetails";
-import { connect } from "react-redux";
-import Mysnack from "../MySnackBar";
+} from '@material-ui/pickers';
+import { getDocumentList } from '../../Actions/Student';
+import { getworkexp, updateworkexp } from '../../Actions/Calldetails';
+import { connect } from 'react-redux';
+import Mysnack from '../MySnackBar';
 import {
   viewStudentStatus,
   updateVerificationStatus,
-} from "../../Actions/AdminAction";
-import Status from "../Utils/Status";
-import { SECTION } from "../../Constant/Variables";
-import Model from "../Utils/SectionModel";
-import DoccumentCard from "../Utils/DoccumentCard";
-import { URL } from "../../Actions/URL";
-import { getVariantStepsById } from "../../Actions/ProductAction";
-import moment from "moment";
+} from '../../Actions/AdminAction';
+import Status from '../Utils/Status';
+import { SECTION } from '../../Constant/Variables';
+import Model from '../Utils/SectionModel';
+import DoccumentCard from '../Utils/DoccumentCard';
+import { URL } from '../../Actions/URL';
+import { getVariantStepsById } from '../../Actions/ProductAction';
+import moment from 'moment';
 
 const theme = createMuiTheme({
   overrides: {
     MuiInputLabel: {
       root: {
-        whiteSpace: "nowrap",
-        fontSize: "12px",
+        whiteSpace: 'nowrap',
+        fontSize: '12px',
       },
     },
     MuiFormControl: {
       marginNormal: {
-        marginTop: "0px",
-        marginBottom: "0px",
+        marginTop: '0px',
+        marginBottom: '0px',
       },
     },
     MuiIconButton: {
       root: {
-        color: "#1093FF",
+        color: '#1093FF',
       },
     },
   },
@@ -77,19 +77,19 @@ class workExperience extends Component {
     this.state = {
       disable: true,
       startDate: null,
-      startDateErr: "",
+      startDateErr: '',
       endDate: null,
-      endDateErr: "",
-      employmentType: "",
-      employmentTypeErr: "",
-      organization: "",
-      organizationErr: "",
-      description: "",
-      descriptionErr: "",
-      role: "",
-      roleErr: "",
-      month: "",
-      id: "",
+      endDateErr: '',
+      employmentType: '',
+      employmentTypeErr: '',
+      organization: '',
+      organizationErr: '',
+      description: '',
+      descriptionErr: '',
+      role: '',
+      roleErr: '',
+      month: '',
+      id: '',
       professional: [
         {
           id: null,
@@ -101,13 +101,13 @@ class workExperience extends Component {
           endDate: null,
         },
       ],
-      snackmsg: "",
-      snackvariant: "",
+      snackmsg: '',
+      snackvariant: '',
       snackopen: false,
       sectionStatus: {
         model: false,
         data: null,
-        sectionName: "",
+        sectionName: '',
       },
     };
   }
@@ -126,7 +126,7 @@ class workExperience extends Component {
       });
     }
     if (this.state.professional !== prevState.professional) {
-      this.state.professional.map((item) =>
+      this.state.professional.map(item =>
         this.setState({
           organization: item.organization,
           startDate: item.strStartDate,
@@ -154,7 +154,7 @@ class workExperience extends Component {
     items[index] = item;
     this.setState({
       professional: items,
-      [event.target.name.concat(`Err${index}`)]: "",
+      [event.target.name.concat(`Err${index}`)]: '',
     });
   }
 
@@ -170,14 +170,14 @@ class workExperience extends Component {
 
       items[index] = item;
 
-      this.setState({ professional: items, [name.concat(`Err${index}`)]: "" });
+      this.setState({ professional: items, [name.concat(`Err${index}`)]: '' });
     }
   };
   handleSave() {
     var error = false;
     for (let i = 0; i < this.state.professional.length; i++) {
       for (const [key, value] of Object.entries(this.state.professional[i])) {
-        if (value === "") {
+        if (value === '') {
           error = true;
           this.setState({
             [key.concat(`Err${i}`)]: `Please fill the required field`,
@@ -197,9 +197,9 @@ class workExperience extends Component {
 
       this.props.updateworkexp(this.props.match.params.studentId, tempArr);
       this.setState({
-        snackmsg: "Updated Sucessfully",
+        snackmsg: 'Updated Sucessfully',
         snackopen: true,
-        snackvariant: "success",
+        snackvariant: 'success',
       });
     }
     // else{
@@ -212,24 +212,24 @@ class workExperience extends Component {
   }
 
   employeeType = [
-    { title: "FULL_TIME", value: "FULL_TIME" },
-    { title: "PART_TIME", value: "PART_TIME" },
-    { title: "SELF_EMPLOYED", value: "SELF_EMPLOYED" },
-    { title: "FREELANCE", value: "FREELANCE" },
-    { title: "INTERNSHIP", value: "INTERNSHIP" },
-    { title: "TRAINEE", value: "TRAINEE" },
+    { title: 'FULL_TIME', value: 'FULL_TIME' },
+    { title: 'PART_TIME', value: 'PART_TIME' },
+    { title: 'SELF_EMPLOYED', value: 'SELF_EMPLOYED' },
+    { title: 'FREELANCE', value: 'FREELANCE' },
+    { title: 'INTERNSHIP', value: 'INTERNSHIP' },
+    { title: 'TRAINEE', value: 'TRAINEE' },
   ];
 
-  getStatus = (sectionName) => {
+  getStatus = sectionName => {
     if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
       const { studentStatus } = this.props;
-      return studentStatus.find((item) => item.sectionName === sectionName);
+      return studentStatus.find(item => item.sectionName === sectionName);
     }
   };
 
-  documentClick = (data) => {
+  documentClick = data => {
     window.open(
-      URL + "/api/v1/cv/download/cv/" + data.studentId + "/" + data.path
+      URL + '/api/v1/cv/download/cv/' + data.studentId + '/' + data.path
     );
   };
 
@@ -259,26 +259,26 @@ class workExperience extends Component {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "13%",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  width: '13%',
                 }}
               >
                 <p
                   style={{
-                    fontStyle: "Poppins",
-                    fontWeight: "600",
-                    fontStyle: "normal",
-                    fontSize: "18px",
-                    color: "#0081FF",
+                    fontStyle: 'Poppins',
+                    fontWeight: '600',
+                    fontStyle: 'normal',
+                    fontSize: '18px',
+                    color: '#0081FF',
                   }}
                 >
                   Work Experience
@@ -317,18 +317,18 @@ class workExperience extends Component {
               {this.state.professional.length !== 0 &&
                 this.state.professional.map((item, index) => {
                   var months = [
-                    "January",
-                    "Febuary",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
+                    'January',
+                    'Febuary',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December',
                   ];
                   var startmonthName =
                     months[new Date(item.startDate).getMonth()];
@@ -339,39 +339,39 @@ class workExperience extends Component {
                         <AccordionSummary expandIcon={<ExpandMore />}>
                           <div
                             style={{
-                              display: "flex",
-                              width: "100%",
-                              justifyContent: "space-between",
-                              wordBreak: "break-word",
+                              display: 'flex',
+                              width: '100%',
+                              justifyContent: 'space-between',
+                              wordBreak: 'break-word',
                             }}
                           >
                             <div
                               style={{
-                                display: "flex",
-                                wordBreak: "break-word",
+                                display: 'flex',
+                                wordBreak: 'break-word',
                               }}
                             >
                               {item.role} ,
-                              <div style={{ fontSize: 10, paddingTop: "2%" }}>
-                                {" "}
+                              <div style={{ fontSize: 10, paddingTop: '2%' }}>
+                                {' '}
                                 {item.organization}
                               </div>
                             </div>
                             <div
                               style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                wordBreak: "break-word",
+                                display: 'flex',
+                                flexDirection: 'row',
+                                wordBreak: 'break-word',
                                 // paddingLeft: "50%",
                               }}
                             >
                               {item.month} Months (
                               {moment(new Date(item.strStartDate)).format(
-                                "MMM YYYY"
+                                'MMM YYYY'
                               )}
                               -
                               {moment(new Date(item.strEndDate)).format(
-                                "MMM YYYY"
+                                'MMM YYYY'
                               )}
                               )
                             </div>
@@ -383,34 +383,34 @@ class workExperience extends Component {
                             <Grid item md={3}>
                               <Autocomplete
                                 popupIcon={
-                                  <ExpandMore style={{ color: "#1093FF" }} />
+                                  <ExpandMore style={{ color: '#1093FF' }} />
                                 }
-                                id="combo-box-demo"
+                                id='combo-box-demo'
                                 disabled={this.state.disable}
                                 value={
                                   {
                                     title: item.employmentType,
                                     value: item.employmentType,
-                                  } || ""
+                                  } || ''
                                 }
                                 options={this.employeeType}
                                 onChange={(e, newValue) =>
                                   this.onDropDownValue(
-                                    "employmentType",
+                                    'employmentType',
                                     newValue,
                                     index,
                                     item.id
                                   )
                                 }
-                                getOptionLabel={(option) => {
+                                getOptionLabel={option => {
                                   return option.title;
                                 }}
-                                renderInput={(params) => (
+                                renderInput={params => (
                                   <TextField
                                     {...params}
-                                    label="Employment Type"
+                                    label='Employment Type'
                                     disabled={this.state.disable}
-                                    variant="standard"
+                                    variant='standard'
                                     contentEditable={
                                       this.state.disable === false
                                     }
@@ -421,7 +421,7 @@ class workExperience extends Component {
                                       ] !== undefined &&
                                       this.state[
                                         `employmentTypeErr${index}`
-                                      ] !== ""
+                                      ] !== ''
                                         ? true
                                         : false
                                     }
@@ -434,26 +434,26 @@ class workExperience extends Component {
                             </Grid>
                             <Grid item md={3}>
                               <TextField
-                                id="standard-basic"
+                                id='standard-basic'
                                 disabled={this.state.disable}
-                                label="Organisation"
-                                value={item.organization || ""}
+                                label='Organisation'
+                                value={item.organization || ''}
                                 error={this.state.organizationErr.length > 0}
                                 helperText={this.state.organizationErr}
                                 contentEditable={this.state.disable}
                                 error={
                                   this.state[`organizationErr${index}`] !==
                                     undefined &&
-                                  this.state[`organizationErr${index}`] !== ""
+                                  this.state[`organizationErr${index}`] !== ''
                                     ? true
                                     : false
                                 }
-                                onChange={(e) =>
+                                onChange={e =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "organization",
+                                        name: 'organization',
                                         value: e.target.value,
                                       },
                                     },
@@ -492,15 +492,15 @@ class workExperience extends Component {
                                 }}
                               /> */}
                               <TextField
-                                label="Start Date"
-                                value={item.strStartDate || ""}
-                                type="month"
-                                onChange={(e) =>
+                                label='Start Date'
+                                value={item.strStartDate || ''}
+                                type='month'
+                                onChange={e =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "strStartDate",
+                                        name: 'strStartDate',
                                         value: e.target.value,
                                       },
                                     },
@@ -510,7 +510,7 @@ class workExperience extends Component {
                                 error={
                                   this.state[`startDateErr${index}`] !==
                                     undefined &&
-                                  this.state[`startDateErr${index}`] !== ""
+                                  this.state[`startDateErr${index}`] !== ''
                                     ? true
                                     : false
                                 }
@@ -520,22 +520,22 @@ class workExperience extends Component {
                                 }}
                                 disableFuture
                                 disabled={this.state.disable}
-                                name="startDate"
+                                name='startDate'
                                 fullWidth
-                                margin="normal"
+                                margin='normal'
                               />
                             </Grid>
                             <Grid item md={3}>
                               <TextField
-                                label="End Date"
-                                value={item.strEndDate || ""}
-                                type="month"
-                                onChange={(e) =>
+                                label='End Date'
+                                value={item.strEndDate || ''}
+                                type='month'
+                                onChange={e =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "strEndDate",
+                                        name: 'strEndDate',
                                         value: e.target.value,
                                       },
                                     },
@@ -549,7 +549,7 @@ class workExperience extends Component {
                                 error={
                                   this.state[`endDateErr${index}`] !==
                                     undefined &&
-                                  this.state[`endDateErr${index}`] !== ""
+                                  this.state[`endDateErr${index}`] !== ''
                                     ? true
                                     : false
                                 }
@@ -558,24 +558,24 @@ class workExperience extends Component {
                                   shrink: true,
                                 }}
                                 disableFuture
-                                margin="normal"
+                                margin='normal'
                                 disabled={this.state.disable}
-                                name="EndDate"
+                                name='EndDate'
                                 fullWidth
                               />
                             </Grid>
                             <Grid item md={4}>
                               <TextField
-                                id="standard-multiline-static"
-                                label="Designation"
+                                id='standard-multiline-static'
+                                label='Designation'
                                 disabled={this.state.disable}
-                                value={item.role || ""}
-                                onChange={(e) =>
+                                value={item.role || ''}
+                                onChange={e =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "role",
+                                        name: 'role',
                                         value: e.target.value,
                                       },
                                     },
@@ -586,7 +586,7 @@ class workExperience extends Component {
                                 helperText={this.state.roleErr}
                                 error={
                                   this.state[`roleErr${index}`] !== undefined &&
-                                  this.state[`roleErr${index}`] !== ""
+                                  this.state[`roleErr${index}`] !== ''
                                     ? true
                                     : false
                                 }
@@ -600,17 +600,17 @@ class workExperience extends Component {
                             </Grid>
                             <Grid item md={8}>
                               <TextField
-                                id="standard-multiline-static"
-                                label="Job Description"
+                                id='standard-multiline-static'
+                                label='Job Description'
                                 multiline
                                 disabled={this.state.disable}
-                                value={item.description || ""}
+                                value={item.description || ''}
                                 contentEditable={this.state.disable}
-                                onChange={(e) =>
+                                onChange={e =>
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "description",
+                                        name: 'description',
                                         value: e.target.value,
                                       },
                                     },
@@ -620,12 +620,12 @@ class workExperience extends Component {
                                 error={
                                   this.state[`descriptionErr${index}`] !==
                                     undefined &&
-                                  this.state[`descriptionErr${index}`] !== ""
+                                  this.state[`descriptionErr${index}`] !== ''
                                     ? true
                                     : false
                                 }
                                 helperText={
-                                  item.description === ""
+                                  item.description === ''
                                     ? this.state[`descriptionErr${index}`]
                                     : `${item.description.length}/100`
                                 }
@@ -651,16 +651,16 @@ class workExperience extends Component {
               {this.props.getAllDocumentList.CV &&
                 this.props.getAllDocumentList.CV.length !== 0 && (
                   <Grid item md={12}>
-                    <Grid item md={12} direction="column">
+                    <Grid item md={12} direction='column'>
                       <p style={GridStyle}>CV</p>
                     </Grid>
                     <Grid item={12} container>
                       {this.props.getAllDocumentList.CV
-                        ? this.props.getAllDocumentList.CV.map((data) => (
+                        ? this.props.getAllDocumentList.CV.map(data => (
                             <Grid
                               item
                               md={4}
-                              direction="row"
+                              direction='row'
                               onClick={() => this.documentClick(data)}
                             >
                               <DoccumentCard
@@ -668,6 +668,7 @@ class workExperience extends Component {
                                 date={data.uploadDate}
                                 path={data.path}
                                 studentid={this.props.match.params.studentId}
+                                status={true}
                                 // category = 'cv'
                                 // id = {data.ieltsId}
                                 // status={this.state.documentedit}
@@ -682,17 +683,17 @@ class workExperience extends Component {
 
             <div
               style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "15%",
-                textTransform: "none",
+                display: 'flex',
+                justifyContent: 'center',
+                paddingTop: '15%',
+                textTransform: 'none',
               }}
             >
               <PrimaryButton
                 onClick={() => this.handleSave()}
-                variant={"contained"}
-                color={"primary"}
-                style={{ textTransform: "none" }}
+                variant={'contained'}
+                color={'primary'}
+                style={{ textTransform: 'none' }}
                 disabled={this.props.variantStepList.adminObComplete}
               >
                 Save Changes
@@ -714,22 +715,22 @@ class workExperience extends Component {
 
 const style = {
   HeadStyle: {
-    paddingTop: "18px",
-    fontStyle: "Poppins",
-    fontWeight: "600",
-    fontStyle: "normal",
-    fontSize: "18px",
-    color: "#0081FF",
+    paddingTop: '18px',
+    fontStyle: 'Poppins',
+    fontWeight: '600',
+    fontStyle: 'normal',
+    fontSize: '18px',
+    color: '#0081FF',
   },
   GridStyle: {
-    fontStyle: "Montserrat",
-    fontWeight: "700",
-    fontStyle: "normal",
-    fontSize: "16px",
-    color: "#052A4E",
+    fontStyle: 'Montserrat',
+    fontWeight: '700',
+    fontStyle: 'normal',
+    fontSize: '16px',
+    color: '#052A4E',
   },
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     getworkexpList: state.CallReducer.getworkexp,
     updateworkexpList: state.CallReducer.updateworkexp,
