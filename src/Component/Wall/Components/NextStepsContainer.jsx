@@ -232,7 +232,13 @@ const NextStepsContainer = React.memo(({ values, setFieldValue, setNotify }) => 
                     </Button>
 
                     {!val?.form?.id ? (
-                      <Controls.ActionButton disabled={false} onClick={() => setOpenPopup(true)}>
+                      <Controls.ActionButton
+                        disabled={false}
+                        onClick={() => {
+                          setFormPopIdx(index);
+                          setOpenPopup(true);
+                        }}
+                      >
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
                       </Controls.ActionButton>
                     ) : (
