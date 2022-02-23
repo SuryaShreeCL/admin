@@ -7,6 +7,11 @@ import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
+//Icons
+import MULTIPLECHOICE from '@material-ui/icons/ShortTextRounded';
+import FILEUPLOAD from '@material-ui/icons/ArrowUpward';
+import TEXT from '@material-ui/icons/TextFormatRounded';
+
 const useStyles = makeStyles({
   input: {
     display: 'flex',
@@ -45,9 +50,9 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, s
   const classes = useStyles();
 
   const Types = () => [
-    { id: 'TEXT', answerType: 'Text' },
-    { id: 'MULTIPLECHOICE', answerType: 'Multiple Choice' },
-    { id: 'FILEUPLOAD', answerType: 'File Upload' },
+    { id: 'TEXT', answerType: 'Text', icon: <TEXT /> },
+    { id: 'MULTIPLECHOICE', answerType: 'Multiple Choice', icon: <MULTIPLECHOICE /> },
+    { id: 'FILEUPLOAD', answerType: 'File Upload', icon: <FILEUPLOAD /> },
   ];
 
   const DynamicForm = () => {
