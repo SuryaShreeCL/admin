@@ -854,8 +854,7 @@ class AdmissionServices extends Component {
                         marginRight: 10,
                       }}
                     />
-                  )}
-                  
+                  )}                
                   Allocate
                 </PrimaryButton>
               </div>
