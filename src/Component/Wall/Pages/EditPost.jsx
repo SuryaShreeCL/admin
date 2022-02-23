@@ -761,11 +761,7 @@ const EditPost = () => {
                 </div>
                 {values.isEvent && (
                   <>
-                    <NextStepsContainer
-                      values={values}
-                      setFieldValue={setFieldValue}
-                      setNotify={setNotify}
-                    />
+                    <NextStepsContainer values={values} setFieldValue={setFieldValue} />
                     <PreprationContainer values={values} setFieldValue={setFieldValue} />
                   </>
                 )}

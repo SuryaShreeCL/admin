@@ -42,31 +42,13 @@ const useStyles = makeStyles({
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
 });
 
-const NextStepsContainer = React.memo(({ values, setFieldValue, setNotify }) => {
+const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
   //to handle the form popup where it will open just once based on the index
   const [formPopIdx, setFormPopIdx] = useState(0);
   const [statusFileUploadDisabled, setStatusFileUploadDisabled] = useState(false);
-
-  function downloadFormResponses(wallId) {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/v1/event/${values.id}/wallsteps/${wallId}`)
-      .then(function(response) {
-        // handle success
-        console.log(response);
-      })
-      .catch(function(error) {
-        // handle error
-        setNotify({
-          isOpen: true,
-          message: `${error.message}`,
-          type: 'error',
-        });
-        console.log(error);
-      });
-  }
 
   const onStatusUpload = (value, index) => {
     setFieldValue(`wallSteps.${index}.isStatusUploaded`, value);
@@ -258,7 +240,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue, setNotify }) => 
                     )}
                     <Controls.ActionButton
                       disabled={!val?.form?.id}
-                      onClick={() => downloadFormResponses(val.id)}
+                      href={`${process.env.REACT_APP_API_URL}/api/v1/event/${values.id}/wallsteps/${val.id}`}
                     >
                       <CloudDownloadIcon
                         fontSize='small'
