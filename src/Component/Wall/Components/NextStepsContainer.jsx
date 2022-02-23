@@ -280,15 +280,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     message: '',
                     url: '',
                     isStatusUploaded: '',
-                    form: {
-                      formQuestions: [
-                        {
-                          type: 'TEXT',
-                          formQuestionsChoices: [],
-                          questionText: '',
-                        },
-                      ],
-                    },
+                    form: {},
                   })
                 }
               />

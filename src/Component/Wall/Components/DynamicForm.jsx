@@ -139,14 +139,16 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, s
                     })
                   }
                 />
-                <Controls.Button
-                  text='Save'
-                  startIcon={<SaveIcon />}
-                  variant='contained'
-                  color='primary'
-                  onClick={() => setOpenPopup(false)}
-                  className={classes.addStepBtn}
-                />
+                {formValues?.formQuestions?.length > 0 && (
+                  <Controls.Button
+                    text='Save'
+                    startIcon={<SaveIcon />}
+                    variant='contained'
+                    color='primary'
+                    onClick={() => setOpenPopup(false)}
+                    className={classes.addStepBtn}
+                  />
+                )}
               </div>
             </div>
           )}
