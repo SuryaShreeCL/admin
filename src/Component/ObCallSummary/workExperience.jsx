@@ -48,6 +48,7 @@ import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
 import { URL } from "../../Actions/URL";
 import { getVariantStepsById } from "../../Actions/ProductAction";
+import moment from "moment";
 
 const theme = createMuiTheme({
   overrides: {
@@ -128,8 +129,8 @@ class workExperience extends Component {
       this.state.professional.map((item) =>
         this.setState({
           organization: item.organization,
-          startDate: item.startDate,
-          endDate: item.endDate,
+          startDate: item.strStartDate,
+          endDate: item.strEndDate,
           employmentType: item.employmentType,
           role: item.role,
           id: item.id,
@@ -145,7 +146,6 @@ class workExperience extends Component {
     this.setState({ disable: !this.state.disable });
   }
   onChange(event, index) {
-    console.log(event, index);
     let items = this.state.professional;
     var item = {
       ...items[index],
@@ -174,7 +174,6 @@ class workExperience extends Component {
     }
   };
   handleSave() {
-    console.log("savee");
     var error = false;
     for (let i = 0; i < this.state.professional.length; i++) {
       for (const [key, value] of Object.entries(this.state.professional[i])) {
@@ -252,7 +251,7 @@ class workExperience extends Component {
 
   render() {
     const { HeadStyle, GridStyle } = style;
-    console.log(this.state.professional);
+
     //
     return (
       <div style={{ padding: 25 }}>
@@ -317,7 +316,6 @@ class workExperience extends Component {
             <div style={{ paddingTop: 10 }}>
               {this.state.professional.length !== 0 &&
                 this.state.professional.map((item, index) => {
-                  console.log(item, "IIIIIIIIIIIIIIIIIII");
                   var months = [
                     "January",
                     "Febuary",
@@ -367,11 +365,15 @@ class workExperience extends Component {
                                 // paddingLeft: "50%",
                               }}
                             >
-                              {" "}
-                              {item.month} Months ({startmonthName}{" "}
-                              {new Date(item.startDate).getFullYear()}-
-                              {endMonthName}{" "}
-                              {new Date(item.endDate).getFullYear()})
+                              {item.month} Months (
+                              {moment(new Date(item.strStartDate)).format(
+                                "MMM YYYY"
+                              )}
+                              -
+                              {moment(new Date(item.strEndDate)).format(
+                                "MMM YYYY"
+                              )}
+                              )
                             </div>
                           </div>
                         </AccordionSummary>
@@ -498,7 +500,7 @@ class workExperience extends Component {
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "startDate",
+                                        name: "strStartDate",
                                         value: e.target.value,
                                       },
                                     },
@@ -524,22 +526,6 @@ class workExperience extends Component {
                               />
                             </Grid>
                             <Grid item md={3}>
-                              {/* <KeyboardDatePicker
-                                
-                                id="date-picker-dialog"
-                                
-                                format="dd/MM/yyyy"
-                                // views={["year", "month"]}
-                              
-                               
-                               
-                                
-                               
-                               
-                                KeyboardButtonProps={{
-                                  "aria-label": "change date",
-                                }}
-                              /> */}
                               <TextField
                                 label="End Date"
                                 value={item.strEndDate || ""}
@@ -549,7 +535,7 @@ class workExperience extends Component {
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "endDate",
+                                        name: "strEndDate",
                                         value: e.target.value,
                                       },
                                     },

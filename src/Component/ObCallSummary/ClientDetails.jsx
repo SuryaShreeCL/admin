@@ -137,7 +137,7 @@ class ClientDetails extends Component {
       snackvariant: "",
       snackopen: false,
       formSubmitted: false,
-      intakeYear : []
+      intakeYear: [],
     };
   }
   componentDidMount() {
@@ -160,8 +160,6 @@ class ClientDetails extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-   
-
     if (this.state.family !== prevState.family) {
       this.props.getProductByFamilyId(
         this.state.family !== null ? this.state.family.id : ""
@@ -195,7 +193,6 @@ class ClientDetails extends Component {
       });
     }
     if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
-      
       const {
         collegeId,
         degreeId,
@@ -223,10 +220,13 @@ class ClientDetails extends Component {
         typeOfExperience,
         fieldOfExperience,
         months,
+        firstName,
+        lastName,
       } = this.props.getClientInfoList;
-      
+
       this.setState({
-        name: clientName,
+        // name: clientName,
+        name: firstName + lastName,
         ugdegree: this.props.getClientInfoList.degree,
         collegename: collegeId,
         department: departmentId,
@@ -260,13 +260,33 @@ class ClientDetails extends Component {
           aspirationTerms && aspirationTerms.length !== 0
             ? { ...aspirationTerms[0] }
             : null,
-        intakeyear: year ? {title : year.toString()} : null,
-        intake : aspirationTerms,
-        term : {name : aspirationTerms},  
-        year : year
+        intakeyear: year ? { title: year.toString() } : null,
+        intake: aspirationTerms,
+        term: { name: aspirationTerms },
+        year: year,
       });
     }
+
+    if (
+      this.props.updateclientdetailsList !== prevProps.updateclientdetailsList
+    ) {
+      if (this.props.updateclientdetailsList === "updated") {
+        this.setState({
+          formSubmitted: true,
+          snackmsg: "Updated Successfully",
+          snackvariant: "success",
+          snackopen: true,
+        });
+      } else {
+        this.setState({
+          snackmsg: "Error",
+          snackvariant: "error",
+          snackopen: true,
+        });
+      }
+    }
   }
+
   CallStatus = [
     { title: "Completed" },
     { title: "Pending" },
@@ -291,7 +311,6 @@ class ClientDetails extends Component {
   package = [{ name: "1" }, { name: "3" }, { name: "5" }];
   Workexp = [{ title: "Yes" }, { title: "No" }];
 
- 
   ExpType = [
     { title: "Internship" },
     { title: "Fulltime" },
@@ -329,7 +348,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.cgpa)
       ? this.setState({ cgpaErr: hlptxt })
       : this.setState({ cgpaErr: "" });
-   
+
     this.state.endofservice === null
       ? this.setState({ endofserviceErr: hlptxt })
       : this.setState({ endofserviceErr: "" });
@@ -380,7 +399,6 @@ class ClientDetails extends Component {
     isEmptyString(this.state.workexp)
       ? this.setState({ workexpErr: hlptxt })
       : this.setState({ workexpErr: "" });
-   
 
     if (
       !isEmptyString(this.state.name) &&
@@ -393,7 +411,6 @@ class ClientDetails extends Component {
       !isEmptyString(this.state.sem) &&
       !isEmptyString(this.state.activebacklogs) &&
       !isEmptyString(this.state.cgpa) &&
-     
       !isEmptyString(this.state.ameyoid) &&
       this.state.calltime !== null &&
       !isEmptyString(this.state.agent) &&
@@ -440,11 +457,13 @@ class ClientDetails extends Component {
             id: this.state.countries.id,
           },
         ],
-           aspirationTerms:  this.state.term?.id ? [
-          {
-            id: this.state.term?.id,
-          },
-        ] : null,
+        aspirationTerms: this.state.term?.id
+          ? [
+              {
+                id: this.state.term?.id,
+              },
+            ]
+          : null,
         enrollmentDate: new Date(this.state.enrolldate),
         orderType: this.state.order.title,
         intakeYear: this.state.intakeyear?.title,
@@ -474,20 +493,13 @@ class ClientDetails extends Component {
         this.props.match.params.productId,
         obj
       );
-      this.setState({
-        formSubmitted: true,
-        snackmsg: "Updated Successfully",
-        snackvariant: "success",
-        snackopen: true,
-      });
     }
   };
 
- 
-
   render() {
     const filter = createFilterOptions();
-    
+    console.log(this.props.updateclientdetailsList);
+
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -510,6 +522,9 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ name: e.target.value })}
                   error={this.state.nameErr.length > 0}
                   helperText={this.state.nameErr}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item md={3}>
@@ -826,7 +841,6 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={4}>
-                
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
@@ -849,7 +863,6 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={4}>
-                
                 <KeyboardTimePicker
                   margin="normal"
                   // format="HH:mm"
@@ -1003,7 +1016,6 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={3}>
-               
                 <Autocomplete
                   id="combo-box-demo"
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
@@ -1134,7 +1146,6 @@ class ClientDetails extends Component {
                   style={{
                     fontWeight: "600",
                     color: "#407BFF",
-                    
                   }}
                 >
                   Client's Work Experience Background
@@ -1182,7 +1193,7 @@ class ClientDetails extends Component {
                   )}
                 />
               </Grid>
-            
+
               <Grid item md={4}>
                 <TextField
                   fullWidth
@@ -1238,7 +1249,7 @@ const mapStateToProps = (state) => {
     getallcountryList: state.AspirationReducer.getallcountry,
     getStudentsByIdList: state.StudentReducer.StudentList,
     getvarientByidList: state.ProductReducer.getvarientByid,
-    updateclientdetailsList: state.ProductReducer.updateclientdetails,
+    updateclientdetailsList: state.CallReducer.updateclientdetails,
     getClientInfoList: state.CallReducer.getClientInfo,
     tempState: state.HelperReducer.tempState,
   };

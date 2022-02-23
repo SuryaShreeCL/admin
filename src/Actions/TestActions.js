@@ -190,11 +190,7 @@ export const setCutOffScore = (test) => async (dispatch) => {
       payload: data.data,
     });
 
-    console.log('test details', test);
-    console.log('success', data);
-
     if (data.success) {
-      console.log('event sent');
       //On Success capture clevertap event
       clevertap.event.push('Test Results out', {
         'Name of the Drive': test?.linkedEvent?.eventTitle,
@@ -238,6 +234,29 @@ export const getTestDetails = (id) => async (dispatch) => {
       payload: message,
     });
   }
+};
+
+export const uploadPostTestStatusByStepId = (sheet, stepId, callback) => {
+  return (dispatch) => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/v1/students/uploadStudentPostTestStepStatus/${stepId}`,
+        sheet,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+          },
+        }
+      )
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 };
 
 export const scheduleIt = (id) => {

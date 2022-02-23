@@ -156,7 +156,7 @@ function TenthForm(props) {
         if (!isEmptyObject(rowData)) {
           if (!isNanAndEmpty(rowData.score)) {
             if (rowData.subjectDetails) {
-              if (rowData.score > 0) {
+              if (rowData.score >= 0 ) {
                 if (rowData.score <= rowData.subjectDetails.maximumMarks) {
                   return true;
                 } else {
@@ -165,7 +165,7 @@ function TenthForm(props) {
                     helperText: "Score should be less than maximum mark",
                   };
                 }
-              } else {
+              }else {
                 return {
                   isValid: false,
                   helperText: "Score should not be negative value",
