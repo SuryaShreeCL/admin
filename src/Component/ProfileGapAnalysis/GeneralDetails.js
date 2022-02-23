@@ -138,6 +138,7 @@ class GeneralDetails extends Component {
         lastName: "Last Name",
         currentSem: "Current Semester",
         workexp: "Work Experience",
+        workExperience: "Work Experience",
       },
     };
   }
@@ -771,7 +772,7 @@ class GeneralDetails extends Component {
                 }}
                 onClick={(e) => this.handleClick(e, "CurrentSem")}
               >
-                <Dot
+                {/* <Dot
                   color={
                     this.state.verificationstatus &&
                     this.state.verificationstatus.length > 0 &&
@@ -780,7 +781,7 @@ class GeneralDetails extends Component {
                       ? "green"
                       : "orange"
                   }
-                />
+                /> */}
               </div>
               <div style={{ paddingLeft: "10px" }}>
                 <TextField
@@ -919,7 +920,8 @@ class GeneralDetails extends Component {
                 <TextField
                   {...params}
                   name="prefschool"
-                  label="Preferred Grad School"
+                  // label="Preferred Grad School"
+                  label={this.showSchoolLabel()}
                   className={"package_style"}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -1058,7 +1060,8 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Preferred Grad School"
+                  // label="Preferred Grad School"
+                  label={this.showSchoolLabel()}
                   className={"package_style"}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -1279,6 +1282,25 @@ class GeneralDetails extends Component {
     { title: "Spring 2025" },
     { title: "Fall 2025" },
   ];
+
+  showSchoolLabel = () => {
+    if (
+      this.props.getgeneraldetailsList &&
+      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_GRAD"
+    ) {
+      return "Preferred Grad-Schools";
+    } else if (
+      this.props.getgeneraldetailsList &&
+      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_BS"
+    ) {
+      return "Preferred B-schools";
+    } else if (
+      this.props.getgeneraldetailsList &&
+      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_BS_GRAD"
+    ) {
+      return "Preferred B-schools / Grad Schools";
+    }
+  };
   render() {
     const { classes } = this.props;
 
@@ -1732,24 +1754,18 @@ class GeneralDetails extends Component {
                       </Grid>
                       <Grid item md={4}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                          <TextField
+                            label="Enrollment Period"
+                            value={this.state.enrollmentdate}
+                            type="month"
                             disabled
                             name="enrollmentdate"
                             margin="normal"
-                            label="Enrollment Period"
-                            className={"package_style"}
-                            format="dd-MM-yyyy"
-                            value={this.state.enrollmentdate}
                             InputLabelProps={{ shrink: true }}
                             onChange={(newValue) =>
                               this.setState({ enrollmentdate: newValue })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
+                            className={"package_style"}
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
@@ -1788,7 +1804,6 @@ class GeneralDetails extends Component {
                             />
                           )}
                         />
-                        
                       </Grid>
                     </Grid>
                   </Grid>
