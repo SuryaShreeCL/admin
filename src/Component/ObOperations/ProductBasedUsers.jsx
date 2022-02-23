@@ -49,12 +49,11 @@ class ProductBasedUsers extends Component {
       var sortedArr =
         this.props.variantStepList.steps.length > 0 &&
         this.props.variantStepList.steps.sort((a, b) => a.rank - b.rank);
-      console.log(sortedArr);
       sortedArr !== false &&
         sortedArr.map((it, ix) => {
           it.steps.sort((c, d) => c.rank - d.rank);
         });
-      console.log(sortedArr);
+      console.log(sortedArr, "------------------------");
       this.setState({
         productDetails: sortedArr,
         selectedItem: sortedArr[0],
@@ -70,15 +69,12 @@ class ProductBasedUsers extends Component {
       Onboarding: "Onboarding",
       "Profile Gap Analysis": "Profile Gap Analysis",
     };
-    console.log(
-      this.state.selectedItem !== null && this.state.selectedItem.stepName
-    );
     var obj = {
       Onboarding: Onboarding,
       ["Profile Gap Analysis"]: PgaStudentList,
     };
     var selectedComponent =
-      this.state.selectedItem !== null &&
+      this.state.selectedItem  &&
       componentList[this.state.selectedItem.stepName];
     var Page = obj[selectedComponent];
     return (

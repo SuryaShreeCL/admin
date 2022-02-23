@@ -235,6 +235,9 @@ export class PersonalDetails extends Component {
         remark: this.state.misMatchDetails,
         status: this.state.status.value,
         updateDate: null,
+        product: {
+          id: this.props.match.params.productId,
+        },
       };
       this.props.updateVerificationStatus(obj);
       this.setState({

@@ -1,7 +1,7 @@
 import { Button, ListItemText } from '@material-ui/core';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import styled, { keyframes } from 'styled-components';
 import { ReactComponent as Pentagon } from '../../../Asset/icons/pentagon.svg';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 export const PageWrapper = styled.div`
   height: 90vh;

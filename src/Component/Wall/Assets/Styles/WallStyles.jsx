@@ -123,3 +123,8 @@ export const WebinarTabContainer = styled.section`
 export const NextStepsContainerStyle = styled.section`
   margin-bottom: 2rem;
 `;
+
+export const DialogDiv = styled.div`
+  margin: 2rem auto;
+  width: 60;
+`;

@@ -466,7 +466,7 @@ export const updatefamily = (data) => {
       });
   };
 };
-export const postgeneraldetails = (data) => {
+export const postgeneraldetails = (data, callBack) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
@@ -478,10 +478,12 @@ export const postgeneraldetails = (data) => {
         },
       })
       .then((result) => {
-        dispatch({ type: PRODUCT.postgeneraldetails, payload: result.data });
+        // dispatch({ type: PRODUCT.postgeneraldetails, payload: result.data });
+        callBack(result)
       })
       .catch((error) => {
-        console.log(error);
+        callBack(error.response && error.response.data.message ? error.response.data.message : error.message)
+        // console.log(error);
       });
   };
 };
@@ -649,7 +651,7 @@ export const getvarientByid = (id,callback) => {
 //         }
 //     }
 
-export const updategeneraldata = (data) => {
+export const updategeneraldata = (data, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -661,10 +663,12 @@ export const updategeneraldata = (data) => {
         },
       })
       .then((result) => {
-        dispatch({ type: PRODUCT.updategeneraldata, payload: result.data });
+        callback(result)
+        // dispatch({ type: PRODUCT.updategeneraldata, payload: result.data });
       })
       .catch((error) => {
-        console.log(error);
+        callback(error.response && error.response.data.message ? error.response.data.message : error.message)
+        // console.log(error);
       });
   };
 };

@@ -9,6 +9,7 @@ import {
   getvarientByid,
   updategeneraldata,
   isVariantCreated,
+  getProductByFamilyId
 } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -19,7 +20,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { isEmptyString } from "../Validation";
+import { isEmail, isEmptyObject, isEmptyString, isNumber } from "../Validation";
 class VariantGeneralData extends Component {
   constructor() {
     super();
@@ -31,6 +32,7 @@ class VariantGeneralData extends Component {
       variantfamilysku: "",
       variantfamilyskuErr: "",
       shortName: "",
+      shortNameErr: "",
       endOfServiceDate: new Date(),
       endOfServiceDateErr: "",
       endOfEnrollmentDate: new Date(),
@@ -50,8 +52,18 @@ class VariantGeneralData extends Component {
       standaloneSellableErr: "",
       updatedBy: window.sessionStorage.getItem("role"),
       UpdatedOn: new Date(),
-      banner : null,
-      bannerErr : "",
+      banner: null,
+      bannerErr: "",
+      codeName: "",
+      codeNameErr: "",
+      referProduct: null,
+      referProductErr: "",
+      opsEmailId: "",
+      opsEmailIdErr: "",
+      calendarId : "",
+      calendarIdErr : "",
+      appointmentId : "",
+      appointmentIdErr : "",
     };
   }
   componentDidMount() {
@@ -61,12 +73,15 @@ class VariantGeneralData extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.getvarientByidList !== prevProps.getvarientByidList) {
+      if(this.props.getvarientByidList.productFamily){
+        this.props.getProductByFamilyId(this.props.getvarientByidList.productFamily.id)
+      }
       this.setState({
         productName: this.props.getvarientByidList.productFamily,
         variantsku: this.props.getvarientByidList.variantSKU,
         variantfamilysku: this.props.getvarientByidList.name,
         costPrice: this.props.getvarientByidList.costPrice,
-        banner : this.props.getvarientByidList.banner,
+        banner: this.props.getvarientByidList.banner,
         sellingPrice: this.props.getvarientByidList.sellingPrice,
         standaloneSellable: {
           title: this.props.getvarientByidList.standaloneSellable,
@@ -75,52 +90,73 @@ class VariantGeneralData extends Component {
         endOfEnrollmentDate: this.props.getvarientByidList.endOfEnrollmentDate,
         createdBy: this.props.getvarientByidList.createdBy,
         createdOn: this.props.getvarientByidList.dateOfCreation,
+        codeName: this.props.getvarientByidList.codeName,
+        shortName: this.props.getvarientByidList.shortName,
+        opsEmailId: this.props.getvarientByidList.opsEmailId,
+        referProduct: this.props.getvarientByidList.referProduct
+          ? this.props.getvarientByidList.referProduct
+          : null,
+        calendarId: this.props.getvarientByidList.calendarId,
+        appointmentId: this.props.getvarientByidList.appointmentId
+         ,
       });
     }
-    if (
-      this.props.postgeneraldetailsList !== prevProps.postgeneraldetailsList
-    ) {
-      this.props.history.push(
-        productVariantPath + "/" + this.props.postgeneraldetailsList.id
-      );
-    }
+   
   }
   componentWillUnmount(params) {
     console.log("next component");
-    console.log(this.props.getvarientByidList)
-    if(this.props.match.params.id !== undefined && this.props.getvarientByidList.length !== 0){
-      let faqid = this.props.getvarientByidList.productQuestionAnswers !== null && this.props.getvarientByidList.productQuestionAnswers.length !== 0 ? this.props.getvarientByidList.productQuestionAnswers.map(
-        (faq) => {
-          return { id: faq.id };
-        }
-      ) : [];
+    console.log(this.props.getvarientByidList);
+    if (
+      this.props.match.params.id !== undefined &&
+      this.props.getvarientByidList.length !== 0
+    ) {
+      let faqid =
+        this.props.getvarientByidList.productQuestionAnswers !== null &&
+        this.props.getvarientByidList.productQuestionAnswers.length !== 0
+          ? this.props.getvarientByidList.productQuestionAnswers.map((faq) => {
+              return { id: faq.id };
+            })
+          : [];
       console.log(this.props.getvarientByidList);
       let obj = {
-      id: this.props.match.params.id,
-      name: this.state.variantfamilysku,
-      codeName: this.props.getvarientByidList.codeName,
-      banner : this.state.banner,
-      shortName: this.props.getvarientByidList.shortName,
-      productDescription: this.props.getvarientByidList.productDescription,
-      productOneliner: this.props.getvarientByidList.productOneliner,
-      productTnc: this.props.getvarientByidList.productTnc,
-      validity: "365",
-      variantSKU: this.state.variantsku,
-      costPrice: this.state.costPrice,
-      sellingPrice: this.state.sellingPrice,
-      updatedBy: window.sessionStorage.getItem("role"),
-      productQuestionAnswers: faqid,
-      productFamily: { id: this.props.getvarientByidList.productFamily ? this.props.getvarientByidList.productFamily.id : '' },
-    };
-    this.props.updategeneraldata(obj);
-    this.setState({
-      snackMsg: "Updated Successfully",
-      snackOpen: true,
-      snackVariant: "success",
-    });
+        id: this.props.match.params.id,
+        name: this.state.variantfamilysku,
+        codeName: this.state.codeName,
+        banner: this.state.banner,
+        shortName: this.state.shortName,
+        productDescription: this.props.getvarientByidList.productDescription,
+        productOneliner: this.props.getvarientByidList.productOneliner,
+        productTnc: this.props.getvarientByidList.productTnc,
+        validity: "365",
+        variantSKU: this.state.variantsku,
+        costPrice: this.state.costPrice,
+        sellingPrice: this.state.sellingPrice,
+        updatedBy: window.sessionStorage.getItem("role"),
+        productQuestionAnswers: faqid,
+        productFamily: {
+          id: this.props.getvarientByidList.productFamily
+            ? this.props.getvarientByidList.productFamily.id
+            : "",
+        },
+        referProduct: {
+          id: this.state.referProduct?.id,
+        },
+        codeName: this.state.codeName,
+        opsEmailId: this.state.opsEmailId,
+        calendarId: this.state.calendarId,
+        appointmentId: this.state.appointmentId,
+      };
+      this.props.updategeneraldata(obj, response=>{
+        if(response.status === 200){
+          this.setState({
+            snackMsg: "Updated Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+          });
+        }
+      });
+     
     }
-    
-    
   }
   data = [{ title: "Yes" }, { title: "No" }];
   handlesaved = () => {
@@ -156,7 +192,37 @@ class VariantGeneralData extends Component {
     this.state.standaloneSellable === ""
       ? this.setState({ standaloneSellableErr: hlptxt })
       : this.setState({ standaloneSellableErr: "" });
-      isEmptyString(this.state.banner) ? this.setState({bannerErr : hlptxt}) : this.setState({bannerErr : ""})
+    isEmptyString(this.state.banner)
+      ? this.setState({ bannerErr: hlptxt })
+      : this.setState({ bannerErr: "" });
+     
+    this.setState({
+      codeNameErr : isEmptyString(this.state.codeName) ? hlptxt : "",
+      shortNameErr : isEmptyString(this.state.shortName) ? hlptxt : "",
+      // referProductErr : isEmptyString(this.state.referProduct) ? hlptxt : "",
+      // appointmentIdErr : isEmptyString(this.state.appointmentId) ? hlptxt : "",
+      // calendarIdErr : isEmptyString(this.state.calendarId) ? hlptxt : "",
+    })
+
+    if(!isEmptyString(this.state.opsEmailId)){
+      this.setState({
+        opsEmailIdErr : ""
+      })
+      if(!isEmail(this.state.opsEmailId)){
+        this.setState({
+          opsEmailIdErr : "Enter valid E-Mail"
+        })
+      }else{
+        this.setState({
+          opsEmailIdErr : ""
+        })
+      }
+    }else{
+      this.setState({
+        opsEmailIdErr : hlptxt
+      })
+    }
+
     if (
       !isEmptyString(this.state.variantfamilysku) &&
       !isEmptyString(this.state.variantsku) &&
@@ -168,17 +234,22 @@ class VariantGeneralData extends Component {
       this.state.createdOn !== null &&
       this.state.endOfEnrollmentDate !== null &&
       this.state.productName !== "" &&
-      this.state.standaloneSellable !== ""
+      this.state.standaloneSellable !== "" &&
+      !isEmptyString(this.state.codeName) &&
+      !isEmptyString(this.state.shortName) 
+      // !isEmptyObject(this.state.referProduct) &&
+      // !isEmptyString(this.state.appointmentId) &&
+      // !isEmptyString(this.state.calendarId)
     ) {
       let obj = {
         name: this.state.variantfamilysku,
         variantSKU: this.state.variantsku,
         variant_family_SKU: null,
-        shortName: this.state.productName.shortName,
+        shortName: this.state.shortName,
         endOfServiceDate: this.state.endOfServiceDate,
         endOfEnrollmentDate: this.state.endOfEnrollmentDate,
         costPrice: this.state.costPrice,
-        banner : this.state.banner,
+        banner: this.state.banner,
         sellingPrice: this.state.sellingPrice,
         createdBy: this.state.createdBy,
         dateOfCreation: this.state.createdOn,
@@ -188,15 +259,33 @@ class VariantGeneralData extends Component {
         },
         dateOfUpdate: new Date(),
         updatedBy: window.sessionStorage.getItem("role"),
+        referProduct: {
+          id: this.state.referProduct?.id,
+        },
+        codeName: this.state.codeName,
+        opsEmailId: this.state.opsEmailId,
+        calendarId: this.state.calendarId,
+        appointmentId: this.state.appointmentId,
       };
-      this.props.postgeneraldetails(obj);
-      this.setState({
-        snackMsg: "Added Successfully",
-        snackOpen: true,
-        snackVariant: "success",
+      this.props.postgeneraldetails(obj, (response)=>{
+        if(response.status === 200){
+          this.props.history.push(
+            productVariantPath + "/" + response.data.data.id
+          );
+          this.setState({
+            snackMsg: "Added Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+          });
+        }else{
+          this.setState({
+            snackMsg: response,
+            snackOpen: true,
+            snackVariant: "error",
+          });
+        }
       });
     }
-    console.log(this.state);
   };
   handleUpdate = () => {
     let obj = {
@@ -224,9 +313,9 @@ class VariantGeneralData extends Component {
   };
   render() {
     console.log(this.state);
-    console.log(this.props);
-    console.log(this.props.getvarientByidList)
-    console.log(this.props.match.params.id)
+    console.log(this.props, "__________________");
+    console.log(this.props.getvarientByidList);
+    console.log(this.props.match.params.id);
     return (
       <div>
         <Grid container spacing={2}>
@@ -235,12 +324,18 @@ class VariantGeneralData extends Component {
             <Autocomplete
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
-              getOptionLabel={(option) => option.productName}
+              getOptionLabel={(option) =>
+                option.productName === "LMS" ? "Test Prep" : option.productName
+              }
               value={this.state.productName}
               // style={{ width: 300 }}
-              onChange={(e, newValue) =>
-                this.setState({ productName: newValue })
-              }
+              onChange={(e, newValue) => {
+                console.log(newValue, "++++++++++++++");
+                if (newValue) {
+                  this.props.getProductByFamilyId(newValue.id);
+                }
+                this.setState({ productName: newValue });
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -273,6 +368,83 @@ class VariantGeneralData extends Component {
               onChange={(e) => this.setState({ variantsku: e.target.value })}
               error={this.state.varientErr.length > 0}
               helperText={this.state.varientErr}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <TextField
+              label="Code Name"
+              variant="standard"
+              value={this.state.codeName}
+              onChange={(e) => this.setState({ codeName: e.target.value })}
+              error={this.state.codeNameErr.length > 0}
+              helperText={this.state.codeNameErr}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <TextField
+              label="Short Name"
+              variant="standard"
+              value={this.state.shortName}
+              onChange={(e) => this.setState({ shortName: e.target.value })}
+              error={this.state.shortNameErr.length > 0}
+              helperText={this.state.shortNameErr}
+            />
+          </Grid>
+          <Grid item md={3}>
+            <TextField
+              label="Ops Email Id"
+              variant="standard"
+              value={this.state.opsEmailId}
+              onChange={(e) => this.setState({ opsEmailId: e.target.value })}
+              error={this.state.opsEmailIdErr.length > 0}
+              helperText={this.state.opsEmailIdErr}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <TextField
+              label="Calendar Id"
+              variant="standard"
+              onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
+              value={this.state.calendarId}
+              onChange={(e) => this.setState({ calendarId: e.target.value })}
+              error={this.state.calendarIdErr.length > 0}
+              helperText={this.state.calendarIdErr}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <TextField
+              label="Appointment Id"
+              variant="standard"
+              onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
+              value={this.state.appointmentId}
+              onChange={(e) => this.setState({ appointmentId: e.target.value })}
+              error={this.state.appointmentIdErr.length > 0}
+              helperText={this.state.appointmentIdErr}
+            />
+          </Grid>
+          <Grid item md={3}>
+            <Autocomplete
+              id="combo-box-demo"
+              options={
+                this.state.productName
+                  ? this.props.getProductByFamilyIdList
+                  : []
+              }
+              getOptionLabel={(option) => option.name}
+              value={this.state.referProduct}
+              // style={{ width: 300 }}
+              onChange={(e, newValue) =>
+                this.setState({ referProduct: newValue })
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Refer Product"
+                  variant="standard"
+                  error={this.state.referProductErr.length > 0}
+                  helperText={this.state.referProductErr}
+                />
+              )}
             />
           </Grid>
           <Grid item md={2}>
@@ -356,7 +528,7 @@ class VariantGeneralData extends Component {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item md={3}></Grid>
+          {/* <Grid item md={3}></Grid> */}
           <Grid item md={2}>
             <TextField
               label="Created By"
@@ -388,7 +560,7 @@ class VariantGeneralData extends Component {
             </MuiPickersUtilsProvider>
           </Grid>
           <Grid item md={7}>
-          <TextField
+            <TextField
               label="Banner Link"
               size="small"
               multiline
@@ -429,6 +601,7 @@ const mapStateToProps = (state) => {
     getProductVarientList: state.ProductReducer.getProductVarient,
     getvarientByidList: state.ProductReducer.getvarientByid,
     isVariantCreated: state.ProductReducer.isVariantCreated,
+    getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId
   };
 };
 
@@ -439,4 +612,5 @@ export default connect(mapStateToProps, {
   getProductVarient,
   updategeneraldata,
   isVariantCreated,
+  getProductByFamilyId
 })(VariantGeneralData);

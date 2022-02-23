@@ -188,6 +188,8 @@ const EditPost = () => {
     setFieldValue('hostImageUrl', '');
   };
 
+  // console.log(records);
+
   return (
     <>
       <BackHandler title={`Edit ${location?.postType}`} tab={location?.postTypeTab} />
@@ -280,6 +282,12 @@ const EditPost = () => {
                             setFieldValue('wallCategories', value !== null ? value : categories);
                           }}
                           value={values.wallCategories}
+                          disabled={
+                            values?.wallCategories[0]?.name == '4th Year Premium' ||
+                            values?.wallCategories[0]?.name == '4th Year Freemium'
+                              ? true
+                              : false
+                          }
                           renderInput={(params) => (
                             <TextField
                               {...params}

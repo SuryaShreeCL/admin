@@ -14,13 +14,12 @@ import { InputCard } from "../../../Assets/StyledComponents";
 import { AddButton } from "../../../Utils/Buttons";
 import { AddRounded } from "@material-ui/icons";
 import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
+import { AVOID_INPUT } from "../../../Constants";
 const TASK_TYPES = [
   { id: "TEXT", title: "Text" },
   { id: "VIDEO", title: "Video" },
   { id: "TEXT_VIDEO", title: "Text and Video" },
 ];
-
-const AVOID_INPUT = ["E", "e", "+", "-"];
 
 export class TaskCard extends Component {
   constructor(props) {
@@ -191,7 +190,11 @@ export class TaskCard extends Component {
                     <OutlinedInput
                       type={"number"}
                       onKeyDown={evt =>
-                        AVOID_INPUT.includes(evt.key) && evt.preventDefault()
+                        (AVOID_INPUT.includes(evt.key) ||
+                          // Up arrow and down arrow disabling
+                          evt.keyCode === 38 ||
+                          evt.keyCode === 40) &&
+                        evt.preventDefault()
                       }
                       value={inputItem.duration}
                       name="duration"

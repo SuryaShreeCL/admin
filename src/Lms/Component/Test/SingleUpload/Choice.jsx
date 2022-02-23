@@ -5,8 +5,6 @@ import CheckedIcon from "../../../Assets/icons/Checked.svg";
 import UnCheckedIcon from "../../../Assets/icons/UnChecked.svg";
 import { C1, Checkbox, FormControlLabel, T1 } from "../../../Assets/StyledTest";
 import TextEditor from "../../../Utils/TextEditor";
-// import { ThemeProvider } from 'styled-components';
-// import { FormControlLabel } from '@material-ui/core';
 
 const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 

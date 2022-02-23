@@ -81,7 +81,7 @@
     "prettier": "1.19.1"
   },
   "scripts": {
-    "start": "PORT=8000 react-scripts start ",
+    "start": "PORT=8000 env-cmd -f .env react-scripts start ",
     "build": "env-cmd -f .env.production react-scripts --max_old_space_size=4096 build",
     "build:development": "env-cmd -f .env.development react-scripts --max_old_space_size=4096 build",
     "build:lms": "env-cmd -f .env.lms react-scripts --max_old_space_size=4096 build",
@@ -89,8 +89,9 @@
     "build:qa": "env-cmd -f .env.qa react-scripts --max_old_space_size=4096 build",
     "build:new": "env-cmd -f .env.new react-scripts --max_old_space_size=4096 build",
     "start:dev": "env-cmd -f .env.development react-scripts start",
-    "start:stage": "env-cmd -f .env.staging react-scripts start",
-    "start:prod": "env-cmd -f .env.production react-scripts start",
+    "start:stage": "PORT=8000 env-cmd -f .env.staging react-scripts start",
+    "start:qa": "PORT=8000 env-cmd -f .env.qa react-scripts start",
+    "start:prod": "PORT=8000 env-cmd -f .env.production react-scripts start",
     "qa": "env-cmd -f .env.qa react-scripts start",
     "lms": "env-cmd -f .env.lms react-scripts start",
     "test": "react-scripts test --env=jsdom",

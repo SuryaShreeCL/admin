@@ -523,6 +523,7 @@ export const getVideoInfo = (videoId, callback) => {
         callback(response.data.data);
       })
       .catch(error => {
+        callback(error.response.data);
         console.log(error);
       });
   };

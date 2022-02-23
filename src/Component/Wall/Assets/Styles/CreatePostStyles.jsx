@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CreatePostContainer = styled.section`
   background: #fff;
@@ -61,4 +61,11 @@ export const ButtonsContainerTwo = styled(ButtonsContainer)`
   span {
     cursor: pointer;
   }
+`;
+
+export const VideoPlayerDiv = styled.div`
+  width: 768px;
+  height: 432px;
+  margin: 0 auto;
+  padding-top: 8px;
 `;

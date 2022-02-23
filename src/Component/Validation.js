@@ -70,6 +70,10 @@ export const isNumber = (evt) => {
   return (evt.which != 8 && evt.which != 0 && evt.which < 48) || evt.which > 57;
 };
 
+export const isOnlyNumber = (evt) =>{
+  return evt.which >= 48 && evt.which <=57
+}
+
 export const isAlpha = (evt) => {
   var keyCode = evt.which ? evt.which : evt.keyCode;
   return (

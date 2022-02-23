@@ -1,30 +1,29 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
 import {
-  getAllColleges,
-  addColleges,
-  updateColleges,
-  deleteCollege
-} from "../Actions/College";
-import {getPaginateCollege} from "../Actions/College"
-import TableComponent from "./TableComponent/TableComponent";
-import { ThemeProvider, createMuiTheme, CircularProgress , Slide} from "@material-ui/core";
-import MaterialTable from "material-table";
-import { tableIcons } from "./MaterialTableIcon";
-import AddIcon from "@material-ui/icons/Add";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+  CircularProgress,
+  createMuiTheme,
+  Slide,
+  ThemeProvider,
+} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
-import Alert from "@material-ui/lab/Alert";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-
+import TextField from "@material-ui/core/TextField";
+import AddIcon from "@material-ui/icons/Add";
+import CloseIcon from "@material-ui/icons/Close";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  addColleges,
+  deleteCollege,
+  getAllColleges,
+  getPaginateCollege,
+  updateColleges,
+} from "../Actions/College";
+import MySnackBar from "./MySnackBar";
+import TableComponent from "./TableComponent/TableComponent";
 export class College extends Component {
   constructor(props) {
     super(props);
@@ -36,14 +35,20 @@ export class College extends Component {
       logoURL: "",
       msg: false,
       update: false,
-      description : null,
+      description: null,
+      snack: {
+        open: false,
+        message: "",
+        color: "",
+      },
     };
   }
 
   col = [
     {
       title: "ID",
-      fieldName: "id"},
+      fieldName: "id",
+    },
     { title: "Name", fieldName: "name" },
   ];
 
@@ -51,40 +56,41 @@ export class College extends Component {
     // this.props.getAllColleges();
     this.props.getPaginateCollege(0, 20, null);
   }
-  handleEdit = (data) => {
-    console.log(data)
-    this.setState({
-      id : data.id,
-      name : data.name,
-      logoURL : data.logoURL,
-      description : data.description,
-      show : true,
-    })
-};
 
-tableTheme = () =>
-createMuiTheme({
-  palette: {
-    primary: {
-      main: "#007bff",
-    },
-  },
-  overrides: {
-    MuiTypography: {
-      h6: {
-        fontWeight: "bold",
-      },
-    },
-    MuiIconButton: {
-      root: {
-        "&:hover": {
-          backgroundColor: "none",
-          borderRadius: 0,
+  handleEdit = (data) => {
+    console.log(data);
+    this.setState({
+      id: data.id,
+      name: data.name,
+      logoURL: data.logoURL,
+      description: data.description,
+      show: true,
+    });
+  };
+
+  tableTheme = () =>
+    createMuiTheme({
+      palette: {
+        primary: {
+          main: "#007bff",
         },
       },
-    },
-  },
-});
+      overrides: {
+        MuiTypography: {
+          h6: {
+            fontWeight: "bold",
+          },
+        },
+        MuiIconButton: {
+          root: {
+            "&:hover": {
+              backgroundColor: "none",
+              borderRadius: 0,
+            },
+          },
+        },
+      },
+    });
 
   modeltheme = () =>
     createMuiTheme({
@@ -130,22 +136,23 @@ createMuiTheme({
         },
       },
     });
-    spinnerTheme = () =>createMuiTheme({
-      overrides :{
-        MuiCircularProgress :  {
-          colorPrimary:{
-            color: "#009be5"
-          }
-        }
-      }
+  spinnerTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MuiCircularProgress: {
+          colorPrimary: {
+            color: "#009be5",
+          },
+        },
+      },
     });
   handleClickOpen = (e) => {
-    this.setState({ 
+    this.setState({
       show: true,
-    id : "",
-    name : "",
-    description : "",
-    logoURL : ""
+      id: "",
+      name: "",
+      description: "",
+      logoURL: "",
     });
   };
 
@@ -156,20 +163,18 @@ createMuiTheme({
     this.props.getPaginateCollege(page, size, keyword);
   };
 
-  rowClick = (rowData) => {
-      
+  rowClick = (rowData) => {};
+  deleteHandler = (data) => {
+    this.props.deleteCollege(data.id);
   };
-  deleteHandler = (data) =>{
-    this.props.deleteCollege(data.id)
-  }
   // Add College
   newCollege(e) {
     this.setState({ show: false });
     let newCollegeObj = {
       name: this.state.name,
-      decription: this.state.description,
-      logourl : this.state.logoURL,
-      status : null
+      description: this.state.description,
+      logoURL: this.state.logoURL,
+      status: null,
     };
     if (this.state.name.length !== 0) {
       this.props.addColleges(newCollegeObj);
@@ -177,7 +182,7 @@ createMuiTheme({
         id: "",
         name: "",
         description: "",
-        logoURL : "",   
+        logoURL: "",
       });
     }
   }
@@ -197,17 +202,45 @@ createMuiTheme({
         description: "",
         logoURL: "",
         update: true,
-      });      
+      });
     }
     this.props.getAllColleges();
   }
-  render() {   
-    
-    console.log(this.props.paginateCollegeList)
+
+  componentDidUpdate(prevProps) {
+    if (this.props.addCollegeStatus !== prevProps.addCollegeStatus) {
+      if (this.props.addCollegeStatus.success) {
+        this.props.getAllColleges();
+      } else {
+        this.setState({
+          snack: {
+            open: true,
+            message: this.props.addCollegeStatus.message,
+            color: "error",
+          },
+        });
+      }
+    }
+    if (this.props.updateCollegeStatus !== prevProps.updateCollegeStatus) {
+      if (this.props.updateCollegeStatus.success) {
+        this.props.getAllColleges();
+      } else {
+        this.setState({
+          snack: {
+            open: true,
+            message: this.props.updateCollegeStatus.message,
+            color: "error",
+          },
+        });
+      }
+    }
+  }
+
+  render() {
     return (
       <ThemeProvider theme={this.tableTheme()}>
         <div>
-        {this.props.paginateCollegeList.length !== 0 ? (
+          {this.props.paginateCollegeList.length !== 0 ? (
             <TableComponent
               data={
                 this.props.paginateCollegeList.length !== 0
@@ -222,111 +255,39 @@ createMuiTheme({
               title={"College"}
               pageCount={this.props.paginateCollegeList.totalPages}
               action={true}
+              disableDelete
               onDelete={true}
               onDeleteClick={this.deleteHandler}
-              onEdit={true}              
+              onEdit={true}
               onEditClick={this.handleEdit}
               add={true}
               onAddClick={this.handleClickOpen}
             />
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-            <div style={{
+              <div
+                style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   height: "65vh",
-            }}>
-          <CircularProgress
-         color="primary"
-          variant="indeterminate"
-          size = "3rem"
-          thickness="3"
-           />
-           </div>
-          </ThemeProvider>
+                }}
+              >
+                <CircularProgress
+                  color="primary"
+                  variant="indeterminate"
+                  size="3rem"
+                  thickness="3"
+                />
+              </div>
+            </ThemeProvider>
           )}
-          {/* <MaterialTable
-            title="Colleges"
-            icons={tableIcons}
-            columns={this.col}
-            data={this.props.AllCollegeList}
-            actions={[
-              {
-                icon: () => (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<AddIcon />}
-                    size="small"
-                  >
-                    Add College
-                  </Button>
-                ),
-                tooltip: "Create Course",
-                isFreeAction: true,
-                onClick: (e) =>
-                  this.setState({
-                    id: "",
-                    name: "",
-                    description: "",
-                    logo: "",
-                    show: true,
-                  }),
-              },
-              {
-                icon: () => (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<EditIcon />}
-                    size="small"
-                  >
-                    Edit
-                  </Button>
-                ),
-                tooltip: "Edit Course",
-                onClick: (e, row) => {
-                  this.setState({
-                    id: row.id,
-                    name: row.name,
-                    description: row.description,
-                    logo: row.logoURL,
-                    show: true,
-                  });
-                },
-              },
-              {
-                icon: () => (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<DeleteIcon />}
-                    size="small"
-                    disabled
-                  >
-                    Delete
-                  </Button>
-                ),
-                tooltip: "Delete Course",
-              },
-            ]}
-            options={{
-              actionsColumnIndex: -1,
-              search: true,
-              headerStyle: {
-                fontWeight: "bold",
-              },
-              minBodyHeight: "420px",
-              maxBodyHeight: "420px",
-            }}
-          /> */}
 
           {/* Add and Edit College Dialog */}
 
           <ThemeProvider theme={this.modeltheme()}>
             <Dialog
-            TransitionComponent={Transition}
+              TransitionComponent={Transition}
               open={this.state.show}
               onClose={this.handleClose}
               aria-labelledby="customized-dialog-title"
@@ -369,7 +330,7 @@ createMuiTheme({
                   rowsMin={3}
                   multiline
                   fullWidth
-                  value={this.state.logo}
+                  value={this.state.logoURL}
                   onChange={(e) => this.setState({ logoURL: e.target.value })}
                 />
               </DialogContent>
@@ -390,6 +351,20 @@ createMuiTheme({
             </Dialog>
           </ThemeProvider>
         </div>
+        <MySnackBar
+          snackOpen={this.state.snack.open}
+          snackVariant={this.state.snack.color}
+          snackMsg={this.state.snack.message}
+          onClose={() =>
+            this.setState({
+              snack: {
+                open: false,
+                message: "",
+                color: "",
+              },
+            })
+          }
+        />
       </ThemeProvider>
     );
   }
@@ -401,6 +376,8 @@ const mapStateToProps = (state) => {
   return {
     AllCollegeList: state.CollegeReducer.allCollegeList,
     paginateCollegeList: state.CollegeReducer.paginateCollegeList,
+    addCollegeStatus: state.CollegeReducer.addCollegeStatus,
+    updateCollegeStatus: state.CollegeReducer.updateCollegeStatus,
   };
 };
 export default connect(mapStateToProps, {

@@ -1,5 +1,6 @@
-import { Badge, Breadcrumbs, Box } from "@material-ui/core";
+import { Badge, Box } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
+import Collapse from "@material-ui/core/Collapse";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -13,134 +14,62 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
-import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
-import AddShoppingCartRoundedIcon from "@material-ui/icons/AddShoppingCartRounded";
-import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
-import CallIcon from "@material-ui/icons/Call";
+import Track from "@material-ui/icons/ArtTrack";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import DnsRoundedIcon from "@material-ui/icons/DnsRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import HelpRoundedIcon from "@material-ui/icons/HelpRounded";
-import HomeIcon from "@material-ui/icons/Home";
-import Track from "@material-ui/icons/ArtTrack";
-import NewspaperIcon from "@material-ui/icons/Wallpaper";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
-import InstagramIcon from "@material-ui/icons/Instagram";
-import LocationCityRoundedIcon from "@material-ui/icons/LocationCityRounded";
-import MenuBookRoundedIcon from "@material-ui/icons/MenuBookRounded";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-// import MenuIcon from '@material-ui/icons/Menu';
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
-import PeopleIcon from "@material-ui/icons/People";
-import RateReviewRoundedIcon from "@material-ui/icons/RateReviewRounded";
-import SchoolRoundedIcon from "@material-ui/icons/SchoolRounded";
-import SportsHandballRoundedIcon from "@material-ui/icons/SportsHandballRounded";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import TrendingUpRoundedIcon from "@material-ui/icons/TrendingUpRounded";
-import VideocamRoundedIcon from "@material-ui/icons/VideocamRounded";
+import NewspaperIcon from "@material-ui/icons/Wallpaper";
 import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-
 import { connect } from "react-redux";
-import { checkTokenStatus } from "../Actions/AdminAction";
-import BackButton from "../Asset/Images/backbutton.svg";
-import MenuIcon from "../Asset/Images/menu.svg";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import StarBorder from "@material-ui/icons/StarBorder";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
 import {
+  checkTokenStatus,
+  getAdminLinkedProduct,
+} from "../Actions/AdminAction";
+import { getProductByFamilyId } from "../Actions/ProductAction";
+import MenuIcon from "../Asset/Images/menu.svg";
+import {
+  appVersion,
   aspirationPath,
   callSchedulePath,
   careerTrackPath,
   cityPath,
   collegePath,
   coursePath,
+  degreePath,
   departmentPath,
+  intakePath,
   lmsTest,
   lms_course_landing,
-  lms_course_taken,
   lms_study_plans,
   notificationPath,
   obOperationPath,
+  premiumUsersPath,
   productPath,
   productPunchingPath,
-  questionSetPath,
   reportsPath,
   rootLoginPath,
   studentPath,
   testimonialsPath,
-  universityPath,
-  videoPath,
   testPath,
+  videoPath,
   wallPath,
   webinarPath,
-  appVersion,
 } from "./RoutePaths";
 import Routes from "./Routes";
-import TreeView from "@material-ui/lab/TreeView";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TreeItem from "@material-ui/lab/TreeItem";
-import { menu } from "../Constant/Variables";
-import { getAdminLinkedProduct } from "../Actions/AdminAction";
-import { getProductByFamilyId } from "../Actions/ProductAction";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import LandingAdmin from "./LandingAdmin";
 
 const drawerWidth = 240;
-const NavbarList = [
-  { id: coursePath, icon: <MenuBookRoundedIcon />, title: "Courses" },
-  { id: studentPath, icon: <PeopleIcon />, title: "Students" },
-  { id: departmentPath, icon: <DnsRoundedIcon />, title: "Departments" },
-  { id: collegePath, icon: <AccountBalanceRoundedIcon />, title: "Colleges" },
-  { id: universityPath, icon: <SchoolRoundedIcon />, title: "University" },
-  { id: cityPath, icon: <LocationCityRoundedIcon />, title: "City" },
-  {
-    id: aspirationPath,
-    icon: <SportsHandballRoundedIcon />,
-    title: "Aspiration",
-  },
-  { id: questionSetPath, icon: <HelpRoundedIcon />, title: "Question Set" },
-  { id: videoPath, icon: <VideocamRoundedIcon />, title: "Video" },
-  { id: productPath, icon: <AddShoppingCartRoundedIcon />, title: "Product" },
-  { id: webinarPath, icon: <SupervisorAccountIcon />, title: "Webinar" },
-  { id: wallPath, icon: <InstagramIcon />, title: "Wall" },
-  {
-    id: careerTrackPath,
-    icon: <TrendingUpRoundedIcon />,
-    title: "Career Track",
-  },
-  { id: notificationPath, icon: <NotificationsIcon />, title: "Notification" },
-  {
-    id: testimonialsPath,
-    icon: <RateReviewRoundedIcon />,
-    title: "Testimonials",
-  },
-  { id: reportsPath, icon: <AssessmentRoundedIcon />, title: "Reports" },
-  { id: "schedule", icon: <CallIcon />, title: "Call Schedule" },
-  {
-    id: productPunchingPath,
-    icon: <SupervisorAccountIcon />,
-    title: "Product Punching",
-  },
-  {
-    id: obOperationPath,
-    icon: <SupervisorAccountIcon />,
-    title: "OB Operation",
-  },
-];
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -192,9 +121,9 @@ const useStyles = makeStyles(theme => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-    position:  "sticky",
-    top : 0,
-    zIndex : 1
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
   },
   content: {
     flexGrow: 1,
@@ -335,8 +264,6 @@ function RootContainer(props) {
 
   const mounted = useRef();
 
-  var flag = false;
-
   useEffect(() => {
     if (!mounted.current) {
       // do componentDidMount logic
@@ -369,7 +296,6 @@ function RootContainer(props) {
     return ref.current;
   }
 
-  const prevProps = usePrevious(props);
   useEffect(() => {
     //
 
@@ -381,9 +307,13 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.department !== "elev8" &&
       props.adminLinkedProductDetails.department !== "SUPERADMIN"
     ) {
-      props.getProductByFamilyId(
-        props.adminLinkedProductDetails?.products[0]?.productFamily.id
-      );
+      if (props.adminLinkedProductDetails) {
+        if (props.adminLinkedProductDetails.products.length !== 0) {
+          props.getProductByFamilyId(
+            props.adminLinkedProductDetails.products[0].productFamily.id
+          );
+        }
+      }
     }
     //
     // let newListArr = []
@@ -405,16 +335,16 @@ function RootContainer(props) {
 
     if (props.adminLinkedProductDetails.department === "Acsoperations") {
       let myArr = [];
-      props.getProductByFamilyIdList
-        .filter(
-          eachProd =>
-            eachProd.variantSKU === "ACS_MS" ||
-            eachProd.variantSKU === "ACS_MBA" ||
-            eachProd.variantSKU === "ACS_MIM" ||
-            eachProd.variantSKU === "ACS_MBA_PB" ||
-            eachProd.variantSKU === "ACS_MIM_PB"
-        )
-        .map((eachItem, index) => {
+      props.adminLinkedProductDetails.products
+        // .filter(
+        //   eachProd =>
+        //     eachProd.variantSKU === "ACS_MS" ||
+        //     eachProd.variantSKU === "ACS_MBA" ||
+        //     eachProd.variantSKU === "ACS_MIM" ||
+        //     eachProd.variantSKU === "ACS_MBA_PB" ||
+        //     eachProd.variantSKU === "ACS_MIM_PB"
+        // )
+        .map((eachItem) => {
           myArr.push({
             title: eachItem.shortName,
             path: obOperationPath + "/" + eachItem.id,
@@ -487,14 +417,14 @@ function RootContainer(props) {
       ]);
     } else if (props.adminLinkedProductDetails.department === "Pboperations") {
       let myArr = [];
-      props.getProductByFamilyIdList
-        .filter(
-          (prodItems) =>
-            prodItems.variantSKU === "PBP" ||
-            prodItems.variantSKU === "PBM" ||
-            prodItems.variantSKU === "PBP_2023"
-        )
-        .map((eachItem, index) => {
+      props.adminLinkedProductDetails.products
+        // .filter(
+        //   (prodItems) =>
+        //     prodItems.variantSKU === "PBP" ||
+        //     prodItems.variantSKU === "PBM" ||
+        //     prodItems.variantSKU === "PBP_2023"
+        // )
+        .map((eachItem) => {
           myArr.push({
             title: eachItem.shortName,
             path: obOperationPath + "/" + eachItem.id,
@@ -575,6 +505,12 @@ function RootContainer(props) {
           path: studentPath,
           items: [],
         },
+        // {
+        //   icon: <HomeOutlinedIcon />,
+        //   title: 'Reports',
+        //   path: productReportPath,
+        //   items: [],
+        // },
       ]);
     } else if (props.adminLinkedProductDetails.department === "elev8") {
       setSideNav([
@@ -594,6 +530,12 @@ function RootContainer(props) {
           icon: <Track />,
           title: "Career Track",
           path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <Track />,
+          title: "Premium Users Data",
+          path: premiumUsersPath,
           items: [],
         },
       ]);
@@ -624,6 +566,30 @@ function RootContainer(props) {
           title: "App Version Change",
           path: appVersion,
           items: [],
+        },
+      ]);
+    } else if (
+      props.adminLinkedProductDetails.department === "testprepoperations"
+    ) {
+      let myArr = [];
+      props.adminLinkedProductDetails.products
+        // .filter(
+        //   (prodItems) =>
+        //     prodItems.variantSKU === "PBP" ||
+        //     prodItems.variantSKU === "PBM" ||
+        //     prodItems.variantSKU === "PBP_2023"
+        // )
+        .map((eachItem) => {
+          myArr.push({
+            title: eachItem.shortName,
+            path: obOperationPath + "/" + eachItem.id,
+          });
+        });
+      setSideNav([
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Operations",
+          items: myArr,
         },
       ]);
     } else if (props.adminLinkedProductDetails.department === "SUPERADMIN") {
@@ -691,6 +657,24 @@ function RootContainer(props) {
           path: collegePath,
           items: [],
         },
+        {
+          icon: <></>,
+          title: "Degree",
+          path: degreePath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Department",
+          path: departmentPath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "InTake",
+          path: intakePath,
+          items: [],
+        },
       ]);
     }
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
@@ -713,7 +697,7 @@ function RootContainer(props) {
               ? "#5584AC"
               : "",
         }}
-        onClick={e => {
+        onClick={() => {
           setSeletectedValue(item);
           props.history.push(item.path);
         }}
@@ -729,7 +713,7 @@ function RootContainer(props) {
     const [menuOpen, setMenuOpen] = useState(true);
     const handleClick = () => {
       setSeletectedValue(null);
-      setMenuOpen(prev => !prev);
+      setMenuOpen((prev) => !prev);
     };
 
     return (
@@ -762,7 +746,7 @@ function RootContainer(props) {
     );
   };
 
-  const hasChildren = item => {
+  const hasChildren = (item) => {
     const { items: children } = item;
 
     if (children === undefined) {
@@ -933,7 +917,7 @@ function Copyright() {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     tokenStatus: state.AdminReducer.tokenStatus,
     adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,

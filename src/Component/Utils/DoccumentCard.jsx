@@ -5,6 +5,8 @@ import { getgmatscore, getgrescore, getieltsscore, gettoeflscore} from "../../Ac
 import {connect} from "react-redux"
 import Mysnack from "../MySnackBar";
 import { ErrorMessage } from "../Validation";
+import * as moment from "moment";
+
 class DoccumentCard extends Component {
   constructor(){
     super();
@@ -33,8 +35,7 @@ class DoccumentCard extends Component {
     if(this.props.category === 'Ielts'){
       this.props.deleteDocumentGraduate(this.props.studentid,this.props.path, this.props.id, "ielts")
     }
-    if(!this.props.category){
-      console.log(this.props)
+    if(!this.props.category){   
         this.props.deleteDocument(this.props.studentid,this.props.path,(response => {
           if(response.status === 200){
             this.setState({
@@ -58,7 +59,7 @@ class DoccumentCard extends Component {
       //     snackopen : true,
       //     snackvariant: "success"
       //   })
-        this.props.getDocumentList(this.props.studentid) 
+        this.props.getDocumentList(this.props.studentid,this.props.productId) 
         event.stopPropagation();
 
   }
@@ -67,7 +68,7 @@ class DoccumentCard extends Component {
     let date = new Date(this.props.date).getDate()
     let month = new Date(this.props.date).getMonth()
     let year = new Date(this.props.date).getFullYear()
-    console.log(this.props)
+    
 
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sep","Oct","Nov","Dec"];
                 var monthName = months[month];
@@ -75,7 +76,7 @@ class DoccumentCard extends Component {
 
                 const {deletebtn} =style;
 
-
+console.log(this.props)
     return (
 
       <div style={{marginBottom:20, marginLeft:10}}>
@@ -118,10 +119,10 @@ class DoccumentCard extends Component {
                 color: "#686868",
               }}
             >
-             Uploaded On: {newDate}
+             Uploaded On: {moment(new Date( newDate)).format("MMM yyyy")}
             </p>
           </div>
-          {this.props.status === true &&
+          {!this.props.status &&
             <div>
                    <Button
                         href="#text-buttons"

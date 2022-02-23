@@ -59,6 +59,14 @@ export const COLLEGES = {
   getPGDegrees: "getPGDegrees",
 };
 
+export const DEGREE = {
+  getDegreePaginate: "getDegreePaginate",
+  getAllDegrees: "getAllDegrees",
+  addDegree: "addDegree",
+  updateDegree: "updateDegree",
+  deleteDegree: "deleteDegree",
+};
+
 export const STUDENT = {
   getStudent: "getStudent",
   getStudentById: "getStudentById",
@@ -118,10 +126,22 @@ export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
 };
 
+/**department */
 export const DEPARTMENT = {
   addDepartment: "addDepartment",
   updateDepartment: "updateDepartment",
-  deleteDepatment: "deleteDepartment",
+  deleteDepartment: "deleteDepartment",
+  getAllDepartments: "getAllDepartments",
+  getPaginateDepartment: "getPaginateDepartment",
+};
+
+/**Intake */
+export const INTAKE = {
+  addIntake: "addIntake",
+  updateIntake: "updateIntake",
+  deleteIntake: "deleteIntake",
+  getAllIntakes: "getAllIntakes",
+  getPaginateIntake: "getPaginateIntake",
 };
 
 // Selva
@@ -317,16 +337,17 @@ export const NOTIFICATION = {
 };
 
 export const REPORTS = {
-  viewTermsAndConReport: "viewTermsAndConReport",
-  viewCvReport: "viewCvReport",
-  viewMarksheetReport: "viewMarksheetReport",
-  viewMyDetailsReport: "viewMyDetailsReport",
-  viewTechTestMechReport: "viewTechTestMechReport",
-  viewTechTestCseReport: "viewTechTestCseReport",
-  viewTestRating: "viewTestRating",
-  viewTechTestElectronics: "viewTechTestElectronics",
-  viewDiagTestReport: "viewDiagTestReport",
-  viewCareerExpoTest: "viewCareerExpoTest",
+  viewTermsAndConReport: 'viewTermsAndConReport',
+  viewCvReport: 'viewCvReport',
+  viewMarksheetReport: 'viewMarksheetReport',
+  viewMyDetailsReport: 'viewMyDetailsReport',
+  viewTechTestMechReport: 'viewTechTestMechReport',
+  viewTechTestCseReport: 'viewTechTestCseReport',
+  viewTestRating: 'viewTestRating',
+  viewTechTestElectronics: 'viewTechTestElectronics',
+  viewDiagTestReport: 'viewDiagTestReport',
+  viewCareerExpoTest: 'viewCareerExpoTest',
+  downloadProductReport: 'downloadProductReport',
 };
 
 export const STUDENTMARKDETAILS = {
@@ -468,6 +489,12 @@ export const WALL = {
   PLATFORMS: "PLATFORMS",
 };
 
+export const PREMIUM_USERS = {
+  PREMIUM_USERS_UPLOAD_REQUEST: "PREMIUM_USERS_UPLOAD_REQUESTED",
+  PREMIUM_USERS_UPLOAD_SUCCESS: "PREMIUM_USERS_UPLOAD_SUCCESSFUL",
+  PREMIUM_USERS_UPLOAD_FAIL: "PREMIUM_USERS_UPLOAD_FAILED",
+};
+
 export const TEST = {
   LIST_REQUEST: "TEST_LIST_REQUESTED",
   LIST_SUCCESS: "TEST_LIST_SUCCESSFUL",
@@ -529,4 +556,22 @@ export const PGA_REPORT = {
   getResumeQuestionnaire: "getResumeQuestionnaire",
   postSpiderGraph: "postSpiderGraph",
   careerTrackProfileSimilarity: "careerTrackProfileSimilarity",
+};
+
+export const PROFILE_FIT_SPIDER_GRAPH = {
+  loader: "profileFitSpiderGraphLoader",
+  getSpiderGraphQuestions: "getSpiderGraphQuestions",
+  putSpiderGraphAnswers: "putSpiderGraphAnswers",
+  getSpiderDetails: "getSpiderDetails",
+  getSpiderGraph: "getSpiderGraph",
+  updateRemark: "updateRemark",
+};
+
+export const CV_REVIEW = {
+  loader: "cvReviewLoader",
+  reviewCompleted: "cvReviewCompleted",
+  cvDownload: "cvDownload",
+  getStudentCvList: "getStudentCvList",
+  cvUpload: "cvUpload",
+  clearCustomData: "cvClearCustomData",
 };

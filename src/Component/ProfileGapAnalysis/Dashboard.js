@@ -26,7 +26,6 @@ class Dashboard extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        console.log(response.data);
         if (response.status === 200) {
           this.setState({
             verifydetails:
@@ -49,6 +48,7 @@ class Dashboard extends Component {
   });
   render() {
     const { classes } = this.props;
+
     return (
       <div>
         <Grid container className={classes.root} spacing={2}>
@@ -62,24 +62,30 @@ class Dashboard extends Component {
               <Grid item md={12}>
                 <Grid container>
                   {this.state.verifydetails &&
-                    this.state.verifydetails.sort((a,b)=>parseInt(a.orderNO)-parseInt(b.orderNO)).map((data) => {
-                      return (
-                        <>
-                          <Grid item md={7}>
-                            <Typography className={classes.mentorrightcontent}>
-                              {data.sectionName}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={5} align={"left"}>
-                            <img
-                              src={
-                                data.status === "Verified" ? GreenTick : Warning
-                              }
-                            />
-                          </Grid>
-                        </>
-                      );
-                    })}
+                    this.state.verifydetails
+                      .sort((a, b) => parseInt(a.orderNO) - parseInt(b.orderNO))
+                      .map((data) => {
+                        return (
+                          <>
+                            <Grid item md={7}>
+                              <Typography
+                                className={classes.mentorrightcontent}
+                              >
+                                {data.sectionName}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={5} align={"left"}>
+                              <img
+                                src={
+                                  data.status === "Verified"
+                                    ? GreenTick
+                                    : Warning
+                                }
+                              />
+                            </Grid>
+                          </>
+                        );
+                      })}
                 </Grid>
               </Grid>
               <Grid item md={12} className={classes.mentorstyle}>
@@ -195,7 +201,11 @@ class Dashboard extends Component {
                           </Grid>
                           <Grid item md={9}>
                             <Typography
-                             className={data.callStatus === "completed" ? classes.completedstatus : classes.scheduledstatus}
+                              className={
+                                data.callStatus === "completed"
+                                  ? classes.completedstatus
+                                  : classes.scheduledstatus
+                              }
                             >
                               {data.callStatus}
                             </Typography>
@@ -268,7 +278,11 @@ class Dashboard extends Component {
                             </Grid>
                             <Grid item md={9}>
                               <Typography
-                              className={data.callStatus === "completed" ? classes.completedstatus : classes.scheduledstatus}
+                                className={
+                                  data.callStatus === "completed"
+                                    ? classes.completedstatus
+                                    : classes.scheduledstatus
+                                }
                               >
                                 {data.callStatus}
                               </Typography>
@@ -279,6 +293,85 @@ class Dashboard extends Component {
                     </Grid>
                   );
                 })}
+              {/* post pga card details */}
+              {/* {this.state.calldetails &&
+                this.state.calldetails.postPga.map((data) => {
+                  let date = new Date(data.datetime).getDate();
+                  let month = new Date(data.datetime).getMonth() + 1;
+                  let year = new Date(data.datetime).getFullYear();
+                  return (
+                    <Grid item md={6}>
+                      <ThemeProvider theme={this.theme}>
+                        <Paper className={classes.paper}>
+                          <Grid container>
+                            <Grid item md={11} className={classes.namegrid}>
+                              <Typography className={classes.name}>
+                                {data.firstName + " " + data.lastName}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={1}>
+                              <MoreVertIcon className={classes.icon} />
+                            </Grid>
+                            <Grid item md={3}>
+                              <Typography className={classes.paperleftfont}>
+                                Call Type :
+                              </Typography>
+                            </Grid>
+                            <Grid item md={9}>
+                              <Typography className={classes.callType}>
+                                {data.callType}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={3}>
+                              <Typography className={classes.paperleftfont}>
+                                Mentor :
+                              </Typography>
+                            </Grid>
+                            <Grid item md={9}>
+                              <Typography className={classes.paperrightfont}>
+                                {data.mentorName}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={6}>
+                              <Typography className={classes.paperleftfont}>
+                                Date and Time for Call :
+                              </Typography>
+                            </Grid>
+                            <Grid item md={6}>
+                              <Typography className={classes.paperrightfont}>
+                                {date +
+                                  "/" +
+                                  month +
+                                  "/" +
+                                  year +
+                                  " " +
+                                  data.time +
+                                  " " +
+                                  "IST"}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={3}>
+                              <Typography className={classes.paperleftfont}>
+                                Call Status:
+                              </Typography>
+                            </Grid>
+                            <Grid item md={9}>
+                              <Typography
+                                className={
+                                  data.callStatus === "completed"
+                                    ? classes.completedstatus
+                                    : classes.scheduledstatus
+                                }
+                              >
+                                {data.callStatus}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      </ThemeProvider>
+                    </Grid>
+                  );
+                })} */}
             </Grid>
           </Grid>
         </Grid>
@@ -343,19 +436,18 @@ const useStyles = (theme) => ({
     fontWeight: "bold",
     fontSize: "12px",
   },
-  completedstatus : {
+  completedstatus: {
     fontSize: "11px",
     fontWeight: "bold",
-    color:"green"
+    color: "green",
   },
-  scheduledstatus : {
+  scheduledstatus: {
     fontSize: "11px",
     fontWeight: "bold",
-    color:"orange"
-  }
+    color: "orange",
+  },
 });
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     getdashboarddetailsList:
       state.ProfileGapAnalysisReducer.getdashboarddetails,

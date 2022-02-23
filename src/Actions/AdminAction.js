@@ -8,26 +8,13 @@ export const adminLogin=(data,callback)=>{
         axios
           .put(URL + '/api/v1/students/validateAdmin', data, {
             crossDomain: true,
-            // headers : {
-            //     "admin" : "yes",
-            //     "Authorization" : `Bearer ${accessToken}`
-            // }
+           
           })
           .then((result) => {
             
             callback(result)
             dispatch({ type: ADMIN.adminLogin, adminLoginDetails: result.data });
-            // axios
-            //   .get(URL + `/api/v1/adminusers/${result.data.AdminUsers}`, {
-            //     crossDomain: true,
-            //     headers : {
-            //     "admin" : "yes",
-            //     "Authorization" : `Bearer ${accessToken}`
-            // }
-            //   })
-            //   .then((res) => {
-            //     window.sessionStorage.setItem('department', res.data.department);
-            //   });
+           
           })
           .catch((error) => {
               callback(error)

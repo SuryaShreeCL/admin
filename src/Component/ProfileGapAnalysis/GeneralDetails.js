@@ -1,35 +1,51 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  Card, createTheme,
-  Dialog, DialogActions, DialogContent,
+  Card,
+  createTheme,
+  Dialog,
+  DialogActions,
+  DialogContent,
   DialogTitle,
-  Grid, Menu,
-  MenuItem, TextField, ThemeProvider, Typography, withStyles
+  Grid,
+  Menu,
+  MenuItem,
+  TextField,
+  ThemeProvider,
+  Typography,
+  withStyles,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { Autocomplete } from "@material-ui/lab";
 import {
-  KeyboardDatePicker, MuiPickersUtilsProvider
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   getAllBranch,
-  getAllDegree, getAllSpecialization,
-  getAllUniversity
+  getAllDegree,
+  getAllSpecialization,
+  getAllUniversity,
 } from "../../Actions/Aspiration";
 import {
-  getcommenthistory, getgeneraldetails,
-  getstatus, updategeneraldetails, updatestatus
+  getcommenthistory,
+  getgeneraldetails,
+  getstatus,
+  updategeneraldetails,
+  updatestatus,
 } from "../../Actions/ProfileGapAction";
 import "../../Asset/ProfileGapAnalysis.css";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { isAlpha } from "../Validation";
 import {
-  getAllColleges, getBranches, getDegree, getPGDegree,
-  getUniversity
+  getAllColleges,
+  getBranches,
+  getDegree,
+  getPGDegree,
+  getUniversity,
 } from "./../../Actions/College";
 import Mysnack from "./../MySnackBar";
 import CommentDialog from "./CommentDialog";
@@ -122,6 +138,7 @@ class GeneralDetails extends Component {
         lastName: "Last Name",
         currentSem: "Current Semester",
         workexp: "Work Experience",
+        workExperience: "Work Experience",
       },
     };
   }
@@ -755,7 +772,7 @@ class GeneralDetails extends Component {
                 }}
                 onClick={(e) => this.handleClick(e, "CurrentSem")}
               >
-                <Dot
+                {/* <Dot
                   color={
                     this.state.verificationstatus &&
                     this.state.verificationstatus.length > 0 &&
@@ -764,7 +781,7 @@ class GeneralDetails extends Component {
                       ? "green"
                       : "orange"
                   }
-                />
+                /> */}
               </div>
               <div style={{ paddingLeft: "10px" }}>
                 <TextField
@@ -903,7 +920,8 @@ class GeneralDetails extends Component {
                 <TextField
                   {...params}
                   name="prefschool"
-                  label="Preferred Grad School"
+                  // label="Preferred Grad School"
+                  label={this.showSchoolLabel()}
                   className={"package_style"}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -1042,7 +1060,8 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Preferred Grad School"
+                  // label="Preferred Grad School"
+                  label={this.showSchoolLabel()}
                   className={"package_style"}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -1102,7 +1121,7 @@ class GeneralDetails extends Component {
           id: window.sessionStorage.getItem("adminUserId"),
         },
         round: this.state.round,
-        pgaIntake: this.state.intake && this.state.intake.title,
+        pgaIntake: this.state.intake?.title,
         pgaDataChangeLogs: pgadataarr,
         workExperience: this.state.workexp,
       };
@@ -1112,7 +1131,7 @@ class GeneralDetails extends Component {
         this.state.lastname !== "" &&
         this.state.degree !== null &&
         this.state.fieldofstudy !== null &&
-        this.state.intake !== null &&
+        // this.state.intake !== null &&
         this.state.round !== "" &&
         this.state.pgcollege !== null &&
         this.state.pgdegree !== null &&
@@ -1159,7 +1178,7 @@ class GeneralDetails extends Component {
         this.state.degree !== null &&
         this.state.college !== null &&
         this.state.fieldofstudy !== null &&
-        this.state.intake !== null &&
+        // this.state.intake !== null &&
         this.state.sem !== ""
       ) {
         let pgadataarr = [];
@@ -1196,7 +1215,7 @@ class GeneralDetails extends Component {
             id: window.sessionStorage.getItem("adminUserId"),
           },
           pgaDataChangeLogs: pgadataarr,
-          pgaIntake: this.state.intake && this.state.intake.title,
+          pgaIntake: this.state.intake?.title,
         };
 
         if (
@@ -1205,7 +1224,7 @@ class GeneralDetails extends Component {
           this.state.degree !== null &&
           this.state.college !== null &&
           this.state.fieldofstudy !== null &&
-          this.state.intake !== null &&
+          // this.state.intake !== null &&
           this.state.sem !== ""
         ) {
           this.props.updategeneraldetails(
@@ -1263,6 +1282,25 @@ class GeneralDetails extends Component {
     { title: "Spring 2025" },
     { title: "Fall 2025" },
   ];
+
+  showSchoolLabel = () => {
+    if (
+      this.props.getgeneraldetailsList &&
+      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_GRAD"
+    ) {
+      return "Preferred Grad-Schools";
+    } else if (
+      this.props.getgeneraldetailsList &&
+      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_BS"
+    ) {
+      return "Preferred B-schools";
+    } else if (
+      this.props.getgeneraldetailsList &&
+      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_BS_GRAD"
+    ) {
+      return "Preferred B-schools / Grad Schools";
+    }
+  };
   render() {
     const { classes } = this.props;
 
@@ -1716,24 +1754,18 @@ class GeneralDetails extends Component {
                       </Grid>
                       <Grid item md={4}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                          <TextField
+                            label="Enrollment Period"
+                            value={this.state.enrollmentdate}
+                            type="month"
                             disabled
                             name="enrollmentdate"
                             margin="normal"
-                            label="Enrollment Period"
-                            className={"package_style"}
-                            format="dd-MM-yyyy"
-                            value={this.state.enrollmentdate}
                             InputLabelProps={{ shrink: true }}
                             onChange={(newValue) =>
                               this.setState({ enrollmentdate: newValue })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
+                            className={"package_style"}
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
@@ -1753,6 +1785,7 @@ class GeneralDetails extends Component {
                         <Autocomplete
                           popupIcon={<ExpandMore style={{ color: "black" }} />}
                           options={this.intakevalue}
+                          disabled
                           getOptionLabel={(option) => option.title}
                           name="intake"
                           value={this.state.intake}
@@ -1771,13 +1804,6 @@ class GeneralDetails extends Component {
                             />
                           )}
                         />
-                        {/* <TextField
-                    name="intake"
-                    value={this.state.intake}
-                    onChange={(e) => this.handlechange(e)}
-                    label="Intake"
-                  /> */}
-                        {/* <TextField name="intake" disabled label="Intake" /> */}
                       </Grid>
                     </Grid>
                   </Grid>

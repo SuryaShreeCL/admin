@@ -56,7 +56,7 @@ export const addColleges=(data)=>{
             }
         })
             .then(result => {
-                dispatch({type:COLLEGES.addCollges,addCollege:result.data})
+                dispatch({type:COLLEGES.addCollges,payload:result.data})
             })
             .catch(error => {
                 console.log(error);
@@ -77,7 +77,7 @@ export const updateColleges=(id,data)=>{
             }
         })
             .then(result => {
-                dispatch({type:COLLEGES.updateColleges,updateColleges:result.data})
+                dispatch({type:COLLEGES.updateColleges,payload:result.data})
             })
             .catch(error => {
                 console.log(error);

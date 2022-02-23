@@ -1,6 +1,6 @@
 import { CALL_DETAILS } from "../Redux/Action";
 const initialState = {
-  updateclientdetails: [],
+  updateclientdetails: null,
   updateQuestions: [],
   updateRating: [],
   getPersonalInfo: [],
@@ -18,9 +18,9 @@ const initialState = {
   updategmatscore: [],
   updatetoeflscore: [],
   updateieltsscore: [],
-  downloadGAT : [],
-  fileuploadGAT :[],
-  completecall:[]
+  downloadGAT: [],
+  fileuploadGAT: [],
+  completecall: [],
 };
 
 export default (state = initialState, action) => {
@@ -115,26 +115,26 @@ export default (state = initialState, action) => {
         ...state,
         updateieltsscore: action.payload,
       };
-      case CALL_DETAILS.downloadGAT:
-        return {
-          ...state,
-          downloadGAT: action.payload,
-        };
-        case CALL_DETAILS.fileuploadGAT:
-          return {
-            ...state,
-            fileuploadGAT: action.payload,
-          };
-          case CALL_DETAILS.completecall:
-          return {
-            ...state,
-            completecall: action.payload,
-          };
-          // case CALL_DETAILS.getsearchlist:
-          //   return {
-          //     ...state,
-          //     getsearchlist: action.payload,
-          //   };
+    case CALL_DETAILS.downloadGAT:
+      return {
+        ...state,
+        downloadGAT: action.payload,
+      };
+    case CALL_DETAILS.fileuploadGAT:
+      return {
+        ...state,
+        fileuploadGAT: action.payload,
+      };
+    case CALL_DETAILS.completecall:
+      return {
+        ...state,
+        completecall: action.payload,
+      };
+    // case CALL_DETAILS.getsearchlist:
+    //   return {
+    //     ...state,
+    //     getsearchlist: action.payload,
+    //   };
     default:
       break;
   }

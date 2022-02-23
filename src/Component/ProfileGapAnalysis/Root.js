@@ -28,31 +28,34 @@ import {
   setPoperAnchorEl,
   getAcademicType,
   isClickedSem,
-} from "../../Actions/HelperAction";
-import TwelthForm from "./TwelthForm";
-import Index from "./AcademicSummary/Index";
-import GeneralDetails from "./GeneralDetails";
-import PgaGeneralDetails from "../PgaReport/GeneralDetails";
-import SelectSchool from "../PgaReport/SelectSchool";
-import AdditionalPointsForm from "../PgaReport/AdditionalPointsForm";
-import SpecializationTrack from "../PgaReport/SpecializationTrack";
-import PlanOfAction from "../PgaReport/PlanOfAction";
-import CriticalSuccessFactor from "../PgaReport/CriticalSuccessFactor";
-import { getPgaTabDropDown } from "../../AsyncApiCall/PgaReport/PgaReport";
-import ProfileFit from "../PgaReport/ProfileFit";
-import Strengths from "../PgaReport/Strengths";
-import Concerns from "../PgaReport/Concerns";
-import ProgramInformation from "../PgaReport/ProgramInformation";
-import ActivitiesForGmat from "../PgaReport/ActivitiesForGmat";
-import AllRoundActivities from "../PgaReport/AllRoundActivities";
-import Preview from "../PgaReport/Preview";
-import TopBSchool from "../PgaReport/TopBSchool";
-import CareerRoot from "./CareerRole/CareerRoot";
-import Edx from "../PgaReport/Edx";
-import EdxSampleCourse from "../PgaReport/EdxSampleCourse";
-import ResumeQuestionnaire from "../PgaReport/ResumeQuestionnaire";
-import SpiderGraph from "../PgaReport/SpiderGraph";
-import { ExpandLess } from "@material-ui/icons";
+} from '../../Actions/HelperAction';
+import TwelthForm from './TwelthForm';
+import Index from './AcademicSummary/Index';
+import GeneralDetails from './GeneralDetails';
+import PgaGeneralDetails from '../PgaReport/GeneralDetails';
+import SelectSchool from '../PgaReport/SelectSchool';
+import AdditionalPointsForm from '../PgaReport/AdditionalPointsForm';
+import SpecializationTrack from '../PgaReport/SpecializationTrack';
+import PlanOfAction from '../PgaReport/PlanOfAction';
+import CriticalSuccessFactor from '../PgaReport/CriticalSuccessFactor';
+import { getPgaTabDropDown } from '../../AsyncApiCall/PgaReport/PgaReport';
+import ProfileFit from '../PgaReport/ProfileFit';
+import Strengths from '../PgaReport/Strengths';
+import Concerns from '../PgaReport/Concerns';
+import ProgramInformation from '../PgaReport/ProgramInformation';
+import ActivitiesForGmat from '../PgaReport/ActivitiesForGmat';
+import AllRoundActivities from '../PgaReport/AllRoundActivities';
+import Preview from '../PgaReport/Preview';
+import TopBSchool from '../PgaReport/TopBSchool';
+import CareerRoot from './CareerRole/CareerRoot';
+import Edx from '../PgaReport/Edx';
+import EdxSampleCourse from '../PgaReport/EdxSampleCourse';
+import ResumeQuestionnaire from '../PgaReport/ResumeQuestionnaire';
+import SpiderGraph from '../PgaReport/SpiderGraph';
+import { ExpandLess } from '@material-ui/icons';
+import ProfileFitSpiderGraph from '../PgaReport/ProfileFitSpiderGraph/Index';
+import CvReview from './CvReview';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -81,6 +84,7 @@ class ProfileGapRoot extends Component {
       arrowOpenName: null,
       collapseId: null,
       dialogOpen: false,
+      cvAnchorEl: null,
     };
   }
 
@@ -101,6 +105,7 @@ class ProfileGapRoot extends Component {
       arrowOpenName: null,
     });
   };
+
   menuOpen = (event, name) => {
     if (this.state.anchorEl !== event.currentTarget) {
       this.setState({
@@ -171,19 +176,19 @@ class ProfileGapRoot extends Component {
   /**10th handling */
   handleTenthClick = () => {
     this.setState({
-      value: "tenthForm",
+      value: 'tenthForm',
       open: false,
     });
-    this.props.getAcademicType("tenth");
+    this.props.getAcademicType('tenth');
   };
 
   /**12th handling */
   handleTwelfthClick = () => {
     this.setState({
-      value: "twelthForm",
+      value: 'twelthForm',
       open: false,
     });
-    this.props.getAcademicType("twelfth");
+    this.props.getAcademicType('twelfth');
   };
 
   // diploma handling
@@ -254,14 +259,14 @@ class ProfileGapRoot extends Component {
 
   academicMenus = [
     {
-      label: "10th",
-      value: "tenthForm",
+      label: '10th',
+      value: 'tenthForm',
       handler: () => this.handleTenthClick(),
       // handler: () => this.setState({ value: "tenthForm", open: false }),
     },
     {
-      label: "12th",
-      value: "twelthForm",
+      label: '12th',
+      value: 'twelthForm',
       handler: () => this.handleTwelfthClick(),
       // handler: () => this.setState({ value: "twelthForm", open: false }),
     },
@@ -316,8 +321,8 @@ class ProfileGapRoot extends Component {
     }
   };
 
-  handlePageChange = (value) => this.setState({ value: value });
-  renderArrowIcon = (name) => {
+  handlePageChange = value => this.setState({ value: value });
+  renderArrowIcon = name => {
     const { classes } = this.props;
     const { arrowOpenName } = this.state;
     if (arrowOpenName && name === arrowOpenName)
@@ -329,9 +334,47 @@ class ProfileGapRoot extends Component {
     this.setState({ dialogOpen: false });
   };
 
+  handleCvMenuClose = () => {
+    this.setState({
+      cvAnchorEl: null,
+      arrowOpenName: null,
+    });
+  };
+
+  handleMenuItem = value => {
+    this.setState({ value: value });
+  };
+
+  handleCvMenuOpen = (e, name) => {
+    const { currentTarget } = e;
+    this.setState({
+      cvAnchorEl: currentTarget,
+      arrowOpenName: name,
+    });
+  };
+
+  visibleCvReview = () => {
+    return this.props?.variantStepList?.codeName === 'ACS_MBA';
+  };
+
   render() {
+    const { cvAnchorEl } = this.state;
     const { classes } = this.props;
     const { handleDialogClose } = this;
+
+    const CV_MENU = [
+      {
+        name: 'cvInfo',
+        label: 'CV Info',
+        visible: true,
+      },
+      {
+        name: 'cvReview',
+        label: 'CV Review',
+        visible: this.visibleCvReview(),
+      },
+    ];
+
     return (
       <div>
         <Grid container style={{ marginTop: '10px' }}>
@@ -371,11 +414,16 @@ class ProfileGapRoot extends Component {
                   value={'testResult'}
                   style={{ textTransform: 'none', minWidth: '135px' }}
                 />
-                <Tab
-                  label='CV'
-                  value={'cv'}
-                  style={{ textTransform: 'none', minWidth: '135px' }}
-                />
+                <ThemeProvider theme={this.tabTheme}>
+                  <Tab
+                    style={{ minWidth: '135px', paddingRight: '0px' }}
+                    label={'CV'}
+                    value={'cv'}
+                    icon={this.renderArrowIcon('cv')}
+                    style={{ textTransform: 'none' }}
+                    onClick={e => this.handleCvMenuOpen(e, 'cv')}
+                  />
+                </ThemeProvider>
                 <Tab
                   label='PPGA Call Notes'
                   value={'ppgaCallNotes'}
@@ -389,21 +437,20 @@ class ProfileGapRoot extends Component {
                     // onMouseOver={(e) => {
                     //   this.menuOpen(e, 'academicDetails');
                     // }}
-                    icon={this.renderArrowIcon("academicDetails")}
-                    style={{ textTransform: "none" }}
-                    onClick={(e) => this.menuOpen(e, "academicDetails")}
+                    icon={this.renderArrowIcon('academicDetails')}
+                    style={{ textTransform: 'none' }}
+                    onClick={e => this.menuOpen(e, 'academicDetails')}
                   />
-
                   <Tab
-                    style={{ minWidth: "135px", paddingRight: "0px" }}
-                    label="PGA Report"
-                    value={"pgaReport"}
+                    style={{ minWidth: '135px', paddingRight: '0px' }}
+                    label='PGA Report'
+                    value={'pgaReport'}
                     // onMouseEnter={e => {
                     //   this.pgaMenuOpen(e,'pgaReport');
                     // }}
-                    icon={this.renderArrowIcon("pgaReport")}
-                    style={{ textTransform: "none" }}
-                    onClick={(e) => this.pgaMenuOpen(e, "pgaReport")}
+                    icon={this.renderArrowIcon('pgaReport')}
+                    style={{ textTransform: 'none' }}
+                    onClick={e => this.pgaMenuOpen(e, 'pgaReport')}
                   />
                 </ThemeProvider>
                 <Tab
@@ -427,8 +474,11 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={'testResult'}>
               <TestResults {...this.props} />
             </TabPanel>
-            <TabPanel value={this.state.value} index={'cv'}>
+            <TabPanel value={this.state.value} index={'cvInfo'}>
               <CV {...this.props} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={'cvReview'}>
+              <CvReview {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={'ppgaCallNotes'}>
               <PpgaCallNotes {...this.props} />
@@ -490,6 +540,9 @@ class ProfileGapRoot extends Component {
             <TabPanel value={this.state.value} index={'profileFitGraph'}>
               <ProfileFit {...this.props} />
             </TabPanel>
+            <TabPanel value={this.state.value} index={'profileFitSpiderGraph'}>
+              <ProfileFitSpiderGraph {...this.props} />
+            </TabPanel>
             <TabPanel value={this.state.value} index={'strengths'}>
               <Strengths {...this.props} />
             </TabPanel>
@@ -537,8 +590,8 @@ class ProfileGapRoot extends Component {
           onClose={this.handleClose}
           getContentAnchorEl={null}
           // MenuListProps={{ onMouseLeave: this.handleClose }}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          transformOrigin={{ vertical: "top", horizontal: "center" }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           {this.academicMenus.map((eachMenu, index) => {
             return (
@@ -575,6 +628,27 @@ class ProfileGapRoot extends Component {
               );
             })}
         </Menu>
+
+        <Menu
+          anchorEl={cvAnchorEl}
+          open={Boolean(cvAnchorEl)}
+          onClose={this.handleCvMenuClose}
+          getContentAnchorEl={null}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          {CV_MENU.map(({ name, label, visible }) => {
+            return visible ? (
+              <MenuItem
+                classes={{ selected: classes.menuItemStyle }}
+                selected={name === this.state.value}
+                onClick={() => this.handleMenuItem(name)}
+              >
+                {label}
+              </MenuItem>
+            ) : null;
+          })}
+        </Menu>
       </div>
     );
   }
@@ -593,8 +667,8 @@ const useStyles = theme => ({
     color: '#009be5',
   },
   arrowStyle: {
-    color: "black",
-    marginTop: "7px",
+    color: 'black',
+    marginTop: '7px',
   },
 });
 const mapStateToProps = state => {

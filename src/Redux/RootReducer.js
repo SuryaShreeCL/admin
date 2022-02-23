@@ -5,6 +5,8 @@ import CollegeReducer from "../Reducer/CollegeReducer";
 import StudentReducer from "../Reducer/StudentReducer";
 import ChoiceAnswerReducer from "../Reducer/ChoiceAnswerReducer";
 import DepartmentReducer from "../Reducer/DepartmentReducer";
+import DegreeReducer from "../Reducer/DegreeReducer";
+import InTakeReducer from "../Reducer/InTakeReducer";
 import AspirationReducer from "../Reducer/AspirationReducer";
 import QuestionSetReducer from "../Reducer/QuestionSetReducer";
 import VideoReducer from "../Reducer/VideoReducer";
@@ -16,6 +18,8 @@ import HelperReducer from "../Reducer/HelperReducer";
 import ReportReducer from "../Reducer/ReportReducer";
 import ProfileGapAnalysisReducer from "../Reducer/ProfileGapAnalysisReducer";
 import CRGReducer from "../Reducer/CRGReducer";
+import CvReviewReducer from "../Reducer/CvReviewReducer";
+import ProfileFitSpiderGraphReducer from "../Reducer/ProfileFitSpiderGraphReducer";
 import {
   testimonialCreateReducer,
   testimonialDeleteReducer,
@@ -61,6 +65,8 @@ export default combineReducers({
   StudentReducer: StudentReducer,
   ChoiceAnswerReducer: ChoiceAnswerReducer,
   DepartmentReducer: DepartmentReducer,
+  DegreeReducer: DegreeReducer,
+  InTakeReducer: InTakeReducer,
   AspirationReducer: AspirationReducer,
   QuestionSetReducer: QuestionSetReducer,
   VideoReducer: VideoReducer,
@@ -77,6 +83,8 @@ export default combineReducers({
   ProfileGapAnalysisReducer: ProfileGapAnalysisReducer,
   CRGReducer: CRGReducer,
   PgaReportReducer: PgaReportReducer,
+  ProfileFitSpiderGraphReducer: ProfileFitSpiderGraphReducer,
+  CvReviewReducer: CvReviewReducer,
 
   //TESTIMONIAL
   testimonialCreateReducer,

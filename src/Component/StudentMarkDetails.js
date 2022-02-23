@@ -6,17 +6,17 @@ import {
   DialogTitle,
   Grid,
   Typography,
-} from "@material-ui/core";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import { withStyles } from "@material-ui/core/styles";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+} from '@material-ui/core';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { withStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import {
   viewanswers,
   viewresettest,
   viewstudentmarkdetails,
-} from "../Actions/StudentMarkDetails";
-import NoDataImg from "../Asset/Images/noData.jpg";
+} from '../Actions/StudentMarkDetails';
+import NoDataImg from '../Asset/Images/noData.jpg';
 
 function usePrevious(value) {
   const ref = React.useRef();
@@ -34,59 +34,41 @@ function CustomizedPrograss(props) {
   // const quesAns = []
   const [quesAns, setQuesAns] = useState([]);
   const [snackOpen, setSnackOpen] = useState(false);
-  const [snackMsg, setSnackMsg] = useState("");
-  const [snackColor, setSnackColor] = useState("");
+  const [snackMsg, setSnackMsg] = useState('');
+  const [snackColor, setSnackColor] = useState('');
+
   React.useEffect(() => {
     props.viewstudentmarkdetails(props.id);
 
-    console.log(props.viewAnswers);
-
-    if (typeof props.viewAnswers === "object") {
-      // if(quesAns.length === 0){
-      if (prevViewAnswers !== undefined) {
-        if (
-          Object.keys(props.viewAnswers).length !==
-          Object.keys(prevViewAnswers).length
-        ) {
-          let arr = [];
-          for (const property in props.viewAnswers) {
-            console.log(`${property}: ${props.viewAnswers[property]}`);
-            arr.push({
-              question: property,
-              answer: props.viewAnswers[property],
-            });
-          }
-          setQuesAns(arr);
-        }
-        // }
-      }
-      console.log(quesAns);
+    const { viewAnswers } = props;
+    if (viewAnswers && viewAnswers.length !== 0) {
+      setQuesAns(viewAnswers);
     } else {
       setQuesAns([]);
     }
   }, [props.viewReseTestList, props.viewAnswers]);
 
-  const BorderLinearProgress = withStyles((theme) => ({
+  const BorderLinearProgress = withStyles(theme => ({
     root: {
       height: 10,
       borderRadius: 5,
     },
     colorPrimary: {
       backgroundColor:
-        theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+        theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
     },
     bar: {
       borderRadius: 5,
-      backgroundColor: "#1a90ff",
+      backgroundColor: '#1a90ff',
     },
   }))(LinearProgress);
 
-  const myclick = (testId) => {
+  const myclick = testId => {
     console.log(testId);
     props.viewresettest(props.id, testId);
   };
 
-  const answers = (questionSetName) => {
+  const answers = questionSetName => {
     props.viewanswers(props.id, questionSetName);
     setShow(true);
   };
@@ -95,19 +77,19 @@ function CustomizedPrograss(props) {
 
   return (
     <div>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: 'relative' }}>
         {props.viewstudentmarkdetailsList.length !== 0
-          ? props.viewstudentmarkdetailsList.teststatus.map((singleObject) => {
+          ? props.viewstudentmarkdetailsList.teststatus.map(singleObject => {
               return (
                 <>
                   <Grid container spacing={12}>
-                    <Grid item md={6} align="center">
+                    <Grid item md={6} align='center'>
                       <label>
                         <Typography>{singleObject.questionSetName}</Typography>
                       </label>
                       <BorderLinearProgress
-                        style={{ width: "50%" }}
-                        variant="determinate"
+                        style={{ width: '50%' }}
+                        variant='determinate'
                         value={singleObject.completed}
                       />
                       <h6>
@@ -117,15 +99,15 @@ function CustomizedPrograss(props) {
                     </Grid>
                     <Grid item md={6}>
                       <Button
-                        variant={"contained"}
-                        size={"small"}
+                        variant={'contained'}
+                        size={'small'}
                         disabled={
-                          window.sessionStorage.getItem("role") !==
-                          "SUPER ADMIN"
+                          window.sessionStorage.getItem('role') !==
+                          'SUPER ADMIN'
                             ? true
                             : false
                         }
-                        color={"primary"}
+                        color={'primary'}
                         style={{ borderRadius: 30 }}
                         onClick={() => myclick(singleObject.testExecutionId)}
                       >
@@ -133,11 +115,11 @@ function CustomizedPrograss(props) {
                       </Button>
                       <Button
                         Rounded
-                        variant={"contained"}
-                        size={"small"}
-                        color={"primary"}
+                        variant={'contained'}
+                        size={'small'}
+                        color={'primary'}
                         style={{ borderRadius: 30 }}
-                        onClick={(e) => answers(singleObject.questionSetName)}
+                        onClick={e => answers(singleObject.questionSetName)}
                       >
                         Answers
                       </Button>
@@ -153,13 +135,13 @@ function CustomizedPrograss(props) {
               <DialogTitle>Answers</DialogTitle>
               <DialogContent>
                 <ol>
-                  {quesAns.map((content) => {
+                  {quesAns.map(content => {
                     return (
                       <Grid>
                         <li>
                           <Typography>{content.question}</Typography>
                         </li>
-                        <Typography style={{ color: "green" }}>
+                        <Typography style={{ color: 'green' }}>
                           {content.answer}
                         </Typography>
                       </Grid>
@@ -172,17 +154,17 @@ function CustomizedPrograss(props) {
             <>
               <DialogTitle>Please Attend The Test !</DialogTitle>
               <DialogContent>
-                <Grid item align={"center"}>
-                  <img src={NoDataImg} style={{ width: "80%" }}></img>
+                <Grid item align={'center'}>
+                  <img src={NoDataImg} style={{ width: '80%' }}></img>
                 </Grid>
               </DialogContent>
             </>
           )}
           <DialogActions>
             <Button
-              variant={"outlined"}
-              color={"primary"}
-              size={"small"}
+              variant={'outlined'}
+              color={'primary'}
+              size={'small'}
               onClick={() => setShow(false)}
             >
               OK
@@ -193,7 +175,7 @@ function CustomizedPrograss(props) {
     </div>
   );
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   console.log(state);
   return {
     viewstudentmarkdetailsList:
