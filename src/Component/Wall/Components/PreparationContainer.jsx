@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import Controls from '../../Utils/controls/Controls';
-import { FieldArray, Field } from 'formik';
+import { ErrorMessage, FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,10 +30,11 @@ const useStyles = makeStyles({
   },
   spacer: {
     width: '100%',
-    marginBottom: '1.2rem',
+    marginBottom: '10px',
     padding: '0.5rem',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
+  fieldErr: { color: '#ff150d', fontSize: '0.8rem' },
 });
 
 const PreprationContainer = React.memo(({ values, setFieldValue }) => {
@@ -217,6 +218,10 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoName`}
                     />
+                    <ErrorMessage
+                      name={`linkedSelfPrepVideos.${index}.videoName`}
+                      render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                    />
                   </div>
                   <div
                     style={{
@@ -228,6 +233,10 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoLink`}
                     />
+                    <ErrorMessage
+                      name={`linkedSelfPrepVideos.${index}.videoLink`}
+                      render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                    />
                   </div>
                   <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
                     <RemoveCircleIcon fontSize='large' color='secondary' />
@@ -237,8 +246,8 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
               <Controls.ActionButton
                 onClick={() =>
                   arrayHelpers.push({
-                    videoName: null,
-                    videoLink: null,
+                    videoName: '',
+                    videoLink: '',
                   })
                 }
               >
