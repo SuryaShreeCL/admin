@@ -43,7 +43,7 @@ const useStyles = makeStyles({
   fieldErr: { color: '#ff150d', fontSize: '0.8rem' },
 });
 
-const NextStepsContainer = React.memo(({ values, setFieldValue, submitForm }) => {
+const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
@@ -275,7 +275,6 @@ const NextStepsContainer = React.memo(({ values, setFieldValue, submitForm }) =>
                       formIdx={index}
                       setFieldValue={setFieldValue}
                       setOpenPopup={setOpenPopup}
-                      submitForm={submitForm}
                     />
                   </Popup>
                 </div>

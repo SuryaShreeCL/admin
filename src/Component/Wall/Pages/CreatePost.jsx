@@ -202,12 +202,15 @@ const CreatePost = () => {
     caption: yup.string().required('caption is required'),
     eventTitle: yup.string().required('title is required'),
     jobRole: yup.string().required('job role is required'),
-    linkedSelfPrepVideos: yup.array().of(
-      yup.object().shape({
-        videoName: yup.string().required('Video name is Required'),
-        videoLink: yup.string().required('Video Link is Required'),
-      })
-    ),
+    linkedSelfPrepVideos: yup
+      .array()
+      .of(
+        yup.object().shape({
+          videoName: yup.string().required('Video name is Required'),
+          videoLink: yup.string().required('Video Link is Required'),
+        })
+      )
+      .nullable(true),
     wallSteps: yup.array().of(
       yup.object().shape({
         heading: yup.string().required('Heading is Required'),
@@ -219,7 +222,7 @@ const CreatePost = () => {
               questionText: yup.string().required('Question is Required'),
               formQuestionsChoices: yup.array().of(
                 yup.object().shape({
-                  questionChoice: yup.string().required('Choice Required'),
+                  questionChoice: yup.string().required('Choice is required'),
                 })
               ),
             })
@@ -895,11 +898,7 @@ const CreatePost = () => {
                 </div>
                 {values.isEvent && (
                   <>
-                    <NextStepsContainer
-                      values={values}
-                      setFieldValue={setFieldValue}
-                      submitForm={submitForm}
-                    />
+                    <NextStepsContainer values={values} setFieldValue={setFieldValue} />
                     <PreprationContainer values={values} setFieldValue={setFieldValue} />
                   </>
                 )}

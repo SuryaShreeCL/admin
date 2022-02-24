@@ -25,6 +25,7 @@ const useStyles = makeStyles({
     justifyContent: 'space-around',
   },
   inputWidth: { width: '100%' },
+  choiceWidth: { width: '100%', display: 'flex', justifyContent: 'space-between' },
   spacer: {
     width: '100%',
     marginBottom: '10px',
@@ -47,27 +48,40 @@ const useStyles = makeStyles({
   fieldErr: { color: '#ff150d', fontSize: '0.8rem' },
 });
 
-const DynamicFormContainer = React.memo(
-  ({ formValues, formIdx, setFieldValue, setOpenPopup, submitForm }) => {
-    const classes = useStyles();
+const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, setOpenPopup }) => {
+  const classes = useStyles();
 
-    const Types = () => [
-      { id: 'TEXT', answerType: 'Text', icon: <TEXT /> },
-      { id: 'MULTIPLECHOICE', answerType: 'Multiple Choice', icon: <MULTIPLECHOICE /> },
-      { id: 'FILEUPLOAD', answerType: 'File Upload', icon: <FILEUPLOAD /> },
-    ];
+  const Types = () => [
+    { id: 'TEXT', answerType: 'Text', icon: <TEXT /> },
+    { id: 'MULTIPLECHOICE', answerType: 'Multiple Choice', icon: <MULTIPLECHOICE /> },
+    { id: 'FILEUPLOAD', answerType: 'File Upload', icon: <FILEUPLOAD /> },
+  ];
 
-    const DynamicForm = () => {
-      return (
-        <>
-          <FieldArray
-            name={`wallSteps.${formIdx}.form.formQuestions`}
-            render={(arrayHelpers) => (
-              <div>
-                {formValues?.formQuestions?.map((option, index) => (
-                  <div className={classes.fieldStep}>
-                    <div key={index} className={classes.input}>
-                      {(option.type === 'TEXT' || option.type === 'FILEUPLOAD') && (
+  const DynamicForm = () => {
+    return (
+      <>
+        <FieldArray
+          name={`wallSteps.${formIdx}.form.formQuestions`}
+          render={(arrayHelpers) => (
+            <div>
+              {formValues?.formQuestions?.map((option, index) => (
+                <div className={classes.fieldStep}>
+                  <div key={index} className={classes.input}>
+                    {(option.type === 'TEXT' || option.type === 'FILEUPLOAD') && (
+                      <div className={classes.inputWidth}>
+                        <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
+                        <Field
+                          className={classes.spacer}
+                          name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
+                        />
+                        <ErrorMessage
+                          name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
+                          render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                        />
+                      </div>
+                    )}
+                    {option.type === 'MULTIPLECHOICE' && (
+                      <div className={classes.inputWidth}>
                         <div className={classes.inputWidth}>
                           <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
                           <Field
@@ -79,112 +93,116 @@ const DynamicFormContainer = React.memo(
                             render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
                           />
                         </div>
-                      )}
-                      {option.type === 'MULTIPLECHOICE' && (
-                        <div className={classes.inputWidth}>
-                          <div className={classes.inputWidth}>
-                            <h6 className={classes.fieldlabel}>Enter Your Quesiton</h6>
-                            <Field
-                              className={classes.spacer}
-                              name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
-                            />
-                            <ErrorMessage
-                              name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
-                              render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
-                            />
-                          </div>
-                          <div className={classes.inputWidth}>
-                            <h6 className={classes.fieldlabel}>Choice 1</h6>
-                            <Field
-                              className={classes.spacer}
-                              name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[0].questionChoice`}
-                            />
-                            <ErrorMessage
-                              name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[0].questionChoice`}
-                              render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
-                            />
-                          </div>
-                          <div className={classes.inputWidth}>
-                            <h6 className={classes.fieldlabel}>Choice 2</h6>
-                            <Field
-                              className={classes.spacer}
-                              name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[1].questionChoice`}
-                            />
-                            <ErrorMessage
-                              name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[1].questionChoice`}
-                              render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
-                            />
-                          </div>
-                        </div>
-                      )}
-                      <div style={{ display: 'flex', marginTop: '10px' }}>
-                        <Controls.FormSelect
-                          label='Answer Type'
-                          name={`wallSteps.${formIdx}.form.formQuestions.${index}.type`}
-                          size='300px'
-                          value={option.type}
-                          onChange={(e) => {
-                            setFieldValue(
-                              `wallSteps.${formIdx}.form.formQuestions.${index}.type`,
-                              e.target.value
-                            );
-                          }}
-                          options={Types()}
+                        <FieldArray
+                          name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices`}
+                          render={(arrayHelpers) => (
+                            <div>
+                              {option?.formQuestionsChoices?.map((_, idx) => (
+                                <div key={idx} className={classes.choiceWidth}>
+                                  <div className={classes.inputWidth}>
+                                    <h6 className={classes.fieldlabel}>{`Choice ${idx + 1}`}</h6>
+                                    <Field
+                                      className={classes.spacer}
+                                      name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices.${idx}.questionChoice`}
+                                    />
+                                    <ErrorMessage
+                                      name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices.${idx}.questionChoice`}
+                                      render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                                    />
+                                  </div>
+                                  <div style={{ marginTop: '1rem' }}>
+                                    <Controls.ActionButton
+                                      onClick={() => {
+                                        arrayHelpers.remove(idx);
+                                      }}
+                                    >
+                                      <RemoveCircleIcon fontSize='large' color='secondary' />
+                                    </Controls.ActionButton>
+                                  </div>
+                                </div>
+                              ))}
+                              <Controls.Button
+                                text='Add Choice'
+                                variant='contained'
+                                color='primary'
+                                startIcon={<AddIcon />}
+                                className={classes.addStepBtn}
+                                onClick={() =>
+                                  arrayHelpers.push({
+                                    questionChoice: '',
+                                  })
+                                }
+                              />
+                            </div>
+                          )}
                         />
-                        <Controls.ActionButton
-                          onClick={() => {
-                            arrayHelpers.remove(index);
-                          }}
-                        >
-                          <RemoveCircleIcon fontSize='large' color='secondary' />
-                        </Controls.ActionButton>
                       </div>
+                    )}
+                    <div style={{ display: 'flex', marginTop: '10px' }}>
+                      <Controls.FormSelect
+                        label='Answer Type'
+                        name={`wallSteps.${formIdx}.form.formQuestions.${index}.type`}
+                        size='300px'
+                        value={option.type}
+                        onChange={(e) => {
+                          setFieldValue(
+                            `wallSteps.${formIdx}.form.formQuestions.${index}.type`,
+                            e.target.value
+                          );
+                        }}
+                        options={Types()}
+                      />
+                      <Controls.ActionButton
+                        onClick={() => {
+                          arrayHelpers.remove(index);
+                        }}
+                      >
+                        <RemoveCircleIcon fontSize='large' color='secondary' />
+                      </Controls.ActionButton>
                     </div>
                   </div>
-                ))}
-                <div className={classes.actionBtns}>
+                </div>
+              ))}
+              <div className={classes.actionBtns}>
+                <Controls.Button
+                  text='Add Question'
+                  variant='contained'
+                  color='primary'
+                  startIcon={<AddIcon />}
+                  className={classes.addStepBtn}
+                  onClick={() =>
+                    arrayHelpers.push({
+                      type: 'TEXT',
+                      formQuestionsChoices: [],
+                      questionText: '',
+                    })
+                  }
+                />
+                {formValues?.formQuestions?.length > 0 && (
                   <Controls.Button
-                    text='Add Question'
+                    text='Save'
+                    startIcon={<SaveIcon />}
                     variant='contained'
                     color='primary'
-                    startIcon={<AddIcon />}
+                    onClick={() => setOpenPopup(false)}
                     className={classes.addStepBtn}
-                    onClick={() =>
-                      arrayHelpers.push({
-                        type: 'TEXT',
-                        formQuestionsChoices: [],
-                        questionText: '',
-                      })
-                    }
                   />
-                  {formValues?.formQuestions?.length > 0 && (
-                    <Controls.Button
-                      text='Save'
-                      startIcon={<SaveIcon />}
-                      variant='contained'
-                      // type='submit'
-                      color='primary'
-                      // onClick={submitForm}
-                      onClick={() => setOpenPopup(false)}
-                      className={classes.addStepBtn}
-                    />
-                  )}
-                </div>
+                )}
               </div>
-            )}
-          />
-        </>
-      );
-    };
-
-    return (
-      <Grid container>
-        <Grid item md={12}>
-          {DynamicForm()}
-        </Grid>
-      </Grid>
+            </div>
+          )}
+        />
+      </>
     );
-  }
-);
+  };
+
+  return (
+    <Grid container>
+      <Grid item md={12}>
+        {DynamicForm()}
+      </Grid>
+    </Grid>
+  );
+});
 
 export default DynamicFormContainer;
